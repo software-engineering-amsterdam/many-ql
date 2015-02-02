@@ -1,6 +1,11 @@
 package questionaire
 
-type StringQuestion string
+import "fmt"
+
+type Parser interface {
+	FromString(str string) error
+	fmt.Stringer
+}
 
 type Question struct {
 	Label string
