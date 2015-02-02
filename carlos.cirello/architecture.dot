@@ -1,11 +1,18 @@
 // Architecture - 2015-02-02T1107
+// 2015-02-02T2264 - Updating to acknowledge the existence of a lexer and a parser.
 digraph g{
 	"File" -> "QLReader"
 	"STDIN?" -> "QLReader"
-	"VM" -> "QLReader" -> "Compiler"
-	"CLI" -> "VM"
-	"Compiler" -> "VM"
+
+	"QLReader" -> "Lexer"
+	subgraph clusterCompiler {
+		label="Compiler"
+		"Lexer" -> "Parser (Yacc)"
+	}
+	"Parser (Yacc)" -> "VM"
+
 	"VM" -> "Frontend Interface"
-	"Frontend Interface" -> "GUI" -> "Tk Bindings"
-	"Frontend Interface" -> "Text*?"
+	"Frontend Interface" -> "GUI"
+	"Frontend Interface" -> "Text?"
+	"Frontend Interface" -> "Web?"
 }
