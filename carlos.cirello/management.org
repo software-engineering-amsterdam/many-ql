@@ -29,6 +29,9 @@
     - [ ] QL programs are executed as GUI programs, not command-line dialogues.
     - [ ] QL programs are executed by interpretation, not code generation.
 
+  ** Nice to have
+    - Loop
+    - Optional answers (nil response)
 
 * QLS
   - [ ] Basic Architecture
