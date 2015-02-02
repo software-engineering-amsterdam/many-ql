@@ -1,0 +1,44 @@
+* Relevant Content
+  {1} Grammar parser genenetaror for Go [[https://golang.org/cmd/yacc/]]
+  {2} Assignment [[https://github.com/software-engineering-amsterdam/software-construction/tree/master/2014-2015#ql-requirements]]
+  Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
+
+* Common [0/1]
+  - [ ] Grammar Parser Generator for Go [0/2] {1}
+    - [ ] Master yacc and generate the necessary tokens
+    - [ ] Entangle parser generation through `go generate`
+
+* QL
+  - [ ] Basic Architecture
+  ** Functionalities [0/9] {2}
+    - [ ] The language supports booleans, integers and string values.
+    - [ ] Questions are enabled and disabled when different values are entered.
+    - [ ] Type Checker: reference to undefined questions
+    - [ ] Type Checker: duplicate question declarations with different types
+    - [ ] Type Checker: conditions that are not of the type boolean
+    - [ ] Type Checker: operands of invalid type to operators
+    - [ ] Type Checker: references to questions with an undefined value
+    - [ ] Type Checker: cyclic dependencies between questions
+    - [ ] Type Checker: duplicate labels (warning)
+    - [ ] Different data types in QL map to different (default) GUI widgets.
+
+  ** Requirements on the implementation [0/4] {2}
+    - [ ] The parser of the DSL is implemented using a grammar-based parser generator.
+    - [ ] The internal structure of a DSL program is represented using abstract syntax trees.
+    - [ ] QL programs are executed as GUI programs, not command-line dialogues.
+    - [ ] QL programs are executed by interpretation, not code generation.
+
+
+* QLS
+  - [ ] Basic Architecture
+  ** Functionalities [0/6]
+    - [ ] Type Checker: no references to questions that are not in the QL program
+    - [ ] Type Checker: all questions of the QL program are placed by the QLS program.
+    - [ ] Type Checker: (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
+    - [ ] Type Checker: you cannot place a single question multiple times.
+    - [ ] Type Checker: The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions appear (page/secion), what font-styles etc. are used, and what widget types are used.
+    - [ ] Type Checker: As widget types you're supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings), yesno-radios, checkbox, yesno-dropdown (for booleans).
+
+  ** Requirements on the implementation [0/2]
+    - [ ] You could say QLS defines an "aspect" of questionnaires, i.e. its appearance. The challenge is to implement QLS without (invasively) changing the code pertaining to QL, and without duplicating or reimplementing the QL code. (Copying and/or duplicating is not allowed, but some changes might be needed at certain join points...).
+    - [ ] The QL code, and especially, the QL ASTs should be oblivious to the QLS code. Think about how you can achieve that.

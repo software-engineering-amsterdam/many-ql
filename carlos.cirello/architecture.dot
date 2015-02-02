@@ -1,0 +1,11 @@
+// Architecture - 2015-02-02T1107
+digraph g{
+	"File" -> "QLReader"
+	"STDIN?" -> "QLReader"
+	"VM" -> "QLReader" -> "Compiler"
+	"CLI" -> "VM"
+	"Compiler" -> "VM"
+	"VM" -> "Frontend Interface"
+	"Frontend Interface" -> "GUI" -> "Tk Bindings"
+	"Frontend Interface" -> "Text*?"
+}
