@@ -20,7 +20,7 @@ func TestQuestionaire(t *testing.T) {
 		},
 	}
 
-	aQuestionaire.PrettyPrintJson()
+	aQuestionaire.PrettyPrintJSON()
 }
 
 func TestMultipleQuestions(t *testing.T) {
@@ -42,5 +42,5 @@ func TestMultipleQuestions(t *testing.T) {
 		},
 	}
 
-	aQuestionaire.PrettyPrintJson()
+	aQuestionaire.PrettyPrintJSON()
 }

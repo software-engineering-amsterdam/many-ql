@@ -28,7 +28,7 @@ func main() {
 		},
 	}
 
-	aQuestionaire.PrettyPrintJson()
+	aQuestionaire.PrettyPrintJSON()
 
 	textFE := textFrontend.NewReader(
 		bufio.NewReader(os.Stdin),
@@ -39,5 +39,5 @@ func main() {
 		textFE.InputQuestion(question)
 	}
 
-	aQuestionaire.PrettyPrintJson()
+	aQuestionaire.PrettyPrintJSON()
 }
