@@ -3,6 +3,7 @@
   {2} Assignment [[https://github.com/software-engineering-amsterdam/software-construction/tree/master/2014-2015#ql-requirements]]
   {3} Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
   {4} Initial Architecture Diagram [[architecture.png]]
+  {5} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
 
 * Common [0/1]
   - [ ] Grammar Parser Generator for Go [0/2] {1}
