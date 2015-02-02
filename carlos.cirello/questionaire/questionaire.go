@@ -4,11 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"os"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
 )
 
 type Questionaire struct {
 	Label     string
-	Questions []*Question
+	Questions []*question.Question
 }
 
 func (q *Questionaire) PrettyPrintJson() {

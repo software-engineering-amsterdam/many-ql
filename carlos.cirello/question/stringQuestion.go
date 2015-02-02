@@ -1,4 +1,4 @@
-package questionaire
+package question
 
 type StringQuestion string
 
