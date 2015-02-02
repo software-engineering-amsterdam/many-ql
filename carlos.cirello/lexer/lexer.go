@@ -1,97 +1,50 @@
-package lexer
+package main
 
 import (
-	"fmt"
-	"unicode/utf8"
+	"strings"
+	"text/scanner"
 )
 
-const (
-	eof        = -1
-	whitespace = " "
-)
-
-type stateFn func(*lexer) stateFn
-
-// lexer holds the state of the scanner.
-type lexer struct {
-	input string    // the string being scanned.
-	start int       // start position of this item.
-	pos   int       // current position in the input.
-	width int       // width of last rune read from input.
-	items chan item // channel of scanned items.
+type token struct {
+	typ tokenType
+	val string
 }
 
-func lex(input string) *lexer {
-	l := &lexer{
-		input: input,
-		items: make(chan item, 10),
-	}
-	return l
+func (t *token) Type() tokenType {
+	return t.typ
 }
 
-func (l *lexer) emit(t itemType) {
-	l.items <- item{t, l.input[l.start:l.pos]}
-	l.start = l.pos
+func (t *token) Value() string {
+	return t.val
 }
 
-// run lexes the input by executing state functions until
-// the state is nil.
-func (l *lexer) run() {
-	for state := lexText; state != nil; {
-		state = state(l)
-	}
-	close(l.items) // No more tokens will be delivered.
-}
+func lex(code string) []*token {
+	var tokenStack []*token
 
-// next returns the next rune in the input.
-func (l *lexer) next() (rune int) {
-	if l.pos >= len(l.input) {
-		l.width = 0
-		return eof
-	}
-	r, w := utf8.DecodeRuneInString(l.input[l.pos:])
+	var s scanner.Scanner
+	s.Init(strings.NewReader(code))
+	tok := s.Scan()
+	for tok != scanner.EOF {
+		txt := s.TokenText()
 
-	rune = int(r)
-	l.width = w
+		typ := TextToken
 
-	l.pos += l.width
-	return rune
-}
-
-// ignore skips over the pending input before this point.
-func (l *lexer) ignore() {
-	l.start = l.pos
-}
-
-// walks the current word
-func (l *lexer) walkWord() {
-	for {
-		// todo(carlos) test for EOF and abort scanning
-		l.next()
-		if l.input[l.pos:l.pos+1] == " " {
-			break
+		if strings.HasPrefix(txt, FormTokenText) {
+			typ = FormToken
+		} else if strings.HasPrefix(txt, BlockBeginTokenText) {
+			typ = BlockBeginToken
+		} else if strings.HasPrefix(txt, BlockEndTokenText) {
+			typ = BlockEndToken
+		} else if strings.HasPrefix(txt, IfTokenText) {
+			typ = IfToken
+		} else if strings.HasPrefix(txt, ParenBeginTokenText) {
+			typ = ParenBeginToken
+		} else if strings.HasPrefix(txt, ParenEndTokenText) {
+			typ = ParenEndToken
 		}
+		tokenStack = append(tokenStack, &token{typ, txt})
+		tok = s.Scan()
 	}
-}
 
-// skip the next whitespaces until the next word
-func (l *lexer) walkNextWord() {
-	for {
-		// todo(carlos) test for EOF and abort scanning
-		l.next()
-		if l.input[l.pos:l.pos+1] != " " {
-			break
-		}
-	}
-}
-
-// error returns an error token and terminates the scan
-// by passing back a nil pointer that will be the next
-// state, terminating l.run.
-func (l *lexer) errorf(format string, args ...interface{}) stateFn {
-	l.items <- item{
-		itemError,
-		fmt.Sprintf(format, args...),
-	}
-	return nil
+	return tokenStack
 }
