@@ -1,7 +1,8 @@
 * Relevant Content
   {1} Grammar parser genenetaror for Go [[https://golang.org/cmd/yacc/]]
   {2} Assignment [[https://github.com/software-engineering-amsterdam/software-construction/tree/master/2014-2015#ql-requirements]]
-  Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
+  {3} Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
+  {4} Initial Architecture Diagram [[architecture.png]]
 
 * Common [0/1]
   - [ ] Grammar Parser Generator for Go [0/2] {1}
@@ -9,9 +10,9 @@
     - [ ] Entangle parser generation through `go generate`
 
 * QL
-  - [ ] Basic Architecture
+  - [ ] Basic Architecture {4}
   ** Functionalities [0/9] {2}
-    - [ ] The language supports booleans, integers and string values.
+    - [ ] The language supports booleans, integers and string values. :ONGOING:
     - [ ] Questions are enabled and disabled when different values are entered.
     - [ ] Type Checker: reference to undefined questions
     - [ ] Type Checker: duplicate question declarations with different types
