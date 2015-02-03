@@ -12,7 +12,7 @@ grammar QueryLanguage
   end
 
   rule statement
-    conditional | query
+    conditional | query 
   end
 
   rule conditional
