@@ -8,4 +8,4 @@ We hope you have a pleasant flight.
 
 ~ Jesus and Buddha
 
-![Our plane](http://theaviationist.com/wp-content/uploads/2013/02/Aerogallo-5.jpg)
+![Our plane](http://www.studentsoftheworld.info/sites/misc/img/28740_weird-plane[1].jpg)
