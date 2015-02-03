@@ -1,18 +1,10 @@
 package org.uva.sea.ql.ast;
 
-public class Expr<T> extends ASTNode {
+public abstract class Expr implements ASTNode {
 	
-	public T value;
-	
-	public Expr(T value) {
-		this.value = value;
-	}
-	
-	public Expr() {
-		
-	}
-	
-	public T get() {
-		return this.value;
-	}
+	/**
+	 * Translates the value and the values of its children to a String.
+	 * @return The resulting concatenation as a string
+	 */
+	public abstract String show();
 }
