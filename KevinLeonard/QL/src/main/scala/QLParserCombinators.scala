@@ -1,5 +1,7 @@
 package main.scala
 
+import java.io.Serializable
+
 import scala.util.parsing.combinator.JavaTokenParsers
 import scala.io.Source
 
@@ -41,21 +43,21 @@ form TaxForm {
  */
 class QLParserCombinators extends JavaTokenParsers {
 
-  def form = "form" ~> formName ~ formBlock ^^ { _.toString }
-  def formName = ident
-  def formBlock = "{" ~> rep(questionBlock | ifStatement) <~ "}"
+  def form : Parser[String] = "form" ~> formName ~ formBlock ^^ { _.toString }
+  def formName : Parser[String] = ident
+  def formBlock : Parser[String] = "{" ~> rep(questionBlock | ifStatement) <~ "}" ^^ { _.toString }
 
-  def questionBlock = question ~ answer
-  def question = "question" ~> questionKey ~ questionLabel ^^ { _.toString() }
-  def questionKey = ident
-  def questionLabel = stringLiteral
+  def questionBlock : Parser[String] = question ~ answer ^^ { _.toString }
+  def question : Parser[String] = "question" ~> questionKey ~ questionLabel ^^ { _.toString() }
+  def questionKey : Parser[String] = ident
+  def questionLabel : Parser[String] = stringLiteral
 
-  def answer = "answer" ~> answerType
-  def answerType = "boolean" | "integer" | "string"
+  def answer : Parser[String] = "answer" ~> answerType
+  def answerType : Parser[String] = "boolean" | "integer" | "string"
 
-  def ifStatement = ifBlock ~ elseBlock | ifBlock
-  def ifBlock = "if" ~ ident ~ "{" ~> rep(questionBlock) <~ "}"
-  def elseBlock = "else" ~ "{" ~> rep(questionBlock) <~ "}"
+  def ifStatement : Parser[Serializable] = ifBlock ~ elseBlock | ifBlock
+  def ifBlock : Parser[String] = "if" ~ ident ~ "{" ~> rep(questionBlock) <~ "}" ^^ { _.toString }
+  def elseBlock : Parser[String] = "else" ~ "{" ~> rep(questionBlock) <~ "}" ^^ { _.toString }
 
 }
 
@@ -65,8 +67,9 @@ object QLParser extends QLParserCombinators {
     val formFile = Source.fromFile(args(0)).mkString
 
     parseAll(form, formFile) match {
-      case Success(r, _) => print(r)
-      case x => println(x)
+      case Success(result, _) => println(result)
+      case Failure(msg, _) => println(msg)
+      case Error(msg, _) => println(msg)
     }
   }
 }
