@@ -27,6 +27,13 @@ import org.uva.sea.ql.ast.expr.*;
  top : expr { result = $1; }
      ;
 
+ form	 : FORM IDENTIFIER 
+
+ question: IDENTIFIER ':' type '{' STRINGLITERAL '}' |
+ 		   IDENTIFIER ':' type '{' STRINGLITERAL assignment '}'
+
+ assignment : 'assign(' expr ')'
+
  expr	 : '+' expr	%prec UPLUS { $$ = new Pos($2); }
 		 | '-' expr	%prec UMIN  { $$ = new Neg($2); }
 		 | '!' expr %prec UNOT  { $$ = new Not($2); }
