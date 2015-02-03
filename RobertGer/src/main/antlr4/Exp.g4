@@ -1,40 +1,26 @@
 grammar Exp;
+options {
+    output = AST;
+}
+@lexer::header {
+  package nl.uva.bromance.parsers;
+}
 
-/* This will be the entry point of our parser. */
-eval
-    :    additionExp
-    ;
+@parser::header {
+  package nl.uva.bromance.parsers;
+}
+field:
+    name=Name NL
+    (points NL)+
+    (burial NL)+
+    EOF;
 
-/* Addition and subtraction have the lowest precedence. */
-additionExp
-    :    multiplyExp
-         ( '+' multiplyExp
-         | '-' multiplyExp
-         )*
-    ;
+points: treasure=Name WS 'scores' WS value=Int WS 'points';
+burial: treasure=Name WS 'is' WS 'buried' WS 'at' WS at=location ;
+location: x=Int ',' y=Int;
 
-/* Multiplication and division have a higher precedence. */
-multiplyExp
-    :    atomExp
-         ( '*' atomExp
-         | '/' atomExp
-         )*
-    ;
+Name: '"' ('A'..'Z' | 'a'..'z' | ' ')+ '"' ;
+Int: ('0'..'9')+;
 
-/* An expression atom is the smallest part of an expression: a number. Or
-   when we encounter parenthesis, we're making a recursive call back to the
-   rule 'additionExp'. As you can see, an 'atomExp' has the highest precedence. */
-atomExp
-    :    Number
-    |    '(' additionExp ')'
-    ;
-
-/* A number: can be an integer value, or a decimal value */
-Number
-    :    ('0'..'9')+ ('.' ('0'..'9')+)?
-    ;
-
-/* We're going to ignore all white space characters */
-WS
-    :   (' ' | '\t' | '\r'| '\n') -> channel(HIDDEN)
-    ;
+WS: (' ' | '\t')+;
+NL:  '\r'? '\n';

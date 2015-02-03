@@ -1,4 +1,4 @@
-grammar Addition
+grammar QueryLanguage
   rule forms
     form*
   end

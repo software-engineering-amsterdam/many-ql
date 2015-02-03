@@ -1,0 +1,89 @@
+//Are newlines as delimiters a good idea?
+//use quotes for strings?
+page
+	id: selling
+	name: selling
+	
+	section 
+		name: houses
+		
+		question
+			id: hasSoldHouse
+			text: Did you sell a house in 2010
+			type: boolean
+			style: style1, style2 
+			font: Arial
+		end
+
+		question
+			id: hasBoughHouse
+			text: Did you buy a house in 2010
+			type: boolean
+		end
+		
+		questions
+			question
+				id: sellingPrice
+				text: What was the selling price
+				type: currency
+			end
+
+			question
+				id: privateDebt
+				text: Private debs for the sold house
+				type: currency
+			end
+	
+			question
+				id: ValueResidue
+				text: Value Residue (= sellingprice - privatedebt) //what if tokens are in text (ask for - and identiefiers( like type:))
+				type: currency
+				value: sellingPrice - privateDebt
+			end
+	
+			id: group1
+			requires: hasSoldHouse
+			style: style1
+		end
+	end
+	
+	section
+		name: loans
+		
+		question
+			id: hasMaintLoan
+			text: Did you enter a loan
+			widget: YesNoIDKwidget
+		end
+		
+		question
+			id: typeOfLoan
+			name: what type of loan
+			value: bank, person, company, other
+			type: dropdown //or radio or checkbox
+		end
+		
+		question
+			id: typeOfLoanOther
+			name: what other type of loan
+			type: text
+			requires: typeOfLoan
+			only: other //also allows multiple options, with a comma in between
+		end
+
+	end
+end
+
+widget
+	id: YesNoIDKWidget
+	type: radio
+	values: yes, no, I dont know
+end
+
+style
+	id: style1
+	font: Verdana
+	fontsize: 12
+	color: black
+	default: true
+end
