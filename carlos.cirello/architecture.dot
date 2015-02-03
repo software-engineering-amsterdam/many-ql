@@ -11,7 +11,9 @@ digraph g{
 	}
 	"Parser (Yacc)" -> "VM"
 
-	"VM" -> "Frontend Interface"
+	"VM" -> "Frontend Interface" [label="channels"]
+	"Frontend Interface" -> "VM"
+
 	"Frontend Interface" -> "GUI"
 	"Frontend Interface" -> "Text?"
 	"Frontend Interface" -> "Web?"

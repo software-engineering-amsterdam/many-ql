@@ -5,7 +5,7 @@
   {4} Initial Architecture Diagram [[architecture.png]]
   {5} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
 
-* QL [1/3]
+* QL [1/4]
   - [X] Basic Architecture {4}
   - [ ] Lexer [2/4]
     - [X] Basic Algorithm
@@ -16,6 +16,10 @@
     - [ ] Write grammar
     - [ ] Generate parser from grammar
     - [ ] Connect parser with Lexer
+  - [ ] Frontend Interface [0/3]
+    - [ ] Concurrent Interface between Frontends and VM
+    - [ ] Text Frontend
+    - [ ] GUI Frontend
 
   ** Functionalities [0/10] {2}
     - [ ] The language supports: [0/3]
