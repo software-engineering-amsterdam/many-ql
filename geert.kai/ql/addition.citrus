@@ -4,12 +4,30 @@ grammar Addition
   end
 
   rule form
-    space 'form' space '{' space query* space '}' space
+    space 'form' space '{' space statement* space '}' space
   end
 
   rule space
     [ \t\n]*
   end
+
+  rule statement
+    conditional | query
+  end
+
+  rule conditional
+    if  (else | "")
+  end
+
+  rule if
+    space 'if' space variable space '{' space statement* space '}' space
+  end
+
+  rule else 
+    space 'else' space '{' space statement* space '}' space
+  end
+
+
 
   rule query
     space text space '{' space answer* space '}' space
@@ -24,7 +42,7 @@ grammar Addition
   end
 
   rule variable
-    [a-zA-Z?]+
+    [a-zA-Z?_]+
   end
 
   rule text
