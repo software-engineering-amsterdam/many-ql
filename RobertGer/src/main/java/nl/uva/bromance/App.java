@@ -1,4 +1,4 @@
-package nl.quby.bromance;
+package nl.uva.bromance;
 
 /**
  * Hello world!
