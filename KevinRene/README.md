@@ -7,3 +7,5 @@ In case of emergency please headbutt your neighbor, take a chill pill, and drop 
 We hope you have a pleasant flight.
 
 ~ Jesus and Buddha
+
+![Our plane](http://theaviationist.com/wp-content/uploads/2013/02/Aerogallo-5.jpg)
