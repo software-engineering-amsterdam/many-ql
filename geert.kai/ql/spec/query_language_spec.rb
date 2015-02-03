@@ -1,3 +1,4 @@
+
 require "citrus"
 Citrus.load("query_language")
 
@@ -10,5 +11,9 @@ end
 describe "Query Language" do
   it "parses an empty form" do
     expect( QueryLanguage.parse( source("empty_form") ) ).to_not be_nil
+  end
+
+  it "parses example" do
+    expect( QueryLanguage.parse( source("example") ) ).to_not be_nil
   end
 end
