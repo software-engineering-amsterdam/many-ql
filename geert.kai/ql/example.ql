@@ -1,11 +1,19 @@
-form ExampleForm
-  "Wat is uw naam?"
-    naam: string
-  "Bent u getrouwd?"
+form {
+  "Wat is je leeftijd?" {
+    leeftijd: integer
+  }
+
+  "Ben je getrouwd?" {
     getrouwd?: boolean
-  "Hoeveel kinderen heeft u?"
-    aantal_kinderen: integer
-  
-  if getrouwd?
-    "Wat is de naam van uw partner?"
+  }
+
+  if getrouwd? {
+    "Wat is de naam van je partner?" {
       naam_partner: string
+    }
+  } else {
+    "Hoe lang ben je alleenstaand?" {
+      lang_alleenstaand: integer
+    }
+  }
+}
