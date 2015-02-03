@@ -7,9 +7,10 @@
 
 * QL [1/3]
   - [X] Basic Architecture {4}
-  - [ ] Lexer [2/3]
+  - [ ] Lexer [2/4]
     - [X] Basic Algorithm
     - [X] Initial Tests
+    - [ ] Implicit Semicolon Injection
     - [ ] 100% coverage
   - [ ] Grammar Parser Generator [0/2] {1}
     - [ ] Write grammar

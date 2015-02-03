@@ -23,6 +23,7 @@ func lex(code string) []*token {
 
 	var s scanner.Scanner
 	s.Init(strings.NewReader(code))
+	s.Whitespace = 1<<'\t' | 1<<'\r' | 1<<' '
 	tok := s.Scan()
 	for tok != scanner.EOF {
 		txt := s.TokenText()
@@ -43,6 +44,7 @@ func lex(code string) []*token {
 			typ = ParenEndToken
 		}
 		tokenStack = append(tokenStack, &token{typ, txt})
+
 		tok = s.Scan()
 	}
 

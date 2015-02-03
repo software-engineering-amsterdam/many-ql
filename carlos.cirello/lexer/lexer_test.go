@@ -33,14 +33,18 @@ form taxOfficeExample {
 `
 	tokens := lex(str)
 
+	for k, v := range tokens {
+		t.Log(k, v)
+	}
+
 	expectedTokens := [...]*tokenTest{
-		&tokenTest{0, FormToken},
-		&tokenTest{1, TextToken},
-		&tokenTest{2, BlockBeginToken},
-		&tokenTest{15, IfToken},
-		&tokenTest{16, ParenBeginToken},
-		&tokenTest{18, ParenEndToken},
-		&tokenTest{39, BlockEndToken},
+		&tokenTest{1, FormToken},
+		&tokenTest{2, TextToken},
+		&tokenTest{3, BlockBeginToken},
+		&tokenTest{24, IfToken},
+		&tokenTest{25, ParenBeginToken},
+		&tokenTest{27, ParenEndToken},
+		&tokenTest{57, BlockEndToken},
 	}
 
 	for _, v := range expectedTokens {
