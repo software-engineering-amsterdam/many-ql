@@ -1,6 +1,8 @@
 package main.scala
 
 import scala.util.parsing.combinator.JavaTokenParsers
+import scala.io.Source
+
 
 /*
 QL Language description example:
@@ -37,14 +39,14 @@ form TaxForm {
 }
 
  */
-class QLFormParser extends JavaTokenParsers {
+class QLParserCombinators extends JavaTokenParsers {
 
-  def form = "form" ~> formName ~ formBlock
+  def form = "form" ~> formName ~ formBlock ^^ { _.toString }
   def formName = ident
   def formBlock = "{" ~> rep(questionBlock | ifStatement) <~ "}"
 
   def questionBlock = question ~ answer
-  def question = "question" ~> questionKey ~ questionLabel
+  def question = "question" ~> questionKey ~ questionLabel ^^ { _.toString() }
   def questionKey = ident
   def questionLabel = stringLiteral
 
@@ -57,10 +59,10 @@ class QLFormParser extends JavaTokenParsers {
 
 }
 
-object QLParser extends QLFormParser {
+object QLParser extends QLParserCombinators {
   def main(args: Array[String]) {
 
-    val formFile = scala.io.Source.fromFile(args(0)).mkString
+    val formFile = Source.fromFile(args(0)).mkString
 
     parseAll(form, formFile) match {
       case Success(r, _) => print(r)
