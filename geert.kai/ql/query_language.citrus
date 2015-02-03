@@ -4,15 +4,23 @@ grammar QueryLanguage
   end
 
   rule form
-    space 'form' space '{' space statement* space '}' space
+    space 'form' opening_bracket statement* closing_bracket
   end
 
   rule space
     [ \t\n]*
   end
 
+  rule opening_bracket
+    space '{' space
+  end
+
+  rule closing_bracket
+    space '}' space
+  end
+
   rule statement
-    conditional | query
+    conditional | query 
   end
 
   rule conditional
@@ -20,18 +28,19 @@ grammar QueryLanguage
   end
 
   rule if
-    space 'if' space variable space '{' space statement* space '}' space
+    space 'if' space variable opening_bracket statement* closing_bracket
   end
 
   rule else 
-    space 'else' space '{' space statement* space '}' space
+    space 'else' opening_bracket statement* closing_bracket
   end
 
 
 
   rule query
-    space text space '{' space answer* space '}' space
+    space text opening_bracket answer* closing_bracket
   end
+
 
   rule answer
     variable ":" space type
