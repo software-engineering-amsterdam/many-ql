@@ -1,26 +1,34 @@
 grammar Addition
-  rule indention(level)
-    '\n' & '  '*level
+  rule forms
+    form*
   end
 
-  rule text(level)
-    level '""' 
+  rule form
+    space 'form' space '{' space query* space '}' space
   end
 
-  rule texts(level)
-    text(level)*
+  rule space
+    [ \t\n]*
   end
 
-  rule form(level)
-    level 'form' texts(level "  ")
+  rule query
+    space text space '{' space answer* space '}' space
   end
 
-  rule forms(level)
-    form(level)*
+  rule answer
+    variable ":" space type
   end
 
-  rule additive
-    forms("")
+  rule type
+    'integer' | 'boolean' | 'string'
+  end
+
+  rule variable
+    [a-zA-Z?]+
+  end
+
+  rule text
+    /"(.*)"/
   end
 end
 
