@@ -1,4 +1,9 @@
-sc-ql-2013-2014-java
-====================
+# Software construction
 
-Skeleton code for the Java variant of lab assignment Software Construction 2013-2014
+Hi there, thank you for traveling with KevinRene. During your flight you're free to enjoy our delicious recycled beverages, meals made of roadkill, and some weird ass games.
+
+In case of emergency please headbutt your neighbor, take a chill pill, and drop that beat.
+
+We hope you have a pleasant flight.
+
+~ Jesus and Buddha
