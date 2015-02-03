@@ -8,12 +8,22 @@ import (
 	"log"
 	"strings"
 	"text/scanner"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
 )
 
-//line parser.y:13
+var finalForm *questionaire.Questionaire
+
+//Top Ends Here
+
+//line parser.y:21
 type qlSymType struct {
-	yys     int
-	content string
+	yys       int
+	content   string
+	form      *questionaire.Questionaire
+	questions []*question.Question
+	question  *question.Question
 }
 
 const BlockBeginToken = 57346
@@ -41,7 +51,9 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:41
+//line parser.y:89
+
+// Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
 const eof = 0
 
@@ -71,7 +83,7 @@ type lexer struct {
 func newLexer(code string) *lexer {
 	var s scanner.Scanner
 	s.Init(strings.NewReader(code))
-	s.Whitespace = 1<<'\t' | 1<<'\r' | 1<<' '
+	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' '
 
 	return &lexer{
 		scanner: s,
@@ -89,13 +101,13 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 	txt := x.scanner.TokenText()
 	typ := TextToken
 
-	if strings.HasPrefix(txt, FormTokenText) {
+	if txt == FormTokenText {
 		typ = FormToken
 	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
 		typ = BlockBeginToken
 	} else if strings.HasPrefix(txt, BlockEndTokenText) {
 		typ = BlockEndToken
-	} else if strings.HasPrefix(txt, IfTokenText) {
+	} else if txt == IfTokenText {
 		typ = IfToken
 	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
 		typ = ParenBeginToken
@@ -115,8 +127,10 @@ func (x *lexer) Error(s string) {
 	log.Printf("parse error: %s", s)
 }
 
-func main() {
-	qlParse(newLexer(`"question" type`))
+func CompileQL(code string) *questionaire.Questionaire {
+	finalForm = nil
+	qlParse(newLexer(code))
+	return finalForm
 }
 
 //line yacctab:1
@@ -126,41 +140,44 @@ var qlExca = []int{
 	-2, 0,
 }
 
-const qlNprod = 3
+const qlNprod = 6
 const qlPrivate = 57344
 
 var qlTokenNames []string
 var qlStates []string
 
-const qlLast = 4
+const qlLast = 10
 
 var qlAct = []int{
 
-	4, 3, 2, 1,
+	10, 7, 4, 3, 5, 8, 9, 6, 2, 1,
 }
 var qlPact = []int{
 
-	-9, -1000, -1000, -11, -1000,
+	-3, -1000, -1000, -9, 0, -1000, -4, -1000, -1000, -11,
+	-1000,
 }
 var qlPgo = []int{
 
-	0, 3, 2,
+	0, 9, 8, 7, 5,
 }
 var qlR1 = []int{
 
-	0, 1, 2,
+	0, 1, 2, 3, 3, 4,
 }
 var qlR2 = []int{
 
-	0, 1, 2,
+	0, 1, 5, 0, 2, 2,
 }
 var qlChk = []int{
 
-	-1000, -1, -2, 10, 11,
+	-1000, -1, -2, 6, 11, 4, -3, 5, -4, 10,
+	11,
 }
 var qlDef = []int{
 
-	0, -2, 1, 0, 2,
+	0, -2, 1, 0, 0, 3, 0, 2, 4, 0,
+	5,
 }
 var qlTok1 = []int{
 
@@ -400,14 +417,45 @@ qldefault:
 	switch qlnt {
 
 	case 1:
-		//line parser.y:30
+		//line parser.y:42
 		{
-			log.Println(qlS[qlpt-0])
+			if qlDebug > 0 {
+				log.Printf("Top: %+v", qlS[qlpt-0].form)
+			}
+			finalForm = qlS[qlpt-0].form
 		}
 	case 2:
-		//line parser.y:36
+		//line parser.y:52
 		{
-			log.Printf("I am in the parser: Question %s of type %s", qlS[qlpt-1], qlS[qlpt-0])
+			if qlDebug > 0 {
+				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content, " $$:", qlVAL)
+			}
+			qlVAL.form = &questionaire.Questionaire{
+				Label:     qlS[qlpt-3].content,
+				Questions: qlS[qlpt-1].questions,
+			}
+		}
+	case 4:
+		//line parser.y:65
+		{
+			if qlDebug > 0 {
+				log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].questions, qlS[qlpt-0].question, qlVAL.questions)
+			}
+			q := qlS[qlpt-0].question
+			qs := qlVAL.questions
+			qs = append(qs, q)
+			qlVAL.questions = qs
+		}
+	case 5:
+		//line parser.y:78
+		{
+			qlVAL.question = &question.Question{
+				Label:   qlS[qlpt-1].content,
+				Content: qlS[qlpt-0].content,
+			}
+			if qlDebug > 0 {
+				log.Printf("Question: 1:%+v 2:%+v $:%+v", qlS[qlpt-1], qlS[qlpt-0], qlVAL)
+			}
 		}
 	}
 	goto qlstack /* stack new state and value */
