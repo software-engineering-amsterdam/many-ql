@@ -1,0 +1,17 @@
+grammar QueryLanguage
+  rule form
+    "form" space "{" query* "}"
+  end  
+
+  rule query
+    space text space
+  end
+
+  rule text
+    /"(.*)"/
+  end
+
+  rule space
+    [ \t]*
+  end
+end
