@@ -7,15 +7,13 @@
 
 * QL [1/4]
   - [X] Basic Architecture {4}
-  - [ ] Lexer [2/4]
-    - [X] Basic Algorithm
-    - [X] Initial Tests
-    - [ ] Implicit Semicolon Injection
-    - [ ] 100% coverage
-  - [ ] Grammar Parser Generator [0/2] {1}
-    - [ ] Write grammar
-    - [ ] Generate parser from grammar
-    - [ ] Connect parser with Lexer
+  - [ ] Compiler [0/3] {1}
+    - [ ] Lexer - add support for implicit semicolon injection
+    - [ ] Write grammar [0/3]
+      - [ ] form parsing
+      - [ ] question parsing
+      - [ ] add type checking for question types (int, str, bool)
+    - [ ] Generate AST
   - [ ] Frontend Interface [0/3]
     - [ ] Concurrent Interface between Frontends and VM
     - [ ] Text Frontend

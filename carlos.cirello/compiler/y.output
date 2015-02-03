@@ -1,0 +1,48 @@
+
+state 0
+	$accept: .top $end 
+
+	QuotedStringToken  shift 3
+	.  error
+
+	top  goto 1
+	question  goto 2
+
+state 1
+	$accept:  top.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	top:  question.    (1)
+
+	.  reduce 1 (src line 28)
+
+
+state 3
+	question:  QuotedStringToken.TextToken 
+
+	TextToken  shift 4
+	.  error
+
+
+state 4
+	question:  QuotedStringToken TextToken.    (2)
+
+	.  reduce 2 (src line 34)
+
+
+11 terminals, 3 nonterminals
+3 grammar rules, 5/2000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+52 working sets used
+memory: parser 1/30000
+0 extra closures
+2 shift entries, 1 exceptions
+2 goto entries
+0 entries saved by goto default
+Optimizer space used: output 4/30000
+4 table entries, 0 zero
+maximum spread: 11, maximum offset: 11

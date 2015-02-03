@@ -1,2 +1,2 @@
 require "citrus"
-Citrus.load("test")
+Citrus.load("query_language")

@@ -1,0 +1,61 @@
+grammar QueryLanguage
+  rule forms
+    form*
+  end
+
+  rule form
+    space 'form' opening_bracket statement* closing_bracket
+  end
+
+  rule space
+    [ \t\n]*
+  end
+
+  rule opening_bracket
+    space '{' space
+  end
+
+  rule closing_bracket
+    space '}' space
+  end
+
+  rule statement
+    conditional | query 
+  end
+
+  rule conditional
+    if  (else | "")
+  end
+
+  rule if
+    space 'if' space variable opening_bracket statement* closing_bracket
+  end
+
+  rule else 
+    space 'else' opening_bracket statement* closing_bracket
+  end
+
+
+
+  rule query
+    space text opening_bracket answer* closing_bracket
+  end
+
+
+  rule answer
+    variable ":" space type
+  end
+
+  rule type
+    'integer' | 'boolean' | 'string'
+  end
+
+  rule variable
+    [a-zA-Z?_]+
+  end
+
+  rule text
+    /"(.*)"/
+  end
+end
+
