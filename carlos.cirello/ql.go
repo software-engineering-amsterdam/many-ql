@@ -4,9 +4,11 @@ import (
 	"bufio"
 	"os"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
+	frontendText "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/text"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/textFrontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/vm"
 )
 
 func main() {
@@ -28,16 +30,19 @@ func main() {
 		},
 	}
 
-	aQuestionaire.PrettyPrintJSON()
-
-	textFE := textFrontend.NewReader(
-		bufio.NewReader(os.Stdin),
-		os.Stdout,
+	toFrontend, fromFrontend := frontend.New(
+		frontendText.NewReader(
+			bufio.NewReader(os.Stdin),
+			os.Stdout,
+		),
 	)
 
-	for _, question := range aQuestionaire.Questions {
-		textFE.InputQuestion(question)
-	}
+	vm.New(aQuestionaire, toFrontend, fromFrontend)
+	// aQuestionaire.PrettyPrintJSON()
 
-	aQuestionaire.PrettyPrintJSON()
+	// for _, question := range aQuestionaire.Questions {
+	// 	textFE.InputQuestion(question)
+	// }
+
+	// aQuestionaire.PrettyPrintJSON()
 }

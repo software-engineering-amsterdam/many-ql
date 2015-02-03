@@ -1,4 +1,4 @@
-package textFrontend
+package text
 
 import (
 	"bufio"
