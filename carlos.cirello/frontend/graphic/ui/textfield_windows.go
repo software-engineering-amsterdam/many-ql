@@ -11,7 +11,7 @@ import "C"
 
 type textfield struct {
 	*controlSingleHWNDWithText
-	changed  *event
+	changed *event
 }
 
 var editclass = toUTF16("EDIT")
@@ -21,8 +21,8 @@ func startNewTextField(style C.DWORD) *textfield {
 		style|C.textfieldStyle,
 		C.textfieldExtStyle) // WS_EX_CLIENTEDGE without WS_BORDER will show the canonical visual styles border (thanks to MindChild in irc.efnet.net/#winprog)
 	t := &textfield{
-		controlSingleHWNDWithText:		newControlSingleHWNDWithText(hwnd),
-		changed: newEvent(),
+		controlSingleHWNDWithText: newControlSingleHWNDWithText(hwnd),
+		changed:                   newEvent(),
 	}
 	t.fpreferredSize = t.xpreferredSize
 	C.controlSetControlFont(t.hwnd)

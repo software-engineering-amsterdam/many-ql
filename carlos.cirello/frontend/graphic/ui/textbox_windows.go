@@ -14,10 +14,10 @@ func newTextbox() Textbox {
 	hwnd := C.newControl(editclass,
 		// TODO ES_AUTOHSCROLL/ES_AUTOVSCROLL as well?
 		// TODO word wrap
-		C.ES_LEFT | C.ES_MULTILINE | C.ES_NOHIDESEL | C.ES_WANTRETURN | C.WS_HSCROLL | C.WS_VSCROLL,
+		C.ES_LEFT|C.ES_MULTILINE|C.ES_NOHIDESEL|C.ES_WANTRETURN|C.WS_HSCROLL|C.WS_VSCROLL,
 		C.WS_EX_CLIENTEDGE)
 	t := &textbox{
-		controlSingleHWNDWithText:		newControlSingleHWNDWithText(hwnd),
+		controlSingleHWNDWithText: newControlSingleHWNDWithText(hwnd),
 	}
 	t.fpreferredSize = t.xpreferredSize
 	C.controlSetControlFont(t.hwnd)

@@ -3,22 +3,22 @@
 package main
 
 import (
+	"github.com/andlabs/ui"
 	"image"
 	"reflect"
-	"github.com/andlabs/ui"
 )
 
 var w ui.Window
 
 type areaHandler struct {
-	img		*image.RGBA
+	img *image.RGBA
 }
 
 func (a *areaHandler) Paint(rect image.Rectangle) *image.RGBA {
 	return a.img.SubImage(rect).(*image.RGBA)
 }
 
-func (a *areaHandler) Mouse(me ui.MouseEvent) {}
+func (a *areaHandler) Mouse(me ui.MouseEvent)  {}
 func (a *areaHandler) Key(ke ui.KeyEvent) bool { return false }
 
 func initGUI() {

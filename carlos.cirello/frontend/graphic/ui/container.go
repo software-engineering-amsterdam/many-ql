@@ -3,8 +3,8 @@
 package ui
 
 type sizingbase struct {
-	xpadding      int
-	ypadding      int
+	xpadding int
+	ypadding int
 }
 
 // The container type, which is defined per-platform, is an internal Control that is only used to house other Controls from the underlying UI toolkit's point of view

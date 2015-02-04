@@ -10,9 +10,9 @@ import (
 import "C"
 
 type container struct {
-	id			C.id
-	resize		func(x int, y int, width int, height int, d *sizing)
-	margined		bool
+	id       C.id
+	resize   func(x int, y int, width int, height int, d *sizing)
+	margined bool
 }
 
 type sizing struct {

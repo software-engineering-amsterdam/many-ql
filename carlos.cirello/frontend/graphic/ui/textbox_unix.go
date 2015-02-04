@@ -13,14 +13,14 @@ import "C"
 
 type textbox struct {
 	*scroller
-	textview		*C.GtkTextView
+	textview *C.GtkTextView
 }
 
 func newTextbox() Textbox {
 	widget := C.gtk_text_view_new()
 	t := &textbox{
-		scroller:		newScroller(widget, true, true, false),		// natively scrollable, has a border, no overlay
-		textview:		(*C.GtkTextView)(unsafe.Pointer(widget)),
+		scroller: newScroller(widget, true, true, false), // natively scrollable, has a border, no overlay
+		textview: (*C.GtkTextView)(unsafe.Pointer(widget)),
 	}
 	return t
 }
@@ -42,5 +42,5 @@ func (t *textbox) SetText(text string) {
 	ctext := togstr(text)
 	defer freegstr(ctext)
 	buf := C.gtk_text_view_get_buffer(t.textview)
-	C.gtk_text_buffer_set_text(buf, ctext, -1)		// null-terminated
+	C.gtk_text_buffer_set_text(buf, ctext, -1) // null-terminated
 }

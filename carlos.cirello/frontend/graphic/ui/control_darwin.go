@@ -11,15 +11,15 @@ type controlParent struct {
 
 type controlSingleObject struct {
 	*controlbase
-	id	C.id
+	id C.id
 }
 
 func newControlSingleObject(id C.id) *controlSingleObject {
 	c := new(controlSingleObject)
 	c.controlbase = &controlbase{
-		fsetParent:		c.xsetParent,
-		fpreferredSize:		c.xpreferredSize,
-		fresize:			c.xresize,
+		fsetParent:     c.xsetParent,
+		fpreferredSize: c.xpreferredSize,
+		fresize:        c.xresize,
 	}
 	c.id = id
 	return c
@@ -41,16 +41,16 @@ func (c *controlSingleObject) xresize(x int, y int, width int, height int, d *si
 
 type scroller struct {
 	*controlSingleObject
-	scroller	*controlSingleObject
+	scroller *controlSingleObject
 }
 
 func newScroller(child C.id, bordered bool) *scroller {
 	sid := C.newScrollView(child, toBOOL(bordered))
 	s := &scroller{
-		controlSingleObject:		newControlSingleObject(child),
-		scroller:				newControlSingleObject(sid),
+		controlSingleObject: newControlSingleObject(child),
+		scroller:            newControlSingleObject(sid),
 	}
 	s.fsetParent = s.scroller.fsetParent
-	s.fresize = s .scroller.fresize
+	s.fresize = s.scroller.fresize
 	return s
 }

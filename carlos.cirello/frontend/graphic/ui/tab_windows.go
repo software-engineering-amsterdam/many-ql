@@ -15,8 +15,8 @@ On Windows, container controls are just regular controls that notify their paren
 
 type tab struct {
 	*controlSingleHWND
-	children		[]Control
-	chainresize	func(x int, y int, width int, height int, d *sizing)
+	children    []Control
+	chainresize func(x int, y int, width int, height int, d *sizing)
 }
 
 func newTab() Tab {
@@ -24,7 +24,7 @@ func newTab() Tab {
 		C.TCS_TOOLTIPS|C.WS_TABSTOP,
 		0) // don't set WS_EX_CONTROLPARENT here; see uitask_windows.c
 	t := &tab{
-		controlSingleHWND:		newControlSingleHWND(hwnd),
+		controlSingleHWND: newControlSingleHWND(hwnd),
 	}
 	t.fpreferredSize = t.xpreferredSize
 	t.chainresize = t.fresize
@@ -92,13 +92,13 @@ func (t *tab) xresize(x int, y int, width int, height int, d *sizing) {
 //export tabResized
 func tabResized(data unsafe.Pointer, r C.RECT) {
 	t := (*tab)(data)
-	if len(t.children) == 0 {		// nothing to do
+	if len(t.children) == 0 { // nothing to do
 		return
 	}
 	d := beginResize(t.hwnd)
 	// only need to resize the current tab; we resize new tabs when the tab changes in tabChanged() above
 	// because each widget is actually a child of the Window, the origin is the one we calculated above
 	for i := 0; i < len(t.children); i++ {
-		t.children[i].resize(int(r.left), int(r.top), int(r.right - r.left), int(r.bottom - r.top), d)
+		t.children[i].resize(int(r.left), int(r.top), int(r.right-r.left), int(r.bottom-r.top), d)
 	}
 }

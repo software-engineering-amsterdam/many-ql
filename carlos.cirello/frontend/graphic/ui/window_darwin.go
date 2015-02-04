@@ -14,8 +14,8 @@ type window struct {
 
 	closing *event
 
-	child			Control
-	container		*container
+	child     Control
+	container *container
 }
 
 func newWindow(title string, width int, height int, control Control) *window {
@@ -24,9 +24,9 @@ func newWindow(title string, width int, height int, control Control) *window {
 	defer C.free(unsafe.Pointer(ctitle))
 	C.windowSetTitle(id, ctitle)
 	w := &window{
-		id:        id,
-		closing:   newEvent(),
-		child:		control,
+		id:      id,
+		closing: newEvent(),
+		child:   control,
 	}
 	C.windowSetDelegate(w.id, unsafe.Pointer(w))
 	w.container = newContainer(w.child.resize)

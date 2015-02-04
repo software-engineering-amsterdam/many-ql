@@ -11,7 +11,7 @@ import "C"
 
 type button struct {
 	*controlSingleHWNDWithText
-	clicked  *event
+	clicked *event
 }
 
 var buttonclass = toUTF16("BUTTON")
@@ -21,8 +21,8 @@ func newButton(text string) *button {
 		C.BS_PUSHBUTTON|C.WS_TABSTOP,
 		0)
 	b := &button{
-		controlSingleHWNDWithText:		newControlSingleHWNDWithText(hwnd),
-		clicked: newEvent(),
+		controlSingleHWNDWithText: newControlSingleHWNDWithText(hwnd),
+		clicked:                   newEvent(),
 	}
 	b.fpreferredSize = b.xpreferredSize
 	b.SetText(text)

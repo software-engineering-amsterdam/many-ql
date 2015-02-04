@@ -18,8 +18,8 @@ func newButton(text string) *button {
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
 	b := &button{
-		controlSingleObject:		newControlSingleObject(C.newButton()),
-		clicked: newEvent(),
+		controlSingleObject: newControlSingleObject(C.newButton()),
+		clicked:             newEvent(),
 	}
 	C.buttonSetText(b.id, ctext)
 	C.buttonSetDelegate(b.id, unsafe.Pointer(b))

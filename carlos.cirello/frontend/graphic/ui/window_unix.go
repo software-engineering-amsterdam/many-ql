@@ -22,8 +22,8 @@ type window struct {
 
 	closing *event
 
-	child			Control
-	container		*container
+	child     Control
+	container *container
 }
 
 func newWindow(title string, width int, height int, control Control) *window {
@@ -36,7 +36,7 @@ func newWindow(title string, width int, height int, control Control) *window {
 		bin:     (*C.GtkBin)(unsafe.Pointer(widget)),
 		window:  (*C.GtkWindow)(unsafe.Pointer(widget)),
 		closing: newEvent(),
-		child:	control,
+		child:   control,
 	}
 	C.gtk_window_set_title(w.window, ctitle)
 	g_signal_connect(

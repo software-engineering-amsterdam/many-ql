@@ -54,12 +54,12 @@ var ddata = []dtype{
 type testwin struct {
 	t          Tab
 	w          Window
-	roenter	TextField
-	roro		TextField
+	roenter    TextField
+	roro       TextField
 	repainter  *repainter
 	fe         *ForeignEvent
 	festack    Stack
-	festack2		Stack
+	festack2   Stack
 	festart    Button
 	felabel    Label
 	festop     Button

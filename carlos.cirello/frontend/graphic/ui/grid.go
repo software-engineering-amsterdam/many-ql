@@ -59,8 +59,8 @@ type grid struct {
 	controls []gridCell
 	indexof  map[Control]int
 	prev     int
-	parent	*controlParent
-	padded	bool
+	parent   *controlParent
+	padded   bool
 
 	xmax int
 	ymax int
@@ -464,8 +464,8 @@ func (g *grid) preferredSize(d *sizing) (width, height int) {
 	}
 
 	// and that's it; just account for padding
-	return colwidth + (g.xmax-1) * xpadding,
-		rowheight + (g.ymax-1) * ypadding
+	return colwidth + (g.xmax-1)*xpadding,
+		rowheight + (g.ymax-1)*ypadding
 }
 
 func (g *grid) nTabStops() int {

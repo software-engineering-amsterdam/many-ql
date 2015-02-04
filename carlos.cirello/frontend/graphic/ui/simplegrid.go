@@ -40,7 +40,7 @@ type simpleGrid struct {
 	stretchyfill             bool
 	widths, heights          [][]int // caches to avoid reallocating each time
 	rowheights, colwidths    []int
-	padded	bool
+	padded                   bool
 }
 
 // NewSimpleGrid creates a new SimpleGrid with the given Controls.

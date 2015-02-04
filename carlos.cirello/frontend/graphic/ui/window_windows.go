@@ -17,8 +17,8 @@ type window struct {
 
 	closing *event
 
-	child			Control
-	margined		bool
+	child    Control
+	margined bool
 }
 
 func makeWindowWindowClass() error {
@@ -33,8 +33,8 @@ func makeWindowWindowClass() error {
 
 func newWindow(title string, width int, height int, control Control) *window {
 	w := &window{
-		closing:   newEvent(),
-		child:	control,
+		closing: newEvent(),
+		child:   control,
 	}
 	w.hwnd = C.newWindow(toUTF16(title), C.int(width), C.int(height), unsafe.Pointer(w))
 	hresult := C.EnableThemeDialogTexture(w.hwnd, C.ETDT_ENABLE|C.ETDT_USETABTEXTURE)
@@ -90,7 +90,7 @@ func windowResize(data unsafe.Pointer, r *C.RECT) {
 	if w.margined {
 		marginRectDLU(r, marginDialogUnits, marginDialogUnits, marginDialogUnits, marginDialogUnits, d)
 	}
-	w.child.resize(int(r.left), int (r.top), int(r.right - r.left), int(r.bottom - r.top), d)
+	w.child.resize(int(r.left), int(r.top), int(r.right-r.left), int(r.bottom-r.top), d)
 }
 
 //export windowClosing

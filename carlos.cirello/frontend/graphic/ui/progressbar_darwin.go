@@ -15,7 +15,7 @@ type progressbar struct {
 
 func newProgressBar() ProgressBar {
 	return &progressbar{
-		controlSingleObject:		newControlSingleObject(C.newProgressBar()),
+		controlSingleObject: newControlSingleObject(C.newProgressBar()),
 	}
 }
 

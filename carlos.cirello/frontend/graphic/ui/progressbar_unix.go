@@ -14,14 +14,14 @@ import "C"
 
 type progressbar struct {
 	*controlSingleWidget
-	pbar		*C.GtkProgressBar
+	pbar *C.GtkProgressBar
 }
 
 func newProgressBar() ProgressBar {
-	widget := C.gtk_progress_bar_new();
+	widget := C.gtk_progress_bar_new()
 	p := &progressbar{
-		controlSingleWidget:	newControlSingleWidget(widget),
-		pbar:				(*C.GtkProgressBar)(unsafe.Pointer(widget)),
+		controlSingleWidget: newControlSingleWidget(widget),
+		pbar:                (*C.GtkProgressBar)(unsafe.Pointer(widget)),
 	}
 	return p
 }
@@ -34,5 +34,5 @@ func (p *progressbar) SetPercent(percent int) {
 	if percent < 0 || percent > 100 {
 		panic(fmt.Errorf("given ProgressBar percentage %d out of range", percent))
 	}
-	C.gtk_progress_bar_set_fraction(p.pbar, C.gdouble(percent) / 100)
+	C.gtk_progress_bar_set_fraction(p.pbar, C.gdouble(percent)/100)
 }

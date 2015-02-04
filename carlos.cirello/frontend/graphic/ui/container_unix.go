@@ -13,10 +13,10 @@ import "C"
 
 // TODO avoid direct access to contents?
 type container struct {
-	widget		*C.GtkWidget
-	container		*C.GtkContainer
-	resize		func(x int, y int, width int, height int, d *sizing)
-	margined		bool
+	widget    *C.GtkWidget
+	container *C.GtkContainer
+	resize    func(x int, y int, width int, height int, d *sizing)
+	margined  bool
 }
 
 type sizing struct {

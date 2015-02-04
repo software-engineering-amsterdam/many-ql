@@ -11,8 +11,8 @@ import "C"
 
 type group struct {
 	*controlSingleHWNDWithText
-	child			Control
-	margined		bool
+	child    Control
+	margined bool
 }
 
 func newGroup(text string, control Control) Group {
@@ -20,11 +20,11 @@ func newGroup(text string, control Control) Group {
 		C.BS_GROUPBOX,
 		C.WS_EX_CONTROLPARENT)
 	g := &group{
-		controlSingleHWNDWithText:		newControlSingleHWNDWithText(hwnd),
-		child:		control,
+		controlSingleHWNDWithText: newControlSingleHWNDWithText(hwnd),
+		child: control,
 	}
 	g.fpreferredSize = g.xpreferredSize
-	g.fnTabStops = control.nTabStops		// groupbox itself is not tabbable but the contents might be
+	g.fnTabStops = control.nTabStops // groupbox itself is not tabbable but the contents might be
 	g.SetText(text)
 	C.controlSetControlFont(g.hwnd)
 	C.setGroupSubclass(g.hwnd, unsafe.Pointer(g))
@@ -87,5 +87,5 @@ func groupResized(data unsafe.Pointer, r C.RECT) {
 	} else {
 		marginRectDLU(&r, 8, 3, 4, 4, d)
 	}
-	g.child.resize(int(r.left), int(r.top), int(r.right - r.left), int(r.bottom - r.top), d)
+	g.child.resize(int(r.left), int(r.top), int(r.right-r.left), int(r.bottom-r.top), d)
 }

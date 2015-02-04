@@ -25,11 +25,11 @@ func newCheckbox(text string) *checkbox {
 	defer freegstr(ctext)
 	widget := C.gtk_check_button_new_with_label(ctext)
 	c := &checkbox{
-		controlSingleWidget:  newControlSingleWidget(widget),
-		button:   (*C.GtkButton)(unsafe.Pointer(widget)),
-		toggle:   (*C.GtkToggleButton)(unsafe.Pointer(widget)),
-		checkbox: (*C.GtkCheckButton)(unsafe.Pointer(widget)),
-		toggled:  newEvent(),
+		controlSingleWidget: newControlSingleWidget(widget),
+		button:              (*C.GtkButton)(unsafe.Pointer(widget)),
+		toggle:              (*C.GtkToggleButton)(unsafe.Pointer(widget)),
+		checkbox:            (*C.GtkCheckButton)(unsafe.Pointer(widget)),
+		toggled:             newEvent(),
 	}
 	g_signal_connect(
 		C.gpointer(unsafe.Pointer(c.checkbox)),

@@ -13,8 +13,8 @@ import "C"
 
 type label struct {
 	*controlSingleWidget
-	misc       *C.GtkMisc
-	label      *C.GtkLabel
+	misc  *C.GtkMisc
+	label *C.GtkLabel
 }
 
 func newLabel(text string) Label {
@@ -22,9 +22,9 @@ func newLabel(text string) Label {
 	defer freegstr(ctext)
 	widget := C.gtk_label_new(ctext)
 	l := &label{
-		controlSingleWidget:    newControlSingleWidget(widget),
-		misc:       (*C.GtkMisc)(unsafe.Pointer(widget)),
-		label:      (*C.GtkLabel)(unsafe.Pointer(widget)),
+		controlSingleWidget: newControlSingleWidget(widget),
+		misc:                (*C.GtkMisc)(unsafe.Pointer(widget)),
+		label:               (*C.GtkLabel)(unsafe.Pointer(widget)),
 	}
 	return l
 }

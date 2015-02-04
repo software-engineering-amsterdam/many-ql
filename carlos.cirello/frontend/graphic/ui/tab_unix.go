@@ -16,16 +16,16 @@ type tab struct {
 	container *C.GtkContainer
 	notebook  *C.GtkNotebook
 
-	tabs []*container
-	children	[]Control
+	tabs     []*container
+	children []Control
 }
 
 func newTab() Tab {
 	widget := C.gtk_notebook_new()
 	t := &tab{
-		controlSingleWidget:	newControlSingleWidget(widget),
-		container: (*C.GtkContainer)(unsafe.Pointer(widget)),
-		notebook:  (*C.GtkNotebook)(unsafe.Pointer(widget)),
+		controlSingleWidget: newControlSingleWidget(widget),
+		container:           (*C.GtkContainer)(unsafe.Pointer(widget)),
+		notebook:            (*C.GtkNotebook)(unsafe.Pointer(widget)),
 	}
 	// there are no scrolling arrows by default; add them in case there are too many tabs
 	C.gtk_notebook_set_scrollable(t.notebook, C.TRUE)

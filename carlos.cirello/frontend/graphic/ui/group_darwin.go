@@ -12,8 +12,8 @@ import "C"
 type group struct {
 	*controlSingleObject
 
-	child			Control
-	container		*container
+	child     Control
+	container *container
 }
 
 func newGroup(text string, control Control) Group {

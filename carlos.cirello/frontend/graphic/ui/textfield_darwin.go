@@ -11,15 +11,15 @@ import "C"
 
 type textfield struct {
 	*controlSingleObject
-	changed *event
-	invalid C.id
-	chainpreferredSize	func(d *sizing) (int, int)
+	changed            *event
+	invalid            C.id
+	chainpreferredSize func(d *sizing) (int, int)
 }
 
 func finishNewTextField(id C.id) *textfield {
 	t := &textfield{
-		controlSingleObject:		newControlSingleObject(id),
-		changed: newEvent(),
+		controlSingleObject: newControlSingleObject(id),
+		changed:             newEvent(),
 	}
 	C.textfieldSetDelegate(t.id, unsafe.Pointer(t))
 	t.chainpreferredSize = t.fpreferredSize

@@ -16,7 +16,7 @@ type textbox struct {
 func newTextbox() Textbox {
 	id := C.newTextbox()
 	t := &textbox{
-		scroller:		newScroller(id, true),		// border on Textbox (TODO confirm type)
+		scroller: newScroller(id, true), // border on Textbox (TODO confirm type)
 	}
 	// TODO preferred size
 	return t

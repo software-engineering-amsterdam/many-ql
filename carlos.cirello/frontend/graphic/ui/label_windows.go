@@ -18,7 +18,7 @@ func newLabel(text string) Label {
 		C.SS_NOPREFIX|C.SS_LEFTNOWORDWRAP,
 		C.WS_EX_TRANSPARENT)
 	l := &label{
-		controlSingleHWNDWithText:		newControlSingleHWNDWithText(hwnd),
+		controlSingleHWNDWithText: newControlSingleHWNDWithText(hwnd),
 	}
 	l.fpreferredSize = l.xpreferredSize
 	l.fnTabStops = func() int {

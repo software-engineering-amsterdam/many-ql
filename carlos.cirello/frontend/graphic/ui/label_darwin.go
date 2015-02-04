@@ -15,7 +15,7 @@ type label struct {
 
 func newLabel(text string) Label {
 	l := &label{
-		controlSingleObject:        newControlSingleObject(C.newLabel()),
+		controlSingleObject: newControlSingleObject(C.newLabel()),
 	}
 	l.SetText(text)
 	return l

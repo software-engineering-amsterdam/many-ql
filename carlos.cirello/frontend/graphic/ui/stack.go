@@ -36,7 +36,7 @@ type stack struct {
 	controls      []Control
 	stretchy      []bool
 	width, height []int // caches to avoid reallocating these each time
-	padded	bool
+	padded        bool
 }
 
 func newStack(o orientation, controls ...Control) Stack {

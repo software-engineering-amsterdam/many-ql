@@ -18,8 +18,8 @@ func newCheckbox(text string) *checkbox {
 	ctext := C.CString(text)
 	defer C.free(unsafe.Pointer(ctext))
 	c := &checkbox{
-		controlSingleObject:		newControlSingleObject(C.newCheckbox()),
-		toggled: newEvent(),
+		controlSingleObject: newControlSingleObject(C.newCheckbox()),
+		toggled:             newEvent(),
 	}
 	C.buttonSetText(c.id, ctext)
 	C.checkboxSetDelegate(c.id, unsafe.Pointer(c))

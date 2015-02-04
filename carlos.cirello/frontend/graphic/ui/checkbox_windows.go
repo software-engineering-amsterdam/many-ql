@@ -11,7 +11,7 @@ import "C"
 
 type checkbox struct {
 	*controlSingleHWNDWithText
-	toggled  *event
+	toggled *event
 }
 
 func newCheckbox(text string) *checkbox {
@@ -21,8 +21,8 @@ func newCheckbox(text string) *checkbox {
 		C.BS_CHECKBOX|C.WS_TABSTOP,
 		0)
 	c := &checkbox{
-		controlSingleHWNDWithText:		newControlSingleHWNDWithText(hwnd),
-		toggled: newEvent(),
+		controlSingleHWNDWithText: newControlSingleHWNDWithText(hwnd),
+		toggled:                   newEvent(),
 	}
 	c.fpreferredSize = c.xpreferredSize
 	c.SetText(text)

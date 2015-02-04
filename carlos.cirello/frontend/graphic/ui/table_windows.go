@@ -14,28 +14,28 @@ import "C"
 type table struct {
 	*tablebase
 	*controlSingleHWND
-	noautosize bool
-	colcount   C.int
-	hotrow     C.int
-	hotcol     C.int
-	pushedrow  C.int
-	pushedcol  C.int
-	selected   *event
-	chainresize		func(x int, y int, width int, height int, d *sizing)
+	noautosize  bool
+	colcount    C.int
+	hotrow      C.int
+	hotcol      C.int
+	pushedrow   C.int
+	pushedcol   C.int
+	selected    *event
+	chainresize func(x int, y int, width int, height int, d *sizing)
 }
 
 func finishNewTable(b *tablebase, ty reflect.Type) Table {
 	hwnd := C.newControl(C.xWC_LISTVIEW,
 		C.LVS_REPORT|C.LVS_OWNERDATA|C.LVS_NOSORTHEADER|C.LVS_SHOWSELALWAYS|C.LVS_SINGLESEL|C.WS_HSCROLL|C.WS_VSCROLL|C.WS_TABSTOP,
-		C.WS_EX_CLIENTEDGE)		// WS_EX_CLIENTEDGE without WS_BORDER will show the canonical visual styles border (thanks to MindChild in irc.efnet.net/#winprog)
+		C.WS_EX_CLIENTEDGE) // WS_EX_CLIENTEDGE without WS_BORDER will show the canonical visual styles border (thanks to MindChild in irc.efnet.net/#winprog)
 	t := &table{
-		controlSingleHWND:		newControlSingleHWND(hwnd),
-		tablebase: b,
-		hotrow:    -1,
-		hotcol:    -1,
-		pushedrow: -1,
-		pushedcol: -1,
-		selected:  newEvent(),
+		controlSingleHWND: newControlSingleHWND(hwnd),
+		tablebase:         b,
+		hotrow:            -1,
+		hotcol:            -1,
+		pushedrow:         -1,
+		pushedcol:         -1,
+		selected:          newEvent(),
 	}
 	t.fpreferredSize = t.xpreferredSize
 	t.chainresize = t.fresize

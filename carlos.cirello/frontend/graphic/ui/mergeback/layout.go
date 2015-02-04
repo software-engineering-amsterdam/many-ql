@@ -23,11 +23,11 @@ func resetControls(parent *Stack) {
 // between them.
 func Layout(controls ...Control) *Stack {
 	stack := &Stack{
-		orientation:  vertical,
-		controls:     controls,
-		stretchy:     make([]bool, len(controls)),
-		width:        make([]int, len(controls)),
-		height:       make([]int, len(controls)),
+		orientation: vertical,
+		controls:    controls,
+		stretchy:    make([]bool, len(controls)),
+		width:       make([]int, len(controls)),
+		height:      make([]int, len(controls)),
 	}
 
 	resetControls(stack)

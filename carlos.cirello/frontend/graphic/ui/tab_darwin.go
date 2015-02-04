@@ -11,13 +11,13 @@ import "C"
 
 type tab struct {
 	*controlSingleObject
-	tabs			[]*container
-	children		[]Control
+	tabs     []*container
+	children []Control
 }
 
 func newTab() Tab {
 	t := &tab{
-		controlSingleObject:		newControlSingleObject(C.newTab()),
+		controlSingleObject: newControlSingleObject(C.newTab()),
 	}
 	t.fpreferredSize = t.xpreferredSize
 	return t

@@ -19,17 +19,17 @@ TODO
 */
 
 type tab struct {
-	_hwnd		C.HWND
-	tabs			[]*container
-	switchrect	C.RECT		// size that new tab should take when switching to it
+	_hwnd      C.HWND
+	tabs       []*container
+	switchrect C.RECT // size that new tab should take when switching to it
 }
 
 func newTab() Tab {
 	hwnd := C.newControl(C.xWC_TABCONTROL,
-		C.TCS_TOOLTIPS | C.WS_TABSTOP,
+		C.TCS_TOOLTIPS|C.WS_TABSTOP,
 		0)
 	t := &tab{
-		_hwnd:	hwnd,
+		_hwnd: hwnd,
 	}
 	C.controlSetControlFont(t._hwnd)
 	C.setTabSubclass(t._hwnd, unsafe.Pointer(t))
@@ -42,7 +42,7 @@ func (t *tab) Append(name string, control Control) {
 	t.tabs = append(t.tabs, c)
 	// initially hide tab 1..n controls; if we don't, they'll appear over other tabs, resulting in weird behavior
 	if len(t.tabs) != 1 {
-		t.tabs[len(t.tabs) - 1].hide()
+		t.tabs[len(t.tabs)-1].hide()
 	}
 	C.tabAppend(t._hwnd, toUTF16(name))
 }

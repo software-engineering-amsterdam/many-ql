@@ -18,8 +18,8 @@ type group struct {
 	gcontainer *C.GtkContainer
 	frame      *C.GtkFrame
 
-	child			Control
-	container		*container
+	child     Control
+	container *container
 }
 
 func newGroup(text string, control Control) Group {
@@ -27,10 +27,10 @@ func newGroup(text string, control Control) Group {
 	defer freegstr(ctext)
 	widget := C.gtk_frame_new(ctext)
 	g := &group{
-		controlSingleWidget:	newControlSingleWidget(widget),
-		gcontainer: (*C.GtkContainer)(unsafe.Pointer(widget)),
-		frame:      (*C.GtkFrame)(unsafe.Pointer(widget)),
-		child:	control,
+		controlSingleWidget: newControlSingleWidget(widget),
+		gcontainer:          (*C.GtkContainer)(unsafe.Pointer(widget)),
+		frame:               (*C.GtkFrame)(unsafe.Pointer(widget)),
+		child:               control,
 	}
 
 	// with GTK+, groupboxes by default have frames and slightly x-offset regular text

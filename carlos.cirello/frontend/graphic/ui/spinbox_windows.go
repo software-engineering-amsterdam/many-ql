@@ -14,24 +14,24 @@ import "C"
 // TODO WS_EX_CLIENTEDGE on the updown?
 
 type spinbox struct {
-	hwndEdit			C.HWND
-	hwndUpDown		C.HWND
-	changed			*event
+	hwndEdit   C.HWND
+	hwndUpDown C.HWND
+	changed    *event
 	// updown state
-	updownVisible		bool
+	updownVisible bool
 	// keep these here to avoid having to get them out
-	value			int
-	min				int
-	max				int
+	value int
+	min   int
+	max   int
 }
 
 func newSpinbox(min int, max int) Spinbox {
 	s := new(spinbox)
 	s.hwndEdit = C.newControl(editclass,
-		C.textfieldStyle | C.ES_NUMBER,
+		C.textfieldStyle|C.ES_NUMBER,
 		C.textfieldExtStyle)
 	s.changed = newEvent()
-	s.updownVisible = true		// initially shown
+	s.updownVisible = true // initially shown
 	s.min = min
 	s.max = max
 	s.value = s.min

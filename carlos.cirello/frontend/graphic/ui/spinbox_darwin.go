@@ -21,8 +21,8 @@ import "C"
 // - proper spacing between edit and spinner: Interface Builder isn't clear; NSDatePicker doesn't spill the beans
 
 type spinbox struct {
-	id			C.id
-	changed		*event
+	id      C.id
+	changed *event
 }
 
 func newSpinbox(min int, max int) Spinbox {
@@ -70,8 +70,8 @@ func (s *spinbox) preferredSize(d *sizing) (width, height int) {
 
 func (s *spinbox) resize(x int, y int, width int, height int, d *sizing) {
 	// TODO
-	C.moveControl(s.textfield(), C.intptr_t(x), C.intptr_t(y), C.intptr_t(width - 20), C.intptr_t(height))
-	C.moveControl(s.stepper(), C.intptr_t(x + width - 15), C.intptr_t(y), C.intptr_t(15), C.intptr_t(height))
+	C.moveControl(s.textfield(), C.intptr_t(x), C.intptr_t(y), C.intptr_t(width-20), C.intptr_t(height))
+	C.moveControl(s.stepper(), C.intptr_t(x+width-15), C.intptr_t(y), C.intptr_t(15), C.intptr_t(height))
 }
 
 func (s *spinbox) nTabStops() int {

@@ -19,18 +19,18 @@ import "C"
 
 type textfield struct {
 	*controlSingleWidget
-	editable	*C.GtkEditable
-	entry   *C.GtkEntry
-	changed *event
+	editable *C.GtkEditable
+	entry    *C.GtkEntry
+	changed  *event
 }
 
 func startNewTextField() *textfield {
 	widget := C.gtk_entry_new()
 	t := &textfield{
 		controlSingleWidget: newControlSingleWidget(widget),
-		editable:	(*C.GtkEditable)(unsafe.Pointer(widget)),
-		entry:   (*C.GtkEntry)(unsafe.Pointer(widget)),
-		changed: newEvent(),
+		editable:            (*C.GtkEditable)(unsafe.Pointer(widget)),
+		entry:               (*C.GtkEntry)(unsafe.Pointer(widget)),
+		changed:             newEvent(),
 	}
 	g_signal_connect(
 		C.gpointer(unsafe.Pointer(t.widget)),

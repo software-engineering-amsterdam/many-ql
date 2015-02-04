@@ -6,29 +6,29 @@ package ui
 import "C"
 
 type controlParent struct {
-	hwnd	C.HWND
+	hwnd C.HWND
 }
 
 // don't specify preferredSize in any of these; they're per-control
 
 type controlSingleHWND struct {
 	*controlbase
-	hwnd	C.HWND
+	hwnd C.HWND
 }
 
 func newControlSingleHWND(hwnd C.HWND) *controlSingleHWND {
 	c := new(controlSingleHWND)
 	c.controlbase = &controlbase{
-		fsetParent:		c.xsetParent,
-		fresize:			c.xresize,
-		fnTabStops:		func() int {
+		fsetParent: c.xsetParent,
+		fresize:    c.xresize,
+		fnTabStops: func() int {
 			// most controls count as one tab stop
 			return 1
 		},
-		fcontainerShow:	func() {
+		fcontainerShow: func() {
 			C.ShowWindow(c.hwnd, C.SW_SHOW)
 		},
-		fcontainerHide:		func() {
+		fcontainerHide: func() {
 			C.ShowWindow(c.hwnd, C.SW_HIDE)
 		},
 	}
@@ -48,12 +48,12 @@ func (c *controlSingleHWND) xresize(x int, y int, width int, height int, d *sizi
 
 type controlSingleHWNDWithText struct {
 	*controlSingleHWND
-	textlen	C.LONG
+	textlen C.LONG
 }
 
 func newControlSingleHWNDWithText(h C.HWND) *controlSingleHWNDWithText {
 	return &controlSingleHWNDWithText{
-		controlSingleHWND:		newControlSingleHWND(h),
+		controlSingleHWND: newControlSingleHWND(h),
 	}
 }
 

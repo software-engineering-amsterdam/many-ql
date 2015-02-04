@@ -17,15 +17,15 @@ type controlParent struct {
 
 type controlSingleWidget struct {
 	*controlbase
-	widget	*C.GtkWidget
+	widget *C.GtkWidget
 }
 
 func newControlSingleWidget(widget *C.GtkWidget) *controlSingleWidget {
 	c := new(controlSingleWidget)
 	c.controlbase = &controlbase{
-		fsetParent:		c.xsetParent,
-		fpreferredSize:		c.xpreferredSize,
-		fresize:			c.xresize,
+		fsetParent:     c.xsetParent,
+		fpreferredSize: c.xpreferredSize,
+		fresize:        c.xresize,
 	}
 	c.widget = widget
 	return c
@@ -69,15 +69,15 @@ func (c *controlSingleWidget) xresize(x int, y int, width int, height int, d *si
 type scroller struct {
 	*controlSingleWidget
 
-	scroller	*controlSingleWidget
+	scroller        *controlSingleWidget
 	scrollwidget    *C.GtkWidget
 	scrollcontainer *C.GtkContainer
 	scrollwindow    *C.GtkScrolledWindow
 
-	overlay	*controlSingleWidget
+	overlay          *controlSingleWidget
 	overlaywidget    *C.GtkWidget
 	overlaycontainer *C.GtkContainer
-	overlayoverlay      *C.GtkOverlay
+	overlayoverlay   *C.GtkOverlay
 }
 
 func newScroller(widget *C.GtkWidget, native bool, bordered bool, overlay bool) *scroller {

@@ -25,8 +25,8 @@ func newButton(text string) *button {
 	widget := C.gtk_button_new_with_label(ctext)
 	b := &button{
 		controlSingleWidget: newControlSingleWidget(widget),
-		button:  (*C.GtkButton)(unsafe.Pointer(widget)),
-		clicked: newEvent(),
+		button:              (*C.GtkButton)(unsafe.Pointer(widget)),
+		clicked:             newEvent(),
 	}
 	g_signal_connect(
 		C.gpointer(unsafe.Pointer(b.button)),

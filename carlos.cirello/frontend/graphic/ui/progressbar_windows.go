@@ -18,7 +18,7 @@ func newProgressBar() ProgressBar {
 		C.PBS_SMOOTH,
 		0)
 	p := &progressbar{
-		controlSingleHWND:		newControlSingleHWND(hwnd),
+		controlSingleHWND: newControlSingleHWND(hwnd),
 	}
 	p.fpreferredSize = p.xpreferredSize
 	p.fnTabStops = func() int {
@@ -43,7 +43,7 @@ func (p *progressbar) SetPercent(percent int) {
 const (
 	// via http://msdn.microsoft.com/en-us/library/windows/desktop/dn742486.aspx
 	// this is the double-width option
-	progressbarWidth = 237
+	progressbarWidth  = 237
 	progressbarHeight = 8
 )
 
