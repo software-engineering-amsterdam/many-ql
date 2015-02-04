@@ -1,0 +1,46 @@
+QL & QLS
+Creating two programming languages by the book
+2 Feb 2015
+Tags: language, compiler, software construction
+
+Carlos Cirello
+University of Amsterdam
+carlos.cirello.nl@gmail.com
+http://cirello.org/
+@dericofilho
+
+* Architecture
+
+.image architecture.png _ 240
+
+* Architecture
+
+- Parser and lexer are entangled. Grammar-based parser generator usually invokes the lexer on your behalf.
+
+- The result of the compilation process is fed into the VM. For now, a simple stack VM.
+
+- File/Code Reader, Compiler, VM and Frontend are completely separated - they are concurrent.
+
+* Concurrency vs Parallelism
+
+- Related but very different.
+
+	- Concurrency: "Programming as the composition of independently executing processes."
+
+	- Parallelism: "Programming as the simultaneous execution of (possibly related) computations."
+
+	                Rob Pike
+
+* Concurrency vs Parallelism
+
+- Concurrency: How to handle many things at once.
+
+- Parallelism: How to execute many things at once.
+
+* Frontend
+
+- Composable interfaces with communication happening through channels.
+
+- As long as the specialized frontend complies with the VM UI protocol, any interface can be developed: Graphic, Text and Web.
+
+.image rsz_architecture.png _ 240
