@@ -30,9 +30,14 @@ func (v *vm) loop() {
 			log.Println("VM got:", r)
 			if r.Type == fe.READY_T {
 				for _, question := range v.questionaire.Questions {
-					v.send <- &fe.Event{fe.RENDER, question}
+					v.send <- &fe.Event{
+						Type:     fe.RENDER,
+						Question: question,
+					}
 				}
 			}
+		default:
+			//noop
 		}
 	}
 }

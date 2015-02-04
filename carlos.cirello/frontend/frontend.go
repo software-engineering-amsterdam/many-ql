@@ -47,8 +47,11 @@ func (f *frontend) loop() {
 			if r.Type == READY_P {
 				f.send <- &Event{READY_T, nil}
 			} else if r.Type == RENDER {
-				log.Println(r.Content.(*question.Question))
+				log.Println(r.Question)
+				f.fe.InputQuestion(r.Question)
 			}
+		default:
+			//noop
 		}
 	}
 }
