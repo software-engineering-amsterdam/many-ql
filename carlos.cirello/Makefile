@@ -1,3 +1,7 @@
+all:
+	go generate ./...
+	go build
+
 test:
 	go test -v ./...
 
