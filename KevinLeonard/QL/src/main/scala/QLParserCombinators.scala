@@ -7,9 +7,10 @@ import scala.io.Source
 
 class QLParserCombinators extends JavaTokenParsers {
 
-  def form : Parser[String] = "form" ~> formName ~ formBlock ^^ { _.toString }
+  def form : Parser[String] = "form" ~> formName ~ statements ^^ { _.toString }
   def formName : Parser[String] = ident
-  def formBlock : Parser[String] = "{" ~> rep(questionBlock | ifStatement) <~ "}" ^^ { _.toString }
+
+  def statements : Parser[String] = "{" ~> rep(questionBlock | ifStatement) <~ "}" ^^ { _.toString }
 
   def questionBlock : Parser[String] = question ~ answer ^^ { _.toString }
   def question : Parser[String] = "question" ~> questionKey ~ questionLabel ^^ { _.toString() }
@@ -20,8 +21,8 @@ class QLParserCombinators extends JavaTokenParsers {
   def answerType : Parser[String] = "boolean" | "integer" | "string"
 
   def ifStatement : Parser[Serializable] = ifBlock ~ elseBlock | ifBlock
-  def ifBlock : Parser[String] = "if" ~ ident ~ "{" ~> rep(questionBlock) <~ "}" ^^ { _.toString }
-  def elseBlock : Parser[String] = "else" ~ "{" ~> rep(questionBlock) <~ "}" ^^ { _.toString }
+  def ifBlock : Parser[String] = "if" ~ ident ~ rep(statements) ^^ { _.toString }
+  def elseBlock : Parser[String] = "else" ~ rep(statements) ^^ { _.toString }
 
 }
 
