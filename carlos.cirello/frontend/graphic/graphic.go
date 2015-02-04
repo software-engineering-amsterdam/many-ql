@@ -8,13 +8,6 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-func main() {
-	if err := qml.Run(run); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
-	}
-}
-
 const BASE = `
 import QtQuick 2.2
 import QtQuick.Controls 1.1
@@ -98,6 +91,14 @@ id: rowBoxb
             }
 }
 `
+
+// Render creates the craddle for GUI.
+func Render() {
+	if err := qml.Run(run); err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(1)
+	}
+}
 
 func run() error {
 	engine := qml.NewEngine()
