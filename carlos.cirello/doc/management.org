@@ -23,7 +23,7 @@
       - [ ] Advanced cases
       - [ ] All cases
   - [ ] Frontend Interface [0/3]
-    - [ ] Concurrent Interface between Frontends and VM
+    - [ ] Concurrent Interface between Frontends and VM :ONGOING:
     - [ ] Text Frontend
     - [ ] GUI Frontend
 

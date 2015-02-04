@@ -14,6 +14,8 @@ type vm struct {
 	receive      chan *fe.Event
 }
 
+// New starts VM with an AST (*questionaire.Questionaire) and with
+// channels to communicate with Frontend process
 func New(q *questionaire.Questionaire, toFrontend, fromFrontend chan *fe.Event) {
 	v := &vm{q, toFrontend, fromFrontend}
 	v.loop()
