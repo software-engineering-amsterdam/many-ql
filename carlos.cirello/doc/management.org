@@ -25,7 +25,9 @@
   - [ ] Frontend Interface [0/3]
     - [ ] Concurrent Interface between Frontends and VM :ONGOING:
     - [ ] Text Frontend
-    - [ ] GUI Frontend
+    - [ ] GUI Frontend [0/2]
+      - [ ] Transpose restrictions from the dependency into the main doc.
+      - [ ] Remove dependency tests
 
   ** Functionalities [0/10] {2}
     - [ ] The language supports: [0/3]
