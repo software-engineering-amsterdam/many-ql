@@ -11,9 +11,9 @@ autotest:
 todos:
 	grep -RHin "// todo" *
 
-doc:
+doc: .FORCE
 	godoc -http=:8080 &
-	sleep 1
+	sleep 2
 	open 'http://localhost:8080/pkg/github.com/software-engineering-amsterdam/many-ql/carlos.cirello/'
 
 talk:
@@ -21,3 +21,5 @@ talk:
 	present -play=true &
 	sleep 2
 	open 'http://127.0.0.1:3999/doc/carlos.cirello.ql.qls.slide'
+
+.FORCE:
