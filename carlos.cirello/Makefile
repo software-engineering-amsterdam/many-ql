@@ -1,6 +1,8 @@
 all:
 	go generate ./...
 	go build
+	echo "Build successful"
+	./carlos.cirello -h || echo
 
 test:
 	go test -v ./...
