@@ -1,3 +1,4 @@
+// Package question describe the structure of question, with its possible data types.
 package question
 
 import "fmt"

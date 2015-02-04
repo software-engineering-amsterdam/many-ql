@@ -1,3 +1,4 @@
+// Package text is the text interface for the language. It aims both to prove the modularity of the system as much facilitate the development of the VM.
 package text
 
 import (
@@ -21,11 +22,6 @@ func NewReader(r *bufio.Reader, w io.Writer) *Reader {
 		w,
 	}
 }
-func (r *Reader) readFromConsole() string {
-	var text string
-	fmt.Fscanln(r.bufferedInput, &text)
-	return text
-}
 
 // InputQuestion reads user's input and insert into content of the question
 func (r *Reader) InputQuestion(q *question.Question) {
@@ -43,4 +39,10 @@ func (r *Reader) InputQuestion(q *question.Question) {
 	default:
 		panic("Impossible type")
 	}
+}
+
+func (r *Reader) readFromConsole() string {
+	var text string
+	fmt.Fscanln(r.bufferedInput, &text)
+	return text
 }

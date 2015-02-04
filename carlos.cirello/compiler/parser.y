@@ -161,6 +161,7 @@ func (x *lexer) Error(s string) {
 	log.Printf("parse error: %s", s)
 }
 
+// CompileQL generates a AST (*questionaire.Questionaire and children) out of source code.
 func CompileQL(code string) *questionaire.Questionaire {
 	finalForm = nil
 	qlParse(newLexer(code))

@@ -6,10 +6,11 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/andlabs/ui"
 	"image"
 	"image/draw"
 	_ "image/png"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic/ui"
 )
 
 type icon struct {

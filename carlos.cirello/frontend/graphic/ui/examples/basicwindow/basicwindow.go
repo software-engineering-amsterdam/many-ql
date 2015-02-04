@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/andlabs/ui"
 	"log"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic/ui"
 )
 
 func main() {

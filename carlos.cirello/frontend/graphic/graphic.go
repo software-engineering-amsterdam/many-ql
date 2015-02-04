@@ -1,4 +1,5 @@
-package main
+// Package graphic is the GUI interface for Frontend. It does not interact directly with VM. It is the vendored package of https://github.com/andlabs/ui (3a742b136a2c5d468e9f75ac4d192fc2e81eae62). All compilations constraints apply.
+package graphic
 
 import (
 	//Vendored from http://github.com/andlabs/ui/
@@ -7,7 +8,7 @@ import (
 
 var window ui.Window
 
-func main() {
+func Draw() {
 	go ui.Do(func() {
 		name := ui.NewTextField()
 		button := ui.NewButton("Greet")

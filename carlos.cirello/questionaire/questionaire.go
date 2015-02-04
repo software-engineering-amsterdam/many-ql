@@ -1,3 +1,4 @@
+//Package questionaire describes one form, comprising several questions, conditions and expressions.
 package questionaire
 
 import (

@@ -1,11 +1,13 @@
 package frontend
 
-// Event describes the communication between VM and Frontend
+// Event carries the communication between VM and Frontend
 type Event struct {
 	Type    EventType
 	Content interface{}
 }
 
+// EventType describes the communication protocol between the VM
+// and Frontend goroutines.
 type EventType int
 
 const (

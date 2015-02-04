@@ -3,9 +3,10 @@
 package main
 
 import (
-	"github.com/andlabs/ui"
 	"image"
 	"reflect"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic/ui"
 )
 
 var w ui.Window
