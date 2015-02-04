@@ -16,10 +16,10 @@ type Reader struct {
 }
 
 // NewReader instantiates a new *Reader for I/O in text interface
-func NewReader(r *bufio.Reader, w io.Writer) *Reader {
+func NewReader(input *bufio.Reader, output io.Writer) *Reader {
 	return &Reader{
-		r,
-		w,
+		input,
+		output,
 	}
 }
 
