@@ -11,7 +11,7 @@ import (
 )
 
 // Render creates the craddle for GUI.
-func main() {
+func GUI() {
 	if err := qml.Run(run); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
