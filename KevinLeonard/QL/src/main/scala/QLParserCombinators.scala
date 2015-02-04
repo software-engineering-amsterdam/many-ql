@@ -32,8 +32,8 @@ object QLParser extends QLParserCombinators {
 
     parseAll(form, formFile) match {
       case Success(result, _) => println(result)
-      case Failure(msg, _) => println(msg)
-      case Error(msg, _) => println(msg)
+      case Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg)
+      case Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg)
     }
   }
 }
