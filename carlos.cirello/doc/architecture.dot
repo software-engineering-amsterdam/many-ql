@@ -15,6 +15,7 @@ digraph g{
 	"Frontend Interface" -> "VM"
 
 	"Frontend Interface" -> "GUI"
+	"Frontend Interface" -> "QLS" -> "GUI"
 	"Frontend Interface" -> "Text?"
 	"Frontend Interface" -> "Web?"
 }
