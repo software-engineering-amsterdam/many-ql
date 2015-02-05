@@ -44,7 +44,7 @@ $ make doc
 
 ## Slides
 
-Some slides explaining few important decisions are available, and you should see them. It is incomplete, yet useful.
+Some slides explaining few important decisions are available, and you should see them. It is incomplete, yet useful. On MacOS, it should open the browser automatically, otherwise point to the address it returns on console.
 
 To access the slides, execute:
 ```
