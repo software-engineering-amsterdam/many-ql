@@ -1,14 +1,4 @@
 grammar Exp;
-options {
-    output = AST;
-}
-@lexer::header {
-  package nl.uva.bromance.parsers;
-}
-
-@parser::header {
-  package nl.uva.bromance.parsers;
-}
 field:
     name=Name NL
     (points NL)+
