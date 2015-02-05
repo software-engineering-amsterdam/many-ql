@@ -9,6 +9,7 @@ func TestIntQuestion(t *testing.T) {
 	aIntQuestion.FromString(expected)
 
 	if got := aIntQuestion.String(); expected != got {
-		t.Errorf("Internal error in IntQuestion. Got %s, Expected %s", got, expected)
+		t.Errorf("Internal error in IntQuestion. Got %s, Expected %s",
+			got, expected)
 	}
 }

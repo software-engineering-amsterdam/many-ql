@@ -42,16 +42,19 @@ func TestParseResponse(t *testing.T) {
 
 	firstAnswer := questions[0].Content.(*ast.IntQuestion).String()
 	if firstAnswer != "42" {
-		log.Fatalf("Error parsing input. Expected 42. Got %s", questions[0].Content.(*ast.IntQuestion).String())
+		log.Fatalf("Error parsing input. Expected 42. Got %s",
+			questions[0].Content.(*ast.IntQuestion).String())
 	}
 
 	secondAnswer := questions[1].Content.(*ast.StringQuestion).String()
 	if secondAnswer != "T'Plana-Hath" {
-		log.Fatalf("Error parsing input. Expected T'Plana-Hath. Got %s", questions[1].Content.(*ast.StringQuestion).String())
+		log.Fatalf("Error parsing input. Expected T'Plana-Hath. Got %s",
+			questions[1].Content.(*ast.StringQuestion).String())
 	}
 
 	thirdAnswer := questions[2].Content.(*ast.BoolQuestion).String()
 	if thirdAnswer != "Yes" {
-		log.Fatalf("Error parsing input. Expected Yes. Got %s", questions[2].Content.(*ast.BoolQuestion).String())
+		log.Fatalf("Error parsing input. Expected Yes. Got %s",
+			questions[2].Content.(*ast.BoolQuestion).String())
 	}
 }

@@ -39,7 +39,7 @@ state 5
 	form:  FormToken TextToken BlockBeginToken.questions BlockEndToken 
 	questions: .    (3)
 
-	.  reduce 3 (src line 62)
+	.  reduce 3 (src line 63)
 
 	questions  goto 6
 
@@ -62,7 +62,7 @@ state 7
 state 8
 	questions:  questions question.    (4)
 
-	.  reduce 4 (src line 63)
+	.  reduce 4 (src line 64)
 
 
 state 9
@@ -75,7 +75,7 @@ state 9
 state 10
 	question:  QuotedStringToken TextToken.    (5)
 
-	.  reduce 5 (src line 75)
+	.  reduce 5 (src line 77)
 
 
 11 terminals, 5 nonterminals

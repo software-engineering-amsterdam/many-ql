@@ -50,7 +50,8 @@ form:
 	FormToken TextToken BlockBeginToken questions BlockEndToken
 	{
 		if qlDebug > 0 {
-			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content, " $$:", $$)
+			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content,
+				" $$:", $$)
 		}
 		$$.form = &ast.Questionaire{
 			Label: $2.content,
@@ -63,7 +64,8 @@ questions:
 	| questions question
 	{
 		if qlDebug > 0 {
-			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.questions, $2.question, $$.questions)
+			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.questions,
+				$2.question, $$.questions)
 		}
 		q := $2.question
 		qs := $$.questions

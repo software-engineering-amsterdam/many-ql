@@ -50,7 +50,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:88
+//line parser.y:90
 
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -428,7 +428,8 @@ qldefault:
 		//line parser.y:51
 		{
 			if qlDebug > 0 {
-				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content, " $$:", qlVAL)
+				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content,
+					" $$:", qlVAL)
 			}
 			qlVAL.form = &ast.Questionaire{
 				Label:     qlS[qlpt-3].content,
@@ -436,10 +437,11 @@ qldefault:
 			}
 		}
 	case 4:
-		//line parser.y:64
+		//line parser.y:65
 		{
 			if qlDebug > 0 {
-				log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].questions, qlS[qlpt-0].question, qlVAL.questions)
+				log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].questions,
+					qlS[qlpt-0].question, qlVAL.questions)
 			}
 			q := qlS[qlpt-0].question
 			qs := qlVAL.questions
@@ -447,7 +449,7 @@ qldefault:
 			qlVAL.questions = qs
 		}
 	case 5:
-		//line parser.y:77
+		//line parser.y:79
 		{
 			qlVAL.question = &ast.Question{
 				Label:   qlS[qlpt-1].content,
