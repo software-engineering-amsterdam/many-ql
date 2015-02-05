@@ -12,27 +12,25 @@ import (
 
 // Render creates the craddle for GUI.
 func GUI() {
-	if err := qml.Run(run); err != nil {
+	if err := qml.Run(func() error {
+		appName := "someQlApp"
+		newTextfieldName := "newQuestion"
+		newTextfieldQuestion := "Is this a question?"
+
+		craddle, newQuestion := startQMLengine(appName, newTextfieldName, newTextfieldQuestion)
+		win := craddle.CreateWindow(nil)
+		rows := win.Root().ObjectByName("questions")
+
+		addNewQuestion(rows, newQuestion, newTextfieldName)
+
+		win.Show()
+		win.Wait()
+
+		return nil
+	}); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
-}
-
-func run() error {
-	appName := "someQlApp"
-	newTextfieldName := "newQuestion"
-	newTextfieldQuestion := "Is this a question?"
-
-	craddle, newQuestion := startQMLengine(appName, newTextfieldName, newTextfieldQuestion)
-	win := craddle.CreateWindow(nil)
-	rows := win.Root().ObjectByName("questions")
-
-	addNewQuestion(rows, newQuestion, newTextfieldName)
-
-	win.Show()
-	win.Wait()
-
-	return nil
 }
 
 func addNewQuestion(rows, newQuestion qml.Object, newTextfieldName string) {
