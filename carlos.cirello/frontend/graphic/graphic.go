@@ -10,29 +10,44 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-type msg struct{}
+type msg struct {
+	Name    string
+	Label   string
+	Content string
+}
 
 // Render creates the craddle for GUI.
-func GUI() {
+func GUI(appName string) {
 	var msgChan chan msg
 	msgChan = make(chan msg)
 	go func() {
-		msgChan <- struct{}{}
+		newQuestion := &msg{
+			Name:    "newQuestion",
+			Label:   "Is this a question from a message?",
+			Content: "",
+		}
+		msgChan <- *newQuestion
+
+		newQuestion2 := &msg{
+			Name:    "newQuestion2",
+			Label:   "Is this a second question from a message?",
+			Content: "",
+		}
+		msgChan <- *newQuestion2
 	}()
 	if err := qml.Run(func() error {
-		appName := "someQlApp"
-		newTextfieldName := "newQuestion"
-		newTextfieldQuestion := "Is this a question?"
-
-		craddle, newQuestion := startQMLengine(appName, newTextfieldName, newTextfieldQuestion)
-		win := craddle.CreateWindow(nil)
+		win := startQMLengine(appName).CreateWindow(nil)
 		rows := win.Root().ObjectByName("questions")
 		win.Show()
 
 		for {
 			select {
-			case <-msgChan:
-				addNewQuestion(rows, newQuestion, newTextfieldName)
+			case event := <-msgChan:
+				addNewQuestion(
+					rows,
+					event.Name,
+					event.Label,
+				)
 			}
 		}
 
@@ -45,29 +60,33 @@ func GUI() {
 	}
 }
 
-func addNewQuestion(rows, newQuestion qml.Object, newTextfieldName string) {
+func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
+	engine := qml.NewEngine()
+	newQuestionQML := renderNewQuestion(newTextfieldName,
+		newTextfieldQuestion)
+	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
+	if err != nil {
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err)
+	}
+
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
-	textField := question.ObjectByName(renderNewQuestionTextfieldName(newTextfieldName))
+	textField := question.ObjectByName(
+		renderNewQuestionTextfieldName(newTextfieldName))
 	textField.On("editingFinished", func() {
-		log.Println("finished editing, send to VM:", textField.String("text"))
+		log.Println("finished editing, send to VM:",
+			textField.String("text"))
 	})
 	// question.Destroy()
 }
-func startQMLengine(appName, newTextfieldName, newTextfieldQuestion string) (craddle, newQuestion qml.Object) {
 
+func startQMLengine(appName string) qml.Object {
 	engine := qml.NewEngine()
-
 	craddleQML := renderCraddle(appName)
 	craddle, err := engine.LoadString("craddle.qml", craddleQML)
 	if err != nil {
 		log.Fatal("Fatal error while parsing craddle.qml:", err)
 	}
 
-	newQuestionQML := renderNewQuestion(newTextfieldName, newTextfieldQuestion)
-	newQuestion, err = engine.LoadString("newQuestion.qml", newQuestionQML)
-	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err)
-	}
-	return craddle, newQuestion
+	return craddle
 }

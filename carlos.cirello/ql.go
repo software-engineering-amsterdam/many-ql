@@ -16,7 +16,7 @@ func main() {
 	frontendFlag := flag.String("frontend", "GUI", "GUI or text")
 	flag.Parse()
 	if *frontendFlag == "GUI" {
-		graphic.GUI()
+		graphic.GUI("GUI Form")
 	} else {
 		aQuestionaire := &ast.Questionaire{
 			Label: "University of Amsterdam Revenue Service",
