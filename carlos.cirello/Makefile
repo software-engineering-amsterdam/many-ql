@@ -7,7 +7,7 @@ all:
 test:
 	go test -v ./...
 
-cover:
+coverage:
 	go test -coverprofile=./questionaire/coverage.out ./questionaire
 	go tool cover -html=./questionaire/coverage.out
 
