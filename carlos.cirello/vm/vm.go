@@ -4,20 +4,19 @@ package vm
 import (
 	"log"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
 )
 
 type vm struct {
-	questionaire *questionaire.Questionaire
+	questionaire *ast.Questionaire
 	send         chan *fe.Event
 	receive      chan *fe.Event
 }
 
-// New starts VM with an AST (*questionaire.Questionaire) and with
+// New starts VM with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *questionaire.Questionaire, toFrontend, fromFrontend chan *fe.Event) {
+func New(q *ast.Questionaire, toFrontend, fromFrontend chan *fe.Event) {
 	v := &vm{
 		questionaire: q,
 		send:         toFrontend,
@@ -27,7 +26,7 @@ func New(q *questionaire.Questionaire, toFrontend, fromFrontend chan *fe.Event) 
 }
 
 func (v *vm) loop() {
-	emptyQuestion := &question.Question{}
+	emptyQuestion := &ast.Question{}
 	v.send <- &fe.Event{fe.READY_P, *emptyQuestion}
 
 listenLoop:

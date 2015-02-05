@@ -1,21 +1,17 @@
-package questionaire
+package ast
 
-import (
-	"testing"
-
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-)
+import "testing"
 
 func TestQuestionaire(t *testing.T) {
-	aStringQuestion := question.StringQuestion("42")
-	aQuestion := &question.Question{
+	aStringQuestion := StringQuestion("42")
+	aQuestion := &Question{
 		Label:   "what's the answer to life the universe and everything?",
 		Content: aStringQuestion,
 	}
 
 	aQuestionaire := &Questionaire{
 		Label: "University of Amsterdam Revenue Service",
-		Questions: []*question.Question{
+		Questions: []*Question{
 			aQuestion,
 		},
 	}
@@ -26,18 +22,18 @@ func TestQuestionaire(t *testing.T) {
 func TestMultipleQuestions(t *testing.T) {
 	aQuestionaire := &Questionaire{
 		Label: "University of Amsterdam Revenue Service",
-		Questions: []*question.Question{
-			&question.Question{
+		Questions: []*Question{
+			&Question{
 				Label:   "What is the answer to life the universe and everything?",
-				Content: new(question.IntQuestion),
+				Content: new(IntQuestion),
 			},
-			&question.Question{
+			&Question{
 				Label:   "Who said the logic is the cement of our civilization with which we ascended from Chaos using reason as our guide?",
-				Content: new(question.StringQuestion),
+				Content: new(StringQuestion),
 			},
-			&question.Question{
+			&Question{
 				Label:   "Hungry-p",
-				Content: new(question.BoolQuestion),
+				Content: new(BoolQuestion),
 			},
 		},
 	}

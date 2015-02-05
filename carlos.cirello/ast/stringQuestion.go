@@ -1,4 +1,4 @@
-package question
+package ast
 
 // StringQuestion stores the answer of question which type is integer numeric
 type StringQuestion string

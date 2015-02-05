@@ -9,21 +9,20 @@ import (
 	"strings"
 	"text/scanner"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *questionaire.Questionaire
+var finalForm *ast.Questionaire
 
 //Top Ends Here
 
-//line parser.y:21
+//line parser.y:20
 type qlSymType struct {
 	yys       int
 	content   string
-	form      *questionaire.Questionaire
-	questions []*question.Question
-	question  *question.Question
+	form      *ast.Questionaire
+	questions []*ast.Question
+	question  *ast.Question
 }
 
 const BlockBeginToken = 57346
@@ -51,7 +50,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:89
+//line parser.y:88
 
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -127,8 +126,8 @@ func (x *lexer) Error(s string) {
 	log.Printf("parse error: %s", s)
 }
 
-// CompileQL generates a AST (*questionaire.Questionaire and children) out of source code.
-func CompileQL(code string) *questionaire.Questionaire {
+// CompileQL generates a AST (*ast.Questionaire and children) out of source code.
+func CompileQL(code string) *ast.Questionaire {
 	finalForm = nil
 	qlParse(newLexer(code))
 	return finalForm
@@ -418,7 +417,7 @@ qldefault:
 	switch qlnt {
 
 	case 1:
-		//line parser.y:42
+		//line parser.y:41
 		{
 			if qlDebug > 0 {
 				log.Printf("Top: %+v", qlS[qlpt-0].form)
@@ -426,18 +425,18 @@ qldefault:
 			finalForm = qlS[qlpt-0].form
 		}
 	case 2:
-		//line parser.y:52
+		//line parser.y:51
 		{
 			if qlDebug > 0 {
 				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content, " $$:", qlVAL)
 			}
-			qlVAL.form = &questionaire.Questionaire{
+			qlVAL.form = &ast.Questionaire{
 				Label:     qlS[qlpt-3].content,
 				Questions: qlS[qlpt-1].questions,
 			}
 		}
 	case 4:
-		//line parser.y:65
+		//line parser.y:64
 		{
 			if qlDebug > 0 {
 				log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].questions, qlS[qlpt-0].question, qlVAL.questions)
@@ -448,9 +447,9 @@ qldefault:
 			qlVAL.questions = qs
 		}
 	case 5:
-		//line parser.y:78
+		//line parser.y:77
 		{
-			qlVAL.question = &question.Question{
+			qlVAL.question = &ast.Question{
 				Label:   qlS[qlpt-1].content,
 				Content: qlS[qlpt-0].content,
 			}

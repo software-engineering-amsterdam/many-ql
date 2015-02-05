@@ -7,11 +7,10 @@ import (
 	"strings"
 	"text/scanner"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *questionaire.Questionaire
+var finalForm *ast.Questionaire
 
 //Top Ends Here
 %}
@@ -20,9 +19,9 @@ var finalForm *questionaire.Questionaire
 
 %union {
 	content string
-	form *questionaire.Questionaire
-	questions []*question.Question
-	question *question.Question
+	form *ast.Questionaire
+	questions []*ast.Question
+	question *ast.Question
 }
 
 %token BlockBeginToken
@@ -53,7 +52,7 @@ form:
 		if qlDebug > 0 {
 			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content, " $$:", $$)
 		}
-		$$.form = &questionaire.Questionaire{
+		$$.form = &ast.Questionaire{
 			Label: $2.content,
 			Questions: $4.questions,
 		}
@@ -76,7 +75,7 @@ questions:
 question:
 	QuotedStringToken TextToken
 	{
-		$$.question = &question.Question{
+		$$.question = &ast.Question{
 			Label: $1.content,
 			Content: $2.content,
 		}
@@ -161,8 +160,8 @@ func (x *lexer) Error(s string) {
 	log.Printf("parse error: %s", s)
 }
 
-// CompileQL generates a AST (*questionaire.Questionaire and children) out of source code.
-func CompileQL(code string) *questionaire.Questionaire {
+// CompileQL generates a AST (*ast.Questionaire and children) out of source code.
+func CompileQL(code string) *ast.Questionaire {
 	finalForm = nil
 	qlParse(newLexer(code))
 	return finalForm

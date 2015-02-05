@@ -5,11 +5,10 @@ import (
 	"flag"
 	"os"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	frontendText "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/text"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/vm"
 )
 
@@ -19,20 +18,20 @@ func main() {
 	if *frontendFlag == "GUI" {
 		graphic.GUI()
 	} else {
-		aQuestionaire := &questionaire.Questionaire{
+		aQuestionaire := &ast.Questionaire{
 			Label: "University of Amsterdam Revenue Service",
-			Questions: []*question.Question{
-				&question.Question{
+			Questions: []*ast.Question{
+				&ast.Question{
 					Label:   "What is the answer to life the universe and everything?",
-					Content: new(question.IntQuestion),
+					Content: new(ast.IntQuestion),
 				},
-				&question.Question{
+				&ast.Question{
 					Label:   "Who said the logic is the cement of our civilization with which we ascended from Chaos using reason as our guide?",
-					Content: new(question.StringQuestion),
+					Content: new(ast.StringQuestion),
 				},
-				&question.Question{
+				&ast.Question{
 					Label:   "Hungry-p",
-					Content: new(question.BoolQuestion),
+					Content: new(ast.BoolQuestion),
 				},
 			},
 		}

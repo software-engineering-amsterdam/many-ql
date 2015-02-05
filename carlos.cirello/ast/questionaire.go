@@ -1,18 +1,15 @@
-//Package questionaire describes one form, comprising several questions, conditions and expressions.
-package questionaire
+package ast
 
 import (
 	"bytes"
 	"encoding/json"
 	"os"
-
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
 )
 
 // Questionaire holds all questions for a particular form
 type Questionaire struct {
 	Label     string
-	Questions []*question.Question
+	Questions []*Question
 }
 
 // PrettyPrintJSON utility function to inspect current state of questionaire

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
 // Reader holds the pointers for text interface IO/
@@ -24,7 +24,7 @@ func NewReader(input *bufio.Reader, output io.Writer) *Reader {
 }
 
 // InputQuestion reads user's input and insert into content of the question
-func (r *Reader) InputQuestion(q *question.Question) {
+func (r *Reader) InputQuestion(q *ast.Question) {
 	fmt.Fprintln(r.bufferedOutput, q.Label)
 	input := r.readFromConsole()
 	content := q.Content
@@ -32,12 +32,12 @@ func (r *Reader) InputQuestion(q *question.Question) {
 	q.Answered = true
 
 	switch content.(type) {
-	case *question.IntQuestion:
-		q.Content.(*question.IntQuestion).FromString(input)
-	case *question.StringQuestion:
-		q.Content.(*question.StringQuestion).FromString(input)
-	case *question.BoolQuestion:
-		q.Content.(*question.BoolQuestion).FromString(input)
+	case *ast.IntQuestion:
+		q.Content.(*ast.IntQuestion).FromString(input)
+	case *ast.StringQuestion:
+		q.Content.(*ast.StringQuestion).FromString(input)
+	case *ast.BoolQuestion:
+		q.Content.(*ast.BoolQuestion).FromString(input)
 	default:
 		panic("Impossible type")
 	}
