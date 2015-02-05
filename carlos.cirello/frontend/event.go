@@ -4,9 +4,8 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questio
 
 // Event carries the communication between VM and Frontend
 type Event struct {
-	Type EventType
-
-	Question *question.Question
+	Type     EventType
+	Question question.Question
 }
 
 // EventType describes the communication protocol between the VM

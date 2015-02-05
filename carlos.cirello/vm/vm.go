@@ -5,6 +5,7 @@ import (
 	"log"
 
 	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
 )
 
@@ -26,22 +27,45 @@ func New(q *questionaire.Questionaire, toFrontend, fromFrontend chan *fe.Event) 
 }
 
 func (v *vm) loop() {
-	v.send <- &fe.Event{fe.READY_P, nil}
+	emptyQuestion := &question.Question{}
+	v.send <- &fe.Event{fe.READY_P, *emptyQuestion}
 
+listenLoop:
 	for {
 		select {
 		case r := <-v.receive:
-			log.Println("VM got:", r)
 			if r.Type == fe.READY_T {
-				for _, question := range v.questionaire.Questions {
+				for _, q := range v.questionaire.Questions {
+					questionCopy := q.Clone()
 					v.send <- &fe.Event{
 						Type:     fe.RENDER,
-						Question: question,
+						Question: questionCopy,
+					}
+				}
+			} else if r.Type == fe.ANSWER {
+				for k, q := range v.questionaire.Questions {
+					if q.Label == r.Question.Label {
+						newQuestion := r.Question.Clone()
+						v.questionaire.Questions[k] = &newQuestion
 					}
 				}
 			}
 		default:
-			//noop
+			allAnswered := true
+			for _, question := range v.questionaire.Questions {
+				if !question.Answered {
+					allAnswered = false
+					break
+				}
+			}
+			if allAnswered {
+				break listenLoop
+			}
 		}
+	}
+
+	log.Println("Answers")
+	for _, question := range v.questionaire.Questions {
+		log.Println(question.Label, question.Content)
 	}
 }

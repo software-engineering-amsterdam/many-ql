@@ -29,6 +29,8 @@ func (r *Reader) InputQuestion(q *question.Question) {
 	input := r.readFromConsole()
 	content := q.Content
 
+	q.Answered = true
+
 	switch content.(type) {
 	case *question.IntQuestion:
 		q.Content.(*question.IntQuestion).FromString(input)

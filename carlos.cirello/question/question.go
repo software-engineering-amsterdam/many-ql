@@ -15,4 +15,11 @@ type Question struct {
 
 	// todo(carlos) convert this to interface which represents the behavior common to all questions
 	Content interface{}
+
+	Answered bool
+}
+
+// Clone Question to be used for transmission between VM and Frontend
+func (q Question) Clone() Question {
+	return q
 }
