@@ -10,8 +10,15 @@ import (
 	"gopkg.in/qml.v1"
 )
 
+type msg struct{}
+
 // Render creates the craddle for GUI.
 func GUI() {
+	var msgChan chan msg
+	msgChan = make(chan msg)
+	go func() {
+		msgChan <- struct{}{}
+	}()
 	if err := qml.Run(func() error {
 		appName := "someQlApp"
 		newTextfieldName := "newQuestion"
@@ -20,10 +27,15 @@ func GUI() {
 		craddle, newQuestion := startQMLengine(appName, newTextfieldName, newTextfieldQuestion)
 		win := craddle.CreateWindow(nil)
 		rows := win.Root().ObjectByName("questions")
-
-		addNewQuestion(rows, newQuestion, newTextfieldName)
-
 		win.Show()
+
+		for {
+			select {
+			case <-msgChan:
+				addNewQuestion(rows, newQuestion, newTextfieldName)
+			}
+		}
+
 		win.Wait()
 
 		return nil
