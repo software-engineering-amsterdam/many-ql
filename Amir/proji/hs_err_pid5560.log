@@ -1,0 +1,222 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 32756 bytes for ChunkPool::allocate
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (allocation.cpp:273), pid=5560, tid=5644
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_25-b18) (build 1.8.0_25-b18)
+# Java VM: Java HotSpot(TM) Client VM (25.25-b02 mixed mode, sharing windows-x86 )
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x02a56000):  JavaThread "C1 CompilerThread0" daemon [_thread_in_native, id=5644, stack(0x13730000,0x13780000)]
+
+Stack: [0x13730000,0x13780000],  sp=0x1377f428,  free space=317k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x19796b]
+V  [jvm.dll+0x190928]
+V  [jvm.dll+0x818b9]
+V  [jvm.dll+0x81b2f]
+V  [jvm.dll+0x81e8a]
+V  [jvm.dll+0x98664]
+V  [jvm.dll+0x6c26c]
+V  [jvm.dll+0x28f106]
+V  [jvm.dll+0x1bc8f9]
+V  [jvm.dll+0x28ed1c]
+V  [jvm.dll+0x28ed39]
+V  [jvm.dll+0x270618]
+V  [jvm.dll+0x270b8d]
+V  [jvm.dll+0x270c1a]
+V  [jvm.dll+0x270d88]
+V  [jvm.dll+0x271002]
+V  [jvm.dll+0x669ca]
+V  [jvm.dll+0x67089]
+V  [jvm.dll+0x1698cc]
+V  [jvm.dll+0x16a15a]
+V  [jvm.dll+0x1aee06]
+C  [msvcr100.dll+0x5c556]
+C  [msvcr100.dll+0x5c600]
+C  [kernel32.dll+0xb729]
+C  0x00000000
+
+
+Current CompileTask:
+C1:   3519  165             org.antlr.v4.runtime.atn.ATNSimulator::deserialize (1468 bytes)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x13dea800 JavaThread "AWT-Windows" daemon [_thread_in_native, id=4628, stack(0x14020000,0x14070000)]
+  0x13de7c00 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=3100, stack(0x13f80000,0x13fd0000)]
+  0x02a6e800 JavaThread "Service Thread" daemon [_thread_blocked, id=4424, stack(0x13780000,0x137d0000)]
+=>0x02a56000 JavaThread "C1 CompilerThread0" daemon [_thread_in_native, id=5644, stack(0x13730000,0x13780000)]
+  0x02a54800 JavaThread "Attach Listener" daemon [_thread_blocked, id=2208, stack(0x136e0000,0x13730000)]
+  0x02a53800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=3476, stack(0x13690000,0x136e0000)]
+  0x029e5000 JavaThread "Finalizer" daemon [_thread_blocked, id=2840, stack(0x13610000,0x13660000)]
+  0x029e0000 JavaThread "Reference Handler" daemon [_thread_blocked, id=4412, stack(0x135c0000,0x13610000)]
+  0x003d9c00 JavaThread "main" [_thread_in_native, id=4572, stack(0x008c0000,0x00910000)]
+
+Other Threads:
+  0x029de000 VMThread [stack: 0x02bb0000,0x02c00000] [id=1884]
+  0x02a80c00 WatcherThread [stack: 0x13d30000,0x13d80000] [id=2784]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ def new generation   total 4928K, used 2259K [0x02c00000, 0x03150000, 0x08150000)
+  eden space 4416K,  39% used [0x02c00000, 0x02db4cf0, 0x03050000)
+  from space 512K, 100% used [0x030d0000, 0x03150000, 0x03150000)
+  to   space 512K,   0% used [0x03050000, 0x03050000, 0x030d0000)
+ tenured generation   total 10944K, used 1118K [0x08150000, 0x08c00000, 0x12c00000)
+   the space 10944K,  10% used [0x08150000, 0x082679c0, 0x08267a00, 0x08c00000)
+ Metaspace       used 1410K, capacity 2828K, committed 2880K, reserved 4480K
+
+Card table byte_map: [0x02ac0000,0x02b50000] byte_map_base: 0x02aaa000
+
+Polling page: 0x00910000
+
+CodeCache: size=32768Kb used=902Kb max_used=902Kb free=31865Kb
+ bounds [0x00940000, 0x00a28000, 0x02940000]
+ total_blobs=344 nmethods=164 adapters=112
+ compilation: enabled
+
+Compilation events (10 events):
+Event: 3.397 Thread 0x02a56000 nmethod 160 0x00a20248 code [0x00a20360, 0x00a205f0]
+Event: 3.405 Thread 0x02a56000  161   !         sun.misc.URLClassPath$JarLoader::getResource (85 bytes)
+Event: 3.406 Thread 0x02a56000 nmethod 161 0x00a20908 code [0x00a20a80, 0x00a20e0c]
+Event: 3.414 Thread 0x02a56000  162             java.lang.System::getSecurityManager (4 bytes)
+Event: 3.414 Thread 0x02a56000 nmethod 162 0x00a211c8 code [0x00a212c0, 0x00a21330]
+Event: 3.419 Thread 0x02a56000  163             java.util.concurrent.ConcurrentHashMap::spread (10 bytes)
+Event: 3.420 Thread 0x02a56000 nmethod 163 0x00a21388 code [0x00a21480, 0x00a21500]
+Event: 3.443 Thread 0x02a56000  164             java.util.Arrays::copyOf (19 bytes)
+Event: 3.443 Thread 0x02a56000 nmethod 164 0x00a21548 code [0x00a21650, 0x00a217bc]
+Event: 3.445 Thread 0x02a56000  165             org.antlr.v4.runtime.atn.ATNSimulator::deserialize (1468 bytes)
+
+GC Heap History (2 events):
+Event: 3.181 GC heap before
+{Heap before GC invocations=0 (full 0):
+ def new generation   total 4928K, used 4416K [0x02c00000, 0x03150000, 0x08150000)
+  eden space 4416K, 100% used [0x02c00000, 0x03050000, 0x03050000)
+  from space 512K,   0% used [0x03050000, 0x03050000, 0x030d0000)
+  to   space 512K,   0% used [0x030d0000, 0x030d0000, 0x03150000)
+ tenured generation   total 10944K, used 0K [0x08150000, 0x08c00000, 0x12c00000)
+   the space 10944K,   0% used [0x08150000, 0x08150000, 0x08150200, 0x08c00000)
+ Metaspace       used 1118K, capacity 2540K, committed 2624K, reserved 4480K
+Event: 3.204 GC heap after
+Heap after GC invocations=1 (full 0):
+ def new generation   total 4928K, used 512K [0x02c00000, 0x03150000, 0x08150000)
+  eden space 4416K,   0% used [0x02c00000, 0x02c00000, 0x03050000)
+  from space 512K, 100% used [0x030d0000, 0x03150000, 0x03150000)
+  to   space 512K,   0% used [0x03050000, 0x03050000, 0x030d0000)
+ tenured generation   total 10944K, used 1118K [0x08150000, 0x08c00000, 0x12c00000)
+   the space 10944K,  10% used [0x08150000, 0x082679c0, 0x08267a00, 0x08c00000)
+ Metaspace       used 1118K, capacity 2540K, committed 2624K, reserved 4480K
+}
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (10 events):
+Event: 3.440 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d58690) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.442 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d5a618) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.443 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d5c390) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.464 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d62b50) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.466 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d6ce68) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.471 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d6f500) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.472 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d72550) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.475 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d75b18) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.478 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d7c3f0) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+Event: 3.479 Thread 0x003d9c00 Exception <a 'java/security/PrivilegedActionException'> (0x02d7e418) thrown at [C:\re\workspace\8-2-build-windows-i586-cygwin\jdk8u25\1677\hotspot\src\share\vm\prims\jvm.cpp, line 1312]
+
+Events (10 events):
+Event: 3.470 loading class org/antlr/v4/runtime/atn/SemanticContext
+Event: 3.471 loading class org/antlr/v4/runtime/atn/SemanticContext done
+Event: 3.472 loading class org/antlr/v4/runtime/atn/SemanticContext$Predicate
+Event: 3.472 loading class org/antlr/v4/runtime/atn/SemanticContext$Predicate done
+Event: 3.475 loading class org/antlr/v4/runtime/atn/PredictionMode
+Event: 3.475 loading class org/antlr/v4/runtime/atn/PredictionMode done
+Event: 3.477 loading class org/antlr/v4/runtime/tree/TerminalNode
+Event: 3.477 loading class org/antlr/v4/runtime/tree/TerminalNode done
+Event: 3.478 loading class org/antlr/v4/runtime/tree/ErrorNode
+Event: 3.478 loading class org/antlr/v4/runtime/tree/ErrorNode done
+
+
+Dynamic libraries:
+0x00400000 - 0x00430000 	C:\Program Files\Java\jre1.8.0_25\bin\javaw.exe
+0x7c950000 - 0x7c9fb000 	C:\WINDOWS\system32\ntdll.dll
+0x7c800000 - 0x7c94d000 	C:\WINDOWS\system32\kernel32.dll
+0x77d70000 - 0x77e1a000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77e20000 - 0x77eb3000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77f90000 - 0x77fa1000 	C:\WINDOWS\system32\Secur32.dll
+0x77ce0000 - 0x77d70000 	C:\WINDOWS\system32\USER32.dll
+0x77ec0000 - 0x77f09000 	C:\WINDOWS\system32\GDI32.dll
+0x77370000 - 0x77473000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.6028_x-ww_61e65202\COMCTL32.dll
+0x77bb0000 - 0x77c08000 	C:\WINDOWS\system32\msvcrt.dll
+0x77f10000 - 0x77f86000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x762f0000 - 0x7630d000 	C:\WINDOWS\system32\IMM32.DLL
+0x62ec0000 - 0x62ec9000 	C:\WINDOWS\system32\LPK.DLL
+0x754a0000 - 0x7550b000 	C:\WINDOWS\system32\USP10.dll
+0x78aa0000 - 0x78b5f000 	C:\Program Files\Java\jre1.8.0_25\bin\msvcr100.dll
+0x6d150000 - 0x6d4f4000 	C:\Program Files\Java\jre1.8.0_25\bin\client\jvm.dll
+0x71a20000 - 0x71a29000 	C:\WINDOWS\system32\WSOCK32.dll
+0x71a00000 - 0x71a17000 	C:\WINDOWS\system32\WS2_32.dll
+0x719f0000 - 0x719f8000 	C:\WINDOWS\system32\WS2HELP.dll
+0x76ac0000 - 0x76aed000 	C:\WINDOWS\system32\WINMM.dll
+0x76b70000 - 0x76b7b000 	C:\WINDOWS\system32\PSAPI.DLL
+0x6ef70000 - 0x6ef7c000 	C:\Program Files\Java\jre1.8.0_25\bin\verify.dll
+0x6d9d0000 - 0x6d9f1000 	C:\Program Files\Java\jre1.8.0_25\bin\java.dll
+0x6f000000 - 0x6f013000 	C:\Program Files\Java\jre1.8.0_25\bin\zip.dll
+0x7e1e0000 - 0x7e9ef000 	C:\WINDOWS\system32\SHELL32.dll
+0x76940000 - 0x769f4000 	C:\WINDOWS\system32\USERENV.dll
+0x6d000000 - 0x6d146000 	C:\Program Files\Java\jre1.8.0_25\bin\awt.dll
+0x770c0000 - 0x7714b000 	C:\WINDOWS\system32\OLEAUT32.dll
+0x77480000 - 0x775be000 	C:\WINDOWS\system32\ole32.dll
+0x5b210000 - 0x5b248000 	C:\WINDOWS\system32\uxtheme.dll
+0x74670000 - 0x746bc000 	C:\WINDOWS\system32\MSCTF.dll
+0x753f0000 - 0x7541e000 	C:\WINDOWS\system32\msctfime.ime
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1255 
+java_command: anotherOne.main.Main
+java_class_path (initial): E:\workspace2\proji\bin;E:\antlr-4.0-complete.jar;C:\Documents and Settings\Administrator\שולחן העבודה\org.apache.commons.io_2.0.1.v201105210651.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:/Program Files/Java/jre1.8.0_25/bin/client;C:/Program Files/Java/jre1.8.0_25/bin;C:/Program Files/Java/jre1.8.0_25/lib/i386;C:\Program Files\Git\git-cheetah\..\bin;C:\Program Files\Git\git-cheetah\..\bin;C:\Documents and Settings\All Users\Application Data\Oracle\Java\javapath;C:\Program Files\Haskell\bin;E:\2014.2.0.0\lib\extralibs\bin;E:\2014.2.0.0\bin;C:\Program Files\Java\jdk1.7.0_65\bin;C:\cygwin\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;E:\2014.2.0.0\mingw\bin;C:\Documents and Settings\Administrator\Application Data\cabal\bin;C:\Documents and Settings\Administrator\My Documents\Downloads\eclipse-standard-luna-R-win32\eclipse;
+USERNAME=Administrator
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 15 Model 2 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows XP Build 2600 Service Pack 3
+
+CPU:total 1 (1 cores per cpu, 1 threads per core) family 15 model 2 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, tsc
+
+Memory: 4k page, physical 1572208k(34848k free), swap 2241480k(5120k free)
+
+vm_info: Java HotSpot(TM) Client VM (25.25-b02) for windows-x86 JRE (1.8.0_25-b18), built on Oct  7 2014 14:31:05 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Tue Nov 18 13:11:32 2014
+elapsed time: 3 seconds (0d 0h 0m 3s)
+

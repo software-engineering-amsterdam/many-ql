@@ -1,3 +1,4 @@
+
 require "citrus"
 Citrus.load("query_language")
 
@@ -18,5 +19,9 @@ describe "Query Language" do
     expect(query.capture(:text)).to eq "\"Wat is je naam?\""
     expect(query.capture(:answer).capture(:variable)).to eq "naam"
     expect(query.capture(:answer).capture(:type)).to eq "string"
+  end
+
+  it "parses example" do
+    expect( QueryLanguage.parse( source("example") ) ).to_not be_nil
   end
 end
