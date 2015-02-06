@@ -50,7 +50,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:90
+//line parser.y:99
 
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -451,9 +451,18 @@ qldefault:
 	case 5:
 		//line parser.y:79
 		{
-			qlVAL.question = &ast.Question{
-				Label:   qlS[qlpt-1].content,
-				Content: qlS[qlpt-0].content,
+			parsedQuestionType := qlS[qlpt-0].content
+			if "string" == parsedQuestionType {
+				aStringQuestion := new(ast.StringQuestion)
+				qlVAL.question = &ast.Question{
+					Label:   qlS[qlpt-1].content,
+					Content: aStringQuestion,
+				}
+			} else {
+				qlVAL.question = &ast.Question{
+					Label:   qlS[qlpt-1].content,
+					Content: qlS[qlpt-0].content,
+				}
 			}
 			if qlDebug > 0 {
 				log.Printf("Question: 1:%+v 2:%+v $:%+v", qlS[qlpt-1], qlS[qlpt-0], qlVAL)

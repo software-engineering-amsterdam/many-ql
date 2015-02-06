@@ -77,9 +77,18 @@ questions:
 question:
 	QuotedStringToken TextToken
 	{
-		$$.question = &ast.Question{
-			Label: $1.content,
-			Content: $2.content,
+		parsedQuestionType := $2.content
+		if "string" == parsedQuestionType{
+			aStringQuestion := new(ast.StringQuestion)
+			$$.question = &ast.Question{
+				Label: $1.content,
+				Content: aStringQuestion,
+			}
+		} else {
+			$$.question = &ast.Question{
+				Label: $1.content,
+				Content: $2.content,
+			}
 		}
 		if qlDebug > 0 {
 			log.Printf("Question: 1:%+v 2:%+v $:%+v", $1, $2, $$)
