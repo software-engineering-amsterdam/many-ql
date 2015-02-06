@@ -1,6 +1,6 @@
 
 require "citrus"
-Citrus.load("query_language")
+Citrus.load("lib/query_language")
 
 SOURCE_FILES = "spec/preprocessed_source_files/"
 
