@@ -1,0 +1,7 @@
+q1 {
+		question : "blablabla?"
+		answer_type : boolean
+		text_true : "yes"
+		text_false : "no"
+		default_value : true
+}
