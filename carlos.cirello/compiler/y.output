@@ -18,7 +18,7 @@ state 1
 state 2
 	top:  form.    (1)
 
-	.  reduce 1 (src line 39)
+	.  reduce 1 (src line 43)
 
 
 state 3
@@ -39,7 +39,7 @@ state 5
 	form:  FormToken TextToken BlockBeginToken.questions BlockEndToken 
 	questions: .    (3)
 
-	.  reduce 3 (src line 63)
+	.  reduce 3 (src line 67)
 
 	questions  goto 6
 
@@ -56,37 +56,58 @@ state 6
 state 7
 	form:  FormToken TextToken BlockBeginToken questions BlockEndToken.    (2)
 
-	.  reduce 2 (src line 49)
+	.  reduce 2 (src line 53)
 
 
 state 8
 	questions:  questions question.    (4)
 
-	.  reduce 4 (src line 64)
+	.  reduce 4 (src line 68)
 
 
 state 9
-	question:  QuotedStringToken.TextToken 
+	question:  QuotedStringToken.questionType 
 
-	TextToken  shift 10
+	StringQuestionToken  shift 11
+	IntQuestionToken  shift 12
+	BoolQuestionToken  shift 13
 	.  error
 
+	questionType  goto 10
 
 state 10
-	question:  QuotedStringToken TextToken.    (5)
+	question:  QuotedStringToken questionType.    (5)
 
-	.  reduce 5 (src line 77)
+	.  reduce 5 (src line 81)
 
 
-11 terminals, 5 nonterminals
-6 grammar rules, 11/2000 states
+state 11
+	questionType:  StringQuestionToken.    (6)
+
+	.  reduce 6 (src line 95)
+
+
+state 12
+	questionType:  IntQuestionToken.    (7)
+
+	.  reduce 7 (src line 99)
+
+
+state 13
+	questionType:  BoolQuestionToken.    (8)
+
+	.  reduce 8 (src line 103)
+
+
+14 terminals, 6 nonterminals
+9 grammar rules, 14/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
-54 working sets used
-memory: parser 3/30000
+55 working sets used
+memory: parser 4/30000
 0 extra closures
-6 shift entries, 1 exceptions
-4 goto entries
+8 shift entries, 1 exceptions
+5 goto entries
 0 entries saved by goto default
-Optimizer space used: output 10/30000
-10 table entries, 0 zero
-maximum spread: 11, maximum offset: 11
+Optimizer space used: output 13/30000
+13 table entries, 0 zero
+maximum spread: 14, maximum offset: 12
