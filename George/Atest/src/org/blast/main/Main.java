@@ -35,7 +35,6 @@ public class Main {
             lines += scnr.nextLine();
             lineNumber++;
         }
-       // System.out.println(lines);
         printThem(lines);
      }
 
