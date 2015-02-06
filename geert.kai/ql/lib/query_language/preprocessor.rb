@@ -16,7 +16,7 @@
 # The only function needed is Preprocessor.process(path)
 
 class Preprocessor
-  INDENT_WITH = 2
+  INDENT_WIDTH = 2
 
   attr_reader :lines
 
@@ -40,7 +40,7 @@ class Preprocessor
       end
       
       if indent < nesting_depth
-        processed_lines << (" "  * INDENT_WITH) * indent + "}"
+        processed_lines << (" "  * INDENT_WIDTH) * indent + "}"
         nesting_depth -= 1
       end  
 
@@ -51,7 +51,7 @@ class Preprocessor
     # (For example, if a file ends with a nesting depth of two, we need two lines, each with 
     # a bracket at the correct indentation level.)
     (0 ... nesting_depth).reverse_each do |number_of_indents|
-      processed_string << (" " * INDENT_WITH) * number_of_indents + "}\n"
+      processed_string << (" " * INDENT_WIDTH) * number_of_indents + "}\n"
     end
 
     processed_string
@@ -62,7 +62,7 @@ class Preprocessor
   # Returns an array with the number of indents on each line
   def indents
     lines.map do |line|
-      line.chars.take_while { |char| char == " " }.size / INDENT_WITH
+      line.chars.take_while { |char| char == " " }.size / INDENT_WIDTH
     end
   end 
 end
