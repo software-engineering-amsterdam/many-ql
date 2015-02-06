@@ -14,6 +14,11 @@
 # }
 # 
 # The only function needed is Preprocessor.process(path)
+#
+# TODO:
+#   - Give valuable error response when indentation is not correct
+#     (other syntax errors can only be handled after parsing?)
+#   - Empty form doesn't yet work.
 
 class Preprocessor
   INDENT_WIDTH = 2
@@ -30,7 +35,6 @@ class Preprocessor
     @lines = File.readlines(path).map { |line| line.chomp }
   end
 
-  # TODO: an empty form is not processed correctly
   def process
     nesting_depth = 0
     processed_string = indents.each_with_index.with_object([]) do |(indent, index), processed_lines|
