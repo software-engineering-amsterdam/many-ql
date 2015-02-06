@@ -1,3 +1,3 @@
 form
-  "Wat is je naam?" 
+  "Wat is je naam?"
     naam: string

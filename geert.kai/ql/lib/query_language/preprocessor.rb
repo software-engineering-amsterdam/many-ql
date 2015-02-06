@@ -1,3 +1,5 @@
+require "byebug"
+
 class Preprocessor
   TAB_WIDTH = 2
 
@@ -8,12 +10,14 @@ class Preprocessor
   end
 
   def initialize(path)
-    @lines = File.readlines(path)
+    # We drop the newline characters from the read lines, because
+    # we need to insert brackets at line ends.
+    @lines = File.readlines(path).map { |line| line.chomp }
   end
 
   def process
     nesting_depth = 0
-    indents.each_with_index.with_object([]) do |(indent, index), processed_lines|
+    processed_string = indents.each_with_index.with_object([]) do |(indent, index), processed_lines|
       if indent > nesting_depth
         processed_lines[index - 1] += " {"
         nesting_depth += 1
@@ -25,7 +29,13 @@ class Preprocessor
       end  
 
       processed_lines << lines[index] 
-    end.join("\n")
+    end.join("\n") + "\n"
+
+    (0 ... nesting_depth).reverse_each do |number_of_indents|
+      processed_string << (" " * TAB_WIDTH) * number_of_indents + "}\n"
+    end
+
+    processed_string
   end
 
   private
