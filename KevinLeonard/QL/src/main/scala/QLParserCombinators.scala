@@ -1,28 +1,40 @@
 package main.scala
 
+import java.io.Serializable
+
 import scala.util.parsing.combinator.JavaTokenParsers
+import scala.io.Source
 
 class QLParserCombinators extends JavaTokenParsers {
 
-  def form = "form" ~> formName ~ "{" ~> rep(question) <~ "}"
+  def form : Parser[String] = "form" ~> formName ~ statements ^^ { _.toString }
+  def formName : Parser[String] = ident
 
-  def formName = ident
+  def statements : Parser[String] = "{" ~> rep(questionBlock | ifStatement) <~ "}" ^^ { _.toString }
 
-  def question = questionLabel ~ questionKey ~ questionType
+  def questionBlock : Parser[String] = question ~ answer ^^ { _.toString }
+  def question : Parser[String] = "question" ~> questionKey ~ questionLabel ^^ { _.toString() }
+  def questionKey : Parser[String] = ident
+  def questionLabel : Parser[String] = stringLiteral
 
-  def questionLabel = stringLiteral
+  def answer : Parser[String] = "answer" ~> answerType
+  def answerType : Parser[String] = "boolean" | "integer" | "string"
 
-  def questionKey = ident <~ ":"
-
-  def questionType = "boolean" | "string" | "integer"
+  def ifStatement : Parser[Serializable] = ifBlock ~ elseBlock | ifBlock
+  def ifBlock : Parser[String] = "if" ~ ident ~ rep(statements) ^^ { _.toString }
+  def elseBlock : Parser[String] = "else" ~ rep(statements) ^^ { _.toString }
 
 }
 
 object QLParser extends QLParserCombinators {
   def main(args: Array[String]) {
-    parseAll(form, args(0)) match {
-      case Success(r, _) => println(r)
-      case x => println(x)
+
+    val formFile = Source.fromFile(args(0)).mkString
+
+    parseAll(form, formFile) match {
+      case Success(result, _) => println(result)
+      case Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg)
+      case Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg)
     }
   }
 }

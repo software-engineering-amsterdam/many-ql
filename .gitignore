@@ -22,3 +22,6 @@ sebje/QLJava/src/org/uva/sea/ql/parser/jacc/QLLexer.java
 sebje/QLJava/src/org/uva/sea/ql/parser/jacc/QLTokens.java
 sebje/QLJava/src/org/uva/sea/ql/parser/rats/QLParser.rats
 sebje/QLJava/src/org/uva/sea/ql/parser/rats/RunRats.java
+BNP/SimpleCalculatorProject/SimpleCalculatorProject/obj/
+BNP/SimpleCalculatorProject/packages/
+BNP/SimpleCalculatorProject/SimpleCalculatorProject/bin/
