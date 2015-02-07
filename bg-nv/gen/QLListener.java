@@ -1,4 +1,4 @@
-// Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/ql/QL.g4 by ANTLR 4.5
+// Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -18,6 +18,16 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitForm(@NotNull QLParser.FormContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(@NotNull QLParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(@NotNull QLParser.StatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
@@ -28,15 +38,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestion(@NotNull QLParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#stat}.
+	 * Enter a parse tree produced by {@link QLParser#ifCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat(@NotNull QLParser.StatContext ctx);
+	void enterIfCondition(@NotNull QLParser.IfConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#stat}.
+	 * Exit a parse tree produced by {@link QLParser#ifCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat(@NotNull QLParser.StatContext ctx);
+	void exitIfCondition(@NotNull QLParser.IfConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree

@@ -1,8 +1,12 @@
 grammar QL;
 
-form : 'form' ID '{' (question|stat)+ '}';
-question : QuestionType ID String (expression)?;
-stat : 'if' '(' expression ')' '{' (question|stat)+ '}';
+form : 'form' ID '{' (statement)+ '}';
+
+statement : question | ifCondition ;
+
+question : QuestionType ID String (expression)? ;
+
+ifCondition : 'if' '(' expression ')' '{' (statement)+ '}';
 
 expression
     :'(' x=expression ')'
