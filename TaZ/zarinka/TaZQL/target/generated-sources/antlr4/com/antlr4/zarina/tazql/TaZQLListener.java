@@ -9,13 +9,23 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface TaZQLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link TaZQLParser#r}.
+	 * Enter a parse tree produced by {@link TaZQLParser#parse}.
 	 * @param ctx the parse tree
 	 */
-	void enterR(@NotNull TaZQLParser.RContext ctx);
+	void enterParse(@NotNull TaZQLParser.ParseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TaZQLParser#r}.
+	 * Exit a parse tree produced by {@link TaZQLParser#parse}.
 	 * @param ctx the parse tree
 	 */
-	void exitR(@NotNull TaZQLParser.RContext ctx);
+	void exitParse(@NotNull TaZQLParser.ParseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TaZQLParser#questionLabel}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionLabel(@NotNull TaZQLParser.QuestionLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TaZQLParser#questionLabel}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionLabel(@NotNull TaZQLParser.QuestionLabelContext ctx);
 }
