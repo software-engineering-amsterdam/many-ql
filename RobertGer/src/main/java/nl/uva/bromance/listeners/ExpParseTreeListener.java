@@ -2,6 +2,7 @@ package nl.uva.bromance.listeners;
 
 import nl.uva.bromance.parsers.ExpBaseListener;
 import nl.uva.bromance.parsers.ExpParser;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ExpParseTreeListener extends ExpBaseListener {
     public void enterLocation(ExpParser.LocationContext lct){
         super.enterLocation(lct);
         locationCtx = lct;
-        System.out.println("entering location :"+lct);
+        System.out.println("entering location : "+lct.x.getText()+","+lct.y.getText());
     }
 
     public int getBurialCount() {
