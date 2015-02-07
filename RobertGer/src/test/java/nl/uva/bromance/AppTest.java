@@ -9,7 +9,6 @@ import nl.uva.bromance.parsers.ExpLexer;
 import nl.uva.bromance.parsers.ExpParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
@@ -25,13 +24,11 @@ public class AppTest {
         ExpLexer lexer = new ExpLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("ExpTest.ql")));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExpParser parser = new ExpParser(tokens);
-        ParserRuleContext burialContext = parser.getContext();
+        ExpParser.BurialContext burialContext = parser.burial();
         BurialListener listener = new BurialListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, burialContext);
-
-        assertThat(listener.getCountBurial()).isEqualTo(4);
     }
 
     @Test
@@ -51,10 +48,12 @@ public class AppTest {
         ExpLexer lexer = new ExpLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("ExpTest.ql")));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExpParser parser = new ExpParser(tokens);
-        ParseTree tree = parser.getContext();
+        ParseTree tree = parser.field();
         ExpParseTreeListener listener = new ExpParseTreeListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
+
+        assertThat(listener.getBurialCount()).isEqualTo(5);
     }
 }

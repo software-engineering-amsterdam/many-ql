@@ -1,4 +1,4 @@
-"Example Field" is buried at 3,1
+"Example Field"
 "Golden Crown" scores 50 points
 "Iron Sword" scores 20 points
 "Broken Crockery" scores 1 points
