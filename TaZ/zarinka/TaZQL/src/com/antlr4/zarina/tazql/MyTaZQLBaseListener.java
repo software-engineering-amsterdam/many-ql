@@ -16,16 +16,11 @@ public class MyTaZQLBaseListener extends TaZQLBaseListener {
 		
 		QuestionLabels ql = new QuestionLabels(number, label);		
 		q.addLabel(ql);
-		//ql.setQuestionLabel(label);
-	//	String lbl = ql.getQuestionLabel();
-	System.out.println("Listener: "+ ql);
+		
+		System.out.println("Listener: "+ ql);
 	
-	
-		//for (QuestionLabels qls : q.getQuestionLabels()) {	
-		//	System.out.println("setLabel: "+qls);
-			mf.getLabel("Label test: "+ql);
-		//}
+		// add question as a label to panel
+		mf.getLabel("Label test: "+ql);
 	}
 	
-
 }

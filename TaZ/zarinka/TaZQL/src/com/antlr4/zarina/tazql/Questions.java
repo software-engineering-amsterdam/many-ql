@@ -21,14 +21,4 @@ public class Questions {
 	public List<QuestionLabels> getQuestionLabels() {
 		return questionLabels;
 	}
-	
-	public void createLabel () {
-		
-		for (QuestionLabels ql : getQuestionLabels()) {			
-			//System.out.println("createLabel method"+ql);
-			//labelList.add(new JLabel(qLabel.getQuestionLabel()));
-			//mframe.getLabel(qLabel.getQuestionLabel());
-		}
-				
-	}
 }

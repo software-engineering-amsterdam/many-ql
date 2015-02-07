@@ -4,13 +4,18 @@
 
 	package com.antlr4.zarina.tazql;
 
-	import java.io.FileInputStream;
+	import java.awt.Dimension;
+import java.io.FileInputStream;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
 
 	public class MainTaZQL {
@@ -46,7 +51,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 				System.out.println("Tree: " + tree.toStringTree(parser));
 		    
 				// Tree in JFrame
-				/*
+				
 				JFrame treeframe = new JFrame("Tree");
 				treeframe.setContentPane( new JScrollPane( new TreeViewer( null, tree ) ) );
 				treeframe.setPreferredSize( new Dimension( 600, 400 ) );
@@ -54,8 +59,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 				treeframe.setLocationRelativeTo( null );
 				treeframe.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 				treeframe.setVisible( true );
-				*/
-				// Frame with labels
+				
+				
 				
 				
 			}
