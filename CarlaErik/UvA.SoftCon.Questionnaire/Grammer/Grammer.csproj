@@ -50,7 +50,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>set CLASSPATH=.;S:\ANTLR4\antlr-4.5-complete.jar;%25CLASSPATH%25;
-java org.antlr.v4.Tool -Dlanguage=CSharp "$(ProjectDir)QL.g4" -o "$(SolutionDir)Parsing"</PreBuildEvent>
+java org.antlr.v4.Tool -Dlanguage=CSharp "$(ProjectDir)QL.g4" -o "$(SolutionDir)Parsing" -package UvA.SoftCon.Questionnaire.Parsing</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
