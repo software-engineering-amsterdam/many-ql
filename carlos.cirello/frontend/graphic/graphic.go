@@ -1,128 +1,92 @@
-// Package graphic is the GUI interface for Frontend. It does not interact directly with VM. It is the vendored package of gopkg.in/qml.v1. All compilations constraints apply.
+// Package graphic is the GUI interface for Frontend. It does not interact directly with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
 package graphic
 
+//go:generate go get -u gopkg.in/qml.v1
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"gopkg.in/qml.v1"
 )
 
-const BASE = `
-import QtQuick 2.2
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.0
-
-ApplicationWindow {
-    id: app
-    visible: true
-    title: "QL"
-    property int margin: 11
-    width: mainLayout.implicitWidth + 2 * margin
-    height: mainLayout.implicitHeight + 2 * margin
-    minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
-    minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
-
-    ColumnLayout {
-        id: mainLayout
-        objectName: "rows"
-        anchors.fill: parent
-        anchors.margins: margin
-        GroupBox {
-            objectName: "rowBox"
-            id: rowBox
-            title: "Row layout"
-            Layout.fillWidth: true
-
-            RowLayout {
-                id: rowLayout
-                anchors.fill: parent
-                TextField {
-                    placeholderText: "This wants to grow horizontally"
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: "Button"
-                }
-            }
-        }
-        GroupBox {
-            id: rowBoxa
-            title: "Row layouta"
-            Layout.fillWidth: true
-
-            RowLayout {
-                id: rowLayouta
-                anchors.fill: parent
-                TextField {
-                    placeholderText: "This wants to grow horizontally"
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: "Button"
-                }
-            }
-        }
-    }
+type msg struct {
+	Name    string
+	Label   string
+	Content string
 }
-`
-
-const NEW_LINE = `
-import QtQuick 2.2
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.0
-
-GroupBox {
-objectName: "rowsa"
-id: rowBoxb
-            title: "Row layout ADDED DYNAMICALLY"
-            Layout.fillWidth: true
-
-            RowLayout {
-                id: rowLayoutb
-                anchors.fill: parent
-                TextField {
-                    placeholderText: "This wants to grow horizontally"
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: "Button"
-                }
-            }
-}
-`
 
 // Render creates the craddle for GUI.
-func Render() {
-	if err := qml.Run(run); err != nil {
+func GUI(appName string) {
+	var msgChan chan msg
+	msgChan = make(chan msg)
+	go func() {
+		newQuestion := &msg{
+			Name:    "newQuestion",
+			Label:   "Is this a question from a message?",
+			Content: "",
+		}
+		msgChan <- *newQuestion
+
+		newQuestion2 := &msg{
+			Name:    "newQuestion2",
+			Label:   "Is this a second question from a message?",
+			Content: "",
+		}
+		msgChan <- *newQuestion2
+	}()
+	if err := qml.Run(func() error {
+		win := startQMLengine(appName).CreateWindow(nil)
+		rows := win.Root().ObjectByName("questions")
+		win.Show()
+
+		for {
+			select {
+			case event := <-msgChan:
+				addNewQuestion(
+					rows,
+					event.Name,
+					event.Label,
+				)
+			}
+		}
+
+		win.Wait()
+
+		return nil
+	}); err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)
 	}
 }
 
-func run() error {
+func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
 	engine := qml.NewEngine()
-
-	base, err := engine.LoadString("base.qml", BASE)
+	newQuestionQML := renderNewQuestion(newTextfieldName,
+		newTextfieldQuestion)
+	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
 	if err != nil {
-		return err
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err)
 	}
 
-	newLine, err := engine.LoadString("newLine.qml", NEW_LINE)
+	question := newQuestion.Create(nil)
+	question.Set("parent", rows)
+	textField := question.ObjectByName(
+		renderNewQuestionTextfieldName(newTextfieldName))
+	textField.On("editingFinished", func() {
+		log.Println("finished editing, send to VM:",
+			textField.String("text"))
+	})
+	// question.Destroy()
+}
+
+func startQMLengine(appName string) qml.Object {
+	engine := qml.NewEngine()
+	craddleQML := renderCraddle(appName)
+	craddle, err := engine.LoadString("craddle.qml", craddleQML)
 	if err != nil {
-		return err
+		log.Fatal("Fatal error while parsing craddle.qml:", err)
 	}
 
-	nl := newLine.Create(nil)
-
-	win := base.CreateWindow(nil)
-	rows := win.Root().ObjectByName("rows")
-
-	nl.Set("parent", rows)
-	// nl.Destroy();
-
-	win.Show()
-	win.Wait()
-
-	return nil
+	return craddle
 }

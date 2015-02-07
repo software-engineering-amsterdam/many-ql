@@ -33,9 +33,9 @@ http://cirello.org/
 
 * Concurrency vs Parallelism
 
-- Concurrency: How to handle many things at once.
+- Concurrency: How to handle many things at same time.
 
-- Parallelism: How to execute many things at once.
+- Parallelism: How to execute many things at same time.
 
 * Frontend
 
