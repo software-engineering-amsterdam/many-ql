@@ -11,7 +11,7 @@ Tools
 
 ## Programming Language
 
-As a programming language we use `Java 1.8`, the reason is that both members of the team haven't worked before extensively in this
+As a programming language we use `Java`, the reason is that both members of the team haven't worked before extensively in this
 language and since Java is considered as a "broadly-used and "must-know" language we saw this as an opportunity to get our dirty with Java. 
 Also, Java provides numerous of documentation resources in the field of DSL's and a lot of tools for parsing. It is very intuitive as
 an Object oriented language, and is a common ground for object oriented developers.
@@ -25,7 +25,7 @@ of support and many active online communities.
 
 ## Unit Tests
 
-//TODO: -suggestions: JUnit.
+//TODO: JUnit?
 
 ## IDE
 
@@ -34,17 +34,79 @@ before and we feel more comfortable by using it.
 
 ## Build tools
 
-//TODO: -suggestions: Gradle, Maven, Makefile.
+//TODO: Gradle, Maven, Makefile?
 
 ## UI
 
-//TODO: -suggestions: JavaFX, Swing, JFrame.
+//TODO: JavaFX, Swing, JFrame?
 
 ## External Tools
 
 For our help we use some external tools that help our development process:
 
 - **ANTLR4 plugin** for IntelliJ IDEA: provides tools for generationg, testing, visualising the ANTLR project files.
+
+
+Development
+=======
+
+# Setting up the environment (UNIX)
+
+**Install ANTLR4 to your system:**
+```
+cd /usr/local/lib
+curl -O http://www.antlr.org/download/antlr-4.5-complete.jar
+export CLASSPATH=".:/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH"
+java -jar /usr/local/lib/antlr-4.5-complete.jar
+java org.antlr.v4.Tool
+alias antlr4='java -jar /usr/local/lib/antlr-4.5-complete.jar'
+antlr4
+alias grun='java org.antlr.v4.runtime.misc.TestRig'
+grun
+```
+
+**Customize the bash .profile:**
+```
+export CLASSPATH=".:/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH"
+alias antlr4='java -jar /usr/local/lib/antlr-4.5-complete.jar'
+alias grun='java org.antlr.v4.runtime.misc.TestRig'
+```
+
+**Use ANTLR4 form cmd:**
+- Generate parser from grammar, generate listener:
+`antlr4 <GrammarFile>.g4`
+
+- Generate parser from gramar, generate visitor and no listener:
+`antlr4 -no-listener -visitor <GrammarFile>.g4`
+
+
+**Test grammar form cmd:**
+
+-See the tree:
+`grun <GrammarFile> <StartRule> -tree`
+
+
+-See the tree in gui:
+`grun <GrammarFile> <StartRule> -gui`
+
+**Jetbrains setup:**
+*Select project from the left -> press F4 -> Modules -> Dependencies -> + from the bottom left -> add antlr4 from /usr/local/lib/antlr-4.5-complete.jar*
+
+**Jetbrains Antlr configuration:**
+*Inside of a g4 file -> Tools -> configure ANTLR*
+
+**Jetbrains Antlr execution:**
+*Inside of a g4 file -> Tools -> Generate ANTLR Recognizer
+OR cmd+shift+G*
+
+**Jetbrains Antlr test:**
+*Inside of a g4 file -> right click on the token you want to test -> Test Rule <token>*
+
+# Build
+//TODO
+
+# Tests
+//TODO
 
 
 Architecture
@@ -126,66 +188,4 @@ Grammars
 //TODO
 
 ## QLS Grammar
-//TODO
-
-
-Development
-=======
-
-# Setting up the environment (UNIX)
-
-**Install ANTLR4 to your system:**
-```
-cd /usr/local/lib
-curl -O http://www.antlr.org/download/antlr-4.5-complete.jar
-export CLASSPATH=".:/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH"
-java -jar /usr/local/lib/antlr-4.5-complete.jar
-java org.antlr.v4.Tool
-alias antlr4='java -jar /usr/local/lib/antlr-4.5-complete.jar'
-antlr4
-alias grun='java org.antlr.v4.runtime.misc.TestRig'
-grun
-```
-
-**Customize the bash .profile:**
-```
-export CLASSPATH=".:/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH"
-alias antlr4='java -jar /usr/local/lib/antlr-4.5-complete.jar'
-alias grun='java org.antlr.v4.runtime.misc.TestRig'
-```
-
-**Use ANTLR4 form cmd:**
-- Generate parser from grammar, generate listener:
-`antlr4 <GrammarFile>.g4`
-
-- Generate parser from gramar, generate visitor and no listener:
-`antlr4 -no-listener -visitor <GrammarFile>.g4`
-
-
-**Test grammar form cmd:**
-
--See the tree:
-`grun <GrammarFile> <StartRule> -tree`
-
-
--See the tree in gui:
-`grun <GrammarFile> <StartRule> -gui`
-
-**Jetbrains setup:**
-*Select project from the left -> press F4 -> Modules -> Dependencies -> + from the bottom left -> add antlr4 from /usr/local/lib/antlr-4.5-complete.jar*
-
-**Jetbrains Antlr configuration:**
-*Inside of a g4 file -> Tools -> configure ANTLR*
-
-**Jetbrains Antlr execution:**
-*Inside of a g4 file -> Tools -> Generate ANTLR Recognizer
-OR cmd+shift+G*
-
-**Jetbrains Antlr test:**
-*Inside of a g4 file -> right click on the token you want to test -> Test Rule <token>*
-
-# Build
-//TODO
-
-# Tests
 //TODO
