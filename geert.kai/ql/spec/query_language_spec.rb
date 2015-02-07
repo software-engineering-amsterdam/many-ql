@@ -1,8 +1,8 @@
 
 require "citrus"
-Citrus.load("query_language")
+Citrus.load("lib/query_language")
 
-SOURCE_FILES = "spec/source_files/"
+SOURCE_FILES = "spec/preprocessed_source_files/"
 
 def source(name)
   File.read(SOURCE_FILES + name + ".ql")

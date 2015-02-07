@@ -11,7 +11,8 @@ func TestQuestion(t *testing.T) {
 
 	switch questionType := aQuestion.Content.(type) {
 	default:
-		t.Errorf("Error with content type. Got %T. Expected StringQuestion", questionType)
+		t.Errorf("Error with content type. Got %T. Expected StringQuestion",
+			questionType)
 	case StringQuestion:
 	}
 

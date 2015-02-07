@@ -1,4 +1,6 @@
-//Package vm is the runtime which executes the AST created from the compiler.
+/*
+Package vm is the runtime which executes the AST created from the compiler.
+*/
 package vm
 
 import (

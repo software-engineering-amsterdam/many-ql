@@ -7,7 +7,8 @@ func testBoolQuestion(t *testing.T, input, output string) {
 	aBoolQuestion.FromString(input)
 
 	if got := aBoolQuestion.String(); output != got {
-		t.Errorf("Internal error in BoolQuestion. Got %s, Expected %s", got, output)
+		t.Errorf("Internal error in BoolQuestion. Got %s, Expected %s",
+			got, output)
 	}
 }
 

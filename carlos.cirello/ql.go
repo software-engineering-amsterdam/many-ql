@@ -3,39 +3,34 @@ package main
 import (
 	"bufio"
 	"flag"
+	"log"
 	"os"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/compiler"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	frontendText "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/text"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/reader"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/vm"
 )
 
 func main() {
 	frontendFlag := flag.String("frontend", "GUI", "GUI or text")
+	filenameFlag := flag.String("source", "-", `QL code filename or "-" to read from stdin`)
 	flag.Parse()
-	if *frontendFlag == "GUI" {
-		graphic.GUI()
-	} else {
-		aQuestionaire := &ast.Questionaire{
-			Label: "University of Amsterdam Revenue Service",
-			Questions: []*ast.Question{
-				&ast.Question{
-					Label:   "What is the answer to life the universe and everything?",
-					Content: new(ast.IntQuestion),
-				},
-				&ast.Question{
-					Label:   "Who said the logic is the cement of our civilization with which we ascended from Chaos using reason as our guide?",
-					Content: new(ast.StringQuestion),
-				},
-				&ast.Question{
-					Label:   "Hungry-p",
-					Content: new(ast.BoolQuestion),
-				},
-			},
-		}
 
+	codeBuf, err := reader.New(*filenameFlag)
+	if err != nil {
+		log.Fatal(err)
+	}
+	code := codeBuf.Read()
+	log.Println("Got code: ", code)
+	aQuestionaire := compiler.CompileQL(code)
+	log.Printf("%#v", aQuestionaire)
+
+	if *frontendFlag == "GUI" {
+		graphic.GUI("GUI Form")
+	} else {
 		toFrontend, fromFrontend := frontend.New(
 			frontendText.NewReader(
 				bufio.NewReader(os.Stdin),
