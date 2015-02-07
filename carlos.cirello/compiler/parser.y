@@ -22,6 +22,7 @@ var finalForm *ast.Questionaire
 	form *ast.Questionaire
 	questions []*ast.Question
 	question *ast.Question
+	questionType interface{}
 }
 
 %token BlockBeginToken
@@ -32,6 +33,9 @@ var finalForm *ast.Questionaire
 %token ParenEndToken
 %token QuotedStringToken
 %token TextToken
+%token StringQuestionToken
+%token IntQuestionToken
+%token BoolQuestionToken
 
 
 %%
@@ -75,18 +79,31 @@ questions:
 	;
 
 question:
-	QuotedStringToken TextToken
+	QuotedStringToken questionType
 	{
 		$$.question = &ast.Question{
 			Label: $1.content,
-			Content: $2.content,
+			Content: $2.questionType,
 		}
+
 		if qlDebug > 0 {
 			log.Printf("Question: 1:%+v 2:%+v $:%+v", $1, $2, $$)
 		}
 	}
 	;
 
+questionType: StringQuestionToken
+		{
+			$$.questionType = new(ast.StringQuestion)
+		}
+            | IntQuestionToken
+		{
+			$$.questionType = new(ast.IntQuestion)
+		}
+            | BoolQuestionToken
+		{
+			$$.questionType = new(ast.BoolQuestion)
+		}
 %%
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -105,6 +122,12 @@ const (
 	ParenBeginTokenText = "("
 	// ParenEndTokenText - Reserved Word
 	ParenEndTokenText = ")"
+	// StringQuestionTokenText - Reserved Word
+	StringQuestionTokenText = "string"
+	// IntQuestionTokenText - Reserved Word
+	IntQuestionTokenText = "integer"
+	// BoolQuestionTokenText - Reserved Word
+	BoolQuestionTokenText = "bool"
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
@@ -138,6 +161,12 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 
 	if txt == FormTokenText {
 		typ = FormToken
+	} else if txt == StringQuestionTokenText {
+		typ = StringQuestionToken
+	} else if txt == IntQuestionTokenText {
+		typ = IntQuestionToken
+	} else if txt == BoolQuestionTokenText {
+		typ = BoolQuestionToken
 	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
 		typ = BlockBeginToken
 	} else if strings.HasPrefix(txt, BlockEndTokenText) {

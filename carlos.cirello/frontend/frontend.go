@@ -1,4 +1,7 @@
-// Package frontend is the set of goroutines which interface with VM and the user. The interface with the user can be either Graphic, Text or Web.
+/*
+Package frontend is the set of goroutines which interface with VM and the user.
+The interface with the user can be either Graphic, Text or Web.
+*/
 package frontend
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"

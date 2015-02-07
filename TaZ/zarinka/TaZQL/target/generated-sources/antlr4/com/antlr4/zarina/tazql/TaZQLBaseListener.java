@@ -17,13 +17,25 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterR(@NotNull TaZQLParser.RContext ctx) { }
+	@Override public void enterParse(@NotNull TaZQLParser.ParseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitR(@NotNull TaZQLParser.RContext ctx) { }
+	@Override public void exitParse(@NotNull TaZQLParser.ParseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQuestionLabel(@NotNull TaZQLParser.QuestionLabelContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestionLabel(@NotNull TaZQLParser.QuestionLabelContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

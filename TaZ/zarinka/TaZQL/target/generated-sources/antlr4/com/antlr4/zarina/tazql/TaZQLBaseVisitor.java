@@ -18,5 +18,12 @@ public class TaZQLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitR(@NotNull TaZQLParser.RContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParse(@NotNull TaZQLParser.ParseContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitQuestionLabel(@NotNull TaZQLParser.QuestionLabelContext ctx) { return visitChildren(ctx); }
 }
