@@ -8,6 +8,7 @@ import org.taz.exercises.TaZQL.TaZQLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.io.IOUtils;
 
 public class TaZQL {
@@ -15,12 +16,13 @@ public class TaZQL {
 		ANTLRInputStream input = null;
 		
 		try {
-			InputStream inputStream = TaZQL.class
-					.getResourceAsStream("source.txt");
+			
+			InputStream inputStream = TaZQL.class.getResourceAsStream("source.tazql");
 			String tazQLSourceCode = IOUtils.toString(inputStream, "UTF-8");
 			input = new ANTLRInputStream(tazQLSourceCode);
 			
 		} catch (IOException e) {
+			
 			e.printStackTrace();
 		}
 
@@ -33,7 +35,14 @@ public class TaZQL {
 		// create a parser that feeds off the tokens buffer
 		TaZQLParser parser = new TaZQLParser(tokens);
 
-		ParseTree tree = parser.init(); // begin parsing at init rule
-		System.out.println(tree.toStringTree(parser)); // print LISP-style tree
+	 
+	    // Specify our entry point
+//	    DrinkSentenceContext drinkSentenceContext = parser.drinkSentence();
+		
+	    ParseTreeWalker walker = new ParseTreeWalker();
+	    MyTaZQLListener listener = new MyTaZQLListener();
+	    walker.walk(listener, parser.init());
+		
+//		System.out.println(tree.toStringTree(parser)); // print LISP-style tree
 	}
 }
