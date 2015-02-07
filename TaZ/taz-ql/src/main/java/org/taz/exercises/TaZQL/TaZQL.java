@@ -1,24 +1,25 @@
 package org.taz.exercises.TaZQL;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.taz.exercises.TaZQL.TaZQLLexer;
 import org.taz.exercises.TaZQL.TaZQLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.apache.commons.io.IOUtils;
 
-/**
- * Hello world!
- *
- */
-public class TaZQL 
-{
-    public static void main( String[] args )
-    {
-    	ANTLRInputStream input = null;
+public class TaZQL {
+	public static void main(String[] args) throws IOException {
+		ANTLRInputStream input = null;
+		
 		try {
-			input = new ANTLRInputStream(System.in);
+			InputStream inputStream = TaZQL.class
+					.getResourceAsStream("source.txt");
+			String tazQLSourceCode = IOUtils.toString(inputStream, "UTF-8");
+			input = new ANTLRInputStream(tazQLSourceCode);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -34,5 +35,5 @@ public class TaZQL
 
 		ParseTree tree = parser.init(); // begin parsing at init rule
 		System.out.println(tree.toStringTree(parser)); // print LISP-style tree
-    }
+	}
 }
