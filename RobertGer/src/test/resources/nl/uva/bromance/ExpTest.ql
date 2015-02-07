@@ -4,6 +4,6 @@
 "Broken Crockery" scores 1 points
 "Golden Sword" is buried at 3,1
 "Iron Sword" is buried at 2,3
-"Broken Crockery" is buried at 3,2
+"Broken Crockery" is buried at
 "Broken Crockery" is buried at 1,4
 "Broken Crockery" is buried at 4,1
