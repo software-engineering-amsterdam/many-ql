@@ -20,6 +20,8 @@
 #     (other syntax errors can only be handled after parsing?)
 #   - Empty form doesn't yet work.
 
+require "byebug"
+
 class Preprocessor
   INDENT_WIDTH = 2
 
@@ -38,6 +40,10 @@ class Preprocessor
   def process
     nesting_depth = 0
     processed_string = indents.each_with_index.with_object([]) do |(indent, index), processed_lines|
+      # Remove empty lines from the processed string.
+      # Does this make it harder to map back to line numbers when we find a syntax error?
+      next if lines[index].strip.empty?
+
       if indent > nesting_depth
         processed_lines[index - 1] += " {"
         nesting_depth += 1
