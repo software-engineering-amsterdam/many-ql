@@ -50,7 +50,7 @@ For our help we use some external tools that help our development process:
 Development
 =======
 
-# Setting up the environment (UNIX)
+## Setting up the environment (UNIX)
 
 **Install ANTLR4 to your system:**
 ```
@@ -102,10 +102,10 @@ OR cmd+shift+G*
 **Jetbrains Antlr test:**
 *Inside of a g4 file -> right click on the token you want to test -> Test Rule <token>*
 
-# Build
+## Build
 //TODO
 
-# Tests
+## Tests
 //TODO
 
 
