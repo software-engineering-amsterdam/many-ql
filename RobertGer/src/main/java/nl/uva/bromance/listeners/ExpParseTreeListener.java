@@ -11,11 +11,19 @@ import java.util.List;
 public class ExpParseTreeListener extends ExpBaseListener {
 
     public static ExpParser.FieldContext fieldCtx;
+    public static ExpParser.LocationContext locationCtx;
 
     @Override
     public void enterField(ExpParser.FieldContext ctx) {
         super.enterField(ctx);
         fieldCtx = ctx;
+        System.out.println("entering field :" + fieldCtx);
+    }
+
+    public void enterLocation(ExpParser.LocationContext lct){
+        super.enterLocation(lct);
+        locationCtx = lct;
+        System.out.println("entering location :"+lct);
     }
 
     public int getBurialCount() {

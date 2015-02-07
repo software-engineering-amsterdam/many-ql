@@ -1,5 +1,8 @@
 grammar Drink;
- 
+options {
+    output=AST;
+
+}
 // Parser Rules
  
 drinkSentence : ARTICLE? DRINKING_VESSEL OF drink ;
