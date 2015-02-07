@@ -15,7 +15,7 @@ type Question struct {
 
 	// todo(carlos) convert this to interface which represents the behavior
 	// common to all questions
-	Content interface{}
+	Content Parser
 
 	Answered bool
 }
@@ -23,4 +23,10 @@ type Question struct {
 // Clone Question to be used for transmission between VM and Frontend
 func (q Question) Clone() Question {
 	return q
+}
+
+// FromString takes the input from Frontend and stores locally,
+// into the concrete question type.
+func (q Question) FromString(str string) error {
+	return q.Content.FromString(str)
 }

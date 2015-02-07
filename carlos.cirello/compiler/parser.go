@@ -23,7 +23,7 @@ type qlSymType struct {
 	form         *ast.Questionaire
 	questions    []*ast.Question
 	question     *ast.Question
-	questionType interface{}
+	questionType ast.Parser
 }
 
 const BlockBeginToken = 57346

@@ -27,20 +27,8 @@ func NewReader(input *bufio.Reader, output io.Writer) *Reader {
 func (r *Reader) InputQuestion(q *ast.Question) {
 	fmt.Fprintln(r.bufferedOutput, q.Label)
 	input := r.readFromConsole()
-	content := q.Content
-
 	q.Answered = true
-
-	switch content.(type) {
-	case *ast.IntQuestion:
-		q.Content.(*ast.IntQuestion).FromString(input)
-	case *ast.StringQuestion:
-		q.Content.(*ast.StringQuestion).FromString(input)
-	case *ast.BoolQuestion:
-		q.Content.(*ast.BoolQuestion).FromString(input)
-	default:
-		panic("Impossible type")
-	}
+	q.FromString(input)
 }
 
 func (r *Reader) readFromConsole() string {
