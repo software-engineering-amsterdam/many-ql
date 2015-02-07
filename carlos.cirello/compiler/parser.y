@@ -7,11 +7,10 @@ import (
 	"strings"
 	"text/scanner"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *questionaire.Questionaire
+var finalForm *ast.Questionaire
 
 //Top Ends Here
 %}
@@ -20,9 +19,10 @@ var finalForm *questionaire.Questionaire
 
 %union {
 	content string
-	form *questionaire.Questionaire
-	questions []*question.Question
-	question *question.Question
+	form *ast.Questionaire
+	questions []*ast.Question
+	question *ast.Question
+	questionType interface{}
 }
 
 %token BlockBeginToken
@@ -33,6 +33,9 @@ var finalForm *questionaire.Questionaire
 %token ParenEndToken
 %token QuotedStringToken
 %token TextToken
+%token StringQuestionToken
+%token IntQuestionToken
+%token BoolQuestionToken
 
 
 %%
@@ -51,9 +54,10 @@ form:
 	FormToken TextToken BlockBeginToken questions BlockEndToken
 	{
 		if qlDebug > 0 {
-			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content, " $$:", $$)
+			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content,
+				" $$:", $$)
 		}
-		$$.form = &questionaire.Questionaire{
+		$$.form = &ast.Questionaire{
 			Label: $2.content,
 			Questions: $4.questions,
 		}
@@ -64,7 +68,8 @@ questions:
 	| questions question
 	{
 		if qlDebug > 0 {
-			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.questions, $2.question, $$.questions)
+			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.questions,
+				$2.question, $$.questions)
 		}
 		q := $2.question
 		qs := $$.questions
@@ -74,18 +79,31 @@ questions:
 	;
 
 question:
-	QuotedStringToken TextToken
+	QuotedStringToken questionType
 	{
-		$$.question = &question.Question{
+		$$.question = &ast.Question{
 			Label: $1.content,
-			Content: $2.content,
+			Content: $2.questionType,
 		}
+
 		if qlDebug > 0 {
 			log.Printf("Question: 1:%+v 2:%+v $:%+v", $1, $2, $$)
 		}
 	}
 	;
 
+questionType: StringQuestionToken
+		{
+			$$.questionType = new(ast.StringQuestion)
+		}
+            | IntQuestionToken
+		{
+			$$.questionType = new(ast.IntQuestion)
+		}
+            | BoolQuestionToken
+		{
+			$$.questionType = new(ast.BoolQuestion)
+		}
 %%
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -104,6 +122,12 @@ const (
 	ParenBeginTokenText = "("
 	// ParenEndTokenText - Reserved Word
 	ParenEndTokenText = ")"
+	// StringQuestionTokenText - Reserved Word
+	StringQuestionTokenText = "string"
+	// IntQuestionTokenText - Reserved Word
+	IntQuestionTokenText = "integer"
+	// BoolQuestionTokenText - Reserved Word
+	BoolQuestionTokenText = "bool"
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
@@ -137,6 +161,12 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 
 	if txt == FormTokenText {
 		typ = FormToken
+	} else if txt == StringQuestionTokenText {
+		typ = StringQuestionToken
+	} else if txt == IntQuestionTokenText {
+		typ = IntQuestionToken
+	} else if txt == BoolQuestionTokenText {
+		typ = BoolQuestionToken
 	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
 		typ = BlockBeginToken
 	} else if strings.HasPrefix(txt, BlockEndTokenText) {
@@ -161,7 +191,8 @@ func (x *lexer) Error(s string) {
 	log.Printf("parse error: %s", s)
 }
 
-func CompileQL(code string) *questionaire.Questionaire {
+// CompileQL generates a AST (*ast.Questionaire and children) out of source code.
+func CompileQL(code string) *ast.Questionaire {
 	finalForm = nil
 	qlParse(newLexer(code))
 	return finalForm

@@ -7,25 +7,24 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
 func TestParseResponse(t *testing.T) {
-	aQuestionaire := &questionaire.Questionaire{
+	aQuestionaire := &ast.Questionaire{
 		Label: "University of Amsterdam Revenue Service",
-		Questions: []*question.Question{
-			&question.Question{
+		Questions: []*ast.Question{
+			&ast.Question{
 				Label:   "What is the answer to life the universe and everything?",
-				Content: new(question.IntQuestion),
+				Content: new(ast.IntQuestion),
 			},
-			&question.Question{
+			&ast.Question{
 				Label:   "Who said the logic is the cement of our civilization with which we ascended from Chaos using reason as our guide?",
-				Content: new(question.StringQuestion),
+				Content: new(ast.StringQuestion),
 			},
-			&question.Question{
+			&ast.Question{
 				Label:   "Hungry-p",
-				Content: new(question.BoolQuestion),
+				Content: new(ast.BoolQuestion),
 			},
 		},
 	}
@@ -41,18 +40,21 @@ func TestParseResponse(t *testing.T) {
 
 	questions := aQuestionaire.Questions
 
-	firstAnswer := questions[0].Content.(*question.IntQuestion).String()
+	firstAnswer := questions[0].Content.(*ast.IntQuestion).String()
 	if firstAnswer != "42" {
-		log.Fatalf("Error parsing input. Expected 42. Got %s", questions[0].Content.(*question.IntQuestion).String())
+		log.Fatalf("Error parsing input. Expected 42. Got %s",
+			questions[0].Content.(*ast.IntQuestion).String())
 	}
 
-	secondAnswer := questions[1].Content.(*question.StringQuestion).String()
+	secondAnswer := questions[1].Content.(*ast.StringQuestion).String()
 	if secondAnswer != "T'Plana-Hath" {
-		log.Fatalf("Error parsing input. Expected T'Plana-Hath. Got %s", questions[1].Content.(*question.StringQuestion).String())
+		log.Fatalf("Error parsing input. Expected T'Plana-Hath. Got %s",
+			questions[1].Content.(*ast.StringQuestion).String())
 	}
 
-	thirdAnswer := questions[2].Content.(*question.BoolQuestion).String()
+	thirdAnswer := questions[2].Content.(*ast.BoolQuestion).String()
 	if thirdAnswer != "Yes" {
-		log.Fatalf("Error parsing input. Expected Yes. Got %s", questions[2].Content.(*question.BoolQuestion).String())
+		log.Fatalf("Error parsing input. Expected Yes. Got %s",
+			questions[2].Content.(*ast.BoolQuestion).String())
 	}
 }
