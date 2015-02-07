@@ -2,6 +2,7 @@ package nl.uva.bromance;
 
 import nl.uva.bromance.listeners.BurialListener;
 import nl.uva.bromance.listeners.DrinkListener;
+import nl.uva.bromance.listeners.ExpParseTreeListener;
 import nl.uva.bromance.parsers.DrinkLexer;
 import nl.uva.bromance.parsers.DrinkParser;
 import nl.uva.bromance.parsers.ExpLexer;
@@ -9,6 +10,7 @@ import nl.uva.bromance.parsers.ExpParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 
@@ -16,9 +18,6 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Unit test for simple App.
- */
 public class AppTest {
     @Test
     public void expTest() throws IOException {
@@ -45,5 +44,17 @@ public class AppTest {
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, drinkSentenceContext);
+    }
+
+    @Test
+    public void treeTest() throws IOException {
+        ExpLexer lexer = new ExpLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("ExpTest.ql")));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        ExpParser parser = new ExpParser(tokens);
+        ParseTree tree = parser.getContext();
+        ExpParseTreeListener listener = new ExpParseTreeListener();
+        ParseTreeWalker walker = new ParseTreeWalker();
+
+        walker.walk(listener, tree);
     }
 }
