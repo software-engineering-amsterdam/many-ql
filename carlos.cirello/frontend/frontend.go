@@ -11,6 +11,7 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 // functionality.
 type Inputer interface {
 	InputQuestion(q *ast.Question)
+	Loop()
 }
 
 // New instantiates a frontend goroutine, looping all the
@@ -23,7 +24,7 @@ func New(fromVM, toVM chan *Event, driver Inputer) {
 		driver:  driver,
 	}
 
-	f.loop()
+	go f.loop()
 }
 
 type frontend struct {
