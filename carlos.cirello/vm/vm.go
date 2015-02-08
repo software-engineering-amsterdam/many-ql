@@ -49,6 +49,11 @@ listenLoop:
 						Question: questionCopy,
 					}
 				}
+				emptyQuestion := &ast.Question{}
+				v.send <- &fe.Event{
+					Type:     fe.Flush,
+					Question: *emptyQuestion,
+				}
 			} else if r.Type == fe.Answer {
 				for k, q := range v.questionaire.Questions {
 					if q.Label == r.Question.Label {

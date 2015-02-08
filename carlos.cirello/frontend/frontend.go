@@ -12,6 +12,7 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 type Inputer interface {
 	InputQuestion(q *ast.Question)
 	Loop()
+	Flush()
 }
 
 // New instantiates a frontend goroutine, looping all the
@@ -43,9 +44,8 @@ func (f *frontend) loop() {
 				f.send <- &Event{ReadyT, *emptyQuestion}
 			} else if r.Type == Render {
 				f.driver.InputQuestion(&r.Question)
-				go func(send chan *Event, q ast.Question) {
-					send <- &Event{Answer, q}
-				}(f.send, r.Question)
+			} else if r.Type == Flush {
+				f.driver.Flush()
 			}
 		default:
 			//noop
