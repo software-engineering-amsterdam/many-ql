@@ -3,13 +3,12 @@
  */
 package com.antlr4.zarina.tazql;
 
+
 public class QuestionLabels {
 	private int number;
 	private String questionLabel;
 	
-	public QuestionLabels() {
-		
-	}
+	public QuestionLabels() {}
 	
 	public QuestionLabels(int number, String questionLabel){
 		this.number = number;

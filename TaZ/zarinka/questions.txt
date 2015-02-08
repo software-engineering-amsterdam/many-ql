@@ -1,8 +1,4 @@
 FORM firstQ <
-1 [What is your name?] meow
-2 [Do you have a car?] choice
-if ( true ) <
-22 [What is you address?] gagaga
->
-3 [What to do, what to do?] krjakrja
+nameId 1 [What is your name?] String
+ageId 2 [How old are you?] int
 >

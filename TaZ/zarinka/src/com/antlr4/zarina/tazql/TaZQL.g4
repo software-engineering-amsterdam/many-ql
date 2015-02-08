@@ -14,15 +14,17 @@ form		: formSection;
 formSection : 'FORM' formId '<' question+ '>';
 formId : ID;
  
-type  : 'boolean' | ID | 'int' | 'double' | choise;   
+type  : 'boolean' | ID | 'int' | 'double' | 'String' | choise;   
 choise :   'true' | 'false'; 
 
 question	: questionLabel 
-			| 'if' '(' choise ')' '<' question+ '>'; //'else' question+;
+			| 'if' '(' questionId.choise ')' '<' question+ '>'; //'else' question+;
 			  
 
-questionLabel : NUMBER FILETEXT type;
+questionLabel : questionId NUMBER FILETEXT type;
 
+questionId : ID;
+answerId : ID;
 
 NUMBER		: '0'..'9'+ ('.' '0'..'9'+)*;
 TEXT  		: '"' ('a'..'z'|'A'..'Z'|NUMBER|'_'|WS)* '"'; 

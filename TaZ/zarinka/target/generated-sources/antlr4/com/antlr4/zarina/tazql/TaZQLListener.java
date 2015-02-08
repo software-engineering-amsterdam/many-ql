@@ -19,6 +19,26 @@ public interface TaZQLListener extends ParseTreeListener {
 	 */
 	void exitFormId(@NotNull TaZQLParser.FormIdContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TaZQLParser#answerId}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnswerId(@NotNull TaZQLParser.AnswerIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TaZQLParser#answerId}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnswerId(@NotNull TaZQLParser.AnswerIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TaZQLParser#questionId}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionId(@NotNull TaZQLParser.QuestionIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TaZQLParser#questionId}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionId(@NotNull TaZQLParser.QuestionIdContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TaZQLParser#form}.
 	 * @param ctx the parse tree
 	 */
