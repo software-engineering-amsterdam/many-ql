@@ -23,7 +23,7 @@ type qlSymType struct {
 	form         *ast.Questionaire
 	questions    []*ast.Question
 	question     *ast.Question
-	questionType interface{}
+	questionType ast.Parser
 }
 
 const BlockBeginToken = 57346
@@ -57,7 +57,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:107
+//line parser.y:108
 
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -121,18 +121,21 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = IntQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
+	} else if txt == IfTokenText {
+		typ = IfToken
+	} else if strings.HasPrefix(txt, singleQuotedChar) ||
+		strings.HasPrefix(txt, doubleQuotedChar) ||
+		strings.HasPrefix(txt, literalQuotedChar) {
+		typ = QuotedStringToken
+		txt = stripSurroundingQuotes(txt)
 	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
 		typ = BlockBeginToken
 	} else if strings.HasPrefix(txt, BlockEndTokenText) {
 		typ = BlockEndToken
-	} else if txt == IfTokenText {
-		typ = IfToken
 	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
 		typ = ParenBeginToken
 	} else if strings.HasPrefix(txt, ParenEndTokenText) {
 		typ = ParenEndToken
-	} else if strings.HasPrefix(txt, singleQuotedChar) || strings.HasPrefix(txt, doubleQuotedChar) || strings.HasPrefix(txt, literalQuotedChar) {
-		typ = QuotedStringToken
 	}
 
 	yylval.content = txt
@@ -152,6 +155,10 @@ func CompileQL(code string) *ast.Questionaire {
 	return finalForm
 }
 
+func stripSurroundingQuotes(str string) string {
+	return str[1 : len(str)-1]
+}
+
 //line yacctab:1
 var qlExca = []int{
 	-1, 1,
@@ -165,21 +172,21 @@ const qlPrivate = 57344
 var qlTokenNames []string
 var qlStates []string
 
-const qlLast = 13
+const qlLast = 14
 
 var qlAct = []int{
 
-	11, 12, 13, 7, 4, 3, 5, 10, 9, 8,
-	6, 2, 1,
+	12, 13, 14, 10, 7, 4, 3, 5, 11, 9,
+	8, 6, 2, 1,
 }
 var qlPact = []int{
 
-	-1, -1000, -1000, -7, 2, -1000, -2, -1000, -1000, -12,
-	-1000, -1000, -1000, -1000,
+	0, -1000, -1000, -6, 3, -1000, -1, -1000, -1000, -8,
+	-12, -1000, -1000, -1000, -1000,
 }
 var qlPgo = []int{
 
-	0, 12, 11, 10, 9, 7,
+	0, 13, 12, 11, 10, 8,
 }
 var qlR1 = []int{
 
@@ -187,17 +194,17 @@ var qlR1 = []int{
 }
 var qlR2 = []int{
 
-	0, 1, 5, 0, 2, 2, 1, 1, 1,
+	0, 1, 5, 0, 2, 3, 1, 1, 1,
 }
 var qlChk = []int{
 
 	-1000, -1, -2, 6, 11, 4, -3, 5, -4, 10,
-	-5, 12, 13, 14,
+	11, -5, 12, 13, 14,
 }
 var qlDef = []int{
 
 	0, -2, 1, 0, 0, 3, 0, 2, 4, 0,
-	5, 6, 7, 8,
+	0, 5, 6, 7, 8,
 }
 var qlTok1 = []int{
 
@@ -473,26 +480,27 @@ qldefault:
 		//line parser.y:83
 		{
 			qlVAL.question = &ast.Question{
-				Label:   qlS[qlpt-1].content,
-				Content: qlS[qlpt-0].questionType,
+				Label:      qlS[qlpt-2].content,
+				Identifier: qlS[qlpt-1].content,
+				Content:    qlS[qlpt-0].questionType,
 			}
 
 			if qlDebug > 0 {
-				log.Printf("Question: 1:%+v 2:%+v $:%+v", qlS[qlpt-1], qlS[qlpt-0], qlVAL)
+				log.Printf("Question: 1:%+v 2:%+v 3:%+v, $:%+v", qlS[qlpt-2], qlS[qlpt-1], qlS[qlpt-0], qlVAL)
 			}
 		}
 	case 6:
-		//line parser.y:96
+		//line parser.y:97
 		{
 			qlVAL.questionType = new(ast.StringQuestion)
 		}
 	case 7:
-		//line parser.y:100
+		//line parser.y:101
 		{
 			qlVAL.questionType = new(ast.IntQuestion)
 		}
 	case 8:
-		//line parser.y:104
+		//line parser.y:105
 		{
 			qlVAL.questionType = new(ast.BoolQuestion)
 		}

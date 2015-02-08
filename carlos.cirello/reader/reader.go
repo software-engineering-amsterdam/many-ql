@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+// Reader holds an io.Reader with source code (either from a file, or some
+// other medium)
 type Reader struct {
 	stream io.Reader
 }
@@ -20,8 +22,8 @@ func New(filename string) (*Reader, error) {
 		return nil, err
 	}
 
-	fileHandle, err := os.Open(filename)
-	return &Reader{fileHandle}, err
+	handle, err := os.Open(filename)
+	return &Reader{handle}, err
 }
 
 // Read consumes the internal io.Reader object returning a string ready to use.

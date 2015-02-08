@@ -3,60 +3,69 @@ package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
-	"fmt"
 	"log"
-	"os"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"gopkg.in/qml.v1"
 )
 
 type msg struct {
-	Name    string
-	Label   string
-	Content string
+	Identifier string
+	Label      string
+	Content    string
 }
 
-// Render creates the craddle for GUI.
-func GUI(appName string) {
-	var msgChan chan msg
-	msgChan = make(chan msg)
-	go func() {
-		newQuestion := &msg{
-			Name:    "newQuestion",
-			Label:   "Is this a question from a message?",
-			Content: "",
+// Gui holds the driver which is used by Frontend to execute the application
+type Gui struct {
+	msgChan chan msg
+	appName string
+}
+
+// GUI creates the driver for Frontend process.
+func GUI(appName string) frontend.Inputer {
+	driver := &Gui{
+		make(chan msg),
+		appName,
+	}
+	return driver
+}
+
+// InputQuestion adds a new question into the GUI form
+func (g *Gui) InputQuestion(q *ast.Question) {
+	m := &msg{
+		q.Identifier,
+		q.Label,
+		"",
+	}
+	g.msgChan <- *m
+}
+
+// Loop executes GUI main loop, which actually delegates the interface to the
+// underlying library (go-qml).
+func (g *Gui) Loop() {
+	qml.Run(g.loop)
+}
+
+func (g *Gui) loop() error {
+	win := startQMLengine(g.appName).CreateWindow(nil)
+	rows := win.Root().ObjectByName("questions")
+	win.Show()
+	go g.addQuestionLoop(rows)
+	win.Wait()
+	return nil
+}
+
+func (g *Gui) addQuestionLoop(rows qml.Object) {
+	for {
+		select {
+		case event := <-g.msgChan:
+			addNewQuestion(
+				rows,
+				event.Identifier,
+				event.Label,
+			)
 		}
-		msgChan <- *newQuestion
-
-		newQuestion2 := &msg{
-			Name:    "newQuestion2",
-			Label:   "Is this a second question from a message?",
-			Content: "",
-		}
-		msgChan <- *newQuestion2
-	}()
-	if err := qml.Run(func() error {
-		win := startQMLengine(appName).CreateWindow(nil)
-		rows := win.Root().ObjectByName("questions")
-		win.Show()
-
-		for {
-			select {
-			case event := <-msgChan:
-				addNewQuestion(
-					rows,
-					event.Name,
-					event.Label,
-				)
-			}
-		}
-
-		win.Wait()
-
-		return nil
-	}); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
 	}
 }
 
@@ -66,7 +75,7 @@ func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion stri
 		newTextfieldQuestion)
 	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
 	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err)
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err, "Got:", newQuestionQML)
 	}
 
 	question := newQuestion.Create(nil)
@@ -77,6 +86,7 @@ func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion stri
 		log.Println("finished editing, send to VM:",
 			textField.String("text"))
 	})
+	// todo(carlos) Use this command to disappear with the question
 	// question.Destroy()
 }
 
@@ -87,6 +97,5 @@ func startQMLengine(appName string) qml.Object {
 	if err != nil {
 		log.Fatal("Fatal error while parsing craddle.qml:", err)
 	}
-
 	return craddle
 }
