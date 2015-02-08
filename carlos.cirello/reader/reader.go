@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+// Reader holds an io.Reader with source code (either from a file, or some
+// other medium)
 type Reader struct {
 	stream io.Reader
 }

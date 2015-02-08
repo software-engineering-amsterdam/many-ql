@@ -22,14 +22,10 @@
       - [X] Basic cases
       - [ ] Advanced cases
       - [ ] All cases
-  - [ ] Frontend Interface [0/3]
-    - [ ] Concurrent Interface between Frontends and VM :ONGOING:
-    - [ ] Text Frontend [1/3]
+  - [ ] Frontend Interface [1/2]
+    - [X] Concurrent Interface between Frontends and VM :ONGOING:
+    - [ ] GUI Frontend [1/5]
       - [X] Basic cases
-      - [ ] Advanced cases
-      - [ ] All cases
-    - [ ] GUI Frontend [0/5]
-      - [ ] Basic cases
       - [ ] Advanced cases
       - [ ] All cases
       - [ ] Transpose restrictions from the dependency into the main doc.

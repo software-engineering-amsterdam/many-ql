@@ -11,15 +11,13 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 // functionality.
 type Inputer interface {
 	InputQuestion(q *ast.Question)
+	Loop()
 }
 
 // New instantiates a frontend goroutine, looping all the
 // communications with the VM into the chosen Frontend
 // (GUI, Text, Web).
-func New(driver Inputer) (fromVM, toVM chan *Event) {
-	fromVM = make(chan *Event)
-	toVM = make(chan *Event)
-
+func New(fromVM, toVM chan *Event, driver Inputer) {
 	f := &frontend{
 		receive: fromVM,
 		send:    toVM,
@@ -27,8 +25,6 @@ func New(driver Inputer) (fromVM, toVM chan *Event) {
 	}
 
 	go f.loop()
-
-	return fromVM, toVM
 }
 
 type frontend struct {
