@@ -5,6 +5,7 @@ import (
 	"text/template"
 )
 
+// todo(carlos) extends the template for the several kind of questions
 const questionQMLTemplate = `
 import QtQuick 2.2
 import QtQuick.Controls 1.1
