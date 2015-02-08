@@ -53,6 +53,7 @@ func (g *Gui) Flush() {
 	for _, v := range g.stack {
 		g.msgChan <- v
 	}
+	g.stack = []msg{}
 	g.mu.Unlock()
 }
 
