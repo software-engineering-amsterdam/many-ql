@@ -14,9 +14,9 @@ import (
 )
 
 type msg struct {
-	Name    string
-	Label   string
-	Content string
+	Identifier string
+	Label      string
+	Content    string
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
@@ -39,11 +39,13 @@ func (g *Gui) InputQuestion(q *ast.Question) {
 	label := q.Label
 	//todo(carlos) strip quotes in lexer maybe?
 	label = strings.Replace(label, `"`, "", -1)
+
 	m := &msg{
-		strings.Replace(label, " ", "", -1),
+		q.Identifier,
 		label,
 		"",
 	}
+
 	g.msgChan <- *m
 }
 
@@ -70,7 +72,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 		case event := <-g.msgChan:
 			addNewQuestion(
 				rows,
-				event.Name,
+				event.Identifier,
 				event.Label,
 			)
 		}

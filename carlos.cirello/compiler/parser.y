@@ -79,15 +79,16 @@ questions:
 	;
 
 question:
-	QuotedStringToken questionType
+	QuotedStringToken TextToken questionType
 	{
 		$$.question = &ast.Question{
 			Label: $1.content,
-			Content: $2.questionType,
+			Identifier: $2.content,
+			Content: $3.questionType,
 		}
 
 		if qlDebug > 0 {
-			log.Printf("Question: 1:%+v 2:%+v $:%+v", $1, $2, $$)
+			log.Printf("Question: 1:%+v 2:%+v 3:%+v, $:%+v", $1, $2, $3, $$)
 		}
 	}
 	;
