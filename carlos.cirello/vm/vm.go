@@ -32,21 +32,24 @@ func New(q *ast.Questionaire) (chan *fe.Event, chan *fe.Event) {
 
 func (v *vm) loop() {
 	emptyQuestion := &ast.Question{}
-	v.send <- &fe.Event{fe.READY_P, *emptyQuestion}
+	v.send <- &fe.Event{
+		Type:     fe.ReadyP,
+		Question: *emptyQuestion,
+	}
 
 listenLoop:
 	for {
 		select {
 		case r := <-v.receive:
-			if r.Type == fe.READY_T {
+			if r.Type == fe.ReadyT {
 				for _, q := range v.questionaire.Questions {
 					questionCopy := q.Clone()
 					v.send <- &fe.Event{
-						Type:     fe.RENDER,
+						Type:     fe.Render,
 						Question: questionCopy,
 					}
 				}
-			} else if r.Type == fe.ANSWER {
+			} else if r.Type == fe.Answer {
 				for k, q := range v.questionaire.Questions {
 					if q.Label == r.Question.Label {
 						newQuestion := r.Question.Clone()

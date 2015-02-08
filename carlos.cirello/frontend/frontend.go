@@ -38,13 +38,13 @@ func (f *frontend) loop() {
 	for {
 		select {
 		case r := <-f.receive:
-			if r.Type == READY_P {
+			if r.Type == ReadyP {
 				emptyQuestion := &ast.Question{}
-				f.send <- &Event{READY_T, *emptyQuestion}
-			} else if r.Type == RENDER {
+				f.send <- &Event{ReadyT, *emptyQuestion}
+			} else if r.Type == Render {
 				f.driver.InputQuestion(&r.Question)
 				go func(send chan *Event, q ast.Question) {
-					send <- &Event{ANSWER, q}
+					send <- &Event{Answer, q}
 				}(f.send, r.Question)
 			}
 		default:

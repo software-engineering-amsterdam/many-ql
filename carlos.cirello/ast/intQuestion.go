@@ -5,8 +5,8 @@ import "strconv"
 // IntQuestion stores the answer of question which type is integer numeric
 type IntQuestion int
 
-// FromString takes the input from Frontend and stores locally - Int
-func (s *IntQuestion) FromString(str string) error {
+// From takes the input from Frontend and stores locally - Int
+func (s *IntQuestion) From(str string) error {
 	val, err := strconv.Atoi(str)
 	*s = IntQuestion(val)
 	return err

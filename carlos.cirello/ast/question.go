@@ -5,7 +5,7 @@ import "fmt"
 // Parser interface describes the interface between the application and human
 // beings.
 type Parser interface {
-	FromString(str string) error
+	From(str string) error
 	fmt.Stringer
 }
 
@@ -23,8 +23,8 @@ func (q Question) Clone() Question {
 	return q
 }
 
-// FromString takes the input from Frontend and stores locally,
+// From takes the input from Frontend and stores locally,
 // into the concrete question type.
-func (q Question) FromString(str string) error {
-	return q.Content.FromString(str)
+func (q Question) From(str string) error {
+	return q.Content.From(str)
 }

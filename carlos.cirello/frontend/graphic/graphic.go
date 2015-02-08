@@ -19,14 +19,15 @@ type msg struct {
 	Content string
 }
 
-type gui struct {
+// Gui holds the driver which is used by Frontend to execute the application
+type Gui struct {
 	msgChan chan msg
 	appName string
 }
 
 // GUI creates the driver for Frontend process.
 func GUI(appName string) frontend.Inputer {
-	driver := &gui{
+	driver := &Gui{
 		make(chan msg),
 		appName,
 	}
@@ -34,7 +35,7 @@ func GUI(appName string) frontend.Inputer {
 }
 
 // InputQuestion adds a new question into the GUI form
-func (g *gui) InputQuestion(q *ast.Question) {
+func (g *Gui) InputQuestion(q *ast.Question) {
 	label := q.Label
 	//todo(carlos) strip quotes in lexer maybe?
 	label = strings.Replace(label, `"`, "", -1)
@@ -48,7 +49,7 @@ func (g *gui) InputQuestion(q *ast.Question) {
 
 // Loop executes GUI main loop, which actually delegates interface to the
 // underlying library (go-qml).
-func (g *gui) Loop() {
+func (g *Gui) Loop() {
 	// todo(carlos) Improve readibility
 	if err := qml.Run(func() error {
 		win := startQMLengine(g.appName).CreateWindow(nil)
@@ -63,7 +64,7 @@ func (g *gui) Loop() {
 	}
 }
 
-func (g *gui) addQuestionLoop(rows qml.Object) {
+func (g *Gui) addQuestionLoop(rows qml.Object) {
 	for {
 		select {
 		case event := <-g.msgChan:
