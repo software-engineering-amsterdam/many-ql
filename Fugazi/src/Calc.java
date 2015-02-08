@@ -1,8 +1,13 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.fugazi.checker.EvalVisitor;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+
+import org.fugazi.checker.EvalVisitor;
+import org.fugazi.parser.LabeledExprLexer;
+import org.fugazi.parser.LabeledExprParser;
 
 public class Calc {
     
