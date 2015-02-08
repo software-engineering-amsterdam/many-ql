@@ -170,6 +170,11 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolQuestionToken
 	} else if txt == IfTokenText {
 		typ = IfToken
+	} else if strings.HasPrefix(txt, singleQuotedChar) ||
+		strings.HasPrefix(txt, doubleQuotedChar) ||
+		strings.HasPrefix(txt, literalQuotedChar) {
+		typ = QuotedStringToken
+		txt = stripSurroundingQuotes(txt)
 	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
 		typ = BlockBeginToken
 	} else if strings.HasPrefix(txt, BlockEndTokenText) {
@@ -178,8 +183,6 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = ParenBeginToken
 	} else if strings.HasPrefix(txt, ParenEndTokenText) {
 		typ = ParenEndToken
-	} else if strings.HasPrefix(txt, singleQuotedChar) || strings.HasPrefix(txt, doubleQuotedChar) || strings.HasPrefix(txt, literalQuotedChar) {
-		typ = QuotedStringToken
 	}
 
 	yylval.content = txt
@@ -197,4 +200,8 @@ func CompileQL(code string) *ast.Questionaire {
 	finalForm = nil
 	qlParse(newLexer(code))
 	return finalForm
+}
+
+func stripSurroundingQuotes(str string) string {
+	return str[1:len(str)-1]
 }

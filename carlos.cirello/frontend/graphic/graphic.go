@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
@@ -36,16 +35,11 @@ func GUI(appName string) frontend.Inputer {
 
 // InputQuestion adds a new question into the GUI form
 func (g *Gui) InputQuestion(q *ast.Question) {
-	label := q.Label
-	//todo(carlos) strip quotes in lexer maybe?
-	label = strings.Replace(label, `"`, "", -1)
-
 	m := &msg{
 		q.Identifier,
-		label,
+		q.Label,
 		"",
 	}
-
 	g.msgChan <- *m
 }
 
