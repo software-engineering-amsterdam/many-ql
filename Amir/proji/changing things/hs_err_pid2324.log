@@ -1,0 +1,117 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (virtualspace.cpp:125), pid=2324, tid=1668
+#  fatal error: os::release_memory failed
+#
+# JRE version:  (7.0_65-b19) (build )
+# Java VM: Java HotSpot(TM) Client VM (24.65-b04 mixed mode windows-x86 )
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x003d9800):  JavaThread "Unknown thread" [_thread_in_vm, id=1668, stack(0x008c0000,0x00910000)]
+
+Stack: [0x008c0000,0x00910000],  sp=0x0090f8f0,  free space=318k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x190494]
+V  [jvm.dll+0x18a116]
+V  [jvm.dll+0x1661dc]
+V  [jvm.dll+0x1666cb]
+V  [jvm.dll+0x8a316]
+V  [jvm.dll+0x87da6]
+V  [jvm.dll+0x86a8e]
+V  [jvm.dll+0x90f03]
+V  [jvm.dll+0x13f9f4]
+V  [jvm.dll+0x1626fc]
+V  [jvm.dll+0xc9d6f]
+C  [javaw.exe+0x13ce]
+C  [javaw.exe+0x1e40]
+C  [javaw.exe+0xa601]
+C  [javaw.exe+0xa68b]
+C  [kernel32.dll+0xb729]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x003d9800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=1668, stack(0x008c0000,0x00910000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00400000 - 0x0042f000 	C:\Program Files\Java\jre7\bin\javaw.exe
+0x7c950000 - 0x7c9fb000 	C:\WINDOWS\system32\ntdll.dll
+0x7c800000 - 0x7c94d000 	C:\WINDOWS\system32\kernel32.dll
+0x77d70000 - 0x77e1a000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77e20000 - 0x77eb3000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77f90000 - 0x77fa1000 	C:\WINDOWS\system32\Secur32.dll
+0x77ce0000 - 0x77d70000 	C:\WINDOWS\system32\USER32.dll
+0x77ec0000 - 0x77f09000 	C:\WINDOWS\system32\GDI32.dll
+0x77370000 - 0x77473000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.6028_x-ww_61e65202\COMCTL32.dll
+0x77bb0000 - 0x77c08000 	C:\WINDOWS\system32\msvcrt.dll
+0x77f10000 - 0x77f86000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x762f0000 - 0x7630d000 	C:\WINDOWS\system32\IMM32.DLL
+0x62ec0000 - 0x62ec9000 	C:\WINDOWS\system32\LPK.DLL
+0x754a0000 - 0x7550b000 	C:\WINDOWS\system32\USP10.dll
+0x78aa0000 - 0x78b5f000 	C:\Program Files\Java\jre7\bin\msvcr100.dll
+0x6e770000 - 0x6eaf8000 	C:\Program Files\Java\jre7\bin\client\jvm.dll
+0x71a20000 - 0x71a29000 	C:\WINDOWS\system32\WSOCK32.dll
+0x71a00000 - 0x71a17000 	C:\WINDOWS\system32\WS2_32.dll
+0x719f0000 - 0x719f8000 	C:\WINDOWS\system32\WS2HELP.dll
+0x76ac0000 - 0x76aed000 	C:\WINDOWS\system32\WINMM.dll
+0x76b70000 - 0x76b7b000 	C:\WINDOWS\system32\PSAPI.DLL
+0x6e6c0000 - 0x6e6cc000 	C:\Program Files\Java\jre7\bin\verify.dll
+0x6d480000 - 0x6d4a0000 	C:\Program Files\Java\jre7\bin\java.dll
+0x6e750000 - 0x6e763000 	C:\Program Files\Java\jre7\bin\zip.dll
+0x59b80000 - 0x59c21000 	C:\WINDOWS\system32\dbghelp.dll
+0x77ba0000 - 0x77ba8000 	C:\WINDOWS\system32\VERSION.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1255 
+java_command: anotherOne.main.Main
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:/Program Files/Java/jdk1.7.0_65/bin/../jre/bin/client;C:/Program Files/Java/jdk1.7.0_65/bin/../jre/bin;C:/Program Files/Java/jdk1.7.0_65/bin/../jre/lib/i386;C:\Program Files\Haskell\bin;E:\2014.2.0.0\lib\extralibs\bin;E:\2014.2.0.0\bin;C:\Program Files\Java\jdk1.7.0_65\bin;C:\cygwin\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;E:\2014.2.0.0\mingw\bin;C:\Documents and Settings\Administrator\Application Data\cabal\bin;C:\Documents and Settings\Administrator\My Documents\Downloads\eclipse-standard-luna-R-win32\eclipse;
+USERNAME=Administrator
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 15 Model 2 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows XP Build 2600 Service Pack 3
+
+CPU:total 1 (1 cores per cpu, 1 threads per core) family 15 model 2 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, tsc
+
+Memory: 4k page, physical 1572208k(231776k free), swap 2241480k(5728k free)
+
+vm_info: Java HotSpot(TM) Client VM (24.65-b04) for windows-x86 JRE (1.7.0_65-b19), built on Jul  9 2014 18:04:11 by "java_re" with unknown MS VC++:1600
+
+time: Fri Oct 31 14:26:45 2014
+elapsed time: 0 seconds
+

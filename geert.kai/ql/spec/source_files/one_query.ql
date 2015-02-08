@@ -1,6 +1,3 @@
-form {
-  "Wat is je naam?" {
+form
+  "Wat is je naam?"
     naam: string
-  }
-}
-

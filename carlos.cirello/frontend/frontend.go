@@ -1,47 +1,54 @@
+/*
+Package frontend is the set of goroutines which interface with VM and the user.
+The interface with the user can be either Graphic, Text or Web.
+*/
 package frontend
 
-import (
-	"log"
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-)
-
+// Inputer describes the actions which frontend must implement
+// in order to be compliant with the VM expectations of
+// functionality.
 type Inputer interface {
-	InputQuestion(q *question.Question)
+	InputQuestion(q *ast.Question)
+	Loop()
+	Flush()
+}
+
+// New instantiates a frontend goroutine, looping all the
+// communications with the VM into the chosen Frontend
+// (GUI, Text, Web).
+func New(fromVM, toVM chan *Event, driver Inputer) {
+	f := &frontend{
+		receive: fromVM,
+		send:    toVM,
+		driver:  driver,
+	}
+
+	go f.loop()
 }
 
 type frontend struct {
 	receive chan *Event
 	send    chan *Event
 
-	fe Inputer
+	driver Inputer
 }
 
 func (f *frontend) loop() {
 	for {
 		select {
 		case r := <-f.receive:
-			log.Println("Frontend got:", r)
-			if r.Type == READY_P {
-				f.send <- &Event{READY_T, nil}
-			} else if r.Type == RENDER {
-				log.Println(r.Content.(*question.Question))
+			if r.Type == ReadyP {
+				emptyQuestion := &ast.Question{}
+				f.send <- &Event{ReadyT, *emptyQuestion}
+			} else if r.Type == Render {
+				f.driver.InputQuestion(&r.Question)
+			} else if r.Type == Flush {
+				f.driver.Flush()
 			}
+		default:
+			//noop
 		}
 	}
-}
-
-func New(fe Inputer) (rec, sen chan *Event) {
-	rec = make(chan *Event)
-	sen = make(chan *Event)
-
-	f := &frontend{
-		receive: rec,
-		send:    sen,
-		fe:      fe,
-	}
-
-	go f.loop()
-
-	return rec, sen
 }

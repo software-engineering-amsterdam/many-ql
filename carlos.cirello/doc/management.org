@@ -1,0 +1,80 @@
+* Relevant Content
+  {1} Grammar parser genenetaror for Go [[https://golang.org/cmd/yacc/]]
+  {2} Assignment [[https://github.com/software-engineering-amsterdam/software-construction/tree/master/2014-2015#ql-requirements]]
+  {3} Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
+  {4} Initial Architecture Diagram [[architecture.png]]
+  {5} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
+  {6} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
+* QL [1/3]
+  - [X] Basic Architecture {4}
+  - [ ] Compiler [0/2] {1}
+    - [ ] Write grammar [2/8]
+      - [X] form parsing :MUST:
+      - [X] question parsing :MUST:
+      - [ ] add type checking for question types (int, str, bool) :MUST:
+      - [ ] conditional question :MUST:
+      - [ ] default value for questions :MUST:
+      - [ ] math evaluation for IF and default values :MUST:
+        - [ ] Protect against undeclared and empty values :MUST:
+      - [ ] multiple form in the same file :SHOULD:
+      - [ ] read from multiple files :COULD:
+    - [ ] Generate AST [1/3]
+      - [X] Basic cases
+      - [ ] Advanced cases
+      - [ ] All cases
+  - [ ] Frontend Interface [1/2]
+    - [X] Concurrent Interface between Frontends and VM :ONGOING:
+    - [ ] GUI Frontend [1/5]
+      - [X] Basic cases
+      - [ ] Advanced cases
+      - [ ] All cases
+      - [ ] Transpose restrictions from the dependency into the main doc.
+      - [ ] Remove dependency tests
+
+  ** Functionalities [0/10] {2}
+    - [ ] The language supports: [0/3]
+      - [ ] Bool [2/3]
+        - [X] Basic Algorithm
+        - [X] Initial Tests
+        - [ ] 100% coverage
+      - [ ] Int [2/3]
+        - [X] Basic Algorithm
+        - [X] Initial Tests
+        - [ ] 100% coverage
+      - [ ] String [2/3]
+        - [X] Basic Algorithm
+        - [X] Initial Tests
+        - [ ] 100% coverage
+    - [ ] Questions are enabled and disabled when different values are entered.
+    - [ ] Type Checker: reference to undefined questions
+    - [ ] Type Checker: duplicate question declarations with different types
+    - [ ] Type Checker: conditions that are not of the type boolean
+    - [ ] Type Checker: operands of invalid type to operators
+    - [ ] Type Checker: references to questions with an undefined value
+    - [ ] Type Checker: cyclic dependencies between questions
+    - [ ] Type Checker: duplicate labels (warning)
+    - [ ] Different data types in QL map to different (default) GUI widgets.
+
+  ** Requirements on the implementation [3/4] {2}
+    - [X] The parser of the DSL is implemented using a grammar-based parser generator.
+    - [X] The internal structure of a DSL program is represented using abstract syntax trees.
+    - [ ] QL programs are executed as GUI programs, not command-line dialogues.
+    - [X] QL programs are executed by interpretation, not code generation.
+
+  ** Nice to have
+    - Loop
+    - Optional answers (nil response)
+
+* QLS
+  - [ ] Basic Architecture
+  ** Functionalities [0/6]
+    - [ ] Type Checker: no references to questions that are not in the QL program
+    - [ ] Type Checker: all questions of the QL program are placed by the QLS program.
+    - [ ] Type Checker: (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
+    - [ ] Type Checker: you cannot place a single question multiple times.
+    - [ ] Type Checker: The execution of a QL + QLS program should be the same as executing the QL program individually, except for where questions appear (page/secion), what font-styles etc. are used, and what widget types are used.
+    - [ ] Type Checker: As widget types you're supposed to support at least: slider, spinbox (for numbers), text (for numbers and strings), yesno-radios, checkbox, yesno-dropdown (for booleans).
+
+  ** Requirements on the implementation [0/2]
+    - [ ] You could say QLS defines an "aspect" of questionnaires, i.e. its appearance. The challenge is to implement QLS without (invasively) changing the code pertaining to QL, and without duplicating or reimplementing the QL code. (Copying and/or duplicating is not allowed, but some changes might be needed at certain join points...).
+    - [ ] The QL code, and especially, the QL ASTs should be oblivious to the QLS code. Think about how you can achieve that.
