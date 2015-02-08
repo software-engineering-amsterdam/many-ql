@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/csv"
 	"flag"
 	"log"
+	"os"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/compiler"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
@@ -28,4 +30,9 @@ func main() {
 	frontend.New(fromVM, toVM, driver)
 	driver.Loop()
 
+	csv := csv.NewWriter(os.Stdout)
+	for _, v := range aQuestionaire.Questions {
+		csv.Write([]string{v.Identifier, v.Label, v.Content.String()})
+	}
+	csv.Flush()
 }
