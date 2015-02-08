@@ -4,8 +4,6 @@ Package vm is the runtime which executes the AST created from the compiler.
 package vm
 
 import (
-	"log"
-
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
@@ -37,7 +35,6 @@ func (v *vm) loop() {
 		Question: *emptyQuestion,
 	}
 
-listenLoop:
 	for {
 		select {
 		case r := <-v.receive:
@@ -54,30 +51,21 @@ listenLoop:
 					Type:     fe.Flush,
 					Question: *emptyQuestion,
 				}
-			} else if r.Type == fe.Answer {
-				for k, q := range v.questionaire.Questions {
-					if q.Label == r.Question.Label {
-						newQuestion := r.Question.Clone()
-						v.questionaire.Questions[k] = &newQuestion
+			} else if r.Type == fe.Answers {
+				lenAnswers := len(r.Answers)
+				if lenAnswers > 0 {
+					for k, q := range v.questionaire.Questions {
+						if answer, ok := r.Answers[q.Identifier]; ok {
+							v.questionaire.Questions[k].From(answer)
+						}
 					}
 				}
 			}
 		default:
-			allAnswered := true
-			for _, question := range v.questionaire.Questions {
-				if !question.Answered {
-					allAnswered = false
-					break
-				}
-			}
-			if allAnswered {
-				break listenLoop
+			v.send <- &fe.Event{
+				Type: fe.FetchAnswers,
 			}
 		}
 	}
 
-	log.Println("Answers")
-	for _, question := range v.questionaire.Questions {
-		log.Println(question.Label, question.Content)
-	}
 }

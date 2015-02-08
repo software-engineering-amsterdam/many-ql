@@ -27,4 +27,5 @@ func main() {
 	driver := graphic.GUI(aQuestionaire.Label)
 	frontend.New(fromVM, toVM, driver)
 	driver.Loop()
+
 }

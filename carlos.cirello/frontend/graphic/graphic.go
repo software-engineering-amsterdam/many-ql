@@ -22,15 +22,22 @@ type Gui struct {
 	msgChan chan msg
 	appName string
 
-	mu    sync.Mutex
-	stack []msg
+	mu          sync.Mutex
+	stack       []msg
+	answerStack map[string]string
+}
+
+type answer struct {
+	Identifier string
+	Content    string
 }
 
 // GUI creates the driver for Frontend process.
 func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
-		msgChan: make(chan msg),
-		appName: appName,
+		msgChan:     make(chan msg),
+		answerStack: make(map[string]string),
+		appName:     appName,
 	}
 	return driver
 }
@@ -38,23 +45,36 @@ func GUI(appName string) frontend.Inputer {
 // InputQuestion adds a new question into the GUI form stack
 func (g *Gui) InputQuestion(q *ast.Question) {
 	g.mu.Lock()
+	defer g.mu.Unlock()
+
 	m := &msg{
 		q.Identifier,
 		q.Label,
 		"",
 	}
 	g.stack = append(g.stack, *m)
-	g.mu.Unlock()
 }
 
 // Flush transfers form stack into the screen.
 func (g *Gui) Flush() {
 	g.mu.Lock()
+	defer g.mu.Unlock()
+
 	for _, v := range g.stack {
 		g.msgChan <- v
 	}
 	g.stack = []msg{}
-	g.mu.Unlock()
+}
+
+// FetchAnswers unloads the current captured answers from user to Frontend
+// process and VM
+func (g *Gui) FetchAnswers() map[string]string {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	answerStack := g.answerStack
+	g.answerStack = make(map[string]string)
+	return answerStack
 }
 
 // Loop executes GUI main loop, which actually delegates the interface to the
@@ -76,7 +96,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 	for {
 		select {
 		case event := <-g.msgChan:
-			addNewQuestion(
+			g.addNewQuestion(
 				rows,
 				event.Identifier,
 				event.Label,
@@ -85,7 +105,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 	}
 }
 
-func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
+func (g *Gui) addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
 	engine := qml.NewEngine()
 	newQuestionQML := renderNewQuestion(newTextfieldName,
 		newTextfieldQuestion)
@@ -96,11 +116,14 @@ func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion stri
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
-	textField := question.ObjectByName(
-		renderNewQuestionTextfieldName(newTextfieldName))
+	textField := question.ObjectByName(newTextfieldName)
 	textField.On("editingFinished", func() {
-		log.Println("finished editing, send to VM:",
-			textField.String("text"))
+		g.mu.Lock()
+		defer g.mu.Unlock()
+
+		objectName := textField.String("objectName")
+		content := textField.String("text")
+		g.answerStack[objectName] = content
 	})
 	// todo(carlos) Use this command to disappear with the question
 	// question.Destroy()
