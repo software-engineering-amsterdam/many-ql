@@ -20,7 +20,7 @@ grammar QueryLanguage
   end
 
   rule statement
-    conditional | query 
+    conditional | query
   end
 
   rule conditional
@@ -35,12 +35,9 @@ grammar QueryLanguage
     space 'else' opening_bracket statement* closing_bracket
   end
 
-
-
   rule query
     space text opening_bracket answer* closing_bracket
   end
-
 
   rule answer
     variable ":" space type
