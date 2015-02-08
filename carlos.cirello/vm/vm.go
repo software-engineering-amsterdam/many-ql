@@ -18,32 +18,38 @@ type vm struct {
 
 // New starts VM with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.Questionaire, toFrontend, fromFrontend chan *fe.Event) {
+func New(q *ast.Questionaire) (chan *fe.Event, chan *fe.Event) {
+	toFrontend := make(chan *fe.Event)
+	fromFrontend := make(chan *fe.Event)
 	v := &vm{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
 	}
-	v.loop()
+	go v.loop()
+	return toFrontend, fromFrontend
 }
 
 func (v *vm) loop() {
 	emptyQuestion := &ast.Question{}
-	v.send <- &fe.Event{fe.READY_P, *emptyQuestion}
+	v.send <- &fe.Event{
+		Type:     fe.ReadyP,
+		Question: *emptyQuestion,
+	}
 
 listenLoop:
 	for {
 		select {
 		case r := <-v.receive:
-			if r.Type == fe.READY_T {
+			if r.Type == fe.ReadyT {
 				for _, q := range v.questionaire.Questions {
 					questionCopy := q.Clone()
 					v.send <- &fe.Event{
-						Type:     fe.RENDER,
+						Type:     fe.Render,
 						Question: questionCopy,
 					}
 				}
-			} else if r.Type == fe.ANSWER {
+			} else if r.Type == fe.Answer {
 				for k, q := range v.questionaire.Questions {
 					if q.Label == r.Question.Label {
 						newQuestion := r.Question.Clone()

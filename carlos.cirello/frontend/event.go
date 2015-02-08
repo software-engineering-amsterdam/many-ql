@@ -13,12 +13,12 @@ type Event struct {
 type EventType int
 
 const (
-	// READY_P VM message to confirm readiness of frontend
-	READY_P EventType = iota
-	// READY_T Frontend confirmation of readiness
-	READY_T
-	// RENDER forces output refresh with Content
-	RENDER
-	// ANSWER provides the answer for a question on the scree
-	ANSWER
+	// ReadyP VM message to confirm readiness of frontend
+	ReadyP EventType = iota
+	// ReadyT Frontend confirmation of readiness
+	ReadyT
+	// Render forces output refresh with Content
+	Render
+	// Answer provides the answer for a question on the scree
+	Answer
 )
