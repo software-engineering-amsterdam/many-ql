@@ -6,7 +6,7 @@ func TestQuestionaire(t *testing.T) {
 	aStringQuestion := StringQuestion("42")
 	aQuestion := &Question{
 		Label:   "what's the answer to life the universe and everything?",
-		Content: aStringQuestion,
+		Content: &aStringQuestion,
 	}
 
 	aQuestionaire := &Questionaire{
