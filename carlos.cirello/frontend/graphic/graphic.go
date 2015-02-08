@@ -4,6 +4,7 @@ package graphic
 //go:generate go get -u gopkg.in/qml.v1
 import (
 	"log"
+	"sync"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
@@ -20,25 +21,40 @@ type msg struct {
 type Gui struct {
 	msgChan chan msg
 	appName string
+
+	mu    sync.Mutex
+	stack []msg
 }
 
 // GUI creates the driver for Frontend process.
 func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
-		make(chan msg),
-		appName,
+		msgChan: make(chan msg),
+		appName: appName,
 	}
 	return driver
 }
 
-// InputQuestion adds a new question into the GUI form
+// InputQuestion adds a new question into the GUI form stack
 func (g *Gui) InputQuestion(q *ast.Question) {
+	g.mu.Lock()
 	m := &msg{
 		q.Identifier,
 		q.Label,
 		"",
 	}
-	g.msgChan <- *m
+	g.stack = append(g.stack, *m)
+	g.mu.Unlock()
+}
+
+// Flush transfers form stack into the screen.
+func (g *Gui) Flush() {
+	g.mu.Lock()
+	for _, v := range g.stack {
+		g.msgChan <- v
+	}
+	g.stack = []msg{}
+	g.mu.Unlock()
 }
 
 // Loop executes GUI main loop, which actually delegates the interface to the
