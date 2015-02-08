@@ -3,9 +3,7 @@ package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
-	"fmt"
 	"log"
-	"os"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
@@ -43,21 +41,19 @@ func (g *Gui) InputQuestion(q *ast.Question) {
 	g.msgChan <- *m
 }
 
-// Loop executes GUI main loop, which actually delegates interface to the
+// Loop executes GUI main loop, which actually delegates the interface to the
 // underlying library (go-qml).
 func (g *Gui) Loop() {
-	// todo(carlos) Improve readibility
-	if err := qml.Run(func() error {
-		win := startQMLengine(g.appName).CreateWindow(nil)
-		rows := win.Root().ObjectByName("questions")
-		win.Show()
-		go g.addQuestionLoop(rows)
-		win.Wait()
-		return nil
-	}); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
-	}
+	qml.Run(g.loop)
+}
+
+func (g *Gui) loop() error {
+	win := startQMLengine(g.appName).CreateWindow(nil)
+	rows := win.Root().ObjectByName("questions")
+	win.Show()
+	go g.addQuestionLoop(rows)
+	win.Wait()
+	return nil
 }
 
 func (g *Gui) addQuestionLoop(rows qml.Object) {
