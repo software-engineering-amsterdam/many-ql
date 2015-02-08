@@ -121,12 +121,12 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = IntQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
+	} else if txt == IfTokenText {
+		typ = IfToken
 	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
 		typ = BlockBeginToken
 	} else if strings.HasPrefix(txt, BlockEndTokenText) {
 		typ = BlockEndToken
-	} else if txt == IfTokenText {
-		typ = IfToken
 	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
 		typ = ParenBeginToken
 	} else if strings.HasPrefix(txt, ParenEndTokenText) {
