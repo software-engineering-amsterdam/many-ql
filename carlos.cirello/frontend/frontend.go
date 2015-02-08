@@ -16,19 +16,14 @@ type Inputer interface {
 // New instantiates a frontend goroutine, looping all the
 // communications with the VM into the chosen Frontend
 // (GUI, Text, Web).
-func New(driver Inputer) (fromVM, toVM chan *Event) {
-	fromVM = make(chan *Event)
-	toVM = make(chan *Event)
-
+func New(fromVM, toVM chan *Event, driver Inputer) {
 	f := &frontend{
 		receive: fromVM,
 		send:    toVM,
 		driver:  driver,
 	}
 
-	go f.loop()
-
-	return fromVM, toVM
+	f.loop()
 }
 
 type frontend struct {

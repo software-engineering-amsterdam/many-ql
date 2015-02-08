@@ -24,27 +24,18 @@ func main() {
 		log.Fatal(err)
 	}
 	code := codeBuf.Read()
-	log.Println("Got code: ", code)
-	aQuestionaire := compiler.CompileQL(code)
-	log.Printf("%#v", aQuestionaire)
 
+	aQuestionaire := compiler.CompileQL(code)
+	fromVM, toVM := vm.New(aQuestionaire)
+
+	var driver frontend.Inputer
 	if *frontendFlag == "GUI" {
 		graphic.GUI("GUI Form")
 	} else {
-		toFrontend, fromFrontend := frontend.New(
-			frontendText.NewReader(
-				bufio.NewReader(os.Stdin),
-				os.Stdout,
-			),
+		driver = frontendText.NewReader(
+			bufio.NewReader(os.Stdin),
+			os.Stdout,
 		)
-
-		vm.New(aQuestionaire, toFrontend, fromFrontend)
-		// aQuestionaire.PrettyPrintJSON()
-
-		// for _, question := range aQuestionaire.Questions {
-		// 	textFE.InputQuestion(question)
-		// }
-
-		// aQuestionaire.PrettyPrintJSON()
 	}
+	frontend.New(fromVM, toVM, driver)
 }
