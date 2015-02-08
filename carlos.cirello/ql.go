@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+	// todo(carlos) extract param parsing into a proper CLI module
 	filenameFlag := flag.String("source", "-", `QL code filename or "-" to read from stdin`)
 	flag.Parse()
 
@@ -30,6 +31,7 @@ func main() {
 	frontend.New(fromVM, toVM, driver)
 	driver.Loop()
 
+	// todo(carlos) extract CSV output into a proper module.
 	csv := csv.NewWriter(os.Stdout)
 	for _, v := range aQuestionaire.Questions {
 		csv.Write([]string{v.Identifier, v.Label, v.Content.String()})
