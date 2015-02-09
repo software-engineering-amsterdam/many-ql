@@ -66,7 +66,7 @@ Productions
 
 	stmt {-> stmt}
 		= {question}	ident colon string type			{-> New stmt.question(ident, string, type.type)}
-		| {value}	ident colon string type lparen exp rparen	{-> New stmt.value(ident, type.type, exp.exp)}
+		| {value}	ident colon string type lparen exp rparen	{-> New stmt.value(ident, string, type.type, exp.exp)}
 		| {ifelse}	if lparen exp rparen lbrace
 					[ifstmts]:stmtlist
 				rbrace else [lbrace2]:lbrace
@@ -126,7 +126,7 @@ Abstract Syntax Tree
 	stmt
 		= {single}		[head]:stmt
 		| {question}	ident [str]:string [type]:type
-		| {value}		ident [type]:type [exp]:exp
+		| {value}		ident [str]:string [type]:type [exp]:exp
 		| {ifelse}		[exp]:exp [ifstmts]:stmtlist [elsestmts]:stmtlist
 		| {if}			[exp]:exp [ifstmts]:stmtlist
 		;

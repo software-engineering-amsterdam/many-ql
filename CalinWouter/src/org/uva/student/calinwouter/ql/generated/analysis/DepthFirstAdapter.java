@@ -175,6 +175,10 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getIdent().apply(this);
         }
+        if(node.getStr() != null)
+        {
+            node.getStr().apply(this);
+        }
         if(node.getType() != null)
         {
             node.getType().apply(this);
