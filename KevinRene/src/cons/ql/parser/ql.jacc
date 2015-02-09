@@ -19,7 +19,9 @@
 %left '*' '/'
 %left UMIN UPLUS UNOT
 
-%type <Expr> expr 
+%type <Expr> expr
+%type <Block> statements
+%type <Statement> statement
 
 %{
 import cons.ql.ast.*;
@@ -41,7 +43,7 @@ import cons.ql.ast.expr.binary.*;
  	   ;
 
  statements : statements statement 
-			| statement
+			| statement 			{ $$ = new Block($1); }
 			;
 
  statement : question 

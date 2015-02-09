@@ -1,0 +1,25 @@
+package cons.ql.ast.expr.statement;
+
+import java.util.ArrayList;
+
+public class Block extends Statement {
+
+	private ArrayList<Statement> statements = new ArrayList<Statement>();
+	
+	/**
+	 * Constructor for the statement case
+	 * @param statement
+	 */
+	public Block(Statement statement) {
+		this.statements.add(statement);
+	}
+	
+	// TODO solve the case where it receives a bunch of statements
+//	public Block(Statement statements, ) {
+//		
+//	}
+	
+	public ArrayList<Statement> statements() {
+		return this.statements;
+	}
+}
