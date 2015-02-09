@@ -6,10 +6,11 @@ from ast import *
 endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
 word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
 integer         = Word(nums).setName("integer")
+hexaColor       = Word("#" + hexnums)
 endSign         = oneOf(". ? !")
 sentence        = (OneOrMore(word) + endSign).setParseAction(makeSentence)
 sentences       = OneOrMore(sentence).setParseAction(makeSentence)
-comment         = Literal("//") + restOfLine
+comment         = Literal("//") + restOfLine | cStyleComment
 
 # Brackets
 obrac           = Literal("{")
@@ -37,7 +38,7 @@ pElse           = Word("else")
 # Form
 fontProp        = (Word("font-family:") + word) | \
                   (Word("font-size:") + integer) | \
-                  (Word("color:") + integer + integer + integer)
+                  (Word("color:") + hexaColor)
 font            = Word("Font") + obrac + \
                   ZeroOrMore(fontProp) + \
                   cbrac
