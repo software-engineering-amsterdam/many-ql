@@ -43,25 +43,11 @@ expression  : value
 // 3. if (value && (value || value..) ..)
 // 4. if (!value)
 // 5. if (value && !value..)
-logical_expression  : value        // A boolean or integer value or variable.
-                    | LOGICAL_OPERAND logical_expression
-                    | value LOGICAL_OPERAND logical_expression
-                    | '(' logical_expression ')'  // this supports nested expressions even though every
-                                    //nested logical statement can be translated into a one-level statement
+logical_expression  : '!' logical_expression
+                    | logical_expression '&&' logical_expression
+                    | logical_expression '||' logical_expression
+                    | value
                     ;
-// all supported logical operands
-LOGICAL_OPERAND : AND | OR | NOT
-                | LT | LE | ST | SE| EQ | NE
-                ;
-AND : '&&';
-OR  : '||';
-NOT : '!';
-LT  : '>';
-LE  : '>=';
-ST  : '<';
-SE  : '<=';
-EQ  : '==';
-NE  : '!=';
 
 
 /* ARITHMETIC OPERATIONS AND TYPES */
