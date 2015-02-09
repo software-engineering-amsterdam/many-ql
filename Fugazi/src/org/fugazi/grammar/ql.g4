@@ -20,7 +20,7 @@ if_statement : 'if' '(' logical_expression ')' '{' question+ '}';
 // 1. Question expecting user's answer.
 // 2. Question (field) value of which is derived from other variables / values.
 question: TYPE ID '(' STRING ')' ';'
-        | TYPE ID '(' STRING ')' ASSIGN expression ';'
+        | TYPE ID '(' STRING ')' '=' expression ';'
         ;
 
 // all alowed variable types.
@@ -30,8 +30,13 @@ TYPE    : 'bool'
         ;
 
 // allowed assignable expressions.
-expression  : value
-            | value ARITHMETIC_OPERAND expression;
+expression  : '(' expression ')'
+            | expression '*' expression
+            | expression '/' expression
+            | expression '+' expression
+            | expression '-' expression
+            | value
+            ;
 
 
 /* LOGICAL OPERATIONS AND TYPES */
@@ -40,28 +45,22 @@ expression  : value
 // supported expressions:
 // 1. if (value)
 // 2. if (value || value && value..)
-// 3. if (value && (value || value..) ..)
+// 3. if (value && value || value.. ..)
 // 4. if (!value)
 // 5. if (value && !value..)
-logical_expression  : '!' logical_expression
+logical_expression  : '(' logical_expression ')'
+                    |'!' logical_expression
                     | logical_expression '&&' logical_expression
                     | logical_expression '||' logical_expression
+                    | value '>' value
+                    | value '>=' value
+                    | value '<' value
+                    | value '<=' value
+                    | value '==' value
+                    | value '!=' value
                     | value
                     ;
 
-
-/* ARITHMETIC OPERATIONS AND TYPES */
-
-// all suported arithmetic operands
-ARITHMETIC_OPERAND   : MUL
-                     | DIV
-                     | ADD
-                     | SUB;
-MUL     :   '*' ;
-DIV     :   '/' ;
-ADD     :   '+' ;
-SUB     :   '-' ;
-ASSIGN  :   '=' ;
 
 // all suported value types
 // TODO if we put it in caps it breaks - why?
