@@ -50,7 +50,7 @@ questionProp    = font | category | hint
 answerType      = checkbox | radiobutton | scale | Word ("text") | bool
 answer          = Suppress("Answer-type:") + answerType.setName("answer")
 question        = (Suppress("Question") + integer + Suppress(col) + sentence +\
-                  Suppress(obrac) + answer + ZeroOrMore(questionProp) + cbrac).setParseAction(Question)  
+                  Suppress(obrac) + answer + ZeroOrMore(questionProp) + Suppress(cbrac)).setParseAction(Question)  
 questions       = OneOrMore(question)
 questions2       = pIf + obrac + questions + cbrac + \
                   Optional(pElse + obrac + questions + cbrac) | \
