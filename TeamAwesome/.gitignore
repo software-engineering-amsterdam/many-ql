@@ -1,1 +1,7 @@
 *.swp
+.idea/
+*.tokens
+*Lexer.py
+*Listener.py
+*Parser.py
+__pycache__/

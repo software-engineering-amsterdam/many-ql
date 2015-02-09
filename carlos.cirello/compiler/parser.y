@@ -22,7 +22,7 @@ var finalForm *ast.Questionaire
 	form *ast.Questionaire
 	questions []*ast.Question
 	question *ast.Question
-	questionType interface{}
+	questionType ast.Parser
 }
 
 %token BlockBeginToken
@@ -79,15 +79,16 @@ questions:
 	;
 
 question:
-	QuotedStringToken questionType
+	QuotedStringToken TextToken questionType
 	{
 		$$.question = &ast.Question{
 			Label: $1.content,
-			Content: $2.questionType,
+			Identifier: $2.content,
+			Content: $3.questionType,
 		}
 
 		if qlDebug > 0 {
-			log.Printf("Question: 1:%+v 2:%+v $:%+v", $1, $2, $$)
+			log.Printf("Question: 1:%+v 2:%+v 3:%+v, $:%+v", $1, $2, $3, $$)
 		}
 	}
 	;
@@ -167,18 +168,21 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = IntQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
+	} else if txt == IfTokenText {
+		typ = IfToken
+	} else if strings.HasPrefix(txt, singleQuotedChar) ||
+		strings.HasPrefix(txt, doubleQuotedChar) ||
+		strings.HasPrefix(txt, literalQuotedChar) {
+		typ = QuotedStringToken
+		txt = stripSurroundingQuotes(txt)
 	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
 		typ = BlockBeginToken
 	} else if strings.HasPrefix(txt, BlockEndTokenText) {
 		typ = BlockEndToken
-	} else if txt == IfTokenText {
-		typ = IfToken
 	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
 		typ = ParenBeginToken
 	} else if strings.HasPrefix(txt, ParenEndTokenText) {
 		typ = ParenEndToken
-	} else if strings.HasPrefix(txt, singleQuotedChar) || strings.HasPrefix(txt, doubleQuotedChar) || strings.HasPrefix(txt, literalQuotedChar) {
-		typ = QuotedStringToken
 	}
 
 	yylval.content = txt
@@ -196,4 +200,8 @@ func CompileQL(code string) *ast.Questionaire {
 	finalForm = nil
 	qlParse(newLexer(code))
 	return finalForm
+}
+
+func stripSurroundingQuotes(str string) string {
+	return str[1:len(str)-1]
 }
