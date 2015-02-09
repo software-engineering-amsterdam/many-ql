@@ -7,7 +7,7 @@ import cons.ql.ast.expr.*;
 import cons.ql.ast.expr.unary.*;
 import cons.ql.ast.expr.binary.*;
 
-class QLParser implements QLTokens {
+public class QLParser implements QLTokens {
     private int yyss = 100;
     private int yytok;
     private int yysp = 0;
