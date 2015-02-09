@@ -1,5 +1,11 @@
 grammar LabeledExpr; // rename to distinguish from Expr.g4
 
+/*
+Sample form:
+
+form {}
+*/
+
 prog:   stat+ ;
 
 stat:   expr NEWLINE                # printExpr
