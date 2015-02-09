@@ -1,5 +1,8 @@
 # Grammar
 from pyparsing import *
+         
+def makeSentence(tokens):
+    return ' '.join(tokens) 
        
 # Answer types
 class Option: 
@@ -47,6 +50,24 @@ class Scale:
     def __init__(self, tokens):
         self.min = int(tokens[0])
         self.max = int(tokens[1])
-            
-def makeSentence(tokens):
-    return ' '.join(tokens) 
+        
+# Questions 
+class Question:
+    def __init__(self, tokens):
+        self.number = int(tokens[0])
+        self.question = tokens[1]
+        self.answer = tokens[2]
+        if len(tokens) > 2:
+            print(tokens[3][0])
+            if tokens[3][0] == "Hint:":  
+                self.hint = tokens[3][1]   
+            else:
+                self.hint = ""
+        else:
+            self.hint = ""
+    def __str__(self):
+        s = "Question:" + str(self.number) + "\n"
+        s += self.question + "\n"
+        s += str(self.answer)
+        s += self.hint
+        return s

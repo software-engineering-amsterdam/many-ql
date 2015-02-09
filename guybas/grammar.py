@@ -43,13 +43,13 @@ font            = Word("Font") + obrac + \
                   ZeroOrMore(fontProp) + \
                   cbrac
 formProp        = Word("Introduction:") + sentences | font  
-category        = Word ("Category:") + word
-hint            = Word ("Hint:") + sentence
+category        = Group(Word ("Category:") + word)  
+hint            = Group(Word ("Hint:") + sentence)
 questionProp    = font | category | hint               
 answerType      = checkbox | radiobutton | scale | Word ("text") | bool
-answer          = Word("Answer-type:") + answerType.setName("answer")
-question        = Word("Question") + integer + col + sentence +\
-                  obrac + answer + ZeroOrMore(questionProp) + cbrac  
+answer          = Suppress("Answer-type:") + answerType.setName("answer")
+question        = (Suppress("Question") + integer + Suppress(col) + sentence +\
+                  Suppress(obrac) + answer + ZeroOrMore(questionProp) + cbrac).setParseAction(Question)  
 questions       = OneOrMore(question)
 questions2       = pIf + obrac + questions + cbrac + \
                   Optional(pElse + obrac + questions + cbrac) | \
