@@ -2,7 +2,7 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
-from nodes import Node, Question
+from nodes import Node, Question, Expression
 from src.typechecker.errors import ParseError
 
 class Parser():
@@ -18,8 +18,6 @@ class Parser():
 
 
     ### Tokens ###
-
-    t_ignore = " \t\n"
 
     reserved = {
       "form"    : "FORM",
@@ -58,6 +56,10 @@ class Parser():
         'LT',
         'GT',
 
+        'NEQ',
+        'LT_EQ',
+        'GT_EQ',
+
         'NOT'
     ] + list(set(reserved.values()))
 
@@ -78,11 +80,16 @@ class Parser():
     t_LT        = r'<'
     t_GT        = r'>'
 
+    t_NEQ       = r'!='
+    t_LT_EQ     = r'<='
+    t_GT_EQ     = r'>='
+
     t_NOT       = r'!'
     t_OR        = r'\|\||or'
     t_AND       = r'&&|and'
 
     t_STRING    = r'("[^"]*")|(\'[^\']*\')'
+    t_NUMBER    = r'[0-9]*\.?[0-9]+'
     t_TYPE      = r'int|integer|float|bool|boolean|string|money'
 
 
@@ -103,21 +110,10 @@ class Parser():
         t.type = self.reserved.get(t.value, "ID")
         return t
 
-    def t_NUMBER(self, t):
-        r'\d+'
-        try:
-            t.value = int(t.value)
-        except ValueError:
-            print("Integer value too large %s" % t.value)
-            t.value = 0
-        #print "parsed number %s" % repr(t.value)
-        return t
-
     # Track line numbers to use in error messages
     def t_NEWLINE(self, t):
         r'\n+'
         t.lexer.lineno += len(t.value)
-        pass
 
     def t_COMMENT(self, t):
         r'(/\*(.|\n)*?\*/)|(//.*)|(\#.*)'
@@ -128,6 +124,8 @@ class Parser():
             print "Illegal character '%s'" % t.value[0]
         t.lexer.skip(1)
 
+    t_ignore = " \t"
+
 
     ### Parsing rules ###
 
@@ -137,18 +135,16 @@ class Parser():
 
 
     def p_block(self, p):
-        '''
-        block : LBRACKET RBRACKET
-              | LBRACKET statements RBRACKET
+        '''block : LBRACKET RBRACKET
+                 | LBRACKET statements RBRACKET
         '''
         if len(p) == 4:
             p[0] = p[2]
 
 
     def p_statements(self, p):
-        '''
-        statements : statements statement
-                   | statement
+        '''statements : statements statement
+                      | statement
         '''
         if len(p) == 2:
             p[0] = [p[1]]
@@ -160,9 +156,8 @@ class Parser():
 
 
     def p_statement(self, p):
-        '''
-        statement : question
-                  | ifdef
+        '''statement : question
+                     | ifdef
         '''
         p[0] = p[1]
 
@@ -183,16 +178,17 @@ class Parser():
 
 
     def p_if(self, p):
-        '''
-        ifdef : IF expr block
-              | IF expr block ELSE block
+        '''ifdef : IF expr block
+                 | IF expr block ELSE block
         '''
         p[0] = Node("if", p[3], p[2])
 
 
-    def p_single_expression(self, p):
+    def p_single_term_expression(self, p):
         '''expr : ID
-                | NUMBER'''
+                | NUMBER
+                | STRING
+        '''
         p[0] = p[1]
 
 
@@ -209,32 +205,31 @@ class Parser():
                 | expr TIMES expr
                 | expr DIVIDE expr
         '''
-        p[0] = Node("expression", [p[1], p[3]], p[2])
+        p[0] = Expression(p[2], p[1], p[3])
 
 
     def p_unary_minus_expression(self, p):
         '''expr : MINUS expr %prec UMINUS'''
-        p[0] = -p[2]
+        p[0] = "-" + p[2]
 
 
     def p_not_expression(self, p):
         '''expr : NOT expr %prec NOT'''
-        p[0] = Node("expression", p[2], "NOT")
+        p[0] = Expression("NOT", p[2])
 
 
     def p_grouped_expression(self, p):
         '''expr : LPAR expr RPAR'''
         p[0] = p[2]
 
+
     def p_empty_expression(self, p):
         '''expr : LPAR RPAR'''
-        p[0] = []
+        pass
 
 
     def p_error(self, p):
         if self.DEBUG:
             print "Syntax error at '%s'" % p
 
-        raise ParseError('Syntax')
-
-
+        raise ParseError(p)

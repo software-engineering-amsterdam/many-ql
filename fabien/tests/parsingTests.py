@@ -83,6 +83,6 @@ class TestCases(unittest.TestCase):
             parsed = self.app.parse(file.read())
 
             self.assertEquals(parsed.type, "form")
-            self.assertEquals(len(parsed.children), 10)
+            self.assertEquals(len(parsed.children), 11)
 
             file.close()
