@@ -1,6 +1,10 @@
 grammar QL;
 form
-    :   'form' numeric '{' numeric numeric '"' numeric '"' '}';
+    :   'form' numeric '{' question '}';
+
+question
+    : numeric numeric '"' numeric '"'
+    ;
 
 numeric
     : Number
