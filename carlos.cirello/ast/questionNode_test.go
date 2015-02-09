@@ -4,7 +4,7 @@ import "testing"
 
 func TestQuestion(t *testing.T) {
 	aStringQuestion := StringQuestion("42")
-	aQuestion := &Question{
+	aQuestion := &QuestionNode{
 		Label:   "what's the answer to life the universe and everything?",
 		Content: &aStringQuestion,
 	}

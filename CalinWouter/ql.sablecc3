@@ -137,11 +137,11 @@ Abstract Syntax Tree
 		;
 	exp
 		= {add}			[left]:exp [right]:exp
+		| {sub}			[left]:exp [right]:exp
 		| {true}
 		| {false}
 		| {or}			[left]:exp [right]:exp
 		| {and}			[left]:exp [right]:exp
-		| {sub}			[left]:exp [right]:exp
 		| {eq}			[left]:exp [right]:exp
 		| {neq}			[left]:exp [right]:exp
 		| {lt}			[left]:exp [right]:exp

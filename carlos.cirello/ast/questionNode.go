@@ -11,7 +11,7 @@ type Parser interface {
 }
 
 // Question models the structure of one question within a Questionaire.
-type Question struct {
+type QuestionNode struct {
 	Label      string
 	Identifier string
 	Content    Parser
@@ -19,18 +19,18 @@ type Question struct {
 }
 
 // Clone Question to be used for transmission between VM and Frontend
-func (q Question) Clone() Question {
+func (q QuestionNode) Clone() QuestionNode {
 	return q
 }
 
 // From takes the input from Frontend and stores locally,
 // into the concrete question type.
-func (q Question) From(str string) error {
+func (q QuestionNode) From(str string) error {
 	return q.Content.From(str)
 }
 
 // Type returns the question type in string to facilitate later evaluation at
 // Frontend. It might be deprecated under architecture review.
-func (q Question) Type() string {
+func (q QuestionNode) Type() string {
 	return q.Content.Type()
 }

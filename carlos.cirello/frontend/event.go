@@ -5,7 +5,7 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 // Event carries the communication between VM and Frontend
 type Event struct {
 	Type     EventType
-	Question ast.Question
+	Question ast.QuestionNode
 	Answers  map[string]string
 }
 

@@ -27,7 +27,6 @@ public class Main {
         try {
             Start ast = parser.parse();
             new AFormInterpreter().interprete(new Environment(), ast.getPForm());
-            //ast.apply(printer);
         } catch(Exception e) {
             e.printStackTrace();
         }
