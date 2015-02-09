@@ -1,44 +1,55 @@
-grammar ql;
+grammar QL;
 
-/* GENERAL DEFINITIONS */
+/**
+ * =====================
+ * GENERAL DEFINITIONS
+ * =====================
+ */
 
 // complete form - topmost node
-form    : .? 'form' VARIABLE_NAME '{' stat+ '}';
+form    : 'form' ID '{' stat* '}';
 
 // statement - can be a question or an if statement
-stat    : question
+stat    : questionDecl
         | if_statement
         ;
 
 // an if statement
 // supported form: if(expr){...}
-if_statement : 'if' '(' logical_expression ')' '{' question+ '}';
+if_statement : 'if' '(' logical_expression ')' '{' questionDecl+ '}';
 
 // question types
 // two supported versions:
 // 1. Question expecting user's answer.
 // 2. Question (field) value of which is derived from other variables / values.
-question: TYPE VARIABLE_NAME '(' STRING ')' ';'
-        | TYPE VARIABLE_NAME '(' STRING ')' '=' expression ';'
-        ;
+questionDecl    : type ID '(' STRING ')' ';'
+                | type ID '(' STRING ')' '=' expression ';'
+                ;
 
 // all alowed variable types.
-TYPE    : 'bool'
-        | 'float'
-        | 'int'
-        ;
+type    : 'bool' | 'float' | 'int' ;
 
+/**
+ * =====================
+ * NUMERICAL OPERATIONS
+ * =====================
+ */
+ 
 // allowed assignable expressions.
 expression  : '(' expression ')'
             | expression '*' expression
             | expression '/' expression
             | expression '+' expression
             | expression '-' expression
-            | id
+            | ID
+            | NUMBER
             ;
 
-
-/* LOGICAL OPERATIONS AND TYPES */
+/**
+ * =====================
+ * LOGICAL OPERATIONS
+ * =====================
+ */
 
 // this defines what a logical expression looks like.
 // supported expressions:
@@ -48,32 +59,31 @@ expression  : '(' expression ')'
 // 4. if (!value)
 // 5. if (value && !value..)
 logical_expression  : '(' logical_expression ')'
-                    |'!' logical_expression
+                    | '!' logical_expression
                     | logical_expression '&&' logical_expression
                     | logical_expression '||' logical_expression
-                    | id '>' id
-                    | id '>=' id
-                    | id '<' id
-                    | id '<=' id
-                    | id '==' id
-                    | id '!=' id
-                    | id
+                    | logical_expression '>' logical_expression
+                    | logical_expression '>=' logical_expression
+                    | logical_expression '<' logical_expression
+                    | logical_expression '<=' logical_expression
+                    | logical_expression '==' logical_expression
+                    | logical_expression '!=' logical_expression
+                    | ID
+                    | NUMBER
                     ;
 
-
-// all suported value types
-// TODO if we put it in caps it breaks - why?
-id      : BOOLEAN
-        | INT
-        | FLOAT
-        | VARIABLE_NAME
-        ;
+/**
+ * =====================
+ * LEXER RULES
+ * =====================
+ */
 
 // identifier definition
 // user to identify variable names
-VARIABLE_NAME  :   [a-zA-Z]+;
+ID  :   [a-zA-Z]+;
 
-/* LEXER RULES */
+// Number types, used for numerical statements.
+NUMBER : INT | FLOAT;
 
 // string definition
 STRING :  '"' (ESC | ~["\\])* '"' ;
@@ -92,20 +102,21 @@ FLOAT : DIGIT+ '.' DIGIT*   // match 1. 39. 3.14159 etc...
       | '.' DIGIT+          // match .1 .14159
       ;
 
-// text layout definitions
-// newline return newlines to parser (is end-statement signal)
-NEWLINE :'\r'? '\n' ;
 // comment matches anything between /* and */
 COMMENT
     :   '/*' .*? '*/'    -> channel(HIDDEN)
     ;
+
 // ignore whitespaces
 WS  :   [ \r\t\u000C\n]+ -> channel(HIDDEN)
     ;
+    
 // line comment matches anything after // until newline
 LINE_COMMENT
     : '//' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN)
     ;
+    
+// Fragments
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
 fragment HEX : [0-9a-fA-F] ;
