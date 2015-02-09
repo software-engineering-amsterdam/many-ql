@@ -41,10 +41,11 @@ public interface Analysis extends Switch
     void caseAParenExp(AParenExp node);
     void caseANotExp(ANotExp node);
     void caseANumberExp(ANumberExp node);
+    void caseAIdentExp(AIdentExp node);
 
+    void caseTComment(TComment node);
     void caseTTnot(TTnot node);
     void caseTNumber(TNumber node);
-    void caseTIdent(TIdent node);
     void caseTOr(TOr node);
     void caseTAnd(TAnd node);
     void caseTAdd(TAdd node);
@@ -72,8 +73,8 @@ public interface Analysis extends Switch
     void caseTTgt(TTgt node);
     void caseTTlte(TTlte node);
     void caseTTgte(TTgte node);
-    void caseTComment(TComment node);
     void caseTBlank(TBlank node);
+    void caseTIdent(TIdent node);
     void caseEOF(EOF node);
     void caseInvalidToken(InvalidToken node);
 }

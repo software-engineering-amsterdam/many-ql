@@ -142,6 +142,10 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAQuestionStmt(AQuestionStmt node)
     {
         inAQuestionStmt(node);
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
+        }
         if(node.getStr() != null)
         {
             node.getStr().apply(this);
@@ -167,6 +171,14 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAValueStmt(AValueStmt node)
     {
         inAValueStmt(node);
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
+        }
+        if(node.getStr() != null)
+        {
+            node.getStr().apply(this);
+        }
         if(node.getType() != null)
         {
             node.getType().apply(this);
@@ -703,5 +715,26 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getNumber().apply(this);
         }
         outANumberExp(node);
+    }
+
+    public void inAIdentExp(AIdentExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIdentExp(AIdentExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAIdentExp(AIdentExp node)
+    {
+        inAIdentExp(node);
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
+        }
+        outAIdentExp(node);
     }
 }

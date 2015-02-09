@@ -52,10 +52,17 @@ answer          = Suppress("Answer-type:") + answerType.setName("answer")
 question        = ((Suppress("Question") + integer + Suppress(col) + sentence +
                    Suppress(obrac) + answer + ZeroOrMore(questionProp) + Suppress(cbrac)).setParseAction(Question))
 questions       = OneOrMore(question)
+<<<<<<< HEAD
+questions2       = (pIf + Suppress(obrac) + questions + Suppress(cbrac) + \
+                  Optional(pElse + Suppress(obrac) + questions + Suppress(cbrac))).setParseAction(Conditional_Questions) | \
+                  questions
+form            = (word + Group(ZeroOrMore(formProp)) + OneOrMore(questions2)).setParseAction(Form)      
+=======
 questions2      = ((pIf + Suppress(obrac) + questions + Suppress(cbrac) +
                    Optional(pElse + Suppress(obrac) + questions + Suppress(cbrac))).setParseAction(Conditional_Questions)
                    | questions)
 form            = word + ZeroOrMore(formProp) + OneOrMore(questions2)      
+>>>>>>> b401617feaffe9316266cbc5f7f55c6a8366881c
 
 # Test
 try:

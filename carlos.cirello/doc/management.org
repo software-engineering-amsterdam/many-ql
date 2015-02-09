@@ -38,6 +38,8 @@
         - [X] Basic Algorithm
         - [X] Initial Tests
         - [ ] 100% coverage
+        - [ ] Top/Bottom restrictions
+        - [ ] Number masking
       - [ ] Int [2/3]
         - [X] Basic Algorithm
         - [X] Initial Tests
@@ -65,6 +67,7 @@
   ** Nice to have
     - Loop
     - Optional answers (nil response)
+    - Preload answers from CSV file
 
 * QLS
   - [ ] Basic Architecture

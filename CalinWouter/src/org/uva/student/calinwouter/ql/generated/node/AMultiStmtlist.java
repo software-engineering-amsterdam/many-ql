@@ -7,7 +7,7 @@ import org.uva.student.calinwouter.ql.generated.analysis.*;
 @SuppressWarnings("nls")
 public final class AMultiStmtlist extends PStmtlist
 {
-    private PStmt _head_;
+    private PStmtlist _head_;
     private PStmt _tail_;
 
     public AMultiStmtlist()
@@ -16,7 +16,7 @@ public final class AMultiStmtlist extends PStmtlist
     }
 
     public AMultiStmtlist(
-        @SuppressWarnings("hiding") PStmt _head_,
+        @SuppressWarnings("hiding") PStmtlist _head_,
         @SuppressWarnings("hiding") PStmt _tail_)
     {
         // Constructor
@@ -40,12 +40,12 @@ public final class AMultiStmtlist extends PStmtlist
         ((Analysis) sw).caseAMultiStmtlist(this);
     }
 
-    public PStmt getHead()
+    public PStmtlist getHead()
     {
         return this._head_;
     }
 
-    public void setHead(PStmt node)
+    public void setHead(PStmtlist node)
     {
         if(this._head_ != null)
         {
@@ -123,7 +123,7 @@ public final class AMultiStmtlist extends PStmtlist
         // Replace child
         if(this._head_ == oldChild)
         {
-            setHead((PStmt) newChild);
+            setHead((PStmtlist) newChild);
             return;
         }
 

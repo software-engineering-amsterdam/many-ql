@@ -18,17 +18,15 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by the {@code Number}
-	 * labeled alternative in {@link QLParser#addition}.
+	 * Visit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumber(@NotNull QLParser.NumberContext ctx);
+	T visitForm(@NotNull QLParser.FormContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code PlusExpr}
-	 * labeled alternative in {@link QLParser#addition}.
+	 * Visit a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPlusExpr(@NotNull QLParser.PlusExprContext ctx);
+	T visitQuestion(@NotNull QLParser.QuestionContext ctx);
 }

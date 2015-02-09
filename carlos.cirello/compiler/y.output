@@ -22,21 +22,21 @@ state 2
 
 
 state 3
-	form:  FormToken.TextToken BlockBeginToken questions BlockEndToken 
+	form:  FormToken.TextToken '{' questions '}' 
 
 	TextToken  shift 4
 	.  error
 
 
 state 4
-	form:  FormToken TextToken.BlockBeginToken questions BlockEndToken 
+	form:  FormToken TextToken.'{' questions '}' 
 
-	BlockBeginToken  shift 5
+	'{'  shift 5
 	.  error
 
 
 state 5
-	form:  FormToken TextToken BlockBeginToken.questions BlockEndToken 
+	form:  FormToken TextToken '{'.questions '}' 
 	questions: .    (3)
 
 	.  reduce 3 (src line 67)
@@ -44,17 +44,17 @@ state 5
 	questions  goto 6
 
 state 6
-	form:  FormToken TextToken BlockBeginToken questions.BlockEndToken 
+	form:  FormToken TextToken '{' questions.'}' 
 	questions:  questions.question 
 
-	BlockEndToken  shift 7
 	QuotedStringToken  shift 9
+	'}'  shift 7
 	.  error
 
 	question  goto 8
 
 state 7
-	form:  FormToken TextToken BlockBeginToken questions BlockEndToken.    (2)
+	form:  FormToken TextToken '{' questions '}'.    (2)
 
 	.  reduce 2 (src line 53)
 
@@ -106,7 +106,7 @@ state 14
 	.  reduce 8 (src line 104)
 
 
-14 terminals, 6 nonterminals
+16 terminals, 6 nonterminals
 9 grammar rules, 15/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 55 working sets used
@@ -117,4 +117,4 @@ memory: parser 4/30000
 0 entries saved by goto default
 Optimizer space used: output 14/30000
 14 table entries, 0 zero
-maximum spread: 14, maximum offset: 12
+maximum spread: 16, maximum offset: 15

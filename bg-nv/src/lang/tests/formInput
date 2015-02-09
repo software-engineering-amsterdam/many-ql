@@ -1,0 +1,4 @@
+form Box1HouseOwning
+{
+ boolean hasSoldHouse "Did you sell a house in 2010?" 1+2
+}
