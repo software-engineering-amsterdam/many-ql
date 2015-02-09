@@ -123,6 +123,7 @@ QL & QLS
    * references to questions with an undefined value
    * cyclic dependencies between questions
    * duplicate labels (warning)
+   * understands operator precedence (3 - 2 + 1 != 0)
 
 - The language supports booleans, integers and string values.
 
