@@ -13,20 +13,21 @@ form			: formSection+;
 
 formSection 	: 'FORM' ID block+;
 
-block			: '<' questionBlock+ '>';
+block			: '<' questionBlock '>';
 
-questionBlock	: question
-				| block  												// probably can be removed 
-				| 'if' '(' statement  ')' questionBlock+  					//if statement
-				| 'if' '(' statement ')' questionBlock+ ('else if' '(' statement ')' questionBlock+ )* 'else' '(' questionBlock+ ')'; 		//if -if-else- else';
-		
+questionBlock	: question+
+				| block  
+				| 'if' '(' statement  ')' 												
+				| 'if' '(' statement  ')' questionBlock+  					
+				| 'if' '(' statement ')' questionBlock+ ('else if' '(' statement ')' questionBlock+ )* 'else' '(' questionBlock+ ')';
+					
 
 statement		: ID | question | questionId | statement '==' statement;		// should be changed, expanded, operators etc
 
 question	 	: questionId NUMBER TEXT type;
 		
-type  			: 'boolean' | 'integer' | 'double' | 'String' | choise;   
-choise 			: '[' question ']'+ | 'true' | 'false' ; 
+type  			: 'boolean' | 'integer' | 'double' | 'String' | choice;   
+choice 			: '[' question ']'+ | 'true' | 'false' ; 
 	  
 
 questionId : ID;
