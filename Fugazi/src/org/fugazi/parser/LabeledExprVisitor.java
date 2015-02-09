@@ -1,5 +1,4 @@
-// Generated from LabeledExpr.g4 by ANTLR 4.5
-import org.antlr.v4.runtime.misc.NotNull;
+package org.fugazi.parser;// Generated from LabeledExpr.g4 by ANTLR 4.5
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

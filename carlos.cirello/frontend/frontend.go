@@ -12,6 +12,8 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 type Inputer interface {
 	InputQuestion(q *ast.Question)
 	Loop()
+	Flush()
+	FetchAnswers() map[string]string
 }
 
 // New instantiates a frontend goroutine, looping all the
@@ -39,13 +41,19 @@ func (f *frontend) loop() {
 		select {
 		case r := <-f.receive:
 			if r.Type == ReadyP {
-				emptyQuestion := &ast.Question{}
-				f.send <- &Event{ReadyT, *emptyQuestion}
+				f.send <- &Event{
+					Type: ReadyT,
+				}
 			} else if r.Type == Render {
 				f.driver.InputQuestion(&r.Question)
-				go func(send chan *Event, q ast.Question) {
-					send <- &Event{Answer, q}
-				}(f.send, r.Question)
+			} else if r.Type == Flush {
+				f.driver.Flush()
+			} else if r.Type == FetchAnswers {
+				fetchedAnswers := f.driver.FetchAnswers()
+				f.send <- &Event{
+					Type:    Answers,
+					Answers: fetchedAnswers,
+				}
 			}
 		default:
 			//noop

@@ -3,10 +3,8 @@ package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
-	"fmt"
 	"log"
-	"os"
-	"strings"
+	"sync"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
@@ -14,70 +12,100 @@ import (
 )
 
 type msg struct {
-	Name    string
-	Label   string
-	Content string
+	Identifier string
+	Label      string
+	Content    string
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
 	msgChan chan msg
 	appName string
+
+	mu          sync.Mutex
+	stack       []msg
+	answerStack map[string]string
+}
+
+type answer struct {
+	Identifier string
+	Content    string
 }
 
 // GUI creates the driver for Frontend process.
 func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
-		make(chan msg),
-		appName,
+		msgChan:     make(chan msg),
+		answerStack: make(map[string]string),
+		appName:     appName,
 	}
 	return driver
 }
 
-// InputQuestion adds a new question into the GUI form
+// InputQuestion adds a new question into the GUI form stack
 func (g *Gui) InputQuestion(q *ast.Question) {
-	label := q.Label
-	//todo(carlos) strip quotes in lexer maybe?
-	label = strings.Replace(label, `"`, "", -1)
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
 	m := &msg{
-		strings.Replace(label, " ", "", -1),
-		label,
+		q.Identifier,
+		q.Label,
 		"",
 	}
-	g.msgChan <- *m
+	g.stack = append(g.stack, *m)
 }
 
-// Loop executes GUI main loop, which actually delegates interface to the
+// Flush transfers form stack into the screen.
+func (g *Gui) Flush() {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	for _, v := range g.stack {
+		g.msgChan <- v
+	}
+	g.stack = []msg{}
+}
+
+// FetchAnswers unloads the current captured answers from user to Frontend
+// process and VM
+func (g *Gui) FetchAnswers() map[string]string {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	answerStack := g.answerStack
+	g.answerStack = make(map[string]string)
+	return answerStack
+}
+
+// Loop executes GUI main loop, which actually delegates the interface to the
 // underlying library (go-qml).
 func (g *Gui) Loop() {
-	// todo(carlos) Improve readibility
-	if err := qml.Run(func() error {
-		win := startQMLengine(g.appName).CreateWindow(nil)
-		rows := win.Root().ObjectByName("questions")
-		win.Show()
-		go g.addQuestionLoop(rows)
-		win.Wait()
-		return nil
-	}); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
-	}
+	qml.Run(g.loop)
+}
+
+func (g *Gui) loop() error {
+	win := startQMLengine(g.appName).CreateWindow(nil)
+	rows := win.Root().ObjectByName("questions")
+	win.Show()
+	go g.addQuestionLoop(rows)
+	win.Wait()
+	return nil
 }
 
 func (g *Gui) addQuestionLoop(rows qml.Object) {
 	for {
 		select {
 		case event := <-g.msgChan:
-			addNewQuestion(
+			g.addNewQuestion(
 				rows,
-				event.Name,
+				event.Identifier,
 				event.Label,
 			)
 		}
 	}
 }
 
-func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
+func (g *Gui) addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
 	engine := qml.NewEngine()
 	newQuestionQML := renderNewQuestion(newTextfieldName,
 		newTextfieldQuestion)
@@ -88,11 +116,14 @@ func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion stri
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
-	textField := question.ObjectByName(
-		renderNewQuestionTextfieldName(newTextfieldName))
+	textField := question.ObjectByName(newTextfieldName)
 	textField.On("editingFinished", func() {
-		log.Println("finished editing, send to VM:",
-			textField.String("text"))
+		g.mu.Lock()
+		defer g.mu.Unlock()
+
+		objectName := textField.String("objectName")
+		content := textField.String("text")
+		g.answerStack[objectName] = content
 	})
 	// todo(carlos) Use this command to disappear with the question
 	// question.Destroy()

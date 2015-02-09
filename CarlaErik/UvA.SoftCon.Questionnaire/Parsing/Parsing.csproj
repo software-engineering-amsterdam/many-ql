@@ -47,6 +47,7 @@
     <Compile Include="QLLexer.cs" />
     <Compile Include="QLListener.cs" />
     <Compile Include="QLParser.cs" />
+    <Compile Include="ShortToUnicodeString.cs" />
   </ItemGroup>
   <ItemGroup>
     <AntlrTokens Include="QL.tokens">

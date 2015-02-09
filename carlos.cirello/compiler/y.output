@@ -66,48 +66,55 @@ state 8
 
 
 state 9
-	question:  QuotedStringToken.questionType 
+	question:  QuotedStringToken.TextToken questionType 
 
-	StringQuestionToken  shift 11
-	IntQuestionToken  shift 12
-	BoolQuestionToken  shift 13
+	TextToken  shift 10
 	.  error
 
-	questionType  goto 10
 
 state 10
-	question:  QuotedStringToken questionType.    (5)
+	question:  QuotedStringToken TextToken.questionType 
+
+	StringQuestionToken  shift 12
+	IntQuestionToken  shift 13
+	BoolQuestionToken  shift 14
+	.  error
+
+	questionType  goto 11
+
+state 11
+	question:  QuotedStringToken TextToken questionType.    (5)
 
 	.  reduce 5 (src line 81)
 
 
-state 11
+state 12
 	questionType:  StringQuestionToken.    (6)
 
-	.  reduce 6 (src line 95)
-
-
-state 12
-	questionType:  IntQuestionToken.    (7)
-
-	.  reduce 7 (src line 99)
+	.  reduce 6 (src line 96)
 
 
 state 13
+	questionType:  IntQuestionToken.    (7)
+
+	.  reduce 7 (src line 100)
+
+
+state 14
 	questionType:  BoolQuestionToken.    (8)
 
-	.  reduce 8 (src line 103)
+	.  reduce 8 (src line 104)
 
 
 14 terminals, 6 nonterminals
-9 grammar rules, 14/2000 states
+9 grammar rules, 15/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 55 working sets used
 memory: parser 4/30000
 0 extra closures
-8 shift entries, 1 exceptions
+9 shift entries, 1 exceptions
 5 goto entries
 0 entries saved by goto default
-Optimizer space used: output 13/30000
-13 table entries, 0 zero
+Optimizer space used: output 14/30000
+14 table entries, 0 zero
 maximum spread: 14, maximum offset: 12

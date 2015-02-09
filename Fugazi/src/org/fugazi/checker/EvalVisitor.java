@@ -1,4 +1,4 @@
-/***
+package org.fugazi.checker; /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
  * Copyrights apply to this code. It may not be used to create training material, 
@@ -8,6 +8,8 @@
 ***/
 import java.util.HashMap;
 import java.util.Map;
+
+import org.fugazi.parser.*;
 
 /** Our expressions results are integer, so we extend Integer */
 public class EvalVisitor extends LabeledExprBaseVisitor<Integer> {
