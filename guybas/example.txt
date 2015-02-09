@@ -11,7 +11,9 @@ Font {
 }
 
 
-/* this is a comment, and it works! */
+/*
+    this is a comment, and it works!
+*/
 Question 1 : What is the best format for a DSL?   
 {
     Answer-type: Radiobox
