@@ -22,10 +22,10 @@ decl : ID COLON expr SEMICOLON ;
 
 expr		: expr LOG_AND expr				#LogAnd // Logical and
 			| expr LOG_OR expr				#LogOr // Logical or
-			| expr LOWER expr				#Lower // Lower
-			| expr LOWER_EQUAL expr			#LowerEqual // Lower than equal
-			| expr UPPER expr				#Greater // Greater
-			| expr UPPER_EQUAL expr			#GreaterEqual // Greater than or equal
+			| expr LESS expr				#Lower // Lower
+			| expr LESS_EQUAL expr			#LowerEqual // Lower than equal
+			| expr GREATER expr				#Greater // Greater
+			| expr GREATER_EQUAL expr			#GreaterEqual // Greater than or equal
 			| expr '^' <assoc=right> expr	#Exp // Exp
 			| expr MUL expr 				#Mul // Multiplication
 			| expr DIV expr					#Div // Division
@@ -92,10 +92,10 @@ LP			: '(' ;
 RP			: ')' ;
 LC			: '{' ;
 RC			: '}' ;
-LOWER		: '<' ;
-LOWER_EQUAL : '<=';
-UPPER		: '>' ;
-UPPER_EQUAL : '>=';
+LESS		: '<' ;
+LESS_EQUAL 	: '<=';
+GREATER		: '>' ;
+GREATER_EQUAL 	: '>=';
 EQUAL  		: '==';
 ASSIGN		: '=' ;
 LOG_AND		: '&&';
