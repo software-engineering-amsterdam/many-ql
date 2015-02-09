@@ -20,16 +20,14 @@ field : 'field' id type keyValPairs
 
 // id ////////////////////////////////////////////////
  
-id : alphaNumeric+
+id : ALPHANUMERIC+
    ;
    
-alphaNumeric : [a-zA-Z0-9]
-             ; 
 
 // type /////////////////////////////////////////////
  
           
-// (Do we want to generalize this so people can create own types?)           
+// (Do we want to generalize this so people can create own types?)
 type : 'bool'
      | 'string'
      | 'date'
@@ -38,79 +36,79 @@ type : 'bool'
      | 'money'
      ;
              
-value : bool
-      | string
+value : BOOL
+      | STRING
       | date 
       | num
       ;
-     
-bool : 'True'
-     | 'False'
-     ;
-     
-BOOL : [True|False];     
 
-string : '"' [A-z]* '"'
-       ;
- 
-date   : 'date(' year '.' month '.' day ')'
-       | 'date(' year '.' month ')' 
-       | 'date(' year ')'
+date   : 'date(' YEAR '.' MONTH '.' DAY ')'
+       | 'date(' YEAR '.' MONTH ')' 
+       | 'date(' YEAR ')'
        ;
 
-year  : [0-9]{4, };
-month : [0-9]{1,2};
-day   : [0-9]{1,2};
-       
-num : INT 
-    | DECIMAL 
+
+num : INT
+    | DECIMAL
     | MONEY
     ;
 
-INT     : [0-9]+;
-DECIMAL : [0-9]+ ',' [0-9]{1};
-MONEY   : [0-9]+ ',' [0-9]{2};
+
  
-// keyValPairs //////////////////////////////////////    
+// keyValPairs //////////////////////////////////////
     
 keyValPairs : '{' keyValPair (',' keyValPair)* '}'
             ;
               
-keyValPair : type key ':' val     
+keyValPair : type key ':' val
            ;
 
-key : alphaNumeric+;
-val : type;
+key : ALPHANUMERIC+;
+val : value;
 
-// conditional //////////////////////////////////////     
-   
-// this grammatical formulation allows for nested conditionals. do we want this ?   
-conditional : 'enable when' expresion formsection
+// conditional //////////////////////////////////////
+
+// this grammatical formulation allows for nested conditionals. do we want this ?
+conditional : 'enable when' expression formsection
             ;
-            
+
 expression : boolean
            | comparison
            | arithmetic
            ;
-           
+
 boolean : '(' boolean ')'
-        | bool
+        | BOOL
         | '!' boolean
         | boolean '&&' boolean
         | boolean '||' boolean 
-        | id 
-        | comparison 
+        | comparison
+        | id
         ;
-        
+
 comparison :
     | '(' comparison ')'
     | arithmetic ('>' | '<' | '>=' | '<=') arithmetic
-    | expression ('!=' | '==') expression  
+    | expression ('!=' | '==') expression
     ;
-    
+
 arithmetic :
     | '(' arithmetic ')'
     | arithmetic ('*'|'/'|'-'|'+') arithmetic
+    | id
     | num
-    | id 
     ;
+
+//Lexer rules
+BOOL : [True|False];
+
+INT     : [0-9]+;
+DECIMAL : [0-9]+ ',' [0-9];
+MONEY   : [0-9]+ ',' [0-9];
+
+YEAR  : [0-9];
+MONTH : [0-9];
+DAY   : [0-9];
+
+STRING : '"' [A-z]* '"';
+ALPHANUMERIC : [a-zA-Z0-9];
