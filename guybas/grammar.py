@@ -7,7 +7,7 @@ from exceptions import *
 endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
 word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
 integer         = Word(nums).setName("integer")
-hexColor        = Suppress("#") + Word(hexnums, exact=6)
+hexaColor       = Suppress("#") + Word(hexnums, exact=6)
 endSign         = oneOf(". ? !")
 sentence        = (OneOrMore(word) + endSign).setParseAction(makeSentence)
 sentences       = OneOrMore(sentence).setParseAction(makeSentence)
@@ -32,29 +32,29 @@ scale           = (Suppress("Scale") + integer + integer).setParseAction(Scale)
 # Constraints
 exp             = bool | Word("between") + integer + Word("and") + integer | integer | integer + Word(">=<") + integer
 compare         = oneOf("> >= < <= ==")
-condition       = Word("Question") + integer + compare + exp
-pIf             = Word("if") + opar + condition + cpar
+condition       = Group(Suppress("Question") + integer + compare + exp)
+pIf             = Suppress("if" + opar) + condition + Suppress(cpar)
 pElse           = Word("else")
 
 # Form
-fontProp        = (Word("font-family:") + word) | \
-                  (Word("font-size:") + integer) | \
-                  (Word("color:") + hexColor)
-font            = Word("Font") + obrac + \
-                  ZeroOrMore(fontProp) + \
-                  cbrac
+fontProp        = ((Word("font-family:") + word)
+                   | (Word("font-size:") + integer)
+                   | (Word("color:") + hexaColor))
+font            = (Word("Font") + obrac +
+                   ZeroOrMore(fontProp) +
+                   cbrac)
 formProp        = Word("Introduction:") + sentences | font  
-category        = Group(Word ("Category:") + word)  
-hint            = Group(Word ("Hint:") + sentence)
+category        = Group(Word("Category:") + word)
+hint            = Group(Word("Hint:") + sentence)
 questionProp    = font | category | hint               
 answerType      = checkbox | radiobutton | scale | Word ("text") | bool
 answer          = Suppress("Answer-type:") + answerType.setName("answer")
-question        = (Suppress("Question") + integer + Suppress(col) + sentence +\
-                  Suppress(obrac) + answer + ZeroOrMore(questionProp) + Suppress(cbrac)).setParseAction(Question)  
+question        = ((Suppress("Question") + integer + Suppress(col) + sentence +
+                   Suppress(obrac) + answer + ZeroOrMore(questionProp) + Suppress(cbrac)).setParseAction(Question))
 questions       = OneOrMore(question)
-questions2       = pIf + obrac + questions + cbrac + \
-                  Optional(pElse + obrac + questions + cbrac) | \
-                  questions
+questions2      = ((pIf + Suppress(obrac) + questions + Suppress(cbrac) +
+                   Optional(pElse + Suppress(obrac) + questions + Suppress(cbrac))).setParseAction(Conditional_Questions)
+                   | questions)
 form            = word + ZeroOrMore(formProp) + OneOrMore(questions2)      
 
 # Test

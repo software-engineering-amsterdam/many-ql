@@ -51,7 +51,7 @@ top:
 	;
 
 form:
-	FormToken TextToken BlockBeginToken questions BlockEndToken
+	FormToken TextToken '{' questions '}'
 	{
 		if qlDebug > 0 {
 			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content,
@@ -113,16 +113,8 @@ const eof = 0
 const (
 	// FormTokenText - Reserved Word
 	FormTokenText = "form"
-	// BlockBeginTokenText - Reserved Word
-	BlockBeginTokenText = "{"
-	// BlockEndTokenText - Reserved Word
-	BlockEndTokenText = "}"
 	// IfTokenText - Reserved Word
 	IfTokenText = "if"
-	// ParenBeginTokenText - Reserved Word
-	ParenBeginTokenText = "("
-	// ParenEndTokenText - Reserved Word
-	ParenEndTokenText = ")"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
 	// IntQuestionTokenText - Reserved Word
@@ -170,19 +162,13 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolQuestionToken
 	} else if txt == IfTokenText {
 		typ = IfToken
+	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" {
+		typ = int(txt[0])
 	} else if strings.HasPrefix(txt, singleQuotedChar) ||
 		strings.HasPrefix(txt, doubleQuotedChar) ||
 		strings.HasPrefix(txt, literalQuotedChar) {
 		typ = QuotedStringToken
 		txt = stripSurroundingQuotes(txt)
-	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
-		typ = BlockBeginToken
-	} else if strings.HasPrefix(txt, BlockEndTokenText) {
-		typ = BlockEndToken
-	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
-		typ = ParenBeginToken
-	} else if strings.HasPrefix(txt, ParenEndTokenText) {
-		typ = ParenEndToken
 	}
 
 	yylval.content = txt

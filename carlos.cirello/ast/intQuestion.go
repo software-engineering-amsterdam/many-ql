@@ -16,3 +16,8 @@ func (s *IntQuestion) From(str string) error {
 func (s IntQuestion) String() string {
 	return strconv.Itoa(int(s))
 }
+
+// Type returns "int", therefore indicating this question type name.
+func (s IntQuestion) Type() string {
+	return "int"
+}

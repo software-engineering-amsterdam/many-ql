@@ -66,16 +66,8 @@ const eof = 0
 const (
 	// FormTokenText - Reserved Word
 	FormTokenText = "form"
-	// BlockBeginTokenText - Reserved Word
-	BlockBeginTokenText = "{"
-	// BlockEndTokenText - Reserved Word
-	BlockEndTokenText = "}"
 	// IfTokenText - Reserved Word
 	IfTokenText = "if"
-	// ParenBeginTokenText - Reserved Word
-	ParenBeginTokenText = "("
-	// ParenEndTokenText - Reserved Word
-	ParenEndTokenText = ")"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
 	// IntQuestionTokenText - Reserved Word
@@ -123,19 +115,13 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolQuestionToken
 	} else if txt == IfTokenText {
 		typ = IfToken
+	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" {
+		typ = int(txt[0])
 	} else if strings.HasPrefix(txt, singleQuotedChar) ||
 		strings.HasPrefix(txt, doubleQuotedChar) ||
 		strings.HasPrefix(txt, literalQuotedChar) {
 		typ = QuotedStringToken
 		txt = stripSurroundingQuotes(txt)
-	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
-		typ = BlockBeginToken
-	} else if strings.HasPrefix(txt, BlockEndTokenText) {
-		typ = BlockEndToken
-	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
-		typ = ParenBeginToken
-	} else if strings.HasPrefix(txt, ParenEndTokenText) {
-		typ = ParenEndToken
 	}
 
 	yylval.content = txt
@@ -176,17 +162,17 @@ const qlLast = 14
 
 var qlAct = []int{
 
-	12, 13, 14, 10, 7, 4, 3, 5, 11, 9,
+	9, 12, 13, 14, 10, 4, 7, 5, 3, 11,
 	8, 6, 2, 1,
 }
 var qlPact = []int{
 
-	0, -1000, -1000, -6, 3, -1000, -1, -1000, -1000, -8,
-	-12, -1000, -1000, -1000, -1000,
+	2, -1000, -1000, -6, -8, -1000, -10, -1000, -1000, -7,
+	-11, -1000, -1000, -1000, -1000,
 }
 var qlPgo = []int{
 
-	0, 13, 12, 11, 10, 8,
+	0, 13, 12, 11, 10, 9,
 }
 var qlR1 = []int{
 
@@ -198,7 +184,7 @@ var qlR2 = []int{
 }
 var qlChk = []int{
 
-	-1000, -1, -2, 6, 11, 4, -3, 5, -4, 10,
+	-1000, -1, -2, 6, 11, 15, -3, 16, -4, 10,
 	11, -5, 12, 13, 14,
 }
 var qlDef = []int{
@@ -208,7 +194,19 @@ var qlDef = []int{
 }
 var qlTok1 = []int{
 
-	1,
+	1, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 15, 3, 16,
 }
 var qlTok2 = []int{
 
