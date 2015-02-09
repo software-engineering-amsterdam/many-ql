@@ -18,35 +18,25 @@ public interface KLQListener extends ParseTreeListener {
 	 */
 	void exitQuestionaire(@NotNull KLQParser.QuestionaireContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KLQParser#group}.
+	 * Enter a parse tree produced by {@link KLQParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void enterGroup(@NotNull KLQParser.GroupContext ctx);
+	void enterQuestion(@NotNull KLQParser.QuestionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link KLQParser#group}.
+	 * Exit a parse tree produced by {@link KLQParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void exitGroup(@NotNull KLQParser.GroupContext ctx);
+	void exitQuestion(@NotNull KLQParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KLQParser#groupBegin}.
+	 * Enter a parse tree produced by {@link KLQParser#end}.
 	 * @param ctx the parse tree
 	 */
-	void enterGroupBegin(@NotNull KLQParser.GroupBeginContext ctx);
+	void enterEnd(@NotNull KLQParser.EndContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link KLQParser#groupBegin}.
+	 * Exit a parse tree produced by {@link KLQParser#end}.
 	 * @param ctx the parse tree
 	 */
-	void exitGroupBegin(@NotNull KLQParser.GroupBeginContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link KLQParser#groupEnd}.
-	 * @param ctx the parse tree
-	 */
-	void enterGroupEnd(@NotNull KLQParser.GroupEndContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KLQParser#groupEnd}.
-	 * @param ctx the parse tree
-	 */
-	void exitGroupEnd(@NotNull KLQParser.GroupEndContext ctx);
+	void exitEnd(@NotNull KLQParser.EndContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KLQParser#specification}.
 	 * @param ctx the parse tree
@@ -57,6 +47,36 @@ public interface KLQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSpecification(@NotNull KLQParser.SpecificationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KLQParser#answer}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnswer(@NotNull KLQParser.AnswerContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KLQParser#answer}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnswer(@NotNull KLQParser.AnswerContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpr(@NotNull KLQParser.ExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpr(@NotNull KLQParser.ExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KLQParser#answers}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnswers(@NotNull KLQParser.AnswersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KLQParser#answers}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnswers(@NotNull KLQParser.AnswersContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KLQParser#questionType}.
 	 * @param ctx the parse tree

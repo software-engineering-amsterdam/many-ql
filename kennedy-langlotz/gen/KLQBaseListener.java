@@ -28,37 +28,25 @@ public class KLQBaseListener implements KLQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGroup(@NotNull KLQParser.GroupContext ctx) { }
+	@Override public void enterQuestion(@NotNull KLQParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGroup(@NotNull KLQParser.GroupContext ctx) { }
+	@Override public void exitQuestion(@NotNull KLQParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGroupBegin(@NotNull KLQParser.GroupBeginContext ctx) { }
+	@Override public void enterEnd(@NotNull KLQParser.EndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGroupBegin(@NotNull KLQParser.GroupBeginContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterGroupEnd(@NotNull KLQParser.GroupEndContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGroupEnd(@NotNull KLQParser.GroupEndContext ctx) { }
+	@Override public void exitEnd(@NotNull KLQParser.EndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -71,6 +59,42 @@ public class KLQBaseListener implements KLQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSpecification(@NotNull KLQParser.SpecificationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnswer(@NotNull KLQParser.AnswerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnswer(@NotNull KLQParser.AnswerContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpr(@NotNull KLQParser.ExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpr(@NotNull KLQParser.ExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnswers(@NotNull KLQParser.AnswersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnswers(@NotNull KLQParser.AnswersContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
