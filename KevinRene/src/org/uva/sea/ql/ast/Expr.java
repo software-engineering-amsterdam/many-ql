@@ -7,4 +7,8 @@ public abstract class Expr implements ASTNode {
 	 * @return The resulting concatenation as a string
 	 */
 	public abstract String show();
+	
+	public String toString() {
+		return show();
+	}
 }

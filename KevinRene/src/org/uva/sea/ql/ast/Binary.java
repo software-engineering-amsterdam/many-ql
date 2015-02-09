@@ -9,6 +9,8 @@ public abstract class Binary extends Expr {
 		this.left = left;
 		this.right = right;
 		this.operator = operator;
+		
+		System.out.println(show());
 	}
 
 	public String show() {
