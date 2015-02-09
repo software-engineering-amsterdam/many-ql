@@ -9,7 +9,7 @@ integer         = Word(nums).setName("integer")
 endSign         = oneOf(". ? !")
 sentence        = (OneOrMore(word) + endSign).setParseAction(makeSentence)
 sentences       = OneOrMore(sentence).setParseAction(makeSentence)
-comment         = Literal("#") + restOfLine
+comment         = Literal("//") + restOfLine
 
 # Brackets
 obrac           = Literal("{")
@@ -25,7 +25,7 @@ multiOption     = Forward()
 multiOption     <<= option + Optional(delimitedList(multiOption))
 checkbox        = (Suppress("Checkbox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeCheckbox)
 radiobutton     = (Suppress("Radiobox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeRadiobox)
-scale           = Word("Scale") + integer + integer  
+scale           = (Suppress("Scale") + integer + integer).setParseAction(makeScale) 
 
 # Constraints
 exp             = bool | Word("between") + integer + Word("and") + integer | integer | integer + Word(">=<") + integer
