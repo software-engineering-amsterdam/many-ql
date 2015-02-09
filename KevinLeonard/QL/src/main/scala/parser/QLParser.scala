@@ -5,6 +5,9 @@ import ast.QLAST
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class QLParser extends JavaTokenParsers with QLAST {
+  
+  override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
+
   def form: Parser[Form] = "form" ~> ident ~ expression ^^ {
     case name ~ expr => Form(name, expr)
   }
@@ -26,4 +29,5 @@ class QLParser extends JavaTokenParsers with QLAST {
   def variable: Parser[Variable] = ident ^^ Variable
 
   def label: Parser[String] = stringLiteral
+
 }
