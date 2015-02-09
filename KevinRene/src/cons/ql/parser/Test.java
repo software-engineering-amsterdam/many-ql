@@ -42,10 +42,18 @@ public class Test {
 		printSubTree(root, "", true);
 	}
 	
+	/**
+	 * Prints a subtree, where a subtree consists of a root node and possibly children
+	 * @param root
+	 * @param prefix The string that leads up the the current print, includes whitespace and
+	 * 					possibly branches. For the actual root this is ""
+	 * @param tail Whether or not the current root node is the final child
+	 */
 	private static void printSubTree(ASTNode root, String prefix, boolean tail) {
 
 		System.out.println(prefix + (tail ? "└── " : "├── ") + root);
 		
+		// TODO: find a way to get rid of instanceof, perhaps keep a list of children?
 		if (root instanceof Binary) {
 			printSubTree(((Binary)root).getLeft(), prefix + (tail ? "  " : "│  "), false);
 			printSubTree(((Binary)root).getRight(), prefix + (tail ? "  " : "│  "), true);
