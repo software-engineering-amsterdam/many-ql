@@ -7,7 +7,7 @@ from exceptions import *
 endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
 word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
 integer         = Word(nums).setName("integer")
-hexaColor       = Suppress("#") + Word(hexnums, exact=6)
+hexColor        = Suppress("#") + Word(hexnums, exact=6)
 endSign         = oneOf(". ? !")
 sentence        = (OneOrMore(word) + endSign).setParseAction(makeSentence)
 sentences       = OneOrMore(sentence).setParseAction(makeSentence)
@@ -39,7 +39,7 @@ pElse           = Word("else")
 # Form
 fontProp        = (Word("font-family:") + word) | \
                   (Word("font-size:") + integer) | \
-                  (Word("color:") + hexaColor)
+                  (Word("color:") + hexColor)
 font            = Word("Font") + obrac + \
                   ZeroOrMore(fontProp) + \
                   cbrac
