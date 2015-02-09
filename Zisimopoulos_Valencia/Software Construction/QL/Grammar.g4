@@ -45,16 +45,16 @@ log
  ;
 
 expr
- : expr POW<assoc=right> expr           #powExpr
- | MINUS expr                           #unaryMinusExpr
- | NOT expr                             #notExpr
- | expr op=(MULT | DIV | MOD) expr      #multiplicationExpr
- | expr op=(PLUS | MINUS) expr          #additiveExpr
- | expr op=(LTEQ | GTEQ | LT | GT) expr #relationalExpr
- | expr op=(EQ | NEQ) expr              #equalityExpr
- | expr AND expr                        #andExpr
- | expr OR expr                         #orExpr
- | atom                                 #atomExpr
+ : expr '^'<assoc=right> expr           	#powExpr
+ | '-' expr                           		#unaryMinusExpr
+ | '!' expr                             	#notExpr
+ | expr op=('*' | '/' | '%') expr      		#multiplicationExpr
+ | expr op=('+' | '-') expr          		#additiveExpr
+ | expr op=('<=' | '>=' | '<' | '>') expr 	#relationalExpr
+ | expr op=('==' | '!=') expr              	#equalityExpr
+ | expr '&&' expr                       	#andExpr
+ | expr '||' expr                         	#orExpr
+ | atom                                 	#atomExpr
  ;
 
 atom
@@ -63,24 +63,7 @@ atom
  | (TRUE | FALSE) #booleanAtom
  | ID             #idAtom
  | STRING         #stringAtom
- | NIL            #nilAtom
  ;
-
-OR : '||';
-AND : '&&';
-EQ : '==';
-NEQ : '!=';
-GT : '>';
-LT : '<';
-GTEQ : '>=';
-LTEQ : '<=';
-PLUS : '+';
-MINUS : '-';
-MULT : '*';
-DIV : '/';
-MOD : '%';
-POW : '^';
-NOT : '!';
 
 
 TRUE : 'true' | 'TRUE' | 'True';
