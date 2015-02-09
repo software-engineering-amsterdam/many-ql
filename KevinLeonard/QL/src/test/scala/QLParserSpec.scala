@@ -1,11 +1,11 @@
 package test.scala
 
-import main.scala.QLParserCombinators
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
+import parser.QLParser
 
-class QLParserCombinatorsSpec extends Specification with ParserMatchers {
-  val parsers = new QLParserCombinators
+class QLParserSpec extends Specification with ParserMatchers {
+  val parsers = new QLParser
   import parsers._
 
   "form" should {

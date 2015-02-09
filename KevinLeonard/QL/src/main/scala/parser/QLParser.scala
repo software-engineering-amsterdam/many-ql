@@ -1,11 +1,10 @@
-package main.scala
+package parser
 
 import ast.QLAST
 
-import scala.io.Source
 import scala.util.parsing.combinator.JavaTokenParsers
 
-class QLParserCombinators extends JavaTokenParsers with QLAST {
+class QLParser extends JavaTokenParsers with QLAST {
 
   def form: Parser[String] = "form" ~> formName ~ expression ^^ { _.toString }
   def formName: Parser[String] = ident
@@ -21,17 +20,4 @@ class QLParserCombinators extends JavaTokenParsers with QLAST {
 
   def variable : Parser[Variable] = ident ^^ Variable
 
-}
-
-object QLParser extends QLParserCombinators {
-  def main(args: Array[String]) {
-
-    val formFile = Source.fromFile(args(0)).mkString
-
-    parseAll(form, formFile) match {
-      case Success(result, _) => println(result)
-      case Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg)
-      case Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg)
-    }
-  }
 }
