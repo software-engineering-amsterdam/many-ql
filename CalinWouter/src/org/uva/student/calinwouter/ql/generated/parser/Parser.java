@@ -558,13 +558,15 @@ public class Parser
         {
             // Block
         TIdent tidentNode2;
-        PType ptypeNode3;
-        PExp pexpNode4;
+        TString tstringNode3;
+        PType ptypeNode4;
+        PExp pexpNode5;
         tidentNode2 = (TIdent)nodeArrayList1.get(0);
-        ptypeNode3 = (PType)nodeArrayList4.get(0);
-        pexpNode4 = (PExp)nodeArrayList6.get(0);
+        tstringNode3 = (TString)nodeArrayList3.get(0);
+        ptypeNode4 = (PType)nodeArrayList4.get(0);
+        pexpNode5 = (PExp)nodeArrayList6.get(0);
 
-        pstmtNode1 = new AValueStmt(tidentNode2, ptypeNode3, pexpNode4);
+        pstmtNode1 = new AValueStmt(tidentNode2, tstringNode3, ptypeNode4, pexpNode5);
         }
 	nodeList.add(pstmtNode1);
         return nodeList;

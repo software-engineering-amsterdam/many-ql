@@ -8,6 +8,7 @@ import org.uva.student.calinwouter.ql.generated.analysis.*;
 public final class AValueStmt extends PStmt
 {
     private TIdent _ident_;
+    private TString _str_;
     private PType _type_;
     private PExp _exp_;
 
@@ -18,11 +19,14 @@ public final class AValueStmt extends PStmt
 
     public AValueStmt(
         @SuppressWarnings("hiding") TIdent _ident_,
+        @SuppressWarnings("hiding") TString _str_,
         @SuppressWarnings("hiding") PType _type_,
         @SuppressWarnings("hiding") PExp _exp_)
     {
         // Constructor
         setIdent(_ident_);
+
+        setStr(_str_);
 
         setType(_type_);
 
@@ -35,6 +39,7 @@ public final class AValueStmt extends PStmt
     {
         return new AValueStmt(
             cloneNode(this._ident_),
+            cloneNode(this._str_),
             cloneNode(this._type_),
             cloneNode(this._exp_));
     }
@@ -68,6 +73,31 @@ public final class AValueStmt extends PStmt
         }
 
         this._ident_ = node;
+    }
+
+    public TString getStr()
+    {
+        return this._str_;
+    }
+
+    public void setStr(TString node)
+    {
+        if(this._str_ != null)
+        {
+            this._str_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._str_ = node;
     }
 
     public PType getType()
@@ -125,6 +155,7 @@ public final class AValueStmt extends PStmt
     {
         return ""
             + toString(this._ident_)
+            + toString(this._str_)
             + toString(this._type_)
             + toString(this._exp_);
     }
@@ -136,6 +167,12 @@ public final class AValueStmt extends PStmt
         if(this._ident_ == child)
         {
             this._ident_ = null;
+            return;
+        }
+
+        if(this._str_ == child)
+        {
+            this._str_ = null;
             return;
         }
 
@@ -161,6 +198,12 @@ public final class AValueStmt extends PStmt
         if(this._ident_ == oldChild)
         {
             setIdent((TIdent) newChild);
+            return;
+        }
+
+        if(this._str_ == oldChild)
+        {
+            setStr((TString) newChild);
             return;
         }
 
