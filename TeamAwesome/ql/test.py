@@ -33,8 +33,10 @@ def print_tree(tree_test, lev):
             spaces = ""
         print(spaces + "` " + str(tree_test))
 
-        
+
+def main():
+    print_tree(tree_test, 0)    
 
 if __name__ == '__main__':
-    print_tree(tree_test, 0)
+    main()
     #main(sys.argv)
