@@ -68,13 +68,13 @@ public interface qlListener extends ParseTreeListener {
 	 */
 	void exitLogical_expression(@NotNull qlParser.Logical_expressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link qlParser#value}.
+	 * Enter a parse tree produced by {@link qlParser#id}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue(@NotNull qlParser.ValueContext ctx);
+	void enterId(@NotNull qlParser.IdContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link qlParser#value}.
+	 * Exit a parse tree produced by {@link qlParser#id}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue(@NotNull qlParser.ValueContext ctx);
+	void exitId(@NotNull qlParser.IdContext ctx);
 }

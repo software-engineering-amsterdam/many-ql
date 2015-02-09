@@ -3,12 +3,11 @@ grammar ql;
 /* GENERAL DEFINITIONS */
 
 // complete form - topmost node
-form    : 'form' ID '{' stat+ '}';
+form    : .? 'form' VARIABLE_NAME '{' stat+ '}';
 
 // statement - can be a question or an if statement
 stat    : question
         | if_statement
-        | NEWLINE // TODO determine that
         ;
 
 // an if statement
@@ -19,8 +18,8 @@ if_statement : 'if' '(' logical_expression ')' '{' question+ '}';
 // two supported versions:
 // 1. Question expecting user's answer.
 // 2. Question (field) value of which is derived from other variables / values.
-question: TYPE ID '(' STRING ')' ';'
-        | TYPE ID '(' STRING ')' '=' expression ';'
+question: TYPE VARIABLE_NAME '(' STRING ')' ';'
+        | TYPE VARIABLE_NAME '(' STRING ')' '=' expression ';'
         ;
 
 // all alowed variable types.
@@ -35,7 +34,7 @@ expression  : '(' expression ')'
             | expression '/' expression
             | expression '+' expression
             | expression '-' expression
-            | value
+            | id
             ;
 
 
@@ -52,27 +51,27 @@ logical_expression  : '(' logical_expression ')'
                     |'!' logical_expression
                     | logical_expression '&&' logical_expression
                     | logical_expression '||' logical_expression
-                    | value '>' value
-                    | value '>=' value
-                    | value '<' value
-                    | value '<=' value
-                    | value '==' value
-                    | value '!=' value
-                    | value
+                    | id '>' id
+                    | id '>=' id
+                    | id '<' id
+                    | id '<=' id
+                    | id '==' id
+                    | id '!=' id
+                    | id
                     ;
 
 
 // all suported value types
 // TODO if we put it in caps it breaks - why?
-value   : BOOLEAN
+id      : BOOLEAN
         | INT
         | FLOAT
-        | ID
+        | VARIABLE_NAME
         ;
 
 // identifier definition
 // user to identify variable names
-ID  :   [a-zA-Z]+;
+VARIABLE_NAME  :   [a-zA-Z]+;
 
 /* LEXER RULES */
 

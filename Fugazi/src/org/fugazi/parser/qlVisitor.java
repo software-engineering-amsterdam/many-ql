@@ -47,9 +47,9 @@ public interface qlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogical_expression(@NotNull qlParser.Logical_expressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link qlParser#value}.
+	 * Visit a parse tree produced by {@link qlParser#id}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(@NotNull qlParser.ValueContext ctx);
+	T visitId(@NotNull qlParser.IdContext ctx);
 }
