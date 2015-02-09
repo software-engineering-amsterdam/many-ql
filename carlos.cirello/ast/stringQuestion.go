@@ -13,3 +13,8 @@ func (s *StringQuestion) From(str string) error {
 func (s StringQuestion) String() string {
 	return string(s)
 }
+
+// Type returns "string", therefore indicating this question type name.
+func (s StringQuestion) Type() string {
+	return "string"
+}
