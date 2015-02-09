@@ -1,4 +1,4 @@
-package cons.parser;
+package cons.ql.parser;
 
 
 import java.io.IOException;

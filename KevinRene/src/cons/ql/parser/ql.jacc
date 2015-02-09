@@ -1,4 +1,4 @@
-%package cons.parser
+%package cons.ql.parser
 %class QLParser
 %interface QLTokens
 %semantic cons.ql.ast.ASTNode 
