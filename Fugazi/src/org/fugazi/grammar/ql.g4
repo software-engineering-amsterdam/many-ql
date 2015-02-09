@@ -1,58 +1,58 @@
 grammar ql;
 
-// TODO describe each statement with a comment
-// TODO put all the comments either above or to the right - be consistent
+/* GENERAL DEFINITIONS */
 
 // complete form - topmost node
-form: 'form' ID '{' stat+ '}';
+form    : 'form' ID '{' stat+ '}';
 
-
-stat : question
-     | ifstat
-     | NEWLINE
-     ;
-
-ifstat : 'if' '(' expr ')' '{' question+ '}';
-
-expr: ID        // A boolean variable.
-    | LOGICAL_EXPORESSION expr
-    | ID LOGICAL_EXPORESSION expr
-    | '(' expr ')'  // this supports nested expressions even though every
-                    //nested logical statement can be translated into a one-level statement
-    ;
-
-// single expression form
-question: type ID '(' WORD ')' ';'
-        | type ID '(' WORD ')' ASSIGN assignee ';'
+// statement - can be a question or an if statement
+stat    : question
+        | if_statement
+        | NEWLINE // TODO determine that
         ;
 
-type: 'bool'
-    | value
-    ;
+// an if statement
+// supported form: if(expr){...}
+if_statement : 'if' '(' logical_expression ')' '{' question+ '}';
 
-value : ID
-      | INT
-      | FLOAT
-      ;
+// question types
+// two supported versions:
+// 1. Question expecting user's answer.
+// 2. Question (field) value of which is derived from other variables / values.
+question: TYPE ID '(' STRING ')' ';'
+        | TYPE ID '(' STRING ')' ASSIGN expression ';'
+        ;
 
-// allowed assignable expressions
-assignee    : value
-            | value ARITHMETIC_EXPRESSION value;
+// all alowed variable types.
+TYPE    : 'bool'
+        | 'float'
+        | 'int'
+        ;
 
-ARITHMETIC_EXPRESSION   : MUL
-                        | DIV
-                        | ADD
-                        | SUB;
+// allowed assignable expressions.
+expression  : value
+            | value ARITHMETIC_OPERAND expression;
 
-MUL     :   '*' ;
-DIV     :   '/' ;
-ADD     :   '+' ;
-SUB     :   '-' ;
-ASSIGN  :   '=' ;
 
-LOGICAL_EXPORESSION     : AND | OR | NOT
-                        | LT | LE | ST | SE| EQ | NE;
+/* LOGICAL OPERATIONS AND TYPES */
 
+// this defines what a logical expression looks like.
+// supported expressions:
+// 1. if (value)
+// 2. if (value || value && value..)
+// 3. if (value && (value || value..) ..)
+// 4. if (!value)
+// 5. if (value && !value..)
+logical_expression  : value        // A boolean or integer value or variable.
+                    | LOGICAL_OPERAND logical_expression
+                    | value LOGICAL_OPERAND logical_expression
+                    | '(' logical_expression ')'  // this supports nested expressions even though every
+                                    //nested logical statement can be translated into a one-level statement
+                    ;
+// all supported logical operands
+LOGICAL_OPERAND : AND | OR | NOT
+                | LT | LE | ST | SE| EQ | NE
+                ;
 AND : '&&';
 OR  : '||';
 NOT : '!';
@@ -63,31 +63,65 @@ SE  : '<=';
 EQ  : '==';
 NE  : '!=';
 
-ID  :   [a-zA-Z]+;      // match identifiers
 
-WORD :  '"' (ESC | ~["\\])* '"' ;
+/* ARITHMETIC OPERATIONS AND TYPES */
 
+// all suported arithmetic operands
+ARITHMETIC_OPERAND   : MUL
+                     | DIV
+                     | ADD
+                     | SUB;
+MUL     :   '*' ;
+DIV     :   '/' ;
+ADD     :   '+' ;
+SUB     :   '-' ;
+ASSIGN  :   '=' ;
+
+// all suported value types
+// TODO if we put it in caps it breaks - why?
+value   : BOOLEAN
+        | INT
+        | FLOAT
+        | ID
+        ;
+
+// identifier definition
+// user to identify variable names
+ID  :   [a-zA-Z]+;
+
+/* LEXER RULES */
+
+// string definition
+STRING :  '"' (ESC | ~["\\])* '"' ;
+
+// boolean value definition
 BOOLEAN: ["true"|"false"];
 
-INT : DIGIT+ ;              // match integers
+// integer definition
+// integer consists of an arbitrary number of digits
+INT : DIGIT+ ;
 
+// float definition
+// float consists of an arbitrary number of digits, a dot,
+// and of an arbitrary number of digits
 FLOAT : DIGIT+ '.' DIGIT*   // match 1. 39. 3.14159 etc...
       | '.' DIGIT+          // match .1 .14159
       ;
 
-NEWLINE :'\r'? '\n' ;     // return newlines to parser (is end-statement signal)
-
+// text layout definitions
+// newline return newlines to parser (is end-statement signal)
+NEWLINE :'\r'? '\n' ;
+// comment matches anything between /* and */
 COMMENT
-    :   '/*' .*? '*/'    -> channel(HIDDEN) // match anything between /* and */
+    :   '/*' .*? '*/'    -> channel(HIDDEN)
     ;
-
+// ignore whitespaces
 WS  :   [ \r\t\u000C\n]+ -> channel(HIDDEN)
     ;
-
+// line comment matches anything after // until newline
 LINE_COMMENT
     : '//' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN)
     ;
-
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
 fragment HEX : [0-9a-fA-F] ;

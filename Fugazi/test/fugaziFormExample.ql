@@ -5,8 +5,8 @@ form taxOfficeExample {
  }
 
   if (hasSoldHouse) {
-    money sellingPrice ("What was the selling price?");
-    money privateDebt ("Private debts for the sold house:");
-    money valueResidue ("Value residue:") = (sellingPrice - privateDebt);
+    float sellingPrice ("What was the selling price?");
+    float privateDebt ("Private debts for the sold house:");
+    float valueResidue ("Value residue:") = (sellingPrice - privateDebt);
   }
 }

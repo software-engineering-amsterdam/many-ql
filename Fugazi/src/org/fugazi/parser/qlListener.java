@@ -28,25 +28,15 @@ public interface qlListener extends ParseTreeListener {
 	 */
 	void exitStat(@NotNull qlParser.StatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link qlParser#ifstat}.
+	 * Enter a parse tree produced by {@link qlParser#if_statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfstat(@NotNull qlParser.IfstatContext ctx);
+	void enterIf_statement(@NotNull qlParser.If_statementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link qlParser#ifstat}.
+	 * Exit a parse tree produced by {@link qlParser#if_statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfstat(@NotNull qlParser.IfstatContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link qlParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpr(@NotNull qlParser.ExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link qlParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpr(@NotNull qlParser.ExprContext ctx);
+	void exitIf_statement(@NotNull qlParser.If_statementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link qlParser#question}.
 	 * @param ctx the parse tree
@@ -58,15 +48,25 @@ public interface qlListener extends ParseTreeListener {
 	 */
 	void exitQuestion(@NotNull qlParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link qlParser#type}.
+	 * Enter a parse tree produced by {@link qlParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterType(@NotNull qlParser.TypeContext ctx);
+	void enterExpression(@NotNull qlParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link qlParser#type}.
+	 * Exit a parse tree produced by {@link qlParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitType(@NotNull qlParser.TypeContext ctx);
+	void exitExpression(@NotNull qlParser.ExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link qlParser#logical_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogical_expression(@NotNull qlParser.Logical_expressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link qlParser#logical_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogical_expression(@NotNull qlParser.Logical_expressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link qlParser#value}.
 	 * @param ctx the parse tree
@@ -77,14 +77,4 @@ public interface qlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValue(@NotNull qlParser.ValueContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link qlParser#assignee}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignee(@NotNull qlParser.AssigneeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link qlParser#assignee}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignee(@NotNull qlParser.AssigneeContext ctx);
 }

@@ -40,25 +40,13 @@ public class qlBaseListener implements qlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfstat(@NotNull qlParser.IfstatContext ctx) { }
+	@Override public void enterIf_statement(@NotNull qlParser.If_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfstat(@NotNull qlParser.IfstatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpr(@NotNull qlParser.ExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpr(@NotNull qlParser.ExprContext ctx) { }
+	@Override public void exitIf_statement(@NotNull qlParser.If_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -76,13 +64,25 @@ public class qlBaseListener implements qlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterType(@NotNull qlParser.TypeContext ctx) { }
+	@Override public void enterExpression(@NotNull qlParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitType(@NotNull qlParser.TypeContext ctx) { }
+	@Override public void exitExpression(@NotNull qlParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogical_expression(@NotNull qlParser.Logical_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogical_expression(@NotNull qlParser.Logical_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -95,18 +95,6 @@ public class qlBaseListener implements qlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitValue(@NotNull qlParser.ValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignee(@NotNull qlParser.AssigneeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignee(@NotNull qlParser.AssigneeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

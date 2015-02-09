@@ -23,17 +23,11 @@ public interface qlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStat(@NotNull qlParser.StatContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link qlParser#ifstat}.
+	 * Visit a parse tree produced by {@link qlParser#if_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfstat(@NotNull qlParser.IfstatContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link qlParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpr(@NotNull qlParser.ExprContext ctx);
+	T visitIf_statement(@NotNull qlParser.If_statementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link qlParser#question}.
 	 * @param ctx the parse tree
@@ -41,21 +35,21 @@ public interface qlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(@NotNull qlParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link qlParser#type}.
+	 * Visit a parse tree produced by {@link qlParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitType(@NotNull qlParser.TypeContext ctx);
+	T visitExpression(@NotNull qlParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link qlParser#logical_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogical_expression(@NotNull qlParser.Logical_expressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link qlParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitValue(@NotNull qlParser.ValueContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link qlParser#assignee}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignee(@NotNull qlParser.AssigneeContext ctx);
 }
