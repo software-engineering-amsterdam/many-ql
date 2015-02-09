@@ -1,4 +1,0 @@
-FORM firstQ <
-nameId 1 [What is your name?] String
-ageId 2 [How old are you?] int
->

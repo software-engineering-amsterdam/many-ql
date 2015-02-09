@@ -21,19 +21,20 @@ public class MyTaZQLBaseListener extends TaZQLBaseListener {
 		String label = new String(ctx.FILETEXT().getText());
 		int number = new Integer(ctx.NUMBER().getText());
 		
-		//QuestionLabels ql = new QuestionLabels(number, label);		
-		//q.addLabel(ql);
+		QuestionLabels ql = new QuestionLabels(number, label);		
+		q.addLabel(ql);
 		
-		//System.out.println("Listener: "+ ql);
+		System.out.println("Listener: "+ ql);
 		
-        TestGeneric <String> gs = new TestGeneric<String>();
+      //  TestGeneric <String> gs = new TestGeneric<String>();
 
-        gs.push(label);
+        //gs.push(label);
 
-        System.out.println(gs.pop());
+       // System.out.println(gs.pop());
 	
 		// add question as a label to panel
-		mf.getLabel("Label test: "+gs.pop(), true);
+		//mf.getLabel("Label test: "+gs.pop(), true);
+		mf.getLabel("Label test: "+label, true);
 	}
 	
 }
