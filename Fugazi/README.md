@@ -5,6 +5,7 @@ UvA - Software Construction 2014-2015
 - Theologos Zacharopoulos (10850619)
 - Lukasz Harezlak (10630171)
 
+We are working on the branch [fugazi](https://github.com/software-engineering-amsterdam/many-ql/tree/fugazi/).
 
 Tools
 ========
