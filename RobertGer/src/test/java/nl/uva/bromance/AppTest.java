@@ -3,12 +3,11 @@ package nl.uva.bromance;
 import nl.uva.bromance.listeners.BurialListener;
 import nl.uva.bromance.listeners.DrinkListener;
 import nl.uva.bromance.listeners.ExpParseTreeListener;
-import nl.uva.bromance.parsers.DrinkLexer;
-import nl.uva.bromance.parsers.DrinkParser;
-import nl.uva.bromance.parsers.ExpLexer;
-import nl.uva.bromance.parsers.ExpParser;
+import nl.uva.bromance.listeners.QLParseTreeListener;
+import nl.uva.bromance.parsers.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.gui.TreeViewer;
@@ -21,17 +20,20 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppTest {
+    /*
     @Test
     public void expTest() throws IOException {
 
         ExpLexer lexer = new ExpLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("ExpTest.ql")));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExpParser parser = new ExpParser(tokens);
-        ExpParser.BurialContext burialContext = parser.burial();
+        ParserRuleContext burialContext = parser.burial();
         BurialListener listener = new BurialListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, burialContext);
+
+        assertThat(listener.getCountBurial()).isEqualTo(1);
     }
 
     @Test
@@ -51,15 +53,25 @@ public class AppTest {
         ExpLexer lexer = new ExpLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("ExpTest.ql")));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ExpParser parser = new ExpParser(tokens);
-        ParseTree tree = parser.field();
+        ParseTree tree = parser.burial();
         ExpParseTreeListener listener = new ExpParseTreeListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
-
-        assertThat(listener.getBurialCount()).isEqualTo(5);
     }
-
+*/
+    @Test
+    public void grammarTest() throws IOException {
+        QLLexer lexer = new QLLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.ql")));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        QLParser parser = new QLParser(tokens);
+        ParseTree tree = parser.questionnaire();
+        QLParseTreeListener listener = new QLParseTreeListener();
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(listener, tree);
+        System.out.println("Tree Structure : "+tree.toStringTree(parser));
+    }
+/*
     @Test
     public void showTree() throws IOException {
         ExpLexer lexer = new ExpLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("ExpTest.ql")));
@@ -86,4 +98,5 @@ public class AppTest {
         frame.setSize(200, 200);
         frame.setVisible(true);
     }
+    */
 }

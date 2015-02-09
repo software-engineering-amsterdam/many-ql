@@ -22,6 +22,9 @@ public class ExpParseTreeListener extends ExpBaseListener {
 
         System.out.println("entering field :" + fieldCtx);
     }
+    public void exitField(ExpParser.FieldContext ctx) {
+        super.exitField(ctx);
+    }
 
     public void enterLocation(ExpParser.LocationContext lct){
         super.enterLocation(lct);
@@ -35,18 +38,17 @@ public class ExpParseTreeListener extends ExpBaseListener {
         super.enterBurial(btx);
         currentBurial = btx.treasure.getText();
         if (btx.at == null){
-            System.err.println("Error@Line:"+btx.start.getLine()+"] Burial "+currentBurial+" has no valid location!");
+            System.err.println("[Error@Line:"+btx.start.getLine()+"] Burial "+currentBurial+" has no valid location!");
         } else {
             System.out.println("[Easy Parse] Treasure :"+btx.treasure.getText()+" is buried at : "+btx.at.x.getText()+","+btx.at.y.getText());
         }
     }
     public void exitBurial(ExpParser.BurialContext btx){
-        super.exitBurial(btx);
+        super.enterBurial(btx);
         System.out.println("Exited burial");
     }
 
     public int getBurialCount() {
-
         List<ExpParser.BurialContext> burial = fieldCtx.burial();
         return burial.size();
     }
