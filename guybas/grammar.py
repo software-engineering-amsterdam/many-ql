@@ -1,15 +1,17 @@
 # Grammar
 from pyparsing import Word, oneOf, OneOrMore, ZeroOrMore, Forward, Group, Literal, nums, restOfLine, Optional, delimitedList
-from ast import *    
+from ast import *
+from exceptions import *
 
 # Normal sentence grammar
 endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
 word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
 integer         = Word(nums).setName("integer")
+hexColor        = Suppress("#") + Word(hexnums, exact=6)
 endSign         = oneOf(". ? !")
 sentence        = (OneOrMore(word) + endSign).setParseAction(makeSentence)
 sentences       = OneOrMore(sentence).setParseAction(makeSentence)
-comment         = Literal("//") + restOfLine
+comment         = Literal("//") + restOfLine | cStyleComment
 
 # Brackets
 obrac           = Literal("{")
@@ -23,9 +25,9 @@ bool            = Word("True") | Word("False") | Word("bool")
 option          = Group(Suppress("Option:") + Optional(Word("Default:") + bool) + sentence)
 multiOption     = Forward()
 multiOption     <<= option + Optional(delimitedList(multiOption))
-checkbox        = (Suppress("Checkbox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeCheckbox)
-radiobutton     = (Suppress("Radiobox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeRadiobox)
-scale           = (Suppress("Scale") + integer + integer).setParseAction(makeScale) 
+checkbox        = (Suppress("Checkbox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(Checkbox)
+radiobutton     = (Suppress("Radiobox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(Radiobox)
+scale           = (Suppress("Scale") + integer + integer).setParseAction(Scale) 
 
 # Constraints
 exp             = bool | Word("between") + integer + Word("and") + integer | integer | integer + Word(">=<") + integer
@@ -37,18 +39,18 @@ pElse           = Word("else")
 # Form
 fontProp        = (Word("font-family:") + word) | \
                   (Word("font-size:") + integer) | \
-                  (Word("color:") + integer + integer + integer)
+                  (Word("color:") + hexColor)
 font            = Word("Font") + obrac + \
                   ZeroOrMore(fontProp) + \
                   cbrac
 formProp        = Word("Introduction:") + sentences | font  
-category        = Word ("Category:") + word
-hint            = Word ("Hint:") + sentence
+category        = Group(Word ("Category:") + word)  
+hint            = Group(Word ("Hint:") + sentence)
 questionProp    = font | category | hint               
 answerType      = checkbox | radiobutton | scale | Word ("text") | bool
-answer          = Word("Answer-type:") + answerType.setName("answer")
-question        = Word("Question") + integer + col + sentence +\
-                  obrac + answer + ZeroOrMore(questionProp) + cbrac  
+answer          = Suppress("Answer-type:") + answerType.setName("answer")
+question        = (Suppress("Question") + integer + Suppress(col) + sentence +\
+                  Suppress(obrac) + answer + ZeroOrMore(questionProp) + Suppress(cbrac)).setParseAction(Question)  
 questions       = OneOrMore(question)
 questions2       = pIf + obrac + questions + cbrac + \
                   Optional(pElse + obrac + questions + cbrac) | \
@@ -56,7 +58,10 @@ questions2       = pIf + obrac + questions + cbrac + \
 form            = word + ZeroOrMore(formProp) + OneOrMore(questions2)      
 
 # Test
-myfile = open('example.txt', 'r').read()
-l = form.ignore(comment).parseString(myfile)
-for i in l:
-    print(i)
+try:
+    myfile = open('example.txt', 'r').read()
+    l = form.ignore(comment).parseString(myfile)
+    for i in l:
+        print(i)
+except Exception as e:
+    exceptionsHandling(e)

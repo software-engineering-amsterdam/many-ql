@@ -15,17 +15,4 @@ class QLParserCombinatorsSpec extends Specification with ParserMatchers {
     }
   }
 
-  "question" should {
-    "succeed to recognize questions" in {
-      question must succeedOn("question totalHousesSold \"How many houses did you sell in 2014?\"")
-        .withResult(equalTo("(totalHousesSold~\"How many houses did you sell in 2014?\")"))
-    }
-  }
-
-  "questionKey" should {
-    "succeed if variable is a valid Java identifier" in {
-      questionKey must succeedOn("hasSoldHouse").withResult("hasSoldHouse")
-    }
-  }
-
 }
