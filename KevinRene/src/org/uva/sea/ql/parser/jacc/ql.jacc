@@ -22,6 +22,8 @@
 
 %{
 import org.uva.sea.ql.ast.expr.*;
+import org.uva.sea.ql.ast.expr.unary.*;
+import org.uva.sea.ql.ast.expr.binary.*;
 %}
 
 %%
