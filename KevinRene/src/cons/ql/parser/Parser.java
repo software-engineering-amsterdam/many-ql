@@ -1,45 +1,46 @@
 package cons.ql.parser;
 
-
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-
+import java.io.*;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Binary;
 
-public class Test {
+public class Parser {
+
+	public static ASTNode parseFile (String filepath) {
+		try {
+			Reader reader = new BufferedReader(new FileReader(filepath));
+			QLLexer lexer = new QLLexer(reader);
+			QLParser parser = new QLParser(lexer);
 	
-//	static Reader readFile( String file ) throws IOException {
-//	    return new BufferedReader(new FileReader (file));
-//	}
-	
-	public static void main(String [] args) throws IOException {
-//		Reader reader = readFile("input.txt");
-		
-//		System.out.println("Starting test");
-		
-		printASTTree("5 + 5 - 10 * 193");
+			lexer.nextToken();
+			parser.parse();
+			
+			return parser.getResult();
+		}
+		catch (Exception e) {
+			System.err.println(e);
+			return null;
+		}
 	}
 	
-	public static ASTNode testString (String input) {
+	public static ASTNode parse (String input) {
 		Reader reader = new StringReader(input);
 		QLLexer lexer = new QLLexer(reader);
 		QLParser parser = new QLParser(lexer);
 
 		lexer.nextToken();
 		parser.parse();
-//		System.out.println("Parser success: " + parser.parse());
-//		System.out.println(parser.getResult());
 		
 		return parser.getResult();
 	}
 	
+	/**
+	 * Prints the AST tree from a given input string
+	 * @param input
+	 */
 	public static void printASTTree (String input) {
-		ASTNode root = testString(input);
-		
-		printSubTree(root, "", true);
+		printSubTree(parse(input), "", true);
 	}
 	
 	/**
