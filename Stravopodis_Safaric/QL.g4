@@ -4,8 +4,8 @@
 grammar QL;
 
 quest : ID STRING COLON LC stat+ RC
-	| 'if' LP expr RP LC quest RC
-	;
+		| 'if' LP expr RP LC quest RC
+ 		;
 
 stat : decl
 	 | value
@@ -20,16 +20,22 @@ decl : ID COLON expr SEMICOLON ;
 /* consider if (x == 3 && || y < 23 <= >= */
 /* infix and prefix expressions */
 
-expr		: expr MUL expr
-			| expr DIV expr
-			| expr ADD expr
-			| expr SUB expr
+expr		: expr LOG_AND expr				#LogAnd // Logical and
+			| expr LOG_OR expr				#LogOr // Logical or
+			| expr LOWER expr				#Lower // Lower
+			| expr LOWER_EQUAL expr			#LowerEqual // Lower than equal
+			| expr UPPER expr				#Greater // Greater
+			| expr UPPER_EQUAL expr			#GreaterEqual // Greater than or equal
+			| expr '^' <assoc=right> expr	#Exp // Exp
+			| expr MUL expr 				#Mul // Multiplication
+			| expr DIV expr					#Div // Division
+			| expr ADD expr					#Add // Addition
+			| expr SUB expr					#Sub // Substraction
 			| literal
 			;
 
 ifStat	: IF LP expr RP LC stat RC
 		| IF LP expr RP LC stat RC ELSE LC stat RC;
-
 
 value		: VALUE ASSIGN literal SEMICOLON ;	// E.g. value = true; 
 
@@ -92,16 +98,17 @@ UPPER		: '>' ;
 UPPER_EQUAL : '>=';
 EQUAL  		: '==';
 ASSIGN		: '=' ;
+LOG_AND		: '&&';
+LOG_OR		: '||';
 NOT			: '!' ;
 NOT_EQUAL	: '!=';
-COLON       : ':';
+COLON     	: ':';
 SEMICOLON   : ';';
 COMMA       : ',';
 
-
-
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
+/* the listener ->  */
 
 
 
