@@ -1,0 +1,56 @@
+Name_of_Questionnaire
+
+Introduction: This is an introduction to the questionnaire, it will be about questionnaires. You can even do multiple sentences.
+              As long as it ends with an end sign, such as '.', '?' or '!' ! As you can see it has to be escaped though.    
+              
+Font { 
+    font-size: 11 
+    color: 0 0 0 
+    font-family: arial 
+
+}
+
+# this is a comment, and it works!
+Question 1 : What is the best format for a DSL?   
+{
+    Answer-type: Radiobox
+    {
+        Option: Default True 
+            This one. 
+        Option: 
+            Another one. 
+        Option: Default False 
+            So much choice. 
+    }
+    Hint: Choose the first.
+} 
+
+# another comment
+if (Question 1 == True) {
+    Question 2 : Is this a good questionnaire?  
+    {
+        Answer-type: bool
+        Font { 
+            font-family: verdana 
+            font-size: 15 
+            color: 0 0 255 
+        }
+        Category: Standard
+    } 
+}
+
+Question 3 : How would you grade it? {
+    Answer-type: Scale 7 10 
+} 
+
+if (Question 3 == 7) {
+    Question 4 : Why do you think it is only a 7?
+    {
+        Answer-type: text  
+    }
+    
+    Question 5 : Is a 10 possible?
+    {
+        Answer-type: bool
+    }
+}
