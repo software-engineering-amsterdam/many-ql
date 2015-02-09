@@ -17,8 +17,8 @@ block			: '<' questionBlock+ '>';
 
 questionBlock	: question
 				| block  												// probably can be removed 
-				| 'if' '(' statement  ')' question+  					//if statement
-				| 'if' '(' statement ')' question+ ('else if' '(' statement ')' question+ )* 'else' '(' question+ ')'; 		//if -if-else- else';
+				| 'if' '(' statement  ')' questionBlock+  					//if statement
+				| 'if' '(' statement ')' questionBlock+ ('else if' '(' statement ')' questionBlock+ )* 'else' '(' questionBlock+ ')'; 		//if -if-else- else';
 		
 
 statement		: ID | question | questionId | statement '==' statement;		// should be changed, expanded, operators etc
