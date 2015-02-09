@@ -10,7 +10,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *ast.QuestionaireNode
+var finalQuestionaire *ast.QuestionaireNode
 
 //Top Ends Here
 %}
@@ -19,8 +19,8 @@ var finalForm *ast.QuestionaireNode
 
 %union {
 	content string
-	form *ast.QuestionaireNode
-	stack []*ast.QuestionNode
+	questionaire *ast.QuestionaireNode
+	stack []*ast.ActionNode
 	question *ast.QuestionNode
 	questionType ast.Parser
 }
@@ -41,23 +41,23 @@ var finalForm *ast.QuestionaireNode
 %%
 
 top:
-	form
+	questionaire
 	{
 		if qlDebug > 0 {
-			log.Printf("Top: %+v", $1.form)
+			log.Printf("Top: %+v", $1.questionaire)
 		}
-		finalForm = $1.form
+		finalQuestionaire = $1.questionaire
 	}
 	;
 
-form:
+questionaire:
 	FormToken TextToken '{' stack '}'
 	{
 		if qlDebug > 0 {
 			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content,
 				" $$:", $$)
 		}
-		$$.form = &ast.QuestionaireNode{
+		$$.questionaire = &ast.QuestionaireNode{
 			Label: $2.content,
 			Stack: $4.stack,
 		}
@@ -68,14 +68,18 @@ stack:
 	| stack question
 	{
 		if qlDebug > 0 {
-			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.stack,
+			log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", $1.stack,
 				$2.question, $$.stack)
 		}
 		q := $2.question
 		qs := $$.stack
-		qs = append(qs, q)
+		action := &ast.ActionNode {
+			QuestionNode: q,
+		}
+		qs = append(qs, action)
 		$$.stack = qs
 	}
+	| stack ifBlock
 	;
 
 question:
@@ -86,10 +90,6 @@ question:
 			Identifier: $2.content,
 			Content: $3.questionType,
 		}
-
-		if qlDebug > 0 {
-			log.Printf("Question: 1:%+v 2:%+v 3:%+v, $:%+v", $1, $2, $3, $$)
-		}
 	}
 	;
 
@@ -97,14 +97,21 @@ questionType: StringQuestionToken
 		{
 			$$.questionType = new(ast.StringQuestion)
 		}
-            | IntQuestionToken
+	    | IntQuestionToken
 		{
 			$$.questionType = new(ast.IntQuestion)
 		}
-            | BoolQuestionToken
+	    | BoolQuestionToken
 		{
 			$$.questionType = new(ast.BoolQuestion)
 		}
+
+ifBlock: IfToken '(' TextToken ')' '{' stack '}'
+		{
+			log.Printf("if: %#v \nexpr: %#v \nquestions: %#v", $1, $3, $6)
+		}
+	;
+
 %%
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -183,9 +190,9 @@ func (x *lexer) Error(s string) {
 
 // CompileQL generates a AST (*ast.Questionaire and children) out of source code.
 func CompileQL(code string) *ast.QuestionaireNode {
-	finalForm = nil
+	finalQuestionaire = nil
 	qlParse(newLexer(code))
-	return finalForm
+	return finalQuestionaire
 }
 
 func stripSurroundingQuotes(str string) string {

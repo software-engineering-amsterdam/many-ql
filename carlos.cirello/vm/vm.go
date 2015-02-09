@@ -37,8 +37,8 @@ func (v *vm) loop() {
 		select {
 		case r := <-v.receive:
 			if r.Type == fe.ReadyT {
-				for _, q := range v.questionaire.Stack {
-					questionCopy := q.Clone()
+				for _, action := range v.questionaire.Stack {
+					questionCopy := action.QuestionNode.Clone()
 					v.send <- &fe.Event{
 						Type:     fe.Render,
 						Question: questionCopy,
@@ -50,9 +50,10 @@ func (v *vm) loop() {
 			} else if r.Type == fe.Answers {
 				lenAnswers := len(r.Answers)
 				if lenAnswers > 0 {
-					for k, q := range v.questionaire.Stack {
+					for k, action := range v.questionaire.Stack {
+						q := action.QuestionNode
 						if answer, ok := r.Answers[q.Identifier]; ok {
-							v.questionaire.Stack[k].From(answer)
+							v.questionaire.Stack[k].QuestionNode.From(answer)
 						}
 					}
 				}
