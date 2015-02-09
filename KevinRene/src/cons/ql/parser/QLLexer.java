@@ -6,14 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expr.Ident;
-import cons.ql.ast.expr.Int;
+import cons.ql.ast.expr.QLIdent;
+import cons.ql.ast.expr.QLInt;
+import cons.ql.ast.expr.QLString;
 
 public class QLLexer implements QLTokens {
 	private static final Map<String, Integer> KEYWORDS;
 	
 	static {
 		KEYWORDS = new HashMap<String, Integer>();
+		KEYWORDS.put("form", FORM);
+		KEYWORDS.put("boolean", BOOLEAN);
 	}
 	
 	
@@ -77,6 +80,9 @@ public class QLLexer implements QLTokens {
 			    	}
 			    	return token = '/'; 
 			    }
+			    case ':': nextChar(); return token = ':';
+			    case '}': nextChar(); return token = '}';
+			    case '{': nextChar(); return token = '{';
 			    case ')': nextChar(); return token = ')';
 			    case '(': nextChar(); return token = '(';
 			    case '*': {
@@ -130,6 +136,22 @@ public class QLLexer implements QLTokens {
 			    	}
 			    	return token = '>';
 			    }
+			    case '"': {
+			    	StringBuilder sb = new StringBuilder();
+			    	// Skip opening quote.
+			    	nextChar();
+			    	// Build a string from everything between the quotes.
+			    	while (c != '"') {
+		    			sb.append((char)c);
+		    			nextChar();
+		    		}
+			    	// Skip closing quote.
+			    	nextChar();
+		    		String string = sb.toString();
+					
+		    		yylval = new QLString(string);
+		    		return token = STRING;
+			    }
 			    default: {
 			    	if (Character.isDigit(c)) {
 			    		int n = 0; 
@@ -137,21 +159,24 @@ public class QLLexer implements QLTokens {
 			    			n = 10 * n + (c - '0');
 			    			nextChar(); 
 			    		} while (Character.isDigit(c)); 
-			    		yylval = new Int(n);
+			    		yylval = new QLInt(n);
 			    		return token = INT;
 			    	}
 			    	if (Character.isLetter(c)) {
 			    		StringBuilder sb = new StringBuilder();
+			    		
 			    		do {
 			    			sb.append((char)c);
 			    			nextChar();
-			    		}
-			    		while (Character.isLetterOrDigit(c));
+			    		} while (Character.isLetterOrDigit(c));
+			    		
 			    		String name = sb.toString();
+			    		
 			    		if (KEYWORDS.containsKey(name)) {
 			    			return token = KEYWORDS.get(name);
 			    		}
-						yylval = new Ident(name);
+						
+			    		yylval = new QLIdent(name);
 			    		return token = IDENT;
 			    	}
 			    	throw new RuntimeException("Unexpected character: " + (char)c);

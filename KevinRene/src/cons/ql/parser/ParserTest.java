@@ -1,4 +1,4 @@
-package cons.ql.parser.test;
+package cons.ql.parser;
 
 import static org.junit.Assert.*;
 
@@ -9,9 +9,7 @@ import java.io.StringReader;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.expr.binary.Add;
-import cons.ql.ast.expr.Int;
-import cons.ql.parser.QLLexer;
-import cons.ql.parser.QLParser;
+import cons.ql.ast.expr.QLInt;
 
 public class ParserTest {
 
@@ -32,7 +30,24 @@ public class ParserTest {
 		lexer.nextToken();
 		assertTrue(parser.parse());
 		
-		ASTNode expectedNode = new Add(new Int(5), new Int(5));
-		assertEquals(expectedNode.toString(), parser.getResult().toString());
+		assertEquals("5 + 5", parser.getResult().toString());
 	}
+
+	@Test
+	public void testParsableForm() {
+		Reader reader = new StringReader(
+				"form taxOfficeExample {"
+				+ "hasSoldHouse : boolean {"
+				+ "\"Did you sell a house in 2010?\""
+				+ "}"
+				+ "}"
+				);
+		QLLexer lexer = new QLLexer(reader);
+		QLParser parser = new QLParser(lexer);
+
+		lexer.nextToken();
+		assertTrue(parser.parse());
+		
+		assertEquals("Form", parser.getResult().toString());
+	}	
 }

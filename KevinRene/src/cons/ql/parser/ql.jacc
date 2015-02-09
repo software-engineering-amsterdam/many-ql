@@ -3,14 +3,14 @@
 %interface QLTokens
 %semantic cons.ql.ast.ASTNode 
 
-%token <Int> INT
-%token <Boolean> BOOLEAN
-%token <String> STRING
-%token <Float> MONEY FLOAT
-%token <Ident> IDENT
-%token FORM IF ELSE
-%token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!'
-%token '(' ')'
+%token <QLInt> INT
+%token <QLBoolean> BOOLEAN
+%token <QLString> STRING
+%token <QLFloat> MONEY FLOAT
+%token <QLIdent> IDENT
+%token FORM IF ELSE 
+%token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!' '"' ':'
+%token '(' ')' '{' '}'
 
 %left OR
 %left AND
@@ -20,7 +20,7 @@
 %left UMIN UPLUS UNOT
 
 %type <Expr> expr
-%type <Block> statements
+%type <Form> form
 %type <Statement> statement
 
 %{
@@ -33,25 +33,26 @@ import cons.ql.ast.expr.statement.*;
 
 %%
 
- top : node { result = $1; } ;
+ top 	: node { result = $1; }
+ 		;
 
- node : form | statement | expr;
+ node 	: form
+ 		| statement 
+ 		| expr
+ 		;
 
- form : FORM IDENT block 
+ form : FORM IDENT '{' statements '}' { $$ = new Form($2, $4); }
  	  ;
 
- block : '{' statements '}'
- 	   ;
-
- statements : statements statement 
+ statements : statement statements
 			| statement 			{ $$ = new Block($1); }
 			;
 
- statement : question 
- 		   | IF '(' relexpr ')' block elseBranch
+ statement : question
+ 		   | IF '(' relexpr ')' '{' statements '}' elseBranch
  		   ;
 
- elseBranch : ELSE block
+ elseBranch : ELSE '{' statements '}' 
  			| /* empty */
  			;
 
@@ -95,7 +96,6 @@ import cons.ql.ast.expr.statement.*;
 		 | MONEY
 		 | FLOAT
 		 | BOOLEAN
-		 | IDENT
 		 ;
 		 
 
@@ -113,5 +113,5 @@ public QLParser(QLLexer lexer) {
 }
 
 private void yyerror(String msg) { 
-  System.err.println(msg); 
+  System.err.println(yyerrno<0 ? msg : yyerrmsgs[yyerrno]);
 }
