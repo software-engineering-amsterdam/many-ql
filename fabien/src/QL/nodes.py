@@ -10,8 +10,14 @@ class Node:
 
          self.leaf = leaf
 
+    def __getitem__(self, key):
+        return self.children[key]
+
+    def __len__(self):
+        return len(self.children)
+
     def __repr__(self):
-        return "Node(%s, %s, %s)" % (self.type, self.children, self.leaf)
+        return "Node(%s, %s,\n\t%s)\n" % (self.type, self.leaf, self.children)
 
 
 class Question:
