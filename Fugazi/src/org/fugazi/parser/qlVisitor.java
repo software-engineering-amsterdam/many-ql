@@ -11,11 +11,23 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface qlVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link qlParser#prog}.
+	 * Visit a parse tree produced by {@link qlParser#form}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProg(@NotNull qlParser.ProgContext ctx);
+	T visitForm(@NotNull qlParser.FormContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link qlParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStat(@NotNull qlParser.StatContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link qlParser#ifstat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfstat(@NotNull qlParser.IfstatContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link qlParser#expr}.
 	 * @param ctx the parse tree
@@ -23,21 +35,27 @@ public interface qlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpr(@NotNull qlParser.ExprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link qlParser#question}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestion(@NotNull qlParser.QuestionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link qlParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitType(@NotNull qlParser.TypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link qlParser#varName}.
+	 * Visit a parse tree produced by {@link qlParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVarName(@NotNull qlParser.VarNameContext ctx);
+	T visitValue(@NotNull qlParser.ValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link qlParser#display}.
+	 * Visit a parse tree produced by {@link qlParser#assignee}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDisplay(@NotNull qlParser.DisplayContext ctx);
+	T visitAssignee(@NotNull qlParser.AssigneeContext ctx);
 }

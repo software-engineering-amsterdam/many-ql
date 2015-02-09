@@ -1,7 +1,8 @@
 form taxOfficeExample {
-  bool hasSoldHouse("did you sell a house in 2010?");
+  bool hasSoldHouse("Did you sell a house in 2010?");
   bool hasBoughtHouse("Did you buy a house in 2010?");
   bool hasMaintLoan("Did you enter a loan?");
+ }
 
   if (hasSoldHouse) {
     money sellingPrice ("What was the selling price?");

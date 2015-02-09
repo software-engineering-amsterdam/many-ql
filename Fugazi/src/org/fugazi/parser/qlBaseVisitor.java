@@ -17,7 +17,21 @@ public class qlBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements qlV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProg(@NotNull qlParser.ProgContext ctx) { return visitChildren(ctx); }
+	@Override public T visitForm(@NotNull qlParser.FormContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitStat(@NotNull qlParser.StatContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIfstat(@NotNull qlParser.IfstatContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -31,6 +45,13 @@ public class qlBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements qlV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitQuestion(@NotNull qlParser.QuestionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitType(@NotNull qlParser.TypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -38,12 +59,12 @@ public class qlBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements qlV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVarName(@NotNull qlParser.VarNameContext ctx) { return visitChildren(ctx); }
+	@Override public T visitValue(@NotNull qlParser.ValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDisplay(@NotNull qlParser.DisplayContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAssignee(@NotNull qlParser.AssigneeContext ctx) { return visitChildren(ctx); }
 }

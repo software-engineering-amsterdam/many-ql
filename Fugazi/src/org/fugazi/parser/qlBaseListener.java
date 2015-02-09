@@ -16,13 +16,37 @@ public class qlBaseListener implements qlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProg(@NotNull qlParser.ProgContext ctx) { }
+	@Override public void enterForm(@NotNull qlParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProg(@NotNull qlParser.ProgContext ctx) { }
+	@Override public void exitForm(@NotNull qlParser.FormContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStat(@NotNull qlParser.StatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStat(@NotNull qlParser.StatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIfstat(@NotNull qlParser.IfstatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIfstat(@NotNull qlParser.IfstatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -40,6 +64,18 @@ public class qlBaseListener implements qlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterQuestion(@NotNull qlParser.QuestionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestion(@NotNull qlParser.QuestionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterType(@NotNull qlParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -52,25 +88,25 @@ public class qlBaseListener implements qlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVarName(@NotNull qlParser.VarNameContext ctx) { }
+	@Override public void enterValue(@NotNull qlParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVarName(@NotNull qlParser.VarNameContext ctx) { }
+	@Override public void exitValue(@NotNull qlParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDisplay(@NotNull qlParser.DisplayContext ctx) { }
+	@Override public void enterAssignee(@NotNull qlParser.AssigneeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDisplay(@NotNull qlParser.DisplayContext ctx) { }
+	@Override public void exitAssignee(@NotNull qlParser.AssigneeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -8,15 +8,35 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface qlListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link qlParser#prog}.
+	 * Enter a parse tree produced by {@link qlParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void enterProg(@NotNull qlParser.ProgContext ctx);
+	void enterForm(@NotNull qlParser.FormContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link qlParser#prog}.
+	 * Exit a parse tree produced by {@link qlParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void exitProg(@NotNull qlParser.ProgContext ctx);
+	void exitForm(@NotNull qlParser.FormContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link qlParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void enterStat(@NotNull qlParser.StatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link qlParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void exitStat(@NotNull qlParser.StatContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link qlParser#ifstat}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfstat(@NotNull qlParser.IfstatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link qlParser#ifstat}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfstat(@NotNull qlParser.IfstatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link qlParser#expr}.
 	 * @param ctx the parse tree
@@ -28,6 +48,16 @@ public interface qlListener extends ParseTreeListener {
 	 */
 	void exitExpr(@NotNull qlParser.ExprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link qlParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestion(@NotNull qlParser.QuestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link qlParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestion(@NotNull qlParser.QuestionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link qlParser#type}.
 	 * @param ctx the parse tree
 	 */
@@ -38,23 +68,23 @@ public interface qlListener extends ParseTreeListener {
 	 */
 	void exitType(@NotNull qlParser.TypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link qlParser#varName}.
+	 * Enter a parse tree produced by {@link qlParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterVarName(@NotNull qlParser.VarNameContext ctx);
+	void enterValue(@NotNull qlParser.ValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link qlParser#varName}.
+	 * Exit a parse tree produced by {@link qlParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitVarName(@NotNull qlParser.VarNameContext ctx);
+	void exitValue(@NotNull qlParser.ValueContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link qlParser#display}.
+	 * Enter a parse tree produced by {@link qlParser#assignee}.
 	 * @param ctx the parse tree
 	 */
-	void enterDisplay(@NotNull qlParser.DisplayContext ctx);
+	void enterAssignee(@NotNull qlParser.AssigneeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link qlParser#display}.
+	 * Exit a parse tree produced by {@link qlParser#assignee}.
 	 * @param ctx the parse tree
 	 */
-	void exitDisplay(@NotNull qlParser.DisplayContext ctx);
+	void exitAssignee(@NotNull qlParser.AssigneeContext ctx);
 }
