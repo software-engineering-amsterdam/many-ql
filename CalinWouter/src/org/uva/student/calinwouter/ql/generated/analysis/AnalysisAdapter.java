@@ -249,6 +249,18 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAIdentExp(AIdentExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTComment(TComment node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTTnot(TTnot node)
     {
         defaultCase(node);
@@ -256,12 +268,6 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTNumber(TNumber node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTIdent(TIdent node)
     {
         defaultCase(node);
     }
@@ -429,13 +435,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTComment(TComment node)
+    public void caseTBlank(TBlank node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseTBlank(TBlank node)
+    public void caseTIdent(TIdent node)
     {
         defaultCase(node);
     }
