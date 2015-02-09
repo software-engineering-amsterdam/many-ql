@@ -16,8 +16,10 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
         if (node instanceof AQuestionStmt) {
             System.out.println(((AQuestionStmt) node).getStr());
             // Scanner sc = new Scanner(System.in);
+            String in = ""; // ..
+            e.getEnvVars().put(((AQuestionStmt) node).getIdent().getText(), in);
         } else if (node instanceof AValueStmt) {
-            // Scanner sc = new Scanner(System.in);
+
         }
     }
 }

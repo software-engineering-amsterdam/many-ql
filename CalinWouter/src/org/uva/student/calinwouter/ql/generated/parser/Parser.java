@@ -527,12 +527,14 @@ public class Parser
         PStmt pstmtNode1;
         {
             // Block
-        TString tstringNode2;
-        PType ptypeNode3;
-        tstringNode2 = (TString)nodeArrayList3.get(0);
-        ptypeNode3 = (PType)nodeArrayList4.get(0);
+        TIdent tidentNode2;
+        TString tstringNode3;
+        PType ptypeNode4;
+        tidentNode2 = (TIdent)nodeArrayList1.get(0);
+        tstringNode3 = (TString)nodeArrayList3.get(0);
+        ptypeNode4 = (PType)nodeArrayList4.get(0);
 
-        pstmtNode1 = new AQuestionStmt(tstringNode2, ptypeNode3);
+        pstmtNode1 = new AQuestionStmt(tidentNode2, tstringNode3, ptypeNode4);
         }
 	nodeList.add(pstmtNode1);
         return nodeList;
@@ -555,12 +557,14 @@ public class Parser
         PStmt pstmtNode1;
         {
             // Block
-        PType ptypeNode2;
-        PExp pexpNode3;
-        ptypeNode2 = (PType)nodeArrayList4.get(0);
-        pexpNode3 = (PExp)nodeArrayList6.get(0);
+        TIdent tidentNode2;
+        PType ptypeNode3;
+        PExp pexpNode4;
+        tidentNode2 = (TIdent)nodeArrayList1.get(0);
+        ptypeNode3 = (PType)nodeArrayList4.get(0);
+        pexpNode4 = (PExp)nodeArrayList6.get(0);
 
-        pstmtNode1 = new AValueStmt(ptypeNode2, pexpNode3);
+        pstmtNode1 = new AValueStmt(tidentNode2, ptypeNode3, pexpNode4);
         }
 	nodeList.add(pstmtNode1);
         return nodeList;

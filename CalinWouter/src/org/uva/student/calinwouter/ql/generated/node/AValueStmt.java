@@ -7,6 +7,7 @@ import org.uva.student.calinwouter.ql.generated.analysis.*;
 @SuppressWarnings("nls")
 public final class AValueStmt extends PStmt
 {
+    private TIdent _ident_;
     private PType _type_;
     private PExp _exp_;
 
@@ -16,10 +17,13 @@ public final class AValueStmt extends PStmt
     }
 
     public AValueStmt(
+        @SuppressWarnings("hiding") TIdent _ident_,
         @SuppressWarnings("hiding") PType _type_,
         @SuppressWarnings("hiding") PExp _exp_)
     {
         // Constructor
+        setIdent(_ident_);
+
         setType(_type_);
 
         setExp(_exp_);
@@ -30,6 +34,7 @@ public final class AValueStmt extends PStmt
     public Object clone()
     {
         return new AValueStmt(
+            cloneNode(this._ident_),
             cloneNode(this._type_),
             cloneNode(this._exp_));
     }
@@ -38,6 +43,31 @@ public final class AValueStmt extends PStmt
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAValueStmt(this);
+    }
+
+    public TIdent getIdent()
+    {
+        return this._ident_;
+    }
+
+    public void setIdent(TIdent node)
+    {
+        if(this._ident_ != null)
+        {
+            this._ident_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._ident_ = node;
     }
 
     public PType getType()
@@ -94,6 +124,7 @@ public final class AValueStmt extends PStmt
     public String toString()
     {
         return ""
+            + toString(this._ident_)
             + toString(this._type_)
             + toString(this._exp_);
     }
@@ -102,6 +133,12 @@ public final class AValueStmt extends PStmt
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._ident_ == child)
+        {
+            this._ident_ = null;
+            return;
+        }
+
         if(this._type_ == child)
         {
             this._type_ = null;
@@ -121,6 +158,12 @@ public final class AValueStmt extends PStmt
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._ident_ == oldChild)
+        {
+            setIdent((TIdent) newChild);
+            return;
+        }
+
         if(this._type_ == oldChild)
         {
             setType((PType) newChild);

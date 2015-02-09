@@ -150,6 +150,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getStr().apply(this);
         }
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
+        }
         outAQuestionStmt(node);
     }
 
@@ -174,6 +178,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         if(node.getType() != null)
         {
             node.getType().apply(this);
+        }
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
         }
         outAValueStmt(node);
     }

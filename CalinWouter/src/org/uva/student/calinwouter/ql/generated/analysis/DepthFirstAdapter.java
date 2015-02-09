@@ -142,6 +142,10 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAQuestionStmt(AQuestionStmt node)
     {
         inAQuestionStmt(node);
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
+        }
         if(node.getStr() != null)
         {
             node.getStr().apply(this);
@@ -167,6 +171,10 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAValueStmt(AValueStmt node)
     {
         inAValueStmt(node);
+        if(node.getIdent() != null)
+        {
+            node.getIdent().apply(this);
+        }
         if(node.getType() != null)
         {
             node.getType().apply(this);
