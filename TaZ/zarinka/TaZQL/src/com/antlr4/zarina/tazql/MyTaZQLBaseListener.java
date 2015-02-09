@@ -17,10 +17,10 @@ public class MyTaZQLBaseListener extends TaZQLBaseListener {
 	}
 	
 	@Override
-	public void enterQuestionLabel(TaZQLParser.QuestionLabelContext ctx) {
-		String label = new String(ctx.FILETEXT().getText());
+	public void enterQuestion(TaZQLParser.QuestionContext ctx) {
+		String label = new String(ctx.TEXT().getText());
 		int number = new Integer(ctx.NUMBER().getText());
-		
+		//type = ctx.TYpe().getkakakakakak
 		QuestionLabels ql = new QuestionLabels(number, label);		
 		q.addLabel(ql);
 		
