@@ -59,10 +59,28 @@ class Question:
         self.question = tokens[1]
         self.answer = tokens[2]
         self.props = []
-        for i in range(3, len(tokens) -1):
+        for i in range(3, len(tokens)):
             self.props += tokens[i]
     def __str__(self):
         s = "Question:" + str(self.number) + "\n"
         s += self.question + "\n"
         s += str(self.answer)
+        s += "\n"
         return s
+        
+class Conditional_Questions:
+    def __init__(self, tokens):
+        self.condition = tokens[0]
+        self.questions = []
+        for i in range(1, len(tokens)):
+            self.questions.append(tokens[i])
+        print(self.questions)
+    def __str__(self):
+        s = "Condition: Question " + makeSentence(self.condition) + "\n"
+        for i in self.questions:
+            s += str(i)
+            s += "\n"
+        return s
+        
+
+        
