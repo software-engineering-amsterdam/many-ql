@@ -49,7 +49,7 @@
              To use this plugin, type:
                mvn antlr4:antlr4
              In any case, Maven will invoke this plugin before the Java source is compiled
-          -->   
+          123-->
         <plugin>
           <groupId>org.antlr</groupId>
           <artifactId>antlr4-maven-plugin</artifactId>
@@ -65,7 +65,7 @@
         <!-- plugin to create a self-contained portable package
              This allows us to execute our application like this:
              java -cp target/array-init-1.0-jar-with-dependencies.jar org.abcd.examples.ArrayInit.ArrayInit
-           12-->
+           -->
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
