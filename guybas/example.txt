@@ -10,10 +10,10 @@ Font {
 
 }
 
-# this is a comment, and it works!
+// this is a comment, and it works!
 Question 1 : What is the best format for a DSL?   
 {
-    Answer-type: Radiobox
+    Answer-type: Checkbox
     {
         Option: Default True 
             This one. 
@@ -25,7 +25,7 @@ Question 1 : What is the best format for a DSL?
     Hint: Choose the first.
 } 
 
-# another comment
+// another comment
 if (Question 1 == True) {
     Question 2 : Is this a good questionnaire?  
     {
