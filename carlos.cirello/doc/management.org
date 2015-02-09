@@ -4,7 +4,7 @@
   {3} Syllabus [[https://github.com/software-engineering-amsterdam/software-construction/blob/master/2014-2015/Syllabus.md]]
   {4} Initial Architecture Diagram [[architecture.png]]
   {5} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
-
+  {6} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
 * QL [1/3]
   - [X] Basic Architecture {4}
   - [ ] Compiler [0/2] {1}
@@ -22,14 +22,10 @@
       - [X] Basic cases
       - [ ] Advanced cases
       - [ ] All cases
-  - [ ] Frontend Interface [0/3]
-    - [ ] Concurrent Interface between Frontends and VM :ONGOING:
-    - [ ] Text Frontend [1/3]
+  - [ ] Frontend Interface [1/2]
+    - [X] Concurrent Interface between Frontends and VM :ONGOING:
+    - [ ] GUI Frontend [1/5]
       - [X] Basic cases
-      - [ ] Advanced cases
-      - [ ] All cases
-    - [ ] GUI Frontend [0/5]
-      - [ ] Basic cases
       - [ ] Advanced cases
       - [ ] All cases
       - [ ] Transpose restrictions from the dependency into the main doc.
@@ -59,9 +55,9 @@
     - [ ] Type Checker: duplicate labels (warning)
     - [ ] Different data types in QL map to different (default) GUI widgets.
 
-  ** Requirements on the implementation [2/4] {2}
+  ** Requirements on the implementation [3/4] {2}
     - [X] The parser of the DSL is implemented using a grammar-based parser generator.
-    - [ ] The internal structure of a DSL program is represented using abstract syntax trees.
+    - [X] The internal structure of a DSL program is represented using abstract syntax trees.
     - [ ] QL programs are executed as GUI programs, not command-line dialogues.
     - [X] QL programs are executed by interpretation, not code generation.
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bufio"
+	"encoding/csv"
 	"flag"
 	"log"
 	"os"
@@ -9,13 +9,12 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/compiler"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
-	frontendText "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/text"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/reader"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/vm"
 )
 
 func main() {
-	frontendFlag := flag.String("frontend", "GUI", "GUI or text")
+	// todo(carlos) extract param parsing into a proper CLI module
 	filenameFlag := flag.String("source", "-", `QL code filename or "-" to read from stdin`)
 	flag.Parse()
 
@@ -24,27 +23,18 @@ func main() {
 		log.Fatal(err)
 	}
 	code := codeBuf.Read()
-	log.Println("Got code: ", code)
+
 	aQuestionaire := compiler.CompileQL(code)
-	log.Printf("%#v", aQuestionaire)
+	fromVM, toVM := vm.New(aQuestionaire)
 
-	if *frontendFlag == "GUI" {
-		graphic.GUI("GUI Form")
-	} else {
-		toFrontend, fromFrontend := frontend.New(
-			frontendText.NewReader(
-				bufio.NewReader(os.Stdin),
-				os.Stdout,
-			),
-		)
+	driver := graphic.GUI(aQuestionaire.Label)
+	frontend.New(fromVM, toVM, driver)
+	driver.Loop()
 
-		vm.New(aQuestionaire, toFrontend, fromFrontend)
-		// aQuestionaire.PrettyPrintJSON()
-
-		// for _, question := range aQuestionaire.Questions {
-		// 	textFE.InputQuestion(question)
-		// }
-
-		// aQuestionaire.PrettyPrintJSON()
+	// todo(carlos) extract CSV output into a proper module.
+	csv := csv.NewWriter(os.Stdout)
+	for _, v := range aQuestionaire.Questions {
+		csv.Write([]string{v.Identifier, v.Label, v.Content.String()})
 	}
+	csv.Flush()
 }

@@ -1,5 +1,5 @@
 form SomeForm {
-	"QuestionLabel" string
-	"QuestionLabel2" integer
-	"QuestionLabel3" bool
+	"QuestionLabel"  questionOne   string
+	"QuestionLabel2" questionTwo   integer
+	"QuestionLabel3" questionThree bool
 }

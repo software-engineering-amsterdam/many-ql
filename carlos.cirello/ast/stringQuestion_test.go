@@ -3,13 +3,13 @@ package ast
 import "testing"
 
 func TestStringQuestion(t *testing.T) {
-	expected := "what is the answer to life the universe and everything?"
+	input := "what is the answer to life the universe and everything?"
 
 	aStringQuestion := new(StringQuestion)
-	aStringQuestion.FromString(expected)
+	aStringQuestion.From(input)
 
-	if got := aStringQuestion.String(); expected != got {
+	if got := aStringQuestion.String(); input != got {
 		t.Errorf("Internal error in StringQuestion. Got %s, Expected %s",
-			got, expected)
+			got, input)
 	}
 }

@@ -3,8 +3,8 @@ package ast
 // StringQuestion stores the answer of question which type is integer numeric
 type StringQuestion string
 
-// FromString takes the input from Frontend and stores locally - String
-func (s *StringQuestion) FromString(str string) error {
+// From takes the input from Frontend and stores locally - String
+func (s *StringQuestion) From(str string) error {
 	*s = StringQuestion(str)
 	return nil
 }
