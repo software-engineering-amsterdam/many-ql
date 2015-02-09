@@ -6,6 +6,7 @@ import parser.QLParser
 
 class QLParserSpec extends Specification with ParserMatchers {
   val parsers = new QLParser
+
   import parsers._
 
   "form" should {
