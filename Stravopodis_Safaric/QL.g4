@@ -3,8 +3,8 @@
  */
 grammar QL;
 
-quest : ID STRING ':' '{' stat+ '}'
-	| 'if' '(' expr ')' '{' quest '}'
+quest : ID STRING COLON LC stat+ RC
+	| 'if' LP expr RP LC quest RC
 	;
 
 stat : decl
@@ -12,7 +12,7 @@ stat : decl
 	 | ifStat
 	 ;
 
-decl : ID ':' expr END ;
+decl : ID COLON expr SEMICOLON ;
 
 /* add within expressions logical conditions */
 
@@ -20,7 +20,7 @@ decl : ID ':' expr END ;
 /* consider if (x == 3 && || y < 23 <= >= */
 /* infix and prefix expressions */
 
-expr		: expr MUL expr 
+expr		: expr MUL expr
 			| expr DIV expr
 			| expr ADD expr
 			| expr SUB expr
@@ -31,7 +31,7 @@ ifStat	: IF LP expr RP LC stat RC
 		| IF LP expr RP LC stat RC ELSE LC stat RC;
 
 
-value		: VALUE ASSIGN literal END ;	// E.g. value = true; 
+value		: VALUE ASSIGN literal SEMICOLON ;	// E.g. value = true; 
 
 literal		: BooleanLiteral
 			| NumberLiteral
@@ -92,11 +92,16 @@ UPPER		: '>' ;
 UPPER_EQUAL : '>=';
 EQUAL  		: '==';
 ASSIGN		: '=' ;
-END			: ';' ;
+NOT			: '!' ;
+NOT_EQUAL	: '!=';
+COLON       : ':';
+SEMICOLON   : ';';
+COMMA       : ',';
+
+
 
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
-/* the listener ->  */
 
 
 
