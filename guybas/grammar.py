@@ -6,10 +6,11 @@ from ast import *
 endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
 word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
 integer         = Word(nums).setName("integer")
+hexaColor       = Word("#" + hexnums)
 endSign         = oneOf(". ? !")
 sentence        = (OneOrMore(word) + endSign).setParseAction(makeSentence)
 sentences       = OneOrMore(sentence).setParseAction(makeSentence)
-comment         = Literal("#") + restOfLine
+comment         = Literal("//") + restOfLine | cStyleComment
 
 # Brackets
 obrac           = Literal("{")
@@ -23,9 +24,9 @@ bool            = Word("True") | Word("False") | Word("bool")
 option          = Group(Suppress("Option:") + Optional(Word("Default:") + bool) + sentence)
 multiOption     = Forward()
 multiOption     <<= option + Optional(delimitedList(multiOption))
-checkbox        = (Suppress("Checkbox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeCheckbox)
-radiobutton     = (Suppress("Radiobox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeRadiobox)
-scale           = Word("Scale") + integer + integer  
+checkbox        = (Suppress("Checkbox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(Checkbox)
+radiobutton     = (Suppress("Radiobox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(Radiobox)
+scale           = (Suppress("Scale") + integer + integer).setParseAction(Scale) 
 
 # Constraints
 exp             = bool | Word("between") + integer + Word("and") + integer | integer | integer + Word(">=<") + integer
@@ -37,7 +38,7 @@ pElse           = Word("else")
 # Form
 fontProp        = (Word("font-family:") + word) | \
                   (Word("font-size:") + integer) | \
-                  (Word("color:") + integer + integer + integer)
+                  (Word("color:") + hexaColor)
 font            = Word("Font") + obrac + \
                   ZeroOrMore(fontProp) + \
                   cbrac

@@ -1,6 +1,7 @@
 # Grammar
 from pyparsing import *
-        
+       
+# Answer types
 class Option: 
     def __init__(self, tokens):
         if tokens[0] == "Default":
@@ -40,13 +41,12 @@ class Radiobox(Checkbox):
             if i.ev == True:
                 count += 1
         if count > 1:
-            print("Error, there are too many true values!")
+            print("Warning: there are too many true values!")
+            
+class Scale:
+    def __init__(self, tokens):
+        self.min = int(tokens[0])
+        self.max = int(tokens[1])
             
 def makeSentence(tokens):
     return ' '.join(tokens) 
-    
-def makeCheckbox(tokens):
-    return Checkbox(tokens)
-    
-def makeRadiobox(tokens):
-    return Radiobox(tokens).checkValid()
