@@ -4,15 +4,16 @@ Package org.uva.student.calinwouter.ql.generated;
 Helpers
 	digit	= ['0' .. '9'];
 	letter	= [['a' .. 'z'] + ['A' .. 'Z']];
-	any	= [0x0000 .. 0xFFFF];
+	any	= [0 .. 0xFFFF];
 	cr	= 13;
 	lf	= 10;
 	eol	= cr | lf | cr lf;
+	no_enter= [any - [cr + lf]];
 
 Tokens
+	comment = '//' [any - [cr + lf]] eol?;
 	tnot	= '!';
 	number	= (digit+ | digit+ '.' digit+);
-	ident	= (letter (digit | letter)*);
 	or	= '||';
 	and	= '&&';
 	add	= '+';
@@ -33,15 +34,15 @@ Tokens
 	tfalse	= 'false';
 	tstring	= 'string';
 	tint	= 'int';
-	string	= '"' [any - [cr + lf]] '"';
+	string	= '"' [no_enter - '"' ]* '"';
 	teq	= '==';
 	tneq	= '!=';
 	tlt	= '<';
 	tgt	= '>';
 	tlte	= '<=';
 	tgte	= '>=';
-	comment = '//' [any - [cr + lf]] eol?;
 	blank	= (' ' | eol)+;
+	ident	= (letter (digit | letter)*);
 
 Ignored Tokens
 
@@ -54,7 +55,7 @@ Productions
 
 	stmtlist {-> stmtlist}
 		= {single}	[head]:stmt				{-> New stmtlist.single(head.stmt)}
-		| {multi}	[head]:stmt [tail]:stmt			{-> New stmtlist.multi(head.stmt, tail.stmt)}
+		| {multi}	[head]:stmtlist [tail]:stmt		{-> New stmtlist.multi(head.stmtlist, tail.stmt)}
 		;
 
 	type {-> type}
@@ -64,8 +65,8 @@ Productions
 		;
 
 	stmt {-> stmt}
-		= {question}	ident colon string type			{-> New stmt.question(string, type.type)}
-		| {value}	ident colon type lparen exp rparen	{-> New stmt.value(type.type, exp.exp)}
+		= {question}	ident colon string type			{-> New stmt.question(ident, string, type.type)}
+		| {value}	ident colon string type lparen exp rparen	{-> New stmt.value(ident, string, type.type, exp.exp)}
 		| {ifelse}	if lparen exp rparen lbrace
 					[ifstmts]:stmtlist
 				rbrace else [lbrace2]:lbrace
@@ -110,7 +111,8 @@ Productions
 		| {number}	number					{-> New exp.number(number)}
 		| {true}	ttrue					{-> New exp.true()}
 		| {false}	tfalse					{-> New exp.false()}
-		| {paren}	lparen exp rparen			{-> New exp.paren(exp)}
+		| {paren}	lparen exp rparen			{-> New exp.paren(exp.exp)}
+		| {ident}	ident					{-> New exp.ident(ident)}
 		;
 
 Abstract Syntax Tree
@@ -119,12 +121,12 @@ Abstract Syntax Tree
 		;
 	stmtlist
 		= {single}		[head]:stmt
-		| {multi}		[head]:stmt [tail]:stmt
+		| {multi}		[head]:stmtlist [tail]:stmt
 		;
 	stmt
 		= {single}		[head]:stmt
-		| {question}		[str]:string [type]:type
-		| {value}		[type]:type [exp]:exp
+		| {question}	ident [str]:string [type]:type
+		| {value}		ident [str]:string [type]:type [exp]:exp
 		| {ifelse}		[exp]:exp [ifstmts]:stmtlist [elsestmts]:stmtlist
 		| {if}			[exp]:exp [ifstmts]:stmtlist
 		;
@@ -152,4 +154,5 @@ Abstract Syntax Tree
 		| {paren}		exp
 		| {not}			exp
 		| {number}		number
+		| {ident}		ident
 		;

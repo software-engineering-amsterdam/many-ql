@@ -19,6 +19,7 @@ GroupBox {
 	RowLayout {
 		anchors.fill: parent
 		TextField {
+			{{ .Validator }}
 			objectName: "{{ .ObjectName }}"
 			Layout.fillWidth: true
 		}
@@ -65,8 +66,12 @@ GroupBox {
 
 func renderNewQuestion(typ, fieldName, question string) string {
 	qml := questionStringQMLTemplate
-	if typ == "bool" {
+	if "bool" == typ {
 		qml = questionBoolQMLTemplate
+	}
+	validator := ""
+	if "int" == typ {
+		validator = `validator: IntValidator {}`
 	}
 
 	var b bytes.Buffer
@@ -74,6 +79,7 @@ func renderNewQuestion(typ, fieldName, question string) string {
 	t.Execute(&b, struct {
 		ObjectName   string
 		QuestionName string
-	}{fieldName, question})
+		Validator    string
+	}{fieldName, question, validator})
 	return b.String()
 }
