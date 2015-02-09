@@ -65,7 +65,7 @@
         <!-- plugin to create a self-contained portable package
              This allows us to execute our application like this:
              java -cp target/array-init-1.0-jar-with-dependencies.jar org.abcd.examples.ArrayInit.ArrayInit
-           -->
+           123-->
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
