@@ -22,30 +22,30 @@ state 2
 
 
 state 3
-	form:  FormToken.TextToken '{' questions '}' 
+	form:  FormToken.TextToken '{' stack '}' 
 
 	TextToken  shift 4
 	.  error
 
 
 state 4
-	form:  FormToken TextToken.'{' questions '}' 
+	form:  FormToken TextToken.'{' stack '}' 
 
 	'{'  shift 5
 	.  error
 
 
 state 5
-	form:  FormToken TextToken '{'.questions '}' 
-	questions: .    (3)
+	form:  FormToken TextToken '{'.stack '}' 
+	stack: .    (3)
 
 	.  reduce 3 (src line 67)
 
-	questions  goto 6
+	stack  goto 6
 
 state 6
-	form:  FormToken TextToken '{' questions.'}' 
-	questions:  questions.question 
+	form:  FormToken TextToken '{' stack.'}' 
+	stack:  stack.question 
 
 	QuotedStringToken  shift 9
 	'}'  shift 7
@@ -54,13 +54,13 @@ state 6
 	question  goto 8
 
 state 7
-	form:  FormToken TextToken '{' questions '}'.    (2)
+	form:  FormToken TextToken '{' stack '}'.    (2)
 
 	.  reduce 2 (src line 53)
 
 
 state 8
-	questions:  questions question.    (4)
+	stack:  stack question.    (4)
 
 	.  reduce 4 (src line 68)
 

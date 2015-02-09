@@ -12,7 +12,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *ast.Questionaire
+var finalForm *ast.QuestionaireNode
 
 //Top Ends Here
 
@@ -20,9 +20,9 @@ var finalForm *ast.Questionaire
 type qlSymType struct {
 	yys          int
 	content      string
-	form         *ast.Questionaire
-	questions    []*ast.Question
-	question     *ast.Question
+	form         *ast.QuestionaireNode
+	stack        []*ast.QuestionNode
+	question     *ast.QuestionNode
 	questionType ast.Parser
 }
 
@@ -135,7 +135,7 @@ func (x *lexer) Error(s string) {
 }
 
 // CompileQL generates a AST (*ast.Questionaire and children) out of source code.
-func CompileQL(code string) *ast.Questionaire {
+func CompileQL(code string) *ast.QuestionaireNode {
 	finalForm = nil
 	qlParse(newLexer(code))
 	return finalForm
@@ -457,27 +457,27 @@ qldefault:
 				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content,
 					" $$:", qlVAL)
 			}
-			qlVAL.form = &ast.Questionaire{
-				Label:     qlS[qlpt-3].content,
-				Questions: qlS[qlpt-1].questions,
+			qlVAL.form = &ast.QuestionaireNode{
+				Label: qlS[qlpt-3].content,
+				Stack: qlS[qlpt-1].stack,
 			}
 		}
 	case 4:
 		//line parser.y:69
 		{
 			if qlDebug > 0 {
-				log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].questions,
-					qlS[qlpt-0].question, qlVAL.questions)
+				log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].stack,
+					qlS[qlpt-0].question, qlVAL.stack)
 			}
 			q := qlS[qlpt-0].question
-			qs := qlVAL.questions
+			qs := qlVAL.stack
 			qs = append(qs, q)
-			qlVAL.questions = qs
+			qlVAL.stack = qs
 		}
 	case 5:
 		//line parser.y:83
 		{
-			qlVAL.question = &ast.Question{
+			qlVAL.question = &ast.QuestionNode{
 				Label:      qlS[qlpt-2].content,
 				Identifier: qlS[qlpt-1].content,
 				Content:    qlS[qlpt-0].questionType,

@@ -10,7 +10,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *ast.Questionaire
+var finalForm *ast.QuestionaireNode
 
 //Top Ends Here
 %}
@@ -19,9 +19,9 @@ var finalForm *ast.Questionaire
 
 %union {
 	content string
-	form *ast.Questionaire
-	questions []*ast.Question
-	question *ast.Question
+	form *ast.QuestionaireNode
+	stack []*ast.QuestionNode
+	question *ast.QuestionNode
 	questionType ast.Parser
 }
 
@@ -51,37 +51,37 @@ top:
 	;
 
 form:
-	FormToken TextToken '{' questions '}'
+	FormToken TextToken '{' stack '}'
 	{
 		if qlDebug > 0 {
 			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content,
 				" $$:", $$)
 		}
-		$$.form = &ast.Questionaire{
+		$$.form = &ast.QuestionaireNode{
 			Label: $2.content,
-			Questions: $4.questions,
+			Stack: $4.stack,
 		}
 	}
 	;
 
-questions:
-	| questions question
+stack:
+	| stack question
 	{
 		if qlDebug > 0 {
-			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.questions,
-				$2.question, $$.questions)
+			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.stack,
+				$2.question, $$.stack)
 		}
 		q := $2.question
-		qs := $$.questions
+		qs := $$.stack
 		qs = append(qs, q)
-		$$.questions = qs
+		$$.stack = qs
 	}
 	;
 
 question:
 	QuotedStringToken TextToken questionType
 	{
-		$$.question = &ast.Question{
+		$$.question = &ast.QuestionNode{
 			Label: $1.content,
 			Identifier: $2.content,
 			Content: $3.questionType,
@@ -182,7 +182,7 @@ func (x *lexer) Error(s string) {
 }
 
 // CompileQL generates a AST (*ast.Questionaire and children) out of source code.
-func CompileQL(code string) *ast.Questionaire {
+func CompileQL(code string) *ast.QuestionaireNode {
 	finalForm = nil
 	qlParse(newLexer(code))
 	return finalForm
