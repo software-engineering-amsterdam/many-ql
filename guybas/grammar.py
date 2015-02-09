@@ -23,9 +23,9 @@ bool            = Word("True") | Word("False") | Word("bool")
 option          = Group(Suppress("Option:") + Optional(Word("Default:") + bool) + sentence)
 multiOption     = Forward()
 multiOption     <<= option + Optional(delimitedList(multiOption))
-checkbox        = (Suppress("Checkbox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeCheckbox)
-radiobutton     = (Suppress("Radiobox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(makeRadiobox)
-scale           = (Suppress("Scale") + integer + integer).setParseAction(makeScale) 
+checkbox        = (Suppress("Checkbox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(Checkbox)
+radiobutton     = (Suppress("Radiobox") + Suppress(obrac) + multiOption + Suppress(cbrac)).setParseAction(Radiobox)
+scale           = (Suppress("Scale") + integer + integer).setParseAction(Scale) 
 
 # Constraints
 exp             = bool | Word("between") + integer + Word("and") + integer | integer | integer + Word(">=<") + integer

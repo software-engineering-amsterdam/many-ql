@@ -1,6 +1,7 @@
 # Grammar
 from pyparsing import *
-        
+       
+# Answer types
 class Option: 
     def __init__(self, tokens):
         if tokens[0] == "Default":
@@ -49,12 +50,3 @@ class Scale:
             
 def makeSentence(tokens):
     return ' '.join(tokens) 
-    
-def makeCheckbox(tokens):
-    return Checkbox(tokens)
-    
-def makeRadiobox(tokens):
-    return Radiobox(tokens).checkValid()
-    
-def makeScale(tokens):
-    return Scale(tokens)
