@@ -5,7 +5,7 @@ import ast.QLAST
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class QLParser extends JavaTokenParsers with QLAST {
-  def form: Parser[Expr] = "form" ~> ident ~ expression ^^ { case name ~ expr => Form(name, expr)}
+  def form: Parser[Form] = "form" ~> ident ~ expression ^^ { case name ~ expr => Form(name, expr)}
 
   def expression: Parser[Expr] = "{" ~> rep(questionExpression | ifExpression) <~ "}" ^^ Sequence
 

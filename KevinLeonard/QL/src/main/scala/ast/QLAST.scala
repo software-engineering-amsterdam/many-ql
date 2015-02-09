@@ -4,7 +4,7 @@ trait QLAST {
 
   sealed abstract class Expr
 
-  case class Form(name: String, e: Expr) extends Expr
+  case class Form(name: String, e: Expr)
 
   case class Sequence(l: List[Expr]) extends Expr
 
