@@ -6,6 +6,7 @@ import "fmt"
 // beings.
 type Parser interface {
 	From(str string) error
+	Type() string
 	fmt.Stringer
 }
 
@@ -26,4 +27,10 @@ func (q Question) Clone() Question {
 // into the concrete question type.
 func (q Question) From(str string) error {
 	return q.Content.From(str)
+}
+
+// Type returns the question type in string to facilitate later evaluation at
+// Frontend. It might be deprecated under architecture review.
+func (q Question) Type() string {
+	return q.Content.Type()
 }

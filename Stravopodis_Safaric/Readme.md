@@ -40,15 +40,15 @@ The code bellow is just a preliminary example of the QL's syntax.
 		
 		  question "Did you sell a house in 2015?" : {
 			  hasSoldHouse : boolean;
-			  hasMaintLoan.value = false;
+			  value = false;
 		  }
 		  question "Did you buy a house in 2015?" : {
 			  hasBoughtHous : boolean;
-			  hasMaintLoan.value = false;
+			  value = false;
 		  }
 		  question "Did you enter a loan?" : {
 			  hasMaintLoan : boolean;
-			  hasMaintLoan.value = false;
+			  value = false;
 		  }
 		
 		  if (hasSoldHouse == true){
@@ -60,7 +60,7 @@ The code bellow is just a preliminary example of the QL's syntax.
 			  }
 			  question "Value residue: " {
 				  valueResidue : currency;
-				  valueResidue.value = (sellingPrice - privateDept);
+				  value = (sellingPrice - privateDept);
 			  }
 		  }
 	}

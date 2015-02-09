@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.IOException;
+import lang.ql.gen.*;
 
 public class Main
 {
@@ -12,7 +13,7 @@ public class Main
     {
         try
         {
-            CharStream stream = new ANTLRFileStream("gen/input");
+            CharStream stream = new ANTLRFileStream("src/lang/tests/formInput");
             QLLexer lexer = new QLLexer(stream);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             QLParser parser = new QLParser(tokens);
