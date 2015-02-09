@@ -58,17 +58,11 @@ class Question:
         self.number = int(tokens[0])
         self.question = tokens[1]
         self.answer = tokens[2]
-        if len(tokens) > 2:
-            print(tokens[3][0])
-            if tokens[3][0] == "Hint:":  
-                self.hint = tokens[3][1]   
-            else:
-                self.hint = ""
-        else:
-            self.hint = ""
+        self.props = []
+        for i in range(3, len(tokens) -1):
+            self.props += tokens[i]
     def __str__(self):
         s = "Question:" + str(self.number) + "\n"
         s += self.question + "\n"
         s += str(self.answer)
-        s += self.hint
         return s
