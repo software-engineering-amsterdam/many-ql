@@ -1,5 +1,5 @@
 // Used the skeleton of: http://improve.dk/writing-a-calculator-in-csharp-using-sablecc/
-Package QL;
+Package org.uva.student.calinwouter.ql.generated;
 
 Helpers
 	digit	= ['0' .. '9'];
