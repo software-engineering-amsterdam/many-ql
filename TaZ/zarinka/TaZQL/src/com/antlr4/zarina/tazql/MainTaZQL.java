@@ -28,7 +28,7 @@
 				scan = new Scanner(questionnaireFile, "UTF-8").useDelimiter("\\A");
 				String inputQuestions = scan.next();
 				//	System.out.println(inputQuestions);
-				
+				//TEST
 				
 				ANTLRInputStream inputStream = new ANTLRInputStream(inputQuestions);
 				TaZQLLexer lexer = new TaZQLLexer(inputStream);
