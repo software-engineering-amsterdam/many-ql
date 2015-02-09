@@ -1,37 +1,30 @@
-/**
- * Define a grammar called Hello
- */
+
 grammar QL;
 
-quest : ID STRING COLON LC stat+ RC
-		| 'if' LP expr RP LC quest RC
- 		;
+prog	: form+ ;
 
-stat : decl
-	 | value
+form	: ID LC section+ RC ;
+
+section	: ID LC quest+ RC;
+
+quest 	: QUESTION STRING COLON LC (stat | expr | decl)* RC ;
+
+stat : value
 	 | ifStat
 	 ;
 
 decl : ID COLON expr SEMICOLON ;
 
-/* add within expressions logical conditions */
-
-/* in ANTLR there is a type for booleans  */
-/* consider if (x == 3 && || y < 23 <= >= */
-/* infix and prefix expressions */
-
-expr		: expr LOG_AND expr				#LogAnd // Logical and
-			| expr LOG_OR expr				#LogOr // Logical or
-			| expr LESS expr				#Lower // Lower
-			| expr LESS_EQUAL expr			#LowerEqual // Lower than equal
-			| expr GREATER expr				#Greater // Greater
-			| expr GREATER_EQUAL expr			#GreaterEqual // Greater than or equal
-			| expr '^' <assoc=right> expr	#Exp // Exp
-			| expr MUL expr 				#Mul // Multiplication
-			| expr DIV expr					#Div // Division
-			| expr ADD expr					#Add // Addition
-			| expr SUB expr					#Sub // Substraction
-			| literal
+expr		: ID ASSIGN expr											#Assign				// Assign
+			| expr LOG_OR expr											#LogAnd 			// Logical and
+			| expr LOG_AND expr											#LogOr 				// Logical or
+			| expr (EQUAL | NOT_EQUAL) expr								#Equal_NotEqual		// Equal to
+			| expr (LESS | LESS_EQUAL | GREATER | GREATER_EQUAL) expr	#LowerGreater
+			| LP expr RP												#ParNesting			// Paranthesis nesting????
+			| expr '^' <assoc=right> expr								#Exp 				// Exp
+			| expr (MUL | DIV) expr 									#MulDiv 			// Multiplication					
+			| expr (ADD | SUB) expr										#AddSub 			// Addition
+			| literal													#ExprLit			//  ExpressionLiteral
 			;
 
 ifStat	: IF LP expr RP LC stat RC
@@ -52,11 +45,11 @@ NumberLiteral	: INT
 				| FLOAT
 				;
 
-primitiveType	: 'boolean'
+/*primitiveType	: 'boolean'
 				| 'float'
 				| 'int'
 				| 'string'
-				;
+				;*/
 
 WS			: [ \t\n\r]+ -> skip;
 
@@ -83,7 +76,6 @@ VALUE		: 'value';
 IF			: 'if';
 THEN		: 'then';
 ELSE		: 'else';
-
 MUL			: '*' ;
 DIV			: '/' ;
 ADD			: '+' ;
@@ -105,11 +97,8 @@ NOT_EQUAL	: '!=';
 COLON     	: ':';
 SEMICOLON   : ';';
 COMMA       : ',';
-
+QUESTION	: 'question' ;
+ 
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
 /* the listener ->  */
-
-
-
-
