@@ -1,4 +1,3 @@
-"Example Field"
 "Golden Crown" scores 50 points
 "Iron Sword" scores 20 points
 "Golden Sword" is buried at 3,1
