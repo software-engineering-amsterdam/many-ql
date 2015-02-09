@@ -20,7 +20,7 @@ stat
  ;
 
 assignment
- : ID ASSIGN expr SCOL
+ : ID '=' expr ';'
  ;
 
 if_stat
@@ -41,7 +41,7 @@ while_stat
  ;
 
 log
- : LOG expr SCOL
+ : LOG expr ';'
  ;
 
 expr
@@ -58,7 +58,7 @@ expr
  ;
 
 atom
- : OPAR expr CPAR #parExpr
+ : '(' expr ')' #parExpr
  | (INT | FLOAT)  #numberAtom
  | (TRUE | FALSE) #booleanAtom
  | ID             #idAtom
@@ -82,13 +82,9 @@ MOD : '%';
 POW : '^';
 NOT : '!';
 
-SCOL : ';';
-ASSIGN : '=';
-OPAR : '(';
-CPAR : ')';
 
 TRUE : 'true' | 'TRUE' | 'True';
-FALSE : 'false';
+FALSE : 'false' | 'FALSE' | 'false' ;
 IF : 'if';
 ELSE : 'else';
 WHILE : 'while';
