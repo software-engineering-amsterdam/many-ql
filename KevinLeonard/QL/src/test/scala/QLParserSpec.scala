@@ -9,24 +9,38 @@ class QLParserSpec extends Specification with ParserMatchers {
 
   import parsers._
 
-  "question expressions" should {
-    "have a variable, label and type" in {
+  "boolean question expressions" should {
+    "have a variable and label" in {
+      questionExpression must succeedOn("question var \"label\"\nanswer boolean")
+        .withResult(BooleanQuestionExpr(Variable("var"), "\"label\""))
+    }
+  }
+
+  "integer question expressions" should {
+    "have a variable and label" in {
+      questionExpression must succeedOn("question var \"label\"\nanswer integer")
+        .withResult(IntegerQuestionExpr(Variable("var"), "\"label\""))
+    }
+  }
+
+  "string question expressions" should {
+    "have a variable and label" in {
       questionExpression must succeedOn("question var \"label\"\nanswer string")
-        .withResult(new QuestionExpr(new Variable("var"), "\"label\"", "string"))
+        .withResult(StringQuestionExpr(Variable("var"), "\"label\""))
     }
   }
 
   "if expressions" should {
     "be valid without an else clause" in {
       ifExpression must succeedOn("if var {}")
-        .withResult(new IfExpr(new Variable("var"), new Sequence(List()), None))
+        .withResult(IfExpr(Variable("var"), Sequence(List()), None))
     }
   }
 
   "if expressions" should {
     "be valid with an else clause" in {
       ifExpression must succeedOn("if var {} else {}")
-        .withResult(new IfExpr(new Variable("var"), new Sequence(List()), Some(new Sequence(List()))))
+        .withResult(IfExpr(Variable("var"), Sequence(List()), Some(Sequence(List()))))
     }
   }
 }

@@ -9,27 +9,23 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface QLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the {@code Number}
-	 * labeled alternative in {@link QLParser#addition}.
+	 * Enter a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void enterNumber(QLParser.NumberContext ctx);
+	void enterForm(QLParser.FormContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Number}
-	 * labeled alternative in {@link QLParser#addition}.
+	 * Exit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void exitNumber(QLParser.NumberContext ctx);
+	void exitForm(QLParser.FormContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code PlusExpr}
-	 * labeled alternative in {@link QLParser#addition}.
+	 * Enter a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void enterPlusExpr(QLParser.PlusExprContext ctx);
+	void enterQuestion(QLParser.QuestionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code PlusExpr}
-	 * labeled alternative in {@link QLParser#addition}.
+	 * Exit a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void exitPlusExpr(QLParser.PlusExprContext ctx);
+	void exitQuestion(QLParser.QuestionContext ctx);
 }
