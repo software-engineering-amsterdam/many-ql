@@ -1,4 +1,4 @@
-grammar Test;
+grammar QL;
 
 field:
     name=Name NL
