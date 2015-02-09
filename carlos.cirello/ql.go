@@ -1,48 +1,31 @@
 package main
 
 import (
-	"bufio"
-	"os"
-
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/stream"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/compiler"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	frontendText "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/text"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/output"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/reader"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/vm"
 )
 
 func main() {
-	aQuestionaire := &questionaire.Questionaire{
-		Label: "University of Amsterdam Revenue Service",
-		Questions: []*question.Question{
-			&question.Question{
-				Label:   "What is the answer to life the universe and everything?",
-				Content: new(question.IntQuestion),
-			},
-			&question.Question{
-				Label:   "Who said the logic is the cement of our civilization with which we ascended from Chaos using reason as our guide?",
-				Content: new(question.StringQuestion),
-			},
-			&question.Question{
-				Label:   "Hungry-p",
-				Content: new(question.BoolQuestion),
-			},
-		},
-	}
+	inFn, outFn := cli.Args()
 
-	toFrontend, fromFrontend := frontend.New(
-		frontendText.NewReader(
-			bufio.NewReader(os.Stdin),
-			os.Stdout,
-		),
-	)
+	inReader, outWriter := stream.New(inFn, outFn)
 
-	vm.New(aQuestionaire, toFrontend, fromFrontend)
-	// aQuestionaire.PrettyPrintJSON()
+	csvWriter := output.New(outWriter)
+	codeBuf := reader.New(inReader)
 
-	// for _, question := range aQuestionaire.Questions {
-	// 	textFE.InputQuestion(question)
-	// }
+	code := codeBuf.Read()
+	aQuestionaire := compiler.CompileQL(code)
+	fromVM, toVM := vm.New(aQuestionaire)
 
-	// aQuestionaire.PrettyPrintJSON()
+	driver := graphic.GUI(aQuestionaire.Label)
+	frontend.New(fromVM, toVM, driver)
+	driver.Loop()
+
+	csvWriter.Write(aQuestionaire)
 }

@@ -1,0 +1,12 @@
+module Simple;
+option parser(SimpleParser);
+public String program = e:expr EOF {yyValue=e;};
+String expr = t:term r:rest        {yyValue=t+r;};
+String rest = PLUS  t:term r:rest  {yyValue=t+"+"+r;}
+            / MINUS t:term r:rest  {yyValue=t+"-"+r;}
+            / /*empty*/            {yyValue="";};
+String term = DIGIT;
+void   PLUS  = "+";
+void   MINUS = "-";
+String DIGIT = [0-9];
+void   EOF = !_;

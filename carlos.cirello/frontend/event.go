@@ -1,20 +1,31 @@
 package frontend
 
-// Event describes the communication between VM and Frontend
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+
+// Event carries the communication between VM and Frontend
 type Event struct {
-	Type    EventType
-	Content interface{}
+	Type     EventType
+	Question ast.Question
+	Answers  map[string]string
 }
 
+// EventType describes the communication protocol between the VM
+// and Frontend goroutines.
 type EventType int
 
 const (
-	// READY_P VM message to confirm readiness of frontend
-	READY_P EventType = iota
-	// READY_T Frontend confirmation of readiness
-	READY_T
-	// RENDER forces output refresh with Content
-	RENDER
-	// ANSWER provides the answer for a question on the scree
-	ANSWER
+	// ReadyP VM message to confirm readiness of frontend
+	ReadyP EventType = iota
+	// ReadyT Frontend confirmation of readiness
+	ReadyT
+	// Render sends to Frontend driver the request for one question
+	Render
+	// Flush forces Frontend driver to assemble the screen
+	Flush
+	// FetchAnswers is the signal from VM to read the current captured
+	// answers from Frontend process
+	FetchAnswers
+	// Answers is the signal from Frontend to VM with the responses from
+	// user.
+	Answers
 )

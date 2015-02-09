@@ -221,4 +221,4 @@ form taxOfficeExample {
 
 
 ## Run QL file instructions.
-QLParser.main(Array("src/main/formExamples/form.ql"))
+QLInterpreter.main(Array("src/main/resources/forms/form-1.ql"))

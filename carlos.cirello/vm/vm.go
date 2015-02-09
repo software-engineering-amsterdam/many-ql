@@ -1,35 +1,71 @@
+/*
+Package vm is the runtime which executes the AST created from the compiler.
+*/
 package vm
 
 import (
-	"log"
-
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
 )
 
 type vm struct {
-	questionaire *questionaire.Questionaire
+	questionaire *ast.Questionaire
 	send         chan *fe.Event
 	receive      chan *fe.Event
 }
 
-func New(q *questionaire.Questionaire, toFrontend, fromFrontend chan *fe.Event) {
-	v := &vm{q, toFrontend, fromFrontend}
-	v.loop()
+// New starts VM with an AST (*ast.Questionaire) and with
+// channels to communicate with Frontend process
+func New(q *ast.Questionaire) (chan *fe.Event, chan *fe.Event) {
+	toFrontend := make(chan *fe.Event)
+	fromFrontend := make(chan *fe.Event)
+	v := &vm{
+		questionaire: q,
+		send:         toFrontend,
+		receive:      fromFrontend,
+	}
+	go v.loop()
+	return toFrontend, fromFrontend
 }
 
 func (v *vm) loop() {
-	v.send <- &fe.Event{fe.READY_P, nil}
+	emptyQuestion := &ast.Question{}
+	v.send <- &fe.Event{
+		Type:     fe.ReadyP,
+		Question: *emptyQuestion,
+	}
 
 	for {
 		select {
 		case r := <-v.receive:
-			log.Println("VM got:", r)
-			if r.Type == fe.READY_T {
-				for _, question := range v.questionaire.Questions {
-					v.send <- &fe.Event{fe.RENDER, question}
+			if r.Type == fe.ReadyT {
+				for _, q := range v.questionaire.Questions {
+					questionCopy := q.Clone()
+					v.send <- &fe.Event{
+						Type:     fe.Render,
+						Question: questionCopy,
+					}
 				}
+				emptyQuestion := &ast.Question{}
+				v.send <- &fe.Event{
+					Type:     fe.Flush,
+					Question: *emptyQuestion,
+				}
+			} else if r.Type == fe.Answers {
+				lenAnswers := len(r.Answers)
+				if lenAnswers > 0 {
+					for k, q := range v.questionaire.Questions {
+						if answer, ok := r.Answers[q.Identifier]; ok {
+							v.questionaire.Questions[k].From(answer)
+						}
+					}
+				}
+			}
+		default:
+			v.send <- &fe.Event{
+				Type: fe.FetchAnswers,
 			}
 		}
 	}
+
 }
