@@ -9,11 +9,17 @@ public abstract class Binary extends Expr {
 		this.left = left;
 		this.right = right;
 		this.operator = operator;
-		
-		System.out.println(show());
 	}
 
 	public String show() {
 		return this.left.show() + " " + this.operator + " " + this.right.show();
+	}
+	
+	public ASTNode getLeft() {
+		return this.left;
+	}
+	
+	public ASTNode getRight() {
+		return this.right;
 	}
 }
