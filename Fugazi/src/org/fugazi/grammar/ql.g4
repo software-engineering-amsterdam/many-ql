@@ -7,15 +7,18 @@ form opening / closing
 new variable, variable type / name / display question / derived value
 */
 
-prog:   expr+ ;
-/*
-stat:   expr NEWLINE                # printExpr
-    |   STRING '=' expr NEWLINE         # assign
-    |   NEWLINE                     # blank
-    |   CLEAR                       # clear
+// complete form - topmost node
+form:   stat+ ;
+
+// statement
+stat:   expr NEWLINE+                // printExpr
+    |   NEWLINE                     // blank
     ;
-*/
-expr: type varName display ';';
+
+// single expression form
+bool x("dsdasdas") 5;
+expr: type varName display ';'
+    | type varName display ASSIGN newValue ';';
 
 type: 'bool'
     | INT;
