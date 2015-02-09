@@ -1,11 +1,13 @@
-
+/**
+ * QL GRAMMAR
+ */
 grammar QL;
 
 prog	: form+ ;
 
-form	: ID LC section+ RC ;
+form	: FORM ID LC section+ RC ;
 
-section	: ID LC quest+ RC;
+section	: SECTION ID LC quest+ RC;
 
 quest 	: QUESTION STRING COLON LC (stat | expr | decl)* RC ;
 
@@ -41,8 +43,8 @@ BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
-NumberLiteral	: INT
-				| FLOAT
+NumberLiteral	: '-'? INT
+				| '-'? FLOAT
 				;
 
 /*primitiveType	: 'boolean'
@@ -57,7 +59,7 @@ ID			: ID_LETTER (ID_LETTER | INT)* ;
 
 ID_LETTER	: 'a'..'z' | 'A'..'Z' | '_' ;
 
-INT			: [0-9]+ ;
+INT			: '0' | [1-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
 
 FLOAT		: INT+ '.' INT*
 			| '.' INT+;
@@ -70,9 +72,11 @@ LINE_COMMENT: '//' .*? '\n' -> skip;	// Single line comments
 COMMENT		: '/*' .*? '*/' -> skip;	// Multi line comments
 
 /* KEYWORDS - TOKENS */ 
-
-BOOLEAN		: 'boolean';
-VALUE		: 'value';
+QUESTION	: 'question' ;
+FORM		: 'form' ;
+SECTION 	: 'section' ;
+BOOLEAN		: 'boolean' ;
+VALUE		: 'value' ;
 IF			: 'if';
 THEN		: 'then';
 ELSE		: 'else';
@@ -94,10 +98,9 @@ LOG_AND		: '&&';
 LOG_OR		: '||';
 NOT			: '!' ;
 NOT_EQUAL	: '!=';
-COLON     	: ':';
-SEMICOLON   : ';';
-COMMA       : ',';
-QUESTION	: 'question' ;
+COLON     	: ':' ;
+SEMICOLON   : ';' ;
+COMMA       : ',' ;
  
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
