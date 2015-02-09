@@ -28,6 +28,7 @@ import cons.ql.ast.*;
 import cons.ql.ast.expr.*;
 import cons.ql.ast.expr.unary.*;
 import cons.ql.ast.expr.binary.*;
+import cons.ql.ast.expr.statement.*;
 %}
 
 %%
