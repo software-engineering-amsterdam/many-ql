@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
@@ -23,10 +24,17 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
         } else if (node instanceof AIfelseStmt) {
             PExpIntepreter expI =  new PExpIntepreter();
             expI.interprete(e, ((AIfelseStmt) node).getExp());
+            if((Boolean) expI.getExpValue()){
+                new PStmtlistInterpreter().interprete(e, ((AIfelseStmt) node).getIfstmts());
+            } else {
+                new PStmtlistInterpreter().interprete(e, ((AIfelseStmt) node).getElsestmts());
+            }
         } else if (node instanceof AIfStmt) {
             PExpIntepreter expI = new PExpIntepreter();
             expI.interprete(e, ((AIfStmt) node).getExp());
-            if((Boolean) expI.getExpValue()){
+            if(expI.getExpValue() instanceof Boolean && ((Boolean) expI.getExpValue())){
+                new PStmtlistInterpreter().interprete(e, ((AIfStmt) node).getIfstmts());
+            } else if (expI.getExpValue() instanceof String && Boolean.parseBoolean(expI.getExpValue().toString())){
                 new PStmtlistInterpreter().interprete(e, ((AIfStmt) node).getIfstmts());
             }
         }
