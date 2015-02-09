@@ -9,7 +9,11 @@ class QLParser extends JavaTokenParsers with QLAST {
 
   def expression: Parser[Expr] = "{" ~> rep(questionExpression | ifExpression) <~ "}" ^^ Sequence
 
-  def questionExpression: Parser[QuestionExpr] = "question" ~> variable ~ label ~ answer ^^ { case v ~ label ~ _type => QuestionExpr(v, label, _type)}
+  def questionExpression: Parser[QuestionExpr] = "question" ~> variable ~ label ~ answer ^^ {
+    case v ~ label ~ "boolean" => BooleanQuestionExpr(v, label)
+    case v ~ label ~ "integer" => IntegerQuestionExpr(v, label)
+    case v ~ label ~ "string" => StringQuestionExpr(v, label)
+  }
 
   def answer: Parser[String] = "answer" ~> ("boolean" | "integer" | "string")
 
