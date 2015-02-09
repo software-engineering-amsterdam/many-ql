@@ -1,12 +1,13 @@
 # Grammar
 from pyparsing import Word, oneOf, OneOrMore, ZeroOrMore, Forward, Group, Literal, nums, restOfLine, Optional, delimitedList
-from ast import *    
+from ast import *
+from exceptions import *
 
 # Normal sentence grammar
 endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
 word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
 integer         = Word(nums).setName("integer")
-hexaColor       = Word("#" + hexnums)
+hexaColor       = Suppress("#") + Word(hexnums, exact=6)
 endSign         = oneOf(". ? !")
 sentence        = (OneOrMore(word) + endSign).setParseAction(makeSentence)
 sentences       = OneOrMore(sentence).setParseAction(makeSentence)
@@ -57,7 +58,10 @@ questions2       = pIf + obrac + questions + cbrac + \
 form            = word + ZeroOrMore(formProp) + OneOrMore(questions2)      
 
 # Test
-myfile = open('example.txt', 'r').read()
-l = form.ignore(comment).parseString(myfile)
-for i in l:
-    print(i)
+try:
+    myfile = open('example.txt', 'r').read()
+    l = form.ignore(comment).parseString(myfile)
+    for i in l:
+        print(i)
+except Exception as e:
+    exceptionsHandling(e)
