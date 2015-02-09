@@ -5,15 +5,12 @@ from QLLexer import QLLexer
 from QLParser import QLParser
 from QLListener import QLListener
 
-input = FileStream("t.QL")
+input = FileStream("expr.QL")
 
 lexer = QLLexer(input)
-
 stream = CommonTokenStream(lexer)
-
 parser = QLParser(stream)
-
-tree_test = parser.form()
+tree_test = parser.expr()
 
 def print_tree(tree_test, lev):
     if not isinstance(tree_test, tree.Tree.TerminalNodeImpl):
