@@ -19,7 +19,7 @@ class Option:
             self.ev = False
             self.sentence = tokens[0]
     def __str__(self):
-        return self.sentence + str(self.ev)
+        return self.sentence + str(self.ev) +"\n"
         
 class Checkbox:
     def __init__(self, tokens):
@@ -37,7 +37,7 @@ class Radiobox(Checkbox):
     def __str__(self):
         s = "Radiobox\n"
         for i in self.options:
-            s += str(i) + "\n"
+            s += str(i)
         return s
     def checkValid(self):
         count = 0
@@ -74,13 +74,20 @@ class Conditional_Questions:
         self.questions = []
         for i in range(1, len(tokens)):
             self.questions.append(tokens[i])
-        print(self.questions)
     def __str__(self):
         s = "Condition: Question " + makeSentence(self.condition) + "\n"
         for i in self.questions:
             s += str(i)
-            s += "\n"
         return s
         
-
-        
+class Form:
+    def __init__(self, tokens):
+        self.name = tokens[0]
+        self.questions = []
+        for i in range(1,len(tokens)):
+            self.questions.append(tokens[i])
+    def __str__(self):
+        s = self.name + "\n"
+        for i in self.questions:
+            s += str(i)
+        return s
