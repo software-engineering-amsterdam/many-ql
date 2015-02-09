@@ -17,20 +17,21 @@ public class TaZQLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__10=1, T__9=2, T__8=3, T__7=4, T__6=5, T__5=6, T__4=7, T__3=8, T__2=9, 
-		T__1=10, T__0=11, NUMBER=12, TEXT=13, FILETEXT=14, ID=15, WS=16, SPECIAL=17, 
-		NEWLINE=18;
+		T__11=1, T__10=2, T__9=3, T__8=4, T__7=5, T__6=6, T__5=7, T__4=8, T__3=9, 
+		T__2=10, T__1=11, T__0=12, NUMBER=13, TEXT=14, FILETEXT=15, ID=16, WS=17, 
+		SPECIAL=18, NEWLINE=19;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'double'", "'int'", "'boolean'", "'true'", "'('", "')'", 
-		"'<'", "'if'", "'false'", "'>'", "'FORM'", "NUMBER", "TEXT", "FILETEXT", 
-		"ID", "WS", "SPECIAL", "NEWLINE"
+		"'String'", "'<'", "'if'", "'false'", "'>'", "'FORM'", "NUMBER", "TEXT", 
+		"FILETEXT", "ID", "WS", "SPECIAL", "NEWLINE"
 	};
 	public static final int
 		RULE_parse = 0, RULE_form = 1, RULE_formSection = 2, RULE_formId = 3, 
-		RULE_type = 4, RULE_choise = 5, RULE_question = 6, RULE_questionLabel = 7;
+		RULE_type = 4, RULE_choise = 5, RULE_question = 6, RULE_questionLabel = 7, 
+		RULE_questionId = 8, RULE_answerId = 9;
 	public static final String[] ruleNames = {
 		"parse", "form", "formSection", "formId", "type", "choise", "question", 
-		"questionLabel"
+		"questionLabel", "questionId", "answerId"
 	};
 
 	@Override
@@ -86,20 +87,20 @@ public class TaZQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17); 
+			setState(21); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(16); form();
+				setState(20); form();
 				}
 				}
-				setState(19); 
+				setState(23); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__0 );
-			setState(21); match(EOF);
+			setState(25); match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -142,7 +143,7 @@ public class TaZQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23); formSection();
+			setState(27); formSection();
 			}
 		}
 		catch (RecognitionException re) {
@@ -192,23 +193,23 @@ public class TaZQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(25); match(T__0);
-			setState(26); formId();
-			setState(27); match(T__4);
-			setState(29); 
+			setState(29); match(T__0);
+			setState(30); formId();
+			setState(31); match(T__4);
+			setState(33); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(28); question();
+				setState(32); question();
 				}
 				}
-				setState(31); 
+				setState(35); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__3 || _la==NUMBER );
-			setState(33); match(T__1);
+			} while ( _la==T__3 || _la==ID );
+			setState(37); match(T__1);
 			}
 		}
 		catch (RecognitionException re) {
@@ -249,7 +250,7 @@ public class TaZQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35); match(ID);
+			setState(39); match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -291,37 +292,43 @@ public class TaZQLParser extends Parser {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_type);
 		try {
-			setState(42);
+			setState(47);
 			switch (_input.LA(1)) {
-			case T__8:
+			case T__9:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(37); match(T__8);
+				setState(41); match(T__9);
 				}
 				break;
 			case ID:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(38); match(ID);
-				}
-				break;
-			case T__9:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(39); match(T__9);
+				setState(42); match(ID);
 				}
 				break;
 			case T__10:
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(40); match(T__10);
+				setState(43); match(T__10);
 				}
 				break;
-			case T__7:
-			case T__2:
+			case T__11:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(44); match(T__11);
+				}
+				break;
+			case T__5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(41); choise();
+				setState(45); match(T__5);
+				}
+				break;
+			case T__8:
+			case T__2:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(46); choise();
 				}
 				break;
 			default:
@@ -366,9 +373,9 @@ public class TaZQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(49);
 			_la = _input.LA(1);
-			if ( !(_la==T__7 || _la==T__2) ) {
+			if ( !(_la==T__8 || _la==T__2) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -386,6 +393,9 @@ public class TaZQLParser extends Parser {
 	}
 
 	public static class QuestionContext extends ParserRuleContext {
+		public QuestionIdContext questionId() {
+			return getRuleContext(QuestionIdContext.class,0);
+		}
 		public ChoiseContext choise() {
 			return getRuleContext(ChoiseContext.class,0);
 		}
@@ -422,36 +432,39 @@ public class TaZQLParser extends Parser {
 		enterRule(_localctx, 12, RULE_question);
 		int _la;
 		try {
-			setState(59);
+			setState(66);
 			switch (_input.LA(1)) {
-			case NUMBER:
+			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(46); questionLabel();
+				setState(51); questionLabel();
 				}
 				break;
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(47); match(T__3);
-				setState(48); match(T__6);
-				setState(49); choise();
-				setState(50); match(T__5);
-				setState(51); match(T__4);
-				setState(53); 
+				setState(52); match(T__3);
+				setState(53); match(T__7);
+				setState(54); questionId();
+				setState(55);
+				matchWildcard();
+				setState(56); choise();
+				setState(57); match(T__6);
+				setState(58); match(T__4);
+				setState(60); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(52); question();
+					setState(59); question();
 					}
 					}
-					setState(55); 
+					setState(62); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( _la==T__3 || _la==NUMBER );
-				setState(57); match(T__1);
+				} while ( _la==T__3 || _la==ID );
+				setState(64); match(T__1);
 				}
 				break;
 			default:
@@ -470,6 +483,9 @@ public class TaZQLParser extends Parser {
 	}
 
 	public static class QuestionLabelContext extends ParserRuleContext {
+		public QuestionIdContext questionId() {
+			return getRuleContext(QuestionIdContext.class,0);
+		}
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
@@ -500,9 +516,92 @@ public class TaZQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61); match(NUMBER);
-			setState(62); match(FILETEXT);
-			setState(63); type();
+			setState(68); questionId();
+			setState(69); match(NUMBER);
+			setState(70); match(FILETEXT);
+			setState(71); type();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class QuestionIdContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(TaZQLParser.ID, 0); }
+		public QuestionIdContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_questionId; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterQuestionId(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitQuestionId(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitQuestionId(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final QuestionIdContext questionId() throws RecognitionException {
+		QuestionIdContext _localctx = new QuestionIdContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_questionId);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(73); match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AnswerIdContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(TaZQLParser.ID, 0); }
+		public AnswerIdContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_answerId; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterAnswerId(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitAnswerId(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitAnswerId(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AnswerIdContext answerId() throws RecognitionException {
+		AnswerIdContext _localctx = new AnswerIdContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_answerId);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(75); match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -517,23 +616,26 @@ public class TaZQLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\24D\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\6\2\24\n\2\r\2"+
-		"\16\2\25\3\2\3\2\3\3\3\3\3\4\3\4\3\4\3\4\6\4 \n\4\r\4\16\4!\3\4\3\4\3"+
-		"\5\3\5\3\6\3\6\3\6\3\6\3\6\5\6-\n\6\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3"+
-		"\b\6\b8\n\b\r\b\16\b9\3\b\3\b\5\b>\n\b\3\t\3\t\3\t\3\t\3\t\2\2\n\2\4\6"+
-		"\b\n\f\16\20\2\3\4\2\6\6\13\13C\2\23\3\2\2\2\4\31\3\2\2\2\6\33\3\2\2\2"+
-		"\b%\3\2\2\2\n,\3\2\2\2\f.\3\2\2\2\16=\3\2\2\2\20?\3\2\2\2\22\24\5\4\3"+
-		"\2\23\22\3\2\2\2\24\25\3\2\2\2\25\23\3\2\2\2\25\26\3\2\2\2\26\27\3\2\2"+
-		"\2\27\30\7\2\2\3\30\3\3\2\2\2\31\32\5\6\4\2\32\5\3\2\2\2\33\34\7\r\2\2"+
-		"\34\35\5\b\5\2\35\37\7\t\2\2\36 \5\16\b\2\37\36\3\2\2\2 !\3\2\2\2!\37"+
-		"\3\2\2\2!\"\3\2\2\2\"#\3\2\2\2#$\7\f\2\2$\7\3\2\2\2%&\7\21\2\2&\t\3\2"+
-		"\2\2\'-\7\5\2\2(-\7\21\2\2)-\7\4\2\2*-\7\3\2\2+-\5\f\7\2,\'\3\2\2\2,("+
-		"\3\2\2\2,)\3\2\2\2,*\3\2\2\2,+\3\2\2\2-\13\3\2\2\2./\t\2\2\2/\r\3\2\2"+
-		"\2\60>\5\20\t\2\61\62\7\n\2\2\62\63\7\7\2\2\63\64\5\f\7\2\64\65\7\b\2"+
-		"\2\65\67\7\t\2\2\668\5\16\b\2\67\66\3\2\2\289\3\2\2\29\67\3\2\2\29:\3"+
-		"\2\2\2:;\3\2\2\2;<\7\f\2\2<>\3\2\2\2=\60\3\2\2\2=\61\3\2\2\2>\17\3\2\2"+
-		"\2?@\7\16\2\2@A\7\20\2\2AB\5\n\6\2B\21\3\2\2\2\7\25!,9=";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\25P\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
+		"\2\6\2\30\n\2\r\2\16\2\31\3\2\3\2\3\3\3\3\3\4\3\4\3\4\3\4\6\4$\n\4\r\4"+
+		"\16\4%\3\4\3\4\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\5\6\62\n\6\3\7\3\7\3\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\6\b?\n\b\r\b\16\b@\3\b\3\b\5\bE\n\b\3"+
+		"\t\3\t\3\t\3\t\3\t\3\n\3\n\3\13\3\13\3\13\2\2\f\2\4\6\b\n\f\16\20\22\24"+
+		"\2\3\4\2\6\6\f\fN\2\27\3\2\2\2\4\35\3\2\2\2\6\37\3\2\2\2\b)\3\2\2\2\n"+
+		"\61\3\2\2\2\f\63\3\2\2\2\16D\3\2\2\2\20F\3\2\2\2\22K\3\2\2\2\24M\3\2\2"+
+		"\2\26\30\5\4\3\2\27\26\3\2\2\2\30\31\3\2\2\2\31\27\3\2\2\2\31\32\3\2\2"+
+		"\2\32\33\3\2\2\2\33\34\7\2\2\3\34\3\3\2\2\2\35\36\5\6\4\2\36\5\3\2\2\2"+
+		"\37 \7\16\2\2 !\5\b\5\2!#\7\n\2\2\"$\5\16\b\2#\"\3\2\2\2$%\3\2\2\2%#\3"+
+		"\2\2\2%&\3\2\2\2&\'\3\2\2\2\'(\7\r\2\2(\7\3\2\2\2)*\7\22\2\2*\t\3\2\2"+
+		"\2+\62\7\5\2\2,\62\7\22\2\2-\62\7\4\2\2.\62\7\3\2\2/\62\7\t\2\2\60\62"+
+		"\5\f\7\2\61+\3\2\2\2\61,\3\2\2\2\61-\3\2\2\2\61.\3\2\2\2\61/\3\2\2\2\61"+
+		"\60\3\2\2\2\62\13\3\2\2\2\63\64\t\2\2\2\64\r\3\2\2\2\65E\5\20\t\2\66\67"+
+		"\7\13\2\2\678\7\7\2\289\5\22\n\29:\13\2\2\2:;\5\f\7\2;<\7\b\2\2<>\7\n"+
+		"\2\2=?\5\16\b\2>=\3\2\2\2?@\3\2\2\2@>\3\2\2\2@A\3\2\2\2AB\3\2\2\2BC\7"+
+		"\r\2\2CE\3\2\2\2D\65\3\2\2\2D\66\3\2\2\2E\17\3\2\2\2FG\5\22\n\2GH\7\17"+
+		"\2\2HI\7\21\2\2IJ\5\n\6\2J\21\3\2\2\2KL\7\22\2\2L\23\3\2\2\2MN\7\22\2"+
+		"\2N\25\3\2\2\2\7\31%\61@D";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
