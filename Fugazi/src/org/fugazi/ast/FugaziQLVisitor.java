@@ -9,6 +9,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<Integer> {
 
     @Override
     public Integer visitForm(@NotNull QLParser.FormContext ctx) {
+        
+        System.out.print("Form name: " + ctx.ID());
         return 0;
     }
 
