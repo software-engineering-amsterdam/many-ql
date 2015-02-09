@@ -102,3 +102,9 @@ _ReSharper*/
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
+StevenFati/.idea/
+StevenFati/java/java.iml
+*.class
+StevenFati/java/gen/
+StevenFati/java/target/surefire-reports/TEST-WalkerTest.xml
+StevenFati/java/target/

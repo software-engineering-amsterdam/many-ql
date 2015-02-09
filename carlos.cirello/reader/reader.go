@@ -3,7 +3,6 @@ package reader
 import (
 	"bufio"
 	"io"
-	"os"
 )
 
 // Reader holds an io.Reader with source code (either from a file, or some
@@ -12,18 +11,11 @@ type Reader struct {
 	stream io.Reader
 }
 
-// New takes the filename, and prepare a io.Reader object to be consumed later
-func New(filename string) (*Reader, error) {
-	if "-" == filename {
-		return &Reader{os.Stdin}, nil
+// New takes in a reader stream, and prepare an object to be consumed later.
+func New(reader io.Reader) *Reader {
+	return &Reader{
+		stream: reader,
 	}
-
-	if _, err := os.Stat(filename); os.IsNotExist(err) {
-		return nil, err
-	}
-
-	handle, err := os.Open(filename)
-	return &Reader{handle}, err
 }
 
 // Read consumes the internal io.Reader object returning a string ready to use.

@@ -1,0 +1,14 @@
+
+form taxOfficeExample {
+
+  if ( hasSoldHouse )  {
+    "Did you enter a loan?"
+       hasMaintLoan: boolean
+
+    if (hasMaintLoan) {
+      "Did you enter a loan?"
+         hasMaintLoan: boolean
+    }
+  }
+
+}
