@@ -1,5 +1,7 @@
-__author__ = 'guyromb'
-
 def exceptionsHandling(e):
     print("Error occured!")
-    raise
+    print(type(e))
+    print(e)
+
+class qException(Exception):
+    pass

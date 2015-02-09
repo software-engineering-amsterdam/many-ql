@@ -1,5 +1,6 @@
 # Grammar
 from pyparsing import *
+from exceptions import *
          
 def makeSentence(tokens):
     return ' '.join(tokens) 
@@ -44,7 +45,7 @@ class Radiobox(Checkbox):
             if i.ev == True:
                 count += 1
         if count > 1:
-            print("Warning: there are too many true values!")
+            raise qException("There are too many true values!")
             
 class Scale:
     def __init__(self, tokens):
