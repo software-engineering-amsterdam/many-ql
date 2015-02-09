@@ -55,7 +55,7 @@ questions       = OneOrMore(question)
 questions2       = (pIf + Suppress(obrac) + questions + Suppress(cbrac) + \
                   Optional(pElse + Suppress(obrac) + questions + Suppress(cbrac))).setParseAction(Conditional_Questions) | \
                   questions
-form            = word + ZeroOrMore(formProp) + OneOrMore(questions2)      
+form            = (word + Group(ZeroOrMore(formProp)) + OneOrMore(questions2)).setParseAction(Form)      
 
 # Test
 try:
