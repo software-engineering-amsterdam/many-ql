@@ -23,25 +23,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNumber(@NotNull QLParser.NumberContext ctx) { }
+	@Override public void enterForm(@NotNull QLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNumber(@NotNull QLParser.NumberContext ctx) { }
+	@Override public void exitForm(@NotNull QLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPlusExpr(@NotNull QLParser.PlusExprContext ctx) { }
+	@Override public void enterQuestion(@NotNull QLParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPlusExpr(@NotNull QLParser.PlusExprContext ctx) { }
+	@Override public void exitQuestion(@NotNull QLParser.QuestionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

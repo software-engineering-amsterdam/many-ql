@@ -23,14 +23,15 @@ public class QLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, WS=2, COMMENT=3, Ident=4, Int=5, Str=6;
+		QuestionType=1, WS=2, COMMENT=3, Bool=4, Ident=5, Int=6, Str=7;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'+'", "WS", "COMMENT", "Ident", "Int", "Str"
+		"<INVALID>", "QuestionType", "WS", "COMMENT", "Bool", "Ident", "Int", 
+		"Str"
 	};
 	public static final int
-		RULE_addition = 0;
+		RULE_form = 0, RULE_question = 1;
 	public static final String[] ruleNames = {
-		"addition"
+		"form", "question"
 	};
 
 	@Override
@@ -52,104 +53,52 @@ public class QLParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class AdditionContext extends ParserRuleContext {
-		public AdditionContext(ParserRuleContext parent, int invokingState) {
+	public static class FormContext extends ParserRuleContext {
+		public QuestionContext question(int i) {
+			return getRuleContext(QuestionContext.class,i);
+		}
+		public List<QuestionContext> question() {
+			return getRuleContexts(QuestionContext.class);
+		}
+		public FormContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_addition; }
-	 
-		public AdditionContext() { }
-		public void copyFrom(AdditionContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class NumberContext extends AdditionContext {
-		public Token Number;
-		public TerminalNode Int() { return getToken(QLParser.Int, 0); }
-		public NumberContext(AdditionContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_form; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterNumber(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterForm(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitNumber(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitForm(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitNumber(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class PlusExprContext extends AdditionContext {
-		public AdditionContext left;
-		public Token right;
-		public AdditionContext addition() {
-			return getRuleContext(AdditionContext.class,0);
-		}
-		public TerminalNode Int() { return getToken(QLParser.Int, 0); }
-		public PlusExprContext(AdditionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterPlusExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitPlusExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitPlusExpr(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitForm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final AdditionContext addition() throws RecognitionException {
-		return addition(0);
-	}
-
-	private AdditionContext addition(int _p) throws RecognitionException {
-		ParserRuleContext _parentctx = _ctx;
-		int _parentState = getState();
-		AdditionContext _localctx = new AdditionContext(_ctx, _parentState);
-		AdditionContext _prevctx = _localctx;
-		int _startState = 0;
-		enterRecursionRule(_localctx, 0, RULE_addition, _p);
+	public final FormContext form() throws RecognitionException {
+		FormContext _localctx = new FormContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_form);
+		int _la;
 		try {
-			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			{
-			_localctx = new NumberContext(_localctx);
-			_ctx = _localctx;
-			_prevctx = _localctx;
-
-			setState(3); ((NumberContext)_localctx).Number = match(Int);
-			}
-			_ctx.stop = _input.LT(-1);
-			setState(10);
+			setState(5); 
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( _parseListeners!=null ) triggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					{
-					_localctx = new PlusExprContext(new AdditionContext(_parentctx, _parentState));
-					((PlusExprContext)_localctx).left = _prevctx;
-					pushNewRecursionContext(_localctx, _startState, RULE_addition);
-					setState(5);
-					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(6); match(T__0);
-					setState(7); ((PlusExprContext)_localctx).right = match(Int);
-					}
-					} 
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(4); question();
 				}
-				setState(12);
+				}
+				setState(7); 
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			}
+				_la = _input.LA(1);
+			} while ( _la==Ident );
 			}
 		}
 		catch (RecognitionException re) {
@@ -158,30 +107,62 @@ public class QLParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			unrollRecursionContexts(_parentctx);
+			exitRule();
 		}
 		return _localctx;
 	}
 
-	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
-		switch (ruleIndex) {
-		case 0: return addition_sempred((AdditionContext)_localctx, predIndex);
+	public static class QuestionContext extends ParserRuleContext {
+		public TerminalNode Ident() { return getToken(QLParser.Ident, 0); }
+		public TerminalNode QuestionType() { return getToken(QLParser.QuestionType, 0); }
+		public TerminalNode Str() { return getToken(QLParser.Str, 0); }
+		public QuestionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		return true;
+		@Override public int getRuleIndex() { return RULE_question; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion(this);
+			else return visitor.visitChildren(this);
+		}
 	}
-	private boolean addition_sempred(AdditionContext _localctx, int predIndex) {
-		switch (predIndex) {
-		case 0: return precpred(_ctx, 2);
+
+	public final QuestionContext question() throws RecognitionException {
+		QuestionContext _localctx = new QuestionContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_question);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(9); match(Ident);
+			setState(10); match(Str);
+			setState(11); match(QuestionType);
+			}
 		}
-		return true;
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\b\20\4\2\t\2\3\2"+
-		"\3\2\3\2\3\2\3\2\3\2\7\2\13\n\2\f\2\16\2\16\13\2\3\2\2\3\2\3\2\2\2\17"+
-		"\2\4\3\2\2\2\4\5\b\2\1\2\5\6\7\7\2\2\6\f\3\2\2\2\7\b\f\4\2\2\b\t\7\3\2"+
-		"\2\t\13\7\7\2\2\n\7\3\2\2\2\13\16\3\2\2\2\f\n\3\2\2\2\f\r\3\2\2\2\r\3"+
-		"\3\2\2\2\16\f\3\2\2\2\3\f";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t\20\4\2\t\2\4\3"+
+		"\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\3\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\16\2\7"+
+		"\3\2\2\2\4\13\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\t\3\2\2\2\t\7\3\2\2\2"+
+		"\t\n\3\2\2\2\n\3\3\2\2\2\13\f\7\7\2\2\f\r\7\t\2\2\r\16\7\3\2\2\16\5\3"+
+		"\2\2\2\3\t";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
