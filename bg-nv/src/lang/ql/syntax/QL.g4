@@ -1,20 +1,31 @@
 grammar QL;
 
-form : 'form' ID '{' (statement)+ '}';
+@parser::header
+{
+//package lang.ql.gen;
+import lang.ql.ast.expression.*;
+
+//import org.uva.sea.ql.ast.expr.*;
+}
+
+form : 'form' Identifier '{' (statement)+ '}';
 
 statement : question | ifCondition ;
 
-question : QuestionType ID String (expression)? ;
+question : QuestionType Identifier String (expression)? ;
 
 ifCondition : 'if' '(' expression ')' '{' (statement)+ '}';
 
-expression
+expression returns [Expression result]
     :'(' x=expression ')'
-    | '-' x=expression
-    | '+' x=expression
-    | Integer
-    | ID
-    | expression '+' expression
+    | op=('-'|'+') x=expression //Unary
+    | expression op=('*'|'/') expression //Multiplication and division
+    | left=expression op=('-'|'+') right=expression //{ if ($op.text.equals("+")) { $result = new SubtractionExpression($left.result, $right.result); } } //Binary addition and subtraction
+    //< > == !=
+    //&& ||
+    | atom=Integer //{ int parsedInt = java.lang.Integer.parseInt($atom.getText()); $result = new IntegerExpression(parsedInt); }
+    | atom=String  //{ $result = new StringExpression($atom.getText()); }
+    | atom=Identifier //{ $result = new VariableExpression($atom.getText()); }
     ;
 
 fragment Letter : [a-zA-Z];
@@ -33,7 +44,7 @@ QuestionType
    | 'date'
    ;
 
-ID : (Letter)(Letter|Digit|'_')*;
+Identifier : (Letter)(Letter|Digit|'_')*;
 
 Integer : Digit+ ;
 
