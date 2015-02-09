@@ -1,18 +1,22 @@
 #!/usr/bin/env python
 
-from QL import QL
+from src.QL.parser import Parser
 
 if __name__ == '__main__':
-    app = QL()
+    app = Parser()
 
     test = app.parse(
-      "form taxOfficeExample { \
-        \"Did you sell a house in 2010?\" \
-           hasSoldHouse: boolean \
-        \"Did you buy a house in 2010?\" \
-           hasBoughtHouse: boolean \
-        \"Did you enter a loan?\" \
-           hasMaintLoan: boolean \
+      "form taxOfficeExample {                \
+                                              \
+        if ( 2*a + 55 )  {                      \
+          \"Did you enter a loan?\"           \
+             hasMaintLoan: boolean            \
+        }                                     \
+                                              \
+        if (hasMaintLoan) {                   \
+          \"Did you enter a loan\"           \
+             hasMaintLoan: boolean            \
+        }                                     \
       }"
     )
 

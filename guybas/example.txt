@@ -5,12 +5,13 @@ Introduction: This is an introduction to the questionnaire, it will be about que
               
 Font { 
     font-size: 11 
-    color: 0 0 0 
+    color: #ffffff
     font-family: arial 
 
 }
 
-# this is a comment, and it works!
+
+/* this is a comment, and it works! */
 Question 1 : What is the best format for a DSL?   
 {
     Answer-type: Radiobox
@@ -25,7 +26,7 @@ Question 1 : What is the best format for a DSL?
     Hint: Choose the first.
 } 
 
-# another comment
+// another comment
 if (Question 1 == True) {
     Question 2 : Is this a good questionnaire?  
     {
@@ -33,7 +34,7 @@ if (Question 1 == True) {
         Font { 
             font-family: verdana 
             font-size: 15 
-            color: 0 0 255 
+            color: #000000
         }
         Category: Standard
     } 
