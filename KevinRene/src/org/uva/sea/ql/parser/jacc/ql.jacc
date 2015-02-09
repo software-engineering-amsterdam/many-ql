@@ -27,7 +27,7 @@ import org.uva.sea.ql.ast.expr.*;
  top : expr { result = $1; }
      ;
 
- form	 : FORM IDENTIFIER 
+ form : FORM IDENTIFIER 
 
  question: IDENTIFIER ':' type '{' STRINGLITERAL '}' |
  		   IDENTIFIER ':' type '{' STRINGLITERAL assignment '}'
