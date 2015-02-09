@@ -23,3 +23,8 @@ func (s BoolQuestion) String() string {
 	}
 	return "No"
 }
+
+// Type returns "bool", therefore indicating this question type name.
+func (s BoolQuestion) Type() string {
+	return "bool"
+}

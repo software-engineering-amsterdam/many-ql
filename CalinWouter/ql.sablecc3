@@ -1,25 +1,25 @@
 // Used the skeleton of: http://improve.dk/writing-a-calculator-in-csharp-using-sablecc/
-Package QL;
+Package org.uva.student.calinwouter.ql.generated;
 
 Helpers
 	digit	= ['0' .. '9'];
 	letter	= [['a' .. 'z'] + ['A' .. 'Z']];
-	any	= [#0000 .. #FFFF];
-	cr	= #13;
-	lr	= #10;
+	any	= [0x0000 .. 0xFFFF];
+	cr	= 13;
+	lf	= 10;
 	eol	= cr | lf | cr lf;
 
 Tokens
+	tnot	= '!';
 	number	= (digit+ | digit+ '.' digit+);
 	ident	= (letter (digit | letter)*);
+	or	= '||';
+	and	= '&&';
 	add	= '+';
 	sub	= '-';
 	mul	= '*';
 	div	= '/';
 	mod	= '%';
-	sqrt	= 'sqrt';
-	cos	= 'cos';
-	sin	= 'sin';
 	lparen	= '(';
 	rparen	= ')';
 	tform	= 'form';
@@ -27,62 +27,75 @@ Tokens
 	rbrace	= '}';
 	colon	= ':';
 	if	= 'if';
+	else	= 'else';
 	tbool	= 'boolean';
-	true	= 'true';
-	false	= 'false';
+	ttrue	= 'true';
+	tfalse	= 'false';
 	tstring	= 'string';
 	tint	= 'int';
-	string	= '"' (any - ('"' | cr | lf))* '"';
+	string	= '"' [any - [cr + lf]] '"';
 	teq	= '==';
 	tneq	= '!=';
 	tlt	= '<';
 	tgt	= '>';
 	tlte	= '<=';
 	tgte	= '>=';
-	comment = '//' (any - (cr | lf))* eol?;
+	comment = '//' [any - [cr + lf]] eol?;
 	blank	= (' ' | eol)+;
 
-Ignored
+Ignored Tokens
 
 	comment, blank;
 
 Productions	
-	form
-		= tform ident lbrace stmt_list rbrace
+	form {-> form}
+		= tform ident lbrace stmtlist rbrace			{-> New form(ident, stmtlist.stmtlist)}
 		;
 
-	stmt_list
-		= {single}	stmt
-		| {multi}	stmt [tail]:stmt_list
+	stmtlist {-> stmtlist}
+		= {single}	[head]:stmt				{-> New stmtlist.single(head.stmt)}
+		| {multi}	[head]:stmt [tail]:stmt			{-> New stmtlist.multi(head.stmt, tail.stmt)}
 		;
 
-	type
-		= {bool}	tbool
-		| {string}	tstring
-		| {int}		tint
+	type {-> type}
+		= {bool}	tbool					{-> New type.bool()}
+		| {string}	tstring					{-> New type.string()}
+		| {int}		tint					{-> New type.int()}
 		;
 
-	stmt
-		= {question}	ident colon string type
-		| {value}	ident colon type lparen exp rparen
-		| {ifelse}	if lparen exp rparen lbrace stmt_list rbrace else stmt
-		| {if}		if lparen exp rparen lbrace stmt_list rbrace
+	stmt {-> stmt}
+		= {question}	ident colon string type			{-> New stmt.question(string, type.type)}
+		| {value}	ident colon type lparen exp rparen	{-> New stmt.value(type.type, exp.exp)}
+		| {ifelse}	if lparen exp rparen lbrace
+					[ifstmts]:stmtlist
+				rbrace else [lbrace2]:lbrace
+					[elsestmts]:stmtlist
+				[rbrace2]:rbrace			{-> New stmt.ifelse(exp, ifstmts, elsestmts)}
+		| {if}		if lparen exp rparen lbrace
+					[ifstmt]:stmtlist
+				rbrace					{-> New stmt.if(exp, ifstmt)}
 		;
 	
 	exp {-> exp}
 		= {add}		[left]:exp add [right]:factor		{-> New exp.add(left, right.exp)}
 		| {sub}		[left]:exp sub [right]:factor		{-> New exp.sub(left, right.exp)}
-		| {factor}	factor					{-> factor.exp}
 		| {cmp}		cmp					{-> cmp.exp}
+		| {logical}	logical					{-> logical.exp}
 		;
 
 	cmp {-> exp}
-		= {eq}		[left]:cmp teq [right]:factor		{-> New exp.eq(left.exp, right.exp)}
-		| {neq}		[left]:cmp tneq [right]:factor		{-> New exp.neq(left.exp, right.exp)}
-		| {lt}		[left]:cmp tlt [right]:factor		{-> New exp.lt(left.exp, right.exp)}
-		| {gt}		[left]:cmp tgt [right]:factor		{-> New exp.gt(left.exp, right.exp)}
-		| {lte}		[left]:cmp tlte [right]:factor		{-> New exp.lte(left.exp, right.exp)}
-		| {gte}		[left]:cmp tgte [right]:factor		{-> New exp.gte(left.exp, right.exp)}
+		= {eq}		[left]:cmp teq [right]:logical		{-> New exp.eq(left.exp, right.exp)}
+		| {neq}		[left]:cmp tneq [right]:logical		{-> New exp.neq(left.exp, right.exp)}
+		| {lt}		[left]:cmp tlt [right]:logical		{-> New exp.lt(left.exp, right.exp)}
+		| {gt}		[left]:cmp tgt [right]:logical		{-> New exp.gt(left.exp, right.exp)}
+		| {lte}		[left]:cmp tlte [right]:logical		{-> New exp.lte(left.exp, right.exp)}
+		| {gte}		[left]:cmp tgte [right]:logical		{-> New exp.gte(left.exp, right.exp)}
+		;
+
+	logical {-> exp}
+		= {or}		[left]:logical or [right]:factor	{-> New exp.or(left.exp, right.exp)}
+		| {and}		[left]:logical and [right]:factor	{-> New exp.and(left.exp, right.exp)}
+		| {factor}	factor					{-> factor.exp}
 		;
 		
 	factor {-> exp}
@@ -93,30 +106,50 @@ Productions
 		;
 		
 	unary {-> exp}
-		= {number}	number					{-> New exp.number(number)}
-		| {true}	true
-		| {false}	false
-		| {sqrt}	sqrt lparen exp rparen			{-> New exp.sqrt(exp)}
-		| {cos}		cos lparen exp rparen			{-> New exp.cos(exp)}
-		| {sin}		sin lparen exp rparen			{-> New exp.sin(exp)}
+		= {not}		tnot unary				{-> New exp.not(unary.exp)}
+		| {number}	number					{-> New exp.number(number)}
+		| {true}	ttrue					{-> New exp.true()}
+		| {false}	tfalse					{-> New exp.false()}
 		| {paren}	lparen exp rparen			{-> New exp.paren(exp)}
 		;
-		
-	exp_list {-> exp*}
-		= {single}	exp					{-> [exp.exp]}
-		| {multi}	exp [tail]:exp_list			{-> [exp.exp, tail.exp]}
-		;
-		
+
 Abstract Syntax Tree
+	form
+		=			[ident]:ident [stmtlist]:stmtlist
+		;
+	stmtlist
+		= {single}		[head]:stmt
+		| {multi}		[head]:stmt [tail]:stmt
+		;
+	stmt
+		= {single}		[head]:stmt
+		| {question}		[str]:string [type]:type
+		| {value}		[type]:type [exp]:exp
+		| {ifelse}		[exp]:exp [ifstmts]:stmtlist [elsestmts]:stmtlist
+		| {if}			[exp]:exp [ifstmts]:stmtlist
+		;
+	type
+		= {bool}
+		| {string}
+		| {int}
+		;
 	exp
 		= {add}			[left]:exp [right]:exp
+		| {true}
+		| {false}
+		| {or}			[left]:exp [right]:exp
+		| {and}			[left]:exp [right]:exp
 		| {sub}			[left]:exp [right]:exp
+		| {eq}			[left]:exp [right]:exp
+		| {neq}			[left]:exp [right]:exp
+		| {lt}			[left]:exp [right]:exp
+		| {gt}			[left]:exp [right]:exp
+		| {lte}			[left]:exp [right]:exp
+		| {gte}			[left]:exp [right]:exp
 		| {mul}			[left]:exp [right]:exp
 		| {div}			[left]:exp [right]:exp
 		| {mod}			[left]:exp [right]:exp
 		| {paren}		exp
-		| {sqrt}		exp
-		| {cos}			exp
-		| {sin}			exp
+		| {not}			exp
 		| {number}		number
 		;

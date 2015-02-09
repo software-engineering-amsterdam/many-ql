@@ -1,28 +1,25 @@
 package main.scala
 
-import java.io.Serializable
+import ast.QLAST
 
-import scala.util.parsing.combinator.JavaTokenParsers
 import scala.io.Source
+import scala.util.parsing.combinator.JavaTokenParsers
 
-class QLParserCombinators extends JavaTokenParsers {
+class QLParserCombinators extends JavaTokenParsers with QLAST {
 
-  def form : Parser[String] = "form" ~> formName ~ statements ^^ { _.toString }
-  def formName : Parser[String] = ident
+  def form: Parser[String] = "form" ~> formName ~ expression ^^ { _.toString }
+  def formName: Parser[String] = ident
 
-  def statements : Parser[String] = "{" ~> rep(questionBlock | ifStatement) <~ "}" ^^ { _.toString }
+  def expression: Parser[Expr] = "{" ~> rep(questionExpression | ifExpression) <~ "}" ^^ Sequence
 
-  def questionBlock : Parser[String] = question ~ answer ^^ { _.toString }
-  def question : Parser[String] = "question" ~> questionKey ~ questionLabel ^^ { _.toString() }
-  def questionKey : Parser[String] = ident
+  def questionExpression : Parser[QuestionExpr] = "question" ~> variable ~ questionLabel ~ answer ^^ { case v~label~_type => QuestionExpr(v, label, _type) }
   def questionLabel : Parser[String] = stringLiteral
-
   def answer : Parser[String] = "answer" ~> answerType
   def answerType : Parser[String] = "boolean" | "integer" | "string"
 
-  def ifStatement : Parser[Serializable] = ifBlock ~ elseBlock | ifBlock
-  def ifBlock : Parser[String] = "if" ~ ident ~ rep(statements) ^^ { _.toString }
-  def elseBlock : Parser[String] = "else" ~ rep(statements) ^^ { _.toString }
+  def ifExpression: Parser[IfExpr] = ("if" ~> variable) ~ expression ~ ("else" ~> expression?) ^^ { case v~e1~e2 => IfExpr(v, e1, e2) }
+
+  def variable : Parser[Variable] = ident ^^ Variable
 
 }
 
