@@ -7,16 +7,19 @@ import scala.util.parsing.combinator.JavaTokenParsers
 class QLParser extends JavaTokenParsers with QLAST {
   
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
+  def literal: Parser[Literal] = booleanLiteral | numberLiteral
+  def booleanLiteral: Parser[BooleanLiteral] = ("true" | "false") ^^ {
+    s => BooleanLiteral(s.toBoolean)
+  }
+  def numberLiteral: Parser[NumberLiteral] = wholeNumber ^^ {
+    s => NumberLiteral(s.toInt)
+  }
+  def variable: Parser[Variable] = ident ^^ Variable
+  def label: Parser[String] = stringLiteral
 
   def form: Parser[Form] = "form" ~> ident ~ expression ^^ {
     case name ~ expr => Form(name, expr)
   }
-
-  def const: Parser[Const] = ("true" | "false") ^^ Const
-
-  def variable: Parser[Variable] = ident ^^ Variable
-
-  def label: Parser[String] = stringLiteral
 
   def expression: Parser[Expr] = "{" ~> rep(questionExpression | ifExpression) <~ "}" ^^ Sequence
 
@@ -44,22 +47,34 @@ class QLParser extends JavaTokenParsers with QLAST {
   }
 
   // parse boolean expression
-  def booleanExpression: Parser[Expr] = orExpression
-
-  def orExpression: Parser[Expr] = rep1sep(andExpression, "or") ^^ {
+  def booleanExpression: Parser[Expr] = or
+  def or: Parser[Expr] = rep1sep(and, "or") ^^ {
     _.reduceLeft(Or)
   }
-
-  def andExpression: Parser[Expr] = rep1sep(notExpression, "and") ^^ {
+  def and: Parser[Expr] = rep1sep(not, "and") ^^ {
     _.reduceLeft(And)
   }
-
-  def notExpression: Parser[Expr] = opt("not") ~ atom ^^ {
+  def not: Parser[Expr] = opt("not") ~ arithmeticExpression ^^ {
     case Some(_) ~ x => Not(x)
     case _ ~ x => x
   }
 
-  def atom: Parser[Expr] = (const
+  // Arithmetic expressions
+  def arithmeticExpression: Parser[Expr] = plus
+  def plus: Parser[Expr] = rep1sep(minus, "+") ^^ {
+    _.reduceLeft(Add)
+  }
+  def minus: Parser[Expr] = rep1sep(product, "-") ^^ {
+    _.reduceLeft(Sub)
+  }
+  def product: Parser[Expr] = rep1sep(divide, "*") ^^ {
+    _.reduceLeft(Mul)
+  }
+  def divide: Parser[Expr] = rep1sep(atom, "/") ^^ {
+    _.reduceLeft(Div)
+  }
+  def atom: Parser[Expr] = (
+    literal
     | variable
     | "(" ~> booleanExpression <~ ")"
     )

@@ -68,7 +68,7 @@ class QLParserSpec extends Specification with ParserMatchers {
         .withResult(Not(Const("true")))
     }
 
-    "be valid with parenthesis" in {
+    "have the correct precedence when using parenthesis" in {
       booleanExpression must succeedOn("true and (false or true)")
         .withResult(And(Const("true"), Or(Const("false"), Const("true"))))
     }
@@ -76,6 +76,46 @@ class QLParserSpec extends Specification with ParserMatchers {
     "be valid multiple operators" in {
       booleanExpression must succeedOn("true and true and false and true")
         .withResult(And(And(And(Const("true"), Const("true")), Const("false")), Const("true")))
+    }
+  }
+
+  "arithmetic expressions" should {
+    "be valid with an plus operator" in {
+      arithmeticExpression must succeedOn("1 + 2")
+        .withResult(Add(NumberLiteral(1), NumberLiteral(2)))
+    }
+
+    "be valid with an plus operator" in {
+      arithmeticExpression must succeedOn("1 - 2")
+        .withResult(Sub(NumberLiteral(1), NumberLiteral(2)))
+    }
+
+    "be valid with an plus operator" in {
+      arithmeticExpression must succeedOn("1 * 2")
+        .withResult(Mul(NumberLiteral(1), NumberLiteral(2)))
+    }
+
+    "be valid with an plus operator" in {
+      arithmeticExpression must succeedOn("1 / 2")
+        .withResult(Div(NumberLiteral(1), NumberLiteral(2)))
+    }
+
+    "be valid with multiple of the same operators" in {
+      arithmeticExpression must succeedOn("1 + 2 + 3")
+        .withResult(Add(Add(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+    }
+
+    "give product precedence over sum" in {
+      arithmeticExpression must succeedOn("1 * 2 + 3")
+        .withResult(Add(Mul(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+
+      arithmeticExpression must succeedOn("1 + 2 * 3")
+        .withResult(Add(NumberLiteral(1), Mul(NumberLiteral(2), NumberLiteral(3))))
+    }
+
+    "have the correct precedence when using parenthesis" in {
+      arithmeticExpression must succeedOn("1 * (2 - 3)")
+        .withResult(Mul(NumberLiteral(1), Sub(NumberLiteral(2), NumberLiteral(3))))
     }
   }
 }
