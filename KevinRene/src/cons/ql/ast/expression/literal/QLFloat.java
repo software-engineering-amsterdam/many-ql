@@ -14,7 +14,7 @@ public class QLFloat extends QLType<Float> {
 	@Override
 	public String show() throws NullPointerException {
 		if(!defined)
-			throw new NullPointerException("QLFloat is undefined.");
+			return "undefined";
 		
 		return String.valueOf(value);
 	}

@@ -48,5 +48,24 @@ public class ParserTest {
 		assertTrue(parser.parse());
 		
 		assertEquals("Form", parser.getResult().toString());
+	}
+	
+	@Test
+	public void testParsableComputerQuestion() {
+		Reader reader = new StringReader(
+				"form taxOfficeExample {"
+				+ "hasSoldHouse : money {"
+				+ "\"Your house is worth:\""
+				+ "assign(5000)"
+				+ "}"
+				+ "}"
+				);
+		QLLexer lexer = new QLLexer(reader);
+		QLParser parser = new QLParser(lexer);
+
+		lexer.nextToken();
+		assertTrue(parser.parse());
+		
+		assertEquals("Form", parser.getResult().toString());
 	}	
 }

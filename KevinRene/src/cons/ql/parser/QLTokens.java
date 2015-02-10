@@ -1,4 +1,4 @@
-// Output created by jacc on Tue Feb 10 16:49:53 CET 2015
+// Output created by jacc on Tue Feb 10 17:22:33 CET 2015
 
 package cons.ql.parser;
 
@@ -36,6 +36,7 @@ interface QLTokens {
     // '*' (code=42)
     // '+' (code=43)
     // '-' (code=45)
+    // '.' (code=46)
     // '/' (code=47)
     // ':' (code=58)
     // '<' (code=60)

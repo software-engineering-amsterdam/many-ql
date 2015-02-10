@@ -9,7 +9,7 @@
 %token <QLFloat> INITMONEY MONEY INITFLOAT FLOAT
 %token <QLIdent> IDENT
 %token FORM IF ELSE ASSIGN
-%token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!' '"' ':'
+%token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!' '"' ':' '.'
 %token '(' ')' '{' '}'
 
 %left OR
@@ -54,7 +54,7 @@ import cons.ql.ast.statement.*;
 			;
 
  statement : IDENT ':' type '{' INITSTRING '}' 							{ $$ = new Question($1, $3, $5); }
- 		   | IDENT ':' type '{' INITSTRING ASSIGN '(' expression ')' '}'	{ $$ = new ComputedQuestion($1, $3, $5, $8); }
+ 		   | IDENT ':' type '{' INITSTRING ASSIGN '(' literal ')' '}'	{ $$ = new ComputedQuestion($1, $3, $5, $8); }
  		   | IF '(' expression ')' '{' statements '}' elseBranch
  		   ;
 
