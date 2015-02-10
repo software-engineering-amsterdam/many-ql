@@ -1,16 +1,19 @@
 from tkinter import *
 from ast import *
+import sys
 
 
 class QuestionnaireGUI:
     def __init__(self, form):
-        self.qGui      = Tk()
+        self.qGui        = Tk()
         # self.form      = form
-        self.questions = form.get_questions()
-        self.title     = form.get_name()
-        self.intro     = form.get_introduction()
+        self.questions   = form.get_questions()
+        self.title       = form.get_name()
+        self.intro       = form.get_introduction()
+        self.column_span = 1
 
     def generate_gui(self):
+        print("_" * 50)
         # self.qGui.geometry('450x450')
         self.qGui.title(self.title)
         i = 0
@@ -18,14 +21,24 @@ class QuestionnaireGUI:
         for question in self.questions:
             i += 1
             if isinstance(question, ConditionalQuestions):
+                print(question.condition)
                 continue
-            Label(text=question.get_label(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
-            if question.get_type() is 'boolean':
-                print(1)
-            elif question.get_type() is 'integer':
-                print(2)
-            elif question.get_type() is 'string':
-                print(3)
+            self.draw_question(question, i)
+
+    def draw_question(self, question, i):
+        int_var = IntVar()
+        str_var = StringVar()
+        # print the question
+        Label(text=question.get_label(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
+        # print the input box
+        if question.get_type() is 'bool':
+            Radiobutton(text="True", value=1, variable=i).grid(row=i, column=1, sticky=W)
+            Radiobutton(text="False", value=0, variable=i).grid(row=i, column=2, sticky=W)
+            self.column_span = 2
+        elif question.get_type() is 'integer':
+            Spinbox(from_=0, to_=10000).grid(row=i, column=1, columnspan=self.column_span, sticky=W)
+        elif question.get_type() is 'text':
+            Entry(textvariable=str_var).grid(row=i, column=1, columnspan=self.column_span, sticky=W)
 
     def show(self):
         self.qGui.mainloop()
