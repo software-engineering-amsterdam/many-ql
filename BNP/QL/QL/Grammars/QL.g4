@@ -4,17 +4,32 @@ grammar QL;
 YESNO	: 'yes' | 'no';
 NUMBER	: [-]?[0..9]+;
 WS		: [\r\n\t ]+ -> skip;
-IF: 'if';
-ELSE: 'else';
+IF		: 'if';
+ELSE	: 'else';
 TYPE	: 'yesno' | 'number' | 'text';
 ATTR	: 'required' | 'optional';
 UNITTYPE: 'question' | 'statement';
-TEXT	: [\".*\"] | WS;
 ID		: ([a-zA-Z][a-zA-Z0-9]*);
+TEXT	: '\"' .*? '\"';
 
 COMMENT : '//' ~[\r\n]* -> skip;
 
-unit	: UNITTYPE ID '(' TYPE (',' ATTR)+ ')' TEXT ';'
+// OPERATORS & EXPRESSIONS
+fragment CALCOPERATOR	: '*' | '/'
+						| '+' | '-'
+						;
+fragment ANDOROPERATOR	: '&&' | '||';
+fragment NEQOPERATOR	: '==' | '!=';
+fragment COMPAREOPERATOR: '>' | '>='
+						| '<' | '<='
+						;
+OPERATOR				: CALCOPERATOR
+						| ANDOROPERATOR
+						| NEQOPERATOR
+						| COMPAREOPERATOR
+						;
+
+unit	: UNITTYPE ID '(' TYPE (',' ATTR)* ')' TEXT ';'
 		| UNITTYPE ID '(' TYPE ',' TEXT ')' TEXT ';'
 		| UNITTYPE ID '(' TYPE ',' expression ')' TEXT ';'
 		| ifStatement;
@@ -23,27 +38,10 @@ block: '{' unit* '}';
 
 formBlock: 'form' ID block;
 
-ifStatement : 'if' '(' condition ')' block ( 'else' (ifStatement | block ))?;  
-
-
-// OPERATORS & EXPRESSIONS
-CALCOPERATOR	: '*' | '/'
-				| '+' | '-'
-				;
-ANDOROPERATOR	: '&&' | '||';
-NEQOPERATOR		: '==' | '!=';
-COMPAREOPERATOR	: '>' | '>='
-				| '<' | '<='
-				;
-
-OPERATOR		: CALCOPERATOR
-				| ANDOROPERATOR
-				| NEQOPERATOR
-				| COMPAREOPERATOR
-				;				
-
 expression		: '(' (expression | condition) ')';
 condition		: NUMBER OPERATOR NUMBER
 				| YESNO NEQOPERATOR YESNO
 				| TEXT NEQOPERATOR TEXT
 				;
+
+ifStatement : 'if' '(' condition ')' block ( 'else' (ifStatement | block ))?;
