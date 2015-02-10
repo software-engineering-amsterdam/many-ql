@@ -44,7 +44,7 @@ import cons.ql.ast.expr.statement.*;
  form : FORM IDENT '{' statements '}' { $$ = new Form($2, $4); }
  	  ;
 
- statements : statement statements
+ statements : statement statements  { $$ = new Block($1, $2); }
 			| statement 			{ $$ = new Block($1); }
 			;
 
