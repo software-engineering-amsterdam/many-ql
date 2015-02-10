@@ -3,7 +3,8 @@ package org.fugazi.ast.Literals;
 /**
  * The identifier.
  */
-public class ID {
+public class ID extends Literal {
+    
     private String name;
 
     public ID(String name) {
@@ -17,6 +18,11 @@ public class ID {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public <T> T accept(LiteralVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
 
