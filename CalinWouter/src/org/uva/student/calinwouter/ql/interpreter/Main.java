@@ -27,6 +27,7 @@ public class Main {
         Parser parser = new Parser(lexer);
         try {
             Start ast = parser.parse();
+            // TODO assumes form.
             new AFormInterpreter().interprete(new Environment(), ((AFormBegin) ast.getPBegin()).getForm());
         } catch(Exception e) {
             e.printStackTrace();
