@@ -5,6 +5,7 @@ import java.io.*;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Binary;
 import cons.ql.ast.Form;
+import cons.ql.ast.expr.statement.Assignment;
 import cons.ql.ast.expr.statement.Block;
 import cons.ql.ast.expr.statement.Question;
 
@@ -106,6 +107,14 @@ public class Parser {
 			
 			printSubTree(binary.getLeft(), prefix, false);
 			printSubTree(binary.getRight(), prefix, true);
+		}
+		else if (root instanceof Assignment) {
+			Assignment assignment = (Assignment)root;
+			
+			printSubTree(assignment.getIdent(), prefix, false);
+			printSubTree(assignment.getType(), prefix, false);
+			printSubTree(assignment.getText(), prefix, false);
+			printSubTree(assignment.getExpr(), prefix, true);
 		}
 		else if (root instanceof Question) {
 			Question question = (Question)root;
