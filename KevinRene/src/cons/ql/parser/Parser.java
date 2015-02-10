@@ -109,7 +109,6 @@ public class Parser {
 			printSubTree(binary.getRight(), prefix, true);
 		}
 		else if (root instanceof ComputedQuestion) {
-			@SuppressWarnings("rawtypes") 
 			ComputedQuestion assignment = (ComputedQuestion) root;
 			
 			printSubTree(assignment.getIdent(), prefix, false);
@@ -118,7 +117,6 @@ public class Parser {
 			printSubTree(assignment.getExpression(), prefix, true);
 		}
 		else if (root instanceof Question) {
-			@SuppressWarnings("rawtypes") 
 			Question question = (Question)root;
 			
 			printSubTree(question.getIdent(), prefix, false);
