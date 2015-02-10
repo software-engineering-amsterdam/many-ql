@@ -9,5 +9,8 @@ import java.util.List;
  */
 public abstract class Statement extends AstNode
 {
-
+    public Statement(List<AstNode> children)
+    {
+        super(children);
+    }
 }

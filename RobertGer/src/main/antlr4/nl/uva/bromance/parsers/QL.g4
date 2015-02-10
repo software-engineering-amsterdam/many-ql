@@ -26,6 +26,12 @@ expression
     | NUMBER
     | TEXT;
 
+/*
+logicalExpression: logic (LOGICAL_SEPARATOR logic)*;
+logic: ref=(TEXT)+ operator=LOGICAL_OPERATOR target=(TEXT)+
+ifStatement: 'If:' ref=(TEXT+) operator=OPERATOR '{' '}'  ;
+elseStatement: 'Else:' '{' '}';
+*/
 // String and number definitions taken from : https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
 STRING :  '"' (ESC | ~["\\])* '"' ;
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
