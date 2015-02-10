@@ -6,12 +6,13 @@ import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLString;
 
-public class Question<T extends QLType<T>> extends Statement {
+@SuppressWarnings("rawtypes")
+public class Question extends Statement {
 	protected QLIdent identifier;
-	protected T type;
+	protected QLType type;
 	protected QLString questionText;
 	
-	public Question(QLIdent identifier, T type, QLString questionText) {
+	public Question(QLIdent identifier, QLType type, QLString questionText) {
 		this.identifier = identifier;
 		this.type = type;
 		this.questionText = questionText;
@@ -21,7 +22,7 @@ public class Question<T extends QLType<T>> extends Statement {
 		return this.identifier;
 	}
 	
-	public T getType() {
+	public QLType  getType() {
 		return this.type;
 	}
 	

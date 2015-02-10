@@ -4,16 +4,18 @@ import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLString;
 
-public class ComputedQuestion<T extends QLType<T>> extends Question<T> {
-	private QLType<T> literal;
+@SuppressWarnings("rawtypes")
+public class ComputedQuestion extends Question {
+	private QLType literal;
 	
-	public ComputedQuestion(QLIdent identifier, T type, QLString text, T literal) {
+	@SuppressWarnings("unchecked")
+	public ComputedQuestion(QLIdent identifier, QLType type, QLString text, QLType literal) {
 		super(identifier, type, text);		
 		this.literal = literal;		
 		type.setValue(literal);
 	}
 
-	public QLType<T> getExpression() {
+	public QLType getExpression() {
 		return this.literal;
 	}
 	
