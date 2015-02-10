@@ -53,7 +53,11 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
                 DisplayModelInterface displayModel = environment.getDisplayModels().get(e.getFirstRow());
                 String change = "" + tableModel.getValueAt(e.getFirstRow(), e.getColumn());
                 if (displayModel.updateEnvironmentForRowChange(e, change, environment)) {
-                    interpreteStatements();
+                    try {
+                        interpreteStatements();
+                    } catch (InterpretationException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
