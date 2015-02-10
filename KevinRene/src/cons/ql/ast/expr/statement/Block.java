@@ -14,7 +14,7 @@ public class Block extends Statement {
 		this.statements.add(statement);
 	}
 	
-	public Block(Block statements, Statement statement) {
+	public Block(Statement statement, Block statements) {
 		this.statements.add(statement);
 		this.statements.addAll(statements.statements());
 	}
