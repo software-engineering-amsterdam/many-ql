@@ -11,10 +11,10 @@ formElem : question
          | conditional
          ;
 
-question : 'question' id type keyValPairs
+question : 'question' id typeName keyValPairs
          ;
         
-field : 'field' id type keyValPairs
+field : 'field' id typeName keyValPairs
       ;
  
 
@@ -27,7 +27,7 @@ id : ALPHANUMERIC
  
           
 // (Do we want to generalize this so people can create own types?)
-type : 'bool'
+typeName : 'bool'
      | 'string'
      | 'date'
      | 'int'
@@ -35,10 +35,15 @@ type : 'bool'
      | 'money'
      ;
 
-value : STRING
-      | date
-	  | list
+value : type
       | expression
+      ;
+
+type : bool
+      |STRING
+      |date
+      |num
+      |list
       ;
 
 date   : 'date(' YEAR '.' MONTH '.' DAY ')'
@@ -52,7 +57,7 @@ num : INT
     | MONEY
     ;
 
-list : '['num+'..'num+']';
+list : '[' (type (',' type )*)? ']';
  
 // keyValPairs //////////////////////////////////////
     
@@ -72,7 +77,8 @@ conditional : 'enable when' expression formsection
             ;
 
 expression : '(' expression ')'
-           | BOOL
+           | bool
+           | id
            |'!' expression
            | expression '&&' expression
            | expression '||' expression 
@@ -80,10 +86,9 @@ expression : '(' expression ')'
            | arithmetic
            ;
 
-boolean : '(' boolean ')'
-        | BOOL
-        | id
-        ;
+bool : 'True'
+     | 'False'
+     ;
 
 comparison :
     | '(' comparison ')'
@@ -101,8 +106,6 @@ arithmetic :
     ;
 
 //Lexer rules
-BOOL : [True|False];
-
 INT     : [0-9]+;
 DECIMAL : [0-9]+ ',' [0-9];
 MONEY   : [0-9]+ ',' [0-9];
@@ -119,4 +122,4 @@ WS : (' ' | '\r' | '\n') -> channel(HIDDEN);
 
 BLOCK_COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
 
-LINE_COMMENT : '//' ~[\r\n]* -> channel(HIDDEN);
+LINE_COMMENT : '--' ~[\r\n]* -> channel(HIDDEN);
