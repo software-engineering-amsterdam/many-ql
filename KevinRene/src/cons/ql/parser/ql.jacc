@@ -64,7 +64,7 @@ import cons.ql.ast.expr.statement.*;
  question : IDENT ':' questionType '{' STRING '}' 						{ $$ = new Question($1, $3, $5); }
  		  ;
 
- assignment : IDENT ':' questionType '{' STRING ASSIGN '(' expr ')' '}'	{ $$ = new Assignment($1, $3, $5, $7); }
+ assignment : IDENT ':' questionType '{' STRING ASSIGN '(' expr ')' '}'	{ $$ = new Assignment($1, $3, $5, $8); }
  			;
 
  questionType : BOOLEAN 
