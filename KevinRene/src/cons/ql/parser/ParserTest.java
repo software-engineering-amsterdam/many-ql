@@ -48,6 +48,6 @@ public class ParserTest {
 		lexer.nextToken();
 		assertTrue(parser.parse());
 		
-		assertEquals("Form taxOfficeExample", parser.getResult().toString());
+		assertEquals("Form", parser.getResult().toString());
 	}	
 }
