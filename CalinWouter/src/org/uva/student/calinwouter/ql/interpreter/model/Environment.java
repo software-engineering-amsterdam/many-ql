@@ -1,23 +1,24 @@
 package org.uva.student.calinwouter.ql.interpreter.model;
 
+import org.uva.student.calinwouter.ql.interpreter.model.types.TForm;
+import org.uva.student.calinwouter.ql.interpreter.model.types.TFormElement;
+import org.uva.student.calinwouter.ql.interpreter.model.types.TypeModel;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Environment {
-    private HashMap<String, Object> envVars;
+    private HashMap<String, TypeModel<?>> envVars;
 
-    private LinkedList<DisplayModelInterface> displayModels;
+    private TForm form;
 
-    public HashMap<String, Object> getEnvVars() { return envVars; }
+    public HashMap<String, TypeModel<?>> getEnvVars() { return envVars; }
 
-    public LinkedList<DisplayModelInterface> getDisplayModels() { return displayModels; }
+    public TForm getForm() { return form; }
 
-    public void clearDisplay() {
-        displayModels.clear();
-    }
+    public void setForm(TForm form) { this.form = form; }
 
     public Environment() {
-        envVars = new HashMap<String, Object>();
-        displayModels = new LinkedList<DisplayModelInterface>();
+        envVars = new HashMap<String, TypeModel<?>>();
     }
 }

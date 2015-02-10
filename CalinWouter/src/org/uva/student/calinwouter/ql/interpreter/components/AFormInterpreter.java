@@ -47,7 +47,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         Parser parser = new Parser(lexer);
         try {
             Start ast = parser.parse();
-            return new PExpInterpreter().interprete(environment, ((AExpBegin) ast.getPBegin()).getExp());
+            return null; //new PExpInterpreter().interprete(environment, ((AExpBegin) ast.getPBegin()).getExp());
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
@@ -69,7 +69,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
             public void tableChanged(TableModelEvent e) {
                 DisplayModelInterface displayModel = environment.getDisplayModels().get(e.getFirstRow());
                 if (displayModel.updateEnvironmentForRowChange(e)) {
-                    interpreteStatements();
+                   // interpreteStatements();
                 }
             }
         });
@@ -78,7 +78,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
 
     private void interpreteStatements() throws InterpretationException{
         environment.clearDisplay();
-        new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
+        //new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
         jtable.getColumnModel().getColumn(1).setCellEditor(new TypeSpecificCellEditor());
     }

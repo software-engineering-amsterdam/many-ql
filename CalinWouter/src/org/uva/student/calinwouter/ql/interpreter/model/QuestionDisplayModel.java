@@ -2,11 +2,11 @@ package org.uva.student.calinwouter.ql.interpreter.model;
 
 import javax.swing.event.TableModelEvent;
 
-public class ComputedValueModel implements DisplayModelInterface {
+public class QuestionDisplayModel implements DisplayModelInterface {
+
     private final String variable;
     private final String text;
     private final String type;
-    private final Object value;
 
     public String getVariable() {
         return variable;
@@ -20,15 +20,10 @@ public class ComputedValueModel implements DisplayModelInterface {
         return type;
     }
 
-    public Object getValue() {
-        return value;
-    }
-
-    public ComputedValueModel(String variable, String text, String type, Object value) {
+    public QuestionDisplayModel(String variable, String text, String type, Environment e) {
         this.variable = variable;
         this.text = text;
         this.type = type;
-        this.value = value;
     }
 
     @Override
