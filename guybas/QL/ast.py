@@ -4,26 +4,26 @@ def make_sentence(tokens):
 
 # Questions 
 class Question:
-    def __init__(self, number, label, answertype):
-        self.number = number
+    def __init__(self, qid, qtype, label):
+        self.id = qid
         self.label = label
-        self.answertype = answertype
+        self.type = qtype
 
     def __str__(self):
-        s = "Question:" + str(self.number) + "\n"
+        s = "Question:" + str(self.id) + "\n"
         s += self.label + "\n"
-        s += str(self.answertype)
+        s += str(self.type)
         s += "\n"
         return s
 
     def get_label(self):
         return self.label
 
-    def get_answertype(self):
-        return self.answertype
+    def get_type(self):
+        return self.type
 
-    def get_number(self):
-        return self.number
+    def get_id(self):
+        return self.id
 
 
 class ConditionalQuestions:
