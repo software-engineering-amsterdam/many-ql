@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 
 public class PBeginInterpreter implements InterpreterInterface<PBegin> {
     @Override
-    public Object interprete(Environment e, PBegin node) {
+    public Object interprete(Environment e, PBegin node) throws InterpretationException {
         if (node instanceof AExpBegin) {
             return new PExpInterpreter().interprete(e, ((AExpBegin) node).getExp());
         } else if (node instanceof AFormBegin) {
