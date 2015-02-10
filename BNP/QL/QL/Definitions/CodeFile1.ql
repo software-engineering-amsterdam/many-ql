@@ -48,3 +48,19 @@ else
 }
 
 types are yesno, number, text
+
+
+form ExampleBlock {
+question FirstQuestion (yesno, required) "How much is it?";
+question question2 (text, optional) "How much it will be?";
+statement STATEMENT (number) "It will be";
+
+if (3==-11){
+	question question4 (yesno) "This should be typechecked";
+	}
+else if (yes!=no){}
+	 else {
+		statement STATEMENT2 (number) "It will be";
+	 };
+else {};
+}
