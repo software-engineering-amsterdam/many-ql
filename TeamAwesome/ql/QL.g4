@@ -2,12 +2,22 @@ grammar QL;
 
 import QL_tokens, QL_expr;
 
+statement 
+    :   form
+    |   question
+    |   if_statement
+    ;
+
 form
-    :   'form' ID '{' question* '}'
+    :   'form' ID '{' statement* '}'
     ;
 
 question
-    :   'question' ID '{' STRING boolean '}'
+    :   'question' ID '{' STRING question_type '}'
+    ;
+
+if_statement
+    :   'if' expr '{' statement* '}'
     ;
 
 WS  
