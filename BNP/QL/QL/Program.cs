@@ -32,8 +32,8 @@ namespace QL
                 QLParser parser = new QLParser(tokens);
                 parser.AddErrorListener(new ParserErrorHandler());
 
-                // parses the input as a unit
-                var result = parser.unit();
+                // parses the input as a formBlock(cos it's on the top)
+                var result = parser.formBlock();
 
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();
