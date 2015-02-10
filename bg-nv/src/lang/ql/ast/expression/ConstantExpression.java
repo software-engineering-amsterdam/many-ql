@@ -20,7 +20,7 @@ public abstract class ConstantExpression<T> extends Expression
     }
 
     @Override
-    public Expression getValue()
+    public ConstantExpression getValue()
     {
         return this;
     }

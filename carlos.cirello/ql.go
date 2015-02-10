@@ -15,9 +15,8 @@ func main() {
 	inFn, outFn := cli.Args()
 
 	inReader, outWriter := stream.New(inFn, outFn)
-
-	csvWriter := output.New(outWriter)
 	codeBuf := reader.New(inReader)
+	csvWriter := output.New(outWriter)
 
 	code := codeBuf.Read()
 	aQuestionaire := compiler.CompileQL(code)

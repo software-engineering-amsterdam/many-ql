@@ -7,5 +7,5 @@ import lang.ql.ast.AstNode;
  */
 public abstract class Expression extends AstNode
 {
-    public abstract Expression getValue();
+    public abstract ConstantExpression getValue();
 }

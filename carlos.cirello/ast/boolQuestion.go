@@ -28,3 +28,7 @@ func (s BoolQuestion) String() string {
 func (s BoolQuestion) Type() string {
 	return "bool"
 }
+
+func (s BoolQuestion) Value() bool {
+	return bool(s)
+}
