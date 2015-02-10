@@ -75,7 +75,7 @@ public class Inlining
       }
     }
 
-    //If the production must be inlined
+    //IfStmt the production must be inlined
     if(prodMustBeInlined.getValue())
     {
       /*
