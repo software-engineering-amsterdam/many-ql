@@ -33,7 +33,7 @@ namespace QL
                 parser.AddErrorListener(new ParserErrorHandler());
 
                 // parses the input as a unit
-                parser.formBlock();
+                var result = parser.unit();
 
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();
