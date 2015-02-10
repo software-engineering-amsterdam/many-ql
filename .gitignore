@@ -108,3 +108,6 @@ StevenFati/java/java.iml
 StevenFati/java/gen/
 StevenFati/java/target/surefire-reports/TEST-WalkerTest.xml
 StevenFati/java/target/
+
+kennedy-langlotz/kennedy-langlotz.iml
+kennedy-langlotz/.idea/workspace.xml
