@@ -1,7 +1,7 @@
 package org.fugazi.ast.Type;
 
 /**
- * Generic Visitor classs for types.
+ * Generic Visitor class for types.
  * @param <T>
  */
 public interface TypeVisitor<T> {

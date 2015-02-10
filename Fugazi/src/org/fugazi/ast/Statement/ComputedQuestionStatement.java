@@ -39,7 +39,7 @@ public class ComputedQuestionStatement extends QuestionStatement {
     }
 
     @Override
-    public boolean equals(Object object) {
-        return object instanceof ComputedQuestionStatement;
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

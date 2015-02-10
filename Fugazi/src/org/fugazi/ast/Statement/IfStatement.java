@@ -47,7 +47,7 @@ public class IfStatement extends Statement{
     }
 
     @Override
-    public boolean equals(Object object) {
-        return object instanceof IfStatement;
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

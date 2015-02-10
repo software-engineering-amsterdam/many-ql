@@ -60,7 +60,7 @@ public class QuestionStatement extends Statement {
     }
 
     @Override
-    public boolean equals(Object object) {
-        return object instanceof QuestionStatement;
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

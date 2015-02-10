@@ -21,10 +21,6 @@ public abstract class Statement extends ASTNode {
      */
     public abstract String toString();
 
-    /**
-     * Check Equals
-     * @param object the object to check
-     * @return true if it is equal, false otherwise.
-     */
-    public abstract boolean equals(Object object);
+    // Accept visitor.
+    public abstract <T> T accept(StatementVisitor<T> visitor);
 }
