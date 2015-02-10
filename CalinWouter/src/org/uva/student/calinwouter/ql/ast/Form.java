@@ -11,8 +11,9 @@ public class Form {
 
     private List<QuestionStmt> statements;
 
-    public Form(AForm aform) {
-        identifier = aform.getIdent();
+    public Form(String identifier, List<QuestionStmt> statements) {
+        this.identifier = identifier;
+        this.statements = statements;
     }
 
 }

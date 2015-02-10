@@ -5,5 +5,6 @@ import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 
 public abstract class Exp {
 
-    public abstract Object interprete(Environment environment) throws InterpretationException;
+    public abstract Object interpret(Environment environment) throws InterpretationException;
+
 }

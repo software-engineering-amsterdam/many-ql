@@ -45,10 +45,10 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
                 AIfStmt ifStmt = (AIfStmt) node;
                 System.out.println("IfStmt Node: " + ifStmt.getExp().toString());
                 System.out.println(e.getEnvVars().get("hasSoldHouse"));
-
-                if (e.getEnvVars().get("hasSoldHouse") != null)
-                    System.out.println(e.getEnvVars().get("hasSoldHouse").getClass());
-                ee.printStackTrace();
+              //if (e.getEnvVars().get("hasSoldHouse") != null)
+                //    System.out.println(e.getEnvVars().get("hasSoldHouse").getClass());
+                //ee.printStackTrace();
+                System.out.println(ee.getMessage());
                 return false;
             }
         }
