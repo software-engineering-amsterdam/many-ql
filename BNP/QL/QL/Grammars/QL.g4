@@ -2,7 +2,7 @@ grammar QL;
 
 
 YESNO	: 'yes' | 'no';
-NUMBER	: [-]?[0..9]+;
+NUMBER	: '-'?[0..9]+;
 WS		: [\r\n\t ]+ -> skip;
 IF		: 'if';
 ELSE	: 'else';
@@ -40,8 +40,8 @@ formBlock: 'form' ID block;
 
 expression		: '(' (expression | condition) ')';
 condition		: NUMBER OPERATOR NUMBER
-				| YESNO NEQOPERATOR YESNO
-				| TEXT NEQOPERATOR TEXT
+				| YESNO OPERATOR YESNO
+				| TEXT OPERATOR TEXT
 				;
 
-ifStatement : 'if' '(' condition ')' block ( 'else' (ifStatement | block ))?;
+ifStatement : 'if' '(' condition ')' block (('else' ifStatement)* | ('else' block)?) ';';
