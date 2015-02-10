@@ -1,22 +1,22 @@
-package nl.uva.bromance.questionnaire.ranges;
+package nl.uva.bromance.parsers.questionnaire.ranges;
 
 /**
  * Created by Gerrit Krijnen on 2/9/2015.
  */
-public class BiggerThan implements Range {
+public class SmallerThan implements Range {
 
     double val;
 
-    public BiggerThan(double value) {
+    public SmallerThan(double value) {
         this.val = value;
     }
 
-    public BiggerThan(int value) {
+    public SmallerThan(int value) {
         this.val = (double) value;
     }
 
     public boolean valueConformsToRange(double value) {
-        if (value > this.val)
+        if (value < this.val)
             return true;
         else
             return false;
@@ -27,6 +27,6 @@ public class BiggerThan implements Range {
     }
 
     public String toString() {
-        return "> " + val;
+        return "< " + val;
     }
 }

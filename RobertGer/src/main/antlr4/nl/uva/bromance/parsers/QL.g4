@@ -19,7 +19,7 @@ logicalStatement: 'If:' expression '{' (logicalStatement|question)* '}';
 
 expression
     : primary
-    | <assoc=right> expression RELATIONAL_OPERATOR expression
+    | expression RELATIONAL_OPERATOR expression
     | expression ('==' | '!=') expression
     | expression OR_OP expression
     | expression AND_OP expression;

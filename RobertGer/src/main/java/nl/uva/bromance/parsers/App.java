@@ -1,4 +1,4 @@
-package nl.uva.bromance;
+package nl.uva.bromance.parsers;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
