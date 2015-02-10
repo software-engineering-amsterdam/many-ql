@@ -47,16 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Grammars\QL.parser.cs">
+      <DependentUpon>QL.g4</DependentUpon>
+    </Compile>
+    <Compile Include="Grammars\QL.lexer.cs">
+      <DependentUpon>QL.g4</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="CodeFile1.ql" />
+    <None Include="Definitions\CodeFile1.ql" />
     <None Include="packages.config" />
-    <Antlr4 Include="QL.g4">
+    <Antlr4 Include="Grammars\QL.g4">
       <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>QL</CustomToolNamespace>
+      <CustomToolNamespace>QL.Grammars</CustomToolNamespace>
+      <Listener>True</Listener>
+      <Visitor>True</Visitor>
     </Antlr4>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
