@@ -15,8 +15,8 @@ public class AddExp extends Exp {
     }
 
     @Override
-    public Object interprete(Environment e) throws InterpretationException {
-        return calc(l.interprete(e), r.interprete(e));
+    public Object interpret(Environment e) throws InterpretationException {
+        return calc(l.interpret(e), r.interpret(e));
     }
 
     public AddExp(Exp l, Exp r) {

@@ -7,7 +7,7 @@ public class IdentExp extends Exp {
     private String ident;
 
     @Override
-    public Object interprete(Environment e) throws InterpretationException {
+    public Object interpret(Environment e) throws InterpretationException {
         return e.getEnvVars().get(ident);
     }
 

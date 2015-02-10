@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 public class FalseExp extends Exp {
 
     @Override
-    public Object interprete(Environment environment) throws InterpretationException {
+    public Object interpret(Environment environment) throws InterpretationException {
         return false;
     }
 }

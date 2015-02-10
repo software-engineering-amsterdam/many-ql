@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 
 public class IfStmt extends Stmt {
     @Override
-    public Object interprete(Environment environment) throws InterpretationException {
-
+    public Object interpret(Environment environment) throws InterpretationException {
+        return null;
     }
 }
