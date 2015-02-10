@@ -22,12 +22,21 @@ class QLParser extends JavaTokenParsers with QLAST {
 
   // parse questions
   def questionExpression: Parser[QuestionExpr] = "question" ~> variable ~ label ~ answer ^^ {
-    case v ~ label ~ "boolean" => BooleanQuestion(v, label)
-    case v ~ label ~ "integer" => IntegerQuestion(v, label)
-    case v ~ label ~ "string" => StringQuestion(v, label)
+    // Normal Questions
+    case v ~ label ~ (BooleanType ~ None) => BooleanQuestion(v, label)
+    case v ~ label ~ (IntegerType ~ None) => IntegerQuestion(v, label)
+    case v ~ label ~ (StringType ~ None) => StringQuestion(v, label)
+    // Computed Questions
+    case v ~ label ~ (BooleanType ~ Some(value)) => ComputedBooleanQuestion(v, label, value)
+    case v ~ label ~ (IntegerType ~ Some(value)) => ComputedIntegerQuestion(v, label)
+    case v ~ label ~ (StringType ~ Some(value)) => ComputedStringQuestion(v, label)
+    case _ => StringQuestion(Variable("NONE"), "NONE")
   }
-
-  def answer: Parser[String] = "answer" ~> ("boolean" | "integer" | "string")
+  // TODO: Check allowed expression for each type.
+  def answer = "answer" ~> (booleanAnswer | integerAnswer | stringAnswer)
+  def booleanAnswer = ("boolean" ^^^ {BooleanType}) ~ opt("is" ~ "(" ~> (booleanExpression) <~ ")")
+  def integerAnswer = ("integer" ^^^ {IntegerType}) ~ opt("is" ~ "(" ~> ("") <~ ")")
+  def stringAnswer = ("string" ^^^ {StringType}) ~ opt("is" ~ "(" ~> (stringLiteral) <~ ")")
 
   // parse if statements
   def ifExpression: Parser[IfExpr] = ("if" ~> variable) ~ expression ~ ("else" ~> expression ?) ^^ {

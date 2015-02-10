@@ -1,17 +1,14 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
-import com.sun.org.apache.xpath.internal.operations.And;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 
-import java.util.Objects;
-
 public class PExpInterpreter implements InterpreterInterface<PExp> {
 
     @Override
-    public Object interprete(Environment e, PExp node) {
+    public Object interprete(Environment e, PExp node) throws InterpretationException {
+        System.out.println(node.getClass());
         if(node instanceof AAddExp) {
             return ((Integer) new PExpInterpreter().interprete(e,((AAddExp) node).getLeft())) +
                     ((Integer) new PExpInterpreter().interprete(e,((AAddExp) node).getRight()));
@@ -62,7 +59,11 @@ public class PExpInterpreter implements InterpreterInterface<PExp> {
         } else if (node instanceof ANumberExp) {
             return new Integer(((ANumberExp) node).getNumber().getText());
         } else if (node instanceof AIdentExp) {
-            return e.getEnvVars().get(((AIdentExp) node).getIdent().getText());
+            Object identValue = e.getEnvVars().get(((AIdentExp) node).getIdent().getText());
+            if(identValue != null)
+                return identValue;
+            else
+                throw new InterpretationException("undefined variable");
         }
         return null;
     }

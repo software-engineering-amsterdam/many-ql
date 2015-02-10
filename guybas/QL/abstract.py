@@ -4,13 +4,14 @@ from ast import *
 
 class ASTReady:
     def make_question(tokens):
-        number = int(tokens[0])
+        number = tokens[0]
         question = tokens[1]
         answertype = tokens[2]
         return Question(number, question, answertype)
         
     def make_if(tokens):
         condition = tokens[0]
+        print(condition)
         questions = []
         for i in range(1, len(tokens)):
             questions.append(tokens[i])
@@ -35,7 +36,9 @@ class ASTReady:
         
     def make_form(tokens):
         name = tokens[0]
+        introduction = tokens[1]
         questions = []
-        for i in range(1, len(tokens)):
+        for i in range(2, len(tokens)):
             questions.append(tokens[i])
-        return Form(name, questions)
+        x = Form(name, introduction, questions)
+        return x

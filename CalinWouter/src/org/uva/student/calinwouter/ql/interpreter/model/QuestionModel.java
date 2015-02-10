@@ -1,6 +1,6 @@
 package org.uva.student.calinwouter.ql.interpreter.model;
 
-public class QuestionModel {
+public class QuestionModel implements DisplayModelInterface {
 
     private final String variable;
     private final String text;

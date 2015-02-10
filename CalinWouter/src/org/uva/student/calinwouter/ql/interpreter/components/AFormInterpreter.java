@@ -4,8 +4,8 @@ import org.uva.student.calinwouter.ql.generated.lexer.Lexer;
 import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.generated.parser.Parser;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
+import org.uva.student.calinwouter.ql.interpreter.model.DisplayModelInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
-import org.uva.student.calinwouter.ql.interpreter.model.QuestionModel;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -56,27 +56,26 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         final DefaultTableModel tableModel = new DefaultTableModel(0,2) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1;
+                return environment.getDisplayModels().get(row).isCellEditable(row, column);
             }
         };
-        for (QuestionModel questionModel : environment.getQuestionModels()) {
-            tableModel.addRow(new Object[] {
-                    questionModel.getText(),
-                    environment.getEnvVars().get(questionModel.getVariable())});
+        for (DisplayModelInterface displayModel : environment.getDisplayModels()) {
+            tableModel.addRow(displayModel.renderTableRow(environment));
         }
         tableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
-                String variable = environment.getQuestionModels().get(e.getFirstRow()).getVariable();
-                String value = tableModel.getValueAt(e.getFirstRow(), 1).toString();
-                Object parsedValue = interpreteExpression(value);
-                environment.getEnvVars().put(variable, value);
+                DisplayModelInterface displayModel = environment.getDisplayModels().get(e.getFirstRow());
+                if (displayModel.updateEnvironmentForRowChange(e)) {
+                    interpreteStatements();
+                }
             }
         });
         return tableModel;
     }
 
-    private void interpreteStatements() {
+    private void interpreteStatements() throws InterpretationException{
+        environment.clearDisplay();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
     }
@@ -86,7 +85,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
     }
 
     @Override
-    public Object interprete(Environment environment, PForm form) {
+    public Object interprete(Environment environment, PForm form) throws InterpretationException {
         this.environment = environment;
         this.form = form;
         createWindow(getFormTitle(form));
