@@ -20,6 +20,8 @@ public class QLLexer implements QLTokens {
 		KEYWORDS.put("boolean", BOOLEAN);
 		KEYWORDS.put("assign", ASSIGN);
 		KEYWORDS.put("money", MONEY);
+		KEYWORDS.put("if", IF);
+		KEYWORDS.put("else", ELSE);
 	}
 	
 	
@@ -127,6 +129,7 @@ public class QLLexer implements QLTokens {
 			    case '=': { 
 			    	nextChar(); 
 			    	if  (c == '=') {
+			    		nextChar();
 			    		return token = EQ;
 			    	}
 			    	throw new RuntimeException("Unexpected character: " + (char)c);

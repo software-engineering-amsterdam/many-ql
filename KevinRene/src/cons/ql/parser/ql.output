@@ -1,10 +1,10 @@
-// Output created by jacc on Tue Feb 10 17:22:33 CET 2015
+// Output created by jacc on Tue Feb 10 21:30:28 CET 2015
 
-0: shift/reduce conflict (shift 25 and red'n 23) on '+'
-0: shift/reduce conflict (shift 26 and red'n 23) on '-'
+0: shift/reduce conflict (shift 25 and red'n 24) on '+'
+0: shift/reduce conflict (shift 26 and red'n 24) on '-'
 state 0 (entry on top)
     $accept : _top $end
-    literal : _    (23)
+    literal : _    (24)
 
     BOOLEAN shift 10
     FLOAT shift 11
@@ -23,17 +23,17 @@ state 0 (entry on top)
     '(' shift 24
     '+' shift 25
     '-' shift 26
-    '*' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    '*' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
     . error
 
     top goto 1
@@ -54,18 +54,18 @@ state 1 (entry on top)
 
 state 2 (entry on expression)
     node : expression_    (4)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     AND shift 27
     EQ shift 28
@@ -89,57 +89,7 @@ state 3 (entry on form)
     . error
 
 state 4 (entry on literal)
-    expression : literal_    (14)
-
-    '+' reduce 14
-    '*' reduce 14
-    ')' reduce 14
-    $end reduce 14
-    OR reduce 14
-    EQ reduce 14
-    NEQ reduce 14
-    '>' reduce 14
-    '<' reduce 14
-    '/' reduce 14
-    LEQ reduce 14
-    '-' reduce 14
-    GEQ reduce 14
-    AND reduce 14
-    . error
-
-state 5 (entry on node)
-    top : node_    (1)
-
-    $end reduce 1
-    . error
-
-state 6 (entry on relationalExpression)
-    expression : relationalExpression_    (16)
-
-    '+' reduce 16
-    '*' reduce 16
-    ')' reduce 16
-    $end reduce 16
-    OR reduce 16
-    EQ reduce 16
-    NEQ reduce 16
-    '>' reduce 16
-    '<' reduce 16
-    '/' reduce 16
-    LEQ reduce 16
-    '-' reduce 16
-    GEQ reduce 16
-    AND reduce 16
-    . error
-
-state 7 (entry on statement)
-    node : statement_    (3)
-
-    $end reduce 3
-    . error
-
-state 8 (entry on arithmeticExpression)
-    expression : arithmeticExpression_    (15)
+    expression : literal_    (15)
 
     '+' reduce 15
     '*' reduce 15
@@ -157,221 +107,77 @@ state 8 (entry on arithmeticExpression)
     AND reduce 15
     . error
 
-state 9 (entry on type)
-    expression : type_    (13)
+state 5 (entry on node)
+    top : node_    (1)
 
-    '+' reduce 13
-    '*' reduce 13
-    ')' reduce 13
-    $end reduce 13
-    OR reduce 13
-    EQ reduce 13
-    NEQ reduce 13
-    '>' reduce 13
-    '<' reduce 13
-    '/' reduce 13
-    LEQ reduce 13
-    '-' reduce 13
-    GEQ reduce 13
-    AND reduce 13
+    $end reduce 1
+    . error
+
+state 6 (entry on relationalExpression)
+    expression : relationalExpression_    (17)
+
+    '+' reduce 17
+    '*' reduce 17
+    ')' reduce 17
+    $end reduce 17
+    OR reduce 17
+    EQ reduce 17
+    NEQ reduce 17
+    '>' reduce 17
+    '<' reduce 17
+    '/' reduce 17
+    LEQ reduce 17
+    '-' reduce 17
+    GEQ reduce 17
+    AND reduce 17
+    . error
+
+state 7 (entry on statement)
+    node : statement_    (3)
+
+    $end reduce 3
+    . error
+
+state 8 (entry on arithmeticExpression)
+    expression : arithmeticExpression_    (16)
+
+    '+' reduce 16
+    '*' reduce 16
+    ')' reduce 16
+    $end reduce 16
+    OR reduce 16
+    EQ reduce 16
+    NEQ reduce 16
+    '>' reduce 16
+    '<' reduce 16
+    '/' reduce 16
+    LEQ reduce 16
+    '-' reduce 16
+    GEQ reduce 16
+    AND reduce 16
+    . error
+
+state 9 (entry on type)
+    expression : type_    (14)
+
+    '+' reduce 14
+    '*' reduce 14
+    ')' reduce 14
+    $end reduce 14
+    OR reduce 14
+    EQ reduce 14
+    NEQ reduce 14
+    '>' reduce 14
+    '<' reduce 14
+    '/' reduce 14
+    LEQ reduce 14
+    '-' reduce 14
+    GEQ reduce 14
+    AND reduce 14
     . error
 
 state 10 (entry on BOOLEAN)
-    type : BOOLEAN_    (21)
-
-    '+' reduce 21
-    '*' reduce 21
-    ')' reduce 21
-    $end reduce 21
-    OR reduce 21
-    EQ reduce 21
-    NEQ reduce 21
-    '>' reduce 21
-    '<' reduce 21
-    '/' reduce 21
-    LEQ reduce 21
-    '{' reduce 21
-    '-' reduce 21
-    GEQ reduce 21
-    AND reduce 21
-    . error
-
-state 11 (entry on FLOAT)
-    type : FLOAT_    (20)
-
-    '+' reduce 20
-    '*' reduce 20
-    ')' reduce 20
-    $end reduce 20
-    OR reduce 20
-    EQ reduce 20
-    NEQ reduce 20
-    '>' reduce 20
-    '<' reduce 20
-    '/' reduce 20
-    LEQ reduce 20
-    '{' reduce 20
-    '-' reduce 20
-    GEQ reduce 20
-    AND reduce 20
-    . error
-
-state 12 (entry on FORM)
-    form : FORM_IDENT '{' statements '}'    (5)
-
-    IDENT shift 39
-    . error
-
-state 13 (entry on IDENT)
-    statement : IDENT_':' type '{' INITSTRING '}'    (8)
-    statement : IDENT_':' type '{' INITSTRING ASSIGN '(' literal ')' '}'    (9)
-
-    ':' shift 40
-    . error
-
-state 14 (entry on IF)
-    statement : IF_'(' expression ')' '{' statements '}' elseBranch    (10)
-
-    '(' shift 41
-    . error
-
-state 15 (entry on INITBOOLEAN)
-    literal : INITBOOLEAN_    (27)
-
-    '+' reduce 27
-    '*' reduce 27
-    ')' reduce 27
-    $end reduce 27
-    OR reduce 27
-    EQ reduce 27
-    NEQ reduce 27
-    '>' reduce 27
-    '<' reduce 27
-    '/' reduce 27
-    LEQ reduce 27
-    '-' reduce 27
-    GEQ reduce 27
-    AND reduce 27
-    . error
-
-state 16 (entry on INITFLOAT)
-    literal : INITFLOAT_    (26)
-
-    '+' reduce 26
-    '*' reduce 26
-    ')' reduce 26
-    $end reduce 26
-    OR reduce 26
-    EQ reduce 26
-    NEQ reduce 26
-    '>' reduce 26
-    '<' reduce 26
-    '/' reduce 26
-    LEQ reduce 26
-    '-' reduce 26
-    GEQ reduce 26
-    AND reduce 26
-    . error
-
-state 17 (entry on INITINT)
-    literal : INITINT_    (24)
-
-    '+' reduce 24
-    '*' reduce 24
-    ')' reduce 24
-    $end reduce 24
-    OR reduce 24
-    EQ reduce 24
-    NEQ reduce 24
-    '>' reduce 24
-    '<' reduce 24
-    '/' reduce 24
-    LEQ reduce 24
-    '-' reduce 24
-    GEQ reduce 24
-    AND reduce 24
-    . error
-
-state 18 (entry on INITMONEY)
-    literal : INITMONEY_    (25)
-
-    '+' reduce 25
-    '*' reduce 25
-    ')' reduce 25
-    $end reduce 25
-    OR reduce 25
-    EQ reduce 25
-    NEQ reduce 25
-    '>' reduce 25
-    '<' reduce 25
-    '/' reduce 25
-    LEQ reduce 25
-    '-' reduce 25
-    GEQ reduce 25
-    AND reduce 25
-    . error
-
-state 19 (entry on INITSTRING)
-    literal : INITSTRING_    (28)
-
-    '+' reduce 28
-    '*' reduce 28
-    ')' reduce 28
-    $end reduce 28
-    OR reduce 28
-    EQ reduce 28
-    NEQ reduce 28
-    '>' reduce 28
-    '<' reduce 28
-    '/' reduce 28
-    LEQ reduce 28
-    '-' reduce 28
-    GEQ reduce 28
-    AND reduce 28
-    . error
-
-state 20 (entry on INT)
-    type : INT_    (18)
-
-    '+' reduce 18
-    '*' reduce 18
-    ')' reduce 18
-    $end reduce 18
-    OR reduce 18
-    EQ reduce 18
-    NEQ reduce 18
-    '>' reduce 18
-    '<' reduce 18
-    '/' reduce 18
-    LEQ reduce 18
-    '{' reduce 18
-    '-' reduce 18
-    GEQ reduce 18
-    AND reduce 18
-    . error
-
-state 21 (entry on MONEY)
-    type : MONEY_    (19)
-
-    '+' reduce 19
-    '*' reduce 19
-    ')' reduce 19
-    $end reduce 19
-    OR reduce 19
-    EQ reduce 19
-    NEQ reduce 19
-    '>' reduce 19
-    '<' reduce 19
-    '/' reduce 19
-    LEQ reduce 19
-    '{' reduce 19
-    '-' reduce 19
-    GEQ reduce 19
-    AND reduce 19
-    . error
-
-state 22 (entry on STRING)
-    type : STRING_    (22)
+    type : BOOLEAN_    (22)
 
     '+' reduce 22
     '*' reduce 22
@@ -390,778 +196,137 @@ state 22 (entry on STRING)
     AND reduce 22
     . error
 
-23: shift/reduce conflict (shift 25 and red'n 23) on '+'
-23: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 23 (entry on '!')
-    literal : _    (23)
-    relationalExpression : '!'_expression    (35)
+state 11 (entry on FLOAT)
+    type : FLOAT_    (21)
 
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    '+' reduce 21
+    '*' reduce 21
+    ')' reduce 21
+    $end reduce 21
+    OR reduce 21
+    EQ reduce 21
+    NEQ reduce 21
+    '>' reduce 21
+    '<' reduce 21
+    '/' reduce 21
+    LEQ reduce 21
+    '{' reduce 21
+    '-' reduce 21
+    GEQ reduce 21
+    AND reduce 21
     . error
 
-    expression goto 42
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
+state 12 (entry on FORM)
+    form : FORM_IDENT '{' statements '}'    (5)
 
-24: shift/reduce conflict (shift 25 and red'n 23) on '+'
-24: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 24 (entry on '(')
-    expression : '('_expression ')'    (17)
-    literal : _    (23)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    IDENT shift 39
     . error
 
-    expression goto 43
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
+state 13 (entry on IDENT)
+    expression : IDENT_    (13)
+    statement : IDENT_':' type '{' INITSTRING '}'    (8)
+    statement : IDENT_':' type '{' INITSTRING ASSIGN '(' literal ')' '}'    (9)
 
-25: shift/reduce conflict (shift 25 and red'n 23) on '+'
-25: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 25 (entry on '+')
-    literal : _    (23)
-    arithmeticExpression : '+'_expression    (29)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    ':' shift 40
+    '+' reduce 13
+    '*' reduce 13
+    $end reduce 13
+    OR reduce 13
+    EQ reduce 13
+    NEQ reduce 13
+    '>' reduce 13
+    '<' reduce 13
+    '/' reduce 13
+    LEQ reduce 13
+    '-' reduce 13
+    GEQ reduce 13
+    AND reduce 13
     . error
 
-    expression goto 44
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
+state 14 (entry on IF)
+    statement : IF_'(' expression ')' '{' statements '}' elseBranch    (10)
 
-26: shift/reduce conflict (shift 25 and red'n 23) on '+'
-26: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 26 (entry on '-')
-    literal : _    (23)
-    arithmeticExpression : '-'_expression    (30)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    '(' shift 41
     . error
 
-    expression goto 45
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
+state 15 (entry on INITBOOLEAN)
+    literal : INITBOOLEAN_    (28)
 
-27: shift/reduce conflict (shift 25 and red'n 23) on '+'
-27: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 27 (entry on AND)
-    literal : _    (23)
-    relationalExpression : expression AND_expression    (42)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    '+' reduce 28
+    '*' reduce 28
+    ')' reduce 28
+    $end reduce 28
+    OR reduce 28
+    EQ reduce 28
+    NEQ reduce 28
+    '>' reduce 28
+    '<' reduce 28
+    '/' reduce 28
+    LEQ reduce 28
+    '-' reduce 28
+    GEQ reduce 28
+    AND reduce 28
     . error
 
-    expression goto 46
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
+state 16 (entry on INITFLOAT)
+    literal : INITFLOAT_    (27)
 
-28: shift/reduce conflict (shift 25 and red'n 23) on '+'
-28: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 28 (entry on EQ)
-    literal : _    (23)
-    relationalExpression : expression EQ_expression    (36)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    '+' reduce 27
+    '*' reduce 27
+    ')' reduce 27
+    $end reduce 27
+    OR reduce 27
+    EQ reduce 27
+    NEQ reduce 27
+    '>' reduce 27
+    '<' reduce 27
+    '/' reduce 27
+    LEQ reduce 27
+    '-' reduce 27
+    GEQ reduce 27
+    AND reduce 27
     . error
 
-    expression goto 47
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
+state 17 (entry on INITINT)
+    literal : INITINT_    (25)
 
-29: shift/reduce conflict (shift 25 and red'n 23) on '+'
-29: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 29 (entry on GEQ)
-    literal : _    (23)
-    relationalExpression : expression GEQ_expression    (40)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    '+' reduce 25
+    '*' reduce 25
+    ')' reduce 25
+    $end reduce 25
+    OR reduce 25
+    EQ reduce 25
+    NEQ reduce 25
+    '>' reduce 25
+    '<' reduce 25
+    '/' reduce 25
+    LEQ reduce 25
+    '-' reduce 25
+    GEQ reduce 25
+    AND reduce 25
     . error
 
-    expression goto 48
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
+state 18 (entry on INITMONEY)
+    literal : INITMONEY_    (26)
 
-30: shift/reduce conflict (shift 25 and red'n 23) on '+'
-30: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 30 (entry on LEQ)
-    literal : _    (23)
-    relationalExpression : expression LEQ_expression    (41)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
+    '+' reduce 26
+    '*' reduce 26
+    ')' reduce 26
+    $end reduce 26
+    OR reduce 26
+    EQ reduce 26
+    NEQ reduce 26
+    '>' reduce 26
+    '<' reduce 26
+    '/' reduce 26
+    LEQ reduce 26
+    '-' reduce 26
+    GEQ reduce 26
+    AND reduce 26
     . error
 
-    expression goto 49
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-31: shift/reduce conflict (shift 25 and red'n 23) on '+'
-31: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 31 (entry on NEQ)
-    literal : _    (23)
-    relationalExpression : expression NEQ_expression    (37)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 50
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-32: shift/reduce conflict (shift 25 and red'n 23) on '+'
-32: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 32 (entry on OR)
-    literal : _    (23)
-    relationalExpression : expression OR_expression    (43)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 51
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-33: shift/reduce conflict (shift 25 and red'n 23) on '+'
-33: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 33 (entry on '*')
-    literal : _    (23)
-    arithmeticExpression : expression '*'_expression    (31)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 52
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-34: shift/reduce conflict (shift 25 and red'n 23) on '+'
-34: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 34 (entry on '+')
-    literal : _    (23)
-    arithmeticExpression : expression '+'_expression    (33)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 53
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-35: shift/reduce conflict (shift 25 and red'n 23) on '+'
-35: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 35 (entry on '-')
-    literal : _    (23)
-    arithmeticExpression : expression '-'_expression    (34)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 54
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-36: shift/reduce conflict (shift 25 and red'n 23) on '+'
-36: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 36 (entry on '/')
-    literal : _    (23)
-    arithmeticExpression : expression '/'_expression    (32)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 55
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-37: shift/reduce conflict (shift 25 and red'n 23) on '+'
-37: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 37 (entry on '<')
-    literal : _    (23)
-    relationalExpression : expression '<'_expression    (39)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 56
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-38: shift/reduce conflict (shift 25 and red'n 23) on '+'
-38: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 38 (entry on '>')
-    literal : _    (23)
-    relationalExpression : expression '>'_expression    (38)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    $end reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 57
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-state 39 (entry on IDENT)
-    form : FORM IDENT_'{' statements '}'    (5)
-
-    '{' shift 58
-    . error
-
-state 40 (entry on ':')
-    statement : IDENT ':'_type '{' INITSTRING '}'    (8)
-    statement : IDENT ':'_type '{' INITSTRING ASSIGN '(' literal ')' '}'    (9)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    . error
-
-    type goto 59
-
-41: shift/reduce conflict (shift 25 and red'n 23) on '+'
-41: shift/reduce conflict (shift 26 and red'n 23) on '-'
-state 41 (entry on '(')
-    literal : _    (23)
-    statement : IF '('_expression ')' '{' statements '}' elseBranch    (10)
-
-    BOOLEAN shift 10
-    FLOAT shift 11
-    INITBOOLEAN shift 15
-    INITFLOAT shift 16
-    INITINT shift 17
-    INITMONEY shift 18
-    INITSTRING shift 19
-    INT shift 20
-    MONEY shift 21
-    STRING shift 22
-    '!' shift 23
-    '(' shift 24
-    '+' shift 25
-    '-' shift 26
-    '*' reduce 23
-    ')' reduce 23
-    OR reduce 23
-    EQ reduce 23
-    NEQ reduce 23
-    '>' reduce 23
-    '<' reduce 23
-    '/' reduce 23
-    LEQ reduce 23
-    GEQ reduce 23
-    AND reduce 23
-    . error
-
-    expression goto 60
-    literal goto 4
-    relationalExpression goto 6
-    arithmeticExpression goto 8
-    type goto 9
-
-state 42 (entry on expression)
-    relationalExpression : '!' expression_    (35)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
-
-    '+' reduce 35
-    '*' reduce 35
-    ')' reduce 35
-    $end reduce 35
-    OR reduce 35
-    EQ reduce 35
-    NEQ reduce 35
-    '>' reduce 35
-    '<' reduce 35
-    '/' reduce 35
-    LEQ reduce 35
-    '-' reduce 35
-    GEQ reduce 35
-    AND reduce 35
-    . error
-
-state 43 (entry on expression)
-    expression : '(' expression_')'    (17)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
-
-    AND shift 27
-    EQ shift 28
-    GEQ shift 29
-    LEQ shift 30
-    NEQ shift 31
-    OR shift 32
-    '*' shift 33
-    '+' shift 34
-    '-' shift 35
-    '/' shift 36
-    '<' shift 37
-    '>' shift 38
-    ')' shift 61
-    . error
-
-state 44 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : '+' expression_    (29)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+state 19 (entry on INITSTRING)
+    literal : INITSTRING_    (29)
 
     '+' reduce 29
     '*' reduce 29
@@ -1179,20 +344,874 @@ state 44 (entry on expression)
     AND reduce 29
     . error
 
+state 20 (entry on INT)
+    type : INT_    (19)
+
+    '+' reduce 19
+    '*' reduce 19
+    ')' reduce 19
+    $end reduce 19
+    OR reduce 19
+    EQ reduce 19
+    NEQ reduce 19
+    '>' reduce 19
+    '<' reduce 19
+    '/' reduce 19
+    LEQ reduce 19
+    '{' reduce 19
+    '-' reduce 19
+    GEQ reduce 19
+    AND reduce 19
+    . error
+
+state 21 (entry on MONEY)
+    type : MONEY_    (20)
+
+    '+' reduce 20
+    '*' reduce 20
+    ')' reduce 20
+    $end reduce 20
+    OR reduce 20
+    EQ reduce 20
+    NEQ reduce 20
+    '>' reduce 20
+    '<' reduce 20
+    '/' reduce 20
+    LEQ reduce 20
+    '{' reduce 20
+    '-' reduce 20
+    GEQ reduce 20
+    AND reduce 20
+    . error
+
+state 22 (entry on STRING)
+    type : STRING_    (23)
+
+    '+' reduce 23
+    '*' reduce 23
+    ')' reduce 23
+    $end reduce 23
+    OR reduce 23
+    EQ reduce 23
+    NEQ reduce 23
+    '>' reduce 23
+    '<' reduce 23
+    '/' reduce 23
+    LEQ reduce 23
+    '{' reduce 23
+    '-' reduce 23
+    GEQ reduce 23
+    AND reduce 23
+    . error
+
+23: shift/reduce conflict (shift 25 and red'n 24) on '+'
+23: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 23 (entry on '!')
+    literal : _    (24)
+    relationalExpression : '!'_expression    (36)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 42
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+24: shift/reduce conflict (shift 25 and red'n 24) on '+'
+24: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 24 (entry on '(')
+    expression : '('_expression ')'    (18)
+    literal : _    (24)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 44
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+25: shift/reduce conflict (shift 25 and red'n 24) on '+'
+25: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 25 (entry on '+')
+    literal : _    (24)
+    arithmeticExpression : '+'_expression    (30)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 45
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+26: shift/reduce conflict (shift 25 and red'n 24) on '+'
+26: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 26 (entry on '-')
+    literal : _    (24)
+    arithmeticExpression : '-'_expression    (31)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 46
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+27: shift/reduce conflict (shift 25 and red'n 24) on '+'
+27: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 27 (entry on AND)
+    literal : _    (24)
+    relationalExpression : expression AND_expression    (43)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 47
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+28: shift/reduce conflict (shift 25 and red'n 24) on '+'
+28: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 28 (entry on EQ)
+    literal : _    (24)
+    relationalExpression : expression EQ_expression    (37)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 48
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+29: shift/reduce conflict (shift 25 and red'n 24) on '+'
+29: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 29 (entry on GEQ)
+    literal : _    (24)
+    relationalExpression : expression GEQ_expression    (41)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 49
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+30: shift/reduce conflict (shift 25 and red'n 24) on '+'
+30: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 30 (entry on LEQ)
+    literal : _    (24)
+    relationalExpression : expression LEQ_expression    (42)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 50
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+31: shift/reduce conflict (shift 25 and red'n 24) on '+'
+31: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 31 (entry on NEQ)
+    literal : _    (24)
+    relationalExpression : expression NEQ_expression    (38)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 51
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+32: shift/reduce conflict (shift 25 and red'n 24) on '+'
+32: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 32 (entry on OR)
+    literal : _    (24)
+    relationalExpression : expression OR_expression    (44)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 52
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+33: shift/reduce conflict (shift 25 and red'n 24) on '+'
+33: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 33 (entry on '*')
+    literal : _    (24)
+    arithmeticExpression : expression '*'_expression    (32)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 53
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+34: shift/reduce conflict (shift 25 and red'n 24) on '+'
+34: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 34 (entry on '+')
+    literal : _    (24)
+    arithmeticExpression : expression '+'_expression    (34)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 54
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+35: shift/reduce conflict (shift 25 and red'n 24) on '+'
+35: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 35 (entry on '-')
+    literal : _    (24)
+    arithmeticExpression : expression '-'_expression    (35)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 55
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+36: shift/reduce conflict (shift 25 and red'n 24) on '+'
+36: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 36 (entry on '/')
+    literal : _    (24)
+    arithmeticExpression : expression '/'_expression    (33)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 56
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+37: shift/reduce conflict (shift 25 and red'n 24) on '+'
+37: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 37 (entry on '<')
+    literal : _    (24)
+    relationalExpression : expression '<'_expression    (40)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 57
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+38: shift/reduce conflict (shift 25 and red'n 24) on '+'
+38: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 38 (entry on '>')
+    literal : _    (24)
+    relationalExpression : expression '>'_expression    (39)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    $end reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 58
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+state 39 (entry on IDENT)
+    form : FORM IDENT_'{' statements '}'    (5)
+
+    '{' shift 59
+    . error
+
+state 40 (entry on ':')
+    statement : IDENT ':'_type '{' INITSTRING '}'    (8)
+    statement : IDENT ':'_type '{' INITSTRING ASSIGN '(' literal ')' '}'    (9)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    . error
+
+    type goto 60
+
+41: shift/reduce conflict (shift 25 and red'n 24) on '+'
+41: shift/reduce conflict (shift 26 and red'n 24) on '-'
+state 41 (entry on '(')
+    literal : _    (24)
+    statement : IF '('_expression ')' '{' statements '}' elseBranch    (10)
+
+    BOOLEAN shift 10
+    FLOAT shift 11
+    INITBOOLEAN shift 15
+    INITFLOAT shift 16
+    INITINT shift 17
+    INITMONEY shift 18
+    INITSTRING shift 19
+    INT shift 20
+    MONEY shift 21
+    STRING shift 22
+    '!' shift 23
+    '(' shift 24
+    '+' shift 25
+    '-' shift 26
+    IDENT shift 43
+    '*' reduce 24
+    ')' reduce 24
+    OR reduce 24
+    EQ reduce 24
+    NEQ reduce 24
+    '>' reduce 24
+    '<' reduce 24
+    '/' reduce 24
+    LEQ reduce 24
+    GEQ reduce 24
+    AND reduce 24
+    . error
+
+    expression goto 61
+    literal goto 4
+    relationalExpression goto 6
+    arithmeticExpression goto 8
+    type goto 9
+
+state 42 (entry on expression)
+    relationalExpression : '!' expression_    (36)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
+
+    '+' reduce 36
+    '*' reduce 36
+    ')' reduce 36
+    $end reduce 36
+    OR reduce 36
+    EQ reduce 36
+    NEQ reduce 36
+    '>' reduce 36
+    '<' reduce 36
+    '/' reduce 36
+    LEQ reduce 36
+    '-' reduce 36
+    GEQ reduce 36
+    AND reduce 36
+    . error
+
+state 43 (entry on IDENT)
+    expression : IDENT_    (13)
+
+    '+' reduce 13
+    '*' reduce 13
+    ')' reduce 13
+    $end reduce 13
+    OR reduce 13
+    EQ reduce 13
+    NEQ reduce 13
+    '>' reduce 13
+    '<' reduce 13
+    '/' reduce 13
+    LEQ reduce 13
+    '-' reduce 13
+    GEQ reduce 13
+    AND reduce 13
+    . error
+
+state 44 (entry on expression)
+    expression : '(' expression_')'    (18)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
+
+    AND shift 27
+    EQ shift 28
+    GEQ shift 29
+    LEQ shift 30
+    NEQ shift 31
+    OR shift 32
+    '*' shift 33
+    '+' shift 34
+    '-' shift 35
+    '/' shift 36
+    '<' shift 37
+    '>' shift 38
+    ')' shift 62
+    . error
+
 state 45 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : '-' expression_    (30)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : '+' expression_    (30)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     '+' reduce 30
     '*' reduce 30
@@ -1211,19 +1230,50 @@ state 45 (entry on expression)
     . error
 
 state 46 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression AND expression_    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : '-' expression_    (31)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
+
+    '+' reduce 31
+    '*' reduce 31
+    ')' reduce 31
+    $end reduce 31
+    OR reduce 31
+    EQ reduce 31
+    NEQ reduce 31
+    '>' reduce 31
+    '<' reduce 31
+    '/' reduce 31
+    LEQ reduce 31
+    '-' reduce 31
+    GEQ reduce 31
+    AND reduce 31
+    . error
+
+state 47 (entry on expression)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression AND expression_    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     EQ shift 28
     GEQ shift 29
@@ -1235,88 +1285,57 @@ state 46 (entry on expression)
     '/' shift 36
     '<' shift 37
     '>' shift 38
-    ')' reduce 42
-    $end reduce 42
-    OR reduce 42
-    AND reduce 42
-    . error
-
-state 47 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression EQ expression_    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
-
-    '*' shift 33
-    '+' shift 34
-    '-' shift 35
-    '/' shift 36
-    ')' reduce 36
-    $end reduce 36
-    OR reduce 36
-    EQ reduce 36
-    NEQ reduce 36
-    '>' reduce 36
-    '<' reduce 36
-    LEQ reduce 36
-    GEQ reduce 36
-    AND reduce 36
+    ')' reduce 43
+    $end reduce 43
+    OR reduce 43
+    AND reduce 43
     . error
 
 state 48 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression GEQ expression_    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression EQ expression_    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     '*' shift 33
     '+' shift 34
     '-' shift 35
     '/' shift 36
-    ')' reduce 40
-    $end reduce 40
-    OR reduce 40
-    EQ reduce 40
-    NEQ reduce 40
-    '>' reduce 40
-    '<' reduce 40
-    LEQ reduce 40
-    GEQ reduce 40
-    AND reduce 40
+    ')' reduce 37
+    $end reduce 37
+    OR reduce 37
+    EQ reduce 37
+    NEQ reduce 37
+    '>' reduce 37
+    '<' reduce 37
+    LEQ reduce 37
+    GEQ reduce 37
+    AND reduce 37
     . error
 
 state 49 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression LEQ expression_    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression GEQ expression_    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     '*' shift 33
     '+' shift 34
@@ -1335,50 +1354,81 @@ state 49 (entry on expression)
     . error
 
 state 50 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression NEQ expression_    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression LEQ expression_    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     '*' shift 33
     '+' shift 34
     '-' shift 35
     '/' shift 36
-    ')' reduce 37
-    $end reduce 37
-    OR reduce 37
-    EQ reduce 37
-    NEQ reduce 37
-    '>' reduce 37
-    '<' reduce 37
-    LEQ reduce 37
-    GEQ reduce 37
-    AND reduce 37
+    ')' reduce 42
+    $end reduce 42
+    OR reduce 42
+    EQ reduce 42
+    NEQ reduce 42
+    '>' reduce 42
+    '<' reduce 42
+    LEQ reduce 42
+    GEQ reduce 42
+    AND reduce 42
     . error
 
 state 51 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    relationalExpression : expression OR expression_    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression NEQ expression_    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
+
+    '*' shift 33
+    '+' shift 34
+    '-' shift 35
+    '/' shift 36
+    ')' reduce 38
+    $end reduce 38
+    OR reduce 38
+    EQ reduce 38
+    NEQ reduce 38
+    '>' reduce 38
+    '<' reduce 38
+    LEQ reduce 38
+    GEQ reduce 38
+    AND reduce 38
+    . error
+
+state 52 (entry on expression)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    relationalExpression : expression OR expression_    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     AND shift 27
     EQ shift 28
@@ -1391,87 +1441,56 @@ state 51 (entry on expression)
     '/' shift 36
     '<' shift 37
     '>' shift 38
-    ')' reduce 43
-    $end reduce 43
-    OR reduce 43
-    . error
-
-state 52 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression '*' expression_    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
-
-    '+' reduce 31
-    '*' reduce 31
-    ')' reduce 31
-    $end reduce 31
-    OR reduce 31
-    EQ reduce 31
-    NEQ reduce 31
-    '>' reduce 31
-    '<' reduce 31
-    '/' reduce 31
-    LEQ reduce 31
-    '-' reduce 31
-    GEQ reduce 31
-    AND reduce 31
+    ')' reduce 44
+    $end reduce 44
+    OR reduce 44
     . error
 
 state 53 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression '+' expression_    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression '*' expression_    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
-    '*' shift 33
-    '/' shift 36
-    '+' reduce 33
-    ')' reduce 33
-    $end reduce 33
-    OR reduce 33
-    EQ reduce 33
-    NEQ reduce 33
-    '>' reduce 33
-    '<' reduce 33
-    LEQ reduce 33
-    '-' reduce 33
-    GEQ reduce 33
-    AND reduce 33
+    '+' reduce 32
+    '*' reduce 32
+    ')' reduce 32
+    $end reduce 32
+    OR reduce 32
+    EQ reduce 32
+    NEQ reduce 32
+    '>' reduce 32
+    '<' reduce 32
+    '/' reduce 32
+    LEQ reduce 32
+    '-' reduce 32
+    GEQ reduce 32
+    AND reduce 32
     . error
 
 state 54 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
-    arithmeticExpression : expression '-' expression_    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression '+' expression_    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     '*' shift 33
     '/' shift 36
@@ -1490,50 +1509,112 @@ state 54 (entry on expression)
     . error
 
 state 55 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression '/' expression_    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
+    arithmeticExpression : expression '-' expression_    (35)
 
-    '+' reduce 32
-    '*' reduce 32
-    ')' reduce 32
-    $end reduce 32
-    OR reduce 32
-    EQ reduce 32
-    NEQ reduce 32
-    '>' reduce 32
-    '<' reduce 32
-    '/' reduce 32
-    LEQ reduce 32
-    '-' reduce 32
-    GEQ reduce 32
-    AND reduce 32
+    '*' shift 33
+    '/' shift 36
+    '+' reduce 35
+    ')' reduce 35
+    $end reduce 35
+    OR reduce 35
+    EQ reduce 35
+    NEQ reduce 35
+    '>' reduce 35
+    '<' reduce 35
+    LEQ reduce 35
+    '-' reduce 35
+    GEQ reduce 35
+    AND reduce 35
     . error
 
 state 56 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression '<' expression_    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression '/' expression_    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
+
+    '+' reduce 33
+    '*' reduce 33
+    ')' reduce 33
+    $end reduce 33
+    OR reduce 33
+    EQ reduce 33
+    NEQ reduce 33
+    '>' reduce 33
+    '<' reduce 33
+    '/' reduce 33
+    LEQ reduce 33
+    '-' reduce 33
+    GEQ reduce 33
+    AND reduce 33
+    . error
+
+state 57 (entry on expression)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression '<' expression_    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
+
+    '*' shift 33
+    '+' shift 34
+    '-' shift 35
+    '/' shift 36
+    ')' reduce 40
+    $end reduce 40
+    OR reduce 40
+    EQ reduce 40
+    NEQ reduce 40
+    '>' reduce 40
+    '<' reduce 40
+    LEQ reduce 40
+    GEQ reduce 40
+    AND reduce 40
+    . error
+
+state 58 (entry on expression)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression '>' expression_    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     '*' shift 33
     '+' shift 34
@@ -1551,68 +1632,37 @@ state 56 (entry on expression)
     AND reduce 39
     . error
 
-state 57 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression '>' expression_    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
-
-    '*' shift 33
-    '+' shift 34
-    '-' shift 35
-    '/' shift 36
-    ')' reduce 38
-    $end reduce 38
-    OR reduce 38
-    EQ reduce 38
-    NEQ reduce 38
-    '>' reduce 38
-    '<' reduce 38
-    LEQ reduce 38
-    GEQ reduce 38
-    AND reduce 38
-    . error
-
-state 58 (entry on '{')
+state 59 (entry on '{')
     form : FORM IDENT '{'_statements '}'    (5)
 
-    IDENT shift 13
     IF shift 14
+    IDENT shift 65
     . error
 
-    statement goto 62
-    statements goto 63
+    statement goto 63
+    statements goto 64
 
-state 59 (entry on type)
+state 60 (entry on type)
     statement : IDENT ':' type_'{' INITSTRING '}'    (8)
     statement : IDENT ':' type_'{' INITSTRING ASSIGN '(' literal ')' '}'    (9)
 
-    '{' shift 64
+    '{' shift 66
     . error
 
-state 60 (entry on expression)
-    relationalExpression : expression_EQ expression    (36)
-    relationalExpression : expression_NEQ expression    (37)
-    relationalExpression : expression_'>' expression    (38)
-    relationalExpression : expression_'<' expression    (39)
-    relationalExpression : expression_GEQ expression    (40)
-    relationalExpression : expression_LEQ expression    (41)
-    relationalExpression : expression_AND expression    (42)
-    relationalExpression : expression_OR expression    (43)
+state 61 (entry on expression)
+    relationalExpression : expression_EQ expression    (37)
+    relationalExpression : expression_NEQ expression    (38)
+    relationalExpression : expression_'>' expression    (39)
+    relationalExpression : expression_'<' expression    (40)
+    relationalExpression : expression_GEQ expression    (41)
+    relationalExpression : expression_LEQ expression    (42)
+    relationalExpression : expression_AND expression    (43)
+    relationalExpression : expression_OR expression    (44)
     statement : IF '(' expression_')' '{' statements '}' elseBranch    (10)
-    arithmeticExpression : expression_'*' expression    (31)
-    arithmeticExpression : expression_'/' expression    (32)
-    arithmeticExpression : expression_'+' expression    (33)
-    arithmeticExpression : expression_'-' expression    (34)
+    arithmeticExpression : expression_'*' expression    (32)
+    arithmeticExpression : expression_'/' expression    (33)
+    arithmeticExpression : expression_'+' expression    (34)
+    arithmeticExpression : expression_'-' expression    (35)
 
     AND shift 27
     EQ shift 28
@@ -1626,96 +1676,103 @@ state 60 (entry on expression)
     '/' shift 36
     '<' shift 37
     '>' shift 38
-    ')' shift 65
+    ')' shift 67
     . error
 
-state 61 (entry on ')')
-    expression : '(' expression ')'_    (17)
+state 62 (entry on ')')
+    expression : '(' expression ')'_    (18)
 
-    '+' reduce 17
-    '*' reduce 17
-    ')' reduce 17
-    $end reduce 17
-    OR reduce 17
-    EQ reduce 17
-    NEQ reduce 17
-    '>' reduce 17
-    '<' reduce 17
-    '/' reduce 17
-    LEQ reduce 17
-    '-' reduce 17
-    GEQ reduce 17
-    AND reduce 17
+    '+' reduce 18
+    '*' reduce 18
+    ')' reduce 18
+    $end reduce 18
+    OR reduce 18
+    EQ reduce 18
+    NEQ reduce 18
+    '>' reduce 18
+    '<' reduce 18
+    '/' reduce 18
+    LEQ reduce 18
+    '-' reduce 18
+    GEQ reduce 18
+    AND reduce 18
     . error
 
-state 62 (entry on statement)
+state 63 (entry on statement)
     statements : statement_statements    (6)
     statements : statement_    (7)
 
-    IDENT shift 13
     IF shift 14
+    IDENT shift 65
     '}' reduce 7
     . error
 
-    statement goto 62
-    statements goto 66
+    statement goto 63
+    statements goto 68
 
-state 63 (entry on statements)
+state 64 (entry on statements)
     form : FORM IDENT '{' statements_'}'    (5)
 
-    '}' shift 67
+    '}' shift 69
     . error
 
-state 64 (entry on '{')
+state 65 (entry on IDENT)
+    statement : IDENT_':' type '{' INITSTRING '}'    (8)
+    statement : IDENT_':' type '{' INITSTRING ASSIGN '(' literal ')' '}'    (9)
+
+    ':' shift 40
+    . error
+
+state 66 (entry on '{')
     statement : IDENT ':' type '{'_INITSTRING '}'    (8)
     statement : IDENT ':' type '{'_INITSTRING ASSIGN '(' literal ')' '}'    (9)
 
-    INITSTRING shift 68
+    INITSTRING shift 70
     . error
 
-state 65 (entry on ')')
+state 67 (entry on ')')
     statement : IF '(' expression ')'_'{' statements '}' elseBranch    (10)
 
-    '{' shift 69
+    '{' shift 71
     . error
 
-state 66 (entry on statements)
+state 68 (entry on statements)
     statements : statement statements_    (6)
 
     '}' reduce 6
     . error
 
-state 67 (entry on '}')
+state 69 (entry on '}')
     form : FORM IDENT '{' statements '}'_    (5)
 
     $end reduce 5
     . error
 
-state 68 (entry on INITSTRING)
+state 70 (entry on INITSTRING)
     statement : IDENT ':' type '{' INITSTRING_'}'    (8)
     statement : IDENT ':' type '{' INITSTRING_ASSIGN '(' literal ')' '}'    (9)
 
-    ASSIGN shift 70
-    '}' shift 71
+    ASSIGN shift 72
+    '}' shift 73
     . error
 
-state 69 (entry on '{')
+state 71 (entry on '{')
     statement : IF '(' expression ')' '{'_statements '}' elseBranch    (10)
 
-    IDENT shift 13
     IF shift 14
+    IDENT shift 65
     . error
 
-    statement goto 62
-    statements goto 72
+    statement goto 63
+    statements goto 74
 
-state 70 (entry on ASSIGN)
+state 72 (entry on ASSIGN)
     statement : IDENT ':' type '{' INITSTRING ASSIGN_'(' literal ')' '}'    (9)
 
-    '(' shift 73
+    '(' shift 75
     . error
 
-state 71 (entry on '}')
+state 73 (entry on '}')
     statement : IDENT ':' type '{' INITSTRING '}'_    (8)
 
     $end reduce 8
@@ -1724,14 +1781,14 @@ state 71 (entry on '}')
     IDENT reduce 8
     . error
 
-state 72 (entry on statements)
+state 74 (entry on statements)
     statement : IF '(' expression ')' '{' statements_'}' elseBranch    (10)
 
-    '}' shift 74
+    '}' shift 76
     . error
 
-state 73 (entry on '(')
-    literal : _    (23)
+state 75 (entry on '(')
+    literal : _    (24)
     statement : IDENT ':' type '{' INITSTRING ASSIGN '('_literal ')' '}'    (9)
 
     INITBOOLEAN shift 15
@@ -1739,31 +1796,31 @@ state 73 (entry on '(')
     INITINT shift 17
     INITMONEY shift 18
     INITSTRING shift 19
-    ')' reduce 23
+    ')' reduce 24
     . error
 
-    literal goto 75
+    literal goto 77
 
-state 74 (entry on '}')
+state 76 (entry on '}')
     elseBranch : _    (12)
     statement : IF '(' expression ')' '{' statements '}'_elseBranch    (10)
 
-    ELSE shift 77
+    ELSE shift 79
     $end reduce 12
     IF reduce 12
     '}' reduce 12
     IDENT reduce 12
     . error
 
-    elseBranch goto 76
+    elseBranch goto 78
 
-state 75 (entry on literal)
+state 77 (entry on literal)
     statement : IDENT ':' type '{' INITSTRING ASSIGN '(' literal_')' '}'    (9)
 
-    ')' shift 78
+    ')' shift 80
     . error
 
-state 76 (entry on elseBranch)
+state 78 (entry on elseBranch)
     statement : IF '(' expression ')' '{' statements '}' elseBranch_    (10)
 
     $end reduce 10
@@ -1772,29 +1829,29 @@ state 76 (entry on elseBranch)
     IDENT reduce 10
     . error
 
-state 77 (entry on ELSE)
+state 79 (entry on ELSE)
     elseBranch : ELSE_'{' statements '}'    (11)
 
-    '{' shift 79
+    '{' shift 81
     . error
 
-state 78 (entry on ')')
+state 80 (entry on ')')
     statement : IDENT ':' type '{' INITSTRING ASSIGN '(' literal ')'_'}'    (9)
 
-    '}' shift 80
+    '}' shift 82
     . error
 
-state 79 (entry on '{')
+state 81 (entry on '{')
     elseBranch : ELSE '{'_statements '}'    (11)
 
-    IDENT shift 13
     IF shift 14
+    IDENT shift 65
     . error
 
-    statement goto 62
-    statements goto 81
+    statement goto 63
+    statements goto 83
 
-state 80 (entry on '}')
+state 82 (entry on '}')
     statement : IDENT ':' type '{' INITSTRING ASSIGN '(' literal ')' '}'_    (9)
 
     $end reduce 9
@@ -1803,13 +1860,13 @@ state 80 (entry on '}')
     IDENT reduce 9
     . error
 
-state 81 (entry on statements)
+state 83 (entry on statements)
     elseBranch : ELSE '{' statements_'}'    (11)
 
-    '}' shift 82
+    '}' shift 84
     . error
 
-state 82 (entry on '}')
+state 84 (entry on '}')
     elseBranch : ELSE '{' statements '}'_    (11)
 
     $end reduce 11
@@ -1819,5 +1876,5 @@ state 82 (entry on '}')
     . error
 
 40 terminals, 11 nonterminals;
-43 grammar rules, 83 states;
+44 grammar rules, 85 states;
 36 shift/reduce and 0 reduce/reduce conflicts reported.

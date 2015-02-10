@@ -48,13 +48,38 @@ public class QLParserTest {
 	}
 	
 	@Test
+	public void testConditionalForm() {
+		Reader reader = new StringReader(
+				"form taxOfficeExample {"
+				+ 	"hasSoldHouse : boolean {"
+				+ 		"\"Did you sell a house in 2010?\""
+				+ 	"}"
+				+ 	"if(5 == 5) {"
+				+ 		"houseValue : money {"
+				+ 			"\"Lol I dont care\""
+				+ 		"}"
+				+ 	"}"
+				+ "}"
+				);
+		QLLexer lexer = new QLLexer(reader);
+		QLParser parser = new QLParser(lexer);
+
+		lexer.nextToken();
+		assertTrue(parser.parse());
+		
+		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, null, "
+				+ "\"Did you sell a house in 2010?\"), IfThen(5 == 5, "
+				+ "Block(Question(houseValue, null, \"Lol I dont care\")))))", parser.getResult().toString());
+	}
+	
+	@Test
 	public void testParsableComputerQuestion() {
 		Reader reader = new StringReader(
 				  "form taxOfficeExample {"
 				+ 	"hasSoldHouse : boolean {"
 				+ 		"\"Did you sell a house in 2010?\""
 				+ 	"}"
-				+ 	"hasSoldHouse : money {"
+				+ 	"houseValue : money {"
 				+ 		"\"Your house is worth:\""
 				+ 		"assign(5000.0)"
 				+ 	"}"
@@ -67,7 +92,7 @@ public class QLParserTest {
 		assertTrue(parser.parse());
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, null, "
-				+ "\"Did you sell a house in 2010?\"), ComputedQuestion(hasSoldHouse, "
+				+ "\"Did you sell a house in 2010?\"), ComputedQuestion(houseValue, "
 				+ "5000.0, \"Your house is worth:\", 5000.0)))", parser.getResult().toString());
 	}	
 }

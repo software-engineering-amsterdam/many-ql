@@ -2,7 +2,7 @@ package cons.ql.ast.expression;
 
 import cons.ql.ast.Expression;
 import cons.ql.ast.Visitor;
-
+ 
 public abstract class QLType<T> extends Expression {
 	protected T value;
 	protected boolean defined;

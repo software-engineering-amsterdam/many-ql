@@ -55,14 +55,15 @@ import cons.ql.ast.statement.*;
 
  statement : IDENT ':' type '{' INITSTRING '}' 							{ $$ = new Question($1, $3, $5); }
  		   | IDENT ':' type '{' INITSTRING ASSIGN '(' literal ')' '}'	{ $$ = new ComputedQuestion($1, $3, $5, $8); }
- 		   | IF '(' expression ')' '{' statements '}' elseBranch
+ 		   | IF '(' expression ')' '{' statements '}' elseBranch 		{ $$ = new IfThen($3, $6); }
  		   ;
 
  elseBranch : ELSE '{' statements '}' 
  			| /* empty */
  			;
 
- expression : type
+ expression : IDENT
+ 			| type
  			| literal
  			| arithmeticExpression 
 		 	| relationalExpression
