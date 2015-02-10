@@ -26,14 +26,12 @@ class Expressions: # TODO
     # Expressions
     value           = bool | integer | text
     cOperators      = oneOf("> >= < <= ==")
-    eOperators      = oneOf("+ - * / ")
-    operator        = eOperators | cOperators
-    parenthesis     = oneOf("( )")
-    expr            = Forward()
-    expr            <<= Group(expr + operator + expr) | value
-    condition       = "1"
+    op = oneOf( '+ - / *')
+    expr = Forward()
+    atom = value | Group( Suppress("(") + expr + Suppress(")"))
+    expr << atom + ZeroOrMore( op + expr )
+    condition = Group(expr)
 
-    
 class FormFormat:
     # Question form: ID ANSWERTYPE LABEL
     id              = BasicTypes.characters
@@ -54,7 +52,8 @@ class FormFormat:
                       questions
                       
     # IDENTIFIER QUESTIONS
-    form            = (id + Optional(Suppress("Introduction" + Literal(":") + BasicTypes.sentences)) + OneOrMore(aQuestions))
+    introduction    = Group(Suppress("Introduction" + Literal(":") + BasicTypes.sentences))
+    form            = id + Optional(introduction) + OneOrMore(aQuestions)
 
 # Test
 try:
