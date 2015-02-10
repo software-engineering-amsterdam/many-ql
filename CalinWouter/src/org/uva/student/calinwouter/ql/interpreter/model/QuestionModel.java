@@ -18,7 +18,7 @@ public class QuestionModel implements DisplayModelInterface {
         return type;
     }
 
-    public QuestionModel(String variable, String text, String type) {
+    public QuestionModel(String variable, String text, String type, Environment e) {
         this.variable = variable;
         this.text = text;
         this.type = type;

@@ -1,0 +1,7 @@
+.idea/
+java/java.iml
+*.class
+java/gen/
+java/target/surefire-reports/TEST-WalkerTest.xml
+java/target/
+

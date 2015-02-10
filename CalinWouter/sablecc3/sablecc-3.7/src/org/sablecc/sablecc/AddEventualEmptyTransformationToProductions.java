@@ -44,7 +44,7 @@ public class AddEventualEmptyTransformationToProductions extends DepthFirstAdapt
   {
     currentProd = (String)ids.names.get(node);
 
-    /* If there is no transformation specified for the production
+    /* IfStmt there is no transformation specified for the production
      * and there is no AST production which has the same name as the current
      * CST production, this production is transformed into an empty
      */
