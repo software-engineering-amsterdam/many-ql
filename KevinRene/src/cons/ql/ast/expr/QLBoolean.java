@@ -1,8 +1,6 @@
 package cons.ql.ast.expr;
 
-import cons.ql.ast.Expr;
-
-public class QLBoolean extends Expr {
+public class QLBoolean extends QLType {
 	
 	private String value;
 		

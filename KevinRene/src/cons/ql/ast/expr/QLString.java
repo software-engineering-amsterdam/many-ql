@@ -1,8 +1,6 @@
 package cons.ql.ast.expr;
 
-import cons.ql.ast.Expr;
-
-public class QLString extends Expr {
+public class QLString extends QLType {
 	
 	private String value;
 		

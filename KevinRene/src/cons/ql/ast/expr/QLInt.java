@@ -1,8 +1,6 @@
 package cons.ql.ast.expr;
 
-import cons.ql.ast.Expr;
-
-public class QLInt extends Expr {	
+public class QLInt extends QLType {	
 	private int value;
 		
 	public QLInt(int value) {

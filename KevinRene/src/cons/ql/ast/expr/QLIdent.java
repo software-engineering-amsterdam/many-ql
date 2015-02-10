@@ -1,8 +1,6 @@
 package cons.ql.ast.expr;
 
-import cons.ql.ast.Expr;
-
-public class QLIdent extends Expr {
+public class QLIdent extends QLType {
 	private final String value;
 	
 	public QLIdent(String value) {
