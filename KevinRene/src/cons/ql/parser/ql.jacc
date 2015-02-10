@@ -23,6 +23,8 @@
 %type <Form> form
 %type <Statement> statement
 %type <Block> statements
+%type <Question> question
+%type <QLType> questionType
 
 %{
 import cons.ql.ast.*;
@@ -57,7 +59,7 @@ import cons.ql.ast.expr.statement.*;
  			| /* empty */
  			;
 
- question : IDENT ':' questionType '{' STRING '}' 
+ question : IDENT ':' questionType '{' STRING '}' 				{ $$ = new Question($1, $3, $5); }
  		  | IDENT ':' questionType '{' STRING assignment '}'
  		  ;
 
