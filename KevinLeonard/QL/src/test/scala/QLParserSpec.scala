@@ -196,8 +196,28 @@ class QLParserSpec extends Specification with ParserMatchers {
     }
 
     "ignore multi line comments" in {
-      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */\n}")
+      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */}")
         .withResult(Form("form1", Sequence(List())))
     }
+    
   }
+  
+  "question parser" should {
+    "parse computed integer questions with arithmetic expression" in {
+      questionExpression must succeedOn("question var \"label\"\nanswer integer is (fieldA + fieldB)")
+        .withResult(ComputedIntegerQuestion(Variable("var"),"\"label\"",Add(Variable("fieldA"),Variable("fieldB"))))
+    }
+
+    "parse computed boolean questions with boolean expression" in {
+      questionExpression must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
+        .withResult(ComputedBooleanQuestion(Variable("var"),"\"label\"",And(Variable("fieldA"),LessThan(Variable("fieldB"),Variable("fieldC")))))
+    }
+
+    "parse computed string questions with arithmetic expression (+)" in {
+      questionExpression must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
+        .withResult(ComputedStringQuestion(Variable("var"),"\"label\"",Add(Variable("fieldA"),Variable("fieldB"))))
+    }
+    
+  }
+  
 }

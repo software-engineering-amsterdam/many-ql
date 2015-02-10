@@ -8,6 +8,7 @@ trait QLAST {
   sealed abstract class Literal extends Expr
   case class BooleanLiteral(value: Boolean) extends Literal
   case class NumberLiteral(value: Int) extends Literal
+  case class StringLiteral(value: String) extends Literal
   case class Variable(name: String) extends Expr
 
   // Form
@@ -22,8 +23,8 @@ trait QLAST {
   case class IntegerQuestion(v: Variable, label: String) extends QuestionExpr
   case class StringQuestion(v: Variable, label: String) extends QuestionExpr
   case class ComputedBooleanQuestion(v: Variable, label: String, value: Object) extends ComputedQuestionExpr
-  case class ComputedIntegerQuestion(v: Variable, label: String) extends ComputedQuestionExpr
-  case class ComputedStringQuestion(v: Variable, label: String) extends ComputedQuestionExpr
+  case class ComputedIntegerQuestion(v: Variable, label: String, value: Object) extends ComputedQuestionExpr
+  case class ComputedStringQuestion(v: Variable, label: String, value: Object) extends ComputedQuestionExpr
   sealed abstract class QuestionType
   case class BooleanType() extends QuestionType
   case class IntegerType() extends QuestionType

@@ -7,12 +7,15 @@ import scala.util.parsing.combinator.JavaTokenParsers
 class QLParser extends JavaTokenParsers with QLAST {
   
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
-  def literal: Parser[Literal] = booleanLiteral | numberLiteral
-  def booleanLiteral: Parser[BooleanLiteral] = ("true" | "false") ^^ {
+  def literal: Parser[Literal] = boolean | number | string
+  def boolean: Parser[BooleanLiteral] = ("true" | "false") ^^ {
     s => BooleanLiteral(s.toBoolean)
   }
-  def numberLiteral: Parser[NumberLiteral] = wholeNumber ^^ {
+  def number: Parser[NumberLiteral] = wholeNumber ^^ {
     s => NumberLiteral(s.toInt)
+  }
+  def string: Parser[StringLiteral] = stringLiteral ^^ {
+    s => StringLiteral(s)
   }
   def variable: Parser[Variable] = ident ^^ Variable
   def label: Parser[String] = stringLiteral
@@ -31,15 +34,13 @@ class QLParser extends JavaTokenParsers with QLAST {
     case v ~ label ~ (StringType ~ None) => StringQuestion(v, label)
     // Computed Questions
     case v ~ label ~ (BooleanType ~ Some(value)) => ComputedBooleanQuestion(v, label, value)
-    case v ~ label ~ (IntegerType ~ Some(value)) => ComputedIntegerQuestion(v, label)
-    case v ~ label ~ (StringType ~ Some(value)) => ComputedStringQuestion(v, label)
-    case _ => StringQuestion(Variable("NONE"), "NONE")
+    case v ~ label ~ (IntegerType ~ Some(value)) => ComputedIntegerQuestion(v, label, value)
+    case v ~ label ~ (StringType ~ Some(value)) => ComputedStringQuestion(v, label, value)
   }
-  // TODO: Check allowed expression for each type.
   def answer = "answer" ~> (booleanAnswer | integerAnswer | stringAnswer)
   def booleanAnswer = ("boolean" ^^^ {BooleanType}) ~ opt("is" ~ "(" ~> (booleanExpression) <~ ")")
-  def integerAnswer = ("integer" ^^^ {IntegerType}) ~ opt("is" ~ "(" ~> ("") <~ ")")
-  def stringAnswer = ("string" ^^^ {StringType}) ~ opt("is" ~ "(" ~> (stringLiteral) <~ ")")
+  def integerAnswer = ("integer" ^^^ {IntegerType}) ~ opt("is" ~ "(" ~> (arithmeticExpression) <~ ")")
+  def stringAnswer = ("string" ^^^ {StringType}) ~ opt("is" ~ "(" ~> (arithmeticExpression) <~ ")")
 
   // parse if statements
   def ifExpression: Parser[IfExpr] = ("if" ~> variable) ~ expression ~ ("else" ~> expression ?) ^^ {
