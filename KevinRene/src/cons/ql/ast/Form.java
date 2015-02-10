@@ -1,18 +1,19 @@
 package cons.ql.ast;
 
 import cons.ql.ast.expr.QLIdent;
+import cons.ql.ast.expr.statement.Block;
 
 public class Form extends Expr {
 	
 	protected QLIdent identifier;
-	protected ASTNode statements;
+	protected Block statements;
 	
-	public Form(QLIdent identifier, ASTNode statements) {
+	public Form(QLIdent identifier, Block statements) {
 		this.identifier = identifier;
 		this.statements = statements;
 	}
 
 	public String show() {
-		return "Form";
+		return "Form " + identifier.show();
 	}
 }
