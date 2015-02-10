@@ -15,16 +15,25 @@ questionRangeFromTo: lower=NUMBER '-' higher=NUMBER;
 questionRangeBiggerThan: '>' num=NUMBER;
 questionRangeSmallerThan: '<' num=NUMBER;
 
-logicalStatement: 'If:' lexpression '{' (logicalStatement|question)* '}';
+logicalStatement: 'If:' expression '{' (logicalStatement|question)* '}';
 
-lexpression
-    : '(' lexpression ')'
-    | LOGICAL_SEPARATOR lexpression
-    | TEXT LOGICAL_OPERATOR lexpression
-    | TEXT lexpression
-    | STRING lexpression
-    ;
+expression
+    : '(' expression ')'
+    | logicalExpression
+    | relationalExpression
+    | id;
 
+
+id
+    : STRING
+    | NUMBER
+    | TEXT;
+
+logicalExpression:
+    | relationalExpression (AND_OP|OR_OP) relationalExpression;
+
+relationalExpression:
+    id RELATIONAL_OPERATOR expression;
 /*
 logicalExpression: logic (LOGICAL_SEPARATOR logic)*;
 logic: ref=(TEXT)+ operator=LOGICAL_OPERATOR target=(TEXT)+
@@ -45,10 +54,14 @@ fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
 WS  :   [ \t\n\r]+ -> skip ;
 fragment NL   : '\r' '\n' | '\n' | '\r';
-LOGICAL_OPERATOR : '=='
+RELATIONAL_OPERATOR : '=='
                  | '>'
                  | '<'
-                 | '!=;';
-LOGICAL_SEPARATOR : '||'
-                  |'&&';
+                 | '!='
+                 | '>='
+                 | '<=';
+
+AND_OP: '&&';
+OR_OP: '||';
+
 TEXT : [0-9a-zA-Z\.]+;

@@ -7,11 +7,11 @@ import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 public class PStmtlistInterpreter implements InterpreterInterface<PStmtlist> {
     private Environment environment;
 
-    public void interpStatement(Node stmt) {
+    public void interpStatement(Node stmt) throws InterpretationException{
         new PStmtInterpreter().interprete(environment, (PStmt) stmt);
     }
 
-    private void interpNextStatement(Node stmtlist) {
+    private void interpNextStatement(Node stmtlist) throws InterpretationException{
         if (stmtlist instanceof ASingleStmtlist) {
             interpStatement(((ASingleStmtlist) stmtlist).getHead());
         } else if (stmtlist instanceof AMultiStmtlist) {
@@ -21,7 +21,7 @@ public class PStmtlistInterpreter implements InterpreterInterface<PStmtlist> {
     }
 
     @Override
-    public Object interprete(Environment environment, PStmtlist stmtlist) {
+    public Object interprete(Environment environment, PStmtlist stmtlist) throws InterpretationException {
         this.environment = environment;
         interpNextStatement(stmtlist);
         return null;

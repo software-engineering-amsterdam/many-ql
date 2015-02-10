@@ -1,5 +1,6 @@
 package nl.uva.bromance.listeners;
 
+
 import nl.uva.bromance.parsers.QLBaseListener;
 import nl.uva.bromance.parsers.QLParser;
 import nl.uva.bromance.questionnaire.ranges.Between;
@@ -49,7 +50,7 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
-
+        this.questionType = "JE Moeder";
     }
 
     public void exitQuestionRangeFromTo(QLParser.QuestionRangeFromToContext ctx) {
