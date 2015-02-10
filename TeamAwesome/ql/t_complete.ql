@@ -6,12 +6,12 @@ form taxOfficeExample {
 
   question hasBoughtHouse {
     "Did you buy a house in 2010?"
-    hasBoughtHouse: boolean
+    boolean
   }
 
   question hasMaintLoan {
     "Did you enter a loan?"
-    hasMaintLoan: boolean
+    boolean
   }
 
   if (hasSoldHouse) {
