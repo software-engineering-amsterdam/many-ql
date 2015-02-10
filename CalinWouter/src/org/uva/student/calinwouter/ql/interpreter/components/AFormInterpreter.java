@@ -60,7 +60,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         return tableModel;
     }
 
-    private void interpreteStatements() {
+    private void interpreteStatements() throws InterpretationException{
         environment.clearDisplay();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
@@ -71,7 +71,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
     }
 
     @Override
-    public Object interprete(Environment environment, PForm form) {
+    public Object interprete(Environment environment, PForm form) throws InterpretationException {
         this.environment = environment;
         this.form = form;
         createWindow(getFormTitle(form));

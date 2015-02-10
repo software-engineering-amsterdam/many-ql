@@ -7,27 +7,39 @@ import scala.util.parsing.combinator.JavaTokenParsers
 class QLParser extends JavaTokenParsers with QLAST {
   
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
+  def literal: Parser[Literal] = booleanLiteral | numberLiteral
+  def booleanLiteral: Parser[BooleanLiteral] = ("true" | "false") ^^ {
+    s => BooleanLiteral(s.toBoolean)
+  }
+  def numberLiteral: Parser[NumberLiteral] = wholeNumber ^^ {
+    s => NumberLiteral(s.toInt)
+  }
+  def variable: Parser[Variable] = ident ^^ Variable
+  def label: Parser[String] = stringLiteral
 
   def form: Parser[Form] = "form" ~> ident ~ expression ^^ {
     case name ~ expr => Form(name, expr)
   }
 
-  def const: Parser[Const] = ("true" | "false") ^^ Const
-
-  def variable: Parser[Variable] = ident ^^ Variable
-
-  def label: Parser[String] = stringLiteral
-
   def expression: Parser[Expr] = "{" ~> rep(questionExpression | ifExpression) <~ "}" ^^ Sequence
 
   // parse questions
   def questionExpression: Parser[QuestionExpr] = "question" ~> variable ~ label ~ answer ^^ {
-    case v ~ label ~ "boolean" => BooleanQuestion(v, label)
-    case v ~ label ~ "integer" => IntegerQuestion(v, label)
-    case v ~ label ~ "string" => StringQuestion(v, label)
+    // Normal Questions
+    case v ~ label ~ (BooleanType ~ None) => BooleanQuestion(v, label)
+    case v ~ label ~ (IntegerType ~ None) => IntegerQuestion(v, label)
+    case v ~ label ~ (StringType ~ None) => StringQuestion(v, label)
+    // Computed Questions
+    case v ~ label ~ (BooleanType ~ Some(value)) => ComputedBooleanQuestion(v, label, value)
+    case v ~ label ~ (IntegerType ~ Some(value)) => ComputedIntegerQuestion(v, label)
+    case v ~ label ~ (StringType ~ Some(value)) => ComputedStringQuestion(v, label)
+    case _ => StringQuestion(Variable("NONE"), "NONE")
   }
-
-  def answer: Parser[String] = "answer" ~> ("boolean" | "integer" | "string")
+  // TODO: Check allowed expression for each type.
+  def answer = "answer" ~> (booleanAnswer | integerAnswer | stringAnswer)
+  def booleanAnswer = ("boolean" ^^^ {BooleanType}) ~ opt("is" ~ "(" ~> (booleanExpression) <~ ")")
+  def integerAnswer = ("integer" ^^^ {IntegerType}) ~ opt("is" ~ "(" ~> ("") <~ ")")
+  def stringAnswer = ("string" ^^^ {StringType}) ~ opt("is" ~ "(" ~> (stringLiteral) <~ ")")
 
   // parse if statements
   def ifExpression: Parser[IfExpr] = ("if" ~> variable) ~ expression ~ ("else" ~> expression ?) ^^ {
@@ -35,24 +47,44 @@ class QLParser extends JavaTokenParsers with QLAST {
   }
 
   // parse boolean expression
-  def booleanExpression: Parser[Expr] = orExpression
-
-  def orExpression: Parser[Expr] = rep1sep(andExpression, "or") ^^ {
+  def booleanExpression: Parser[Expr] = or
+  def or: Parser[Expr] = rep1sep(and, "or") ^^ {
     _.reduceLeft(Or)
   }
-
-  def andExpression: Parser[Expr] = rep1sep(notExpression, "and") ^^ {
+  def and: Parser[Expr] = rep1sep(not, "and") ^^ {
     _.reduceLeft(And)
   }
-
-  def notExpression: Parser[Expr] = opt("not") ~ atom ^^ {
+  def not: Parser[Expr] = opt("not") ~ equality ^^ {
     case Some(_) ~ x => Not(x)
     case _ ~ x => x
   }
+  def equality: Parser[Expr] = comparison ~ opt(("==" | "!=") ~ comparison) ^^ {
+    case l ~ Some("==" ~ r) => Equal(l, r)
+    case l ~ Some("!=" ~ r) => NotEqual(l, r)
+    case x ~ _ => x
+  }
+  def comparison: Parser[Expr] = arithmeticExpression ~ opt(("<=" | "<" | ">=" | ">") ~ arithmeticExpression) ^^ {
+    case l ~ Some("<=" ~ r) => LessThanEqual(l, r)
+    case l ~ Some("<" ~ r) => LessThan(l, r)
+    case l ~ Some(">=" ~ r) => GreaterThanEqual(l, r)
+    case l ~ Some(">" ~ r) => GreaterThan(l, r)
+    case x ~ _ => x
+  }
 
-  def atom: Parser[Expr] = (const
-    | variable
-    | "(" ~> booleanExpression <~ ")"
-    )
+  // Arithmetic expressions
+  def arithmeticExpression: Parser[Expr] = plus
+  def plus: Parser[Expr] = rep1sep(minus, "+") ^^ {
+    _.reduceLeft(Add)
+  }
+  def minus: Parser[Expr] = rep1sep(product, "-") ^^ {
+    _.reduceLeft(Sub)
+  }
+  def product: Parser[Expr] = rep1sep(divide, "*") ^^ {
+    _.reduceLeft(Mul)
+  }
+  def divide: Parser[Expr] = rep1sep(atom, "/") ^^ {
+    _.reduceLeft(Div)
+  }
+  def atom: Parser[Expr] = (literal | variable | "(" ~> booleanExpression <~ ")")
 
 }

@@ -16,6 +16,14 @@ class Question:
         s += "\n"
         return s
 
+    def get_label(self):
+        return self.label
+
+    def get_answertype(self):
+        return self.answertype
+
+    def get_number(self):
+        return self.number
 
 class ConditionalQuestions:
     def __init__(self, condition, questions):
@@ -32,6 +40,9 @@ class ConditionalQuestions:
             s += str(i)
         return s
 
+    def get_conditional_q(self):
+        return self.questions
+
 
 class Form:
     def __init__(self, name, questions):
@@ -43,3 +54,6 @@ class Form:
         for i in self.questions:
             s += str(i)
         return s
+
+    def get_questions(self):
+        return self.questions
