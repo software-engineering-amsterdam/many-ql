@@ -6,6 +6,8 @@ import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 import org.uva.student.calinwouter.ql.interpreter.model.QuestionModel;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -36,12 +38,20 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
     }
 
     private TableModel getTableModel() {
-        DefaultTableModel tableModel = new DefaultTableModel(0,2);
+        final DefaultTableModel tableModel = new DefaultTableModel(0,2);
         for (QuestionModel questionModel : environment.getQuestionModels()) {
             tableModel.addRow(new Object[] {
                     questionModel.getText(),
                     environment.getEnvVars().get(questionModel.getVariable())});
         }
+        tableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                String variable = environment.getQuestionModels().get(e.getFirstRow()).getVariable();
+                String value = tableModel.getValueAt(e.getFirstRow(), 1).toString();
+                environment.getEnvVars().put(variable, value);
+            }
+        });
         return tableModel;
     }
 

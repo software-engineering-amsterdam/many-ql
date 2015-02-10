@@ -2,157 +2,157 @@
 Package org.uva.student.calinwouter.ql.generated;
 
 Helpers
-	digit	= ['0' .. '9'];
-	letter	= [['a' .. 'z'] + ['A' .. 'Z']];
-	any	= [0 .. 0xFFFF];
-	cr	= 13;
-	lf	= 10;
-	eol	= cr | lf | cr lf;
-	no_enter= [any - [cr + lf]];
+    digit	= ['0' .. '9'];
+    letter	= [['a' .. 'z'] + ['A' .. 'Z']];
+    any	= [0 .. 0xFFFF];
+    cr	= 13;
+    lf	= 10;
+    eol	= cr | lf | cr lf;
+    no_enter= [any - [cr + lf]];
 
 Tokens
-	comment = '//' [any - [cr + lf]] eol?;
-	tnot	= '!';
-	number	= (digit+ | digit+ '.' digit+);
-	or	= '||';
-	and	= '&&';
-	add	= '+';
-	sub	= '-';
-	mul	= '*';
-	div	= '/';
-	mod	= '%';
-	lparen	= '(';
-	rparen	= ')';
-	tform	= 'form';
-	lbrace	= '{';
-	rbrace	= '}';
-	colon	= ':';
-	if	= 'if';
-	else	= 'else';
-	tbool	= 'boolean';
-	ttrue	= 'true';
-	tfalse	= 'false';
-	tstring	= 'string';
-	tint	= 'int';
-	string	= '"' [no_enter - '"' ]* '"';
-	teq	= '==';
-	tneq	= '!=';
-	tlt	= '<';
-	tgt	= '>';
-	tlte	= '<=';
-	tgte	= '>=';
-	blank	= (' ' | eol)+;
-	ident	= (letter (digit | letter)*);
+    comment = '//' [any - [cr + lf]] eol?;
+    tnot	= '!';
+    number	= (digit+ | digit+ '.' digit+);
+    or	= '||';
+    and	= '&&';
+    add	= '+';
+    sub	= '-';
+    mul	= '*';
+    div	= '/';
+    mod	= '%';
+    lparen	= '(';
+    rparen	= ')';
+    tform	= 'form';
+    lbrace	= '{';
+    rbrace	= '}';
+    colon	= ':';
+    if	= 'if';
+    else	= 'else';
+    tbool	= 'boolean';
+    ttrue	= 'true';
+    tfalse	= 'false';
+    tstring	= 'string';
+    tint	= 'int';
+    string	= '"' [no_enter - '"' ]* '"';
+    teq	= '==';
+    tneq	= '!=';
+    tlt	= '<';
+    tgt	= '>';
+    tlte	= '<=';
+    tgte	= '>=';
+    blank	= (' ' | eol)+;
+    ident	= (letter (digit | letter)*);
 
 Ignored Tokens
 
-	comment, blank;
+    comment, blank;
 
 Productions	
-	form {-> form}
-		= tform ident lbrace stmtlist rbrace			{-> New form(ident, stmtlist.stmtlist)}
-		;
+    form {-> form}
+        = tform ident lbrace stmtlist rbrace			{-> New form(ident, stmtlist.stmtlist)}
+        ;
 
-	stmtlist {-> stmtlist}
-		= {single}	[head]:stmt				{-> New stmtlist.single(head.stmt)}
-		| {multi}	[head]:stmtlist [tail]:stmt		{-> New stmtlist.multi(head.stmtlist, tail.stmt)}
-		;
+    stmtlist {-> stmtlist}
+        = {single}	[head]:stmt				            {-> New stmtlist.single(head.stmt)}
+        | {multi}	[head]:stmtlist [tail]:stmt	    	{-> New stmtlist.multi(head.stmtlist, tail.stmt)}
+        ;
 
-	type {-> type}
-		= {bool}	tbool					{-> New type.bool()}
-		| {string}	tstring					{-> New type.string()}
-		| {int}		tint					{-> New type.int()}
-		;
+    type {-> type}
+        = {bool}	tbool					            {-> New type.bool()}
+        | {string}	tstring					            {-> New type.string()}
+        | {int}		tint					            {-> New type.int()}
+        ;
 
-	stmt {-> stmt}
-		= {question}	ident colon string type			{-> New stmt.question(ident, string, type.type)}
-		| {value}	ident colon string type lparen exp rparen	{-> New stmt.value(ident, string, type.type, exp.exp)}
-		| {ifelse}	if lparen exp rparen lbrace
-					[ifstmts]:stmtlist
-				rbrace else [lbrace2]:lbrace
-					[elsestmts]:stmtlist
-				[rbrace2]:rbrace			{-> New stmt.ifelse(exp, ifstmts, elsestmts)}
-		| {if}		if lparen exp rparen lbrace
-					[ifstmt]:stmtlist
-				rbrace					{-> New stmt.if(exp, ifstmt)}
-		;
-	
-	exp {-> exp}
-		= {add}		[left]:exp add [right]:factor		{-> New exp.add(left, right.exp)}
-		| {sub}		[left]:exp sub [right]:factor		{-> New exp.sub(left, right.exp)}
-		| {cmp}		cmp					{-> cmp.exp}
-		| {logical}	logical					{-> logical.exp}
-		;
+    stmt {-> stmt}
+        = {question}	ident colon string type			{-> New stmt.question(ident, string, type.type)}
+        | {value}	ident colon string type lparen exp rparen	{-> New stmt.value(ident, string, type.type, exp.exp)}
+        | {ifelse}	if lparen exp rparen lbrace
+                    [ifstmts]:stmtlist
+                rbrace else [lbrace2]:lbrace
+                    [elsestmts]:stmtlist
+                [rbrace2]:rbrace			            {-> New stmt.ifelse(exp, ifstmts, elsestmts)}
+        | {if}		if lparen exp rparen lbrace
+                    [ifstmt]:stmtlist
+                rbrace			                		{-> New stmt.if(exp, ifstmt)}
+        ;
 
-	cmp {-> exp}
-		= {eq}		[left]:cmp teq [right]:logical		{-> New exp.eq(left.exp, right.exp)}
-		| {neq}		[left]:cmp tneq [right]:logical		{-> New exp.neq(left.exp, right.exp)}
-		| {lt}		[left]:cmp tlt [right]:logical		{-> New exp.lt(left.exp, right.exp)}
-		| {gt}		[left]:cmp tgt [right]:logical		{-> New exp.gt(left.exp, right.exp)}
-		| {lte}		[left]:cmp tlte [right]:logical		{-> New exp.lte(left.exp, right.exp)}
-		| {gte}		[left]:cmp tgte [right]:logical		{-> New exp.gte(left.exp, right.exp)}
-		;
+    exp {-> exp}
+        = {add}		[left]:exp add [right]:factor		{-> New exp.add(left, right.exp)}
+        | {sub}		[left]:exp sub [right]:factor		{-> New exp.sub(left, right.exp)}
+        | {cmp}		cmp					                {-> cmp.exp}
+        | {logical}	logical			            		{-> logical.exp}
+        ;
 
-	logical {-> exp}
-		= {or}		[left]:logical or [right]:factor	{-> New exp.or(left.exp, right.exp)}
-		| {and}		[left]:logical and [right]:factor	{-> New exp.and(left.exp, right.exp)}
-		| {factor}	factor					{-> factor.exp}
-		;
-		
-	factor {-> exp}
-		= {mul}		[left]:factor mul [right]:unary		{-> New exp.mul(left.exp, right.exp)}
-		| {div}		[left]:factor div [right]:unary		{-> New exp.div(left.exp, right.exp)}
-		| {mod}		[left]:factor mod [right]:unary		{-> New exp.mod(left.exp, right.exp)}
-		| {unary}	unary					{-> unary.exp}
-		;
-		
-	unary {-> exp}
-		= {not}		tnot unary				{-> New exp.not(unary.exp)}
-		| {number}	number					{-> New exp.number(number)}
-		| {true}	ttrue					{-> New exp.true()}
-		| {false}	tfalse					{-> New exp.false()}
-		| {paren}	lparen exp rparen			{-> New exp.paren(exp.exp)}
-		| {ident}	ident					{-> New exp.ident(ident)}
-		;
+    cmp {-> exp}
+        = {eq}		[left]:cmp teq [right]:logical		{-> New exp.eq(left.exp, right.exp)}
+        | {neq}		[left]:cmp tneq [right]:logical		{-> New exp.neq(left.exp, right.exp)}
+        | {lt}		[left]:cmp tlt [right]:logical		{-> New exp.lt(left.exp, right.exp)}
+        | {gt}		[left]:cmp tgt [right]:logical		{-> New exp.gt(left.exp, right.exp)}
+        | {lte}		[left]:cmp tlte [right]:logical		{-> New exp.lte(left.exp, right.exp)}
+        | {gte}		[left]:cmp tgte [right]:logical		{-> New exp.gte(left.exp, right.exp)}
+        ;
+
+    logical {-> exp}
+        = {or}		[left]:logical or [right]:factor	{-> New exp.or(left.exp, right.exp)}
+        | {and}		[left]:logical and [right]:factor	{-> New exp.and(left.exp, right.exp)}
+        | {factor}	factor					            {-> factor.exp}
+        ;
+
+    factor {-> exp}
+        = {mul}		[left]:factor mul [right]:unary     {-> New exp.mul(left.exp, right.exp)}
+        | {div}		[left]:factor div [right]:unary		{-> New exp.div(left.exp, right.exp)}
+        | {mod}		[left]:factor mod [right]:unary		{-> New exp.mod(left.exp, right.exp)}
+        | {unary}	unary			            		{-> unary.exp}
+        ;
+
+    unary {-> exp}
+        = {not}		tnot unary			            	{-> New exp.not(unary.exp)}
+        | {number}	number					            {-> New exp.number(number)}
+        | {true}	ttrue					            {-> New exp.true()}
+        | {false}	tfalse					            {-> New exp.false()}
+        | {paren}	lparen exp rparen			        {-> New exp.paren(exp.exp)}
+        | {ident}	ident					            {-> New exp.ident(ident)}
+        ;
 
 Abstract Syntax Tree
-	form
-		=			[ident]:ident [stmtlist]:stmtlist
-		;
-	stmtlist
-		= {single}		[head]:stmt
-		| {multi}		[head]:stmtlist [tail]:stmt
-		;
-	stmt
-		= {single}		[head]:stmt
-		| {question}	ident [str]:string [type]:type
-		| {value}		ident [str]:string [type]:type [exp]:exp
-		| {ifelse}		[exp]:exp [ifstmts]:stmtlist [elsestmts]:stmtlist
-		| {if}			[exp]:exp [ifstmts]:stmtlist
-		;
-	type
-		= {bool}
-		| {string}
-		| {int}
-		;
-	exp
-		= {add}			[left]:exp [right]:exp
-		| {sub}			[left]:exp [right]:exp
-		| {true}
-		| {false}
-		| {or}			[left]:exp [right]:exp
-		| {and}			[left]:exp [right]:exp
-		| {eq}			[left]:exp [right]:exp
-		| {neq}			[left]:exp [right]:exp
-		| {lt}			[left]:exp [right]:exp
-		| {gt}			[left]:exp [right]:exp
-		| {lte}			[left]:exp [right]:exp
-		| {gte}			[left]:exp [right]:exp
-		| {mul}			[left]:exp [right]:exp
-		| {div}			[left]:exp [right]:exp
-		| {mod}			[left]:exp [right]:exp
-		| {paren}		exp
-		| {not}			exp
-		| {number}		number
-		| {ident}		ident
-		;
+    form
+        =			    [ident]:ident [stmtlist]:stmtlist
+        ;
+    stmtlist
+        = {single}		[head]:stmt
+        | {multi}		[head]:stmtlist [tail]:stmt
+        ;
+    stmt
+        = {single}		[head]:stmt
+        | {question}	ident [str]:string [type]:type
+        | {value}		ident [str]:string [type]:type [exp]:exp
+        | {ifelse}		[exp]:exp [ifstmts]:stmtlist [elsestmts]:stmtlist
+        | {if}			[exp]:exp [ifstmts]:stmtlist
+        ;
+    type
+        = {bool}
+        | {string}
+        | {int}
+        ;
+    exp
+        = {add}			[left]:exp [right]:exp
+        | {sub}			[left]:exp [right]:exp
+        | {true}
+        | {false}
+        | {or}			[left]:exp [right]:exp
+        | {and}			[left]:exp [right]:exp
+        | {eq}			[left]:exp [right]:exp
+        | {neq}			[left]:exp [right]:exp
+        | {lt}			[left]:exp [right]:exp
+        | {gt}			[left]:exp [right]:exp
+        | {lte}			[left]:exp [right]:exp
+        | {gte}			[left]:exp [right]:exp
+        | {mul}			[left]:exp [right]:exp
+        | {div}			[left]:exp [right]:exp
+        | {mod}			[left]:exp [right]:exp
+        | {paren}		exp
+        | {not}			exp
+        | {number}		number
+        | {ident}		ident
+        ;
