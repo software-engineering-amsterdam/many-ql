@@ -24,11 +24,11 @@ public interface Analysis extends Switch
     void caseAStringType(AStringType node);
     void caseAIntType(AIntType node);
     void caseAAddExp(AAddExp node);
+    void caseASubExp(ASubExp node);
     void caseATrueExp(ATrueExp node);
     void caseAFalseExp(AFalseExp node);
     void caseAOrExp(AOrExp node);
     void caseAAndExp(AAndExp node);
-    void caseASubExp(ASubExp node);
     void caseAEqExp(AEqExp node);
     void caseANeqExp(ANeqExp node);
     void caseALtExp(ALtExp node);
