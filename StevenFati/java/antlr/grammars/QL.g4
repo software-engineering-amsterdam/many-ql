@@ -1,15 +1,27 @@
 grammar QL;
 start
-    : 'form' form_name '{' question+ '}';
+    : 'form' identifier '{' statement+ '}';
 
-form_name
+statement
+    : question
+    | if_statement
+    ;
+
+if_statement
+    : 'if (' expression ')' '{' statement '}'
+    ;
+expression
+    : NUMBERS operator NUMBERS
+    ;
+operator
+    : ('*' | '/')
+    | ('+'| '-')
+    ;
+identifier
     : (UPPERCASE | LOWERCASE | NUMBERS)*
     ;
 question
-    : question_name question_type question_label
-    ;
-question_name
-    : (UPPERCASE | LOWERCASE | NUMBERS)*
+    : identifier question_type question_label
     ;
 question_type
     : UPPERCASE
@@ -28,7 +40,6 @@ LOWERCASE
 NUMBERS
     : [0-9]+
     ;
-
 STRING
     : '"' (~[\r\n"] | '""')* '"'
     ;
