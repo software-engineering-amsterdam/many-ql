@@ -19,9 +19,13 @@ class QuestionnaireGUI:
             i += 1
             if isinstance(question, ConditionalQuestions):
                 continue
+            Label(text=question.get_label(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
             if question.get_type() is 'boolean':
                 print(1)
-            Label(text=question.get_label(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
+            elif question.get_type() is 'integer':
+                print(2)
+            elif question.get_type() is 'string':
+                print(3)
 
     def show(self):
         self.qGui.mainloop()
