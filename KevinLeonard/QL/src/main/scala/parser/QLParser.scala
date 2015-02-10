@@ -72,18 +72,18 @@ class QLParser extends JavaTokenParsers with QLAST {
   }
 
   // Arithmetic expressions
-  def arithmeticExpression: Parser[Expr] = plus
-  def plus: Parser[Expr] = rep1sep(minus, "+") ^^ {
-    _.reduceLeft(Add)
+  def arithmeticExpression: Parser[Expr] = sum
+  def sum: Parser[Expr] = product ~ rep("+" ~ product | "-" ~ product) ^^ {
+    case l ~ xs => xs.foldLeft(l) {
+      case (x, "+" ~ y) => Add(x, y)
+      case (x, "-" ~ y) => Sub(x, y)
+    }
   }
-  def minus: Parser[Expr] = rep1sep(product, "-") ^^ {
-    _.reduceLeft(Sub)
-  }
-  def product: Parser[Expr] = rep1sep(divide, "*") ^^ {
-    _.reduceLeft(Mul)
-  }
-  def divide: Parser[Expr] = rep1sep(atom, "/") ^^ {
-    _.reduceLeft(Div)
+  def product: Parser[Expr] = atom ~ rep("*" ~ atom | "/" ~ atom) ^^ {
+    case l ~ xs => xs.foldLeft(l) {
+      case (x, "*" ~ y) => Mul(x, y)
+      case (x, "/" ~ y) => Div(x, y)
+    }
   }
   def atom: Parser[Expr] = (literal | variable | "(" ~> booleanExpression <~ ")")
 

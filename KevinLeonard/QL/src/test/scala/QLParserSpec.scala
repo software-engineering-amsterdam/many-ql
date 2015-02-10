@@ -130,26 +130,24 @@ class QLParserSpec extends Specification with ParserMatchers {
     }
   }
 
-  "plus parser" should {
+  "sum parser" should {
     "be valid with an plus operator" in {
-      plus must succeedOn("1 + 2")
+      sum must succeedOn("1 + 2")
         .withResult(Add(NumberLiteral(1), NumberLiteral(2)))
     }
 
     "be valid with multiple plus operators" in {
-      plus must succeedOn("1 + 2 + 3")
+      sum must succeedOn("1 + 2 + 3")
         .withResult(Add(Add(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
-  }
 
-  "minus parser" should {
     "be valid with an minus operator" in {
-      minus must succeedOn("1 - 2")
+      sum must succeedOn("1 - 2")
         .withResult(Sub(NumberLiteral(1), NumberLiteral(2)))
     }
 
     "be valid with multiple minus operators" in {
-      minus must succeedOn("1 - 2 - 3")
+      sum must succeedOn("1 - 2 - 3")
         .withResult(Sub(Sub(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
   }
@@ -164,16 +162,14 @@ class QLParserSpec extends Specification with ParserMatchers {
       product must succeedOn("1 * 2 * 3")
         .withResult(Mul(Mul(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
-  }
 
-  "divide parser" should {
     "be valid with an divide operator" in {
-      divide must succeedOn("1 / 2")
+      product must succeedOn("1 / 2")
         .withResult(Div(NumberLiteral(1), NumberLiteral(2)))
     }
 
     "be valid with multiple divide operators" in {
-      divide must succeedOn("1 / 2 / 3")
+      product must succeedOn("1 / 2 / 3")
         .withResult(Div(Div(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
   }
