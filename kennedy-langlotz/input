@@ -2,5 +2,5 @@ question
     id : question1
     type : boolean
     text : "What is love"
-    value : "Baby dont hurt me", "Dont hurt me", 10 * 42 + 100
+    value : "Baby dont hurt me", "Dont hurt me", 10.3 * 42.5 + 100
 end
