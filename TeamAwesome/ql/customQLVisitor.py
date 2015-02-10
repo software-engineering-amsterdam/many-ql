@@ -2,12 +2,10 @@
 from antlr4 import *
 from QLVisitor import QLVisitor
 from QLExceptions import IllegalOperatorError
+from AST import *
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
-
 class CustomQLVisitor(QLVisitor):
-
-
     # Visit a parse tree produced by QLParser#statement.
     def visitStatement(self, ctx):
         return self.visitChildren(ctx)
@@ -15,6 +13,7 @@ class CustomQLVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#form.
     def visitForm(self, ctx):
+        print(ctx.getChildren())
         return self.visitChildren(ctx)
 
 
@@ -65,7 +64,7 @@ class CustomQLVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#expr.
     def visitExpr(self, ctx):
-        # no operator in expression
+        # no operator in expression (atom)
         if ctx.op == None:
             return self.visitChildren(ctx)
 

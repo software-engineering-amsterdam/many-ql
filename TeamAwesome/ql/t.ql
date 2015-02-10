@@ -8,4 +8,11 @@ form taxOfficeExample {
     "Did you buy a house in 2010?"
     boolean
   }
+
+  if 3^4 % 2 > 5 - 2 == true {
+    question hasMaintLoan {
+      "Did you enter a loan?"
+      boolean
+    }
+  }
 }
