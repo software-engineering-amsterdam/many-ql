@@ -10,6 +10,10 @@ import cons.ql.ast.expr.statement.Question;
 
 public class Parser {
 	
+	/**
+	 * The main method, which gets executed once this class is run. Enabled the user
+	 * to enter a string, which is then parsed and shown as an AST.
+	 */
 	public static void main(String[] args) {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,6 +34,12 @@ public class Parser {
 		}
 	}
 
+	/**
+	 * Same as {@link #parse(String) parse()} but takes the path to a file and parses
+	 * the contents of that file.
+	 * @param filepath
+	 * @return
+	 */
 	public static ASTNode parseFile (String filepath) {
 		try {
 			Reader reader = new BufferedReader(new FileReader(filepath));
@@ -47,6 +57,11 @@ public class Parser {
 		}
 	}
 	
+	/**
+	 * Parses the input string and returns the result, which is the root Node of the AST.
+	 * @param input The string to parse
+	 * @return ASTNode of the root
+	 */
 	public static ASTNode parse (String input) {
 		Reader reader = new StringReader(input);
 		QLLexer lexer = new QLLexer(reader);
@@ -73,7 +88,7 @@ public class Parser {
 	 * 					possibly branches. For the actual root this is ""
 	 * @param tail Whether or not the current root node is the final child
 	 */
-	private static void printSubTree(ASTNode root, String prefix, boolean tail) {
+	private static void printSubTree(ASTNode root, String prefix, boolean isTail) {
 		
 		if (root == null) {
 			System.out.println("This node is undefined");
@@ -81,31 +96,41 @@ public class Parser {
 		}
 
 		String type = root.getClass().getSimpleName();
-		System.out.println(prefix + (tail ? "└── " : "├── ") + root + " : " + type);
+		System.out.println(prefix + (isTail ? "└── " : "├── ") + root + " : " + type);
+		
+		prefix += (isTail ? "  " : "│  ");
 		
 		// TODO: find a way to get rid of instanceof, perhaps keep a list of children?
 		if (root instanceof Binary) {
-			printSubTree(((Binary)root).getLeft(), prefix + (tail ? "  " : "│  "), false);
-			printSubTree(((Binary)root).getRight(), prefix + (tail ? "  " : "│  "), true);
+			Binary binary = (Binary)root;
+			
+			printSubTree(binary.getLeft(), prefix, false);
+			printSubTree(binary.getRight(), prefix, true);
 		}
 		else if (root instanceof Question) {
-			printSubTree(((Question)root).getIdent(), prefix + (tail ? "  " : "│  "), false);
-			printSubTree(((Question)root).getType(), prefix + (tail ? "  " : "│  "), false);
-			printSubTree(((Question)root).getText(), prefix + (tail ? "  " : "│  "), true);
+			Question question = (Question)root;
+			
+			printSubTree(question.getIdent(), prefix, false);
+			printSubTree(question.getType(), prefix, false);
+			printSubTree(question.getText(), prefix, true);
 		}
 		else if (root instanceof Block) {
-			int len = ((Block)root).statements().size();
+			Block block = (Block)root;
+			
+			// First print the children except for the last one due to different
+			// tail values. The last one should have a tail.
+			int len = block.statements().size();
 			for (int i = 0; i < len - 1; i++) {
-				printSubTree(((Block)root).statements().get(i), prefix + (tail ? "  " : "│  "), false);
+				printSubTree(block.statements().get(i), prefix, false);
 			}
 			if (len > 0) {
-				printSubTree(((Block)root).statements().get(len - 1), prefix + (tail ? "  " : "│  "), true);				
+				printSubTree(block.statements().get(len - 1), prefix, true);				
 			}
 		}
 		else if (root instanceof Form) {
 			Form form = (Form)root;
-			printSubTree(form.getIdent(), prefix + (tail ? "  " : "│  "), false);
-			printSubTree(form.getBlock(), prefix + (tail ? "  " : "│  "), true);
+			printSubTree(form.getIdent(), prefix, false);
+			printSubTree(form.getBlock(), prefix, true);
 		}
 	}
 }
