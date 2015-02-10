@@ -1,9 +1,11 @@
 package org.uva.student.calinwouter.ql.ast;
 
-public class IfStmt {
+import org.uva.student.calinwouter.ql.interpreter.components.InterpretationException;
+import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 
-    private Expr expr;
+public class IfStmt extends Stmt {
+    @Override
+    public Object interprete(Environment environment) throws InterpretationException {
 
-    private List<Stmt> thenCase, elseCase;
-
+    }
 }
