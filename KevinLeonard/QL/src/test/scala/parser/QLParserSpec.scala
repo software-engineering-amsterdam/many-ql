@@ -1,70 +1,75 @@
-package test.scala
+package parser
 
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
-import parser.QLParser
 
 class QLParserSpec extends Specification with ParserMatchers {
   val parsers = new QLParser
 
   import parsers._
 
+  "variable parser" should {
+    "parse a valid Java identifier" in {
+      variable must succeedOn("var1")
+        .withResult(Variable("var1"))
+    }
+  }
+
   "form parser" should {
-    "ignore singleline comments" in {
-      form must succeedOn("form form1 {\n    // SINGLE LINE COMMENT\n}")
+    "ignore single line comments" in {
+      form must succeedOn("form form1 {\n// Single line comment\n}")
         .withResult(Form("form1", Sequence(List())))
     }
 
-    "ignore multi line comments" in {
-      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */}")
+    "ignore multiline comments" in {
+      form must succeedOn("form form1 {\n/**\n* Multiline comment\n*/}")
         .withResult(Form("form1", Sequence(List())))
     }
   }
 
   "question parser" should {
     "parse boolean questions" in {
-      questionExpression must succeedOn("question var \"label\"\nanswer boolean")
+      question must succeedOn("question var \"label\"\nanswer boolean")
         .withResult(BooleanQuestion(Variable("var"), "\"label\""))
     }
 
     "parse integer questions" in {
-      questionExpression must succeedOn("question var \"label\"\nanswer integer")
+      question must succeedOn("question var \"label\"\nanswer integer")
         .withResult(IntegerQuestion(Variable("var"), "\"label\""))
     }
 
     "parse string questions" in {
-      questionExpression must succeedOn("question var \"label\"\nanswer string")
+      question must succeedOn("question var \"label\"\nanswer string")
         .withResult(StringQuestion(Variable("var"), "\"label\""))
     }
 
     "parse computed integer questions" in {
-      questionExpression must succeedOn("question var \"label\"\nanswer integer is (fieldA + fieldB)")
+      question must succeedOn("question var \"label\"\nanswer integer is (fieldA + fieldB)")
         .withResult(ComputedIntegerQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
     }
 
     "parse computed boolean questions" in {
-      questionExpression must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
+      question must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
         .withResult(ComputedBooleanQuestion(Variable("var"), "\"label\"", And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC")))))
     }
 
     "parse computed string questions" in {
-      questionExpression must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
+      question must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
         .withResult(ComputedStringQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
     }
   }
 
   "if statement parser" should {
     "parse if statements without an else clause" in {
-      ifExpression must succeedOn("if var {}")
-        .withResult(IfExpr(Variable("var"), Sequence(List()), None))
+      ifStatement must succeedOn("if var {}")
+        .withResult(IfStatement(Variable("var"), Sequence(List()), None))
     }
 
     "parse if statements with an else clause" in {
-      ifExpression must succeedOn("if var {} else {}")
-        .withResult(IfExpr(Variable("var"), Sequence(List()), Some(Sequence(List()))))
+      ifStatement must succeedOn("if var {} else {}")
+        .withResult(IfStatement(Variable("var"), Sequence(List()), Some(Sequence(List()))))
     }
   }
-
 
   "and parser" should {
     "be valid with an and operator" in {
@@ -151,28 +156,6 @@ class QLParserSpec extends Specification with ParserMatchers {
     }
   }
 
-  "boolean expressions" should {
-    "be valid with a literal" in {
-      booleanExpression must succeedOn("true")
-        .withResult(BooleanLiteral(true))
-    }
-
-    "be valid with a variable" in {
-      booleanExpression must succeedOn("var1")
-        .withResult(Variable("var1"))
-    }
-
-    "have the correct precedence when using parenthesis" in {
-      booleanExpression must succeedOn("true and (false or true)")
-        .withResult(And(BooleanLiteral(true), Or(BooleanLiteral(false), BooleanLiteral(true))))
-    }
-
-    "be valid with multiple different operators" in {
-      booleanExpression must succeedOn("true and true and false or true")
-        .withResult(Or(And(And(BooleanLiteral(true), BooleanLiteral(true)), BooleanLiteral(false)), BooleanLiteral(true)))
-    }
-  }
-
   "sum parser" should {
     "be valid with an plus operator on numbers" in {
       sum must succeedOn("1 + 2")
@@ -222,17 +205,39 @@ class QLParserSpec extends Specification with ParserMatchers {
     }
   }
 
-  "arithmetic expressions" should {
-    "give product precedence over sum" in {
-      arithmeticExpression must succeedOn("1 * 2 + 3")
-        .withResult(Add(Mul(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+  "expressions" should {
+    "be valid with a literal" in {
+      expression must succeedOn("true")
+        .withResult(BooleanLiteral(true))
+    }
 
-      arithmeticExpression must succeedOn("1 + 2 * 3")
+    "be valid with a variable" in {
+      expression must succeedOn("var1")
+        .withResult(Variable("var1"))
+    }
+
+    "have the correct precedence when using parenthesis" in {
+      expression must succeedOn("true and (false or true)")
+        .withResult(And(BooleanLiteral(true), Or(BooleanLiteral(false), BooleanLiteral(true))))
+    }
+
+    "be valid with multiple different operators" in {
+      expression must succeedOn("true and true and false or true")
+        .withResult(Or(And(And(BooleanLiteral(true), BooleanLiteral(true)), BooleanLiteral(false)), BooleanLiteral(true)))
+    }
+
+    "give product precedence over sum" in {
+      expression must succeedOn("1 * 2 + 3")
+        .withResult(Add(Mul(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+    }
+
+    "give product precedence over sum" in {
+      expression must succeedOn("1 + 2 * 3")
         .withResult(Add(NumberLiteral(1), Mul(NumberLiteral(2), NumberLiteral(3))))
     }
 
     "have the correct precedence when using parenthesis" in {
-      arithmeticExpression must succeedOn("1 * (2 - 3)")
+      expression must succeedOn("1 * (2 - 3)")
         .withResult(Mul(NumberLiteral(1), Sub(NumberLiteral(2), NumberLiteral(3))))
     }
   }
