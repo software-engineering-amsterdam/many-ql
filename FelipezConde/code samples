@@ -1,0 +1,159 @@
+\*
+    Things to watch out for:
+    - how to define comments (and let the lexer or parser strip them)
+    - how to say use 4 or more of these {4,...}
+    - how to remove whitspace (space, tabs, newlines) Done!
+    - how to define strings
+    - how to stop lexer from removing whitespace from strings Done!
+    - how to define list values (radio [1,2,3,4,5] or sth.)
+    - text stuff? or is this going to be a field?
+    - Use the grammar to enforce uniquenesss of keyvaluepairs
+    - Use the grammar to enforce required keyvaluepairs (Too liberal)
+    - Value can be an expression!
+
+    Style suggestions:
+    remove type from key value pair! done!
+    value pair: replace ':' with '=' done!
+    guards:
+        value | a < b     = True 
+              | otherwise = False
+*\
+------------------------------------------ Code samples ---------------------------------
+
+\* Simple form testing *\
+-- Sample 1: empty form
+form { }
+
+-- Sample 2: multiple simple questions (bool answers)
+form {
+    question q1 bool {
+        label = "This is a sample question. Do you understand?" 
+    }  
+    question q2 bool {
+        label = "This is the second sample question. Do you understand?"
+    }
+    question q3 bool {
+        label = "This is the third sample question. Do you understand?"
+    }
+} 
+
+-- Sample 2: multiple simple fields
+form {
+    field f1 string{
+        label  = "field1",
+        value  = "fieldOneAnswer";
+    }
+    field f2 string{
+        label  = "field2",
+        value  = "fieldTwoAnswer";
+    }
+    field f3 string{
+        label  = "field3",
+        value  = "fieldThreeAnswer";
+    }
+}
+
+-- Sample 3: Detailed question
+form {
+    question q1 int{
+        label    = "This is a detailed question. Describe how difficult it is",
+        options  = [1..5],
+        required = True,
+        tooltip  = "Read the description in the label to know what the question is.",
+        default  = 3
+    }
+}
+
+-- Sample 4: Detailed field
+form {
+    question q1 int{
+        label    = "Pick a number above 5",
+        options  = [1..8],
+        required = True,
+        tooltip  = "Read the description in the label to know what the question is.",
+        default  = 3
+    }
+
+    field f1 string {
+        label = "Did you pick a correct number?",
+        value = q1 - 2
+    }
+}
+
+\* Conditional testing *\
+-- Sample 5: conditional with question
+form {
+    enable when True {
+        question q1 bool {
+            label = "This is a sample question. Do you understand?" 
+        }  
+    }
+}
+
+-- Sample 6: conditional with multiple questions
+form {
+    enable when True {
+        question q1 bool {
+            label = "This is a sample question. Do you understand?" 
+        }  
+        question q2 bool {
+            label = "This is the second sample question. Do you understand?"
+        }
+        question q3 bool {
+            label = "This is the third sample question. Do you understand?"
+        }
+    }
+}
+-- Sample 7: conditional with multiple field
+form {
+    enable when True {
+        field f1 string{
+            label  = "field1",
+            value  = "fieldOneAnswer";
+        }
+        field f2 string{
+            label  = "field2",
+            value  = "fieldTwoAnswer";
+        }
+        field f3 string{
+            label  = "field3",
+            value  = "fieldThreeAnswer";
+        }
+    }
+}
+-- Sample 8: conditional with question and field
+form {
+    question q1 Int {
+        label   = "What do you think of computers?",
+        options = [1..5] 
+    } 
+    question q2 Bool {
+        label = "Do you want an extra question?",
+    }
+    enable when q2 && True {
+        field f1 string {
+            label = "hmm...",
+            value | q1 < 2    = "Sorry, computer says no..."
+                  | otherwise = "I can't think of one...?"
+        }     
+    }
+}
+-- Sample 9: conditional with question within conditional with field
+form {
+    enable when True {
+        question q1 bool {
+            label = "This is a sample question. Do you understand?" 
+        }  
+        enable when q1 {
+            field f1 string {
+                label = "nested in nested ahahahahaha",
+                value = "Nailed it!"
+            }
+        }
+        
+    }
+}
+
+
+
+

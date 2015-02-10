@@ -1,7 +1,7 @@
+Bool=4
 WS=2
-Ident=4
+QuestionType=1
+Ident=5
 COMMENT=3
-Str=6
-Int=5
-T__0=1
-'+'=1
+Str=7
+Int=6

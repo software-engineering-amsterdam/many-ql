@@ -14,10 +14,6 @@ func TestBasic(t *testing.T) {
 		t.Errorf("Compilation should not return nil")
 		return
 	}
-	t.Logf("%+v", form)
-	for k, q := range form.Questions {
-		t.Logf("Question %d: %+v", k, q)
-	}
 }
 
 func TestComments(t *testing.T) {
@@ -28,8 +24,7 @@ func TestComments(t *testing.T) {
 			/*"QuestionLabel3" question3 bool*/
 		}`,
 	)
-	t.Logf("%+v", form)
-	lenQ := len(form.Questions)
+	lenQ := len(form.Stack)
 	if lenQ > 1 {
 		t.Errorf("Comment should be ignore and not yield tokens. There should be 1 question, got %d.", lenQ)
 	}

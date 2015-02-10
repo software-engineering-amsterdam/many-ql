@@ -14,7 +14,7 @@ import (
 type msg struct {
 	Identifier string
 	Label      string
-	Content    string
+	Type       string
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
@@ -43,14 +43,14 @@ func GUI(appName string) frontend.Inputer {
 }
 
 // InputQuestion adds a new question into the GUI form stack
-func (g *Gui) InputQuestion(q *ast.Question) {
+func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	m := &msg{
 		q.Identifier,
 		q.Label,
-		"",
+		q.Type(),
 	}
 	g.stack = append(g.stack, *m)
 }
@@ -98,6 +98,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 		case event := <-g.msgChan:
 			g.addNewQuestion(
 				rows,
+				event.Type,
 				event.Identifier,
 				event.Label,
 			)
@@ -105,26 +106,48 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 	}
 }
 
-func (g *Gui) addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
+// todo(carlos) improve readability
+func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
+	newFieldCaption string) {
+
 	engine := qml.NewEngine()
-	newQuestionQML := renderNewQuestion(newTextfieldName,
-		newTextfieldQuestion)
+	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
+		newFieldCaption)
 	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
 	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err, "Got:", newQuestionQML)
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
+			"Got:", newQuestionQML)
 	}
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
-	textField := question.ObjectByName(newTextfieldName)
-	textField.On("editingFinished", func() {
-		g.mu.Lock()
-		defer g.mu.Unlock()
 
-		objectName := textField.String("objectName")
-		content := textField.String("text")
-		g.answerStack[objectName] = content
-	})
+	newFieldPtr := question.ObjectByName(newFieldName)
+	// todo(carlos) improve readability
+	if "bool" == newFieldType {
+		newFieldPtr.On("clicked", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.Bool("checked")
+
+			g.answerStack[objectName] = "0"
+			if content {
+				g.answerStack[objectName] = "1"
+			}
+		})
+	} else {
+		newFieldPtr.On("editingFinished", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.String("text")
+			g.answerStack[objectName] = content
+		})
+	}
+
 	// todo(carlos) Use this command to disappear with the question
 	// question.Destroy()
 }

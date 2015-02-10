@@ -1,44 +1,29 @@
-// Derived from http://json.org
-
 grammar QL;
 
+import QL_tokens, QL_expr;
+
+statement 
+    :   form
+    |   question
+    |   if_statement
+    ;
+
+form
+    :   'form' ID '{' statement* '}'
+    ;
+
 question
-    :   NAME '{' ('\r\n' | '\n' | '\r') attributes '}' ('\r\n' | '\n' | '\r')*
+    :   'question' ID '{' STRING question_type '}'
     ;
 
-attributes
-    :   attribute+ 
+if_statement
+    :   'if' expr '{' statement* '}'
     ;
 
-attribute
-    :   NAME ':' value ('\r\n' | '\n' | '\r') 
+WS  
+    :   [ \n\r\t]+ -> skip
     ;
 
-NAME 
-    :   [a-zA-Z_][a-zA-Z_0-9]* 
+COMMENT  
+    :    '//' ~[\r\n]* -> skip
     ;
-
-value
-    :   boolean
-    |   STRING
-    |   NUMBER
-    |   question_type
-    ;
-
-boolean
-    :   'true'
-    |   'false'
-    ;
-
-STRING :  '"' (ESC | ~["\\])* '"' ;
-fragment ESC :   '\\' (["\\/bfnrt]) ;
-
-NUMBER : '-'? '0' | [1-9] [0-9]*  ;
-
-question_type 
-    :   'boolean'
-    |   'integer' 
-    |   'string' 
-    ;
-
-WS  :   [ \t]+ -> skip ;

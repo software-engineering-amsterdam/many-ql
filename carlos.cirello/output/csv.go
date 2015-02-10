@@ -19,9 +19,10 @@ func New(stream io.Writer) *Output {
 }
 
 // Write reads all questions from the form and writes to output stream.
-func (o *Output) Write(q *ast.Questionaire) {
+func (o *Output) Write(q *ast.QuestionaireNode) {
 	csv := csv.NewWriter(o.stream)
-	for _, v := range q.Questions {
+	for _, action := range q.Stack {
+		v := action.QuestionNode
 		csv.Write([]string{v.Identifier, v.Label, v.Content.String()})
 	}
 	csv.Flush()

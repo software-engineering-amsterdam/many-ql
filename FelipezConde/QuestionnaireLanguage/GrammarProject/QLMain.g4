@@ -1,5 +1,5 @@
-grammar QLMain;     
-    
+grammar QLMain;
+
 form : 'form' formsection
      ;
 
@@ -11,106 +11,115 @@ formElem : question
          | conditional
          ;
 
-question : 'question' id type keyValPairs
+question : 'question' id typeName keyValPairs
          ;
         
-field : 'field' id type keyValPairs
+field : 'field' id typeName keyValPairs
       ;
  
 
 // id ////////////////////////////////////////////////
  
-id : alphaNumeric+
+id : ALPHANUMERIC 
    ;
-   
-alphaNumeric : [a-zA-Z0-9]
-             ; 
 
 // type /////////////////////////////////////////////
  
           
-// (Do we want to generalize this so people can create own types?)           
-type : 'bool'
+// (Do we want to generalize this so people can create own types?)
+typeName : 'bool'
      | 'string'
      | 'date'
      | 'int'
      | 'decimal'
      | 'money'
      ;
-             
-value : bool
-      | string
-      | date 
-      | num
+
+value : type
+      | expression
       ;
-     
-bool : 'True'
-     | 'False'
-     ;
-     
-BOOL : [True|False];     
 
-string : '"' [A-z]* '"'
-       ;
- 
-date   : 'date(' year '.' month '.' day ')'
-       | 'date(' year '.' month ')' 
-       | 'date(' year ')'
+type : bool
+      |STRING
+      |date
+      |num
+      |list
+      ;
+
+date   : 'date(' YEAR '.' MONTH '.' DAY ')'
+       | 'date(' YEAR '.' MONTH ')' 
+       | 'date(' YEAR ')'
        ;
 
-year  : [0-9]{4, };
-month : [0-9]{1,2};
-day   : [0-9]{1,2};
-       
-num : INT 
-    | DECIMAL 
+
+num : INT
+    | DECIMAL
     | MONEY
     ;
 
-INT     : [0-9]+;
-DECIMAL : [0-9]+ ',' [0-9]{1};
-MONEY   : [0-9]+ ',' [0-9]{2};
+list : '[' (type (',' type )*)? ']';
  
-// keyValPairs //////////////////////////////////////    
+// keyValPairs //////////////////////////////////////
     
 keyValPairs : '{' keyValPair (',' keyValPair)* '}'
             ;
-              
-keyValPair : type key ':' val     
+
+keyValPair : key '=' val
            ;
 
-key : alphaNumeric+;
-val : type;
+key : ALPHANUMERIC;
+val : value;
 
-// conditional //////////////////////////////////////     
-   
-// this grammatical formulation allows for nested conditionals. do we want this ?   
-conditional : 'enable when' expresion formsection
+// conditional //////////////////////////////////////
+
+// this grammatical formulation allows for nested conditionals. do we want this ?
+conditional : 'enable when' expression formsection
             ;
-            
-expression : boolean
-           | comparison
+
+expression : '(' expression ')'
+           | bool
+           | id
+           |'!' expression
+           | expression '&&' expression
+           | expression '||' expression 
+           | expression ('!=' | '==') expression
            | arithmetic
            ;
-           
-boolean : '(' boolean ')'
-        | bool
-        | '!' boolean
-        | boolean '&&' boolean
-        | boolean '||' boolean 
-        | id 
-        | comparison 
-        ;
-        
+
+bool : 'True'
+     | 'False'
+     ;
+
 comparison :
     | '(' comparison ')'
     | arithmetic ('>' | '<' | '>=' | '<=') arithmetic
-    | expression ('!=' | '==') expression  
+    | expression ('!=' | '==') expression
     ;
-    
+
 arithmetic :
     | '(' arithmetic ')'
-    | arithmetic ('*'|'/'|'-'|'+') arithmetic
+    | arithmetic ('>' | '<' | '>=' | '<=') arithmetic
+    | arithmetic ('*'|'/') arithmetic 
+    | arithmetic ('-'|'+') arithmetic
+    | id
     | num
-    | id 
     ;
+
+//Lexer rules
+INT     : [0-9]+;
+DECIMAL : [0-9]+ ',' [0-9];
+MONEY   : [0-9]+ ',' [0-9];
+
+YEAR  : [0-9];
+MONTH : [0-9];
+DAY   : [0-9];
+
+//STRING : '"' ( ~( '"' | '\\' ) | '\\' . )* '"';
+STRING : '"' .*? '"';
+ALPHANUMERIC : [a-zA-Z0-9]+;
+
+WS : (' ' | '\r' | '\n') -> channel(HIDDEN);
+
+BLOCK_COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
+
+LINE_COMMENT : '--' ~[\r\n]* -> channel(HIDDEN);

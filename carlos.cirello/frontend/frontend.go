@@ -10,7 +10,7 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 // in order to be compliant with the VM expectations of
 // functionality.
 type Inputer interface {
-	InputQuestion(q *ast.Question)
+	InputQuestion(q *ast.QuestionNode)
 	Loop()
 	Flush()
 	FetchAnswers() map[string]string

@@ -14,94 +14,29 @@ import org.uva.sea.ql.ast.form.*;
 package org.uva.sea.ql.parser.antlr;
 }
 
-//Expr: Int ('+' Int)+
-//	| Int ('-' Int)+
-//	| Int ('*' Int)+
-//	| Int ('/' Int)+;
+form : (question)+;
 
-//stmt: addition
-//	;
+question: Ident Str QuestionType;
+
+QuestionType :('Int' | 'Str' | 'Cur' | 'Bool');
 	
-addition: left=addition '+' right=Int #PlusExpr
-		| Number=Int #Number
-        ;
-//
-//unExpr returns [Expr result]
-//    :  '+' x=unExpr { $result = new Pos($x.result); }
-//    |  '-' x=unExpr { $result = new Neg($x.result); }
-//    |  '!' x=unExpr { $result = new Not($x.result); }
-////    |  x=primary    { $result = $x.result; }
-//    ;    
-//    
-//mulExpr returns [Expr result]
-//    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
-//    { 
-//      if ($op.text.equals("*")) {
-//        $result = new Mul($result, rhs);
-//      }	
-//      if ($op.text.equals("<=")) {
-//		$result = new Div($result, rhs);      
-//      }
-//    })*
-//    ;
-//    
-//  
-//addExpr returns [Expr result]
-//    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
-//    { 
-//      if ($op.text.equals("+")) {
-//        $result = new Add($result, rhs);
-//      }
-//      if ($op.text.equals("-")) {
-//        $result = new Sub($result, rhs);      
-//      }
-//    })*
-//    ;
-//  
-//relExpr returns [Expr result]
-//    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
-//    { 
-//      if ($op.text.equals("<")) {
-//        $result = new LT($result, rhs);
-//      }
-//      if ($op.text.equals("<=")) {
-//        $result = new LEq($result, rhs);      
-//      }
-//      if ($op.text.equals(">")) {
-//        $result = new GT($result, rhs);
-//      }
-//      if ($op.text.equals(">=")) {
-//        $result = new GEq($result, rhs);      
-//      }
-//      if ($op.text.equals("==")) {
-//        $result = new Eq($result, rhs);
-//      }
-//      if ($op.text.equals("!=")) {
-//        $result = new NEq($result, rhs);
-//      }
-//    })*
-//    ;
-//     
-//andExpr returns [Expr result]
-//    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new And($result, rhs); } )*
-//    ;
-//    
-//
-//orExpr returns [Expr result]
-//    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new Or($result, rhs); } )*
-//    ;
-
-    
-// Tokens
 WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN) 
     ;
 
 COMMENT 
-     : '/*' .* '*/' -> channel(HIDDEN)
+     : '/*' .*? '*/' -> channel(HIDDEN)
      ;
 
-Ident:   ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+Bool: ['true' | 'false'];
 
-Int: ('0'..'9')+;
+Ident: [a-zA-Z][a-zA-Z0-9_]*;
 
-Str: '"' .* '"';
+Int: [0-9]+;
+
+Str: '"' .*? '"';
+
+//Date: ('0');
+//
+//Float: ('0');
+//
+//Cur: ('0');

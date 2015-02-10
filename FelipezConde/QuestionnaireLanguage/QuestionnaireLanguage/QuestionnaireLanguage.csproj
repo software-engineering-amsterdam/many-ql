@@ -68,6 +68,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GeneratedFiles\QLMainBaseVisitor.cs" />
+    <Compile Include="GeneratedFiles\QLMainLexer.cs" />
+    <Compile Include="GeneratedFiles\QLMainParser.cs" />
+    <Compile Include="GeneratedFiles\QLMainVisitor.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -102,7 +106,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GeneratedFiles\" />
     <Folder Include="Implementation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
