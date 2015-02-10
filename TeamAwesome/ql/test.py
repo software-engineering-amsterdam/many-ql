@@ -17,11 +17,11 @@ def run_test(print_tree_always, test_filename):
     if parser._syntaxErrors > 0 or print_tree_always:
         print_tree(tree_test, 0)
 
-    if parser._syntaxErrors > 0:
-        print( str(parser._syntaxErrors) + ' error(s)' )
-
     if parser._syntaxErrors > 0 or print_tree_always:
-        print('^---'+method_name+'('+test_filename+')'+('-'*40))
+        print( '^'+('-'*9)+method_name+'('+test_filename+'): '\
+             + str(parser._syntaxErrors) + ' error(s)'\
+             + ('-'*10)
+             )
 
     return parser._syntaxErrors
 
