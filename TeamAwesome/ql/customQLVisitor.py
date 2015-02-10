@@ -12,13 +12,13 @@ class CustomQLVisitor(QLVisitor):
 
 
     # Visit a parse tree produced by QLParser#form.
-    def visitForm(self, ctx):
-        print(ctx.getChildren())
+
+    def visitForm_statement(self, ctx):
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by QLParser#question.
-    def visitQuestion(self, ctx):
+    def visitQuestion_statement(self, ctx):
         return self.visitChildren(ctx)
 
 

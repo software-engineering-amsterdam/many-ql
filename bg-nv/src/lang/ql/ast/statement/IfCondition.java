@@ -2,7 +2,6 @@ package lang.ql.ast.statement;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.Expression;
-
 import java.util.List;
 
 /**
@@ -17,5 +16,10 @@ public class IfCondition extends Statement
     {
         this.expression = expression;
         this.statements = statements;
+    }
+
+    public Iterable<? extends AstNode> getChildren()
+    {
+        return this.statements;
     }
 }

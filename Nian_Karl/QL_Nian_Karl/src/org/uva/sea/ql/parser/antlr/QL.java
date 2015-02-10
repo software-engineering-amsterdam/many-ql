@@ -24,7 +24,8 @@ public class QL {
 		QLParser parser = new QLParser(tokenStream);
 		ParseTree tree = parser.form();
 		parser.addParseListener(new QLImplListener());
-		System.out.println(new QLImplVisitor().visit(tree));
+		new QLImplVisitor().visit(tree);
+		System.out.println("Omg.");
 	}
 
 	public static void main(String[] args) {
