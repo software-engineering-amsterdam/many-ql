@@ -1,27 +1,25 @@
 /*
-Package vm is the runtime which executes the AST created from the compiler.
+Package interpreter is the runtime which executes the AST created from the compiler.
 */
-package vm
+package interpreter
 
 import (
-	"log"
-
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
 
-type vm struct {
+type interpreter struct {
 	questionaire *ast.QuestionaireNode
 	send         chan *fe.Event
 	receive      chan *fe.Event
 }
 
-// New starts VM with an AST (*ast.Questionaire) and with
+// New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
 func New(q *ast.QuestionaireNode) (chan *fe.Event, chan *fe.Event) {
 	toFrontend := make(chan *fe.Event)
 	fromFrontend := make(chan *fe.Event)
-	v := &vm{
+	v := &interpreter{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
@@ -30,7 +28,7 @@ func New(q *ast.QuestionaireNode) (chan *fe.Event, chan *fe.Event) {
 	return toFrontend, fromFrontend
 }
 
-func (v *vm) loop() {
+func (v *interpreter) loop() {
 	v.send <- &fe.Event{
 		Type: fe.ReadyP,
 	}
@@ -64,30 +62,4 @@ func (v *vm) loop() {
 		}
 	}
 
-}
-
-func visitQuestionaire(q *ast.QuestionaireNode, toFrontend chan *fe.Event) {
-	for _, actionNode := range q.Stack {
-		visitActionNode(actionNode, toFrontend)
-	}
-}
-
-func visitActionNode(a *ast.ActionNode, toFrontend chan *fe.Event) {
-	if nil != a.QuestionNode {
-		visitQuestionNode(a.QuestionNode, toFrontend)
-	} else if nil != a.IfNode {
-		visitIfNode(a.IfNode, toFrontend)
-	}
-}
-
-func visitQuestionNode(q *ast.QuestionNode, toFrontend chan *fe.Event) {
-	questionCopy := q.Clone()
-	toFrontend <- &fe.Event{
-		Type:     fe.Render,
-		Question: questionCopy,
-	}
-}
-
-func visitIfNode(i *ast.IfNode, toFrontend chan *fe.Event) {
-	log.Println("Ignoring IfNodes for now")
 }
