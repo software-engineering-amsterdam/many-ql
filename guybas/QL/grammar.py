@@ -3,6 +3,7 @@ from pyparsing import *
 from exceptions import *
 from abstract import *
 from ast import *
+from gui import *
 
 class BasicTypes:
     # Words, end signs and escaped signs
@@ -31,7 +32,7 @@ class Expressions: # TODO
     parenthesis     = oneOf("( )")
     expr            = Forward()
     expr            <<= Group(expr + operator + expr) | value
-    condition       = "1"
+    condition       = "1 > 2"
 
     
 class FormFormat:
@@ -60,8 +61,8 @@ class FormFormat:
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
-    
-    #r = Expressions.condition.parseString("1 < 2")
-    print(form)
+    gui = QuestionnaireGUI(form)
+    gui.generate_gui()
+    gui.show()
 except Exception as e:
     exceptions_handling(e)

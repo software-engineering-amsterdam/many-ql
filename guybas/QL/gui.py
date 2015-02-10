@@ -1,4 +1,5 @@
 from tkinter import *
+from ast import *
 
 
 class QuestionnaireGUI:
@@ -9,11 +10,15 @@ class QuestionnaireGUI:
         self.questions = form.questions
 
     def generate_gui(self):
-        self.qGui.geometry('450x450')
+        # self.qGui.geometry('450x450')
         self.qGui.title(self.form.name)
 
-        # for question in self.questions:
-        #     print(question.get_answertype())
+        i = 0
+        for question in self.questions:
+            i += 1
+            if isinstance(question, ConditionalQuestions):
+                continue
+            Label(text=question.get_answertype(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
 
     def show(self):
         self.qGui.mainloop()
