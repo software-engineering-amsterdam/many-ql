@@ -27,7 +27,7 @@ class QLParser extends JavaTokenParsers with QLAST {
   def answer: Parser[String] = "answer" ~> ("boolean" | "integer" | "string")
 
   // If statements
-  def ifExpression: Parser[IfExpr] = ("if" ~> variable) ~ expression ~ ("else" ~> expression ?) ^^ {
+  def ifExpression: Parser[IfExpr] = ("if" ~> variable) ~ expression ~ ("else" ~> expression?) ^^ {
     case v ~ expr1 ~ expr2 => IfExpr(v, expr1, expr2)
   }
 
@@ -43,7 +43,8 @@ class QLParser extends JavaTokenParsers with QLAST {
     case Some(_) ~ x => Not(x)
     case _ ~ x => x
   }
-  def atom: Parser[Expr] = (const
+  def atom: Parser[Expr] = (
+    const
     | variable
     | "(" ~> booleanExpression <~ ")"
     )
