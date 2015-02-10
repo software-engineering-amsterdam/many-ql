@@ -39,5 +39,5 @@ class ASTReady:
         questions = []
         for i in range(2, len(tokens)):
             questions.append(tokens[i])
-        x = Form(name, questions)
+        x = Form(name, introduction, questions)
         return x
