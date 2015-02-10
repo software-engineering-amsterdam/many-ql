@@ -9,34 +9,57 @@ class QLParserSpec extends Specification with ParserMatchers {
 
   import parsers._
 
-  "boolean question" should {
-    "have a variable and a label" in {
+  "form parser" should {
+    "ignore singleline comments" in {
+      form must succeedOn("form form1 {\n    // SINGLE LINE COMMENT\n}")
+        .withResult(Form("form1", Sequence(List())))
+    }
+
+    "ignore multi line comments" in {
+      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */}")
+        .withResult(Form("form1", Sequence(List())))
+    }
+  }
+
+  "question parser" should {
+    "parse boolean questions" in {
       questionExpression must succeedOn("question var \"label\"\nanswer boolean")
         .withResult(BooleanQuestion(Variable("var"), "\"label\""))
     }
-  }
 
-  "integer question" should {
-    "have a variable and a label" in {
+    "parse integer questions" in {
       questionExpression must succeedOn("question var \"label\"\nanswer integer")
         .withResult(IntegerQuestion(Variable("var"), "\"label\""))
     }
-  }
 
-  "string question" should {
-    "have a variable and a label" in {
+    "parse string questions" in {
       questionExpression must succeedOn("question var \"label\"\nanswer string")
         .withResult(StringQuestion(Variable("var"), "\"label\""))
     }
+
+    "parse computed integer questions" in {
+      questionExpression must succeedOn("question var \"label\"\nanswer integer is (fieldA + fieldB)")
+        .withResult(ComputedIntegerQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
+    }
+
+    "parse computed boolean questions" in {
+      questionExpression must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
+        .withResult(ComputedBooleanQuestion(Variable("var"), "\"label\"", And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC")))))
+    }
+
+    "parse computed string questions" in {
+      questionExpression must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
+        .withResult(ComputedStringQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
+    }
   }
 
-  "if statements" should {
-    "be valid without an else clause" in {
+  "if statement parser" should {
+    "parse if statements without an else clause" in {
       ifExpression must succeedOn("if var {}")
         .withResult(IfExpr(Variable("var"), Sequence(List()), None))
     }
 
-    "be valid with an else clause" in {
+    "parse if statements with an else clause" in {
       ifExpression must succeedOn("if var {} else {}")
         .withResult(IfExpr(Variable("var"), Sequence(List()), Some(Sequence(List()))))
     }
@@ -130,26 +153,24 @@ class QLParserSpec extends Specification with ParserMatchers {
     }
   }
 
-  "plus parser" should {
+  "sum parser" should {
     "be valid with an plus operator" in {
-      plus must succeedOn("1 + 2")
+      sum must succeedOn("1 + 2")
         .withResult(Add(NumberLiteral(1), NumberLiteral(2)))
     }
 
     "be valid with multiple plus operators" in {
-      plus must succeedOn("1 + 2 + 3")
+      sum must succeedOn("1 + 2 + 3")
         .withResult(Add(Add(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
-  }
 
-  "minus parser" should {
     "be valid with an minus operator" in {
-      minus must succeedOn("1 - 2")
+      sum must succeedOn("1 - 2")
         .withResult(Sub(NumberLiteral(1), NumberLiteral(2)))
     }
 
     "be valid with multiple minus operators" in {
-      minus must succeedOn("1 - 2 - 3")
+      sum must succeedOn("1 - 2 - 3")
         .withResult(Sub(Sub(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
   }
@@ -164,16 +185,14 @@ class QLParserSpec extends Specification with ParserMatchers {
       product must succeedOn("1 * 2 * 3")
         .withResult(Mul(Mul(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
-  }
 
-  "divide parser" should {
     "be valid with an divide operator" in {
-      divide must succeedOn("1 / 2")
+      product must succeedOn("1 / 2")
         .withResult(Div(NumberLiteral(1), NumberLiteral(2)))
     }
 
     "be valid with multiple divide operators" in {
-      divide must succeedOn("1 / 2 / 3")
+      product must succeedOn("1 / 2 / 3")
         .withResult(Div(Div(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
     }
   }
@@ -190,18 +209,6 @@ class QLParserSpec extends Specification with ParserMatchers {
     "have the correct precedence when using parenthesis" in {
       arithmeticExpression must succeedOn("1 * (2 - 3)")
         .withResult(Mul(NumberLiteral(1), Sub(NumberLiteral(2), NumberLiteral(3))))
-    }
-  }
-
-  "form parser" should {
-    "ignore singleline comments" in {
-      form must succeedOn("form form1 {\n    // SINGLE LINE COMMENT\n}")
-        .withResult(Form("form1", Sequence(List())))
-    }
-
-    "ignore multi line comments" in {
-      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */\n}")
-        .withResult(Form("form1", Sequence(List())))
     }
   }
 }

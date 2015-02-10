@@ -1,32 +1,63 @@
 grammar QL;
 questionnaire: 'Name:' name=STRING '{' (form)* '}';
-form: 'Form:' name=STRING '{' (logicalStatement|question)* '}';
+form: 'Form:' name=STRING '{' (statement|question)* '}';
 question: 'Question:' name=STRING  '{' (questionContent)* '}';
 questionContent: questionText
                | questionAnswer
-               | questionRange;
+               | questionRange
+               | questionCalcuation;
 
 questionText: 'Text:' text=STRING;
+//QuestionAnser abstractions
 questionAnswer: 'Answer:' (questionAnswerSimple|questionAnswerCustom);
 questionAnswerSimple: type=('integer' | 'Integer' | 'double' | 'Double' | 'string' | 'String');
 questionAnswerCustom: '['STRING ('||' STRING)+']';
+
+//QuestionRange abstractions
 questionRange: 'Range:' (questionRangeFromTo | questionRangeBiggerThan | questionRangeSmallerThan);
 questionRangeFromTo: lower=NUMBER '-' higher=NUMBER;
 questionRangeBiggerThan: '>' num=NUMBER;
 questionRangeSmallerThan: '<' num=NUMBER;
 
-logicalStatement: 'If:' expression '{' (logicalStatement|question)* '}';
+//QuestionCalculation
+questionCalcuation:
+    'Caculation:' name=STRING block;
+
+block:
+    '{'blockStatement'}';
+
+blockStatement:
+    statement;
+
+statement:
+    block
+    |ifStatement
+    |ifStatement (elseStatement)?
+    |ifStatement (elseIfStatement)* (elseStatement)*
+    |expression;
+
+ifStatement:
+    'If:' expression statement;
+
+elseStatement:
+    'Else:' statement (elseIfStatement)?;
+
+elseIfStatement:
+    'Else If:' expression statement;
 
 expression
     : primary
-    | expression RELATIONAL_OPERATOR expression
-    | expression ('==' | '!=') expression
-    | expression OR_OP expression
-    | expression AND_OP expression;
+    | expression op=RELATIONAL_OPERATOR expression
+    | expression op=('==' | '!=') expression
+    | expression op=OR_OP expression
+    | expression op=AND_OP expression;
 
 primary:
-    '(' expression ')'
+    parExpression
     | id;
+
+parExpression:
+    '(' expression ')';
 
 id
     : STRING

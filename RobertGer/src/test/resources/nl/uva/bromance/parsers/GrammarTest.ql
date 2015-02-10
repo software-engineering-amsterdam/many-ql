@@ -61,4 +61,20 @@ Name: "Tax" {
                 		}
                 	}
         }
+
+           Form: "withIfElse" {
+                Calculation: "ttl_taxes" {
+                	// Deductables and prepaid tax aren't in this form yet, but you get the gist.
+                	Input: income_work.total - deductables.total - prepaid.total
+                }
+                Label: ttl_taxes {
+                	If: ttl_taxes > 0 {
+                		Text: [ttl_taxes] euro in taxes are due, you will receive payment information through the regular mail.
+                	} Else If: ttl_taxes < 0 {
+                		Text: You will recieve [ttl_taxes] euro in return from the Tax Administration within two months.
+                	} Else: {
+                		Text: You have paid exactly the right amount of taxes in 2013, no actions remain.
+                	}
+                }
+            }
 }

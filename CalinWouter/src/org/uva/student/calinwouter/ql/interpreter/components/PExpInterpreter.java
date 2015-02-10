@@ -31,11 +31,11 @@ public class PExpInterpreter implements InterpreterInterface<PExp> {
             return ((Boolean) new PExpInterpreter().interprete(e,((AOrExp) node).getLeft())) ||
                     ((Boolean) new PExpInterpreter().interprete(e,((AOrExp) node).getRight()));
         } else  if (node instanceof AEqExp) {
-            return ((Boolean) new PExpInterpreter().interprete(e,((AEqExp) node).getLeft())) ==
-                    ((Boolean) new PExpInterpreter().interprete(e,((AEqExp) node).getRight()));
+            return ( new PExpInterpreter().interprete(e,((AEqExp) node).getLeft())) ==
+                    ( new PExpInterpreter().interprete(e,((AEqExp) node).getRight()));
         } else  if (node instanceof ANeqExp) {
-            return ((Boolean) new PExpInterpreter().interprete(e,((ANeqExp) node).getLeft())) !=
-                    ((Boolean) new PExpInterpreter().interprete(e,((ANeqExp) node).getRight()));
+            return ( new PExpInterpreter().interprete(e,((ANeqExp) node).getLeft())) !=
+                    ( new PExpInterpreter().interprete(e,((ANeqExp) node).getRight()));
         } else if (node instanceof ALteExp) {
             return ((Integer) new PExpInterpreter().interprete(e,((ALteExp) node).getLeft())) <=
                     ((Integer) new PExpInterpreter().interprete(e,((ALteExp) node).getRight()));
