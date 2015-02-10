@@ -23,4 +23,10 @@ public abstract class BinaryOperatorExpression<T extends Expression> extends Exp
     {
         return this.right;
     }
+
+    @Override
+    public ConstantExpression getValue()
+    {
+        return null;
+    }
 }
