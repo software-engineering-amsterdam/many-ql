@@ -3,14 +3,20 @@ from tkinter import *
 
 class QuestionnaireGUI:
     def __init__(self, form):
-        self.fGui      = Tk()
+        self.qGui      = Tk()
         self.form      = form
         self.name      = form.name
         self.questions = form.get_questions()
 
     def generate_gui(self):
-        for question in self.questions:
-            print(question.get_answertype())
+        self.qGui.geometry('450x450')
+        self.qGui.title(self.form.name)
+
+        # for question in self.questions:
+        #     print(question.get_answertype())
+
+    def show(self):
+        self.qGui.mainloop()
 
 # mGui = Tk()
 # mGui.geometry('450x450')
