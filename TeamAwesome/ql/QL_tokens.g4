@@ -1,23 +1,5 @@
 grammar QL_tokens;
 
-tokens { AND, OR, NOT, PLUS, MIN, MULTIPLY, DIVIDE}
-
-  AND      : '&&';
-  OR       : '||';
-  NOT      : '!';
-  PLUS     : '+';
-  MIN      : '-';
-  MULTIPLY : '*';
-  DIVIDE   : '/';
-  LPAREN   : '(';
-  RPAREN   : ')';  
-  LT       : '<';
-  GT       : '>';
-  LTE      : '<=';
-  GTE      : '>=';
-  EQ       : '==';
-  NEQ      : '!=';
-
 boolean
     :   'true'
     |   'false'
