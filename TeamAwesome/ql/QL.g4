@@ -9,11 +9,11 @@ statement
     ;
 
 form
-    :   'form' ID '{' statement* '}'
+    :   'form' identifier '{' statement* '}'
     ;
 
 question
-    :   'question' ID '{' STRING question_type '}'
+    :   'question' identifier '{' string question_type '}'
     ;
 
 if_statement

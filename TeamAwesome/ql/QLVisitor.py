@@ -35,6 +35,26 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by QLParser#string.
+    def visitString(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#integer.
+    def visitInteger(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#money.
+    def visitMoney(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#identifier.
+    def visitIdentifier(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by QLParser#atom.
     def visitAtom(self, ctx):
         return self.visitChildren(ctx)
