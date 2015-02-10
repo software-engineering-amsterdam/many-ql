@@ -1,20 +1,15 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.ComputedValueModel;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 import org.uva.student.calinwouter.ql.interpreter.model.QuestionModel;
 
-import java.io.Console;
-import java.util.LinkedList;
-import java.util.Scanner;
-
 public class PStmtInterpreter implements InterpreterInterface<PStmt> {
 
     @Override
-    public Object interprete(Environment e, PStmt node) {
+    public Object interprete(Environment e, PStmt node) throws InterpretationException {
         if (node instanceof AQuestionStmt) {
             AQuestionStmt questionStmt = (AQuestionStmt) node;
 

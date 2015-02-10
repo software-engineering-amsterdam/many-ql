@@ -6,7 +6,6 @@ import org.uva.student.calinwouter.ql.generated.parser.Parser;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.DisplayModelInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
-import org.uva.student.calinwouter.ql.interpreter.model.QuestionModel;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -87,7 +86,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         return tableModel;
     }
 
-    private void interpreteStatements() {
+    private void interpreteStatements() throws InterpretationException{
         environment.clearQuestions();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
@@ -98,7 +97,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
     }
 
     @Override
-    public Object interprete(Environment environment, PForm form) {
+    public Object interprete(Environment environment, PForm form) throws InterpretationException {
         this.environment = environment;
         this.form = form;
         createWindow(getFormTitle(form));
