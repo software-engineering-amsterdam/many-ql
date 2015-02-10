@@ -1,4 +1,4 @@
-// Generated from /Users/lukaszharezlak/Projects/uva_software_construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
+// Generated from /Users/Sugar/Documents/Msc/Software-Construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
 package org.fugazi.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -20,7 +20,7 @@ public class QLParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		ID=25, NUMBER=26, STRING=27, BOOLEAN=28, INT=29, FLOAT=30, COMMENT=31, 
+		ID=25, NUMBER=26, STRING=27, BOOLEAN=28, INT=29, MONEY=30, COMMENT=31, 
 		WS=32, LINE_COMMENT=33;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_ifStatement = 2, RULE_questionDeclaration = 3, 
@@ -32,13 +32,13 @@ public class QLParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "';'", "'='", "'bool'", 
-		"'float'", "'int'", "'*'", "'/'", "'+'", "'-'", "'!'", "'>'", "'>='", 
+		"'money'", "'int'", "'*'", "'/'", "'+'", "'-'", "'!'", "'>'", "'>='", 
 		"'<'", "'<='", "'=='", "'!='", "'&&'", "'||'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, "ID", "NUMBER", "STRING", "BOOLEAN", "INT", "FLOAT", "COMMENT", 
+		null, "ID", "NUMBER", "STRING", "BOOLEAN", "INT", "MONEY", "COMMENT", 
 		"WS", "LINE_COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);

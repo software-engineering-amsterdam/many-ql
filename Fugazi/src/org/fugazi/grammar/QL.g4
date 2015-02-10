@@ -6,9 +6,6 @@ grammar QL;
  * =====================
  */
 
-// TODO change float -> something which deals with money better
-
-
 // complete form - topmost node
 form    : 'form' ID '{' statement* '}';
 
@@ -30,7 +27,7 @@ questionDeclaration : type ID '(' STRING ')' ';'                             # n
                     ;
 
 // all alowed variable types.
-type    : 'bool' | 'float' | 'int' ;
+type    : 'bool' | 'money' | 'int' ;
 
 /**
  * =====================
@@ -79,7 +76,7 @@ logicalExpression  : '(' logicalExpression ')'                                  
 ID  :   [a-zA-Z]+;
 
 // Number types, used for numerical statements.
-NUMBER : INT | FLOAT;
+NUMBER : INT | MONEY;
 
 // string definition
 STRING :  '"' (ESC | ~["\\])* '"' ;
@@ -91,10 +88,10 @@ BOOLEAN: ["true"|"false"];
 // integer consists of an arbitrary number of digits
 INT : DIGIT+ ;
 
-// float definition
-// float consists of an arbitrary number of digits, a dot,
+// money definition
+// money consists of an arbitrary number of digits, a dot,
 // and of an arbitrary number of digits
-FLOAT : DIGIT+ '.' DIGIT*   // match 1. 39. 3.14159 etc...
+MONEY : DIGIT+ '.' DIGIT*   // match 1. 39. 3.14159 etc...
       | '.' DIGIT+          // match .1 .14159
       ;
 

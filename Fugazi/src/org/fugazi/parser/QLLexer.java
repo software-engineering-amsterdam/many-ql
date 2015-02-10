@@ -1,4 +1,4 @@
-// Generated from /Users/lukaszharezlak/Projects/uva_software_construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
+// Generated from /Users/Sugar/Documents/Msc/Software-Construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
 package org.fugazi.parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -20,7 +20,7 @@ public class QLLexer extends Lexer {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		ID=25, NUMBER=26, STRING=27, BOOLEAN=28, INT=29, FLOAT=30, COMMENT=31, 
+		ID=25, NUMBER=26, STRING=27, BOOLEAN=28, INT=29, MONEY=30, COMMENT=31, 
 		WS=32, LINE_COMMENT=33;
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
@@ -30,19 +30,19 @@ public class QLLexer extends Lexer {
 		"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 		"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
 		"T__17", "T__18", "T__19", "T__20", "T__21", "T__22", "T__23", "ID", "NUMBER", 
-		"STRING", "BOOLEAN", "INT", "FLOAT", "COMMENT", "WS", "LINE_COMMENT", 
+		"STRING", "BOOLEAN", "INT", "MONEY", "COMMENT", "WS", "LINE_COMMENT", 
 		"ESC", "UNICODE", "HEX", "DIGIT"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "';'", "'='", "'bool'", 
-		"'float'", "'int'", "'*'", "'/'", "'+'", "'-'", "'!'", "'>'", "'>='", 
+		"'money'", "'int'", "'*'", "'/'", "'+'", "'-'", "'!'", "'>'", "'>='", 
 		"'<'", "'<='", "'=='", "'!='", "'&&'", "'||'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, "ID", "NUMBER", "STRING", "BOOLEAN", "INT", "FLOAT", "COMMENT", 
+		null, "ID", "NUMBER", "STRING", "BOOLEAN", "INT", "MONEY", "COMMENT", 
 		"WS", "LINE_COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -138,7 +138,7 @@ public class QLLexer extends Lexer {
 		"\2OP\7t\2\2PQ\7o\2\2Q\4\3\2\2\2RS\7}\2\2S\6\3\2\2\2TU\7\177\2\2U\b\3\2"+
 		"\2\2VW\7k\2\2WX\7h\2\2X\n\3\2\2\2YZ\7*\2\2Z\f\3\2\2\2[\\\7+\2\2\\\16\3"+
 		"\2\2\2]^\7=\2\2^\20\3\2\2\2_`\7?\2\2`\22\3\2\2\2ab\7d\2\2bc\7q\2\2cd\7"+
-		"q\2\2de\7n\2\2e\24\3\2\2\2fg\7h\2\2gh\7n\2\2hi\7q\2\2ij\7c\2\2jk\7v\2"+
+		"q\2\2de\7n\2\2e\24\3\2\2\2fg\7o\2\2gh\7q\2\2hi\7p\2\2ij\7g\2\2jk\7{\2"+
 		"\2k\26\3\2\2\2lm\7k\2\2mn\7p\2\2no\7v\2\2o\30\3\2\2\2pq\7,\2\2q\32\3\2"+
 		"\2\2rs\7\61\2\2s\34\3\2\2\2tu\7-\2\2u\36\3\2\2\2vw\7/\2\2w \3\2\2\2xy"+
 		"\7#\2\2y\"\3\2\2\2z{\7@\2\2{$\3\2\2\2|}\7@\2\2}~\7?\2\2~&\3\2\2\2\177"+
