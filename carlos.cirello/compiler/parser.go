@@ -58,7 +58,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:128
+//line parser.y:134
 
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -153,51 +153,51 @@ var qlExca = []int{
 	-2, 0,
 }
 
-const qlNprod = 11
+const qlNprod = 12
 const qlPrivate = 57344
 
 var qlTokenNames []string
 var qlStates []string
 
-const qlLast = 24
+const qlLast = 25
 
 var qlAct = []int{
 
-	6, 11, 19, 11, 10, 13, 10, 15, 16, 17,
-	22, 18, 7, 20, 5, 12, 4, 3, 14, 9,
-	8, 21, 2, 1,
+	6, 11, 20, 11, 10, 13, 10, 21, 5, 19,
+	23, 12, 7, 18, 15, 16, 17, 4, 3, 14,
+	9, 8, 22, 2, 1,
 }
 var qlPact = []int{
 
-	11, -1000, -1000, 5, -1, -1000, -4, -1000, -1000, -1000,
-	4, -12, -5, 0, -1000, -1000, -1000, -1000, -16, -2,
-	-1000, -6, -1000,
+	12, -1000, -1000, 6, -7, -1000, -4, -1000, -1000, -1000,
+	0, -12, 2, -2, -1000, -1000, -1000, -1000, -1000, -16,
+	-8, -1000, -6, -1000,
 }
 var qlPgo = []int{
 
-	0, 23, 22, 0, 20, 19, 18,
+	0, 24, 23, 0, 21, 20, 19,
 }
 var qlR1 = []int{
 
 	0, 1, 2, 3, 3, 3, 4, 6, 6, 6,
-	5,
+	6, 5,
 }
 var qlR2 = []int{
 
 	0, 1, 5, 0, 2, 2, 3, 1, 1, 1,
-	7,
+	1, 7,
 }
 var qlChk = []int{
 
 	-1000, -1, -2, 6, 11, 15, -3, 16, -4, -5,
-	10, 7, 11, 17, -6, 12, 13, 14, 11, 18,
-	15, -3, 16,
+	10, 7, 11, 17, -6, 12, 13, 14, 11, 11,
+	18, 15, -3, 16,
 }
 var qlDef = []int{
 
 	0, -2, 1, 0, 0, 3, 0, 2, 4, 5,
-	0, 0, 0, 0, 6, 7, 8, 9, 0, 0,
-	3, 0, 10,
+	0, 0, 0, 0, 6, 7, 8, 9, 10, 0,
+	0, 3, 0, 11,
 }
 var qlTok1 = []int{
 
@@ -521,6 +521,11 @@ qldefault:
 		}
 	case 10:
 		//line parser.y:120
+		{
+			log.Fatalf("Question type must be 'string', 'integer', 'bool'. Found: %s", qlS[qlpt-0].content)
+		}
+	case 11:
+		//line parser.y:126
 		{
 			ifNode := new(ast.IfNode)
 			ifNode.Condition = qlS[qlpt-4].content

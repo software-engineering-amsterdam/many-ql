@@ -116,6 +116,12 @@ questionType: StringQuestionToken
 			$$.questionType = new(ast.BoolQuestion)
 		}
 
+	    | TextToken
+		{
+			log.Fatalf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content)
+		}
+
+
 ifBlock: IfToken '(' TextToken ')' '{' stack '}'
 		{
 			ifNode := new(ast.IfNode)
