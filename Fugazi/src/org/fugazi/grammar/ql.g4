@@ -6,6 +6,12 @@ grammar QL;
  * =====================
  */
 
+
+// TODO equal operators at the same level
+// expression ('*' | '/') expression
+// change float -> something which deals with money better
+
+
 // complete form - topmost node
 form    : 'form' ID '{' stat* '}';
 
@@ -34,13 +40,11 @@ type    : 'bool' | 'float' | 'int' ;
  * NUMERICAL OPERATIONS
  * =====================
  */
- 
+
 // allowed assignable expressions.
 expression  : '(' expression ')'
-            | expression '*' expression
-            | expression '/' expression
-            | expression '+' expression
-            | expression '-' expression
+            | expression ('*' | '/') expression
+            | expression ('+' | '-') expression
             | ID
             | NUMBER
             ;
@@ -62,12 +66,7 @@ logical_expression  : '(' logical_expression ')'
                     | '!' logical_expression
                     | logical_expression '&&' logical_expression
                     | logical_expression '||' logical_expression
-                    | logical_expression '>' logical_expression
-                    | logical_expression '>=' logical_expression
-                    | logical_expression '<' logical_expression
-                    | logical_expression '<=' logical_expression
-                    | logical_expression '==' logical_expression
-                    | logical_expression '!=' logical_expression
+                    | logical_expression ('>' | '>=' | '<' | '<=' | '==' | '!=') logical_expression
                     | ID
                     | NUMBER
                     ;
@@ -110,12 +109,12 @@ COMMENT
 // ignore whitespaces
 WS  :   [ \r\t\u000C\n]+ -> channel(HIDDEN)
     ;
-    
+
 // line comment matches anything after // until newline
 LINE_COMMENT
     : '//' ~[\r\n]* '\r'? '\n' -> channel(HIDDEN)
     ;
-    
+
 // Fragments
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
