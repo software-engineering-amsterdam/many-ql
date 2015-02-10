@@ -13,13 +13,14 @@ class QuestionnaireGUI:
     def generate_gui(self):
         # self.qGui.geometry('450x450')
         self.qGui.title(self.title)
-        Label(text=self.intro, fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
         i = 0
+        Label(text=self.intro, fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
         for question in self.questions:
             i += 1
             if isinstance(question, ConditionalQuestions):
                 continue
-            Label(text=question.get_answertype(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
+            # if()
+            Label(text=question.get_label(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
 
     def show(self):
         self.qGui.mainloop()

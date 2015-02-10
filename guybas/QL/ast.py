@@ -4,8 +4,8 @@ def make_sentence(tokens):
 
 # Questions 
 class Question:
-    def __init__(self, number, label, answertype):
-        self.number = number
+    def __init__(self, id, answertype, label):
+        self.number = id
         self.label = label
         self.answertype = answertype
 
@@ -22,7 +22,7 @@ class Question:
     def get_answertype(self):
         return self.answertype
 
-    def get_number(self):
+    def get_id(self):
         return self.number
 
 
