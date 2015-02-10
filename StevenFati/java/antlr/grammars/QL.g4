@@ -55,6 +55,11 @@ NUMBERS
 STRING
     : '"' (~[\r\n"] | '""')* '"'
     ;
+
+COMMENT_LINE
+    : '//' ~[\r\n]* -> skip
+    ;
+
 WS
     : [ \t\r\n]+ -> skip
     ; // skip spaces, tabs, newlines

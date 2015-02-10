@@ -1,9 +1,10 @@
+//form test
 form FORMNAME {
     NAME BOOLEAN "LABEL"
     NAME2 STRING "LABEL 1"
     NAME3 BOOLEAN "LABEL 1"
     if ( NAME && ((1 * 4) > 3)) {
-        NAME4 INTEGER "CONdiTioNal "
+        NAME4 INTEGER "CONdiTioNal " //info
     }
     if(true){
         if(false){
@@ -11,3 +12,4 @@ form FORMNAME {
         }
     }
 }
+// sdfsf
