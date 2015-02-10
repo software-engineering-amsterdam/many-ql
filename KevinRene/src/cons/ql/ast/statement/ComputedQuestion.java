@@ -1,6 +1,5 @@
 package cons.ql.ast.statement;
 
-import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLString;
