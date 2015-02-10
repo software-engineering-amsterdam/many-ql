@@ -1,27 +1,27 @@
+import argparse
 import glob
 
 from antlr4 import *
 from QLLexer import QLLexer
 from QLParser import QLParser
 
-def run_test(test_filename):
+def run_test(print_tree_always, test_filename):
     input = FileStream(test_filename)
     lexer = QLLexer(input)
     stream = CommonTokenStream(lexer)
     parser = QLParser(stream)
 
     method_name = test_filename.split('.')[0].split('_')[1]
-
     tree_test = getattr(parser, method_name)()
-    if parser._syntaxErrors > 0:
+
+    if parser._syntaxErrors > 0 or print_tree_always:
         print_tree(tree_test, 0)
-        print( str(parser._syntaxErrors)\
-             + ' error(s) while testing `'\
-             + method_name\
-             + '` on input file '\
-             + test_filename
-             ) 
-        print('-'*60)
+
+    if parser._syntaxErrors > 0:
+        print( str(parser._syntaxErrors) + ' error(s)' )
+
+    if parser._syntaxErrors > 0 or print_tree_always:
+        print('^---'+method_name+'('+test_filename+')'+('-'*40))
 
     return parser._syntaxErrors
 
@@ -38,13 +38,30 @@ def print_tree(tree_test, lev):
 
 
 def main():
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('-t'
+                           ,'--trees'
+                           ,help="Always print parse trees."
+                           ,action="store_true"
+                           )
+    arg_parser.add_argument('-f'
+                           ,'--file'
+                           ,help="Test only this file."
+                           )
+    args = arg_parser.parse_args()
+
     errors = 0
 
-    test_filenames = glob.glob('test_*.ql')
-    for test_filename in test_filenames:
-        errors += run_test(test_filename)
+    if args.file:
+        test_filenames = [args.file]
+    else:
+        test_filenames = glob.glob('test_*.ql')
 
-    print(str(errors) + ' error(s).\n'\
+    for test_filename in test_filenames:
+        errors += run_test(args.trees, test_filename)
+
+    print( '\n'\
+         + str(errors) + ' error(s) total.\n'\
          + 'Tested '+str(len(test_filenames))+' file(s): '\
          + str(test_filenames)
          )
