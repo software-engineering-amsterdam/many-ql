@@ -3,10 +3,10 @@
 %interface QLTokens
 %semantic cons.ql.ast.ASTNode 
 
-%token <QLInt> INT
-%token <QLBoolean> BOOLEAN
-%token <QLString> STRING
-%token <QLFloat> MONEY FLOAT
+%token <QLInt> INITINT INT
+%token <QLBoolean> INITBOOLEAN BOOLEAN
+%token <QLString> INITSTRING STRING
+%token <QLFloat> INITMONEY MONEY INITFLOAT FLOAT
 %token <QLIdent> IDENT
 %token FORM IF ELSE ASSIGN
 %token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!' '"' ':'
@@ -19,20 +19,21 @@
 %left '*' '/'
 %left UMIN UPLUS UNOT
 
-%type <Expr> expr
+%type <Expression> expression
+%type <QLType> literal
+%type <QLType> type
 %type <Form> form
 %type <Statement> statement
 %type <Block> statements
-%type <Question> question
-%type <Assignment> assignment
-%type <QLType> questionType
 
 %{
 import cons.ql.ast.*;
-import cons.ql.ast.expr.*;
-import cons.ql.ast.expr.unary.*;
-import cons.ql.ast.expr.binary.*;
-import cons.ql.ast.expr.statement.*;
+import cons.ql.ast.expression.*;
+import cons.ql.ast.expression.unary.*;
+import cons.ql.ast.expression.literal.*;
+import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.relational.*;
+import cons.ql.ast.statement.*;
 %}
 
 %%
@@ -42,7 +43,7 @@ import cons.ql.ast.expr.statement.*;
 
  node 	: form
  		| statement 
- 		| expr
+ 		| expression
  		;
 
  form : FORM IDENT '{' statements '}' { $$ = new Form($2, $4); }
@@ -52,58 +53,55 @@ import cons.ql.ast.expr.statement.*;
 			| statement 			{ $$ = new Block($1); }
 			;
 
- statement : question
- 		   | assignment
- 		   | IF '(' relexpr ')' '{' statements '}' elseBranch
+ statement : IDENT ':' type '{' INITSTRING '}' 							{ $$ = new Question($1, $3, $5); }
+ 		   | IDENT ':' type '{' INITSTRING ASSIGN '(' expression ')' '}'	{ $$ = new ComputedQuestion($1, $3, $5, $8); }
+ 		   | IF '(' expression ')' '{' statements '}' elseBranch
  		   ;
 
  elseBranch : ELSE '{' statements '}' 
  			| /* empty */
  			;
 
- question : IDENT ':' questionType '{' STRING '}' 						{ $$ = new Question($1, $3, $5); }
- 		  ;
+ expression : type
+ 			| literal
+ 			| arithmeticExpression 
+		 	| relationalExpression
+		 	| '(' expression ')'	{ $$ = $2; }
+		 	;
 
- assignment : IDENT ':' questionType '{' STRING ASSIGN '(' expr ')' '}'	{ $$ = new Assignment($1, $3, $5, $8); }
- 			;
+ type 	: INT		{ $$ = new QLInt(); }
+ 		| MONEY		{ $$ = new QLFloat(); }
+		| FLOAT		{ $$ = new QLFloat(); }
+		| BOOLEAN	{ $$ = new QLBoolean(); }
+		| STRING 	{ $$ = new QLString(); }
+		;
 
- questionType : BOOLEAN 
- 			  | MONEY 
- 			  | INT
- 			  ;
+ // INIT<Type> stands for an initialised instance.
+ literal :	| INITINT
+			| INITMONEY
+			| INITFLOAT
+			| INITBOOLEAN
+			| INITSTRING
+			;
 
- expr : arithexpr
- 	  | relexpr
- 	  | literal
- 	  | '(' expr ')'	{ $$ = $2; }
- 	  ;
+ arithmeticExpression : '+' expression %prec UPLUS 	{ $$ = new Pos($2); }
+				   	  | '-' expression %prec UMIN  	{ $$ = new Neg($2); }
+				   	  | expression '*' expression	{ $$ = new Mul($1, $3); }
+					  | expression '/' expression	{ $$ = new Div($1, $3); }
+					  | expression '+' expression	{ $$ = new Add($1, $3); }
+					  | expression '-' expression	{ $$ = new Sub($1, $3); }
+					  ;
 
- arithexpr : '+' expr %prec UPLUS { $$ = new Pos($2); }
-	   	   | '-' expr %prec UMIN  { $$ = new Neg($2); }
-	   	   | expr '*' expr		{ $$ = new Mul($1, $3); }
-		   | expr '/' expr 		{ $$ = new Div($1, $3); }
-		   | expr '+' expr		{ $$ = new Add($1, $3); }
-		   | expr '-' expr		{ $$ = new Sub($1, $3); }
-		   ;
-
- relexpr : '!' expr %prec UNOT  { $$ = new Not($2); }
- 		 | expr EQ expr		    { $$ = new Eq($1, $3); }
-		 | expr NEQ expr		{ $$ = new NEq($1, $3); }
-		 | expr '>' expr		{ $$ = new GT($1, $3); }
-		 | expr '<' expr		{ $$ = new LT($1, $3); }
-		 | expr GEQ expr		{ $$ = new GEq($1, $3); }
-		 | expr LEQ expr		{ $$ = new LEq($1, $3); }
-		 | expr AND expr	    { $$ = new And($1, $3); }
-	     | expr OR expr  		{ $$ = new Or($1, $3); }
-	     ;
-
- literal : INT
-		 | MONEY
-		 | FLOAT
-		 | BOOLEAN
-		 ;
-		 
-
+ relationalExpression 	: '!' expression %prec UNOT { $$ = new Not($2); }
+ 		 				| expression EQ expression	{ $$ = new Eq($1, $3); }
+						| expression NEQ expression	{ $$ = new NEq($1, $3); }
+						| expression '>' expression	{ $$ = new GT($1, $3); }
+						| expression '<' expression	{ $$ = new LT($1, $3); }
+						| expression GEQ expression	{ $$ = new GEq($1, $3); }
+						| expression LEQ expression	{ $$ = new LEq($1, $3); }
+						| expression AND expression	{ $$ = new And($1, $3); }
+					    | expression OR expression  { $$ = new Or($1, $3); }
+					    ;
 %%
 private QLLexer lexer; 
 

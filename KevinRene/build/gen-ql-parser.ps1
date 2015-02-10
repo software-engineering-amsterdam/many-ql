@@ -1,1 +1,1 @@
-..\lib\jacc\jacc.jar ..\src\cons\ql\parser\ql.jacc
+..\lib\jacc\jacc.jar -v ..\src\cons\ql\parser\ql.jacc

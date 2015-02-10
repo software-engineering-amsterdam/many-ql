@@ -3,11 +3,11 @@ package cons.ql.parser;
 import java.io.*;
 
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.Binary;
-import cons.ql.ast.Form;
-import cons.ql.ast.expr.statement.Assignment;
-import cons.ql.ast.expr.statement.Block;
-import cons.ql.ast.expr.statement.Question;
+import cons.ql.ast.expression.Binary;
+import cons.ql.ast.statement.ComputedQuestion;
+import cons.ql.ast.statement.Block;
+import cons.ql.ast.statement.Form;
+import cons.ql.ast.statement.Question;
 
 public class Parser {
 	
@@ -108,8 +108,8 @@ public class Parser {
 			printSubTree(binary.getLeft(), prefix, false);
 			printSubTree(binary.getRight(), prefix, true);
 		}
-		else if (root instanceof Assignment) {
-			Assignment assignment = (Assignment)root;
+		else if (root instanceof ComputedQuestion) {
+			ComputedQuestion assignment = (ComputedQuestion) root;
 			
 			printSubTree(assignment.getIdent(), prefix, false);
 			printSubTree(assignment.getType(), prefix, false);

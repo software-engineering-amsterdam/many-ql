@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expr.QLIdent;
-import cons.ql.ast.expr.QLInt;
-import cons.ql.ast.expr.QLString;
+import cons.ql.ast.expression.literal.QLIdent;
+import cons.ql.ast.expression.literal.QLInt;
+import cons.ql.ast.expression.literal.QLString;
 
 public class QLLexer implements QLTokens {
 	private static final Map<String, Integer> KEYWORDS;
@@ -152,7 +152,7 @@ public class QLLexer implements QLTokens {
 		    		String string = sb.toString();
 					
 		    		yylval = new QLString(string);
-		    		return token = STRING;
+		    		return token = INITSTRING;
 			    }
 			    default: {
 			    	if (Character.isDigit(c)) {
@@ -162,7 +162,7 @@ public class QLLexer implements QLTokens {
 			    			nextChar(); 
 			    		} while (Character.isDigit(c)); 
 			    		yylval = new QLInt(n);
-			    		return token = INT;
+			    		return token = INITINT;
 			    	}
 			    	if (Character.isLetter(c)) {
 			    		StringBuilder sb = new StringBuilder();
