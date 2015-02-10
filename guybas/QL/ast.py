@@ -46,9 +46,10 @@ class ConditionalQuestions:
 
 
 class Form:
-    def __init__(self, name, questions):
+    def __init__(self, name, introduction, questions):
         self.name = name 
         self.questions = questions
+        self.introduction = introduction
 
     def __str__(self):
         s = self.name + "\n"
@@ -58,3 +59,9 @@ class Form:
 
     def get_questions(self):
         return self.questions
+
+    def get_name(self):
+        return self.name
+
+    def get_introduction(self):
+        return self.introduction
