@@ -8,10 +8,4 @@ import java.util.List;
 public class AstNode
 {
 
-    public List<AstNode> children;
-
-    public AstNode(List<AstNode> children)
-    {
-        this.children = children;
-    }
 }

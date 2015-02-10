@@ -9,8 +9,5 @@ import java.util.List;
  */
 public class Question extends Statement
 {
-    public Question(List<AstNode> children)
-    {
-        super(children);
-    }
+
 }

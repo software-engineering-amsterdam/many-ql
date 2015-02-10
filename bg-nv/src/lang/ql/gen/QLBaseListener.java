@@ -1,10 +1,7 @@
 // Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
 package lang.ql.gen;
 
-//package lang.ql.gen;
-import lang.ql.ast.expression.*;
-
-//import org.uva.sea.ql.ast.expr.*;
+    import lang.ql.ast.expression.*;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
