@@ -3,35 +3,42 @@
  */
 grammar QL;
 
+@header{
+	import java.util.*;
+}
+
 prog	: form+ EOF ;
 
-form	: 'form' ID '{' quest+ stat* decl* '}' ;
+form	: 'form' ID '{' quest* stat* '}' ;
 
-quest 	: 'question' STRING '=' QuestionLiteral '{' decl stat* expr* '}' ;
+quest locals[List<String> decls = new ArrayList<String>()]	
+		: 'question' STRING '=' QuestionLiteral '{' decl+ stat* expr* '}' ;
 
-stat : value								// Value, e.g. value = false; value = someX * someY;
-	 | ifStat								// If statement
-	 | ID '=' expr ';'						// Assignment
+stat : value								
+	 | ifStat								
+	 | ID '=' expr ';'
 	 ;
 
-decl : ID ':' primitiveType ';' ;	// The definition of e.g. hasBoughtHouse : boolean -> restricted only to primitive types
+decl : ID ':' primitiveType ';' {
+	if (!$quest::decls.contains($ID.text)){$quest::decls.add($ID.text);}
+	else {System.err.println("Declaration exists: " + $ID.text);}
+};
 
-expr		: expr EXP<assoc=right> expr 								#Exp
-			| expr (MUL | DIV) expr										#MulDiv
-			| expr (ADD | SUB) expr										#AddSub
-			| expr (LESS | LESS_EQUAL | GREATER | GREATER_EQUAL) expr	#LessGreater
-			| expr ('==' | '!=') expr									#Equal_NotEqual
-			| expr '&&' expr											#LogAnd
-			| expr '||' expr											#LogOr
-			| '(' expr ')'												#Par
-			| literal													#ExprLit
+expr		: expr EXP<assoc=right> expr 														#Exp
+			| expr (MUL | DIV) expr		 	  													#MulDiv
+			| expr (ADD | SUB) expr																#AddSub
+			| expr (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) expr							#LessGreater
+			| expr ('==' | '!=') expr															#Equal_NotEqual
+			| expr '&&' expr																	#LogAnd
+			| expr '||' expr																	#LogOr
+			| '(' expr ')'																		#Par
+			| literal																			#ExprLit
 			;
 			
-
 ifStat		: 'if' '(' expr ')' '{' quest* stat* decl* '}'
 			| 'if' '(' expr ')' '{' stat '}' 'else' '(' quest* stat* decl* ')';
 
-value		: ID '.' 'value' '=' expr ';' ;	// hasSoldHouse.value = true; hasSoldHouse.value = 2+3; 
+value		: ID '.' 'value' '=' expr ';' ;	
 
 literal		: BooleanLiteral
 			| NumberLiteral
@@ -103,7 +110,3 @@ EXP			: '^' ;
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
 /* the listener ->  */
-
-
-
-

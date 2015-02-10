@@ -18,7 +18,7 @@ state 1
 state 2
 	top:  questionaire.    (1)
 
-	.  reduce 1 (src line 43)
+	.  reduce 1 (src line 44)
 
 
 state 3
@@ -39,7 +39,7 @@ state 5
 	questionaire:  FormToken TextToken '{'.stack '}' 
 	stack: .    (3)
 
-	.  reduce 3 (src line 67)
+	.  reduce 3 (src line 68)
 
 	stack  goto 6
 
@@ -59,19 +59,19 @@ state 6
 state 7
 	questionaire:  FormToken TextToken '{' stack '}'.    (2)
 
-	.  reduce 2 (src line 53)
+	.  reduce 2 (src line 54)
 
 
 state 8
 	stack:  stack question.    (4)
 
-	.  reduce 4 (src line 68)
+	.  reduce 4 (src line 69)
 
 
 state 9
 	stack:  stack ifBlock.    (5)
 
-	.  reduce 5 (src line 82)
+	.  reduce 5 (src line 83)
 
 
 state 10
@@ -91,6 +91,7 @@ state 11
 state 12
 	question:  QuotedStringToken TextToken.questionType 
 
+	TextToken  shift 18
 	StringQuestionToken  shift 15
 	IntQuestionToken  shift 16
 	BoolQuestionToken  shift 17
@@ -101,84 +102,90 @@ state 12
 state 13
 	ifBlock:  IfToken '('.TextToken ')' '{' stack '}' 
 
-	TextToken  shift 18
+	TextToken  shift 19
 	.  error
 
 
 state 14
 	question:  QuotedStringToken TextToken questionType.    (6)
 
-	.  reduce 6 (src line 85)
+	.  reduce 6 (src line 95)
 
 
 state 15
 	questionType:  StringQuestionToken.    (7)
 
-	.  reduce 7 (src line 96)
+	.  reduce 7 (src line 106)
 
 
 state 16
 	questionType:  IntQuestionToken.    (8)
 
-	.  reduce 8 (src line 100)
+	.  reduce 8 (src line 110)
 
 
 state 17
 	questionType:  BoolQuestionToken.    (9)
 
-	.  reduce 9 (src line 104)
+	.  reduce 9 (src line 114)
 
 
 state 18
-	ifBlock:  IfToken '(' TextToken.')' '{' stack '}' 
+	questionType:  TextToken.    (10)
 
-	')'  shift 19
-	.  error
+	.  reduce 10 (src line 119)
 
 
 state 19
-	ifBlock:  IfToken '(' TextToken ')'.'{' stack '}' 
+	ifBlock:  IfToken '(' TextToken.')' '{' stack '}' 
 
-	'{'  shift 20
+	')'  shift 20
 	.  error
 
 
 state 20
+	ifBlock:  IfToken '(' TextToken ')'.'{' stack '}' 
+
+	'{'  shift 21
+	.  error
+
+
+state 21
 	ifBlock:  IfToken '(' TextToken ')' '{'.stack '}' 
 	stack: .    (3)
 
-	.  reduce 3 (src line 67)
+	.  reduce 3 (src line 68)
 
-	stack  goto 21
+	stack  goto 22
 
-state 21
+state 22
 	stack:  stack.question 
 	stack:  stack.ifBlock 
 	ifBlock:  IfToken '(' TextToken ')' '{' stack.'}' 
 
 	IfToken  shift 11
 	QuotedStringToken  shift 10
-	'}'  shift 22
+	'}'  shift 23
 	.  error
 
 	question  goto 8
 	ifBlock  goto 9
 
-state 22
-	ifBlock:  IfToken '(' TextToken ')' '{' stack '}'.    (10)
+state 23
+	ifBlock:  IfToken '(' TextToken ')' '{' stack '}'.    (11)
 
-	.  reduce 10 (src line 109)
+	.  reduce 11 (src line 125)
 
 
 18 terminals, 7 nonterminals
-11 grammar rules, 23/2000 states
+12 grammar rules, 24/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 56 working sets used
 memory: parser 6/30000
 0 extra closures
-17 shift entries, 1 exceptions
+18 shift entries, 1 exceptions
 7 goto entries
 2 entries saved by goto default
-Optimizer space used: output 24/30000
-24 table entries, 0 zero
-maximum spread: 18, maximum offset: 20
+Optimizer space used: output 25/30000
+25 table entries, 0 zero
+maximum spread: 18, maximum offset: 21

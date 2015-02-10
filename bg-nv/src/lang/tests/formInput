@@ -1,4 +1,7 @@
 form Box1HouseOwning
 {
- boolean hasSoldHouse “Did you sell a house in 2010?” 1+2
+ if (hasSoldHouse)
+ {
+    integer sellingPrice "Price the house was sold for:" 1+2
+ }
 }

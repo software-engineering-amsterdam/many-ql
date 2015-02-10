@@ -23,6 +23,7 @@ var finalQuestionaire *ast.QuestionaireNode
 	stack []*ast.ActionNode
 	question *ast.QuestionNode
 	questionType ast.Parser
+	ifNode *ast.IfNode
 }
 
 %token BlockBeginToken
@@ -80,6 +81,15 @@ stack:
 		$$.stack = qs
 	}
 	| stack ifBlock
+	{
+		ifNode := $2.ifNode
+		qs := $$.stack
+		action := &ast.ActionNode {
+			IfNode: ifNode,
+		}
+		qs = append(qs, action)
+		$$.stack = qs
+	}
 	;
 
 question:
@@ -106,9 +116,18 @@ questionType: StringQuestionToken
 			$$.questionType = new(ast.BoolQuestion)
 		}
 
+	    | TextToken
+		{
+			log.Fatalf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content)
+		}
+
+
 ifBlock: IfToken '(' TextToken ')' '{' stack '}'
 		{
-			log.Printf("if: %#v \nexpr: %#v \nquestions: %#v", $1, $3, $6)
+			ifNode := new(ast.IfNode)
+			ifNode.Condition = $3.content
+			ifNode.Stack = $6.stack
+			$$.ifNode = ifNode
 		}
 	;
 

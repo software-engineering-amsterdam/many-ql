@@ -41,8 +41,11 @@ class ConditionalQuestions:
             s += str(i)
         return s
 
-    def get_conditional_q(self):
+    def get_c_questions(self):
         return self.questions
+
+    def get_condition(self):
+        return self.condition
 
 
 class Form:

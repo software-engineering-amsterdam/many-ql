@@ -3,40 +3,104 @@ grammar QL;
 
 @parser::header
 {
-package org.uva.sea.ql.parser.antlr;
-import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.form.*;
 }
 
 @lexer::header
 {
-package org.uva.sea.ql.parser.antlr;
 }
 
-form : (question)+;
+// Parser rules
+form : question (question | statement)*;
 
-question: Ident Str QuestionType;
 
-QuestionType :('Int' | 'Str' | 'Cur' | 'Bool');
+question: questionType identifier stringLiteral SEMICOLON;
+
+statement:	IF LEFT_PARENTHESES expr RIGHT_PARENTHESES LEFT_BRACES (question)+ RIGHT_BRACES;
+
+expr: literal
+	| expr AND expr
+	| expr OR expr
+	| expr EQUAL expr
+	| expr GREATER expr
+	| expr EQUAL_GREATER expr
+	| expr EQUAL expr
+	| expr EQUAL_SMALLER expr
+	| expr SMALLER expr
+	| expr PLUS expr 
+	| expr MINUS expr 
+	| expr MULTIPLY expr 
+	| expr DEVIDE expr 
+;
+
+questionType :INT | STR | CUR | BOOL;
+
+identifier:	Ident;
+
+literal
+	 : numberLiteral
+ 	 | booleanLiteral
+ 	 | stringLiteral
+ 	 | identifier
+	;
 	
-WS  :	(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN) 
-    ;
+booleanLiteral: 
+	bool;
 
-COMMENT 
-     : '/*' .*? '*/' -> channel(HIDDEN)
-     ;
+numberLiteral
+	: Int
+	| Float
+	;
 
-Bool: ['true' | 'false'];
+stringLiteral
+	: Str
+	;
 
-Ident: [a-zA-Z][a-zA-Z0-9_]*;
+bool: TRUE | FALSE;
+
+
+// Lexer rules
+// Tokens
+
+INT:			'Int';
+STR:			'Str';
+CUR:			'Cur';
+BOOL:			'Bool';
+TRUE: 			'true';
+FALSE: 			'false';
+IF: 			'if';
+OR:				'||';
+AND:			'&&';
+EQUAL:			'=';
+GREATER: 		'>';
+EQUAL_GREATER: 	'>='; 
+EQUAL_COND:		'==';
+EQUAL_SMALLER: 	'<=';
+SMALLER: 		'<';
+LEFT_BRACES:	'{';
+RIGHT_BRACES:	'}';
+LEFT_PARENTHESES:	'(';
+RIGHT_PARENTHESES:	')';
+COLON:			':';
+SEMICOLON:		';';
+PLUS:			'+';
+MINUS:			'-';
+DEVIDE:			'/';
+MULTIPLY:		'*';
 
 Int: [0-9]+;
 
 Str: '"' .*? '"';
 
+Float: Int'.'Int;
+
 //Date: ('0');
-//
-//Float: ('0');
-//
-//Cur: ('0');
+
+WhiteSpace  :(' ' | '\t' | '\n' | '\r') -> skip;
+
+MultiComment : '/*' .*? '*/' -> skip;
+
+SingleComment: '//' .*? '\n' -> skip;
+
+Ident: [a-zA-Z][a-zA-Z0-9_]*;
+
+
