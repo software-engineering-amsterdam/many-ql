@@ -19,6 +19,44 @@ Was heavily outdated and changes too often to place here.
 
 ### Examples
 
+```
+	form emptyForm {
+
+	}
+```
+
+```
+	form noAssignmentsForm {
+		hasSoldHouse: boolean {
+			"Did you sell a house in 2010?"
+		}
+	}
+```
+
+```
+	form withAssignmentForm {
+		valueOfHouse: money {
+			"The value of your house is"
+			assign(100000)
+		}
+	}
+```
+
+```
+	form withConditionForm {
+		hasSoldHouse: boolean {
+			"Did you sell a house in 2010?"
+		}
+
+		if (hasSoldHouse) {
+			sellingPrice: money {
+				"What was the selling price?"
+			}
+		}
+	}
+```
+
+```
 form taxOfficeExample { 
 	hasSoldHouse: boolean {
 		"Did you sell a house in 2010?"
@@ -45,3 +83,4 @@ form taxOfficeExample {
 		}
 	}
 }
+```
