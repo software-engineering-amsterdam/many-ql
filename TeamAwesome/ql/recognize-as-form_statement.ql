@@ -16,7 +16,7 @@ form taxOfficeExample {
 
   if (hasSoldHouse) {
     question sellingPrice {
-      What was the selling price?"
+      "What was the selling price?"
       money
     }
     
@@ -34,7 +34,7 @@ form taxOfficeExample {
   if valueResidue < 0 {
     question mentalHealth {
       "How do you feel?"
-      text
+      string
     }
   }
   
