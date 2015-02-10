@@ -12,26 +12,32 @@ parse      		: formSection EOF;
 
 formSection 	: 'FORM' ID '{' question+ '} END';
 
-question		: simpleQuestion 
-				| computedQuestion							
-				| 'if' '(' expression ')' '{' question+ '}'
-				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'
+question		: simpleQuestion 														# basicQuestion
+				| computedQuestion														# calcQuestion
+				| 'if' '(' expression ')' '{' question+ '}'								# ifStatement
+				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'	# ifelseStatement
 				;
 
-expression		: ID | type | TEXT | NUMBER
-				| expression ('*'| '/') expression
-				| expression ('+'| '-') expression
-				| expression ('=='|'!=') expression	
-				| expression ('&&') expression
-				| expression ('||') expression
-				| expression ('>'|'>='|'<'|'<=') expression
-				| '(' expression ')';							
-
-simpleQuestion	: ID TEXT type;   	 
+expression		: ID 											# id
+				| BOOLEAN 										# boolean
+				| TEXT 											# text
+				| NUMBER										# number
+				| expression ('*'| '/') expression				# multDiv
+				| expression ('+'| '-') expression				# addSub
+				| expression ('=='|'!=') expression				# eqNot
+				| expression ('&&') expression					# and
+				| expression ('||') expression					# or
+				| expression ('>'|'>='|'<'|'<=') expression		# equation
+				| '(' expression ')'							# prio		
+				;
+				
+simpleQuestion	: ID TEXT TYPE;   	 
 				 									
-computedQuestion: ID TEXT type '(' expression ')';
+computedQuestion: ID TEXT TYPE '(' expression ')';
  
-type  			: 'boolean' | 'integer' | 'double' | 'String';    
+TYPE  			: 'choice' | 'digit' | 'text';
+				  
+BOOLEAN			: 'true' | 'false';  
 	  
 NUMBER		: '0'..'9'+ ('.' '0'..'9'+)*;
 TEXT		:'['(ID |SPECIAL|NUMBER|WS)*']';	
