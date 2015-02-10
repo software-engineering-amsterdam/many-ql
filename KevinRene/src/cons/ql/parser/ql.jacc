@@ -22,6 +22,7 @@
 %type <Expr> expr
 %type <Form> form
 %type <Statement> statement
+%type <Block> statements
 
 %{
 import cons.ql.ast.*;
