@@ -31,7 +31,7 @@ class Expressions: # TODO
     parenthesis     = oneOf("( )")
     expr            = Forward()
     expr            <<= Group(expr + operator + expr) | value
-    condition       = expr
+    condition       = "1"
 
     
 class FormFormat:
@@ -54,14 +54,14 @@ class FormFormat:
                       questions
                       
     # IDENTIFIER QUESTIONS
-    form            = (id + Optional(Suppress("Introduction" + Literal":" + sentences)) + OneOrMore(aQuestions))
+    form            = (id + Optional(Suppress("Introduction" + Literal(":") + BasicTypes.sentences)) + OneOrMore(aQuestions))
 
 # Test
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
     
-    r = Expressions.condition.parseString("1 < 2")
-    print(r)
+    #r = Expressions.condition.parseString("1 < 2")
+    print(form)
 except Exception as e:
     exceptions_handling(e)
