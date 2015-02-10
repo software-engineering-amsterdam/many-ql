@@ -6,14 +6,22 @@ import cons.ql.ast.expr.statement.Block;
 public class Form extends Expr {
 	
 	protected QLIdent identifier;
-	protected Block statements;
+	protected Block block;
 	
 	public Form(QLIdent identifier, Block statements) {
 		this.identifier = identifier;
-		this.statements = statements;
+		this.block = statements;
 	}
 
 	public String show() {
-		return "Form " + identifier.show();
+		return "Form";
+	}
+	
+	public QLIdent getIdent() {
+		return this.identifier;
+	}
+	
+	public Block getBlock() {
+		return this.block;
 	}
 }

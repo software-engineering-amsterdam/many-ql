@@ -4,6 +4,9 @@ import java.io.*;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Binary;
+import cons.ql.ast.Form;
+import cons.ql.ast.expr.statement.Block;
+import cons.ql.ast.expr.statement.Question;
 
 public class Parser {
 	
@@ -84,6 +87,25 @@ public class Parser {
 		if (root instanceof Binary) {
 			printSubTree(((Binary)root).getLeft(), prefix + (tail ? "  " : "│  "), false);
 			printSubTree(((Binary)root).getRight(), prefix + (tail ? "  " : "│  "), true);
+		}
+		else if (root instanceof Question) {
+			printSubTree(((Question)root).getIdent(), prefix + (tail ? "  " : "│  "), false);
+			printSubTree(((Question)root).getType(), prefix + (tail ? "  " : "│  "), false);
+			printSubTree(((Question)root).getText(), prefix + (tail ? "  " : "│  "), true);
+		}
+		else if (root instanceof Block) {
+			int len = ((Block)root).statements().size();
+			for (int i = 0; i < len - 1; i++) {
+				printSubTree(((Block)root).statements().get(i), prefix + (tail ? "  " : "│  "), false);
+			}
+			if (len > 0) {
+				printSubTree(((Block)root).statements().get(len - 1), prefix + (tail ? "  " : "│  "), true);				
+			}
+		}
+		else if (root instanceof Form) {
+			Form form = (Form)root;
+			printSubTree(form.getIdent(), prefix + (tail ? "  " : "│  "), false);
+			printSubTree(form.getBlock(), prefix + (tail ? "  " : "│  "), true);
 		}
 	}
 }

@@ -22,4 +22,9 @@ public class Block extends Statement {
 	public ArrayList<Statement> statements() {
 		return this.statements;
 	}
+
+	@Override
+	public String show() {
+		return "Block";
+	}
 }

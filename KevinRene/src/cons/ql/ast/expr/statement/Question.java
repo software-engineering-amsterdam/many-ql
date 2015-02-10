@@ -16,7 +16,18 @@ public class Question extends Statement {
 		this.text = text;
 	}
 
+	@Override
 	public String show() {
-		return "Question " + identifier.show();
+		return "Question";
+	}
+	
+	public QLIdent getIdent() {
+		return this.identifier;
+	}
+	public QLType getType() {
+		return this.type;
+	}
+	public QLString getText() {
+		return this.text;
 	}
 }
