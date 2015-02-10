@@ -12,15 +12,16 @@ TEXT	: [\".*\"] | WS;
 ID		: ([a-zA-Z][a-zA-Z0-9]*);
 
 
-unit	: UNITTYPE ID '(' TYPE (',' ATTR)+ ')' TEXT
-		| UNITTYPE ID '(' TYPE ',' TEXT ')' TEXT
-		| UNITTYPE ID '(' TYPE ',' EXPR ')' TEXT
-		| ifStatement
-		;
+unit	: UNITTYPE ID '(' TYPE (',' ATTR)+ ')' TEXT ';'
+		| UNITTYPE ID '(' TYPE ',' TEXT ')' TEXT ';'
+		| UNITTYPE ID '(' TYPE ',' expression ')' TEXT ';'
+		| ifStatement;
 
-block: '{'  unit* '}';
+block: '{' unit* '}';
 
-formBlock: form ID block;
+formBlock: 'form' ID block;
 
-ifStatement : 'if' '(' condition ')' block
-			( 'else' (ifStatement | block )?; 
+ifStatement : 'if' '(' condition ')' block ( 'else' (ifStatement | block ))?;  
+
+condition: '';
+expression: '';
