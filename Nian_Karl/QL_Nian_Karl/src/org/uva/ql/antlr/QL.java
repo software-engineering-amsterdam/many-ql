@@ -1,11 +1,11 @@
-package org.uva.sea.ql.parser.antlr;
+package org.uva.ql.antlr;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.uva.sea.ql.parser.impl.QLImplListener;
-import org.uva.sea.ql.parser.impl.QLImplVisitor;
+import org.uva.ql.listener.QLImplListener;
+import org.uva.ql.visitor.QLImplVisitor;
 
 
 public class QL {
@@ -17,8 +17,7 @@ public class QL {
 			is = new ANTLRFileStream("Demo.QL");	
 		}else{
 			is = new ANTLRFileStream(path);
-		}
-		 
+		}		 
 		QLLexer lexer = new QLLexer(is);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokenStream);

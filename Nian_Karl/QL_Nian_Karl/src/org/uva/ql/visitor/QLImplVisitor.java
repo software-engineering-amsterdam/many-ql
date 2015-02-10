@@ -1,6 +1,6 @@
-package org.uva.sea.ql.parser.impl;
+package org.uva.ql.visitor;
 
-import org.uva.sea.ql.parser.antlr.QLBaseVisitor;
+import org.uva.ql.antlr.QLBaseVisitor;
 
 public class QLImplVisitor extends QLBaseVisitor<String> {
 		

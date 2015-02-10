@@ -1,12 +1,6 @@
-// Generated from QL.g4 by ANTLR 4.4
-package org.uva.sea.ql.parser.antlr;
+// Generated from QL.g4 by ANTLR 4.5
 
-package org.uva.sea.ql.parser.antlr;
-import org.uva.sea.ql.ast.expr.*;
-import org.uva.sea.ql.ast.stat.*;
-import org.uva.sea.ql.ast.form.*;
-
-import org.antlr.v4.runtime.misc.NotNull;
+package org.uva.ql.antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -22,11 +16,11 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForm(@NotNull QLParser.FormContext ctx);
+	T visitForm(QLParser.FormContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestion(@NotNull QLParser.QuestionContext ctx);
+	T visitQuestion(QLParser.QuestionContext ctx);
 }
