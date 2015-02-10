@@ -37,14 +37,15 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
                 if((Boolean) new PExpInterpreter().interprete(e, ifStmt.getExp())) {
                     new PStmtlistInterpreter().interprete(e, ifStmt.getIfstmts());
                 }
-            } catch(Exception ee) {
-                AIfStmt ifStmt = (AIfStmt) node;
-                System.out.println("If Node: " + ifStmt.getExp().toString());
-                System.out.println(e.getEnvVars().get("hasSoldHouse"));
+            } catch(InterpretationException ee) {
+                //AIfStmt ifStmt = (AIfStmt) node;
+                //System.out.println("If Node: " + ifStmt.getExp().toString());
+                //System.out.println(e.getEnvVars().get("hasSoldHouse"));
 
-                if (e.getEnvVars().get("hasSoldHouse") != null)
-                    System.out.println(e.getEnvVars().get("hasSoldHouse").getClass());
-                ee.printStackTrace();
+                //if (e.getEnvVars().get("hasSoldHouse") != null)
+                //    System.out.println(e.getEnvVars().get("hasSoldHouse").getClass());
+                //ee.printStackTrace();
+                System.out.println(ee.getMessage());
                 return false;
             }
         }
