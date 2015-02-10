@@ -1,0 +1,14 @@
+form {
+    question q1 int{
+        label    = "Pick a number above 5",
+        options  = [1..8],
+        required = True,
+        tooltip  = "Read the description in the label to know what the question is.",
+        default  = 3
+    }
+
+    field f1 string {
+        label = "Did you pick a correct number?",
+        value = q1 - 2
+    }
+}
