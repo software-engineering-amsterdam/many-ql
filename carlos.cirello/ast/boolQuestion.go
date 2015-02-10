@@ -24,11 +24,12 @@ func (s BoolQuestion) String() string {
 	return "No"
 }
 
-// Type returns "bool", therefore indicating this question type name.
+// Type returns "bool", therefore indicating this question type name
 func (s BoolQuestion) Type() string {
 	return "bool"
 }
 
+// Value converts underlying boolean into primitive boolean
 func (s BoolQuestion) Value() bool {
 	return bool(s)
 }

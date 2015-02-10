@@ -16,7 +16,11 @@ type symbolEvent struct {
 type symbolEventType int
 
 const (
+	// SymbolCreate creates an entry on the symbol table.
+	// Keep intact if already exists
 	SymbolCreate symbolEventType = iota
+	// SymbolRead reads an entry from the symbol table. Panics if not exists
 	SymbolRead
+	// SymbolUpdate updates an existing entry on the symbol table.
 	SymbolUpdate
 )
