@@ -24,7 +24,7 @@ func (vst execute) ActionNode(a *ast.ActionNode) {
 	} else if nil != a.IfNode {
 		vst.IfNode(a.IfNode)
 	} else {
-		log.Panicf("Impossible ActionNode type or empty ActionNode. %#v", a)
+		log.Fatalf("Impossible ActionNode type or empty ActionNode. %#v", a)
 	}
 }
 
@@ -55,7 +55,7 @@ func (vst execute) IfNode(i *ast.IfNode) {
 
 	q := <-ret
 	if q.Type() != "bool" {
-		log.Panicf("Error parsing expression: %s. Not a boolean value", i.Condition)
+		log.Fatalf("Error parsing expression: %s. Not a boolean value", i.Condition)
 	}
 
 	content := q.Content.(*ast.BoolQuestion)

@@ -44,7 +44,7 @@ func (v *interpreter) updateSymbolTable() {
 		if r.command == SymbolRead {
 			question, ok := v.symbolTable[r.name]
 			if !ok {
-				log.Panicf("Identifier unknown: %s", r.name)
+				log.Fatalf("Identifier unknown: %s", r.name)
 			}
 			r.ret <- question
 		} else if r.command == SymbolCreate {
@@ -56,7 +56,7 @@ func (v *interpreter) updateSymbolTable() {
 				v.symbolTable[r.name] = r.content
 			}
 		} else {
-			log.Panicf("Invalid operation at symbols table: %#v", r.command)
+			log.Fatalf("Invalid operation at symbols table: %#v", r.command)
 		}
 	}
 }
