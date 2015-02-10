@@ -72,7 +72,7 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
             ifStatements.add(s);
         }
 
-        return new IfCondition(expression, ifStatements, null);
+        return new IfCondition(expression, ifStatements);
     }
 //
 //    @Override

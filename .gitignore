@@ -1,3 +1,6 @@
+## If you need to ignore some files, please create a .gitignore file in *your* directory.
+## Thanks! Yours, @grammarware
+
 ## Absolute-path ignore rules 
 sebje/.metadata/*
 sebje/QLJava/.classpath
@@ -44,6 +47,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+*.class
 
 # Visual Studo 2015 cache/options directory
 .vs/
@@ -102,9 +106,4 @@ _ReSharper*/
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
-StevenFati/.idea/
-StevenFati/java/java.iml
-*.class
-StevenFati/java/gen/
-StevenFati/java/target/surefire-reports/TEST-WalkerTest.xml
-StevenFati/java/target/
+

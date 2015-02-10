@@ -12,20 +12,25 @@ question_type
     |   'money'
     ;
 
+string : STRING ;
 STRING :  '"' (ESC | ~["\\])* '"' ;
 fragment ESC :   '\\' (["\\/bfnrt]) ;
 
+integer : INTEGER ;
 INTEGER : '-'? '0' | [1-9] [0-9]*  ;
 
+money : MONEY ;
 MONEY : INTEGER ('.' [0-9]+)? ;
 
-ID 
+identifier : IDENTIFIER ;
+IDENTIFIER 
     :   [a-zA-Z_][a-zA-Z_0-9]* 
     ;
 
 atom
     :   boolean
-    |   STRING
-    |   INTEGER
-    |   ID
+    |   string
+    |   integer
+    |   identifier
+    |   money
     ;

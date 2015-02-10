@@ -192,4 +192,16 @@ class QLParserSpec extends Specification with ParserMatchers {
         .withResult(Mul(NumberLiteral(1), Sub(NumberLiteral(2), NumberLiteral(3))))
     }
   }
+
+  "form parser" should {
+    "ignore singleline comments" in {
+      form must succeedOn("form form1 {\n    // SINGLE LINE COMMENT\n}")
+        .withResult(Form("form1", Sequence(List())))
+    }
+
+    "ignore multi line comments" in {
+      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */\n}")
+        .withResult(Form("form1", Sequence(List())))
+    }
+  }
 }

@@ -11,6 +11,7 @@ class ASTReady:
         
     def make_if(tokens):
         condition = tokens[0]
+        print(condition)
         questions = []
         for i in range(1, len(tokens)):
             questions.append(tokens[i])
@@ -35,8 +36,9 @@ class ASTReady:
         
     def make_form(tokens):
         name = tokens[0]
+        introduction = tokens[1]
         questions = []
-        for i in range(1, len(tokens)):
+        for i in range(2, len(tokens)):
             questions.append(tokens[i])
-        x = Form(name, questions)
+        x = Form(name, introduction, questions)
         return x

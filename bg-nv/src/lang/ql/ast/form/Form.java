@@ -13,7 +13,7 @@ public class Form extends AstNode
     private String id;
     private List<Statement> statements;
 
-    public Form(String id, List<AstNode> statements)
+    public Form(String id, List<Statement> statements)
     {
 
     }

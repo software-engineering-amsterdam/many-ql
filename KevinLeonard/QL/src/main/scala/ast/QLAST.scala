@@ -15,6 +15,7 @@ trait QLAST {
   case class Sequence(l: List[Expr]) extends Expr
   case class IfExpr(v: Variable, e1: Expr, e2: Option[Expr]) extends Expr
 
+  // Questions
   sealed abstract class QuestionExpr extends Expr
   sealed abstract class ComputedQuestionExpr extends QuestionExpr
   case class BooleanQuestion(v: Variable, label: String) extends QuestionExpr
@@ -23,7 +24,6 @@ trait QLAST {
   case class ComputedBooleanQuestion(v: Variable, label: String, value: Object) extends ComputedQuestionExpr
   case class ComputedIntegerQuestion(v: Variable, label: String) extends ComputedQuestionExpr
   case class ComputedStringQuestion(v: Variable, label: String) extends ComputedQuestionExpr
-
   sealed abstract class QuestionType
   case class BooleanType() extends QuestionType
   case class IntegerType() extends QuestionType
