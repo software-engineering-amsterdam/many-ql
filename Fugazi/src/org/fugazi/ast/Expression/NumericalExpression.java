@@ -1,8 +1,32 @@
 package org.fugazi.ast.Expression;
 
-public class NumericalExpression extends Expression {
+/**
+ * The NumericalExpression class. An abstract class the express a NumericalExpression.
+ * It is a Node of the AST, and an expression.
+ */
+public abstract class NumericalExpression extends Expression {
 
-    public NumericalExpression() {
+    // The left expression
+    protected Expression leftExpr;
 
+    // The right expression
+    protected Expression rightExpr;
+
+    /**
+     * Constructor.
+     * @param _leftExpr The left expression
+     * @param _rightExpr The right expression
+     */
+    public NumericalExpression(Expression _leftExpr, Expression _rightExpr) {
+        leftExpr = _leftExpr;
+        rightExpr = _rightExpr;
+    }
+
+    public Expression getLeftExpr() {
+        return leftExpr;
+    }
+
+    public Expression getRightExpr() {
+        return rightExpr;
     }
 }

@@ -1,7 +1,6 @@
 package org.fugazi.ast.Literals;
 
 import org.fugazi.ast.ASTNode.ASTNode;
-import org.fugazi.ast.Type.TypeVisitor;
 
 /**
  * The Literal class. An abstract class the express a Literal.

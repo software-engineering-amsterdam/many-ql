@@ -1,17 +1,17 @@
 package org.fugazi.ast.Expression;
 
 /**
- * The AND '&&'.
+ * The Multiplication '*'.
  */
-public class AndExpression extends LogicalExpression {
+public class MulExpression extends NumericalExpression {
 
-    public AndExpression(Expression _leftExpr, Expression _rightExpr) {
+    public MulExpression(Expression _leftExpr, Expression _rightExpr) {
         super(_leftExpr, _rightExpr);
     }
 
     @Override
     public String toString() {
-        return this.leftExpr.toString() + " && " + this.rightExpr.toString();
+        return this.leftExpr.toString() + " * " + this.rightExpr.toString();
     }
 
     @Override

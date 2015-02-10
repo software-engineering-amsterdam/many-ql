@@ -1,17 +1,17 @@
 package org.fugazi.ast.Expression;
 
 /**
- * The AND '&&'.
+ * The Less Equal '<='.
  */
-public class AndExpression extends LogicalExpression {
+public class NotEqExpression extends ComparisonExpression {
 
-    public AndExpression(Expression _leftExpr, Expression _rightExpr) {
+    public NotEqExpression(Expression _leftExpr, Expression _rightExpr) {
         super(_leftExpr, _rightExpr);
     }
 
     @Override
     public String toString() {
-        return this.leftExpr.toString() + " && " + this.rightExpr.toString();
+        return this.leftExpr.toString() + " != " + this.rightExpr.toString();
     }
 
     @Override
