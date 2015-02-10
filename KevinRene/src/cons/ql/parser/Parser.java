@@ -10,11 +10,12 @@ public class Parser {
 	public static void main(String[] args) {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Press 'x' to stop");
 			while (true) {
 				System.out.print("Enter a statement:");
 				String str = br.readLine();
 				if ("x".equalsIgnoreCase(str)) {
-					System.out.println("Shutting down!");
+					System.out.println("Stopped.");
 					break;
 				}
 				else {
@@ -70,6 +71,11 @@ public class Parser {
 	 * @param tail Whether or not the current root node is the final child
 	 */
 	private static void printSubTree(ASTNode root, String prefix, boolean tail) {
+		
+		if (root == null) {
+			System.out.println("This node is undefined");
+			return;
+		}
 
 		String type = root.getClass().getSimpleName();
 		System.out.println(prefix + (tail ? "└── " : "├── ") + root + " : " + type);
