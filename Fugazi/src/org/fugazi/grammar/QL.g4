@@ -10,11 +10,11 @@ grammar QL;
 form    : 'form' ID '{' statement* '}';
 
 // statement - can be a question or an if statement
-statement   : questionDeclaration           # stamentQuestoinDeclaration
-            | ifStatement                   # stamentifStatement
+statement   : questionDeclaration
+            | ifStatement
             ;
 
-// an if statement
+// an if statement˝
 // supported form: if(expr){...}
 ifStatement : 'if' '(' logicalExpression ')' '{' (ifStatement | questionDeclaration)* '}';
 
@@ -56,13 +56,13 @@ numericalExpression  : '(' numericalExpression ')'                    # brackete
 // 3. if (value && value || value.. ..)
 // 4. if (!value)
 // 5. if (value && !value..)
-logicalExpression  : '(' logicalExpression ')'                                                      # nestedExpression
-                   | '!' logicalExpression                                                          # negation
-                   | logicalExpression ('>' | '>=' | '<' | '<=' | '==' | '!=') logicalExpression    # comparison
-                   | logicalExpression '&&' logicalExpression                                       # logicalAnd
-                   | logicalExpression '||' logicalExpression                                       # logicalOr
-                   | ID                                                                             # logicalId
-                   | NUMBER                                                                         # logicalNumber
+logicalExpression  : '(' logicalExpression ')'                                                      //# nestedExpression
+                   | '!' logicalExpression                                                          //# negation
+                   | logicalExpression ('>' | '>=' | '<' | '<=' | '==' | '!=') logicalExpression    //# comparison
+                   | logicalExpression '&&' logicalExpression                                       //# logicalAnd
+                   | logicalExpression '||' logicalExpression                                       //# logicalOr
+                   | ID                                                                             //# logicalId
+                   | NUMBER                                                                         //# logicalNumber
                    ;
 
 /**

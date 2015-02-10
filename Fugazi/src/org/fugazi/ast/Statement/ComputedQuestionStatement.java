@@ -1,6 +1,7 @@
 package org.fugazi.ast.Statement;
 
-import com.sun.org.apache.xpath.internal.Expression;
+import org.fugazi.ast.Expression.Expression;
+
 import org.fugazi.ast.Literals.ID;
 import org.fugazi.ast.Type.Type;
 

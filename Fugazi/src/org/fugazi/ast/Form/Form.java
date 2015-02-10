@@ -3,7 +3,7 @@ package org.fugazi.ast.Form;
 import org.fugazi.ast.ASTNode.ASTNode;
 import org.fugazi.ast.Statement.Statement;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The form class, this class represents the 'form' statement.
@@ -15,7 +15,7 @@ public class Form extends ASTNode {
     private String name;
     
     // The list of the statements the form has.
-    private List<Statement> statements;
+    private ArrayList<Statement> statements;
 
     /**
      * Constructor.
@@ -23,7 +23,7 @@ public class Form extends ASTNode {
      * @param _name the form's name
      * @param _statements the statements of the form.
      */
-    public Form(String _name, List<Statement> _statements) {
+    public Form(String _name, ArrayList<Statement> _statements) {
         this.name = _name;
         this.statements = _statements;
     }
@@ -40,7 +40,7 @@ public class Form extends ASTNode {
      * Get the form's statements.
      * @return statements list.
      */
-    public List<Statement> getStatements() {
+    public ArrayList<Statement> getStatements() {
         return this.statements;
     }
 }

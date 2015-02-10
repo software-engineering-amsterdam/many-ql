@@ -160,51 +160,27 @@ public class QLParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
+		public QuestionDeclarationContext questionDeclaration() {
+			return getRuleContext(QuestionDeclarationContext.class,0);
+		}
+		public IfStatementContext ifStatement() {
+			return getRuleContext(IfStatementContext.class,0);
+		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-	 
-		public StatementContext() { }
-		public void copyFrom(StatementContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class StamentQuestoinDeclarationContext extends StatementContext {
-		public QuestionDeclarationContext questionDeclaration() {
-			return getRuleContext(QuestionDeclarationContext.class,0);
-		}
-		public StamentQuestoinDeclarationContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterStamentQuestoinDeclaration(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitStamentQuestoinDeclaration(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStamentQuestoinDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class StamentifStatementContext extends StatementContext {
-		public IfStatementContext ifStatement() {
-			return getRuleContext(IfStatementContext.class,0);
-		}
-		public StamentifStatementContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterStamentifStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitStamentifStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStamentifStatement(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -218,7 +194,6 @@ public class QLParser extends Parser {
 			case T__8:
 			case T__9:
 			case T__10:
-				_localctx = new StamentQuestoinDeclarationContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(25); 
@@ -226,7 +201,6 @@ public class QLParser extends Parser {
 				}
 				break;
 			case T__3:
-				_localctx = new StamentifStatementContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(26); 
@@ -732,151 +706,29 @@ public class QLParser extends Parser {
 	}
 
 	public static class LogicalExpressionContext extends ParserRuleContext {
+		public List<LogicalExpressionContext> logicalExpression() {
+			return getRuleContexts(LogicalExpressionContext.class);
+		}
+		public LogicalExpressionContext logicalExpression(int i) {
+			return getRuleContext(LogicalExpressionContext.class,i);
+		}
+		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
+		public TerminalNode NUMBER() { return getToken(QLParser.NUMBER, 0); }
 		public LogicalExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalExpression; }
-	 
-		public LogicalExpressionContext() { }
-		public void copyFrom(LogicalExpressionContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class NegationContext extends LogicalExpressionContext {
-		public LogicalExpressionContext logicalExpression() {
-			return getRuleContext(LogicalExpressionContext.class,0);
-		}
-		public NegationContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterNegation(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitNegation(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitNegation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class NestedExpressionContext extends LogicalExpressionContext {
-		public LogicalExpressionContext logicalExpression() {
-			return getRuleContext(LogicalExpressionContext.class,0);
-		}
-		public NestedExpressionContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterNestedExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitNestedExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitNestedExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class LogicalNumberContext extends LogicalExpressionContext {
-		public TerminalNode NUMBER() { return getToken(QLParser.NUMBER, 0); }
-		public LogicalNumberContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalNumber(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalNumber(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalNumber(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class LogicalOrContext extends LogicalExpressionContext {
-		public List<LogicalExpressionContext> logicalExpression() {
-			return getRuleContexts(LogicalExpressionContext.class);
-		}
-		public LogicalExpressionContext logicalExpression(int i) {
-			return getRuleContext(LogicalExpressionContext.class,i);
-		}
-		public LogicalOrContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalOr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalOr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalOr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class LogicalIdContext extends LogicalExpressionContext {
-		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
-		public LogicalIdContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalId(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalId(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalId(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ComparisonContext extends LogicalExpressionContext {
-		public List<LogicalExpressionContext> logicalExpression() {
-			return getRuleContexts(LogicalExpressionContext.class);
-		}
-		public LogicalExpressionContext logicalExpression(int i) {
-			return getRuleContext(LogicalExpressionContext.class,i);
-		}
-		public ComparisonContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterComparison(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitComparison(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitComparison(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class LogicalAndContext extends LogicalExpressionContext {
-		public List<LogicalExpressionContext> logicalExpression() {
-			return getRuleContexts(LogicalExpressionContext.class);
-		}
-		public LogicalExpressionContext logicalExpression(int i) {
-			return getRuleContext(LogicalExpressionContext.class,i);
-		}
-		public LogicalAndContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalAnd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalAnd(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalAnd(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -901,10 +753,6 @@ public class QLParser extends Parser {
 			switch (_input.LA(1)) {
 			case T__15:
 				{
-				_localctx = new NegationContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-
 				setState(84); 
 				match(T__15);
 				setState(85); 
@@ -913,9 +761,6 @@ public class QLParser extends Parser {
 				break;
 			case T__4:
 				{
-				_localctx = new NestedExpressionContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
 				setState(86); 
 				match(T__4);
 				setState(87); 
@@ -926,18 +771,12 @@ public class QLParser extends Parser {
 				break;
 			case ID:
 				{
-				_localctx = new LogicalIdContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
 				setState(90); 
 				match(ID);
 				}
 				break;
 			case NUMBER:
 				{
-				_localctx = new LogicalNumberContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
 				setState(91); 
 				match(NUMBER);
 				}
@@ -958,7 +797,7 @@ public class QLParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ComparisonContext(new LogicalExpressionContext(_parentctx, _parentState));
+						_localctx = new LogicalExpressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpression);
 						setState(94);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
@@ -974,7 +813,7 @@ public class QLParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new LogicalAndContext(new LogicalExpressionContext(_parentctx, _parentState));
+						_localctx = new LogicalExpressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpression);
 						setState(97);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
@@ -986,7 +825,7 @@ public class QLParser extends Parser {
 						break;
 					case 3:
 						{
-						_localctx = new LogicalOrContext(new LogicalExpressionContext(_parentctx, _parentState));
+						_localctx = new LogicalExpressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpression);
 						setState(100);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");

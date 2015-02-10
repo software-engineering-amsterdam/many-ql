@@ -19,29 +19,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitForm(@NotNull QLParser.FormContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code stamentQuestoinDeclaration}
-	 * labeled alternative in {@link QLParser#statement}.
+	 * Enter a parse tree produced by {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterStamentQuestoinDeclaration(@NotNull QLParser.StamentQuestoinDeclarationContext ctx);
+	void enterStatement(@NotNull QLParser.StatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code stamentQuestoinDeclaration}
-	 * labeled alternative in {@link QLParser#statement}.
+	 * Exit a parse tree produced by {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitStamentQuestoinDeclaration(@NotNull QLParser.StamentQuestoinDeclarationContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code stamentifStatement}
-	 * labeled alternative in {@link QLParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterStamentifStatement(@NotNull QLParser.StamentifStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code stamentifStatement}
-	 * labeled alternative in {@link QLParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitStamentifStatement(@NotNull QLParser.StamentifStatementContext ctx);
+	void exitStatement(@NotNull QLParser.StatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree
@@ -147,87 +133,13 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code negation}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
+	 * Enter a parse tree produced by {@link QLParser#logicalExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterNegation(@NotNull QLParser.NegationContext ctx);
+	void enterLogicalExpression(@NotNull QLParser.LogicalExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code negation}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
+	 * Exit a parse tree produced by {@link QLParser#logicalExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitNegation(@NotNull QLParser.NegationContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code nestedExpression}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNestedExpression(@NotNull QLParser.NestedExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code nestedExpression}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNestedExpression(@NotNull QLParser.NestedExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code logicalOr}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalOr(@NotNull QLParser.LogicalOrContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code logicalOr}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalOr(@NotNull QLParser.LogicalOrContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code logicalNumber}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalNumber(@NotNull QLParser.LogicalNumberContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code logicalNumber}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalNumber(@NotNull QLParser.LogicalNumberContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code logicalId}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalId(@NotNull QLParser.LogicalIdContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code logicalId}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalId(@NotNull QLParser.LogicalIdContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code comparison}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterComparison(@NotNull QLParser.ComparisonContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code comparison}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitComparison(@NotNull QLParser.ComparisonContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code logicalAnd}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalAnd(@NotNull QLParser.LogicalAndContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code logicalAnd}
-	 * labeled alternative in {@link QLParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalAnd(@NotNull QLParser.LogicalAndContext ctx);
+	void exitLogicalExpression(@NotNull QLParser.LogicalExpressionContext ctx);
 }

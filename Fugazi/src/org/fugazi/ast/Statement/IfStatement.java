@@ -1,26 +1,26 @@
 package org.fugazi.ast.Statement;
 
 import org.fugazi.ast.Expression.LogicalExpression;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The If Statement class.
  * It is a Node of the AST, and a statement.
  */
-public class IfStatement extends Statement{
+public class IfStatement extends Statement {
 
     // The condition to be checked.
     private LogicalExpression condition;
     
     // The list of the statements that would be executed in case the condition if true.
-    private List<Statement> statements;
+    private ArrayList<Statement> statements;
 
     /**
      * Constructor
      * @param _condition The condition to be checked.
      * @param _statements The list of the statements
      */
-    public IfStatement(LogicalExpression _condition, List<Statement> _statements) {
+    public IfStatement(LogicalExpression _condition, ArrayList<Statement> _statements) {
         this.condition = _condition;
         this.statements = _statements;
     }
@@ -37,7 +37,7 @@ public class IfStatement extends Statement{
      * Get the list of statements.
      * @return statements
      */
-    public List<Statement> getStatements() {
+    public ArrayList<Statement> getStatements() {
         return this.statements;
     }
 
