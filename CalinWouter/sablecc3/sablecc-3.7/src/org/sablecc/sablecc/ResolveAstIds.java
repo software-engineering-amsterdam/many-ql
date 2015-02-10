@@ -310,7 +310,7 @@ public class ResolveAstIds extends DepthFirstAdapter
   {
     throw new RuntimeException(
       "[" + token.getLine() + "," + token.getPos() + "] " +
-      name + " undefined. If it is a production, It should be defined in AST section");
+      name + " undefined. IfStmt it is a production, It should be defined in AST section");
   }
 
   private static void error3(Token token, String name)

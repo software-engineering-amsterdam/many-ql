@@ -22,6 +22,9 @@ func New(stream io.Writer) *Output {
 func (o *Output) Write(q *ast.QuestionaireNode) {
 	csv := csv.NewWriter(o.stream)
 	for _, action := range q.Stack {
+		if nil == action.QuestionNode {
+			continue
+		}
 		v := action.QuestionNode
 		csv.Write([]string{v.Identifier, v.Label, v.Content.String()})
 	}

@@ -12,9 +12,9 @@ package nl.uva.se.parser;
 package nl.uva.se.parser;
 }
 
-form : 		FORM IDENTIFIER STARTSYMBOL (question|ifClause)* ENDSYMBOL;
-question : 	IDENTIFIER TYPE ':' STRING;
-ifClause : 	IFCLAUSE '(' IDENTIFIER ')' STARTSYMBOL question* ENDSYMBOL;
+form : 		FORM IDENTIFIER STARTSYMBOL (question|ifClause)* ENDSYMBOL #formType;
+question : 	IDENTIFIER TYPE ':' STRING #questionType;
+ifClause : 	IFCLAUSE '(' IDENTIFIER ')' STARTSYMBOL question* ENDSYMBOL #ifClauseType;
 
 // Tokens
 
