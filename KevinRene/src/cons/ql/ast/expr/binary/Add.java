@@ -7,7 +7,7 @@ public class Add extends Binary {
 
 	final static String operator = "+";
 	
-	public Add(Expr left, Expr right) {
+	public Add(Expr left, Expr right) {		
 		super(left, right, operator);
 	}
 }
