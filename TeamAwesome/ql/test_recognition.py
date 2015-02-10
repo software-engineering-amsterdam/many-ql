@@ -11,7 +11,7 @@ def run_test(print_tree_always, test_filename):
     stream = CommonTokenStream(lexer)
     parser = QLParser(stream)
 
-    method_name = test_filename.split('.')[0].split('_')[1]
+    method_name = test_filename.split('.')[0].split('_')[2]
     tree_test = getattr(parser, method_name)()
 
     if parser._syntaxErrors > 0 or print_tree_always:
@@ -55,7 +55,7 @@ def main():
     if args.file:
         test_filenames = [args.file]
     else:
-        test_filenames = glob.glob('test_*.ql')
+        test_filenames = glob.glob('recognize_as_*.ql')
 
     for test_filename in test_filenames:
         errors += run_test(args.trees, test_filename)
