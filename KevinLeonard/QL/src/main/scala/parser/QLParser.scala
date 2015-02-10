@@ -54,9 +54,21 @@ class QLParser extends JavaTokenParsers with QLAST {
   def and: Parser[Expr] = rep1sep(not, "and") ^^ {
     _.reduceLeft(And)
   }
-  def not: Parser[Expr] = opt("not") ~ arithmeticExpression ^^ {
+  def not: Parser[Expr] = opt("not") ~ equality ^^ {
     case Some(_) ~ x => Not(x)
     case _ ~ x => x
+  }
+  def equality: Parser[Expr] = comparison ~ opt(("==" | "!=") ~ comparison) ^^ {
+    case l ~ Some("==" ~ r) => Equal(l, r)
+    case l ~ Some("!=" ~ r) => NotEqual(l, r)
+    case x ~ _ => x
+  }
+  def comparison: Parser[Expr] = arithmeticExpression ~ opt(("<=" | "<" | ">=" | ">") ~ arithmeticExpression) ^^ {
+    case l ~ Some("<=" ~ r) => LessThanEqual(l, r)
+    case l ~ Some("<" ~ r) => LessThan(l, r)
+    case l ~ Some(">=" ~ r) => GreaterThanEqual(l, r)
+    case l ~ Some(">" ~ r) => GreaterThan(l, r)
+    case x ~ _ => x
   }
 
   // Arithmetic expressions
@@ -73,10 +85,6 @@ class QLParser extends JavaTokenParsers with QLAST {
   def divide: Parser[Expr] = rep1sep(atom, "/") ^^ {
     _.reduceLeft(Div)
   }
-  def atom: Parser[Expr] = (
-    literal
-    | variable
-    | "(" ~> booleanExpression <~ ")"
-    )
+  def atom: Parser[Expr] = (literal | variable | "(" ~> booleanExpression <~ ")")
 
 }

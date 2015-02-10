@@ -33,6 +33,12 @@ trait QLAST {
   case class Or(l: Expr, r: Expr) extends Expr
   case class And(l: Expr, r: Expr) extends Expr
   case class Not(v: Expr) extends Expr
+  case class Equal(l: Expr, r: Expr) extends Expr
+  case class NotEqual(l: Expr, r: Expr) extends Expr
+  case class LessThan(l: Expr, r: Expr) extends Expr
+  case class LessThanEqual(l: Expr, r: Expr) extends Expr
+  case class GreaterThan(l: Expr, r: Expr) extends Expr
+  case class GreaterThanEqual(l: Expr, r: Expr) extends Expr
   case class Add(l: Expr, r: Expr) extends Expr
   case class Sub(l: Expr, r: Expr) extends Expr
   case class Mul(l: Expr, r: Expr) extends Expr
