@@ -2,8 +2,4 @@ package cons.ql.ast.expr;
 
 import cons.ql.ast.Expr;
 
-public abstract class QLType extends Expr {
-
-	public abstract String show();
-
-}
+public abstract class QLType extends Expr {}
