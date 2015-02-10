@@ -5,6 +5,7 @@ UvA - Software Construction 2014-2015
 - Theologos Zacharopoulos (10850619)
 - Lukasz Harezlak (10630171)
 
+We are working on the branch [fugazi](https://github.com/software-engineering-amsterdam/many-ql/tree/fugazi/).
 
 Tools
 ========
@@ -12,14 +13,14 @@ Tools
 ## Programming Language
 
 As a programming language we use `Java`, the reason is that both members of the team haven't worked before extensively in this
-language and since Java is considered as a "broadly-used and "must-know" language we saw this as an opportunity to get our dirty with Java. 
-Also, Java provides numerous of documentation resources in the field of DSL's and a lot of tools for parsing. It is very intuitive as
+language and since Java is considered as a "broadly-used and "must-know" language we saw this as an opportunity to get our hands dirty for real with Java.
+Also, Java provides numerous of documentation resources in the field of DSLs and a lot of tools for parsing. It is very intuitive as
 an Object oriented language, and is a common ground for object oriented developers.
 
 ## Parser Generator
 
 As a parser generator we chose `ANTLR4`, since there is a great resources base online, more specifically we follow the official Antlr4 book
-`The definitive antlr4 reference, Terrence Parr, 2012` which is a good place to start.
+`The definitive antlr4 reference, Terrence Parr, 2012` which is a good place to start and gives some good insight on the topic in general.
 Also, `ANTLR` has been used a lot in big projects including *Twitter search*, *Hive & Pig of Hadoop*, *SQL Developer IDE* and many more, has a lot
 of support and many active online communities.
 
@@ -44,7 +45,7 @@ before and we feel more comfortable by using it.
 
 For our help we use some external tools that help our development process:
 
-- **ANTLR4 plugin** for IntelliJ IDEA: provides tools for generationg, testing, visualising the ANTLR project files.
+- **ANTLR4 plugin** for IntelliJ IDEA: provides tools for generating, testing, visualising the ANTLR project files.
 
 
 Development
@@ -52,7 +53,7 @@ Development
 
 ## Setting up the environment (UNIX)
 
-**Install ANTLR4 to your system:**
+**Install ANTLR4:**
 ```
 cd /usr/local/lib
 curl -O http://www.antlr.org/download/antlr-4.5-complete.jar
@@ -101,13 +102,6 @@ OR cmd+shift+G*
 
 **Jetbrains Antlr test:**
 *Inside of a g4 file -> right click on the token you want to test -> Test Rule <token>*
-
-## Build
-//TODO
-
-## Tests
-//TODO
-
 
 Architecture
 =======

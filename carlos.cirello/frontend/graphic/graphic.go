@@ -14,7 +14,7 @@ import (
 type msg struct {
 	Identifier string
 	Label      string
-	Content    string
+	Type       string
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
@@ -22,39 +22,59 @@ type Gui struct {
 	msgChan chan msg
 	appName string
 
-	mu    sync.Mutex
-	stack []msg
+	mu          sync.Mutex
+	stack       []msg
+	answerStack map[string]string
+}
+
+type answer struct {
+	Identifier string
+	Content    string
 }
 
 // GUI creates the driver for Frontend process.
 func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
-		msgChan: make(chan msg),
-		appName: appName,
+		msgChan:     make(chan msg),
+		answerStack: make(map[string]string),
+		appName:     appName,
 	}
 	return driver
 }
 
 // InputQuestion adds a new question into the GUI form stack
-func (g *Gui) InputQuestion(q *ast.Question) {
+func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
+	defer g.mu.Unlock()
+
 	m := &msg{
 		q.Identifier,
 		q.Label,
-		"",
+		q.Type(),
 	}
 	g.stack = append(g.stack, *m)
-	g.mu.Unlock()
 }
 
 // Flush transfers form stack into the screen.
 func (g *Gui) Flush() {
 	g.mu.Lock()
+	defer g.mu.Unlock()
+
 	for _, v := range g.stack {
 		g.msgChan <- v
 	}
 	g.stack = []msg{}
-	g.mu.Unlock()
+}
+
+// FetchAnswers unloads the current captured answers from user to Frontend
+// process and VM
+func (g *Gui) FetchAnswers() map[string]string {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	answerStack := g.answerStack
+	g.answerStack = make(map[string]string)
+	return answerStack
 }
 
 // Loop executes GUI main loop, which actually delegates the interface to the
@@ -76,8 +96,9 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 	for {
 		select {
 		case event := <-g.msgChan:
-			addNewQuestion(
+			g.addNewQuestion(
 				rows,
+				event.Type,
 				event.Identifier,
 				event.Label,
 			)
@@ -85,23 +106,48 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 	}
 }
 
-func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
+// todo(carlos) improve readability
+func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
+	newFieldCaption string) {
+
 	engine := qml.NewEngine()
-	newQuestionQML := renderNewQuestion(newTextfieldName,
-		newTextfieldQuestion)
+	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
+		newFieldCaption)
 	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
 	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err, "Got:", newQuestionQML)
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
+			"Got:", newQuestionQML)
 	}
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
-	textField := question.ObjectByName(
-		renderNewQuestionTextfieldName(newTextfieldName))
-	textField.On("editingFinished", func() {
-		log.Println("finished editing, send to VM:",
-			textField.String("text"))
-	})
+
+	newFieldPtr := question.ObjectByName(newFieldName)
+	// todo(carlos) improve readability
+	if "bool" == newFieldType {
+		newFieldPtr.On("clicked", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.Bool("checked")
+
+			g.answerStack[objectName] = "0"
+			if content {
+				g.answerStack[objectName] = "1"
+			}
+		})
+	} else {
+		newFieldPtr.On("editingFinished", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.String("text")
+			g.answerStack[objectName] = content
+		})
+	}
+
 	// todo(carlos) Use this command to disappear with the question
 	// question.Destroy()
 }

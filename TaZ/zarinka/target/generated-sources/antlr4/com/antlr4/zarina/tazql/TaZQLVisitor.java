@@ -18,6 +18,18 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFormId(@NotNull TaZQLParser.FormIdContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link TaZQLParser#answerId}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnswerId(@NotNull TaZQLParser.AnswerIdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link TaZQLParser#questionId}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionId(@NotNull TaZQLParser.QuestionIdContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link TaZQLParser#form}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
