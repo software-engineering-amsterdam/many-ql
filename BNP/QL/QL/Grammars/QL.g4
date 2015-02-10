@@ -25,6 +25,25 @@ formBlock: 'form' ID block;
 
 ifStatement : 'if' '(' condition ')' block ( 'else' (ifStatement | block ))?;  
 
-condition: 'nothing';
 
-expression: 'nothing';
+// OPERATORS & EXPRESSIONS
+CALCOPERATOR	: '*' | '/'
+				| '+' | '-'
+				;
+ANDOROPERATOR	: '&&' | '||';
+NEQOPERATOR		: '==' | '!=';
+COMPAREOPERATOR	: '>' | '>='
+				| '<' | '<='
+				;
+
+OPERATOR		: CALCOPERATOR
+				| ANDOROPERATOR
+				| NEQOPERATOR
+				| COMPAREOPERATOR
+				;				
+
+expression		: '(' (expression | condition) ')';
+condition		: NUMBER OPERATOR NUMBER
+				| YESNO NEQOPERATOR YESNO
+				| TEXT NEQOPERATOR TEXT
+				;
