@@ -14,10 +14,10 @@ public class Block extends Statement {
 		this.statements.add(statement);
 	}
 	
-	// TODO solve the case where it receives a bunch of statements
-//	public Block(Statement statements, ) {
-//		
-//	}
+	public Block(Block statements, Statement statement) {
+		this.statements.add(statement);
+		this.statements.addAll(statements.statements());
+	}
 	
 	public ArrayList<Statement> statements() {
 		return this.statements;
