@@ -13,13 +13,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 public class App {
 
-	public static void main(String[] args) throws FileNotFoundException,
-			IOException {
-		InputStream url = App.class.getResourceAsStream("/form.ql");
-		ANTLRInputStream input = new ANTLRInputStream(url);
-		QLLexer lexer = new QLLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		QLParser parser = new QLParser(tokens);
-		ParseTree tree = parser.form();
-	}
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        InputStream url = App.class.getResourceAsStream("/form.ql");
+        ANTLRInputStream input = new ANTLRInputStream(url);
+        QLLexer lexer = new QLLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        QLParser parser = new QLParser(tokens);
+        ParseTree tree = parser.form();
+    }
 }

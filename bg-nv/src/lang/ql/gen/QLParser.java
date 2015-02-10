@@ -1,10 +1,7 @@
 // Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
 package lang.ql.gen;
 
-//package lang.ql.gen;
-import lang.ql.ast.expression.*;
-
-//import org.uva.sea.ql.ast.expr.*;
+    import lang.ql.ast.expression.*;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -24,8 +21,8 @@ public class QLParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, Keywords=11, QuestionType=12, Identifier=13, Integer=14, String=15, 
-		Comment=16, LineComment=17, WS=18;
+		T__9=10, Boolean=11, QuestionType=12, Identifier=13, Decimal=14, Integer=15, 
+		String=16, Comment=17, Date=18, LineComment=19, WS=20;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_question = 2, RULE_ifCondition = 3, 
 		RULE_expression = 4;
@@ -38,9 +35,9 @@ public class QLParser extends Parser {
 		"'/'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, null, null, "Keywords", 
-		"QuestionType", "Identifier", "Integer", "String", "Comment", "LineComment", 
-		"WS"
+		null, null, null, null, null, null, null, null, null, null, null, "Boolean", 
+		"QuestionType", "Identifier", "Decimal", "Integer", "String", "Comment", 
+		"Date", "LineComment", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -104,14 +101,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_form; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterForm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitForm(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitForm(this);
 			else return visitor.visitChildren(this);
@@ -172,14 +161,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitStatement(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
@@ -232,14 +213,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion(this);
@@ -297,14 +270,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ifCondition; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterIfCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitIfCondition(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIfCondition(this);
 			else return visitor.visitChildren(this);
@@ -358,11 +323,10 @@ public class QLParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
-		public Expression result;
 		public ExpressionContext left;
 		public Token op;
 		public ExpressionContext x;
-		public Token atom;
+		public Token a;
 		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -377,14 +341,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExpression(this);
@@ -437,19 +393,19 @@ public class QLParser extends Parser {
 			case Integer:
 				{
 				setState(49); 
-				((ExpressionContext)_localctx).atom = match(Integer);
+				((ExpressionContext)_localctx).a = match(Integer);
 				}
 				break;
 			case String:
 				{
 				setState(50); 
-				((ExpressionContext)_localctx).atom = match(String);
+				((ExpressionContext)_localctx).a = match(String);
 				}
 				break;
 			case Identifier:
 				{
 				setState(51); 
-				((ExpressionContext)_localctx).atom = match(Identifier);
+				((ExpressionContext)_localctx).a = match(Identifier);
 				}
 				break;
 			default:
@@ -540,7 +496,7 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\24D\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\26D\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\2\3\2\6\2\21\n\2\r\2\16\2\22\3\2"+
 		"\3\2\3\3\3\3\5\3\31\n\3\3\4\3\4\3\4\3\4\5\4\37\n\4\3\5\3\5\3\5\3\5\3\5"+
 		"\3\5\6\5\'\n\5\r\5\16\5(\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3"+
@@ -550,11 +506,11 @@ public class QLParser extends Parser {
 		"\21\5\4\3\2\20\17\3\2\2\2\21\22\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23"+
 		"\24\3\2\2\2\24\25\7\5\2\2\25\3\3\2\2\2\26\31\5\6\4\2\27\31\5\b\5\2\30"+
 		"\26\3\2\2\2\30\27\3\2\2\2\31\5\3\2\2\2\32\33\7\16\2\2\33\34\7\17\2\2\34"+
-		"\36\7\21\2\2\35\37\5\n\6\2\36\35\3\2\2\2\36\37\3\2\2\2\37\7\3\2\2\2 !"+
+		"\36\7\22\2\2\35\37\5\n\6\2\36\35\3\2\2\2\36\37\3\2\2\2\37\7\3\2\2\2 !"+
 		"\7\6\2\2!\"\7\7\2\2\"#\5\n\6\2#$\7\b\2\2$&\7\4\2\2%\'\5\4\3\2&%\3\2\2"+
 		"\2\'(\3\2\2\2(&\3\2\2\2()\3\2\2\2)*\3\2\2\2*+\7\5\2\2+\t\3\2\2\2,-\b\6"+
 		"\1\2-.\t\2\2\2.\67\5\n\6\b/\60\7\7\2\2\60\61\5\n\6\2\61\62\7\b\2\2\62"+
-		"\67\3\2\2\2\63\67\7\20\2\2\64\67\7\21\2\2\65\67\7\17\2\2\66,\3\2\2\2\66"+
+		"\67\3\2\2\2\63\67\7\21\2\2\64\67\7\22\2\2\65\67\7\17\2\2\66,\3\2\2\2\66"+
 		"/\3\2\2\2\66\63\3\2\2\2\66\64\3\2\2\2\66\65\3\2\2\2\67@\3\2\2\289\f\7"+
 		"\2\29:\t\3\2\2:?\5\n\6\b;<\f\6\2\2<=\t\2\2\2=?\5\n\6\7>8\3\2\2\2>;\3\2"+
 		"\2\2?B\3\2\2\2@>\3\2\2\2@A\3\2\2\2A\13\3\2\2\2B@\3\2\2\2\t\22\30\36(\66"+
