@@ -53,14 +53,12 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
     }
 
     private TableModel getTableModel() {
-        final DefaultTableModel tableModel = new DefaultTableModel(0,2) {
-
+        final DefaultTableModel tableModel = new DefaultTableModel(0,2) {-
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 1;
             }
         };
-        DefaultTableModel tableModel = new DefaultTableModel(0,2);
         for (QuestionModel questionModel : environment.getQuestionModels()) {
             tableModel.addRow(new Object[] {
                     questionModel.getText(),
