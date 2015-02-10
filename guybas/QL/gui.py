@@ -19,7 +19,8 @@ class QuestionnaireGUI:
             i += 1
             if isinstance(question, ConditionalQuestions):
                 continue
-            # if()
+            if question.get_type() is 'boolean':
+                print(1)
             Label(text=question.get_label(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
 
     def show(self):
