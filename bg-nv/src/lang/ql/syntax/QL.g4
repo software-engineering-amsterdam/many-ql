@@ -18,6 +18,7 @@ expression
     | left=expression operator=('=='|'!=') right=expression
     | left=expression operator='&&' right=expression
     | left=expression operator='||' right=expression
+    | primary=Boolean
     | primary=Date
     | primary=Decimal
     | primary=String
