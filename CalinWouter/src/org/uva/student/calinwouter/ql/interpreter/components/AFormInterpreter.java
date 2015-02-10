@@ -13,6 +13,17 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 
 public class AFormInterpreter implements InterpreterInterface<PForm> {
+    /*
+    Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
+        Parser parser = new Parser(lexer);
+        try {
+            Start ast = parser.parse();
+            // TODO assumes form.
+            new AFormInterpreter().interprete(new Environment(), ((AFormBegin) ast.getPBegin()).getForm());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+     */
     private Environment environment;
     private PForm form;
     private TableModel tableModel;

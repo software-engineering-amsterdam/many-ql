@@ -48,7 +48,12 @@ Ignored Tokens
 
     comment, blank;
 
-Productions	
+Productions
+    begin {-> begin}
+        = {form} form                                   {-> New begin.form(form.form) }
+        | {exp}  exp                                    {-> New begin.exp(exp.exp) }
+        ;
+
     form {-> form}
         = tform ident lbrace stmtlist rbrace			{-> New form(ident, stmtlist.stmtlist)}
         ;
@@ -116,6 +121,10 @@ Productions
         ;
 
 Abstract Syntax Tree
+    begin
+        = {form}        form
+        | {exp}         exp
+        ;
     form
         =			    [ident]:ident [stmtlist]:stmtlist
         ;
