@@ -1,6 +1,8 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
+import org.uva.student.calinwouter.ql.generated.lexer.Lexer;
 import org.uva.student.calinwouter.ql.generated.node.*;
+import org.uva.student.calinwouter.ql.generated.parser.Parser;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.DisplayModelInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
@@ -9,13 +11,16 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.PushbackReader;
+import java.io.StringReader;
 
 public class AFormInterpreter implements InterpreterInterface<PForm> {
     private Environment environment;
     private PForm form;
-    //private TableModel tableModel;
+    private TableModel tableModel;
     private JTable jtable;
 
     private TableModel createTableModel() {
@@ -37,8 +42,19 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         frame.setVisible(true);
     }
 
+    private Object interpreteExpression(String expression) {
+        Lexer lexer = new Lexer(new PushbackReader(new StringReader(expression)));
+        Parser parser = new Parser(lexer);
+        try {
+            Start ast = parser.parse();
+            return new PExpInterpreter().interprete(environment, ((AExpBegin) ast.getPBegin()).getExp());
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private TableModel getTableModel() {
-        final DefaultTableModel tableModel = new DefaultTableModel(0,2) {
+        final DefaultTableModel tableModel = new DefaultTableModel(new String[] { "Field", "Value" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return environment.getDisplayModels().get(row).isCellEditable(row, column);
@@ -47,17 +63,13 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         for (DisplayModelInterface displayModel : environment.getDisplayModels()) {
             tableModel.addRow(displayModel.renderTableRow(environment));
         }
+
         tableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 DisplayModelInterface displayModel = environment.getDisplayModels().get(e.getFirstRow());
-                String change = "" + tableModel.getValueAt(e.getFirstRow(), e.getColumn());
-                if (displayModel.updateEnvironmentForRowChange(e, change, environment)) {
-                    try {
-                        interpreteStatements();
-                    } catch (InterpretationException e1) {
-                        e1.printStackTrace();
-                    }
+                if (displayModel.updateEnvironmentForRowChange(e)) {
+                    interpreteStatements();
                 }
             }
         });
@@ -68,6 +80,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         environment.clearDisplay();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
+        jtable.getColumnModel().getColumn(1).setCellEditor(new TypeSpecificCellEditor());
     }
 
     private String getFormTitle(PForm form) {
@@ -81,6 +94,29 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         createWindow(getFormTitle(form));
         interpreteStatements();
         return null;
+    }
+
+    class TypeSpecificCellEditor extends AbstractCellEditor implements TableCellEditor {
+        private TableCellEditor editor;
+
+        @Override
+        public Object getCellEditorValue() {
+            if (editor != null) {
+                return editor.getCellEditorValue();
+            }
+
+            return null;
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            if (value instanceof Boolean) {
+                editor = new DefaultCellEditor(new JCheckBox());
+            } else {
+                editor = new DefaultCellEditor(new JTextField());
+            }
+            return editor.getTableCellEditorComponent(table, value, isSelected, row, column);
+        }
     }
 
 }

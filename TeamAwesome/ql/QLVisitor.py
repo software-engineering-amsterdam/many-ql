@@ -10,13 +10,13 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#form.
-    def visitForm(self, ctx):
+    # Visit a parse tree produced by QLParser#form_statement.
+    def visitForm_statement(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#question.
-    def visitQuestion(self, ctx):
+    # Visit a parse tree produced by QLParser#question_statement.
+    def visitQuestion_statement(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -25,13 +25,13 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#boolean.
-    def visitBoolean(self, ctx):
+    # Visit a parse tree produced by QLParser#question_type.
+    def visitQuestion_type(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#question_type.
-    def visitQuestion_type(self, ctx):
+    # Visit a parse tree produced by QLParser#expr.
+    def visitExpr(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -40,8 +40,28 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by QLParser#expr.
-    def visitExpr(self, ctx):
+    # Visit a parse tree produced by QLParser#boolean.
+    def visitBoolean(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#identifier.
+    def visitIdentifier(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#string.
+    def visitString(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#integer.
+    def visitInteger(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by QLParser#money.
+    def visitMoney(self, ctx):
         return self.visitChildren(ctx)
 
 

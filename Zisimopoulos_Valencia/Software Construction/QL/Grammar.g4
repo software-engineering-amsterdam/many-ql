@@ -3,15 +3,32 @@ grammar Grammar;
 @lexer::header	{ package antlr; }
 @parser::header { package antlr; }
 
-parse
- : block EOF
+form
+ : 'form' ID  '{' stat* '}'
  ;
-
-block
- : stat*
- ;
-
+ 
 stat
+ : question 
+ | if_stat
+ ;
+ 
+ 
+question
+ : STRING ID ':' type ('=' expr)?
+ ;
+
+type
+ : 'boolean' 
+ | 'integer'
+ | 'string'
+ | 'money'
+ ;
+
+if_stat
+ : IF '(' expr ')' '{' question* '}'
+ ;
+
+/*stat
  : assignment
  | if_stat
  | while_stat
@@ -21,10 +38,6 @@ stat
 
 assignment
  : ID '=' expr ';'
- ;
-
-if_stat
- : IF condition_block (ELSE IF condition_block)* (ELSE stat_block)?
  ;
 
 condition_block
@@ -38,14 +51,13 @@ stat_block
 
 while_stat
  : WHILE expr stat_block
- ;
+ ;*/
 
 log
  : LOG expr ';'
  ;
-
 expr
- : expr '^'<assoc=right> expr           	#powExpr
+ : <assoc=right> expr '^' expr           	#powExpr
  | '-' expr                           		#unaryMinusExpr
  | '!' expr                             	#notExpr
  | expr op=('*' | '/' | '%') expr      		#multiplicationExpr
@@ -58,16 +70,16 @@ expr
  ;
 
 atom
- : '(' expr ')' #parExpr
+ : '(' expr ')'   #parExpr
  | (INT | FLOAT)  #numberAtom
- | (TRUE | FALSE) #booleanAtom
+ | BOOLEAN 		  #booleanAtom
  | ID             #idAtom
  | STRING         #stringAtom
  ;
-
-
+ 
+BOOLEAN: TRUE | FALSE;
 TRUE : 'true' | 'TRUE' | 'True';
-FALSE : 'false' | 'FALSE' | 'false' ;
+FALSE : 'false' | 'FALSE' | 'False' ;
 IF : 'if';
 ELSE : 'else';
 WHILE : 'while';
@@ -91,8 +103,7 @@ STRING
  ;
 
 COMMENT
- : ('//' ~[\r\n]*
- | '/*' .* '*/') -> channel(HIDDEN)
+ : '//' .*? '\n' -> skip
  ;
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines

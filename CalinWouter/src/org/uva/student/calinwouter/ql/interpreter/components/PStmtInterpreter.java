@@ -13,17 +13,21 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
         if (node instanceof AQuestionStmt) {
             AQuestionStmt questionStmt = (AQuestionStmt) node;
 
+            if (questionStmt.getType() instanceof ABoolType) {
+                if (e.getEnvVars().get(questionStmt.getIdent().getText()) == null) {
+                    e.getEnvVars().put(questionStmt.getIdent().getText(), false);
+                }
+            }
+
             e.getDisplayModels().add(
                     new QuestionModel(questionStmt.getIdent().getText(),
-                    questionStmt.getStr().getText(), questionStmt.getType().toString()));
+                    questionStmt.getStr().getText(), questionStmt.getType().toString(), e));
         } else if (node instanceof AValueStmt) {
             AValueStmt valueStmt = (AValueStmt) node;
 
             e.getDisplayModels().add(
                     new ComputedValueModel(valueStmt.getIdent().getText(),
-                            valueStmt.getStr().getText(), valueStmt.getType().toString(),
-                            new PExpInterpreter().interprete(e, valueStmt.getExp()), e));
-
+                            valueStmt.getStr().getText(), valueStmt.getType().toString(), valueStmt.getExp()));
         } else if (node instanceof AIfelseStmt) {
             AIfelseStmt ifelseStmt = (AIfelseStmt) node;
             if ((Boolean) new PExpInterpreter().interprete(e, ifelseStmt.getExp())){
@@ -37,12 +41,11 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
                 if((Boolean) new PExpInterpreter().interprete(e, ifStmt.getExp())) {
                     new PStmtlistInterpreter().interprete(e, ifStmt.getIfstmts());
                 }
-            } catch(InterpretationException ee) {
-                //AIfStmt ifStmt = (AIfStmt) node;
-                //System.out.println("If Node: " + ifStmt.getExp().toString());
-                //System.out.println(e.getEnvVars().get("hasSoldHouse"));
-
-                //if (e.getEnvVars().get("hasSoldHouse") != null)
+            } catch(Exception ee) {
+                AIfStmt ifStmt = (AIfStmt) node;
+                System.out.println("IfStmt Node: " + ifStmt.getExp().toString());
+                System.out.println(e.getEnvVars().get("hasSoldHouse"));
+              //if (e.getEnvVars().get("hasSoldHouse") != null)
                 //    System.out.println(e.getEnvVars().get("hasSoldHouse").getClass());
                 //ee.printStackTrace();
                 System.out.println(ee.getMessage());
