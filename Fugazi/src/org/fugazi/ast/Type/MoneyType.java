@@ -11,7 +11,7 @@ public class MoneyType extends Type {
 
     @Override
     public String toString() {
-        return "Money"
+        return "Money";
     }
 
     @Override

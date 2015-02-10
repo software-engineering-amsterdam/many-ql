@@ -11,7 +11,7 @@ public class UndefinedType extends Type {
 
     @Override
     public String toString() {
-        return "Undefined"
+        return "Undefined";
     }
 
     @Override

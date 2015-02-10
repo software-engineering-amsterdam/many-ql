@@ -32,9 +32,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         System.out.println("Creating form: " + ctx.ID());
         visitChildren(ctx);
 
-        Form form = new Form(ctx.ID().toString());
-        System.out.print(form.getName());
-        return form;
+//        Form form = new Form(ctx.ID().toString());
+//        System.out.print(form.getName());
+//        return form;
+        return null;
     }
 //
 //    @Override
