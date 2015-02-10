@@ -71,7 +71,8 @@ public class Parser {
 	 */
 	private static void printSubTree(ASTNode root, String prefix, boolean tail) {
 
-		System.out.println(prefix + (tail ? "└── " : "├── ") + root);
+		String type = root.getClass().getSimpleName();
+		System.out.println(prefix + (tail ? "└── " : "├── ") + root + " : " + type);
 		
 		// TODO: find a way to get rid of instanceof, perhaps keep a list of children?
 		if (root instanceof Binary) {
