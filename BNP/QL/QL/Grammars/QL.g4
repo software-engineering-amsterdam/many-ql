@@ -1,9 +1,8 @@
 grammar QL;
 
-
+// Definitions
 YESNO	: 'yes' | 'no';
 NUMBER	: '-'?[0-9]+;
-WS		: [\r\n\t ]+ -> skip;
 IF		: 'if';
 ELSE	: 'else';
 TYPE	: 'yesno' | 'number' | 'text';
@@ -12,23 +11,26 @@ UNITTYPE: 'question' | 'statement';
 ID		: ([a-zA-Z][a-zA-Z0-9]*);
 TEXT	: '\"' .*? '\"';
 
+// Ignore rules
+WS		: [\r\n\t ]+ -> skip;
 COMMENT : '//' ~[\r\n]* -> skip;
 
-// OPERATORS & EXPRESSIONS
+// Operators & expressions
+		 NEQOPERATOR	: '==' | '!=';
+fragment COMPAREOPERATOR: '>' | '>='
+						| '<' | '<='
+						| NEQOPERATOR
+						;
 fragment CALCOPERATOR	: '*' | '/'
 						| '+' | '-'
 						;
 fragment ANDOROPERATOR	: '&&' | '||';
-fragment NEQOPERATOR	: '==' | '!=';
-fragment COMPAREOPERATOR: '>' | '>='
-						| '<' | '<='
-						;
-OPERATOR				: CALCOPERATOR
+		 OPERATOR		: CALCOPERATOR
 						| ANDOROPERATOR
-						| NEQOPERATOR
 						| COMPAREOPERATOR
 						;
 
+// Production rules
 unit	: UNITTYPE ID '(' TYPE (',' ATTR)* ')' TEXT ';'
 		| UNITTYPE ID '(' TYPE ',' TEXT ')' TEXT ';'
 		| UNITTYPE ID '(' TYPE ',' expression ')' TEXT ';'
@@ -39,9 +41,9 @@ block: '{' unit* '}';
 formBlock: 'form' ID block;
 
 expression		: '(' (expression | condition) ')';
-condition		: NUMBER OPERATOR NUMBER
-				| YESNO OPERATOR YESNO
-				| TEXT OPERATOR TEXT
+condition		: NUMBER OPERATOR NUMBER ;
+				| YESNO NEQOPERATOR YESNO
+				| TEXT NEQOPERATOR TEXT
 				;
 
 ifStatement : 'if' '(' condition ')' block ('else' ifStatement)* ('else' block)? ';';
