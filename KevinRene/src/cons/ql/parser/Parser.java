@@ -6,6 +6,25 @@ import cons.ql.ast.ASTNode;
 import cons.ql.ast.Binary;
 
 public class Parser {
+	
+	public static void main(String[] args) {
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			while (true) {
+				System.out.print("Enter a statement:");
+				String str = br.readLine();
+				if ("x".equalsIgnoreCase(str)) {
+					System.out.println("Shutting down!");
+					break;
+				}
+				else {
+					printASTTree(str);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static ASTNode parseFile (String filepath) {
 		try {
