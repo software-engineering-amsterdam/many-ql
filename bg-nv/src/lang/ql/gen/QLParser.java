@@ -92,6 +92,7 @@ public class QLParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class FormContext extends ParserRuleContext {
+		public Token formId;
 		public TerminalNode Identifier() { return getToken(QLParser.Identifier, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
@@ -128,7 +129,7 @@ public class QLParser extends Parser {
 			setState(10); 
 			match(T__0);
 			setState(11); 
-			match(Identifier);
+			((FormContext)_localctx).formId = match(Identifier);
 			setState(12); 
 			match(T__1);
 			setState(14); 
@@ -362,7 +363,7 @@ public class QLParser extends Parser {
 		public ExpressionContext left;
 		public Token op;
 		public ExpressionContext x;
-		public Token atom;
+		public Token a;
 		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -437,19 +438,19 @@ public class QLParser extends Parser {
 			case Integer:
 				{
 				setState(49); 
-				((ExpressionContext)_localctx).atom = match(Integer);
+				((ExpressionContext)_localctx).a = match(Integer);
 				}
 				break;
 			case String:
 				{
 				setState(50); 
-				((ExpressionContext)_localctx).atom = match(String);
+				((ExpressionContext)_localctx).a = match(String);
 				}
 				break;
 			case Identifier:
 				{
 				setState(51); 
-				((ExpressionContext)_localctx).atom = match(Identifier);
+				((ExpressionContext)_localctx).a = match(Identifier);
 				}
 				break;
 			default:

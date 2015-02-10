@@ -1,3 +1,5 @@
+import lang.ql.ast.AstNode;
+import lang.ql.syntax.QLVisitorImpl;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -19,9 +21,12 @@ public class Main
             QLParser parser = new QLParser(tokens);
             ParserRuleContext tree = parser.form();
 
-            ParseTreeWalker walker = new ParseTreeWalker();
-            QLBaseListener extractor = new QLBaseListener();
-            walker.walk(extractor, tree);
+//            ParseTreeWalker walker = new ParseTreeWalker();
+//            QLBaseListener extractor = new QLBaseListener();
+//            walker.walk(extractor, tree);
+
+            QLVisitorImpl visitor = new QLVisitorImpl();
+            AstNode root = visitor.visit(tree);
         }
         catch (IOException e)
         {
