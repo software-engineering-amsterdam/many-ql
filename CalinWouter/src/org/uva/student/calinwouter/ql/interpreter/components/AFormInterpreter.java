@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.PushbackReader;
@@ -53,7 +54,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
     }
 
     private TableModel getTableModel() {
-        final DefaultTableModel tableModel = new DefaultTableModel(0,2) {
+        final DefaultTableModel tableModel = new DefaultTableModel(new String[] { "Field", "Value" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return environment.getDisplayModels().get(row).isCellEditable(row, column);
@@ -62,6 +63,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         for (DisplayModelInterface displayModel : environment.getDisplayModels()) {
             tableModel.addRow(displayModel.renderTableRow(environment));
         }
+
         tableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -78,6 +80,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         environment.clearDisplay();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
+        jtable.getColumnModel().getColumn(1).setCellEditor(new TypeSpecificCellEditor());
     }
 
     private String getFormTitle(PForm form) {
@@ -91,6 +94,29 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         createWindow(getFormTitle(form));
         interpreteStatements();
         return null;
+    }
+
+    class TypeSpecificCellEditor extends AbstractCellEditor implements TableCellEditor {
+        private TableCellEditor editor;
+
+        @Override
+        public Object getCellEditorValue() {
+            if (editor != null) {
+                return editor.getCellEditorValue();
+            }
+
+            return null;
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            if (value instanceof Boolean) {
+                editor = new DefaultCellEditor(new JCheckBox());
+            } else {
+                editor = new DefaultCellEditor(new JTextField());
+            }
+            return editor.getTableCellEditorComponent(table, value, isSelected, row, column);
+        }
     }
 
 }

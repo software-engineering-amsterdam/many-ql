@@ -152,7 +152,7 @@ public class ResolveIds extends DepthFirstAdapter
   {
     String name = node.getId().getText();
 
-    // If another helper is used within the current helper,
+    // IfStmt another helper is used within the current helper,
     // it should have been defined before the current one
     if(helpers.put(name, node) != null)
     {
