@@ -23,7 +23,7 @@
 require "byebug"
 
 class Preprocessor
-  INDENT_WIDTH = 2
+  STANDARD_INDENTION = "  "
 
   attr_reader :lines
 
@@ -43,16 +43,17 @@ class Preprocessor
       # Remove empty lines from the processed string.
       # Does this make it harder to map back to line numbers when we find a syntax error?
       next if lines[index].strip.empty?
+      # indention always increases with 1
+      # but de-indention (opposite of indention) can decrease between 0 and indention
+      (nesting_depth ... indent).reverse_each do |number_of_indents|
+        processed_lines << STANDARD_INDENTION * number_of_indents + "{"
+      end 
 
-      if indent > nesting_depth
-        processed_lines[index - 1] += " {"
-        nesting_depth += 1
+      (indent ... nesting_depth).reverse_each do |number_of_indents|
+        processed_lines << STANDARD_INDENTION * number_of_indents + "}"
       end
-      
-      if indent < nesting_depth
-        processed_lines << (" "  * INDENT_WIDTH) * indent + "}"
-        nesting_depth -= 1
-      end  
+
+      nesting_depth = indent
 
       processed_lines << lines[index] 
     end.join("\n") + "\n"
@@ -61,7 +62,7 @@ class Preprocessor
     # (For example, if a file ends with a nesting depth of two, we need two lines, each with 
     # a bracket at the correct indentation level.)
     (0 ... nesting_depth).reverse_each do |number_of_indents|
-      processed_string << (" " * INDENT_WIDTH) * number_of_indents + "}\n"
+      processed_string << STANDARD_INDENTION * number_of_indents + "}\n"
     end
 
     processed_string
@@ -72,7 +73,7 @@ class Preprocessor
   # Returns an array with the number of indents on each line
   def indents
     lines.map do |line|
-      line.chars.take_while { |char| char == " " }.size / INDENT_WIDTH
+      line.chars.take_while { |char| char == " " }.size / STANDARD_INDENTION.size 
     end
   end 
 end

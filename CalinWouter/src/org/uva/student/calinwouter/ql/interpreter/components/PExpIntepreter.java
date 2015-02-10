@@ -12,18 +12,12 @@ import java.util.Objects;
  * Created by calin on 2/9/15.
  */
 public class PExpIntepreter implements InterpreterInterface<PExp> {
-    private Object expValue;
-
-    public Object getExpValue() { return expValue; }
 
     @Override
-    public void interprete(Environment e, PExp node) {
+    public Object interprete(Environment e, PExp node) {
         if(node instanceof AAddExp) {
-            PExpIntepreter leftI = new PExpIntepreter();
-            leftI.interprete(e,((AAddExp) node).getLeft());
-            PExpIntepreter rightI = new PExpIntepreter();
-            rightI.interprete(e,((AAddExp) node).getRight());
-            expValue = ((Integer) leftI.getExpValue()) + ((Integer)rightI.getExpValue());
+            return new PExpIntepreter().interprete(e,((AAddExp) node).getLeft()) +
+                    new PExpIntepreter().interprete(e,((AAddExp) node).getRight());
         } else if (node instanceof ASubExp) {
             PExpIntepreter leftI = new PExpIntepreter();
             leftI.interprete(e,((ASubExp) node).getLeft());
@@ -115,5 +109,6 @@ public class PExpIntepreter implements InterpreterInterface<PExp> {
         } else if (node instanceof AIdentExp) {
             expValue = e.getEnvVars().get(((AIdentExp) node).getIdent().getText());
         }
+        return null;
     }
 }
