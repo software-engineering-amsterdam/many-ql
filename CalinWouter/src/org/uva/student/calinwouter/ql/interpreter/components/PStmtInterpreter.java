@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class PStmtInterpreter implements InterpreterInterface<PStmt> {
 
     @Override
-    public void interprete(Environment e, PStmt node) {
+    public Object interprete(Environment e, PStmt node) {
         if (node instanceof AQuestionStmt) {
             AQuestionStmt questionStmt = (AQuestionStmt) node;
 
@@ -26,9 +26,9 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
         } else if (node instanceof AIfelseStmt) {
             AIfelseStmt ifelseStmt = (AIfelseStmt) node;
             if ((Boolean) new PExpInterpreter().interprete(e, ifelseStmt.getExp())){
-                return new PStmtlistInterpreter().interprete(e, ifelseStmt.getIfstmts());
+                new PStmtlistInterpreter().interprete(e, ifelseStmt.getIfstmts());
             } else {
-                return new PStmtlistInterpreter().interprete(e, ifelseStmt.getElsestmts());
+                new PStmtlistInterpreter().interprete(e, ifelseStmt.getElsestmts());
             }
         } else if (node instanceof AIfStmt) {
             AIfStmt ifStmt = (AIfStmt) node;
@@ -36,5 +36,6 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
                 new PStmtlistInterpreter().interprete(e, ifStmt.getIfstmts());
             }
         }
+        return null;
     }
 }
