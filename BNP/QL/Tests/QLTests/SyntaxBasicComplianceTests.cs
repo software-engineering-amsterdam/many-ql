@@ -13,7 +13,7 @@ namespace Tests.QLTests
                              }
                             ";
             Build(input);
-            var unit = Parser.unit();
+            var unit = Parser.formBlock();
 
             Assert.IsNull(unit.exception);
         }
@@ -27,7 +27,7 @@ namespace Tests.QLTests
                              }
                              ";
             Build(input);
-            var unit = Parser.block();
+            var unit = Parser.formBlock();
 
             Assert.IsNull(unit.exception);
         }
