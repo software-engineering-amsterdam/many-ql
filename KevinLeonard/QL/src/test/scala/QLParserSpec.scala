@@ -9,34 +9,57 @@ class QLParserSpec extends Specification with ParserMatchers {
 
   import parsers._
 
-  "boolean question" should {
-    "have a variable and a label" in {
+  "form parser" should {
+    "ignore singleline comments" in {
+      form must succeedOn("form form1 {\n    // SINGLE LINE COMMENT\n}")
+        .withResult(Form("form1", Sequence(List())))
+    }
+
+    "ignore multi line comments" in {
+      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */}")
+        .withResult(Form("form1", Sequence(List())))
+    }
+  }
+
+  "question parser" should {
+    "parse boolean questions" in {
       questionExpression must succeedOn("question var \"label\"\nanswer boolean")
         .withResult(BooleanQuestion(Variable("var"), "\"label\""))
     }
-  }
 
-  "integer question" should {
-    "have a variable and a label" in {
+    "parse integer questions" in {
       questionExpression must succeedOn("question var \"label\"\nanswer integer")
         .withResult(IntegerQuestion(Variable("var"), "\"label\""))
     }
-  }
 
-  "string question" should {
-    "have a variable and a label" in {
+    "parse string questions" in {
       questionExpression must succeedOn("question var \"label\"\nanswer string")
         .withResult(StringQuestion(Variable("var"), "\"label\""))
     }
+
+    "parse computed integer questions" in {
+      questionExpression must succeedOn("question var \"label\"\nanswer integer is (fieldA + fieldB)")
+        .withResult(ComputedIntegerQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
+    }
+
+    "parse computed boolean questions" in {
+      questionExpression must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
+        .withResult(ComputedBooleanQuestion(Variable("var"), "\"label\"", And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC")))))
+    }
+
+    "parse computed string questions" in {
+      questionExpression must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
+        .withResult(ComputedStringQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
+    }
   }
 
-  "if statements" should {
-    "be valid without an else clause" in {
+  "if statement parser" should {
+    "parse if statements without an else clause" in {
       ifExpression must succeedOn("if var {}")
         .withResult(IfExpr(Variable("var"), Sequence(List()), None))
     }
 
-    "be valid with an else clause" in {
+    "parse if statements with an else clause" in {
       ifExpression must succeedOn("if var {} else {}")
         .withResult(IfExpr(Variable("var"), Sequence(List()), Some(Sequence(List()))))
     }
@@ -188,36 +211,4 @@ class QLParserSpec extends Specification with ParserMatchers {
         .withResult(Mul(NumberLiteral(1), Sub(NumberLiteral(2), NumberLiteral(3))))
     }
   }
-
-  "form parser" should {
-    "ignore singleline comments" in {
-      form must succeedOn("form form1 {\n    // SINGLE LINE COMMENT\n}")
-        .withResult(Form("form1", Sequence(List())))
-    }
-
-    "ignore multi line comments" in {
-      form must succeedOn("form form1 {\n    /**\n     * Multiline comment\n     */}")
-        .withResult(Form("form1", Sequence(List())))
-    }
-    
-  }
-  
-  "question parser" should {
-    "parse computed integer questions with arithmetic expression" in {
-      questionExpression must succeedOn("question var \"label\"\nanswer integer is (fieldA + fieldB)")
-        .withResult(ComputedIntegerQuestion(Variable("var"),"\"label\"",Add(Variable("fieldA"),Variable("fieldB"))))
-    }
-
-    "parse computed boolean questions with boolean expression" in {
-      questionExpression must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
-        .withResult(ComputedBooleanQuestion(Variable("var"),"\"label\"",And(Variable("fieldA"),LessThan(Variable("fieldB"),Variable("fieldC")))))
-    }
-
-    "parse computed string questions with arithmetic expression (+)" in {
-      questionExpression must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
-        .withResult(ComputedStringQuestion(Variable("var"),"\"label\"",Add(Variable("fieldA"),Variable("fieldB"))))
-    }
-    
-  }
-  
 }

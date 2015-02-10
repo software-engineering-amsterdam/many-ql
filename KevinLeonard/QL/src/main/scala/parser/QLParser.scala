@@ -5,7 +5,7 @@ import ast.QLAST
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class QLParser extends JavaTokenParsers with QLAST {
-  
+
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
   def literal: Parser[Literal] = boolean | number | string
   def boolean: Parser[BooleanLiteral] = ("true" | "false") ^^ {
@@ -38,9 +38,9 @@ class QLParser extends JavaTokenParsers with QLAST {
     case v ~ label ~ (StringType ~ Some(value)) => ComputedStringQuestion(v, label, value)
   }
   def answer = "answer" ~> (booleanAnswer | integerAnswer | stringAnswer)
-  def booleanAnswer = ("boolean" ^^^ {BooleanType}) ~ opt("is" ~ "(" ~> (booleanExpression) <~ ")")
-  def integerAnswer = ("integer" ^^^ {IntegerType}) ~ opt("is" ~ "(" ~> (arithmeticExpression) <~ ")")
-  def stringAnswer = ("string" ^^^ {StringType}) ~ opt("is" ~ "(" ~> (arithmeticExpression) <~ ")")
+  def booleanAnswer= ("boolean" ^^^ BooleanType) ~ opt("is" ~ "(" ~> booleanExpression <~ ")")
+  def integerAnswer = ("integer" ^^^ IntegerType) ~ opt("is" ~ "(" ~> arithmeticExpression <~ ")")
+  def stringAnswer = ("string" ^^^ StringType) ~ opt("is" ~ "(" ~> arithmeticExpression <~ ")")
 
   // parse if statements
   def ifExpression: Parser[IfExpr] = ("if" ~> variable) ~ expression ~ ("else" ~> expression ?) ^^ {
@@ -86,6 +86,6 @@ class QLParser extends JavaTokenParsers with QLAST {
       case (x, "/" ~ y) => Div(x, y)
     }
   }
-  def atom: Parser[Expr] = (literal | variable | "(" ~> booleanExpression <~ ")")
+  def atom: Parser[Expr] = literal | variable | "(" ~> booleanExpression <~ ")"
 
 }

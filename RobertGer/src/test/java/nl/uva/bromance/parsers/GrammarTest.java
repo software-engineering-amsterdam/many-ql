@@ -30,7 +30,7 @@ public class GrammarTest {
     @Test
     public void containsThreeForms()
     {
-        GrammarTestListener listener = new GrammarTestListener();
+        FakeGrammarListener listener = new FakeGrammarListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
@@ -41,7 +41,7 @@ public class GrammarTest {
     @Test
     public void containsThreeQuestions()
     {
-        GrammarTestListener listener = new GrammarTestListener();
+        FakeGrammarListener listener = new FakeGrammarListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
@@ -49,8 +49,7 @@ public class GrammarTest {
         assertThat(listener.questionCount).isEqualTo(3);
     }
 
-    /
-    static class GrammarTestListener extends QLParseTreeListener
+    static class FakeGrammarListener extends QLParseTreeListener
     {
         public int formCount = 0;
         public int questionCount = 0;
