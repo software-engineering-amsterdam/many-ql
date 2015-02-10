@@ -146,6 +146,12 @@ public class TypeChecker implements Visitor {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void visitIfThen(IfThen ifThenNode) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	@SuppressWarnings("rawtypes") 
@@ -153,5 +159,4 @@ public class TypeChecker implements Visitor {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

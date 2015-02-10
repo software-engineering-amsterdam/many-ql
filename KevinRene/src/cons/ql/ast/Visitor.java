@@ -35,6 +35,7 @@ public interface Visitor {
 	@SuppressWarnings("rawtypes")
 	public void visitComputedQuestion(ComputedQuestion compQuestionNode);
 	public void visitForm(Form formNode);
+	public void visitIfThen(IfThen ifThenNode);
 	@SuppressWarnings("rawtypes") 
 	public void visitQuestion(Question questionNode);
 }
