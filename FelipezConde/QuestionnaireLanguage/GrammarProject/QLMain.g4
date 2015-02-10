@@ -1,9 +1,9 @@
-grammar QLMain;     
-    
-form : 'form' formsection
+grammar QLMain;
+
+form : 'form {' formsection '}'
      ;
 
-formsection : '{' formElem* '}'
+formsection :  formElem*
             ;
 
 formElem : question
@@ -11,7 +11,7 @@ formElem : question
          | conditional
          ;
 
-question : 'question' id type keyValPairs
+question : 'question' id type '{' keyValPairs '}'
          ;
         
 field : 'field' id type keyValPairs
@@ -20,9 +20,7 @@ field : 'field' id type keyValPairs
 
 // id ////////////////////////////////////////////////
  
-id : ALPHANUMERIC+
-   ;
-   
+id : ALPHANUMERIC+ ;
 
 // type /////////////////////////////////////////////
  
@@ -35,7 +33,7 @@ type : 'bool'
      | 'decimal'
      | 'money'
      ;
-             
+
 value : BOOL
       | STRING
       | date 
@@ -57,7 +55,7 @@ num : INT
  
 // keyValPairs //////////////////////////////////////
     
-keyValPairs : '{' keyValPair (',' keyValPair)* '}'
+keyValPairs : keyValPair (',' keyValPair)*
             ;
               
 keyValPair : type key ':' val
@@ -72,17 +70,18 @@ val : value;
 conditional : 'enable when' expression formsection
             ;
 
-expression : boolean
-           | comparison
+expression : '(' expression ')'
+           | BOOL
+           |'!' expression
+           | expression '&&' expression
+           | expression '||' expression 
+           | expression ('!=' | '==') expression
+           
            | arithmetic
            ;
 
 boolean : '(' boolean ')'
         | BOOL
-        | '!' boolean
-        | boolean '&&' boolean
-        | boolean '||' boolean 
-        | comparison
         | id
         ;
 
@@ -94,7 +93,9 @@ comparison :
 
 arithmetic :
     | '(' arithmetic ')'
-    | arithmetic ('*'|'/'|'-'|'+') arithmetic
+    | arithmetic ('>' | '<' | '>=' | '<=') arithmetic
+    | arithmetic ('*'|'/') arithmetic 
+    | arithmetic ('-'|'+') arithmetic
     | id
     | num
     ;
@@ -111,4 +112,6 @@ MONTH : [0-9];
 DAY   : [0-9];
 
 STRING : '"' [A-z]* '"';
-ALPHANUMERIC : [a-zA-Z0-9];
+ALPHANUMERIC : [a-zA-Z0-9]+;
+
+WS	:	(' ' | '\r' | '\n') -> channel(HIDDEN);

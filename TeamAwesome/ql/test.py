@@ -1,17 +1,11 @@
 import sys
 
 from antlr4 import *
-
 from QLLexer import QLLexer
-
 from QLParser import QLParser
-
 from QLListener import QLListener
 
-
-#def main(argv):
-
-input = FileStream("t.QL")#argv[1])
+input = FileStream("t.QL")
 
 lexer = QLLexer(input)
 
@@ -19,9 +13,7 @@ stream = CommonTokenStream(lexer)
 
 parser = QLParser(stream)
 
-tree_test = parser.question()
-
-#tree.inspect(parser)
+tree_test = parser.form()
 
 def print_tree(tree_test, lev):
     if not isinstance(tree_test, tree.Tree.TerminalNodeImpl):
@@ -39,4 +31,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    #main(sys.argv)

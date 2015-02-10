@@ -43,7 +43,7 @@ func GUI(appName string) frontend.Inputer {
 }
 
 // InputQuestion adds a new question into the GUI form stack
-func (g *Gui) InputQuestion(q *ast.Question) {
+func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 

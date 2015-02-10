@@ -58,6 +58,8 @@
     <Antlr4 Include="QLMain.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>GrammarProject</CustomToolNamespace>
+      <Listener>False</Listener>
+      <Abstract>False</Abstract>
     </Antlr4>
   </ItemGroup>
   <ItemGroup>
