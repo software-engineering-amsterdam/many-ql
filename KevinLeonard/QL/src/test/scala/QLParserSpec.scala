@@ -98,14 +98,34 @@ class QLParserSpec extends Specification with ParserMatchers {
   }
 
   "equality parser" should {
-    "be valid with a == operator" in {
+    "be valid with a == operator on booleans" in {
+      equality must succeedOn("true == true")
+        .withResult(Equal(BooleanLiteral(true), BooleanLiteral(true)))
+    }
+
+    "be valid with a == operator on numbers" in {
       equality must succeedOn("1 == 2")
         .withResult(Equal(NumberLiteral(1), NumberLiteral(2)))
     }
 
-    "be valid with a != operator" in {
+    "be valid with a == operator on strings" in {
+      equality must succeedOn("\"a\" == \"b\"")
+        .withResult(Equal(StringLiteral("\"a\""), StringLiteral("\"b\"")))
+    }
+
+    "be valid with a != operator on booleans" in {
+      equality must succeedOn("true != true")
+        .withResult(NotEqual(BooleanLiteral(true), BooleanLiteral(true)))
+    }
+
+    "be valid with a != operator on numbers" in {
       equality must succeedOn("1 != 2")
         .withResult(NotEqual(NumberLiteral(1), NumberLiteral(2)))
+    }
+
+    "be valid with a != operator on strings" in {
+      equality must succeedOn("\"a\" != \"b\"")
+        .withResult(NotEqual(StringLiteral("\"a\""), StringLiteral("\"b\"")))
     }
   }
 
@@ -154,9 +174,14 @@ class QLParserSpec extends Specification with ParserMatchers {
   }
 
   "sum parser" should {
-    "be valid with an plus operator" in {
+    "be valid with an plus operator on numbers" in {
       sum must succeedOn("1 + 2")
         .withResult(Add(NumberLiteral(1), NumberLiteral(2)))
+    }
+
+    "be valid with an plus operator on strings" in {
+      sum must succeedOn("\"a\" + \"b\"")
+        .withResult(Add(StringLiteral("\"a\""), StringLiteral("\"b\"")))
     }
 
     "be valid with multiple plus operators" in {
