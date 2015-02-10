@@ -19,7 +19,7 @@ statement   : questionDeclaration           # stamentQuestoinDeclaration
 
 // an if statement
 // supported form: if(expr){...}
-ifStatement : 'if' '(' logicalExpression ')' '{' questionDeclaration+ '}';
+ifStatement : 'if' '(' logicalExpression ')' '{' (ifStatement | questionDeclaration)* '}';
 
 // question types
 // two supported versions:
