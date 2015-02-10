@@ -1,12 +1,10 @@
 grammar QL;
 start
     : 'form' identifier '{' statement+ '}';
-
 statement
     : question
     | if_statement
     ;
-
 if_statement
     : 'if' '(' expression ')' '{' statement '}' else_clause?
     ;
@@ -21,7 +19,6 @@ expression
     | identifier+
     | bool+
     ;
-
 bool
     : 'true'
     | 'false'
@@ -50,8 +47,6 @@ question_type
 question_label
     : STRING
     ;
-
-
 UPPERCASE
     : [A-Z]+
     ;
@@ -64,11 +59,9 @@ NUMBERS
 STRING
     : '"' (~[\r\n"] | '""')* '"'
     ;
-
 COMMENT_LINE
     : '//' ~[\r\n]* -> skip
     ;
-
 WS
     : [ \t\r\n]+ -> skip
     ; // skip spaces, tabs, newlines
