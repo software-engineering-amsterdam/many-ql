@@ -24,6 +24,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="java" />
+        <module name="QL" />
       </profile>
     </annotationProcessing>
   </component>
