@@ -8,15 +8,20 @@ statement
     ;
 
 if_statement
-    : 'if (' expression ')' '{' statement '}'
+    : 'if' '(' expression ')' '{' statement '}'
     ;
 expression
     : '(' expression ')'
     | expression operator expression
     | NUMBERS+
     | identifier+
+    | bool+
     ;
 
+bool
+    : 'true'
+    | 'false'
+    ;
 operator
     : ('*' | '/')
     | ('+'| '-')

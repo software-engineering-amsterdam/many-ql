@@ -5,4 +5,9 @@ form FORMNAME {
     if ( NAME && ((1 * 4) > 3)) {
         NAME4 INTEGER "CONdiTioNal "
     }
+    if(true){
+        if(false){
+            NAME5 INTEGER "bla "
+        }
+    }
 }
