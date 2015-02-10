@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.ql.interpreter;
 
+import org.uva.student.calinwouter.ql.generated.node.AFormBegin;
 import org.uva.student.calinwouter.ql.generated.node.PForm;
 import org.uva.student.calinwouter.ql.generated.node.Start;
 import org.uva.student.calinwouter.ql.interpreter.components.AFormInterpreter;
@@ -19,7 +20,7 @@ public class QLInterpreter {
     }
 
     public void interprete(Start start) {
-        new AFormInterpreter().interprete(environment, start.getPForm());
+        new AFormInterpreter().interprete(environment, ((AFormBegin) start.getPBegin()).getForm());
     }
 
 }

@@ -31,9 +31,51 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseStart(Start node)
     {
         inStart(node);
-        node.getPForm().apply(this);
+        node.getPBegin().apply(this);
         node.getEOF().apply(this);
         outStart(node);
+    }
+
+    public void inAFormBegin(AFormBegin node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFormBegin(AFormBegin node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFormBegin(AFormBegin node)
+    {
+        inAFormBegin(node);
+        if(node.getForm() != null)
+        {
+            node.getForm().apply(this);
+        }
+        outAFormBegin(node);
+    }
+
+    public void inAExpBegin(AExpBegin node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAExpBegin(AExpBegin node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAExpBegin(AExpBegin node)
+    {
+        inAExpBegin(node);
+        if(node.getExp() != null)
+        {
+            node.getExp().apply(this);
+        }
+        outAExpBegin(node);
     }
 
     public void inAForm(AForm node)

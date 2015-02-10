@@ -75,6 +75,18 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAFormBegin(AFormBegin node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAExpBegin(AExpBegin node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAForm(AForm node)
     {
         defaultCase(node);

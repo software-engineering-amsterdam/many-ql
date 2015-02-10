@@ -12,6 +12,8 @@ public interface Analysis extends Switch
     void setOut(Node node, Object o);
 
     void caseStart(Start node);
+    void caseAFormBegin(AFormBegin node);
+    void caseAExpBegin(AExpBegin node);
     void caseAForm(AForm node);
     void caseASingleStmtlist(ASingleStmtlist node);
     void caseAMultiStmtlist(AMultiStmtlist node);

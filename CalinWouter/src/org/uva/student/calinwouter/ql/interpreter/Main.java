@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.ql.interpreter;
 
 import org.uva.student.calinwouter.ql.generated.lexer.Lexer;
+import org.uva.student.calinwouter.ql.generated.node.AFormBegin;
 import org.uva.student.calinwouter.ql.generated.node.Start;
 import org.uva.student.calinwouter.ql.generated.parser.Parser;
 import org.uva.student.calinwouter.ql.interpreter.components.AFormInterpreter;
@@ -26,7 +27,7 @@ public class Main {
         Parser parser = new Parser(lexer);
         try {
             Start ast = parser.parse();
-            new AFormInterpreter().interprete(new Environment(), ast.getPForm());
+            new AFormInterpreter().interprete(new Environment(), ((AFormBegin) ast.getPBegin()).getForm());
         } catch(Exception e) {
             e.printStackTrace();
         }

@@ -7,7 +7,7 @@ import org.uva.student.calinwouter.ql.generated.analysis.*;
 @SuppressWarnings("nls")
 public final class Start extends Node
 {
-    private PForm _pForm_;
+    private PBegin _pBegin_;
     private EOF _eof_;
 
     public Start()
@@ -16,10 +16,10 @@ public final class Start extends Node
     }
 
     public Start(
-        @SuppressWarnings("hiding") PForm _pForm_,
+        @SuppressWarnings("hiding") PBegin _pBegin_,
         @SuppressWarnings("hiding") EOF _eof_)
     {
-        setPForm(_pForm_);
+        setPBegin(_pBegin_);
         setEOF(_eof_);
     }
 
@@ -27,7 +27,7 @@ public final class Start extends Node
     public Object clone()
     {
         return new Start(
-            cloneNode(this._pForm_),
+            cloneNode(this._pBegin_),
             cloneNode(this._eof_));
     }
 
@@ -37,16 +37,16 @@ public final class Start extends Node
         ((Analysis) sw).caseStart(this);
     }
 
-    public PForm getPForm()
+    public PBegin getPBegin()
     {
-        return this._pForm_;
+        return this._pBegin_;
     }
 
-    public void setPForm(PForm node)
+    public void setPBegin(PBegin node)
     {
-        if(this._pForm_ != null)
+        if(this._pBegin_ != null)
         {
-            this._pForm_.parent(null);
+            this._pBegin_.parent(null);
         }
 
         if(node != null)
@@ -59,7 +59,7 @@ public final class Start extends Node
             node.parent(this);
         }
 
-        this._pForm_ = node;
+        this._pBegin_ = node;
     }
 
     public EOF getEOF()
@@ -90,9 +90,9 @@ public final class Start extends Node
     @Override
     void removeChild(Node child)
     {
-        if(this._pForm_ == child)
+        if(this._pBegin_ == child)
         {
-            this._pForm_ = null;
+            this._pBegin_ = null;
             return;
         }
 
@@ -108,9 +108,9 @@ public final class Start extends Node
     @Override
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(this._pForm_ == oldChild)
+        if(this._pBegin_ == oldChild)
         {
-            setPForm((PForm) newChild);
+            setPBegin((PBegin) newChild);
             return;
         }
 
@@ -127,7 +127,7 @@ public final class Start extends Node
     public String toString()
     {
         return "" +
-            toString(this._pForm_) +
+            toString(this._pBegin_) +
             toString(this._eof_);
     }
 }
