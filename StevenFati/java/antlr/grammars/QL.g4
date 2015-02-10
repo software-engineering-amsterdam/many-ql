@@ -41,7 +41,11 @@ question
     : identifier question_type question_label
     ;
 question_type
-    : UPPERCASE
+    : 'STRING'
+    | 'INTEGER'
+    | 'BOOLEAN'
+    | 'DATE'
+    | 'MONEY'
     ;
 question_label
     : STRING
