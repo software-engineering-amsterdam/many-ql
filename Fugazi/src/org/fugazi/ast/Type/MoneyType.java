@@ -5,17 +5,13 @@ package org.fugazi.ast.Type;
  */
 public class MoneyType extends Type {
 
-    public MoneyType() {
-
-    }
-
     @Override
     public String toString() {
         return "Money";
     }
 
     @Override
-    public boolean equals(Object object) {
-        return object instanceof MoneyType;
+    public <T> T accept(TypeVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }
