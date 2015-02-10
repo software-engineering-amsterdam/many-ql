@@ -1,34 +1,36 @@
 /*
-Package vm is the runtime which executes the AST created from the compiler.
+Package interpreter is the runtime which executes the AST created from the compiler.
 */
-package vm
+package interpreter
 
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
 
-type vm struct {
+type interpreter struct {
 	questionaire *ast.QuestionaireNode
 	send         chan *fe.Event
 	receive      chan *fe.Event
+	visitor      *visitor
 }
 
-// New starts VM with an AST (*ast.Questionaire) and with
+// New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
 func New(q *ast.QuestionaireNode) (chan *fe.Event, chan *fe.Event) {
 	toFrontend := make(chan *fe.Event)
 	fromFrontend := make(chan *fe.Event)
-	v := &vm{
+	v := &interpreter{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
+		visitor:      &visitor{toFrontend},
 	}
 	go v.loop()
 	return toFrontend, fromFrontend
 }
 
-func (v *vm) loop() {
+func (v *interpreter) loop() {
 	v.send <- &fe.Event{
 		Type: fe.ReadyP,
 	}
@@ -37,13 +39,8 @@ func (v *vm) loop() {
 		select {
 		case r := <-v.receive:
 			if r.Type == fe.ReadyT {
-				for _, action := range v.questionaire.Stack {
-					questionCopy := action.QuestionNode.Clone()
-					v.send <- &fe.Event{
-						Type:     fe.Render,
-						Question: questionCopy,
-					}
-				}
+				// visit everything to setup interface
+				v.visitor.QuestionaireNode(v.questionaire)
 				v.send <- &fe.Event{
 					Type: fe.Flush,
 				}
@@ -56,6 +53,8 @@ func (v *vm) loop() {
 							v.questionaire.Stack[k].QuestionNode.From(answer)
 						}
 					}
+					// visit everything again
+					v.visitor.QuestionaireNode(v.questionaire)
 				}
 			}
 		default:

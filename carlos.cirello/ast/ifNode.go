@@ -1,6 +1,6 @@
 package ast
 
 type IfNode struct {
-	condition string
-	stack     []*ActionNode
+	Condition string
+	Stack     []*ActionNode
 }
