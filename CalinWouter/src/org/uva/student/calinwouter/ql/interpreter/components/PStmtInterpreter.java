@@ -21,24 +21,19 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
                     new QuestionModel(questionStmt.getIdent().getText(),
                     questionStmt.getStr().getText(), questionStmt.getType().toString()));
         } else if (node instanceof AValueStmt) {
-            PExpIntepreter expI = new PExpIntepreter();
-            expI.interprete(e, ((AValueStmt) node).getExp());
-            System.out.println(((AValueStmt) node).getStr() + expI.getExpValue().toString());
+            AValueStmt valueStmt = (AValueStmt) node;
+            System.out.println(valueStmt.getStr() + new PExpInterpreter().interprete(e, valueStmt.getExp()).toString());
         } else if (node instanceof AIfelseStmt) {
-            PExpIntepreter expI =  new PExpIntepreter();
-            expI.interprete(e, ((AIfelseStmt) node).getExp());
-            if((Boolean) expI.getExpValue()){
-                new PStmtlistInterpreter().interprete(e, ((AIfelseStmt) node).getIfstmts());
+            AIfelseStmt ifelseStmt = (AIfelseStmt) node;
+            if ((Boolean) new PExpInterpreter().interprete(e, ifelseStmt.getExp())){
+                return new PStmtlistInterpreter().interprete(e, ifelseStmt.getIfstmts());
             } else {
-                new PStmtlistInterpreter().interprete(e, ((AIfelseStmt) node).getElsestmts());
+                return new PStmtlistInterpreter().interprete(e, ifelseStmt.getElsestmts());
             }
         } else if (node instanceof AIfStmt) {
-            PExpIntepreter expI = new PExpIntepreter();
-            expI.interprete(e, ((AIfStmt) node).getExp());
-            if(expI.getExpValue() instanceof Boolean && ((Boolean) expI.getExpValue())){
-                new PStmtlistInterpreter().interprete(e, ((AIfStmt) node).getIfstmts());
-            } else if (expI.getExpValue() instanceof String && Boolean.parseBoolean(expI.getExpValue().toString())){
-                new PStmtlistInterpreter().interprete(e, ((AIfStmt) node).getIfstmts());
+            AIfStmt ifStmt = (AIfStmt) node;
+            if((Boolean) new PExpInterpreter().interprete(e, ifStmt.getExp())) {
+                new PStmtlistInterpreter().interprete(e, ifStmt.getIfstmts());
             }
         }
         return null;
