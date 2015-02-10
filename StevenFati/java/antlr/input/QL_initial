@@ -17,5 +17,6 @@ form FORMNAME {
             }
         }
     }
+    NAME DECIMAL "enter decimal number"
 }
 // sdfsf

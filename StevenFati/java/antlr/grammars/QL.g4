@@ -43,6 +43,7 @@ question_type
     | 'BOOLEAN'
     | 'DATE'
     | 'MONEY'
+    | 'DECIMAL'
     ;
 question_label
     : STRING
