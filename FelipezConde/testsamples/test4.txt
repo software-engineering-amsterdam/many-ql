@@ -1,0 +1,9 @@
+form {
+    question q1 int{
+        label    = "This is a detailed question. Describe how difficult it is",
+        options  = [1..5],
+        required = True,
+        tooltip  = "Read the description in the label to know what the question is.",
+        default  = 3
+    }
+}

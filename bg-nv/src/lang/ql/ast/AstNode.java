@@ -5,6 +5,13 @@ import java.util.List;
 /**
  * Created by bore on 09/02/15.
  */
-public abstract class AstNode
+public class AstNode
 {
+
+    public List<AstNode> children;
+
+    public AstNode(List<AstNode> children)
+    {
+        this.children = children;
+    }
 }

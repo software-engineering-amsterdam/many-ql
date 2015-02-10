@@ -1,0 +1,13 @@
+form {
+    enable when True {
+        question q1 bool {
+            label = "This is a sample question. Do you understand?" 
+        }  
+        question q2 bool {
+            label = "This is the second sample question. Do you understand?"
+        }
+        question q3 bool {
+            label = "This is the third sample question. Do you understand?"
+        }
+    }
+}

@@ -2,29 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ea5e3a9-4824-4e08-b30d-26885786a477" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\out\production\kennedy-langlotz\KLQParser$EndContext.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQ.tokens" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQBaseListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQBaseVisitor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQLexer.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQLexer.tokens" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQListener.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQParser.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\gen\KLQVisitor.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\out\production\kennedy-langlotz\KLQBaseVisitor.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\out\production\kennedy-langlotz\KLQParser$GroupBeginContext.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\out\production\kennedy-langlotz\KLQParser$GroupContext.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\out\production\kennedy-langlotz\KLQParser$GroupEndContext.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Timon\SkyDrive\MSc\Software Construction\many-ql\kennedy-langlotz\out\production\kennedy-langlotz\KLQVisitor.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQBaseListener.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQBaseListener.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQLexer.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQLexer.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQListener.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$AnswerContext.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$AnswerContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$AnswersContext.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$AnswersContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$ExprContext.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$ExprContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$QuestionContext.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$QuestionContext.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$QuestionTypeContext.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$QuestionTypeContext.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$QuestionaireContext.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$QuestionaireContext.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$SpecificationContext.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser$SpecificationContext.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser.class" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQParser.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQ.g4" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQ.g4" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/KLQ.g4" afterPath="$PROJECT_DIR$/src/KLQ.g4" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/KLQ.tokens" afterPath="$PROJECT_DIR$/gen/KLQ.tokens" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQ.tokens" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQ.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/KLQBaseListener.java" afterPath="$PROJECT_DIR$/gen/KLQBaseListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/KLQLexer.java" afterPath="$PROJECT_DIR$/gen/KLQLexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/KLQLexer.tokens" afterPath="$PROJECT_DIR$/gen/KLQLexer.tokens" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQLexer.tokens" afterPath="$PROJECT_DIR$/out/production/kennedy-langlotz/KLQLexer.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/KLQListener.java" afterPath="$PROJECT_DIR$/gen/KLQListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/KLQParser.java" afterPath="$PROJECT_DIR$/gen/KLQParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/input" afterPath="$PROJECT_DIR$/input" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="KLQ.iws" />
@@ -55,8 +56,8 @@
       <file leaf-file-name="KLQ.g4" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/KLQ.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8405172" vertical-offset="1446" max-vertical-offset="2754">
-              <caret line="108" column="14" selection-start-line="108" selection-start-column="14" selection-end-line="108" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.6594828" vertical-offset="459" max-vertical-offset="2295">
+              <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -65,8 +66,8 @@
       <file leaf-file-name="input" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/input">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-              <caret line="26" column="3" selection-start-line="26" selection-start-column="3" selection-end-line="26" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
+              <caret line="4" column="58" selection-start-line="4" selection-start-column="58" selection-end-line="4" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -461,46 +462,46 @@
       <workItem from="1423479187885" duration="1017000" />
       <workItem from="1423480233162" duration="4613000" />
       <workItem from="1423486790482" duration="3136000" />
-      <workItem from="1423492111621" duration="10778000" />
+      <workItem from="1423492111621" duration="6316000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37273000" />
+    <option name="totallyTimeSpent" value="32811000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22519685" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -674,16 +675,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/input">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-          <caret line="26" column="3" selection-start-line="26" selection-start-column="3" selection-end-line="26" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
+          <caret line="4" column="58" selection-start-line="4" selection-start-column="58" selection-end-line="4" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/KLQ.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8405172" vertical-offset="1446" max-vertical-offset="2754">
-          <caret line="108" column="14" selection-start-line="108" selection-start-column="14" selection-end-line="108" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.6594828" vertical-offset="459" max-vertical-offset="2295">
+          <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
           <folding />
         </state>
       </provider>

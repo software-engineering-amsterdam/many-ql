@@ -1,43 +1,37 @@
-# Grammar 
+# Grammar
 from pyparsing import *
 from exceptions import *
 from abstract import *
 from ast import *
 
 # Normal sentence grammar
-endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
-word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
+endSignEsc      = Suppress("\\") + Literal("?") | Literal("/.") | Literal("/!")
+characters      = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
+word            = endSignEsc | characters  
 hexaColor       = Suppress("#") + Word(hexnums, exact=6)
 endSign         = oneOf(". ? !")
 comment         = Literal("//") + restOfLine | cStyleComment
 variable        = Word(alphanums)
 
-# Brackets / Brackets / Colon
-obrac           = Literal("{")
-cbrac           = Literal("}")
-opar            = Literal("(")
-cpar            = Literal(")")
-col             = Literal(":")
-
 # Answer types
-bool            = Literal("True") | Literal("False") 
+boolean            = Literal("True") | Literal("False")
 sentence        = (OneOrMore(word) + endSign).setParseAction(make_sentence)
 sentences       = OneOrMore(sentence)
 integer         = Word(nums)
 
 # Constraints
-exp             = bool | integer | sentence
-compare         = oneOf("> >= < <= ==")
-condition       = (Suppress("Question") + integer + compare + exp)
+exp             = boolean | integer | sentence
+c_operators     = oneOf("> >= < <= ==")
+e_operators     = oneOf("+ - * / ")
+condition       = (Suppress("Question") + integer + c_operators + exp)
 
 # Form
 answerType      = Literal("bool") | Literal("integer") | Literal("text")  
-answer          = Suppress("Answer-type:") + answerType
-question        = (Suppress("Question") + integer + Suppress(col) + sentence +\
-                  answer).setResultsName("QUESTION").setParseAction(ASTReady.make_question)
+question        = (Suppress("Question") + word + Suppress("(") + answerType + Suppress(")") + Suppress(":") +
+                   sentence).setResultsName("QUESTION").setParseAction(ASTReady.make_question)
 questions       = OneOrMore(question)
-pIf             = (Suppress("if" + opar) + condition + Suppress(cpar) + Suppress(obrac) + questions + Suppress(cbrac))
-pElse           = pIf+ Literal("else") + Suppress(obrac) +  questions + Suppress(cbrac)
+pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") + questions + Suppress("}"))
+pElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
 questions2      = pElse.setParseAction(ASTReady.make_else) | pIf.setParseAction(ASTReady.make_if) | questions
 form            = (word + OneOrMore(questions2)).setParseAction(ASTReady.make_form)
 
@@ -48,4 +42,4 @@ try:
     for i in l:
         print(i)    
 except Exception as e:
-    exceptionsHandling(e)
+    exceptions_handling(e)

@@ -40,25 +40,13 @@ public class KLQBaseListener implements KLQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx) { }
+	@Override public void enterEnd(@NotNull KLQParser.EndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx) { }
+	@Override public void exitEnd(@NotNull KLQParser.EndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -71,18 +59,6 @@ public class KLQBaseListener implements KLQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSpecification(@NotNull KLQParser.SpecificationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterQuestionType(@NotNull KLQParser.QuestionTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -119,6 +95,18 @@ public class KLQBaseListener implements KLQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAnswers(@NotNull KLQParser.AnswersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQuestionType(@NotNull KLQParser.QuestionTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

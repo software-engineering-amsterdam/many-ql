@@ -31,51 +31,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseStart(Start node)
     {
         inStart(node);
-        node.getPBegin().apply(this);
+        node.getPForm().apply(this);
         node.getEOF().apply(this);
         outStart(node);
-    }
-
-    public void inAFormBegin(AFormBegin node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAFormBegin(AFormBegin node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAFormBegin(AFormBegin node)
-    {
-        inAFormBegin(node);
-        if(node.getForm() != null)
-        {
-            node.getForm().apply(this);
-        }
-        outAFormBegin(node);
-    }
-
-    public void inAExpBegin(AExpBegin node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAExpBegin(AExpBegin node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAExpBegin(AExpBegin node)
-    {
-        inAExpBegin(node);
-        if(node.getExp() != null)
-        {
-            node.getExp().apply(this);
-        }
-        outAExpBegin(node);
     }
 
     public void inAForm(AForm node)
@@ -362,31 +320,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAAddExp(node);
     }
 
-    public void inASubExp(ASubExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outASubExp(ASubExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseASubExp(ASubExp node)
-    {
-        inASubExp(node);
-        if(node.getLeft() != null)
-        {
-            node.getLeft().apply(this);
-        }
-        if(node.getRight() != null)
-        {
-            node.getRight().apply(this);
-        }
-        outASubExp(node);
-    }
-
     public void inATrueExp(ATrueExp node)
     {
         defaultIn(node);
@@ -469,6 +402,31 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getRight().apply(this);
         }
         outAAndExp(node);
+    }
+
+    public void inASubExp(ASubExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASubExp(ASubExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASubExp(ASubExp node)
+    {
+        inASubExp(node);
+        if(node.getLeft() != null)
+        {
+            node.getLeft().apply(this);
+        }
+        if(node.getRight() != null)
+        {
+            node.getRight().apply(this);
+        }
+        outASubExp(node);
     }
 
     public void inAEqExp(AEqExp node)

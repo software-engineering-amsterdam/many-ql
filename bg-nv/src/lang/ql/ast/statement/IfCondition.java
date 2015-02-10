@@ -1,7 +1,6 @@
 package lang.ql.ast.statement;
 
 import lang.ql.ast.AstNode;
-import lang.ql.ast.expression.Expression;
 
 import java.util.List;
 
@@ -10,14 +9,8 @@ import java.util.List;
  */
 public class IfCondition extends Statement
 {
-    private Expression expression;
-    List<Statement> thenStatements;
-    List<Statement> elseStatements;
-
-    public IfCondition(Expression expression, List<Statement> thenStatements, List<Statement> elseStatements)
+    public IfCondition(List<AstNode> children)
     {
-        this.expression = expression;
-        this.thenStatements = thenStatements;
-        this.elseStatements = elseStatements;
+        super(children);
     }
 }

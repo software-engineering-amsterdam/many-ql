@@ -46,7 +46,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         Parser parser = new Parser(lexer);
         try {
             Start ast = parser.parse();
-            return new PExpIntepreter().interprete(environment, ((AExpBegin) ast.getPBegin()).getExp());
+            return new PExpInterpreter().interprete(environment, ((AExpBegin) ast.getPBegin()).getExp());
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
@@ -60,13 +60,12 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
                 return column == 1;
             }
         };
+        DefaultTableModel tableModel = new DefaultTableModel(0,2);
         for (QuestionModel questionModel : environment.getQuestionModels()) {
             tableModel.addRow(new Object[] {
                     questionModel.getText(),
                     environment.getEnvVars().get(questionModel.getVariable())});
         }
-
-
         tableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -94,7 +93,6 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         this.form = form;
         createWindow(getFormTitle(form));
         interpreteStatements();
-        return null;
     }
 
 }

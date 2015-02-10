@@ -21,10 +21,9 @@ public class PStmtlistInterpreter implements InterpreterInterface<PStmtlist> {
     }
 
     @Override
-    public Object interprete(Environment environment, PStmtlist stmtlist) {
+    public void interprete(Environment environment, PStmtlist stmtlist) {
         this.environment = environment;
         interpNextStatement(stmtlist);
-        return null;
     }
 
 }

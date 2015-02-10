@@ -12,8 +12,6 @@ public interface Analysis extends Switch
     void setOut(Node node, Object o);
 
     void caseStart(Start node);
-    void caseAFormBegin(AFormBegin node);
-    void caseAExpBegin(AExpBegin node);
     void caseAForm(AForm node);
     void caseASingleStmtlist(ASingleStmtlist node);
     void caseAMultiStmtlist(AMultiStmtlist node);
@@ -26,11 +24,11 @@ public interface Analysis extends Switch
     void caseAStringType(AStringType node);
     void caseAIntType(AIntType node);
     void caseAAddExp(AAddExp node);
-    void caseASubExp(ASubExp node);
     void caseATrueExp(ATrueExp node);
     void caseAFalseExp(AFalseExp node);
     void caseAOrExp(AOrExp node);
     void caseAAndExp(AAndExp node);
+    void caseASubExp(ASubExp node);
     void caseAEqExp(AEqExp node);
     void caseANeqExp(ANeqExp node);
     void caseALtExp(ALtExp node);
