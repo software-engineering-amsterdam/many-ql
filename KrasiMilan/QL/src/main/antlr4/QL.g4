@@ -5,7 +5,7 @@ package nl.uva.softwcons.generated;
 }
 
 /* Parser */
-questionnaire:   'form' ID '{' statement+ '}';
+form:   'form' ID '{' statement+ '}';
 
 statement: question
 	|      conditional
