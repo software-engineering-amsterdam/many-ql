@@ -35,17 +35,17 @@ class QLParser extends JavaTokenParsers with QLAST {
   }
 
   // parse boolean expression
-  def booleanExpression: Parser[Expr] = orExpression
+  def booleanExpression: Parser[Expr] = or
 
-  def orExpression: Parser[Expr] = rep1sep(andExpression, "or") ^^ {
+  def or: Parser[Expr] = rep1sep(and, "or") ^^ {
     _.reduceLeft(Or)
   }
 
-  def andExpression: Parser[Expr] = rep1sep(notExpression, "and") ^^ {
+  def and: Parser[Expr] = rep1sep(not, "and") ^^ {
     _.reduceLeft(And)
   }
 
-  def notExpression: Parser[Expr] = opt("not") ~ atom ^^ {
+  def not: Parser[Expr] = opt("not") ~ atom ^^ {
     case Some(_) ~ x => Not(x)
     case _ ~ x => x
   }
