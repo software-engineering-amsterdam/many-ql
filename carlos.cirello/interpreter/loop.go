@@ -48,6 +48,9 @@ func (v *interpreter) loop() {
 				lenAnswers := len(r.Answers)
 				if lenAnswers > 0 {
 					for k, action := range v.questionaire.Stack {
+						if nil == action.QuestionNode {
+							continue
+						}
 						q := action.QuestionNode
 						if answer, ok := r.Answers[q.Identifier]; ok {
 							v.questionaire.Stack[k].QuestionNode.From(answer)
