@@ -88,61 +88,61 @@ public interface QLListener extends ParseTreeListener {
 	void exitType(@NotNull QLParser.TypeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code expressionNumber}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void enterExpressionNumber(@NotNull QLParser.ExpressionNumberContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code expressionNumber}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionNumber(@NotNull QLParser.ExpressionNumberContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code bracketedExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void enterBracketedExpression(@NotNull QLParser.BracketedExpressionContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code bracketedExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void exitBracketedExpression(@NotNull QLParser.BracketedExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code expressionId}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void enterExpressionId(@NotNull QLParser.ExpressionIdContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code expressionId}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionId(@NotNull QLParser.ExpressionIdContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code addSubExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void enterAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code addSubExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void exitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code mulDivExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void enterMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code mulDivExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void exitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx);

@@ -25,8 +25,8 @@ ifStatement : 'if' '(' logicalExpression ')' '{' questionDeclaration+ '}';
 // two supported versions:
 // 1. Question expecting user's answer.
 // 2. Question (field) value of which is derived from other variables / values.
-questionDeclaration : type ID '(' STRING ')' ';'                    # noAssignmentQuestion
-                    | type ID '(' STRING ')' '=' expression ';'     # assignmentQuestion
+questionDeclaration : type ID '(' STRING ')' ';'                             # noAssignmentQuestion
+                    | type ID '(' STRING ')' '=' numericalExpression ';'     # assignmentQuestion
                     ;
 
 // all alowed variable types.
@@ -39,11 +39,11 @@ type    : 'bool' | 'float' | 'int' ;
  */
 
 // allowed assignable expressions.
-expression  : '(' expression ')'                    # bracketedExpression
-            | expression ('*' | '/') expression     # mulDivExpression
-            | expression ('+' | '-') expression     # addSubExpression
-            | ID                                    # expressionId
-            | NUMBER                                # expressionNumber
+numericalExpression  : '(' numericalExpression ')'                    # bracketedExpression
+            | numericalExpression ('*' | '/') numericalExpression     # mulDivExpression
+            | numericalExpression ('+' | '-') numericalExpression     # addSubExpression
+            | ID                                                      # expressionId
+            | NUMBER                                                  # expressionNumber
             ;
 
 /**

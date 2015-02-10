@@ -24,9 +24,9 @@ public class QLParser extends Parser {
 		WS=32, LINE_COMMENT=33;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_ifStatement = 2, RULE_questionDeclaration = 3, 
-		RULE_type = 4, RULE_expression = 5, RULE_logicalExpression = 6;
+		RULE_type = 4, RULE_numericalExpression = 5, RULE_logicalExpression = 6;
 	public static final String[] ruleNames = {
-		"form", "statement", "ifStatement", "questionDeclaration", "type", "expression", 
+		"form", "statement", "ifStatement", "questionDeclaration", "type", "numericalExpression", 
 		"logicalExpression"
 	};
 
@@ -340,8 +340,8 @@ public class QLParser extends Parser {
 		}
 		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
 		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+		public NumericalExpressionContext numericalExpression() {
+			return getRuleContext(NumericalExpressionContext.class,0);
 		}
 		public AssignmentQuestionContext(QuestionDeclarationContext ctx) { copyFrom(ctx); }
 		@Override
@@ -421,7 +421,7 @@ public class QLParser extends Parser {
 				setState(53); 
 				match(T__7);
 				setState(54); 
-				expression(0);
+				numericalExpression(0);
 				setState(55); 
 				match(T__6);
 				}
@@ -485,22 +485,22 @@ public class QLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ExpressionContext extends ParserRuleContext {
-		public ExpressionContext(ParserRuleContext parent, int invokingState) {
+	public static class NumericalExpressionContext extends ParserRuleContext {
+		public NumericalExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_expression; }
+		@Override public int getRuleIndex() { return RULE_numericalExpression; }
 	 
-		public ExpressionContext() { }
-		public void copyFrom(ExpressionContext ctx) {
+		public NumericalExpressionContext() { }
+		public void copyFrom(NumericalExpressionContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class BracketedExpressionContext extends ExpressionContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
+	public static class BracketedExpressionContext extends NumericalExpressionContext {
+		public NumericalExpressionContext numericalExpression() {
+			return getRuleContext(NumericalExpressionContext.class,0);
 		}
-		public BracketedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public BracketedExpressionContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).enterBracketedExpression(this);
@@ -515,9 +515,9 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionNumberContext extends ExpressionContext {
+	public static class ExpressionNumberContext extends NumericalExpressionContext {
 		public TerminalNode NUMBER() { return getToken(QLParser.NUMBER, 0); }
-		public ExpressionNumberContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public ExpressionNumberContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpressionNumber(this);
@@ -532,9 +532,9 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionIdContext extends ExpressionContext {
+	public static class ExpressionIdContext extends NumericalExpressionContext {
 		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
-		public ExpressionIdContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public ExpressionIdContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpressionId(this);
@@ -549,14 +549,14 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class AddSubExpressionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
+	public static class AddSubExpressionContext extends NumericalExpressionContext {
+		public List<NumericalExpressionContext> numericalExpression() {
+			return getRuleContexts(NumericalExpressionContext.class);
 		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
+		public NumericalExpressionContext numericalExpression(int i) {
+			return getRuleContext(NumericalExpressionContext.class,i);
 		}
-		public AddSubExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public AddSubExpressionContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).enterAddSubExpression(this);
@@ -571,14 +571,14 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MulDivExpressionContext extends ExpressionContext {
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
+	public static class MulDivExpressionContext extends NumericalExpressionContext {
+		public List<NumericalExpressionContext> numericalExpression() {
+			return getRuleContexts(NumericalExpressionContext.class);
 		}
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
+		public NumericalExpressionContext numericalExpression(int i) {
+			return getRuleContext(NumericalExpressionContext.class,i);
 		}
-		public MulDivExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public MulDivExpressionContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).enterMulDivExpression(this);
@@ -594,17 +594,17 @@ public class QLParser extends Parser {
 		}
 	}
 
-	public final ExpressionContext expression() throws RecognitionException {
-		return expression(0);
+	public final NumericalExpressionContext numericalExpression() throws RecognitionException {
+		return numericalExpression(0);
 	}
 
-	private ExpressionContext expression(int _p) throws RecognitionException {
+	private NumericalExpressionContext numericalExpression(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
-		ExpressionContext _prevctx = _localctx;
+		NumericalExpressionContext _localctx = new NumericalExpressionContext(_ctx, _parentState);
+		NumericalExpressionContext _prevctx = _localctx;
 		int _startState = 10;
-		enterRecursionRule(_localctx, 10, RULE_expression, _p);
+		enterRecursionRule(_localctx, 10, RULE_numericalExpression, _p);
 		int _la;
 		try {
 			int _alt;
@@ -621,7 +621,7 @@ public class QLParser extends Parser {
 				setState(62); 
 				match(T__4);
 				setState(63); 
-				expression(0);
+				numericalExpression(0);
 				setState(64); 
 				match(T__5);
 				}
@@ -660,8 +660,8 @@ public class QLParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
 						{
-						_localctx = new MulDivExpressionContext(new ExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						_localctx = new MulDivExpressionContext(new NumericalExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_numericalExpression);
 						setState(70);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(71);
@@ -671,13 +671,13 @@ public class QLParser extends Parser {
 						}
 						consume();
 						setState(72); 
-						expression(5);
+						numericalExpression(5);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new AddSubExpressionContext(new ExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						_localctx = new AddSubExpressionContext(new NumericalExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_numericalExpression);
 						setState(73);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(74);
@@ -687,7 +687,7 @@ public class QLParser extends Parser {
 						}
 						consume();
 						setState(75); 
-						expression(4);
+						numericalExpression(4);
 						}
 						break;
 					}
@@ -998,13 +998,13 @@ public class QLParser extends Parser {
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 5: 
-			return expression_sempred((ExpressionContext)_localctx, predIndex);
+			return numericalExpression_sempred((NumericalExpressionContext)_localctx, predIndex);
 		case 6: 
 			return logicalExpression_sempred((LogicalExpressionContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
+	private boolean numericalExpression_sempred(NumericalExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0: 
 			return precpred(_ctx, 4);

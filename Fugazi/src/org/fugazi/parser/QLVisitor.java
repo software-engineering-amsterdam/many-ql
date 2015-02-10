@@ -59,35 +59,35 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	T visitType(@NotNull QLParser.TypeContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code expressionNumber}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpressionNumber(@NotNull QLParser.ExpressionNumberContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code bracketedExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBracketedExpression(@NotNull QLParser.BracketedExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code expressionId}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpressionId(@NotNull QLParser.ExpressionIdContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code addSubExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code mulDivExpression}
-	 * labeled alternative in {@link QLParser#expression}.
+	 * labeled alternative in {@link QLParser#numericalExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
