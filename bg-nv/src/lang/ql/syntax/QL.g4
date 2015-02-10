@@ -8,7 +8,7 @@ import lang.ql.ast.expression.*;
 //import org.uva.sea.ql.ast.expr.*;
 }
 
-form : 'form' Identifier '{' (statement)+ '}';
+form : 'form' formId=Identifier '{' (statement)+ '}';
 
 statement : question | ifCondition ;
 
@@ -23,9 +23,9 @@ expression returns [Expression result]
     | left=expression op=('-'|'+') right=expression //{ if ($op.text.equals("+")) { $result = new SubtractionExpression($left.result, $right.result); } } //Binary addition and subtraction
     //< > == !=
     //&& ||
-    | atom=Integer //{ int parsedInt = java.lang.Integer.parseInt($atom.getText()); $result = new IntegerExpression(parsedInt); }
-    | atom=String  //{ $result = new StringExpression($atom.getText()); }
-    | atom=Identifier //{ $result = new VariableExpression($atom.getText()); }
+    | a=Integer //{ int parsedInt = java.lang.Integer.parseInt($a.getText()); $result = new IntegerExpression(parsedInt); }
+    | a=String  //{ $result = new StringExpression($a.getText()); }
+    | a=Identifier //{ $result = new VariableExpression($a.getText()); }
     ;
 
 fragment Letter : [a-zA-Z];

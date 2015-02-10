@@ -16,9 +16,13 @@ class Node:
     def __len__(self):
         return len(self.children)
 
-    def __repr__(self):
-        return "Node(%s, %s,\n\t%s)\n" % (self.type, self.leaf, self.children)
+    def __repr__(self, nested=0):
+        tree = "Node(%s, %s)" % (self.type, self.leaf)
 
+        for node in self.children:
+            tree += "\n"  + ("\t" * nested) +  " -> " + node.__repr__(nested=1)
+
+        return tree
 
 class Question:
     def __init__(self, text, type=bool, label=None, function=None):
@@ -27,5 +31,17 @@ class Question:
          self.label = label
          self.function = function
 
-    def __repr__(self):
+    def __repr__(self, nested=0):
         return "Question(%s: %s)" % (self.type, self.text)
+
+
+class Expression:
+    def __init__(self, leaf=None, left=None, right=None):
+         self.leaf  = leaf
+
+         self.left  = left
+         self.right = right
+
+    def __repr__(self, nested=0):
+        return "Expression(%s %s %s)" % (self.left, self.leaf, self.right)
+

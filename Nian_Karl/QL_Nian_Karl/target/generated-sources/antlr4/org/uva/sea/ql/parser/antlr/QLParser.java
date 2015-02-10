@@ -1,5 +1,4 @@
 // Generated from QL.g4 by ANTLR 4.4
-package org.uva.sea.ql.parser.antlr;
 
 package org.uva.sea.ql.parser.antlr;
 import org.uva.sea.ql.ast.expr.*;
@@ -23,10 +22,14 @@ public class QLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		QuestionType=1, WS=2, COMMENT=3, Bool=4, Ident=5, Int=6, Str=7;
+		QuestionType=1, WS=2, COMMENT=3, Bool=4, Ident=5, Int=6, Str=7, Float=8, 
+		INT=9, STR=10, CUR=11, BOOL=12, TRUE=13, FALSE=14, IF=15, GREATER=16, 
+		EQUAL_GREATER=17, EQUAL=18, EQUAL_SMALLER=19, SMALLER=20, LEFT_BRACES=21, 
+		RIGHT_BRACES=22, LEFT_PARENTHESES=23, RIGHT_PARENTHESES=24;
 	public static final String[] tokenNames = {
 		"<INVALID>", "QuestionType", "WS", "COMMENT", "Bool", "Ident", "Int", 
-		"Str"
+		"Str", "Float", "'Int'", "'Str'", "'Cur'", "'Bool'", "'true'", "'false'", 
+		"'if'", "'>'", "'>='", "'=='", "'<='", "'<'", "'{'", "'}'", "'('", "')'"
 	};
 	public static final int
 		RULE_form = 0, RULE_question = 1;
@@ -71,11 +74,6 @@ public class QLParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).exitForm(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitForm(this);
-			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -128,11 +126,6 @@ public class QLParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final QuestionContext question() throws RecognitionException {
@@ -158,7 +151,7 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t\20\4\2\t\2\4\3"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\32\20\4\2\t\2\4\3"+
 		"\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\3\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\16\2\7"+
 		"\3\2\2\2\4\13\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\t\3\2\2\2\t\7\3\2\2\2"+
 		"\t\n\3\2\2\2\n\3\3\2\2\2\13\f\7\7\2\2\f\r\7\t\2\2\r\16\7\3\2\2\16\5\3"+

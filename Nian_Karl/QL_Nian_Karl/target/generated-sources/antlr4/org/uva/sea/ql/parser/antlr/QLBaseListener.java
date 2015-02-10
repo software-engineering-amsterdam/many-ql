@@ -1,5 +1,4 @@
 // Generated from QL.g4 by ANTLR 4.4
-package org.uva.sea.ql.parser.antlr;
 
 package org.uva.sea.ql.parser.antlr;
 import org.uva.sea.ql.ast.expr.*;
