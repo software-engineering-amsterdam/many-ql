@@ -1,11 +1,20 @@
 grammar QL;
 start
     : FORM_TAG UPPERCASE CURL_OPEN question+ CURL_CLOSE;
-
 question
-    : UPPERCASE UPPERCASE LABEL
+    : question_name question_type question_label
     ;
-LABEL
+question_name
+    : UPPERCASE
+    ;
+question_type
+    : UPPERCASE
+    ;
+question_label
+    : STRING
+    ;
+
+STRING
  : '"' (~[\r\n"] | '""')* '"'
  ;
 UPPERCASE
@@ -21,6 +30,7 @@ CURL_OPEN
 CURL_CLOSE
     : '}'
     ;
+
 WS
     : [ \t\r\n]+ -> skip
     ; // skip spaces, tabs, newlines
