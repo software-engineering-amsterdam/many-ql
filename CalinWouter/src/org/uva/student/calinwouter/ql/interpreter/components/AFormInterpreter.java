@@ -4,6 +4,7 @@ import org.uva.student.calinwouter.ql.generated.lexer.Lexer;
 import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.generated.parser.Parser;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
+import org.uva.student.calinwouter.ql.interpreter.model.DisplayModelInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 import org.uva.student.calinwouter.ql.interpreter.model.QuestionModel;
 
@@ -59,24 +60,35 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
                 return column == 1;
             }
         };
-        for (QuestionModel questionModel : environment.getQuestionModels()) {
-            tableModel.addRow(new Object[] {
-                    questionModel.getText(),
-                    environment.getEnvVars().get(questionModel.getVariable())});
+        for (DisplayModelInterface displayModel : environment.getDisplayModels()) {
+            tableModel.addRow(displayModel.renderTableRow());
+
+//            tableModel.addRow(new Object[] {
+//                    displayModel.getText(),
+//                    environment.getEnvVars().get(displayModel.getVariable())});
         }
         tableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
-                String variable = environment.getQuestionModels().get(e.getFirstRow()).getVariable();
-                String value = tableModel.getValueAt(e.getFirstRow(), 1).toString();
-                Object parsedValue = interpreteExpression(value);
-                environment.getEnvVars().put(variable, value);
+                DisplayModelInterface displayModel = environment.getDisplayModels().get(e.getFirstRow());
+                if (displayModel.updateEnvironmentForRowChange(e)) {
+                    interpreteStatements();
+                }
+
+//                String variable = environment.getDisplayModels().get(e.getFirstRow()).getVariable();
+//                String value = tableModel.getValueAt(e.getFirstRow(), 1).toString();
+//                Object parsedValue = interpreteExpression(value);
+//                environment.getEnvVars().put(variable, parsedValue);
+//                System.out.println("Interprete.");
+
+
             }
         });
         return tableModel;
     }
 
     private void interpreteStatements() {
+        environment.clearQuestions();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
     }
