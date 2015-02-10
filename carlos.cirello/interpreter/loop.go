@@ -12,6 +12,7 @@ type interpreter struct {
 	questionaire *ast.QuestionaireNode
 	send         chan *fe.Event
 	receive      chan *fe.Event
+	visitor      *visitor
 }
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
@@ -23,6 +24,7 @@ func New(q *ast.QuestionaireNode) (chan *fe.Event, chan *fe.Event) {
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
+		visitor:      &visitor{toFrontend},
 	}
 	go v.loop()
 	return toFrontend, fromFrontend
@@ -38,7 +40,7 @@ func (v *interpreter) loop() {
 		case r := <-v.receive:
 			if r.Type == fe.ReadyT {
 				// visit everything to setup interface
-				visitQuestionaire(v.questionaire, v.send)
+				v.visitor.QuestionaireNode(v.questionaire)
 				v.send <- &fe.Event{
 					Type: fe.Flush,
 				}
@@ -52,7 +54,7 @@ func (v *interpreter) loop() {
 						}
 					}
 					// visit everything again
-					visitQuestionaire(v.questionaire, v.send)
+					v.visitor.QuestionaireNode(v.questionaire)
 				}
 			}
 		default:

@@ -7,28 +7,34 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
 
-func visitQuestionaire(q *ast.QuestionaireNode, toFrontend chan *frontend.Event) {
+type visitor struct {
+	toFrontend chan *frontend.Event
+}
+
+func (vst visitor) QuestionaireNode(q *ast.QuestionaireNode) {
 	for _, actionNode := range q.Stack {
-		visitActionNode(actionNode, toFrontend)
+		vst.ActionNode(actionNode)
 	}
 }
 
-func visitActionNode(a *ast.ActionNode, toFrontend chan *frontend.Event) {
+func (vst visitor) ActionNode(a *ast.ActionNode) {
 	if nil != a.QuestionNode {
-		visitQuestionNode(a.QuestionNode, toFrontend)
+		vst.QuestionNode(a.QuestionNode)
 	} else if nil != a.IfNode {
-		visitIfNode(a.IfNode, toFrontend)
+		vst.IfNode(a.IfNode)
+	} else {
+		log.Panicf("Impossible ActionNode type or empty ActionNode. %#v", a)
 	}
 }
 
-func visitQuestionNode(q *ast.QuestionNode, toFrontend chan *frontend.Event) {
+func (vst visitor) QuestionNode(q *ast.QuestionNode) {
 	questionCopy := q.Clone()
-	toFrontend <- &frontend.Event{
+	vst.toFrontend <- &frontend.Event{
 		Type:     frontend.Render,
 		Question: questionCopy,
 	}
 }
 
-func visitIfNode(i *ast.IfNode, toFrontend chan *frontend.Event) {
+func (vst visitor) IfNode(i *ast.IfNode) {
 	log.Println("Ignoring IfNodes for now")
 }
