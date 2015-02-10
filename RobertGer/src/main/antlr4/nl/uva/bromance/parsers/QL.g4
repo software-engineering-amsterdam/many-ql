@@ -15,15 +15,16 @@ questionRangeFromTo: lower=NUMBER '-' higher=NUMBER;
 questionRangeBiggerThan: '>' num=NUMBER;
 questionRangeSmallerThan: '<' num=NUMBER;
 
-logicalStatement: 'If:' lexpression '{' (logicalStatement|question)* '}';
+logicalStatement: 'If:' expression '{' (logicalStatement|question)* '}';
 
-lexpression
-    : '(' lexpression ')'
-    | LOGICAL_SEPARATOR lexpression
-    | TEXT LOGICAL_OPERATOR lexpression
-    | TEXT lexpression
-    | STRING lexpression
-    ;
+expression
+    : '(' expression ')'
+    | expression '&&' expression
+    | expression '||' expression
+    | expression LOGICAL_OPERATOR expression
+    | STRING
+    | NUMBER
+    | TEXT;
 
 /*
 logicalExpression: logic (LOGICAL_SEPARATOR logic)*;
@@ -48,7 +49,7 @@ fragment NL   : '\r' '\n' | '\n' | '\r';
 LOGICAL_OPERATOR : '=='
                  | '>'
                  | '<'
-                 | '!=;';
-LOGICAL_SEPARATOR : '||'
-                  |'&&';
+                 | '!='
+                 | '>='
+                 | '<=';
 TEXT : [0-9a-zA-Z\.]+;

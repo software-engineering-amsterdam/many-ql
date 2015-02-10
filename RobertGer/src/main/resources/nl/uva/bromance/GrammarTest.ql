@@ -16,7 +16,7 @@ Name: "Tax" {
     		Answer: Double
     		Range: >0
     	}
-    	If: generic.x == 2 && (generic.y == 3 || generic.z == 4) {
+    	If: generic.partner == "Married" || generic.partner == "Cohabitation" {
         	Question: "income_partner" {
         		Text: "How much money did your partner earn through employer paid wages during 2014?"
         		Answer: double

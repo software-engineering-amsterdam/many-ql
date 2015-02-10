@@ -1,8 +1,10 @@
 package nl.uva.bromance;
 
-import nl.uva.bromance.listeners.ExpParseTreeListener;
+import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.ExpLexer;
 import nl.uva.bromance.parsers.ExpParser;
+import nl.uva.bromance.parsers.QLLexer;
+import nl.uva.bromance.parsers.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -19,11 +21,11 @@ import java.util.Arrays;
 public class Runner {
 
     public void run() throws IOException {
-        ExpLexer lexer = new ExpLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("ExpTest.ql")));
+        QLLexer lexer = new QLLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.ql")));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        ExpParser parser = new ExpParser(tokens);
-        ParseTree tree = parser.field();
-        ExpParseTreeListener listener = new ExpParseTreeListener();
+        QLParser parser = new QLParser(tokens);
+        ParseTree tree = parser.questionnaire();
+        QLParseTreeListener listener = new QLParseTreeListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         walker.walk(listener, tree);
