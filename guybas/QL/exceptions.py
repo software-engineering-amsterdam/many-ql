@@ -1,7 +1,8 @@
-def exceptionsHandling(e):
+def exceptions_handling(e):
     print("Error occured!")
     print(type(e))
     print(e)
 
-class qException(Exception):
+
+class QException(Exception):
     pass
