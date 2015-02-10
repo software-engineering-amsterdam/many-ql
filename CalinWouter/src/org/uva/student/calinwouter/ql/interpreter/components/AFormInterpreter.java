@@ -1,6 +1,8 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
+import org.uva.student.calinwouter.ql.generated.lexer.Lexer;
 import org.uva.student.calinwouter.ql.generated.node.*;
+import org.uva.student.calinwouter.ql.generated.parser.Parser;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.DisplayModelInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
@@ -11,11 +13,13 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.PushbackReader;
+import java.io.StringReader;
 
 public class AFormInterpreter implements InterpreterInterface<PForm> {
     private Environment environment;
     private PForm form;
-    //private TableModel tableModel;
+    private TableModel tableModel;
     private JTable jtable;
 
     private TableModel createTableModel() {
@@ -37,6 +41,17 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         frame.setVisible(true);
     }
 
+    private Object interpreteExpression(String expression) {
+        Lexer lexer = new Lexer(new PushbackReader(new StringReader(expression)));
+        Parser parser = new Parser(lexer);
+        try {
+            Start ast = parser.parse();
+            return new PExpInterpreter().interprete(environment, ((AExpBegin) ast.getPBegin()).getExp());
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private TableModel getTableModel() {
         final DefaultTableModel tableModel = new DefaultTableModel(0,2) {
             @Override
@@ -51,8 +66,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
             @Override
             public void tableChanged(TableModelEvent e) {
                 DisplayModelInterface displayModel = environment.getDisplayModels().get(e.getFirstRow());
-                String change = "" + tableModel.getValueAt(e.getFirstRow(), e.getColumn());
-                if (displayModel.updateEnvironmentForRowChange(e, change, environment)) {
+                if (displayModel.updateEnvironmentForRowChange(e)) {
                     interpreteStatements();
                 }
             }

@@ -3,6 +3,7 @@ from pyparsing import *
 from exceptions import *
 from abstract import *
 from ast import *
+from gui import *
 
 class BasicTypes:
     # Words, end signs and escaped signs
@@ -30,8 +31,8 @@ class Expressions: # TODO
     operator        = eOperators | cOperators
     parenthesis     = oneOf("( )")
     expr            = Forward()
-    expr            <<= value | Group(expr + operator + expr)
-    condition       = (Suppress("Question") + expr)
+    expr            <<= Group(expr + operator + expr) | value
+    condition       = "1 > 2"
 
     
 class FormFormat:
@@ -48,19 +49,20 @@ class FormFormat:
     pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") + questions + Suppress("}"))
     pElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
     
-    # Advanced questions: IF / ELSE BLOCK | QUESTIONS
+    # Advanced questions: (IF | ELSE) BLOCK | QUESTIONS
     aQuestions      = pElse.setParseAction(ASTReady.make_else) | \
                       pIf.setParseAction(ASTReady.make_if) | \
                       questions
                       
     # IDENTIFIER QUESTIONS
-    form            = (id + OneOrMore(aQuestions))
-    form2           = form 
+    form            = (id + Optional(Suppress("Introduction" + Literal(":") + BasicTypes.sentences)) + OneOrMore(aQuestions))
 
 # Test
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
-    print(form)
+    gui = QuestionnaireGUI(form)
+    gui.generate_gui()
+    gui.show()
 except Exception as e:
     exceptions_handling(e)

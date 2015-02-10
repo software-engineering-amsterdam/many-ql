@@ -1,16 +1,28 @@
 from tkinter import *
+from ast import *
 
 
 class QuestionnaireGUI:
     def __init__(self, form):
-        self.fGui      = Tk()
-        self.form      = form
-        self.name      = form.name
+        self.qGui      = Tk()
+        # self.form      = form
         self.questions = form.get_questions()
+        self.title     = form.get_name()
+        self.intro     = form.get_introduction()
 
     def generate_gui(self):
+        # self.qGui.geometry('450x450')
+        self.qGui.title(self.title)
+        Label(text=self.intro, fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
+        i = 0
         for question in self.questions:
-            print(question.get_answertype())
+            i += 1
+            if isinstance(question, ConditionalQuestions):
+                continue
+            Label(text=question.get_answertype(), fg='#00FFFF', bg='#000000', height=2).grid(row=i, column=0, sticky=W)
+
+    def show(self):
+        self.qGui.mainloop()
 
 # mGui = Tk()
 # mGui.geometry('450x450')

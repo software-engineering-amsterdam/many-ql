@@ -7,19 +7,16 @@ import scala.util.parsing.combinator.JavaTokenParsers
 class QLParser extends JavaTokenParsers with QLAST {
   
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
-  def literal: Parser[Literal] = booleanLiteral | numberLiteral
-  def booleanLiteral: Parser[BooleanLiteral] = ("true" | "false") ^^ {
-    s => BooleanLiteral(s.toBoolean)
-  }
-  def numberLiteral: Parser[NumberLiteral] = wholeNumber ^^ {
-    s => NumberLiteral(s.toInt)
-  }
-  def variable: Parser[Variable] = ident ^^ Variable
-  def label: Parser[String] = stringLiteral
 
   def form: Parser[Form] = "form" ~> ident ~ expression ^^ {
     case name ~ expr => Form(name, expr)
   }
+
+  def const: Parser[Const] = ("true" | "false") ^^ Const
+
+  def variable: Parser[Variable] = ident ^^ Variable
+
+  def label: Parser[String] = stringLiteral
 
   def expression: Parser[Expr] = "{" ~> rep(questionExpression | ifExpression) <~ "}" ^^ Sequence
 
@@ -47,44 +44,24 @@ class QLParser extends JavaTokenParsers with QLAST {
   }
 
   // parse boolean expression
-  def booleanExpression: Parser[Expr] = or
-  def or: Parser[Expr] = rep1sep(and, "or") ^^ {
+  def booleanExpression: Parser[Expr] = orExpression
+
+  def orExpression: Parser[Expr] = rep1sep(andExpression, "or") ^^ {
     _.reduceLeft(Or)
   }
-  def and: Parser[Expr] = rep1sep(not, "and") ^^ {
+
+  def andExpression: Parser[Expr] = rep1sep(notExpression, "and") ^^ {
     _.reduceLeft(And)
   }
-  def not: Parser[Expr] = opt("not") ~ equality ^^ {
+
+  def notExpression: Parser[Expr] = opt("not") ~ atom ^^ {
     case Some(_) ~ x => Not(x)
     case _ ~ x => x
   }
-  def equality: Parser[Expr] = comparison ~ opt(("==" | "!=") ~ comparison) ^^ {
-    case l ~ Some("==" ~ r) => Equal(l, r)
-    case l ~ Some("!=" ~ r) => NotEqual(l, r)
-    case x ~ _ => x
-  }
-  def comparison: Parser[Expr] = arithmeticExpression ~ opt(("<=" | "<" | ">=" | ">") ~ arithmeticExpression) ^^ {
-    case l ~ Some("<=" ~ r) => LessThanEqual(l, r)
-    case l ~ Some("<" ~ r) => LessThan(l, r)
-    case l ~ Some(">=" ~ r) => GreaterThanEqual(l, r)
-    case l ~ Some(">" ~ r) => GreaterThan(l, r)
-    case x ~ _ => x
-  }
 
-  // Arithmetic expressions
-  def arithmeticExpression: Parser[Expr] = plus
-  def plus: Parser[Expr] = rep1sep(minus, "+") ^^ {
-    _.reduceLeft(Add)
-  }
-  def minus: Parser[Expr] = rep1sep(product, "-") ^^ {
-    _.reduceLeft(Sub)
-  }
-  def product: Parser[Expr] = rep1sep(divide, "*") ^^ {
-    _.reduceLeft(Mul)
-  }
-  def divide: Parser[Expr] = rep1sep(atom, "/") ^^ {
-    _.reduceLeft(Div)
-  }
-  def atom: Parser[Expr] = (literal | variable | "(" ~> booleanExpression <~ ")")
+  def atom: Parser[Expr] = (const
+    | variable
+    | "(" ~> booleanExpression <~ ")"
+    )
 
 }
