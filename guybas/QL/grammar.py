@@ -5,6 +5,7 @@ from abstract import *
 from ast import *
 from gui import *
 
+
 class BasicTypes:
     # Words, end signs and escaped signs
     endSignEsc      = Suppress("\\") + Literal("?") | Literal("/.") | Literal("/!")
@@ -56,14 +57,3 @@ class FormFormat:
     # IDENTIFIER QUESTIONS
     introduction    = Group(Suppress("Introduction" + Literal(":") + BasicTypes.sentences))
     form            = id + Optional(introduction) + OneOrMore(aQuestions)
-
-# Test
-try:
-    formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
-    form = ASTReady.make_form(formAsParseResults)
-    print(form)
-    gui = QuestionnaireGUI(form)
-    gui.generate_gui()
-    gui.show()
-except Exception as e:
-    exceptions_handling(e)
