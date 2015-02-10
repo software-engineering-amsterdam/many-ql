@@ -1,71 +1,5 @@
 grammar KLQ;
 
-questionaire
-    : question+
-    ;
-
-question
-    : 'question' NEWLINE specification* end
-    ;
-
-
-end : 'end'
-        ( NEWLINE+
-        | EOF
-        )
-    ;
-
-specification
-    :
-    ( 'id'       ':' QuestionId
-    | 'type'     ':' questionType
-    | 'value'    ':' answers        //optional
-    | 'text'     ':' String         //optional
-    | 'requires' ':' QuestionId     //optional
-    | 'only'     ':' answers        //optional, for *requires*
-    ) NEWLINE
-    ;
-
-String
-    : '"' StringCharacter* '"'
-    ;
-
-Number
-    : Int
-    | Decimal
-    ;
-
-answer
-    : expr
-    | Number
-    | String
-    ;
-
-expr
-    : expr ( '*' | '/' ) expr
-    | expr ( '+' | '-' ) expr
-    | Number
-    |'(' expr ')'
-    ;
-
-answers
-    :   answer (', ' answer)*
-    ;
-
-
-fragment StringCharacter
-    : ~[\\"]                    //TODO define possible Escape things.
-    ;
-
-questionType
-    : 'set'
-    | 'boolean'
-    | 'date'
-    | 'currency'
-    | 'string'
-    | 'numeral'
-    ;
-
 //Keywords
 PAGE        : 'page' ;
 SECTION     : 'section' ;
@@ -83,14 +17,101 @@ DATE        : 'date' ;
 CURRENCY    : 'currency' ;
 STRING      : 'string' ;
 NUMERAL     : 'numeral' ;
+TODAY       : 'today' ;
+NOW         : 'now' ;
+ANSWER      : 'answer' ;
 
+//Operators
 ADD : '+' ;
 SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
+G   : '>' ;
+L   : '<' ;
+GT  : '>=' ;
+LT  : '<=' ;
+
+questionaire
+    : question+
+    ;
+
+question
+    : questionBegin specification+ questionEnd
+    ;
+
+questionBegin
+    : 'question' NEWLINE
+    ;
+
+questionEnd :
+    'end'
+        ( NEWLINE+
+        | EOF
+        )
+    ;
+
+specification
+    :
+    ( 'id'       ':' QuestionId
+    | 'type'     ':' questionType
+    | 'value'    ':' answers        //optional
+    | 'text'     ':' String         //optional
+    | 'requires' ':' QuestionId     //optional
+    | 'only'     ':' answers        //optional, for *requires*
+    ) NEWLINE
+    ;
 
 QuestionId
     : Letter LetterOrDigit*
+    ;
+
+questionType
+    : 'set'
+    | 'boolean'
+    | 'date'
+    | 'currency'
+    | 'string'
+    | 'numeral'
+    ;
+
+
+String
+    : '"' StringCharacter* '"'
+    ;
+
+Number
+    : Int
+    | Decimal
+    ;
+Date
+    : Int ( '.' | '-' | '/' ) Int ( '.' | '-' | '/' ) Int?
+    | 'today'
+    ;
+
+Time
+    : Int ( '.' | '-' | ':' ) Int
+    | 'now'
+    ;
+
+answer
+    : expr
+    | Number
+    | String
+    ;
+
+expr
+    : expr ( '*' | '/' ) expr
+    | expr ( '+' | '-' ) expr
+    | expr ( '>=' | '>' | L | LT ) expr
+    | Number
+    | Date
+    | String
+    | 'answer'
+    |'(' expr ')'
+    ;
+
+answers
+    : answer (', ' answer)*
     ;
 
 Int : Digit+
@@ -98,6 +119,12 @@ Int : Digit+
 
 Decimal
     : Digit+ '.' Digit*
+    ;
+
+
+
+fragment StringCharacter
+    : ~[\\"]                    //TODO define possible Escape things.
     ;
 
 fragment Letter
