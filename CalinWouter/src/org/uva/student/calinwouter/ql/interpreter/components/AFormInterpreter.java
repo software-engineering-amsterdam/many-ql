@@ -56,15 +56,11 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         final DefaultTableModel tableModel = new DefaultTableModel(0,2) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 1;
+                return environment.getDisplayModels().get(row).isCellEditable(row, column);
             }
         };
         for (DisplayModelInterface displayModel : environment.getDisplayModels()) {
-            tableModel.addRow(displayModel.renderTableRow());
-
-//            tableModel.addRow(new Object[] {
-//                    displayModel.getText(),
-//                    environment.getEnvVars().get(displayModel.getVariable())});
+            tableModel.addRow(displayModel.renderTableRow(environment));
         }
         tableModel.addTableModelListener(new TableModelListener() {
             @Override
@@ -73,21 +69,13 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
                 if (displayModel.updateEnvironmentForRowChange(e)) {
                     interpreteStatements();
                 }
-
-//                String variable = environment.getDisplayModels().get(e.getFirstRow()).getVariable();
-//                String value = tableModel.getValueAt(e.getFirstRow(), 1).toString();
-//                Object parsedValue = interpreteExpression(value);
-//                environment.getEnvVars().put(variable, parsedValue);
-//                System.out.println("Interprete.");
-
-
             }
         });
         return tableModel;
     }
 
-    private void interpreteStatements() throws InterpretationException{
-        environment.clearQuestions();
+    private void interpreteStatements() {
+        environment.clearDisplay();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
     }
