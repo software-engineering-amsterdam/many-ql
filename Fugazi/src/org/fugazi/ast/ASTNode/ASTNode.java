@@ -1,4 +1,4 @@
-package org.fugazi.ast;
+package org.fugazi.ast.ASTNode;
 
 
 public abstract class ASTNode {

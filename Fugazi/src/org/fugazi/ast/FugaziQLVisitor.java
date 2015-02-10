@@ -1,9 +1,10 @@
 package org.fugazi.ast;
 
 import org.antlr.v4.runtime.misc.NotNull;
+import org.fugazi.ast.ASTNode.ASTNode;
 import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
-import org.fugazi.ast.Form;
+import org.fugazi.ast.Form.Form;
 
 // TODO
 
