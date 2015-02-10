@@ -49,7 +49,7 @@ else
 
 types are yesno, number, text
 
-
+------------------------------------------------------------
 form ExampleBlock {
 question FirstQuestion (yesno, required) "How much is it?";
 question question2 (text, optional) "How much it will be?";
