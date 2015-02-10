@@ -1,6 +1,27 @@
 question
     id : question1
-    type : boolean
-    text : "What is love"
-    value : "Baby dont hurt me", "Dont hurt me", 10 * 42 + 100
+    type : set
+    text : "What is love?"
+    value : "Baby don't hurt me", "Don't hurt me", 10 * 42 + 100
+end
+
+question
+    id : question2
+    type : set
+    text : "Ain't nobody got time for that!"
+    value : "I was getting a cold pop!", "And then I thought somebody was barbecuein'"
+end
+
+question
+    id : lunch
+    type : date
+    text : "When do we go for lunch?"
+    value : 1 > 2, 21.12.1990 >= 11.1.88
+end
+
+question
+    id : test
+    type : numeral
+    text : "Test all the things!"
+    value : answer > 15, answer * 10 > 100
 end
