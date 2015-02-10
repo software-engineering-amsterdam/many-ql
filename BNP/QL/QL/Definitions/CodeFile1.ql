@@ -1,4 +1,6 @@
 ﻿
+============ VERSION 1 ============
+
 Form FirstForm{
 "Hello, this is the form"
 
@@ -22,27 +24,27 @@ P22_3*.20
 }
 
  
-
-
+============ VERSION 2 FINAL ============
 
 form FormName {
-question Q2 (bool, ) "question?";
-statement Smth (int, (Q1+132)) "left part";
-statement Smth (string, "var") "left part";
+	question Q2 (bool, ) "question?";
+	statement Smth (int, (Q1+132)) "left part";
+	statement Smth (string, "var") "left part";
 }
 
 
 if (condition)
 {
-question Q3 (type, optionality,con, "here")
-question Q4 (type, optionality,con, "here")
+	question Q3 (type, optionality,con, "here")
+	question Q4 (type, optionality,con, "here")
 } 
-else ife (else/elif)
+else if (condition)
 {
-question Q5 (type, optionality,con, "here")
+	question Q5 (type, optionality,con, "here")
+} 
+else
+{
+	question Q6 (type, optionality,con, "here")
 }
 
-
-yesno
-number
-text
+types are yesno, number, text
