@@ -1,25 +1,25 @@
 grammar QL;
-form
-    :   'form' numeric '{' question '}';
+start
+    : FORM_TAG UPPERCASE CURL_OPEN question+ CURL_CLOSE;
 
 question
-    : numeric numeric '"' numeric '"'
+    : UPPERCASE UPPERCASE LABEL
     ;
-
-numeric
-    : Number
-    | LowerCaseString
-    | UpperCaseString
-    ;
-
-NUMBER
-    : [0-9]+
-    ;
-LowerCaseString
-    : [a-z]+
-    ;
-UpperCaseString
+LABEL
+ : '"' (~[\r\n"] | '""')* '"'
+ ;
+UPPERCASE
     : [A-Z]+
+    ;
+
+FORM_TAG
+    : 'form'
+    ;
+CURL_OPEN
+    : '{'
+    ;
+CURL_CLOSE
+    : '}'
     ;
 WS
     : [ \t\r\n]+ -> skip
