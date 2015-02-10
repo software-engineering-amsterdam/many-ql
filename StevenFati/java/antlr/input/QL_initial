@@ -1,8 +1,8 @@
 form FORMNAME {
     NAME BOOLEAN "LABEL"
-    NAME STRING "LABEL 1"
+    NAME2 STRING "LABEL 1"
     NAME3 BOOLEAN "LABEL 1"
-    if ( 1*2) {
-        NAME INTEGER "CONdiTioNal "
+    if ( NAME && ((1 * 4) > 3)) {
+        NAME4 INTEGER "CONdiTioNal "
     }
 }

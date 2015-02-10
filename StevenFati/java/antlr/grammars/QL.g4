@@ -11,14 +11,21 @@ if_statement
     : 'if (' expression ')' '{' statement '}'
     ;
 expression
-    : NUMBERS operator NUMBERS
+    : '(' expression ')'
+    | expression operator expression
+    | NUMBERS+
+    | identifier+
     ;
+
 operator
     : ('*' | '/')
     | ('+'| '-')
+    | '&&'
+    | '||'
+    | ('>' | '<')
     ;
 identifier
-    : (UPPERCASE | LOWERCASE | NUMBERS)*
+    : (UPPERCASE | LOWERCASE | NUMBERS)+
     ;
 question
     : identifier question_type question_label
