@@ -1,5 +1,8 @@
 package cons.ql.ast.expression;
 
+import cons.ql.ast.Expression;
+import cons.ql.ast.Visitor;
+
 public abstract class QLType<T> extends Expression {
 	protected T value;
 	protected boolean defined;
@@ -24,5 +27,14 @@ public abstract class QLType<T> extends Expression {
 		
 		return value;
 	}
-	public abstract String getName();
+	
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
+
+	@Override
+	public abstract String toString();
+	
+	@Override
+	public abstract void accept(Visitor visitor);
 }

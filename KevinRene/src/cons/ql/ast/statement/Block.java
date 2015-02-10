@@ -2,8 +2,10 @@ package cons.ql.ast.statement;
 
 import java.util.ArrayList;
 
-public class Block extends Statement {
+import cons.ql.ast.Visitor;
+import cons.ql.ast.Statement;
 
+public class Block extends Statement {
 	private ArrayList<Statement> statements = new ArrayList<Statement>();
 	
 	/**
@@ -24,7 +26,20 @@ public class Block extends Statement {
 	}
 
 	@Override
-	public String show() {
-		return "Block";
+	public String toString() {
+		StringBuilder sb = new StringBuilder("Block(");
+		
+		for(Statement s : statements)
+			sb.append(s.toString() + ", ");
+		
+		sb.setLength(sb.length() - 2);
+		sb.append(")");
+		
+		return sb.toString();
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		// TODO Auto-generated method stub		
 	}
 }

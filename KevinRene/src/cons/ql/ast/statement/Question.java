@@ -1,22 +1,20 @@
 package cons.ql.ast.statement;
 
+import cons.ql.ast.Statement;
+import cons.ql.ast.Visitor;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLString;
 
 public class Question<T extends QLType<T>> extends Statement {
-	private QLIdent identifier;
-	private T type;
-	private QLString content;
+	protected QLIdent identifier;
+	protected T type;
+	protected QLString questionText;
 	
-	public Question(QLIdent identifier, T type, QLString content) {
+	public Question(QLIdent identifier, T type, QLString questionText) {
 		this.identifier = identifier;
 		this.type = type;
-		this.content = content;
-	}
-
-	public String show() {
-		return "Question";
+		this.questionText = questionText;
 	}
 	
 	public QLIdent getIdent() {
@@ -28,6 +26,24 @@ public class Question<T extends QLType<T>> extends Statement {
 	}
 	
 	public QLString getText() {
-		return content;
+		return questionText;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("Question(");
+		
+		sb.append(identifier.toString() + ", ");
+		sb.append(type.toString() + ", ");
+		sb.append(questionText.toString());
+		sb.append(")");
+		
+		return sb.toString();
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {
+		// TODO Auto-generated method stub
+		
 	}
 }

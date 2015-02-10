@@ -47,17 +47,21 @@ public class ParserTest {
 		lexer.nextToken();
 		assertTrue(parser.parse());
 		
-		assertEquals("Form", parser.getResult().toString());
+		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, null, "
+				+ "\"Did you sell a house in 2010?\")))", parser.getResult().toString());
 	}
 	
 	@Test
 	public void testParsableComputerQuestion() {
 		Reader reader = new StringReader(
-				"form taxOfficeExample {"
-				+ "hasSoldHouse : money {"
-				+ "\"Your house is worth:\""
-				+ "assign(5000)"
-				+ "}"
+				  "form taxOfficeExample {"
+				+ 	"hasSoldHouse : boolean {"
+				+ 		"\"Did you sell a house in 2010?\""
+				+ 	"}"
+				+ 	"hasSoldHouse : money {"
+				+ 		"\"Your house is worth:\""
+				+ 		"assign(5000.0)"
+				+ 	"}"
 				+ "}"
 				);
 		QLLexer lexer = new QLLexer(reader);
@@ -66,6 +70,8 @@ public class ParserTest {
 		lexer.nextToken();
 		assertTrue(parser.parse());
 		
-		assertEquals("Form", parser.getResult().toString());
+		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, null, "
+				+ "\"Did you sell a house in 2010?\"), ComputedQuestion(hasSoldHouse, "
+				+ "5000.0, \"Your house is worth:\", 5000.0)))", parser.getResult().toString());
 	}	
 }

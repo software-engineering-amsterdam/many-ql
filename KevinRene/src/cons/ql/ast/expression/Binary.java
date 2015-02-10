@@ -1,6 +1,8 @@
 package cons.ql.ast.expression;
 
 import cons.ql.ast.ASTNode;
+import cons.ql.ast.Expression;
+import cons.ql.ast.Visitor;
 
 public abstract class Binary extends Expression {
 	protected Expression left, right;
@@ -11,10 +13,6 @@ public abstract class Binary extends Expression {
 		this.right = right;
 		this.operator = operator;
 	}
-
-	public String show() {
-		return left.show() + " " + operator + " " + right.show();
-	}
 	
 	public ASTNode getLeft() {
 		return this.left;
@@ -23,4 +21,12 @@ public abstract class Binary extends Expression {
 	public ASTNode getRight() {
 		return this.right;
 	}
+	
+	@Override
+	public String toString() {
+		return left.toString() + " " + operator + " " + right.toString();
+	}
+	
+	@Override
+	public abstract void accept(Visitor visitor);
 }

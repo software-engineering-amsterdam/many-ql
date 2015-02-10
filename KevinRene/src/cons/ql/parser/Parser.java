@@ -114,7 +114,7 @@ public class Parser {
 			printSubTree(assignment.getIdent(), prefix, false);
 			printSubTree(assignment.getType(), prefix, false);
 			printSubTree(assignment.getText(), prefix, false);
-			printSubTree(assignment.getExpr(), prefix, true);
+			printSubTree(assignment.getExpression(), prefix, true);
 		}
 		else if (root instanceof Question) {
 			Question question = (Question)root;

@@ -1,5 +1,6 @@
 package cons.ql.ast.expression.literal;
 
+import cons.ql.ast.Visitor;
 import cons.ql.ast.expression.QLType;
 
 public class QLFloat extends QLType<Float> {	
@@ -12,15 +13,13 @@ public class QLFloat extends QLType<Float> {
 	}
 
 	@Override
-	public String show() throws NullPointerException {
-		if(!defined)
-			return "undefined";
-		
+	public String toString() {		
 		return String.valueOf(value);
 	}
 
 	@Override
-	public String getName() {
-		return "QLFloat";
+	public void accept(Visitor visitor) {
+		// TODO Auto-generated method stub
+		
 	}
 }
