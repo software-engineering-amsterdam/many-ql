@@ -50,7 +50,7 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
-
+        this.questionType = "JE Moeder";
     }
 
     public void exitQuestionRangeFromTo(QLParser.QuestionRangeFromToContext ctx) {
