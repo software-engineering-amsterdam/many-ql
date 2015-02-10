@@ -38,8 +38,3 @@ class Form:
         self.name = name 
         self.questions = questions
 
-    def __str__(self):
-        s = self.name + "\n"
-        for i in self.questions:
-            s += str(i)
-        return s

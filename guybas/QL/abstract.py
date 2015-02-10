@@ -4,7 +4,7 @@ from ast import *
 
 class ASTReady:
     def make_question(tokens):
-        number = int(tokens[0])
+        number = tokens[0]
         question = tokens[1]
         answertype = tokens[2]
         return Question(number, question, answertype)
@@ -38,4 +38,5 @@ class ASTReady:
         questions = []
         for i in range(1, len(tokens)):
             questions.append(tokens[i])
-        return Form(name, questions)
+        x = Form(name, questions)
+        return x
