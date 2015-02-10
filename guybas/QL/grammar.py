@@ -26,15 +26,14 @@ class Expressions: # TODO
     
     # Expressions
     value           = bool | integer | text
-    cOperators      = oneOf("> >= < <= ==")
-    eOperators      = oneOf("+ - * / ")
-    operator        = eOperators | cOperators
-    parenthesis     = oneOf("( )")
+    compare         = oneOf("> >= < <= ==")
+    operators       = oneOf( '+ - / *')
     expr            = Forward()
-    expr            <<= value | Group(expr + operator + expr)
-    condition       = (Suppress("Question") + expr)
+    atom            = value | Group( Suppress("(") + expr + Suppress(")"))
+    expr            << atom + ZeroOrMore( operators + expr )
+    condition       = Group(expr)
 
-    
+
 class FormFormat:
     # Question form: ID ANSWERTYPE LABEL
     id              = BasicTypes.characters
@@ -49,19 +48,20 @@ class FormFormat:
     pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") + questions + Suppress("}"))
     pElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
     
-    # Advanced questions: IF / ELSE BLOCK | QUESTIONS
+    # Advanced questions: (IF | ELSE) BLOCK | QUESTIONS
     aQuestions      = pElse.setParseAction(ASTReady.make_else) | \
                       pIf.setParseAction(ASTReady.make_if) | \
                       questions
                       
     # IDENTIFIER QUESTIONS
-    form            = (id + OneOrMore(aQuestions))
-    form2           = form 
+    introduction    = Group(Suppress("Introduction" + Literal(":") + BasicTypes.sentences))
+    form            = id + Optional(introduction) + OneOrMore(aQuestions)
 
 # Test
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
+    print(form)
     gui = QuestionnaireGUI(form)
     gui.generate_gui()
     gui.show()

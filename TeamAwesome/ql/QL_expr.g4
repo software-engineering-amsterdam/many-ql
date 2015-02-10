@@ -2,13 +2,13 @@ grammar QL_expr;
 
 expr
     :   '(' expr ')'
-    |   ('+' | '-' | '!') expr
-    |   expr '^' expr
-    |   expr ('*' | '/' | '%') expr
-    |   expr ('+' | '-') expr
-    |   expr ('<' | '<=' | '>' | '>=') expr
-    |   expr ('==' | '!=') expr
-    |   expr '&&' expr
-    |   expr '||' expr
-    |   atom
+    |   op=('+' | '-' | '!') right=expr
+    |   left=expr op='^' right=expr
+    |   left=expr op=('*' | '/' | '%') right=expr
+    |   left=expr op=('+' | '-') right=expr
+    |   left=expr op=('<' | '<=' | '>' | '>=') right=expr
+    |   left=expr op=('==' | '!=') right=expr
+    |   left=expr op='&&' right=expr
+    |   left=expr op='||' right=expr
+    |   left=atom
     ;
