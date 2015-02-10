@@ -1,10 +1,5 @@
 grammar QL;
 
-@parser::header
-{
-    import lang.ql.ast.expression.*;
-}
-
 form : 'form' Identifier '{' (statement)+ '}';
 
 statement : question | ifCondition ;
@@ -12,27 +7,23 @@ statement : question | ifCondition ;
 question : QuestionType Identifier String (expression)? ;
 
 ifCondition : 'if' '(' expression ')' '{' (statement)+ '}';
+expressionList : expression +;
 
 expression
-    :'(' x=expression ')'
-    | op=('-'|'+') x=expression
-    | expression op=('*'|'/') expression
-    | left=expression op=('-'|'+') right=expression
-    //< > == !=
-    //&& ||
-    | a=Integer
-    | a=String
-    | a=Identifier
+    : '(' x=expression ')'
+    | operator=('-'|'+') operand=expression
+    | left=expression operator=('*'|'/'|'%') right=expression
+    | left=expression operator=('-'|'+') right=expression
+    | left=expression operator=('<'|'>'|'<='|'>=') right=expression
+    | left=expression operator=('=='|'!=') right=expression
+    | left=expression operator='&&' right=expression
+    | left=expression operator='||' right=expression
+    | primary=Date
+    | primary=Decimal
+    | primary=String
+    | primary=Identifier
+    | primary=Integer
     ;
-
-fragment Letter : [a-zA-Z];
-
-fragment Digit : [0-9];
-
-Boolean
-   : 'true'
-   | 'false'
-   ;
 
 QuestionType
    : 'boolean'
@@ -44,24 +35,36 @@ QuestionType
 
 Identifier : (Letter)(Letter|Digit|'_')*;
 
-Decimal : Digit+ '.' Digit+ ;
+Boolean
+   : 'true'
+   | 'false'
+   ;
 
-Integer : Digit+ ;
+Date : 'date:' (Day '-' Month '-' Year | Day '.' Month '.' Year | Year '/' Month '/' Day);
 
-String : Quotes .*? Quotes; //Handle escaping
+Integer : (ZeroDigit | NonZeroDigit Digit*);
 
-fragment Test : '\\' Quotes | ~[Quotes] ;
+Decimal : (Epsilon | NonZeroDigit Digit* | ZeroDigit) '.' Digit+ ;
 
-Comment : '/*' .*? '*/' -> skip;
+String : Quotes (Epsilon | .*? ~['\\']) Quotes; //Handle escaping
+
+fragment Epsilon : ; //just for readability
+
+fragment Letter : Lowercase|Uppercase;
+fragment Lowercase : [a-z];
+fragment Uppercase : [a-zA-Z];
+
+fragment Digit : ZeroDigit|NonZeroDigit;
+fragment NonZeroDigit : [1-9];
+fragment ZeroDigit : [0];
 
 fragment Year : [1-2] Digit Digit Digit ;
-fragment Month : [1-2] Digit ;
+fragment Month : [1-12];
 fragment Day : [1-31] ;
-
-Date : Day '/' Month '/' Year ;
 
 fragment Quotes : '“' | '"' | '”' | '\''; //Handle quotes properly
 
-LineComment : '//' ~[\r\n]* -> skip;
+Comment : '/*' .*? '*/' -> channel(HIDDEN);
+LineComment : '//' ~[\r\n]* -> channel(HIDDEN);
 
-WS : [ \t\r\n]+ -> skip ;
+WS : [ \t\r\n]+ -> channel(HIDDEN) ;
