@@ -8,13 +8,16 @@ boolean
 question_type
     :   'boolean' 
     |   'integer' 
-    |   'string' 
+    |   'string'
+    |   'money'
     ;
 
 STRING :  '"' (ESC | ~["\\])* '"' ;
 fragment ESC :   '\\' (["\\/bfnrt]) ;
 
-NUMBER : '-'? '0' | [1-9] [0-9]*  ;
+INTEGER : '-'? '0' | [1-9] [0-9]*  ;
+
+MONEY : INTEGER ('.' [0-9]+)? ;
 
 ID 
     :   [a-zA-Z_][a-zA-Z_0-9]* 
@@ -23,6 +26,6 @@ ID
 atom
     :   boolean
     |   STRING
-    |   NUMBER
+    |   INTEGER
     |   ID
     ;
