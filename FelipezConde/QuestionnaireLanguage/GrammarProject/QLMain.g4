@@ -46,8 +46,8 @@ type : bool
       |list
       ;
 
-date   : 'date(' YEAR '.' MONTH '.' DAY ')'
-       | 'date(' YEAR '.' MONTH ')' 
+date   : 'date(' YEAR '/' MONTH '/' DAY ')'
+       | 'date(' YEAR '/' MONTH ')' 
        | 'date(' YEAR ')'
        ;
 
@@ -107,10 +107,10 @@ arithmetic :
 
 //Lexer rules
 INT     : [0-9]+;
-DECIMAL : [0-9]+ ',' [0-9];
-MONEY   : [0-9]+ ',' [0-9];
+DECIMAL : [0-9]+ '.' [0-9];
+MONEY   : [0-9]+ '.' [0-9];
 
-YEAR  : [0-9];
+YEAR  : [0-9]+;
 MONTH : [0-9];
 DAY   : [0-9];
 
