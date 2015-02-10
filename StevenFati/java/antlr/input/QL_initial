@@ -1,6 +1,8 @@
 //form test
 form FORMNAME {
-    NAME BOOLEAN "LABEL"
+    if(!NAME){
+        NAME1 BOOLEAN "LABEL"
+    }
     NAME2 STRING "LABEL 1"
     NAME3 BOOLEAN "LABEL 1"
     if ( NAME && ((1 * 4) > 3)) {
