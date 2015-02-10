@@ -1,0 +1,16 @@
+form {
+    question q1 Int {
+        label   = "What do you think of computers?",
+        options = [1..5] 
+    } 
+    question q2 Bool {
+        label = "Do you want an extra question?",
+    }
+    enable when q2 && True {
+        field f1 string {
+            label = "hmm...",
+            value | q1 < 2    = "Sorry, computer says no..."
+                  | otherwise = "I can't think of one...?"
+        }     
+    }
+}

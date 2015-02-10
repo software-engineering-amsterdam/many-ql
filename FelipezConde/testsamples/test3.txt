@@ -1,0 +1,14 @@
+form {
+    field f1 string{
+        label  = "field1",
+        value  = "fieldOneAnswer";
+    }
+    field f2 string{
+        label  = "field2",
+        value  = "fieldTwoAnswer";
+    }
+    field f3 string{
+        label  = "field3",
+        value  = "fieldThreeAnswer";
+    }
+}

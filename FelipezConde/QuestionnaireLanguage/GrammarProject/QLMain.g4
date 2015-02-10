@@ -1,9 +1,9 @@
 grammar QLMain;
 
-form : 'form {' formsection '}'
+form : 'form' formsection
      ;
 
-formsection :  formElem*
+formsection : '{' formElem* '}'
             ;
 
 formElem : question
@@ -11,7 +11,7 @@ formElem : question
          | conditional
          ;
 
-question : 'question' id type '{' keyValPairs '}'
+question : 'question' id type keyValPairs
          ;
         
 field : 'field' id type keyValPairs
@@ -20,7 +20,8 @@ field : 'field' id type keyValPairs
 
 // id ////////////////////////////////////////////////
  
-id : ALPHANUMERIC+ ;
+id : ALPHANUMERIC 
+   ;
 
 // type /////////////////////////////////////////////
  
@@ -34,10 +35,10 @@ type : 'bool'
      | 'money'
      ;
 
-value : BOOL
-      | STRING
-      | date 
-      | num
+value : STRING
+      | date
+	  | list
+      | expression
       ;
 
 date   : 'date(' YEAR '.' MONTH '.' DAY ')'
@@ -51,17 +52,17 @@ num : INT
     | MONEY
     ;
 
-
+list : '['num+'..'num+']';
  
 // keyValPairs //////////////////////////////////////
     
-keyValPairs : keyValPair (',' keyValPair)*
+keyValPairs : '{' keyValPair (',' keyValPair)* '}'
             ;
-              
-keyValPair : type key ':' val
+
+keyValPair : key '=' val
            ;
 
-key : ALPHANUMERIC+;
+key : ALPHANUMERIC;
 val : value;
 
 // conditional //////////////////////////////////////
@@ -76,7 +77,6 @@ expression : '(' expression ')'
            | expression '&&' expression
            | expression '||' expression 
            | expression ('!=' | '==') expression
-           
            | arithmetic
            ;
 
@@ -111,7 +111,12 @@ YEAR  : [0-9];
 MONTH : [0-9];
 DAY   : [0-9];
 
-STRING : '"' [A-z]* '"';
+//STRING : '"' ( ~( '"' | '\\' ) | '\\' . )* '"';
+STRING : '"' .*? '"';
 ALPHANUMERIC : [a-zA-Z0-9]+;
 
-WS	:	(' ' | '\r' | '\n') -> channel(HIDDEN);
+WS : (' ' | '\r' | '\n') -> channel(HIDDEN);
+
+BLOCK_COMMENT : '/*' .*? '*/' -> channel(HIDDEN);
+
+LINE_COMMENT : '//' ~[\r\n]* -> channel(HIDDEN);
