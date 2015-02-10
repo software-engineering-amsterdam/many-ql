@@ -36,7 +36,7 @@ class ConditionalQuestions:
         self.else_questions = questions
 
     def __str__(self):
-        s = "Condition: Question " + make_sentence(self.condition) + "\n"
+        s = "Condition: Question " + "\n"
         for i in self.questions:
             s += str(i)
         return s

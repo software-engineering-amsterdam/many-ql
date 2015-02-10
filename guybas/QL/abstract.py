@@ -11,6 +11,7 @@ class ASTReady:
         
     def make_if(tokens):
         condition = tokens[0]
+        print(condition)
         questions = []
         for i in range(1, len(tokens)):
             questions.append(tokens[i])

@@ -26,12 +26,12 @@ class Expressions: # TODO
     
     # Expressions
     value           = bool | integer | text
-    cOperators      = oneOf("> >= < <= ==")
-    op = oneOf( '+ - / *')
-    expr = Forward()
-    atom = value | Group( Suppress("(") + expr + Suppress(")"))
-    expr << atom + ZeroOrMore( op + expr )
-    condition = Group(expr)
+    compare         = oneOf("> >= < <= ==")
+    operators       = oneOf( '+ - / *')
+    expr            = Forward()
+    atom            = value | Group( Suppress("(") + expr + Suppress(")"))
+    expr            << atom + ZeroOrMore( operators + expr )
+    condition       = Group(expr)
 
 
 class FormFormat:
@@ -61,8 +61,6 @@ class FormFormat:
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
-    gui = QuestionnaireGUI(form)
-    gui.generate_gui()
-    gui.show()
+    print(form)
 except Exception as e:
     exceptions_handling(e)
