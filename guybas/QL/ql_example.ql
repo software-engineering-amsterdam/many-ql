@@ -4,7 +4,7 @@ Question 1 (integer): What is the most \? awesome number?
 
 Question 2 (integer): What is the most awesome number? 
 
-if (Question 1) {
+if (1 > 2) {
     Question 2b (integer): What is the most \? awesome number?
 
 }

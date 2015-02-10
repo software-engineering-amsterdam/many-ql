@@ -30,8 +30,8 @@ class Expressions: # TODO
     operator        = eOperators | cOperators
     parenthesis     = oneOf("( )")
     expr            = Forward()
-    expr            <<= value | Group(expr + operator + expr)
-    condition       = (Suppress("Question") + expr)
+    expr            <<= Group(expr + operator + expr) | value
+    condition       = expr
 
     
 class FormFormat:
@@ -48,19 +48,20 @@ class FormFormat:
     pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") + questions + Suppress("}"))
     pElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
     
-    # Advanced questions: IF / ELSE BLOCK | QUESTIONS
+    # Advanced questions: (IF | ELSE) BLOCK | QUESTIONS
     aQuestions      = pElse.setParseAction(ASTReady.make_else) | \
                       pIf.setParseAction(ASTReady.make_if) | \
                       questions
                       
     # IDENTIFIER QUESTIONS
-    form            = (id + OneOrMore(aQuestions))
-    form2           = form 
+    form            = (id + Optional(Suppress("Introduction" + Literal":" + sentences)) + OneOrMore(aQuestions))
 
 # Test
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
-    print(form)
+    
+    r = Expressions.condition.parseString("1 < 2")
+    print(r)
 except Exception as e:
     exceptions_handling(e)
