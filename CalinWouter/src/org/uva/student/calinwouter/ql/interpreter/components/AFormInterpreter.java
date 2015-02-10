@@ -55,11 +55,12 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
     }
 
     @Override
-    public void interprete(Environment environment, PForm form) {
+    public Object interprete(Environment environment, PForm form) {
         this.environment = environment;
         this.form = form;
         createWindow(getFormTitle(form));
         interpreteStatements();
+        return null;
     }
 
 }
