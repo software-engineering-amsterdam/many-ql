@@ -1,6 +1,8 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
+import org.uva.student.calinwouter.ql.generated.lexer.Lexer;
 import org.uva.student.calinwouter.ql.generated.node.*;
+import org.uva.student.calinwouter.ql.generated.parser.Parser;
 import org.uva.student.calinwouter.ql.interpreter.interfaces.InterpreterInterface;
 import org.uva.student.calinwouter.ql.interpreter.model.Environment;
 import org.uva.student.calinwouter.ql.interpreter.model.QuestionModel;
@@ -11,19 +13,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.PushbackReader;
+import java.io.StringReader;
 
 public class AFormInterpreter implements InterpreterInterface<PForm> {
-    /*
-    Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
-        Parser parser = new Parser(lexer);
-        try {
-            Start ast = parser.parse();
-            // TODO assumes form.
-            new AFormInterpreter().interprete(new Environment(), ((AFormBegin) ast.getPBegin()).getForm());
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-     */
     private Environment environment;
     private PForm form;
     private TableModel tableModel;
@@ -48,18 +41,38 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         frame.setVisible(true);
     }
 
+    private Object interpreteExpression(String expression) {
+        Lexer lexer = new Lexer(new PushbackReader(new StringReader(expression)));
+        Parser parser = new Parser(lexer);
+        try {
+            Start ast = parser.parse();
+            return new PExpIntepreter().interprete(environment, ((AExpBegin) ast.getPBegin()).getExp());
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private TableModel getTableModel() {
-        final DefaultTableModel tableModel = new DefaultTableModel(0,2);
+        final DefaultTableModel tableModel = new DefaultTableModel(0,2) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 1;
+            }
+        };
         for (QuestionModel questionModel : environment.getQuestionModels()) {
             tableModel.addRow(new Object[] {
                     questionModel.getText(),
                     environment.getEnvVars().get(questionModel.getVariable())});
         }
+
+
         tableModel.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 String variable = environment.getQuestionModels().get(e.getFirstRow()).getVariable();
                 String value = tableModel.getValueAt(e.getFirstRow(), 1).toString();
+                Object parsedValue = interpreteExpression(value);
                 environment.getEnvVars().put(variable, value);
             }
         });
