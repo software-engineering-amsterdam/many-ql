@@ -1,7 +1,6 @@
 package lang.ql.ast.form;
 
 import lang.ql.ast.AstNode;
-import lang.ql.ast.statement.Statement;
 
 import java.util.List;
 
@@ -10,12 +9,8 @@ import java.util.List;
  */
 public class Form extends AstNode
 {
-    private String id;
-    private List<Statement> children;
-
-    public Form(String id, List<Statement> children)
+    public Form(List<AstNode> children)
     {
-        this.id = id;
-        this.children = children;
+        super(children);
     }
 }

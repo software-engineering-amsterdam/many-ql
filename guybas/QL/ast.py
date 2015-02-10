@@ -7,13 +7,13 @@ def make_sentence(tokens):
     
 # Questions 
 class Question:
-    def __init__(self, number, question, answertype):
+    def __init__(self, number, label, answertype):
         self.number = number
-        self.question = question
+        self.label = label
         self.answertype = answertype
     def __str__(self):
         s = "Question:" + str(self.number) + "\n"
-        s += self.question + "\n"
+        s += self.label + "\n"
         s += str(self.answertype)
         s += "\n"
         return s

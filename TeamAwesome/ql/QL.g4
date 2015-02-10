@@ -1,6 +1,6 @@
 grammar QL;
 
-import QL_tokens;
+import QL_tokens, QL_expr;
 
 form
     :   'form' ID '{' question* '}'
