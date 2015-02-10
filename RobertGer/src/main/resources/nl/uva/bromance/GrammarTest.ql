@@ -16,7 +16,7 @@ Name: "Tax" {
     		Answer: Double
     		Range: >0
     	}
-    	If: generic.partner == "Married" || generic.partner == "Cohabitation" {
+    	If: generic.partner == "Married" && (generic.partner == "Cohabitation" || person.x == "JE moeder" && person.y == person.z) {
         	Question: "income_partner" {
         		Text: "How much money did your partner earn through employer paid wages during 2014?"
         		Answer: double
