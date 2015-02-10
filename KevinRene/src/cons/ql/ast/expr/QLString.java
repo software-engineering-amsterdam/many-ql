@@ -10,6 +10,6 @@ public class QLString extends QLType {
 
 	@Override
 	public String show() {
-		return value;
+		return "\"" + value + "\"";
 	}
 }
