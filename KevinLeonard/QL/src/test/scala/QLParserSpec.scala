@@ -43,9 +43,9 @@ class QLParserSpec extends Specification with ParserMatchers {
   }
 
   "boolean expressions" should {
-    "be valid with a constant" in {
+    "be valid with a literal" in {
       booleanExpression must succeedOn("true")
-        .withResult(Const("true"))
+        .withResult(BooleanLiteral(true))
     }
 
     "be valid with a variable" in {
@@ -55,27 +55,27 @@ class QLParserSpec extends Specification with ParserMatchers {
 
     "be valid with an and operator" in {
       booleanExpression must succeedOn("true and false")
-        .withResult(And(Const("true"), Const("false")))
+        .withResult(And(BooleanLiteral(true), BooleanLiteral(false)))
     }
 
     "be valid with an or operator" in {
       booleanExpression must succeedOn("true or false")
-        .withResult(Or(Const("true"), Const("false")))
+        .withResult(Or(BooleanLiteral(true), BooleanLiteral(false)))
     }
 
     "be valid with a not operator" in {
       booleanExpression must succeedOn("not true")
-        .withResult(Not(Const("true")))
+        .withResult(Not(BooleanLiteral(true)))
     }
 
     "be valid with parenthesis" in {
       booleanExpression must succeedOn("true and (false or true)")
-        .withResult(And(Const("true"), Or(Const("false"), Const("true"))))
+        .withResult(And(BooleanLiteral(true), Or(BooleanLiteral(false), BooleanLiteral(true))))
     }
 
     "be valid multiple operators" in {
       booleanExpression must succeedOn("true and true and false and true")
-        .withResult(And(And(And(Const("true"), Const("true")), Const("false")), Const("true")))
+        .withResult(And(And(And(BooleanLiteral(true), BooleanLiteral(true)), BooleanLiteral(false)), BooleanLiteral(true)))
     }
   }
 }
