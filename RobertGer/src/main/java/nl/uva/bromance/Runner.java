@@ -1,6 +1,5 @@
 package nl.uva.bromance;
 
-import nl.uva.bromance.listeners.ExpParseTreeListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.ExpLexer;
 import nl.uva.bromance.parsers.ExpParser;
