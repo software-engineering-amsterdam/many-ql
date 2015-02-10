@@ -49,6 +49,7 @@ public class GrammarTest {
         assertThat(listener.questionCount).isEqualTo(3);
     }
 
+    /
     static class GrammarTestListener extends QLParseTreeListener
     {
         public int formCount = 0;
