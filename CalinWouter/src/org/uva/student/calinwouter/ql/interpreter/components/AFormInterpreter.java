@@ -74,7 +74,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         return tableModel;
     }
 
-    private void interpreteStatements() {
+    private void interpreteStatements() throws InterpretationException{
         environment.clearDisplay();
         new PStmtlistInterpreter().interprete(environment, ((AForm) form).getStmtlist());
         jtable.setModel(getTableModel());
