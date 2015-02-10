@@ -93,6 +93,7 @@ public class AFormInterpreter implements InterpreterInterface<PForm> {
         this.form = form;
         createWindow(getFormTitle(form));
         interpreteStatements();
+        return null;
     }
 
 }

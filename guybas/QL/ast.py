@@ -1,8 +1,3 @@
-# Grammar
-from pyparsing import *
-from exceptions import *
-
-
 def make_sentence(tokens):
     return ' '.join(tokens) 
 
