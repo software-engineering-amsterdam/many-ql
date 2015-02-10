@@ -12,19 +12,22 @@ package nl.uva.se.parser;
 package nl.uva.se.parser;
 }
 
-form : FORM IDENTIFIER STARTSYMBOL question* ENDSYMBOL;
-question : IDENTIFIER TYPE ':' '"' IDENTIFIER* '"';
+form : 		FORM IDENTIFIER STARTSYMBOL (question|ifClause)* ENDSYMBOL;
+question : 	IDENTIFIER TYPE ':' STRING;
+ifClause : 	IFCLAUSE '(' IDENTIFIER ')' STARTSYMBOL question* ENDSYMBOL;
 
 // Tokens
 
-FORM : 'FORM' | 'Form' | 'form';
-TYPE : 'boolean' | 'money';
-OPERATOR: '+' | '-' | '*' | '/';
+FORM : 			'FORM' | 'Form' | 'form';
+IFCLAUSE : 		'IF' | 'If' | 'if';
+TYPE : 			'boolean' | 'money';
+OPERATOR : 		'+' | '-' | '*' | '/';
 
+STRING : 		'"' .*? '"';
 WHITESPACE : 	[ \t\r\n]+ -> skip ;
 STARTSYMBOL : 	'{';
 ENDSYMBOL : 	'}';
-IDENTIFIER:   	('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_'|'?')*;
+IDENTIFIER:   	[a-zA-Z][a-zA-Z0-9]*;
 MARKER :		'?' | '!';
-/*  DECIMAL :		INTEGER '.' INTEGER ;
-INTEGER:	 	('0'..'9')+; */
+DECIMAL :		INTEGER '.' INTEGER ;
+INTEGER :	 	('0'..'9')+;
