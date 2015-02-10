@@ -60,7 +60,8 @@ def main():
     for test_filename in test_filenames:
         errors += run_test(args.trees, test_filename)
 
-    print(str(errors) + ' error(s).\n'\
+    print( '\n'\
+         + str(errors) + ' error(s) total.\n'\
          + 'Tested '+str(len(test_filenames))+' file(s): '\
          + str(test_filenames)
          )
