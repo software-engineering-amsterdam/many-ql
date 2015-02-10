@@ -21,7 +21,9 @@ public class PStmtInterpreter implements InterpreterInterface<PStmt> {
 
             e.getDisplayModels().add(
                     new ComputedValueModel(valueStmt.getIdent().getText(),
-                            valueStmt.getStr().getText(), valueStmt.getType().toString(), valueStmt.getExp()));
+                            valueStmt.getStr().getText(), valueStmt.getType().toString(),
+                            new PExpInterpreter().interprete(e, valueStmt.getExp()), e));
+
         } else if (node instanceof AIfelseStmt) {
             AIfelseStmt ifelseStmt = (AIfelseStmt) node;
             if ((Boolean) new PExpInterpreter().interprete(e, ifelseStmt.getExp())){

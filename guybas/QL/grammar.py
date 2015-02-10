@@ -4,42 +4,63 @@ from exceptions import *
 from abstract import *
 from ast import *
 
-# Normal sentence grammar
-endSignEsc      = Suppress("\\") + Literal("?") | Literal("/.") | Literal("/!")
-characters      = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
-word            = endSignEsc | characters  
-hexaColor       = Suppress("#") + Word(hexnums, exact=6)
-endSign         = oneOf(". ? !")
-comment         = Literal("//") + restOfLine | cStyleComment
-variable        = Word(alphanums)
+class BasicTypes:
+    # Words, end signs and escaped signs
+    endSignEsc      = Suppress("\\") + Literal("?") | Literal("/.") | Literal("/!")
+    characters      = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
+    word            = endSignEsc | characters  
+    endSign         = oneOf(". ? !")
+    
+    # sentences consist of words and an end sign
+    sentence        = (OneOrMore(word) + endSign).setParseAction(make_sentence)
+    sentences       = OneOrMore(sentence)
+    comment         = Literal("//") + restOfLine | cStyleComment
 
-# Answer types
-boolean            = Literal("True") | Literal("False")
-sentence        = (OneOrMore(word) + endSign).setParseAction(make_sentence)
-sentences       = OneOrMore(sentence)
-integer         = Word(nums)
+    
+class Expressions: # TODO
+    # Possible answers values
+    bool            = Literal("bool")
+    integer         = Word(nums)
+    text            = BasicTypes.sentences
+    
+    # Expressions
+    value           = bool | integer | text
+    cOperators      = oneOf("> >= < <= ==")
+    eOperators      = oneOf("+ - * / ")
+    operator        = eOperators | cOperators
+    parenthesis     = oneOf("( )")
+    expr            = Forward()
+    expr            <<= value | Group(expr + operator + expr)
+    condition       = (Suppress("Question") + expr)
 
-# Constraints
-exp             = boolean | integer | sentence
-c_operators     = oneOf("> >= < <= ==")
-e_operators     = oneOf("+ - * / ")
-condition       = (Suppress("Question") + integer + c_operators + exp)
-
-# Form
-answerType      = Literal("bool") | Literal("integer") | Literal("text")  
-question        = (Suppress("Question") + word + Suppress("(") + answerType + Suppress(")") + Suppress(":") +
-                   sentence).setResultsName("QUESTION").setParseAction(ASTReady.make_question)
-questions       = OneOrMore(question)
-pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") + questions + Suppress("}"))
-pElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
-questions2      = pElse.setParseAction(ASTReady.make_else) | pIf.setParseAction(ASTReady.make_if) | questions
-form            = (word + OneOrMore(questions2)).setParseAction(ASTReady.make_form)
+    
+class FormFormat:
+    # Question form: ID ANSWERTYPE LABEL
+    id              = BasicTypes.characters
+    label           = BasicTypes.sentence
+    answerR         = Literal("bool") | Literal("integer") | Literal("text")  
+    question        = ( Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
+                      ).setParseAction(ASTReady.make_question)
+    questions       = OneOrMore(question)
+    
+    # if/else form: IF CONDITION BLOCK (ELSE BLOCK)? 
+    condition       = Expressions.condition
+    pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") + questions + Suppress("}"))
+    pElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
+    
+    # Advanced questions: IF / ELSE BLOCK | QUESTIONS
+    aQuestions      = pElse.setParseAction(ASTReady.make_else) | \
+                      pIf.setParseAction(ASTReady.make_if) | \
+                      questions
+                      
+    # IDENTIFIER QUESTIONS
+    form            = (id + OneOrMore(aQuestions))
+    form2           = form 
 
 # Test
 try:
-    myfile = open('ql_example.ql', 'r').read()
-    l = form.ignore(comment).parseString(myfile)
-    for i in l:
-        print(i)    
+    formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
+    form = ASTReady.make_form(formAsParseResults)
+    print(form)
 except Exception as e:
     exceptions_handling(e)

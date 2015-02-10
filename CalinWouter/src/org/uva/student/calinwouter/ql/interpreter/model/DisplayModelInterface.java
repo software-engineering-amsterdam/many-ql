@@ -6,7 +6,7 @@ public interface DisplayModelInterface {
     
     Object[] renderTableRow(Environment environment);
 
-    boolean updateEnvironmentForRowChange(TableModelEvent e);
+    boolean updateEnvironmentForRowChange(TableModelEvent e, String change, Environment environment);
 
     boolean isCellEditable(int row, int column);
 }
