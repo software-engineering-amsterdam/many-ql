@@ -6,31 +6,28 @@ grammar QL;
  * =====================
  */
 
-
-// TODO equal operators at the same level
-// expression ('*' | '/') expression
-// change float -> something which deals with money better
+// TODO change float -> something which deals with money better
 
 
 // complete form - topmost node
-form    : 'form' ID '{' stat* '}';
+form    : 'form' ID '{' statement* '}';
 
 // statement - can be a question or an if statement
-stat    : questionDecl
-        | if_statement
-        ;
+statement   : questionDeclaration           # stamentQuestoinDeclaration
+            | ifStatement                   # stamentifStatement
+            ;
 
 // an if statement
 // supported form: if(expr){...}
-if_statement : 'if' '(' logical_expression ')' '{' questionDecl+ '}';
+ifStatement : 'if' '(' logicalExpression ')' '{' questionDeclaration+ '}';
 
 // question types
 // two supported versions:
 // 1. Question expecting user's answer.
 // 2. Question (field) value of which is derived from other variables / values.
-questionDecl    : type ID '(' STRING ')' ';'
-                | type ID '(' STRING ')' '=' expression ';'
-                ;
+questionDeclaration : type ID '(' STRING ')' ';'                    # noAssignmentQuestion
+                    | type ID '(' STRING ')' '=' expression ';'     # assignmentQuestion
+                    ;
 
 // all alowed variable types.
 type    : 'bool' | 'float' | 'int' ;
@@ -42,11 +39,11 @@ type    : 'bool' | 'float' | 'int' ;
  */
 
 // allowed assignable expressions.
-expression  : '(' expression ')'
-            | expression ('*' | '/') expression
-            | expression ('+' | '-') expression
-            | ID
-            | NUMBER
+expression  : '(' expression ')'                    # bracketedExpression
+            | expression ('*' | '/') expression     # mulDivExpression
+            | expression ('+' | '-') expression     # addSubExpression
+            | ID                                    # expressionId
+            | NUMBER                                # expressionNumber
             ;
 
 /**
@@ -62,14 +59,14 @@ expression  : '(' expression ')'
 // 3. if (value && value || value.. ..)
 // 4. if (!value)
 // 5. if (value && !value..)
-logical_expression  : '(' logical_expression ')'
-                    | '!' logical_expression
-                    | logical_expression '&&' logical_expression
-                    | logical_expression '||' logical_expression
-                    | logical_expression ('>' | '>=' | '<' | '<=' | '==' | '!=') logical_expression
-                    | ID
-                    | NUMBER
-                    ;
+logicalExpression  : '(' logicalExpression ')'                                                      # nestedExpression
+                   | '!' logicalExpression                                                          # negation
+                   | logicalExpression ('>' | '>=' | '<' | '<=' | '==' | '!=') logicalExpression    # comparison
+                   | logicalExpression '&&' logicalExpression                                       # logicalAnd
+                   | logicalExpression '||' logicalExpression                                       # logicalOr
+                   | ID                                                                             # logicalId
+                   | NUMBER                                                                         # logicalNumber
+                   ;
 
 /**
  * =====================
