@@ -117,6 +117,7 @@ namespace Tests.QLTests
 
         [TestMethod]
         public void StaticStatementOfTypeYesNo()
+        //this is not syntactically correct atm
         {
             string input = "statement My2ndStatement9876 (yesno, no) \"Label of the boolean value to show:\";";
             Build(input);
@@ -127,8 +128,9 @@ namespace Tests.QLTests
 
         [TestMethod]
         public void StaticStatementOfTypeNumber()
+            //this is not syntactically correct atm
         {
-            string input = "statement My2ndStatement9876 (number, 1234567.89) \"Label of the number to show:\";";
+            string input = "statement My2ndStatement9876 (number, 123456) \"Label of the number to show:\";";
             Build(input);
             var unit = Parser.unit();
 
@@ -137,8 +139,9 @@ namespace Tests.QLTests
 
         [TestMethod]
         public void StaticStatementOfTypeNegativeNumber()
+        //this is not syntactically correct atm
         {
-            string input = "statement My2ndStatement9876 (number, -1234567.89) \"Label of the negative number to show:\";";
+            string input = "statement My2ndStatement9876 (number, -1234567) \"Label of the negative number to show:\";";
             Build(input);
             var unit = Parser.unit();
 
