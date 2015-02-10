@@ -36,5 +36,5 @@ func (vst visitor) QuestionNode(q *ast.QuestionNode) {
 }
 
 func (vst visitor) IfNode(i *ast.IfNode) {
-	log.Println("Ignoring IfNodes for now")
+	log.Printf("Ignoring IfNodes for now, %#v", i)
 }

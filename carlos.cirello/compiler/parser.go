@@ -24,6 +24,7 @@ type qlSymType struct {
 	stack        []*ast.ActionNode
 	question     *ast.QuestionNode
 	questionType ast.Parser
+	ifNode       *ast.IfNode
 }
 
 const BlockBeginToken = 57346
@@ -57,7 +58,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:115
+//line parser.y:128
 
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -449,7 +450,7 @@ qldefault:
 	switch qlnt {
 
 	case 1:
-		//line parser.y:45
+		//line parser.y:46
 		{
 			if qlDebug > 0 {
 				log.Printf("Top: %+v", qlS[qlpt-0].questionaire)
@@ -457,7 +458,7 @@ qldefault:
 			finalQuestionaire = qlS[qlpt-0].questionaire
 		}
 	case 2:
-		//line parser.y:55
+		//line parser.y:56
 		{
 			if qlDebug > 0 {
 				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content,
@@ -469,7 +470,7 @@ qldefault:
 			}
 		}
 	case 4:
-		//line parser.y:69
+		//line parser.y:70
 		{
 			if qlDebug > 0 {
 				log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].stack,
@@ -483,8 +484,19 @@ qldefault:
 			qs = append(qs, action)
 			qlVAL.stack = qs
 		}
+	case 5:
+		//line parser.y:84
+		{
+			ifNode := qlS[qlpt-0].ifNode
+			qs := qlVAL.stack
+			action := &ast.ActionNode{
+				IfNode: ifNode,
+			}
+			qs = append(qs, action)
+			qlVAL.stack = qs
+		}
 	case 6:
-		//line parser.y:87
+		//line parser.y:97
 		{
 			qlVAL.question = &ast.QuestionNode{
 				Label:      qlS[qlpt-2].content,
@@ -493,24 +505,27 @@ qldefault:
 			}
 		}
 	case 7:
-		//line parser.y:97
+		//line parser.y:107
 		{
 			qlVAL.questionType = new(ast.StringQuestion)
 		}
 	case 8:
-		//line parser.y:101
+		//line parser.y:111
 		{
 			qlVAL.questionType = new(ast.IntQuestion)
 		}
 	case 9:
-		//line parser.y:105
+		//line parser.y:115
 		{
 			qlVAL.questionType = new(ast.BoolQuestion)
 		}
 	case 10:
-		//line parser.y:110
+		//line parser.y:120
 		{
-			log.Printf("if: %#v \nexpr: %#v \nquestions: %#v", qlS[qlpt-6], qlS[qlpt-4], qlS[qlpt-1])
+			ifNode := new(ast.IfNode)
+			ifNode.Condition = qlS[qlpt-4].content
+			ifNode.Stack = qlS[qlpt-1].stack
+			qlVAL.ifNode = ifNode
 		}
 	}
 	goto qlstack /* stack new state and value */
