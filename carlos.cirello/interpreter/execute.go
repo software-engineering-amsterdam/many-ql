@@ -35,13 +35,35 @@ func (vst execute) QuestionNode(q *ast.QuestionNode) {
 		content: q,
 	}
 
-	questionCopy := q.Clone()
-	vst.toFrontend <- &frontend.Event{
-		Type:     frontend.Render,
-		Question: questionCopy,
+	if !q.Rendered {
+		questionCopy := q.Clone()
+		vst.toFrontend <- &frontend.Event{
+			Type:     frontend.Render,
+			Question: questionCopy,
+		}
+		q.Rendered = true
 	}
 }
 
 func (vst execute) IfNode(i *ast.IfNode) {
-	log.Printf("Ignoring IfNodes for now, %#v", i)
+	ret := make(chan *ast.QuestionNode)
+	vst.symbolChan <- &symbolEvent{
+		command: SymbolRead,
+		name:    i.Condition,
+		ret:     ret,
+	}
+
+	q := <-ret
+	if q.Type() != "bool" {
+		log.Panicf("Error parsing expression: %s. Not a boolean value", i.Condition)
+	}
+
+	content := q.Content.(*ast.BoolQuestion)
+	if content.Value() {
+		for _, actionNode := range i.Stack {
+			vst.ActionNode(actionNode)
+		}
+	} else {
+		log.Println("Please, nuke all the way down to turtles!")
+	}
 }

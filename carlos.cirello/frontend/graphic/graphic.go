@@ -23,7 +23,7 @@ type Gui struct {
 	appName string
 
 	mu          sync.Mutex
-	stack       []msg
+	renderStack []msg
 	answerStack map[string]string
 }
 
@@ -52,7 +52,7 @@ func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 		q.Label,
 		q.Type(),
 	}
-	g.stack = append(g.stack, *m)
+	g.renderStack = append(g.renderStack, *m)
 }
 
 // Flush transfers form stack into the screen.
@@ -60,10 +60,10 @@ func (g *Gui) Flush() {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	for _, v := range g.stack {
+	for _, v := range g.renderStack {
 		g.msgChan <- v
 	}
-	g.stack = []msg{}
+	g.renderStack = []msg{}
 }
 
 // FetchAnswers unloads the current captured answers from user to Frontend

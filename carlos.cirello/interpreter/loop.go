@@ -94,6 +94,9 @@ func (v *interpreter) loop() {
 				}
 				// visit everything again
 				v.execute.QuestionaireNode(v.questionaire)
+				v.send <- &fe.Event{
+					Type: fe.Flush,
+				}
 			}
 		default:
 			v.send <- &fe.Event{
