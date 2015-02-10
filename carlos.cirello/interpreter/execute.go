@@ -9,6 +9,7 @@ import (
 
 type execute struct {
 	toFrontend chan *frontend.Event
+	symbolChan chan *symbolEvent
 }
 
 func (vst execute) QuestionaireNode(q *ast.QuestionaireNode) {
@@ -28,6 +29,12 @@ func (vst execute) ActionNode(a *ast.ActionNode) {
 }
 
 func (vst execute) QuestionNode(q *ast.QuestionNode) {
+	vst.symbolChan <- &symbolEvent{
+		command: SymbolCreate,
+		name:    q.Identifier,
+		content: q,
+	}
+
 	questionCopy := q.Clone()
 	vst.toFrontend <- &frontend.Event{
 		Type:     frontend.Render,
