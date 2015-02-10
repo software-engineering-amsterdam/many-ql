@@ -9,6 +9,10 @@ form FORMNAME {
     if(true){
         if(false){
             NAME5 INTEGER "bla "
+        }else{
+            if(true){
+                NAME5 STRING "hallo "
+            }
         }
     }
 }
