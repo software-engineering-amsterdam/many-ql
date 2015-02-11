@@ -113,6 +113,18 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -137,61 +149,49 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMulExpression(@NotNull QLParser.MulExpressionContext ctx) { }
+	@Override public void enterIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMulExpression(@NotNull QLParser.MulExpressionContext ctx) { }
+	@Override public void exitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddExpression(@NotNull QLParser.AddExpressionContext ctx) { }
+	@Override public void enterBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAddExpression(@NotNull QLParser.AddExpressionContext ctx) { }
+	@Override public void exitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalOr(@NotNull QLParser.LogicalOrContext ctx) { }
+	@Override public void enterLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalOr(@NotNull QLParser.LogicalOrContext ctx) { }
+	@Override public void exitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNumber(@NotNull QLParser.NumberContext ctx) { }
+	@Override public void enterNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNumber(@NotNull QLParser.NumberContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBoolean(@NotNull QLParser.BooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBoolean(@NotNull QLParser.BooleanContext ctx) { }
+	@Override public void exitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -209,25 +209,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIdentifier(@NotNull QLParser.IdentifierContext ctx) { }
+	@Override public void enterAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIdentifier(@NotNull QLParser.IdentifierContext ctx) { }
+	@Override public void exitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalAnd(@NotNull QLParser.LogicalAndContext ctx) { }
+	@Override public void enterMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLogicalAnd(@NotNull QLParser.LogicalAndContext ctx) { }
+	@Override public void exitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

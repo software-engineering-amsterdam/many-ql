@@ -3,7 +3,7 @@ package org.fugazi.ast.Expression;
 /**
  * The OR '||'.
  */
-public class OrExpression extends ComparisonExpression {
+public class OrExpression extends LogicalExpression {
 
     public OrExpression(Expression _leftExpr, Expression _rightExpr) {
         super(_leftExpr, _rightExpr);

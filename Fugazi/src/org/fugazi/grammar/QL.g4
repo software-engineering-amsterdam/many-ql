@@ -39,14 +39,14 @@ type    : 'bool'        # boolType
 
 // this defines what an expression looks like. (logical and numerical)
 expression  : op=('+'|'-'|'!') expression                                           # singleExpression
-            | expression op=('*' | '/') expression                                  # mulExpression
-            | expression op=('+' | '-') expression                                  # addExpression
+            | expression op=('*' | '/') expression                                  # mulDivExpression
+            | expression op=('+' | '-') expression                                  # addSubExpression
             | expression op=('>' | '>=' | '<' | '<=' | '==' | '!=') expression      # comparisonExpression
-            | expression '&&' expression                                            # logicalAnd
-            | expression '||' expression                                            # logicalOr
-            | BOOLEAN                                                               # boolean
-            | ID                                                                    # identifier
-            | NUMBER                                                                # number
+            | expression '&&' expression                                            # logicalAndExpression
+            | expression '||' expression                                            # logicalOrExpression
+            | BOOLEAN                                                               # booleanExpression
+            | ID                                                                    # identifierExpression
+            | NUMBER                                                                # numberExpression
             | '(' expression ')'                                                    # parenthesisExpression
             ;
 
