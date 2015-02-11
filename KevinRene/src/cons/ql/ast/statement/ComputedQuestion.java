@@ -1,22 +1,23 @@
 package cons.ql.ast.statement;
 
+import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLString;
 
 @SuppressWarnings("rawtypes")
 public class ComputedQuestion extends Question {
-	private QLType literal;
+	private Expression expression;
 	
 	@SuppressWarnings("unchecked")
-	public ComputedQuestion(QLIdent identifier, QLType type, QLString text, QLType literal) {
+	public ComputedQuestion(QLIdent identifier, QLType type, QLString text, Expression expression) {
 		super(identifier, type, text);		
-		this.literal = literal;		
-		type.setValue(literal);
+		this.expression = expression;		
+		type.setValue(expression);
 	}
 
-	public QLType getExpression() {
-		return this.literal;
+	public Expression getExpression() {
+		return this.expression;
 	}
 	
 	@Override
@@ -26,7 +27,7 @@ public class ComputedQuestion extends Question {
 		sb.append(identifier.toString() + ", ");
 		sb.append(type.toString() + ", ");
 		sb.append(questionText.toString() + ", ");
-		sb.append(literal.toString());
+		sb.append(expression.toString());
 		sb.append(")");
 		
 		return sb.toString();

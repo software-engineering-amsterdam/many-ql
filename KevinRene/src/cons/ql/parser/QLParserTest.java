@@ -48,6 +48,21 @@ public class QLParserTest {
 	}
 	
 	@Test
+	public void testParsableAssignedForm() {
+		Reader reader = new StringReader(
+				"form newForm { houseValue : money { \"what is your house?\" assign(105050*238482/2342)} }"
+				);
+		QLLexer lexer = new QLLexer(reader);
+		QLParser parser = new QLParser(lexer);
+
+		lexer.nextToken();
+		assertTrue(parser.parse());
+		
+		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, 105050 * 238482 / 2342, "
+				+ "\"what is your house?\", 105050 * 238482 / 2342)))", parser.getResult().toString());
+	}
+	
+	@Test
 	public void testConditionalForm() {
 		Reader reader = new StringReader(
 				"form taxOfficeExample {"

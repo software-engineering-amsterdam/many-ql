@@ -1,34 +1,36 @@
-// Output created by jacc on Tue Feb 10 21:30:28 CET 2015
+// Output created by jacc on Wed Feb 11 09:54:42 CET 2015
 
 package cons.ql.parser;
 
 interface QLTokens {
     int ENDINPUT = 0;
-    int AND = 1;
-    int ASSIGN = 2;
-    int BOOLEAN = 3;
-    int ELSE = 4;
-    int EQ = 5;
-    int FLOAT = 6;
-    int FORM = 7;
-    int GEQ = 8;
-    int IDENT = 9;
-    int IF = 10;
-    int INITBOOLEAN = 11;
-    int INITFLOAT = 12;
-    int INITINT = 13;
-    int INITMONEY = 14;
-    int INITSTRING = 15;
-    int INT = 16;
-    int LEQ = 17;
-    int MONEY = 18;
-    int NEQ = 19;
-    int OR = 20;
-    int STRING = 21;
-    int UMIN = 22;
-    int UNOT = 23;
-    int UPLUS = 24;
-    int error = 25;
+    int ADD = 1;
+    int AND = 2;
+    int ASSIGN = 3;
+    int BOOLEAN = 4;
+    int ELSE = 5;
+    int EQ = 6;
+    int FLOAT = 7;
+    int FORM = 8;
+    int GEQ = 9;
+    int IDENT = 10;
+    int IF = 11;
+    int INITBOOLEAN = 12;
+    int INITFLOAT = 13;
+    int INITINT = 14;
+    int INITMONEY = 15;
+    int INITSTRING = 16;
+    int INT = 17;
+    int LEQ = 18;
+    int MONEY = 19;
+    int NEQ = 20;
+    int OR = 21;
+    int STRING = 22;
+    int SUB = 23;
+    int UMIN = 24;
+    int UNOT = 25;
+    int UPLUS = 26;
+    int error = 27;
     // '!' (code=33)
     // '"' (code=34)
     // '(' (code=40)

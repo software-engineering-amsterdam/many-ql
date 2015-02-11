@@ -19,6 +19,9 @@
 %left '*' '/'
 %left UMIN UPLUS UNOT
 
+%left ADD 
+%left SUB
+
 %type <Expression> expression
 %type <QLType> literal
 %type <QLType> type
@@ -54,7 +57,7 @@ import cons.ql.ast.statement.*;
 			;
 
  statement : IDENT ':' type '{' INITSTRING '}' 							{ $$ = new Question($1, $3, $5); }
- 		   | IDENT ':' type '{' INITSTRING ASSIGN '(' literal ')' '}'	{ $$ = new ComputedQuestion($1, $3, $5, $8); }
+ 		   | IDENT ':' type '{' INITSTRING ASSIGN '(' expression ')' '}'{ $$ = new ComputedQuestion($1, $3, $5, $8); }
  		   | IF '(' expression ')' '{' statements '}' elseBranch 		{ $$ = new IfThen($3, $6); }
  		   ;
 
@@ -65,6 +68,7 @@ import cons.ql.ast.statement.*;
  expression : IDENT
  			| type
  			| literal
+ 			| unaryExpression
  			| arithmeticExpression 
 		 	| relationalExpression
 		 	| '(' expression ')'	{ $$ = $2; }
@@ -78,19 +82,21 @@ import cons.ql.ast.statement.*;
 		;
 
  // INIT<Type> stands for an initialised instance.
- literal :	| INITINT
-			| INITMONEY
-			| INITFLOAT
-			| INITBOOLEAN
-			| INITSTRING
-			;
+ literal : INITINT
+		 | INITMONEY
+		 | INITFLOAT
+		 | INITBOOLEAN
+		 | INITSTRING
+		 ;
 
- arithmeticExpression : '+' expression %prec UPLUS 	{ $$ = new Pos($2); }
-				   	  | '-' expression %prec UMIN  	{ $$ = new Neg($2); }
-				   	  | expression '*' expression	{ $$ = new Mul($1, $3); }
+ unaryExpression : '+' expression %prec UPLUS 	{ $$ = new Pos($2); }
+				 | '-' expression %prec UMIN  	{ $$ = new Neg($2); }
+				 ;
+				 
+ arithmeticExpression : expression '*' expression	{ $$ = new Mul($1, $3); }
 					  | expression '/' expression	{ $$ = new Div($1, $3); }
 					  | expression '+' expression	{ $$ = new Add($1, $3); }
-					  | expression '-' expression	{ $$ = new Sub($1, $3); }
+					  | expression '-' expression 	{ $$ = new Sub($1, $3); }
 					  ;
 
  relationalExpression 	: '!' expression %prec UNOT { $$ = new Not($2); }
