@@ -34,33 +34,24 @@ Requirements on the implementation:
 
 The code bellow is just a preliminary example of the QL's syntax. 
 
-	form HouseSelling{
-		
-      section propertyInformation{
-		
-		  question "Did you sell a house in 2015?" : {
-			  hasSoldHouse : boolean;
-			  value = false;
-		  }
-		  question "Did you buy a house in 2015?" : {
-			  hasBoughtHous : boolean;
-			  value = false;
-		  }
-		  question "Did you enter a loan?" : {
-			  hasMaintLoan : boolean;
-			  value = false;
-		  }
-		
-		  if (hasSoldHouse == true){
-			  question "What was the selling price?" : {
-				  sellingPrice : currency;
-			  }	
-			  question "Private debts for sold house:" {
-				  privateDebt: currency;
-			  }
-			  question "Value residue: " {
-				  valueResidue : currency;
-				  value = (sellingPrice - privateDept);
-			  }
-		  }
-	}
+        form HouseSelling {
+
+                question hasSoldHouse typeof boolean {
+                        hasSoldHouse = "Did you sold an house?";
+                        hasSoldHouse.questionType = ComputableQuestion;
+                        hasSoldHouse.value = false ;
+                }
+                question hasRentHouse typeof boolean {
+                        hasRentHouse = "Did you rent a house?";
+                        hasRentHouse.questionType = OrdinaryQuestion;
+                        hasRentHouse.value = false;
+                }
+
+                if (hasSoldHouse == true){
+                        question hasBoughtHouse typeof int {
+                        hasBoughtHouse = "What was the price of the house?";
+                        hasBoughtHouse.questionType = ComputableQuestion;
+                        hasBoughtHouse.value = 100000;
+                        }
+                }
+        }
