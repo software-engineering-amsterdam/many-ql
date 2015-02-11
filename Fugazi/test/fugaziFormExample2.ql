@@ -9,7 +9,7 @@ form taxOfficeExample {
   int age("How old are you?");
 
   // If a house has been sold.
-  if (hasSoldHouse && TAS) {
+  if (hasSoldHouse || (age > 15 && age <= 55)) {
     money sellingPrice ("What was the selling price?");
     money privateDebt ("Private debts for the sold house:");
     money valueResidue ("Value residue:") = (sellingPrice * privateDebt - 77);
