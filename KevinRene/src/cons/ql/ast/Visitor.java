@@ -31,11 +31,9 @@ public interface Visitor {
 	public void visitNot(Not notNode);
 	public void visitPos(Pos posNode);
 	
-	public void visitBlock(Block blockNode);	
-	@SuppressWarnings("rawtypes")
+	public void visitBlock(Block blockNode);
 	public void visitComputedQuestion(ComputedQuestion compQuestionNode);
 	public void visitForm(Form formNode);
 	public void visitIfThen(IfThen ifThenNode);
-	@SuppressWarnings("rawtypes") 
 	public void visitQuestion(Question questionNode);
 }
