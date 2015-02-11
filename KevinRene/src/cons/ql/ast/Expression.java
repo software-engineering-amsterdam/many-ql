@@ -8,7 +8,4 @@ public abstract class Expression implements ASTNode {
 	 */	
 	@Override
 	public abstract String toString();
-	
-	@Override
-	public abstract void accept(Visitor visitor);
 }

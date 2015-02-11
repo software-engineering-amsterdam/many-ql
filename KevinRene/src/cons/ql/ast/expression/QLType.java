@@ -31,10 +31,4 @@ public abstract class QLType<T> extends Expression {
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
-
-	@Override
-	public abstract String toString();
-	
-	@Override
-	public abstract void accept(Visitor visitor);
 }

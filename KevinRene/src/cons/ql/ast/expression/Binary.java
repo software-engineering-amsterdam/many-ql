@@ -2,7 +2,6 @@ package cons.ql.ast.expression;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
-import cons.ql.ast.Visitor;
 
 public abstract class Binary extends Expression {
 	protected Expression left, right;
@@ -27,6 +26,4 @@ public abstract class Binary extends Expression {
 		return left.toString() + " " + operator + " " + right.toString();
 	}
 	
-	@Override
-	public abstract void accept(Visitor visitor);
 }

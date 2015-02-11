@@ -18,6 +18,4 @@ public abstract class Unary extends Expression {
 		return this.operator + this.operand.toString();
 	}
 	
-	@Override
-	public abstract void accept(Visitor visitor);
 }
