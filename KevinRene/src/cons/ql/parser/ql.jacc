@@ -37,6 +37,8 @@ import cons.ql.ast.expression.literal.*;
 import cons.ql.ast.expression.arithmetic.*;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.statement.*;
+
+@SuppressWarnings("all")
 %}
 
 %%

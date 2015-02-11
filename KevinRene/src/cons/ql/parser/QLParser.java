@@ -1,4 +1,4 @@
-// Output created by jacc on Wed Feb 11 09:54:42 CET 2015
+// Output created by jacc on Wed Feb 11 10:05:44 CET 2015
 
 package cons.ql.parser;
 
@@ -9,6 +9,8 @@ import cons.ql.ast.expression.literal.*;
 import cons.ql.ast.expression.arithmetic.*;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.statement.*;
+
+@SuppressWarnings("all")
 
 class QLParser implements QLTokens {
     private int yyss = 100;
