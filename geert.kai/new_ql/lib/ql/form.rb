@@ -1,16 +1,10 @@
-class Array
-  def questions
-    self.flat_map(&:questions)
-  end
-end
-
 class Statement
   def statements
     []
   end
 
   def questions
-    statements.questions
+    self.flat_map(&:questions)
   end
 end
 
