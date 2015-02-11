@@ -83,7 +83,14 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         // Get the body statements.
         ArrayList<Statement> statements = new ArrayList<Statement>();
 
+        // Add the inner if statements.
         for (QLParser.IfStatementContext statement : ctx.ifStatement()) {
+            Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the ifStatement
+            statements.add(stat);
+        }
+
+        // Add the inner question declarations.
+        for (QLParser.QuestionDeclarationContext statement : ctx.questionDeclaration()) {
             Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the statement
             statements.add(stat);
         }
@@ -107,7 +114,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         String label = ctx.STRING().getText().toString();
 
         QuestionStatement question = new QuestionStatement(type, label, identifier);
-        System.out.println("Label: " + label + " ");
+        System.out.println("LABEL: " + label + " ");
 
         return question;
     }
@@ -126,7 +133,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         Expression expression = (Expression) ctx.expression().accept(this); // TODO Accept the QL Visitor of the expressions
         
         ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
-        System.out.println("Label: " + label + " ");
+        System.out.println("LABEL: " + label + " ");
         
         return question;
     }
