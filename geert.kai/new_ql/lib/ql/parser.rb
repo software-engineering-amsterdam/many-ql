@@ -67,8 +67,8 @@ racc_goto_default = [
 
 racc_reduce_table = [
   0, 0, :racc_error,
-  2, 15, :_reduce_none,
-  1, 15, :_reduce_none,
+  2, 15, :_reduce_1,
+  1, 15, :_reduce_2,
   4, 16, :_reduce_3,
   1, 17, :_reduce_none,
   2, 18, :_reduce_5,
@@ -85,7 +85,7 @@ racc_reduce_table = [
   6, 25, :_reduce_16,
   8, 26, :_reduce_17,
   1, 27, :_reduce_none,
-  1, 22, :_reduce_none ]
+  1, 22, :_reduce_19 ]
 
 racc_reduce_n = 20
 
@@ -163,9 +163,15 @@ Racc_debug_parser = false
 
 # reduce 0 omitted
 
-# reduce 1 omitted
+def _reduce_1(val, _values, result)
+ result = [ val[1] ] + val[0] 
+    result
+end
 
-# reduce 2 omitted
+def _reduce_2(val, _values, result)
+ result = [ val[0] ] 
+    result
+end
 
 def _reduce_3(val, _values, result)
  result = Form.new(name: val[1], statements: val[2]) 
@@ -180,7 +186,7 @@ def _reduce_5(val, _values, result)
 end
 
 def _reduce_6(val, _values, result)
- result = [val[0]] 
+ result = [ val[0] ] 
     result
 end
 
@@ -189,7 +195,7 @@ end
 # reduce 8 omitted
 
 def _reduce_9(val, _values, result)
- result = Question.new(description: val[0], variable_name: val[1], type: val[2]) 
+ result = Question.new(description: val[0], variable_name: val[1], type: val[3]) 
     result
 end
 
@@ -217,7 +223,10 @@ end
 
 # reduce 18 omitted
 
-# reduce 19 omitted
+def _reduce_19(val, _values, result)
+ result = val[0][1..-2] 
+    result
+end
 
 def _reduce_none(val, _values, result)
   val[0]

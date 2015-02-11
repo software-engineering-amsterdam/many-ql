@@ -2,8 +2,8 @@ class QL::Parser
 token STRING VARIABLE_NAME
 rule
   forms
-    : forms form 
-    | form
+    : forms form { result = [ val[1] ] + val[0] }
+    | form { result = [ val[0] ] }
     ;
   form
     : 'form' form_name statements 'end' { result = Form.new(name: val[1], statements: val[2]) }
@@ -13,14 +13,14 @@ rule
     ;
   statements
     : statements statement { result = [ val[1] ] + val[0] }
-    | statement { result = [val[0]] }
+    | statement { result = [ val[0] ] }
     ;
   statement
     : question
     | conditional
     ;
   question
-    : string variable_name ':' type { result = Question.new(description: val[0], variable_name: val[1], type: val[2]) }
+    : string variable_name ':' type { result = Question.new(description: val[0], variable_name: val[1], type: val[3]) }
     ;
   variable_name
     : VARIABLE_NAME
@@ -44,7 +44,8 @@ rule
     : VARIABLE_NAME
     ;
   string
-    : STRING 
+    # TODO: get rid of double quotes in a nicer way.
+    : STRING { result = val[0][1..-2] }
     ;
 end
 
