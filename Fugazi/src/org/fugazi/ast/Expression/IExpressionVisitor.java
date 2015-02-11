@@ -4,7 +4,7 @@ package org.fugazi.ast.Expression;
  * Generic Visitor class for Expressions.
  * @param <T>
  */
-public interface ExpressionVisitor<T> {
+public interface IExpressionVisitor<T> {
 
     // Logical
     public T visit(AndExpression andExpression);
