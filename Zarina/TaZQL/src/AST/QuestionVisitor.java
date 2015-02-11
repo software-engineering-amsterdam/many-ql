@@ -1,14 +1,14 @@
 package AST;
 
-import org.antlr.v4.runtime.misc.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.antlr4.zarina.tazql.QuestionLabels;
 import com.antlr4.zarina.tazql.Questions;
 import com.antlr4.zarina.tazql.TaZQLBaseVisitor;
-import com.antlr4.zarina.tazql.TaZQLParser;
 
-public class QuestionVisitor extends TaZQLBaseVisitor<QuestionLabels> {
+public class QuestionVisitor extends TaZQLBaseVisitor<Integer> {
 	
+	Map<String,	Integer> storage = new	HashMap <String, Integer>();
 	Questions q = new Questions();
 	
 /*	

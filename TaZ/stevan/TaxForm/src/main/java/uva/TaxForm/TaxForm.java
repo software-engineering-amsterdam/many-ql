@@ -13,10 +13,16 @@ public class TaxForm {
 	private URL formDefinition;
 	private String filePath;
 	
-    public TaxForm(URL url) {
+    public TaxForm(URL url, boolean internal) {
     	formDefinition = url;
-    	filePath = formDefinition.getPath().toString().substring(1, formDefinition.getPath().toString().length());
-    	System.out.println( filePath );
+    	
+    	if (internal) {
+	    	filePath = formDefinition.getPath().toString().substring(1, formDefinition.getPath().toString().length());
+    	} else {
+	    	filePath = formDefinition.getPath().toString();
+    	}
+    	
+    	System.out.println( "filePath: " + filePath );
     }
     
     public void start() throws Exception {
@@ -30,7 +36,5 @@ public class TaxForm {
 		ParseTreeWalker walker = new ParseTreeWalker();
 		MyTaxFormListener listener = new MyTaxFormListener();
 		walker.walk(listener, parser.form());
-		
-    	//System.out.println( "Start" );
     }
 }

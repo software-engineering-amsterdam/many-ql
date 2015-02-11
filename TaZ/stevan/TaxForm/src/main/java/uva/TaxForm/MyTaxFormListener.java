@@ -7,32 +7,43 @@ public class MyTaxFormListener extends TaxFormBaseListener {
 	
 	public void enterForm(TaxFormParser.FormContext ctx) {
 		
-		System.out.println("enterForm: " + ctx.getText());
-		System.out.println("enterForm.toStringTree(): " + ctx.toStringTree());
+		System.out.println("Form: " + ctx.getText());
+		//System.out.println("enterForm.toStringTree(): " + ctx.toStringTree());
+		//System.out.println( ctx.depth() );
 	}
 	
-	public void exitForm(TaxFormParser.FormContext ctx) {
+	public void enterFormName(TaxFormParser.FormNameContext ctx) {
 		
-		System.out.println("exitForm: " + ctx.toString());
+		System.out.println("FormName: " + ctx.getText());
+		//System.out.println("enterFormName.toStringTree(): " + ctx.toStringTree());
+		//System.out.println( ctx.depth() );
+	}
+
+	public void enterQuestion(TaxFormParser.QuestionContext ctx) {
+		
+		System.out.println("Question: " + ctx.getText());
+		//System.out.println("enterQuestion.toStringTree(): " + ctx.toStringTree());
+		//System.out.println( ctx.depth() );
 	}
 	
-	public void enterFormName(TaxFormParser.FormContext ctx) {
+	public void enterAnswer(TaxFormParser.AnswerContext ctx) {
 		
-		System.out.println("enterFormName: " + ctx.getText());
+		System.out.println("Answer: " + ctx.getText());
+		//System.out.println("enterAnswer.toStringTree(): " + ctx.toStringTree());
+		//System.out.println( ctx.depth() );
 	}
 	
-	public void exitFormName(TaxFormParser.FormContext ctx) {
+	public void enterVarName(TaxFormParser.VarNameContext ctx) {
 		
-		System.out.println("exitFormName: " + ctx.toString());
+		System.out.println("varName: " + ctx.getText());
+		//System.out.println("enterVariableName.toStringTree(): " + ctx.toStringTree());
+		//System.out.println( ctx.depth() );
 	}
 	
-	public void enterQuestion(TaxFormParser.TextContext ctx) {
+	public void enterVarType(TaxFormParser.VarTypeContext ctx) {
 		
-		System.out.println("enterQuestion: " + ctx.getText());
-	}
-	
-	public void exitQuestion(TaxFormParser.TextContext ctx) {
-		
-		System.out.println("exitQuestion: " + ctx.getText());
+		System.out.println("varType: " + ctx.getText());
+		//System.out.println("enterVariableName.toStringTree(): " + ctx.toStringTree());
+		//System.out.println( ctx.depth() );
 	}
 }
