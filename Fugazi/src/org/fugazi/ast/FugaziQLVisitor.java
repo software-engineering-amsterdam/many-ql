@@ -11,6 +11,9 @@ import org.fugazi.ast.Statement.IfStatement;
 import org.fugazi.ast.Statement.QuestionStatement;
 import org.fugazi.ast.Statement.ComputedQuestionStatement;
 import org.fugazi.ast.Statement.Statement;
+import org.fugazi.ast.Type.BoolType;
+import org.fugazi.ast.Type.IntType;
+import org.fugazi.ast.Type.MoneyType;
 import org.fugazi.ast.Type.Type;
 import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
@@ -38,13 +41,19 @@ WHY VISITOR?
 
 public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
+    /**
+     * =======================
+     * Form
+     * =======================
+     */
+    
     @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
-        //TODO
         
         // Get form's name.
         String formName = ctx.ID().getText();
 
+        // Get the body statements.
         ArrayList<Statement> formStatements = new ArrayList<Statement>();
 
         for (QLParser.StatementContext statement : ctx.statement()) {
@@ -59,14 +68,20 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         return form;
     }
 
+    /**
+     * =======================
+     * Statements
+     * =======================
+     */
+    
     @Override
     public IfStatement visitIfStatement(@NotNull QLParser.IfStatementContext ctx) {
         //TODO
         
-        // Get the condition
-        LogicalExpression condition = (LogicalExpression) ctx.logicalExpression().accept(this); // TODO Accept the QL Visitor of the logicalExpression
+        // Get the condition.
+        Expression condition = (Expression) ctx.expression().accept(this); // TODO Accept the QL Visitor of the expressions
         
-        // Get the statements
+        // Get the body statements.
         ArrayList<Statement> statements = new ArrayList<Statement>();
 
         for (QLParser.IfStatementContext statement : ctx.ifStatement()) {
@@ -87,7 +102,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
     @Override
     public QuestionStatement visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         
-        Type type = (Type) ctx.type().accept(this);
+        Type type = (Type) ctx.type().accept(this); 
 
         ID identifier = new ID(ctx.ID().getText());
 
@@ -108,10 +123,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
         ID identifier = new ID(ctx.ID().getText());
 
-        //STRING label = new STRING(ctx.STRING().getText());
+        // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
         String label = ctx.STRING().getText().toString();
 
-        Expression expression = (Expression) ctx.numericalExpression().accept(this); // TODO Accept the QL Visitor of the numericalExpression
+        Expression expression = (Expression) ctx.expression().accept(this); // TODO Accept the QL Visitor of the expressions
         
         ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
         System.out.println(label);
@@ -119,9 +134,32 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         return question;
     }
 
+    /** 
+     * =======================
+     * Types 
+     * =======================
+     */
+    
     @Override 
-    public LogicalExpression visitLogicalExpression(@NotNull QLParser.LogicalExpressionContext ctx) {
-        // TODO
-        return null;
+    public BoolType visitBoolType(@NotNull QLParser.BoolTypeContext ctx) { 
+        System.out.println("Bool ");
+        return new BoolType();
     }
+
+    @Override public MoneyType visitMoneyType(@NotNull QLParser.MoneyTypeContext ctx) {
+        System.out.println("Money ");
+        return new MoneyType();
+    }
+
+    @Override public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
+        System.out.println("Int ");
+        return new IntType();
+    }
+
+    /**
+     * =======================
+     * Expressions
+     * =======================
+     */
+    
 }
