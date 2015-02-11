@@ -22,9 +22,9 @@ public abstract class QLType<T> extends Expression {
 	}
 	
 	public T getValue() throws NullPointerException {
-		if(!defined)
+		if(!defined) {
 			throw new NullPointerException("Variable not defined.");
-		
+		}
 		return value;
 	}
 	
