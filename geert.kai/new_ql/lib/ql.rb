@@ -9,7 +9,7 @@ module QL
     tokenizer     = QL::Tokenizer.new input
     parser  = QL::Parser.new tokenizer
     result = parser.parse
-    puts "result: #{result.inspect}"
+    puts "result: #{result.first.questions}"
     result
   end
 end

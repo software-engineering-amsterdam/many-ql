@@ -1,7 +1,20 @@
-class Statement
+class Array
+  def questions
+    self.flat_map(&:questions)
+  end
 end
 
-class Form
+class Statement
+  def statements
+    []
+  end
+
+  def questions
+    statements.questions
+  end
+end
+
+class Form < Statement
   attr_reader :name, :statements
 
   def initialize(name:, statements:)
@@ -18,9 +31,14 @@ class Question < Statement
     @variable_name = variable_name
     @type = type
   end
+
+  def questions
+    [ self ]
+  end
+
 end
 
-class If
+class If < Statement
   attr_reader :expression, :statements
 
   def initialize(expression:, statements:)
@@ -29,12 +47,16 @@ class If
   end
 end
 
-class IfElse
+class IfElse < Statement
   attr_reader :expression, :statements_true, :statements_false
 
   def initialize(expression:, statements_true:, statements_false:)
     @expression = expression
     @statements_true = statements_true
     @statements_false = statements_false
+  end
+
+  def statements
+    statements_true + statements_false
   end
 end
