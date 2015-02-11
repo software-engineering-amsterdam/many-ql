@@ -135,7 +135,6 @@ public class TypeChecker implements Visitor {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes") 
 	public void visitComputedQuestion(ComputedQuestion compQuestionNode) {
 		// TODO Auto-generated method stub
 		
@@ -154,7 +153,6 @@ public class TypeChecker implements Visitor {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes") 
 	public void visitQuestion(Question questionNode) {
 		// TODO Auto-generated method stub
 		
