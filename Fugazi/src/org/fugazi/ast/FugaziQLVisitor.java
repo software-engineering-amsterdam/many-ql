@@ -20,23 +20,20 @@ import org.fugazi.ast.Form.Form;
 
 import java.util.ArrayList;
 
-// TODO
-
 /*
-
 reference to undefined questions
 duplicate question declarations with different types
 conditions that are not of the type boolean
 operands of invalid type to operators
 cyclic dependencies between questions
 duplicate labels (warning)
-
- */
+*/
 
 /*
 WHY VISITOR?
 1. Each visit can return an AST node.
- */
+2. Build our ASt.
+*/
 
 public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
@@ -75,8 +72,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
     
     @Override
     public IfStatement visitIfStatement(@NotNull QLParser.IfStatementContext ctx) {
-        //TODO
-        
+
         // Get the condition.
         Expression condition = (Expression) ctx.expression().accept(this); // TODO Accept the QL Visitor of the expressions
         
@@ -121,8 +117,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public ComputedQuestionStatement visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
-        //TODO
-
+        
         Type type = (Type) ctx.type().accept(this);
 
         ID identifier = new ID(ctx.ID().getText());
@@ -166,7 +161,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
      * =======================
      */
     // TODO: Think of this.
-    //@Override public T visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) { return visitChildren(ctx); }
+    //@Override 
+    // public T visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) { 
+    // return visitChildren(ctx); 
+    // }
 
     @Override 
     public SingleExpression visitSingleExpression(@NotNull QLParser.SingleExpressionContext ctx) {
@@ -274,19 +272,19 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
      */
     @Override
     public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
-        // TODO?
+        // TODO: is that right?
         return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
     }
 
     @Override
     public BoolType visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
-        // TODO?
+        // TODO: is that right?
         return (BoolType) ctx.BOOLEAN().accept(this); // Accept the QL Visitor of the BOOLEAN
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
-        // TODO?
+        // TODO: is that right?
         return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
     }
 
