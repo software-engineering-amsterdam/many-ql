@@ -49,9 +49,9 @@ The code bellow is just a preliminary example of the QL's syntax.
 
                 if (hasSoldHouse == true){
                         question hasBoughtHouse typeof int {
-                        hasBoughtHouse = "What was the price of the house?";
-                        hasBoughtHouse.questionType = ComputableQuestion;
-                        hasBoughtHouse.value = 100000;
+                            hasBoughtHouse = "What was the price of the house?";
+                            hasBoughtHouse.questionType = ComputableQuestion;
+                            hasBoughtHouse.value = 100000;
                         }
                 }
         }
