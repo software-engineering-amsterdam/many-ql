@@ -3,66 +3,81 @@
  */
 grammar QL;
 
-prog	: form+ ;
+@header{
+	import java.util.*;
+}
 
-form	: FORM ID LC section+ RC ;
+prog	: form+ EOF ;
 
-section	: SECTION ID LC quest+ RC;
+form	: 'form' ID '{' quest* stat* '}' ;
 
-quest 	: QUESTION STRING COLON LC (stat | expr | decl)* RC ;
+quest locals[List<String> decls = new ArrayList<String>()]	
+		: 'question' STRING '=' QuestionLiteral '{' decl+ stat* expr* '}' ;
 
-stat : value
-	 | ifStat
+stat : value								
+	 | ifStat								
+	 | ID '=' expr ';'
 	 ;
 
-decl : ID COLON expr SEMICOLON ;
+decl : ID ':' primitiveType ';' {
+	if (!$quest::decls.contains($ID.text)){$quest::decls.add($ID.text);}
+	else {System.err.println("Declaration exists: " + $ID.text);}
+};
 
-expr		: ID ASSIGN expr											#Assign				// Assign
-			| expr LOG_OR expr											#LogAnd 			// Logical and
-			| expr LOG_AND expr											#LogOr 				// Logical or
-			| expr (EQUAL | NOT_EQUAL) expr								#Equal_NotEqual		// Equal to
-			| expr (LESS | LESS_EQUAL | GREATER | GREATER_EQUAL) expr	#LowerGreater
-			| LP expr RP												#ParNesting			// Paranthesis nesting????
-			| expr '^' <assoc=right> expr								#Exp 				// Exp
-			| expr (MUL | DIV) expr 									#MulDiv 			// Multiplication					
-			| expr (ADD | SUB) expr										#AddSub 			// Addition
-			| literal													#ExprLit			//  ExpressionLiteral
+expr		: expr EXP<assoc=right> expr 														#Exp
+			| expr (MUL | DIV) expr		 	  													#MulDiv
+			| expr (ADD | SUB) expr																#AddSub
+			| expr (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) expr							#LessGreater
+			| expr ('==' | '!=') expr															#Equal_NotEqual
+			| expr '&&' expr																	#LogAnd
+			| expr '||' expr																	#LogOr
+			| '(' expr ')'																		#Par
+			| literal																			#ExprLit
 			;
+			
+ifStat		: 'if' '(' expr ')' '{' quest* stat* decl* '}'
+			| 'if' '(' expr ')' '{' stat '}' 'else' '(' quest* stat* decl* ')';
 
-ifStat	: IF LP expr RP LC stat RC
-		| IF LP expr RP LC stat RC ELSE LC stat RC;
-
-value		: VALUE ASSIGN literal SEMICOLON ;	// E.g. value = true; 
+value		: ID '.' 'value' '=' expr ';' ;	
 
 literal		: BooleanLiteral
 			| NumberLiteral
-			| 'null'
+			| ID
 			;
-		
+
+QuestionLiteral	: 'OrdinaryQuestion'
+				| 'ComputableQuestion'
+				;
+	
 BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
-NumberLiteral	: '-'? INT
-				| '-'? FLOAT
+NumberLiteral	: (INT | ('(-'INT')'))
+				| (FLOAT | ('(-'FLOAT')'))
+				| (CURRENCY | ('(-'CURRENCY')'))
 				;
 
-/*primitiveType	: 'boolean'
+primitiveType	: 'boolean'
 				| 'float'
-				| 'int'
+				| 'currency'
 				| 'string'
-				;*/
+				;
 
-WS			: [ \t\n\r]+ -> skip;
+WS			: (' ' | NL | '\t') -> skip;
 
 ID			: ID_LETTER (ID_LETTER | INT)* ;
+
+/* It gets form, if etc as an identifier and not as keywords */
 
 ID_LETTER	: 'a'..'z' | 'A'..'Z' | '_' ;
 
 INT			: '0' | [1-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
 
-FLOAT		: INT+ '.' INT*
+FLOAT		: INT+ '.' INT*	// How to set the precision to for instance 4? That it returns a value of this precision
 			| '.' INT+;
+
+CURRENCY	: FLOAT;
 
 STRING 		: '"'	(ESC|.)*? '"';
 fragment
@@ -72,14 +87,7 @@ LINE_COMMENT: '//' .*? '\n' -> skip;	// Single line comments
 COMMENT		: '/*' .*? '*/' -> skip;	// Multi line comments
 
 /* KEYWORDS - TOKENS */ 
-QUESTION	: 'question' ;
-FORM		: 'form' ;
-SECTION 	: 'section' ;
-BOOLEAN		: 'boolean' ;
-VALUE		: 'value' ;
-IF			: 'if';
-THEN		: 'then';
-ELSE		: 'else';
+
 MUL			: '*' ;
 DIV			: '/' ;
 ADD			: '+' ;
@@ -93,15 +101,12 @@ LESS_EQUAL 	: '<=';
 GREATER		: '>' ;
 GREATER_EQUAL 	: '>=';
 EQUAL  		: '==';
-ASSIGN		: '=' ;
 LOG_AND		: '&&';
 LOG_OR		: '||';
-NOT			: '!' ;
 NOT_EQUAL	: '!=';
-COLON     	: ':' ;
-SEMICOLON   : ';' ;
-COMMA       : ',' ;
- 
+NL			: '\r'? '\n';
+EXP			: '^' ;
+
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
 /* the listener ->  */

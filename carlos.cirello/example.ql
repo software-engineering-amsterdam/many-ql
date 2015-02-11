@@ -7,4 +7,9 @@ form SomeForm {
 
 	"Are you happy today?"
 	questionThree bool
+
+	if (questionThree) {
+		"Why are you happy today?"questionFour string
+		"Grade your happiness?" questionFive integer
+	}
 }

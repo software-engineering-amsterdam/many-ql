@@ -50,9 +50,11 @@ func (f *frontend) loop() {
 				f.driver.Flush()
 			} else if r.Type == FetchAnswers {
 				fetchedAnswers := f.driver.FetchAnswers()
-				f.send <- &Event{
-					Type:    Answers,
-					Answers: fetchedAnswers,
+				if len(fetchedAnswers) > 0 {
+					f.send <- &Event{
+						Type:    Answers,
+						Answers: fetchedAnswers,
+					}
 				}
 			}
 		default:

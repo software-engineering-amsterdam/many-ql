@@ -1,39 +1,69 @@
 grammar QL;
 questionnaire: 'Name:' name=STRING '{' (form)* '}';
-form: 'Form:' name=STRING '{' (logicalStatement|question)* '}';
+form: 'Form:' name=STRING '{' (statement|question)* '}';
 question: 'Question:' name=STRING  '{' (questionContent)* '}';
 questionContent: questionText
                | questionAnswer
-               | questionRange;
+               | questionRange
+               | questionCalcuation;
 
 questionText: 'Text:' text=STRING;
+//QuestionAnser abstractions
 questionAnswer: 'Answer:' (questionAnswerSimple|questionAnswerCustom);
 questionAnswerSimple: type=('integer' | 'Integer' | 'double' | 'Double' | 'string' | 'String');
 questionAnswerCustom: '['STRING ('||' STRING)+']';
+
+//QuestionRange abstractions
 questionRange: 'Range:' (questionRangeFromTo | questionRangeBiggerThan | questionRangeSmallerThan);
 questionRangeFromTo: lower=NUMBER '-' higher=NUMBER;
 questionRangeBiggerThan: '>' num=NUMBER;
 questionRangeSmallerThan: '<' num=NUMBER;
 
-logicalStatement: 'If:' expression '{' (logicalStatement|question)* '}';
+//QuestionCalculation
+questionCalcuation:
+    'Caculation:' name=STRING block;
+
+block:
+    '{'blockStatement'}';
+
+blockStatement:
+    statement;
+
+statement:
+    block
+    |ifStatement
+    |ifStatement (elseStatement)?
+    |ifStatement (elseIfStatement)* (elseStatement)*
+    |expression;
+
+ifStatement:
+    'If:' expression statement;
+
+elseStatement:
+    'Else:' statement (elseIfStatement)?;
+
+elseIfStatement:
+    'Else If:' expression statement;
 
 expression
-    : '(' expression ')'
-    | logicalExpression
-    | relationalExpression
+    : primary
+    | expression op=RELATIONAL_OPERATOR expression
+    | expression op=('==' | '!=') expression
+    | expression op=OR_OP expression
+    | expression op=AND_OP expression;
+
+primary:
+    parExpression
     | id;
 
+parExpression:
+    '(' expression ')';
 
 id
     : STRING
     | NUMBER
     | TEXT;
 
-logicalExpression:
-    | relationalExpression (AND_OP|OR_OP) relationalExpression;
-
-relationalExpression:
-    id RELATIONAL_OPERATOR expression;
 /*
 logicalExpression: logic (LOGICAL_SEPARATOR logic)*;
 logic: ref=(TEXT)+ operator=LOGICAL_OPERATOR target=(TEXT)+
@@ -54,10 +84,8 @@ fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
 WS  :   [ \t\n\r]+ -> skip ;
 fragment NL   : '\r' '\n' | '\n' | '\r';
-RELATIONAL_OPERATOR : '=='
-                 | '>'
+RELATIONAL_OPERATOR : '>'
                  | '<'
-                 | '!='
                  | '>='
                  | '<=';
 

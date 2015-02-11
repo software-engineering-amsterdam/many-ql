@@ -395,7 +395,7 @@ public final class Grammar
     // Place eof in FOLLOW(S) where S is the start symbol.
     FOLLOW[startSymbol].setTerminal(eof);
 
-    // If there is a production A->xBy, then everything in FIRST(y) except
+    // IfStmt there is a production A->xBy, then everything in FIRST(y) except
     // for empty is placed in FOLLOW(B).
     for(int i = 0; i < productions.length; i++)
     {
@@ -414,7 +414,7 @@ public final class Grammar
       }
     }
 
-    // If there is a production A->xB, or a production A->xBy where FIRST(y)
+    // IfStmt there is a production A->xB, or a production A->xBy where FIRST(y)
     // contains empty, then everything in FOLLOW(A) is in FOLLOW(B).
     boolean changed;
     do

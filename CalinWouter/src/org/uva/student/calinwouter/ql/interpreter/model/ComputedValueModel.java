@@ -1,5 +1,7 @@
 package org.uva.student.calinwouter.ql.interpreter.model;
 
+import javax.swing.event.TableModelEvent;
+
 public class ComputedValueModel implements DisplayModelInterface {
     private final String variable;
     private final String text;
@@ -29,4 +31,18 @@ public class ComputedValueModel implements DisplayModelInterface {
         this.value = value;
     }
 
+    @Override
+    public Object[] renderTableRow(Environment environment) {
+        return new Object[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean updateEnvironmentForRowChange(TableModelEvent e) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

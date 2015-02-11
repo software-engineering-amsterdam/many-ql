@@ -5,10 +5,12 @@ import java.util.ArrayList;
 /**
  * Created by juriaan on 9-2-15.
  */
-public class Node {
-    public String loc;
+public abstract class Node {
+    private String loc;
     private Node parent;
     private ArrayList<Node> children;
+
+    public Node(){}
 
     public Node(String loc){
         this.loc = loc;
@@ -43,4 +45,6 @@ public class Node {
     public void setChildren(ArrayList<Node> children) {
         this.children = children;
     }
+
+    public abstract void accept(Visitor visitor);
 }

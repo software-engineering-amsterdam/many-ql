@@ -1,8 +1,5 @@
 // Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
 package lang.ql.gen;
-
-    import lang.ql.ast.expression.*;
-
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -38,6 +35,12 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIfCondition(@NotNull QLParser.IfConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#expressionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionList(@NotNull QLParser.ExpressionListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree

@@ -19,6 +19,8 @@
         - [ ] Protect against undeclared and empty values :MUST:
       - [ ] multiple form in the same file :SHOULD:
       - [ ] read from multiple files :COULD:
+      - [ ] Treat against invalid variable types
+        - [ ] Is this a grammar level error? Not likely.
     - [ ] Generate AST [1/3]
       - [X] Basic cases
       - [ ] Advanced cases

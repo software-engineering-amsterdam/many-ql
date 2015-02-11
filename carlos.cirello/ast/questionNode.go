@@ -10,12 +10,13 @@ type Parser interface {
 	fmt.Stringer
 }
 
-// Question models the structure of one question within a Questionaire.
+// QuestionNode models the structure of one question within a Questionaire.
 type QuestionNode struct {
 	Label      string
 	Identifier string
 	Content    Parser
 	Answered   bool
+	Rendered   bool
 }
 
 // Clone Question to be used for transmission between VM and Frontend
