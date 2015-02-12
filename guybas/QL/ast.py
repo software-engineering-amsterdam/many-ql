@@ -1,6 +1,15 @@
+# ast 
+
 def make_sentence(tokens):
     return ' '.join(tokens) 
 
+class Expression:
+    def __init__(self, expression):
+        self.str_expression = expression
+    def evaliate(self):
+        pass
+    def __str__(self):
+        return self.str_expression
 
 # Questions 
 class Question:
@@ -36,7 +45,7 @@ class ConditionalQuestions:
         self.else_questions = questions
 
     def __str__(self):
-        s = "Condition: Question " + "\n"
+        s = "Condition: Question " + str(self.condition) + "\n"
         for i in self.questions:
             s += str(i)
         return s
