@@ -72,9 +72,9 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
     
     @Override
     public IfStatement visitIfStatement(@NotNull QLParser.IfStatementContext ctx) {
-
+        
         // Get the condition.
-        Expression condition = (Expression) ctx.expression().accept(this); // TODO Accept the QL Visitor of the expressions
+        Expression condition = (Expression) ctx.expression().accept(this);
         
         // Get the body statements.
         ArrayList<Statement> statements = new ArrayList<Statement>();
@@ -110,7 +110,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         String label = ctx.STRING().getText().toString();
 
         QuestionStatement question = new QuestionStatement(type, label, identifier);
-        System.out.println("LABEL: " + label + " ");
+        System.out.println("LABEL: " + label + " ID: " + identifier + " ");
 
         return question;
     }
@@ -125,10 +125,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
         String label = ctx.STRING().getText();
 
-        Expression expression = (Expression) ctx.expression().accept(this); // TODO Accept the QL Visitor of the expressions
+        Expression expression = (Expression) ctx.expression().accept(this);
         
         ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
-        System.out.println("LABEL: " + label + " ");
+        System.out.println("LABEL: " + label + " ID: " + identifier + " ");
         
         return question;
     }
@@ -273,18 +273,21 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
     @Override
     public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
         // TODO: is that right?
+        System.out.print(" " + ctx.NUMBER().getText() + " ");
         return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
     }
 
     @Override
     public BoolType visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
         // TODO: is that right?
+        System.out.print(" " + ctx.BOOLEAN().getText() + " ");
         return (BoolType) ctx.BOOLEAN().accept(this); // Accept the QL Visitor of the BOOLEAN
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
         // TODO: is that right?
+        System.out.print(" " + ctx.ID().getText() + " ");
         return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
     }
 
