@@ -15,5 +15,5 @@ public abstract class Type extends ASTNode {
     public abstract String toString();
 
     // Accept Visitor
-    public abstract <T> T accept(TypeVisitor<T> visitor);
+    public abstract <T> T accept(ITypeVisitor<T> visitor);
 }

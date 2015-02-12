@@ -60,7 +60,7 @@ public class QuestionStatement extends Statement {
     }
 
     @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

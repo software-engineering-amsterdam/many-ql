@@ -16,54 +16,39 @@ statement   : questionDeclaration
 
 // an if statement˝
 // supported form: if(expr){...}
-ifStatement : 'if' '(' logicalExpression ')' '{' (ifStatement | questionDeclaration)* '}';
+ifStatement : 'if' '(' expression ')' '{' (ifStatement | questionDeclaration)* '}';
 
 // question types
 // two supported versions:
 // 1. Question expecting user's answer.
 // 2. Question (field) value of which is derived from other variables / values.
 questionDeclaration : type ID '(' STRING ')' ';'                             # noAssignmentQuestion
-                    | type ID '(' STRING ')' '=' numericalExpression ';'     # assignmentQuestion
+                    | type ID '(' STRING ')' '=' expression ';'              # assignmentQuestion
                     ;
 
 // all alowed variable types.
-type    : 'bool' | 'money' | 'int' ;
-
+type    : 'bool'        # boolType
+        | 'money'       # moneyType
+        | 'int'         # intType
+        ;
 /**
  * =====================
- * NUMERICAL OPERATIONS
+ * Expressions
  * =====================
  */
 
-// allowed assignable expressions.
-numericalExpression  : '(' numericalExpression ')'                    # bracketedExpression
-            | numericalExpression ('*' | '/') numericalExpression     # mulDivExpression
-            | numericalExpression ('+' | '-') numericalExpression     # addSubExpression
-            | ID                                                      # expressionId
-            | NUMBER                                                  # expressionNumber
+// this defines what an expression looks like. (logical and numerical)
+expression  : op=('+'|'-'|'!') expression                                           # singleExpression
+            | expression op=('*' | '/') expression                                  # mulDivExpression
+            | expression op=('+' | '-') expression                                  # addSubExpression
+            | expression op=('>' | '>=' | '<' | '<=' | '==' | '!=') expression      # comparisonExpression
+            | expression '&&' expression                                            # logicalAndExpression
+            | expression '||' expression                                            # logicalOrExpression
+            | BOOLEAN                                                               # booleanExpression
+            | ID                                                                    # identifierExpression
+            | NUMBER                                                                # numberExpression
+            | '(' expression ')'                                                    # parenthesisExpression
             ;
-
-/**
- * =====================
- * LOGICAL OPERATIONS
- * =====================
- */
-
-// this defines what a logical expression looks like.
-// supported expressions:
-// 1. if (value)
-// 2. if (value || value && value..)
-// 3. if (value && value || value.. ..)
-// 4. if (!value)
-// 5. if (value && !value..)
-logicalExpression  : '(' logicalExpression ')'                                                      //# nestedExpression
-                   | '!' logicalExpression                                                          //# negation
-                   | logicalExpression ('>' | '>=' | '<' | '<=' | '==' | '!=') logicalExpression    //# comparison
-                   | logicalExpression '&&' logicalExpression                                       //# logicalAnd
-                   | logicalExpression '||' logicalExpression                                       //# logicalOr
-                   | ID                                                                             //# logicalId
-                   | NUMBER                                                                         //# logicalNumber
-                   ;
 
 /**
  * =====================
