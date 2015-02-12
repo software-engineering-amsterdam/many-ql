@@ -6,11 +6,13 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
+// Execute implements Executer interface, and walks through AST
 type Execute struct {
 	toFrontend chan *Event
 	symbolChan chan *symbolEvent
 }
 
+// Exec type switch through all possible AST node types
 func (exec Execute) Exec(node interface{}) {
 	switch t := node.(type) {
 	default:
@@ -26,12 +28,14 @@ func (exec Execute) Exec(node interface{}) {
 	}
 }
 
+// QuestionaireNode execute all actionNodes of a questionaire (form)
 func (exec Execute) QuestionaireNode(q *ast.QuestionaireNode) {
 	for _, actionNode := range q.Stack {
 		exec.Exec(actionNode)
 	}
 }
 
+// ActionNode branches to QuestionNode or IfNode executers
 func (exec Execute) ActionNode(a *ast.ActionNode) {
 	if nil != a.QuestionNode {
 		exec.Exec(a.QuestionNode)
@@ -42,6 +46,8 @@ func (exec Execute) ActionNode(a *ast.ActionNode) {
 	}
 }
 
+// QuestionNode adds question to symbol table, and dispatch to frontend
+// rendering.
 func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 	exec.symbolChan <- &symbolEvent{
 		command: SymbolCreate,
@@ -56,6 +62,7 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 	}
 }
 
+// IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
 	ret := make(chan *ast.QuestionNode)
 	exec.symbolChan <- &symbolEvent{
