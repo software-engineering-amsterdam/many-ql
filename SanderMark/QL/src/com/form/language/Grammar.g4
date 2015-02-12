@@ -39,6 +39,32 @@ expression returns [AST ast]
 		| 	'+' op2=unary {$ast = new Addition($ast, $op2.ast);}
 		)*
 	;
+
+relExpr returns [AST ast]
+    :   lhs=expression { $ast = $lhs.ast; } 
+    ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression 
+    { 
+      if ($op.text.equals("<")) {
+        $ast = new LessThen($ast, rhs);
+      }
+      if ($op.text.equals("<=")) {
+        $ast = new LessOrEqualThen($ast, rhs);      
+      }
+      if ($op.text.equals(">")) {
+        $ast = new GreaterThen($ast, rhs);
+      }
+      if ($op.text.equals(">=")) {
+        $ast = new GreaterOrEqualThen($ast, rhs);      
+      }
+      if ($op.text.equals("==")) {
+        $ast = new Equal($ast, rhs);
+      }
+      if ($op.text.equals("!=")) {
+        $ast = new NotEqual($ast, rhs);
+      }
+    })*
+    ;	
+
 	
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
