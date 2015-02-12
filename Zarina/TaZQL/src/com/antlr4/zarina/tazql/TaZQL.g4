@@ -31,7 +31,7 @@ expression		: ID 																	# id
 				| '(' expression ')'													# prio		
 				;
 				
-simpleQuestion	: ID TEXT TYPE;   	 
+simpleQuestion	: ID TEXT ID;   // should be type later  	 
 				 									
 computedQuestion: ID TEXT TYPE '(' expression ')';
  
@@ -40,8 +40,9 @@ BOOLEAN			: 'true' | 'false';
 	  
 	  
 NUMBER			: '0'..'9'+ ('.' '0'..'9'+)*;
-TEXT			:'['.*? ']';	
+TEXT			:'"'.*? '"';	
 ID 				:('a'..'z'|'A'..'Z'|'_')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*; 
 WS  			: (' ' | '\t' | '\n' | '\r')+ -> skip;
+
 NEWLINE 		:'\r'?'\n';
 COMMENTS		: '//' NEWLINE -> skip;
