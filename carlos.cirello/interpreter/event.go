@@ -1,4 +1,4 @@
-package frontend
+package interpreter
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 

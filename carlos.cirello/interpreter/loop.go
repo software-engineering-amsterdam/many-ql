@@ -7,14 +7,13 @@ import (
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
 
 type interpreter struct {
 	questionaire *ast.QuestionaireNode
-	send         chan *fe.Event
-	receive      chan *fe.Event
-	execute      visitor
+	send         chan *Event
+	receive      chan *Event
+	execute      ast.Executer
 
 	symbolTable map[string]*ast.QuestionNode
 	symbolChan  chan *symbolEvent
@@ -22,15 +21,15 @@ type interpreter struct {
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.QuestionaireNode) (chan *fe.Event, chan *fe.Event) {
-	toFrontend := make(chan *fe.Event)
-	fromFrontend := make(chan *fe.Event)
+func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
+	toFrontend := make(chan *Event)
+	fromFrontend := make(chan *Event)
 	symbolChan := make(chan *symbolEvent)
 	v := &interpreter{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
-		execute:      &execute{toFrontend, symbolChan},
+		execute:      &Execute{toFrontend, symbolChan},
 		symbolTable:  make(map[string]*ast.QuestionNode),
 		symbolChan:   symbolChan,
 	}
@@ -62,20 +61,20 @@ func (v *interpreter) updateSymbolTable() {
 }
 
 func (v *interpreter) loop() {
-	v.send <- &fe.Event{
-		Type: fe.ReadyP,
+	v.send <- &Event{
+		Type: ReadyP,
 	}
 
 	for {
 		select {
 		case r := <-v.receive:
-			if r.Type == fe.ReadyT {
+			if r.Type == ReadyT {
 				// visit everything to setup interface
-				v.execute.QuestionaireNode(v.questionaire)
-				v.send <- &fe.Event{
-					Type: fe.Flush,
+				v.execute.Exec(v.questionaire)
+				v.send <- &Event{
+					Type: Flush,
 				}
-			} else if r.Type == fe.Answers {
+			} else if r.Type == Answers {
 				for identifier, answer := range r.Answers {
 					ret := make(chan *ast.QuestionNode)
 					v.symbolChan <- &symbolEvent{
@@ -93,14 +92,14 @@ func (v *interpreter) loop() {
 					}
 				}
 				// visit everything again
-				v.execute.QuestionaireNode(v.questionaire)
-				v.send <- &fe.Event{
-					Type: fe.Flush,
+				v.execute.Exec(v.questionaire)
+				v.send <- &Event{
+					Type: Flush,
 				}
 			}
 		default:
-			v.send <- &fe.Event{
-				Type: fe.FetchAnswers,
+			v.send <- &Event{
+				Type: FetchAnswers,
 			}
 		}
 	}

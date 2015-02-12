@@ -16,7 +16,6 @@ type QuestionNode struct {
 	Identifier string
 	Content    Parser
 	Answered   bool
-	Rendered   bool
 }
 
 // Clone Question to be used for transmission between VM and Frontend
