@@ -14,7 +14,7 @@ type interpreter struct {
 	questionaire *ast.QuestionaireNode
 	send         chan *fe.Event
 	receive      chan *fe.Event
-	execute      visitor
+	execute      ast.Executer
 
 	symbolTable map[string]*ast.QuestionNode
 	symbolChan  chan *symbolEvent
@@ -71,7 +71,7 @@ func (v *interpreter) loop() {
 		case r := <-v.receive:
 			if r.Type == fe.ReadyT {
 				// visit everything to setup interface
-				v.execute.QuestionaireNode(v.questionaire)
+				v.execute.Exec(v.questionaire)
 				v.send <- &fe.Event{
 					Type: fe.Flush,
 				}
@@ -93,7 +93,7 @@ func (v *interpreter) loop() {
 					}
 				}
 				// visit everything again
-				v.execute.QuestionaireNode(v.questionaire)
+				v.execute.Exec(v.questionaire)
 				v.send <- &fe.Event{
 					Type: fe.Flush,
 				}
