@@ -40,9 +40,8 @@ BOOLEAN			: 'true' | 'false';
 	  
 	  
 NUMBER			: '0'..'9'+ ('.' '0'..'9'+)*;
-TEXT			:'['(ID |SPECIAL|NUMBER|WS)*']';	
+TEXT			:'['.*? ']';	
 ID 				:('a'..'z'|'A'..'Z'|'_')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*; 
 WS  			: (' ' | '\t' | '\n' | '\r')+ -> skip;
-SPECIAL			: [:?!,\.;];
 NEWLINE 		:'\r'?'\n';
 COMMENTS		: '//' NEWLINE -> skip;
