@@ -12,33 +12,35 @@ prog	: form+ EOF ;
 form	: 'form' ID '{' quest* stat* '}' ;
 
 quest locals[List<String> decls = new ArrayList<String>()]	
-		: 'question' STRING '=' QuestionLiteral '{' decl+ stat* expr* '}' ;
+		: 'question' ID typeof primitiveType '{' quest_decl+ decl* stat* expr* '}' ;
 
-stat : value								
-	 | ifStat								
-	 | ID '=' expr ';'
+
+stat : ifStatement								
+	 | assign
 	 ;
 
-decl : ID ':' primitiveType ';' {
-	if (!$quest::decls.contains($ID.text)){$quest::decls.add($ID.text);}
-	else {System.err.println("Declaration exists: " + $ID.text);}
-};
+quest_decl	: ID '=' STRING ';' 								// quest_decl only within questions
+			| ID '.' questionType '=' QuestionLiteral ';'
+			| ID '.' 'value' '=' expr ';';	
+
+decl		: primitiveType ID '='? expr? ';' ;		// Allows int x; && int x = 3 - 1; 
+
+assign		: ID '=' expr ';';
 
 expr		: expr EXP<assoc=right> expr 														#Exp
-			| expr (MUL | DIV) expr		 	  													#MulDiv
+			| x = expr (op = MUL | op = DIV) y = expr				{System.err.println("Try: " + $op.text);}															#MulDiv
 			| expr (ADD | SUB) expr																#AddSub
 			| expr (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) expr							#LessGreater
 			| expr ('==' | '!=') expr															#Equal_NotEqual
 			| expr '&&' expr																	#LogAnd
 			| expr '||' expr																	#LogOr
 			| '(' expr ')'																		#Par
-			| literal																			#ExprLit
+			| l = literal	{System.err.println("Try literal " + $l.text);}																		#ExprLit
 			;
-			
-ifStat		: 'if' '(' expr ')' '{' quest* stat* decl* '}'
-			| 'if' '(' expr ')' '{' stat '}' 'else' '(' quest* stat* decl* ')';
-
-value		: ID '.' 'value' '=' expr ';' ;	
+		
+ifStatement		: 'if' '(' expr ')' '{' quest* stat* decl* '}'
+				| 'if' '(' expr ')' '{' stat '}' 'else' '(' quest* stat* decl* ')';
+	
 
 literal		: BooleanLiteral
 			| NumberLiteral
@@ -62,6 +64,7 @@ primitiveType	: 'boolean'
 				| 'float'
 				| 'currency'
 				| 'string'
+				| 'int'
 				;
 
 WS			: (' ' | NL | '\t') -> skip;
@@ -88,6 +91,8 @@ COMMENT		: '/*' .*? '*/' -> skip;	// Multi line comments
 
 /* KEYWORDS - TOKENS */ 
 
+typeof		: 'typeof';
+questionType: 'questionType';
 MUL			: '*' ;
 DIV			: '/' ;
 ADD			: '+' ;
