@@ -12,10 +12,10 @@ import (
 )
 
 func main() {
-	inFn, outFn := cli.Args()
+	srcFn, inFn, outFn := cli.Args()
 
-	inReader, outWriter := stream.New(inFn, outFn)
-	codeBuf := reader.New(inReader)
+	srcReader, _, outWriter := stream.New(srcFn, inFn, outFn)
+	codeBuf := reader.New(srcReader)
 
 	code := codeBuf.Read()
 	aQuestionaire := parser.ReadQL(code)
