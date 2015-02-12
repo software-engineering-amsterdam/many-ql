@@ -6,8 +6,6 @@ import __yyfmt__ "fmt"
 //line parser.y:3
 import (
 	"log"
-	"strings"
-	"text/scanner"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
@@ -16,7 +14,7 @@ var finalQuestionaire *ast.QuestionaireNode
 
 //Top Ends Here
 
-//line parser.y:20
+//line parser.y:18
 type qlSymType struct {
 	yys          int
 	content      string
@@ -59,92 +57,6 @@ const qlErrCode = 2
 const qlMaxDepth = 200
 
 //line parser.y:134
-
-// Bottom starts here
-// The parser expects the lexer to return 0 on EOF.
-const eof = 0
-
-const (
-	// FormTokenText - Reserved Word
-	FormTokenText = "form"
-	// IfTokenText - Reserved Word
-	IfTokenText = "if"
-	// StringQuestionTokenText - Reserved Word
-	StringQuestionTokenText = "string"
-	// IntQuestionTokenText - Reserved Word
-	IntQuestionTokenText = "integer"
-	// BoolQuestionTokenText - Reserved Word
-	BoolQuestionTokenText = "bool"
-
-	singleQuotedChar  = `'`
-	doubleQuotedChar  = `"`
-	literalQuotedChar = "`"
-)
-
-type lexer struct {
-	scanner scanner.Scanner
-}
-
-func newLexer(code string) *lexer {
-	var s scanner.Scanner
-	s.Init(strings.NewReader(code))
-	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' '
-
-	return &lexer{
-		scanner: s,
-	}
-}
-
-// The parser calls this method to get each new token.
-func (x *lexer) Lex(yylval *qlSymType) int {
-	tok := x.scanner.Scan()
-
-	if tok == scanner.EOF {
-		return eof
-	}
-
-	txt := x.scanner.TokenText()
-	typ := TextToken
-
-	if txt == FormTokenText {
-		typ = FormToken
-	} else if txt == StringQuestionTokenText {
-		typ = StringQuestionToken
-	} else if txt == IntQuestionTokenText {
-		typ = IntQuestionToken
-	} else if txt == BoolQuestionTokenText {
-		typ = BoolQuestionToken
-	} else if txt == IfTokenText {
-		typ = IfToken
-	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" {
-		typ = int(txt[0])
-	} else if strings.HasPrefix(txt, singleQuotedChar) ||
-		strings.HasPrefix(txt, doubleQuotedChar) ||
-		strings.HasPrefix(txt, literalQuotedChar) {
-		typ = QuotedStringToken
-		txt = stripSurroundingQuotes(txt)
-	}
-
-	yylval.content = txt
-
-	return typ
-}
-
-// The parser calls this method on a parse error.
-func (x *lexer) Error(s string) {
-	log.Printf("parse error: %s", s)
-}
-
-// CompileQL generates a AST (*ast.Questionaire and children) out of source code.
-func CompileQL(code string) *ast.QuestionaireNode {
-	finalQuestionaire = nil
-	qlParse(newLexer(code))
-	return finalQuestionaire
-}
-
-func stripSurroundingQuotes(str string) string {
-	return str[1 : len(str)-1]
-}
 
 //line yacctab:1
 var qlExca = []int{
@@ -450,7 +362,7 @@ qldefault:
 	switch qlnt {
 
 	case 1:
-		//line parser.y:46
+		//line parser.y:44
 		{
 			if qlDebug > 0 {
 				log.Printf("Top: %+v", qlS[qlpt-0].questionaire)
@@ -458,7 +370,7 @@ qldefault:
 			finalQuestionaire = qlS[qlpt-0].questionaire
 		}
 	case 2:
-		//line parser.y:56
+		//line parser.y:54
 		{
 			if qlDebug > 0 {
 				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content,
@@ -470,7 +382,7 @@ qldefault:
 			}
 		}
 	case 4:
-		//line parser.y:70
+		//line parser.y:68
 		{
 			if qlDebug > 0 {
 				log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].stack,
@@ -485,7 +397,7 @@ qldefault:
 			qlVAL.stack = qs
 		}
 	case 5:
-		//line parser.y:84
+		//line parser.y:82
 		{
 			ifNode := qlS[qlpt-0].ifNode
 			qs := qlVAL.stack
@@ -496,7 +408,7 @@ qldefault:
 			qlVAL.stack = qs
 		}
 	case 6:
-		//line parser.y:97
+		//line parser.y:95
 		{
 			qlVAL.question = &ast.QuestionNode{
 				Label:      qlS[qlpt-2].content,

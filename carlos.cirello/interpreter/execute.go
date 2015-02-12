@@ -12,24 +12,39 @@ type execute struct {
 	symbolChan chan *symbolEvent
 }
 
-func (vst execute) QuestionaireNode(q *ast.QuestionaireNode) {
-	for _, actionNode := range q.Stack {
-		vst.ActionNode(actionNode)
+func (exec execute) Exec(node interface{}) {
+	switch t := node.(type) {
+	default:
+		log.Fatalf("unexpected execution node type. got: %T", t)
+	case *ast.QuestionaireNode:
+		exec.QuestionaireNode(node.(*ast.QuestionaireNode))
+	case *ast.ActionNode:
+		exec.ActionNode(node.(*ast.ActionNode))
+	case *ast.QuestionNode:
+		exec.QuestionNode(node.(*ast.QuestionNode))
+	case *ast.IfNode:
+		exec.IfNode(node.(*ast.IfNode))
 	}
 }
 
-func (vst execute) ActionNode(a *ast.ActionNode) {
+func (exec execute) QuestionaireNode(q *ast.QuestionaireNode) {
+	for _, actionNode := range q.Stack {
+		exec.Exec(actionNode)
+	}
+}
+
+func (exec execute) ActionNode(a *ast.ActionNode) {
 	if nil != a.QuestionNode {
-		vst.QuestionNode(a.QuestionNode)
+		exec.Exec(a.QuestionNode)
 	} else if nil != a.IfNode {
-		vst.IfNode(a.IfNode)
+		exec.Exec(a.IfNode)
 	} else {
 		log.Fatalf("Impossible ActionNode type or empty ActionNode. %#v", a)
 	}
 }
 
-func (vst execute) QuestionNode(q *ast.QuestionNode) {
-	vst.symbolChan <- &symbolEvent{
+func (exec execute) QuestionNode(q *ast.QuestionNode) {
+	exec.symbolChan <- &symbolEvent{
 		command: SymbolCreate,
 		name:    q.Identifier,
 		content: q,
@@ -37,7 +52,7 @@ func (vst execute) QuestionNode(q *ast.QuestionNode) {
 
 	if !q.Rendered {
 		questionCopy := q.Clone()
-		vst.toFrontend <- &frontend.Event{
+		exec.toFrontend <- &frontend.Event{
 			Type:     frontend.Render,
 			Question: questionCopy,
 		}
@@ -45,9 +60,9 @@ func (vst execute) QuestionNode(q *ast.QuestionNode) {
 	}
 }
 
-func (vst execute) IfNode(i *ast.IfNode) {
+func (exec execute) IfNode(i *ast.IfNode) {
 	ret := make(chan *ast.QuestionNode)
-	vst.symbolChan <- &symbolEvent{
+	exec.symbolChan <- &symbolEvent{
 		command: SymbolRead,
 		name:    i.Condition,
 		ret:     ret,
@@ -61,7 +76,7 @@ func (vst execute) IfNode(i *ast.IfNode) {
 	content := q.Content.(*ast.BoolQuestion)
 	if content.Value() {
 		for _, actionNode := range i.Stack {
-			vst.ActionNode(actionNode)
+			exec.Exec(actionNode)
 		}
 	} else {
 		log.Println("Please, nuke all the way down to turtles!")

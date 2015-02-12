@@ -18,7 +18,7 @@ state 1
 state 2
 	top:  questionaire.    (1)
 
-	.  reduce 1 (src line 44)
+	.  reduce 1 (src line 42)
 
 
 state 3
@@ -39,7 +39,7 @@ state 5
 	questionaire:  FormToken TextToken '{'.stack '}' 
 	stack: .    (3)
 
-	.  reduce 3 (src line 68)
+	.  reduce 3 (src line 66)
 
 	stack  goto 6
 
@@ -59,19 +59,19 @@ state 6
 state 7
 	questionaire:  FormToken TextToken '{' stack '}'.    (2)
 
-	.  reduce 2 (src line 54)
+	.  reduce 2 (src line 52)
 
 
 state 8
 	stack:  stack question.    (4)
 
-	.  reduce 4 (src line 69)
+	.  reduce 4 (src line 67)
 
 
 state 9
 	stack:  stack ifBlock.    (5)
 
-	.  reduce 5 (src line 83)
+	.  reduce 5 (src line 81)
 
 
 state 10
@@ -109,7 +109,7 @@ state 13
 state 14
 	question:  QuotedStringToken TextToken questionType.    (6)
 
-	.  reduce 6 (src line 95)
+	.  reduce 6 (src line 93)
 
 
 state 15
@@ -154,7 +154,7 @@ state 21
 	ifBlock:  IfToken '(' TextToken ')' '{'.stack '}' 
 	stack: .    (3)
 
-	.  reduce 3 (src line 68)
+	.  reduce 3 (src line 66)
 
 	stack  goto 22
 
