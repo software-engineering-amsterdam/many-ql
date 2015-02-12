@@ -1,4 +1,6 @@
-package com.form.language.node;
+package com.form.language.ast.math;
+
+import com.form.language.ast.AST;
 
 public class Multiplication implements AST {
 	private AST op1;

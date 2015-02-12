@@ -1,4 +1,4 @@
-package com.form.language.node;
+package com.form.language.ast;
 
 public interface AST {
 	int evaluate();
