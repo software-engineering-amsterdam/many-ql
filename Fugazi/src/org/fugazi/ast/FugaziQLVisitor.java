@@ -107,7 +107,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
         // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
         //STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText().toString();
+        String label = ctx.STRING().getText();
 
         QuestionStatement question = new QuestionStatement(type, label, identifier);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");

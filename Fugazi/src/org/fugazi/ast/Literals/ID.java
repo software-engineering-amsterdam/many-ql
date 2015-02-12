@@ -4,7 +4,7 @@ package org.fugazi.ast.Literals;
  * The identifier.
  */
 public class ID extends Literal {
-    
+
     private String name;
 
     public ID(String name) {

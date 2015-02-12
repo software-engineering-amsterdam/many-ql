@@ -36,7 +36,7 @@ public class ComputedQuestionStatement extends QuestionStatement {
 
     @Override
     public String toString() {
-        return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computedExpression;
+        return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computedExpression.toString();
     }
 
     @Override
