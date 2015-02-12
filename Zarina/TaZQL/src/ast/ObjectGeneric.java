@@ -1,4 +1,4 @@
-package ast;
+package AST;
 
 public class ObjectGeneric<T> {
 	
