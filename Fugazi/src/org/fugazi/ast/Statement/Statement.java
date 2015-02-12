@@ -22,5 +22,5 @@ public abstract class Statement extends ASTNode {
     public abstract String toString();
 
     // Accept visitor.
-    public abstract <T> T accept(StatementVisitor<T> visitor);
+    public abstract <T> T accept(IStatementVisitor<T> visitor);
 }

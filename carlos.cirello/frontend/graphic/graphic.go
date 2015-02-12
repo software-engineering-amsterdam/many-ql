@@ -11,33 +11,41 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-type msg struct {
-	Identifier string
-	Label      string
-	Type       string
+type renderAction int
+
+const (
+	renderQuestion renderAction = iota
+	nukeQuestion
+)
+
+type render struct {
+	action     renderAction
+	identifier string
+	label      string
+	fieldType  string
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
-	msgChan chan msg
-	appName string
+	renderEvent chan render
+	appName     string
 
 	mu          sync.Mutex
-	renderStack []msg
+	renderStack []render
 	answerStack map[string]string
-}
-
-type answer struct {
-	Identifier string
-	Content    string
+	sweepStack  map[string]bool
+	symbolTable map[string]qml.Object
 }
 
 // GUI creates the driver for Frontend process.
 func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
-		msgChan:     make(chan msg),
+		appName: appName,
+
+		renderEvent: make(chan render),
 		answerStack: make(map[string]string),
-		appName:     appName,
+		sweepStack:  make(map[string]bool),
+		symbolTable: make(map[string]qml.Object),
 	}
 	return driver
 }
@@ -47,12 +55,16 @@ func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	m := &msg{
-		q.Identifier,
-		q.Label,
-		q.Type(),
+	if _, ok := g.sweepStack[q.Identifier]; !ok {
+		m := &render{
+			renderQuestion,
+			q.Identifier,
+			q.Label,
+			q.Type(),
+		}
+		g.renderStack = append(g.renderStack, *m)
 	}
-	g.renderStack = append(g.renderStack, *m)
+	g.sweepStack[q.Identifier] = true
 }
 
 // Flush transfers form stack into the screen.
@@ -61,9 +73,22 @@ func (g *Gui) Flush() {
 	defer g.mu.Unlock()
 
 	for _, v := range g.renderStack {
-		g.msgChan <- v
+		g.renderEvent <- v
 	}
-	g.renderStack = []msg{}
+	g.renderStack = []render{}
+
+	for k, v := range g.sweepStack {
+		if !v {
+			nukeEvent := &render{
+				action:     nukeQuestion,
+				identifier: k,
+			}
+			g.renderEvent <- *nukeEvent
+			delete(g.sweepStack, k)
+		} else {
+			g.sweepStack[k] = false
+		}
+	}
 }
 
 // FetchAnswers unloads the current captured answers from user to Frontend
@@ -95,18 +120,25 @@ func (g *Gui) loop() error {
 func (g *Gui) addQuestionLoop(rows qml.Object) {
 	for {
 		select {
-		case event := <-g.msgChan:
-			g.addNewQuestion(
-				rows,
-				event.Type,
-				event.Identifier,
-				event.Label,
-			)
+		case event := <-g.renderEvent:
+			if renderQuestion == event.action {
+				qml.Lock()
+				g.addNewQuestion(
+					rows,
+					event.fieldType,
+					event.identifier,
+					event.label,
+				)
+				qml.Unlock()
+			} else if nukeQuestion == event.action {
+				qml.Lock()
+				g.deleteNewQuestion(rows, event.identifier)
+				qml.Unlock()
+			}
 		}
 	}
 }
 
-// todo(carlos) improve readability
 func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 	newFieldCaption string) {
 
@@ -121,6 +153,8 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
+
+	g.symbolTable[newFieldName] = question
 
 	newFieldPtr := question.ObjectByName(newFieldName)
 	// todo(carlos) improve readability
@@ -147,9 +181,11 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 			g.answerStack[objectName] = content
 		})
 	}
+}
 
-	// todo(carlos) Use this command to disappear with the question
-	// question.Destroy()
+func (g *Gui) deleteNewQuestion(rows qml.Object, fieldName string) {
+	g.symbolTable[fieldName].Destroy()
+	delete(g.symbolTable, fieldName)
 }
 
 func startQMLengine(appName string) qml.Object {

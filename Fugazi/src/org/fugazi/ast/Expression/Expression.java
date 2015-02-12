@@ -15,5 +15,5 @@ public abstract class Expression extends ASTNode {
     public abstract String toString();
 
     // Accept Visitor
-    public abstract <T> T accept(ExpressionVisitor<T> visitor);
+    public abstract <T> T accept(IExpressionVisitor<T> visitor);
 }

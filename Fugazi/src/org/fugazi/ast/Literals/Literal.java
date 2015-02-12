@@ -15,5 +15,5 @@ public abstract class Literal extends ASTNode {
     public abstract String toString();
     
     // Accept Visitor
-    public abstract <T> T accept(LiteralVisitor<T> visitor);
+    public abstract <T> T accept(ILiteralVisitor<T> visitor);
 }

@@ -17,6 +17,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterOr(@NotNull TaZQLParser.OrContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -84,18 +96,6 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAddSub(@NotNull TaZQLParser.AddSubContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParse(@NotNull TaZQLParser.ParseContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParse(@NotNull TaZQLParser.ParseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -28,10 +28,11 @@ public class TaZQLParser extends Parser {
 		"NEWLINE", "COMMENTS"
 	};
 	public static final int
-		RULE_parse = 0, RULE_formSection = 1, RULE_question = 2, RULE_expression = 3, 
+		RULE_questionnaire = 0, RULE_formSection = 1, RULE_question = 2, RULE_expression = 3, 
 		RULE_simpleQuestion = 4, RULE_computedQuestion = 5;
 	public static final String[] ruleNames = {
-		"parse", "formSection", "question", "expression", "simpleQuestion", "computedQuestion"
+		"questionnaire", "formSection", "question", "expression", "simpleQuestion", 
+		"computedQuestion"
 	};
 
 	@Override
@@ -53,33 +54,33 @@ public class TaZQLParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class ParseContext extends ParserRuleContext {
+	public static class QuestionnaireContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(TaZQLParser.EOF, 0); }
 		public FormSectionContext formSection() {
 			return getRuleContext(FormSectionContext.class,0);
 		}
-		public ParseContext(ParserRuleContext parent, int invokingState) {
+		public QuestionnaireContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_parse; }
+		@Override public int getRuleIndex() { return RULE_questionnaire; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterParse(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterQuestionnaire(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitParse(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitQuestionnaire(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitParse(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitQuestionnaire(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ParseContext parse() throws RecognitionException {
-		ParseContext _localctx = new ParseContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_parse);
+	public final QuestionnaireContext questionnaire() throws RecognitionException {
+		QuestionnaireContext _localctx = new QuestionnaireContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_questionnaire);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

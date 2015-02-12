@@ -9,6 +9,16 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface TaZQLListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link TaZQLParser#questionnaire}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TaZQLParser#questionnaire}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code or}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
@@ -78,16 +88,6 @@ public interface TaZQLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAddSub(@NotNull TaZQLParser.AddSubContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TaZQLParser#parse}.
-	 * @param ctx the parse tree
-	 */
-	void enterParse(@NotNull TaZQLParser.ParseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TaZQLParser#parse}.
-	 * @param ctx the parse tree
-	 */
-	void exitParse(@NotNull TaZQLParser.ParseContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ifStatement}
 	 * labeled alternative in {@link TaZQLParser#question}.

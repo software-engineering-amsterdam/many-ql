@@ -8,9 +8,22 @@ import (
 
 // New instantiates streams according to parameters input. As Unix convention,
 // "-" always means stdin/stdout.
-func New(inFn, outFn string) (inReader io.Reader, outWriter io.Writer) {
-	inReader = os.Stdin
-	if "-" != inFn {
+func New(srcFn, inFn, outFn string) (srcReader, inReader io.Reader, outWriter io.Writer) {
+	srcReader = os.Stdin
+	if "-" != srcFn {
+		if _, err := os.Stat(srcFn); os.IsNotExist(err) {
+			log.Fatalln("Input file does not exist: ", err)
+		}
+
+		reader, err := os.Open(srcFn)
+		if nil != err {
+			log.Fatalln("Error reading input file: ", err)
+		}
+		srcReader = reader
+	}
+
+	inReader = nil
+	if "" != inFn {
 		if _, err := os.Stat(inFn); os.IsNotExist(err) {
 			log.Fatalln("Input file does not exist: ", err)
 		}
@@ -31,5 +44,5 @@ func New(inFn, outFn string) (inReader io.Reader, outWriter io.Writer) {
 		outWriter = writer
 	}
 
-	return inReader, outWriter
+	return srcReader, inReader, outWriter
 }
