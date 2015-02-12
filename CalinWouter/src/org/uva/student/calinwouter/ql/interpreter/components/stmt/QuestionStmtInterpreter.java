@@ -42,17 +42,17 @@ public class QuestionStmtInterpreter implements TypeCallback {
 
     @Override
     public void callbackBoolean() {
-        createFormElement(new BooleanQuestionStmtInterpreter(jPanel, formInterpreter, node).interprete());
+        createFormElement(new BooleanQuestionStmtInterpreter(formInterpreter, node).interprete());
     }
 
     @Override
     public void callbackInteger() {
-        createFormElement(new IntegerQuestionStmtInterpreter(jPanel, formInterpreter, node).interprete());
+        createFormElement(new IntegerQuestionStmtInterpreter(formInterpreter, node).interprete());
     }
 
     @Override
     public void callbackString() {
-        createFormElement(new StringQuestionStmtInterpreter(jPanel, formInterpreter, node).interprete());
+        createFormElement(new StringQuestionStmtInterpreter(formInterpreter, node).interprete());
     }
 
     public QuestionStmtInterpreter(JPanel jPanel, FormInterpreter formInterpreter, AQuestionStmt node) {

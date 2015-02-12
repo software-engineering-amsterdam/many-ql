@@ -1,13 +1,10 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
 import org.uva.student.calinwouter.ql.generated.analysis.AnalysisAdapter;
-import org.uva.student.calinwouter.ql.generated.analysis.DepthFirstAdapter;
 import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.interpreter.components.types.TBool;
 import org.uva.student.calinwouter.ql.interpreter.components.types.TInteger;
 import org.uva.student.calinwouter.ql.interpreter.components.types.TypeModel;
-
-import java.util.Map;
 
 public class ExpInterpreter extends AnalysisAdapter {
     private TypeModel<?> value;

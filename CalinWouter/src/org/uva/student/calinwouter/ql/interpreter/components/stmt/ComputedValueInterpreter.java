@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.ql.interpreter.components.stmt;
 
-import org.uva.student.calinwouter.ql.generated.node.AQuestionStmt;
 import org.uva.student.calinwouter.ql.generated.node.AValueStmt;
 import org.uva.student.calinwouter.ql.interpreter.components.ExpInterpreter;
 import org.uva.student.calinwouter.ql.interpreter.components.FormInterpreter;

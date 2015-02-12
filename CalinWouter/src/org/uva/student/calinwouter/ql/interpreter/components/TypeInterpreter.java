@@ -4,8 +4,6 @@ import org.uva.student.calinwouter.ql.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.ql.generated.node.ABoolType;
 import org.uva.student.calinwouter.ql.generated.node.AIntType;
 import org.uva.student.calinwouter.ql.generated.node.AStringType;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TBool;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TypeModel;
 
 public class TypeInterpreter extends AnalysisAdapter {
 

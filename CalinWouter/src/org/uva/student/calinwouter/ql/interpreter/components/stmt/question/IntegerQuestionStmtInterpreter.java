@@ -3,9 +3,6 @@ package org.uva.student.calinwouter.ql.interpreter.components.stmt.question;
 import org.uva.student.calinwouter.ql.generated.node.AQuestionStmt;
 import org.uva.student.calinwouter.ql.interpreter.components.FormInterpreter;
 import org.uva.student.calinwouter.ql.interpreter.components.types.TInteger;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TString;
-
-import javax.swing.*;
 
 public class IntegerQuestionStmtInterpreter extends StringQuestionStmtInterpreter {
 
@@ -19,7 +16,7 @@ public class IntegerQuestionStmtInterpreter extends StringQuestionStmtInterprete
         }
     }
 
-    public IntegerQuestionStmtInterpreter(JPanel jPanel, FormInterpreter formInterpreter, AQuestionStmt node) {
-        super(jPanel, formInterpreter, node);
+    public IntegerQuestionStmtInterpreter(FormInterpreter formInterpreter, AQuestionStmt node) {
+        super(formInterpreter, node);
     }
 }

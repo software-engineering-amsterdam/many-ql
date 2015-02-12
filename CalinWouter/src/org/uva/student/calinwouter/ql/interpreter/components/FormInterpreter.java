@@ -14,7 +14,6 @@ import java.util.Map;
 public class FormInterpreter extends AnalysisAdapter {
 
     private JFrame frame;
-    private JScrollPane jScrollPane;
     private Map<String, TypeModel<?>> variableMap;
     private LinkedList<PStmt> stmts;
 
@@ -32,16 +31,15 @@ public class FormInterpreter extends AnalysisAdapter {
 
     private void createFormContent() {
         JPanel panel = new JPanel();
-        jScrollPane = new JScrollPane();
+        JScrollPane jScrollPane = new JScrollPane();
         panel.setLayout(new GridBagLayout());
         for (PStmt stmt : stmts) {
             stmt.apply(new StmtInterpreter(panel, this));
         }
+        jScrollPane.getViewport().add(panel);
         frame.setContentPane(jScrollPane);
         frame.setPreferredSize(new Dimension(640, 480));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        jScrollPane.getViewport().add(panel);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }

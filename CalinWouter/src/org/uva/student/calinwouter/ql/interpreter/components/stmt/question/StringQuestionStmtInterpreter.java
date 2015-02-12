@@ -12,7 +12,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 public class StringQuestionStmtInterpreter {
-    final JPanel jPanel;
     final FormInterpreter formInterpreter;
     final AQuestionStmt node;
 
@@ -50,8 +49,7 @@ public class StringQuestionStmtInterpreter {
         return false;
     }
 
-    public StringQuestionStmtInterpreter(JPanel jPanel, FormInterpreter formInterpreter, AQuestionStmt node) {
-        this.jPanel = jPanel;
+    public StringQuestionStmtInterpreter(FormInterpreter formInterpreter, AQuestionStmt node) {
         this.formInterpreter = formInterpreter;
         this.node = node;
     }

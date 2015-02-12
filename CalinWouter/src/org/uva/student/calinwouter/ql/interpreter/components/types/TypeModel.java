@@ -6,6 +6,7 @@ public abstract class TypeModel<T> {
 
     private final T value;
 
+    // TODO create exception class...
     private String createTypeCheckException(String method, Class<?>... classes) throws InterpretationException {
         StringBuilder sb = new StringBuilder();
         sb.append("Cannot call '");

@@ -7,7 +7,7 @@ public class TString extends TypeModel<String> {
     @Override
     public TypeModel<?> add(TypeModel<?> typeModel) throws InterpretationException {
         if (typeModel.getTypeModelClass() == String.class)
-            return new TString(getValue() + (String) typeModel.getValue());
+            return new TString(getValue() + typeModel.getValue());
         return super.add(typeModel);
     }
 

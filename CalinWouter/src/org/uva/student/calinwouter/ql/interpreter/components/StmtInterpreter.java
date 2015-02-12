@@ -5,18 +5,12 @@ import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.interpreter.components.stmt.ComputedValueInterpreter;
 import org.uva.student.calinwouter.ql.interpreter.components.stmt.QuestionStmtInterpreter;
 import org.uva.student.calinwouter.ql.interpreter.components.types.TBool;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TypeModel;
 
 import javax.swing.*;
-import java.util.Map;
 
 public class StmtInterpreter extends AnalysisAdapter {
     private JPanel jPanel;
     private FormInterpreter formInterpreter;
-
-    private void update(String ident, TypeModel<?> value) {
-        formInterpreter.setField(ident, value);
-    }
 
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
