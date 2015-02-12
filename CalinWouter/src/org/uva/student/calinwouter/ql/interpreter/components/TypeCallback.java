@@ -1,11 +1,14 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
-public interface TypeCallback {
+/**
+ * This interface provides callback methods for specific types.
+ */
+public interface TypeCallback<T> {
 
-    void callbackBoolean();
+    void usesBoolean();
 
-    void callbackInteger();
+    void usesInteger();
 
-    void callbackString();
+    void usesString();
 
 }

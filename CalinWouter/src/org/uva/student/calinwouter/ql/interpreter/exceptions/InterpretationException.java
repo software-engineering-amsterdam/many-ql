@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.ql.interpreter.components;
+package org.uva.student.calinwouter.ql.interpreter.exceptions;
 
 public class InterpretationException extends RuntimeException {
 

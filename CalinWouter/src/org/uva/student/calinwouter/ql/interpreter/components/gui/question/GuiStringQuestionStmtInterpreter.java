@@ -1,8 +1,8 @@
-package org.uva.student.calinwouter.ql.interpreter.components.stmt.question;
+package org.uva.student.calinwouter.ql.interpreter.components.gui.question;
 
 import org.uva.student.calinwouter.ql.generated.node.AQuestionStmt;
 import org.uva.student.calinwouter.ql.interpreter.components.FormInterpreter;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TString;
+import org.uva.student.calinwouter.ql.interpreter.types.TString;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class StringQuestionStmtInterpreter {
+public class GuiStringQuestionStmtInterpreter {
     final FormInterpreter formInterpreter;
     final AQuestionStmt node;
 
-    public Component interprete() {
+    public Component interpret() {
         final JTextField jTextField = new JTextField();
         jTextField.setText(formInterpreter.getField(node.getIdent().getText()) != null
                 ? formInterpreter.getField(node.getIdent().getText()).toString()
@@ -49,7 +49,7 @@ public class StringQuestionStmtInterpreter {
         return false;
     }
 
-    public StringQuestionStmtInterpreter(FormInterpreter formInterpreter, AQuestionStmt node) {
+    public GuiStringQuestionStmtInterpreter(FormInterpreter formInterpreter, AQuestionStmt node) {
         this.formInterpreter = formInterpreter;
         this.node = node;
     }

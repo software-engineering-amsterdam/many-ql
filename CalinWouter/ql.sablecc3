@@ -86,25 +86,29 @@ Productions
         ;
 
     exp {-> exp}
-        = {add}		[left]:exp add [right]:factor		{-> New exp.add(left, right.exp)}
-        | {sub}		[left]:exp sub [right]:factor		{-> New exp.sub(left, right.exp)}
-        | {cmp}		cmp					                {-> cmp.exp}
-        | {logical}	logical			            		{-> logical.exp}
-        ;
-
-    cmp {-> exp}
-        = {eq}		[left]:cmp teq [right]:logical		{-> New exp.eq(left.exp, right.exp)}
-        | {neq}		[left]:cmp tneq [right]:logical		{-> New exp.neq(left.exp, right.exp)}
-        | {lt}		[left]:cmp tlt [right]:logical		{-> New exp.lt(left.exp, right.exp)}
-        | {gt}		[left]:cmp tgt [right]:logical		{-> New exp.gt(left.exp, right.exp)}
-        | {lte}		[left]:cmp tlte [right]:logical		{-> New exp.lte(left.exp, right.exp)}
-        | {gte}		[left]:cmp tgte [right]:logical		{-> New exp.gte(left.exp, right.exp)}
+        = {logical}	logical			            		{-> logical.exp}
         ;
 
     logical {-> exp}
-        = {or}		[left]:logical or [right]:factor	{-> New exp.or(left.exp, right.exp)}
-        | {and}		[left]:logical and [right]:factor	{-> New exp.and(left.exp, right.exp)}
-        | {factor}	factor					            {-> factor.exp}
+        = {or}		[left]:logical or [right]:cmp   	{-> New exp.or(left.exp, right.exp)}
+        | {and}		[left]:logical and [right]:cmp	    {-> New exp.and(left.exp, right.exp)}
+        | {cmp}	    cmp 					            {-> cmp.exp}
+        ;
+
+    cmp {-> exp}
+        = {eq}		[left]:factor teq [right]:addend	{-> New exp.eq(left.exp, right.exp)}
+        | {neq}		[left]:factor tneq [right]:addend   {-> New exp.neq(left.exp, right.exp)}
+        | {lt}		[left]:factor tlt [right]:addend    {-> New exp.lt(left.exp, right.exp)}
+        | {gt}		[left]:factor tgt [right]:addend	{-> New exp.gt(left.exp, right.exp)}
+        | {lte}		[left]:factor tlte [right]:addend	{-> New exp.lte(left.exp, right.exp)}
+        | {gte}		[left]:factor tgte [right]:addend	{-> New exp.gte(left.exp, right.exp)}
+        | {addend}	addend					            {-> addend.exp}
+        ;
+
+    addend {-> exp}
+        = {add}		[left]:addend add [right]:factor	{-> New exp.add(left.exp, right.exp)}
+        | {sub}		[left]:addend sub [right]:factor	{-> New exp.sub(left.exp, right.exp)}
+        | {factor}  factor                              {-> factor.exp}
         ;
 
     factor {-> exp}
