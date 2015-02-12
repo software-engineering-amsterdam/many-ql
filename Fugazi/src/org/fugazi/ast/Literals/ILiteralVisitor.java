@@ -1,7 +1,7 @@
 package org.fugazi.ast.Literals;
 
 /**
- * Generic Visitor class for Literals.
+ * Generic Visitor interface for Literals.
  * @param <T>
  */
 public interface ILiteralVisitor<T> {

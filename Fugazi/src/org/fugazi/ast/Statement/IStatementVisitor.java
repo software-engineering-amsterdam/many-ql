@@ -1,7 +1,7 @@
 package org.fugazi.ast.Statement;
 
 /**
- * Generic Visitor class for Statements.
+ * Generic Visitor interface for Statements.
  * @param <T>
  */
 public interface IStatementVisitor<T> {

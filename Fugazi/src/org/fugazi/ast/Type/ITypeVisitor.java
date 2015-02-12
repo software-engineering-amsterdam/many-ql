@@ -1,10 +1,10 @@
 package org.fugazi.ast.Type;
 
 /**
- * Generic Visitor class for types.
+ * Generic Visitor interface for types.
  * @param <T>
  */
-public interface TypeVisitor<T> {
+public interface ITypeVisitor<T> {
 
     public T visit(BoolType boolType);
     public T visit(IntType intType);
