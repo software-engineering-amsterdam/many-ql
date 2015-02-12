@@ -1,49 +1,37 @@
 package ast;
 
-public class Question {
-	private ID questionID;
-	private ID questionText;
-	private ID questionType;
+import ast.type.Id;
+import ast.type.Text;
+import ast.type.Type;
+
+public abstract class Question extends FormSection {
+	private Id questionID;
+	private Text questionText;
+	private Type questionType;
 	
 	
-	public Question (ID questionID, ID questionText, ID questionType) {
+	public Question (Id questionID, Text questionText, Type questionType) {
 		this.questionID = questionID;
 		this.questionText = questionText;
 		this.questionType = questionType;
 	}	
 	
-	public ID getQuestionId(){
+	public Id getQuestionId(){
 		return questionID;
 	}
 	
-	public ID getQuestionText(){
+	public Text getQuestionText(){
 		return questionText;
 	}
 	
-	public ID getQuestionType(){
+	public Type getQuestionType(){
 		return questionType;
 	}
 	
-	public void setQuesionId(ID questionID) {
-		this.questionID = questionID;
-	}
-	
-	public void setQuesionText(ID questionText) {
-		this.questionText = questionText;
-	}
-	
-	public void setQuesionType(ID questionType) {
-		this.questionType = questionType;
-	}
-	/*
-	@Override
-	public String toString() {
-		return (this.questionID + this.questionText + this.questionType);
-	}
 	
 	@Override
 	public <T> T accept(IMainVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	*/
+	
 }
