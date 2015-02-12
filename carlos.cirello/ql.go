@@ -16,7 +16,6 @@ func main() {
 
 	inReader, outWriter := stream.New(inFn, outFn)
 	codeBuf := reader.New(inReader)
-	csvWriter := output.New(outWriter)
 
 	code := codeBuf.Read()
 	aQuestionaire := compiler.CompileQL(code)
@@ -26,5 +25,6 @@ func main() {
 	frontend.New(fromInterpreter, toInterpreter, driver)
 	driver.Loop()
 
-	csvWriter.Write(aQuestionaire)
+	csvWriter := output.New(fromInterpreter, toInterpreter, outWriter)
+	csvWriter.Write()
 }
