@@ -1,5 +1,5 @@
 //line parser.y:2
-package compiler
+package parser
 
 import __yyfmt__ "fmt"
 

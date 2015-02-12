@@ -1,9 +1,9 @@
-package compiler
+package parser
 
 import "testing"
 
 func TestBasic(t *testing.T) {
-	form := CompileQL(
+	form := ReadQL(
 		`form SomeForm {
 			"QuestionLabel" question1 string
 			"QuestionLabel2" question2 integer
@@ -17,7 +17,7 @@ func TestBasic(t *testing.T) {
 }
 
 func TestComments(t *testing.T) {
-	form := CompileQL(
+	form := ReadQL(
 		`form SomeForm {
 			"QuestionLabel" question1 string
 			//"QuestionLabel2" question2 integer

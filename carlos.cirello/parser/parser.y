@@ -1,6 +1,6 @@
 %{
 
-package compiler
+package parser
 
 import (
 	"log"
