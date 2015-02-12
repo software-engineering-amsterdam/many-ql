@@ -4,15 +4,14 @@ import (
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
 
-type execute struct {
-	toFrontend chan *frontend.Event
+type Execute struct {
+	toFrontend chan *Event
 	symbolChan chan *symbolEvent
 }
 
-func (exec execute) Exec(node interface{}) {
+func (exec Execute) Exec(node interface{}) {
 	switch t := node.(type) {
 	default:
 		log.Fatalf("unexpected execution node type. got: %T", t)
@@ -27,13 +26,13 @@ func (exec execute) Exec(node interface{}) {
 	}
 }
 
-func (exec execute) QuestionaireNode(q *ast.QuestionaireNode) {
+func (exec Execute) QuestionaireNode(q *ast.QuestionaireNode) {
 	for _, actionNode := range q.Stack {
 		exec.Exec(actionNode)
 	}
 }
 
-func (exec execute) ActionNode(a *ast.ActionNode) {
+func (exec Execute) ActionNode(a *ast.ActionNode) {
 	if nil != a.QuestionNode {
 		exec.Exec(a.QuestionNode)
 	} else if nil != a.IfNode {
@@ -43,7 +42,7 @@ func (exec execute) ActionNode(a *ast.ActionNode) {
 	}
 }
 
-func (exec execute) QuestionNode(q *ast.QuestionNode) {
+func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 	exec.symbolChan <- &symbolEvent{
 		command: SymbolCreate,
 		name:    q.Identifier,
@@ -51,13 +50,13 @@ func (exec execute) QuestionNode(q *ast.QuestionNode) {
 	}
 
 	questionCopy := q.Clone()
-	exec.toFrontend <- &frontend.Event{
-		Type:     frontend.Render,
+	exec.toFrontend <- &Event{
+		Type:     Render,
 		Question: questionCopy,
 	}
 }
 
-func (exec execute) IfNode(i *ast.IfNode) {
+func (exec Execute) IfNode(i *ast.IfNode) {
 	ret := make(chan *ast.QuestionNode)
 	exec.symbolChan <- &symbolEvent{
 		command: SymbolRead,
