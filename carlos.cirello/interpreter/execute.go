@@ -50,13 +50,10 @@ func (exec execute) QuestionNode(q *ast.QuestionNode) {
 		content: q,
 	}
 
-	if !q.Rendered {
-		questionCopy := q.Clone()
-		exec.toFrontend <- &frontend.Event{
-			Type:     frontend.Render,
-			Question: questionCopy,
-		}
-		q.Rendered = true
+	questionCopy := q.Clone()
+	exec.toFrontend <- &frontend.Event{
+		Type:     frontend.Render,
+		Question: questionCopy,
 	}
 }
 
@@ -78,7 +75,5 @@ func (exec execute) IfNode(i *ast.IfNode) {
 		for _, actionNode := range i.Stack {
 			exec.Exec(actionNode)
 		}
-	} else {
-		log.Println("Please, nuke all the way down to turtles!")
 	}
 }
