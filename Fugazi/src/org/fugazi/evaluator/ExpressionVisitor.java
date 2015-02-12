@@ -8,7 +8,7 @@ import org.fugazi.ast.Expression.*;
  * Implementation of the expression Visitor.
  */
 public class ExpressionVisitor implements IExpressionVisitor <ASTNode> {
-    // TODO: Not ASTNode?
+    // TODO: Not ASTNode? -> (<abstract>Result) maybe
 
     /**
      * =================
