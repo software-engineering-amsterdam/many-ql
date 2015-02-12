@@ -7,7 +7,7 @@
 
 /**
  * Last Modification date : 03-11-2003
- * Remove the checking of question mark and + operator
+ * Remove the checking of stmt mark and + operator
  * for production tranformations
  * I've commented out the method
  * public void caseAProd(AProd node) { ... }

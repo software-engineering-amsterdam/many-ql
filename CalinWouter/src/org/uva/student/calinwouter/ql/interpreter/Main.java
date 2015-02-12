@@ -1,12 +1,11 @@
 package org.uva.student.calinwouter.ql.interpreter;
 
 import org.uva.student.calinwouter.ql.generated.lexer.Lexer;
+import org.uva.student.calinwouter.ql.generated.node.AForm;
 import org.uva.student.calinwouter.ql.generated.node.AFormBegin;
 import org.uva.student.calinwouter.ql.generated.node.Start;
 import org.uva.student.calinwouter.ql.generated.parser.Parser;
-import org.uva.student.calinwouter.ql.interpreter.components.AFormInterpreter;
-import org.uva.student.calinwouter.ql.interpreter.components.InterpretationException;
-import org.uva.student.calinwouter.ql.interpreter.model.Environment;
+import org.uva.student.calinwouter.ql.interpreter.components.FormInterpreter;
 
 import java.io.PushbackReader;
 import java.io.StringReader;
@@ -28,12 +27,9 @@ public class Main {
         Parser parser = new Parser(lexer);
         try {
             Start ast = parser.parse();
-            // TODO assumes form.
-            try {
-                new AFormInterpreter().interprete(new Environment(), ((AFormBegin) ast.getPBegin()).getForm());
-            }catch(InterpretationException intE){
-                intE.printStackTrace();
-            }
+            AForm form = (AForm) ((AFormBegin) ast.getPBegin()).getForm();
+            FormInterpreter formInterpreter = new FormInterpreter();
+            form.apply(formInterpreter);
         } catch(Exception e) {
             e.printStackTrace();
         }

@@ -93,24 +93,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseASingleStmtlist(ASingleStmtlist node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAMultiStmtlist(AMultiStmtlist node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseASingleStmt(ASingleStmt node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAQuestionStmt(AQuestionStmt node)
     {
         defaultCase(node);
@@ -238,12 +220,6 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAModExp(AModExp node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAParenExp(AParenExp node)
     {
         defaultCase(node);
     }

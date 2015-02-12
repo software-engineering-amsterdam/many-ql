@@ -92,82 +92,19 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAForm(AForm node)
     {
         inAForm(node);
-        if(node.getStmtlist() != null)
         {
-            node.getStmtlist().apply(this);
+            List<PStmt> copy = new ArrayList<PStmt>(node.getStmt());
+            Collections.reverse(copy);
+            for(PStmt e : copy)
+            {
+                e.apply(this);
+            }
         }
         if(node.getIdent() != null)
         {
             node.getIdent().apply(this);
         }
         outAForm(node);
-    }
-
-    public void inASingleStmtlist(ASingleStmtlist node)
-    {
-        defaultIn(node);
-    }
-
-    public void outASingleStmtlist(ASingleStmtlist node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseASingleStmtlist(ASingleStmtlist node)
-    {
-        inASingleStmtlist(node);
-        if(node.getHead() != null)
-        {
-            node.getHead().apply(this);
-        }
-        outASingleStmtlist(node);
-    }
-
-    public void inAMultiStmtlist(AMultiStmtlist node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAMultiStmtlist(AMultiStmtlist node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAMultiStmtlist(AMultiStmtlist node)
-    {
-        inAMultiStmtlist(node);
-        if(node.getTail() != null)
-        {
-            node.getTail().apply(this);
-        }
-        if(node.getHead() != null)
-        {
-            node.getHead().apply(this);
-        }
-        outAMultiStmtlist(node);
-    }
-
-    public void inASingleStmt(ASingleStmt node)
-    {
-        defaultIn(node);
-    }
-
-    public void outASingleStmt(ASingleStmt node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseASingleStmt(ASingleStmt node)
-    {
-        inASingleStmt(node);
-        if(node.getHead() != null)
-        {
-            node.getHead().apply(this);
-        }
-        outASingleStmt(node);
     }
 
     public void inAQuestionStmt(AQuestionStmt node)
@@ -246,13 +183,21 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAIfelseStmt(AIfelseStmt node)
     {
         inAIfelseStmt(node);
-        if(node.getElsestmts() != null)
         {
-            node.getElsestmts().apply(this);
+            List<PStmt> copy = new ArrayList<PStmt>(node.getElseStmtList());
+            Collections.reverse(copy);
+            for(PStmt e : copy)
+            {
+                e.apply(this);
+            }
         }
-        if(node.getIfstmts() != null)
         {
-            node.getIfstmts().apply(this);
+            List<PStmt> copy = new ArrayList<PStmt>(node.getThenStmtList());
+            Collections.reverse(copy);
+            for(PStmt e : copy)
+            {
+                e.apply(this);
+            }
         }
         if(node.getExp() != null)
         {
@@ -275,9 +220,13 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAIfStmt(AIfStmt node)
     {
         inAIfStmt(node);
-        if(node.getIfstmts() != null)
         {
-            node.getIfstmts().apply(this);
+            List<PStmt> copy = new ArrayList<PStmt>(node.getThenStmtList());
+            Collections.reverse(copy);
+            for(PStmt e : copy)
+            {
+                e.apply(this);
+            }
         }
         if(node.getExp() != null)
         {
@@ -694,27 +643,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getLeft().apply(this);
         }
         outAModExp(node);
-    }
-
-    public void inAParenExp(AParenExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAParenExp(AParenExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAParenExp(AParenExp node)
-    {
-        inAParenExp(node);
-        if(node.getExp() != null)
-        {
-            node.getExp().apply(this);
-        }
-        outAParenExp(node);
     }
 
     public void inANotExp(ANotExp node)
