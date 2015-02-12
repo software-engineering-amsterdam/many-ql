@@ -3,70 +3,46 @@ grammar Grammar;
 @header
 {
 	import com.form.language.ast.*;
-	import com.form.language.ast.math.*;	
+	import com.form.language.ast.expression.*;
+	import com.form.language.ast.expression.math.*;	
+	import com.form.language.ast.values.*;
 }
 
-syntaxtree returns [AST ast]
-: expression {$ast = $expression.ast; }
+syntaxtree returns [PrimitiveExpression pExp]
+: expression {$pExp = $expression.pExp; }
 ;
 
-term returns [AST ast]
-	:	IDENT {$ast = new IntValue(0);}
-	|	'(' expression ')' {$ast = $expression.ast;}
-	|	INTEGER {$ast = new IntValue(Integer.parseInt($INTEGER.text));}
+term returns [PrimitiveExpression pExp]
+	:	IDENT {$pExp = new IntLiteral(0);}
+	|	'(' expression ')' {$pExp = $expression.pExp;}
+	|	INTEGER {$pExp = new IntLiteral(Integer.parseInt($INTEGER.text));}
 	;
 	
-unary returns [AST ast]
+unary returns [PrimitiveExpression pExp]
 	: 	{boolean positive = true; }	
 		('+' | '-' {positive = !positive; })* term
 		{
-			$ast = $term.ast; 
+			$pExp = $term.pExp; 
 			if (!positive)
-				$ast = new Negation($ast);
+				$pExp = new Negation($pExp);
 		}
 	;
 
-mult returns [AST ast]
-	:	op1=unary {$ast = $op1.ast; }
-		( '*' op2=unary {$ast = new Multiplication($ast, $op2.ast);}
-		| '/' op2=unary {$ast = new Division($ast, $op2.ast);}
-		| 'mod' op2=unary {$ast = new Modulus($ast, $op2.ast);}
+mult returns [PrimitiveExpression pExp]
+	:	op1=unary {$pExp = $op1.pExp; }
+		( '*' op2=unary {$pExp = new Multiplication($pExp, $op2.pExp);}
+		| '/' op2=unary {$pExp = new Division($pExp, $op2.pExp);}
+		| 'mod' op2=unary {$pExp = new Modulus($pExp, $op2.pExp);}
 		)*
 	;
 	
-expression returns [AST ast]
-	:	op1=mult {$ast = $op1.ast; }
-	 	(	'-' op2=unary {$ast = new Substraction($ast, $op2.ast);}
-		| 	'+' op2=unary {$ast = new Addition($ast, $op2.ast);}
+expression returns [PrimitiveExpression pExp]
+	:	op1=mult {$pExp = $op1.pExp; }
+	 	(	'-' op2=unary {$pExp = new Substraction($pExp, $op2.pExp);}
+		| 	'+' op2=unary {$pExp = new Addition($pExp, $op2.pExp);}
 		)*
 	;
 
-relExpr returns [AST ast]
-    :   lhs=expression { $ast = $lhs.ast; } 
-    ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=expression 
-    { 
-      if ($op.text.equals("<")) {
-        $ast = new LessThen($ast, rhs);
-      }
-      if ($op.text.equals("<=")) {
-        $ast = new LessOrEqualThen($ast, rhs);      
-      }
-      if ($op.text.equals(">")) {
-        $ast = new GreaterThen($ast, rhs);
-      }
-      if ($op.text.equals(">=")) {
-        $ast = new GreaterOrEqualThen($ast, rhs);      
-      }
-      if ($op.text.equals("==")) {
-        $ast = new Equal($ast, rhs);
-      }
-      if ($op.text.equals("!=")) {
-        $ast = new NotEqual($ast, rhs);
-      }
-    })*
-    ;	
-
-	
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
