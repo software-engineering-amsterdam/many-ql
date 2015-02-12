@@ -3,7 +3,7 @@ package uva.TaxForm;
 import uva.TaxForm.antlr4.TaxFormBaseListener;
 import uva.TaxForm.antlr4.TaxFormParser;
 
-public class MyTaxFormListener extends TaxFormBaseListener {
+public class CommonTaxFormListener extends TaxFormBaseListener {
 	
 	public void enterForm(TaxFormParser.FormContext ctx) {
 		
