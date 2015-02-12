@@ -3,6 +3,18 @@
 from ast import *
 
 class ASTReady:
+    def sub_expression(tokens):
+        e = ""
+        for token in tokens:
+            if isinstance(token, list):
+                e += "(" + ASTReady.sub_expression(token) + ")"
+            else:
+                e += str(token)
+        return e  
+        
+    def make_expression(tokens):
+        return Expression(ASTReady.sub_expression(tokens.asList())) 
+
     def make_question(tokens):
         number = tokens[0]
         question = tokens[1]
@@ -11,7 +23,6 @@ class ASTReady:
         
     def make_if(tokens):
         condition = tokens[0]
-        print(condition)
         questions = []
         for i in range(1, len(tokens)):
             questions.append(tokens[i])
