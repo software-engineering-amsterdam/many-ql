@@ -64,7 +64,6 @@ func (v *interpreter) loop() {
 	v.send <- &Event{
 		Type: ReadyP,
 	}
-
 	for {
 		select {
 		case r := <-v.receive:
