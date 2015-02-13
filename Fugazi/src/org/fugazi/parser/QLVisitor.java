@@ -65,12 +65,26 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntType(@NotNull QLParser.IntTypeContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code stringType}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringType(@NotNull QLParser.StringTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code logicalOrExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code stringExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringExpression(@NotNull QLParser.StringExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code parenthesisExpression}
 	 * labeled alternative in {@link QLParser#expression}.
