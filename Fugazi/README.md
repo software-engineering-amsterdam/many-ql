@@ -214,7 +214,7 @@ Supported types:
 - int
 - money
 
-### The calculated questions
+### The computed questions
 
 ```
 <question_type> <question_name>(<question_label>) = <assignment_expression>
