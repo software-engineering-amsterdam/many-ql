@@ -15,7 +15,7 @@ func main() {
 	srcFn, inFn, outFn := cli.Args()
 
 	srcReader, inReader, outWriter := stream.New(srcFn, inFn, outFn)
-	aQuestionaire := parser.ReadQL(srcReader)
+	aQuestionaire := parser.ReadQL(srcReader, srcFn)
 	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)
 
 	if inReader != nil {

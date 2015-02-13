@@ -15,8 +15,8 @@ import (
 )
 
 // ReadQL generates a AST (*ast.Questionaire and children) out of source code.
-func ReadQL(stream io.Reader) *ast.QuestionaireNode {
+func ReadQL(stream io.Reader, fn string) *ast.QuestionaireNode {
 	finalQuestionaire = nil
-	qlParse(newLexer(stream))
+	qlParse(newLexer(stream, fn))
 	return finalQuestionaire
 }

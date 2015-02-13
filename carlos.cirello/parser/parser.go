@@ -5,7 +5,9 @@ import __yyfmt__ "fmt"
 
 //line parser.y:3
 import (
+	"fmt"
 	"log"
+	"text/scanner"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
@@ -14,15 +16,18 @@ var finalQuestionaire *ast.QuestionaireNode
 
 //Top Ends Here
 
-//line parser.y:18
+//line parser.y:20
 type qlSymType struct {
-	yys          int
-	content      string
+	yys     int
+	content string
+
 	questionaire *ast.QuestionaireNode
 	stack        []*ast.ActionNode
 	question     *ast.QuestionNode
 	questionType ast.Parser
 	ifNode       *ast.IfNode
+
+	position scanner.Position
 }
 
 const BlockBeginToken = 57346
@@ -56,7 +61,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:134
+//line parser.y:139
 
 //line yacctab:1
 var qlExca = []int{
@@ -362,7 +367,7 @@ qldefault:
 	switch qlnt {
 
 	case 1:
-		//line parser.y:44
+		//line parser.y:49
 		{
 			if qlDebug > 0 {
 				log.Printf("Top: %+v", qlS[qlpt-0].questionaire)
@@ -370,7 +375,7 @@ qldefault:
 			finalQuestionaire = qlS[qlpt-0].questionaire
 		}
 	case 2:
-		//line parser.y:54
+		//line parser.y:59
 		{
 			if qlDebug > 0 {
 				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content,
@@ -382,7 +387,7 @@ qldefault:
 			}
 		}
 	case 4:
-		//line parser.y:68
+		//line parser.y:73
 		{
 			if qlDebug > 0 {
 				log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].stack,
@@ -397,7 +402,7 @@ qldefault:
 			qlVAL.stack = qs
 		}
 	case 5:
-		//line parser.y:82
+		//line parser.y:87
 		{
 			ifNode := qlS[qlpt-0].ifNode
 			qs := qlVAL.stack
@@ -408,7 +413,7 @@ qldefault:
 			qlVAL.stack = qs
 		}
 	case 6:
-		//line parser.y:95
+		//line parser.y:100
 		{
 			qlVAL.question = &ast.QuestionNode{
 				Label:      qlS[qlpt-2].content,
@@ -417,27 +422,27 @@ qldefault:
 			}
 		}
 	case 7:
-		//line parser.y:107
+		//line parser.y:112
 		{
 			qlVAL.questionType = new(ast.StringQuestion)
 		}
 	case 8:
-		//line parser.y:111
+		//line parser.y:116
 		{
 			qlVAL.questionType = new(ast.IntQuestion)
 		}
 	case 9:
-		//line parser.y:115
+		//line parser.y:120
 		{
 			qlVAL.questionType = new(ast.BoolQuestion)
 		}
 	case 10:
-		//line parser.y:120
+		//line parser.y:125
 		{
-			log.Fatalf("Question type must be 'string', 'integer', 'bool'. Found: %s", qlS[qlpt-0].content)
+			qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", qlS[qlpt-0].content))
 		}
 	case 11:
-		//line parser.y:126
+		//line parser.y:131
 		{
 			ifNode := new(ast.IfNode)
 			ifNode.Condition = qlS[qlpt-4].content

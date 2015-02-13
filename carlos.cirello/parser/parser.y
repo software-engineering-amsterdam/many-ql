@@ -3,7 +3,9 @@
 package parser
 
 import (
+	"fmt"
 	"log"
+	"text/scanner"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
@@ -17,11 +19,14 @@ var finalQuestionaire *ast.QuestionaireNode
 
 %union {
 	content string
+
 	questionaire *ast.QuestionaireNode
 	stack []*ast.ActionNode
 	question *ast.QuestionNode
 	questionType ast.Parser
 	ifNode *ast.IfNode
+
+	position scanner.Position
 }
 
 %token BlockBeginToken
@@ -118,7 +123,7 @@ questionType: StringQuestionToken
 
 	    | TextToken
 		{
-			log.Fatalf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content)
+			qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content))
 		}
 
 

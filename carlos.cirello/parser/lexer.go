@@ -3,6 +3,7 @@ package parser
 import (
 	"io"
 	"log"
+	"os"
 	"strings"
 	"text/scanner"
 )
@@ -29,12 +30,15 @@ const (
 
 type lexer struct {
 	scanner scanner.Scanner
+
+	pos scanner.Position
 }
 
-func newLexer(stream io.Reader) *lexer {
+func newLexer(stream io.Reader, fn string) *lexer {
 	var s scanner.Scanner
 	s.Init(stream)
 	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' '
+	s.Filename = fn
 
 	return &lexer{
 		scanner: s,
@@ -72,13 +76,17 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 	}
 
 	yylval.content = txt
+	yylval.position = x.scanner.Pos()
+
+	x.pos = x.scanner.Pos()
 
 	return typ
 }
 
 // The parser calls this method on a parse error.
 func (x *lexer) Error(s string) {
-	log.Printf("parse error: %s", s)
+	log.Printf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s)
+	os.Exit(1)
 }
 
 func stripSurroundingQuotes(str string) string {
