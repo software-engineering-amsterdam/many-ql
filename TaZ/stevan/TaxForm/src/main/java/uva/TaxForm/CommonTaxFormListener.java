@@ -5,21 +5,14 @@ import uva.TaxForm.antlr4.TaxFormParser;
 
 public class CommonTaxFormListener extends TaxFormBaseListener {
 	
-	public void enterForm(TaxFormParser.FormContext ctx) {
+	public void enterForm(TaxFormParser.TaxFormContext ctx) {
 		
 		System.out.println("Form: " + ctx.getText());
 		//System.out.println("enterForm.toStringTree(): " + ctx.toStringTree());
 		//System.out.println( ctx.depth() );
 	}
 	
-	public void enterFormName(TaxFormParser.FormNameContext ctx) {
-		
-		System.out.println("FormName: " + ctx.getText());
-		//System.out.println("enterFormName.toStringTree(): " + ctx.toStringTree());
-		//System.out.println( ctx.depth() );
-	}
-
-	public void enterQuestion(TaxFormParser.QuestionContext ctx) {
+	/*public void enterQuestion(TaxFormParser.QuestionContext ctx) {
 		
 		System.out.println("Question: " + ctx.getText());
 		//System.out.println("enterQuestion.toStringTree(): " + ctx.toStringTree());
@@ -45,5 +38,5 @@ public class CommonTaxFormListener extends TaxFormBaseListener {
 		System.out.println("varType: " + ctx.getText());
 		//System.out.println("enterVariableName.toStringTree(): " + ctx.toStringTree());
 		//System.out.println( ctx.depth() );
-	}
+	}*/
 }

@@ -35,10 +35,10 @@ public class TaxForm {
 		
 		ParseTreeWalker walker = new ParseTreeWalker();
 		CommonTaxFormListener listener = new CommonTaxFormListener();
-		//walker.walk(listener, parser.form());
+		//walker.walk(listener, parser.statement());
 		
 		TreeTaxFormListener treeFrame = new TreeTaxFormListener(parser);
-		walker.walk(treeFrame, parser.form());
+		walker.walk(treeFrame, parser.taxForm());
 		
 		
 		/*List<String> ruleNames = Arrays.asList(parser.getRuleNames());
