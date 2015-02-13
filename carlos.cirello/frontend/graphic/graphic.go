@@ -121,7 +121,8 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 	for {
 		select {
 		case event := <-g.renderEvent:
-			if renderQuestion == event.action {
+			switch event.action {
+			case renderQuestion:
 				qml.Lock()
 				g.addNewQuestion(
 					rows,
@@ -130,7 +131,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 					event.label,
 				)
 				qml.Unlock()
-			} else if nukeQuestion == event.action {
+			case nukeQuestion:
 				qml.Lock()
 				g.deleteNewQuestion(rows, event.identifier)
 				qml.Unlock()

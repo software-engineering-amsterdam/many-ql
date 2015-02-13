@@ -38,10 +38,11 @@ commLoop:
 	for {
 		select {
 		case r := <-o.receive:
-			if r.Type == interpreter.Render {
+			switch r.Type {
+			case interpreter.Render:
 				v := r.Question
 				csv.Write([]string{v.Identifier, v.Label, v.Content.String()})
-			} else if r.Type == interpreter.Flush {
+			case interpreter.Flush:
 				csv.Flush()
 				break commLoop
 			}
