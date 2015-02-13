@@ -18,7 +18,7 @@ state 1
 state 2
 	top:  questionaire.    (1)
 
-	.  reduce 1 (src line 47)
+	.  reduce 1 (src line 51)
 
 
 state 3
@@ -39,7 +39,7 @@ state 5
 	questionaire:  FormToken TextToken '{'.stack '}' 
 	stack: .    (3)
 
-	.  reduce 3 (src line 71)
+	.  reduce 3 (src line 75)
 
 	stack  goto 6
 
@@ -59,19 +59,19 @@ state 6
 state 7
 	questionaire:  FormToken TextToken '{' stack '}'.    (2)
 
-	.  reduce 2 (src line 57)
+	.  reduce 2 (src line 61)
 
 
 state 8
 	stack:  stack question.    (4)
 
-	.  reduce 4 (src line 72)
+	.  reduce 4 (src line 76)
 
 
 state 9
 	stack:  stack ifBlock.    (5)
 
-	.  reduce 5 (src line 86)
+	.  reduce 5 (src line 90)
 
 
 state 10
@@ -82,7 +82,7 @@ state 10
 
 
 state 11
-	ifBlock:  IfToken.'(' TextToken ')' '{' stack '}' 
+	ifBlock:  IfToken.'(' expr ')' '{' stack '}' 
 
 	'('  shift 13
 	.  error
@@ -100,92 +100,278 @@ state 12
 	questionType  goto 14
 
 state 13
-	ifBlock:  IfToken '('.TextToken ')' '{' stack '}' 
+	ifBlock:  IfToken '('.expr ')' '{' stack '}' 
 
-	TextToken  shift 19
+	TextToken  shift 20
+	NumericToken  shift 26
+	'+'  shift 22
+	'-'  shift 23
+	'('  shift 27
 	.  error
 
+	expr  goto 19
+	expr1  goto 21
+	expr2  goto 24
+	expr3  goto 25
 
 state 14
 	question:  QuotedStringToken TextToken questionType.    (6)
 
-	.  reduce 6 (src line 98)
+	.  reduce 6 (src line 102)
 
 
 state 15
 	questionType:  StringQuestionToken.    (7)
 
-	.  reduce 7 (src line 111)
+	.  reduce 7 (src line 115)
 
 
 state 16
 	questionType:  IntQuestionToken.    (8)
 
-	.  reduce 8 (src line 115)
+	.  reduce 8 (src line 119)
 
 
 state 17
 	questionType:  BoolQuestionToken.    (9)
 
-	.  reduce 9 (src line 119)
+	.  reduce 9 (src line 123)
 
 
 state 18
 	questionType:  TextToken.    (10)
 
-	.  reduce 10 (src line 124)
+	.  reduce 10 (src line 128)
 
 
 state 19
-	ifBlock:  IfToken '(' TextToken.')' '{' stack '}' 
+	ifBlock:  IfToken '(' expr.')' '{' stack '}' 
 
-	')'  shift 20
+	')'  shift 28
 	.  error
 
 
 state 20
-	ifBlock:  IfToken '(' TextToken ')'.'{' stack '}' 
+	expr:  TextToken.    (12)
 
-	'{'  shift 21
-	.  error
+	.  reduce 12 (src line 144)
 
 
 state 21
-	ifBlock:  IfToken '(' TextToken ')' '{'.stack '}' 
-	stack: .    (3)
+	expr:  expr1.    (13)
+	expr1:  expr1.'+' expr2 
+	expr1:  expr1.'-' expr2 
 
-	.  reduce 3 (src line 71)
+	'+'  shift 29
+	'-'  shift 30
+	.  reduce 13 (src line 146)
 
-	stack  goto 22
 
 state 22
+	expr:  '+'.expr 
+
+	TextToken  shift 20
+	NumericToken  shift 26
+	'+'  shift 22
+	'-'  shift 23
+	'('  shift 27
+	.  error
+
+	expr  goto 31
+	expr1  goto 21
+	expr2  goto 24
+	expr3  goto 25
+
+state 23
+	expr:  '-'.expr 
+
+	TextToken  shift 20
+	NumericToken  shift 26
+	'+'  shift 22
+	'-'  shift 23
+	'('  shift 27
+	.  error
+
+	expr  goto 32
+	expr1  goto 21
+	expr2  goto 24
+	expr3  goto 25
+
+state 24
+	expr1:  expr2.    (16)
+	expr2:  expr2.'*' expr3 
+	expr2:  expr2.'/' expr3 
+
+	'*'  shift 33
+	'/'  shift 34
+	.  reduce 16 (src line 156)
+
+
+state 25
+	expr2:  expr3.    (19)
+
+	.  reduce 19 (src line 167)
+
+
+state 26
+	expr3:  NumericToken.    (22)
+
+	.  reduce 22 (src line 178)
+
+
+state 27
+	expr3:  '('.expr ')' 
+
+	TextToken  shift 20
+	NumericToken  shift 26
+	'+'  shift 22
+	'-'  shift 23
+	'('  shift 27
+	.  error
+
+	expr  goto 35
+	expr1  goto 21
+	expr2  goto 24
+	expr3  goto 25
+
+state 28
+	ifBlock:  IfToken '(' expr ')'.'{' stack '}' 
+
+	'{'  shift 36
+	.  error
+
+
+state 29
+	expr1:  expr1 '+'.expr2 
+
+	NumericToken  shift 26
+	'('  shift 27
+	.  error
+
+	expr2  goto 37
+	expr3  goto 25
+
+state 30
+	expr1:  expr1 '-'.expr2 
+
+	NumericToken  shift 26
+	'('  shift 27
+	.  error
+
+	expr2  goto 38
+	expr3  goto 25
+
+state 31
+	expr:  '+' expr.    (14)
+
+	.  reduce 14 (src line 147)
+
+
+state 32
+	expr:  '-' expr.    (15)
+
+	.  reduce 15 (src line 151)
+
+
+state 33
+	expr2:  expr2 '*'.expr3 
+
+	NumericToken  shift 26
+	'('  shift 27
+	.  error
+
+	expr3  goto 39
+
+state 34
+	expr2:  expr2 '/'.expr3 
+
+	NumericToken  shift 26
+	'('  shift 27
+	.  error
+
+	expr3  goto 40
+
+state 35
+	expr3:  '(' expr.')' 
+
+	')'  shift 41
+	.  error
+
+
+state 36
+	ifBlock:  IfToken '(' expr ')' '{'.stack '}' 
+	stack: .    (3)
+
+	.  reduce 3 (src line 75)
+
+	stack  goto 42
+
+state 37
+	expr1:  expr1 '+' expr2.    (17)
+	expr2:  expr2.'*' expr3 
+	expr2:  expr2.'/' expr3 
+
+	'*'  shift 33
+	'/'  shift 34
+	.  reduce 17 (src line 158)
+
+
+state 38
+	expr1:  expr1 '-' expr2.    (18)
+	expr2:  expr2.'*' expr3 
+	expr2:  expr2.'/' expr3 
+
+	'*'  shift 33
+	'/'  shift 34
+	.  reduce 18 (src line 162)
+
+
+state 39
+	expr2:  expr2 '*' expr3.    (20)
+
+	.  reduce 20 (src line 169)
+
+
+state 40
+	expr2:  expr2 '/' expr3.    (21)
+
+	.  reduce 21 (src line 173)
+
+
+state 41
+	expr3:  '(' expr ')'.    (23)
+
+	.  reduce 23 (src line 180)
+
+
+state 42
 	stack:  stack.question 
 	stack:  stack.ifBlock 
-	ifBlock:  IfToken '(' TextToken ')' '{' stack.'}' 
+	ifBlock:  IfToken '(' expr ')' '{' stack.'}' 
 
 	IfToken  shift 11
 	QuotedStringToken  shift 10
-	'}'  shift 23
+	'}'  shift 43
 	.  error
 
 	question  goto 8
 	ifBlock  goto 9
 
-state 23
-	ifBlock:  IfToken '(' TextToken ')' '{' stack '}'.    (11)
+state 43
+	ifBlock:  IfToken '(' expr ')' '{' stack '}'.    (11)
 
-	.  reduce 11 (src line 130)
+	.  reduce 11 (src line 134)
 
 
-18 terminals, 7 nonterminals
-12 grammar rules, 24/2000 states
+23 terminals, 11 nonterminals
+24 grammar rules, 44/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
-56 working sets used
-memory: parser 6/30000
+60 working sets used
+memory: parser 28/30000
 0 extra closures
-18 shift entries, 1 exceptions
-7 goto entries
-2 entries saved by goto default
-Optimizer space used: output 25/30000
-25 table entries, 0 zero
-maximum spread: 18, maximum offset: 21
+54 shift entries, 1 exceptions
+18 goto entries
+13 entries saved by goto default
+Optimizer space used: output 47/30000
+47 table entries, 0 zero
+maximum spread: 23, maximum offset: 36

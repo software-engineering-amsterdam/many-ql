@@ -5,6 +5,7 @@ package parser
 import (
 	"fmt"
 	"log"
+	"math/big"
 	"text/scanner"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
@@ -25,6 +26,7 @@ var finalQuestionaire *ast.QuestionaireNode
 	question *ast.QuestionNode
 	questionType ast.Parser
 	ifNode *ast.IfNode
+	num *big.Rat
 
 	position scanner.Position
 }
@@ -40,6 +42,8 @@ var finalQuestionaire *ast.QuestionaireNode
 %token StringQuestionToken
 %token IntQuestionToken
 %token BoolQuestionToken
+%token NumericToken
+%token '+' '-' '*' '/' '(' ')'
 
 
 %%
@@ -127,7 +131,7 @@ questionType: StringQuestionToken
 		}
 
 
-ifBlock: IfToken '(' TextToken ')' '{' stack '}'
+ifBlock: IfToken '(' expr ')' '{' stack '}'
 		{
 			ifNode := new(ast.IfNode)
 			ifNode.Condition = $3.content
@@ -135,5 +139,47 @@ ifBlock: IfToken '(' TextToken ')' '{' stack '}'
 			$$.ifNode = ifNode
 		}
 	;
+
+
+expr:
+	TextToken
+	|expr1
+	| '+' expr
+	{
+		$$.num = $2.num
+	}
+	| '-' expr
+	{
+		$$.num.Neg($2.num)
+	}
+
+expr1:
+	expr2
+	| expr1 '+' expr2
+	{
+		$$.num.Add($1.num, $3.num)
+	}
+	| expr1 '-' expr2
+	{
+		$$.num.Sub($1.num, $3.num)
+	}
+
+expr2:
+	expr3
+	| expr2 '*' expr3
+	{
+		$$.num.Mul($1.num, $3.num)
+	}
+	| expr2 '/' expr3
+	{
+		$$.num.Quo($1.num, $3.num)
+	}
+
+expr3:
+	NumericToken
+	| '(' expr ')'
+	{
+		$$.num = $2.num
+	}
 
 %%
