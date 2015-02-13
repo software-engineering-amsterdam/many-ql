@@ -1,6 +1,7 @@
 package lang.ql.ast.statement;
 
 import lang.ql.ast.expression.Expression;
+import lang.ql.ast.visitor.Visitor;
 
 /**
  * Created by bore on 09/02/15.
@@ -19,4 +20,16 @@ public class Question extends Statement
         this.text = text;
         this.expression = expression;
     }
+
+    public String getId()
+    {
+        return this.id;
+    }
+
+    public QuestionType getQuestionType()
+    {
+        return this.questionType;
+    }
+
+    public void visit(Visitor visitor) { visitor.visit(this); }
 }

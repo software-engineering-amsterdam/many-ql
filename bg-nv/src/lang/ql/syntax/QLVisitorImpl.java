@@ -118,7 +118,7 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         if (operandContext.Integer() != null)
         {
             int value = Integer.parseInt(operandContext.Integer().getText());
-            return new IntegerExpression(value);
+            return new ReturnIntegerExpression(value);
         }
 
         if (operandContext.String() != null)
