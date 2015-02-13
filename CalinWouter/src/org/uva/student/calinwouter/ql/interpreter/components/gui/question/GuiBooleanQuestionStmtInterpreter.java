@@ -1,20 +1,20 @@
-package org.uva.student.calinwouter.ql.interpreter.components.stmt.question;
+package org.uva.student.calinwouter.ql.interpreter.components.gui.question;
 
 import org.uva.student.calinwouter.ql.generated.node.AQuestionStmt;
 import org.uva.student.calinwouter.ql.interpreter.components.FormInterpreter;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TBool;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TypeModel;
+import org.uva.student.calinwouter.ql.interpreter.types.TBool;
+import org.uva.student.calinwouter.ql.interpreter.types.TypeModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class BooleanQuestionStmtInterpreter {
+public class GuiBooleanQuestionStmtInterpreter {
     private final FormInterpreter formInterpreter;
     private final AQuestionStmt node;
 
-    public Component interprete() {
+    public Component interpret() {
         final JCheckBox cb = new JCheckBox();
         TypeModel<?> value = formInterpreter.getField(node.getIdent().getText());
         if (value instanceof TBool)
@@ -29,7 +29,7 @@ public class BooleanQuestionStmtInterpreter {
         return cb;
     }
 
-    public BooleanQuestionStmtInterpreter(FormInterpreter formInterpreter, AQuestionStmt node) {
+    public GuiBooleanQuestionStmtInterpreter(FormInterpreter formInterpreter, AQuestionStmt node) {
         this.formInterpreter = formInterpreter;
         this.node = node;
     }

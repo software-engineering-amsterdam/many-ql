@@ -1,13 +1,14 @@
-package org.uva.student.calinwouter.ql.interpreter.components.types;
-
-import org.uva.student.calinwouter.ql.interpreter.components.InterpretationException;
+package org.uva.student.calinwouter.ql.interpreter.types;
 
 public class TString extends TypeModel<String> {
 
     @Override
-    public TypeModel<?> add(TypeModel<?> typeModel) throws InterpretationException {
-        if (typeModel.getTypeModelClass() == String.class)
+    public TypeModel<?> add(TypeModel<?> typeModel) {
+        if (typeModel.getTypeModelClass() == String.class) {
+            if (getValue() == null)
+                return new TString(null);
             return new TString(getValue() + typeModel.getValue());
+        }
         return super.add(typeModel);
     }
 

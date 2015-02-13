@@ -12,7 +12,8 @@ public class ComputedValueInterpreter {
     private final AValueStmt node;
     private final FormInterpreter formInterpreter;
 
-    public void interprete() {
+    public void interpret() {
+        formInterpreter.registerLabelUse(node.getStr().getText());
         GridBagConstraints cTitle = new GridBagConstraints();
         GridBagConstraints cValueComponent;
         Label lblTitle = new Label(node.getStr().getText());
