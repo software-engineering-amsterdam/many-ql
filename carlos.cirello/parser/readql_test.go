@@ -12,6 +12,7 @@ func TestBasic(t *testing.T) {
 			"QuestionLabel2" question2 integer
 			"QuestionLabel3" question3 bool
 		}`),
+		"test.ql",
 	)
 	if form == nil {
 		t.Errorf("Compilation should not return nil")
@@ -26,6 +27,7 @@ func TestComments(t *testing.T) {
 			//"QuestionLabel2" question2 integer
 			/*"QuestionLabel3" question3 bool*/
 		}`),
+		"test.ql",
 	)
 	lenQ := len(form.Stack)
 	if lenQ > 1 {
