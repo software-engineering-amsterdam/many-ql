@@ -16,7 +16,7 @@ statement   : questionDeclaration
 
 // an if statement
 // supported form: if(expr){...}
-ifStatement : 'if' '(' expression ')' '{' (ifStatement | questionDeclaration)* '}';
+ifStatement : 'if' '(' expression ')' '{' (statement)* '}';
 
 // Question types
 // two supported versions:
