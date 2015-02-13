@@ -37,13 +37,7 @@ func (exec Execute) QuestionaireNode(q *ast.QuestionaireNode) {
 
 // ActionNode branches to QuestionNode or IfNode executers
 func (exec Execute) ActionNode(a *ast.ActionNode) {
-	if nil != a.QuestionNode {
-		exec.Exec(a.QuestionNode)
-	} else if nil != a.IfNode {
-		exec.Exec(a.IfNode)
-	} else {
-		log.Fatalf("Impossible ActionNode type or empty ActionNode. %#v", a)
-	}
+	exec.Exec(a.Action)
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend

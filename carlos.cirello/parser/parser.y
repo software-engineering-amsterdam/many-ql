@@ -73,7 +73,7 @@ stack:
 		q := $2.question
 		qs := $$.stack
 		action := &ast.ActionNode {
-			QuestionNode: q,
+			Action: q,
 		}
 		qs = append(qs, action)
 		$$.stack = qs
@@ -83,7 +83,7 @@ stack:
 		ifNode := $2.ifNode
 		qs := $$.stack
 		action := &ast.ActionNode {
-			IfNode: ifNode,
+			Action: ifNode,
 		}
 		qs = append(qs, action)
 		$$.stack = qs
