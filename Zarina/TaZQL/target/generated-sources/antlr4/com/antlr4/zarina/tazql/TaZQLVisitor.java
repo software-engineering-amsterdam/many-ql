@@ -12,6 +12,12 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link TaZQLParser#questionnaire}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code or}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
@@ -52,12 +58,6 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAddSub(@NotNull TaZQLParser.AddSubContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TaZQLParser#parse}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParse(@NotNull TaZQLParser.ParseContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ifStatement}
 	 * labeled alternative in {@link TaZQLParser#question}.

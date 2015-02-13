@@ -1,6 +1,6 @@
 FORM firstQ {
-	hasSoldHouse Question int
-	hasBoughtHouse Question int
+	hasSoldHouse "Question" text
+	hasBoughtHouse "Question" text
 } END	
 
 

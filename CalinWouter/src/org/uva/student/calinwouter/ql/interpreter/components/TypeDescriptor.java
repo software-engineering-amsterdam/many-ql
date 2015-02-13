@@ -1,8 +1,11 @@
 package org.uva.student.calinwouter.ql.interpreter.components;
 
-public interface TypeDescriptor {
+import org.uva.student.calinwouter.ql.interpreter.types.TypeModel;
+
+public interface TypeDescriptor<T extends TypeModel<?>> {
 
     void callTypeMethod(TypeCallback typeCallback);
 
+    T getDefaultValue();
 
 }

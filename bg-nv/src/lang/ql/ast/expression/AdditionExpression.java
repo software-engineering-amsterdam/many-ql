@@ -14,7 +14,7 @@ public class AdditionExpression extends BinaryOperatorExpression
     public ConstantExpression getValue()
     {
         ConstantExpression left = this.getLeft().getValue();
-        IntegerExpression result = new IntegerExpression(5);
+        ReturnIntegerExpression result = new ReturnIntegerExpression(5);
         return result;
     }
 }

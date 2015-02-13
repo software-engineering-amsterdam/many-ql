@@ -43,15 +43,19 @@ func (f *frontend) loop() {
 	for {
 		select {
 		case r := <-f.receive:
-			if r.Type == interpreter.ReadyP {
+			switch r.Type {
+			case interpreter.ReadyP:
 				f.send <- &interpreter.Event{
 					Type: interpreter.ReadyT,
 				}
-			} else if r.Type == interpreter.Render {
+
+			case interpreter.Render:
 				f.driver.InputQuestion(&r.Question)
-			} else if r.Type == interpreter.Flush {
+
+			case interpreter.Flush:
 				f.driver.Flush()
-			} else if r.Type == interpreter.FetchAnswers {
+
+			case interpreter.FetchAnswers:
 				fetchedAnswers := f.driver.FetchAnswers()
 				if len(fetchedAnswers) > 0 {
 					f.send <- &interpreter.Event{

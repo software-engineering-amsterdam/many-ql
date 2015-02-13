@@ -2,9 +2,10 @@ package org.uva.student.calinwouter.ql.interpreter.components;
 
 import org.uva.student.calinwouter.ql.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.ql.generated.node.*;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TBool;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TInteger;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TypeModel;
+import org.uva.student.calinwouter.ql.interpreter.types.TBool;
+import org.uva.student.calinwouter.ql.interpreter.types.TInteger;
+import org.uva.student.calinwouter.ql.interpreter.types.TypeModel;
+import org.uva.student.calinwouter.ql.interpreter.exceptions.VariableNotSetException;
 
 public class ExpInterpreter extends AnalysisAdapter {
     private TypeModel<?> value;
@@ -17,7 +18,7 @@ public class ExpInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseASubExp(ASubExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).sub(interpExp(node.getRight())));
     }
 
     @Override
@@ -32,57 +33,57 @@ public class ExpInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseAOrExp(AOrExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).or(interpExp(node.getRight())));
     }
 
     @Override
     public void caseAAndExp(AAndExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).and(interpExp(node.getRight())));
     }
 
     @Override
     public void caseAEqExp(AEqExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).eq(interpExp(node.getRight())));
     }
 
     @Override
     public void caseANeqExp(ANeqExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).neq(interpExp(node.getRight())));
     }
 
     @Override
     public void caseALtExp(ALtExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).lt(interpExp(node.getRight())));
     }
 
     @Override
     public void caseAGtExp(AGtExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).gt(interpExp(node.getRight())));
     }
 
     @Override
     public void caseALteExp(ALteExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).lte(interpExp(node.getRight())));
     }
 
     @Override
     public void caseAGteExp(AGteExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).gte(interpExp(node.getRight())));
     }
 
     @Override
     public void caseAMulExp(AMulExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).mul(interpExp(node.getRight())));
     }
 
     @Override
     public void caseADivExp(ADivExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).div(interpExp(node.getRight())));
     }
 
     @Override
     public void caseAModExp(AModExp node) {
-        setValue(interpExp(node.getLeft()).add(interpExp(node.getRight())));
+        setValue(interpExp(node.getLeft()).mod(interpExp(node.getRight())));
     }
 
     @Override
@@ -99,7 +100,7 @@ public class ExpInterpreter extends AnalysisAdapter {
     public void caseAIdentExp(AIdentExp node) {
         TypeModel<?> value = (formInterpreter.getField(node.getIdent().getText()));
         if (value == null) {
-            throw new InterpretationException("Variable was not set.");
+            throw new VariableNotSetException(node.getIdent().getText());
         }
         setValue(value);
     }
@@ -110,7 +111,7 @@ public class ExpInterpreter extends AnalysisAdapter {
         return expInterpreter.getValue();
     }
 
-    private void setValue(TypeModel<?> value) {
+    protected void setValue(TypeModel<?> value) {
         this.value = value;
     }
 

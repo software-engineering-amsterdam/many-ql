@@ -4,60 +4,65 @@ import org.uva.student.calinwouter.ql.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.ql.generated.node.*;
 import org.uva.student.calinwouter.ql.interpreter.components.stmt.ComputedValueInterpreter;
 import org.uva.student.calinwouter.ql.interpreter.components.stmt.QuestionStmtInterpreter;
-import org.uva.student.calinwouter.ql.interpreter.components.types.TBool;
+import org.uva.student.calinwouter.ql.interpreter.exceptions.InterpretationException;
+import org.uva.student.calinwouter.ql.interpreter.exceptions.NotOfTypeException;
 
 import javax.swing.*;
+import java.util.LinkedList;
 
-public class StmtInterpreter extends AnalysisAdapter {
-    private JPanel jPanel;
-    private FormInterpreter formInterpreter;
+public abstract class StmtInterpreter extends AnalysisAdapter {
+    protected final FormInterpreter formInterpreter;
 
     @Override
-    public void caseAQuestionStmt(final AQuestionStmt node) {
-        new QuestionStmtInterpreter(jPanel, formInterpreter, node).interprete();
+    public abstract void caseAQuestionStmt(final AQuestionStmt node);
+
+    @Override
+    public abstract void caseAValueStmt(final AValueStmt node);
+
+    private boolean testBoolean(PExp nExp) {
+        ExpInterpreter expI = new ExpInterpreter(formInterpreter);
+        nExp.apply(expI);
+        if (!(expI.getValue().getValue() instanceof Boolean)) {
+            throw new NotOfTypeException("Boolean");
+        } else if ((Boolean) expI.getValue().getValue()) {
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void caseAValueStmt(AValueStmt node) {
-        new ComputedValueInterpreter(jPanel, formInterpreter, node).interprete();
+    protected abstract StmtInterpreter createStmtInterpreter();
+
+    protected void executeStmtList(LinkedList<PStmt> stmtList) {
+        for (PStmt s : stmtList) {
+            s.apply(createStmtInterpreter());
+        }
     }
 
     @Override
     public void caseAIfelseStmt(AIfelseStmt node) {
         try {
-            ExpInterpreter exp = new ExpInterpreter(formInterpreter);
-            node.getExp().apply(exp);
-            if (exp.getValue().equals(new TBool(true))) {
-                for (PStmt s : node.getThenStmtList()) {
-                    s.apply(new StmtInterpreter(jPanel, formInterpreter));
-                }
-            } else if (exp.getValue().equals(new TBool(false))) {
-                for (PStmt s : node.getElseStmtList()) {
-                    s.apply(new StmtInterpreter(jPanel, formInterpreter));
-                }
+            if (testBoolean(node.getExp())) {
+                executeStmtList(node.getThenStmtList());
+            } else {
+                executeStmtList(node.getElseStmtList());
             }
         } catch(InterpretationException e) {
-            e.printStackTrace();
+            formInterpreter.notifyTypeChecker(e);
         }
     }
 
     @Override
     public void caseAIfStmt(AIfStmt node) {
         try {
-            ExpInterpreter exp = new ExpInterpreter(formInterpreter);
-            node.getExp().apply(exp);
-            if (exp.getValue().equals(new TBool(true))) {
-                for (PStmt s : node.getThenStmtList()) {
-                    s.apply(new StmtInterpreter(jPanel, formInterpreter));
-                }
+            if (testBoolean(node.getExp())) {
+                executeStmtList(node.getThenStmtList());
             }
         } catch(InterpretationException e) {
-            e.printStackTrace();
+            formInterpreter.notifyTypeChecker(e);
         }
     }
 
-    public StmtInterpreter(JPanel jPanel, FormInterpreter formInterpreter) {
-        this.jPanel = jPanel;
+    public StmtInterpreter(FormInterpreter formInterpreter) {
         this.formInterpreter = formInterpreter;
     }
 

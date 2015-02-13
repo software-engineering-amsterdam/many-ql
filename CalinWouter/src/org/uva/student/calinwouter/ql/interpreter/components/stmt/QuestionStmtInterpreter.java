@@ -4,9 +4,9 @@ import org.uva.student.calinwouter.ql.generated.node.AQuestionStmt;
 import org.uva.student.calinwouter.ql.interpreter.components.FormInterpreter;
 import org.uva.student.calinwouter.ql.interpreter.components.TypeCallback;
 import org.uva.student.calinwouter.ql.interpreter.components.TypeInterpreter;
-import org.uva.student.calinwouter.ql.interpreter.components.stmt.question.BooleanQuestionStmtInterpreter;
-import org.uva.student.calinwouter.ql.interpreter.components.stmt.question.IntegerQuestionStmtInterpreter;
-import org.uva.student.calinwouter.ql.interpreter.components.stmt.question.StringQuestionStmtInterpreter;
+import org.uva.student.calinwouter.ql.interpreter.components.gui.question.GuiBooleanQuestionStmtInterpreter;
+import org.uva.student.calinwouter.ql.interpreter.components.gui.question.GuiIntegerQuestionStmtInterpreter;
+import org.uva.student.calinwouter.ql.interpreter.components.gui.question.GuiStringQuestionStmtInterpreter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,9 @@ public class QuestionStmtInterpreter implements TypeCallback {
     private final AQuestionStmt node;
     private final FormInterpreter formInterpreter;
 
-    public void interprete() {
+    public void interpret() {
+        formInterpreter.registerFieldUse(node.getIdent().getText());
+        formInterpreter.registerLabelUse(node.getStr().getText());
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
         typeInterpreter.getValue().callTypeMethod(this);
@@ -41,18 +43,18 @@ public class QuestionStmtInterpreter implements TypeCallback {
     }
 
     @Override
-    public void callbackBoolean() {
-        createFormElement(new BooleanQuestionStmtInterpreter(formInterpreter, node).interprete());
+    public void usesBoolean() {
+        createFormElement(new GuiBooleanQuestionStmtInterpreter(formInterpreter, node).interpret());
     }
 
     @Override
-    public void callbackInteger() {
-        createFormElement(new IntegerQuestionStmtInterpreter(formInterpreter, node).interprete());
+    public void usesInteger() {
+        createFormElement(new GuiIntegerQuestionStmtInterpreter(formInterpreter, node).interpret());
     }
 
     @Override
-    public void callbackString() {
-        createFormElement(new StringQuestionStmtInterpreter(formInterpreter, node).interprete());
+    public void usesString() {
+        createFormElement(new GuiStringQuestionStmtInterpreter(formInterpreter, node).interpret());
     }
 
     public QuestionStmtInterpreter(JPanel jPanel, FormInterpreter formInterpreter, AQuestionStmt node) {

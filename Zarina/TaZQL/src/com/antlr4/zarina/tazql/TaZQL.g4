@@ -4,15 +4,11 @@ options {
 	language = Java;
 }
 
-//@header {
-//	package com.antlr4.zarina.tazql;
-//}
-
-parse      		: formSection EOF;
+questionnaire	: formSection EOF;
 
 formSection 	: 'FORM' ID '{' question+ '} END';
 
-question		: simpleQuestion 														# basicQuestion
+question		: simpleQuestion			 											# basicQuestion
 				| computedQuestion														# calcQuestion
 				| 'if' '(' expression ')' '{' question+ '}'								# ifStatement
 				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'	# ifelseStatement
@@ -31,11 +27,10 @@ expression		: ID 																	# id
 				| '(' expression ')'													# prio		
 				;
 				
-simpleQuestion	: ID TEXT ID;   // should be type later  	 
-				 									
+simpleQuestion	: ID TEXT TYPE;   				 									
 computedQuestion: ID TEXT TYPE '(' expression ')';
  
-TYPE  			: 'choice' | 'digit' | 'text';				  
+TYPE  			: 'choice' | 'digits' | 'text';				  
 BOOLEAN			: 'true' | 'false';  
 	  
 	  
