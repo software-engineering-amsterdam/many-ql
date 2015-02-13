@@ -76,14 +76,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         // Get the body statements.
         ArrayList<Statement> statements = new ArrayList<Statement>();
 
-        // Add the inner if statements.
-        for (QLParser.IfStatementContext statement : ctx.ifStatement()) {
-            Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the ifStatement
-            statements.add(stat);
-        }
-
-        // Add the inner question declarations.
-        for (QLParser.QuestionDeclarationContext statement : ctx.questionDeclaration()) {
+        // Add the statements.
+        for (QLParser.StatementContext statement : ctx.statement()) {
             Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the statement
             statements.add(stat);
         }
