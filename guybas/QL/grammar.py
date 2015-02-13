@@ -58,15 +58,16 @@ class FormFormat:
     questions       = OneOrMore(question)
     
     # pIf       = if (condition) { questions }
+    aQuestions      = Forward()
     condition       = Expressions.condition.setParseAction(ASTReady.make_expression)
     pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
-                       questions + Suppress("}"))
+                       aQuestions + Suppress("}"))
                        
     # pIfElse   = if (condition) { questions } else { questions }
-    pIfElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
+    pIfElse         = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
     
     # aQuestions    = pIf | pIfElse | questions
-    aQuestions      = (pIfElse.setParseAction(ASTReady.make_else)
+    aQuestions      << (pIfElse.setParseAction(ASTReady.make_else)
                        | pIf.setParseAction(ASTReady.make_if)
                        | questions)
                       

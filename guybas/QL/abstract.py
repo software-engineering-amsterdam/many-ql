@@ -9,7 +9,7 @@ class ASTReady:
             if isinstance(token, list):
                 e += "(" + ASTReady.sub_expression(token) + ")"
             else:
-                e += str(token)
+                e += str(token) + " "
         return e  
         
     def make_expression(tokens):
@@ -39,11 +39,10 @@ class ASTReady:
                 questions.append(tokens[i])
                 k += 1
         else_questions = []
-        print(k)
-        print(len(tokens))
-        for i in range(k, len(tokens)):
+        for i in range(k + 1, len(tokens)):
             else_questions += tokens[i]
-        return ConditionalQuestions(condition, questions).add_else(else_questions)
+        x = ConditionalQuestions(condition, questions)
+        return x
         
     def make_form(tokens):
         name = tokens[0]
