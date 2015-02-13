@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"io"
 	"log"
 	"strings"
 	"text/scanner"
@@ -30,9 +31,9 @@ type lexer struct {
 	scanner scanner.Scanner
 }
 
-func newLexer(code string) *lexer {
+func newLexer(stream io.Reader) *lexer {
 	var s scanner.Scanner
-	s.Init(strings.NewReader(code))
+	s.Init(stream)
 	s.Whitespace = 1<<'\t' | 1<<'\n' | 1<<'\r' | 1<<' '
 
 	return &lexer{
