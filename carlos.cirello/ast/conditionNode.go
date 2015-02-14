@@ -1,21 +1,21 @@
 package ast
 
+type Evaluatable interface{}
+
 type TermNode struct {
 	NumericConstant     float32
 	IdentifierReference string
+	Evaluatable
 }
 
-type Evaluatable interface{}
-
 type SingleTermNode struct {
-	LeftTerm *TermNode
-
+	LeftTerm Evaluatable
 	Evaluatable
 }
 
 type DoubleTermNode struct {
-	LeftTerm  *TermNode
-	RightTerm *TermNode
+	LeftTerm  Evaluatable
+	RightTerm Evaluatable
 }
 
 type EqualsNode struct {
@@ -39,6 +39,26 @@ type LessOrEqualsThanNode struct {
 }
 
 type MoreOrEqualsThanNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathAddNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathSubNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathMulNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathDivNode struct {
 	DoubleTermNode
 	Evaluatable
 }

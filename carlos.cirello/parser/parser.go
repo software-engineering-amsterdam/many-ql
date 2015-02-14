@@ -6,7 +6,6 @@ import __yyfmt__ "fmt"
 //line parser.y:3
 import (
 	"fmt"
-	"log"
 	"strconv"
 	"text/scanner"
 
@@ -17,7 +16,7 @@ var finalQuestionaire *ast.QuestionaireNode
 
 //Top Ends Here
 
-//line parser.y:21
+//line parser.y:20
 type qlSymType struct {
 	yys     int
 	content string
@@ -54,6 +53,10 @@ const EqualsToToken = 57361
 const NumericToken = 57362
 
 var qlToknames = []string{
+	"'+'",
+	"'-'",
+	"'*'",
+	"'/'",
 	"BlockBeginToken",
 	"BlockEndToken",
 	"FormToken",
@@ -65,10 +68,6 @@ var qlToknames = []string{
 	"StringQuestionToken",
 	"IntQuestionToken",
 	"BoolQuestionToken",
-	"'+'",
-	"'-'",
-	"'*'",
-	"'/'",
 	"'('",
 	"')'",
 	"LessThanToken",
@@ -84,7 +83,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:239
+//line parser.y:209
 
 //line yacctab:1
 var qlExca = []int{
@@ -93,59 +92,58 @@ var qlExca = []int{
 	-2, 0,
 }
 
-const qlNprod = 23
+const qlNprod = 22
 const qlPrivate = 57344
 
 var qlTokenNames []string
 var qlStates []string
 
-const qlLast = 43
+const qlLast = 42
 
 var qlAct = []int{
 
-	22, 11, 11, 24, 10, 10, 29, 31, 28, 30,
-	27, 24, 20, 26, 5, 6, 13, 12, 25, 4,
-	3, 23, 38, 7, 21, 19, 25, 14, 33, 34,
-	35, 36, 37, 18, 15, 16, 17, 9, 8, 2,
-	1, 0, 32,
+	20, 6, 11, 30, 23, 10, 31, 5, 11, 12,
+	24, 10, 13, 4, 3, 22, 30, 21, 19, 39,
+	27, 29, 26, 28, 25, 7, 32, 33, 34, 35,
+	36, 37, 14, 38, 18, 15, 16, 17, 9, 8,
+	2, 1,
 }
 var qlPact = []int{
 
-	14, -1000, -1000, 8, -13, -1000, -5, -1000, -1000, -1000,
-	6, -3, 22, -1000, -1000, -1000, -1000, -1000, -1000, -8,
-	-14, -1000, -15, -1000, -1000, -1000, -1000, 0, 0, 0,
-	0, 0, -6, -1000, -1000, -1000, -1000, -1000, -1000,
+	4, -1000, -1000, -2, -20, -1000, -3, -1000, -1000, -1000,
+	-6, -7, 19, -11, -1000, -1000, -1000, -1000, -1000, -10,
+	-1, -1000, -1000, -1000, -21, -11, -11, -11, -11, -11,
+	-11, -1000, 12, 12, 12, 12, 12, -1000, -9, -1000,
 }
 var qlPgo = []int{
 
-	0, 40, 39, 15, 38, 37, 27, 25, 24, 0,
-	21,
+	0, 41, 40, 1, 39, 38, 32, 18, 0, 17,
 }
 var qlR1 = []int{
 
 	0, 1, 2, 3, 3, 3, 4, 6, 6, 6,
-	6, 5, 7, 7, 8, 8, 8, 8, 8, 8,
-	9, 9, 10,
+	6, 5, 7, 7, 7, 7, 7, 7, 8, 8,
+	9, 9,
 }
 var qlR2 = []int{
 
 	0, 1, 5, 0, 2, 2, 3, 1, 1, 1,
-	1, 7, 0, 2, 3, 3, 3, 3, 3, 1,
-	1, 1, 1,
+	1, 7, 3, 3, 3, 3, 3, 1, 3, 1,
+	1, 1,
 }
 var qlChk = []int{
 
-	-1000, -1, -2, 6, 11, 27, -3, 28, -4, -5,
-	10, 7, 11, 19, -6, 12, 13, 14, 11, -7,
-	20, -8, -9, -10, 11, 26, 27, 25, 23, 21,
-	24, 22, -3, -9, -9, -9, -9, -9, 28,
+	-1000, -1, -2, 10, 15, 27, -3, 28, -4, -5,
+	14, 11, 15, 19, -6, 16, 17, 18, 15, -7,
+	-8, -9, 26, 15, 20, 25, 23, 21, 24, 22,
+	4, 27, -8, -8, -8, -8, -8, -8, -3, 28,
 }
 var qlDef = []int{
 
 	0, -2, 1, 0, 0, 3, 0, 2, 4, 5,
-	0, 0, 0, 12, 6, 7, 8, 9, 10, 0,
-	0, 13, 19, 20, 21, 22, 3, 0, 0, 0,
-	0, 0, 0, 14, 15, 16, 17, 18, 11,
+	0, 0, 0, 0, 6, 7, 8, 9, 10, 0,
+	17, 19, 20, 21, 0, 0, 0, 0, 0, 0,
+	0, 3, 12, 13, 14, 15, 16, 18, 0, 11,
 }
 var qlTok1 = []int{
 
@@ -153,7 +151,7 @@ var qlTok1 = []int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	19, 20, 17, 15, 3, 16, 3, 18, 3, 3,
+	19, 20, 6, 4, 3, 5, 3, 7, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
@@ -165,8 +163,8 @@ var qlTok1 = []int{
 }
 var qlTok2 = []int{
 
-	2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-	12, 13, 14, 21, 22, 23, 24, 25, 26,
+	2, 3, 8, 9, 10, 11, 12, 13, 14, 15,
+	16, 17, 18, 21, 22, 23, 24, 25, 26,
 }
 var qlTok3 = []int{
 	0,
@@ -398,12 +396,12 @@ qldefault:
 	switch qlnt {
 
 	case 1:
-		//line parser.y:60
+		//line parser.y:62
 		{
 			finalQuestionaire = qlS[qlpt-0].questionaire
 		}
 	case 2:
-		//line parser.y:67
+		//line parser.y:69
 		{
 			qlVAL.questionaire = &ast.QuestionaireNode{
 				Label: qlS[qlpt-3].content,
@@ -411,33 +409,25 @@ qldefault:
 			}
 		}
 	case 4:
-		//line parser.y:77
+		//line parser.y:79
 		{
-			if qlDebug > 0 {
-				log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].stack,
-					qlS[qlpt-0].question, qlVAL.stack)
-			}
 			q := qlS[qlpt-0].question
 			qs := qlVAL.stack
-			action := &ast.ActionNode{
-				Action: q,
-			}
+			action := &ast.ActionNode{Action: q}
 			qs = append(qs, action)
 			qlVAL.stack = qs
 		}
 	case 5:
-		//line parser.y:91
+		//line parser.y:87
 		{
 			ifNode := qlS[qlpt-0].ifNode
 			qs := qlVAL.stack
-			action := &ast.ActionNode{
-				Action: ifNode,
-			}
+			action := &ast.ActionNode{Action: ifNode}
 			qs = append(qs, action)
 			qlVAL.stack = qs
 		}
 	case 6:
-		//line parser.y:104
+		//line parser.y:98
 		{
 			qlVAL.question = &ast.QuestionNode{
 				Label:      qlS[qlpt-2].content,
@@ -446,108 +436,103 @@ qldefault:
 			}
 		}
 	case 7:
-		//line parser.y:116
+		//line parser.y:111
 		{
 			qlVAL.questionType = new(ast.StringQuestion)
 		}
 	case 8:
-		//line parser.y:120
+		//line parser.y:115
 		{
 			qlVAL.questionType = new(ast.IntQuestion)
 		}
 	case 9:
-		//line parser.y:124
+		//line parser.y:119
 		{
 			qlVAL.questionType = new(ast.BoolQuestion)
 		}
 	case 10:
-		//line parser.y:129
+		//line parser.y:123
 		{
 			qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", qlS[qlpt-0].content))
 		}
 	case 11:
-		//line parser.y:135
+		//line parser.y:130
 		{
 			ifNode := new(ast.IfNode)
-			ifNode.Conditions = qlS[qlpt-4].evaluatables
+			ifNode.Conditions = qlS[qlpt-4].evaluatable
 			ifNode.Stack = qlS[qlpt-1].stack
 			qlVAL.ifNode = ifNode
 
-			qlS[qlpt-4].evaluatables = []ast.Evaluatable{}
+			qlS[qlpt-4].evaluatable = new(ast.Evaluatable)
+		}
+	case 12:
+		//line parser.y:142
+		{
+			condition := new(ast.EqualsNode)
+			condition.LeftTerm = qlS[qlpt-2].evaluatable
+			condition.RightTerm = qlS[qlpt-0].evaluatable
+			qlVAL.evaluatable = condition
 		}
 	case 13:
-		//line parser.y:147
+		//line parser.y:149
 		{
-			evaluatables := qlVAL.evaluatables
-			evaluatables = append(evaluatables, qlS[qlpt-0].evaluatable)
-			qlVAL.evaluatables = evaluatables
+			condition := new(ast.MoreThanNode)
+			condition.LeftTerm = qlS[qlpt-2].evaluatable
+			condition.RightTerm = qlS[qlpt-0].evaluatable
+			qlVAL.evaluatable = condition
 		}
 	case 14:
 		//line parser.y:156
 		{
-			condition := new(ast.EqualsNode)
-			condition.LeftTerm = qlS[qlpt-2].termNode
-			condition.RightTerm = qlS[qlpt-0].termNode
+			condition := new(ast.LessThanNode)
+			condition.LeftTerm = qlS[qlpt-2].evaluatable
+			condition.RightTerm = qlS[qlpt-0].evaluatable
 			qlVAL.evaluatable = condition
 		}
 	case 15:
 		//line parser.y:163
 		{
-			condition := new(ast.MoreThanNode)
-			condition.LeftTerm = qlS[qlpt-2].termNode
-			condition.RightTerm = qlS[qlpt-0].termNode
+			condition := new(ast.MoreOrEqualsThanNode)
+			condition.LeftTerm = qlS[qlpt-2].evaluatable
+			condition.RightTerm = qlS[qlpt-0].evaluatable
 			qlVAL.evaluatable = condition
 		}
 	case 16:
 		//line parser.y:170
 		{
-			condition := new(ast.LessThanNode)
-			condition.LeftTerm = qlS[qlpt-2].termNode
-			condition.RightTerm = qlS[qlpt-0].termNode
-			qlVAL.evaluatable = condition
-		}
-	case 17:
-		//line parser.y:177
-		{
-			condition := new(ast.MoreOrEqualsThanNode)
-			condition.LeftTerm = qlS[qlpt-2].termNode
-			condition.RightTerm = qlS[qlpt-0].termNode
+			condition := new(ast.LessOrEqualsThanNode)
+			condition.LeftTerm = qlS[qlpt-2].evaluatable
+			condition.RightTerm = qlS[qlpt-0].evaluatable
 			qlVAL.evaluatable = condition
 		}
 	case 18:
-		//line parser.y:184
+		//line parser.y:181
 		{
-			condition := new(ast.LessOrEqualsThanNode)
-			condition.LeftTerm = qlS[qlpt-2].termNode
-			condition.RightTerm = qlS[qlpt-0].termNode
+			condition := new(ast.MathAddNode)
+			condition.LeftTerm = qlS[qlpt-2].evaluatable
+			condition.RightTerm = qlS[qlpt-0].evaluatable
 			qlVAL.evaluatable = condition
 		}
 	case 19:
-		//line parser.y:191
+		//line parser.y:188
 		{
-			condition := new(ast.SingleTermNode)
-			condition.LeftTerm = qlS[qlpt-0].termNode
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = qlS[qlpt-0].termNode
 		}
 	case 20:
-		//line parser.y:199
+		//line parser.y:195
 		{
+			num, _ := strconv.ParseFloat(qlS[qlpt-0].content, 32)
+			qlVAL.num = float32(num)
 			termNode := new(ast.TermNode)
-			termNode.NumericConstant = qlS[qlpt-0].num
+			termNode.NumericConstant = qlVAL.num
 			qlVAL.termNode = termNode
 		}
 	case 21:
-		//line parser.y:205
+		//line parser.y:203
 		{
 			termNode := new(ast.TermNode)
 			termNode.IdentifierReference = qlS[qlpt-0].content
 			qlVAL.termNode = termNode
-		}
-	case 22:
-		//line parser.y:214
-		{
-			num, _ := strconv.ParseFloat(qlS[qlpt-0].content, 32)
-			qlVAL.num = float32(num)
 		}
 	}
 	goto qlstack /* stack new state and value */

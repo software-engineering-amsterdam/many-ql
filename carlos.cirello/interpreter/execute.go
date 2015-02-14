@@ -58,44 +58,67 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
-	for _, c := range i.Conditions {
-		switch t := c.(type) {
-		default:
-			log.Fatalf("impossible condition type. got: %T", t)
-		case *ast.SingleTermNode:
-			if !exec.SingleTermNode(c.(*ast.SingleTermNode)) {
-				return
-			}
-		case *ast.EqualsNode:
-			if !exec.EqualsNode(c.(*ast.EqualsNode)) {
-				return
-			}
-		case *ast.MoreThanNode:
-			if !exec.MoreThanNode(c.(*ast.MoreThanNode)) {
-				return
-			}
-		case *ast.LessThanNode:
-			if !exec.LessThanNode(c.(*ast.LessThanNode)) {
-				return
-			}
-		case *ast.MoreOrEqualsThanNode:
-			if !exec.MoreOrEqualsThanNode(c.(*ast.MoreOrEqualsThanNode)) {
-				return
-			}
-		case *ast.LessOrEqualsThanNode:
-			if !exec.LessOrEqualsThanNode(c.(*ast.LessOrEqualsThanNode)) {
-				return
-			}
+	c := i.Conditions
+	switch t := c.(type) {
+	default:
+		log.Fatalf("impossible condition type. got: %T", t)
+	// case *ast.MathAddNode:
+	// 	if !exec.MathAddNode(c.(*ast.MathAddNode)) {
+	// 		return
+	// 	}
+	case *ast.TermNode:
+		if !exec.TermNode(c.(*ast.TermNode)) {
+			return
+		}
+	case *ast.SingleTermNode:
+		if !exec.SingleTermNode(c.(*ast.SingleTermNode)) {
+			return
+		}
+	case *ast.EqualsNode:
+		if !exec.EqualsNode(c.(*ast.EqualsNode)) {
+			return
+		}
+	case *ast.MoreThanNode:
+		if !exec.MoreThanNode(c.(*ast.MoreThanNode)) {
+			return
+		}
+	case *ast.LessThanNode:
+		if !exec.LessThanNode(c.(*ast.LessThanNode)) {
+			return
+		}
+	case *ast.MoreOrEqualsThanNode:
+		if !exec.MoreOrEqualsThanNode(c.(*ast.MoreOrEqualsThanNode)) {
+			return
+		}
+	case *ast.LessOrEqualsThanNode:
+		if !exec.LessOrEqualsThanNode(c.(*ast.LessOrEqualsThanNode)) {
+			return
 		}
 	}
+
 	for _, actionNode := range i.Stack {
 		exec.Exec(actionNode)
 	}
 
 }
 
+func (exec Execute) TermNode(s *ast.TermNode) bool {
+	value := exec.resolveTermNode(s)
+
+	switch value.(type) {
+	case bool:
+		return value.(bool)
+	case int:
+		return value.(int) != 0
+	case float32:
+		return value.(float32) != 0
+	}
+
+	return false
+}
+
 func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
-	value := exec.resolveTermNode(s.LeftTerm)
+	value := exec.resolveTermNode(s.LeftTerm.(*ast.TermNode))
 
 	switch value.(type) {
 	case bool:
@@ -111,36 +134,36 @@ func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
 
 func (exec Execute) EqualsNode(s *ast.EqualsNode) bool {
 	// todo(carlos) allow comparison of same types, not only numeric
-	left := exec.resolveNumeric(s.LeftTerm)
-	right := exec.resolveNumeric(s.RightTerm)
+	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
+	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
 
 	return left == right
 }
 
 func (exec Execute) MoreThanNode(s *ast.MoreThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm)
-	right := exec.resolveNumeric(s.RightTerm)
+	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
+	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
 
 	return left > right
 }
 
 func (exec Execute) LessThanNode(s *ast.LessThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm)
-	right := exec.resolveNumeric(s.RightTerm)
+	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
+	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
 
 	return left < right
 }
 
 func (exec Execute) MoreOrEqualsThanNode(s *ast.MoreOrEqualsThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm)
-	right := exec.resolveNumeric(s.RightTerm)
+	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
+	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
 
 	return left >= right
 }
 
 func (exec Execute) LessOrEqualsThanNode(s *ast.LessOrEqualsThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm)
-	right := exec.resolveNumeric(s.RightTerm)
+	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
+	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
 
 	return left <= right
 }
