@@ -7,6 +7,12 @@ from AST import *
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class CustomQLVisitor(QLVisitor):
+
+    # Visit a parse tree produced by QLParserRoot.
+    def visitRoot(self, ctx):
+        statements = [self.visit(child) for child in ctx.getChildren()]
+        return RootNode(statements)
+
     # Visit a parse tree produced by QLParser#statement.
     def visitStatement(self, ctx):
         return self.visitChildren(ctx)

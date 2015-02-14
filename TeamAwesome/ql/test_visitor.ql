@@ -11,3 +11,7 @@ form taxOfficeExample {
     }
   }
 }
+
+form second_form {
+  
+}
