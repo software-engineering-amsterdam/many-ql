@@ -1,11 +1,17 @@
 form taxOfficeExample { 
   question hasSoldHouse {
     "Did you sell a house in 2010?"
-    boolean
+    boolean = 3.012
   }
 
-  question hasBoughtHouse {
-    "Did you buy a house in 2010?"
-    boolean
+  if 2 + 4 > 7 {
+    question hasBoughtHouse {
+      "Did you buy a house"
+      boolean = "no"
+    }
   }
+}
+
+form second_form {
+  
 }

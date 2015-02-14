@@ -9,7 +9,7 @@ form SomeForm {
 	questionThree bool
 
 	if (questionThree) {
-		"Why are you happy today?"questionFour string
-		"Grade your happiness?" questionFive integer
+		"Why are you happy today?" questionFour string
+		"Grade your happiness?"    questionFive integer
 	}
 }

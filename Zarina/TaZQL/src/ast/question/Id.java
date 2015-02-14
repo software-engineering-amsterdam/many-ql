@@ -1,8 +1,7 @@
-package ast.type;
+package ast.question;
 
 
-public class Id {
-//extends Testik {
+public abstract class Id extends IQuestionVisitable {
 
 	private String id;
 	
@@ -13,16 +12,11 @@ public class Id {
 	public String getID() {
 		return id;
 	}
-/*
+
 	@Override
 	public String toString() {
 		return id;
 	}
-*/	/*
-	@Override
-	public <T> T accept(IMainVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-	*/
+
 }
 

@@ -1,25 +1,11 @@
 package ast.type;
 
+import ast.IMainVisitable;
 
-public class Type  {
-	private String type;
+
+public abstract class Type<T> implements IMainVisitable {
+
+	public abstract T accept(ITypeVisitor<T> visitor);
 	
-	public Type(String type) {
-		this.type = type;
-	}
-	
-	public String getTYPE() {
-		return type;
-	}
-/*
-	@Override
-	public String toString() {
-		return id;
-	}
-*/	/*
-	@Override
-	public <T> T accept(IMainVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-	*/
+	//public abstract String toString();
 }

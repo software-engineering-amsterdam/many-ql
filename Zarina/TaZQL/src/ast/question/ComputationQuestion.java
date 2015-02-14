@@ -1,14 +1,13 @@
 package ast.question;
 
 import ast.expression.Expression;
-import ast.type.Id;
-import ast.type.Text;
+import ast.type.TextType;
 import ast.type.Type;
 
 public class ComputationQuestion extends SimpleQuestion {
 	private Expression expression;
 		
-	public ComputationQuestion (Id questionID, Text questionText, Type questionType, Expression expression) {
+	public ComputationQuestion (Id questionID, TextType questionText, Type questionType, Expression expression) {
 		super(questionID, questionText, questionType);
 		this.expression = expression;
 	}	

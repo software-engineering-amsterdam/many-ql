@@ -23,6 +23,7 @@ type render struct {
 	identifier string
 	label      string
 	fieldType  string
+	content    interface{}
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
@@ -61,6 +62,7 @@ func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 			q.Identifier,
 			q.Label,
 			q.Type(),
+			q.Content,
 		}
 		g.renderStack = append(g.renderStack, *m)
 	}
@@ -129,6 +131,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 					event.fieldType,
 					event.identifier,
 					event.label,
+					event.content,
 				)
 				qml.Unlock()
 			case nukeQuestion:
@@ -141,7 +144,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 }
 
 func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
-	newFieldCaption string) {
+	newFieldCaption string, content interface{}) {
 
 	engine := qml.NewEngine()
 	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
@@ -159,7 +162,11 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 
 	newFieldPtr := question.ObjectByName(newFieldName)
 	// todo(carlos) improve readability
-	if "bool" == newFieldType {
+	switch newFieldType {
+	case ast.BoolQuestionType:
+		if content.(*ast.BoolQuestion).String() == "Yes" {
+			newFieldPtr.Set("checked", true)
+		}
 		newFieldPtr.On("clicked", func() {
 			g.mu.Lock()
 			defer g.mu.Unlock()
@@ -172,7 +179,8 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 				g.answerStack[objectName] = "1"
 			}
 		})
-	} else {
+	default:
+		newFieldPtr.Set("text", content.(ast.Parser).String())
 		newFieldPtr.On("editingFinished", func() {
 			g.mu.Lock()
 			defer g.mu.Unlock()

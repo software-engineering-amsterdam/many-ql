@@ -1,14 +1,11 @@
 package ast.question;
 
 
-
-
 public interface IQuestionVisitor<T> {
-	//T visit(ID id);
-	//T visit(TYPE id);
-	 T visit(SimpleQuestion simpleQuestion);
-	 T visit(ComputationQuestion calQuestion);
-	 T visit(Form form);
-	 T visit(IfStatement ifStatement);	 
-	 T visit(IfElseStatement ifElseStatement);
+
+	 public T visit(SimpleQuestion simpleQuestion);
+	 public T visit(ComputationQuestion calQuestion);
+	 public T visit(Form form);
+	 public T visit(IfStatement ifStatement);	 
+	 public T visit(IfElseStatement ifElseStatement);
 }

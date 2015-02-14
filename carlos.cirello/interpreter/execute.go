@@ -58,22 +58,46 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
-	ret := make(chan *ast.QuestionNode)
-	exec.symbolChan <- &symbolEvent{
-		command: SymbolRead,
-		name:    i.Condition,
-		ret:     ret,
+	result := true
+condLoop:
+	for _, c := range i.Conditions {
+		switch t := c.(type) {
+		default:
+			log.Fatalf("impossible condition type. got: %T", t)
+		case *ast.SingleTermNode:
+			if !exec.SingleTermNode(c.(*ast.SingleTermNode)) {
+				result = false
+				break condLoop
+			}
+		}
 	}
-
-	q := <-ret
-	if q.Type() != "bool" {
-		log.Fatalf("Error parsing expression: %s. Not a boolean value", i.Condition)
-	}
-
-	content := q.Content.(*ast.BoolQuestion)
-	if content.Value() {
+	if result {
 		for _, actionNode := range i.Stack {
 			exec.Exec(actionNode)
 		}
 	}
+}
+
+func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
+	identifier := s.LeftTerm.IdentifierReference
+	if identifier != "" {
+		ret := make(chan *ast.QuestionNode)
+		exec.symbolChan <- &symbolEvent{
+			command: SymbolRead,
+			name:    identifier,
+			ret:     ret,
+		}
+
+		q := <-ret
+
+		switch q.Type() {
+		case ast.BoolQuestionType:
+			content := q.Content.(*ast.BoolQuestion)
+			return content.Value()
+		case ast.IntQuestionType:
+			content := q.Content.(*ast.IntQuestion)
+			return content.Value() != 0
+		}
+	}
+	return s.LeftTerm.NumericConstant != 0
 }
