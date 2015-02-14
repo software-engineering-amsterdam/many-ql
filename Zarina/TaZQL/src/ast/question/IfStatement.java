@@ -1,17 +1,25 @@
 package ast.question;
 
+import java.util.ArrayList;
+
 import ast.expression.Expression;
 
 public class IfStatement extends Questions {
 
-	private Expression expression;
+	private Expression ifExpression;
+	private ArrayList<Questions> statement;
 	
-	public IfStatement(Expression expression) {
-		this.expression = expression;
+	public IfStatement(Expression ifExpression, ArrayList<Questions> statement) {
+		this.statement = statement;
+		this.ifExpression = ifExpression;
 	}
 	
 	public Expression getExpression(){
-		return expression;
+		return ifExpression;
+	}
+	
+	public ArrayList<Questions> getStatement(){
+		return statement;
 	}
 	
 	@Override
