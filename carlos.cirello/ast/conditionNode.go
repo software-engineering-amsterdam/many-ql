@@ -13,23 +13,32 @@ type SingleTermNode struct {
 	Evaluatable
 }
 
-type EqualsNode struct {
+type DoubleTermNode struct {
 	LeftTerm  *TermNode
 	RightTerm *TermNode
+}
 
+type EqualsNode struct {
+	DoubleTermNode
 	Evaluatable
 }
 
 type LessThanNode struct {
-	LeftTerm  *TermNode
-	RightTerm *TermNode
-
+	DoubleTermNode
 	Evaluatable
 }
 
 type MoreThanNode struct {
-	LeftTerm  *TermNode
-	RightTerm *TermNode
+	DoubleTermNode
+	Evaluatable
+}
 
+type LessOrEqualsThanNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MoreOrEqualsThanNode struct {
+	DoubleTermNode
 	Evaluatable
 }

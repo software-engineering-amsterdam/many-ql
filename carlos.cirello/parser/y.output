@@ -167,30 +167,34 @@ state 22
 	evaluatable:  term.EqualsToToken term 
 	evaluatable:  term.MoreThanToken term 
 	evaluatable:  term.LessThanToken term 
-	evaluatable:  term.    (17)
+	evaluatable:  term.MoreOrEqualsThanToken term 
+	evaluatable:  term.LessOrEqualsThanToken term 
+	evaluatable:  term.    (19)
 
 	LessThanToken  shift 29
+	LessOrEqualsThanToken  shift 31
 	MoreThanToken  shift 28
+	MoreOrEqualsThanToken  shift 30
 	EqualsToToken  shift 27
-	.  reduce 17 (src line 176)
-
-
-state 23
-	term:  number.    (18)
-
-	.  reduce 18 (src line 184)
-
-
-state 24
-	term:  TextToken.    (19)
-
 	.  reduce 19 (src line 190)
 
 
-state 25
-	number:  NumericToken.    (20)
+state 23
+	term:  number.    (20)
 
 	.  reduce 20 (src line 198)
+
+
+state 24
+	term:  TextToken.    (21)
+
+	.  reduce 21 (src line 204)
+
+
+state 25
+	number:  NumericToken.    (22)
+
+	.  reduce 22 (src line 212)
 
 
 state 26
@@ -199,7 +203,7 @@ state 26
 
 	.  reduce 3 (src line 75)
 
-	stack  goto 30
+	stack  goto 32
 
 state 27
 	evaluatable:  term EqualsToToken.term 
@@ -208,7 +212,7 @@ state 27
 	NumericToken  shift 25
 	.  error
 
-	term  goto 31
+	term  goto 33
 	number  goto 23
 
 state 28
@@ -218,7 +222,7 @@ state 28
 	NumericToken  shift 25
 	.  error
 
-	term  goto 32
+	term  goto 34
 	number  goto 23
 
 state 29
@@ -228,55 +232,87 @@ state 29
 	NumericToken  shift 25
 	.  error
 
-	term  goto 33
+	term  goto 35
 	number  goto 23
 
 state 30
+	evaluatable:  term MoreOrEqualsThanToken.term 
+
+	TextToken  shift 24
+	NumericToken  shift 25
+	.  error
+
+	term  goto 36
+	number  goto 23
+
+state 31
+	evaluatable:  term LessOrEqualsThanToken.term 
+
+	TextToken  shift 24
+	NumericToken  shift 25
+	.  error
+
+	term  goto 37
+	number  goto 23
+
+state 32
 	stack:  stack.question 
 	stack:  stack.ifBlock 
 	ifBlock:  IfToken '(' evaluatables ')' '{' stack.'}' 
 
 	IfToken  shift 11
 	QuotedStringToken  shift 10
-	'}'  shift 34
+	'}'  shift 38
 	.  error
 
 	question  goto 8
 	ifBlock  goto 9
 
-state 31
+state 33
 	evaluatable:  term EqualsToToken term.    (14)
 
 	.  reduce 14 (src line 154)
 
 
-state 32
+state 34
 	evaluatable:  term MoreThanToken term.    (15)
 
 	.  reduce 15 (src line 162)
 
 
-state 33
+state 35
 	evaluatable:  term LessThanToken term.    (16)
 
 	.  reduce 16 (src line 169)
 
 
-state 34
+state 36
+	evaluatable:  term MoreOrEqualsThanToken term.    (17)
+
+	.  reduce 17 (src line 176)
+
+
+state 37
+	evaluatable:  term LessOrEqualsThanToken term.    (18)
+
+	.  reduce 18 (src line 183)
+
+
+state 38
 	ifBlock:  IfToken '(' evaluatables ')' '{' stack '}'.    (11)
 
 	.  reduce 11 (src line 134)
 
 
 28 terminals, 11 nonterminals
-21 grammar rules, 35/2000 states
+23 grammar rules, 39/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 60 working sets used
-memory: parser 16/30000
+memory: parser 20/30000
 0 extra closures
-28 shift entries, 1 exceptions
-14 goto entries
-5 entries saved by goto default
-Optimizer space used: output 41/30000
-41 table entries, 3 zero
-maximum spread: 28, maximum offset: 29
+34 shift entries, 1 exceptions
+16 goto entries
+7 entries saved by goto default
+Optimizer space used: output 43/30000
+43 table entries, 1 zero
+maximum spread: 28, maximum offset: 31

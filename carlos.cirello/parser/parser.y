@@ -173,6 +173,20 @@ evaluatable:
 		condition.RightTerm = $3.termNode
 		$$.evaluatable = condition
 	}
+	| term MoreOrEqualsThanToken term
+	{
+		condition := new (ast.MoreOrEqualsThanNode)
+		condition.LeftTerm = $1.termNode
+		condition.RightTerm = $3.termNode
+		$$.evaluatable = condition
+	}
+	| term LessOrEqualsThanToken term
+	{
+		condition := new (ast.LessOrEqualsThanNode)
+		condition.LeftTerm = $1.termNode
+		condition.RightTerm = $3.termNode
+		$$.evaluatable = condition
+	}
 	| term
 	{
 		condition := new (ast.SingleTermNode)

@@ -84,7 +84,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:225
+//line parser.y:239
 
 //line yacctab:1
 var qlExca = []int{
@@ -93,59 +93,59 @@ var qlExca = []int{
 	-2, 0,
 }
 
-const qlNprod = 21
+const qlNprod = 23
 const qlPrivate = 57344
 
 var qlTokenNames []string
 var qlStates []string
 
-const qlLast = 41
+const qlLast = 43
 
 var qlAct = []int{
 
-	22, 11, 11, 24, 10, 10, 29, 26, 28, 24,
-	27, 5, 20, 6, 12, 13, 4, 3, 25, 23,
-	21, 19, 34, 7, 25, 14, 9, 8, 31, 32,
-	33, 18, 15, 16, 17, 2, 1, 0, 0, 0,
-	30,
+	22, 11, 11, 24, 10, 10, 29, 31, 28, 30,
+	27, 24, 20, 26, 5, 6, 13, 12, 25, 4,
+	3, 23, 38, 7, 21, 19, 25, 14, 33, 34,
+	35, 36, 37, 18, 15, 16, 17, 9, 8, 2,
+	1, 0, 32,
 }
 var qlPact = []int{
 
-	11, -1000, -1000, 5, -16, -1000, -5, -1000, -1000, -1000,
-	3, -4, 20, -1000, -1000, -1000, -1000, -1000, -1000, -8,
-	-20, -1000, -15, -1000, -1000, -1000, -1000, -2, -2, -2,
-	-6, -1000, -1000, -1000, -1000,
+	14, -1000, -1000, 8, -13, -1000, -5, -1000, -1000, -1000,
+	6, -3, 22, -1000, -1000, -1000, -1000, -1000, -1000, -8,
+	-14, -1000, -15, -1000, -1000, -1000, -1000, 0, 0, 0,
+	0, 0, -6, -1000, -1000, -1000, -1000, -1000, -1000,
 }
 var qlPgo = []int{
 
-	0, 36, 35, 13, 27, 26, 25, 21, 20, 0,
-	19,
+	0, 40, 39, 15, 38, 37, 27, 25, 24, 0,
+	21,
 }
 var qlR1 = []int{
 
 	0, 1, 2, 3, 3, 3, 4, 6, 6, 6,
-	6, 5, 7, 7, 8, 8, 8, 8, 9, 9,
-	10,
+	6, 5, 7, 7, 8, 8, 8, 8, 8, 8,
+	9, 9, 10,
 }
 var qlR2 = []int{
 
 	0, 1, 5, 0, 2, 2, 3, 1, 1, 1,
-	1, 7, 0, 2, 3, 3, 3, 1, 1, 1,
-	1,
+	1, 7, 0, 2, 3, 3, 3, 3, 3, 1,
+	1, 1, 1,
 }
 var qlChk = []int{
 
 	-1000, -1, -2, 6, 11, 27, -3, 28, -4, -5,
 	10, 7, 11, 19, -6, 12, 13, 14, 11, -7,
 	20, -8, -9, -10, 11, 26, 27, 25, 23, 21,
-	-3, -9, -9, -9, 28,
+	24, 22, -3, -9, -9, -9, -9, -9, 28,
 }
 var qlDef = []int{
 
 	0, -2, 1, 0, 0, 3, 0, 2, 4, 5,
 	0, 0, 0, 12, 6, 7, 8, 9, 10, 0,
-	0, 13, 17, 18, 19, 20, 3, 0, 0, 0,
-	0, 14, 15, 16, 11,
+	0, 13, 19, 20, 21, 22, 3, 0, 0, 0,
+	0, 0, 0, 14, 15, 16, 17, 18, 11,
 }
 var qlTok1 = []int{
 
@@ -509,26 +509,42 @@ qldefault:
 	case 17:
 		//line parser.y:177
 		{
+			condition := new(ast.MoreOrEqualsThanNode)
+			condition.LeftTerm = qlS[qlpt-2].termNode
+			condition.RightTerm = qlS[qlpt-0].termNode
+			qlVAL.evaluatable = condition
+		}
+	case 18:
+		//line parser.y:184
+		{
+			condition := new(ast.LessOrEqualsThanNode)
+			condition.LeftTerm = qlS[qlpt-2].termNode
+			condition.RightTerm = qlS[qlpt-0].termNode
+			qlVAL.evaluatable = condition
+		}
+	case 19:
+		//line parser.y:191
+		{
 			condition := new(ast.SingleTermNode)
 			condition.LeftTerm = qlS[qlpt-0].termNode
 			qlVAL.evaluatable = condition
 		}
-	case 18:
-		//line parser.y:185
+	case 20:
+		//line parser.y:199
 		{
 			termNode := new(ast.TermNode)
 			termNode.NumericConstant = qlS[qlpt-0].num
 			qlVAL.termNode = termNode
 		}
-	case 19:
-		//line parser.y:191
+	case 21:
+		//line parser.y:205
 		{
 			termNode := new(ast.TermNode)
 			termNode.IdentifierReference = qlS[qlpt-0].content
 			qlVAL.termNode = termNode
 		}
-	case 20:
-		//line parser.y:200
+	case 22:
+		//line parser.y:214
 		{
 			num, _ := strconv.ParseFloat(qlS[qlpt-0].content, 32)
 			qlVAL.num = float32(num)

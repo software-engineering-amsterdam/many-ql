@@ -67,6 +67,9 @@ func TestIfConditions(t *testing.T) {
 
 			if (2000 > 3000) {}
 			if (4000 < 5000) {}
+
+			if (2000 >= 3000) {}
+			if (4000 <= 5000) {}
 		}
 		`),
 		"test.ql",
