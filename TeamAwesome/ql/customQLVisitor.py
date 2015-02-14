@@ -7,20 +7,28 @@ from AST import *
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class CustomQLVisitor(QLVisitor):
+
+    # Visit a parse tree produced by QLParserRoot.
+    def visitRoot(self, ctx):
+        statements = [self.visit(child) for child in ctx.getChildren()]
+        return RootNode(statements)
+
     # Visit a parse tree produced by QLParser#statement.
     def visitStatement(self, ctx):
         return self.visitChildren(ctx)
 
-
     # Visit a parse tree produced by QLParser#form.
     def visitForm_statement(self, ctx):
         identifier = self.visit(ctx.getChild(1))
+        
         statements = []
         for child in ctx.getChildren():
             if isinstance(child, QLParser.StatementContext):
                 statements.append(self.visit(child))
-        return FormStatementNode(identifier, statements)
 
+        lineNumber = ctx.start.line
+
+        return FormStatementNode(identifier, statements, lineNumber)
 
     # Visit a parse tree produced by QLParser
     def visitQuestion_statement(self, ctx):
@@ -33,7 +41,9 @@ class CustomQLVisitor(QLVisitor):
         else:
             expr = None
 
-        return QuestionStatementNode(identifier, text, question_type, expr = expr)
+        lineNumber = ctx.start.line
+
+        return QuestionStatementNode(identifier, text, question_type, lineNumber, expr = expr)
         #return self.visitChildren(ctx)
 
 
@@ -45,10 +55,10 @@ class CustomQLVisitor(QLVisitor):
         for child in ctx.getChildren():
             if isinstance(child, QLParser.StatementContext):
                 statements.append(self.visit(child))
-        return IfStatementNode(expr, statements)
 
-        return self.visitChildren(ctx)
+        lineNumber = ctx.start.line
 
+        return IfStatementNode(expr, statements, lineNumber)
 
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean(self, ctx):
@@ -62,7 +72,6 @@ class CustomQLVisitor(QLVisitor):
     def visitString(self, ctx):
         return ctx.getText()
 
-
     # Visit a parse tree produced by QLParser#integer.
     def visitInteger(self, ctx):
         return int(ctx.getText())
@@ -73,12 +82,13 @@ class CustomQLVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx): # TODO
-        return Identifier(ctx.getText())
+        lineNumber = ctx.start.line
+        return Identifier(ctx.getText(), lineNumber)
     
     # Visit a parse tree produced by QLParser#atom.
     def visitAtom(self, ctx):
-        return AtomicExpressionNode(self.visitChildren(ctx))
-
+        lineNumber = ctx.start.line
+        return AtomicExpressionNode(self.visitChildren(ctx), lineNumber)
 
     # Visit a parse tree produced by QLParser#expr.
     def visitExpr(self, ctx):
@@ -86,13 +96,14 @@ class CustomQLVisitor(QLVisitor):
         if ctx.op == None:
             return self.visitChildren(ctx)
 
+        lineNumber = ctx.start.line
         op = ctx.op.text
         right = self.visit(ctx.right)
 
         # unary (rightside) operator
         if ctx.left == None:
-            return UnaryExpressionNode(op, right)
+            return UnaryExpressionNode(op, right, lineNumber)
 
         left = self.visit(ctx.left)
 
-        return BinaryExpressionNode(left, op, right)
+        return BinaryExpressionNode(left, op, right, lineNumber)
