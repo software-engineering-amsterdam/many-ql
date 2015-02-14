@@ -29,7 +29,7 @@ def print_tree(tree_test, lev):
 
 def main():
     visitor = CustomQLVisitor()
-    #print(visitor.visit(tree_test).statements[0].expr.left)
+    print(visitor.visit(tree_test).statements[0].identifier.lineNumber)
     #print_tree(tree_test, 0)    
 
 if __name__ == '__main__':
