@@ -17,7 +17,6 @@ public class ComputationQuestion extends SimpleQuestion {
 		return expression;
 	}
 	
-	
 	@Override
 	public <T> T accept(IQuestionVisitor<T> visitor) {
 		return visitor.visit(this);

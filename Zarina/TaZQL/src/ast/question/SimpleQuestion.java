@@ -32,7 +32,7 @@ public class SimpleQuestion extends Questions {
 
 	@Override
 	public String toString() {
-		return "ID: " + this.questionID + " Text: " + this.questionText + " Type: " + this.questionType ;
+		return this.questionID + " \"" + this.questionText + "\" " + this.questionType ;
 	}
 	
 	@Override

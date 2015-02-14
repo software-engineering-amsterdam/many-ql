@@ -6,12 +6,12 @@ import ast.type.Id;
 
 public class Form {
 	private Id formId;
-	private ArrayList<SimpleQuestion> simpleQuestion;
+	private ArrayList<SimpleQuestion> arrayQuestions;
 	
 	
-	public Form (Id formId, ArrayList<SimpleQuestion> simpleQuestion) {
+	public Form (Id formId, ArrayList<SimpleQuestion> arrayQuestions) {
 		this.formId = formId;
-		this.simpleQuestion = simpleQuestion;
+		this.arrayQuestions = arrayQuestions;
 	}	
 	
 	public Id getFormId(){
@@ -19,14 +19,9 @@ public class Form {
 	}
 	
 	public ArrayList<SimpleQuestion> getQuestionText(){
-		return simpleQuestion;
+		return arrayQuestions;
 	}
-	
-	@Override
-	public String toString() {
-		return "FORM { "+ formId + simpleQuestion + "}";
-	}
-	
+		
 	public <T> T accept(IQuestionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
