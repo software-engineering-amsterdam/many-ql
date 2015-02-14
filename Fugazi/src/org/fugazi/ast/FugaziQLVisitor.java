@@ -10,10 +10,7 @@ import org.fugazi.ast.Statement.IfStatement;
 import org.fugazi.ast.Statement.QuestionStatement;
 import org.fugazi.ast.Statement.ComputedQuestionStatement;
 import org.fugazi.ast.Statement.Statement;
-import org.fugazi.ast.Type.BoolType;
-import org.fugazi.ast.Type.IntType;
-import org.fugazi.ast.Type.MoneyType;
-import org.fugazi.ast.Type.Type;
+import org.fugazi.ast.Type.*;
 import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
 import org.fugazi.ast.Form.Form;
@@ -107,7 +104,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
         // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
         //STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText().toString();
+        String label = ctx.STRING().getText();
 
         QuestionStatement question = new QuestionStatement(type, label, identifier);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
@@ -153,6 +150,12 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
     @Override public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
         System.out.print("TYPE: " + "Int ");
         return new IntType();
+    }
+
+    @Override 
+    public StringType visitStringType(@NotNull QLParser.StringTypeContext ctx) { 
+        System.out.print("TYPE: " + "String ");
+        return new StringType();
     }
 
     /**
@@ -290,6 +293,4 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         System.out.print(" " + ctx.ID().getText() + " ");
         return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
     }
-
-    
 }

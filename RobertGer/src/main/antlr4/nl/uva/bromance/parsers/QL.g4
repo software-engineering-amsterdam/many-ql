@@ -1,11 +1,19 @@
 grammar QL;
-questionnaire: 'Name:' name=STRING '{' (form)* '}';
-form: 'Form:' name=STRING '{' (statement|question)* '}';
-question: 'Question:' name=STRING  '{' (questionContent)* '}';
-questionContent: questionText
+questionnaire: 'Name:' name=STRING questionnaireBody;
+
+questionnaireBody:
+    '{'(form)+'}';
+
+form: 'Form:' name=STRING formBody;
+
+formBody:
+    '{'(question|calculation|(ifStatement (elseIfStatement)* (elseStatement)?)|label)*'}';
+
+question: 'Question:' name=STRING questionBody;
+
+questionBody: '{'(questionText
                | questionAnswer
-               | questionRange
-               | questionCalcuation;
+               | questionRange)*'}';
 
 questionText: 'Text:' text=STRING;
 //QuestionAnser abstractions
@@ -20,37 +28,45 @@ questionRangeBiggerThan: '>' num=NUMBER;
 questionRangeSmallerThan: '<' num=NUMBER;
 
 //QuestionCalculation
-questionCalcuation:
-    'Caculation:' name=STRING block;
+calculation:
+    'Calculation:' name=STRING calculationBody;
 
-block:
-    '{'blockStatement'}';
-
-blockStatement:
-    statement;
-
-statement:
-    block
-    |ifStatement
-    |ifStatement (elseStatement)?
-    |ifStatement (elseIfStatement)* (elseStatement)*
-    |expression;
+calculationBody:
+   '{' ((ifStatement (elseIfStatement)* (elseStatement)?)|input)+'}';
 
 ifStatement:
-    'If:' expression statement;
+    'If:' expression statementBody;
 
 elseStatement:
-    'Else:' statement (elseIfStatement)?;
+    'Else:' statementBody;
 
 elseIfStatement:
-    'Else If:' expression statement;
+    'Else If:' expression statementBody;
+
+statementBody:
+    '{'(question|calculation|input|labelText)*'}';
+
+label:
+'Label:'name=STRING labelBody;
+labelBody:
+'{'((ifStatement (elseIfStatement)* (elseStatement)?)| labelText)'}';
+
+labelText:
+    'Text:' (id STRING)+ id?
+    |'Text:' STRING;
+
+input:
+    'Input:' expression;
+
 
 expression
     : primary
-    | expression op=RELATIONAL_OPERATOR expression
-    | expression op=('==' | '!=') expression
-    | expression op=OR_OP expression
-    | expression op=AND_OP expression;
+    | expression ('*'|'/') expression
+    | expression ('+'|'-') expression
+    | expression ('<=' | '>=' | '>' | '<') expression
+    | expression ('==' | '!=') expression
+    | expression OR_OP expression
+    | expression AND_OP expression;
 
 primary:
     parExpression
@@ -60,7 +76,8 @@ parExpression:
     '(' expression ')';
 
 id
-    : STRING
+    : '['id']'
+    | STRING
     | NUMBER
     | TEXT;
 
@@ -72,7 +89,7 @@ elseStatement: 'Else:' '{' '}';
 */
 // String and number definitions taken from : https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
 STRING :  '"' (ESC | ~["\\])* '"' ;
-fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
+fragment ESC :   '\\' (["\\/bfnrt] | UNICODE);
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
 fragment HEX : [0-9a-fA-F] ;
 NUMBER
@@ -82,14 +99,15 @@ NUMBER
     ;
 fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
-WS  :   [ \t\n\r]+ -> skip ;
 fragment NL   : '\r' '\n' | '\n' | '\r';
-RELATIONAL_OPERATOR : '>'
-                 | '<'
-                 | '>='
-                 | '<=';
 
 AND_OP: '&&';
 OR_OP: '||';
 
-TEXT : [0-9a-zA-Z\.]+;
+TEXT : [0-9a-zA-Z\._]+;
+
+//Skip single line comments and whitespace.
+COMMENT
+    :   '//' ~[\r\n]* -> skip
+    ;
+WS  :   [ \t\n\r]+ -> skip ;

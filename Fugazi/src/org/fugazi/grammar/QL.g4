@@ -14,14 +14,14 @@ statement   : questionDeclaration
             | ifStatement
             ;
 
-// an if statement˝
+// an if statement
 // supported form: if(expr){...}
 ifStatement : 'if' '(' expression ')' '{' (ifStatement | questionDeclaration)* '}';
 
-// question types
+// Question types
 // two supported versions:
 // 1. Question expecting user's answer.
-// 2. Question (field) value of which is derived from other variables / values.
+// 2. Question (field) value of which is computed from other variables / values.
 questionDeclaration : type ID '(' STRING ')' ';'                             # noAssignmentQuestion
                     | type ID '(' STRING ')' '=' expression ';'              # assignmentQuestion
                     ;
@@ -30,6 +30,7 @@ questionDeclaration : type ID '(' STRING ')' ';'                             # n
 type    : 'bool'        # boolType
         | 'money'       # moneyType
         | 'int'         # intType
+        | 'string'      # stringType
         ;
 /**
  * =====================
@@ -47,6 +48,7 @@ expression  : op=('+'|'-'|'!') expression                                       
             | BOOLEAN                                                               # booleanExpression
             | ID                                                                    # identifierExpression
             | NUMBER                                                                # numberExpression
+            | STRING                                                                # stringExpression
             | '(' expression ')'                                                    # parenthesisExpression
             ;
 

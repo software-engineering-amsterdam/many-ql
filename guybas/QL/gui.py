@@ -7,7 +7,7 @@ import sys
 class QuestionnaireGUI:
     def __init__(self, form):
         self.qGui        = Tk()
-        self.questions   = [] #form.get_questions()
+        self.questions   = form.get_questions()
         self.title       = form.get_name()
         self.intro       = form.get_introduction()
         self.column_span = 1
@@ -50,6 +50,7 @@ class QuestionnaireGUI:
         if condition:
             # print condition's - depended questions
             self.draw_questions(c_question.get_c_questions())
+        #TODO: If false returned, check if there is "else" questions and print them
 
     def show(self):
         self.qGui.mainloop()

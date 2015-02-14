@@ -41,18 +41,6 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComputedQuestion(@NotNull TaZQLParser.ComputedQuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitComputedQuestion(@NotNull TaZQLParser.ComputedQuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterEqNot(@NotNull TaZQLParser.EqNotContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -149,13 +137,13 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBasicQuestion(@NotNull TaZQLParser.BasicQuestionContext ctx) { }
+	@Override public void enterNot(@NotNull TaZQLParser.NotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBasicQuestion(@NotNull TaZQLParser.BasicQuestionContext ctx) { }
+	@Override public void exitNot(@NotNull TaZQLParser.NotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

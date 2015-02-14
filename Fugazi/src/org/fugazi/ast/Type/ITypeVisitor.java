@@ -9,6 +9,7 @@ public interface ITypeVisitor<T> {
     public T visit(BoolType boolType);
     public T visit(IntType intType);
     public T visit(MoneyType moneyType);
+    public T visit(StringType moneyType);
     public T visit(UndefinedType undefinedType);
 }
 

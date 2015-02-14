@@ -113,6 +113,18 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStringType(@NotNull QLParser.StringTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStringType(@NotNull QLParser.StringTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -120,6 +132,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStringExpression(@NotNull QLParser.StringExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStringExpression(@NotNull QLParser.StringExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
