@@ -93,19 +93,19 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code singleExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSingleExpression(@NotNull QLParser.SingleExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code identifierExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code booleanExpression}
 	 * labeled alternative in {@link QLParser#expression}.

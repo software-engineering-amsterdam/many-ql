@@ -2,6 +2,8 @@ package org.fugazi.evaluator;
 
 import org.fugazi.ast.Expression.*;
 
+//TODO
+
 /**
  * Implementation of the concrete expression Visitor.
  */
@@ -19,8 +21,21 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionResult> 
     public ExpressionResult visit(OrExpression lessExpression) {
         return null;
     }
-    
+
+    /**
+     * =================
+     *  Unary
+     * ================= 
+     */
     public ExpressionResult visit(NotExpression notExpression) {
+        return null;
+    }
+
+    public ExpressionResult visit(NegExpression neqExpression) {
+        return null;
+    }
+
+    public ExpressionResult visit(PosExpression posExpression) {
         return null;
     }
 

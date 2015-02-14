@@ -4,7 +4,7 @@ package org.fugazi.ast.Expression;
  * The ComparisonExpression class. An abstract class the express a ComparisonExpression.
  * It is a Node of the AST, and an expression.
  */
-public abstract class ComparisonExpression extends Expression {
+public abstract class ComparisonExpression extends BinaryExpression {
 
     // The left expression
     protected Expression leftExpr;
@@ -18,8 +18,7 @@ public abstract class ComparisonExpression extends Expression {
      * @param _rightExpr The right expression
      */
     public ComparisonExpression(Expression _leftExpr, Expression _rightExpr) {
-        leftExpr = _leftExpr;
-        rightExpr = _rightExpr;
+        super(_leftExpr, _rightExpr);
     }
 
     public Expression getLeftExpr() {

@@ -102,14 +102,14 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSingleExpression(@NotNull QLParser.SingleExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

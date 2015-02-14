@@ -1,10 +1,11 @@
 package org.fugazi.ast.Expression;
 
 /**
- * The SingleExpression class. An abstract class the express a SingleExpression.
+ * The UnaryExpression class. An abstract class the express an   UnaryExpression.
+ * In mathematics, a unary operation is an operation with only one operand.
  * It is a Node of the AST, and an expression.
  */
-public abstract class SingleExpression extends Expression {
+public abstract class UnaryExpression extends Expression {
 
     // The expression
     protected Expression expr;
@@ -13,7 +14,7 @@ public abstract class SingleExpression extends Expression {
      * Constructor.
      * @param _expr The expression
      */
-    public SingleExpression(Expression _expr) {
+    public UnaryExpression(Expression _expr) {
         expr = _expr;
     }
 

@@ -1,17 +1,17 @@
 package org.fugazi.ast.Expression;
 
 /**
- * The Not '!'.
+ * The Negative '-()'.
  */
-public class NotExpression extends UnaryExpression {
+public class NegExpression extends UnaryExpression {
 
-    public NotExpression(Expression _expr) {
+    public NegExpression(Expression _expr) {
         super(_expr);
     }
 
     @Override
     public String toString() {
-        return "! " + this.expr.toString();
+        return "- " + this.expr.toString();
     }
 
     @Override

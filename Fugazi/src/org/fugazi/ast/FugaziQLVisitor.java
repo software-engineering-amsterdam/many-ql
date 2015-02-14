@@ -5,7 +5,6 @@ import org.fugazi.ast.ASTNode.ASTNode;
 import org.fugazi.ast.Expression.*;
 import org.fugazi.ast.Literals.ID;
 import org.fugazi.ast.Literals.NUMBER;
-import org.fugazi.ast.Literals.STRING;
 import org.fugazi.ast.Statement.IfStatement;
 import org.fugazi.ast.Statement.QuestionStatement;
 import org.fugazi.ast.Statement.ComputedQuestionStatement;
@@ -164,7 +163,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
     // }
 
     @Override 
-    public SingleExpression visitSingleExpression(@NotNull QLParser.SingleExpressionContext ctx) {
+    public UnaryExpression visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
         
         // Get the expression
@@ -174,6 +173,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         // Check the operator. 
         if (ctx.op.getText() == "!")
             return new NotExpression(expr);
+        else if (ctx.op.getText() == "-")
+            return new NegExpression(expr);
+        else if (ctx.op.getText() == "+")
+            return new PosExpression(expr);
         
         return null;
     }

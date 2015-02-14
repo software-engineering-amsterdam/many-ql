@@ -9,8 +9,12 @@ public interface IExpressionVisitor<T> {
     // Logical
     public T visit(AndExpression andExpression);
     public T visit(OrExpression lessExpression);
-    public T visit(NotExpression notExpression);
     
+    // Unary
+    public T visit(NotExpression notExpression);
+    public T visit(NegExpression negExpression);
+    public T visit(PosExpression notExpression);
+
     // Comparison
     public T visit(EQExpression eqExpression);
     public T visit(GEExpression geExpression);

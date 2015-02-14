@@ -39,7 +39,7 @@ type    : 'bool'        # boolType
  */
 
 // this defines what an expression looks like. (logical and numerical)
-expression  : op=('+'|'-'|'!') expression                                           # singleExpression
+expression  : op=('+'|'-'|'!') expression                                           # unaryExpression
             | expression op=('*' | '/') expression                                  # mulDivExpression
             | expression op=('+' | '-') expression                                  # addSubExpression
             | expression op=('>' | '>=' | '<' | '<=' | '==' | '!=') expression      # comparisonExpression
