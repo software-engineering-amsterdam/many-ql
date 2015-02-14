@@ -8,7 +8,7 @@ type BoolQuestion bool
 // From takes the input from Frontend and stores locally - Boolean
 func (s *BoolQuestion) From(str string) error {
 	val, err := strconv.Atoi(str)
-	if val == 1 {
+	if val == 1 || str == "Yes" || str == "yes" {
 		*s = BoolQuestion(true)
 	} else {
 		*s = BoolQuestion(false)
