@@ -32,7 +32,7 @@ calculation:
     'Calculation:' name=STRING calculationBody;
 
 calculationBody:
-   '{' (ifStatement (elseIfStatement)* (elseStatement)?|input)+'}';
+   '{' ((ifStatement (elseIfStatement)* (elseStatement)?)|input)+'}';
 
 ifStatement:
     'If:' expression statementBody;
@@ -49,11 +49,11 @@ statementBody:
 label:
 'Label:'name=STRING labelBody;
 labelBody:
-'{'(ifStatement (elseIfStatement)* (elseStatement)?| labelText)'}';
+'{'((ifStatement (elseIfStatement)* (elseStatement)?)| labelText)'}';
 
 labelText:
-    'Text:' STRING
-    |'Text' TEXT STRING;
+    'Text:' id id
+    |'Text:' id;
 
 input:
     'Input:' expression;
@@ -63,7 +63,7 @@ expression
     : primary
     | expression ('*'|'/') expression
     | expression ('+'|'-') expression
-    |   expression ('<=' | '>=' | '>' | '<') expression
+    | expression ('<=' | '>=' | '>' | '<') expression
     | expression ('==' | '!=') expression
     | expression OR_OP expression
     | expression AND_OP expression;
@@ -76,7 +76,8 @@ parExpression:
     '(' expression ')';
 
 id
-    : STRING
+    : '['id']'
+    | STRING
     | NUMBER
     | TEXT;
 
@@ -88,7 +89,7 @@ elseStatement: 'Else:' '{' '}';
 */
 // String and number definitions taken from : https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
 STRING :  '"' (ESC | ~["\\])* '"' ;
-fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
+fragment ESC :   '\\' (["\\/bfnrt] | UNICODE);
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
 fragment HEX : [0-9a-fA-F] ;
 NUMBER
@@ -98,20 +99,15 @@ NUMBER
     ;
 fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
-WS  :   [ \t\n\r]+ -> skip ;
 fragment NL   : '\r' '\n' | '\n' | '\r';
 
 AND_OP: '&&';
 OR_OP: '||';
 
-ARTHMETIC_OPERATOR:
-    '+'
-    |'-'
-    |'/'
-    |'*';
+TEXT : [0-9a-zA-Z\._]+;
 
-TEXT : [0-9a-zA-Z\._\[\]]+;
-
+//Skip single line comments and whitespace.
 COMMENT
     :   '//' ~[\r\n]* -> skip
     ;
+WS  :   [ \t\n\r]+ -> skip ;
