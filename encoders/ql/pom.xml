@@ -26,18 +26,18 @@
 			<version>4.5</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
-           <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr4-maven-plugin</artifactId>
@@ -49,6 +49,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<libDirectory>${basedir}/src/main/antlr4/org/uva/sea/ql/encoders</libDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
