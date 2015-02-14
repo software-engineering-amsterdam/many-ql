@@ -52,7 +52,7 @@ labelBody:
 '{'((ifStatement (elseIfStatement)* (elseStatement)?)| labelText)'}';
 
 labelText:
-    'Text:' id STRING
+    'Text:' (id STRING)+ id?
     |'Text:' STRING;
 
 input:

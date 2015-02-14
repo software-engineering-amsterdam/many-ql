@@ -16,7 +16,7 @@ Name: "Tax" {
     		Answer: Double
     		Range: >0
     	}
-    	If: generic.partner == "Married" || generic.partner == "Cohabitation" && (iets == iets || iets >= iets ) {
+    	If: generic.partner == "Married" {
         	Question: "income_partner" {
         		Text: "How much money did your partner earn through employer paid wages during 2014?"
         		Answer: double
@@ -69,11 +69,11 @@ Name: "Tax" {
                 }
                 Label: "ttl_taxes" {
                 	If: ttl_taxes > 0 {
-                		Text: [ttl_taxes] euro in taxes are due, you will receive payment information through the regular mail.
+                		Text: [ttl_taxes] "euro in taxes are due, you will receive payment information through the regular mail." [test]"blaat"
                 	} Else If: ttl_taxes < 0 {
-                		Text: You will recieve [ttl_taxes] euro in return from the Tax Administration within two months.
+                		Text: "You will recieve [ttl_taxes] euro in return from the Tax Administration within two months."
                 	} Else: {
-                		Text: You have paid exactly the right amount of taxes in 2013, no actions remain.
+                		Text: "You have paid exactly the right amount of taxes in 2013, no actions remain."
                 	}
                 }
             }

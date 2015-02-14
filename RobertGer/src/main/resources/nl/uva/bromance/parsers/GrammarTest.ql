@@ -69,7 +69,7 @@ Name: "Tax" {
                 }
                 Label: "ttl_taxes" {
                 	If: ttl_taxes > 0 {
-                		Text: [ttl_taxes] "euro in taxes are due, you will receive payment information through the regular mail."
+                		Text: [ttl_taxes] "euro in taxes are due, you will receive payment information through the regular mail." [test]"blaat"
                 	} Else If: ttl_taxes < 0 {
                 		Text: "You will recieve [ttl_taxes] euro in return from the Tax Administration within two months."
                 	} Else: {
