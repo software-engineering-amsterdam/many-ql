@@ -13,7 +13,7 @@ public class ComputationQuestion extends SimpleQuestion {
 		this.expression = expression;
 	}	
 	
-	public Expression getExpress(){
+	public Expression getExpression(){
 		return expression;
 	}
 	

@@ -24,7 +24,7 @@ public class Form {
 	
 	@Override
 	public String toString() {
-		return ""+ formId +simpleQuestion;
+		return "FORM { "+ formId + simpleQuestion + "}";
 	}
 	
 	public <T> T accept(IQuestionVisitor<T> visitor) {
