@@ -3,6 +3,8 @@ package ast
 // StringQuestion stores the answer of question which type is integer numeric
 type StringQuestion string
 
+const StringQuestionType = "int"
+
 // From takes the input from Frontend and stores locally - String
 func (s *StringQuestion) From(str string) error {
 	*s = StringQuestion(str)
@@ -16,5 +18,5 @@ func (s StringQuestion) String() string {
 
 // Type returns "string", therefore indicating this question type name.
 func (s StringQuestion) Type() string {
-	return "string"
+	return StringQuestionType
 }

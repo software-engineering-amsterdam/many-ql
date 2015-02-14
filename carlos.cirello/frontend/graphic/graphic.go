@@ -162,7 +162,8 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 
 	newFieldPtr := question.ObjectByName(newFieldName)
 	// todo(carlos) improve readability
-	if "bool" == newFieldType {
+	switch newFieldType {
+	case ast.BoolQuestionType:
 		if content.(*ast.BoolQuestion).String() == "Yes" {
 			newFieldPtr.Set("checked", true)
 		}
@@ -178,7 +179,7 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 				g.answerStack[objectName] = "1"
 			}
 		})
-	} else {
+	default:
 		newFieldPtr.Set("text", content.(ast.Parser).String())
 		newFieldPtr.On("editingFinished", func() {
 			g.mu.Lock()

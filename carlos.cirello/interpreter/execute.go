@@ -91,10 +91,10 @@ func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
 		q := <-ret
 
 		switch q.Type() {
-		case "bool":
+		case ast.BoolQuestionType:
 			content := q.Content.(*ast.BoolQuestion)
 			return content.Value()
-		case "int":
+		case ast.IntQuestionType:
 			content := q.Content.(*ast.IntQuestion)
 			return content.Value() != 0
 		}
