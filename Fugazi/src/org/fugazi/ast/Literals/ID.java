@@ -5,10 +5,11 @@ package org.fugazi.ast.Literals;
  */
 public class ID extends Literal {
 
+    // The name of the identifier.
     private String name;
 
-    public ID(String name) {
-        this.name = name;
+    public ID(String _name) {
+        this.name = _name;
     }
 
     public String getName() {

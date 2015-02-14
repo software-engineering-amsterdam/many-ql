@@ -5,19 +5,20 @@ package org.fugazi.ast.Literals;
  */
 public class STRING extends Literal {
 
-    private String name;
+    // The value of the string
+    private String value;
 
-    public STRING(String name) {
-        this.name = name;
+    public STRING(String _value) {
+        this.value = _value;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
-        return name;
+        return value;
     }
 
     @Override
