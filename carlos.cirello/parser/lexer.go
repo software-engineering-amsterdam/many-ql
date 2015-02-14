@@ -23,6 +23,12 @@ const (
 	// BoolQuestionTokenText - Reserved Word
 	BoolQuestionTokenText = "bool"
 
+	LessThanTokenText         = `<`
+	LessOrEqualsThanTokenText = `<=`
+	MoreThanTokenText         = `>`
+	MoreOrEqualsThanTokenText = `>=`
+	EqualsToTokenText         = `==`
+
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
 	literalQuotedChar = "`"
@@ -54,9 +60,12 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 	}
 
 	txt := x.scanner.TokenText()
+	nextRune := string(x.scanner.Peek())
 	typ := TextToken
 
-	if txt == FormTokenText {
+	if tok == scanner.Float || tok == scanner.Int {
+		typ = NumericToken
+	} else if txt == FormTokenText {
 		typ = FormToken
 	} else if txt == StringQuestionTokenText {
 		typ = StringQuestionToken
@@ -66,6 +75,22 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolQuestionToken
 	} else if txt == IfTokenText {
 		typ = IfToken
+	} else if txt == LessThanTokenText {
+		typ = LessThanToken
+	} else if (txt + nextRune) == LessOrEqualsThanTokenText {
+		x.scanner.Scan()
+		typ = LessOrEqualsThanToken
+		txt = LessOrEqualsThanTokenText
+	} else if txt == MoreThanTokenText {
+		typ = MoreThanToken
+	} else if (txt + nextRune) == MoreOrEqualsThanTokenText {
+		x.scanner.Scan()
+		typ = MoreOrEqualsThanToken
+		txt = MoreOrEqualsThanTokenText
+	} else if (txt + nextRune) == EqualsToTokenText {
+		x.scanner.Scan()
+		typ = EqualsToToken
+		txt = EqualsToTokenText
 	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" {
 		typ = int(txt[0])
 	} else if strings.HasPrefix(txt, singleQuotedChar) ||

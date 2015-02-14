@@ -18,7 +18,7 @@ state 1
 state 2
 	top:  questionaire.    (1)
 
-	.  reduce 1 (src line 51)
+	.  reduce 1 (src line 58)
 
 
 state 3
@@ -59,7 +59,7 @@ state 6
 state 7
 	questionaire:  FormToken TextToken '{' stack '}'.    (2)
 
-	.  reduce 2 (src line 61)
+	.  reduce 2 (src line 65)
 
 
 state 8
@@ -82,7 +82,7 @@ state 10
 
 
 state 11
-	ifBlock:  IfToken.'(' expr ')' '{' stack '}' 
+	ifBlock:  IfToken.'(' evaluatables ')' '{' stack '}' 
 
 	'('  shift 13
 	.  error
@@ -100,19 +100,12 @@ state 12
 	questionType  goto 14
 
 state 13
-	ifBlock:  IfToken '('.expr ')' '{' stack '}' 
+	ifBlock:  IfToken '('.evaluatables ')' '{' stack '}' 
+	evaluatables: .    (12)
 
-	TextToken  shift 20
-	NumericToken  shift 26
-	'+'  shift 22
-	'-'  shift 23
-	'('  shift 27
-	.  error
+	.  reduce 12 (src line 145)
 
-	expr  goto 19
-	expr1  goto 21
-	expr2  goto 24
-	expr3  goto 25
+	evaluatables  goto 19
 
 state 14
 	question:  QuotedStringToken TextToken questionType.    (6)
@@ -145,233 +138,145 @@ state 18
 
 
 state 19
-	ifBlock:  IfToken '(' expr.')' '{' stack '}' 
+	ifBlock:  IfToken '(' evaluatables.')' '{' stack '}' 
+	evaluatables:  evaluatables.evaluatable 
 
-	')'  shift 28
+	TextToken  shift 24
+	')'  shift 20
+	NumericToken  shift 25
+	.  error
+
+	evaluatable  goto 21
+	term  goto 22
+	number  goto 23
+
+state 20
+	ifBlock:  IfToken '(' evaluatables ')'.'{' stack '}' 
+
+	'{'  shift 26
 	.  error
 
 
-state 20
-	expr:  TextToken.    (12)
-
-	.  reduce 12 (src line 144)
-
-
 state 21
-	expr:  expr1.    (13)
-	expr1:  expr1.'+' expr2 
-	expr1:  expr1.'-' expr2 
+	evaluatables:  evaluatables evaluatable.    (13)
 
-	'+'  shift 29
-	'-'  shift 30
 	.  reduce 13 (src line 146)
 
 
 state 22
-	expr:  '+'.expr 
+	evaluatable:  term.EqualsToToken term 
+	evaluatable:  term.MoreThanToken term 
+	evaluatable:  term.LessThanToken term 
+	evaluatable:  term.    (17)
 
-	TextToken  shift 20
-	NumericToken  shift 26
-	'+'  shift 22
-	'-'  shift 23
-	'('  shift 27
-	.  error
+	LessThanToken  shift 29
+	MoreThanToken  shift 28
+	EqualsToToken  shift 27
+	.  reduce 17 (src line 176)
 
-	expr  goto 31
-	expr1  goto 21
-	expr2  goto 24
-	expr3  goto 25
 
 state 23
-	expr:  '-'.expr 
+	term:  number.    (18)
 
-	TextToken  shift 20
-	NumericToken  shift 26
-	'+'  shift 22
-	'-'  shift 23
-	'('  shift 27
-	.  error
+	.  reduce 18 (src line 184)
 
-	expr  goto 32
-	expr1  goto 21
-	expr2  goto 24
-	expr3  goto 25
 
 state 24
-	expr1:  expr2.    (16)
-	expr2:  expr2.'*' expr3 
-	expr2:  expr2.'/' expr3 
+	term:  TextToken.    (19)
 
-	'*'  shift 33
-	'/'  shift 34
-	.  reduce 16 (src line 156)
+	.  reduce 19 (src line 190)
 
 
 state 25
-	expr2:  expr3.    (19)
+	number:  NumericToken.    (20)
 
-	.  reduce 19 (src line 167)
+	.  reduce 20 (src line 198)
 
 
 state 26
-	expr3:  NumericToken.    (22)
-
-	.  reduce 22 (src line 178)
-
-
-state 27
-	expr3:  '('.expr ')' 
-
-	TextToken  shift 20
-	NumericToken  shift 26
-	'+'  shift 22
-	'-'  shift 23
-	'('  shift 27
-	.  error
-
-	expr  goto 35
-	expr1  goto 21
-	expr2  goto 24
-	expr3  goto 25
-
-state 28
-	ifBlock:  IfToken '(' expr ')'.'{' stack '}' 
-
-	'{'  shift 36
-	.  error
-
-
-state 29
-	expr1:  expr1 '+'.expr2 
-
-	NumericToken  shift 26
-	'('  shift 27
-	.  error
-
-	expr2  goto 37
-	expr3  goto 25
-
-state 30
-	expr1:  expr1 '-'.expr2 
-
-	NumericToken  shift 26
-	'('  shift 27
-	.  error
-
-	expr2  goto 38
-	expr3  goto 25
-
-state 31
-	expr:  '+' expr.    (14)
-
-	.  reduce 14 (src line 147)
-
-
-state 32
-	expr:  '-' expr.    (15)
-
-	.  reduce 15 (src line 151)
-
-
-state 33
-	expr2:  expr2 '*'.expr3 
-
-	NumericToken  shift 26
-	'('  shift 27
-	.  error
-
-	expr3  goto 39
-
-state 34
-	expr2:  expr2 '/'.expr3 
-
-	NumericToken  shift 26
-	'('  shift 27
-	.  error
-
-	expr3  goto 40
-
-state 35
-	expr3:  '(' expr.')' 
-
-	')'  shift 41
-	.  error
-
-
-state 36
-	ifBlock:  IfToken '(' expr ')' '{'.stack '}' 
+	ifBlock:  IfToken '(' evaluatables ')' '{'.stack '}' 
 	stack: .    (3)
 
 	.  reduce 3 (src line 75)
 
-	stack  goto 42
+	stack  goto 30
 
-state 37
-	expr1:  expr1 '+' expr2.    (17)
-	expr2:  expr2.'*' expr3 
-	expr2:  expr2.'/' expr3 
+state 27
+	evaluatable:  term EqualsToToken.term 
 
-	'*'  shift 33
-	'/'  shift 34
-	.  reduce 17 (src line 158)
+	TextToken  shift 24
+	NumericToken  shift 25
+	.  error
 
+	term  goto 31
+	number  goto 23
 
-state 38
-	expr1:  expr1 '-' expr2.    (18)
-	expr2:  expr2.'*' expr3 
-	expr2:  expr2.'/' expr3 
+state 28
+	evaluatable:  term MoreThanToken.term 
 
-	'*'  shift 33
-	'/'  shift 34
-	.  reduce 18 (src line 162)
+	TextToken  shift 24
+	NumericToken  shift 25
+	.  error
 
+	term  goto 32
+	number  goto 23
 
-state 39
-	expr2:  expr2 '*' expr3.    (20)
+state 29
+	evaluatable:  term LessThanToken.term 
 
-	.  reduce 20 (src line 169)
+	TextToken  shift 24
+	NumericToken  shift 25
+	.  error
 
+	term  goto 33
+	number  goto 23
 
-state 40
-	expr2:  expr2 '/' expr3.    (21)
-
-	.  reduce 21 (src line 173)
-
-
-state 41
-	expr3:  '(' expr ')'.    (23)
-
-	.  reduce 23 (src line 180)
-
-
-state 42
+state 30
 	stack:  stack.question 
 	stack:  stack.ifBlock 
-	ifBlock:  IfToken '(' expr ')' '{' stack.'}' 
+	ifBlock:  IfToken '(' evaluatables ')' '{' stack.'}' 
 
 	IfToken  shift 11
 	QuotedStringToken  shift 10
-	'}'  shift 43
+	'}'  shift 34
 	.  error
 
 	question  goto 8
 	ifBlock  goto 9
 
-state 43
-	ifBlock:  IfToken '(' expr ')' '{' stack '}'.    (11)
+state 31
+	evaluatable:  term EqualsToToken term.    (14)
+
+	.  reduce 14 (src line 154)
+
+
+state 32
+	evaluatable:  term MoreThanToken term.    (15)
+
+	.  reduce 15 (src line 162)
+
+
+state 33
+	evaluatable:  term LessThanToken term.    (16)
+
+	.  reduce 16 (src line 169)
+
+
+state 34
+	ifBlock:  IfToken '(' evaluatables ')' '{' stack '}'.    (11)
 
 	.  reduce 11 (src line 134)
 
 
-23 terminals, 11 nonterminals
-24 grammar rules, 44/2000 states
+28 terminals, 11 nonterminals
+21 grammar rules, 35/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
 60 working sets used
-memory: parser 28/30000
+memory: parser 16/30000
 0 extra closures
-54 shift entries, 1 exceptions
-18 goto entries
-13 entries saved by goto default
-Optimizer space used: output 47/30000
-47 table entries, 0 zero
-maximum spread: 23, maximum offset: 36
+28 shift entries, 1 exceptions
+14 goto entries
+5 entries saved by goto default
+Optimizer space used: output 41/30000
+41 table entries, 3 zero
+maximum spread: 28, maximum offset: 29

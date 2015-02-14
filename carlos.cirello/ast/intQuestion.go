@@ -21,3 +21,8 @@ func (s IntQuestion) String() string {
 func (s IntQuestion) Type() string {
 	return "int"
 }
+
+// Value converts underlying int into primitive int
+func (s IntQuestion) Value() int {
+	return int(s)
+}
