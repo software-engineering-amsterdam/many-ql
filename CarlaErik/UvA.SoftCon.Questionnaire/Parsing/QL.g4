@@ -6,13 +6,21 @@ grammar QL;
 /* Start rule */
 questionnaire : stat* ;
 
-stat : type ID STRING                                                 # Question
-     | 'if' '(' bool_expr ')'  '{' stat* '}' ('else' '{' stat* '}')?  # IfStatement
+// I had to use different names for 2 collections of stat rules 
+stat : type ID STRING                                                         # Question
+     | 'if' '(' bool_expr ')'  '{' stat_if* '}' ('else' '{' stat_else* '}')?  # IfStatement
 	 ;
+
+// These are only necessary to differentiate the 2 collections in the visitor class.
+// Better solution much appreciated.
+stat_if   : stat ;
+stat_else : stat ;
+
 
 bool_expr : bool_expr '&&' bool_expr    # AndExpression
 		  | bool_expr '||' bool_expr    # OrExpression
-		  | bool_expr '==' bool_expr    # Equals
+		  | bool_expr '==' bool_expr    # BooleanEquals
+		  | num_expr  '==' num_expr     # NumericEquals
 		  | num_expr '>' num_expr       # GreaterThan
           | num_expr '<' num_expr       # LessThan
 		  /*
@@ -35,13 +43,13 @@ bool_expr : bool_expr '&&' bool_expr    # AndExpression
      	  
 		  */
 		  | ID                          # BooleanID
-		  | BOOL                        # Boolean
+		  | BOOL                        # BooleanLiteral
 		  ;
 
 num_expr : num_expr ('*'|'/') num_expr # MultDiv
          | num_expr ('+'|'-') num_expr # AddSubstract
 		 | ID                          # NumericID
-		 | INT                         # Integer
+		 | INT                         # IntegerLiteral
 		 ;
 
 type : 'int' | 'string' | 'bool' ;
@@ -50,6 +58,8 @@ type : 'int' | 'string' | 'bool' ;
 /*
  *   Lexer Rules
  */
+
+ // Keywords should be defined first
 
 INT    : '-'? [0-9]+ ;        // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  

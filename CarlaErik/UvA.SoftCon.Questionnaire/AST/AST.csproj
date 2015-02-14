@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2CAEA2A7-D4A2-4B49-B14B-2B6EC95101D6}</ProjectGuid>
+    <ProjectGuid>{23AA9A43-58A6-4870-A7BC-A3D5D8D5B8CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UvA.SoftCon.Questionnaire.Parsing</RootNamespace>
-    <AssemblyName>UvA.SoftCon.Questionnaire.Parsing</AssemblyName>
+    <RootNamespace>UvA.SoftCon.Questionnaire.AST</RootNamespace>
+    <AssemblyName>UvA.SoftCon.Questionnaire.AST</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,37 +48,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\Boolean\BooleanEqualsExpression.cs" />
+    <Compile Include="Expressions\Boolean\NumericEqualsExpression.cs" />
+    <Compile Include="Identifiers\BooleanIdentifier.cs" />
+    <Compile Include="Identifiers\Identifier.cs" />
+    <Compile Include="Identifiers\NumericIdentifier.cs" />
+    <Compile Include="QuestionnaireVisitor.cs" />
+    <Compile Include="Expressions\Boolean\AndExpression.cs" />
+    <Compile Include="Expressions\Boolean\BinaryBooleanExpression.cs" />
+    <Compile Include="Expressions\Boolean\GreaterThanExpression.cs" />
+    <Compile Include="Expressions\Boolean\IBooleanExpression.cs" />
+    <Compile Include="Expressions\Boolean\LessThanExpression.cs" />
+    <Compile Include="Expressions\Boolean\OrExpression.cs" />
+    <Compile Include="Expressions\Numeric\INumericExpression.cs" />
+    <Compile Include="Questionnaire.cs" />
+    <Compile Include="Expressions\IExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QLBaseVisitor.cs" />
-    <Compile Include="QLLexer.cs" />
-    <Compile Include="QLParser.cs" />
-    <Compile Include="QLVisitor.cs" />
+    <Compile Include="Statements\BooleanQuestion.cs" />
+    <Compile Include="Statements\IfStatement.cs" />
+    <Compile Include="Statements\IStatement.cs" />
+    <Compile Include="Statements\NumericQuestion.cs" />
+    <Compile Include="Statements\Question.cs" />
+    <Compile Include="Literals\BooleanLiteral.cs" />
+    <Compile Include="Statements\TextQuestion.cs" />
+    <Compile Include="Visitors\BooleanExpressionVisitor.cs" />
+    <Compile Include="Visitors\NumericExpressionVisitor.cs" />
+    <Compile Include="Visitors\StatementVisitor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <AntlrTokens Include="QL.tokens">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>UvA.SoftCon.Questionnaire.Parsing</CustomToolNamespace>
-    </AntlrTokens>
-    <AntlrTokens Include="QLLexer.tokens">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>UvA.SoftCon.Questionnaire.Parsing</CustomToolNamespace>
-    </AntlrTokens>
-  </ItemGroup>
-  <ItemGroup>
-    <Antlr4 Include="QL.g4">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>UvA.SoftCon.Questionnaire.Grammer</CustomToolNamespace>
-    </Antlr4>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="S:\StrongName\Questionnaire.snk">
       <Link>Properties\Questionnaire.snk</Link>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Parsing\Parsing.csproj">
+      <Project>{2caea2a7-d4a2-4b49-b14b-2b6ec95101d6}</Project>
+      <Name>Parsing</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>java org.antlr.v4.Tool -Dlanguage=CSharp "$(ProjectDir)QL.g4" -o "$(SolutionDir)Parsing" -package UvA.SoftCon.Questionnaire.Parsing -visitor -no-listener</PreBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
