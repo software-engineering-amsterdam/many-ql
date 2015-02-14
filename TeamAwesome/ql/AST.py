@@ -41,3 +41,6 @@ class QuestionIdentifierNode(object):
 
 class Money(Decimal):
 	pass
+
+class Identifier(str):
+	pass

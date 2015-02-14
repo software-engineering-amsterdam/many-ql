@@ -73,7 +73,7 @@ class CustomQLVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx): # TODO
-        return ctx.getText()
+        return Identifier(ctx.getText())
     
     # Visit a parse tree produced by QLParser#atom.
     def visitAtom(self, ctx):
