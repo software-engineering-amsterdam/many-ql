@@ -10,4 +10,5 @@ public interface IQuestionVisitor<T> {
 	 T visit(ComputationQuestion calQuestion);
 	 T visit(Form form);
 	 T visit(IfStatement ifStatement);	 
+	 T visit(IfElseStatement ifElseStatement);
 }

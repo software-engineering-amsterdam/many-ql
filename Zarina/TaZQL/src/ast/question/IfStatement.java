@@ -7,10 +7,11 @@ import ast.expression.Expression;
 public class IfStatement extends Questions {
 
 	private Expression ifExpression;
-	private ArrayList<Questions> statement;
+	private ArrayList<Questions> ifStatement, elseStatement;
 	
-	public IfStatement(Expression ifExpression, ArrayList<Questions> statement) {
-		this.statement = statement;
+	public IfStatement(Expression ifExpression, ArrayList<Questions> ifStatement,  ArrayList<Questions> elseStatement) {
+		this.ifStatement = ifStatement;
+		this.elseStatement = elseStatement;
 		this.ifExpression = ifExpression;
 	}
 	
@@ -18,8 +19,12 @@ public class IfStatement extends Questions {
 		return ifExpression;
 	}
 	
-	public ArrayList<Questions> getStatement(){
-		return statement;
+	public ArrayList<Questions> getIfStatement(){
+		return ifStatement;
+	}
+	
+	public ArrayList<Questions> getElseStatement(){
+		return elseStatement;
 	}
 	
 	@Override
@@ -28,5 +33,4 @@ public class IfStatement extends Questions {
 	}
 }
 
-
-//'if' '(' expression ')' '{' question+ '}'	
+// 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'
