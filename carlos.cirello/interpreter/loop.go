@@ -71,6 +71,7 @@ func (v *interpreter) loop() {
 			case Answers:
 				for identifier, answer := range r.Answers {
 					v.execute.Exec(v.questionaire)
+					v.send <- &Event{Type: Flush}
 					ret := make(chan *ast.QuestionNode)
 					v.symbolChan <- &symbolEvent{
 						command: SymbolRead,
