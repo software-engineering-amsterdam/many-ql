@@ -1,4 +1,7 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.Expression.numerical;
+
+import org.fugazi.ast.Expression.Expression;
+import org.fugazi.ast.Expression.IExpressionVisitor;
 
 /**
  * The Sub '-'.

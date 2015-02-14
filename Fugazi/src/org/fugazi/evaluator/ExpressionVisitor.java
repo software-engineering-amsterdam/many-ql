@@ -1,6 +1,16 @@
 package org.fugazi.evaluator;
 
 import org.fugazi.ast.Expression.*;
+import org.fugazi.ast.Expression.comparison.*;
+import org.fugazi.ast.Expression.logical.AndExpression;
+import org.fugazi.ast.Expression.logical.OrExpression;
+import org.fugazi.ast.Expression.numerical.AddExpression;
+import org.fugazi.ast.Expression.numerical.DivExpression;
+import org.fugazi.ast.Expression.numerical.MulExpression;
+import org.fugazi.ast.Expression.numerical.SubExpression;
+import org.fugazi.ast.Expression.unary.NegExpression;
+import org.fugazi.ast.Expression.unary.NotExpression;
+import org.fugazi.ast.Expression.unary.PosExpression;
 
 //TODO
 

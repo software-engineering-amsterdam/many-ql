@@ -1,4 +1,7 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.Expression.unary;
+
+import org.fugazi.ast.Expression.Expression;
+import org.fugazi.ast.Expression.IExpressionVisitor;
 
 /**
  * The Not '!'.

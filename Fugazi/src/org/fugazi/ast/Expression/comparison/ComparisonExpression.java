@@ -1,10 +1,13 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.Expression.comparison;
+
+import org.fugazi.ast.Expression.BinaryExpression;
+import org.fugazi.ast.Expression.Expression;
 
 /**
- * The NumericalExpression class. An abstract class the express a NumericalExpression.
+ * The ComparisonExpression class. An abstract class the express a ComparisonExpression.
  * It is a Node of the AST, and an expression.
  */
-public abstract class NumericalExpression extends BinaryExpression {
+public abstract class ComparisonExpression extends BinaryExpression {
 
     // The left expression
     protected Expression leftExpr;
@@ -17,7 +20,7 @@ public abstract class NumericalExpression extends BinaryExpression {
      * @param _leftExpr The left expression
      * @param _rightExpr The right expression
      */
-    public NumericalExpression(Expression _leftExpr, Expression _rightExpr) {
+    public ComparisonExpression(Expression _leftExpr, Expression _rightExpr) {
         super(_leftExpr, _rightExpr);
     }
 

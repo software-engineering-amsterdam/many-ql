@@ -1,4 +1,6 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.Expression.unary;
+
+import org.fugazi.ast.Expression.Expression;
 
 /**
  * The UnaryExpression class. An abstract class the express an   UnaryExpression.

@@ -1,4 +1,7 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.Expression.logical;
+
+import org.fugazi.ast.Expression.BinaryExpression;
+import org.fugazi.ast.Expression.Expression;
 
 /**
  * The LogicalExpression class. An abstract class the express a LogicalExpression.

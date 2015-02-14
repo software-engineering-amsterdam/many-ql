@@ -1,5 +1,16 @@
 package org.fugazi.ast.Expression;
 
+import org.fugazi.ast.Expression.comparison.*;
+import org.fugazi.ast.Expression.logical.AndExpression;
+import org.fugazi.ast.Expression.logical.OrExpression;
+import org.fugazi.ast.Expression.numerical.AddExpression;
+import org.fugazi.ast.Expression.numerical.DivExpression;
+import org.fugazi.ast.Expression.numerical.MulExpression;
+import org.fugazi.ast.Expression.numerical.SubExpression;
+import org.fugazi.ast.Expression.unary.NegExpression;
+import org.fugazi.ast.Expression.unary.NotExpression;
+import org.fugazi.ast.Expression.unary.PosExpression;
+
 /**
  * Generic Visitor interface for Expressions.
  * @param <T>
@@ -20,7 +31,7 @@ public interface IExpressionVisitor<T> {
     public T visit(GEExpression geExpression);
     public T visit(GreaterExpression greaterExpression);
     public T visit(LEExpression leExpression);
-    public T visit(LessExpression lessExpression);    
+    public T visit(LessExpression lessExpression);
     public T visit(NotEqExpression notEqExpression);
     
     // Numerical
