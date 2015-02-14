@@ -2,14 +2,15 @@
 
 package org.uva.student.calinwouter.ql.generated.node;
 
+import java.util.*;
 import org.uva.student.calinwouter.ql.generated.analysis.*;
 
 @SuppressWarnings("nls")
 public final class AIfelseStmt extends PStmt
 {
     private PExp _exp_;
-    private PStmtlist _ifstmts_;
-    private PStmtlist _elsestmts_;
+    private final LinkedList<PStmt> _thenStmtList_ = new LinkedList<PStmt>();
+    private final LinkedList<PStmt> _elseStmtList_ = new LinkedList<PStmt>();
 
     public AIfelseStmt()
     {
@@ -18,15 +19,15 @@ public final class AIfelseStmt extends PStmt
 
     public AIfelseStmt(
         @SuppressWarnings("hiding") PExp _exp_,
-        @SuppressWarnings("hiding") PStmtlist _ifstmts_,
-        @SuppressWarnings("hiding") PStmtlist _elsestmts_)
+        @SuppressWarnings("hiding") List<?> _thenStmtList_,
+        @SuppressWarnings("hiding") List<?> _elseStmtList_)
     {
         // Constructor
         setExp(_exp_);
 
-        setIfstmts(_ifstmts_);
+        setThenStmtList(_thenStmtList_);
 
-        setElsestmts(_elsestmts_);
+        setElseStmtList(_elseStmtList_);
 
     }
 
@@ -35,8 +36,8 @@ public final class AIfelseStmt extends PStmt
     {
         return new AIfelseStmt(
             cloneNode(this._exp_),
-            cloneNode(this._ifstmts_),
-            cloneNode(this._elsestmts_));
+            cloneList(this._thenStmtList_),
+            cloneList(this._elseStmtList_));
     }
 
     @Override
@@ -70,54 +71,56 @@ public final class AIfelseStmt extends PStmt
         this._exp_ = node;
     }
 
-    public PStmtlist getIfstmts()
+    public LinkedList<PStmt> getThenStmtList()
     {
-        return this._ifstmts_;
+        return this._thenStmtList_;
     }
 
-    public void setIfstmts(PStmtlist node)
+    public void setThenStmtList(List<?> list)
     {
-        if(this._ifstmts_ != null)
+        for(PStmt e : this._thenStmtList_)
         {
-            this._ifstmts_.parent(null);
+            e.parent(null);
         }
+        this._thenStmtList_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PStmt e = (PStmt) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._thenStmtList_.add(e);
         }
-
-        this._ifstmts_ = node;
     }
 
-    public PStmtlist getElsestmts()
+    public LinkedList<PStmt> getElseStmtList()
     {
-        return this._elsestmts_;
+        return this._elseStmtList_;
     }
 
-    public void setElsestmts(PStmtlist node)
+    public void setElseStmtList(List<?> list)
     {
-        if(this._elsestmts_ != null)
+        for(PStmt e : this._elseStmtList_)
         {
-            this._elsestmts_.parent(null);
+            e.parent(null);
         }
+        this._elseStmtList_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PStmt e = (PStmt) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._elseStmtList_.add(e);
         }
-
-        this._elsestmts_ = node;
     }
 
     @Override
@@ -125,8 +128,8 @@ public final class AIfelseStmt extends PStmt
     {
         return ""
             + toString(this._exp_)
-            + toString(this._ifstmts_)
-            + toString(this._elsestmts_);
+            + toString(this._thenStmtList_)
+            + toString(this._elseStmtList_);
     }
 
     @Override
@@ -139,15 +142,13 @@ public final class AIfelseStmt extends PStmt
             return;
         }
 
-        if(this._ifstmts_ == child)
+        if(this._thenStmtList_.remove(child))
         {
-            this._ifstmts_ = null;
             return;
         }
 
-        if(this._elsestmts_ == child)
+        if(this._elseStmtList_.remove(child))
         {
-            this._elsestmts_ = null;
             return;
         }
 
@@ -164,16 +165,40 @@ public final class AIfelseStmt extends PStmt
             return;
         }
 
-        if(this._ifstmts_ == oldChild)
+        for(ListIterator<PStmt> i = this._thenStmtList_.listIterator(); i.hasNext();)
         {
-            setIfstmts((PStmtlist) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PStmt) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
-        if(this._elsestmts_ == oldChild)
+        for(ListIterator<PStmt> i = this._elseStmtList_.listIterator(); i.hasNext();)
         {
-            setElsestmts((PStmtlist) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PStmt) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

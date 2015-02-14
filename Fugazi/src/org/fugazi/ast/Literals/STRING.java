@@ -21,7 +21,7 @@ public class STRING extends Literal {
     }
 
     @Override
-    public <T> T accept(LiteralVisitor<T> visitor) {
+    public <T> T accept(ILiteralVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

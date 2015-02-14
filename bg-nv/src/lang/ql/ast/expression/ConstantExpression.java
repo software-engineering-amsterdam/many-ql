@@ -7,7 +7,7 @@ import lang.ql.ast.AstNode;
  */
 public abstract class ConstantExpression<T> extends Expression
 {
-    private T value;
+    protected T value;
 
     public ConstantExpression(T value)
     {
@@ -20,7 +20,7 @@ public abstract class ConstantExpression<T> extends Expression
     }
 
     @Override
-    public Expression getValue()
+    public ConstantExpression getValue()
     {
         return this;
     }

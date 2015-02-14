@@ -4,7 +4,7 @@ package org.fugazi.ast.Literals;
  * The identifier.
  */
 public class ID extends Literal {
-    
+
     private String name;
 
     public ID(String name) {
@@ -21,7 +21,7 @@ public class ID extends Literal {
     }
 
     @Override
-    public <T> T accept(LiteralVisitor<T> visitor) {
+    public <T> T accept(ILiteralVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

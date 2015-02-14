@@ -15,9 +15,6 @@ public interface Analysis extends Switch
     void caseAFormBegin(AFormBegin node);
     void caseAExpBegin(AExpBegin node);
     void caseAForm(AForm node);
-    void caseASingleStmtlist(ASingleStmtlist node);
-    void caseAMultiStmtlist(AMultiStmtlist node);
-    void caseASingleStmt(ASingleStmt node);
     void caseAQuestionStmt(AQuestionStmt node);
     void caseAValueStmt(AValueStmt node);
     void caseAIfelseStmt(AIfelseStmt node);
@@ -40,7 +37,6 @@ public interface Analysis extends Switch
     void caseAMulExp(AMulExp node);
     void caseADivExp(ADivExp node);
     void caseAModExp(AModExp node);
-    void caseAParenExp(AParenExp node);
     void caseANotExp(ANotExp node);
     void caseANumberExp(ANumberExp node);
     void caseAIdentExp(AIdentExp node);

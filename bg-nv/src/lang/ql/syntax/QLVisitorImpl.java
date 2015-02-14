@@ -1,9 +1,7 @@
 package lang.ql.syntax;
 
 import lang.ql.ast.AstNode;
-import lang.ql.ast.expression.AdditionExpression;
-import lang.ql.ast.expression.Expression;
-import lang.ql.ast.expression.SubtractionExpression;
+import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.IfCondition;
 import lang.ql.ast.statement.Question;
@@ -16,9 +14,7 @@ import org.antlr.v4.runtime.misc.NotNull;
  */
 import lang.ql.gen.*;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class QLVisitorImpl extends QLBaseVisitor<AstNode>
@@ -86,18 +82,62 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     {
         if (context.left != null && context.right != null)
         {
-            Expression left = (Expression)this.visit(context.left);
-            Expression right = (Expression)this.visit(context.right);
-
-            String operator = context.operator.getText();
-            if (operator == "+") { return new AdditionExpression(left, right); }
-            else if (operator == "-") { return new SubtractionExpression(left, right); }
-            else {}
+            return this.visitBinaryExpression(context.left, context.right, context.operator.getText());
         }
-        else if (context.operand != null)
+
+        if (context.operand != null)
         {
-
+            return this.visitUnaryExpression(context.operand, context.operator.getText());
         }
+
+        return this.visitConstantExpression(context);
+    }
+
+    public Expression visitBinaryExpression(QLParser.ExpressionContext lContext, QLParser.ExpressionContext rContext, String operator)
+    {
+        Expression left = (Expression)this.visit(lContext);
+        Expression right = (Expression)this.visit(rContext);
+
+        if (operator == "+") { return new AdditionExpression(left, right); }
+        if (operator == "-") { return new SubtractionExpression(left, right); }
+        // TODO: add all expressions here
+        return null;
+    }
+
+    public Expression visitUnaryExpression(QLParser.ExpressionContext operandContext, String operator)
+    {
+        Expression operand = (Expression)this.visit(operandContext);
+
+        // TODO: add expressions
+        //if (operator == "+") { return new UnaryPlusExpression(); }
+        return null;
+    }
+
+    public Expression visitConstantExpression(QLParser.ExpressionContext operandContext)
+    {
+        if (operandContext.Integer() != null)
+        {
+            int value = Integer.parseInt(operandContext.Integer().getText());
+            return new ReturnIntegerExpression(value);
+        }
+
+        if (operandContext.String() != null)
+        {
+            return new StringExpression(operandContext.String().getText());
+        }
+
+        if (operandContext.Identifier() != null)
+        {
+            return new VariableExpression(operandContext.Identifier().getText());
+        }
+
+        if (operandContext.Boolean() != null)
+        {
+            Boolean value = Boolean.parseBoolean(operandContext.Boolean().getText());
+            return new BooleanExpression(value);
+        }
+
+        // TODO: add date and decimal expressions
         return null;
     }
 }

@@ -1,5 +1,18 @@
+# ast 
+from pprint import *
+
+
 def make_sentence(tokens):
     return ' '.join(tokens) 
+
+
+class Expression:
+    def __init__(self, expression):
+        self.str_expression = expression
+    def evaluate(self):
+        pass
+    def ast_print(self, level=0):
+        return "   " * level + self.str_expression
 
 
 # Questions 
@@ -8,11 +21,11 @@ class Question:
         self.id = qid
         self.label = label
         self.type = qtype
-
-    def __str__(self):
-        s = "Question:" + str(self.id) + "\n"
-        s += self.label + "\n"
-        s += str(self.type)
+        
+    def ast_print(self, level=0):
+        s = "\n" + "   " * level + "Question:" + self.id + "\n"
+        s += "   " * (level + 1) + self.label + "\n"
+        s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
 
@@ -35,14 +48,17 @@ class ConditionalQuestions:
     def add_else(self, questions):
         self.else_questions = questions
 
-    def __str__(self):
-        s = "Condition: Question " + "\n"
+    def ast_print(self, level=0):
+        s = "\n" + "   " * level + "If (" + self.condition.ast_print(0) + ")"
         for i in self.questions:
-            s += str(i)
+            s += "   " * level + i.ast_print(level+1)
         return s
 
-    def get_conditional_q(self):
+    def get_c_questions(self):
         return self.questions
+
+    def get_condition(self):
+        return self.condition.ast_print()
 
 
 class Form:
@@ -53,8 +69,8 @@ class Form:
 
     def __str__(self):
         s = self.name + "\n"
-        for i in self.questions:
-            s += str(i)
+        for i in self.questions: 
+            s += i.ast_print(1)
         return s
 
     def get_questions(self):

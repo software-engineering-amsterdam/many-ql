@@ -1,8 +1,6 @@
 package nl.uva.bromance.parsers;
 
 import nl.uva.bromance.parsers.listeners.QLParseTreeListener;
-import nl.uva.bromance.parsers.parsers.QLLexer;
-import nl.uva.bromance.parsers.parsers.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -19,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class GrammarTest {
     ParseTree tree;
+
     @Before
     public void setup() throws IOException {
         QLLexer lexer = new QLLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.ql")));
@@ -28,8 +27,7 @@ public class GrammarTest {
     }
 
     @Test
-    public void containsThreeForms()
-    {
+    public void containsThreeForms() {
         FakeGrammarListener listener = new FakeGrammarListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
@@ -39,8 +37,7 @@ public class GrammarTest {
     }
 
     @Test
-    public void containsThreeQuestions()
-    {
+    public void containsThreeQuestions() {
         FakeGrammarListener listener = new FakeGrammarListener();
         ParseTreeWalker walker = new ParseTreeWalker();
 
@@ -49,8 +46,7 @@ public class GrammarTest {
         assertThat(listener.questionCount).isEqualTo(3);
     }
 
-    static class FakeGrammarListener extends QLParseTreeListener
-    {
+    static class FakeGrammarListener extends QLParseTreeListener {
         public int formCount = 0;
         public int questionCount = 0;
 
@@ -63,9 +59,9 @@ public class GrammarTest {
         @Override
         public void exitQuestion(QLParser.QuestionContext qtx) {
             super.enterQuestion(qtx);
-            questionCount +=1;
+            questionCount += 1;
         }
-   }
+    }
 
 
 }

@@ -2,13 +2,14 @@
 
 package org.uva.student.calinwouter.ql.generated.node;
 
+import java.util.*;
 import org.uva.student.calinwouter.ql.generated.analysis.*;
 
 @SuppressWarnings("nls")
 public final class AForm extends PForm
 {
     private TIdent _ident_;
-    private PStmtlist _stmtlist_;
+    private final LinkedList<PStmt> _stmt_ = new LinkedList<PStmt>();
 
     public AForm()
     {
@@ -17,12 +18,12 @@ public final class AForm extends PForm
 
     public AForm(
         @SuppressWarnings("hiding") TIdent _ident_,
-        @SuppressWarnings("hiding") PStmtlist _stmtlist_)
+        @SuppressWarnings("hiding") List<?> _stmt_)
     {
         // Constructor
         setIdent(_ident_);
 
-        setStmtlist(_stmtlist_);
+        setStmt(_stmt_);
 
     }
 
@@ -31,7 +32,7 @@ public final class AForm extends PForm
     {
         return new AForm(
             cloneNode(this._ident_),
-            cloneNode(this._stmtlist_));
+            cloneList(this._stmt_));
     }
 
     @Override
@@ -65,29 +66,30 @@ public final class AForm extends PForm
         this._ident_ = node;
     }
 
-    public PStmtlist getStmtlist()
+    public LinkedList<PStmt> getStmt()
     {
-        return this._stmtlist_;
+        return this._stmt_;
     }
 
-    public void setStmtlist(PStmtlist node)
+    public void setStmt(List<?> list)
     {
-        if(this._stmtlist_ != null)
+        for(PStmt e : this._stmt_)
         {
-            this._stmtlist_.parent(null);
+            e.parent(null);
         }
+        this._stmt_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PStmt e = (PStmt) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._stmt_.add(e);
         }
-
-        this._stmtlist_ = node;
     }
 
     @Override
@@ -95,7 +97,7 @@ public final class AForm extends PForm
     {
         return ""
             + toString(this._ident_)
-            + toString(this._stmtlist_);
+            + toString(this._stmt_);
     }
 
     @Override
@@ -108,9 +110,8 @@ public final class AForm extends PForm
             return;
         }
 
-        if(this._stmtlist_ == child)
+        if(this._stmt_.remove(child))
         {
-            this._stmtlist_ = null;
             return;
         }
 
@@ -127,10 +128,22 @@ public final class AForm extends PForm
             return;
         }
 
-        if(this._stmtlist_ == oldChild)
+        for(ListIterator<PStmt> i = this._stmt_.listIterator(); i.hasNext();)
         {
-            setStmtlist((PStmtlist) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PStmt) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

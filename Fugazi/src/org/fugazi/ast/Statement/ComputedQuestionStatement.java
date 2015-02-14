@@ -1,6 +1,7 @@
 package org.fugazi.ast.Statement;
 
-import com.sun.org.apache.xpath.internal.Expression;
+import org.fugazi.ast.Expression.Expression;
+
 import org.fugazi.ast.Literals.ID;
 import org.fugazi.ast.Type.Type;
 
@@ -35,11 +36,11 @@ public class ComputedQuestionStatement extends QuestionStatement {
 
     @Override
     public String toString() {
-        return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computedExpression;
+        return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computedExpression.toString();
     }
 
     @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

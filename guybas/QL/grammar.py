@@ -1,4 +1,5 @@
 # Grammar
+
 from pyparsing import *
 from exceptions import *
 from abstract import *
@@ -7,53 +8,73 @@ from gui import *
 
 
 class BasicTypes:
-    # Words, end signs and escaped signs
-    endSignEsc      = Suppress("\\") + Literal("?") | Literal("/.") | Literal("/!")
+    # endSign = . | ? | !
+    endSign         = oneOf(". ? !")
+    endSignEsc      = Suppress("\\") + endSign
+    
+    # words = [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_] | endSign
     characters      = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
     word            = endSignEsc | characters  
-    endSign         = oneOf(". ? !")
     
-    # sentences consist of words and an end sign
+    # sentence = word+ endSign
     sentence        = (OneOrMore(word) + endSign).setParseAction(make_sentence)
+    
+    # sentences = sentence+
     sentences       = OneOrMore(sentence)
     comment         = Literal("//") + restOfLine | cStyleComment
 
-    
-class Expressions: # TODO
+    bool            = "bool"
+    integer         = "integer"
+    text            = "text"
+
+
+class Expressions: 
     # Possible answers values
-    bool            = Literal("bool")
+    bool            = Literal(BasicTypes.bool)
     integer         = Word(nums)
     text            = BasicTypes.sentences
     
     # Expressions
     value           = bool | integer | text
     compare         = oneOf("> >= < <= ==")
-    operators       = oneOf( '+ - / *')
+    operators       = oneOf('+ - / *')
+    
+    # atom = value | (expr)
+    # expr = atom (operator expr)*
     expr            = Forward()
-    atom            = value | Group( Suppress("(") + expr + Suppress(")"))
-    expr            << atom + ZeroOrMore( operators + expr )
-    condition       = Group(expr)
+    atom            = value | Group(Suppress("(") + expr + Suppress(")"))
+    expr            << atom + ZeroOrMore(operators + expr)
+    
+    # condition = expr compare value
+    condition       = Group(expr + compare + value) 
 
 
 class FormFormat:
-    # Question form: ID ANSWERTYPE LABEL
     id              = BasicTypes.characters
     label           = BasicTypes.sentence
-    answerR         = Literal("bool") | Literal("integer") | Literal("text")  
-    question        = ( Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
-                      ).setParseAction(ASTReady.make_question)
+    
+    # possible answer types
+    answerR         = Literal(BasicTypes.bool) | Literal(BasicTypes.integer) | Literal(BasicTypes.text)
+    
+    # question = Question id (answerR) : label 
+    question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
+                       ).setParseAction(ASTReady.make_question)
     questions       = OneOrMore(question)
     
-    # if/else form: IF CONDITION BLOCK (ELSE BLOCK)? 
-    condition       = Expressions.condition
-    pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") + questions + Suppress("}"))
-    pElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
+    # pIf       = if (condition) { questions }
+    aQuestions      = Forward()
+    condition       = Expressions.condition.setParseAction(ASTReady.make_expression)
+    pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
+                       aQuestions + Suppress("}"))
+                       
+    # pIfElse   = if (condition) { questions } else { questions }
+    pIfElse         = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
     
-    # Advanced questions: (IF | ELSE) BLOCK | QUESTIONS
-    aQuestions      = pElse.setParseAction(ASTReady.make_else) | \
-                      pIf.setParseAction(ASTReady.make_if) | \
-                      questions
+    # aQuestions    = pIf | pIfElse | questions
+    aQuestions      << (pIfElse.setParseAction(ASTReady.make_else)
+                        | pIf.setParseAction(ASTReady.make_if)
+                        | questions)
                       
-    # IDENTIFIER QUESTIONS
+    # form = id introduction? aQuestions+
     introduction    = Group(Suppress("Introduction" + Literal(":") + BasicTypes.sentences))
     form            = id + Optional(introduction) + OneOrMore(aQuestions)

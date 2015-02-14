@@ -45,7 +45,6 @@ Tokens
     ident	= (letter (digit | letter)*);
 
 Ignored Tokens
-
     comment, blank;
 
 Productions
@@ -55,13 +54,17 @@ Productions
         ;
 
     form {-> form}
-        = tform ident lbrace stmtlist rbrace			{-> New form(ident, stmtlist.stmtlist)}
+        = tform ident lbrace [sl]:stmt_list rbrace	    {-> New form(ident, [sl.stmt])}
         ;
 
-    stmtlist {-> stmtlist}
-        = {single}	[head]:stmt				            {-> New stmtlist.single(head.stmt)}
-        | {multi}	[head]:stmtlist [tail]:stmt	    	{-> New stmtlist.multi(head.stmtlist, tail.stmt)}
+    stmt_list {-> stmt*}
+        = stmt stmt_list_tail*                          {-> [stmt, stmt_list_tail.stmt]}
         ;
+
+    stmt_list_tail {-> stmt}
+        = stmt                                          {-> stmt}
+        ;
+
 
     type {-> type}
         = {bool}	tbool					            {-> New type.bool()}
@@ -73,35 +76,39 @@ Productions
         = {question}	ident colon string type			{-> New stmt.question(ident, string, type.type)}
         | {value}	ident colon string type lparen exp rparen	{-> New stmt.value(ident, string, type.type, exp.exp)}
         | {ifelse}	if lparen exp rparen lbrace
-                    [ifstmts]:stmtlist
+                    [then_stmt_list]:stmt_list
                 rbrace else [lbrace2]:lbrace
-                    [elsestmts]:stmtlist
-                [rbrace2]:rbrace			            {-> New stmt.ifelse(exp, ifstmts, elsestmts)}
+                    [else_stmt_list]:stmt_list
+                [rbrace2]:rbrace			            {-> New stmt.ifelse(exp, [then_stmt_list.stmt], [else_stmt_list.stmt])}
         | {if}		if lparen exp rparen lbrace
-                    [ifstmt]:stmtlist
-                rbrace			                		{-> New stmt.if(exp, ifstmt)}
+                    [then_stmt_list]:stmt_list
+                rbrace			                		{-> New stmt.if(exp, [then_stmt_list.stmt])}
         ;
 
     exp {-> exp}
-        = {add}		[left]:exp add [right]:factor		{-> New exp.add(left, right.exp)}
-        | {sub}		[left]:exp sub [right]:factor		{-> New exp.sub(left, right.exp)}
-        | {cmp}		cmp					                {-> cmp.exp}
-        | {logical}	logical			            		{-> logical.exp}
-        ;
-
-    cmp {-> exp}
-        = {eq}		[left]:cmp teq [right]:logical		{-> New exp.eq(left.exp, right.exp)}
-        | {neq}		[left]:cmp tneq [right]:logical		{-> New exp.neq(left.exp, right.exp)}
-        | {lt}		[left]:cmp tlt [right]:logical		{-> New exp.lt(left.exp, right.exp)}
-        | {gt}		[left]:cmp tgt [right]:logical		{-> New exp.gt(left.exp, right.exp)}
-        | {lte}		[left]:cmp tlte [right]:logical		{-> New exp.lte(left.exp, right.exp)}
-        | {gte}		[left]:cmp tgte [right]:logical		{-> New exp.gte(left.exp, right.exp)}
+        = {logical}	logical			            		{-> logical.exp}
         ;
 
     logical {-> exp}
-        = {or}		[left]:logical or [right]:factor	{-> New exp.or(left.exp, right.exp)}
-        | {and}		[left]:logical and [right]:factor	{-> New exp.and(left.exp, right.exp)}
-        | {factor}	factor					            {-> factor.exp}
+        = {or}		[left]:logical or [right]:cmp   	{-> New exp.or(left.exp, right.exp)}
+        | {and}		[left]:logical and [right]:cmp	    {-> New exp.and(left.exp, right.exp)}
+        | {cmp}	    cmp 					            {-> cmp.exp}
+        ;
+
+    cmp {-> exp}
+        = {eq}		[left]:factor teq [right]:addend	{-> New exp.eq(left.exp, right.exp)}
+        | {neq}		[left]:factor tneq [right]:addend   {-> New exp.neq(left.exp, right.exp)}
+        | {lt}		[left]:factor tlt [right]:addend    {-> New exp.lt(left.exp, right.exp)}
+        | {gt}		[left]:factor tgt [right]:addend	{-> New exp.gt(left.exp, right.exp)}
+        | {lte}		[left]:factor tlte [right]:addend	{-> New exp.lte(left.exp, right.exp)}
+        | {gte}		[left]:factor tgte [right]:addend	{-> New exp.gte(left.exp, right.exp)}
+        | {addend}	addend					            {-> addend.exp}
+        ;
+
+    addend {-> exp}
+        = {add}		[left]:addend add [right]:factor	{-> New exp.add(left.exp, right.exp)}
+        | {sub}		[left]:addend sub [right]:factor	{-> New exp.sub(left.exp, right.exp)}
+        | {factor}  factor                              {-> factor.exp}
         ;
 
     factor {-> exp}
@@ -116,7 +123,7 @@ Productions
         | {number}	number					            {-> New exp.number(number)}
         | {true}	ttrue					            {-> New exp.true()}
         | {false}	tfalse					            {-> New exp.false()}
-        | {paren}	lparen exp rparen			        {-> New exp.paren(exp.exp)}
+        | {paren}	lparen exp rparen			        {-> exp.exp}
         | {ident}	ident					            {-> New exp.ident(ident)}
         ;
 
@@ -126,18 +133,13 @@ Abstract Syntax Tree
         | {exp}         exp
         ;
     form
-        =			    [ident]:ident [stmtlist]:stmtlist
-        ;
-    stmtlist
-        = {single}		[head]:stmt
-        | {multi}		[head]:stmtlist [tail]:stmt
+        =			    [ident]:ident stmt*
         ;
     stmt
-        = {single}		[head]:stmt
-        | {question}	ident [str]:string [type]:type
+        = {question}	ident [str]:string [type]:type
         | {value}		ident [str]:string [type]:type [exp]:exp
-        | {ifelse}		[exp]:exp [ifstmts]:stmtlist [elsestmts]:stmtlist
-        | {if}			[exp]:exp [ifstmts]:stmtlist
+        | {ifelse}		[exp]:exp [then_stmt_list]:stmt* [else_stmt_list]:stmt*
+        | {if}			[exp]:exp [then_stmt_list]:stmt*
         ;
     type
         = {bool}
@@ -160,7 +162,6 @@ Abstract Syntax Tree
         | {mul}			[left]:exp [right]:exp
         | {div}			[left]:exp [right]:exp
         | {mod}			[left]:exp [right]:exp
-        | {paren}		exp
         | {not}			exp
         | {number}		number
         | {ident}		ident

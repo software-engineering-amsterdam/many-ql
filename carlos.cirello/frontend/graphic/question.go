@@ -12,7 +12,6 @@ import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.0
 
 GroupBox {
-	objectName: "{{ .ObjectName }}GroupBox"
 	title: "{{ .QuestionName }}"
 	Layout.fillWidth: true
 
@@ -34,7 +33,6 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.3
 
 GroupBox {
-	objectName: "{{ .ObjectName }}GroupBox"
 	Layout.fillWidth: true
 
 	RowLayout {

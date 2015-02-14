@@ -3,35 +3,44 @@
  */
 grammar QL;
 
+@header{
+	import java.util.*;
+}
+
 prog	: form+ EOF ;
 
-form	: 'form' ID '{' quest+ stat* decl* '}' ;
+form	: 'form' ID '{' quest* stat* '}' ;
 
-quest 	: 'question' STRING '=' QuestionLiteral '{' decl stat* expr* '}' ;
+quest locals[List<String> decls = new ArrayList<String>()]	
+		: 'question' ID typeof primitiveType '{' quest_decl+ decl* stat* expr* '}' ;
 
-stat : value								// Value, e.g. value = false; value = someX * someY;
-	 | ifStat								// If statement
-	 | ID '=' expr ';'						// Assignment
+
+stat : ifStatement								
+	 | assign
 	 ;
 
-decl : ID ':' primitiveType ';' ;	// The definition of e.g. hasBoughtHouse : boolean -> restricted only to primitive types
+quest_decl	: ID '=' STRING ';' 								// quest_decl only within questions
+			| ID '.' questionType '=' QuestionLiteral ';'
+			| ID '.' 'value' '=' expr ';';	
 
-expr		: expr EXP<assoc=right> expr 								#Exp
-			| expr (MUL | DIV) expr										#MulDiv
-			| expr (ADD | SUB) expr										#AddSub
-			| expr (LESS | LESS_EQUAL | GREATER | GREATER_EQUAL) expr	#LessGreater
-			| expr ('==' | '!=') expr									#Equal_NotEqual
-			| expr '&&' expr											#LogAnd
-			| expr '||' expr											#LogOr
-			| '(' expr ')'												#Par
-			| literal													#ExprLit
+decl		: primitiveType ID '='? expr? ';' ;		// Allows int x; && int x = 3 - 1; 
+
+assign		: ID '=' expr ';';
+
+expr		: expr EXP<assoc=right> expr 														#Exp
+			| x = expr (op = MUL | op = DIV) y = expr				{System.err.println("Try: " + $op.text);}															#MulDiv
+			| expr (ADD | SUB) expr																#AddSub
+			| expr (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) expr							#LessGreater
+			| expr ('==' | '!=') expr															#Equal_NotEqual
+			| expr '&&' expr																	#LogAnd
+			| expr '||' expr																	#LogOr
+			| '(' expr ')'																		#Par
+			| l = literal	{System.err.println("Try literal " + $l.text);}																		#ExprLit
 			;
-			
-
-ifStat		: 'if' '(' expr ')' '{' quest* stat* decl* '}'
-			| 'if' '(' expr ')' '{' stat '}' 'else' '(' quest* stat* decl* ')';
-
-value		: ID '.' 'value' '=' expr ';' ;	// hasSoldHouse.value = true; hasSoldHouse.value = 2+3; 
+		
+ifStatement		: 'if' '(' expr ')' '{' quest* stat* decl* '}'
+				| 'if' '(' expr ')' '{' stat '}' 'else' '(' quest* stat* decl* ')';
+	
 
 literal		: BooleanLiteral
 			| NumberLiteral
@@ -55,6 +64,7 @@ primitiveType	: 'boolean'
 				| 'float'
 				| 'currency'
 				| 'string'
+				| 'int'
 				;
 
 WS			: (' ' | NL | '\t') -> skip;
@@ -81,6 +91,8 @@ COMMENT		: '/*' .*? '*/' -> skip;	// Multi line comments
 
 /* KEYWORDS - TOKENS */ 
 
+typeof		: 'typeof';
+questionType: 'questionType';
 MUL			: '*' ;
 DIV			: '/' ;
 ADD			: '+' ;
@@ -103,7 +115,3 @@ EXP			: '^' ;
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
 /* the listener ->  */
-
-
-
-

@@ -6,9 +6,16 @@ Question 1 (bool): Do you love hummus?
 
 Question 2 (integer): What is the most awesome number? 
 
-if ((9 + 3) * (4 / 5)) {
-    Question 2b (integer): What is the most \? awesome number?
+if ((9 + 3) * (4 / 5 + 1) == 1) {
+    Question 2b (bool): Is this a conditional question?
 
+}
+
+if ((9 + 3) * (4 / 5 + 1) > 1) {
+    if ((9 + 3) * (4 / 5 + 1) > 1) {
+        Question 2b (bool): Is this a conditional question?
+    }
+    Question 2c (bool): Is this a conditional question?
 }
 
 // another comment

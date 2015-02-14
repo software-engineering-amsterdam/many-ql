@@ -1,8 +1,6 @@
 package nl.uva.bromance.parsers;
 
 import nl.uva.bromance.parsers.listeners.QLParseTreeListener;
-import nl.uva.bromance.parsers.parsers.QLLexer;
-import nl.uva.bromance.parsers.parsers.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;

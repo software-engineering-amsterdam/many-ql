@@ -1,18 +1,23 @@
 from decimal import *
 
 class FormStatementNode(object):
-	def __init__(self, statements):
+	def __init__(self, name, statements):
+		self.name = name
 		self.statements = statements
 
 class QuestionStatementNode(object):
-	def __init__(self, name, text, question_type, expr = None):
+	def __init__(self, name, text, questionType, expr = None):
 		self.name = name
 		self.text = text
-		self.type = question_type
+		self.type = questionType
 		self.expr = expr
 
 class ExpressionNode(object):
 	pass
+
+class AtomicExpressionNode(ExpressionNode):
+	def __init__(self, left):
+		self.left = left
 
 class UnaryExpressionNode(ExpressionNode):
 	def __init__(self, op, right):
@@ -34,13 +39,8 @@ class QuestionIdentifierNode(object):
 	def __init__(self, name):
 		self.name = name
 
-class MoneyNode(object):
-	def __init__(self, number1, number2):
-		number1 = Decimal(number1)
-		number2 = Decimal(number2)
-		while number2 > 0:
-			number2 /= 10
-		self.val = number1 + number2
+class Money(Decimal):
+	pass
 
-	def value(self):
-		return self.val
+class Identifier(str):
+	pass

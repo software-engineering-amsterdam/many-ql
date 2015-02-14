@@ -2,13 +2,14 @@
 
 package org.uva.student.calinwouter.ql.generated.node;
 
+import java.util.*;
 import org.uva.student.calinwouter.ql.generated.analysis.*;
 
 @SuppressWarnings("nls")
 public final class AIfStmt extends PStmt
 {
     private PExp _exp_;
-    private PStmtlist _ifstmts_;
+    private final LinkedList<PStmt> _thenStmtList_ = new LinkedList<PStmt>();
 
     public AIfStmt()
     {
@@ -17,12 +18,12 @@ public final class AIfStmt extends PStmt
 
     public AIfStmt(
         @SuppressWarnings("hiding") PExp _exp_,
-        @SuppressWarnings("hiding") PStmtlist _ifstmts_)
+        @SuppressWarnings("hiding") List<?> _thenStmtList_)
     {
         // Constructor
         setExp(_exp_);
 
-        setIfstmts(_ifstmts_);
+        setThenStmtList(_thenStmtList_);
 
     }
 
@@ -31,7 +32,7 @@ public final class AIfStmt extends PStmt
     {
         return new AIfStmt(
             cloneNode(this._exp_),
-            cloneNode(this._ifstmts_));
+            cloneList(this._thenStmtList_));
     }
 
     @Override
@@ -65,29 +66,30 @@ public final class AIfStmt extends PStmt
         this._exp_ = node;
     }
 
-    public PStmtlist getIfstmts()
+    public LinkedList<PStmt> getThenStmtList()
     {
-        return this._ifstmts_;
+        return this._thenStmtList_;
     }
 
-    public void setIfstmts(PStmtlist node)
+    public void setThenStmtList(List<?> list)
     {
-        if(this._ifstmts_ != null)
+        for(PStmt e : this._thenStmtList_)
         {
-            this._ifstmts_.parent(null);
+            e.parent(null);
         }
+        this._thenStmtList_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PStmt e = (PStmt) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._thenStmtList_.add(e);
         }
-
-        this._ifstmts_ = node;
     }
 
     @Override
@@ -95,7 +97,7 @@ public final class AIfStmt extends PStmt
     {
         return ""
             + toString(this._exp_)
-            + toString(this._ifstmts_);
+            + toString(this._thenStmtList_);
     }
 
     @Override
@@ -108,9 +110,8 @@ public final class AIfStmt extends PStmt
             return;
         }
 
-        if(this._ifstmts_ == child)
+        if(this._thenStmtList_.remove(child))
         {
-            this._ifstmts_ = null;
             return;
         }
 
@@ -127,10 +128,22 @@ public final class AIfStmt extends PStmt
             return;
         }
 
-        if(this._ifstmts_ == oldChild)
+        for(ListIterator<PStmt> i = this._thenStmtList_.listIterator(); i.hasNext();)
         {
-            setIfstmts((PStmtlist) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PStmt) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

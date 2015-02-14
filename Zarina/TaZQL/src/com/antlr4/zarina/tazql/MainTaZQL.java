@@ -5,17 +5,19 @@
 	package com.antlr4.zarina.tazql;
 
 	import java.awt.Dimension;
-	import java.io.FileInputStream;
-	import java.util.Scanner;
-	
-	import javax.swing.JFrame;
-	import javax.swing.JScrollPane;
-	
-	import org.antlr.v4.runtime.ANTLRInputStream;
-	import org.antlr.v4.runtime.CommonTokenStream;
-	import org.antlr.v4.runtime.tree.ParseTree;
-	import org.antlr.v4.runtime.tree.ParseTreeWalker;
-	import org.antlr.v4.runtime.tree.gui.TreeViewer;
+import java.io.FileInputStream;
+import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.gui.TreeViewer;
+
+import ast.Testik;
 
 
 	public class MainTaZQL {
@@ -24,7 +26,7 @@
 			Scanner scan = null;
 			try {
 				// has to be fixed later
-				FileInputStream questionnaireFile = new FileInputStream("./questionnaire.ql"); 
+				FileInputStream questionnaireFile = new FileInputStream("./test.ql"); 
 				scan = new Scanner(questionnaireFile, "UTF-8").useDelimiter("\\A");
 				String inputQuestions = scan.next();
 				//	System.out.println(inputQuestions);
@@ -38,8 +40,14 @@
 				//Walk the tree
 				ParseTree tree = parser.parse();			
 				ParseTreeWalker walker = new ParseTreeWalker();
-				Questions q = new Questions();
-				walker.walk( new MyTaZQLBaseListener(q), tree );
+			//	Questions q = new Questions();
+			//	walker.walk( new MyTaZQLBaseListener(q), tree );
+			//	MainFrame mf = new MainFrame();
+			//	Testik v = new Testik();
+				//v.visit(tree);
+				
+				//String sum = (String)visitor.visitQuestion(tree);
+				//System.out.println("sum=" + new QuestionVisitor().visitSimpleQuestion(tree));
 								
 				//parser.setBuildParseTree(true);
 				//parser.addParseListener(new MyTaZQLBaseListener(q));

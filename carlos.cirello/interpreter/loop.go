@@ -4,66 +4,97 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
+	"log"
+
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
 
 type interpreter struct {
 	questionaire *ast.QuestionaireNode
-	send         chan *fe.Event
-	receive      chan *fe.Event
-	execute      visitor
+	send         chan *Event
+	receive      chan *Event
+	execute      ast.Executer
+
+	symbolTable map[string]*ast.QuestionNode
+	symbolChan  chan *symbolEvent
 }
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.QuestionaireNode) (chan *fe.Event, chan *fe.Event) {
-	toFrontend := make(chan *fe.Event)
-	fromFrontend := make(chan *fe.Event)
+func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
+	toFrontend := make(chan *Event)
+	fromFrontend := make(chan *Event)
+	symbolChan := make(chan *symbolEvent)
 	v := &interpreter{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
-		execute:      &execute{toFrontend},
+		execute:      &Execute{toFrontend, symbolChan},
+		symbolTable:  make(map[string]*ast.QuestionNode),
+		symbolChan:   symbolChan,
 	}
+	go v.updateSymbolTable()
 	go v.loop()
 	return toFrontend, fromFrontend
 }
 
-func (v *interpreter) loop() {
-	v.send <- &fe.Event{
-		Type: fe.ReadyP,
+func (v *interpreter) updateSymbolTable() {
+	for r := range v.symbolChan {
+		if r.command == SymbolRead {
+			question, ok := v.symbolTable[r.name]
+			if !ok {
+				log.Fatalf("Identifier unknown: %s", r.name)
+			}
+			r.ret <- question
+		} else if r.command == SymbolCreate {
+			if _, ok := v.symbolTable[r.name]; !ok {
+				v.symbolTable[r.name] = r.content
+			}
+		} else if r.command == SymbolUpdate {
+			if _, ok := v.symbolTable[r.name]; ok {
+				v.symbolTable[r.name] = r.content
+			}
+		} else {
+			log.Fatalf("Invalid operation at symbols table: %#v", r.command)
+		}
 	}
+}
 
+func (v *interpreter) loop() {
+	v.send <- &Event{
+		Type: ReadyP,
+	}
 	for {
 		select {
 		case r := <-v.receive:
-			if r.Type == fe.ReadyT {
-				// visit everything to setup interface
-				v.execute.QuestionaireNode(v.questionaire)
-				v.send <- &fe.Event{
-					Type: fe.Flush,
-				}
-			} else if r.Type == fe.Answers {
-				lenAnswers := len(r.Answers)
-				if lenAnswers > 0 {
-					for k, action := range v.questionaire.Stack {
-						if nil == action.QuestionNode {
-							continue
-						}
-						q := action.QuestionNode
-						if answer, ok := r.Answers[q.Identifier]; ok {
-							v.questionaire.Stack[k].QuestionNode.From(answer)
-						}
+			switch r.Type {
+			case Answers:
+				for identifier, answer := range r.Answers {
+					ret := make(chan *ast.QuestionNode)
+					v.symbolChan <- &symbolEvent{
+						command: SymbolRead,
+						name:    identifier,
+						ret:     ret,
 					}
-					// visit everything again
-					v.execute.QuestionaireNode(v.questionaire)
+
+					q := <-ret
+					q.Content.From(answer)
+					v.symbolChan <- &symbolEvent{
+						command: SymbolUpdate,
+						name:    q.Identifier,
+						content: q,
+					}
 				}
+				fallthrough
+
+			case ReadyT:
+				// visit everything to setup interface
+				v.execute.Exec(v.questionaire)
+				v.send <- &Event{Type: Flush}
 			}
+
 		default:
-			v.send <- &fe.Event{
-				Type: fe.FetchAnswers,
-			}
+			v.send <- &Event{Type: FetchAnswers}
 		}
 	}
 

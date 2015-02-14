@@ -14,7 +14,7 @@ stream = CommonTokenStream(lexer)
 
 parser = QLParser(stream)
 
-tree_test = parser.expr()
+tree_test = parser.form_statement()
 
 def print_tree(tree_test, lev):
     if not isinstance(tree_test, tree.Tree.TerminalNodeImpl):
@@ -29,7 +29,7 @@ def print_tree(tree_test, lev):
 
 def main():
     visitor = CustomQLVisitor()
-    print(visitor.visit(tree_test))
+    #print(visitor.visit(tree_test).statements[0].expr.left)
     #print_tree(tree_test, 0)    
 
 if __name__ == '__main__':
