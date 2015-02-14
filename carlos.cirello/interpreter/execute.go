@@ -110,6 +110,7 @@ func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
 }
 
 func (exec Execute) EqualsNode(s *ast.EqualsNode) bool {
+	// todo(carlos) allow comparison of same types, not only numeric
 	left := exec.resolveNumeric(s.LeftTerm)
 	right := exec.resolveNumeric(s.RightTerm)
 
