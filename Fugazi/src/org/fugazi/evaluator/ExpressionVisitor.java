@@ -1,29 +1,26 @@
 package org.fugazi.evaluator;
 
-
-import org.fugazi.ast.ASTNode.ASTNode;
 import org.fugazi.ast.Expression.*;
 
 /**
- * Implementation of the expression Visitor.
+ * Implementation of the concrete expression Visitor.
  */
-public class ExpressionVisitor implements IExpressionVisitor <ASTNode> {
-    // TODO: Not ASTNode? -> (<abstract>Result) maybe
+public class ExpressionVisitor implements IExpressionVisitor <ExpressionResult> {
 
     /**
      * =================
      *  Logical
      * ================= 
      */    
-    public ASTNode visit(AndExpression andExpression) {
+    public ExpressionResult visit(AndExpression andExpression) {
         return null;
     }
     
-    public ASTNode visit(OrExpression lessExpression) {
+    public ExpressionResult visit(OrExpression lessExpression) {
         return null;
     }
     
-    public ASTNode visit(NotExpression notExpression) {
+    public ExpressionResult visit(NotExpression notExpression) {
         return null;
     }
 
@@ -32,27 +29,27 @@ public class ExpressionVisitor implements IExpressionVisitor <ASTNode> {
      *  Comparison
      * =================
      */
-    public ASTNode visit(EQExpression eqExpression) {
+    public ExpressionResult visit(EQExpression eqExpression) {
         return null;
     }
     
-    public ASTNode visit(GEExpression geExpression) {
+    public ExpressionResult visit(GEExpression geExpression) {
         return null;
     }
 
-    public ASTNode visit(GreaterExpression greaterExpression) {
+    public ExpressionResult visit(GreaterExpression greaterExpression) {
         return null;
     }
 
-    public ASTNode visit(LEExpression leExpression) {
+    public ExpressionResult visit(LEExpression leExpression) {
         return null;
     }
 
-    public ASTNode visit(LessExpression lessExpression) {
+    public ExpressionResult visit(LessExpression lessExpression) {
         return null;
     }
 
-    public ASTNode visit(NotEqExpression notEqExpression) {
+    public ExpressionResult visit(NotEqExpression notEqExpression) {
         return null;
     }
 
@@ -61,19 +58,19 @@ public class ExpressionVisitor implements IExpressionVisitor <ASTNode> {
      *  Numerical
      * =================
      */
-    public ASTNode visit(AddExpression addExpression) {
+    public ExpressionResult visit(AddExpression addExpression) {
         return null;
     }
 
-    public ASTNode visit(SubExpression subExpression) {
+    public ExpressionResult visit(SubExpression subExpression) {
         return null;
     }
 
-    public ASTNode visit(MulExpression mulExpression) {
+    public ExpressionResult visit(MulExpression mulExpression) {
         return null;
     }
 
-    public ASTNode visit(DivExpression divExpression) {
+    public ExpressionResult visit(DivExpression divExpression) {
         return null;
     }
 }
