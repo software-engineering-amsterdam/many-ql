@@ -2,14 +2,14 @@ package ast.question;
 
 import java.util.ArrayList;
 
-import ast.type.Id;
+import ast.AST;
 
-public class Form {
+public class Form extends AST {
 	private Id formId;
-	private ArrayList<SimpleQuestion> arrayQuestions;
+	private ArrayList<IQuestionVisitable> arrayQuestions;
 	
 	
-	public Form (Id formId, ArrayList<SimpleQuestion> arrayQuestions) {
+	public Form (Id formId, ArrayList<IQuestionVisitable> arrayQuestions) {
 		this.formId = formId;
 		this.arrayQuestions = arrayQuestions;
 	}	
@@ -18,7 +18,7 @@ public class Form {
 		return formId;
 	}
 	
-	public ArrayList<SimpleQuestion> getQuestionText(){
+	public ArrayList<IQuestionVisitable> getQuestionText(){
 		return arrayQuestions;
 	}
 		

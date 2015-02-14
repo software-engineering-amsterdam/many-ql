@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import ast.expression.Expression;
 
-public class IfStatement extends Questions {
+public class IfStatement extends IQuestionVisitable {
 
 	private Expression ifExpression;
-	private ArrayList<Questions> ifStatement, elseStatement;
+	private ArrayList<IQuestionVisitable> ifStatement, elseStatement;
 	
-	public IfStatement(Expression ifExpression, ArrayList<Questions> ifStatement,  ArrayList<Questions> elseStatement) {
+	public IfStatement(Expression ifExpression, ArrayList<IQuestionVisitable> ifStatement,  ArrayList<IQuestionVisitable> elseStatement) {
 		this.ifStatement = ifStatement;
 		this.elseStatement = elseStatement;
 		this.ifExpression = ifExpression;
@@ -19,11 +19,11 @@ public class IfStatement extends Questions {
 		return ifExpression;
 	}
 	
-	public ArrayList<Questions> getIfStatement(){
+	public ArrayList<IQuestionVisitable> getIfStatement(){
 		return ifStatement;
 	}
 	
-	public ArrayList<Questions> getElseStatement(){
+	public ArrayList<IQuestionVisitable> getElseStatement(){
 		return elseStatement;
 	}
 	
