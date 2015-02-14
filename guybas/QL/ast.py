@@ -1,8 +1,10 @@
 # ast 
 from pprint import *
 
+
 def make_sentence(tokens):
     return ' '.join(tokens) 
+
 
 class Expression:
     def __init__(self, expression):
@@ -12,12 +14,14 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + self.str_expression
 
+
 # Questions 
 class Question:
     def __init__(self, qid, qtype, label):
         self.id = qid
         self.label = label
         self.type = qtype
+        
     def ast_print(self, level=0):
         s = "\n" + "   " * level + "Question:" + self.id + "\n"
         s += "   " * (level + 1) + self.label + "\n"
@@ -54,7 +58,7 @@ class ConditionalQuestions:
         return self.questions
 
     def get_condition(self):
-        return self.condition
+        return self.condition.ast_print()
 
 
 class Form:

@@ -8,7 +8,7 @@ from gui import *
 
 
 class BasicTypes:
-    # endsign = . | ? | !
+    # endSign = . | ? | !
     endSign         = oneOf(". ? !")
     endSignEsc      = Suppress("\\") + endSign
     
@@ -23,10 +23,14 @@ class BasicTypes:
     sentences       = OneOrMore(sentence)
     comment         = Literal("//") + restOfLine | cStyleComment
 
-    
+    bool            = "bool"
+    integer         = "integer"
+    text            = "text"
+
+
 class Expressions: 
     # Possible answers values
-    bool            = Literal("bool")
+    bool            = Literal(BasicTypes.bool)
     integer         = Word(nums)
     text            = BasicTypes.sentences
     
@@ -50,7 +54,7 @@ class FormFormat:
     label           = BasicTypes.sentence
     
     # possible answer types
-    answerR         = Literal("bool") | Literal("integer") | Literal("text")  
+    answerR         = Literal(BasicTypes.bool) | Literal(BasicTypes.integer) | Literal(BasicTypes.text)
     
     # question = Question id (answerR) : label 
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
@@ -68,8 +72,8 @@ class FormFormat:
     
     # aQuestions    = pIf | pIfElse | questions
     aQuestions      << (pIfElse.setParseAction(ASTReady.make_else)
-                       | pIf.setParseAction(ASTReady.make_if)
-                       | questions)
+                        | pIf.setParseAction(ASTReady.make_if)
+                        | questions)
                       
     # form = id introduction? aQuestions+
     introduction    = Group(Suppress("Introduction" + Literal(":") + BasicTypes.sentences))
