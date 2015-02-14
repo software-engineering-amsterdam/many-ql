@@ -34,8 +34,7 @@ FLOAT
 	| DIGIT* [.,] DIGIT+
 	;
 
-IF			: 'if' ;
-FORM		: 'form' ;
+		
 
 ID
 	: [a-z] [a-zA-Z0-9]*
@@ -44,6 +43,8 @@ ID
 
 
 /* Grammar rules */
+iF			: 'if' ;
+form		: 'form' ;
 qna			: question answer ;
 question	: STRING (DIGIT+)? ('?'|':')? ;
 answer		: varName COLON varType ( ASSIGN LPAREN? expression RPAREN? )? ;
@@ -51,7 +52,7 @@ varName		: ID ;
 varType		: ID ;
 
 taxForm
-	: FORM atom LBRACE (qna | statement)+ RBRACE
+	: form atom LBRACE (qna | statement)+ RBRACE
 	;
 	
 statement	
@@ -59,7 +60,7 @@ statement
 	;
 
 if_statement
-	: IF condition LBRACE (qna | statement)+ RBRACE
+	: iF condition LBRACE (qna | statement)+ RBRACE
 	;
 
 condition

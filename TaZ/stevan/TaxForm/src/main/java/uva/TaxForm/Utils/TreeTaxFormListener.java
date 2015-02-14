@@ -30,15 +30,15 @@ public class TreeTaxFormListener implements ParseTreeListener {
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
 		
-		/*System.out.println( ctx.depth() + " \t " + ctx.getChildCount() + " \t " 
-							+ ctx.getRuleIndex() + " \t " + ctx.getRuleContext() + 
-								" \t " + ctx.getStart().getType() + " -> " + ctx.getText() );*/
+		/*System.out.println( ctx.depth() + "\t" + ctx.getChildCount() + "\t" 
+							+ ctx.getRuleIndex() + "\t" + ctx.getRuleContext() + 
+								"\t" + ctx.getStart().getType() + " -> " + ctx.getText() );*/
 		
 		for(String name: ruleNames) {
 			if( parser.getRuleIndex(name) == ctx.getRuleIndex() ) {
-				System.out.println( ctx.depth() + " \t " + ctx.getChildCount() + " \t " 
-									+ ctx.getRuleIndex() + " \t " + ctx.getRuleContext() + 
-									" \t " + ctx.getStart().getType() + " -> " + ctx.getText() );
+				System.out.println( ctx.depth() + "\t" + ctx.getChildCount() + "\t" 
+									+ ctx.getRuleIndex() + "\t" + ctx.getRuleContext() + 
+									"\t" + ctx.getStart().getType() + " -> " + ctx.getText() );
 			}
 		}
 		//System.out.println( ctx.toStringTree() );
@@ -60,5 +60,6 @@ public class TreeTaxFormListener implements ParseTreeListener {
 	public void visitTerminal(TerminalNode node) {
 		// TODO Auto-generated method stub
 		//System.out.println( "visitTerminal: " + Trees.toStringTree(node) );
+		System.out.println( "visitTerminal: " + node.getText() );
 	}
 }
