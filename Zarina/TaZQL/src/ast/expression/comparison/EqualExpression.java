@@ -29,8 +29,9 @@ public class EqualExpression extends Expression {
 	
 	@Override
 	public String toString() {
-		return leftExp + " == " + rightExp;
+		return getLeftExp() + " == " + getRightExp();
 	}
+
 }
 
 

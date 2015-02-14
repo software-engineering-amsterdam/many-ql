@@ -29,7 +29,7 @@ public class NotEqualExpression extends Expression {
 	
 	@Override
 	public String toString() {
-		return leftExp + " != " + rightExp;
+		return getLeftExp() + " != " + getRightExp();
 	}
 
 }
