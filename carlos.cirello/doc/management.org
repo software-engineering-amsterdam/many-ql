@@ -6,6 +6,7 @@
   {5} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
   {6} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
   {7} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
+  {8} [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
 * QL [1/3]
   - [X] Basic Architecture {4}
   - [ ] Compiler [0/2] {1}
