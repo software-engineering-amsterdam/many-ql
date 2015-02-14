@@ -32,13 +32,6 @@ public class TaZQLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitComputedQuestion(@NotNull TaZQLParser.ComputedQuestionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitEqNot(@NotNull TaZQLParser.EqNotContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -95,7 +88,7 @@ public class TaZQLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBasicQuestion(@NotNull TaZQLParser.BasicQuestionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNot(@NotNull TaZQLParser.NotContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
