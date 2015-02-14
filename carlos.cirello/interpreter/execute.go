@@ -79,7 +79,22 @@ condLoop:
 }
 
 func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
-	identifier := s.LeftTerm.IdentifierReference
+	value := exec.resolveTermNode(s.LeftTerm)
+
+	switch value.(type) {
+	case bool:
+		return value.(bool)
+	case int:
+		return value.(int) != 0
+	case float32:
+		return value.(float32) != 0
+	}
+
+	return false
+}
+
+func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
+	identifier := t.IdentifierReference
 	if identifier != "" {
 		ret := make(chan *ast.QuestionNode)
 		exec.symbolChan <- &symbolEvent{
@@ -96,8 +111,8 @@ func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
 			return content.Value()
 		case ast.IntQuestionType:
 			content := q.Content.(*ast.IntQuestion)
-			return content.Value() != 0
+			return content.Value()
 		}
 	}
-	return s.LeftTerm.NumericConstant != 0
+	return t.NumericConstant
 }
