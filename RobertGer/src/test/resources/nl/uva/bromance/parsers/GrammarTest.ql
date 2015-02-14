@@ -67,7 +67,7 @@ Name: "Tax" {
                 	// Deductables and prepaid tax aren't in this form yet, but you get the gist.
                 	Input: income_work.total - deductables.total - prepaid.total
                 }
-                Label: ttl_taxes {
+                Label: "ttl_taxes" {
                 	If: ttl_taxes > 0 {
                 		Text: [ttl_taxes] euro in taxes are due, you will receive payment information through the regular mail.
                 	} Else If: ttl_taxes < 0 {
