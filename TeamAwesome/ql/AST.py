@@ -1,13 +1,13 @@
 from decimal import *
 
 class FormStatementNode(object):
-	def __init__(self, name, statements):
-		self.name = name
+	def __init__(self, identifier, statements):
+		self.identifier = identifier
 		self.statements = statements
 
 class QuestionStatementNode(object):
-	def __init__(self, name, text, questionType, expr = None):
-		self.name = name
+	def __init__(self, identifier, text, questionType, expr = None):
+		self.identifier = identifier
 		self.text = text
 		self.type = questionType
 		self.expr = expr

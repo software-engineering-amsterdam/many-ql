@@ -14,17 +14,17 @@ class CustomQLVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#form.
     def visitForm_statement(self, ctx):
-        name = self.visit(ctx.getChild(1))
+        identifier = self.visit(ctx.getChild(1))
         statements = []
         for child in ctx.getChildren():
             if isinstance(child, QLParser.StatementContext):
                 statements.append(self.visit(child))
-        return FormStatementNode(name, statements)
+        return FormStatementNode(identifier, statements)
 
 
     # Visit a parse tree produced by QLParser
     def visitQuestion_statement(self, ctx):
-        name = self.visit(ctx.getChild(1))
+        identifier = self.visit(ctx.getChild(1))
         text = ctx.getChild(3).getText()
         question_type = ctx.getChild(4).getText()
         
@@ -33,7 +33,7 @@ class CustomQLVisitor(QLVisitor):
         else:
             expr = None
 
-        return QuestionStatementNode(name, text, question_type, expr = expr)
+        return QuestionStatementNode(identifier, text, question_type, expr = expr)
         #return self.visitChildren(ctx)
 
 
