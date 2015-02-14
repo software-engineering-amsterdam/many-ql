@@ -1,17 +1,20 @@
 package ast.type;
 
 
-public abstract class TextType extends Type<String> {
+public class TextType extends Type {
 	
-
-	public String getValue() {
+	public String getType() {
 		return "text";
 	}
-	
 	
 	@Override
 	public String toString() {
 		return "text";
 	}
+	
+	 @Override
+	 public <T> T accept(ITypeVisitor<T> visitor) {
+		 return visitor.visit(this);
+	 }
 
 }

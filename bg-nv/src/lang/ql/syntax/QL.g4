@@ -6,8 +6,12 @@ statement : question | ifCondition ;
 
 question : QuestionType Identifier String (expression)? ;
 
-ifCondition : 'if' '(' expression ')' '{' (statement)+ '}';
-expressionList : expression +;
+ifCondition
+    : 'if' '(' expression ')' '{' (statement)+ '}'
+    | 'if' '(' expression ')' statement
+    ;
+
+expressionList : expression +; //TODO: remove later, testing purposes only
 
 expression
     : '(' x=expression ')'
@@ -47,7 +51,18 @@ Integer : (ZeroDigit | NonZeroDigit Digit*);
 
 Decimal : (Epsilon | NonZeroDigit Digit* | ZeroDigit) '.' Digit+ ;
 
-String : Quotes (Epsilon | .*? ~['\\']) Quotes; //Handle escaping
+String
+    : '"' StringCharacter+? '"'
+    | '\'' StringCharacter+? '\''
+    | '“' StringCharacter+? '”'
+    ;
+
+fragment StringCharacter
+    : ~[\\]
+    | EscapeSequence
+    ;
+
+fragment EscapeSequence: '\\' [n“”"'\\]; //NOTE: removed btfr, we probably don't want to support that
 
 fragment Epsilon : ; //just for readability
 
@@ -62,8 +77,6 @@ fragment ZeroDigit : [0];
 fragment Year : [1-2] Digit Digit Digit ;
 fragment Month : [1-12];
 fragment Day : [1-31] ;
-
-fragment Quotes : '“' | '"' | '”' | '\''; //Handle quotes properly
 
 Comment : '/*' .*? '*/' -> channel(HIDDEN);
 LineComment : '//' ~[\r\n]* -> channel(HIDDEN);
