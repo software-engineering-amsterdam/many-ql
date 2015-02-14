@@ -1,11 +1,10 @@
 package ast.type;
 
-import ast.IMainVisitable;
+import ast.AST;
 
 
-public abstract class Type<T> implements IMainVisitable {
+public abstract class Type extends AST {
 
-	public abstract T accept(ITypeVisitor<T> visitor);
-	
-	//public abstract String toString();
+	public abstract <T> T accept(ITypeVisitor<T> visitor);
+
 }
