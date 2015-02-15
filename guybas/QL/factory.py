@@ -23,6 +23,7 @@ class ASTReady:
         return Question(number, question, answertype)
         
     def make_if(tokens):
+        print("should not happen")
         condition = tokens[0]
         questions = []
         for i in range(1, len(tokens)):
@@ -33,16 +34,17 @@ class ASTReady:
         condition = tokens[0]
         questions = [] 
         k = 1
-        for i in range(1, len(tokens)):
-            if i == "else":
+        for i in range(1, len(tokens) + 1):
+            if tokens[i] == "else":
                 break
             else:
                 questions.append(tokens[i])
                 k += 1
         else_questions = []
         for i in range(k + 1, len(tokens)):
-            else_questions += tokens[i]
+            else_questions.append(tokens[i])
         x = ConditionalQuestions(condition, questions)
+        x.add_else(else_questions)
         return x
         
     def make_form(tokens):

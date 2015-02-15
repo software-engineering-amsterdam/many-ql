@@ -1,6 +1,4 @@
-# ast 
-from pprint import *
-
+# ast
 
 def make_sentence(tokens):
     return ' '.join(tokens) 
@@ -52,6 +50,10 @@ class ConditionalQuestions:
         s = "\n" + "   " * level + "If (" + self.condition.ast_print(0) + ")"
         for i in self.questions:
             s += "   " * level + i.ast_print(level+1)
+        if self.else_questions != []:
+            s += "   " * level + "else"
+            for i in self.else_questions:
+                s += "   " * level + i.ast_print(level+1)
         return s
 
     def get_c_questions(self):
