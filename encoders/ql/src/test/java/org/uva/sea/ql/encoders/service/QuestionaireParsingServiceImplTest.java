@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders;
+package org.uva.sea.ql.encoders.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -8,6 +8,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.uva.sea.ql.encoders.model.Question;
+import org.uva.sea.ql.encoders.model.Questionaire;
+import org.uva.sea.ql.encoders.service.QuestionaireParsingService;
+import org.uva.sea.ql.encoders.service.QuestionaireParsingServiceImpl;
 
 public class QuestionaireParsingServiceImplTest {
 

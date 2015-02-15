@@ -1,4 +1,6 @@
-package org.uva.sea.ql.encoders;
+package org.uva.sea.ql.encoders.service;
+
+import org.uva.sea.ql.encoders.model.Questionaire;
 
 /**
  * Service for parsing questionaire input files.
