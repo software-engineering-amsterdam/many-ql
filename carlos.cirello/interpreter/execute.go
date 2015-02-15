@@ -70,10 +70,6 @@ func (exec Execute) IfNode(i *ast.IfNode) {
 		if !exec.TermNode(c.(*ast.TermNode)) {
 			return
 		}
-	case *ast.SingleTermNode:
-		if !exec.SingleTermNode(c.(*ast.SingleTermNode)) {
-			return
-		}
 	case *ast.EqualsNode:
 		if !exec.EqualsNode(c.(*ast.EqualsNode)) {
 			return
@@ -104,21 +100,6 @@ func (exec Execute) IfNode(i *ast.IfNode) {
 
 func (exec Execute) TermNode(s *ast.TermNode) bool {
 	value := exec.resolveTermNode(s)
-
-	switch value.(type) {
-	case bool:
-		return value.(bool)
-	case int:
-		return value.(int) != 0
-	case float32:
-		return value.(float32) != 0
-	}
-
-	return false
-}
-
-func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
-	value := exec.resolveTermNode(s.LeftTerm.(*ast.TermNode))
 
 	switch value.(type) {
 	case bool:

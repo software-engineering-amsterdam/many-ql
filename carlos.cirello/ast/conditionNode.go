@@ -8,11 +8,6 @@ type TermNode struct {
 	Evaluatable
 }
 
-type SingleTermNode struct {
-	LeftTerm Evaluatable
-	Evaluatable
-}
-
 type DoubleTermNode struct {
 	LeftTerm  Evaluatable
 	RightTerm Evaluatable
