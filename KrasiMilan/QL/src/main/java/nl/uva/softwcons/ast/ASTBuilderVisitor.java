@@ -16,6 +16,7 @@ import nl.uva.softwcons.generated.QLParser.ConditionalContext;
 import nl.uva.softwcons.generated.QLParser.FormContext;
 import nl.uva.softwcons.generated.QLParser.SimpleQuestionContext;
 import nl.uva.softwcons.generated.QLParser.TypeContext;
+import nl.uva.softwcons.util.Utils;
 
 public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
@@ -31,7 +32,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     @Override
     public Question visitSimpleQuestion(SimpleQuestionContext ctx) {
         final String id = ctx.ID().getText();
-        final String label = ctx.STRING().getText();
+        final String label = Utils.unquote(ctx.STRING().getText());
         final Type type = (Type) ctx.type().accept(this);
 
         return new Question(id, label, type);
@@ -40,7 +41,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     @Override
     public ComputedQuestion visitComputedQuestion(ComputedQuestionContext ctx) {
         final String id = ctx.ID().getText();
-        final String label = ctx.STRING().getText();
+        final String label = Utils.unquote(ctx.STRING().getText());
         final Type type = (Type) ctx.type().accept(this);
         final Expression value = (Expression) ctx.expr().accept(this);
 
