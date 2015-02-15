@@ -8,27 +8,28 @@ questionnaire	: formSection EOF;
 
 formSection 	: 'FORM' ID '{' question+ '} END';
 
-question		: simpleQuestion			 											# basicQuestion
-				| computedQuestion														# calcQuestion
+question		: ID TEXT TYPE	 			 											# simpleQuestion
+				| ID TEXT TYPE '(' expression ')'										# calcQuestion
 				| 'if' '(' expression ')' '{' question+ '}'								# ifStatement
 				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'	# ifelseStatement
 				;
 
-expression		: ID 																	# id
-				| BOOLEAN 																# boolean
-				| TEXT 																	# text
-				| NUMBER																# number
+expression		: '!' expression														# not															
 				| expression ('*'| '/') expression										# multDiv
 				| expression ('+'| '-') expression										# addSub
+				| expression ('>'|'>='|'<'|'<=') expression								# equation
 				| expression ('=='|'!=') expression										# eqNot
 				| expression ('&&') expression											# and
 				| expression ('||') expression											# or
-				| expression ('>'|'>='|'<'|'<=') expression								# equation
+				| BOOLEAN 																# boolean
+				| ID 																	# id
+				| TEXT 																	# text
+				| NUMBER																# number
 				| '(' expression ')'													# prio		
 				;
 				
-simpleQuestion	: ID TEXT TYPE;   				 									
-computedQuestion: ID TEXT TYPE '(' expression ')';
+//simpleQuestion	: ID TEXT TYPE;   				 									
+//computedQuestion: ID TEXT TYPE '(' expression ')';
  
 TYPE  			: 'choice' | 'digits' | 'text';				  
 BOOLEAN			: 'true' | 'false';  

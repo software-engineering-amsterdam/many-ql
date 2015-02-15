@@ -26,6 +26,7 @@ namespace QuestionnaireLanguage
     {
         public MainWindow()
         {
+            
             InitializeComponent();
 
             string program = 

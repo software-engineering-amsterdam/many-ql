@@ -18,12 +18,12 @@ question: ID ':' STRING type                                 # simpleQuestion
 conditional: 'if' '(' expr ')' '{' question+ '}'
 	;
 
-type: BOOL_TYPE        # booleanType
-	| STRING_TYPE      # stringType
-    | INT_TYPE         # intType
-    | DATE_TYPE        # dateType
-    | DECIMAL_TYPE     # decimalType
-	| MONEY_TYPE       # moneyType
+type: BOOL_TYPE
+	| STRING_TYPE
+    | INT_TYPE
+    | DATE_TYPE
+    | DECIMAL_TYPE
+	| MONEY_TYPE
 	;
 
 

@@ -8,11 +8,15 @@ of the source code.
 */
 package parser
 
-import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+import (
+	"io"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+)
 
 // ReadQL generates a AST (*ast.Questionaire and children) out of source code.
-func ReadQL(code string) *ast.QuestionaireNode {
+func ReadQL(stream io.Reader, fn string) *ast.QuestionaireNode {
 	finalQuestionaire = nil
-	qlParse(newLexer(code))
+	qlParse(newLexer(stream, fn))
 	return finalQuestionaire
 }

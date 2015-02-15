@@ -10,6 +10,11 @@ class QLVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by QLParser#root.
+    def visitRoot(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by QLParser#form_statement.
     def visitForm_statement(self, ctx):
         return self.visitChildren(ctx)

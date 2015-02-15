@@ -2,13 +2,12 @@
 
 from pyparsing import *
 from exceptions import *
-from abstract import *
-from ast import *
+from factory import *
 from gui import *
 
 
 class BasicTypes:
-    # endsign = . | ? | !
+    # endSign = . | ? | !
     endSign         = oneOf(". ? !")
     endSignEsc      = Suppress("\\") + endSign
     
@@ -17,16 +16,16 @@ class BasicTypes:
     word            = endSignEsc | characters  
     
     # sentence = word+ endSign
-    sentence        = (OneOrMore(word) + endSign).setParseAction(make_sentence)
+    sentence        = (OneOrMore(word) + endSign).setParseAction(ASTReady.make_sentence)
     
     # sentences = sentence+
     sentences       = OneOrMore(sentence)
     comment         = Literal("//") + restOfLine | cStyleComment
 
-    
+
 class Expressions: 
     # Possible answers values
-    bool            = Literal("bool")
+    bool            = Literal("True") | Literal("False")
     integer         = Word(nums)
     text            = BasicTypes.sentences
     
@@ -50,7 +49,7 @@ class FormFormat:
     label           = BasicTypes.sentence
     
     # possible answer types
-    answerR         = Literal("bool") | Literal("integer") | Literal("text")  
+    answerR         = Literal("bool") | Literal("integer") | Literal("text")
     
     # question = Question id (answerR) : label 
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
@@ -58,18 +57,21 @@ class FormFormat:
     questions       = OneOrMore(question)
     
     # pIf       = if (condition) { questions }
+    aQuestions      = Forward()
     condition       = Expressions.condition.setParseAction(ASTReady.make_expression)
     pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
-                       questions + Suppress("}"))
+                       OneOrMore(aQuestions) + Suppress("}"))
                        
     # pIfElse   = if (condition) { questions } else { questions }
-    pIfElse           = pIf + Literal("else") + Suppress("{") + questions + Suppress("}")
+    pIfElse         = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
+                       OneOrMore(aQuestions) + Suppress("}")) + Literal("else") + Suppress("{") + aQuestions + Suppress("}")
     
     # aQuestions    = pIf | pIfElse | questions
-    aQuestions      = (pIfElse.setParseAction(ASTReady.make_else)
-                       | pIf.setParseAction(ASTReady.make_if)
-                       | questions)
+    aQuestions      <<= OneOrMore(
+                          (pIfElse.setParseAction(ASTReady.make_else))
+                        | (pIf).setParseAction(ASTReady.make_if)
+                        | questions)
                       
     # form = id introduction? aQuestions+
-    introduction    = Group(Suppress("Introduction" + Literal(":") + BasicTypes.sentences))
-    form            = id + Optional(introduction) + OneOrMore(aQuestions)
+    introduction    = Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences)
+    form            = id + Optional(introduction) + aQuestions

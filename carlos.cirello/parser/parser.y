@@ -3,7 +3,9 @@
 package parser
 
 import (
-	"log"
+	"fmt"
+	"strconv"
+	"text/scanner"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
@@ -17,12 +19,22 @@ var finalQuestionaire *ast.QuestionaireNode
 
 %union {
 	content string
-	questionaire *ast.QuestionaireNode
-	stack []*ast.ActionNode
-	question *ast.QuestionNode
-	questionType ast.Parser
+	num float32
+
+	evaluatables []ast.Evaluatable
+	evaluatable ast.Evaluatable
 	ifNode *ast.IfNode
+	question *ast.QuestionNode
+	questionaire *ast.QuestionaireNode
+	questionType ast.Parser
+	stack []*ast.ActionNode
+	termNode *ast.TermNode
+
+	position scanner.Position
 }
+
+%left  '+'  '-'
+%left  '*'  '/'
 
 %token BlockBeginToken
 %token BlockEndToken
@@ -35,16 +47,19 @@ var finalQuestionaire *ast.QuestionaireNode
 %token StringQuestionToken
 %token IntQuestionToken
 %token BoolQuestionToken
-
+%token '+' '-' '*' '/' '(' ')'
+%token LessThanToken
+%token LessOrEqualsThanToken
+%token MoreThanToken
+%token MoreOrEqualsThanToken
+%token EqualsToToken
+%token NumericToken
 
 %%
 
 top:
 	questionaire
 	{
-		if qlDebug > 0 {
-			log.Printf("Top: %+v", $1.questionaire)
-		}
 		finalQuestionaire = $1.questionaire
 	}
 	;
@@ -52,10 +67,6 @@ top:
 questionaire:
 	FormToken TextToken '{' stack '}'
 	{
-		if qlDebug > 0 {
-			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content,
-				" $$:", $$)
-		}
 		$$.questionaire = &ast.QuestionaireNode{
 			Label: $2.content,
 			Stack: $4.stack,
@@ -66,15 +77,9 @@ questionaire:
 stack:
 	| stack question
 	{
-		if qlDebug > 0 {
-			log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", $1.stack,
-				$2.question, $$.stack)
-		}
 		q := $2.question
 		qs := $$.stack
-		action := &ast.ActionNode {
-			QuestionNode: q,
-		}
+		action := &ast.ActionNode { Action: q }
 		qs = append(qs, action)
 		$$.stack = qs
 	}
@@ -82,9 +87,7 @@ stack:
 	{
 		ifNode := $2.ifNode
 		qs := $$.stack
-		action := &ast.ActionNode {
-			IfNode: ifNode,
-		}
+		action := &ast.ActionNode { Action: ifNode }
 		qs = append(qs, action)
 		$$.stack = qs
 	}
@@ -103,32 +106,130 @@ question:
 
 
 // Extract question types out of grammar???
-questionType: StringQuestionToken
-		{
-			$$.questionType = new(ast.StringQuestion)
-		}
-	    | IntQuestionToken
-		{
-			$$.questionType = new(ast.IntQuestion)
-		}
-	    | BoolQuestionToken
-		{
-			$$.questionType = new(ast.BoolQuestion)
-		}
+questionType:
+	StringQuestionToken
+	{
+		$$.questionType = new(ast.StringQuestion)
+	}
+	| IntQuestionToken
+	{
+		$$.questionType = new(ast.IntQuestion)
+	}
+	| BoolQuestionToken
+	{
+		$$.questionType = new(ast.BoolQuestion)
+	}
+	| TextToken
+	{
+		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content))
+	}
 
-	    | TextToken
-		{
-			log.Fatalf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content)
-		}
 
+ifBlock:
+	IfToken '(' evaluatable ')' '{' stack '}'
+	{
+		ifNode := new(ast.IfNode)
+		ifNode.Conditions = $3.evaluatable
+		ifNode.Stack = $6.stack
+		$$.ifNode = ifNode
 
-ifBlock: IfToken '(' TextToken ')' '{' stack '}'
-		{
-			ifNode := new(ast.IfNode)
-			ifNode.Condition = $3.content
-			ifNode.Stack = $6.stack
-			$$.ifNode = ifNode
-		}
+		$$.evaluatable = new(ast.Evaluatable)
+		$$.stack = []*ast.ActionNode{}
+		$3.evaluatable = new(ast.Evaluatable)
+		$6.stack = []*ast.ActionNode{}
+	}
 	;
 
+evaluatable:
+	term EqualsToToken term
+	{
+		condition := new (ast.EqualsNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term MoreThanToken term
+	{
+		condition := new (ast.MoreThanNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term LessThanToken term
+	{
+		condition := new (ast.LessThanNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term MoreOrEqualsThanToken term
+	{
+		condition := new (ast.MoreOrEqualsThanNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term LessOrEqualsThanToken term
+	{
+		condition := new (ast.LessOrEqualsThanNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term
+	;
+
+term:
+	term '+' term
+	{
+		condition := new (ast.MathAddNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term '-' term
+	{
+		condition := new (ast.MathSubNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term '*' term
+	{
+		condition := new (ast.MathMulNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| term '/' term
+	{
+		condition := new (ast.MathDivNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
+	| value
+	{
+		$$.evaluatable = $1.termNode
+	}
+	;
+
+value:
+	NumericToken
+	{
+		num, _ := strconv.ParseFloat($1.content, 32)
+		$$.num = float32(num)
+		termNode := new(ast.TermNode)
+		termNode.NumericConstant = $$.num
+		termNode.Type = ast.NumericConstantNodeType
+		$$.termNode = termNode
+	}
+	| TextToken
+	{
+		termNode := new(ast.TermNode)
+		termNode.IdentifierReference = $1.content
+		termNode.Type = ast.IdentifierReferenceNodeType
+		$$.termNode = termNode
+	}
+	;
 %%

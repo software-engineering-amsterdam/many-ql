@@ -1,4 +1,6 @@
 import lang.ql.ast.AstNode;
+import lang.ql.ast.symboltable.SymbolTable;
+import lang.ql.ast.visitor.SymbolVisitor;
 import lang.ql.syntax.QLVisitorImpl;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
@@ -23,7 +25,12 @@ public class Main
 
             QLVisitorImpl visitor = new QLVisitorImpl();
             AstNode root = visitor.visit(tree);
+
+            SymbolVisitor symbolVisitor = new SymbolVisitor();
+            SymbolTable table = symbolVisitor.visit(root);
+
             System.out.println(root);
+            System.out.println(table);
         }
         catch (IOException e)
         {

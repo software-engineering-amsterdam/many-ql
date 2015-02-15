@@ -99,6 +99,18 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitIntType(@NotNull QLParser.IntTypeContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code stringType}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringType(@NotNull QLParser.StringTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stringType}
+	 * labeled alternative in {@link QLParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringType(@NotNull QLParser.StringTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code logicalOrExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
@@ -110,6 +122,18 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code stringExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringExpression(@NotNull QLParser.StringExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stringExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringExpression(@NotNull QLParser.StringExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code parenthesisExpression}
 	 * labeled alternative in {@link QLParser#expression}.

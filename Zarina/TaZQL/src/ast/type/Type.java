@@ -1,25 +1,10 @@
 package ast.type;
 
+import ast.AST;
 
-public class Type  {
-	private String type;
-	
-	public Type(String type) {
-		this.type = type;
-	}
-	
-	public String getTYPE() {
-		return type;
-	}
-/*
-	@Override
-	public String toString() {
-		return id;
-	}
-*/	/*
-	@Override
-	public <T> T accept(IMainVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-	*/
+
+public abstract class Type extends AST {
+
+	public abstract <T> T accept(ITypeVisitor<T> visitor);
+
 }

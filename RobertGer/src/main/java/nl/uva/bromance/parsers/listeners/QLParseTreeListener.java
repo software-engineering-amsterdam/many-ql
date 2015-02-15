@@ -1,8 +1,8 @@
 package nl.uva.bromance.parsers.listeners;
 
 
-import nl.uva.bromance.parsers.parsers.QLBaseListener;
-import nl.uva.bromance.parsers.parsers.QLParser;
+import nl.uva.bromance.parsers.QLBaseListener;
+import nl.uva.bromance.parsers.QLParser;
 import nl.uva.bromance.parsers.questionnaire.ranges.Between;
 import nl.uva.bromance.parsers.questionnaire.ranges.BiggerThan;
 import nl.uva.bromance.parsers.questionnaire.ranges.Range;

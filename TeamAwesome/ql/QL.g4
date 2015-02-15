@@ -6,6 +6,10 @@ statement
     |   if_statement
     ;
 
+root
+    :   form_statement*
+    ;
+
 form_statement
     :   'form' identifier '{' statement* '}'
     ;

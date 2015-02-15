@@ -5,6 +5,7 @@ all:
 	./carlos.cirello -h || echo
 
 test:
+	go generate ./...
 	go test -v ./...
 
 coverage:

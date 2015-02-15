@@ -12,7 +12,7 @@ type Execute struct {
 	symbolChan chan *symbolEvent
 }
 
-// Exec type switch through all possible AST node types
+// Exec type switch through all possible root AST node types
 func (exec Execute) Exec(node interface{}) {
 	switch t := node.(type) {
 	default:
@@ -37,13 +37,7 @@ func (exec Execute) QuestionaireNode(q *ast.QuestionaireNode) {
 
 // ActionNode branches to QuestionNode or IfNode executers
 func (exec Execute) ActionNode(a *ast.ActionNode) {
-	if nil != a.QuestionNode {
-		exec.Exec(a.QuestionNode)
-	} else if nil != a.IfNode {
-		exec.Exec(a.IfNode)
-	} else {
-		log.Fatalf("Impossible ActionNode type or empty ActionNode. %#v", a)
-	}
+	exec.Exec(a.Action)
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
@@ -64,22 +58,38 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
-	ret := make(chan *ast.QuestionNode)
-	exec.symbolChan <- &symbolEvent{
-		command: SymbolRead,
-		name:    i.Condition,
-		ret:     ret,
-	}
-
-	q := <-ret
-	if q.Type() != "bool" {
-		log.Fatalf("Error parsing expression: %s. Not a boolean value", i.Condition)
-	}
-
-	content := q.Content.(*ast.BoolQuestion)
-	if content.Value() {
-		for _, actionNode := range i.Stack {
-			exec.Exec(actionNode)
+	c := i.Conditions
+	switch t := c.(type) {
+	default:
+		log.Fatalf("impossible condition type. got: %T", t)
+	case *ast.TermNode:
+		if !exec.TermNode(c.(*ast.TermNode)) {
+			return
+		}
+	case *ast.EqualsNode:
+		if !exec.EqualsNode(c.(*ast.EqualsNode)) {
+			return
+		}
+	case *ast.MoreThanNode:
+		if !exec.MoreThanNode(c.(*ast.MoreThanNode)) {
+			return
+		}
+	case *ast.LessThanNode:
+		if !exec.LessThanNode(c.(*ast.LessThanNode)) {
+			return
+		}
+	case *ast.MoreOrEqualsThanNode:
+		if !exec.MoreOrEqualsThanNode(c.(*ast.MoreOrEqualsThanNode)) {
+			return
+		}
+	case *ast.LessOrEqualsThanNode:
+		if !exec.LessOrEqualsThanNode(c.(*ast.LessOrEqualsThanNode)) {
+			return
 		}
 	}
+
+	for _, actionNode := range i.Stack {
+		exec.Exec(actionNode)
+	}
+
 }

@@ -43,7 +43,13 @@ public class IfStatement extends Statement {
 
     @Override
     public String toString() {
-        return "if (" + this.condition.toString() + ") {\n" + this.statements + "}";
+        String string = "\n if (" + this.condition.toString() + ") {\n";
+
+        for (Statement statement : this.statements)
+            string += statement.toString();
+        string += "\n}";
+        
+        return string;
     }
 
     @Override

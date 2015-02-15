@@ -9,17 +9,13 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/output"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/reader"
 )
 
 func main() {
 	srcFn, inFn, outFn := cli.Args()
 
 	srcReader, inReader, outWriter := stream.New(srcFn, inFn, outFn)
-	codeBuf := reader.New(srcReader)
-
-	code := codeBuf.Read()
-	aQuestionaire := parser.ReadQL(code)
+	aQuestionaire := parser.ReadQL(srcReader, srcFn)
 	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)
 
 	if inReader != nil {

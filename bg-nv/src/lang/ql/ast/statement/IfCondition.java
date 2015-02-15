@@ -2,6 +2,8 @@ package lang.ql.ast.statement;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.Expression;
+import lang.ql.ast.visitor.Visitor;
+
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ public class IfCondition extends Statement
         this.expression = expression;
         this.statements = statements;
     }
+
+    public void visit(Visitor visitor) { visitor.visit(this); }
 
     public Iterable<? extends AstNode> getChildren()
     {

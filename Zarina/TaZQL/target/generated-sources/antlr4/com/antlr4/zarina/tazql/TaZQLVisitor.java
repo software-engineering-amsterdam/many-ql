@@ -25,12 +25,6 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOr(@NotNull TaZQLParser.OrContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TaZQLParser#computedQuestion}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitComputedQuestion(@NotNull TaZQLParser.ComputedQuestionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code eqNot}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
@@ -66,7 +60,8 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(@NotNull TaZQLParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TaZQLParser#simpleQuestion}.
+	 * Visit a parse tree produced by the {@code simpleQuestion}
+	 * labeled alternative in {@link TaZQLParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -86,12 +81,12 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCalcQuestion(@NotNull TaZQLParser.CalcQuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code basicQuestion}
-	 * labeled alternative in {@link TaZQLParser#question}.
+	 * Visit a parse tree produced by the {@code not}
+	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBasicQuestion(@NotNull TaZQLParser.BasicQuestionContext ctx);
+	T visitNot(@NotNull TaZQLParser.NotContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code boolean}
 	 * labeled alternative in {@link TaZQLParser#expression}.

@@ -67,14 +67,11 @@ func (v *interpreter) loop() {
 	for {
 		select {
 		case r := <-v.receive:
-			if r.Type == ReadyT {
-				// visit everything to setup interface
-				v.execute.Exec(v.questionaire)
-				v.send <- &Event{
-					Type: Flush,
-				}
-			} else if r.Type == Answers {
+			switch r.Type {
+			case Answers:
 				for identifier, answer := range r.Answers {
+					v.execute.Exec(v.questionaire)
+					v.send <- &Event{Type: Flush}
 					ret := make(chan *ast.QuestionNode)
 					v.symbolChan <- &symbolEvent{
 						command: SymbolRead,
@@ -90,16 +87,16 @@ func (v *interpreter) loop() {
 						content: q,
 					}
 				}
-				// visit everything again
+				fallthrough
+
+			case ReadyT:
+				// visit everything to setup interface
 				v.execute.Exec(v.questionaire)
-				v.send <- &Event{
-					Type: Flush,
-				}
+				v.send <- &Event{Type: Flush}
 			}
+
 		default:
-			v.send <- &Event{
-				Type: FetchAnswers,
-			}
+			v.send <- &Event{Type: FetchAnswers}
 		}
 	}
 

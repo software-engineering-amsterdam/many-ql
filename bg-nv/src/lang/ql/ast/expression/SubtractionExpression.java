@@ -13,7 +13,7 @@ public class SubtractionExpression extends BinaryOperatorExpression
     @Override
     public ConstantExpression getValue()
     {
-        IntegerExpression result = new IntegerExpression(5);
+        ReturnIntegerExpression result = new ReturnIntegerExpression(5);
         return result;
     }
 }
