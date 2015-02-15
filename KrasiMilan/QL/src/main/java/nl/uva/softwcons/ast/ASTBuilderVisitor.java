@@ -89,6 +89,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         return Type.valueOf(ctx.getText().toUpperCase());
     }
 
+    @Override
     public BinaryExpression visitBinaryExpr(BinaryExprContext ctx) {
         final Expression leftExpression = (Expression) ctx.expr(0).accept(this);
         final Expression rightExpression = (Expression) ctx.expr(1).accept(this);
@@ -116,36 +117,48 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
             return new NotEqualExpression(leftExpression, rightExpression);
         case "=>":
             return new GreaterOrEqualExpression(leftExpression, rightExpression);
-        default:
+        case ">":
             return new GreaterThanExpression(leftExpression, rightExpression);
+        default:
+            throw new RuntimeException("Unsupported operator in expression.");
         }
     }
 
+    @Override
     public UnaryExpression visitUnaryExpr(UnaryExprContext ctx) {
         final Expression expr = (Expression) ctx.expr().accept(this);
 
-        if (ctx.op.getText().equals("-")) {
+        switch (ctx.op.getText()) {
+        case "-":
             return new NegationExpression(expr);
+        case "!":
+            return new NotExpression(expr);
+        default:
+            throw new RuntimeException("Unsupported operator in expression.");
         }
-        return new NotExpression(expr);
     }
 
-    public Expression visitParenthesisExpression(ParenthesisContext ctx) {
+    @Override
+    public Expression visitParenthesis(ParenthesisContext ctx) {
         return (Expression) ctx.expr().accept(this);
     }
 
+    @Override
     public BooleanExpression visitBoolean(BooleanContext ctx) {
         return new BooleanExpression(Boolean.getBoolean(ctx.BOOLEAN().getText()));
     }
 
+    @Override
     public IntegerExpression visitInteger(IntegerContext ctx) {
         return new IntegerExpression(Integer.getInteger(ctx.INT().getText()));
     }
 
+    @Override
     public StringExpression visitString(StringContext ctx) {
         return new StringExpression(ctx.STRING().getText());
     }
 
+    @Override
     public IdentifierExpression visitId(IdContext ctx) {
         return new IdentifierExpression(ctx.ID().getText());
     }
