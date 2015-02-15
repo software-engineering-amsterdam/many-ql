@@ -1,6 +1,17 @@
 grammar QL;
 import QLLexerRules;
 
-/** begin parsing */
+/**
+ * TODO:
+ * Expression support
+ * If statement support
+ */
 
-openForm : FORM ID OBRACE ; // construct the form
+/** parsing section */
+
+openForm    : FORM FormID OBRACE questionSet CBRACE ;                      // construct the form
+
+/** question structures */
+
+questionSet : questionDef+ ;                                               // the set of questions within form
+questionDef : NEWLINE QuestionID ': "' QuestionDesc '"' QuestionDataType ; // construction of a question

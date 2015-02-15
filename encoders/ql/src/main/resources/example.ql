@@ -1,1 +1,3 @@
-form Something {
+form BeerDrinking {
+    hasBeenDrunken : "drunken" boolean
+    }
