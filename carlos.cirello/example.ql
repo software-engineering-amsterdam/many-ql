@@ -38,10 +38,13 @@ form SomeForm {
 		questionTen bool
 	}
 
-	/*
 	if (1+1 == 2) {
 		"is 1+1=2?"
 		questionEleven bool
 	}
-	*/
+
+	if (1-1 == 0) {
+		"is 1-1=0?"
+		questionTwelve bool
+	}
 }
