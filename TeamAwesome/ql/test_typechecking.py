@@ -4,7 +4,7 @@ import glob
 from AST import AST
 import type_checker
 
-def run_test(test_filename):
+def run_test(verbose, test_filename):
     ast = AST(test_filename)
     type_check_result = type_checker.check(ast)
 
@@ -18,11 +18,12 @@ def run_test(test_filename):
     if(not success):
         print(('-'*10)+'Type check test FAIL')
 
+    if(not success or verbose):
         for m in type_check_result.messages:
-            print(message)
+            print(m)
 
         print( '^'+('-'*9)+test_filename+': '\
-             + 'got '+str(num_messages)+' message(s) but expected '\
+             + 'got '+str(num_messages)+' message(s), expected '\
              + str(expected_num_messages) + ('-'*10)
              ) 
         
@@ -30,6 +31,11 @@ def run_test(test_filename):
 
 def main():
     arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('-v'
+                           ,'--verbose'
+                           ,help="Show lots of output."
+                           ,action="store_true"
+                           )
     arg_parser.add_argument('-f'
                            ,'--file'
                            ,help="Test only this file."
@@ -44,7 +50,7 @@ def main():
         test_filenames = glob.glob('type-check-*.ql')
 
     for test_filename in test_filenames:
-        if(not run_test(test_filename)):
+        if(not run_test(args.verbose, test_filename)):
             ++failures
 
     print( '\n'\
