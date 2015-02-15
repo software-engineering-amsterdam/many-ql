@@ -17,6 +17,7 @@ public class NegExpression extends UnaryExpression {
         return "- " + this.expr.toString();
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitNegExpression(this);
     }

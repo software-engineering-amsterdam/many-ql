@@ -9,6 +9,7 @@ public class BoolType extends Type {
         return "Bool";
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitBoolType(this);
     }

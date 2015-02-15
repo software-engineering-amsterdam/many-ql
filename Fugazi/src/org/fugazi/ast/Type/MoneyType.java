@@ -12,6 +12,7 @@ public class MoneyType extends Type {
         return "Money";
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitMoneyType(this);
     }

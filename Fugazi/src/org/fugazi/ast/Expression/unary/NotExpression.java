@@ -17,6 +17,7 @@ public class NotExpression extends UnaryExpression {
         return "! " + this.expr.toString();
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitNotExpression(this);
     }

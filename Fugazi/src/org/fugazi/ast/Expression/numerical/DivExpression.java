@@ -17,6 +17,7 @@ public class DivExpression extends NumericalExpression {
         return this.leftExpr.toString() + " / " + this.rightExpr.toString();
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitDivExpression(this);
     }

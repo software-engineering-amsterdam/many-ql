@@ -12,6 +12,7 @@ public class UndefinedType extends Type {
         return "Undefined";
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitUndefinedType(this);
     }

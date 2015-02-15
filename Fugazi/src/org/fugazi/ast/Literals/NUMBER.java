@@ -23,6 +23,7 @@ public class NUMBER extends Literal {
         return value;
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitNUMBER(this);
     }

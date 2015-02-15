@@ -12,6 +12,7 @@ public class IntType extends Type {
         return "Int";
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitIntType(this);
     }

@@ -17,6 +17,7 @@ public class NotEqExpression extends ComparisonExpression {
         return this.leftExpr.toString() + " != " + this.rightExpr.toString();
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitNotEqExpression(this);
     }

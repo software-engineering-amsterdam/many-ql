@@ -12,6 +12,7 @@ public class StringType extends Type {
         return "String";
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitStringType(this);
     }

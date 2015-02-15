@@ -60,6 +60,7 @@ public class QuestionStatement extends Statement {
         return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "')";
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitQuestionStatement(this);
     }

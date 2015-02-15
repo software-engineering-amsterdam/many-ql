@@ -40,6 +40,7 @@ public class ComputedQuestionStatement extends QuestionStatement {
         return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computedExpression.toString();
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitComputedQuestionStatement(this);
     }

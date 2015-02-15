@@ -45,6 +45,7 @@ public class Form extends AbstractASTNode {
         return this.statements;
     }
 
+    @Override
     public <T> T accept(IASTVisitor<T> visitor) {
         return visitor.visitForm(this);
     }
