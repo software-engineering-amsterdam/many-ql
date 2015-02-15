@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.awt.Label;
 import java.awt.TextArea;
 import java.awt.TextField;
@@ -38,9 +39,8 @@ public class TestRigGui extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private TextField grammarNameText = new TextField(TestRigGui.class
-			.getPackage().getName() + ".Field");
-	private TextField startNameText = new TextField("field");
+	private TextField grammarNameText = new TextField();
+	private TextField startNameText = new TextField();
 	private TextArea inputArea = new TextArea();
 
 	private TextField encodingText = new TextField("");
@@ -55,13 +55,30 @@ public class TestRigGui extends JFrame implements ActionListener {
 	private JCheckBox sllCb = new JCheckBox("SLL");
 	private JCheckBox diagnosticsCb = new JCheckBox("diagnostics");
 
+	private final String grammarName;
+	private final String startName;
+	private final String inputLocation;
+
 	public static void main(String[] args) throws Exception {
-		TestRigGui testRigGui = new TestRigGui();
+		String grammarName = TestRigGui.class.getPackage().getName() + ".Field";
+		String startName = "field";
+		String inputLocation = "example.field";
+		if (args.length == 3) {
+			grammarName = args[0];
+			startName = args[1];
+			inputLocation = args[2];
+		}
+		TestRigGui testRigGui = new TestRigGui(grammarName, startName,
+				inputLocation);
 		testRigGui.setUpGui();
 	}
 
-	public TestRigGui() throws Exception {
+	public TestRigGui(String grammarName, String startName, String inputLocation)
+			throws HeadlessException {
 		super("TestRigGui");
+		this.grammarName = grammarName;
+		this.startName = startName;
+		this.inputLocation = inputLocation;
 	}
 
 	private void setUpGui() throws IOException, URISyntaxException {
@@ -73,6 +90,9 @@ public class TestRigGui extends JFrame implements ActionListener {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		setLayout(gridLayout);
+
+		grammarNameText.setText(grammarName);
+		startNameText.setText(startName);
 
 		add(new Label("Lexer"), 0, 0);
 		add(grammarNameText, 1, 0);
@@ -103,7 +123,7 @@ public class TestRigGui extends JFrame implements ActionListener {
 		guiCb.setSelected(true);
 
 		ClassLoader classLoader = getClass().getClassLoader();
-		URL resource = classLoader.getResource("example.field");
+		URL resource = classLoader.getResource(inputLocation);
 		byte[] bytes = Files.readAllBytes(Paths.get(resource.toURI()));
 		inputArea.setText(new String(bytes));
 
