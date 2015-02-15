@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public class Questionaire {
 
+	private String name;
+
 	/** Questions, mapped by their name. */
 	private Map<String, Question> questions = new HashMap<String, Question>();
 
@@ -23,5 +25,13 @@ public class Questionaire {
 
 	public void addQuestion(Question question) {
 		questions.put(question.getName(), question);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

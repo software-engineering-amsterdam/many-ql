@@ -1,5 +1,7 @@
 package org.uva.sea.ql.encoders.service;
 
+import java.io.IOException;
+
 import org.uva.sea.ql.encoders.model.Questionaire;
 
 /**
@@ -16,6 +18,6 @@ public interface QuestionaireParsingService {
 	 *            the location of the input file.
 	 * @return The {@link Questionaire} that was parsed from the input file.
 	 */
-	Questionaire parse(String location);
+	Questionaire parse(String location) throws IOException;
 
 }

@@ -13,6 +13,8 @@ public class QuestionaireParsingServiceImplTest {
 
 	private QuestionaireParsingService questionaireParsingService;
 
+	private static final String RESOURCE_ROOT = "src/main/resources/";
+
 	@Before
 	public void setUp() throws Exception {
 		questionaireParsingService = new QuestionaireParsingServiceImpl();
@@ -20,8 +22,18 @@ public class QuestionaireParsingServiceImplTest {
 
 	// TODO create better name for test
 	@Test
-	public void testParseQuestionaire() {
-		String location = "example.ql";
+	public void testQuestionaireNameIsParsed() throws Exception {
+		String location = RESOURCE_ROOT + "example.ql2";
+
+		Questionaire questionaire = questionaireParsingService.parse(location);
+
+		assertThat(questionaire.getName(), is("taxOfficeExample"));
+	}
+
+	// TODO create better name for test
+	@Test
+	public void testQuestionaireQuestionIsParsed() throws Exception {
+		String location = RESOURCE_ROOT + "example.ql2";
 
 		String hasSoldHouse = "hasSoldHouse";
 		Questionaire questionaire = questionaireParsingService.parse(location);
