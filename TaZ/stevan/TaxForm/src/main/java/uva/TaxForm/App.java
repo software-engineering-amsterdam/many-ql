@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import uva.TaxForm.GUI.GUI;
+
 public class App {
 	
 	public static void main(String[] args) {
@@ -19,8 +21,14 @@ public class App {
 		
 		if (internal) {
 			try {
+				
 				TaxForm taxForm = new TaxForm(URL.class.getResource(filePath), internal);
 				taxForm.start();
+				
+				/*GUI gui = new GUI();
+				gui.addContainerPanel();
+				gui.addRowPanel();*/
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
