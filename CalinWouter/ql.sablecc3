@@ -1,5 +1,5 @@
 // Used the skeleton of: http://improve.dk/writing-a-calculator-in-csharp-using-sablecc/
-Package org.uva.student.calinwouter.ql.generated;
+Package org.uva.student.calinwouter.qlqls.generated;
 
 Helpers
     digit	= ['0' .. '9'];
@@ -9,6 +9,8 @@ Helpers
     lf	= 10;
     eol	= cr | lf | cr lf;
     no_enter= [any - [cr + lf]];
+    hexchar=    [['0' .. '9'] + [['a' .. 'z'] + ['A' .. 'Z']]];
+    tab = 9;
 
 Tokens
     comment = '//' [any - [cr + lf]] eol?;
@@ -41,16 +43,20 @@ Tokens
     tgt	= '>';
     tlte	= '<=';
     tgte	= '>=';
-    blank	= (' ' | eol)+;
+    blank	= (' ' | eol | tab)+;
     ident	= (letter (digit | letter)*);
+    hex     = '#' hexchar+;
+    comma   = ',';
 
 Ignored Tokens
     comment, blank;
 
 Productions
+
+    // QL
     begin {-> begin}
         = {form} form                                   {-> New begin.form(form.form) }
-        | {exp}  exp                                    {-> New begin.exp(exp.exp) }
+        | {stylesheet}  stylesheet                      {-> New begin.stylesheet(stylesheet.ident_list) }
         ;
 
     form {-> form}
@@ -127,10 +133,47 @@ Productions
         | {ident}	ident					            {-> New exp.ident(ident)}
         ;
 
+    // QLS (Conceptual!)
+    stylesheet {-> ident_list}
+        = ident_list {-> ident_list}
+        ;
+
+    ident_list {-> ident_list}
+        = {empty}   ident lparen rparen                 {-> New ident_list.empty(ident)}
+        | {filled}  ident lparen element list_tail* rparen {-> New ident_list.filled(ident, [element, list_tail.element])}
+        ;
+
+    list_tail {-> element} = comma element         {-> element};
+
+    element {-> element}
+        = {type}    type					            {-> New element.type(type)}
+        | {ident}   ident					            {-> New element.ident(ident)}
+        | {hex}     hex					                {-> New element.hex(hex)}
+        | {string}  string					            {-> New element.string(string)}
+        | {number}  number					            {-> New element.number(number)}
+        | {object}  object					            {-> New element.object([object.object_el])}
+        | {list}    ident_list  					    {-> New element.list(ident_list)}
+        ;
+
+    object_el {-> object_el}
+        = [key]:element colon [value]:element           {-> New object_el(key, value)}
+        ;
+
+    object {-> object_el* }
+        = {empty}   lbrace rbrace                       {-> []}
+        | {filled}  lbrace object_el object_tail* rbrace {-> [object_el.object_el, object_tail.object_el]}
+        ;
+
+    object_tail {-> object_el}
+        = comma object_el                                 {-> object_el}
+        ;
+
+
+
 Abstract Syntax Tree
     begin
         = {form}        form
-        | {exp}         exp
+        | {stylesheet}  ident_list
         ;
     form
         =			    [ident]:ident stmt*
@@ -165,4 +208,20 @@ Abstract Syntax Tree
         | {not}			exp
         | {number}		number
         | {ident}		ident
+        ;
+    ident_list
+        = {empty}       ident
+        | {filled}      ident element*
+        ;
+    element
+        = {type}        type
+        | {ident}       ident
+        | {hex}         hex
+        | {string}      string
+        | {number}      number
+        | {object}      object_el*
+        | {list}        ident_list
+        ;
+    object_el
+        = [key]:element [value]:element
         ;
