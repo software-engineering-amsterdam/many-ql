@@ -87,6 +87,7 @@ func TestIfArithExpressions(t *testing.T) {
 			if(100){}
 			if(100 + 200){}
 			if(100 + 200 + 300){}
+			if(100 + 200 + 300 * 400){}
 		}
 		`),
 		"test.ql",
