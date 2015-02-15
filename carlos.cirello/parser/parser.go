@@ -83,7 +83,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:209
+//line parser.y:212
 
 //line yacctab:1
 var qlExca = []int{
@@ -463,10 +463,13 @@ qldefault:
 			ifNode.Stack = qlS[qlpt-1].stack
 			qlVAL.ifNode = ifNode
 
+			qlVAL.evaluatable = new(ast.Evaluatable)
+			qlVAL.stack = []*ast.ActionNode{}
 			qlS[qlpt-4].evaluatable = new(ast.Evaluatable)
+			qlS[qlpt-1].stack = []*ast.ActionNode{}
 		}
 	case 12:
-		//line parser.y:142
+		//line parser.y:145
 		{
 			condition := new(ast.EqualsNode)
 			condition.LeftTerm = qlS[qlpt-2].evaluatable
@@ -474,7 +477,7 @@ qldefault:
 			qlVAL.evaluatable = condition
 		}
 	case 13:
-		//line parser.y:149
+		//line parser.y:152
 		{
 			condition := new(ast.MoreThanNode)
 			condition.LeftTerm = qlS[qlpt-2].evaluatable
@@ -482,7 +485,7 @@ qldefault:
 			qlVAL.evaluatable = condition
 		}
 	case 14:
-		//line parser.y:156
+		//line parser.y:159
 		{
 			condition := new(ast.LessThanNode)
 			condition.LeftTerm = qlS[qlpt-2].evaluatable
@@ -490,7 +493,7 @@ qldefault:
 			qlVAL.evaluatable = condition
 		}
 	case 15:
-		//line parser.y:163
+		//line parser.y:166
 		{
 			condition := new(ast.MoreOrEqualsThanNode)
 			condition.LeftTerm = qlS[qlpt-2].evaluatable
@@ -498,7 +501,7 @@ qldefault:
 			qlVAL.evaluatable = condition
 		}
 	case 16:
-		//line parser.y:170
+		//line parser.y:173
 		{
 			condition := new(ast.LessOrEqualsThanNode)
 			condition.LeftTerm = qlS[qlpt-2].evaluatable
@@ -506,7 +509,7 @@ qldefault:
 			qlVAL.evaluatable = condition
 		}
 	case 18:
-		//line parser.y:181
+		//line parser.y:184
 		{
 			condition := new(ast.MathAddNode)
 			condition.LeftTerm = qlS[qlpt-2].evaluatable
@@ -514,12 +517,12 @@ qldefault:
 			qlVAL.evaluatable = condition
 		}
 	case 19:
-		//line parser.y:188
+		//line parser.y:191
 		{
 			qlVAL.evaluatable = qlS[qlpt-0].termNode
 		}
 	case 20:
-		//line parser.y:195
+		//line parser.y:198
 		{
 			num, _ := strconv.ParseFloat(qlS[qlpt-0].content, 32)
 			qlVAL.num = float32(num)
@@ -528,7 +531,7 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 21:
-		//line parser.y:203
+		//line parser.y:206
 		{
 			termNode := new(ast.TermNode)
 			termNode.IdentifierReference = qlS[qlpt-0].content

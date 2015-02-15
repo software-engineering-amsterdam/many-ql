@@ -133,7 +133,10 @@ ifBlock:
 		ifNode.Stack = $6.stack
 		$$.ifNode = ifNode
 
+		$$.evaluatable = new(ast.Evaluatable)
+		$$.stack = []*ast.ActionNode{}
 		$3.evaluatable = new(ast.Evaluatable)
+		$6.stack = []*ast.ActionNode{}
 	}
 	;
 

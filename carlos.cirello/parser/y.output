@@ -162,25 +162,25 @@ state 20
 	MoreThanToken  shift 26
 	MoreOrEqualsThanToken  shift 28
 	EqualsToToken  shift 25
-	.  reduce 17 (src line 176)
+	.  reduce 17 (src line 179)
 
 
 state 21
 	term:  value.    (19)
 
-	.  reduce 19 (src line 187)
+	.  reduce 19 (src line 190)
 
 
 state 22
 	value:  NumericToken.    (20)
 
-	.  reduce 20 (src line 193)
+	.  reduce 20 (src line 196)
 
 
 state 23
 	value:  TextToken.    (21)
 
-	.  reduce 21 (src line 202)
+	.  reduce 21 (src line 205)
 
 
 state 24
@@ -263,7 +263,7 @@ state 32
 	term:  term.'+' term 
 
 	'+'  shift 30
-	.  reduce 12 (src line 140)
+	.  reduce 12 (src line 143)
 
 
 state 33
@@ -271,7 +271,7 @@ state 33
 	term:  term.'+' term 
 
 	'+'  shift 30
-	.  reduce 13 (src line 148)
+	.  reduce 13 (src line 151)
 
 
 state 34
@@ -279,7 +279,7 @@ state 34
 	term:  term.'+' term 
 
 	'+'  shift 30
-	.  reduce 14 (src line 155)
+	.  reduce 14 (src line 158)
 
 
 state 35
@@ -287,7 +287,7 @@ state 35
 	term:  term.'+' term 
 
 	'+'  shift 30
-	.  reduce 15 (src line 162)
+	.  reduce 15 (src line 165)
 
 
 state 36
@@ -295,14 +295,14 @@ state 36
 	term:  term.'+' term 
 
 	'+'  shift 30
-	.  reduce 16 (src line 169)
+	.  reduce 16 (src line 172)
 
 
 state 37
 	term:  term.'+' term 
 	term:  term '+' term.    (18)
 
-	.  reduce 18 (src line 179)
+	.  reduce 18 (src line 182)
 
 
 state 38

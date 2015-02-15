@@ -98,3 +98,41 @@ func TestIfArithExpressions(t *testing.T) {
 		return
 	}
 }
+
+func TestMultipleIfs(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form SomeForm {
+			"QuestionLabel2" question2 integer
+			"QuestionLabel3" question3 bool
+
+			if (question3) {
+				"Why are you happy today?" questionFour string
+			}
+
+			if (question2 > 5) {
+				"Bigger than 5?" questionSix integer
+			}
+
+			if (question2 < 5) {
+				"Smaller than 5?" questionSeven integer
+				if (question2 < 3) {
+					"Smaller than 3?" questionEight integer
+					"Smaller than 2?" questionNine integer
+				}
+				if (question2 < 1) {
+					"Smaller than 1?" questionTen integer
+					"Smaller than 0?" questionEleven integer
+				}
+				"Why?" questionTwelve string
+			}
+
+		}
+		`),
+		"test.ql",
+	)
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}
