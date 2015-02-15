@@ -2,6 +2,7 @@ package nl.uva.softwcons.ast;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import nl.uva.softwcons.Questionnaire;
+import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Question;
@@ -61,8 +62,7 @@ public class ASTBuilderVisitorTest {
         assertThat(form.getStatements().get(0)).isExactlyInstanceOf(ComputedQuestion.class);
         assertThat(question.getId()).isEqualTo("question");
         assertThat(question.getLabel()).isEqualTo("Label");
-        // uncomment when parsing expressions works
-        // assertThat(question.getValue()).isInstanceOf(Expression.class);
+        assertThat(question.getValue()).isInstanceOf(Expression.class);
     }
 
     @Test
@@ -77,12 +77,10 @@ public class ASTBuilderVisitorTest {
         assertThat(form.getStatements()).hasOnlyElementsOfType(ComputedQuestion.class);
         assertThat(question1.getId()).isEqualTo("question1");
         assertThat(question1.getLabel()).isEqualTo("Label 1");
-        // uncomment when parsing expressions works
-        // assertThat(question1.getValue()).isInstanceOf(Expression.class); TODO
+        assertThat(question1.getValue()).isInstanceOf(Expression.class);
         assertThat(question2.getId()).isEqualTo("question2");
         assertThat(question2.getLabel()).isEqualTo("Label 2");
-        // uncomment when parsing expressions works
-        // assertThat(question2.getValue()).isInstanceOf(Expression.class);
+        assertThat(question2.getValue()).isInstanceOf(Expression.class);
     }
 
     @Test

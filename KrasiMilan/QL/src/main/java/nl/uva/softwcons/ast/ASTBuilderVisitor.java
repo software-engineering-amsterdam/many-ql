@@ -145,12 +145,12 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public BooleanExpression visitBoolean(BooleanContext ctx) {
-        return new BooleanExpression(Boolean.getBoolean(ctx.BOOLEAN().getText()));
+        return new BooleanExpression(Boolean.valueOf(ctx.BOOLEAN().getText()));
     }
 
     @Override
     public IntegerExpression visitInteger(IntegerContext ctx) {
-        return new IntegerExpression(Integer.getInteger(ctx.INT().getText()));
+        return new IntegerExpression(Integer.valueOf(ctx.INT().getText()));
     }
 
     @Override
