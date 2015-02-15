@@ -32,6 +32,12 @@ public class Main {
         // Build the AST.
         Form form = astBuilder.buildForm();
         
+        // TODO: evaluation.
+        
+        // TODO: type checking.
+        
+        // TODO: Render GUI.
+        
         // ========================================================================
         // A Test GUI - Ugly
         if (true) {

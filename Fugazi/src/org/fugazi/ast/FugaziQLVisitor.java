@@ -166,10 +166,11 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
      * =======================
      */
     // TODO: Think of this.
-    //@Override 
-    // public T visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) { 
-    // return visitChildren(ctx); 
-    // }
+    @Override
+    public Expression visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) {
+        System.out.print("PARENTHESIS: " + ctx.expression().getText() + " ");
+    return null;
+    }
 
     @Override 
     public UnaryExpression visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
@@ -178,13 +179,12 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         // Get the expression
         Expression expr = (Expression) ctx.expression().accept(this);
 
-        // TODO: make this beautiful
         // Check the operator. 
-        if (ctx.op.getText() == "!")
+        if (ctx.op.getText().equals("!"))
             return new NotExpression(expr);
-        else if (ctx.op.getText() == "-")
+        else if (ctx.op.getText().equals("-"))
             return new NegExpression(expr);
-        else if (ctx.op.getText() == "+")
+        else if (ctx.op.getText().equals("+"))
             return new PosExpression(expr);
         
         return null;
@@ -198,11 +198,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression leftExpr = (Expression) ctx.expression(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == "*")                        // *
+        if (ctx.op.getText().equals("*"))                        // *
             return new MulExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "/")                   // /
+        else if (ctx.op.getText().equals("/"))                   // /
             return new DivExpression(leftExpr, rightExpr);
 
         return null;
@@ -216,11 +215,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == "+")                        // +
+        if (ctx.op.getText().equals("+"))                        // +
             return new AddExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "-")                   // -
+        else if (ctx.op.getText().equals("-"))                  // -
             return new SubExpression(leftExpr, rightExpr);
 
         return null;
@@ -256,19 +254,18 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == ">")                            // >
+        if (ctx.op.getText().equals(">"))                            // >
             return new GreaterExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == ">=")                      // >=
+        else if (ctx.op.getText().equals(">="))                      // >=
             return new GEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "<")                       // <
+        else if (ctx.op.getText().equals("<"))                       // <
             return new LessExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "<=")                      // <=
+        else if (ctx.op.getText().equals("<="))                      // <=
             return new LEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "==")                      // ==
+        else if (ctx.op.getText().equals("=="))                      // ==
             return new EQExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "!=")                      // !=
+        else if (ctx.op.getText().equals("!="))                      // !=
             return new NotEqExpression(leftExpr, rightExpr);
 
         return null;
@@ -281,21 +278,18 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
      */
     @Override
     public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.NUMBER().getText() + " ");
         return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
     }
 
     @Override
     public BoolType visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.BOOLEAN().getText() + " ");
         return (BoolType) ctx.BOOLEAN().accept(this); // Accept the QL Visitor of the BOOLEAN
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.ID().getText() + " ");
         return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
     }
