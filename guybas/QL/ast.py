@@ -1,9 +1,5 @@
 # ast
 
-def make_sentence(tokens):
-    return ' '.join(tokens) 
-
-
 class Expression:
     def __init__(self, expression):
         self.str_expression = expression
@@ -71,7 +67,8 @@ class Form:
 
     def __str__(self):
         s = self.name + "\n"
-        for i in self.questions: 
+        s += self.introduction + "\n"
+        for i in self.questions:
             s += i.ast_print(1)
         return s
 

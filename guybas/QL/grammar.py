@@ -16,7 +16,7 @@ class BasicTypes:
     word            = endSignEsc | characters  
     
     # sentence = word+ endSign
-    sentence        = (OneOrMore(word) + endSign).setParseAction(make_sentence)
+    sentence        = (OneOrMore(word) + endSign).setParseAction(ASTReady.make_sentence)
     
     # sentences = sentence+
     sentences       = OneOrMore(sentence)
@@ -73,5 +73,5 @@ class FormFormat:
                         | questions)
                       
     # form = id introduction? aQuestions+
-    introduction    = Group(Suppress("Introduction" + Literal(":") + BasicTypes.sentences))
+    introduction    = Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences)
     form            = id + Optional(introduction) + aQuestions

@@ -4,6 +4,9 @@ from ast import *
 
 
 class ASTReady:
+    def make_sentence(tokens):
+        return ' '.join(tokens)
+
     def sub_expression(tokens):
         e = ""
         for token in tokens:
@@ -23,7 +26,6 @@ class ASTReady:
         return Question(number, question, answertype)
         
     def make_if(tokens):
-        print("should not happen")
         condition = tokens[0]
         questions = []
         for i in range(1, len(tokens)):
@@ -49,7 +51,7 @@ class ASTReady:
         
     def make_form(tokens):
         name = tokens[0]
-        introduction = tokens[1]
+        introduction = ASTReady.make_sentence(tokens[1])
         questions = []
         for i in range(2, len(tokens)):
             questions.append(tokens[i])

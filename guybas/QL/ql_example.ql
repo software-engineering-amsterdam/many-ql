@@ -1,6 +1,6 @@
 Name_of_Questionnaire
 
-Introduction : welcome to my questionnaire!
+Introduction : Welcome to my questionnaire.
 
 Question 1 (bool): Do you love hummus?
 
