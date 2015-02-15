@@ -150,3 +150,21 @@ func TestIfArithAndComparisonExpressions(t *testing.T) {
 		return
 	}
 }
+
+func TestCalculatedQuestion(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form CalculatedFields {
+			"Question 1" QuestionA integer
+
+			"Question Calculated"
+			questionThree integer = questionA*2
+		}
+		`),
+		"test.ql",
+	)
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}

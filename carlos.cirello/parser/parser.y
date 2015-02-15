@@ -102,6 +102,16 @@ question:
 			Content: $3.questionType,
 		}
 	}
+	|
+	QuotedStringToken TextToken questionType '=' term
+	{
+		$$.question = &ast.QuestionNode{
+			Label: $1.content,
+			Identifier: $2.content,
+			Content: $3.questionType,
+			ComputedContent: $5.evaluatable,
+		}
+	}
 	;
 
 
@@ -123,7 +133,7 @@ questionType:
 	{
 		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content))
 	}
-
+	;
 
 ifBlock:
 	IfToken '(' evaluatable ')' '{' stack '}'

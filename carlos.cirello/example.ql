@@ -57,4 +57,11 @@ form SomeForm {
 		"is 4/2=2?"
 		questionFourteen bool
 	}
+
+	// if (questionOne == "surak"){
+	// 	"How do you feel?"
+	// 	questionFifteen string
+	// }
+
+	"Calculated field" questionSixteen integer = questionTwo * 2
 }
