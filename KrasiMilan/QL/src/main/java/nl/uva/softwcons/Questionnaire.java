@@ -30,8 +30,4 @@ public class Questionnaire {
         return (Form) new ASTBuilderVisitor().visit(tree);
     }
 
-    public static void main(String[] args) throws IOException {
-        InputStream input = Questionnaire.class.getResourceAsStream("/form.ql");
-        Form form = Questionnaire.build(input);
-    }
 }

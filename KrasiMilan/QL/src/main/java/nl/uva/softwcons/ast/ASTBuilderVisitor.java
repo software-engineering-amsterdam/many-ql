@@ -1,6 +1,7 @@
 package nl.uva.softwcons.ast;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.ast.expression.Expression;
@@ -86,7 +87,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public Type visitType(TypeContext ctx) {
-        return Type.valueOf(ctx.getText().toUpperCase());
+        return Type.valueOf(ctx.getText().toUpperCase(Locale.ENGLISH));
     }
 
     @Override
@@ -150,7 +151,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public IntegerExpression visitInteger(IntegerContext ctx) {
-        return new IntegerExpression(Integer.valueOf(ctx.INT().getText()));
+        return new IntegerExpression(Integer.parseInt(ctx.INT().getText()));
     }
 
     @Override
