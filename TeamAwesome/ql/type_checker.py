@@ -1,6 +1,54 @@
+class TypeCheckMessage:
+    def __init__(self, message, line = None):
+        self.__message = message
+        self.__line = line
+
+    @property
+    def message(self):
+        return self.__message
+
+    @property
+    def line(self):
+        return self.__line
+
+    def __str__(self):
+        if self.line is None:
+            return self.message
+        else:
+            return 'line '+str(self.line)+': '+self.message
+
+class TypeCheckErrorMessage(TypeCheckMessage):
+    def __str__(self):
+        return '[ERROR] '+super().__str__()
+
+class TypeCheckResult:
+    def __init__(self):
+        self.__messages = []
+
+    @property
+    def messages(self):
+        return self.__messages
+
+    @property
+    def errors(self):
+        return filter(
+            lambda m: isinstance(m, TypeCheckErrorMessage),
+            self.messages
+        )
+
+    def addMessage(self, message):
+        self.__messages.append(message)
+
+    @property
+    def success(self):
+        return (self.errors) == 0
+    
+
 def check(ast):
     """
-    Typechecks the AST.
+    Type checks the AST.
+
+    Returns an instance of TypeCheckResult
 
     Language features:
     - No nested form statements
@@ -30,4 +78,4 @@ def check(ast):
     *Expressions*
     - (See Language features)
     """
-    pass
+    return TypeCheckResult()

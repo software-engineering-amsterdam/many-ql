@@ -3,7 +3,7 @@ from antlr4 import *
 from QLVisitor import QLVisitor
 from QLExceptions import IllegalOperatorError
 from QLParser import QLParser
-from AST import *
+from ASTNodes import *
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class CustomQLVisitor(QLVisitor):
