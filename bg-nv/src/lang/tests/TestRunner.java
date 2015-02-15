@@ -11,11 +11,18 @@ public class TestRunner
 {
     public static void main(String[] args)
     {
-        Result result = JUnitCore.runClasses(LexerTest.class);
+        print("Initiating test");
+        Result result = JUnitCore.runClasses(ParserTest.class, LexerTest.class);
         for (Failure failure : result.getFailures())
         {
             System.out.println(failure.toString());
+            System.out.println(failure.getTrace());
         }
-        System.out.println("Lexer test: " + (result.wasSuccessful() ? "pass" : "FAIL"));
+        print("Test run " + (result.wasSuccessful() ? "passed" : "FAILED"));
+    }
+
+    private static void print(String msg)
+    {
+        System.out.println("------------------------------> " + msg + " <------------------------------");
     }
 }
