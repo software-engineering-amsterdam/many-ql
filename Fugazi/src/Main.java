@@ -1,14 +1,10 @@
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
+import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.Form.Form;
-import org.fugazi.ast.FugaziQLVisitor;
 import org.fugazi.ast.Statement.QuestionStatement;
 import org.fugazi.ast.Statement.Statement;
 import org.fugazi.ast.Type.BoolType;
 import org.fugazi.ast.Type.IntType;
 import org.fugazi.ast.Type.MoneyType;
-import org.fugazi.parser.QLLexer;
-import org.fugazi.parser.QLParser;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -25,28 +21,16 @@ public class Main {
         if (args.length > 0)
             inputFile = args[0];
 
-        InputStream is = System.in;
+        InputStream input = System.in;
 
         if (inputFile != null)
-            is = new FileInputStream(inputFile);
+            input = new FileInputStream(inputFile);
 
-        ANTLRInputStream input = new ANTLRInputStream(is);
+        // Create The AST BUILDER.
+        ASTBuilder astBuilder = new ASTBuilder(input);
 
-        // Lexer
-        QLLexer lexer = new QLLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        
-        // Parser
-        QLParser parser = new QLParser(tokens);
-        ParseTree tree = parser.form();
-
-        // Construct the AST.
-        FugaziQLVisitor fugaziQL = new FugaziQLVisitor();
-        fugaziQL.visit(tree);
-
-        // Get the parsed form.
-        Form form = fugaziQL.getForm();
-        assert form != null;
+        // Build the AST.
+        Form form = astBuilder.buildForm();
         
         // ========================================================================
         // A Test GUI - Ugly
