@@ -3,10 +3,18 @@ package ast
 type Evaluatable interface{}
 
 type TermNode struct {
+	Type                TermNodeType
 	NumericConstant     float32
 	IdentifierReference string
 	Evaluatable
 }
+
+type TermNodeType int
+
+const (
+	NumericConstantNodeType TermNodeType = iota
+	IdentifierReferenceNodeType
+)
 
 type DoubleTermNode struct {
 	LeftTerm  Evaluatable

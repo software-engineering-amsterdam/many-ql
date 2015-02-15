@@ -12,7 +12,7 @@ type Execute struct {
 	symbolChan chan *symbolEvent
 }
 
-// Exec type switch through all possible AST node types
+// Exec type switch through all possible root AST node types
 func (exec Execute) Exec(node interface{}) {
 	switch t := node.(type) {
 	default:
@@ -62,10 +62,6 @@ func (exec Execute) IfNode(i *ast.IfNode) {
 	switch t := c.(type) {
 	default:
 		log.Fatalf("impossible condition type. got: %T", t)
-	// case *ast.MathAddNode:
-	// 	if !exec.MathAddNode(c.(*ast.MathAddNode)) {
-	// 		return
-	// 	}
 	case *ast.TermNode:
 		if !exec.TermNode(c.(*ast.TermNode)) {
 			return
@@ -96,93 +92,4 @@ func (exec Execute) IfNode(i *ast.IfNode) {
 		exec.Exec(actionNode)
 	}
 
-}
-
-func (exec Execute) TermNode(s *ast.TermNode) bool {
-	value := exec.resolveTermNode(s)
-
-	switch value.(type) {
-	case bool:
-		return value.(bool)
-	case int:
-		return value.(int) != 0
-	case float32:
-		return value.(float32) != 0
-	}
-
-	return false
-}
-
-func (exec Execute) EqualsNode(s *ast.EqualsNode) bool {
-	// todo(carlos) allow comparison of same types, not only numeric
-	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
-
-	return left == right
-}
-
-func (exec Execute) MoreThanNode(s *ast.MoreThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
-
-	return left > right
-}
-
-func (exec Execute) LessThanNode(s *ast.LessThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
-
-	return left < right
-}
-
-func (exec Execute) MoreOrEqualsThanNode(s *ast.MoreOrEqualsThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
-
-	return left >= right
-}
-
-func (exec Execute) LessOrEqualsThanNode(s *ast.LessOrEqualsThanNode) bool {
-	left := exec.resolveNumeric(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveNumeric(s.RightTerm.(*ast.TermNode))
-
-	return left <= right
-}
-
-func (exec *Execute) resolveNumeric(t *ast.TermNode) float32 {
-	node := exec.resolveTermNode(t)
-	var nodeVal float32
-	switch t := node.(type) {
-	default:
-		log.Fatalf("Type impossible to execute comparison. got: %T", t)
-	case int:
-		nodeVal = float32(node.(int))
-	case float32:
-		nodeVal = node.(float32)
-	}
-	return nodeVal
-}
-
-func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
-	identifier := t.IdentifierReference
-	if identifier != "" {
-		ret := make(chan *ast.QuestionNode)
-		exec.symbolChan <- &symbolEvent{
-			command: SymbolRead,
-			name:    identifier,
-			ret:     ret,
-		}
-
-		q := <-ret
-
-		switch q.Type() {
-		case ast.BoolQuestionType:
-			content := q.Content.(*ast.BoolQuestion)
-			return content.Value()
-		case ast.IntQuestionType:
-			content := q.Content.(*ast.IntQuestion)
-			return content.Value()
-		}
-	}
-	return t.NumericConstant
 }

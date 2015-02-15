@@ -187,6 +187,13 @@ term:
 		condition.RightTerm = $3.evaluatable
 		$$.evaluatable = condition
 	}
+	| term '-' term
+	{
+		condition := new (ast.MathSubNode)
+		condition.LeftTerm = $1.evaluatable
+		condition.RightTerm = $3.evaluatable
+		$$.evaluatable = condition
+	}
 	| value
 	{
 		$$.evaluatable = $1.termNode
@@ -200,12 +207,14 @@ value:
 		$$.num = float32(num)
 		termNode := new(ast.TermNode)
 		termNode.NumericConstant = $$.num
+		termNode.Type = ast.NumericConstantNodeType
 		$$.termNode = termNode
 	}
 	| TextToken
 	{
 		termNode := new(ast.TermNode)
 		termNode.IdentifierReference = $1.content
+		termNode.Type = ast.IdentifierReferenceNodeType
 		$$.termNode = termNode
 	}
 	;

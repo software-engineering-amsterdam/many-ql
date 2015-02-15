@@ -87,8 +87,6 @@ func TestIfArithExpressions(t *testing.T) {
 			if(100){}
 			if(100 + 200){}
 			if(100 + 200 + 300){}
-			if(100 + 200 == 300){}
-			if(100 + 200 > 300){}
 		}
 		`),
 		"test.ql",
@@ -127,6 +125,21 @@ func TestMultipleIfs(t *testing.T) {
 				"Why?" questionTwelve string
 			}
 
+		}
+		`),
+		"test.ql",
+	)
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}
+
+func TestIfArithAndComparisonExpressions(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form Math {
+			if(100 + 200 > 300){}
 		}
 		`),
 		"test.ql",
