@@ -231,5 +231,12 @@ value:
 		termNode.Type = ast.IdentifierReferenceNodeType
 		$$.termNode = termNode
 	}
+	| QuotedStringToken
+	{
+		termNode := new(ast.TermNode)
+		termNode.StringConstant = $1.content
+		termNode.Type = ast.StringConstantNodeType
+		$$.termNode = termNode
+	}
 	;
 %%
