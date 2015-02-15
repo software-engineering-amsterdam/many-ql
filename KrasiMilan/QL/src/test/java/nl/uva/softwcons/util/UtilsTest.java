@@ -48,4 +48,9 @@ public class UtilsTest {
         assertThat(Utils.unquote(tooQuoted2)).isEqualTo("'Star Wars'");
     }
 
+    @Test(expected = NullPointerException.class)
+    public void unquoteRaisesExceptionWhenStringIsNull() {
+        Utils.unquote(null);
+    }
+
 }
