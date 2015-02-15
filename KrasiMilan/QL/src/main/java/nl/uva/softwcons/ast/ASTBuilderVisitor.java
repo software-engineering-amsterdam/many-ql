@@ -121,7 +121,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         case ">":
             return new GreaterThanExpression(leftExpression, rightExpression);
         default:
-            throw new RuntimeException("Unsupported operator in expression.");
+            throw new IllegalArgumentException("Unsupported operator in expression.");
         }
     }
 
@@ -135,7 +135,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         case "!":
             return new NotExpression(expr);
         default:
-            throw new RuntimeException("Unsupported operator in expression.");
+            throw new IllegalArgumentException("Unsupported operator in expression.");
         }
     }
 
