@@ -41,6 +41,18 @@ WHY VISITOR?
 */
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
+    
+    // The Parsed form.
+    private Form form;
+
+    /**
+     * Get the parsed form.
+     *
+     * @return form
+     */
+    public final Form getForm() {
+        return this.form;
+    }
 
     /**
      * =======================
@@ -63,8 +75,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         }
 
         // Create the form.
-        Form form = new Form(formName, formStatements);
-        System.out.print("FORM: " + form.getName());
+        this.form = new Form(formName, formStatements);
+        System.out.println("FORM: " + this.form.getName());
 
         return form;
     }
@@ -125,7 +137,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         String label = ctx.STRING().getText();
 
         Expression expression = (Expression) ctx.expression().accept(this);
-        
+
         ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
         
