@@ -47,4 +47,14 @@ form SomeForm {
 		"is 1-1=0?"
 		questionTwelve bool
 	}
+
+	if (1*2 == 2) {
+		"is 1*2=2?"
+		questionThirteen bool
+	}
+
+	if (4/2 == 2) {
+		"is 4/2=2?"
+		questionFourteen bool
+	}
 }

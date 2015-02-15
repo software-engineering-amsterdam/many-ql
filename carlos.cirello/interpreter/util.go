@@ -18,6 +18,14 @@ func (exec Execute) resolveMathNode(n ast.Evaluatable) float32 {
 		left := exec.resolveMathNode(n.(*ast.MathSubNode).LeftTerm)
 		right := exec.resolveMathNode(n.(*ast.MathSubNode).RightTerm)
 		return left - right
+	case *ast.MathMulNode:
+		left := exec.resolveMathNode(n.(*ast.MathMulNode).LeftTerm)
+		right := exec.resolveMathNode(n.(*ast.MathMulNode).RightTerm)
+		return left * right
+	case *ast.MathDivNode:
+		left := exec.resolveMathNode(n.(*ast.MathDivNode).LeftTerm)
+		right := exec.resolveMathNode(n.(*ast.MathDivNode).RightTerm)
+		return left / right
 	case *ast.TermNode:
 		value := exec.resolveTermNode(n.(*ast.TermNode))
 		switch t := value.(type) {
