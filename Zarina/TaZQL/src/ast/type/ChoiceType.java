@@ -1,18 +1,20 @@
 package ast.type;
 
-public class DigitsType extends Type {
+public class ChoiceType extends Type {
 		
+
 	public String getValue() {
-		return "digits";
+		return "choice";
 	}
 			
 	@Override
 	public String toString() {
-		return "digits";
+		return "choise";
 	}
 		
 	@Override
 	public <T> T accept(ITypeVisitor<T> visitor) {
-		 return visitor.visit(this);
-	}
+		return visitor.visit(this);
+	}	
+
 }

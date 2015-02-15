@@ -1,35 +1,67 @@
 package ast
 
-type TermNode struct {
-	NumericConstant     float32
-	IdentifierReference string
-}
-
 type Evaluatable interface{}
 
-type SingleTermNode struct {
-	LeftTerm *TermNode
-
+type TermNode struct {
+	Type                TermNodeType
+	NumericConstant     float32
+	IdentifierReference string
 	Evaluatable
 }
 
-type EqualsNode struct {
-	LeftTerm  *TermNode
-	RightTerm *TermNode
+type TermNodeType int
 
+const (
+	NumericConstantNodeType TermNodeType = iota
+	IdentifierReferenceNodeType
+)
+
+type DoubleTermNode struct {
+	LeftTerm  Evaluatable
+	RightTerm Evaluatable
+}
+
+type EqualsNode struct {
+	DoubleTermNode
 	Evaluatable
 }
 
 type LessThanNode struct {
-	LeftTerm  *TermNode
-	RightTerm *TermNode
-
+	DoubleTermNode
 	Evaluatable
 }
 
 type MoreThanNode struct {
-	LeftTerm  *TermNode
-	RightTerm *TermNode
+	DoubleTermNode
+	Evaluatable
+}
 
+type LessOrEqualsThanNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MoreOrEqualsThanNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathAddNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathSubNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathMulNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+type MathDivNode struct {
+	DoubleTermNode
 	Evaluatable
 }

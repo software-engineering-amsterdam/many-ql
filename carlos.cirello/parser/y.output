@@ -18,7 +18,7 @@ state 1
 state 2
 	top:  questionaire.    (1)
 
-	.  reduce 1 (src line 58)
+	.  reduce 1 (src line 60)
 
 
 state 3
@@ -39,7 +39,7 @@ state 5
 	questionaire:  FormToken TextToken '{'.stack '}' 
 	stack: .    (3)
 
-	.  reduce 3 (src line 75)
+	.  reduce 3 (src line 77)
 
 	stack  goto 6
 
@@ -59,19 +59,19 @@ state 6
 state 7
 	questionaire:  FormToken TextToken '{' stack '}'.    (2)
 
-	.  reduce 2 (src line 65)
+	.  reduce 2 (src line 67)
 
 
 state 8
 	stack:  stack question.    (4)
 
-	.  reduce 4 (src line 76)
+	.  reduce 4 (src line 78)
 
 
 state 9
 	stack:  stack ifBlock.    (5)
 
-	.  reduce 5 (src line 90)
+	.  reduce 5 (src line 86)
 
 
 state 10
@@ -82,7 +82,7 @@ state 10
 
 
 state 11
-	ifBlock:  IfToken.'(' evaluatables ')' '{' stack '}' 
+	ifBlock:  IfToken.'(' evaluatable ')' '{' stack '}' 
 
 	'('  shift 13
 	.  error
@@ -100,183 +100,342 @@ state 12
 	questionType  goto 14
 
 state 13
-	ifBlock:  IfToken '('.evaluatables ')' '{' stack '}' 
-	evaluatables: .    (12)
+	ifBlock:  IfToken '('.evaluatable ')' '{' stack '}' 
 
-	.  reduce 12 (src line 145)
+	TextToken  shift 23
+	NumericToken  shift 22
+	.  error
 
-	evaluatables  goto 19
+	evaluatable  goto 19
+	term  goto 20
+	value  goto 21
 
 state 14
 	question:  QuotedStringToken TextToken questionType.    (6)
 
-	.  reduce 6 (src line 102)
+	.  reduce 6 (src line 96)
 
 
 state 15
 	questionType:  StringQuestionToken.    (7)
 
-	.  reduce 7 (src line 115)
+	.  reduce 7 (src line 109)
 
 
 state 16
 	questionType:  IntQuestionToken.    (8)
 
-	.  reduce 8 (src line 119)
+	.  reduce 8 (src line 114)
 
 
 state 17
 	questionType:  BoolQuestionToken.    (9)
 
-	.  reduce 9 (src line 123)
+	.  reduce 9 (src line 118)
 
 
 state 18
 	questionType:  TextToken.    (10)
 
-	.  reduce 10 (src line 128)
+	.  reduce 10 (src line 122)
 
 
 state 19
-	ifBlock:  IfToken '(' evaluatables.')' '{' stack '}' 
-	evaluatables:  evaluatables.evaluatable 
+	ifBlock:  IfToken '(' evaluatable.')' '{' stack '}' 
 
-	TextToken  shift 24
-	')'  shift 20
-	NumericToken  shift 25
+	')'  shift 24
 	.  error
 
-	evaluatable  goto 21
-	term  goto 22
-	number  goto 23
 
 state 20
-	ifBlock:  IfToken '(' evaluatables ')'.'{' stack '}' 
-
-	'{'  shift 26
-	.  error
-
-
-state 21
-	evaluatables:  evaluatables evaluatable.    (13)
-
-	.  reduce 13 (src line 146)
-
-
-state 22
 	evaluatable:  term.EqualsToToken term 
 	evaluatable:  term.MoreThanToken term 
 	evaluatable:  term.LessThanToken term 
+	evaluatable:  term.MoreOrEqualsThanToken term 
+	evaluatable:  term.LessOrEqualsThanToken term 
 	evaluatable:  term.    (17)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
 
-	LessThanToken  shift 29
-	MoreThanToken  shift 28
-	EqualsToToken  shift 27
-	.  reduce 17 (src line 176)
+	'+'  shift 30
+	'-'  shift 31
+	'*'  shift 32
+	'/'  shift 33
+	LessThanToken  shift 27
+	LessOrEqualsThanToken  shift 29
+	MoreThanToken  shift 26
+	MoreOrEqualsThanToken  shift 28
+	EqualsToToken  shift 25
+	.  reduce 17 (src line 179)
+
+
+state 21
+	term:  value.    (22)
+
+	.  reduce 22 (src line 211)
+
+
+state 22
+	value:  NumericToken.    (23)
+
+	.  reduce 23 (src line 217)
 
 
 state 23
-	term:  number.    (18)
+	value:  TextToken.    (24)
 
-	.  reduce 18 (src line 184)
+	.  reduce 24 (src line 227)
 
 
 state 24
-	term:  TextToken.    (19)
+	ifBlock:  IfToken '(' evaluatable ')'.'{' stack '}' 
 
-	.  reduce 19 (src line 190)
+	'{'  shift 34
+	.  error
 
 
 state 25
-	number:  NumericToken.    (20)
-
-	.  reduce 20 (src line 198)
-
-
-state 26
-	ifBlock:  IfToken '(' evaluatables ')' '{'.stack '}' 
-	stack: .    (3)
-
-	.  reduce 3 (src line 75)
-
-	stack  goto 30
-
-state 27
 	evaluatable:  term EqualsToToken.term 
 
-	TextToken  shift 24
-	NumericToken  shift 25
+	TextToken  shift 23
+	NumericToken  shift 22
 	.  error
 
-	term  goto 31
-	number  goto 23
+	term  goto 35
+	value  goto 21
 
-state 28
+state 26
 	evaluatable:  term MoreThanToken.term 
 
-	TextToken  shift 24
-	NumericToken  shift 25
+	TextToken  shift 23
+	NumericToken  shift 22
 	.  error
 
-	term  goto 32
-	number  goto 23
+	term  goto 36
+	value  goto 21
 
-state 29
+state 27
 	evaluatable:  term LessThanToken.term 
 
-	TextToken  shift 24
-	NumericToken  shift 25
+	TextToken  shift 23
+	NumericToken  shift 22
 	.  error
 
-	term  goto 33
-	number  goto 23
+	term  goto 37
+	value  goto 21
+
+state 28
+	evaluatable:  term MoreOrEqualsThanToken.term 
+
+	TextToken  shift 23
+	NumericToken  shift 22
+	.  error
+
+	term  goto 38
+	value  goto 21
+
+state 29
+	evaluatable:  term LessOrEqualsThanToken.term 
+
+	TextToken  shift 23
+	NumericToken  shift 22
+	.  error
+
+	term  goto 39
+	value  goto 21
 
 state 30
+	term:  term '+'.term 
+
+	TextToken  shift 23
+	NumericToken  shift 22
+	.  error
+
+	term  goto 40
+	value  goto 21
+
+state 31
+	term:  term '-'.term 
+
+	TextToken  shift 23
+	NumericToken  shift 22
+	.  error
+
+	term  goto 41
+	value  goto 21
+
+state 32
+	term:  term '*'.term 
+
+	TextToken  shift 23
+	NumericToken  shift 22
+	.  error
+
+	term  goto 42
+	value  goto 21
+
+state 33
+	term:  term '/'.term 
+
+	TextToken  shift 23
+	NumericToken  shift 22
+	.  error
+
+	term  goto 43
+	value  goto 21
+
+state 34
+	ifBlock:  IfToken '(' evaluatable ')' '{'.stack '}' 
+	stack: .    (3)
+
+	.  reduce 3 (src line 77)
+
+	stack  goto 44
+
+state 35
+	evaluatable:  term EqualsToToken term.    (12)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+
+	'+'  shift 30
+	'-'  shift 31
+	'*'  shift 32
+	'/'  shift 33
+	.  reduce 12 (src line 143)
+
+
+state 36
+	evaluatable:  term MoreThanToken term.    (13)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+
+	'+'  shift 30
+	'-'  shift 31
+	'*'  shift 32
+	'/'  shift 33
+	.  reduce 13 (src line 151)
+
+
+state 37
+	evaluatable:  term LessThanToken term.    (14)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+
+	'+'  shift 30
+	'-'  shift 31
+	'*'  shift 32
+	'/'  shift 33
+	.  reduce 14 (src line 158)
+
+
+state 38
+	evaluatable:  term MoreOrEqualsThanToken term.    (15)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+
+	'+'  shift 30
+	'-'  shift 31
+	'*'  shift 32
+	'/'  shift 33
+	.  reduce 15 (src line 165)
+
+
+state 39
+	evaluatable:  term LessOrEqualsThanToken term.    (16)
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+
+	'+'  shift 30
+	'-'  shift 31
+	'*'  shift 32
+	'/'  shift 33
+	.  reduce 16 (src line 172)
+
+
+state 40
+	term:  term.'+' term 
+	term:  term '+' term.    (18)
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+
+	'*'  shift 32
+	'/'  shift 33
+	.  reduce 18 (src line 182)
+
+
+state 41
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term '-' term.    (19)
+	term:  term.'*' term 
+	term:  term.'/' term 
+
+	'*'  shift 32
+	'/'  shift 33
+	.  reduce 19 (src line 190)
+
+
+state 42
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term '*' term.    (20)
+	term:  term.'/' term 
+
+	.  reduce 20 (src line 197)
+
+
+state 43
+	term:  term.'+' term 
+	term:  term.'-' term 
+	term:  term.'*' term 
+	term:  term.'/' term 
+	term:  term '/' term.    (21)
+
+	.  reduce 21 (src line 204)
+
+
+state 44
 	stack:  stack.question 
 	stack:  stack.ifBlock 
-	ifBlock:  IfToken '(' evaluatables ')' '{' stack.'}' 
+	ifBlock:  IfToken '(' evaluatable ')' '{' stack.'}' 
 
 	IfToken  shift 11
 	QuotedStringToken  shift 10
-	'}'  shift 34
+	'}'  shift 45
 	.  error
 
 	question  goto 8
 	ifBlock  goto 9
 
-state 31
-	evaluatable:  term EqualsToToken term.    (14)
+state 45
+	ifBlock:  IfToken '(' evaluatable ')' '{' stack '}'.    (11)
 
-	.  reduce 14 (src line 154)
-
-
-state 32
-	evaluatable:  term MoreThanToken term.    (15)
-
-	.  reduce 15 (src line 162)
+	.  reduce 11 (src line 128)
 
 
-state 33
-	evaluatable:  term LessThanToken term.    (16)
-
-	.  reduce 16 (src line 169)
-
-
-state 34
-	ifBlock:  IfToken '(' evaluatables ')' '{' stack '}'.    (11)
-
-	.  reduce 11 (src line 134)
-
-
-28 terminals, 11 nonterminals
-21 grammar rules, 35/2000 states
+28 terminals, 10 nonterminals
+25 grammar rules, 46/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
-60 working sets used
-memory: parser 16/30000
+59 working sets used
+memory: parser 27/30000
 0 extra closures
-28 shift entries, 1 exceptions
-14 goto entries
-5 entries saved by goto default
-Optimizer space used: output 41/30000
-41 table entries, 3 zero
-maximum spread: 28, maximum offset: 29
+70 shift entries, 1 exceptions
+19 goto entries
+11 entries saved by goto default
+Optimizer space used: output 53/30000
+53 table entries, 0 zero
+maximum spread: 28, maximum offset: 34

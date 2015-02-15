@@ -75,14 +75,10 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolQuestionToken
 	} else if txt == IfTokenText {
 		typ = IfToken
-	} else if txt == LessThanTokenText {
-		typ = LessThanToken
 	} else if (txt + nextRune) == LessOrEqualsThanTokenText {
 		x.scanner.Scan()
 		typ = LessOrEqualsThanToken
 		txt = LessOrEqualsThanTokenText
-	} else if txt == MoreThanTokenText {
-		typ = MoreThanToken
 	} else if (txt + nextRune) == MoreOrEqualsThanTokenText {
 		x.scanner.Scan()
 		typ = MoreOrEqualsThanToken
@@ -91,7 +87,12 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		x.scanner.Scan()
 		typ = EqualsToToken
 		txt = EqualsToTokenText
-	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" {
+	} else if txt == MoreThanTokenText {
+		typ = MoreThanToken
+	} else if txt == LessThanTokenText {
+		typ = LessThanToken
+	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" || txt == "+" || txt == "-" ||
+		txt == "*" || txt == "/" {
 		typ = int(txt[0])
 	} else if strings.HasPrefix(txt, singleQuotedChar) ||
 		strings.HasPrefix(txt, doubleQuotedChar) ||

@@ -12,7 +12,7 @@ type Execute struct {
 	symbolChan chan *symbolEvent
 }
 
-// Exec type switch through all possible AST node types
+// Exec type switch through all possible root AST node types
 func (exec Execute) Exec(node interface{}) {
 	switch t := node.(type) {
 	default:
@@ -58,46 +58,38 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
-	result := true
-condLoop:
-	for _, c := range i.Conditions {
-		switch t := c.(type) {
-		default:
-			log.Fatalf("impossible condition type. got: %T", t)
-		case *ast.SingleTermNode:
-			if !exec.SingleTermNode(c.(*ast.SingleTermNode)) {
-				result = false
-				break condLoop
-			}
+	c := i.Conditions
+	switch t := c.(type) {
+	default:
+		log.Fatalf("impossible condition type. got: %T", t)
+	case *ast.TermNode:
+		if !exec.TermNode(c.(*ast.TermNode)) {
+			return
+		}
+	case *ast.EqualsNode:
+		if !exec.EqualsNode(c.(*ast.EqualsNode)) {
+			return
+		}
+	case *ast.MoreThanNode:
+		if !exec.MoreThanNode(c.(*ast.MoreThanNode)) {
+			return
+		}
+	case *ast.LessThanNode:
+		if !exec.LessThanNode(c.(*ast.LessThanNode)) {
+			return
+		}
+	case *ast.MoreOrEqualsThanNode:
+		if !exec.MoreOrEqualsThanNode(c.(*ast.MoreOrEqualsThanNode)) {
+			return
+		}
+	case *ast.LessOrEqualsThanNode:
+		if !exec.LessOrEqualsThanNode(c.(*ast.LessOrEqualsThanNode)) {
+			return
 		}
 	}
-	if result {
-		for _, actionNode := range i.Stack {
-			exec.Exec(actionNode)
-		}
+
+	for _, actionNode := range i.Stack {
+		exec.Exec(actionNode)
 	}
-}
 
-func (exec Execute) SingleTermNode(s *ast.SingleTermNode) bool {
-	identifier := s.LeftTerm.IdentifierReference
-	if identifier != "" {
-		ret := make(chan *ast.QuestionNode)
-		exec.symbolChan <- &symbolEvent{
-			command: SymbolRead,
-			name:    identifier,
-			ret:     ret,
-		}
-
-		q := <-ret
-
-		switch q.Type() {
-		case ast.BoolQuestionType:
-			content := q.Content.(*ast.BoolQuestion)
-			return content.Value()
-		case ast.IntQuestionType:
-			content := q.Content.(*ast.IntQuestion)
-			return content.Value() != 0
-		}
-	}
-	return s.LeftTerm.NumericConstant != 0
 }
