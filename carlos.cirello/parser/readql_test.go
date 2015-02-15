@@ -87,6 +87,7 @@ func TestIfArithExpressions(t *testing.T) {
 			if(100){}
 			if(100 + 200){}
 			if(100 + 200 + 300){}
+			if(100 + 200 + 300 * 400){}
 		}
 		`),
 		"test.ql",
@@ -140,6 +141,24 @@ func TestIfArithAndComparisonExpressions(t *testing.T) {
 		strings.NewReader(`
 		form Math {
 			if(100 + 200 > 300){}
+		}
+		`),
+		"test.ql",
+	)
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}
+
+func TestCalculatedQuestion(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form CalculatedFields {
+			"Question 1" QuestionA integer
+
+			"Question Calculated"
+			questionThree integer = questionA*2
 		}
 		`),
 		"test.ql",

@@ -12,4 +12,9 @@ public class ComputedQuestion extends Question {
 
         this.value = value;
     }
+
+    public Expression getValue() {
+        return value;
+    }
+
 }

@@ -15,4 +15,12 @@ public class Form implements ASTNode {
         this.statements = statements;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
+    }
+
 }

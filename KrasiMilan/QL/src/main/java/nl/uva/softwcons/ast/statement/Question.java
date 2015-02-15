@@ -14,4 +14,16 @@ public class Question extends Statement {
         this.type = type;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
 }
