@@ -16,6 +16,7 @@ namespace Tests.QLTests
             var unit = Parser.formBlock();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -30,6 +31,7 @@ namespace Tests.QLTests
             var unit = Parser.formBlock();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
     }
 }
