@@ -58,6 +58,9 @@ class ConditionalQuestions:
     def get_condition(self):
         return self.condition.ast_print()
 
+    def get_e_questions(self):
+        return self.else_questions
+
 
 class Form:
     def __init__(self, name, introduction, questions):

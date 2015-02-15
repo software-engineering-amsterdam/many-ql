@@ -50,7 +50,8 @@ class QuestionnaireGUI:
         if condition:
             # print condition's - depended questions
             self.draw_questions(c_question.get_c_questions())
-        #TODO: If false returned, check if there is "else" questions and print them
+        else:
+            self.draw_questions(c_question.get_e_questions()) #TODO: Need to debug
 
     def show(self):
         self.qGui.mainloop()
