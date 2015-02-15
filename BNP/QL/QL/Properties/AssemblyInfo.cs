@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -37,4 +38,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 // Disable compiler warning messages ensueing from ANTLR compiler adding strict attributes
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
