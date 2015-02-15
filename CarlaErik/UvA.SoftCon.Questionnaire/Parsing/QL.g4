@@ -10,14 +10,22 @@ questionnaire : stat* ;
 stat : type ID STRING                                                         # Question
      | 'if' '(' bool_expr ')'  '{' stat_if* '}' ('else' '{' stat_else* '}')?  # IfStatement
 	 ;
+	 /* Which is better? 
+	    1 general rule:
+	 | type ID '=' expr            # Assignment
+	   -or- multiple rules, one for each type?
+	 | 'int' ID '=' num_expr       # IntegerAssignment
+	 | 'bool' ID '=' bool_expr     # BooleanAssignment
+	 | 'string' ID '=' string_expr # StringAssignment
+	 */
 
 // These are only necessary to differentiate the 2 collections in the visitor class.
-// Better solution much appreciated.
 stat_if   : stat ;
 stat_else : stat ;
 
-
-bool_expr : bool_expr '&&' bool_expr    # AndExpression
+// To-do: Precedence order of operations should reflect those of common languages.
+bool_expr : '(' bool_expr ')'           # Precedence // To-do: How to implement this? This should only affect the way the AST will be constructed?
+          | bool_expr '&&' bool_expr    # AndExpression
 		  | bool_expr '||' bool_expr    # OrExpression
 		  | bool_expr '==' bool_expr    # BooleanEquals
 		  | num_expr  '==' num_expr     # NumericEquals
@@ -42,15 +50,20 @@ bool_expr : bool_expr '&&' bool_expr    # AndExpression
 		  What is a good practice?
      	  
 		  */
-		  | ID                          # BooleanID
+		  | ID                          # BooleanId
 		  | BOOL                        # BooleanLiteral
 		  ;
 
 num_expr : num_expr ('*'|'/') num_expr # MultDiv
          | num_expr ('+'|'-') num_expr # AddSubstract
-		 | ID                          # NumericID
+		 | ID                          # NumericId
 		 | INT                         # IntegerLiteral
 		 ;
+
+string_expr : string_expr '+' string_expr # Concatination
+            | ID                          # StringId
+			| STRING                      # StringLiteral
+			;
 
 type : 'int' | 'string' | 'bool' ;
 
@@ -61,24 +74,19 @@ type : 'int' | 'string' | 'bool' ;
 
  // Keywords should be defined first
 
-INT    : '-'? [0-9]+ ;        // Define token INT as one or more digit
+INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
-STRING : '"' (ESC|.)*? '"' ;  // match anything in "..." (nongreedy)
+STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
+DOUBLE : '-'? DIGIT+ '.' DIGIT*    // Shall we support doubles?
+       | '-'?        '.' DIGIT+
+	   ;
 
-/*
-FLOAT : DIGIT+ '.' DIGIT*     // Shall we support floats?
-      |        '.' DIGIT+
-	  ;
-DIGIT : [0-9] ;
-*/
-ESC : '' ; // '\\"' | '\\\\' ;
+ID : LETTER (LETTER | DIGIT)* ;
 
-ID : [a-zA-Z]+ ;
-
-/*
-ID : ID_LETTER (ID_LETTER | DIGIT)* ;
-ID_LETTER : [a-zA-Z] ;
-*/
+// Helper tokens; (not vissible to the parser)
+DIGIT  : [0-9] ;
+LETTER : [a-zA-Z] ;
+ESC    : '\\"' | '\\\\' ;
 
 LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;
 COMMENT      : '/*' .*? '*/'       -> skip ;

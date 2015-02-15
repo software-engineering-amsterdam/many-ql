@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Expressions.Boolean;
+using UvA.SoftCon.Questionnaire.AST.Expressions.String;
 
 namespace UvA.SoftCon.Questionnaire.AST.Literals
 {
     /// <summary>
-    /// Represents a static immutable boolean value.
+    /// Represents a static immutable string value.
     /// </summary>
-    public class BooleanLiteral : Literal<bool>, IBooleanExpression
+    public class StringLiteral : Literal<string>, IStringExpression
     {
-        public BooleanLiteral(bool value)
+        public StringLiteral(string value)
             : base(value) { }
 
-        public bool Evaluate()
+        public string Evaluate()
         {
             return Value;
         }
