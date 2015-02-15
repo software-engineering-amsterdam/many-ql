@@ -3,11 +3,11 @@ package lang.ql.ast.expression;
 import lang.ql.ast.visitor.Visitor;
 
 /**
- * Created by bore on 10/02/15.
+ * Created by bore on 09/02/15.
  */
-public class BooleanExpression extends ConstantExpression<Boolean>
+public class IntegerExpression extends ConstantExpression<Integer>
 {
-    public BooleanExpression(Boolean value)
+    public IntegerExpression(int value)
     {
         super(value);
     }

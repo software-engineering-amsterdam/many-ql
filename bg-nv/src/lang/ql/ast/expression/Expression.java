@@ -1,6 +1,7 @@
 package lang.ql.ast.expression;
 
 import lang.ql.ast.AstNode;
+import lang.ql.ast.statement.QuestionType;
 import lang.ql.ast.visitor.Visitor;
 
 /**
@@ -8,7 +9,20 @@ import lang.ql.ast.visitor.Visitor;
  */
 public abstract class Expression extends AstNode
 {
-    public abstract ConstantExpression getValue();
+    private QuestionType type;
 
-    public void visit(Visitor visitor) { visitor.visit(this); }
+    public QuestionType getType()
+    {
+        return this.type;
+    }
+
+    public void setType(QuestionType type)
+    {
+        this.type = type;
+    }
+
+    public void visit(Visitor visitor)
+    {
+        visitor.visit(this);
+    }
 }

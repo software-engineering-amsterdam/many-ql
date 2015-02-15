@@ -3,11 +3,11 @@ package lang.ql.ast.expression;
 import lang.ql.ast.visitor.Visitor;
 
 /**
- * Created by bore on 09/02/15.
+ * Created by bore on 14/02/15.
  */
-public class AdditionExpression extends BinaryOperatorExpression
+public class GreaterThanExpression extends BinaryOperatorExpression
 {
-    public AdditionExpression(Expression left, Expression right)
+    public GreaterThanExpression(Expression left, Expression right)
     {
         super(left, right);
     }
