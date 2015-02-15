@@ -1,10 +1,4 @@
-# ast 
-from pprint import *
-
-
-def make_sentence(tokens):
-    return ' '.join(tokens) 
-
+# ast
 
 class Expression:
     def __init__(self, expression):
@@ -52,6 +46,10 @@ class ConditionalQuestions:
         s = "\n" + "   " * level + "If (" + self.condition.ast_print(0) + ")"
         for i in self.questions:
             s += "   " * level + i.ast_print(level+1)
+        if self.else_questions != []:
+            s += "   " * level + "else"
+            for i in self.else_questions:
+                s += "   " * level + i.ast_print(level+1)
         return s
 
     def get_c_questions(self):
@@ -59,6 +57,9 @@ class ConditionalQuestions:
 
     def get_condition(self):
         return self.condition.ast_print()
+
+    def get_e_questions(self):
+        return self.else_questions
 
 
 class Form:
@@ -69,7 +70,8 @@ class Form:
 
     def __str__(self):
         s = self.name + "\n"
-        for i in self.questions: 
+        s += self.introduction + "\n"
+        for i in self.questions:
             s += i.ast_print(1)
         return s
 

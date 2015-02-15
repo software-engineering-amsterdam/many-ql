@@ -16,6 +16,11 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
     /// </summary>
     internal class BooleanExpressionVisitor : QLBaseVisitor<IBooleanExpression>
     {
+        public override IBooleanExpression VisitPrecedence(QLParser.PrecedenceContext context)
+        {
+            return context.bool_expr().Accept(this);
+        }
+
         public override IBooleanExpression VisitAndExpression(QLParser.AndExpressionContext context)
         {
             IBooleanExpression left = context.bool_expr(0).Accept(this);
@@ -35,7 +40,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         public override IBooleanExpression VisitGreaterThan(QLParser.GreaterThanContext context)
         {
             INumericExpression left = context.num_expr(0).Accept(new NumericExpressionVisitor());
-            INumericExpression right = context.num_expr(0).Accept(new NumericExpressionVisitor());
+            INumericExpression right = context.num_expr(1).Accept(new NumericExpressionVisitor());
 
             return new GreaterThanExpression(left, right);
         }
@@ -43,7 +48,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         public override IBooleanExpression VisitLessThan(QLParser.LessThanContext context)
         {
             INumericExpression left = context.num_expr(0).Accept(new NumericExpressionVisitor());
-            INumericExpression right = context.num_expr(0).Accept(new NumericExpressionVisitor());
+            INumericExpression right = context.num_expr(1).Accept(new NumericExpressionVisitor());
 
             return new LessThanExpression(left, right);
         }
@@ -59,12 +64,12 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         public override IBooleanExpression VisitNumericEquals(QLParser.NumericEqualsContext context)
         {
             INumericExpression left = context.num_expr(0).Accept(new NumericExpressionVisitor());
-            INumericExpression right = context.num_expr(0).Accept(new NumericExpressionVisitor());
+            INumericExpression right = context.num_expr(1).Accept(new NumericExpressionVisitor());
 
             return new NumericEqualsExpression(left, right);
         }
 
-        public override IBooleanExpression VisitBooleanID(QLParser.BooleanIDContext context)
+        public override IBooleanExpression VisitBooleanId(QLParser.BooleanIdContext context)
         {
             return new BooleanIdentifier(context.ID().GetText());
         }

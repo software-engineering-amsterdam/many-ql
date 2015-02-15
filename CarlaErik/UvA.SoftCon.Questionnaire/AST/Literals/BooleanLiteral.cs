@@ -10,17 +10,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Literals
     /// <summary>
     /// Represents a static immutable boolean value.
     /// </summary>
-    public class BooleanLiteral : IBooleanExpression
+    public class BooleanLiteral : Literal<bool>, IBooleanExpression
     {
-        public bool Value {
-            get;
-            private set;
-        }
-
         public BooleanLiteral(bool value)
-        {
-            Value = value;
-        }
+            : base(value) { }
 
         public bool Evaluate()
         {

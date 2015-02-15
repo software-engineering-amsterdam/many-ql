@@ -50,9 +50,18 @@
   <ItemGroup>
     <Compile Include="Expressions\Boolean\BooleanEqualsExpression.cs" />
     <Compile Include="Expressions\Boolean\NumericEqualsExpression.cs" />
+    <Compile Include="Expressions\Numeric\BinaryNumericExpression.cs" />
+    <Compile Include="Expressions\Numeric\DivisionExpression.cs" />
+    <Compile Include="Expressions\Numeric\MultiplyExpression.cs" />
+    <Compile Include="Expressions\String\ConcatinationExpression.cs" />
+    <Compile Include="Expressions\String\IStringExpression.cs" />
     <Compile Include="Identifiers\BooleanIdentifier.cs" />
     <Compile Include="Identifiers\Identifier.cs" />
     <Compile Include="Identifiers\NumericIdentifier.cs" />
+    <Compile Include="Identifiers\StringIdentifier.cs" />
+    <Compile Include="Literals\IntegerLiteral.cs" />
+    <Compile Include="Literals\Literal.cs" />
+    <Compile Include="Literals\StringLiteral.cs" />
     <Compile Include="QuestionnaireVisitor.cs" />
     <Compile Include="Expressions\Boolean\AndExpression.cs" />
     <Compile Include="Expressions\Boolean\BinaryBooleanExpression.cs" />
@@ -74,6 +83,7 @@
     <Compile Include="Visitors\BooleanExpressionVisitor.cs" />
     <Compile Include="Visitors\NumericExpressionVisitor.cs" />
     <Compile Include="Visitors\StatementVisitor.cs" />
+    <Compile Include="Visitors\StringExpressionVisitor.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

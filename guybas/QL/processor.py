@@ -5,9 +5,7 @@ import collections
 class Processor:
     def conditions_proc(self, condition):
         # process the expression, and return true/false
-        c_list = ParseResults(condition).asList()
-        c_str  = self.rlist2string(c_list)
-        result = eval(c_str)
+        result = eval(condition)
         if result:
             return True
         return False
