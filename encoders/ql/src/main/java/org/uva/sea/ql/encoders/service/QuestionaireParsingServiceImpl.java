@@ -19,6 +19,7 @@ public class QuestionaireParsingServiceImpl implements
 		// TODO replace this dummy implementation with an actual implementation
 		Questionaire questionaire = new Questionaire();
 		Question question = new Question();
+		question.setName("hasSoldHouse");
 		questionaire.addQuestion(question);
 		return questionaire;
 	}

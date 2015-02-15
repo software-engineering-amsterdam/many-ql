@@ -7,4 +7,13 @@ package org.uva.sea.ql.encoders.model;
  */
 public class Question {
 
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }
