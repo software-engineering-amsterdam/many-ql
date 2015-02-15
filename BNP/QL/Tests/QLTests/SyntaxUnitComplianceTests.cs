@@ -14,6 +14,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -24,6 +25,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -34,6 +36,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         #endregion
@@ -47,6 +50,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -57,6 +61,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -67,6 +72,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         #endregion
@@ -80,6 +86,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -90,6 +97,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -100,6 +108,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         #endregion
@@ -113,6 +122,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -124,17 +134,19 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
         public void StaticStatementOfTypeNumber()
-            //this is not syntactically correct atm
+        //this is not syntactically correct atm
         {
             string input = "statement My2ndStatement9876 (number, 123456) \"Label of the number to show:\";";
             Build(input);
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -146,6 +158,7 @@ namespace Tests.QLTests
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         #endregion

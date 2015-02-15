@@ -10,12 +10,13 @@ namespace Tests.QLTests
         {
             string input = @"if (7 == 7) {
                                 
-                             }
+                             };
                             ";
             Build(input);
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
         
         [TestMethod]
@@ -25,12 +26,13 @@ namespace Tests.QLTests
                                 
                              } else {
 
-                             }
+                             };
                             ";
             Build(input);
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
         [TestMethod]
@@ -42,12 +44,13 @@ namespace Tests.QLTests
 
                              } else {
 
-                             }
+                             };
                             ";
             Build(input);
             var unit = Parser.unit();
 
             Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
 
