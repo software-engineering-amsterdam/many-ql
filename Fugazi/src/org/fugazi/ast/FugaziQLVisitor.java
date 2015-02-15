@@ -1,7 +1,7 @@
 package org.fugazi.ast;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.fugazi.ast.ASTNode.ASTNode;
+import org.fugazi.ast.ASTNode.AbstractASTNode;
 import org.fugazi.ast.Expression.*;
 import org.fugazi.ast.Expression.comparison.*;
 import org.fugazi.ast.Expression.logical.AndExpression;
@@ -40,7 +40,7 @@ WHY VISITOR?
 2. Build our ASt.
 */
 
-public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
+public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
     /**
      * =======================

@@ -1,5 +1,7 @@
 package org.fugazi.ast.Literals;
 
+import org.fugazi.ast.IASTVisitor;
+
 /**
  * The String.
  */
@@ -21,9 +23,8 @@ public class STRING extends Literal {
         return value;
     }
 
-    @Override
-    public <T> T accept(ILiteralVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visitSTRING(this);
     }
 }
 

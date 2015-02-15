@@ -1,7 +1,7 @@
 package org.fugazi.ast.Expression.unary;
 
 import org.fugazi.ast.Expression.Expression;
-import org.fugazi.ast.Expression.IExpressionVisitor;
+import org.fugazi.ast.IASTVisitor;
 
 /**
  * The Not '!'.
@@ -17,8 +17,7 @@ public class NotExpression extends UnaryExpression {
         return "! " + this.expr.toString();
     }
 
-    @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visitNotExpression(this);
     }
 }
