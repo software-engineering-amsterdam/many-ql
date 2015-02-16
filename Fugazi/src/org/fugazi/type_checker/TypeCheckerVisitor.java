@@ -1,6 +1,5 @@
 package org.fugazi.type_checker;
 
-import org.fugazi.ast.type.ITypeVisitor;
 import org.fugazi.ast.type.*;
 
 public class TypeCheckerVisitor implements ITypeVisitor<Void> {

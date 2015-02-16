@@ -12,8 +12,19 @@ import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
 
+import java.util.HashMap;
+
 public class ExpressionVisitor implements IExpressionVisitor <ExpressionResult> {
-    
+    private final HashMap<String, ExpressionResult> values;
+
+    public ExpressionVisitor() {
+        values = new HashMap<String, ExpressionResult>();
+    }
+
+    public void storeValue(String identifier, ExpressionResult result) {
+        values.put(identifier, result);
+    }
+
     // Logical
     public ExpressionResult visitAnd(And andExpression) {
         return null;        

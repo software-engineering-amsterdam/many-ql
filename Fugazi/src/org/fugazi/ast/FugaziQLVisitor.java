@@ -1,7 +1,7 @@
 package org.fugazi.ast;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.fugazi.ast.expression.*;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Logical;
@@ -11,17 +11,17 @@ import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
 import org.fugazi.ast.expression.unary.Unary;
+import org.fugazi.ast.form.Form;
 import org.fugazi.ast.literal.ID;
 import org.fugazi.ast.literal.NUMBER;
 import org.fugazi.ast.literal.STRING;
+import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.IfStatement;
 import org.fugazi.ast.statement.Question;
-import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
-import org.fugazi.ast.form.Form;
 
 import java.util.ArrayList;
 

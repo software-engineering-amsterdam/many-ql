@@ -1,7 +1,5 @@
 package org.fugazi.ast.type;
 
-import org.fugazi.ast.type.*;
-
 public interface ITypeVisitor<T> {
     /**
      * ==============

@@ -1,7 +1,7 @@
 package org.fugazi.ast.expression.unary;
 
-import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
+import org.fugazi.ast.expression.Expression;
 
 public class Not extends Unary {
 
