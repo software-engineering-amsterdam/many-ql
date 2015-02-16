@@ -4,10 +4,6 @@ import ast.QLAST
 
 class QLEvaluator extends QLAST {
 
-  def eval(l: Literal) = l match {
-    case BooleanLiteral(value) => value
-    case NumberLiteral(value) => value
-    case StringLiteral(value) => value
   }
 
   def eval(e: Expression): Any = e match {
@@ -55,7 +51,9 @@ class QLEvaluator extends QLAST {
       case (l: Int, r: Int) => l / r
     }
     case Variable(v) => sys.error("Variables are not supported yet.")
-    case l: Literal => eval(l)
+    case BooleanLiteral(value) => value
+    case NumberLiteral(value) => value
+    case StringLiteral(value) => value
   }
 
 }
