@@ -11,6 +11,9 @@ grammar Grammar;
 	import com.form.language.ast.values.*;
 }
 
+form returns [Form result]
+	: 'form' ID '{' stmts=statementList {new Form($ID.text,$stmts.result);}'}'
+;
 
 statementList returns [List<Statement> result]
 	@init {List<Statement> stmts = new ArrayList<Statement>();}
