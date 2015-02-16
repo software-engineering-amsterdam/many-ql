@@ -1,6 +1,5 @@
 # Abstract syntax
-
-from ast import *
+from QL.ast import *
 
 
 class ASTReady:
@@ -24,13 +23,44 @@ class ASTReady:
         question = tokens[1]
         answertype = tokens[2]
         return Question(number, question, answertype)
+
+    def make_if2(tokens):
+        questions = []
+        condition = tokens[0]
+        for i in range(1, len(tokens)):
+            x = tokens[i]
+            y = IfQuestion(x.id, x.type, x.label, condition)
+            questions.append(y)
+        return questions
         
     def make_if(tokens):
         condition = tokens[0]
         questions = []
         for i in range(1, len(tokens)):
             questions.append(tokens[i])
-        return ConditionalQuestions(condition, questions)
+        return AdvancedQuestions(condition, questions)
+
+    def make_else2(tokens):
+        questions = []
+        condition = tokens[0]
+        k = 1
+        print(tokens)
+        for i in range(1, len(tokens)):
+            if tokens[i] == "else":
+                break
+            else:
+                x = tokens[i]
+                y = IfQuestion(x.id, x.type, x.label, condition)
+                questions.append(y)
+                k += 1
+
+        #
+        condition.create_negative()
+        for i in range(k + 1, len(tokens)):
+            x = tokens[i]
+            y = IfQuestion(x.id, x.type, x.label, condition)
+            questions.append(y)
+        return questions
 
     def make_else(tokens):
         condition = tokens[0]
@@ -45,7 +75,7 @@ class ASTReady:
         else_questions = []
         for i in range(k + 1, len(tokens)):
             else_questions.append(tokens[i])
-        x = ConditionalQuestions(condition, questions)
+        x = AdvancedQuestions(condition, questions)
         x.add_else(else_questions)
         return x
         

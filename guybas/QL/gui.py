@@ -23,7 +23,7 @@ class QuestionnaireGUI:
     def draw_questions(self, questions):
         for question in questions:
             self.row_counter += 1
-            if isinstance(question, ConditionalQuestions):
+            if isinstance(question, AdvancedQuestions):
                 self.draw_conditional_q(question)
                 continue
             self.draw_question(question)
