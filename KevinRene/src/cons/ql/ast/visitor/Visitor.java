@@ -1,9 +1,15 @@
 package cons.ql.ast.visitor;
 
+import java.util.HashMap;
+
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.*;
 import cons.ql.ast.expression.arithmetic.Add;
+import cons.ql.ast.expression.literal.QLBoolean;
+import cons.ql.ast.expression.literal.QLFloat;
+import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLInt;
+import cons.ql.ast.expression.literal.QLString;
 
 public abstract class Visitor {
 	private ArithmetricVisitor arithmeticVisitor;
@@ -26,11 +32,23 @@ public abstract class Visitor {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public void visit(QLType typeNode) {
+	public void visit(QLType typeNode) {		
 		switch(typeNode.getName()) {
-			case "QLInt" : 
-				qlTypeVisitor.visit((QLInt) typeNode);
-				break;
+		case "QLInt": 
+			qlTypeVisitor.visit((QLInt) typeNode);
+			break;
+		case "QLBoolean": 
+			qlTypeVisitor.visit((QLBoolean) typeNode);
+			break;
+		case "QLFloat": 
+			qlTypeVisitor.visit((QLFloat) typeNode);
+			break;
+		case "QLString": 
+			qlTypeVisitor.visit((QLString) typeNode);
+			break;
+		case "QLIdent": 
+			qlTypeVisitor.visit((QLIdent) typeNode);
+			break;
 		}
 	}
 
