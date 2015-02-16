@@ -4,6 +4,7 @@ import com.klq.logic.AnswerSet;
 import com.klq.logic.Question;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -36,7 +37,7 @@ public class QuestionPane extends GridPane {
                 break;
         }
         this.setVgap(5);
-        //TODO set margin
+        this.setPadding(new Insets(5));
         this.setBorder(createBorder());
     }
 
@@ -81,6 +82,7 @@ public class QuestionPane extends GridPane {
 
     private void createTextField(AnswerSet answerSet){
         TextField input = new TextField(answerSet.get(0).toString());
+        input.setPromptText(answerSet.get(0).toString());
         this.getChildren().add(input);
 
         this.setConstraints(input, 0, 1);
@@ -90,6 +92,7 @@ public class QuestionPane extends GridPane {
         CornerRadii radii = new CornerRadii(0.05, true);
         BorderStroke stroke = new BorderStroke(Paint.valueOf("grey"), BorderStrokeStyle.SOLID, radii, BorderWidths.DEFAULT);
         Border result = new Border(stroke);
+
         return result;
     }
 
