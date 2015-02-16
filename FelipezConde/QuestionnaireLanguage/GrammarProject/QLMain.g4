@@ -13,28 +13,31 @@ grammar QLMain;
 ;
 
 /* Types */ 
-typeName        : 'bool'
-                | 'string'
-                | 'date'
-                | 'int'
-                | 'decimal'
-                | 'money'
-;value          : type
-                | expression
-;type           : bool
-                | string
-                | date
-                | num
-                | list
-;bool           : 'True'
-                | 'False'
-;date           : 'date(' year '/' month '/' day ')'
-                | 'date(' year '/' month')' 
-                | 'date(' year ')'
-;num            : int
-                | decimal
-                | money
-;list           : '[' (type (',' type )*)? ']'
+ typeName          : genericTypeName
+                   | primitiveTypeName
+;genericTypeName   : 'list[' primitiveTypeName ']'
+;primitiveTypeName : 'bool'
+                   | 'string'
+                   | 'date'
+                   | 'int'
+                   | 'decimal'
+                   | 'money'
+;value             : type
+                   | expression
+;type              : bool
+                   | string
+                   | date
+                   | num
+                   | list
+;bool              : 'True'
+                   | 'False'
+;date              : 'date(' year '/' month '/' day ')'
+                   | 'date(' year '/' month')' 
+                   | 'date(' year ')'
+;num               : int
+                   | decimal
+                   | money
+;list              : '[' (type (',' type )*)? ']'
 ;
 
 /* Literal Types*/
