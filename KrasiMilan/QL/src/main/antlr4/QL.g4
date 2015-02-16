@@ -23,22 +23,21 @@ type: BOOL_TYPE
     | INT_TYPE
     | DATE_TYPE
     | DECIMAL_TYPE
-    | MONEY_TYPE
-	;
+    ;
 
 
-expr:   expr op=(MUL|DIV) expr                      # binaryExpr
-    |   expr op=(ADD|SUB) expr                      # binaryExpr
-    |   expr op=(GT|GEq|LT|LEq|Eq|NEq) expr         # binaryExpr
-    |   op=NOT expr                                 # unaryExpr
-    |   expr op=AND expr                            # binaryExpr
-    |   expr op=OR expr                             # binaryExpr
-    |   '(' expr ')'                                # parenthesis
-    |   BOOLEAN                                     # boolean
-    |   DECIMAL                                     # decimal 
-    |   INT                                         # integer
-    |   STRING                                      # string
-    |   ID                                          # id
+expr: expr op=(MUL|DIV) expr                      # binaryExpr
+    | expr op=(ADD|SUB) expr                      # binaryExpr
+    | expr op=(GT|GEq|LT|LEq|Eq|NEq) expr         # binaryExpr
+    | op=NOT expr                                 # unaryExpr
+    | expr op=AND expr                            # binaryExpr
+    | expr op=OR expr                             # binaryExpr
+    | '(' expr ')'                                # parenthesis
+    | BOOLEAN                                     # boolean
+    | DECIMAL                                     # decimal 
+    | INT                                         # integer
+    | STRING                                      # string
+    | ID                                          # id
     ;
 
 
@@ -94,8 +93,8 @@ fragment INT_FRAG : '0' | [1-9] [0-9]* ; // no leading zeros
 STRING : '"' ~["\r\n]* '"';
 
 // Comments
-COMMENT: '//' .*? '\r'? '\n' -> skip;
-MULTILINE_COMMENT:  '/*' .*? '*/' -> skip;
+COMMENT : '//' .*? '\r'? '\n' -> skip;
+MULTILINE_COMMENT : '/*' .*? '*/' -> skip;
 
 // Whitespace
-WS  :  [ \n\t\r]+ -> skip;
+WS : [ \n\t\r]+ -> skip;
