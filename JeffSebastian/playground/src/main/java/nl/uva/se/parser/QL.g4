@@ -11,19 +11,21 @@ package nl.uva.se.parser;
 @parser::header {
 package nl.uva.se.parser;
 }
-
-parse
-	:declaration
-	|statement
-	;
 	
-declaration
-	: FORM IDENTIFIER						#formDeclaration
-	| IDENTIFIER type ':' '"'IDENTIFIER'"'	#typeDeclaration
+form
+	: FORM IDENTIFIER '{' (statement)+ '}' #formDeclaration
+	;
+
+question
+	: IDENTIFIER type ':' '"'String'"' #questionDeclaration
+	;
+
+condition
+	: IF '(' expression ')' (statement)+ (ELSE (statement)+)?	#conditionDeclaration
 	;
 
 statement	
-	: IF '(' expression ')' statement (ELSE statement)?	#ifStatement
+	: question | condition
 	;
 
 expression                          				  								
@@ -41,14 +43,21 @@ type
 	| DOUBLE
 	;
 	
+String
+    : '"' CHAR+? '"'
+    | '\'' CHAR+? '\''
+    | '“' CHAR+? '”'
+    ;
+	
 //Fragments
 fragment DIGIT				: ('0'..'9');
 fragment LETTER 			: [a-zA-Z];
-fragment LETTER_AND_NUMBER  : [a-zA-Z_] [a-zA-Z_0-9]*; 
+fragment LETTER_AND_NUMBER  : [a-zA-Z_] [a-zA-Z_0-9]*;
+fragment CHAR 				: ~[\\]; 
 
 // Tokens
 FORM 		: 'form'|'Form'|'FORM';
-IDENTIFIER	:	LETTER_AND_NUMBER*;
+IDENTIFIER	: LETTER_AND_NUMBER*;
 QUESTION	: 'question'|'QUESTION'|'Question';
 
 //types
@@ -77,3 +86,5 @@ DIVIDE					: '/' ;
 MULTIBLE				: '*' ;
 MINUS					: '-' ;
 PLUS					: '+' ;
+
+WS : [ \t\r\n]+ -> channel(HIDDEN) ;
