@@ -4,5 +4,5 @@ Hi! Welcome to **The Encoders** readme!
 
 We will be making:
 
-- A questionaire language
-- A user-interface for questionaire markup
+- A questionnaire language
+- A user-interface for questionbaire markup

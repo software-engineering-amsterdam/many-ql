@@ -7,38 +7,38 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.uva.sea.ql.encoders.model.Question;
-import org.uva.sea.ql.encoders.model.Questionaire;
+import org.uva.sea.ql.encoders.model.Questionnaire;
 
-public class QuestionaireParsingServiceImplTest {
+public class QuestionnaireParsingServiceImplTest {
 
-	private QuestionaireParsingService questionaireParsingService;
+	private QuestionnaireParsingService questionnaireParsingService;
 
 	private static final String RESOURCE_ROOT = "src/main/resources/";
 
 	@Before
 	public void setUp() throws Exception {
-		questionaireParsingService = new QuestionaireParsingServiceImpl();
+		questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 	}
 
 	// TODO create better name for test
 	@Test
-	public void testQuestionaireNameIsParsed() throws Exception {
+	public void testQuestionnaireNameIsParsed() throws Exception {
 		String location = RESOURCE_ROOT + "example.ql2";
 
-		Questionaire questionaire = questionaireParsingService.parse(location);
+		Questionnaire questionnaire = questionnaireParsingService.parse(location);
 
-		assertThat(questionaire.getName(), is("taxOfficeExample"));
+		assertThat(questionnaire.getName(), is("taxOfficeExample"));
 	}
 
 	// TODO create better name for test
 	@Test
-	public void testQuestionaireQuestionIsParsed() throws Exception {
+	public void testQuestionnaireQuestionIsParsed() throws Exception {
 		String location = RESOURCE_ROOT + "example.ql2";
 
 		String hasSoldHouse = "hasSoldHouse";
-		Questionaire questionaire = questionaireParsingService.parse(location);
+		Questionnaire questionnaire = questionnaireParsingService.parse(location);
 
-		Question question = questionaire.getQuestion(hasSoldHouse);
+		Question question = questionnaire.getQuestion(hasSoldHouse);
 		assertThat(question, is(notNullValue()));
 		assertThat(question.getName(), is(hasSoldHouse));
 		assertThat(question.getType(), is("boolean"));
@@ -47,13 +47,13 @@ public class QuestionaireParsingServiceImplTest {
 
 	// TODO create better name for test
 	@Test
-	public void testQuestionaireConditionalBlockIsParsed() throws Exception {
+	public void testQuestionnaireConditionalBlockIsParsed() throws Exception {
 		String location = RESOURCE_ROOT + "example.ql2";
 
 		String questionName = "sellingPrice";
-		Questionaire questionaire = questionaireParsingService.parse(location);
+		Questionnaire questionnaire = questionnaireParsingService.parse(location);
 
-		Question question = questionaire.getQuestion(questionName);
+		Question question = questionnaire.getQuestion(questionName);
 		assertThat(question, is(notNullValue()));
 		assertThat(question.getName(), is(questionName));
 		assertThat(question.getType(), is("money"));

@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Questionaire containing {@link Question}s.
+ * Questionnaire containing {@link Question}s.
  * 
  * @author Pim Tegelaar
  */
-public class Questionaire {
+public class Questionnaire {
 
 	private String name;
 

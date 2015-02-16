@@ -6,22 +6,22 @@ import org.uva.sea.ql.encoders.QL2Parser.ConditionalContext;
 import org.uva.sea.ql.encoders.QL2Parser.FormContext;
 import org.uva.sea.ql.encoders.QL2Parser.QuestionContext;
 import org.uva.sea.ql.encoders.model.Question;
-import org.uva.sea.ql.encoders.model.Questionaire;
+import org.uva.sea.ql.encoders.model.Questionnaire;
 
 /**
- * Creates and fills a {@link Questionaire} based on the parser input.
+ * Creates and fills a {@link Questionnaire} based on the parser input.
  * 
  * @author Pim Tegelaar
  */
-public class QuestionaireListener extends QL2BaseListener {
+public class QuestionnaireListener extends QL2BaseListener {
 
-	private final Questionaire questionaire = new Questionaire();
+	private final Questionnaire questionnaire = new Questionnaire();
 
 	private String condition;
 
 	@Override
 	public void exitForm(FormContext ctx) {
-		questionaire.setName(ctx.formName.getText());
+		questionnaire.setName(ctx.formName.getText());
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class QuestionaireListener extends QL2BaseListener {
 		question.setName(ctx.questionName.getText());
 		question.setType(ctx.type.getText());
 		question.setCondition(condition);
-		questionaire.addQuestion(question);
+		questionnaire.addQuestion(question);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class QuestionaireListener extends QL2BaseListener {
 		this.condition = null;
 	}
 
-	public Questionaire getQuestionaire() {
-		return questionaire;
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
 	}
 }

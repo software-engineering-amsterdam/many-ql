@@ -10,7 +10,8 @@ form:
 question:
     WS* questionString=QUOTEDSTRING NL
     WS* questionName=NAME ':' WS type=TYPE NL;
-    
+
+
     
 conditionalBlock:
     WS* 'if' WS '(' conditional ')' WS '{' NL

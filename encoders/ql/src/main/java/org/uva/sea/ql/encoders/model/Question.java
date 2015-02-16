@@ -1,7 +1,7 @@
 package org.uva.sea.ql.encoders.model;
 
 /**
- * Represents a question in the {@link Questionaire}
+ * Represents a question in the {@link Questionnaire}
  * 
  * @author Pim Tegelaar
  */
