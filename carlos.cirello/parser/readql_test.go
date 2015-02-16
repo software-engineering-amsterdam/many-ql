@@ -29,7 +29,7 @@ func TestComments(t *testing.T) {
 		}`),
 		"test.ql",
 	)
-	lenQ := len(form.Stack)
+	lenQ := len(form.Stack())
 	if lenQ > 1 {
 		t.Errorf("Comment should be ignore and not yield tokens. There should be 1 question, got %d.", lenQ)
 	}
@@ -158,7 +158,7 @@ func TestCalculatedQuestion(t *testing.T) {
 			"Question 1" QuestionA integer
 
 			"Question Calculated"
-			questionThree integer = questionA*2
+			questionThree computed = questionA * 2
 		}
 		`),
 		"test.ql",
