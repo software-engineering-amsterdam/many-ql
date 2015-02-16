@@ -1,12 +1,62 @@
+class Operator
+  attr_reader :method, :arguments
+
+  def initialize(method:, arguments:)
+    @method = method
+    @arguments = arguments
+  end
+
+  def calculate
+    method.call(arguments)
+  end
+
+  def valid?
+    arguments.all do |argument|
+      argument.type == argument_type && argument.valid?
+    end
+  end
+end
+
+class BooleanOperator < Operator # || &&
+  def type
+    :boolean
+  end
+
+  def argument_type
+    :boolean
+  end
+end
+
+class CompareOperator < Operator # ==, !=, <, >
+  def type
+    :boolean
+  end
+
+  def argument_type
+    :integer
+  end
+end
+
+class ComputeOperator < Operator # * + - /
+  def type
+    :integer
+  end
+
+  def argument_type
+    :integer
+  end
+end
+
 class Statement
   def statements
-    []
+    raise "Statement.statements niet geimplementeerd"
   end
 
   def questions
-    self.flat_map(&:questions)
+    statements.flat_map(&:questions)
   end
 end
+
 
 class Form < Statement
   attr_reader :name, :statements
@@ -27,9 +77,8 @@ class Question < Statement
   end
 
   def questions
-    [ self ]
+    self
   end
-
 end
 
 class If < Statement
