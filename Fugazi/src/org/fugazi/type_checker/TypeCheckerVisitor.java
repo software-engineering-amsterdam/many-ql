@@ -16,9 +16,9 @@ import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.literal.ID;
 import org.fugazi.ast.literal.NUMBER;
 import org.fugazi.ast.literal.STRING;
-import org.fugazi.ast.statement.ComputedQuestionStatement;
+import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.IfStatement;
-import org.fugazi.ast.statement.QuestionStatement;
+import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.type.*;
 
 public class TypeCheckerVisitor implements IASTVisitor<Void>{
@@ -58,9 +58,9 @@ public class TypeCheckerVisitor implements IASTVisitor<Void>{
      * Statements
      * ==============
      */
-    public Void visitQuestionStatement(QuestionStatement questionStatement){return null;}
+    public Void visitQuestionStatement(Question question){return null;}
     public Void visitIfStatement(IfStatement ifStatement){return null;}
-    public Void visitComputedQuestionStatement(ComputedQuestionStatement assignQuestStatement){return null;}
+    public Void visitComputedQuestionStatement(ComputedQuestion assignQuestStatement){return null;}
 
     /**
      * ==============

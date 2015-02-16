@@ -15,8 +15,8 @@ import org.fugazi.ast.literal.ID;
 import org.fugazi.ast.literal.NUMBER;
 import org.fugazi.ast.literal.STRING;
 import org.fugazi.ast.statement.IfStatement;
-import org.fugazi.ast.statement.QuestionStatement;
-import org.fugazi.ast.statement.ComputedQuestionStatement;
+import org.fugazi.ast.statement.Question;
+import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 import org.fugazi.parser.QLBaseVisitor;
@@ -90,7 +90,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override
-    public QuestionStatement visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
+    public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         
         Type type = (Type) ctx.type().accept(this); 
 
@@ -101,14 +101,14 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         STRING grammarLabel = new STRING(ctx.STRING().getText());
         String label = grammarLabel.toString();
 
-        QuestionStatement question = new QuestionStatement(type, label, identifier);
+        Question question = new Question(type, label, identifier);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
 
         return question;
     }
 
     @Override
-    public ComputedQuestionStatement visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
+    public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
         
         Type type = (Type) ctx.type().accept(this);
 
@@ -119,7 +119,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
+        ComputedQuestion question = new ComputedQuestion(type, label, identifier, expression);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
         
         return question;

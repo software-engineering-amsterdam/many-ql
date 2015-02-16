@@ -2,25 +2,21 @@ package org.fugazi.ast.literal;
 
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The identifier.
- */
 public class ID extends Literal {
 
-    // The name of the identifier.
-    private String name;
+    private final String name;
 
     public ID(String _name) {
         this.name = _name;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public String toString() {
-        return name;
+        return this.name;
     }
 
     @Override

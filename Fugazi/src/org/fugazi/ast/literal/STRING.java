@@ -2,25 +2,21 @@ package org.fugazi.ast.literal;
 
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The String.
- */
 public class STRING extends Literal {
 
-    // The value of the string
-    private String value;
+    private final String value;
 
     public STRING(String _value) {
         this.value = _value;
     }
 
     public String getValue() {
-        return value;
+        return this.value;
     }
 
     @Override
     public String toString() {
-        return value;
+        return this.value;
     }
 
     @Override

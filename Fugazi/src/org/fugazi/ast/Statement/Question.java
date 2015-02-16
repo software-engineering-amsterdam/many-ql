@@ -4,7 +4,7 @@ import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.literal.ID;
 import org.fugazi.ast.type.Type;
 
-public class QuestionStatement extends Statement {
+public class Question extends Statement {
 
     protected final Type type;
     
@@ -12,7 +12,7 @@ public class QuestionStatement extends Statement {
     
     protected final ID identifier;
 
-    public QuestionStatement(Type _type, String _label, ID _identifier) {
+    public Question(Type _type, String _label, ID _identifier) {
         this.type = _type;
         this.label = _label;
         this.identifier = _identifier;

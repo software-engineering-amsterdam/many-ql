@@ -46,9 +46,9 @@ public interface IASTVisitor<T> {
      * Statements
      * ==============
      */
-    public T visitQuestionStatement(QuestionStatement questionStatement);
+    public T visitQuestionStatement(Question question);
     public T visitIfStatement(IfStatement ifStatement);
-    public T visitComputedQuestionStatement(ComputedQuestionStatement assignQuestStatement);
+    public T visitComputedQuestionStatement(ComputedQuestion assignQuestStatement);
 
     /**
      * ==============
