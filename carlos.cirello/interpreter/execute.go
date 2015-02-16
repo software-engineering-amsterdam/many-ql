@@ -64,11 +64,11 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
-	if exec.resolveComparisonNode(i.Conditions) {
-		for _, actionNode := range i.Stack {
+	if exec.resolveComparisonNode(i.Conditions()) {
+		for _, actionNode := range i.Stack() {
 			exec.Exec(actionNode)
 		}
-	} else if i.ElseNode != nil {
-		exec.Exec(i.ElseNode)
+	} else if i.ElseNode() != nil {
+		exec.Exec(i.ElseNode())
 	}
 }

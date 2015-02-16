@@ -51,10 +51,10 @@ func (walk Walk) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (walk Walk) IfNode(i *ast.IfNode) {
-	for _, actionNode := range i.Stack {
+	for _, actionNode := range i.Stack() {
 		walk.Exec(actionNode)
 	}
-	if i.ElseNode != nil {
-		walk.Exec(i.ElseNode)
+	if i.ElseNode() != nil {
+		walk.Exec(i.ElseNode())
 	}
 }

@@ -134,10 +134,7 @@ questionType:
 ifBlock:
 	IfToken '(' evaluatable ')' '{' stack '}'
 	{
-		ifNode := new(ast.IfNode)
-		ifNode.Conditions = $3.evaluatable
-		ifNode.Stack = $6.stack
-		$$.ifNode = ifNode
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, nil)
 
 		$$.evaluatable = new(ast.Evaluatable)
 		$$.stack = []*ast.ActionNode{}
@@ -146,11 +143,7 @@ ifBlock:
 	}
 	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken ifBlock
 	{
-		ifNode := new(ast.IfNode)
-		ifNode.Conditions = $3.evaluatable
-		ifNode.Stack = $6.stack
-		ifNode.ElseNode = $9.ifNode
-		$$.ifNode = ifNode
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, $9.ifNode)
 
 		$$.evaluatable = new(ast.Evaluatable)
 		$$.stack = []*ast.ActionNode{}
@@ -160,20 +153,11 @@ ifBlock:
 	}
 	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken '{' stack '}'
 	{
-		ifNode := new(ast.IfNode)
-		ifNode.Conditions = $3.evaluatable
-		ifNode.Stack = $6.stack
-
-		elseNode := new(ast.IfNode)
-		elseCondition := &ast.TermNode{
+		elseNode := ast.NewIfNode(&ast.TermNode{
 			Type: ast.NumericConstantNodeType,
 			NumericConstant: 1,
-		}
-		elseNode.Conditions = elseCondition
-		elseNode.Stack = $10.stack
-		ifNode.ElseNode = elseNode
-
-		$$.ifNode = ifNode
+		}, $10.stack, nil)
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, elseNode)
 
 		$$.evaluatable = new(ast.Evaluatable)
 		$$.stack = []*ast.ActionNode{}
