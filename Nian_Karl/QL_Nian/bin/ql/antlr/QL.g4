@@ -1,7 +1,7 @@
 grammar QL;
 @members{
 	
-	void echo(Token id) { }
+	void echo(Token id){}
 }
 
 /* PARSER RULES */

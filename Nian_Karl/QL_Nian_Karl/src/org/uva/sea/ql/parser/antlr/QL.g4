@@ -20,13 +20,29 @@ grammar QL;
 }
 
 // Parser rules
-form : 'form' identifier LEFT_BRACES question (question | statement)* RIGHT_BRACES
-	| expr
-;
+form : FORM Identifier block;
 
-question: questionType identifier stringLiteral SEMICOLON;
+block : LEFT_BRACE statement* RIGHT_BRACE;
 
-statement:	IF LEFT_PARENTHESES expr RIGHT_PARENTHESES LEFT_BRACES (question)+ RIGHT_BRACES;
+statement
+	: block
+	| question
+	| ifStatement
+	;
+	
+question : questionType questionName questionLabel SEMICOLON;
+
+questionType :INT | STR | CUR | BOOL | DEC | DATE;
+
+questionName : Identifier;
+
+questionLabel : StringLiteral;
+
+ifStatement : IF LEFT_PARENTHESES expr RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
+
+elseIfStatement : ELIF block elseStatement;
+
+elseStatement : ELSE block;
 
 expr: 
 	literal
@@ -44,113 +60,37 @@ expr:
 	| expr DEVIDE expr 
 ;
 //=========================================
-    
-   
-//unExpr returns [AbstractValue result]
-//    :  '+' x=unExpr { $result = new PositiveExpression($x.result); }
-//    |  '-' x=unExpr { $result = new NegativeExpression($x.result); }
-//    |  '!' x=unExpr { $result = new NotExpression($x.result); }
-////    |  x=expr    { $result = $x.result; }
-//    ;
-//    
-//    
-//mulExpr returns [Expression result]
-//    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
-//    { 
-//      if ($op.text.equals("*")) {
-//        $result = new MulExpression($result, rhs);
-//      }
-//      if ($op.text.equals("<=")) {
-//        $result = new DivExpression($result, rhs);      
-//      }
-//    })*
-//    ;
-//    
-//  
-//addExpr returns [Expression result]
-//    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
-//    { 
-//      if ($op.text.equals("+")) {
-//        $result = new AddExpression($result, rhs);
-//      }
-//      if ($op.text.equals("-")) {
-//        $result = new SubExpression($result, rhs);      
-//      }
-//    })*
-//    ;
-//  
-//relExpr returns [Expression result]
-//    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
-//    { 
-//      if ($op.text.equals("<")) {
-//        $result = new LessExpression($result, rhs);
-//      }
-//      if ($op.text.equals("<=")) {
-//        $result = new LessOrEqualExpression($result, rhs);      
-//      }
-//      if ($op.text.equals(">")) {
-//        $result = new GreaterExpression($result, rhs);
-//      }
-//      if ($op.text.equals(">=")) {
-//        $result = new GreaterOrEqualExpression($result, rhs);      
-//      }
-//      if ($op.text.equals("==")) {
-//        $result = new EqualExpression($result, rhs);
-//      }
-//      if ($op.text.equals("!=")) {
-//        $result = new NegationExpression($result, rhs);
-//      }
-//    })*
-//    ;
-//    
-//andExpr returns [AbstractValue result]
-//    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new AndExpression($result, rhs); } )*
-//    ;
-//    
-//
-//orExpr returns [AbstractValue result]
-//    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new OrExpression.java($result, rhs); } )*
-//    ;
 
-
-//=========================================
-
-questionType :INT | STR | CUR | BOOL;
-
-identifier:	Ident;
 
 literal
-	 : numberLiteral
- 	 | booleanLiteral
- 	 | stringLiteral
- 	 | identifier
-	;
-	
-booleanLiteral: 
-	bool;
-
-numberLiteral
-	: Int
-	| Float
-	;
-
-stringLiteral
-	: Str
-	;
-
-bool: TRUE | FALSE;
+ 	 : Identifier
+	 | IntegerLiteral
+	 | DecimalLiteral
+ 	 | BooleanLiteral
+ 	 | StringLiteral
+ 	 | DateLiteral
+	 ;
 
 
 // Lexer rules
-// Tokens
 
+// Data Types
 INT:			'Int';
 STR:			'Str';
 CUR:			'Cur';
 BOOL:			'Bool';
-TRUE: 			'true';
-FALSE: 			'false';
-IF: 			'if';
+DEC:			'Dec';
+DATE:			'Date';
+
+
+// Keywords
+FORM		:		'form';
+IF			:		'if';
+THEN		:		'then';
+ELSE		:		'else';
+ELIF		:		'else if';
+
+// Operators
 OR:				'||';
 AND:			'&&';
 EQUAL:			'=';
@@ -159,22 +99,41 @@ EQUAL_GREATER: 	'>=';
 EQUAL_COND:		'==';
 EQUAL_SMALLER: 	'<=';
 SMALLER: 		'<';
-LEFT_BRACES:	'{';
-RIGHT_BRACES:	'}';
-LEFT_PARENTHESES:	'(';
-RIGHT_PARENTHESES:	')';
-COLON:			':';
-SEMICOLON:		';';
 PLUS:			'+';
 MINUS:			'-';
 DEVIDE:			'/';
 MULTIPLY:		'*';
 
-Int: [1-9][0-9]*;
+// Symbols
+LEFT_BRACE:	'{';
+RIGHT_BRACE:	'}';
+LEFT_PARENTHESES:	'(';
+RIGHT_PARENTHESES:	')';
+COLON:			':';
+SEMICOLON:		';';
 
-Str: '"' .*? '"';
 
-Float: Int'.'Int;
+IntegerLiteral: [1-9][0-9]*;
+
+DecimalLiteral: DecimalNumeral '.' Digit*;
+
+DecimalNumeral : Non_Zero_Digit Digit* | [0];
+
+BooleanLiteral: 'true' | 'false';
+
+StringLiteral: '"' .*? '"';
+
+DateLiteral : Day '-' Month '-' Year;
+
+Day: Digit{2};
+
+Month: Digit{2};
+
+Year: Digit{4};
+
+Non_Zero_Digit: [1-9];
+	
+Digit: [0-9];
 
 //Date: ('0');
 
@@ -184,6 +143,6 @@ MultiComment : '/*' .*? '*/' -> skip;
 
 SingleComment: '//' .*? '\n' -> skip;
 
-Ident: [a-zA-Z][a-zA-Z0-9_]*;
+Identifier: [a-zA-Z][a-zA-Z0-9_]*;
 
 
