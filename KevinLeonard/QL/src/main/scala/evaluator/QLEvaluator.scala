@@ -4,8 +4,6 @@ import ast.QLAST
 
 class QLEvaluator extends QLAST {
 
-  }
-
   def eval(e: Expression): Any = e match {
     case Or(l, r) =>  (eval(l), eval(r)) match {
       case (l: Boolean, r: Boolean) => l || r
