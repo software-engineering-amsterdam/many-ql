@@ -1,16 +1,16 @@
 package org.uva.sea.ql.model.expression.booleanexpression;
 
 import org.uva.sea.ql.model.expression.BinaryExpression;
-import org.uva.sea.ql.model.literal.AbstractLiteral;
-import org.uva.sea.ql.model.literal.BooleanLiteral;
+import org.uva.sea.ql.model.value.AbstractValue;
 
-public class AndExpression extends BinaryExpression<Boolean> {
+public class AndExpression extends BinaryExpression {
 
-	private BooleanLiteral leftLiteral = (BooleanLiteral) this.leftExpression;
-	private BooleanLiteral rightLiteral = (BooleanLiteral) this.rightExpression;
-	
+//	private BooleanLiteral leftLiteral = (BooleanLiteral) this.leftExpression;
+//	private BooleanLiteral rightLiteral = (BooleanLiteral) this.rightExpression;
+//	
 	@Override
-	public AbstractLiteral<Boolean> evaluateExpression() {
-		return new BooleanLiteral(leftLiteral.getValue() && rightLiteral.getValue());
+	public AbstractValue<?> evaluateExpression() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
