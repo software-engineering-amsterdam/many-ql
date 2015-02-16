@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.CharStream;
 
 import com.form.language.ast.expression.PrimitiveExpression;
-import com.form.language.ast.values.IntValue;
 
 public class Test {
 	public static void main(String[] args) {
