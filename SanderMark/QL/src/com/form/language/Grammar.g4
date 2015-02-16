@@ -26,16 +26,19 @@ ifStatement returns [PrimitiveExpression pExp]
 ;
 
 
+/*
 syntaxtree returns [PrimitiveExpression pExp]
 : add {$pExp = $add.pExp; }
 ;
+
+*/
 
 term returns [PrimitiveExpression pExp]
 	:	IDENT {$pExp = new IntLiteral(0);}
 	|	'(' add ')' {$pExp = $add.pExp;}
 	|	INTEGER {$pExp = new IntLiteral(Integer.parseInt($INTEGER.text));}
 	;
-	
+		
 unary returns [PrimitiveExpression pExp]
 	: 	{boolean positive = true; }	
 		('+' | '-' {positive = !positive; })* term
@@ -47,40 +50,50 @@ unary returns [PrimitiveExpression pExp]
 	;
 
 mult returns [PrimitiveExpression pExp]
-	:	op1=unary {$pExp = $op1.pExp; }
-		( '*' op2=unary {$pExp = new Multiplication($pExp, $op2.pExp);}
-		| '/' op2=unary {$pExp = new Division($pExp, $op2.pExp);}
-		| 'mod' op2=unary {$pExp = new Modulus($pExp, $op2.pExp);}
-		)*
-	;
+    :   lhs=unary { $pExp=$lhs.pExp; } ( op=( '*' | '/' ) rhs=unary 
+    { 
+      if ($op.text.equals("*")) {
+        $pExp = new Multiplication($pExp, $rhs.pExp);
+      }
+      if ($op.text.equals("/")) {
+        $pExp = new Division($pExp, $rhs.pExp);      
+      }
+    })*
+    ;
+
 		
 add returns [PrimitiveExpression pExp]
-	:	op1=syntaxtree {$pExp = $op1.pExp; }
-	 	(	'-' op2=unary {$pExp = new Substraction($pExp, $op2.pExp);}
-		| 	'+' op2=unary {$pExp = new Addition($pExp, $op2.pExp);}
-		)*
-	;
+    :   lhs=mult { $pExp=$lhs.pExp; } ( op=('+' | '-') rhs=mult
+    { 
+      if ($op.text.equals("+")) {
+        $pExp = new Addition($pExp, $rhs.pExp);
+      }
+      if ($op.text.equals("-")) {
+        $pExp = new Substraction($pExp, $rhs.pExp);      
+      }
+    })*
+    ;		
 	
 rel returns [PrimitiveExpression pExp]
     :   lhs=add { $pExp=$lhs.pExp; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=add 
     { 
       if ($op.text.equals("<")) {
-        $pExp = new LessThan($pExp, rhs);
+        $pExp = new LessThan($pExp, $rhs.pExp);
       }
       if ($op.text.equals("<=")) {
-        $pExp = new LessThanOrEqual($pExp, rhs);      
+        $pExp = new LessThanOrEqual($pExp, $rhs.pExp);      
       }
       if ($op.text.equals(">")) {
-        $pExp = new GreaterThan($pExp, rhs);
+        $pExp = new GreaterThan($pExp, $rhs.pExp);
       }
       if ($op.text.equals(">=")) {
-        $pExp = new GreaterThanOrEqual($pExp, rhs);      
+        $pExp = new GreaterThanOrEqual($pExp, $rhs.pExp);      
       }
       if ($op.text.equals("==")) {
-        $pExp = new Equal($pExp, rhs);
+        $pExp = new Equal($pExp, $rhs.pExp);
       }
       if ($op.text.equals("!=")) {
-        $pExp = new NotEqual($pExp, rhs);
+        $pExp = new NotEqual($pExp, $rhs.pExp);
       }
     })*
     ;
