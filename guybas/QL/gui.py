@@ -44,14 +44,15 @@ class QuestionnaireGUI:
             Spinbox(from_=0, to_=10000, ).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
         elif question.get_type() is TypesIdentifiers.text:
             e = Entry(textvariable=str_var)
-            e.bind("<KeyPress><KeyRelease>", lambda event, data="test": self.validate(e.get()))
+            e.bind("<KeyPress><KeyRelease>", lambda event: self.update(question, e.get()))
             
             e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
         # str_var.set("a default value")
         # s = str_var.get()
 
-    def validate(self, new_text):
-        print(new_text)
+    def update(self, question, new_answer):
+        question.update(new_answer)
+        print(new_answer)
 
     def draw_conditional_q(self, c_question):
         processor = Processor()

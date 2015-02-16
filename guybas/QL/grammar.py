@@ -8,6 +8,17 @@ class TypesIdentifiers:
     bool            = "bool"
     text            = "text"
     integer         = "integer"
+    # boolean = []
+    # boolean['name'] = "bool"
+    # boolean['type'] = bool
+    #
+    # text = []
+    # text['name']    = "text"
+    # text['type']    = str
+    #
+    # integer = []
+    # integer['name'] = "integer"
+    # integer['type'] = int
 
 
 class BasicTypes:
@@ -16,6 +27,10 @@ class BasicTypes:
     endSign     :: . | ? | !
     sentence    :: word+ endSign
     sentences   :: sentence+
+
+    bool        :: True | False
+    integer     :: [0123456789]
+    text        :: sentences
     """
 
     endSign         = oneOf(". ? !")
@@ -29,13 +44,13 @@ class BasicTypes:
     sentences       = OneOrMore(sentence)
     comment         = Literal("//") + restOfLine | cStyleComment
 
+    boolean         = {'name': 'bool', 'value': Literal("True") | Literal("False")}
+    integer         = {'name': 'integer', 'value': Word(nums)}
+    text            = {'name': 'text', 'value': sentences}
+
 
 class Expressions:
     """
-    bool        :: True | False
-    integer     :: [0123456789]
-    text        :: sentences
-
     value       :: bool | integer | text
     compare     :: > | >= | < | <= | ==
     operators   :: + | - | / | *
@@ -44,12 +59,8 @@ class Expressions:
     expr        :: atom (operator expr)*
     condition   :: expr compare expr
     """
-
-    bool            = Literal("True") | Literal("False")
-    integer         = Word(nums)
-    text            = BasicTypes.sentences
     
-    value           = bool | integer | text
+    value           = BasicTypes.boolean['value'] | BasicTypes.integer['value'] | BasicTypes.text['value']
     compare         = oneOf("> >= < <= ==")
     operator        = oneOf('+ - / *')
 
