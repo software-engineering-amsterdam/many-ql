@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QuestionnaireLanguage.GUI.Form;
 
-namespace QuestionnaireLanguage.GUI.Factories.QuestionnaireForm
+namespace QuestionnaireLanguage.GUI.Factories.Form
 {
     internal static class QuestionnaireFormFactory
     {

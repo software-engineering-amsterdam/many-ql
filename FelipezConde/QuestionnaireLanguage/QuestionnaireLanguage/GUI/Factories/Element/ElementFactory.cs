@@ -1,12 +1,12 @@
 ﻿using QuestionnaireLanguage.GUI.Elements;
-using QuestionnaireLanguage.GUI.Interfaces;
+using QuestionnaireLanguage.GUI.Interfaces.Element;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuestionnaireLanguage.GUI.Factories.ElementFactory
+namespace QuestionnaireLanguage.GUI.Factories.Element
 {
     internal static class ElementFactory
     {
@@ -24,7 +24,7 @@ namespace QuestionnaireLanguage.GUI.Factories.ElementFactory
 
         }
 
-        internal static TextBoxElement ObtainTextBox(string name, string label)
+        internal static TextBoxElement GetTextBox(string name, string label)
         {
             return new TextBoxElement(name, label);
         }
