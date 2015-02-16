@@ -1,6 +1,7 @@
 package org.fugazi.evaluator;
 
 import org.fugazi.ast.expression.Binary;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
@@ -72,6 +73,13 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
 
     // Numerical
     public ExpressionValue visitAdd(Add add) {
+        
+//        IntValue left = (IntValue) add.getLeft().accept(this);
+//        IntValue right = (IntValue) add.getRight().accept(this);
+//        
+//        Integer integer = left.getValue() + right.getValue();
+//        
+//        return new IntValue(integer);
         return null;
     }
     

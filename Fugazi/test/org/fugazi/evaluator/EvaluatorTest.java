@@ -1,7 +1,7 @@
 package org.fugazi.evaluator;
 
 import org.fugazi.ast.expression.literal.NUMBER;
-import org.fugazi.ast.expression.logical.And;
+import org.fugazi.ast.expression.numerical.Add;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +33,8 @@ public class EvaluatorTest {
     public void testEvaluateExpression() throws Exception {
         NUMBER num5 = new NUMBER(5);
         NUMBER num4 = new NUMBER(5);
-        And andExpression = new And(num5, num4);
-        evaluator.evaluateExpression(andExpression);
+        Add addExpression = new Add(num5, num4);
+        ExpressionValue value = evaluator.evaluateExpression(addExpression);
+        System.out.println(value);
     }
 }
