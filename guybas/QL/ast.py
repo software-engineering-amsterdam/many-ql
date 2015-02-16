@@ -40,18 +40,12 @@ class Question:
     def get_id(self):
         return self.id
 
+    def all_ids(self):
+        return [self.id]
 
-class IfQuestion(Question):
-    def __init__(self, qid, qtype, label, condition):
-        self.id = qid
-        self.type = qtype
-        self.label = label
-        self.condition = condition
+    def all_labels(self):
+        return [self.label]
 
-    def ast_print(self, level=0):
-        s = "\n" + "   " * level + "If (" + self.condition.ast_print(0) + ")"
-        s += super(IfQuestion, self).ast_print(level + 1)
-        return s
 
 class AdvancedQuestions(Question):
     def __init__(self, condition, questions):
@@ -78,24 +72,25 @@ class AdvancedQuestions(Question):
     def get_condition(self):
         return self.condition.ast_print()
 
-    def get_id(self):
+    def all_ids(self):
         ids = []
         for question in self.questions:
-            ids.append(question.get_id())
+            ids += question.all_ids()
         for question in self.else_questions:
-            ids.append(question.get_id())
+            ids += question.all_ids()
         return ids
 
-    def get_label(self):
+    def all_labels(self):
         labels = []
         for label in self.questions:
-            labels.append(label.get_label())
+            labels += label.all_labels()
         for question in self.else_questions:
-            labels.append(label.get_label())
-        print(labels)
+            labels += label.all_labels()
         return labels
+
     def get_e_questions(self):
         return self.else_questions
+
 
 class Form:
     def __init__(self, name, introduction, questions):

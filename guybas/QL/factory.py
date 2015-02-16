@@ -23,15 +23,6 @@ class ASTReady:
         question = tokens[1]
         answertype = tokens[2]
         return Question(number, question, answertype)
-
-    def make_if2(tokens):
-        questions = []
-        condition = tokens[0]
-        for i in range(1, len(tokens)):
-            x = tokens[i]
-            y = IfQuestion(x.id, x.type, x.label, condition)
-            questions.append(y)
-        return questions
         
     def make_if(tokens):
         condition = tokens[0]
@@ -40,27 +31,6 @@ class ASTReady:
             questions.append(tokens[i])
         return AdvancedQuestions(condition, questions)
 
-    def make_else2(tokens):
-        questions = []
-        condition = tokens[0]
-        k = 1
-        print(tokens)
-        for i in range(1, len(tokens)):
-            if tokens[i] == "else":
-                break
-            else:
-                x = tokens[i]
-                y = IfQuestion(x.id, x.type, x.label, condition)
-                questions.append(y)
-                k += 1
-
-        #
-        condition.create_negative()
-        for i in range(k + 1, len(tokens)):
-            x = tokens[i]
-            y = IfQuestion(x.id, x.type, x.label, condition)
-            questions.append(y)
-        return questions
 
     def make_else(tokens):
         condition = tokens[0]

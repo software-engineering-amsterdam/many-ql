@@ -4,9 +4,9 @@ from type_checker import *
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
-    print(form.ast_print())
+    #print(form.ast_print())
 
-    #typeChecker = TypeChecker(form)
+    typeChecker = TypeChecker(form)
 
    # gui = QuestionnaireGUI(form)
     #gui.generate_gui()
