@@ -17,7 +17,7 @@ class QuestionTable(OrderedDict):
 		assert isinstance(statement, ASTNodes.IfStatement) or isinstance(statement, ASTNodes.QuestionStatement)
 
 		if isinstance(statement, ASTNodes.IfStatement):
-			childExpressionsTuple = expressionsTuple + (Expression(statement.expr),)
+			childExpressionsTuple = expressionsTuple + (ExpressionFactory.create((statement.expr)),)
 			
 			for childStatement in statement.getChildren():
 				self.__addStatement(childStatement, childExpressionsTuple, form)
@@ -47,13 +47,61 @@ class Form(object):
 
 		self.identifier = formStatementNode.identifier
 
-class Expression(object):
-	def __init__(self, expressionNode):
+class ExpressionFactory(object):
+	@staticmethod
+	def create(expressionNode):
 		assert isinstance(expressionNode, ASTNodes.Expression)
-		pass
+		
+		method = ExpressionFactory._getCreateMethod(expressionNode)
+		return method(expressionNode)
+		
+	@staticmethod
+	def _getCreateMethod(expressionNode):
+		methodName = '_create' + expressionNode.__class__.__name__
+		return getattr(ExpressionFactory, methodName)
+
+	@staticmethod
+	def _createBinaryExpression(binaryExpressionNode):
+		return BinaryExpression(binaryExpressionNode)
+
+	@staticmethod
+	def _createUnaryExpression(unaryExpressionNode):
+		return UnaryExpression(unaryExpressionNode)
+
+	@staticmethod
+	def _createAtomicExpression(atomicExpressionNode):
+		return AtomicExpression(atomicExpressionNode)
+
+class BinaryExpression(object):
+	def __init__(self, binaryExpressionNode):
+		self.left = ExpressionFactory.create(binaryExpressionNode.left)
+		self.op = binaryExpressionNode.op
+		self.right = ExpressionFactory.create(binaryExpressionNode.right)
+
+	def evaluate(self):
+		left = self.left.evaluate()
+		right = self.right.evaluate()
+		
+		if self.op == '+':
+			return left + right
+		elif self.op == '>':
+			return left > right
+
+class UnaryExpression(object):
+	def __init__(self, unaryExpressionNode):
+		self.op = unaryExpressionNode.op
+		self.right = ExpressionFactory.create(unaryExpressionNode.right)
 
 	def evaluate(self):
 		return True
+
+class AtomicExpression(object):
+	def __init__(self, atomicExpressionNode):
+		self.left = atomicExpressionNode.left
+
+	def evaluate(self):
+		return self.left
+
 
 class Question(object):
 	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form):
