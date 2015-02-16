@@ -11,7 +11,6 @@ import cons.ql.ast.visitor.Visitor;
 public class ComputedQuestion extends Question {
 	private final Expression expression;
 	
-	@SuppressWarnings("unchecked")
 	public ComputedQuestion(QLIdent identifier, QLType type, QLString text, Expression expression) {
 		super(identifier, type, text);		
 		this.expression = expression;		

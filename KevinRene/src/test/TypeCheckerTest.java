@@ -9,6 +9,8 @@ import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
 
 public class TypeCheckerTest {
+	private TypeChecker typeChecker = new TypeChecker();
+	
 	@Test
 	public void testFormVisitor() {
 		String myForm = 
@@ -24,9 +26,8 @@ public class TypeCheckerTest {
 				+ "}";
 		
 		ASTNode myTree = Parser.parse(myForm);
-		TypeChecker typeChecker = new TypeChecker();
 		
-		myTree.accept(typeChecker);
+		myTree = typeChecker.checkStaticTypes(myTree);
 	}
 	
 	@Test
@@ -34,8 +35,15 @@ public class TypeCheckerTest {
 		String myExpression = "5 + 5";
 		
 		ASTNode myTree = Parser.parse(myExpression);
-		TypeChecker typeChecker = new TypeChecker();
+
+		myTree = typeChecker.checkStaticTypes(myTree);
+	}
+	
+	@Test
+	public void testTypeMismatch() {
+		String myForm = "houseValue : money { \"Lol I dont care\" assign(\"Rubbish\") }";
+		ASTNode result = Parser.parse(myForm);
 		
-		myTree.accept(typeChecker);
+		result = typeChecker.checkStaticTypes(result);
 	}
 }
