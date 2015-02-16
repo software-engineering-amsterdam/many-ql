@@ -4,21 +4,21 @@ class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
 
-class Root(Node):
+class RootNode(Node):
     def __init__(self, statements):
-        Node.__init__(self, 0)
+        super().__init__(self, 0)
         self.statements = statements
 
     def getChildren(self):
         return self.statements
 
-class Statement(Node):
+class StatementNode(Node):
     def getChildren():
         raise NotImplementedError()
 
-class FormStatement(Statement):
+class FormStatementNode(StatementNode):
     def __init__(self, identifier, statements, lineNumber):
-        Statement.__init__(self, lineNumber)
+        super().__init__(self, lineNumber)
         self.identifier = identifier
         self.statements = statements
 
@@ -28,9 +28,9 @@ class FormStatement(Statement):
     def getChildren(self):
         return self.statements
 
-class QuestionStatement(Statement):
+class QuestionStatementNode(StatementNode):
     def __init__(self, identifier, text, questionType, lineNumber, expr = None):
-        Statement.__init__(self, lineNumber)
+        super().__init__(self, lineNumber)
         self.identifier = identifier
         self.text = text
         self.type = questionType
@@ -43,9 +43,9 @@ class QuestionStatement(Statement):
     def getChildren(self):
         return []
 
-class IfStatement(Statement):
+class IfStatementNode(StatementNode):
     def __init__(self, expr, statements, lineNumber):
-        Statement.__init__(self, lineNumber)
+        super().__init__(self, lineNumber)
         self.expr = expr
         self.statements = statements
         
@@ -55,29 +55,26 @@ class IfStatement(Statement):
     def getChildren(self):
         return self.statements
 
-class Expression(Node):
-    pass
-
-class AtomicExpression(Expression):
+class AtomicExpressionNode(Node):
     def __init__(self, left, lineNumber):
-        Expression.__init__(self, lineNumber)
+        super().__init__(self, lineNumber)
         self.left = left
         
     def __str__(self):
         return str(self.left)
 
-class UnaryExpression(Expression):
+class UnaryExpressionNode(Node):
     def __init__(self, op, right, lineNumber):
-        Expression.__init__(self, lineNumber)
+        super().__init__(self, lineNumber)
         self.op = op
         self.right = right
 
     def __str__(self):
         return "(%s %s)" %(self.op, self.right)
 
-class BinaryExpression(Expression):
+class BinaryExpressionNode(Node):
     def __init__(self, left, op, right, lineNumber):
-        Expression.__init__(self, lineNumber)
+        super().__init__(self, lineNumber)
         self.left = left
         self.op = op
         self.right = right
