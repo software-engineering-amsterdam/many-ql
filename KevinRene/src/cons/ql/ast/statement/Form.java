@@ -1,5 +1,6 @@
 package cons.ql.ast.statement;
 
+import cons.Register;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.visitor.Visitor;
@@ -11,6 +12,8 @@ public class Form extends Statement {
 	public Form(QLIdent identifier, Block block) {
 		this.identifier = identifier;
 		this.block = block;
+		
+		Register.getInstance().registerBinding(this.identifier, this);
 	}
 	
 	public QLIdent getIdent() {

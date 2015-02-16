@@ -3,12 +3,11 @@ package cons;
 import java.util.HashMap;
 
 import cons.exception.UndefinedVariableException;
-import cons.ql.ast.expression.QLType;
+import cons.ql.ast.ASTNode;
 import cons.ql.ast.expression.literal.*;
 
-@SuppressWarnings("rawtypes")
 public class Register {
-	private HashMap<QLIdent, QLType> register = new HashMap<QLIdent, QLType>();
+	private HashMap<QLIdent, ASTNode> register = new HashMap<QLIdent, ASTNode>();
 	private final static Register INSTANCE = new Register();
 	
 	private Register() {}
@@ -17,11 +16,11 @@ public class Register {
 		return INSTANCE;
 	}
 	
-	public void registerBinding(QLIdent identifier, QLType typeInstance) {
+	public void registerBinding(QLIdent identifier, ASTNode typeInstance) {
 		register.put(identifier, typeInstance);
 	}
 	
-	public QLType getBinding(QLIdent identifier) throws UndefinedVariableException {
+	public ASTNode getBinding(QLIdent identifier) throws UndefinedVariableException {
 		if(register.containsKey(identifier)) {
 			return register.get(identifier);
 		}

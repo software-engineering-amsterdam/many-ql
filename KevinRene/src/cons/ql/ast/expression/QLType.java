@@ -6,24 +6,13 @@ public abstract class QLType<T> extends Expression {
 	protected T value;
 	protected boolean defined;
 	
-	public QLType() {
-		defined = false;
-	}
+	public QLType() {}
 	
 	public QLType(T value) {
 		this.value = value;
-		defined = true;
 	}
 	
-	public void setValue(T value) { 
-		this.value = value;
-		defined = true;
-	}
-	
-	public T getValue() throws NullPointerException {
-		if(!defined) {
-			throw new NullPointerException("Variable not defined.");
-		}
+	public T getValue() {
 		return value;
 	}
 	
