@@ -10,13 +10,13 @@ trait QLAST {
 
   // Questions
   sealed abstract class Question extends Statement
-  sealed abstract class ComputedQuestion extends Question
   case class BooleanQuestion(v: Variable, label: String) extends Question
   case class IntegerQuestion(v: Variable, label: String) extends Question
   case class StringQuestion(v: Variable, label: String) extends Question
-  case class ComputedBooleanQuestion(v: Variable, label: String, value: Object) extends ComputedQuestion
-  case class ComputedIntegerQuestion(v: Variable, label: String, value: Object) extends ComputedQuestion
-  case class ComputedStringQuestion(v: Variable, label: String, value: Object) extends ComputedQuestion
+  sealed abstract class ComputedQuestion extends Question
+  case class ComputedBooleanQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
+  case class ComputedIntegerQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
+  case class ComputedStringQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
   sealed abstract class QuestionType
   case class BooleanType() extends QuestionType
   case class IntegerType() extends QuestionType
