@@ -161,6 +161,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterForm(@NotNull TaZQLParser.FormContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitForm(@NotNull TaZQLParser.FormContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMultDiv(@NotNull TaZQLParser.MultDivContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -180,18 +192,6 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAnd(@NotNull TaZQLParser.AndContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFormSection(@NotNull TaZQLParser.FormSectionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFormSection(@NotNull TaZQLParser.FormSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

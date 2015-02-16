@@ -1,10 +1,12 @@
 # ast
+from exceptions import *
 
 
 class Expression:
     def __init__(self, expression):
         self.str_expression = expression
         self.is_else = False
+        print(expression)
 
     def evaluate(self):
         pass
@@ -15,8 +17,8 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + self.str_expression
 
-    def type_validator(self, qtype):
-        if type(self.str_expression) is qtype:
+    def type_validator(answer, qtype):
+        if isinstance(answer, str):
             return True
         return False
 
@@ -37,11 +39,10 @@ class Question:
         return s
 
     def update(self, new_answer):
-        if Expression.type_validator(new_answer, self.get_type()):
-            self.answer = new_answer
-            return True
+        if Expression.type_validator(new_answer, self.get_type()) is True:
+            self.answer = [new_answer]
         else:
-            return False
+            raise QException("Answer type and input type collision")
 
     # Getters
     def get_label(self):

@@ -33,7 +33,7 @@ public class GrammarTest {
 
         walker.walk(listener, tree);
 
-        assertThat(listener.formCount).isEqualTo(3);
+        assertThat(listener.formCount).isEqualTo(5);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class GrammarTest {
 
         walker.walk(listener, tree);
 
-        assertThat(listener.questionCount).isEqualTo(3);
+        assertThat(listener.questionCount).isEqualTo(7);
     }
 
     static class FakeGrammarListener extends QLParseTreeListener {
@@ -52,13 +52,13 @@ public class GrammarTest {
 
         @Override
         public void exitForm(QLParser.FormContext ftx) {
-            super.enterForm(ftx);
+            super.exitForm(ftx);
             formCount += 1;
         }
 
         @Override
         public void exitQuestion(QLParser.QuestionContext qtx) {
-            super.enterQuestion(qtx);
+            super.exitQuestion(qtx);
             questionCount += 1;
         }
     }

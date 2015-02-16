@@ -25,7 +25,6 @@ import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
-import nl.uva.softwcons.ast.expression.unary.arithmetic.NegationExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
@@ -133,8 +132,6 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         final Expression expr = (Expression) ctx.expr().accept(this);
 
         switch (ctx.op.getText()) {
-        case "-":
-            return new NegationExpression(expr);
         case "!":
             return new NotExpression(expr);
         default:

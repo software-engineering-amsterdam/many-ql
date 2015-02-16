@@ -1,8 +1,6 @@
 from tkinter import *
-from ast import *
 from processor import *
 from grammar import *
-import sys
 
 
 class QuestionnaireGUI:
@@ -36,22 +34,23 @@ class QuestionnaireGUI:
         Label(text=question.get_label(), height=2).grid(row=self.row_counter, column=0, sticky=W) #fg='#00FFFF', bg='#000000',
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
         # print the input box
-        if question.get_type() is TypesIdentifiers.bool:
+        if question.get_type() is QuestionTypes.booleanName:
             Radiobutton(text="True", value=1, variable=self.row_counter).grid(row=self.row_counter, column=1, sticky=W)
             Radiobutton(text="False", value=0, variable=self.row_counter).grid(row=self.row_counter, column=2, sticky=W)
             self.column_span = 2
-        elif question.get_type() is TypesIdentifiers.integer:
+        elif question.get_type() is QuestionTypes.integerName:
             Spinbox(from_=0, to_=10000, ).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
-        elif question.get_type() is TypesIdentifiers.text:
+        elif question.get_type() is QuestionTypes.textName:
             e = Entry(textvariable=str_var)
-            e.bind("<KeyPress><KeyRelease>", lambda event, data="test": self.validate(e.get()))
+            e.bind("<KeyPress><KeyRelease>", lambda event: self.update(question, e.get()))
             
             e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
         # str_var.set("a default value")
         # s = str_var.get()
 
-    def validate(self, new_text):
-        print(new_text)
+    def update(self, question, new_answer):
+        question.update(new_answer)
+        print(new_answer)
 
     def draw_conditional_q(self, c_question):
         processor = Processor()

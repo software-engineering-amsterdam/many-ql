@@ -14,6 +14,7 @@ type interpreter struct {
 	send         chan *Event
 	receive      chan *Event
 	execute      ast.Executer
+	walk         ast.Executer
 
 	symbolTable map[string]*ast.QuestionNode
 	symbolChan  chan *symbolEvent
@@ -30,6 +31,7 @@ func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
 		send:         toFrontend,
 		receive:      fromFrontend,
 		execute:      &Execute{toFrontend, symbolChan},
+		walk:         &Walk{toFrontend},
 		symbolTable:  make(map[string]*ast.QuestionNode),
 		symbolChan:   symbolChan,
 	}
@@ -64,6 +66,19 @@ func (v *interpreter) loop() {
 	v.send <- &Event{
 		Type: ReadyP,
 	}
+walkLoop:
+	for {
+		select {
+		case r := <-v.receive:
+			switch r.Type {
+			case ReadyT:
+				v.walk.Exec(v.questionaire)
+				v.send <- &Event{Type: Flush}
+				break walkLoop
+			}
+		}
+	}
+
 	for {
 		select {
 		case r := <-v.receive:
@@ -90,7 +105,6 @@ func (v *interpreter) loop() {
 				fallthrough
 
 			case ReadyT:
-				// visit everything to setup interface
 				v.execute.Exec(v.questionaire)
 				v.send <- &Event{Type: Flush}
 			}
