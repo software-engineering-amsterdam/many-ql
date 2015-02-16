@@ -14,6 +14,7 @@ import org.fugazi.ast.Expression.unary.PosExpression;
 import org.fugazi.ast.Expression.unary.UnaryExpression;
 import org.fugazi.ast.Literals.ID;
 import org.fugazi.ast.Literals.NUMBER;
+import org.fugazi.ast.Literals.STRING;
 import org.fugazi.ast.Statement.IfStatement;
 import org.fugazi.ast.Statement.QuestionStatement;
 import org.fugazi.ast.Statement.ComputedQuestionStatement;
@@ -104,9 +105,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         ID identifier = new ID(ctx.ID().getText());
 
-        // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
-        //STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText();
+        // TODO: Which is better?
+        // Literal? : STRING label = new STRING(ctx.STRING().getText());
+        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        String label = grammarLabel.toString();
 
         QuestionStatement question = new QuestionStatement(type, label, identifier);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
@@ -121,8 +123,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         ID identifier = new ID(ctx.ID().getText());
 
-        // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText();
+        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        String label = grammarLabel.toString();
 
         Expression expression = (Expression) ctx.expression().accept(this);
 
@@ -165,11 +167,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
      * Expressions
      * =======================
      */
-    // TODO: Think of this.
     @Override
     public Expression visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) {
         System.out.print("PARENTHESIS: " + ctx.expression().getText() + " ");
-    return null;
+    return (Expression) ctx.expression().accept(this);
     }
 
     @Override 
