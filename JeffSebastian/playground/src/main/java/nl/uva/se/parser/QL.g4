@@ -12,41 +12,48 @@ package nl.uva.se.parser;
 package nl.uva.se.parser;
 }
 
-form : 		FORM IDENTIFIER STARTSYMBOL (question|ifClause)* ENDSYMBOL;
-question : 	IDENTIFIER TYPE ':' STRING;
-ifClause : 	IFCLAUSE '(' IDENTIFIER ')' STARTSYMBOL question* ENDSYMBOL;
-
-block
-	: '{' blockBody'}'
-	;
-
-blockBody
-	: declarations
-	| statement
+parse
+	:declaration
+	|statement
 	;
 	
-declarations
-	: IDENTIFIER TYPE ':' 
-	|
+declaration
+	: FORM IDENTIFIER						#formDeclaration
+	| IDENTIFIER type ':' '"'IDENTIFIER'"'	#typeDeclaration
 	;
 
-statement
-	: block
-	| IF '(' condition ')' statement (ELSE statement)? 
+statement	
+	: IF '(' expression ')' statement (ELSE statement)?	#ifStatement
 	;
 
-condition
-	: expr op('==')
+expression                          				  								
+ : NOT expression                             				  								#notExpression
+ | expression op=(MULTIBLE | DIVIDE | MODULO) expression      								#multiplicationExpression
+ | expression op=(PLUS | MINUS) expression          		  								#additiveExpression
+ | expression op=(LESS_OR_EQUAL | GREATER_OR_EQUAL | LESS_THEN | GREATER_THAN) expression	#relationalExpression
+ | expression op=(EQUAL | NOT_EQUAL) expression              		  						#equalExpression
+ | expression AND expression                        		  								#andExpression
+ | expression OR expression                         		  								#orExpression
+	;
+
+type
+	: BOOLEAN
+	| DOUBLE
 	;
 	
 //Fragments
 fragment DIGIT				: ('0'..'9');
 fragment LETTER 			: [a-zA-Z];
-fragment LETTER_AND_NUMBER  : [a-zA-Z0-9]; 
+fragment LETTER_AND_NUMBER  : [a-zA-Z_] [a-zA-Z_0-9]*; 
 
 // Tokens
 FORM 		: 'form'|'Form'|'FORM';
 IDENTIFIER	:	LETTER_AND_NUMBER*;
+QUESTION	: 'question'|'QUESTION'|'Question';
+
+//types
+BOOLEAN	: 'boolean'|'BOOLEAN'|'Boolean';
+DOUBLE	: 'double'|'DOUBLE'|'Double'; 
 
 //Statements TOKENS
 IF 	 : 'if'|'If'|'IF';
@@ -64,9 +71,9 @@ LESS_OR_EQUAL		: '<=';
 NOT					: '!' ;
 
 //MATH TOKENS
-POW					: '^' ;
-MOD					: '%' ;
-DIV					: '/' ;
-MULT				: '*' ;
-MINUS				: '-' ;
-PLUS				: '+' ;
+POWER					: '^' ;
+MODULO					: '%' ;
+DIVIDE					: '/' ;
+MULTIBLE				: '*' ;
+MINUS					: '-' ;
+PLUS					: '+' ;
