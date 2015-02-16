@@ -20,12 +20,12 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
 
             var ifTrueStatements = new List<IStatement>();
             var ifFalseStatements = new List<IStatement>();
-
-            foreach (var child in context.stat_if())
+           
+            foreach (var child in context._then) 
             {
                 ifTrueStatements.Add(child.Accept(this));
             }
-            foreach (var child in context.stat_else())
+            foreach (var child in context._else)
             {
                 ifFalseStatements.Add(child.Accept(this));
             }
@@ -35,9 +35,12 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
 
         public override IStatement VisitQuestion(QLParser.QuestionContext context)
         {
-            string type = context.type().GetText();
+            string type = context.TYPE().GetText();
             string id = context.ID().GetText();
             string label = context.STRING().GetText();
+
+            // Remove the leading and trailing '"' characters from the string literal.
+            label = label.Trim('"');
 
             switch (type)
             {

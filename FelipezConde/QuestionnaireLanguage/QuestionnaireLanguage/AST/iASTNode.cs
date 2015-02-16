@@ -15,7 +15,7 @@ namespace QuestionnaireLanguage.AST
         
         //Child Properties
       //  iASTNode getChild(int i);
-      //  iASTNode addChild(int i);
+        void AddChild(iASTNode node);
       //  iASTNode removeChild(int i);
 
     }

@@ -5,9 +5,56 @@ using System.Text;
 using System.Threading.Tasks;
 using GrammarProject;
 using QuestionnaireLanguage.AST.Nodes;
+using QuestionnaireLanguage.AST.Nodes.FormSection;
+using Antlr4.Runtime.Tree;
+using Antlr4.Runtime;
 
 namespace QuestionnaireLanguage.AST
 {
+    public class QLMainVisitor : QLMainBaseVisitor<iASTNode>
+    {
+        private IEnumerable<iASTNode> VisitChildren(ParserRuleContext context)
+        {
+            foreach (IParseTree child in context.children)
+            {
+                iASTNode visitedElement = Visit(child);
+
+                if (visitedElement != null)
+                    yield return visitedElement;
+            }
+        }
+
+        public override iASTNode VisitForm(QLMainParser.FormContext context) 
+        {
+            iASTNode ast = new FormNode();
+
+            foreach (iASTNode child in VisitChildren(context))
+                ast.AddChild(child);
+
+            return ast; 
+        }
+
+        public override iASTNode VisitFormSection(QLMainParser.FormSectionContext context) 
+        {
+            iASTNode ast = new FormSectionNode();
+
+            foreach (iASTNode child in VisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override iASTNode VisitFormObject(QLMainParser.FormObjectContext context) 
+        {
+            iASTNode ast = new FormSectionNode();
+
+            foreach (iASTNode child in VisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+    }
 
     /*
     /// <summary>

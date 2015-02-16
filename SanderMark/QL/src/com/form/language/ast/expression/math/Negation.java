@@ -2,6 +2,7 @@ package com.form.language.ast.expression.math;
 
 import com.form.language.ast.expression.PrimitiveExpression;
 import com.form.language.ast.expression.UnaryExpression;
+import com.form.language.ast.expression.literal.IntLiteral;
 import com.form.language.ast.values.IntValue;
 
 public class Negation extends UnaryExpression implements PrimitiveExpression {
@@ -11,8 +12,8 @@ public class Negation extends UnaryExpression implements PrimitiveExpression {
 	}
 
 	@Override
-	public IntValue evaluate() {
-		return new IntValue(-((IntValue)value).evaluate());
+	public IntValue evaluate() {		
+		return ((IntLiteral)value).evaluate().Negation();
 	}
 	
 	
