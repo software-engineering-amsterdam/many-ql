@@ -1,5 +1,5 @@
 # Abstract syntax
-from QL.ast import *
+from ast import *
 
 
 class ASTReady:

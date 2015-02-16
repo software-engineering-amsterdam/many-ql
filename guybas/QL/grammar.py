@@ -1,7 +1,7 @@
 # Grammar
 
 from pyparsing import *
-from QL.factory import *
+from factory import *
 
 class BasicTypes:
     '''
