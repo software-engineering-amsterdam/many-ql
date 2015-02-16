@@ -1,22 +1,31 @@
 grammar QL2;
 
-form: 
+form:
     'form' WS formName=NAME WS '{' WS* NL
-    question=questionRule+
+    (question | conditionalBlock | NL )+
     '}'
     EOF;
 
-questionRule:
+        
+question:
     WS* questionString=QUESTIONSTRING NL
     WS* questionName=NAME ':' WS type=TYPE NL;
+conditionalBlock:
+    WS* 'if' WS '(' conditional ')' WS '{' NL
+    question+
+    WS* '}' NL;
     
-TYPE: (BOOLEAN | INTEGER | STRING);
+conditional:
+    NAME;
+    
+TYPE: (BOOLEAN | INTEGER | STRING | MONEY);
 
 BOOLEAN: 'boolean';
 INTEGER: 'int';
 STRING: 'string';
+MONEY: 'money';
 
-QUESTIONSTRING: '"' [a-zA-Z0-9 ]+ '?"' ;
+QUESTIONSTRING: '"' [a-zA-Z0-9 ]+ ('?' | ':') '"' ;
 
 NAME: [a-zA-Z]+;
 

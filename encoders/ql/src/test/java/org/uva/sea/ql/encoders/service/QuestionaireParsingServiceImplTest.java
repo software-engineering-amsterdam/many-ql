@@ -38,9 +38,25 @@ public class QuestionaireParsingServiceImplTest {
 		String hasSoldHouse = "hasSoldHouse";
 		Questionaire questionaire = questionaireParsingService.parse(location);
 
-		// TODO improve assertions
-		Question questionHasSoldHouse = questionaire.getQuestion(hasSoldHouse);
-		assertThat(questionHasSoldHouse, is(notNullValue()));
-		assertThat(questionHasSoldHouse.getName(), is(hasSoldHouse));
+		Question question = questionaire.getQuestion(hasSoldHouse);
+		assertThat(question, is(notNullValue()));
+		assertThat(question.getName(), is(hasSoldHouse));
+		assertThat(question.getType(), is("boolean"));
+		assertThat(question.getCondition(), is((String) null));
+	}
+
+	// TODO create better name for test
+	@Test
+	public void testQuestionaireConditionalBlockIsParsed() throws Exception {
+		String location = RESOURCE_ROOT + "example.ql2";
+
+		String questionName = "sellingPrice";
+		Questionaire questionaire = questionaireParsingService.parse(location);
+
+		Question question = questionaire.getQuestion(questionName);
+		assertThat(question, is(notNullValue()));
+		assertThat(question.getName(), is(questionName));
+		assertThat(question.getType(), is("money"));
+		assertThat(question.getCondition(), is("hasSoldHouse"));
 	}
 }
