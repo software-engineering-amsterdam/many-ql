@@ -1,41 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 using Antlr4.Runtime;
-using Antlr4.Runtime.Misc;
-using Antlr4.Runtime.Tree;
+using ANTLR_Test.Grammars;
 
-
-namespace SimpleCalculatorProject
+namespace ANTLR_Test
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             Stream inputStream = Console.OpenStandardInput();
             AntlrInputStream input = new AntlrInputStream(inputStream);
             CalculatorLexer lexer = new CalculatorLexer(input);
+            lexer.AddErrorHandlers();
             CommonTokenStream tokens = new CommonTokenStream(lexer);
-            CalculatorParser parser = new CalculatorParser(tokens);             
-            IParseTree tree = parser.prog();
-            Console.WriteLine(tree.ToStringTree());
+            CalculatorParser parser = new CalculatorParser(tokens);
+            parser.addSubExpr();
 
-            Console.WriteLine("done");//to know when it's done
-            Console.ReadLine();//to see the result
-
+            Console.ReadLine();
         }
-
     }
-
-
-    partial class CalculatorVisitor : CalculatorBaseVisitor<int>
-    {
-
-    }
-
 }
-

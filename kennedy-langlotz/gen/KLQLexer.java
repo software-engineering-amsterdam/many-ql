@@ -1,8 +1,6 @@
 // Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -85,7 +83,7 @@ public class KLQLexer extends Lexer {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "KLQ.g4"; }
+	public String getGrammarFileName() { return "com/klq/lang/KLQ.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
