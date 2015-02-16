@@ -20,7 +20,9 @@ grammar QL;
 }
 
 // Parser rules
-form : 'form' identifier LEFT_BRACES question (question | statement)* RIGHT_BRACES;
+form : 'form' identifier LEFT_BRACES question (question | statement)* RIGHT_BRACES
+	| expr
+;
 
 question: questionType identifier stringLiteral SEMICOLON;
 
@@ -44,71 +46,71 @@ expr:
 //=========================================
     
    
-unExpr returns [AbstractValue result]
-    :  '+' x=unExpr { $result = new PositiveExpression($x.result); }
-    |  '-' x=unExpr { $result = new NegativeExpression($x.result); }
-    |  '!' x=unExpr { $result = new NotExpression($x.result); }
-//    |  x=expr    { $result = $x.result; }
-    ;
-    
-    
-mulExpr returns [Expression result]
-    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
-    { 
-      if ($op.text.equals("*")) {
-        $result = new MulExpression($result, rhs);
-      }
-      if ($op.text.equals("<=")) {
-        $result = new DivExpression($result, rhs);      
-      }
-    })*
-    ;
-    
-  
-addExpr returns [Expression result]
-    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
-    { 
-      if ($op.text.equals("+")) {
-        $result = new AddExpression($result, rhs);
-      }
-      if ($op.text.equals("-")) {
-        $result = new SubExpression($result, rhs);      
-      }
-    })*
-    ;
-  
-relExpr returns [Expression result]
-    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
-    { 
-      if ($op.text.equals("<")) {
-        $result = new LessExpression($result, rhs);
-      }
-      if ($op.text.equals("<=")) {
-        $result = new LessOrEqualExpression($result, rhs);      
-      }
-      if ($op.text.equals(">")) {
-        $result = new GreaterExpression($result, rhs);
-      }
-      if ($op.text.equals(">=")) {
-        $result = new GreaterOrEqualExpression($result, rhs);      
-      }
-      if ($op.text.equals("==")) {
-        $result = new EqualExpression($result, rhs);
-      }
-      if ($op.text.equals("!=")) {
-        $result = new NegationExpression($result, rhs);
-      }
-    })*
-    ;
-    
-andExpr returns [AbstractValue result]
-    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new AndExpression($result, rhs); } )*
-    ;
-    
-
-orExpr returns [AbstractValue result]
-    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new OrExpression.java($result, rhs); } )*
-    ;
+//unExpr returns [AbstractValue result]
+//    :  '+' x=unExpr { $result = new PositiveExpression($x.result); }
+//    |  '-' x=unExpr { $result = new NegativeExpression($x.result); }
+//    |  '!' x=unExpr { $result = new NotExpression($x.result); }
+////    |  x=expr    { $result = $x.result; }
+//    ;
+//    
+//    
+//mulExpr returns [Expression result]
+//    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
+//    { 
+//      if ($op.text.equals("*")) {
+//        $result = new MulExpression($result, rhs);
+//      }
+//      if ($op.text.equals("<=")) {
+//        $result = new DivExpression($result, rhs);      
+//      }
+//    })*
+//    ;
+//    
+//  
+//addExpr returns [Expression result]
+//    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
+//    { 
+//      if ($op.text.equals("+")) {
+//        $result = new AddExpression($result, rhs);
+//      }
+//      if ($op.text.equals("-")) {
+//        $result = new SubExpression($result, rhs);      
+//      }
+//    })*
+//    ;
+//  
+//relExpr returns [Expression result]
+//    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
+//    { 
+//      if ($op.text.equals("<")) {
+//        $result = new LessExpression($result, rhs);
+//      }
+//      if ($op.text.equals("<=")) {
+//        $result = new LessOrEqualExpression($result, rhs);      
+//      }
+//      if ($op.text.equals(">")) {
+//        $result = new GreaterExpression($result, rhs);
+//      }
+//      if ($op.text.equals(">=")) {
+//        $result = new GreaterOrEqualExpression($result, rhs);      
+//      }
+//      if ($op.text.equals("==")) {
+//        $result = new EqualExpression($result, rhs);
+//      }
+//      if ($op.text.equals("!=")) {
+//        $result = new NegationExpression($result, rhs);
+//      }
+//    })*
+//    ;
+//    
+//andExpr returns [AbstractValue result]
+//    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new AndExpression($result, rhs); } )*
+//    ;
+//    
+//
+//orExpr returns [AbstractValue result]
+//    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new OrExpression.java($result, rhs); } )*
+//    ;
 
 
 //=========================================
