@@ -1,6 +1,7 @@
 package cons;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import cons.exception.UndefinedVariableException;
 import cons.ql.ast.expression.QLType;
@@ -8,7 +9,7 @@ import cons.ql.ast.expression.literal.*;
 
 @SuppressWarnings("rawtypes")
 public class Register {
-	private HashMap<QLIdent, QLType> register = new HashMap<QLIdent, QLType>();
+	private Map<QLIdent, QLType> register = new HashMap<QLIdent, QLType>();
 	private final static Register INSTANCE = new Register();
 	
 	private Register() {}
@@ -27,5 +28,9 @@ public class Register {
 		}
 		
 		throw new UndefinedVariableException(identifier.getValue() + " is undefined.");
+	}
+	
+	public Map<QLIdent, QLType> getBindings() {
+		return this.register;
 	}
 }
