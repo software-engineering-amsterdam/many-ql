@@ -1,0 +1,3 @@
+form FORMNAME {
+    item boolean "labelitem"
+    }

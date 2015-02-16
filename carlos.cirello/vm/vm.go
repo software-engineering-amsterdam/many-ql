@@ -4,69 +4,65 @@ Package vm is the runtime which executes the AST created from the compiler.
 package vm
 
 import (
-	"log"
-
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	fe "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 )
 
 type vm struct {
-	questionaire *ast.Questionaire
+	questionaire *ast.QuestionaireNode
 	send         chan *fe.Event
 	receive      chan *fe.Event
 }
 
 // New starts VM with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.Questionaire, toFrontend, fromFrontend chan *fe.Event) {
+func New(q *ast.QuestionaireNode) (chan *fe.Event, chan *fe.Event) {
+	toFrontend := make(chan *fe.Event)
+	fromFrontend := make(chan *fe.Event)
 	v := &vm{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
 	}
-	v.loop()
+	go v.loop()
+	return toFrontend, fromFrontend
 }
 
 func (v *vm) loop() {
-	emptyQuestion := &ast.Question{}
-	v.send <- &fe.Event{fe.READY_P, *emptyQuestion}
+	v.send <- &fe.Event{
+		Type: fe.ReadyP,
+	}
 
-listenLoop:
 	for {
 		select {
 		case r := <-v.receive:
-			if r.Type == fe.READY_T {
-				for _, q := range v.questionaire.Questions {
-					questionCopy := q.Clone()
+			if r.Type == fe.ReadyT {
+				for _, action := range v.questionaire.Stack {
+					questionCopy := action.QuestionNode.Clone()
 					v.send <- &fe.Event{
-						Type:     fe.RENDER,
+						Type:     fe.Render,
 						Question: questionCopy,
 					}
 				}
-			} else if r.Type == fe.ANSWER {
-				for k, q := range v.questionaire.Questions {
-					if q.Label == r.Question.Label {
-						newQuestion := r.Question.Clone()
-						v.questionaire.Questions[k] = &newQuestion
+				v.send <- &fe.Event{
+					Type: fe.Flush,
+				}
+			} else if r.Type == fe.Answers {
+				lenAnswers := len(r.Answers)
+				if lenAnswers > 0 {
+					for k, action := range v.questionaire.Stack {
+						q := action.QuestionNode
+						if answer, ok := r.Answers[q.Identifier]; ok {
+							v.questionaire.Stack[k].QuestionNode.From(answer)
+						}
 					}
 				}
 			}
 		default:
-			allAnswered := true
-			for _, question := range v.questionaire.Questions {
-				if !question.Answered {
-					allAnswered = false
-					break
-				}
-			}
-			if allAnswered {
-				break listenLoop
+			v.send <- &fe.Event{
+				Type: fe.FetchAnswers,
 			}
 		}
 	}
 
-	log.Println("Answers")
-	for _, question := range v.questionaire.Questions {
-		log.Println(question.Label, question.Content)
-	}
 }

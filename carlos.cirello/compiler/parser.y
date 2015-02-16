@@ -10,7 +10,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *ast.Questionaire
+var finalQuestionaire *ast.QuestionaireNode
 
 //Top Ends Here
 %}
@@ -19,10 +19,10 @@ var finalForm *ast.Questionaire
 
 %union {
 	content string
-	form *ast.Questionaire
-	questions []*ast.Question
-	question *ast.Question
-	questionType interface{}
+	questionaire *ast.QuestionaireNode
+	stack []*ast.ActionNode
+	question *ast.QuestionNode
+	questionType ast.Parser
 }
 
 %token BlockBeginToken
@@ -41,53 +41,54 @@ var finalForm *ast.Questionaire
 %%
 
 top:
-	form
+	questionaire
 	{
 		if qlDebug > 0 {
-			log.Printf("Top: %+v", $1.form)
+			log.Printf("Top: %+v", $1.questionaire)
 		}
-		finalForm = $1.form
+		finalQuestionaire = $1.questionaire
 	}
 	;
 
-form:
-	FormToken TextToken BlockBeginToken questions BlockEndToken
+questionaire:
+	FormToken TextToken '{' stack '}'
 	{
 		if qlDebug > 0 {
 			log.Println("Form: 1:", $1, "2:", $2, " 2c:", $2.content,
 				" $$:", $$)
 		}
-		$$.form = &ast.Questionaire{
+		$$.questionaire = &ast.QuestionaireNode{
 			Label: $2.content,
-			Questions: $4.questions,
+			Stack: $4.stack,
 		}
 	}
 	;
 
-questions:
-	| questions question
+stack:
+	| stack question
 	{
 		if qlDebug > 0 {
-			log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", $1.questions,
-				$2.question, $$.questions)
+			log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", $1.stack,
+				$2.question, $$.stack)
 		}
 		q := $2.question
-		qs := $$.questions
-		qs = append(qs, q)
-		$$.questions = qs
+		qs := $$.stack
+		action := &ast.ActionNode {
+			QuestionNode: q,
+		}
+		qs = append(qs, action)
+		$$.stack = qs
 	}
+	| stack ifBlock
 	;
 
 question:
-	QuotedStringToken questionType
+	QuotedStringToken TextToken questionType
 	{
-		$$.question = &ast.Question{
+		$$.question = &ast.QuestionNode{
 			Label: $1.content,
-			Content: $2.questionType,
-		}
-
-		if qlDebug > 0 {
-			log.Printf("Question: 1:%+v 2:%+v $:%+v", $1, $2, $$)
+			Identifier: $2.content,
+			Content: $3.questionType,
 		}
 	}
 	;
@@ -96,14 +97,21 @@ questionType: StringQuestionToken
 		{
 			$$.questionType = new(ast.StringQuestion)
 		}
-            | IntQuestionToken
+	    | IntQuestionToken
 		{
 			$$.questionType = new(ast.IntQuestion)
 		}
-            | BoolQuestionToken
+	    | BoolQuestionToken
 		{
 			$$.questionType = new(ast.BoolQuestion)
 		}
+
+ifBlock: IfToken '(' TextToken ')' '{' stack '}'
+		{
+			log.Printf("if: %#v \nexpr: %#v \nquestions: %#v", $1, $3, $6)
+		}
+	;
+
 %%
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -112,16 +120,8 @@ const eof = 0
 const (
 	// FormTokenText - Reserved Word
 	FormTokenText = "form"
-	// BlockBeginTokenText - Reserved Word
-	BlockBeginTokenText = "{"
-	// BlockEndTokenText - Reserved Word
-	BlockEndTokenText = "}"
 	// IfTokenText - Reserved Word
 	IfTokenText = "if"
-	// ParenBeginTokenText - Reserved Word
-	ParenBeginTokenText = "("
-	// ParenEndTokenText - Reserved Word
-	ParenEndTokenText = ")"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
 	// IntQuestionTokenText - Reserved Word
@@ -167,18 +167,15 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = IntQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
-	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
-		typ = BlockBeginToken
-	} else if strings.HasPrefix(txt, BlockEndTokenText) {
-		typ = BlockEndToken
 	} else if txt == IfTokenText {
 		typ = IfToken
-	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
-		typ = ParenBeginToken
-	} else if strings.HasPrefix(txt, ParenEndTokenText) {
-		typ = ParenEndToken
-	} else if strings.HasPrefix(txt, singleQuotedChar) || strings.HasPrefix(txt, doubleQuotedChar) || strings.HasPrefix(txt, literalQuotedChar) {
+	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" {
+		typ = int(txt[0])
+	} else if strings.HasPrefix(txt, singleQuotedChar) ||
+		strings.HasPrefix(txt, doubleQuotedChar) ||
+		strings.HasPrefix(txt, literalQuotedChar) {
 		typ = QuotedStringToken
+		txt = stripSurroundingQuotes(txt)
 	}
 
 	yylval.content = txt
@@ -192,8 +189,12 @@ func (x *lexer) Error(s string) {
 }
 
 // CompileQL generates a AST (*ast.Questionaire and children) out of source code.
-func CompileQL(code string) *ast.Questionaire {
-	finalForm = nil
+func CompileQL(code string) *ast.QuestionaireNode {
+	finalQuestionaire = nil
 	qlParse(newLexer(code))
-	return finalForm
+	return finalQuestionaire
+}
+
+func stripSurroundingQuotes(str string) string {
+	return str[1:len(str)-1]
 }

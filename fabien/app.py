@@ -1,19 +1,13 @@
 #!/usr/bin/env python
 
-from QL import QL
+from src.QL.parser import Parser
+from src.gui.app import GUI
 
+# Dummy GUI app:
+# File dialog to select "form" to be parsed (output displayed in terminal)
 if __name__ == '__main__':
-    app = QL()
+    parser = Parser()
 
-    test = app.parse(
-      "form taxOfficeExample { \
-        \"Did you sell a house in 2010?\" \
-           hasSoldHouse: boolean \
-        \"Did you buy a house in 2010?\" \
-           hasBoughtHouse: boolean \
-        \"Did you enter a loan?\" \
-           hasMaintLoan: boolean \
-      }"
-    )
+    gui = GUI(Parser=parser)
+    gui.mainloop()
 
-    print test

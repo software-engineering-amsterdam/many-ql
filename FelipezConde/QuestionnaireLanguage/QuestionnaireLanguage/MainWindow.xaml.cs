@@ -1,0 +1,46 @@
+﻿using Antlr4.Runtime;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using GrammarProject;
+using Antlr4.Runtime.Tree;
+using QuestionnaireLanguage.Implementation;
+
+namespace QuestionnaireLanguage
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            string program = "form { question Q1 bool { bool name : True, integer qty : 2 }}";
+            //Console.WriteLine(program);
+
+            AntlrInputStream input = new AntlrInputStream(program);
+            QLMainLexer lexer = new QLMainLexer(input);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            QLMainParser parser = new QLMainParser(tokens);
+            IParseTree tree = parser.form();
+
+            Console.WriteLine(tree.ToStringTree(parser));
+
+            FormVisitor visitor = new FormVisitor();
+            Console.WriteLine(visitor.Visit(tree));
+        }
+    }
+}

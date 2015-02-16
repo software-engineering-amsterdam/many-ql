@@ -12,7 +12,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-var finalForm *ast.Questionaire
+var finalQuestionaire *ast.QuestionaireNode
 
 //Top Ends Here
 
@@ -20,10 +20,10 @@ var finalForm *ast.Questionaire
 type qlSymType struct {
 	yys          int
 	content      string
-	form         *ast.Questionaire
-	questions    []*ast.Question
-	question     *ast.Question
-	questionType interface{}
+	questionaire *ast.QuestionaireNode
+	stack        []*ast.ActionNode
+	question     *ast.QuestionNode
+	questionType ast.Parser
 }
 
 const BlockBeginToken = 57346
@@ -57,7 +57,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:107
+//line parser.y:115
 
 // Bottom starts here
 // The parser expects the lexer to return 0 on EOF.
@@ -66,16 +66,8 @@ const eof = 0
 const (
 	// FormTokenText - Reserved Word
 	FormTokenText = "form"
-	// BlockBeginTokenText - Reserved Word
-	BlockBeginTokenText = "{"
-	// BlockEndTokenText - Reserved Word
-	BlockEndTokenText = "}"
 	// IfTokenText - Reserved Word
 	IfTokenText = "if"
-	// ParenBeginTokenText - Reserved Word
-	ParenBeginTokenText = "("
-	// ParenEndTokenText - Reserved Word
-	ParenEndTokenText = ")"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
 	// IntQuestionTokenText - Reserved Word
@@ -121,18 +113,15 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = IntQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
-	} else if strings.HasPrefix(txt, BlockBeginTokenText) {
-		typ = BlockBeginToken
-	} else if strings.HasPrefix(txt, BlockEndTokenText) {
-		typ = BlockEndToken
 	} else if txt == IfTokenText {
 		typ = IfToken
-	} else if strings.HasPrefix(txt, ParenBeginTokenText) {
-		typ = ParenBeginToken
-	} else if strings.HasPrefix(txt, ParenEndTokenText) {
-		typ = ParenEndToken
-	} else if strings.HasPrefix(txt, singleQuotedChar) || strings.HasPrefix(txt, doubleQuotedChar) || strings.HasPrefix(txt, literalQuotedChar) {
+	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" {
+		typ = int(txt[0])
+	} else if strings.HasPrefix(txt, singleQuotedChar) ||
+		strings.HasPrefix(txt, doubleQuotedChar) ||
+		strings.HasPrefix(txt, literalQuotedChar) {
 		typ = QuotedStringToken
+		txt = stripSurroundingQuotes(txt)
 	}
 
 	yylval.content = txt
@@ -146,10 +135,14 @@ func (x *lexer) Error(s string) {
 }
 
 // CompileQL generates a AST (*ast.Questionaire and children) out of source code.
-func CompileQL(code string) *ast.Questionaire {
-	finalForm = nil
+func CompileQL(code string) *ast.QuestionaireNode {
+	finalQuestionaire = nil
 	qlParse(newLexer(code))
-	return finalForm
+	return finalQuestionaire
+}
+
+func stripSurroundingQuotes(str string) string {
+	return str[1 : len(str)-1]
 }
 
 //line yacctab:1
@@ -159,49 +152,67 @@ var qlExca = []int{
 	-2, 0,
 }
 
-const qlNprod = 9
+const qlNprod = 11
 const qlPrivate = 57344
 
 var qlTokenNames []string
 var qlStates []string
 
-const qlLast = 13
+const qlLast = 24
 
 var qlAct = []int{
 
-	11, 12, 13, 7, 4, 3, 5, 10, 9, 8,
-	6, 2, 1,
+	6, 11, 19, 11, 10, 13, 10, 15, 16, 17,
+	22, 18, 7, 20, 5, 12, 4, 3, 14, 9,
+	8, 21, 2, 1,
 }
 var qlPact = []int{
 
-	-1, -1000, -1000, -7, 2, -1000, -2, -1000, -1000, -12,
-	-1000, -1000, -1000, -1000,
+	11, -1000, -1000, 5, -1, -1000, -4, -1000, -1000, -1000,
+	4, -12, -5, 0, -1000, -1000, -1000, -1000, -16, -2,
+	-1000, -6, -1000,
 }
 var qlPgo = []int{
 
-	0, 12, 11, 10, 9, 7,
+	0, 23, 22, 0, 20, 19, 18,
 }
 var qlR1 = []int{
 
-	0, 1, 2, 3, 3, 4, 5, 5, 5,
+	0, 1, 2, 3, 3, 3, 4, 6, 6, 6,
+	5,
 }
 var qlR2 = []int{
 
-	0, 1, 5, 0, 2, 2, 1, 1, 1,
+	0, 1, 5, 0, 2, 2, 3, 1, 1, 1,
+	7,
 }
 var qlChk = []int{
 
-	-1000, -1, -2, 6, 11, 4, -3, 5, -4, 10,
-	-5, 12, 13, 14,
+	-1000, -1, -2, 6, 11, 15, -3, 16, -4, -5,
+	10, 7, 11, 17, -6, 12, 13, 14, 11, 18,
+	15, -3, 16,
 }
 var qlDef = []int{
 
-	0, -2, 1, 0, 0, 3, 0, 2, 4, 0,
-	5, 6, 7, 8,
+	0, -2, 1, 0, 0, 3, 0, 2, 4, 5,
+	0, 0, 0, 0, 6, 7, 8, 9, 0, 0,
+	3, 0, 10,
 }
 var qlTok1 = []int{
 
-	1,
+	1, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	17, 18, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 3, 3, 15, 3, 16,
 }
 var qlTok2 = []int{
 
@@ -441,9 +452,9 @@ qldefault:
 		//line parser.y:45
 		{
 			if qlDebug > 0 {
-				log.Printf("Top: %+v", qlS[qlpt-0].form)
+				log.Printf("Top: %+v", qlS[qlpt-0].questionaire)
 			}
-			finalForm = qlS[qlpt-0].form
+			finalQuestionaire = qlS[qlpt-0].questionaire
 		}
 	case 2:
 		//line parser.y:55
@@ -452,49 +463,54 @@ qldefault:
 				log.Println("Form: 1:", qlS[qlpt-4], "2:", qlS[qlpt-3], " 2c:", qlS[qlpt-3].content,
 					" $$:", qlVAL)
 			}
-			qlVAL.form = &ast.Questionaire{
-				Label:     qlS[qlpt-3].content,
-				Questions: qlS[qlpt-1].questions,
+			qlVAL.questionaire = &ast.QuestionaireNode{
+				Label: qlS[qlpt-3].content,
+				Stack: qlS[qlpt-1].stack,
 			}
 		}
 	case 4:
 		//line parser.y:69
 		{
 			if qlDebug > 0 {
-				log.Printf("Question*s*: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].questions,
-					qlS[qlpt-0].question, qlVAL.questions)
+				log.Printf("Question Stack: 1:%#v 2:%#v $:%#v", qlS[qlpt-1].stack,
+					qlS[qlpt-0].question, qlVAL.stack)
 			}
 			q := qlS[qlpt-0].question
-			qs := qlVAL.questions
-			qs = append(qs, q)
-			qlVAL.questions = qs
-		}
-	case 5:
-		//line parser.y:83
-		{
-			qlVAL.question = &ast.Question{
-				Label:   qlS[qlpt-1].content,
-				Content: qlS[qlpt-0].questionType,
+			qs := qlVAL.stack
+			action := &ast.ActionNode{
+				QuestionNode: q,
 			}
-
-			if qlDebug > 0 {
-				log.Printf("Question: 1:%+v 2:%+v $:%+v", qlS[qlpt-1], qlS[qlpt-0], qlVAL)
-			}
+			qs = append(qs, action)
+			qlVAL.stack = qs
 		}
 	case 6:
-		//line parser.y:96
+		//line parser.y:87
+		{
+			qlVAL.question = &ast.QuestionNode{
+				Label:      qlS[qlpt-2].content,
+				Identifier: qlS[qlpt-1].content,
+				Content:    qlS[qlpt-0].questionType,
+			}
+		}
+	case 7:
+		//line parser.y:97
 		{
 			qlVAL.questionType = new(ast.StringQuestion)
 		}
-	case 7:
-		//line parser.y:100
+	case 8:
+		//line parser.y:101
 		{
 			qlVAL.questionType = new(ast.IntQuestion)
 		}
-	case 8:
-		//line parser.y:104
+	case 9:
+		//line parser.y:105
 		{
 			qlVAL.questionType = new(ast.BoolQuestion)
+		}
+	case 10:
+		//line parser.y:110
+		{
+			log.Printf("if: %#v \nexpr: %#v \nquestions: %#v", qlS[qlpt-6], qlS[qlpt-4], qlS[qlpt-1])
 		}
 	}
 	goto qlstack /* stack new state and value */

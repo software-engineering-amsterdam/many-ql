@@ -1,0 +1,7 @@
+QuestionType=1
+WS=2
+COMMENT=3
+Bool=4
+Ident=5
+Int=6
+Str=7

@@ -5,8 +5,8 @@ import "strconv"
 // BoolQuestion stores the answer of question which type is integer numeric
 type BoolQuestion bool
 
-// FromString takes the input from Frontend and stores locally - Boolean
-func (s *BoolQuestion) FromString(str string) error {
+// From takes the input from Frontend and stores locally - Boolean
+func (s *BoolQuestion) From(str string) error {
 	val, err := strconv.Atoi(str)
 	if val == 1 {
 		*s = BoolQuestion(true)
@@ -22,4 +22,9 @@ func (s BoolQuestion) String() string {
 		return "Yes"
 	}
 	return "No"
+}
+
+// Type returns "bool", therefore indicating this question type name.
+func (s BoolQuestion) Type() string {
+	return "bool"
 }

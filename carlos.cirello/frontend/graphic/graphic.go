@@ -3,80 +3,152 @@ package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
-	"fmt"
 	"log"
-	"os"
+	"sync"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"gopkg.in/qml.v1"
 )
 
 type msg struct {
-	Name    string
-	Label   string
-	Content string
+	Identifier string
+	Label      string
+	Type       string
 }
 
-// Render creates the craddle for GUI.
-func GUI(appName string) {
-	var msgChan chan msg
-	msgChan = make(chan msg)
-	go func() {
-		newQuestion := &msg{
-			Name:    "newQuestion",
-			Label:   "Is this a question from a message?",
-			Content: "",
+// Gui holds the driver which is used by Frontend to execute the application
+type Gui struct {
+	msgChan chan msg
+	appName string
+
+	mu          sync.Mutex
+	stack       []msg
+	answerStack map[string]string
+}
+
+type answer struct {
+	Identifier string
+	Content    string
+}
+
+// GUI creates the driver for Frontend process.
+func GUI(appName string) frontend.Inputer {
+	driver := &Gui{
+		msgChan:     make(chan msg),
+		answerStack: make(map[string]string),
+		appName:     appName,
+	}
+	return driver
+}
+
+// InputQuestion adds a new question into the GUI form stack
+func (g *Gui) InputQuestion(q *ast.QuestionNode) {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	m := &msg{
+		q.Identifier,
+		q.Label,
+		q.Type(),
+	}
+	g.stack = append(g.stack, *m)
+}
+
+// Flush transfers form stack into the screen.
+func (g *Gui) Flush() {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	for _, v := range g.stack {
+		g.msgChan <- v
+	}
+	g.stack = []msg{}
+}
+
+// FetchAnswers unloads the current captured answers from user to Frontend
+// process and VM
+func (g *Gui) FetchAnswers() map[string]string {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	answerStack := g.answerStack
+	g.answerStack = make(map[string]string)
+	return answerStack
+}
+
+// Loop executes GUI main loop, which actually delegates the interface to the
+// underlying library (go-qml).
+func (g *Gui) Loop() {
+	qml.Run(g.loop)
+}
+
+func (g *Gui) loop() error {
+	win := startQMLengine(g.appName).CreateWindow(nil)
+	rows := win.Root().ObjectByName("questions")
+	win.Show()
+	go g.addQuestionLoop(rows)
+	win.Wait()
+	return nil
+}
+
+func (g *Gui) addQuestionLoop(rows qml.Object) {
+	for {
+		select {
+		case event := <-g.msgChan:
+			g.addNewQuestion(
+				rows,
+				event.Type,
+				event.Identifier,
+				event.Label,
+			)
 		}
-		msgChan <- *newQuestion
-
-		newQuestion2 := &msg{
-			Name:    "newQuestion2",
-			Label:   "Is this a second question from a message?",
-			Content: "",
-		}
-		msgChan <- *newQuestion2
-	}()
-	if err := qml.Run(func() error {
-		win := startQMLengine(appName).CreateWindow(nil)
-		rows := win.Root().ObjectByName("questions")
-		win.Show()
-
-		for {
-			select {
-			case event := <-msgChan:
-				addNewQuestion(
-					rows,
-					event.Name,
-					event.Label,
-				)
-			}
-		}
-
-		win.Wait()
-
-		return nil
-	}); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
 	}
 }
 
-func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
+// todo(carlos) improve readability
+func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
+	newFieldCaption string) {
+
 	engine := qml.NewEngine()
-	newQuestionQML := renderNewQuestion(newTextfieldName,
-		newTextfieldQuestion)
+	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
+		newFieldCaption)
 	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
 	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err)
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
+			"Got:", newQuestionQML)
 	}
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
-	textField := question.ObjectByName(
-		renderNewQuestionTextfieldName(newTextfieldName))
-	textField.On("editingFinished", func() {
-		log.Println("finished editing, send to VM:",
-			textField.String("text"))
-	})
+
+	newFieldPtr := question.ObjectByName(newFieldName)
+	// todo(carlos) improve readability
+	if "bool" == newFieldType {
+		newFieldPtr.On("clicked", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.Bool("checked")
+
+			g.answerStack[objectName] = "0"
+			if content {
+				g.answerStack[objectName] = "1"
+			}
+		})
+	} else {
+		newFieldPtr.On("editingFinished", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.String("text")
+			g.answerStack[objectName] = content
+		})
+	}
+
+	// todo(carlos) Use this command to disappear with the question
 	// question.Destroy()
 }
 
@@ -87,6 +159,5 @@ func startQMLengine(appName string) qml.Object {
 	if err != nil {
 		log.Fatal("Fatal error while parsing craddle.qml:", err)
 	}
-
 	return craddle
 }

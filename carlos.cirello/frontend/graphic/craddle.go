@@ -5,7 +5,7 @@ import (
 	"text/template"
 )
 
-const craddleTemplate = `
+const craddleQMLTemplate = `
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.0
@@ -30,7 +30,7 @@ ApplicationWindow {
 
 func renderCraddle(appName string) string {
 	var b bytes.Buffer
-	t := template.Must(template.New("craddle").Parse(craddleTemplate))
+	t := template.Must(template.New("craddle").Parse(craddleQMLTemplate))
 	t.Execute(&b, struct {
 		AppName string
 	}{appName})

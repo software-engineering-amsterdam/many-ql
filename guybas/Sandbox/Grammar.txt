@@ -1,0 +1,28 @@
+Form 
+{
+    title : ..
+    font  : .. 
+    questions 
+    {
+        question 1: 
+        {
+            questionItself : questiontext
+            type : radio | scale | text | paragraph? | number? | checkbox 
+                scale = integer + integer 
+                radio = option+ 
+                option = bool questiontext 
+                checkbox = option+
+                questiontext
+                {
+                    font 
+                    
+                }
+                answertext :
+                {
+                    size : number
+                    
+                }
+                preconditions : [...]
+        }
+    }
+}
