@@ -102,7 +102,7 @@ answer
 expr
     : expr ( '*' | '/' ) expr
     | expr ( '+' | '-' ) expr
-    | expr ( '>=' | '>' | L | LT ) expr
+    | expr ( '>=' | '>' | '<=' | '<' ) expr
     | Number
     | Date
     | String
