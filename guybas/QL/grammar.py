@@ -4,6 +4,12 @@ from pyparsing import *
 from factory import *
 
 
+class TypesIdentifiers:
+    bool            = "bool"
+    text            = "text"
+    integer         = "integer"
+
+
 class BasicTypes:
     """
     word        :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_]
@@ -17,9 +23,6 @@ class BasicTypes:
     
     characters      = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
     word            = endSignEsc | characters
-    bool            = "bool"
-    text            = "text"
-    integer         = "integer"
     
     sentence        = (OneOrMore(word) + endSign).setParseAction(ASTReady.make_sentence)
     
@@ -77,7 +80,7 @@ class FormFormat:
     id              = BasicTypes.characters
     label           = BasicTypes.sentence
     
-    answerR         = Literal(BasicTypes.bool) | Literal(BasicTypes.integer) | Literal(BasicTypes.text)
+    answerR         = Literal(TypesIdentifiers.bool) | Literal(TypesIdentifiers.integer) | Literal(TypesIdentifiers.text)
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
                        ).setParseAction(ASTReady.make_question)
     questions       = OneOrMore(question)
