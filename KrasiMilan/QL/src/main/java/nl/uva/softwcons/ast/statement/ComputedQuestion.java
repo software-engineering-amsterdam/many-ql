@@ -5,12 +5,12 @@ import nl.uva.softwcons.ast.type.Type;
 
 public class ComputedQuestion extends Question {
 
-    private Expression value;
+    private Expression expression;
 
     public ComputedQuestion(final String id, final String label, final Type type, final Expression value) {
         super(id, label, type);
 
-        this.value = value;
+        this.expression = value;
     }
 
     @Override
@@ -18,8 +18,8 @@ public class ComputedQuestion extends Question {
         return visitor.visit(this);
     }
 
-    public Expression getValue() {
-        return value;
+    public Expression getExpression() {
+        return expression;
     }
 
 }
