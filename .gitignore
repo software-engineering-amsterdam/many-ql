@@ -110,3 +110,5 @@ StevenFati/java/target/
 StevenFati/.idea
 StevenFati/QL/gen/
 *.iml
+StevenFati/target/
+StevenFati/gen/
