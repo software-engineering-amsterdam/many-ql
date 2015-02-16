@@ -5,7 +5,41 @@
     #@operator = operator
     #@arguments = arguments
   #end
+#
 #end
+
+# ExpressionVariable
+require_relative "visitor"
+
+class Variable
+  include Visitable
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
+end
+
+# Constants
+
+class Integer
+  include Visitable
+end
+
+class String
+  include Visitable
+end
+
+class True
+  include Visitable
+end
+
+class False
+  include Visitable
+end
+
+
+# Expressions
 
 class BinaryExpression
   attr_reader :lhs, :rhs
@@ -13,6 +47,11 @@ class BinaryExpression
   def initialize(lhs, rhs)
     @lhs = lhs
     @rhs = rhs
+  end
+
+  def accept visitor
+    lhs.accept visitor
+    rhs.accept visitor
   end
 end
 
@@ -56,17 +95,9 @@ class IntegerExpression < BinaryExpression # * + - /
   end
 end
 
-class Variable
-  attr_reader :name
-
-  def initialize(name)
-    @name = name
-  end
-end
-
 class And < BooleanExpression
-  def evaluate
-    lhs && rhs
+  def operator
+    :and
   end
 end
 
