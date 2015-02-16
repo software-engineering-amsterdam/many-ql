@@ -25,6 +25,5 @@ class AST(object):
 
 		print(spaces + str(statement))
 
-		if hasattr(statement, 'statements'):
-			for otherStatement in statement.statements:
-				self._printStatement(otherStatement, lev + 4)
+		for otherStatement in statement.getChildren():
+			self._printStatement(otherStatement, lev + 4)
