@@ -1,0 +1,133 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 16384 bytes for AllocateHeap
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (memory/allocation.inline.hpp:62), pid=5824, tid=5836
+#
+# JRE version:  (8.0_25-b18) (build )
+# Java VM: Java HotSpot(TM) Client VM (25.25-b02 mixed mode windows-x86 )
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x003d9800):  JavaThread "Unknown thread" [_thread_in_vm, id=5836, stack(0x008c0000,0x00910000)]
+
+Stack: [0x008c0000,0x00910000],  sp=0x0090f9ac,  free space=318k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x19796b]
+V  [jvm.dll+0x190928]
+V  [jvm.dll+0x191d58]
+V  [jvm.dll+0x191d8c]
+V  [jvm.dll+0x41305]
+V  [jvm.dll+0x4146c]
+V  [jvm.dll+0x48896]
+V  [jvm.dll+0x49b60]
+V  [jvm.dll+0x49ce4]
+V  [jvm.dll+0x49d99]
+V  [jvm.dll+0x4a063]
+V  [jvm.dll+0x9dc8e]
+V  [jvm.dll+0x9df52]
+V  [jvm.dll+0x145a01]
+V  [jvm.dll+0x169ab8]
+V  [jvm.dll+0xdaea1]
+C  [javaw.exe+0x13e4]
+C  [javaw.exe+0x1eb7]
+C  [javaw.exe+0xaba1]
+C  [javaw.exe+0xac2b]
+C  [kernel32.dll+0xb729]
+C  0x00000000
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x003d9800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=5836, stack(0x008c0000,0x00910000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x003d8008] SystemDictionary_lock - owner thread: 0x003d9800
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (0 events):
+No events
+
+
+Dynamic libraries:
+0x00400000 - 0x00430000 	C:\Program Files\Java\jre1.8.0_25\bin\javaw.exe
+0x7c950000 - 0x7c9fb000 	C:\WINDOWS\system32\ntdll.dll
+0x7c800000 - 0x7c94d000 	C:\WINDOWS\system32\kernel32.dll
+0x77d70000 - 0x77e1a000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77e20000 - 0x77eb3000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77f90000 - 0x77fa1000 	C:\WINDOWS\system32\Secur32.dll
+0x77ce0000 - 0x77d70000 	C:\WINDOWS\system32\USER32.dll
+0x77ec0000 - 0x77f09000 	C:\WINDOWS\system32\GDI32.dll
+0x77370000 - 0x77473000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.6028_x-ww_61e65202\COMCTL32.dll
+0x77bb0000 - 0x77c08000 	C:\WINDOWS\system32\msvcrt.dll
+0x77f10000 - 0x77f86000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x762f0000 - 0x7630d000 	C:\WINDOWS\system32\IMM32.DLL
+0x62ec0000 - 0x62ec9000 	C:\WINDOWS\system32\LPK.DLL
+0x754a0000 - 0x7550b000 	C:\WINDOWS\system32\USP10.dll
+0x78aa0000 - 0x78b5f000 	C:\Program Files\Java\jre1.8.0_25\bin\msvcr100.dll
+0x6d150000 - 0x6d4f4000 	C:\Program Files\Java\jre1.8.0_25\bin\client\jvm.dll
+0x71a20000 - 0x71a29000 	C:\WINDOWS\system32\WSOCK32.dll
+0x71a00000 - 0x71a17000 	C:\WINDOWS\system32\WS2_32.dll
+0x719f0000 - 0x719f8000 	C:\WINDOWS\system32\WS2HELP.dll
+0x76ac0000 - 0x76aed000 	C:\WINDOWS\system32\WINMM.dll
+0x76b70000 - 0x76b7b000 	C:\WINDOWS\system32\PSAPI.DLL
+0x6ef70000 - 0x6ef7c000 	C:\Program Files\Java\jre1.8.0_25\bin\verify.dll
+0x6d9d0000 - 0x6d9f1000 	C:\Program Files\Java\jre1.8.0_25\bin\java.dll
+0x6f000000 - 0x6f013000 	C:\Program Files\Java\jre1.8.0_25\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1255 
+java_command: anotherOne.main.Main
+java_class_path (initial): E:\workspace2\proji\bin;E:\antlr-4.0-complete.jar;C:\Documents and Settings\Administrator\שולחן העבודה\org.apache.commons.io_2.0.1.v201105210651.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:/Program Files/Java/jre1.8.0_25/bin/client;C:/Program Files/Java/jre1.8.0_25/bin;C:/Program Files/Java/jre1.8.0_25/lib/i386;C:\Documents and Settings\All Users\Application Data\Oracle\Java\javapath;C:\Program Files\Haskell\bin;E:\2014.2.0.0\lib\extralibs\bin;E:\2014.2.0.0\bin;C:\Program Files\Java\jdk1.7.0_65\bin;C:\cygwin\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;E:\2014.2.0.0\mingw\bin;C:\Documents and Settings\Administrator\Application Data\cabal\bin;C:\Documents and Settings\Administrator\My Documents\Downloads\eclipse-standard-luna-R-win32\eclipse;
+USERNAME=Administrator
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 15 Model 2 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows XP Build 2600 Service Pack 3
+
+CPU:total 1 (1 cores per cpu, 1 threads per core) family 15 model 2 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, tsc
+
+Memory: 4k page, physical 1572208k(142204k free), swap 2241264k(5180k free)
+
+vm_info: Java HotSpot(TM) Client VM (25.25-b02) for windows-x86 JRE (1.8.0_25-b18), built on Oct  7 2014 14:31:05 by "java_re" with MS VC++ 10.0 (VS2010)
+
+time: Sat Jan 31 03:36:22 2015
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

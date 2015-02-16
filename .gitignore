@@ -1,3 +1,6 @@
+## If you need to ignore some files, please create a .gitignore file in *your* directory.
+## Thanks! Yours, @grammarware
+
 sebje/.metadata/*
 sebje/QLJava/.classpath
 sebje/QLJava/.gitignore
@@ -22,6 +25,5 @@ sebje/QLJava/src/org/uva/sea/ql/parser/jacc/QLLexer.java
 sebje/QLJava/src/org/uva/sea/ql/parser/jacc/QLTokens.java
 sebje/QLJava/src/org/uva/sea/ql/parser/rats/QLParser.rats
 sebje/QLJava/src/org/uva/sea/ql/parser/rats/RunRats.java
-BNP/SimpleCalculatorProject/SimpleCalculatorProject/obj/
-BNP/SimpleCalculatorProject/packages/
-BNP/SimpleCalculatorProject/SimpleCalculatorProject/bin/
+
+*.class

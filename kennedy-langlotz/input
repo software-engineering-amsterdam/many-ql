@@ -1,0 +1,6 @@
+question
+    id : question1
+    text : "What is love"
+    type : boolean
+    value : "Baby dont hurt me", "Dont hurt me", 10.3 * 42.5 + 100
+end

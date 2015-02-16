@@ -7,7 +7,7 @@
 	<description>Playground for Parsers</description>
 
 	<properties>
-		<antlr4.version>4.3</antlr4.version>
+		<antlr4.version>4.5</antlr4.version>
 	</properties>
 
 	<dependencies>
@@ -15,12 +15,6 @@
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>${antlr4.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr4-maven-plugin</artifactId>
-			<version>${antlr4.version}</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -35,10 +29,11 @@
 						<execution>
 							<phase>generate-sources</phase>
 							<goals>
-								<goal>antlr</goal>
+								<goal>antlr4</goal>
 							</goals>
 							<configuration>
 								<outputDirectory>${basedir}/src/main/java</outputDirectory>
+								<sourceDirectory>${basedir}/src/main/java/nl/uva/se</sourceDirectory>
 							</configuration>
 						</execution>
 					</executions>
@@ -54,9 +49,8 @@
 								<goal>add-source</goal>
 							</goals>
 							<configuration>
-								<sources>
-									<source>${basedir}/target/generated-sources/antlr4</source>
-								</sources>
+								<outputDirectory>${basedir}/src/main/java</outputDirectory>
+								<sourceDirectory>${basedir}/src/main/java/nl/uva/se</sourceDirectory>
 							</configuration>
 						</execution>
 					</executions>

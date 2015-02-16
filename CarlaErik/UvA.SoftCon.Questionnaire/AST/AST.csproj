@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{23AA9A43-58A6-4870-A7BC-A3D5D8D5B8CE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UvA.SoftCon.Questionnaire.AST</RootNamespace>
+    <AssemblyName>UvA.SoftCon.Questionnaire.AST</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>S:\StrongName\Questionnaire.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr4.Runtime">
+      <HintPath>S:\Antlr4\Antlr4.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Expressions\Boolean\BooleanEqualsExpression.cs" />
+    <Compile Include="Expressions\Boolean\NumericEqualsExpression.cs" />
+    <Compile Include="Expressions\Numeric\BinaryNumericExpression.cs" />
+    <Compile Include="Expressions\Numeric\DivisionExpression.cs" />
+    <Compile Include="Expressions\Numeric\MultiplyExpression.cs" />
+    <Compile Include="Expressions\String\ConcatinationExpression.cs" />
+    <Compile Include="Expressions\String\IStringExpression.cs" />
+    <Compile Include="Identifiers\BooleanIdentifier.cs" />
+    <Compile Include="Identifiers\Identifier.cs" />
+    <Compile Include="Identifiers\NumericIdentifier.cs" />
+    <Compile Include="Identifiers\StringIdentifier.cs" />
+    <Compile Include="Literals\IntegerLiteral.cs" />
+    <Compile Include="Literals\Literal.cs" />
+    <Compile Include="Literals\StringLiteral.cs" />
+    <Compile Include="QuestionnaireVisitor.cs" />
+    <Compile Include="Expressions\Boolean\AndExpression.cs" />
+    <Compile Include="Expressions\Boolean\BinaryBooleanExpression.cs" />
+    <Compile Include="Expressions\Boolean\GreaterThanExpression.cs" />
+    <Compile Include="Expressions\Boolean\IBooleanExpression.cs" />
+    <Compile Include="Expressions\Boolean\LessThanExpression.cs" />
+    <Compile Include="Expressions\Boolean\OrExpression.cs" />
+    <Compile Include="Expressions\Numeric\INumericExpression.cs" />
+    <Compile Include="Questionnaire.cs" />
+    <Compile Include="Expressions\IExpression.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statements\BooleanQuestion.cs" />
+    <Compile Include="Statements\IfStatement.cs" />
+    <Compile Include="Statements\IStatement.cs" />
+    <Compile Include="Statements\NumericQuestion.cs" />
+    <Compile Include="Statements\Question.cs" />
+    <Compile Include="Literals\BooleanLiteral.cs" />
+    <Compile Include="Statements\TextQuestion.cs" />
+    <Compile Include="Visitors\BooleanExpressionVisitor.cs" />
+    <Compile Include="Visitors\NumericExpressionVisitor.cs" />
+    <Compile Include="Visitors\StatementVisitor.cs" />
+    <Compile Include="Visitors\StringExpressionVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="S:\StrongName\Questionnaire.snk">
+      <Link>Properties\Questionnaire.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Parsing\Parsing.csproj">
+      <Project>{2caea2a7-d4a2-4b49-b14b-2b6ec95101d6}</Project>
+      <Name>Parsing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

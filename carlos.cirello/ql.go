@@ -1,48 +1,32 @@
 package main
 
 import (
-	"bufio"
-	"os"
-
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/stream"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	frontendText "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/text"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/question"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/questionaire"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/vm"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/input"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/output"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
 )
 
 func main() {
-	aQuestionaire := &questionaire.Questionaire{
-		Label: "University of Amsterdam Revenue Service",
-		Questions: []*question.Question{
-			&question.Question{
-				Label:   "What is the answer to life the universe and everything?",
-				Content: new(question.IntQuestion),
-			},
-			&question.Question{
-				Label:   "Who said the logic is the cement of our civilization with which we ascended from Chaos using reason as our guide?",
-				Content: new(question.StringQuestion),
-			},
-			&question.Question{
-				Label:   "Hungry-p",
-				Content: new(question.BoolQuestion),
-			},
-		},
+	srcFn, inFn, outFn := cli.Args()
+
+	srcReader, inReader, outWriter := stream.New(srcFn, inFn, outFn)
+	aQuestionaire := parser.ReadQL(srcReader, srcFn)
+	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)
+
+	if inReader != nil {
+		csvReader := input.New(fromInterpreter, toInterpreter, inReader)
+		csvReader.Read()
 	}
 
-	toFrontend, fromFrontend := frontend.New(
-		frontendText.NewReader(
-			bufio.NewReader(os.Stdin),
-			os.Stdout,
-		),
-	)
+	driver := graphic.GUI(aQuestionaire.Label)
+	frontend.New(fromInterpreter, toInterpreter, driver)
+	driver.Loop()
 
-	vm.New(aQuestionaire, toFrontend, fromFrontend)
-	// aQuestionaire.PrettyPrintJSON()
-
-	// for _, question := range aQuestionaire.Questions {
-	// 	textFE.InputQuestion(question)
-	// }
-
-	// aQuestionaire.PrettyPrintJSON()
+	csvWriter := output.New(fromInterpreter, toInterpreter, outWriter)
+	csvWriter.Write()
 }

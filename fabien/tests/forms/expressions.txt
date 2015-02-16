@@ -1,0 +1,18 @@
+
+form taxOfficeExample {
+
+  if ( (a+b) + (c < d) > e)  {}
+  if ( 4.5 - 5 )  {}
+  if ( -4 - 5 )  {}
+  if ( !4 - 5 )  {}
+
+  if ( a && b  or c)  {}
+  if ( !a && b and c)  {}
+  if ( 2*a == 55)  {}
+  if ( b*2 == 55)  {}
+
+  if ( a == "Testing")  {}
+
+  if ( (((((()))))) )  {}
+  if ( () + () )  {}
+}
