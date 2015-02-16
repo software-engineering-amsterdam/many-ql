@@ -48,6 +48,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token StringQuestionToken
 %token IntQuestionToken
 %token BoolQuestionToken
+%token ComputedQuestionToken
 %token '+' '-' '*' '/' '(' ')'
 %token LessThanToken
 %token LessOrEqualsThanToken
@@ -104,16 +105,6 @@ question:
 			Content: $3.questionType,
 		}
 	}
-	|
-	QuotedStringToken TextToken questionType '=' term
-	{
-		$$.question = &ast.QuestionNode{
-			Label: $1.content,
-			Identifier: $2.content,
-			Content: $3.questionType,
-			ComputedContent: $5.evaluatable,
-		}
-	}
 	;
 
 
@@ -131,9 +122,15 @@ questionType:
 	{
 		$$.questionType = new(ast.BoolQuestion)
 	}
-	| TextToken
+	| ComputedQuestionToken '=' term
 	{
-		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content))
+		computedQuestion := new(ast.ComputedQuestion)
+		computedQuestion.Expression = $3.evaluatable
+		$$.questionType = computedQuestion
+	}
+	| term
+	{
+		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool' or 'computed'. Found: %s", $1.content))
 	}
 	;
 

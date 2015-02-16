@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireLanguage.AST.Nodes.Types
 {
-    class IntNode
+    public class IntNode : iTypeNode
     {
     }
 }

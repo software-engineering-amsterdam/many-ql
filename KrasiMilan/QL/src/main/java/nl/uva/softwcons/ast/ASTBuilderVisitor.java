@@ -1,5 +1,6 @@
 package nl.uva.softwcons.ast;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import nl.uva.softwcons.ast.expression.binary.logical.AndExpression;
 import nl.uva.softwcons.ast.expression.binary.logical.OrExpression;
 import nl.uva.softwcons.ast.expression.identifier.IdentifierExpression;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
+import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
@@ -36,6 +38,7 @@ import nl.uva.softwcons.generated.QLParser.BinaryExprContext;
 import nl.uva.softwcons.generated.QLParser.BooleanContext;
 import nl.uva.softwcons.generated.QLParser.ComputedQuestionContext;
 import nl.uva.softwcons.generated.QLParser.ConditionalContext;
+import nl.uva.softwcons.generated.QLParser.DecimalContext;
 import nl.uva.softwcons.generated.QLParser.FormContext;
 import nl.uva.softwcons.generated.QLParser.IdContext;
 import nl.uva.softwcons.generated.QLParser.IntegerContext;
@@ -157,6 +160,11 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     @Override
     public StringLiteral visitString(StringContext ctx) {
         return new StringLiteral(ctx.STRING().getText());
+    }
+
+    @Override
+    public ASTNode visitDecimal(DecimalContext ctx) {
+        return new DecimalLiteral(new BigDecimal(ctx.DECIMAL().getText()));
     }
 
     @Override

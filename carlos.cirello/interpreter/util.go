@@ -11,31 +11,15 @@ func (exec Execute) resolveMathNode(n ast.Evaluatable) float32 {
 	default:
 		log.Fatalf("Unknown type while resolving node %T", t)
 	case *ast.MathAddNode:
-		left := exec.resolveMathNode(n.(*ast.MathAddNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathAddNode).RightTerm)
-		return left + right
+		return exec.MathAddNode(n.(*ast.MathAddNode))
 	case *ast.MathSubNode:
-		left := exec.resolveMathNode(n.(*ast.MathSubNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathSubNode).RightTerm)
-		return left - right
+		return exec.MathSubNode(n.(*ast.MathSubNode))
 	case *ast.MathMulNode:
-		left := exec.resolveMathNode(n.(*ast.MathMulNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathMulNode).RightTerm)
-		return left * right
+		return exec.MathMulNode(n.(*ast.MathMulNode))
 	case *ast.MathDivNode:
-		left := exec.resolveMathNode(n.(*ast.MathDivNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathDivNode).RightTerm)
-		return left / right
+		return exec.MathDivNode(n.(*ast.MathDivNode))
 	case *ast.TermNode:
-		value := exec.resolveTermNode(n.(*ast.TermNode))
-		switch t := value.(type) {
-		default:
-			log.Fatalf("Variable not a number. Got %T", t)
-		case int:
-			return float32(value.(int))
-		case float32:
-			return value.(float32)
-		}
+		return exec.MathTermNode(n.(*ast.TermNode))
 	}
 	return 0
 }

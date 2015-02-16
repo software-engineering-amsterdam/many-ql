@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuestionnaireLanguage;
 
-
-namespace QuestionnaireLanguage.AST.Nodes
+namespace QuestionnaireLanguage.AST.Nodes.Arithmetic
 {
-    public class FormSectionNode : iASTNode
+    public interface iArithmeticNode : iASTNode
     {
-
+        //int GetPriority();
     }
 }

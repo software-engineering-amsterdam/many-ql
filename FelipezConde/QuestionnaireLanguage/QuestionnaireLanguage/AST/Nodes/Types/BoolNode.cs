@@ -7,9 +7,9 @@ using QuestionnaireLanguage;
 using QuestionnaireLanguage.AST.Nodes;
 
 
-namespace QuestionnaireLanguage.AST.Nodes.Expression
+namespace QuestionnaireLanguage.AST.Nodes.Types
 {
-    public class BoolNode : iASTNode
+    public class BoolNode : iTypeNode
     {
 
     }
