@@ -168,3 +168,39 @@ func TestCalculatedQuestion(t *testing.T) {
 		return
 	}
 }
+
+func TestIfElseConditions(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form ConditionsForm {
+			"QuestionLabel3" question3 bool
+			"QuestionLabel4" question4 bool
+			"QuestionLabel5" question5 bool
+
+			if (question3) {
+				"QuestionIfTrue" secondIfTrue string
+				"QuestionIfTrue2" secondIfTrue2 string
+			} else if (question4) {
+				"QuestionIfTrue" secondIfTrue string
+				"QuestionIfTrue2" secondIfTrue2 string
+			} else if (question5) {
+				"QuestionIfTrue" thirdIfTrue string
+				"QuestionIfTrue2" thirdIfTrue2 string
+			}
+
+			if (question3) {
+				"QuestionIfTrue" questionIfTrue string
+				"QuestionIfTrue2" questionIfTrue3 string
+			} else {
+				"QuestionIfFalse" questionIfFalse string
+				"QuestionIfFalse2" questionIfFalse2 string
+			}
+		}
+		`),
+		"test.ql",
+	)
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}

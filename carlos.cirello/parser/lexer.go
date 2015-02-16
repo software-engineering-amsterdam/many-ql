@@ -16,6 +16,8 @@ const (
 	FormTokenText = "form"
 	// IfTokenText - Reserved Word
 	IfTokenText = "if"
+	// IfTokenText - Reserved Word
+	ElseTokenText = "else"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
 	// IntQuestionTokenText - Reserved Word
@@ -75,6 +77,8 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolQuestionToken
 	} else if txt == IfTokenText {
 		typ = IfToken
+	} else if txt == ElseTokenText {
+		typ = ElseToken
 	} else if (txt + nextRune) == LessOrEqualsThanTokenText {
 		x.scanner.Scan()
 		typ = LessOrEqualsThanToken

@@ -9,16 +9,18 @@
   {8} [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
 * QL [2/4]
   - [X] Basic Architecture {4}
+  - [ ] Interpreter wise error handling
+    - [ ] Pretty and informing error message
   - [ ] Compiler [0/2] {1}
-    - [ ] Write grammar [3/10]
+    - [ ] Write grammar [5/10]
       - [X] form parsing :MUST:
       - [X] question parsing :MUST:
       - [X] add support for comment :MUST:
-      - [ ] add type checking for question types (int, str, bool) :MUST:
-        - [ ] Simplify grammar :MUST:
+      - [X] add type checking for question types (int, str, bool) :MUST:
+        - [X] Simplify grammar :MUST:
       - [ ] Treat against invalid variable types
         - [ ] Is this a grammar level error? Not likely.
-      - [ ] conditional question :MUST:
+      - [X] conditional question :MUST:
       - [ ] default value for questions :MUST:
       - [ ] math evaluation for IF and default values :MUST:
         - [ ] Protect against undeclared and empty values :MUST:
@@ -26,8 +28,10 @@
       - [ ] read from multiple files :COULD:
     - [ ] Generate AST [1/3]
       - [X] Basic cases
-      - [ ] Advanced cases [1/2]
+      - [ ] Advanced cases [3/4]
         - [X] IF positive
+        - [X] IF-Else
+        - [X] IF-Else+If-Else
         - [ ] Expressions
       - [ ] All cases
         - [ ] Double declaration
@@ -65,10 +69,10 @@
     - [ ] Type Checker: duplicate labels (warning)
     - [ ] Different data types in QL map to different (default) GUI widgets.
 
-  ** Requirements on the implementation [3/4] {2}
+  ** Requirements on the implementation [4/4] {2}
     - [X] The parser of the DSL is implemented using a grammar-based parser generator.
     - [X] The internal structure of a DSL program is represented using abstract syntax trees.
-    - [ ] QL programs are executed as GUI programs, not command-line dialogues.
+    - [X] QL programs are executed as GUI programs, not command-line dialogues.
     - [X] QL programs are executed by interpretation, not code generation.
 
   ** Nice to have

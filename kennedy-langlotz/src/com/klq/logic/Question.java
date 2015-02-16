@@ -4,19 +4,23 @@ package com.klq.logic;
  * Created by Timon on 10.02.2015.
  */
 public class Question {
-    private String id;
-    private QuestionType type;
-    private Answers answers;
-    private String text;
-    private String requires;
-    private Answers only;
+    private Id id;
+    private Type type;
+    private AnswerSet answerSet;
+    private Text text;
+    private Question requires;
+    private AnswerSet only;
 
 
-    public QuestionType getType() {
+    public Type getType() {
         return type;
     }
 
-    public String getText() {
+    public AnswerSet getAnswerSet() {
+        return answerSet;
+    }
+
+    public Text getText() {
         return text;
     }
 }
