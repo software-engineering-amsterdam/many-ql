@@ -4,6 +4,7 @@ from QLVisitor import QLVisitor
 from QLExceptions import IllegalOperatorError
 from QLParser import QLParser
 import ASTNodes
+from CustomTypes import *
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class CustomQLVisitor(QLVisitor):
@@ -78,12 +79,12 @@ class CustomQLVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#money.
     def visitMoney(self, ctx): # TODO
-        return ASTNodes.Money(ctx.getText())
+        return Money(ctx.getText())
 
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx): # TODO
         lineNumber = ctx.start.line
-        return ASTNodes.Identifier(ctx.getText(), lineNumber)
+        return Identifier(ctx.getText(), lineNumber)
     
     # Visit a parse tree produced by QLParser#atom.
     def visitAtom(self, ctx):

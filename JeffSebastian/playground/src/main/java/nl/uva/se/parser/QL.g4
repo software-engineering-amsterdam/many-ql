@@ -17,11 +17,11 @@ form
 	;
 
 question
-	: IDENTIFIER type ':' '"'String'"' #questionDeclaration
+	: type IDENTIFIER ':' String  #questionDeclaration
 	;
 
 condition
-	: IF '(' expression ')' (statement)+ (ELSE (statement)+)?	#conditionDeclaration
+	: IF '(' expression ')' '{' (statement)+ '}' (ELSE '{' (statement)+ '}')?	#conditionDeclaration
 	;
 
 statement	
@@ -29,7 +29,7 @@ statement
 	;
 
 expression                          				  								
- : NOT expression                             				  								#notExpression
+ : NOT expression	                           				  								#notExpression
  | expression op=(MULTIBLE | DIVIDE | MODULO) expression      								#multiplicationExpression
  | expression op=(PLUS | MINUS) expression          		  								#additiveExpression
  | expression op=(LESS_OR_EQUAL | GREATER_OR_EQUAL | LESS_THEN | GREATER_THAN) expression	#relationalExpression
@@ -57,8 +57,6 @@ fragment CHAR 				: ~[\\];
 
 // Tokens
 FORM 		: 'form'|'Form'|'FORM';
-IDENTIFIER	: LETTER_AND_NUMBER*;
-QUESTION	: 'question'|'QUESTION'|'Question';
 
 //types
 BOOLEAN	: 'boolean'|'BOOLEAN'|'Boolean';
@@ -67,6 +65,8 @@ DOUBLE	: 'double'|'DOUBLE'|'Double';
 //Statements TOKENS
 IF 	 : 'if'|'If'|'IF';
 ELSE : 'else'|'Else'|'ELSE';
+
+IDENTIFIER	: LETTER_AND_NUMBER*;
 
 //CONDITION TOKENS
 OR 					: '||';

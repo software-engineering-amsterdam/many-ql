@@ -2,7 +2,7 @@ from antlr4 import *
 from QLLexer import QLLexer
 from QLParser import QLParser
 from QLListener import QLListener
-import customQLVisitor
+import CustomQLVisitor
 
 class AST(object):
 	def __init__(self, inputQLFile):			
@@ -10,7 +10,7 @@ class AST(object):
 		lexer = QLLexer(inputStream)
 		stream = CommonTokenStream(lexer)
 		parser = QLParser(stream)
-		visitor = customQLVisitor.CustomQLVisitor()
+		visitor = CustomQLVisitor.CustomQLVisitor()
 		tree = parser.root()
 		self.root = visitor.visit(tree)
 
