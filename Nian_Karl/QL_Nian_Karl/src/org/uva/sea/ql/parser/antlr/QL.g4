@@ -125,11 +125,11 @@ StringLiteral: '"' .*? '"';
 
 DateLiteral : Day '-' Month '-' Year;
 
-Day: Digit{2};
+Day: [Digit{2}];
 
-Month: Digit{2};
+Month: [Digit{2}];
 
-Year: Digit{4};
+Year: [Digit{4}];
 
 Non_Zero_Digit: [1-9];
 	

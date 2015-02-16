@@ -32,17 +32,17 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitForm(@NotNull QLParser.FormContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#stringLiteral}.
+	 * Visit a parse tree produced by {@link QLParser#questionName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStringLiteral(@NotNull QLParser.StringLiteralContext ctx);
+	T visitQuestionName(@NotNull QLParser.QuestionNameContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#booleanLiteral}.
+	 * Visit a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBooleanLiteral(@NotNull QLParser.BooleanLiteralContext ctx);
+	T visitBlock(@NotNull QLParser.BlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#expr}.
 	 * @param ctx the parse tree
@@ -50,11 +50,11 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpr(@NotNull QLParser.ExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#bool}.
+	 * Visit a parse tree produced by {@link QLParser#elseStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitBool(@NotNull QLParser.BoolContext ctx);
+	T visitElseStatement(@NotNull QLParser.ElseStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
@@ -68,21 +68,27 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(@NotNull QLParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#identifier}.
+	 * Visit a parse tree produced by {@link QLParser#elseIfStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdentifier(@NotNull QLParser.IdentifierContext ctx);
+	T visitElseIfStatement(@NotNull QLParser.ElseIfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#numberLiteral}.
+	 * Visit a parse tree produced by {@link QLParser#questionLabel}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumberLiteral(@NotNull QLParser.NumberLiteralContext ctx);
+	T visitQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLiteral(@NotNull QLParser.LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#ifStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatement(@NotNull QLParser.IfStatementContext ctx);
 }
