@@ -11,6 +11,7 @@
   - [X] Basic Architecture {4}
   - [ ] Interpreter wise error handling
     - [ ] Pretty and informing error message
+  - [ ] Resolve the Visitor debate. {7}
   - [ ] Compiler [0/2] {1}
     - [ ] Write grammar [5/10]
       - [X] form parsing :MUST:
@@ -36,9 +37,10 @@
       - [ ] All cases
         - [ ] Double declaration
   - [ ] Frontend Interface [1/2]
-    - [X] Concurrent Interface between Frontends and VM :ONGOING:
+    - [X] Concurrent Interface between Frontends and VM
     - [ ] GUI Frontend [1/4]
       - [X] Basic cases
+      - [ ] Questions shuffled when toggling visibility :BUG:
       - [ ] Advanced cases
       - [ ] All cases
       - [ ] Transpose restrictions from the dependency into the main doc.
@@ -59,6 +61,9 @@
         - [X] Basic Algorithm
         - [X] Initial Tests
         - [ ] 100% coverage
+      - [ ] Computed Questions
+        - [ ] Avoid recursion within the expression
+        - [ ] Avoid recursion between computed questions
     - [ ] Questions are enabled and disabled when different values are entered.
     - [X] Type Checker: reference to undefined questions
     - [ ] Type Checker: duplicate question declarations with different types
