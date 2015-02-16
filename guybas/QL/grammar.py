@@ -42,6 +42,7 @@ class QuestionTypes:
 
 class Expressions:
     """
+
     value       :: bool | integer | text
     compare     :: > | >= | < | <= | ==
     operators   :: + | - | / | *
@@ -49,6 +50,7 @@ class Expressions:
     atom        :: value | (expr)
     expr        :: atom (operator expr)*
     condition   :: expr compare expr
+
     """
     
     value           = QuestionTypes.boolean | QuestionTypes.integer | QuestionTypes.text
@@ -81,7 +83,7 @@ class FormFormat:
 
     id              = BasicTypes.characters
     label           = BasicTypes.sentence
-    
+
     answerR         = Literal(QuestionTypes.booleanName) | Literal(QuestionTypes.integerName) | Literal(QuestionTypes.textName)
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
                        ).setParseAction(ASTReady.make_question)

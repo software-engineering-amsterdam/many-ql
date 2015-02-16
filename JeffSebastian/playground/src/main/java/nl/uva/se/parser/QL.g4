@@ -11,23 +11,25 @@ package nl.uva.se.parser;
 @parser::header {
 package nl.uva.se.parser;
 }
-
-parse
-	:declaration
-	|statement
-	;
 	
-declaration
-	: FORM IDENTIFIER						#formDeclaration
-	| IDENTIFIER type ':' '"'IDENTIFIER'"'	#typeDeclaration
+form
+	: FORM IDENTIFIER '{' (statement)+ '}' #formDeclaration
+	;
+
+question
+	: type IDENTIFIER ':' String  #questionDeclaration
+	;
+
+condition
+	: IF '(' expression ')' '{' (statement)+ '}' (ELSE '{' (statement)+ '}')?	#conditionDeclaration
 	;
 
 statement	
-	: IF '(' expression ')' statement (ELSE statement)?	#ifStatement
+	: question | condition
 	;
 
 expression                          				  								
- : NOT expression                             				  								#notExpression
+ : NOT expression	                           				  								#notExpression
  | expression op=(MULTIBLE | DIVIDE | MODULO) expression      								#multiplicationExpression
  | expression op=(PLUS | MINUS) expression          		  								#additiveExpression
  | expression op=(LESS_OR_EQUAL | GREATER_OR_EQUAL | LESS_THEN | GREATER_THAN) expression	#relationalExpression
@@ -41,15 +43,20 @@ type
 	| DOUBLE
 	;
 	
+String
+    : '"' CHAR+? '"'
+    | '\'' CHAR+? '\''
+    | '“' CHAR+? '”'
+    ;
+	
 //Fragments
 fragment DIGIT				: ('0'..'9');
 fragment LETTER 			: [a-zA-Z];
-fragment LETTER_AND_NUMBER  : [a-zA-Z_] [a-zA-Z_0-9]*; 
+fragment LETTER_AND_NUMBER  : [a-zA-Z_] [a-zA-Z_0-9]*;
+fragment CHAR 				: ~[\\]; 
 
 // Tokens
 FORM 		: 'form'|'Form'|'FORM';
-IDENTIFIER	:	LETTER_AND_NUMBER*;
-QUESTION	: 'question'|'QUESTION'|'Question';
 
 //types
 BOOLEAN	: 'boolean'|'BOOLEAN'|'Boolean';
@@ -58,6 +65,8 @@ DOUBLE	: 'double'|'DOUBLE'|'Double';
 //Statements TOKENS
 IF 	 : 'if'|'If'|'IF';
 ELSE : 'else'|'Else'|'ELSE';
+
+IDENTIFIER	: LETTER_AND_NUMBER*;
 
 //CONDITION TOKENS
 OR 					: '||';
@@ -77,3 +86,5 @@ DIVIDE					: '/' ;
 MULTIBLE				: '*' ;
 MINUS					: '-' ;
 PLUS					: '+' ;
+
+WS : [ \t\r\n]+ -> channel(HIDDEN) ;

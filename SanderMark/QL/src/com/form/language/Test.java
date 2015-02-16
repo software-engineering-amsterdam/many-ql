@@ -10,7 +10,7 @@ import com.form.language.ast.expression.PrimitiveExpression;
 public class Test {
 	public static void main(String[] args) {
 		CharStream charStream = 
-				new ANTLRInputStream("true && true");
+				new ANTLRInputStream("!false");
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);

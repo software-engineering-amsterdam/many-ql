@@ -6,7 +6,7 @@ from exceptions import *
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)
-    #print(form.ast_print())
+    print(form.ast_print())
 
     typeChecker = TypeChecker(form)
     gui = QuestionnaireGUI(form)

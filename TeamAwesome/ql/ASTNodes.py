@@ -1,12 +1,10 @@
-from decimal import *
-
 class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
 
 class Root(Node):
     def __init__(self, statements):
-        Node.__init__(self, 0)
+        super().__init__(0)
         self.statements = statements
 
     def getChildren(self):
@@ -18,7 +16,7 @@ class Statement(Node):
 
 class FormStatement(Statement):
     def __init__(self, identifier, statements, lineNumber):
-        Statement.__init__(self, lineNumber)
+        super().__init__(lineNumber)
         self.identifier = identifier
         self.statements = statements
 
@@ -30,7 +28,7 @@ class FormStatement(Statement):
 
 class QuestionStatement(Statement):
     def __init__(self, identifier, text, questionType, lineNumber, expr = None):
-        Statement.__init__(self, lineNumber)
+        super().__init__(lineNumber)
         self.identifier = identifier
         self.text = text
         self.type = questionType
@@ -45,7 +43,7 @@ class QuestionStatement(Statement):
 
 class IfStatement(Statement):
     def __init__(self, expr, statements, lineNumber):
-        Statement.__init__(self, lineNumber)
+        super().__init__(lineNumber)
         self.expr = expr
         self.statements = statements
         
@@ -60,7 +58,7 @@ class Expression(Node):
 
 class AtomicExpression(Expression):
     def __init__(self, left, lineNumber):
-        Expression.__init__(self, lineNumber)
+        super().__init__(lineNumber)
         self.left = left
         
     def __str__(self):
@@ -68,7 +66,7 @@ class AtomicExpression(Expression):
 
 class UnaryExpression(Expression):
     def __init__(self, op, right, lineNumber):
-        Expression.__init__(self, lineNumber)
+        super().__init__(lineNumber)
         self.op = op
         self.right = right
 
@@ -77,19 +75,10 @@ class UnaryExpression(Expression):
 
 class BinaryExpression(Expression):
     def __init__(self, left, op, right, lineNumber):
-        Expression.__init__(self, lineNumber)
+        super().__init__(lineNumber)
         self.left = left
         self.op = op
         self.right = right
 
     def __str__(self):
         return "(%s %s %s)" %(self.left, self.op, self.right)
-
-class Money(Decimal):
-    pass
-
-class Identifier(str):
-    def __new__(cls, string, lineNumber):
-        obj = str.__new__(cls, string)
-        obj.lineNumber = lineNumber
-        return obj

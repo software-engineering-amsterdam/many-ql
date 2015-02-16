@@ -4,7 +4,8 @@ import ast.QLAST
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
-class QLParser extends JavaTokenParsers with QLAST {
+class QLParser extends JavaTokenParsers {
+  import QLAST._
 
   // general parsers
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
@@ -32,11 +33,11 @@ class QLParser extends JavaTokenParsers with QLAST {
   // question parsers
   def question: Parser[Question] = "question" ~> variable ~ label ~ questionType ~ opt("is" ~ "(" ~> expression <~ ")") ^^ {
     case v ~ label ~ BooleanType() ~ None => BooleanQuestion(v, label)
-    case v ~ label ~ BooleanType() ~ Some(value) => ComputedBooleanQuestion(v, label, value)
+    case v ~ label ~ BooleanType() ~ Some(e) => ComputedBooleanQuestion(v, label, e)
     case v ~ label ~ IntegerType() ~ None => IntegerQuestion(v, label)
-    case v ~ label ~ IntegerType() ~ Some(value) => ComputedIntegerQuestion(v, label, value)
+    case v ~ label ~ IntegerType() ~ Some(e) => ComputedIntegerQuestion(v, label, e)
     case v ~ label ~ StringType() ~ None => StringQuestion(v, label)
-    case v ~ label ~ StringType() ~ Some(value) => ComputedStringQuestion(v, label, value)
+    case v ~ label ~ StringType() ~ Some(e) => ComputedStringQuestion(v, label, e)
   }
   def questionType: Parser[QuestionType] = "answer" ~> ("boolean" ^^^ BooleanType() | "integer" ^^^ IntegerType() | "string" ^^^ StringType())
 

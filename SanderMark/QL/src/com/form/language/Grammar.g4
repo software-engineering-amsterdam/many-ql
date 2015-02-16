@@ -7,25 +7,31 @@ grammar Grammar;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
 	import com.form.language.ast.expression.logic.*;
+	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 }
 
-/*
-statement
-: assignmentStatement
-| ifStatement
-;
- 
-assignmentStatement
-: ID ':=' add ';'
+
+statementList returns [List<Statement> result]
+	@init {List<Statement> stmts = new ArrayList<Statement>();}
+	: (stmt=statement {stmts.add($stmt.result);})+ 
+	{$result = stmts;}
+	;
+
+statement returns [Statement result]
+: Astmt=assignmentStatement {$result = $Astmt.result;}
+| Istmt=ifStatement {$result = $Istmt.result;}
 ;
 
-ifStatement returns [PrimitiveExpression pExp]
-: 'if' add 'then' statement+
-  ('else' statement+)?	
-  'end' 'if' ';'
+
+assignmentStatement returns [Statement result]
+: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result);}
 ;
-*/
+
+ifStatement returns [Statement result]
+: 'if' exp=expression 'then' slist=statementList
+  'end' {$result = new IfStatement($exp.result,$slist.result);}
+;
 
 expression returns [PrimitiveExpression result]
 	: '(' x=expression ')'				{ $result = $x.result;}
