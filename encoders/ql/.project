@@ -32,11 +32,4 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>antlr4</name>
-			<type>2</type>
-			<location>C:/git/many-ql/encoders/ql/src/main/antlr4</location>
-		</link>
-	</linkedResources>
 </projectDescription>
