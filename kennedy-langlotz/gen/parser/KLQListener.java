@@ -1,4 +1,5 @@
-// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/com/klq/lang/KLQ.g4 by ANTLR 4.5
+package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -28,15 +29,25 @@ public interface KLQListener extends ParseTreeListener {
 	 */
 	void exitQuestion(@NotNull KLQParser.QuestionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KLQParser#end}.
+	 * Enter a parse tree produced by {@link KLQParser#questionBegin}.
 	 * @param ctx the parse tree
 	 */
-	void enterEnd(@NotNull KLQParser.EndContext ctx);
+	void enterQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link KLQParser#end}.
+	 * Exit a parse tree produced by {@link KLQParser#questionBegin}.
 	 * @param ctx the parse tree
 	 */
-	void exitEnd(@NotNull KLQParser.EndContext ctx);
+	void exitQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KLQParser#questionEnd}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KLQParser#questionEnd}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KLQParser#specification}.
 	 * @param ctx the parse tree
@@ -47,6 +58,16 @@ public interface KLQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSpecification(@NotNull KLQParser.SpecificationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link KLQParser#questionType}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestionType(@NotNull KLQParser.QuestionTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link KLQParser#questionType}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KLQParser#answer}.
 	 * @param ctx the parse tree
@@ -68,23 +89,13 @@ public interface KLQListener extends ParseTreeListener {
 	 */
 	void exitExpr(@NotNull KLQParser.ExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link KLQParser#answers}.
+	 * Enter a parse tree produced by {@link KLQParser#answerSet}.
 	 * @param ctx the parse tree
 	 */
-	void enterAnswers(@NotNull KLQParser.AnswersContext ctx);
+	void enterAnswerSet(@NotNull KLQParser.AnswerSetContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link KLQParser#answers}.
+	 * Exit a parse tree produced by {@link KLQParser#answerSet}.
 	 * @param ctx the parse tree
 	 */
-	void exitAnswers(@NotNull KLQParser.AnswersContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link KLQParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestionType(@NotNull KLQParser.QuestionTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KLQParser#questionType}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx);
+	void exitAnswerSet(@NotNull KLQParser.AnswerSetContext ctx);
 }

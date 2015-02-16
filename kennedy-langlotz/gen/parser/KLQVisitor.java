@@ -1,4 +1,5 @@
-// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/com/klq/lang/KLQ.g4 by ANTLR 4.5
+package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -23,17 +24,29 @@ public interface KLQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(@NotNull KLQParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KLQParser#end}.
+	 * Visit a parse tree produced by {@link KLQParser#questionBegin}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEnd(@NotNull KLQParser.EndContext ctx);
+	T visitQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KLQParser#questionEnd}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KLQParser#specification}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSpecification(@NotNull KLQParser.SpecificationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link KLQParser#questionType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KLQParser#answer}.
 	 * @param ctx the parse tree
@@ -47,15 +60,9 @@ public interface KLQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpr(@NotNull KLQParser.ExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KLQParser#answers}.
+	 * Visit a parse tree produced by {@link KLQParser#answerSet}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAnswers(@NotNull KLQParser.AnswersContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link KLQParser#questionType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx);
+	T visitAnswerSet(@NotNull KLQParser.AnswerSetContext ctx);
 }
