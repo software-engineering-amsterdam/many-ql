@@ -28,4 +28,3 @@ public class STRING extends Literal {
         return visitor.visitSTRING(this);
     }
 }
-

@@ -2,9 +2,6 @@ package org.fugazi.ast.Literals;
 
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The Number.
- */
 public class NUMBER extends Literal {
 
     // The value of the number.
