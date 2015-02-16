@@ -149,10 +149,11 @@ ifBlock:
 	}
 	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken '{' stack '}'
 	{
-		elseNode := ast.NewIfNode(&ast.TermNode{
-			Type: ast.NumericConstantNodeType,
-			NumericConstant: 1,
-		}, $10.stack, nil)
+		elseNode := ast.NewIfNode(
+			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", ""),
+			$10.stack,
+			nil,
+		)
 		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, elseNode)
 
 		$$.evaluatable = new(ast.Evaluatable)
@@ -242,23 +243,32 @@ value:
 	{
 		num, _ := strconv.ParseFloat($1.content, 32)
 		$$.num = float32(num)
-		termNode := new(ast.TermNode)
-		termNode.NumericConstant = $$.num
-		termNode.Type = ast.NumericConstantNodeType
+		termNode := ast.NewTermNode(
+			ast.NumericConstantNodeType,
+			$$.num,
+			"",
+			"",
+		)
 		$$.termNode = termNode
 	}
 	| TextToken
 	{
-		termNode := new(ast.TermNode)
-		termNode.IdentifierReference = $1.content
-		termNode.Type = ast.IdentifierReferenceNodeType
+		termNode := ast.NewTermNode(
+			ast.IdentifierReferenceNodeType,
+			$$.num,
+			"",
+			$1.content,
+		)
 		$$.termNode = termNode
 	}
 	| QuotedStringToken
 	{
-		termNode := new(ast.TermNode)
-		termNode.StringConstant = $1.content
-		termNode.Type = ast.StringConstantNodeType
+		termNode := ast.NewTermNode(
+			ast.StringConstantNodeType,
+			$$.num,
+			$1.content,
+			"",
+		)
 		$$.termNode = termNode
 	}
 	;
