@@ -30,15 +30,14 @@ class QuestionTypes:
     integer     :: [0123456789]
     text        :: sentences
     """
-    boolean         = Literal("True") | Literal("False")
+    boolean         = (Literal("True") | Literal("False")).setParseAction(ASTReady.make_bool)
     booleanName     = 'bool'
 
-    integer         = Word(nums)
+    integer         = Word(nums).setParseAction(ASTReady.make_int)
     integerName     = 'integer'
 
     text            = BasicTypes.sentences
     textName        = 'text'
-
 
 class Expressions:
     """
@@ -52,10 +51,12 @@ class Expressions:
     condition   :: expr compare expr
 
     """
-    
-    value           = QuestionTypes.boolean | QuestionTypes.integer | QuestionTypes.text
-    compare         = oneOf("> >= < <= ==")
-    operator        = oneOf('+ - / *')
+
+
+    id              = BasicTypes.characters
+    value           = QuestionTypes.boolean | QuestionTypes.integer | id
+    compare         = oneOf("> >= < <= == && || !").setParseAction(ASTReady.make_operator)
+    operator        = oneOf('+ - / *').setParseAction(ASTReady.make_operator)
 
     expr            = Forward()
     atom            = value | Group(Suppress("(") + expr + Suppress(")"))

@@ -2,20 +2,20 @@ Name_of_Questionnaire
 
 Introduction : Welcome to my questionnaire.
 
-Question 1 (bool): Do you love hummus?
+Question hummus (bool): Do you love hummus?
 
-Question 2 (integer): What is the most awesome number? 
+Question number (integer): What is the most awesome number?
 
 if (True == True) {
-    Question 3 (integer) : Give me some number.
+    Question something (integer) : How many numbers does this if loop contain?
 
-    Question 4 (bool) : Will this work?
+    Question check (bool) : Will this work?
 }
 else {
     Question 6 (text): What is it then?
 }
 
-if ((9 + 3) * (4 / 5 + 1) > 1) {
+if (hummus == True) {
     Question 2b (bool): Is this a conditional question?
 
     Question 4 (bool): Do you really think that?
@@ -25,7 +25,7 @@ if ((9 + 3) * (4 / 5 + 1) > 1) {
     }
 }
 
-if (True == True) {
+if (hummus == True) {
     Question 5 (bool): This is always true isn't it?
 }
 else {

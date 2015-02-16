@@ -8,6 +8,8 @@ class TypeChecker:
         self.form = form
         ids = TypeChecker.check_ids(self.form.questions)
         labels = TypeChecker.check_labels(self.form.questions)
+        dependencies = TypeChecker.check_dependencies(self.form.questions)
+        print(dependencies)
 
     def check_duplicates(list):
         # check for duplicates
@@ -31,3 +33,10 @@ class TypeChecker:
         if duplicates:
             print("There are duplicate labels: " + str(duplicates))
         return labels
+
+    def check_dependencies(questions):
+        dependencies = {}
+        for question in questions:
+            new_dependencies = question.all_dependencies()
+            dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
+        return dependencies

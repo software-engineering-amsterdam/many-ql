@@ -15,6 +15,9 @@ class ASTReady:
     def make_int(tokens):
         return int(tokens[0])
 
+    def make_operator(token):
+        return Operator(token)
+
     def sub_expression(tokens):
         e = []
         for token in tokens:

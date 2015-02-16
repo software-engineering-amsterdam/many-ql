@@ -1,28 +1,43 @@
 # ast
 from exceptions import *
 
-class QuestionTypes:
-    def __init__(self):
-        pass
+
+class Operator:
+    def __init__(self, operator):
+        self.operator = operator
+
+    def __str__(self):
+        return str(self.operator)
 
 class Expression:
     def __init__(self, expression):
-        self.expression = expression
-        self.str_expression = str(expression)
+        self.expression = expression[0]
         self.is_else = False
-        print(expression)
+        self.dependencies = Expression.analyze(self.expression)
 
-    def analyze(self):
-        pass
+    def analyze(expr):
+        dependencies = []
+        for element in expr:
+            if isinstance(element, str):
+                dependencies.append(element)
+            elif isinstance(element, list):
+                dependencies += Expression.analyze(element)
+        return dependencies
 
-    def evaluate(self):
-        pass
+    def sub_expression(expr):
+        s = ""
+        for e in expr:
+            if isinstance(e, list):
+                s += "( " + Expression.sub_expression(e) + ") "
+            else:
+                s += str(e) + " "
+        return s
 
-    def dependencies(self):
-        pass
+    def check(self):
+        return self.dependencies
 
     def ast_print(self, level=0):
-        return "   " * level + self.str_expression
+        return "   " * level + Expression.sub_expression(self.expression)
 
 
     def type_validator(answer, qtype):
@@ -72,6 +87,9 @@ class Question:
 
     def get_answer(self):
         return self.answer
+
+    def all_dependencies(self):
+        return {self.id : []}
 
 
 class AdvancedQuestions(Question):
@@ -123,6 +141,14 @@ class AdvancedQuestions(Question):
 
     def is_conditional(self):
         return True
+
+    def all_dependencies(self):
+        d = {}
+        dependencies = self.condition.check()
+        ids = self.all_ids()
+        for id in ids:
+            d[id] = dependencies
+        return d
 
 
 class Form:
