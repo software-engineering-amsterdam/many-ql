@@ -1,4 +1,4 @@
-package lang.ql.ast;
+package lang.ql.semantics;
 
 import lang.ql.ast.statement.QuestionType;
 

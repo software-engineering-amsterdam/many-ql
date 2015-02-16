@@ -1,4 +1,4 @@
-package lang.ql.ast.visitor;
+package lang.ql.semantics;
 
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
@@ -32,7 +32,7 @@ public class PrintVisitor implements Visitor
 
         for(Statement statement : n.getStatements())
         {
-            statement.visit(this);
+            statement.accept(this);
         }
 
         this.builder.append("}");
@@ -60,12 +60,12 @@ public class PrintVisitor implements Visitor
     {
         this.builder.append(n.getClass().getSimpleName());
         this.builder.append(" condition=");
-        n.getExpression().visit(this);
+        n.getExpression().accept(this);
         this.builder.append(" {");
 
         for(Statement statement : n.getStatements())
         {
-            statement.visit(this);
+            statement.accept(this);
         }
         this.builder.append("} ");
     }
@@ -77,61 +77,61 @@ public class PrintVisitor implements Visitor
     }
 
     @Override
-    public void visit(BooleanExpression n)
+    public void visit(BooleanExpr n)
     {
 
     }
 
     @Override
-    public void visit(IntegerExpression n)
+    public void visit(IntegerExpr n)
     {
 
     }
 
     @Override
-    public void visit(DecimalExpression n)
+    public void visit(DecimalExpr n)
     {
 
     }
 
     @Override
-    public void visit(StringExpression n)
+    public void visit(StringExpr n)
     {
 
     }
 
     @Override
-    public void visit(AdditionExpression n)
+    public void visit(Add n)
     {
 
     }
 
     @Override
-    public void visit(SubtractionExpression n)
+    public void visit(Sub n)
     {
 
     }
 
     @Override
-    public void visit(GreaterThanExpression n)
+    public void visit(Gt n)
     {
 
     }
 
     @Override
-    public void visit(UnaryMinusExpression n)
+    public void visit(Neg n)
     {
 
     }
 
     @Override
-    public void visit(UnaryPlusExpression n)
+    public void visit(Pos n)
     {
 
     }
 
     @Override
-    public void visit(VariableExpression n)
+    public void visit(Variable n)
     {
 
     }

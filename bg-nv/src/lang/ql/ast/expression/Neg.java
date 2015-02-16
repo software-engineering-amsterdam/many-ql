@@ -1,14 +1,17 @@
 package lang.ql.ast.expression;
 
-import lang.ql.ast.AstNode;
-import lang.ql.ast.statement.QuestionType;
 import lang.ql.semantics.Visitor;
 
 /**
- * Created by bore on 09/02/15.
+ * Created by bore on 14/02/15.
  */
-public abstract class Expression extends AstNode
+public class Neg extends UnaryOperator
 {
+    public Neg(Expression operand)
+    {
+        super(operand);
+    }
+
     public void accept(Visitor visitor)
     {
         visitor.visit(this);

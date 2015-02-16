@@ -1,7 +1,6 @@
-package lang.ql.ast.visitor;
+package lang.ql.semantics;
 
-import lang.ql.ast.AstNode;
-import lang.ql.ast.SymbolTable;
+import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
 
 /**
@@ -16,19 +15,26 @@ public class SymbolVisitor extends VisitorAbstract
         this.symbolTable = new SymbolTable();
     }
 
-    public SymbolTable visit(AstNode node)
+    public SymbolTable getSymbolTable()
     {
-        this.visitInternal(node);
         return this.symbolTable;
     }
 
-    private void visitInternal(AstNode node)
+    @Override
+    public void visit(Form form)
     {
-        node.visit(this);
-
-        for (AstNode child : node.getChildren())
+        for (Statement statement : form.getStatements())
         {
-            this.visitInternal(child);
+            statement.accept(this);
+        }
+    }
+
+    @Override
+    public void visit(IfCondition condition)
+    {
+        for (Statement statement : condition.getStatements())
+        {
+            statement.accept(this);
         }
     }
 

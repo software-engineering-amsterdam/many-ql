@@ -38,12 +38,12 @@ QuestionType
    | 'date'
    ;
 
-Identifier : (Letter)(Letter|Digit|'_')*;
-
 Boolean
    : 'true'
    | 'false'
    ;
+
+Identifier : (Letter)(Letter|Digit|'_')*;
 
 Date : 'date:' (Day '-' Month '-' Year | Day '.' Month '.' Year | Year '/' Month '/' Day);
 
