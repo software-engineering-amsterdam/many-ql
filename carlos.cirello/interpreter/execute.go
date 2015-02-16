@@ -58,39 +58,7 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
-
-	conditionState := true
-	c := i.Conditions
-	switch t := c.(type) {
-	default:
-		log.Fatalf("impossible condition type. got: %T", t)
-	case *ast.TermNode:
-		if !exec.TermNode(c.(*ast.TermNode)) {
-			conditionState = false
-		}
-	case *ast.EqualsNode:
-		if !exec.EqualsNode(c.(*ast.EqualsNode)) {
-			conditionState = false
-		}
-	case *ast.MoreThanNode:
-		if !exec.MoreThanNode(c.(*ast.MoreThanNode)) {
-			conditionState = false
-		}
-	case *ast.LessThanNode:
-		if !exec.LessThanNode(c.(*ast.LessThanNode)) {
-			conditionState = false
-		}
-	case *ast.MoreOrEqualsThanNode:
-		if !exec.MoreOrEqualsThanNode(c.(*ast.MoreOrEqualsThanNode)) {
-			conditionState = false
-		}
-	case *ast.LessOrEqualsThanNode:
-		if !exec.LessOrEqualsThanNode(c.(*ast.LessOrEqualsThanNode)) {
-			conditionState = false
-		}
-	}
-
-	if conditionState {
+	if exec.resolveComparisonNode(i.Conditions) {
 		for _, actionNode := range i.Stack {
 			exec.Exec(actionNode)
 		}
