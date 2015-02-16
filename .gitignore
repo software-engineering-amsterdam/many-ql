@@ -108,3 +108,5 @@ StevenFati/java/gen/
 StevenFati/java/target/surefire-reports/TEST-WalkerTest.xml
 StevenFati/java/target/
 StevenFati/.idea
+StevenFati/QL/gen/
+*.iml
