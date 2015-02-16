@@ -1,8 +1,5 @@
 package cons.ql.ast.expression;
 
-import java.lang.reflect.Type;
-
-import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
 import cons.ql.ast.visitor.Visitor;
 
@@ -16,24 +13,16 @@ public abstract class Binary extends Expression {
 		this.operator = operator;
 	}
 	
-	public ASTNode getLeft() {
+	public Expression getLeft() {
 		return this.left;
 	}
 	
-	public ASTNode getRight() {
+	public Expression getRight() {
 		return this.right;
 	}
 	
 	@Override
 	public String toString() {
 		return left.toString() + " " + operator + " " + right.toString();
-	}
-	
-	@Override
-	public void accept(Visitor visitor) {
-		left.accept(visitor);
-		right.accept(visitor);	
-		
-		visitor.visit(this);
 	}
 }

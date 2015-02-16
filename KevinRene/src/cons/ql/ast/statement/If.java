@@ -1,28 +1,28 @@
 package cons.ql.ast.statement;
 
-import java.util.Arrays;
-
 import cons.ql.ast.Expression;
 import cons.ql.ast.Statement;
+import cons.ql.ast.visitor.Visitor;
 
 public class If extends Statement {
-	private final int EXPRESSION = 0;
-	private final int BLOCK = 1;
+	private final Expression expression;
+	private final Block block;
 	
 	/**
 	 * Constructor for the conditional block
 	 * @param statement
 	 */
 	public If(Expression expression, Block block) {
-		this.members.addAll(Arrays.asList(expression, block));
+		this.expression = expression;
+		this.block = block;
 	}
 	
 	public Expression getExpression() {
-		return (Expression) this.members.get(EXPRESSION);
+		return this.expression;
 	}
 	
 	public Block getBlock() {
-		return (Block) this.members.get(BLOCK);
+		return this.block;
 	}
 
 	@Override
@@ -34,5 +34,10 @@ public class If extends Statement {
 		sb.append(")");
 		
 		return sb.toString();
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

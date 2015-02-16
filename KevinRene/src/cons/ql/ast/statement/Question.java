@@ -1,32 +1,33 @@
 package cons.ql.ast.statement;
 
-import java.util.Arrays;
-
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLString;
+import cons.ql.ast.visitor.Visitor;
 
 @SuppressWarnings("rawtypes")
 public class Question extends Statement {	
-	protected final int IDENTIFIER = 0;
-	protected final int TYPE = 1;
-	protected final int QUESTIONTEXT = 2;
+	private final QLIdent identifier;
+	private final QLType type;
+	private final QLString questionText;
 	
 	public Question(QLIdent identifier, QLType type, QLString questionText) {
-		this.members.addAll(Arrays.asList(identifier, type, questionText));
+		this.identifier = identifier;
+		this.type = type;
+		this.questionText = questionText;
 	}
 	
 	public QLIdent getIdent() {
-		return (QLIdent) this.members.get(IDENTIFIER);
+		return this.identifier;
 	}
 	
 	public QLType  getType() {
-		return (QLType) this.members.get(TYPE);
+		return this.type;
 	}
 	
 	public QLString getText() {
-		return (QLString) this.members.get(QUESTIONTEXT);
+		return this.questionText;
 	}
 
 	@Override
@@ -39,5 +40,10 @@ public class Question extends Statement {
 		sb.append(")");
 		
 		return sb.toString();
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

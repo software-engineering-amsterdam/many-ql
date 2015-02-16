@@ -1,24 +1,24 @@
 package cons.ql.ast.statement;
 
-import java.util.Arrays;
-
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.literal.QLIdent;
+import cons.ql.ast.visitor.Visitor;
 
 public class Form extends Statement {
-	private final int IDENTIFIER = 0;
-	private final int BLOCK = 1;
+	private final QLIdent identifier;
+	private final Block block;
 	
 	public Form(QLIdent identifier, Block block) {
-		this.members.addAll(Arrays.asList(identifier, block));
+		this.identifier = identifier;
+		this.block = block;
 	}
 	
 	public QLIdent getIdent() {
-		return (QLIdent) this.members.get(IDENTIFIER);
+		return this.identifier;
 	}
 	
 	public Block getBlock() {
-		return (Block) this.members.get(BLOCK);
+		return this.block;
 	}
 	
 	@Override
@@ -30,5 +30,10 @@ public class Form extends Statement {
 		sb.append(")");
 		
 		return sb.toString();
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

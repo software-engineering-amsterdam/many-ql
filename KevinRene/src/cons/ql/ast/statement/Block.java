@@ -2,38 +2,44 @@ package cons.ql.ast.statement;
 
 import java.util.ArrayList;
 
-import cons.ql.ast.ASTNode;
 import cons.ql.ast.Statement;
+import cons.ql.ast.visitor.Visitor;
 
-public class Block extends Statement {	
+public class Block extends Statement {
+	private ArrayList<Statement> statements = new ArrayList<Statement>();
 	/**
 	 * Constructor for the statement case
 	 * @param statement
 	 */
 	public Block(Statement statement) {
-		this.members.add(statement);
+		this.statements.add(statement);
 	}
 	
 	public Block(Statement statement, Block statements) {
-		this.members.add(statement);
-		this.members.addAll(statements.statements());
+		this.statements.add(statement);
+		this.statements.addAll(statements.statements());
 	}
 	
-	public ArrayList<ASTNode> statements() {
-		return this.members;
+	public ArrayList<Statement> statements() {
+		return this.statements;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Block(");
 		
-		for(ASTNode member : members) {
-			sb.append(member.toString() + ", ");
+		for(Statement statement : statements) {
+			sb.append(statement.toString() + ", ");
 		}
 		
 		sb.setLength(sb.length() - 2);
 		sb.append(")");
 		
 		return sb.toString();
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);		
 	}
 }

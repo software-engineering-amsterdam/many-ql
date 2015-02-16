@@ -8,10 +8,9 @@ public class Neg extends Unary {
 	public Neg(Expression operand) {
 		super(operand, "-");
 	}
-
+	
 	@Override
-	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
-		
+	public void accept(Visitor visitor) {		
+		visitor.visit(this);
 	}
 }
