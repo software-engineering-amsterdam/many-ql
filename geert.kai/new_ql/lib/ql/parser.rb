@@ -251,7 +251,7 @@ Racc_token_to_s_table = [
   "type",
   "if",
   "if_else",
-  "operator" ]
+  "expression" ]
 
 Racc_debug_parser = false
 
@@ -260,7 +260,7 @@ Racc_debug_parser = false
 # reduce 0 omitted
 
 def _reduce_1(val, _values, result)
- result = [ val[1] ] + val[0] 
+ result = val[0].push(val[1]) 
     result
 end
 
@@ -277,7 +277,7 @@ end
 # reduce 4 omitted
 
 def _reduce_5(val, _values, result)
- result = [ val[1] ] + val[0] 
+ result = val[0].push(val[1]) 
     result
 end
 
@@ -308,72 +308,72 @@ end
 # reduce 15 omitted
 
 def _reduce_16(val, _values, result)
- result = If.new(operator: val[2], statements: val[4]) 
+ result = If.new(expression: val[2], statements: val[4]) 
     result
 end
 
 def _reduce_17(val, _values, result)
- result = IfElse.new(operator: val[2], statements_true: val[4], statements_false: val[6]) 
+ result = IfElse.new(expression: val[2], statements_true: val[4], statements_false: val[6]) 
     result
 end
 
 def _reduce_18(val, _values, result)
- result = CompareOperator.new(method: :==, arguments: [val[0], val[2]]) 
+ result = CompareExpression.new(operator: :==, arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_19(val, _values, result)
- result = CompareOperator.new(method: :<=, arguments: [val[0], val[2]]) 
+ result = CompareExpression.new(operator: :<=, arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_20(val, _values, result)
- result = CompareOperator.new(method: :<, arguments: [val[0], val[2]]) 
+ result = CompareExpression.new(operator: :<, arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_21(val, _values, result)
- result = CompareOperator.new(method: :>=, arguments: [val[0], val[2]]) 
+ result = CompareExpression.new(operator: :>=, arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_22(val, _values, result)
- result = CompareOperator.new(method: :>, arguments: [val[0], val[2]]) 
+ result = CompareExpression.new(operator: :>, arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_23(val, _values, result)
- result = CompareOperator.new(method: :==,  arguments:[val[0], val[2]]) 
+ result = CompareExpression.new(operator: :==,  arguments:[val[0], val[2]]) 
     result
 end
 
 def _reduce_24(val, _values, result)
- result = BooleanOperator.new(method: :and, arguments: [val[0], val[2]]) 
+ result = BooleanExpression.new(operator: :and, arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_25(val, _values, result)
- result = BooleanOperator.new(method: :or, arguments: [val[0], val[2]]) 
+ result = BooleanExpression.new(operator: :or, arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_26(val, _values, result)
- result =  NumberOperator.new(method: :* , arguments: [val[0], val[2]]) 
+ result =  NumberExpression.new(operator: :* , arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_27(val, _values, result)
- result =  NumberOperator.new(method: :/ , arguments: [val[0], val[2]]) 
+ result =  NumberExpression.new(operator: :/ , arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_28(val, _values, result)
- result =  NumberOperator.new(method: :+ , arguments: [val[0], val[2]]) 
+ result =  NumberExpression.new(operator: :+ , arguments: [val[0], val[2]]) 
     result
 end
 
 def _reduce_29(val, _values, result)
- result =  NumberOperator.new(method: :- , arguments: [val[0], val[2]]) 
+ result =  NumberExpression.new(operator: :- , arguments: [val[0], val[2]]) 
     result
 end
 
