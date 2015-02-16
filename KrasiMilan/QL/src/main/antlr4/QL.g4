@@ -8,27 +8,26 @@ package nl.uva.softwcons.generated;
 form:   'form' ID '{' statement+ '}';
 
 statement: question
-	|      conditional
-	;
+    |      conditional
+    ;
 
 question: ID ':' STRING type                                 # simpleQuestion
     |     ID ':' STRING type '(' expr ')'                    # computedQuestion
     ;
 
 conditional: 'if' '(' expr ')' '{' question+ '}'
-	;
+    ;
 
 type: BOOL_TYPE
-	| STRING_TYPE
+    | STRING_TYPE
     | INT_TYPE
     | DATE_TYPE
     | DECIMAL_TYPE
-	| MONEY_TYPE
+    | MONEY_TYPE
 	;
 
 
 expr:   expr op=(MUL|DIV) expr                      # binaryExpr
-    |   op=SUB expr                                 # unaryExpr
     |   expr op=(ADD|SUB) expr                      # binaryExpr
     |   expr op=(GT|GEq|LT|LEq|Eq|NEq) expr         # binaryExpr
     |   op=NOT expr                                 # unaryExpr
@@ -42,44 +41,44 @@ expr:   expr op=(MUL|DIV) expr                      # binaryExpr
     |   ID                                          # id
     ;
 
-    
+
 /* Lexer */
 // Types
-BOOL_TYPE : 'boolean' ;
-STRING_TYPE : 'string' ;
-INT_TYPE : 'integer' ;
+BOOL_TYPE    : 'boolean' ;
+STRING_TYPE  : 'string' ;
+INT_TYPE     : 'integer' ;
 DATE_TYPE    : 'date' ;
 DECIMAL_TYPE : 'decimal' ;
 MONEY_TYPE   : 'money' ;
 
 
 // Basic arithmetic 
-MUL :   '*' ;
-DIV :   '/' ;
-ADD :   '+' ;
-SUB :   '-' ;
+MUL : '*' ;
+DIV : '/' ;
+ADD : '+' ;
+SUB : '-' ;
 
 // Booleans
-NOT :   '!' ;
-AND :   '&&' ;
-OR :   	'||' ;
+NOT : '!' ;
+AND : '&&' ;
+OR  : '||' ;
 
 // Comparisons
-LT  :   '<'  ; 
-LEq	:	'<=' ;
-GT	:	'>' ;
-GEq	:	'>=' ;
-Eq  :	'==' ;
-NEq :	'!=' ;
+LT  : '<'  ; 
+LEq : '<=' ;
+GT  : '>' ;
+GEq : '>=' ;
+Eq  : '==' ;
+NEq : '!=' ;
 
 // Booleans
-BOOLEAN  :  'true'|'false';
+BOOLEAN : 'true'|'false';
 
 // Conditionals
-IF :   'if' ;
+IF : 'if' ;
 
 // Identifiers
-ID :   [a-zA-Z][a-zA-Z0-9]*;
+ID : [a-zA-Z][a-zA-Z0-9]*;
 
 // Numbers, stolen from JSON.g4 in antlr/grammars-v4/ repository
 INT : '-'? INT_FRAG;
