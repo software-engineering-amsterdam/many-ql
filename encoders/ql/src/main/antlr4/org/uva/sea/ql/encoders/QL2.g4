@@ -8,8 +8,10 @@ form:
 
         
 question:
-    WS* questionString=QUESTIONSTRING NL
+    WS* questionString=QUOTEDSTRING NL
     WS* questionName=NAME ':' WS type=TYPE NL;
+    
+    
 conditionalBlock:
     WS* 'if' WS '(' conditional ')' WS '{' NL
     question+
@@ -25,7 +27,8 @@ INTEGER: 'int';
 STRING: 'string';
 MONEY: 'money';
 
-QUESTIONSTRING: '"' [a-zA-Z0-9 ]+ ('?' | ':') '"' ;
+
+QUOTEDSTRING: '"' .+? '"' ;
 
 NAME: [a-zA-Z]+;
 
