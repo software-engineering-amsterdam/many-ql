@@ -1,10 +1,6 @@
 class QL::Parser
 token STRING VARIABLE_NAME INTEGER
 rule
-  forms
-    : forms form { result = val[0].push(val[1]) }
-    | form { result = [ val[0] ] }
-    ;
   form
     : 'form' form_name statements 'end' { result = Form.new(name: val[1], statements: val[2]) }
     ;
@@ -57,8 +53,8 @@ rule
     | expression '+'  expression { result = Plus.new(val[0], val[2]) }
     | expression '-'  expression { result = Minus.new(val[0], val[2]) }
     | '(' expression ')'
+    | integer
     | variable_name { result = Variable.new(val[0]) }
-    | constant
     ;
 
   constant
@@ -83,6 +79,9 @@ end
 ---- inner
 
   require_relative 'form'
+  require_relative 'variable'
+  require_relative 'expression'
+  require_relative 'visitor'
 
   def initialize tokenizer
     @tokenizer = tokenizer

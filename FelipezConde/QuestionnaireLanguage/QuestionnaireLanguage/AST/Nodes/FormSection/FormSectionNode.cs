@@ -17,9 +17,9 @@ namespace QuestionnaireLanguage.AST.Nodes.FormSection
             children = new List<iASTNode>();
         }
 
-        public void AddChild( iASTNode formSection)
+        public void AddChild(iASTNode node)
         {
-            children.Add(formSection);
+            children.Add(node);
         }
 
         public IList<iASTNode> GetChildren()

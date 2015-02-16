@@ -8,6 +8,9 @@ using QuestionnaireLanguage.AST.Nodes;
 using QuestionnaireLanguage.AST.Nodes.FormSection;
 using Antlr4.Runtime.Tree;
 using Antlr4.Runtime;
+using QuestionnaireLanguage.AST.Nodes.FormElement;
+using QuestionnaireLanguage.AST.Nodes.FormObject;
+using QuestionnaireLanguage.AST.Nodes.GenericTypeName;
 
 namespace QuestionnaireLanguage.AST
 {
@@ -48,6 +51,57 @@ namespace QuestionnaireLanguage.AST
         {
             iASTNode ast = new FormSectionNode();
 
+            foreach (iASTNode child in VisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override iASTNode VisitFormElem(QLMainParser.FormElemContext context)
+        {
+            iASTNode ast = new FormElementNode();
+            
+            foreach (iASTNode child in VisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override iASTNode VisitConditional(QLMainParser.ConditionalContext context)
+        {
+            iASTNode ast = new ConditionalNode();
+
+            foreach (iASTNode child in VisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override iASTNode VisitFormElemType(QLMainParser.FormElemTypeContext context) 
+        {
+            iASTNode ast;
+
+            //iASTNode ast = context.GetText().Equals("question") ? new QuestionNode() : new FieldNode();
+
+            if (context.GetText().Equals("question"))
+                ast = new QuestionNode();
+            else// if (context.GetText().Equals("question"))
+                ast = new FieldNode();
+
+            foreach (iASTNode child in VisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override iASTNode VisitTypeName(QLMainParser.TypeNameContext context)
+        {
+            iASTNode ast = new GenericTypeNameNode();
+
+            //if (context.GetText().Equals("genericTypeName"))
+            //    ast = new GenericTypeNameNode();
+            //else
+           
             foreach (iASTNode child in VisitChildren(context))
                 ast.AddChild(child);
 
