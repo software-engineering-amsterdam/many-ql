@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import ast.expression.Expression;
 
-public class IfStatement extends IQuestionVisitable {
+public abstract class IfStatement extends IQuestionVisitable {
 
 	private Expression ifExpression;
 	private ArrayList<IQuestionVisitable> ifStatement, elseStatement;
