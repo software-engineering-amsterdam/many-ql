@@ -1,8 +1,10 @@
 package cons.ql.ast.expression;
 
+import java.lang.reflect.Type;
+
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
-import cons.ql.ast.Visitor;
+import cons.ql.ast.visitor.Visitor;
 
 public abstract class Binary extends Expression {
 	private Expression left, right;
@@ -30,7 +32,7 @@ public abstract class Binary extends Expression {
 	@Override
 	public void accept(Visitor visitor) {
 		left.accept(visitor);
-		right.accept(visitor);
+		right.accept(visitor);	
 		
 		visitor.visit(this);
 	}

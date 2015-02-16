@@ -5,12 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.visitor.TypeChecker;
+import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
 
 public class TypeCheckerTest {
 	@Test
-	public void testVisitor() {
+	public void testFormVisitor() {
 		String myForm = 
 				"form taxOfficeExample {"
 				+ 	"hasSoldHouse : boolean {"
@@ -24,6 +24,16 @@ public class TypeCheckerTest {
 				+ "}";
 		
 		ASTNode myTree = Parser.parse(myForm);
+		TypeChecker typeChecker = new TypeChecker();
+		
+		myTree.accept(typeChecker);
+	}
+	
+	@Test
+	public void testExpressionVisitor() {
+		String myExpression = "5 == 5";
+		
+		ASTNode myTree = Parser.parse(myExpression);
 		TypeChecker typeChecker = new TypeChecker();
 		
 		myTree.accept(typeChecker);

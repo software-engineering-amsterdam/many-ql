@@ -2,9 +2,9 @@ package cons.ql.ast.statement;
 
 import cons.ql.ast.Expression;
 import cons.ql.ast.Statement;
-import cons.ql.ast.Visitor;
+import cons.ql.ast.visitor.Visitor;
 
-public class IfThen extends Statement {
+public class If extends Statement {
 	private Expression expression;
 	private Block statements;
 	
@@ -12,7 +12,7 @@ public class IfThen extends Statement {
 	 * Constructor for the conditional block
 	 * @param statement
 	 */
-	public IfThen(Expression expression, Block statements) {
+	public If(Expression expression, Block statements) {
 		this.expression = expression;
 		this.statements = statements;
 	}

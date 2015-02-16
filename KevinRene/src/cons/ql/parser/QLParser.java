@@ -1,4 +1,4 @@
-// Output created by jacc on Wed Feb 11 10:05:44 CET 2015
+// Output created by jacc on Mon Feb 16 12:25:21 CET 2015
 
 package cons.ql.parser;
 
@@ -2979,7 +2979,7 @@ class QLParser implements QLTokens {
     }
 
     private int yyr10() { // statement : IF '(' expression ')' '{' statements '}' elseBranch
-        { yyrv = new IfThen(((Expression)yysv[yysp-6]), ((Block)yysv[yysp-3])); }
+        { yyrv = new If(((Expression)yysv[yysp-6]), ((Block)yysv[yysp-3])); }
         yysv[yysp-=8] = yyrv;
         return yypstatement();
     }

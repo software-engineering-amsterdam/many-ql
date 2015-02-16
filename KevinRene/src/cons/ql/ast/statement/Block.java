@@ -2,8 +2,8 @@ package cons.ql.ast.statement;
 
 import java.util.ArrayList;
 
-import cons.ql.ast.Visitor;
 import cons.ql.ast.Statement;
+import cons.ql.ast.visitor.Visitor;
 
 public class Block extends Statement {
 	private ArrayList<Statement> statements = new ArrayList<Statement>();

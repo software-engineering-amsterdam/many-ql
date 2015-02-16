@@ -1,10 +1,10 @@
 package cons.ql.ast.statement;
 
 import cons.ql.ast.Statement;
-import cons.ql.ast.Visitor;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
 import cons.ql.ast.expression.literal.QLString;
+import cons.ql.ast.visitor.Visitor;
 
 @SuppressWarnings("rawtypes")
 public class Question extends Statement {

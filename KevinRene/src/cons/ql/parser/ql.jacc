@@ -60,7 +60,7 @@ import cons.ql.ast.statement.*;
 
  statement : IDENT ':' type '{' INITSTRING '}' 							{ $$ = new Question($1, $3, $5); }
  		   | IDENT ':' type '{' INITSTRING ASSIGN '(' expression ')' '}'{ $$ = new ComputedQuestion($1, $3, $5, $8); }
- 		   | IF '(' expression ')' '{' statements '}' elseBranch 		{ $$ = new IfThen($3, $6); }
+ 		   | IF '(' expression ')' '{' statements '}' elseBranch 		{ $$ = new If($3, $6); }
  		   ;
 
  elseBranch : ELSE '{' statements '}' 

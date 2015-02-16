@@ -1,5 +1,7 @@
 package cons.ql.ast;
 
+import cons.ql.ast.visitor.Visitor;
+
 
 public interface ASTNode {
 	@Override
