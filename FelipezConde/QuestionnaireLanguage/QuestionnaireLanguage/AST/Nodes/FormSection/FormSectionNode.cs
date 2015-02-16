@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuestionnaireLanguage;
-using QuestionnaireLanguage.AST.Nodes;
 
 
-namespace QuestionnaireLanguage.AST.Nodes.Types
+namespace QuestionnaireLanguage.AST.Nodes.FormSection
 {
-    public class BoolNode : iTypeNode
+    public class FormSectionNode : iFormSectionNode
     {
 
     }

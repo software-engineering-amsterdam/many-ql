@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireLanguage.AST.Nodes.FormObject
 {
-    public class FieldNode : iASTNode
+    public class FieldNode : iFormObjectNode
     {
 
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireLanguage.AST.Nodes.Expression
 {
-    public class NotNode : iASTNode
+    public class NotNode : iExpressionNode
     {
     }
 }
