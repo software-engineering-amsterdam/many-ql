@@ -42,7 +42,7 @@ namespace Tests.QLTests
                                 
                              } else if (yes == no) {
 
-                             } else {
+                             }; else {
 
                              };
                             ";
