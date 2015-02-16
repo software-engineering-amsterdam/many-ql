@@ -2,12 +2,10 @@ package org.uva.sea.ql.model;
 
 
 public class Question {
-	private QuestionType questionType;
-	private String identifier;
-	private String questionLabel;
+	private final QuestionType questionType;
+	private final String identifier;
+	private final String questionLabel;
 
-	public Question() {
-	}
 
 	public Question(QuestionType questionType, String identifier,
 			String questionLabel) {
@@ -21,30 +19,12 @@ public class Question {
 		return questionType;
 	}
 
-
-	public void setQuestionType(QuestionType questionType) {
-		this.questionType = questionType;
-	}
-
-
 	public String getIdentifier() {
 		return identifier;
 	}
 
-
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
-
-
 	public String getQuestionLabel() {
 		return questionLabel;
 	}
-
-
-	public void setQuestionLabel(String questionLabel) {
-		this.questionLabel = questionLabel;
-	}
-
 
 }
