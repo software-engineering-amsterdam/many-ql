@@ -13,7 +13,7 @@ public class Questionnaire {
 	private String name;
 
 	/** Questions, mapped by their name. */
-	private TreeMap<String, Question> questions = new TreeMap<String, Question>();
+	private Map<String, Question> questions = new TreeMap<String, Question>();
 
 	public Map<String, Question> getQuestions() {
 		return questions;

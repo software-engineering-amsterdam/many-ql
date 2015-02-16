@@ -7,53 +7,36 @@ package org.uva.sea.ql.encoders.model;
  */
 public class Question {
 
-	private String name;
+	private final String name;
 
-	private String condition;
+	private final String condition;
 
-	private Object value;
+	private final String type;
 
-	private String type;
+	private final String questionText;
 
-	private String questionText;
+	public Question(String name, String condition, String type,
+			String questionText) {
+		this.name = name;
+		this.condition = condition;
+		this.type = type;
+		this.questionText = questionText;
+	}
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Object getValue() {
-		return value;
-	}
-
-	public void setValue(Object value) {
-		this.value = value;
-	}
-
 	public String getQuestionText() {
 		return questionText;
-	}
-
-	public void setQuestionText(String questionText) {
-		this.questionText = questionText;
 	}
 
 	public String getCondition() {
 		return condition;
 	}
 
-	public void setCondition(String condition) {
-		this.condition = condition;
-	}
 }

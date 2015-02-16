@@ -26,11 +26,12 @@ public class QuestionnaireListener extends EncodersQLBaseListener {
 
 	@Override
 	public void exitQuestion(QuestionContext ctx) {
-		Question question = new Question();
-		question.setName(ctx.questionName.getText());
-		question.setType(ctx.type.getText());
-		question.setCondition(condition);
-		question.setQuestionText(ctx.questionString.getText());
+		String questionName = ctx.questionName.getText();
+		String type = ctx.type.getText();
+		String questionString = ctx.questionString.getText();
+
+		Question question = new Question(questionName, condition, type,
+				questionString);
 		questionnaire.addQuestion(question);
 	}
 
