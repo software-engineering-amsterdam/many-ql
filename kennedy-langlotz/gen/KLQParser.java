@@ -1,4 +1,4 @@
-// Generated from C:/Users/Timon/SkyDrive/MSc/Software Construction/many-ql/kennedy-langlotz/src\KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -109,6 +109,11 @@ public class KLQParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitQuestionaire(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitQuestionaire(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final QuestionaireContext questionaire() throws RecognitionException {
@@ -167,6 +172,11 @@ public class KLQParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitQuestion(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitQuestion(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -227,6 +237,11 @@ public class KLQParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitEnd(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitEnd(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -302,6 +317,11 @@ public class KLQParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitSpecification(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitSpecification(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -409,6 +429,11 @@ public class KLQParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitAnswer(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitAnswer(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final AnswerContext answer() throws RecognitionException {
@@ -470,6 +495,11 @@ public class KLQParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitExpr(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -592,6 +622,11 @@ public class KLQParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitAnswers(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitAnswers(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final AnswersContext answers() throws RecognitionException {
@@ -644,6 +679,11 @@ public class KLQParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitQuestionType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitQuestionType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 

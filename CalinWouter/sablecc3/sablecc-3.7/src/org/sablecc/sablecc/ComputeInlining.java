@@ -71,7 +71,7 @@ public class ComputeInlining
       //and if it doesn't have more than SableCC.inliningMaxAlts alternatives.
       if( prod.getAlts().size() <= SableCC.inliningMaxAlts && !isProductionRecursive(prod) )
       {
-        //This class construct a special data structure for the production to inline.
+        //This class construct a special data types for the production to inline.
         final In_Production in_production = new In_Production((AProd)prod.clone());
 
         tree.apply(new DepthFirstAdapter()

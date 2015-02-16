@@ -1,21 +1,35 @@
 Name_of_Questionnaire
 
-/* this is a comment, and it works! */
-Question 1 : What is the most awesome number? 
-Answer-type: integer
+Introduction : Welcome to my questionnaire.
 
-Question 2 : What is the most awesome number? 
-Answer-type: integer
+Question 1 (bool): Do you love hummus?
 
-if (Question 1 > 13) {
-    Question 3 : What is the most awesome number? 
-    Answer-type: integer
+Question 2 (integer): What is the most awesome number? 
 
-    Question 4 : What is the most awesome number? 
-    Answer-type: integer
+if ((9 + 3) * (4 / 5 + 1) > 1) {
+    Question 2b (bool): Is this a conditional question?
+
+    Question 2c (bool): Do you really think that?
+
+    if (True == True) {
+        Question 2cb (bool) : Will this work?
+    }
+}
+
+if (True == True) {
+    Question 2c (bool): This is always true isn't it?
+}
+else {
+    Question 2c (text): What is it then?
+}
+
+if (True == True) {
+    Question 2c (bool): This is always true isn't it?
+}
+else {
+    Question 2c (text): What is it then?
 }
 
 // another comment
-Question 5: What do you think of this DSL? 
-Answer-type: text
+Question 3 (text): What do you think of this DSL? 
 

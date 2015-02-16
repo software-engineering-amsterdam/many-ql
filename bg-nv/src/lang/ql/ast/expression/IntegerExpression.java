@@ -1,25 +1,16 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.visitor.Visitor;
+
 /**
  * Created by bore on 09/02/15.
  */
-public class IntegerExpression extends Expression
+public class IntegerExpression extends ConstantExpression<Integer>
 {
-    private int value;
-
     public IntegerExpression(int value)
     {
-        this.value = value;
+        super(value);
     }
 
-    @Override
-    public Expression getValue()
-    {
-        return this;
-    }
-
-    public int getConstValue()
-    {
-        return this.value;
-    }
+    public void visit(Visitor visitor) { visitor.visit(this); }
 }

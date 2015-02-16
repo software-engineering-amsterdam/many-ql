@@ -1,0 +1,1 @@
+..\lib\jacc\jacc.jar -v ..\src\cons\ql\parser\ql.jacc

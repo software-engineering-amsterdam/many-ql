@@ -1,26 +1,34 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.AstNode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by bore on 09/02/15.
  */
-public abstract class BinaryOperatorExpression<T extends Expression> extends Expression
+public abstract class BinaryOperatorExpression extends Expression
 {
-    private T left;
-    private T right;
+    private Expression left;
+    private Expression right;
 
-    public BinaryOperatorExpression(T left, T right)
+    public BinaryOperatorExpression(Expression left, Expression right)
     {
         this.left = left;
         this.right = right;
     }
 
-    public T getLeft()
+    public Expression getLeft()
     {
         return this.left;
     }
 
-    public T getRight()
+    public Expression getRight() { return this.right; }
+
+    public Iterable<? extends AstNode> getChildren()
     {
-        return this.right;
+        return Arrays.asList(this.left, this.right);
     }
 }

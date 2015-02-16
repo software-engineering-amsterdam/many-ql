@@ -1,51 +1,77 @@
-# Grammar 
+# Grammar
+
 from pyparsing import *
 from exceptions import *
-from abstract import *
-from ast import *
+from factory import *
+from gui import *
 
-# Normal sentence grammar
-endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)
-word            = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_") | endSignEsc
-hexaColor       = Suppress("#") + Word(hexnums, exact=6)
-endSign         = oneOf(". ? !")
-comment         = Literal("//") + restOfLine | cStyleComment
-variable        = Word(alphanums)
 
-# Brackets / Brackets / Colon
-obrac           = Literal("{")
-cbrac           = Literal("}")
-opar            = Literal("(")
-cpar            = Literal(")")
-col             = Literal(":")
+class BasicTypes:
+    # endSign = . | ? | !
+    endSign         = oneOf(". ? !")
+    endSignEsc      = Suppress("\\") + endSign
+    
+    # words = [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_] | endSign
+    characters      = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
+    word            = endSignEsc | characters  
+    
+    # sentence = word+ endSign
+    sentence        = (OneOrMore(word) + endSign).setParseAction(ASTReady.make_sentence)
+    
+    # sentences = sentence+
+    sentences       = OneOrMore(sentence)
+    comment         = Literal("//") + restOfLine | cStyleComment
 
-# Answer types
-bool            = Literal("True") | Literal("False") 
-sentence        = (OneOrMore(word) + endSign).setParseAction(make_sentence)
-sentences       = OneOrMore(sentence)
-integer         = Word(nums)
 
-# Constraints
-exp             = bool | integer | sentence
-compare         = oneOf("> >= < <= ==")
-condition       = (Suppress("Question") + integer + compare + exp)
+class Expressions: 
+    # Possible answers values
+    bool            = Literal("True") | Literal("False")
+    integer         = Word(nums)
+    text            = BasicTypes.sentences
+    
+    # Expressions
+    value           = bool | integer | text
+    compare         = oneOf("> >= < <= ==")
+    operators       = oneOf('+ - / *')
+    
+    # atom = value | (expr)
+    # expr = atom (operator expr)*
+    expr            = Forward()
+    atom            = value | Group(Suppress("(") + expr + Suppress(")"))
+    expr            << atom + ZeroOrMore(operators + expr)
+    
+    # condition = expr compare value
+    condition       = Group(expr + compare + value) 
 
-# Form
-answerType      = Literal("bool") | Literal("integer") | Literal("text")  
-answer          = Suppress("Answer-type:") + answerType
-question        = (Suppress("Question") + integer + Suppress(col) + sentence +\
-                  answer).setResultsName("QUESTION").setParseAction(ASTReady.make_question)
-questions       = OneOrMore(question)
-pIf             = (Suppress("if" + opar) + condition + Suppress(cpar) + Suppress(obrac) + questions + Suppress(cbrac))
-pElse           = pIf+ Literal("else") + Suppress(obrac) +  questions + Suppress(cbrac)
-questions2      = pElse.setParseAction(ASTReady.make_else) | pIf.setParseAction(ASTReady.make_if) | questions
-form            = (word + OneOrMore(questions2)).setParseAction(ASTReady.make_form)
 
-# Test
-try:
-    myfile = open('ql_example.ql', 'r').read()
-    l = form.ignore(comment).parseString(myfile)
-    for i in l:
-        print(i)    
-except Exception as e:
-    exceptionsHandling(e)
+class FormFormat:
+    id              = BasicTypes.characters
+    label           = BasicTypes.sentence
+    
+    # possible answer types
+    answerR         = Literal("bool") | Literal("integer") | Literal("text")
+    
+    # question = Question id (answerR) : label 
+    question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
+                       ).setParseAction(ASTReady.make_question)
+    questions       = OneOrMore(question)
+    
+    # pIf       = if (condition) { questions }
+    aQuestions      = Forward()
+    condition       = Expressions.condition.setParseAction(ASTReady.make_expression)
+    pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
+                       OneOrMore(aQuestions) + Suppress("}"))
+                       
+    # pIfElse   = if (condition) { questions } else { questions }
+    pIfElse         = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
+                       OneOrMore(aQuestions) + Suppress("}")) + Literal("else") + Suppress("{") + aQuestions + Suppress("}")
+    
+    # aQuestions    = pIf | pIfElse | questions
+    aQuestions      <<= OneOrMore(
+                          (pIfElse.setParseAction(ASTReady.make_else))
+                        | (pIf).setParseAction(ASTReady.make_if)
+                        | questions)
+                      
+    # form = id introduction? aQuestions+
+    introduction    = Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences)
+    form            = id + Optional(introduction) + aQuestions

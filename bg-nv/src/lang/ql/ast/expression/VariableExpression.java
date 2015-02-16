@@ -1,20 +1,31 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.AstNode;
+import lang.ql.ast.visitor.Visitor;
+
+import java.util.Collections;
+
 /**
  * Created by bore on 09/02/15.
  */
 public class VariableExpression extends Expression
 {
-    private String value;
+    private String id;
 
-    public VariableExpression(String value)
+    public VariableExpression(String id)
     {
-        this.value = value;
+        this.id = id;
     }
 
-    @Override
-    public Expression getValue()
+    public String getId()
     {
-        return this;
+        return this.id;
+    }
+
+    public void visit(Visitor visitor) { visitor.visit(this); }
+
+    public Iterable<? extends AstNode> getChildren()
+    {
+        return Collections.emptyList();
     }
 }

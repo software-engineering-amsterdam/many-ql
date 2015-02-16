@@ -1,12 +1,9 @@
 package lang.ql.syntax;
 
 import lang.ql.ast.AstNode;
-import lang.ql.ast.expression.Expression;
+import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.statement.IfCondition;
-import lang.ql.ast.statement.Question;
-import lang.ql.ast.statement.QuestionType;
-import lang.ql.ast.statement.Statement;
+import lang.ql.ast.statement.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 /**
@@ -23,12 +20,12 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     public AstNode visitForm(@NotNull QLParser.FormContext context)
     {
         List<Statement> statements = new ArrayList<Statement>();
-        for (QLParser.StatementContext stat : context.statement())
+        for (QLParser.StatementContext statementContext : context.statement())
         {
-            // omg!
-            Statement s = (Statement)this.visit(stat);
+            Statement s = (Statement)this.visit(statementContext);
             statements.add(s);
         }
+
         String questionID = context.Identifier().getText();
         return new Form(questionID, statements);
     }
@@ -40,43 +37,104 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         {
             return visit(context.question());
         }
+
         return visit(context.ifCondition());
     }
 
     @Override
     public AstNode visitQuestion(@NotNull QLParser.QuestionContext context)
     {
-//        if (context.expression() != null)
-//        {
-//            AstNode a = visitExpression(context.expression());
-//        }
-
         String id = context.Identifier().getText();
-        QuestionType type = new QuestionType();
+        QuestionType questionType = QuestionType.valueOf(context.QuestionType().getText().toUpperCase());
         String text = context.String().getText();
 
-        return new Question(id, type, text, null);
+        if (context.expression() != null)
+        {
+            Expression expression = (Expression)visitExpression(context.expression());
+            return new CalculatedQuestion(id, questionType, text, expression);
+        }
+
+        return new Question(id, questionType, text);
     }
-//
+
     @Override
     public AstNode visitIfCondition(@NotNull QLParser.IfConditionContext context)
     {
-        // omg again!
         Expression expression = (Expression)visitExpression(context.expression());
 
         List<Statement> ifStatements = new ArrayList<Statement>();
-        for (QLParser.StatementContext stat : context.statement())
+        for (QLParser.StatementContext statement : context.statement())
         {
-            Statement s = (Statement)this.visit(stat);
+            Statement s = (Statement)this.visit(statement);
             ifStatements.add(s);
         }
 
-        return new IfCondition(expression, ifStatements, null);
+        return new IfCondition(expression, ifStatements);
     }
-//
-//    @Override
-//    public AstNode visitExpression(@NotNull QLParser.ExpressionContext ctx)
-//    {
-//        return null;
-//    }
+
+    @Override
+    public AstNode visitExpression(@NotNull QLParser.ExpressionContext context)
+    {
+        if (context.left != null && context.right != null)
+        {
+            return this.visitBinaryExpression(context.left, context.right, context.operator.getText());
+        }
+
+        if (context.operand != null)
+        {
+            return this.visitUnaryExpression(context.operand, context.operator.getText());
+        }
+
+        return this.visitConstantExpression(context);
+    }
+
+    public Expression visitBinaryExpression(QLParser.ExpressionContext lContext, QLParser.ExpressionContext rContext, String operator)
+    {
+        Expression left = (Expression)this.visit(lContext);
+        Expression right = (Expression)this.visit(rContext);
+
+        if (operator.equals("+")) { return new AdditionExpression(left, right); }
+        if (operator.equals("-")) { return new SubtractionExpression(left, right); }
+        if (operator.equals(">")) { return new GreaterThanExpression(left, right); }
+        // TODO: add all expressions here
+        throw new IllegalArgumentException("No such binary operator: " + operator);
+    }
+
+    public Expression visitUnaryExpression(QLParser.ExpressionContext operandContext, String operator)
+    {
+        Expression operand = (Expression)this.visit(operandContext);
+
+        if (operator == "+") { return new UnaryPlusExpression(operand); }
+        if (operator == "-") { return new UnaryMinusExpression(operand); }
+        // TODO: add expressions
+        throw new IllegalArgumentException("No such unary operator: " + operator);
+    }
+
+    public Expression visitConstantExpression(QLParser.ExpressionContext operandContext)
+    {
+        if (operandContext.Integer() != null)
+        {
+            int value = Integer.parseInt(operandContext.Integer().getText());
+            return new IntegerExpression(value);
+        }
+
+        if (operandContext.String() != null)
+        {
+            return new StringExpression(operandContext.String().getText());
+        }
+
+        if (operandContext.Identifier() != null)
+        {
+            return new VariableExpression(operandContext.Identifier().getText());
+        }
+
+        if (operandContext.Boolean() != null)
+        {
+            Boolean value = Boolean.parseBoolean(operandContext.Boolean().getText());
+            return new BooleanExpression(value);
+        }
+
+        // TODO: add date and decimal expressions
+        throw new IllegalArgumentException("Illegal constant expression");
+    }
 }

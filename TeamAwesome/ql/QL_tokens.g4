@@ -1,23 +1,5 @@
 grammar QL_tokens;
 
-tokens { AND, OR, NOT, PLUS, MIN, MULTIPLY, DIVIDE}
-
-  AND      : '&&';
-  OR       : '||';
-  NOT      : '!';
-  PLUS     : '+';
-  MIN      : '-';
-  MULTIPLY : '*';
-  DIVIDE   : '/';
-  LPAREN   : '(';
-  RPAREN   : ')';  
-  LT       : '<';
-  GT       : '>';
-  LTE      : '<=';
-  GTE      : '>=';
-  EQ       : '==';
-  NEQ      : '!=';
-
 boolean
     :   'true'
     |   'false'
@@ -26,21 +8,29 @@ boolean
 question_type
     :   'boolean' 
     |   'integer' 
-    |   'string' 
+    |   'string'
+    |   'money'
     ;
 
+string : STRING ;
 STRING :  '"' (ESC | ~["\\])* '"' ;
 fragment ESC :   '\\' (["\\/bfnrt]) ;
 
-NUMBER : '-'? '0' | [1-9] [0-9]*  ;
+integer : INTEGER ;
+INTEGER : '-'? '0' | [1-9] [0-9]*  ;
 
-ID 
+money : MONEY ;
+MONEY : INTEGER ('.' [0-9]+)? ;
+
+identifier : IDENTIFIER ;
+IDENTIFIER 
     :   [a-zA-Z_][a-zA-Z_0-9]* 
     ;
 
 atom
     :   boolean
-    |   STRING
-    |   NUMBER
-    |   ID
+    |   string
+    |   integer
+    |   identifier
+    |   money
     ;

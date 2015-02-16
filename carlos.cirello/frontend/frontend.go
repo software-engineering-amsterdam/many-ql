@@ -4,7 +4,10 @@ The interface with the user can be either Graphic, Text or Web.
 */
 package frontend
 
-import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+import (
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+)
 
 // Inputer describes the actions which frontend must implement
 // in order to be compliant with the VM expectations of
@@ -19,7 +22,7 @@ type Inputer interface {
 // New instantiates a frontend goroutine, looping all the
 // communications with the VM into the chosen Frontend
 // (GUI, Text, Web).
-func New(fromVM, toVM chan *Event, driver Inputer) {
+func New(fromVM, toVM chan *interpreter.Event, driver Inputer) {
 	f := &frontend{
 		receive: fromVM,
 		send:    toVM,
@@ -30,8 +33,8 @@ func New(fromVM, toVM chan *Event, driver Inputer) {
 }
 
 type frontend struct {
-	receive chan *Event
-	send    chan *Event
+	receive chan *interpreter.Event
+	send    chan *interpreter.Event
 
 	driver Inputer
 }
@@ -40,19 +43,25 @@ func (f *frontend) loop() {
 	for {
 		select {
 		case r := <-f.receive:
-			if r.Type == ReadyP {
-				f.send <- &Event{
-					Type: ReadyT,
+			switch r.Type {
+			case interpreter.ReadyP:
+				f.send <- &interpreter.Event{
+					Type: interpreter.ReadyT,
 				}
-			} else if r.Type == Render {
+
+			case interpreter.Render:
 				f.driver.InputQuestion(&r.Question)
-			} else if r.Type == Flush {
+
+			case interpreter.Flush:
 				f.driver.Flush()
-			} else if r.Type == FetchAnswers {
+
+			case interpreter.FetchAnswers:
 				fetchedAnswers := f.driver.FetchAnswers()
-				f.send <- &Event{
-					Type:    Answers,
-					Answers: fetchedAnswers,
+				if len(fetchedAnswers) > 0 {
+					f.send <- &interpreter.Event{
+						Type:    interpreter.Answers,
+						Answers: fetchedAnswers,
+					}
 				}
 			}
 		default:

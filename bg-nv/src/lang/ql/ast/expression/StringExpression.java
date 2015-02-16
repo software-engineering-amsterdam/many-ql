@@ -1,20 +1,19 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.visitor.Visitor;
+
 /**
  * Created by bore on 09/02/15.
  */
-public class StringExpression extends Expression
+public class StringExpression extends ConstantExpression<String>
 {
-    private String value;
-
     public StringExpression(String value)
     {
-        this.value = value;
+        super(value);
     }
 
-    @Override
-    public Expression getValue()
+    public void visit(Visitor visitor)
     {
-        return this;
+        visitor.visit(this);
     }
 }

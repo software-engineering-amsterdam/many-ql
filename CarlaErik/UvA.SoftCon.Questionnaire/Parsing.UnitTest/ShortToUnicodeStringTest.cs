@@ -24,18 +24,6 @@ namespace UvA.SoftCon.Questionnaire.Parsing.UnitTest
                 
             QLParser parser = new QLParser(tokens);
 
-            QLParser.InitContext tree = parser.init();
-            
-            ParseTreeWalker walker = new ParseTreeWalker();
-
-            var converter = new ShortToUnicodeString();
-
-            // Act
-            walker.Walk(converter, tree);
-
-            // Assert
-            string result = converter.GetResult();
-            Assert.AreEqual<string>(@"""\u0063\u0003\u01C3""", result);
         }
     }
 }

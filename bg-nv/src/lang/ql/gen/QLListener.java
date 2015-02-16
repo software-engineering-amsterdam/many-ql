@@ -1,11 +1,5 @@
-// Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
+// Generated from /home/narpendyah/intellij-idea-projects/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
 package lang.ql.gen;
-
-//package lang.ql.gen;
-import lang.ql.ast.expression.*;
-
-//import org.uva.sea.ql.ast.expr.*;
-
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -54,6 +48,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfCondition(@NotNull QLParser.IfConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#expressionList}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionList(@NotNull QLParser.ExpressionListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#expressionList}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionList(@NotNull QLParser.ExpressionListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree

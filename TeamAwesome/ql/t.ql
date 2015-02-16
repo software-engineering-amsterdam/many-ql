@@ -1,16 +1,18 @@
 form taxOfficeExample { 
   question hasSoldHouse {
     "Did you sell a house in 2010?"
-    true
+    boolean
   }
 
   question hasBoughtHouse {
     "Did you buy a house in 2010?"
-    false
+    boolean
   }
 
-  question hasMaintLoan {
-    "Did you enter a loan?"
-    true
+  if 3^4 % 2 > 5 - 2 == true {
+    question hasMaintLoan {
+      "Did you enter a loan?"
+      boolean
+    }
   }
 }

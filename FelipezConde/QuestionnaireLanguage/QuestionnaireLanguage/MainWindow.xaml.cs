@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GrammarProject;
 using Antlr4.Runtime.Tree;
-using QuestionnaireLanguage.Implementation;
+using System.IO;
 
 namespace QuestionnaireLanguage
 {
@@ -26,9 +26,12 @@ namespace QuestionnaireLanguage
     {
         public MainWindow()
         {
+            
             InitializeComponent();
 
-            string program = "form { question Q1 bool { bool name : True, integer qty : 2 }}";
+            string program = 
+            File.ReadAllText(
+            @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\test9.txt");
             //Console.WriteLine(program);
 
             AntlrInputStream input = new AntlrInputStream(program);
@@ -39,8 +42,8 @@ namespace QuestionnaireLanguage
 
             Console.WriteLine(tree.ToStringTree(parser));
 
-            FormVisitor visitor = new FormVisitor();
-            Console.WriteLine(visitor.Visit(tree));
+            /*FormVisitor visitor = new FormVisitor();
+            Console.WriteLine(visitor.Visit(tree));*/
         }
     }
 }

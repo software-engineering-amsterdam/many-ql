@@ -1,19 +1,16 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.visitor.Visitor;
+
 /**
  * Created by bore on 09/02/15.
  */
-public class AdditionExpression extends BinaryOperatorExpression<IntegerExpression>
+public class AdditionExpression extends BinaryOperatorExpression
 {
-    public AdditionExpression(IntegerExpression left, IntegerExpression right)
+    public AdditionExpression(Expression left, Expression right)
     {
         super(left, right);
     }
 
-    @Override
-    public Expression getValue()
-    {
-        IntegerExpression result = new IntegerExpression(this.getLeft().getConstValue() + this.getRight().getConstValue());
-        return result;
-    }
+    public void visit(Visitor visitor) { visitor.visit(this); }
 }
