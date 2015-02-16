@@ -1,14 +1,14 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql;
 
 import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.helper.InterpreterHelper;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 
 import java.io.IOException;
 
-import static org.uva.student.calinwouter.qlqls.ql.interpreter.helper.QLGeneratorHelper.*;
+import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.*;
 
 import static junit.framework.Assert.assertEquals;
 
