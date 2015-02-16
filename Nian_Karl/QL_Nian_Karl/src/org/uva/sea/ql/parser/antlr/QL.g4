@@ -1,6 +1,5 @@
 grammar QL;
 
-
 @parser::header
 {
 	import org.uva.sea.ql.model.expression.*;
@@ -12,12 +11,7 @@ grammar QL;
 }
 
 @lexer::header
-{
-//	import org.uva.sea.ql.model.expression.*;
-//	import org.uva.sea.ql.model.expression.mathexpression.*;
-//	import org.uva.sea.ql.model.expression.booleanexpression.*;
-//	import org.uva.sea.ql.model.expression.commonexpression.*;
-}
+{}
 
 // Parser rules
 form : FORM Identifier block;
@@ -59,8 +53,6 @@ expr:
 	| expr MULTIPLY expr 
 	| expr DEVIDE expr 
 ;
-//=========================================
-
 
 literal
  	 : Identifier
@@ -70,7 +62,6 @@ literal
  	 | StringLiteral
  	 | DateLiteral
 	 ;
-
 
 // Lexer rules
 
@@ -112,7 +103,6 @@ RIGHT_PARENTHESES:	')';
 COLON:			':';
 SEMICOLON:		';';
 
-
 IntegerLiteral: [1-9][0-9]*;
 
 DecimalLiteral: DecimalNumeral '.' Digit*;
@@ -135,8 +125,6 @@ Non_Zero_Digit: [1-9];
 	
 Digit: [0-9];
 
-//Date: ('0');
-
 WhiteSpace  :(' ' | '\t' | '\n' | '\r') -> skip;
 
 MultiComment : '/*' .*? '*/' -> skip;
@@ -144,5 +132,3 @@ MultiComment : '/*' .*? '*/' -> skip;
 SingleComment: '//' .*? '\n' -> skip;
 
 Identifier: [a-zA-Z][a-zA-Z0-9_]*;
-
-
