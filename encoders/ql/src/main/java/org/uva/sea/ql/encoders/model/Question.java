@@ -15,6 +15,8 @@ public class Question {
 
 	private String type;
 
+	private String questionText;
+
 	public String getName() {
 		return name;
 	}
@@ -37,6 +39,14 @@ public class Question {
 
 	public void setValue(Object value) {
 		this.value = value;
+	}
+
+	public String getQuestionText() {
+		return questionText;
+	}
+
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
 	}
 
 	public String getCondition() {

@@ -1,10 +1,10 @@
 package org.uva.sea.ql.encoders.service;
 
-import org.uva.sea.ql.encoders.QL2BaseListener;
-import org.uva.sea.ql.encoders.QL2Parser.ConditionalBlockContext;
-import org.uva.sea.ql.encoders.QL2Parser.ConditionalContext;
-import org.uva.sea.ql.encoders.QL2Parser.FormContext;
-import org.uva.sea.ql.encoders.QL2Parser.QuestionContext;
+import org.uva.sea.ql.encoders.EncodersQLBaseListener;
+import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalBlockContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.model.Question;
 import org.uva.sea.ql.encoders.model.Questionnaire;
 
@@ -13,14 +13,14 @@ import org.uva.sea.ql.encoders.model.Questionnaire;
  * 
  * @author Pim Tegelaar
  */
-public class QuestionnaireListener extends QL2BaseListener {
+public class QuestionnaireListener extends EncodersQLBaseListener {
 
 	private final Questionnaire questionnaire = new Questionnaire();
 
 	private String condition;
 
 	@Override
-	public void exitForm(FormContext ctx) {
+	public void exitQuestionnaire(QuestionnaireContext ctx) {
 		questionnaire.setName(ctx.formName.getText());
 	}
 
@@ -30,6 +30,7 @@ public class QuestionnaireListener extends QL2BaseListener {
 		question.setName(ctx.questionName.getText());
 		question.setType(ctx.type.getText());
 		question.setCondition(condition);
+		question.setQuestionText(ctx.questionString.getText());
 		questionnaire.addQuestion(question);
 	}
 

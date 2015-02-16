@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.uva.sea.ql.encoders.QL2Lexer;
-import org.uva.sea.ql.encoders.QL2Parser;
+import org.uva.sea.ql.encoders.EncodersQLLexer;
+import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.model.Questionnaire;
 
 /**
@@ -21,12 +21,14 @@ public class QuestionnaireParsingServiceImpl implements
 	 */
 	@Override
 	public Questionnaire parse(String location) throws IOException {
-		QL2Lexer lexer = new QL2Lexer(new ANTLRFileStream(location));
-		QL2Parser parser = new QL2Parser(new CommonTokenStream(lexer));
+		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(
+				location));
+		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(
+				lexer));
 
 		QuestionnaireListener questionnaireListener = new QuestionnaireListener();
 		parser.addParseListener(questionnaireListener);
-		parser.form();
+		parser.questionnaire();
 
 		Questionnaire questionnaire = questionnaireListener.getQuestionnaire();
 		return questionnaire;
