@@ -10,22 +10,21 @@ grammar Grammar;
 	import com.form.language.ast.values.*;
 }
 
-/*
-statement
+statement 
 : assignmentStatement
 | ifStatement
 ;
- 
-assignmentStatement
-: ID ':=' add ';'
+
+
+assignmentStatement returns [Statement stmt]
+: ID ':=' lit=literal ';'{$stmt = new AssignmentStatement($ID, $lit.result)}
 ;
 
-ifStatement returns [PrimitiveExpression pExp]
-: 'if' add 'then' statement+
+ifStatement returns [Statement stmt]
+: 'if' expression 'then' statement+
   ('else' statement+)?	
   'end' 'if' ';'
 ;
-*/
 
 expression returns [PrimitiveExpression result]
 	: '(' x=expression ')'				{ $result = $x.result;}
