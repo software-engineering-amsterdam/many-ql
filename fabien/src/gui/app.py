@@ -1,16 +1,16 @@
 
+from src.QL.parser import Parser
+
 from Tkinter import *
 from tkFileDialog import askopenfile
 
 import os
 
 class GUI(Frame):
-    def __init__(self, Parser=None):
+    def __init__(self, debug=False):
         self.buildWidgets()
 
-        if Parser:
-            self.Parser = Parser
-
+        self.parser = Parser(debug=debug)
 
     def buildWidgets(self):
         self.main = Frame.__init__(self, padx=6, pady=6)
@@ -47,15 +47,12 @@ class GUI(Frame):
                 self.console.insert(END, fileName + ":\n")
 
                 try:
-                    parsed = self.Parser.parse(contents)
+                    parsed = self.parser.parse(contents)
                     self.console.insert(END, parsed)
 
                 except Exception as p:
                     self.console.insert(END, "ParseError\n")
                     self.console.insert(END, contents)
-
-                    print END
-                    print p.lineno
 
                     self.console.tag_add('err', END - p.lineno, END - p.lineno + 1)
                     self.console.tag_configure('err', background='yellow')
