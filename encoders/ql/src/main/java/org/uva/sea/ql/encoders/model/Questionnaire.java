@@ -1,6 +1,6 @@
 package org.uva.sea.ql.encoders.model;
 
-import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -13,9 +13,9 @@ public class Questionnaire {
 	private String name;
 
 	/** Questions, mapped by their name. */
-	private Map<String, Question> questions = new TreeMap<String, Question>();
+	private SortedMap<String, Question> questions = new TreeMap<String, Question>();
 
-	public Map<String, Question> getQuestions() {
+	public SortedMap<String, Question> getQuestions() {
 		return questions;
 	}
 
