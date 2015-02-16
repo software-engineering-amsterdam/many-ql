@@ -136,7 +136,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
-				g.deleteNewQuestion(rows, event.identifier)
+				g.hideQuestion(rows, event.identifier)
 				qml.Unlock()
 			}
 		}
@@ -145,6 +145,12 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 
 func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 	newFieldCaption string, content interface{}) {
+
+	if question, ok := g.symbolTable[newFieldName]; ok {
+		log.Printf("marking %s as visible", newFieldName)
+		question.Set("visible", true)
+		return
+	}
 
 	engine := qml.NewEngine()
 	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
@@ -192,9 +198,9 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 	}
 }
 
-func (g *Gui) deleteNewQuestion(rows qml.Object, fieldName string) {
-	g.symbolTable[fieldName].Destroy()
-	delete(g.symbolTable, fieldName)
+func (g *Gui) hideQuestion(rows qml.Object, fieldName string) {
+	log.Printf("marking %s as invisible", fieldName)
+	g.symbolTable[fieldName].Set("visible", "false")
 }
 
 func startQMLengine(appName string) qml.Object {

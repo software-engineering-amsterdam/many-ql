@@ -1,9 +1,10 @@
 package ast.question;
 
+import ast.expression.variables.Id;
 import ast.type.TextType;
 import ast.type.Type;
 
-public class SimpleQuestion extends IQuestionVisitable {
+public abstract class SimpleQuestion extends Question {
 	private Id questionID;
 	private TextType questionText;
 	private Type questionType;

@@ -12,11 +12,10 @@ type Parser interface {
 
 // QuestionNode models the structure of one question within a Questionaire.
 type QuestionNode struct {
-	Label           string
-	Identifier      string
-	Content         Parser
-	Answered        bool
-	ComputedContent Evaluatable
+	Label      string
+	Identifier string
+	Content    Parser
+	Answered   bool
 }
 
 // Clone Question to be used for transmission between VM and Frontend

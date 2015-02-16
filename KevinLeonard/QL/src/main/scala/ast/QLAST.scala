@@ -24,13 +24,9 @@ trait QLAST {
 
   // Boolean and arithmetic expressions
   sealed abstract class Expression
-  sealed abstract class Literal extends Expression
-  case class BooleanLiteral(value: Boolean) extends Literal
-  case class NumberLiteral(value: Int) extends Literal
-  case class StringLiteral(value: String) extends Literal
   case class Or(l: Expression, r: Expression) extends Expression
   case class And(l: Expression, r: Expression) extends Expression
-  case class Not(v: Expression) extends Expression
+  case class Not(e: Expression) extends Expression
   case class Equal(l: Expression, r: Expression) extends Expression
   case class NotEqual(l: Expression, r: Expression) extends Expression
   case class LessThan(l: Expression, r: Expression) extends Expression
@@ -42,5 +38,9 @@ trait QLAST {
   case class Mul(l: Expression, r: Expression) extends Expression
   case class Div(l: Expression, r: Expression) extends Expression
   case class Variable(name: String) extends Expression
+  sealed abstract class Literal extends Expression
+  case class BooleanLiteral(value: Boolean) extends Literal
+  case class NumberLiteral(value: Int) extends Literal
+  case class StringLiteral(value: String) extends Literal
 
 }

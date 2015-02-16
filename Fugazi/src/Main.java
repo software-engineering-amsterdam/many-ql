@@ -1,11 +1,16 @@
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.fugazi.ast.FugaziQLVisitor;
-import org.fugazi.parser.QLLexer;
-import org.fugazi.parser.QLParser;
+import org.fugazi.ast.ASTBuilder;
+import org.fugazi.ast.Form.Form;
+import org.fugazi.ast.Statement.QuestionStatement;
+import org.fugazi.ast.Statement.Statement;
+import org.fugazi.ast.Type.BoolType;
+import org.fugazi.ast.Type.IntType;
+import org.fugazi.ast.Type.MoneyType;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 
@@ -16,19 +21,21 @@ public class Main {
         if (args.length > 0)
             inputFile = args[0];
 
-        InputStream is = System.in;
+        InputStream input = System.in;
 
         if (inputFile != null)
-            is = new FileInputStream(inputFile);
+            input = new FileInputStream(inputFile);
 
-        ANTLRInputStream input = new ANTLRInputStream(is);
+        // Create The AST BUILDER.
+        ASTBuilder astBuilder = new ASTBuilder(input);
 
-        QLLexer lexer = new QLLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokens);
-        ParseTree tree = parser.form();
-
-        FugaziQLVisitor ql = new FugaziQLVisitor();
-        ql.visit(tree);
+        // Build the AST.
+        Form form = astBuilder.buildForm();
+        
+        // TODO: evaluation.
+        
+        // TODO: type checking.
+        
+        // TODO: Render GUI.
     }
 }

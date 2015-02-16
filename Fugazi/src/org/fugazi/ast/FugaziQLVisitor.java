@@ -1,8 +1,17 @@
 package org.fugazi.ast;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.fugazi.ast.ASTNode.ASTNode;
+import org.fugazi.ast.ASTNode.AbstractASTNode;
 import org.fugazi.ast.Expression.*;
+import org.fugazi.ast.Expression.comparison.*;
+import org.fugazi.ast.Expression.logical.AndExpression;
+import org.fugazi.ast.Expression.logical.LogicalExpression;
+import org.fugazi.ast.Expression.logical.OrExpression;
+import org.fugazi.ast.Expression.numerical.*;
+import org.fugazi.ast.Expression.unary.NegExpression;
+import org.fugazi.ast.Expression.unary.NotExpression;
+import org.fugazi.ast.Expression.unary.PosExpression;
+import org.fugazi.ast.Expression.unary.UnaryExpression;
 import org.fugazi.ast.Literals.ID;
 import org.fugazi.ast.Literals.NUMBER;
 import org.fugazi.ast.Literals.STRING;
@@ -32,7 +41,7 @@ WHY VISITOR?
 2. Build our ASt.
 */
 
-public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
+public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
     /**
      * =======================
@@ -56,7 +65,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
         // Create the form.
         Form form = new Form(formName, formStatements);
-        System.out.print("FORM: " + form.getName());
+        System.out.println("FORM: " + form.getName());
 
         return form;
     }
@@ -76,14 +85,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         // Get the body statements.
         ArrayList<Statement> statements = new ArrayList<Statement>();
 
-        // Add the inner if statements.
-        for (QLParser.IfStatementContext statement : ctx.ifStatement()) {
-            Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the ifStatement
-            statements.add(stat);
-        }
-
-        // Add the inner question declarations.
-        for (QLParser.QuestionDeclarationContext statement : ctx.questionDeclaration()) {
+        // Add the statements.
+        for (QLParser.StatementContext statement : ctx.statement()) {
             Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the statement
             statements.add(stat);
         }
@@ -102,9 +105,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
         ID identifier = new ID(ctx.ID().getText());
 
-        // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
-        //STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText();
+        // TODO: Which is better?
+        // Literal? : STRING label = new STRING(ctx.STRING().getText());
+        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        String label = grammarLabel.toString();
 
         QuestionStatement question = new QuestionStatement(type, label, identifier);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
@@ -119,11 +123,11 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
         ID identifier = new ID(ctx.ID().getText());
 
-        // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText();
+        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        String label = grammarLabel.toString();
 
         Expression expression = (Expression) ctx.expression().accept(this);
-        
+
         ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
         
@@ -163,23 +167,26 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
      * Expressions
      * =======================
      */
-    // TODO: Think of this.
-    //@Override 
-    // public T visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) { 
-    // return visitChildren(ctx); 
-    // }
+    @Override
+    public Expression visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) {
+        System.out.print("PARENTHESIS: " + ctx.expression().getText() + " ");
+    return (Expression) ctx.expression().accept(this);
+    }
 
     @Override 
-    public SingleExpression visitSingleExpression(@NotNull QLParser.SingleExpressionContext ctx) {
+    public UnaryExpression visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
         
         // Get the expression
         Expression expr = (Expression) ctx.expression().accept(this);
 
-        // TODO: make this beautiful
         // Check the operator. 
-        if (ctx.op.getText() == "!")
+        if (ctx.op.getText().equals("!"))
             return new NotExpression(expr);
+        else if (ctx.op.getText().equals("-"))
+            return new NegExpression(expr);
+        else if (ctx.op.getText().equals("+"))
+            return new PosExpression(expr);
         
         return null;
     }
@@ -192,11 +199,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         Expression leftExpr = (Expression) ctx.expression(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == "*")                        // *
+        if (ctx.op.getText().equals("*"))                        // *
             return new MulExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "/")                   // /
+        else if (ctx.op.getText().equals("/"))                   // /
             return new DivExpression(leftExpr, rightExpr);
 
         return null;
@@ -210,11 +216,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == "+")                        // +
+        if (ctx.op.getText().equals("+"))                        // +
             return new AddExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "-")                   // -
+        else if (ctx.op.getText().equals("-"))                  // -
             return new SubExpression(leftExpr, rightExpr);
 
         return null;
@@ -250,19 +255,18 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == ">")                            // >
+        if (ctx.op.getText().equals(">"))                            // >
             return new GreaterExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == ">=")                      // >=
+        else if (ctx.op.getText().equals(">="))                      // >=
             return new GEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "<")                       // <
+        else if (ctx.op.getText().equals("<"))                       // <
             return new LessExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "<=")                      // <=
+        else if (ctx.op.getText().equals("<="))                      // <=
             return new LEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "==")                      // ==
+        else if (ctx.op.getText().equals("=="))                      // ==
             return new EQExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "!=")                      // !=
+        else if (ctx.op.getText().equals("!="))                      // !=
             return new NotEqExpression(leftExpr, rightExpr);
 
         return null;
@@ -275,21 +279,18 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
      */
     @Override
     public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.NUMBER().getText() + " ");
         return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
     }
 
     @Override
     public BoolType visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.BOOLEAN().getText() + " ");
         return (BoolType) ctx.BOOLEAN().accept(this); // Accept the QL Visitor of the BOOLEAN
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.ID().getText() + " ");
         return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
     }
