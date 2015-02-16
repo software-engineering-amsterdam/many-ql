@@ -14,7 +14,7 @@ public class QLString extends QLType<String> {
 	
 	@Override
 	public String toString() {
-		return "\"" + value + "\"";
+		return value;
 	}
 
 	@Override
