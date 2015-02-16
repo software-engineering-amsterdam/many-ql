@@ -10,10 +10,10 @@ public abstract class Logical extends Binary {
     }
 
     public Expression getLeft() {
-        return left;
+        return this.left;
     }
 
     public Expression getRight() {
-        return right;
+        return this.right;
     }
 }

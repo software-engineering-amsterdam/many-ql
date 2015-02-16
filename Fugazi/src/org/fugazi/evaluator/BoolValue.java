@@ -1,11 +1,9 @@
 package org.fugazi.evaluator;
 
-public class BoolValue extends ExpressionValue {
-    
-    private final Boolean value;
+public class BoolValue extends ExpressionValue<Boolean> {
     
     public BoolValue(Boolean _value) {
-        this.value = _value;
+        super(_value);
     }
     
     public Boolean getValue() {
