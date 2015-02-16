@@ -34,13 +34,16 @@
         - [X] IF-Else
         - [X] IF-Else+If-Else
         - [ ] Expressions
+          - [ ] 1 + true
+        - [ ] Treat nodes as Immutable Value Objects(?) :COULD:
       - [ ] All cases
         - [ ] Double declaration
   - [ ] Frontend Interface [1/2]
     - [X] Concurrent Interface between Frontends and VM
-    - [ ] GUI Frontend [1/4]
+    - [ ] GUI Frontend [2/5]
       - [X] Basic cases
-      - [ ] Questions shuffled when toggling visibility :BUG:
+      - [X] Questions shuffled when toggling visibility :BUG:
+      - [ ] Fix the concertina effect :BUG:
       - [ ] Advanced cases
       - [ ] All cases
       - [ ] Transpose restrictions from the dependency into the main doc.
