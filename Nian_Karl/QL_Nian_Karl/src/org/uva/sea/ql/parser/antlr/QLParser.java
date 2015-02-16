@@ -2,6 +2,11 @@
 package org.uva.sea.ql.parser.antlr;
 
 	import org.uva.sea.ql.model.expression.*;
+	import org.uva.sea.ql.model.expression.commonexpression.*;
+	import org.uva.sea.ql.model.expression.booleanexpression.*;
+	import org.uva.sea.ql.model.expression.mathexpression.*;
+	import org.uva.sea.ql.model.literal.*;
+	import org.uva.sea.ql.model.value.*;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -491,7 +496,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class UnExprContext extends ParserRuleContext {
-		public Expression result;
+		public AbstractValue result;
 		public UnExprContext x;
 		public UnExprContext unExpr() {
 			return getRuleContext(UnExprContext.class,0);
@@ -526,7 +531,7 @@ public class QLParser extends Parser {
 				{
 				setState(108); match(PLUS);
 				setState(109); ((UnExprContext)_localctx).x = unExpr();
-				 ((UnExprContext)_localctx).result =  new Pos(((UnExprContext)_localctx).x.result); 
+				 ((UnExprContext)_localctx).result =  new PositiveExpression(((UnExprContext)_localctx).x.result); 
 				}
 				break;
 			case MINUS:
@@ -534,7 +539,7 @@ public class QLParser extends Parser {
 				{
 				setState(112); match(MINUS);
 				setState(113); ((UnExprContext)_localctx).x = unExpr();
-				 ((UnExprContext)_localctx).result =  new Neg(((UnExprContext)_localctx).x.result); 
+				 ((UnExprContext)_localctx).result =  new NegativeExpression(((UnExprContext)_localctx).x.result); 
 				}
 				break;
 			case T__0:
@@ -542,7 +547,7 @@ public class QLParser extends Parser {
 				{
 				setState(116); match(T__0);
 				setState(117); ((UnExprContext)_localctx).x = unExpr();
-				 ((UnExprContext)_localctx).result =  new Not(((UnExprContext)_localctx).x.result); 
+				 ((UnExprContext)_localctx).result =  new NotExpression(((UnExprContext)_localctx).x.result); 
 				}
 				break;
 			default:
@@ -813,7 +818,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class AndExprContext extends ParserRuleContext {
-		public Expression result;
+		public AbstractValue result;
 		public RelExprContext lhs;
 		public RelExprContext rhs;
 		public List<RelExprContext> relExpr() {
@@ -879,7 +884,7 @@ public class QLParser extends Parser {
 	}
 
 	public static class OrExprContext extends ParserRuleContext {
-		public Expression result;
+		public AbstractValue result;
 		public AndExprContext lhs;
 		public AndExprContext rhs;
 		public AndExprContext andExpr(int i) {
