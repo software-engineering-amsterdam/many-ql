@@ -4,7 +4,8 @@ import ast.QLAST
 
 import scala.util.parsing.combinator.JavaTokenParsers
 
-class QLParser extends JavaTokenParsers with QLAST {
+class QLParser extends JavaTokenParsers {
+  import QLAST._
 
   // general parsers
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
