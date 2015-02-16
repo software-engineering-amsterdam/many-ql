@@ -1,7 +1,7 @@
 package org.fugazi.ast.expression.comparison;
 
-import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.IExpressionVisitor;
 
 public class EQ extends Comparison {
 
@@ -14,8 +14,7 @@ public class EQ extends Comparison {
         return this.left.toString() + "==" + this.right.toString();
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitEQ(this);
     }
 }

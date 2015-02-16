@@ -1,5 +1,6 @@
 package org.fugazi.evaluator;
 
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.logical.And;
@@ -15,20 +16,28 @@ import org.fugazi.ast.expression.unary.Positive;
 import java.util.HashMap;
 
 public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
-    private final HashMap<String, ExpressionValue> values;
+    private final HashMap<String, ExpressionValue> values = new HashMap<String, ExpressionValue>();
 
     public ExpressionVisitor() {
-        values = new HashMap<String, ExpressionValue>();
+        
     }
 
-    public void storeResult(String _id, ExpressionValue _val) {
+    public void saveValue(String _id, ExpressionValue _val) {
         assert(_id) != null;
         assert(_val) != null;
         values.put(_id, _val);
     }
+    
+    public ExpressionValue getValue(String _id) {
+        return values.containsKey(_id) ? values.get(_id) : new UndefinedValue();
+    }
 
     // Logical
     public ExpressionValue visitAnd(And and) {
+//        Expression left = and.getLeft().accept(this);
+//        Expression right = and.getRight().accept(this);
+//
+//        BoolValue value = new BoolValue();
         return null;        
     }
     

@@ -1,6 +1,5 @@
 package org.fugazi.ast.statement;
 
-import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.literal.ID;
 import org.fugazi.ast.type.Type;
@@ -23,8 +22,7 @@ public class ComputedQuestion extends Question {
         return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "') = " + this.computed.toString();
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visitComputedQuestion(this);
     }
 }

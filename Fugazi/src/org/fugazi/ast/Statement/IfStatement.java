@@ -1,6 +1,5 @@
 package org.fugazi.ast.statement;
 
-import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
 
 import java.util.List;
@@ -35,8 +34,7 @@ public class IfStatement extends Statement {
         return string;
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visitIfStatement(this);
     }
 }

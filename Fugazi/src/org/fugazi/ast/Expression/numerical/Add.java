@@ -1,7 +1,7 @@
 package org.fugazi.ast.expression.numerical;
 
-import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.IExpressionVisitor;
 
 public class Add extends Numerical {
 
@@ -14,8 +14,7 @@ public class Add extends Numerical {
         return this.left.toString() + " + " + this.right.toString();
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitAdd(this);
     }
 }

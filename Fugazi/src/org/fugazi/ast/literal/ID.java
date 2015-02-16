@@ -1,7 +1,5 @@
 package org.fugazi.ast.literal;
 
-import org.fugazi.ast.IASTVisitor;
-
 public class ID extends Literal {
 
     private final String name;
@@ -19,8 +17,7 @@ public class ID extends Literal {
         return this.name;
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(ILiteralVisitor<T> visitor) {
         return visitor.visitID(this);
     }
 }

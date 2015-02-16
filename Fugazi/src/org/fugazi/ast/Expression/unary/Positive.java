@@ -1,6 +1,6 @@
 package org.fugazi.ast.expression.unary;
 
-import org.fugazi.ast.IASTVisitor;
+import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.Expression;
 
 public class Positive extends Unary {
@@ -14,8 +14,7 @@ public class Positive extends Unary {
         return "+ " + this.expr.toString();
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitPositive(this);
     }
 }

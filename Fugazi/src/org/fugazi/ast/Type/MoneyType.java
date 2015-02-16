@@ -1,10 +1,5 @@
 package org.fugazi.ast.type;
 
-import org.fugazi.ast.IASTVisitor;
-
-/**
- * The Money type.
- */
 public class MoneyType extends Type {
 
     @Override
@@ -12,8 +7,7 @@ public class MoneyType extends Type {
         return "Money";
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(ITypeVisitor<T> visitor) {
         return visitor.visitMoneyType(this);
     }
 }

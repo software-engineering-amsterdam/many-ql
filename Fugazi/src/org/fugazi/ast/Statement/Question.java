@@ -1,6 +1,5 @@
 package org.fugazi.ast.statement;
 
-import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.literal.ID;
 import org.fugazi.ast.type.Type;
 
@@ -35,8 +34,7 @@ public class Question extends Statement {
         return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "')";
     }
 
-    @Override
-    public <T> T accept(IASTVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visitQuestion(this);
     }
 }
