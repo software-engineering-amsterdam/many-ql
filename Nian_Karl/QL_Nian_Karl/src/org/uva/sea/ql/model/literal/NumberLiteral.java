@@ -1,16 +1,19 @@
 package org.uva.sea.ql.model.literal;
 
-public class NumberLiteral extends AbstractLiteral<Integer> {
+import org.uva.sea.ql.model.value.IntegerValue;
+
+public class NumberLiteral  extends AbstractLiteral{
 
 	private final int intValue;
 	
 	public NumberLiteral(int intValue) {
 		this.intValue = intValue;
 	}
-	
-	@Override
-	public Integer getValue() {
-		return intValue;
-	}
 
+	@Override
+	public IntegerValue evaluateExpression() {
+		return new IntegerValue(intValue);
+	}
+	
+	
 }

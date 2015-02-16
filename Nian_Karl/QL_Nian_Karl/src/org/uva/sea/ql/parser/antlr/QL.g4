@@ -4,13 +4,19 @@ grammar QL;
 @parser::header
 {
 	import org.uva.sea.ql.model.expression.*;
+	import org.uva.sea.ql.model.expression.commonexpression.*;
+	import org.uva.sea.ql.model.expression.booleanexpression.*;
+	import org.uva.sea.ql.model.expression.mathexpression.*;
+	import org.uva.sea.ql.model.literal.*;
+	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
 {
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
+//	import org.uva.sea.ql.model.expression.*;
+//	import org.uva.sea.ql.model.expression.mathexpression.*;
+//	import org.uva.sea.ql.model.expression.booleanexpression.*;
+//	import org.uva.sea.ql.model.expression.commonexpression.*;
 }
 
 // Parser rules
@@ -37,10 +43,11 @@ expr:
 ;
 //=========================================
     
-unExpr returns [Expression result]
-    :  '+' x=unExpr { $result = new Pos($x.result); }
-    |  '-' x=unExpr { $result = new Neg($x.result); }
-    |  '!' x=unExpr { $result = new Not($x.result); }
+   
+unExpr returns [AbstractValue result]
+    :  '+' x=unExpr { $result = new PositiveExpression($x.result); }
+    |  '-' x=unExpr { $result = new NegativeExpression($x.result); }
+    |  '!' x=unExpr { $result = new NotExpression($x.result); }
 //    |  x=expr    { $result = $x.result; }
     ;
     
@@ -94,12 +101,12 @@ relExpr returns [Expression result]
     })*
     ;
     
-andExpr returns [Expression result]
+andExpr returns [AbstractValue result]
     :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new AndExpression($result, rhs); } )*
     ;
     
 
-orExpr returns [Expression result]
+orExpr returns [AbstractValue result]
     :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new OrExpression.java($result, rhs); } )*
     ;
 

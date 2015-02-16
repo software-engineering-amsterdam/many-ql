@@ -1,235 +1,148 @@
 
-import ply.lex as lex
-import ply.yacc as yacc
+import ply.yacc
 
-from nodes import Node, Question, Expression
+from src.QL import nodes
 from src.typechecker.errors import ParseError
 
-class Parser():
-
-    def __init__(self, DEBUG=True):
-        self.DEBUG = DEBUG
-
-        lex.lex(module=self)
-        yacc.yacc(module=self)
-
-    def parse(self, text=""):
-        return yacc.parse(text)
+from tokens import tokens
 
 
-    ### Tokens ###
+# Precedence is ordered from low to high
+precedence = (
+    ('left','OR'),
+    ('left','AND'),
 
-    reserved = {
-      "form"    : "FORM",
-      "if"      : "IF",
-      "else"    : "ELSE",
+    ('left', '<', '>', 'LT_EQ', 'GT_EQ'),
+    ('left','EQ', 'NEQ'),
 
-      "or"      : "OR",
-      "and"     : "AND",
+    ('left','+','-'),
+    ('left','*','/'),
 
-      "int"     : "TYPE",
-      "integer" : "TYPE",
-      "bool"    : "TYPE",
-      "boolean" : "TYPE",
-      "float"   : "TYPE",
-      "string"  : "TYPE",
-      "money"   : "TYPE"
-    }
-
-    tokens = [
-        'ID',
-        'NUMBER',
-        'STRING',
-
-        'LPAR',
-        'RPAR',
-        'LBRACKET',
-        'RBRACKET',
-
-        'COLON',
-        'PLUS',
-        'MINUS',
-        'TIMES',
-        'DIVIDE',
-
-        'EQ',
-        'LT',
-        'GT',
-
-        'NEQ',
-        'LT_EQ',
-        'GT_EQ',
-
-        'NOT'
-    ] + list(set(reserved.values()))
+    ('right','UMINUS', 'NOT'),
+)
 
 
-    t_LPAR      = r'\('
-    t_RPAR      = r'\)'
-    t_LBRACKET  = r'\{'
-    t_RBRACKET  = r'\}'
-
-    t_COLON     = r':'
-
-    t_PLUS      = r'\+'
-    t_MINUS     = r'-'
-    t_TIMES     = r'\*'
-    t_DIVIDE    = r'/'
-
-    t_EQ        = r'=='
-    t_LT        = r'<'
-    t_GT        = r'>'
-
-    t_NEQ       = r'!='
-    t_LT_EQ     = r'<='
-    t_GT_EQ     = r'>='
-
-    t_NOT       = r'!'
-    t_OR        = r'\|\||or'
-    t_AND       = r'&&|and'
-
-    t_STRING    = r'("[^"]*")|(\'[^\']*\')'
-    t_NUMBER    = r'[0-9]*\.?[0-9]+'
-    t_TYPE      = r'int|integer|float|bool|boolean|string|money'
+def p_form(p):
+    '''formdef : FORM ID block'''
+    p[0] = nodes.Form(p[2], p[3])
 
 
-    precedence = (
-        ('left','AND'),
-        ('left','PLUS','MINUS'),
-        ('left','TIMES','DIVIDE'),
+def p_block(p):
+    '''block : '{' '}'
+             | '{' statements '}'
+    '''
+    if len(p) == 4:
+        p[0] = p[2]
 
-        ('left','EQ','LT', 'GT'),
-        ('left','OR'),
-
-        ('right','UMINUS', 'NOT'),
-    )
-
-
-    def t_ID(self, t):
-        r'[a-zA-Z_][a-zA-Z0-9_]*'
-        t.type = self.reserved.get(t.value, "ID")
-        return t
-
-    # Track line numbers to use in error messages
-    def t_NEWLINE(self, t):
-        r'\n+'
-        t.lexer.lineno += len(t.value)
-
-    def t_COMMENT(self, t):
-        r'(/\*(.|\n)*?\*/)|(//.*)|(\#.*)'
-        pass
-
-    def t_error(self, t):
-        if self.DEBUG:
-            print "Illegal character '%s'" % t.value[0]
-        t.lexer.skip(1)
-
-    t_ignore = " \t"
+def p_statements(p):
+    '''statements : statement
+                  | statements statement
+    '''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    elif isinstance(p[1], list):
+        p[0] = p[1] + [p[2]]
+    else:
+        p[0] = p[1:]
 
 
-    ### Parsing rules ###
-
-    def p_form(self, p):
-        '''formdef : FORM ID block'''
-        p[0] = Node("form", p[3], p[2])
-
-
-    def p_block(self, p):
-        '''block : LBRACKET RBRACKET
-                 | LBRACKET statements RBRACKET
-        '''
-        if len(p) == 4:
-            p[0] = p[2]
+def p_statement(p):
+    '''statement : question
+                 | ifdef
+    '''
+    p[0] = p[1]
 
 
-    def p_statements(self, p):
-        '''statements : statements statement
-                      | statement
-        '''
-        if len(p) == 2:
-            p[0] = [p[1]]
-        # question-list has multiple entries
-        elif isinstance(p[1], list):
-            p[0] = p[1] + [p[2]]
-        else:
-            p[0] = p[1:]
+def p_question_simple(p):
+    '''question : STRING'''
+    p[0] = nodes.Question(p[1])
 
 
-    def p_statement(self, p):
-        '''statement : question
-                     | ifdef
-        '''
-        p[0] = p[1]
+def p_question_with_type(p):
+    '''question : STRING TYPE
+                | STRING TYPE function
+    '''
+    p[0] = nodes.Question(p[1], p[2], None, p[3])
 
 
-    def p_question_simple(self, p):
-        '''question : STRING'''
-        p[0] = Question(p[1])
+def p_question_typed_label(p):
+    '''question : STRING ID ':' TYPE
+                | STRING ID ':' TYPE function
+    '''
+    if len(p) == 5:
+        p[0] = nodes.Question(p[1], p[4], p[2])
+    else:
+        p[0] = nodes.Question(p[1], p[4], p[2], p[5])
 
 
-    def p_question_with_type(self, p):
-        '''question : STRING TYPE'''
-        p[0] = Question(p[1], p[2])
+def p_if(p):
+    '''ifdef : IF function block
+             | IF function block ELSE block
+    '''
+    if len(p) == 4:
+      p[0] = nodes.Branch(p[2], p[3], [])
+    else:
+      p[0] = nodes.Branch(p[2], p[3], p[5])
 
 
-    def p_question_typed_label(self, p):
-        '''question : STRING ID COLON TYPE'''
-        p[0] = Question(p[1], p[4], p[2])
-
-
-    def p_if(self, p):
-        '''ifdef : IF expr block
-                 | IF expr block ELSE block
-        '''
-        p[0] = Node("if", p[3], p[2])
-
-
-    def p_single_term_expression(self, p):
-        '''expr : ID
-                | NUMBER
-                | STRING
-        '''
-        p[0] = p[1]
-
-
-    def p_binary_expression(self, p):
-        '''expr : expr GT expr
-                | expr LT expr
-                | expr EQ expr
-
-                | expr AND expr
-                | expr OR  expr
-
-                | expr PLUS expr
-                | expr MINUS expr
-                | expr TIMES expr
-                | expr DIVIDE expr
-        '''
-        p[0] = Expression(p[2], p[1], p[3])
-
-
-    def p_unary_minus_expression(self, p):
-        '''expr : MINUS expr %prec UMINUS'''
-        p[0] = "-" + p[2]
-
-
-    def p_not_expression(self, p):
-        '''expr : NOT expr %prec NOT'''
-        p[0] = Expression("NOT", p[2])
-
-
-    def p_grouped_expression(self, p):
-        '''expr : LPAR expr RPAR'''
+def p_grouped_expression(p):
+    '''
+    function : '(' ')'
+             | '(' expr ')'
+    '''
+    if len(p) == 4:
         p[0] = p[2]
 
 
-    def p_empty_expression(self, p):
-        '''expr : LPAR RPAR'''
-        pass
+def p_single_term_expression(p):
+    '''expr : ID
+            | NUMBER
+            | STRING
+            | function
+    '''
+    p[0] = p[1]
 
 
-    def p_error(self, p):
-        if self.DEBUG:
-            print "Syntax error at '%s'" % p
+def p_binary_expression(p):
+    '''expr : expr '>' expr
+            | expr '<' expr
 
-        raise ParseError(p)
+            | expr EQ expr
+            | expr NEQ expr
+            | expr LT_EQ expr
+            | expr GT_EQ expr
+
+            | expr AND expr
+            | expr OR  expr
+
+            | expr '+' expr
+            | expr '-' expr
+            | expr '*' expr
+            | expr '/' expr
+    '''
+    p[0] = nodes.Expression(p[2], p[1], p[3])
+
+
+def p_unary_minus_expression(p):
+    '''expr : '-' expr %prec UMINUS'''
+    p[0] = nodes.UnaryExpression(p[2], 'MIN')
+
+
+def p_not_expression(p):
+    '''expr : '!' expr %prec NOT'''
+    p[0] = nodes.UnaryExpression(p[2], 'NOT')
+
+
+def p_error(p):
+    print "Syntax error at '%s'" % p
+    raise ParseError(p)
+
+
+class Parser:
+    def __init__(self, debug=0):
+        self.debug  = debug
+        self.parser = ply.yacc.yacc()
+
+
+    def parse(self, text=""):
+        return self.parser.parse(text, debug=self.debug)

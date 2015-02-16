@@ -4,6 +4,8 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.uva.sea.ql.model.expression.BinaryExpression;
+import org.uva.sea.ql.model.expression.mathexpression.AddExpression;
 import org.uva.sea.ql.parser.impl.QLImplListener;
 import org.uva.sea.ql.parser.impl.QLImplVisitor;
 
@@ -18,7 +20,6 @@ public class QL {
 		}else{
 			is = new ANTLRFileStream(path);
 		}
-		 
 		QLLexer lexer = new QLLexer(is);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokenStream);
