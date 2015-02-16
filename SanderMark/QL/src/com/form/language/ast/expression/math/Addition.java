@@ -10,14 +10,10 @@ public class Addition extends BinaryExpression implements PrimitiveExpression {
 	public Addition(PrimitiveExpression left, PrimitiveExpression right) {
 		super(left,right);
 	}
-	
-	IntLiteral left = (IntLiteral) super.left;
-	IntLiteral right = (IntLiteral) super.right;
-	
 
 	@Override
 	public IntValue evaluate() {
-		return right.evaluate().Add(left.evaluate());
+		return ((IntLiteral)left).evaluate().Add(((IntLiteral)right).evaluate());
 	}
 	
 	

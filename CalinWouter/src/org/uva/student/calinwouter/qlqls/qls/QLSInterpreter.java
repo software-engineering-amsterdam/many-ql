@@ -4,13 +4,11 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAd
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.components.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.components.TypeInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.types.TypeModel;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.qls.components.IComponent;
 import org.uva.student.calinwouter.qlqls.qls.types.AbstractPushable;
-import org.uva.student.calinwouter.qlqls.qls.types.PopAction;
 
 import java.io.IOException;
 import java.util.*;
