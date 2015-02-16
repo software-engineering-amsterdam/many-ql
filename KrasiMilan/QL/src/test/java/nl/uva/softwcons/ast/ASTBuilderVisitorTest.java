@@ -13,7 +13,7 @@ import org.junit.Test;
 public class ASTBuilderVisitorTest {
 
     private static final Type[] ALL_PARSEABLE_TYPES = { Type.BOOLEAN, Type.STRING, Type.DATE, Type.DECIMAL,
-            Type.INTEGER, Type.MONEY };
+            Type.INTEGER };
 
     @Test
     public void testSingleQuestionInForm() {
@@ -49,9 +49,8 @@ public class ASTBuilderVisitorTest {
         String integerQuestion = "question: \"Label me\" integer";
         String dateQuestion = "question: \"Label me\" date";
         String decimalQuestion = "question: \"Label me\" decimal";
-        String moneyQuestion = "question: \"Label me\" money";
         Form form = Questionnaire.build(buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
-                dateQuestion, decimalQuestion, moneyQuestion));
+                dateQuestion, decimalQuestion));
 
         assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
     }
@@ -93,9 +92,8 @@ public class ASTBuilderVisitorTest {
         String integerQuestion = "question: \"Label me\" integer(1+2)";
         String dateQuestion = "question: \"Label me\" date(true)";
         String decimalQuestion = "question: \"Label me\" decimal(1+2)";
-        String moneyQuestion = "question: \"Label me\" money(true)";
         Form form = Questionnaire.build(buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
-                dateQuestion, decimalQuestion, moneyQuestion));
+                dateQuestion, decimalQuestion));
 
         assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
     }
