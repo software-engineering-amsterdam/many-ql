@@ -1,7 +1,6 @@
 package cons.ql.ast.expression;
 
 import cons.ql.ast.Expression;
-import cons.ql.ast.visitor.Visitor;
 
 public abstract class Binary extends Expression {
 	private Expression left, right;
