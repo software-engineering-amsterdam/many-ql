@@ -42,9 +42,10 @@ typedef		: YESNO
 			| TEXT
 			;
 
-typedefext	: typedef
+typeDefExt	: typedef
 			| ID
 			;
+
 
 unit		: UNITTYPE ID '(' TYPENAME (',' ATTR)* ')' TEXT ';'
 			| UNITTYPE ID '(' TYPENAME ',' (typedef|expression) ')' TEXT ';'
@@ -59,6 +60,14 @@ formBlock	: 'form' ID block;
 // our expression should be basically a function. 
 //expression		: ('(' ( expression | condition) ')');
 
-expression	: '(' expression | ((typedefext OPERATOR)+ typedefext) ')';
+
+expression	: typeDefExt
+			| (
+				'('	( typeDefExt 
+					| expression 
+					|  (expression OPERATOR expression) 
+					) 
+				')');
+
 
 ifStatement	: 'if' expression block ('else' ifStatement)* ('else' block)? ';';
