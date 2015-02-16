@@ -85,11 +85,32 @@ namespace Tests.QLTests
             Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
-
         [TestMethod]
         public void DoubleNestedExpressionEqualsNestedExpression()
         {
             string input = "((\"oh no!\" && (no * -127)) != (12345 / \"Divide me\"))";
+            Build(input);
+            var unit = Parser.expression();
+
+            Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
+        }
+
+        [TestMethod]
+        public void LiteralInsideAnExpression()
+        {
+            string input = "8";
+            Build(input);
+            var unit = Parser.expression();
+
+            Assert.IsNull(unit.exception);
+            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
+        }
+        
+        [TestMethod]
+        public void LiteralInsideParenthesisInsideAnExpression()
+        {
+            string input = "(justMyId)";
             Build(input);
             var unit = Parser.expression();
 
