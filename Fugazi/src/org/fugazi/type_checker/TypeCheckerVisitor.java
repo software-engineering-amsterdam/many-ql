@@ -2,15 +2,15 @@ package org.fugazi.type_checker;
 
 
 import org.fugazi.ast.expression.comparison.*;
-import org.fugazi.ast.expression.logical.AndExpression;
-import org.fugazi.ast.expression.logical.OrExpression;
-import org.fugazi.ast.expression.numerical.AddExpression;
-import org.fugazi.ast.expression.numerical.DivExpression;
-import org.fugazi.ast.expression.numerical.MulExpression;
-import org.fugazi.ast.expression.numerical.SubExpression;
-import org.fugazi.ast.expression.unary.NegExpression;
-import org.fugazi.ast.expression.unary.NotExpression;
-import org.fugazi.ast.expression.unary.PosExpression;
+import org.fugazi.ast.expression.logical.And;
+import org.fugazi.ast.expression.logical.Or;
+import org.fugazi.ast.expression.numerical.Add;
+import org.fugazi.ast.expression.numerical.Div;
+import org.fugazi.ast.expression.numerical.Mul;
+import org.fugazi.ast.expression.numerical.Sub;
+import org.fugazi.ast.expression.unary.Negative;
+import org.fugazi.ast.expression.unary.Not;
+import org.fugazi.ast.expression.unary.Positive;
 import org.fugazi.ast.form.Form;
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.literal.ID;
@@ -31,27 +31,27 @@ public class TypeCheckerVisitor implements IASTVisitor<Void>{
      * ==============
      */
     // Logical
-    public Void visitAndExpression(AndExpression andExpression) {return null;}
-    public Void visitOrExpression(OrExpression lessExpression) {return null;}
+    public Void visitAndExpression(And andExpression) {return null;}
+    public Void visitOrExpression(Or lessExpression) {return null;}
 
     // Unary
-    public Void visitNotExpression(NotExpression notExpression){return null;}
-    public Void visitNegExpression(NegExpression negExpression){return null;}
-    public Void visitPosExpression(PosExpression notExpression){return null;}
+    public Void visitNotExpression(Not not){return null;}
+    public Void visitNegExpression(Negative negative){return null;}
+    public Void visitPosExpression(Positive notExpression){return null;}
 
     // Comparison
-    public Void visitEQExpression(EQExpression eqExpression){return null;}
-    public Void visitGEExpression(GEExpression geExpression){return null;}
-    public Void visitGreaterExpression(GreaterExpression greaterExpression){return null;}
-    public Void visitLEExpression(LEExpression leExpression){return null;}
-    public Void visitLessExpression(LessExpression lessExpression){return null;}
-    public Void visitNotEqExpression(NotEqExpression notEqExpression){return null;}
+    public Void visitEQExpression(EQ eqExpression){return null;}
+    public Void visitGEExpression(GE geExpression){return null;}
+    public Void visitGreaterExpression(Greater greaterExpression){return null;}
+    public Void visitLEExpression(LE leExpression){return null;}
+    public Void visitLessExpression(Less lessExpression){return null;}
+    public Void visitNotEqExpression(NotEq notEqExpression){return null;}
 
     // Numerical
-    public Void visitAddExpression(AddExpression addExpression){return null;}
-    public Void visitSubExpression(SubExpression subExpression){return null;}
-    public Void visitMulExpression(MulExpression mulExpression){return null;}
-    public Void visitDivExpression(DivExpression divExpression){return null;}
+    public Void visitAddExpression(Add addExpression){return null;}
+    public Void visitSubExpression(Sub subExpression){return null;}
+    public Void visitMulExpression(Mul mulExpression){return null;}
+    public Void visitDivExpression(Div divExpression){return null;}
 
     /**
      * ==============

@@ -3,22 +3,19 @@ package org.fugazi.ast.expression.unary;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The Not '!'.
- */
-public class NotExpression extends UnaryExpression {
+public class Positive extends Unary {
 
-    public NotExpression(Expression _expr) {
+    public Positive(Expression _expr) {
         super(_expr);
     }
 
     @Override
     public String toString() {
-        return "! " + this.expr.toString();
+        return "+ " + this.expr.toString();
     }
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitNotExpression(this);
+        return visitor.visitPosExpression(this);
     }
 }

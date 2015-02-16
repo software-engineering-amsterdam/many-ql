@@ -8,7 +8,7 @@ import org.fugazi.ast.type.Type;
 
 public class ComputedQuestionStatement extends QuestionStatement {
 
-    private Expression computedExpression;
+    private final Expression computedExpression;
 
     public ComputedQuestionStatement(Type _type, String _label, ID _identifier, Expression _computedExpression) {
         super(_type, _label, _identifier);

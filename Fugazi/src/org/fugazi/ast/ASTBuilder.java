@@ -11,13 +11,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import java.io.InputStream;
 import java.io.IOException;
 
-/**
- * Builds the AST.
- */
 public class ASTBuilder {
-    
-    // The auto-generated QLParser
-    private QLParser parser;
+
+    private final QLParser parser;
 
     public ASTBuilder(InputStream inputStream) throws IOException {
 
@@ -27,18 +23,11 @@ public class ASTBuilder {
         parser = new QLParser(tokens);
     }
 
-    /**
-     *  Builds the form from the Parsed tree.
-     * @return form
-     */
     public Form buildForm() {
-        ParseTree tree = parser.form();
-        return (Form) buildFromTree(tree);
+        return (Form) buildFromTree(parser.form());
     }
 
     private AbstractASTNode buildFromTree(ParseTree tree) {
-        
-        FugaziQLVisitor qlVisitor = new FugaziQLVisitor();
-        return tree.accept(qlVisitor);
+        return tree.accept(new FugaziQLVisitor());
     }
 }

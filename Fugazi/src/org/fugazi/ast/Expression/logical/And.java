@@ -3,18 +3,15 @@ package org.fugazi.ast.expression.logical;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The AND '&&'.
- */
-public class AndExpression extends LogicalExpression {
+public class And extends Logical {
 
-    public AndExpression(Expression _leftExpr, Expression _rightExpr) {
-        super(_leftExpr, _rightExpr);
+    public And(Expression _left, Expression _right) {
+        super(_left, _right);
     }
 
     @Override
     public String toString() {
-        return this.leftExpr.toString() + " && " + this.rightExpr.toString();
+        return this.left.toString() + " && " + this.right.toString();
     }
 
     @Override

@@ -6,11 +6,11 @@ import org.fugazi.ast.type.Type;
 
 public class QuestionStatement extends Statement {
 
-    protected Type type;
+    protected final Type type;
     
-    protected String label;
+    protected final String label;
     
-    protected ID identifier;
+    protected final ID identifier;
 
     public QuestionStatement(Type _type, String _label, ID _identifier) {
         this.type = _type;

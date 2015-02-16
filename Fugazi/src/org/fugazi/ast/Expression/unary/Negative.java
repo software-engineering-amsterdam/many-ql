@@ -3,12 +3,9 @@ package org.fugazi.ast.expression.unary;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The Negative '-()'.
- */
-public class NegExpression extends UnaryExpression {
+public class Negative extends Unary {
 
-    public NegExpression(Expression _expr) {
+    public Negative(Expression _expr) {
         super(_expr);
     }
 

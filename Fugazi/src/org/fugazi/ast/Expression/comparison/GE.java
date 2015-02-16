@@ -3,18 +3,15 @@ package org.fugazi.ast.expression.comparison;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The Greater Equal '>='.
- */
-public class GEExpression extends ComparisonExpression {
+public class GE extends Comparison {
 
-    public GEExpression(Expression _leftExpr, Expression _rightExpr) {
-        super(_leftExpr, _rightExpr);
+    public GE(Expression _left, Expression _right) {
+        super(_left, _right);
     }
 
     @Override
     public String toString() {
-        return this.leftExpr.toString() + " >= " + this.rightExpr.toString();
+        return this.left.toString() + " >= " + this.right.toString();
     }
 
     @Override

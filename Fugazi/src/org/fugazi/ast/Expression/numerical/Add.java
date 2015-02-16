@@ -3,18 +3,15 @@ package org.fugazi.ast.expression.numerical;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
-/**
- * The Add '+'.
- */
-public class AddExpression extends NumericalExpression {
+public class Add extends Numerical {
 
-    public AddExpression(Expression _leftExpr, Expression _rightExpr) {
-        super(_leftExpr, _rightExpr);
+    public Add(Expression _left, Expression _right) {
+        super(_left, _right);
     }
 
     @Override
     public String toString() {
-        return this.leftExpr.toString() + " + " + this.rightExpr.toString();
+        return this.left.toString() + " + " + this.right.toString();
     }
 
     @Override
