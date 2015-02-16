@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using GrammarProject;
 using Antlr4.Runtime.Tree;
 using System.IO;
+using QuestionnaireLanguage.AST;
 
 namespace QuestionnaireLanguage
 {
@@ -26,6 +27,7 @@ namespace QuestionnaireLanguage
     {
         public MainWindow()
         {
+            
             InitializeComponent();
 
             string program = 
@@ -39,7 +41,11 @@ namespace QuestionnaireLanguage
             QLMainParser parser = new QLMainParser(tokens);
             IParseTree tree = parser.form();
 
+
+
             Console.WriteLine(tree.ToStringTree(parser));
+            QLMainVisitor visitor = new QLMainVisitor();
+            iASTNode ast = visitor.Visit(tree);
 
             /*FormVisitor visitor = new FormVisitor();
             Console.WriteLine(visitor.Visit(tree));*/

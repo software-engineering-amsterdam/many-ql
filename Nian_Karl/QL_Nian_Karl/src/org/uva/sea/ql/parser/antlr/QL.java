@@ -18,7 +18,6 @@ public class QL {
 		}else{
 			is = new ANTLRFileStream(path);
 		}
-		 
 		QLLexer lexer = new QLLexer(is);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokenStream);
@@ -29,7 +28,6 @@ public class QL {
 	}
 
 	public static void main(String[] args) {
-		
 		try {
 			parseQL("");
 		} catch (Exception e) {

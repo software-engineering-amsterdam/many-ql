@@ -36,6 +36,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %left  '+'  '-'
 %left  '*'  '/'
 
+// Add tokens here must also lead to a lexer update at lexer.go
 %token BlockBeginToken
 %token BlockEndToken
 %token FormToken
@@ -47,6 +48,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token StringQuestionToken
 %token IntQuestionToken
 %token BoolQuestionToken
+%token ComputedQuestionToken
 %token '+' '-' '*' '/' '(' ')'
 %token LessThanToken
 %token LessOrEqualsThanToken
@@ -54,6 +56,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token MoreOrEqualsThanToken
 %token EqualsToToken
 %token NumericToken
+%token ElseToken
 
 %%
 
@@ -119,11 +122,17 @@ questionType:
 	{
 		$$.questionType = new(ast.BoolQuestion)
 	}
-	| TextToken
+	| ComputedQuestionToken '=' term
 	{
-		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content))
+		computedQuestion := new(ast.ComputedQuestion)
+		computedQuestion.Expression = $3.evaluatable
+		$$.questionType = computedQuestion
 	}
-
+	| term
+	{
+		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool' or 'computed'. Found: %s", $1.content))
+	}
+	;
 
 ifBlock:
 	IfToken '(' evaluatable ')' '{' stack '}'
@@ -137,6 +146,43 @@ ifBlock:
 		$$.stack = []*ast.ActionNode{}
 		$3.evaluatable = new(ast.Evaluatable)
 		$6.stack = []*ast.ActionNode{}
+	}
+	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken ifBlock
+	{
+		ifNode := new(ast.IfNode)
+		ifNode.Conditions = $3.evaluatable
+		ifNode.Stack = $6.stack
+		ifNode.ElseNode = $9.ifNode
+		$$.ifNode = ifNode
+
+		$$.evaluatable = new(ast.Evaluatable)
+		$$.stack = []*ast.ActionNode{}
+		$3.evaluatable = new(ast.Evaluatable)
+		$6.stack = []*ast.ActionNode{}
+		$9.ifNode = nil
+	}
+	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken '{' stack '}'
+	{
+		ifNode := new(ast.IfNode)
+		ifNode.Conditions = $3.evaluatable
+		ifNode.Stack = $6.stack
+
+		elseNode := new(ast.IfNode)
+		elseCondition := &ast.TermNode{
+			Type: ast.NumericConstantNodeType,
+			NumericConstant: 1,
+		}
+		elseNode.Conditions = elseCondition
+		elseNode.Stack = $10.stack
+		ifNode.ElseNode = elseNode
+
+		$$.ifNode = ifNode
+
+		$$.evaluatable = new(ast.Evaluatable)
+		$$.stack = []*ast.ActionNode{}
+		$3.evaluatable = new(ast.Evaluatable)
+		$6.stack = []*ast.ActionNode{}
+		$10.stack = []*ast.ActionNode{}
 	}
 	;
 
@@ -229,6 +275,13 @@ value:
 		termNode := new(ast.TermNode)
 		termNode.IdentifierReference = $1.content
 		termNode.Type = ast.IdentifierReferenceNodeType
+		$$.termNode = termNode
+	}
+	| QuotedStringToken
+	{
+		termNode := new(ast.TermNode)
+		termNode.StringConstant = $1.content
+		termNode.Type = ast.StringConstantNodeType
 		$$.termNode = termNode
 	}
 	;

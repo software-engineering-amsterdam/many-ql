@@ -1,36 +1,31 @@
 package org.uva.sea.ql.model.expression;
 
-public abstract class BinaryExpression<T> extends Expression<T>{
-	protected Expression<T> leftExpression;
-	protected Expression<T> rightExpression;
+import org.uva.sea.ql.model.literal.AbstractLiteral;
+import org.uva.sea.ql.model.value.AbstractValue;
+
+public abstract class BinaryExpression implements Expression{
+	protected AbstractLiteral leftExpression;
+	protected AbstractLiteral rightExpression;
 	
-	public BinaryExpression(Expression<T> leftExpression,
-			Expression<T> rightExpression) {
-		super();
-		this.setLeftExpression(leftExpression);
-		this.setRightExpression(rightExpression);
+	public BinaryExpression(AbstractLiteral leftExpression,
+			AbstractLiteral rightExpression) {
+		this.leftExpression = leftExpression;
+		this.rightExpression = rightExpression;
 	}
 	
+	public AbstractLiteral getLeftExpression() {
+		return leftExpression;
+	}
+
+
+	public AbstractLiteral getRightExpression() {
+		return rightExpression;
+	}
+
 	public BinaryExpression() {
 		
 	}
 
-	public Expression<T> getRightExpression() {
-		return rightExpression;
-	}
-
-	public void setRightExpression(Expression<T> rightExpression) {
-		this.rightExpression = rightExpression;
-	}
-
-	public Expression<T> getLeftExpression() {
-		return leftExpression;
-	}
-
-	public void setLeftExpression(Expression<T> leftExpression) {
-		this.leftExpression = leftExpression;
-	}
-
 	@Override
-	public abstract T evaluateExpression();
+	public abstract AbstractValue<?> evaluateExpression();
 }

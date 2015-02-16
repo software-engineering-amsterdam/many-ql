@@ -4,7 +4,7 @@ from antlr4 import *
 from QLLexer import QLLexer
 from QLParser import QLParser
 from QLListener import QLListener
-from customQLVisitor import CustomQLVisitor
+from CustomQLVisitor import CustomQLVisitor
 from AST import AST
 
 input = FileStream("test_visitor.QL")
@@ -28,7 +28,8 @@ def print_tree(tree_test, lev):
         print(spaces + "` " + str(tree_test))
 
 def main():
-    AST("test_visitor.QL").prettyPrint()
+    ast = AST("test_visitor.QL")
+    ast.prettyPrint()
     #visitor = CustomQLVisitor()
     #print(visitor.visit(tree_test).forms[0].statements[0].identifier.lineNumber)
     #print_tree(tree_test, 0)    

@@ -1,0 +1,129 @@
+%package cons.ql.parser
+%class QLParser
+%interface QLTokens
+%semantic cons.ql.ast.ASTNode 
+
+%token <QLInt> INITINT INT
+%token <QLBoolean> INITBOOLEAN BOOLEAN
+%token <QLString> INITSTRING STRING
+%token <QLFloat> INITMONEY MONEY INITFLOAT FLOAT
+%token <QLIdent> IDENT
+%token FORM IF ELSE ASSIGN
+%token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!' '"' ':' '.'
+%token '(' ')' '{' '}'
+
+%left OR
+%left AND
+%left '>' '<' GEQ LEQ NEQ EQ
+%left '+' '-'
+%left '*' '/'
+%left UMIN UPLUS UNOT
+
+%left ADD 
+%left SUB
+
+%type <Expression> expression
+%type <QLType> literal
+%type <QLType> type
+%type <Form> form
+%type <Statement> statement
+%type <Block> statements
+
+%{
+import cons.ql.ast.*;
+import cons.ql.ast.expression.*;
+import cons.ql.ast.expression.unary.*;
+import cons.ql.ast.expression.literal.*;
+import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.relational.*;
+import cons.ql.ast.statement.*;
+
+@SuppressWarnings("all")
+%}
+
+%%
+
+ top 	: node { result = $1; }
+ 		;
+
+ node 	: form
+ 		| statement 
+ 		| expression
+ 		;
+
+ form : FORM IDENT '{' statements '}' { $$ = new Form($2, $4); }
+ 	  ;
+
+ statements : statement statements  { $$ = new Block($1, $2); }
+			| statement 			{ $$ = new Block($1); }
+			;
+
+ statement : IDENT ':' type '{' INITSTRING '}' 							{ $$ = new Question($1, $3, $5); }
+ 		   | IDENT ':' type '{' INITSTRING ASSIGN '(' expression ')' '}'{ $$ = new ComputedQuestion($1, $3, $5, $8); }
+ 		   | IF '(' expression ')' '{' statements '}' elseBranch 		{ $$ = new IfThen($3, $6); }
+ 		   ;
+
+ elseBranch : ELSE '{' statements '}' 
+ 			| /* empty */
+ 			;
+
+ expression : IDENT
+ 			| type
+ 			| literal
+ 			| unaryExpression
+ 			| arithmeticExpression 
+		 	| relationalExpression
+		 	| '(' expression ')'	{ $$ = $2; }
+		 	;
+
+ type 	: INT		{ $$ = new QLInt(); }
+ 		| MONEY		{ $$ = new QLFloat(); }
+		| FLOAT		{ $$ = new QLFloat(); }
+		| BOOLEAN	{ $$ = new QLBoolean(); }
+		| STRING 	{ $$ = new QLString(); }
+		;
+
+ // INIT<Type> stands for an initialised instance.
+ literal : INITINT
+		 | INITMONEY
+		 | INITFLOAT
+		 | INITBOOLEAN
+		 | INITSTRING
+		 ;
+
+ unaryExpression : '+' expression %prec UPLUS 	{ $$ = new Pos($2); }
+				 | '-' expression %prec UMIN  	{ $$ = new Neg($2); }
+				 ;
+				 
+ arithmeticExpression : expression '*' expression	{ $$ = new Mul($1, $3); }
+					  | expression '/' expression	{ $$ = new Div($1, $3); }
+					  | expression '+' expression	{ $$ = new Add($1, $3); }
+					  | expression '-' expression 	{ $$ = new Sub($1, $3); }
+					  ;
+
+ relationalExpression 	: '!' expression %prec UNOT { $$ = new Not($2); }
+ 		 				| expression EQ expression	{ $$ = new Eq($1, $3); }
+						| expression NEQ expression	{ $$ = new NEq($1, $3); }
+						| expression '>' expression	{ $$ = new GT($1, $3); }
+						| expression '<' expression	{ $$ = new LT($1, $3); }
+						| expression GEQ expression	{ $$ = new GEq($1, $3); }
+						| expression LEQ expression	{ $$ = new LEq($1, $3); }
+						| expression AND expression	{ $$ = new And($1, $3); }
+					    | expression OR expression  { $$ = new Or($1, $3); }
+					    ;
+%%
+private QLLexer lexer; 
+
+private ASTNode result;
+
+public ASTNode getResult() {
+  return result;
+}
+
+public QLParser(QLLexer lexer) { 
+  this.lexer = lexer; 
+}
+
+private void yyerror(String msg) { 
+  System.err.println(yyerrno<0 ? msg : yyerrmsgs[yyerrno]);
+}

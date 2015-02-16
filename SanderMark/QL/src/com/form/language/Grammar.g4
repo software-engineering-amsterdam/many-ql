@@ -5,54 +5,64 @@ grammar Grammar;
 	import com.form.language.ast.*;
 	import com.form.language.ast.expression.*;
 	import com.form.language.ast.expression.math.*;	
+	import com.form.language.ast.expression.literal.*;	
+	import com.form.language.ast.expression.logic.*;
+	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 }
 
-syntaxtree returns [PrimitiveExpression pExp]
-: expression {$pExp = $expression.pExp; }
+
+statementList returns [List<Statement> result]
+	@init {List<Statement> stmts = new ArrayList<Statement>();}
+	: (stmt=statement {stmts.add($stmt.result);})+ 
+	{$result = stmts;}
+	;
+
+statement returns [Statement result]
+: Astmt=assignmentStatement {$result = $Astmt.result;}
+| Istmt=ifStatement {$result = $Istmt.result;}
 ;
 
-term returns [PrimitiveExpression pExp]
-	:	IDENT {$pExp = new IntLiteral(0);}
-	|	'(' expression ')' {$pExp = $expression.pExp;}
-	|	INTEGER {$pExp = new IntLiteral(Integer.parseInt($INTEGER.text));}
-	;
-	
-unary returns [PrimitiveExpression pExp]
-	: 	{boolean positive = true; }	
-		('+' | '-' {positive = !positive; })* term
-		{
-			$pExp = $term.pExp; 
-			if (!positive)
-				$pExp = new Negation($pExp);
-		}
+
+assignmentStatement returns [Statement result]
+: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result);}
+;
+
+ifStatement returns [Statement result]
+: 'if' exp=expression 'then' slist=statementList
+  'end' {$result = new IfStatement($exp.result,$slist.result);}
+;
+
+expression returns [PrimitiveExpression result]
+	: '(' x=expression ')'				{ $result = $x.result;}
+	| '-' x=expression					{ $result = new Negation($x.result);}
+	| '!' x=expression					{ $result = new Not($x.result);}
+	| l=expression '*' r=expression		{ $result = new Multiplication($l.result, $r.result);}
+	| l=expression '/' r=expression		{ $result = new Division($l.result, $r.result);}
+	| l=expression '+' r=expression		{ $result = new Addition($l.result, $r.result); }
+	| l=expression '-' r=expression		{ $result = new Substraction($l.result, $r.result); }
+	| l=expression '==' r=expression	{ $result = new Equal($l.result, $r.result); }
+	| l=expression '>' r=expression		{ $result = new GreaterThan($l.result, $r.result); }
+	| l=expression '>=' r=expression	{ $result = new GreaterThanOrEqual($l.result, $r.result); }
+	| l=expression '<' r=expression		{ $result = new LessThan($l.result, $r.result); }
+	| l=expression '=<' r=expression	{ $result = new LessThanOrEqual($l.result, $r.result); }
+	| l=expression '&&' r=expression	{ $result = new And($l.result, $r.result); }
+	| l=expression '||' r=expression	{ $result = new Or($l.result, $r.result); }
+	| lit = literal						{ $result = $lit.result; }
 	;
 
-mult returns [PrimitiveExpression pExp]
-	:	op1=unary {$pExp = $op1.pExp; }
-		( '*' op2=unary {$pExp = new Multiplication($pExp, $op2.pExp);}
-		| '/' op2=unary {$pExp = new Division($pExp, $op2.pExp);}
-		| 'mod' op2=unary {$pExp = new Modulus($pExp, $op2.pExp);}
-		)*
-	;
-	
-expression returns [PrimitiveExpression pExp]
-	:	op1=mult {$pExp = $op1.pExp; }
-	 	(	'-' op2=unary {$pExp = new Substraction($pExp, $op2.pExp);}
-		| 	'+' op2=unary {$pExp = new Addition($pExp, $op2.pExp);}
-		)*
+literal returns [PrimitiveExpression result]
+	: BOOL		{$result = new BoolLiteral(Boolean.parseBoolean($BOOL.text));}
+	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text));}
 	;
 
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
-CHAR_LITERAL
-	:	'\'' . '\'' {setText(getText().substring(1,2));}
-	;
+INTEGER : [0-9]+;
+BOOL : 'true' | 'false';
 
-fragment LETTER : ('a'..'z' | 'A'..'Z') ;
-fragment DIGIT : '0'..'9';
-INTEGER : DIGIT+ ;
-IDENT : LETTER (LETTER | DIGIT)*;
+ID : ([a-z][A-Za-z0-9]+);
+
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;

@@ -1,9 +1,9 @@
 form taxOfficeExample { 
-  hasSoldHouse boolean : "Did you sell a house in 2010?"
-  hasBoughtHouse boolean : "Did you buy a house in 2010?"
-  hasMaintLoan boolean : "Did you enter a loan?"
+  boolean hasSoldHouse : "Did you sell a house in 2010?"
+  boolean hasBoughtHouse : "Did you buy a house in 2010?"
+  boolean hasMaintLoan : "Did you enter a loan?"
   
   if (hasSoldHouse) {
-  	income money : "Your income?"	
+  	double income : "Your income?"	
   }
 }

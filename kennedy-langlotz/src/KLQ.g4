@@ -36,7 +36,12 @@ questionaire
     ;
 
 question
-    : questionBegin specification+ questionEnd
+    : questionBegin
+        'id'       ':' QuestionId   NEWLINE
+        'text'     ':' String       NEWLINE
+        'type'     ':' questionType NEWLINE
+       ('value'    ':' answerSet    NEWLINE)?
+      questionEnd
     ;
 
 questionBegin
@@ -48,17 +53,6 @@ questionEnd :
         ( NEWLINE+
         | EOF
         )
-    ;
-
-specification
-    :
-    ( 'id'       ':' QuestionId
-    | 'type'     ':' questionType
-    | 'value'    ':' answers        //optional
-    | 'text'     ':' String         //optional
-    | 'requires' ':' QuestionId     //optional
-    | 'only'     ':' answers        //optional, for *requires*
-    ) NEWLINE
     ;
 
 QuestionId
@@ -73,7 +67,6 @@ questionType
     | 'string'
     | 'numeral'
     ;
-
 
 String
     : '"' StringCharacter* '"'
@@ -102,7 +95,7 @@ answer
 expr
     : expr ( '*' | '/' ) expr
     | expr ( '+' | '-' ) expr
-    | expr ( '>=' | '>' | L | LT ) expr
+    | expr ( '>=' | '>' | '<=' | '<' ) expr
     | Number
     | Date
     | String
@@ -110,7 +103,7 @@ expr
     |'(' expr ')'
     ;
 
-answers
+answerSet
     : answer (', ' answer)*
     ;
 

@@ -16,3 +16,14 @@ describe "Parsing" do
     expect(question.type).to eq "string"
   end
 end
+
+describe "Expression" do
+  it "parses a simple expression" do
+    form = QL.parse( source("expression_query") ).first
+    
+    expression = form.statements[1].expression
+    expect(expression.operator).to eq :<
+    expect(expression.arguments).to eq [10, 18]
+    expect(expression.value).to eq true
+  end
+end
