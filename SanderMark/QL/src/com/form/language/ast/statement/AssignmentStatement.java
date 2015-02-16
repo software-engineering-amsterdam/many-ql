@@ -1,15 +1,15 @@
 package com.form.language.ast.statement;
 
-import com.form.language.ast.values.GenericValue;
+import com.form.language.ast.expression.PrimitiveExpression;
 
 public class AssignmentStatement extends Statement {
 	public String name;
-	public GenericValue<?> value;
+	public PrimitiveExpression expression;
 	
-	public AssignmentStatement(String name, GenericValue<?> value) {
+	public AssignmentStatement(String name, PrimitiveExpression expression) {
 		super();
 		this.name = name;
-		this.value = value;
+		this.expression = expression;
 	}
 	
 	
