@@ -5,6 +5,8 @@ form SomeForm {
 	"What's the answer to life the universe and everything?"
 	questionTwo   integer
 
+	"Calculated field" questionSixteen computed = questionTwo * 2
+
 	"Are you happy today?"
 	questionThree bool
 
@@ -77,5 +79,4 @@ form SomeForm {
 	// 	questionFifteen string
 	// }
 
-	"Calculated field" questionSixteen integer = questionTwo * 2
 }
