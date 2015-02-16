@@ -31,7 +31,7 @@ func (exec Execute) Exec(node interface{}) {
 
 // QuestionaireNode execute all actionNodes of a questionaire (form)
 func (exec Execute) QuestionaireNode(q *ast.QuestionaireNode) {
-	for _, actionNode := range q.Stack {
+	for _, actionNode := range q.Stack() {
 		exec.Exec(actionNode)
 	}
 }

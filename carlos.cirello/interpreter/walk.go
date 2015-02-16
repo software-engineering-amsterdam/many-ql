@@ -29,7 +29,7 @@ func (walk Walk) Exec(node interface{}) {
 
 // QuestionaireNode Walker all actionNodes of a questionaire (form)
 func (walk Walk) QuestionaireNode(q *ast.QuestionaireNode) {
-	for _, actionNode := range q.Stack {
+	for _, actionNode := range q.Stack() {
 		walk.Exec(actionNode)
 	}
 }

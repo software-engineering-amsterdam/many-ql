@@ -70,10 +70,7 @@ top:
 questionaire:
 	FormToken TextToken '{' stack '}'
 	{
-		$$.questionaire = &ast.QuestionaireNode{
-			Label: $2.content,
-			Stack: $4.stack,
-		}
+		$$.questionaire = ast.NewQuestionaireNode($2.content, $4.stack)
 	}
 	;
 
