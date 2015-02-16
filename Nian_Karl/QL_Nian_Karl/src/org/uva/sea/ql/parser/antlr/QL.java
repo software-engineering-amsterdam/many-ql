@@ -4,8 +4,6 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.uva.sea.ql.model.expression.BinaryExpression;
-import org.uva.sea.ql.model.expression.mathexpression.AddExpression;
 import org.uva.sea.ql.parser.impl.QLImplListener;
 import org.uva.sea.ql.parser.impl.QLImplVisitor;
 
@@ -30,7 +28,6 @@ public class QL {
 	}
 
 	public static void main(String[] args) {
-		
 		try {
 			parseQL("");
 		} catch (Exception e) {
