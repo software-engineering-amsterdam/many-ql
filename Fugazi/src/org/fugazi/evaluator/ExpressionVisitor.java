@@ -14,78 +14,80 @@ import org.fugazi.ast.expression.unary.Positive;
 
 import java.util.HashMap;
 
-public class ExpressionVisitor implements IExpressionVisitor <ExpressionResult> {
-    private final HashMap<String, ExpressionResult> values;
+public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
+    private final HashMap<String, ExpressionValue> values;
 
     public ExpressionVisitor() {
-        values = new HashMap<String, ExpressionResult>();
+        values = new HashMap<String, ExpressionValue>();
     }
 
-    public void storeValue(String identifier, ExpressionResult result) {
-        values.put(identifier, result);
+    public void storeResult(String _id, ExpressionValue _val) {
+        assert(_id) != null;
+        assert(_val) != null;
+        values.put(_id, _val);
     }
 
     // Logical
-    public ExpressionResult visitAnd(And andExpression) {
+    public ExpressionValue visitAnd(And and) {
         return null;        
     }
     
-    public ExpressionResult visitOr(Or lessExpression) {
+    public ExpressionValue visitOr(Or less) {
         return null;             
     }     
 
     // Unary
-    public ExpressionResult visitNot(Not not) {
+    public ExpressionValue visitNot(Not not) {
         return null;             
     }   
     
-    public ExpressionResult visitNegative(Negative negative) {
+    public ExpressionValue visitNegative(Negative negative) {
         return null;             
     }   
     
-    public ExpressionResult visitPositive(Positive positive) {
+    public ExpressionValue visitPositive(Positive positive) {
         return null;             
     }     
 
     // Comparison
-    public ExpressionResult visitEQ(EQ eqExpression) {
+    public ExpressionValue visitEQ(EQ eq) {
         return null;             
     }   
     
-    public ExpressionResult visitGE(GE geExpression) {
+    public ExpressionValue visitGE(GE ge) {
         return null;             
     }   
     
-    public ExpressionResult visitGreater(Greater greaterExpression) {
+    public ExpressionValue visitGreater(Greater greater) {
         return null;             
     }     
     
-    public ExpressionResult visitLE(LE leExpression) {
+    public ExpressionValue visitLE(LE le) {
         return null;             
     }
     
-    public ExpressionResult visitLesser(Less lessExpression) {
+    public ExpressionValue visitLesser(Less less) {
         return null;            
     }
     
-    public ExpressionResult visitNotEq(NotEq notEqExpression) {
+    public ExpressionValue visitNotEq(NotEq notEq) {
         return null;             
     }     
 
     // Numerical
-    public ExpressionResult visitAdd(Add addExpression) {
+    public ExpressionValue visitAdd(Add add) {
         return null;             
     }
     
-    public ExpressionResult visitSub(Sub subExpression) {
+    public ExpressionValue visitSub(Sub sub) {
         return null;             
     }
     
-    public ExpressionResult visitMul(Mul mulExpression) {
+    public ExpressionValue visitMul(Mul mul) {
         return null;             
     }
     
-    public ExpressionResult visitDiv(Div divExpression) {
+    public ExpressionValue visitDiv(Div div) {
         return null;             
     }     
 }
