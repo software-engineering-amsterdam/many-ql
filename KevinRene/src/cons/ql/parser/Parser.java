@@ -10,7 +10,6 @@ import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.Question;
 
 public class Parser {
-	
 	/**
 	 * The main method, which gets executed once this class is run. Enabled the user
 	 * to enter a string, which is then parsed and shown as an AST.

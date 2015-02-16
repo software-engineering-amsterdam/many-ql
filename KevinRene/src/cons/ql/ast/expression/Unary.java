@@ -1,9 +1,9 @@
 package cons.ql.ast.expression;
 
 import cons.ql.ast.Expression;
+import cons.ql.ast.Visitor;
 
 public abstract class Unary extends Expression {
-	
 	protected Expression operand;
 	protected String operator;
 	
@@ -17,4 +17,8 @@ public abstract class Unary extends Expression {
 		return this.operator + this.operand.toString();
 	}
 	
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

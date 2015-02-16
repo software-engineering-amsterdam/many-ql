@@ -34,7 +34,9 @@ public class Form extends Statement {
 
 	@Override
 	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
+		identifier.accept(visitor);
+		block.accept(visitor);
 		
+		visitor.visit(this);		
 	}
 }

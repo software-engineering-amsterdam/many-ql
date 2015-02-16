@@ -40,6 +40,10 @@ public class Block extends Statement {
 
 	@Override
 	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub		
+		for(Statement statement: statements) {
+			statement.accept(visitor);
+		}
+		
+		visitor.visit(this);
 	}
 }

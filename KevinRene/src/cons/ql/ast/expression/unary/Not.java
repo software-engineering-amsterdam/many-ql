@@ -5,10 +5,8 @@ import cons.ql.ast.Visitor;
 import cons.ql.ast.expression.Unary;
 
 public class Not extends Unary {
-	final static String operator = "!";
-	
 	public Not(Expression operand) {
-		super(operand, operator);
+		super(operand, "!");
 	}
 
 	@Override

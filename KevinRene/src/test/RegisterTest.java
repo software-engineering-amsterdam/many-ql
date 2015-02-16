@@ -1,4 +1,4 @@
-package cons;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -6,8 +6,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import cons.Register;
 import cons.exception.UndefinedVariableException;
-import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.*;
 
 public class RegisterTest {
