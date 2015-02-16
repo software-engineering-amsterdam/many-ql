@@ -1,0 +1,13 @@
+
+form taxOfficeExample {
+
+  if ( hasSoldHouse )  {
+    "Did you enter a loan?"
+       hasMaintLoan: boolean
+  }
+  else {
+    "Why did you not sell your house?"
+       reason: string
+  }
+
+}

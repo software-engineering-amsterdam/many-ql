@@ -10,6 +10,9 @@ namespace QuestionnaireLanguage.AST.Nodes
 {
     public class IdNode : iASTNode
     {
-
+        public void AddChild(iASTNode node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

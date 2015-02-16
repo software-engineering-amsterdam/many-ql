@@ -14,9 +14,9 @@ import nl.uva.softwcons.ast.expression.binary.logical.AndExpression;
 import nl.uva.softwcons.ast.expression.binary.logical.OrExpression;
 import nl.uva.softwcons.ast.expression.identifier.IdentifierExpression;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
+import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ast.expression.unary.arithmetic.NegationExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
 
 public interface ExpressionVisitor<T> {
@@ -48,9 +48,6 @@ public interface ExpressionVisitor<T> {
 
     T visit(OrExpression expr);
 
-    /* Unary arithmetic expressions */
-    T visit(NegationExpression expr);
-
     /* Unary logical expressions */
     T visit(NotExpression expr);
 
@@ -62,5 +59,7 @@ public interface ExpressionVisitor<T> {
     T visit(IntegerLiteral expr);
 
     T visit(StringLiteral expr);
+
+    T visit(DecimalLiteral expr);
 
 }

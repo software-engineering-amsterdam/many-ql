@@ -1,4 +1,5 @@
 # ast
+from exceptions import *
 
 class QuestionTypes:
     def __init__(self):
@@ -9,6 +10,7 @@ class Expression:
         self.expression = expression
         self.str_expression = str(expression)
         self.is_else = False
+        print(expression)
 
     def analyze(self):
         pass
@@ -22,9 +24,11 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + self.str_expression
 
-    def variables(self):
-        pass
 
+    def type_validator(answer, qtype):
+        if isinstance(answer, str):
+            return True
+        return False
 
 # Questions
 class Question:
@@ -32,6 +36,7 @@ class Question:
         self.id = qid
         self.label = label
         self.type = qtype
+        self.answer = []
 
     def ast_print(self, level=0):
         s = "\n" + "   " * level + "Question:" + self.id + "\n"
@@ -39,6 +44,12 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
+
+    def update(self, new_answer):
+        if Expression.type_validator(new_answer, self.get_type()) is True:
+            self.answer = [new_answer]
+        else:
+            raise QException("Answer type and input type collision")
 
     # Getters
     def get_label(self):
@@ -55,6 +66,12 @@ class Question:
 
     def all_labels(self):
         return [self.label]
+
+    def is_conditional(self):
+        return False
+
+    def get_answer(self):
+        return self.answer
 
 
 class AdvancedQuestions(Question):
@@ -103,6 +120,9 @@ class AdvancedQuestions(Question):
 
     def get_e_questions(self):
         return self.else_questions
+
+    def is_conditional(self):
+        return True
 
 
 class Form:

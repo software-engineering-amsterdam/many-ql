@@ -1,4 +1,4 @@
-// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/com/klq/lang/KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
 package parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -25,11 +25,10 @@ public class KLQParser extends Parser {
 		WS=40, COMMENT=41, LINE_COMMENT=42;
 	public static final int
 		RULE_questionaire = 0, RULE_question = 1, RULE_questionBegin = 2, RULE_questionEnd = 3, 
-		RULE_specification = 4, RULE_questionType = 5, RULE_answer = 6, RULE_expr = 7, 
-		RULE_answerSet = 8;
+		RULE_questionType = 4, RULE_answer = 5, RULE_expr = 6, RULE_answerSet = 7;
 	public static final String[] ruleNames = {
-		"questionaire", "question", "questionBegin", "questionEnd", "specification", 
-		"questionType", "answer", "expr", "answerSet"
+		"questionaire", "question", "questionBegin", "questionEnd", "questionType", 
+		"answer", "expr", "answerSet"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -128,17 +127,17 @@ public class KLQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(19); 
+			setState(17); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(18); 
+				setState(16); 
 				question();
 				}
 				}
-				setState(21); 
+				setState(19); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==QUESTION );
@@ -156,17 +155,26 @@ public class KLQParser extends Parser {
 	}
 
 	public static class QuestionContext extends ParserRuleContext {
+		public Token id;
+		public Token text;
+		public QuestionTypeContext type;
 		public QuestionBeginContext questionBegin() {
 			return getRuleContext(QuestionBeginContext.class,0);
+		}
+		public List<TerminalNode> NEWLINE() { return getTokens(KLQParser.NEWLINE); }
+		public TerminalNode NEWLINE(int i) {
+			return getToken(KLQParser.NEWLINE, i);
 		}
 		public QuestionEndContext questionEnd() {
 			return getRuleContext(QuestionEndContext.class,0);
 		}
-		public List<SpecificationContext> specification() {
-			return getRuleContexts(SpecificationContext.class);
+		public TerminalNode QuestionId() { return getToken(KLQParser.QuestionId, 0); }
+		public TerminalNode String() { return getToken(KLQParser.String, 0); }
+		public QuestionTypeContext questionType() {
+			return getRuleContext(QuestionTypeContext.class,0);
 		}
-		public SpecificationContext specification(int i) {
-			return getRuleContext(SpecificationContext.class,i);
+		public AnswerSetContext answerSet() {
+			return getRuleContext(AnswerSetContext.class,0);
 		}
 		public QuestionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -194,23 +202,48 @@ public class KLQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23); 
+			setState(21); 
 			questionBegin();
+			setState(22); 
+			match(ID);
+			setState(23); 
+			match(T__0);
+			setState(24); 
+			((QuestionContext)_localctx).id = match(QuestionId);
 			setState(25); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(24); 
-				specification();
-				}
-				}
-				setState(27); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << TYPE) | (1L << VALUE) | (1L << TEXT) | (1L << REQUIRES) | (1L << ONLY))) != 0) );
+			match(NEWLINE);
+			setState(26); 
+			match(TEXT);
+			setState(27); 
+			match(T__0);
+			setState(28); 
+			((QuestionContext)_localctx).text = match(String);
 			setState(29); 
+			match(NEWLINE);
+			setState(30); 
+			match(TYPE);
+			setState(31); 
+			match(T__0);
+			setState(32); 
+			((QuestionContext)_localctx).type = questionType();
+			setState(33); 
+			match(NEWLINE);
+			setState(39);
+			_la = _input.LA(1);
+			if (_la==VALUE) {
+				{
+				setState(34); 
+				match(VALUE);
+				setState(35); 
+				match(T__0);
+				setState(36); 
+				answerSet();
+				setState(37); 
+				match(NEWLINE);
+				}
+			}
+
+			setState(41); 
 			questionEnd();
 			}
 		}
@@ -252,9 +285,9 @@ public class KLQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31); 
+			setState(43); 
 			match(QUESTION);
-			setState(32); 
+			setState(44); 
 			match(NEWLINE);
 			}
 		}
@@ -301,23 +334,23 @@ public class KLQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(34); 
+			setState(46); 
 			match(END);
-			setState(41);
+			setState(53);
 			switch (_input.LA(1)) {
 			case NEWLINE:
 				{
-				setState(36); 
+				setState(48); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(35); 
+					setState(47); 
 					match(NEWLINE);
 					}
 					}
-					setState(38); 
+					setState(50); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==NEWLINE );
@@ -325,128 +358,13 @@ public class KLQParser extends Parser {
 				break;
 			case EOF:
 				{
-				setState(40); 
+				setState(52); 
 				match(EOF);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class SpecificationContext extends ParserRuleContext {
-		public TerminalNode NEWLINE() { return getToken(KLQParser.NEWLINE, 0); }
-		public TerminalNode QuestionId() { return getToken(KLQParser.QuestionId, 0); }
-		public QuestionTypeContext questionType() {
-			return getRuleContext(QuestionTypeContext.class,0);
-		}
-		public AnswerSetContext answerSet() {
-			return getRuleContext(AnswerSetContext.class,0);
-		}
-		public TerminalNode String() { return getToken(KLQParser.String, 0); }
-		public SpecificationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_specification; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof KLQListener ) ((KLQListener)listener).enterSpecification(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof KLQListener ) ((KLQListener)listener).exitSpecification(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof KLQVisitor ) return ((KLQVisitor<? extends T>)visitor).visitSpecification(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final SpecificationContext specification() throws RecognitionException {
-		SpecificationContext _localctx = new SpecificationContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_specification);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(61);
-			switch (_input.LA(1)) {
-			case ID:
-				{
-				setState(43); 
-				match(ID);
-				setState(44); 
-				match(T__0);
-				setState(45); 
-				match(QuestionId);
-				}
-				break;
-			case TYPE:
-				{
-				setState(46); 
-				match(TYPE);
-				setState(47); 
-				match(T__0);
-				setState(48); 
-				questionType();
-				}
-				break;
-			case VALUE:
-				{
-				setState(49); 
-				match(VALUE);
-				setState(50); 
-				match(T__0);
-				setState(51); 
-				answerSet();
-				}
-				break;
-			case TEXT:
-				{
-				setState(52); 
-				match(TEXT);
-				setState(53); 
-				match(T__0);
-				setState(54); 
-				match(String);
-				}
-				break;
-			case REQUIRES:
-				{
-				setState(55); 
-				match(REQUIRES);
-				setState(56); 
-				match(T__0);
-				setState(57); 
-				match(QuestionId);
-				}
-				break;
-			case ONLY:
-				{
-				setState(58); 
-				match(ONLY);
-				setState(59); 
-				match(T__0);
-				setState(60); 
-				answerSet();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			setState(63); 
-			match(NEWLINE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -482,12 +400,12 @@ public class KLQParser extends Parser {
 
 	public final QuestionTypeContext questionType() throws RecognitionException {
 		QuestionTypeContext _localctx = new QuestionTypeContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_questionType);
+		enterRule(_localctx, 8, RULE_questionType);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
+			setState(55);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SET) | (1L << BOOLEAN) | (1L << DATE) | (1L << CURRENCY) | (1L << STRING) | (1L << NUMERAL))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -533,28 +451,28 @@ public class KLQParser extends Parser {
 
 	public final AnswerContext answer() throws RecognitionException {
 		AnswerContext _localctx = new AnswerContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_answer);
+		enterRule(_localctx, 10, RULE_answer);
 		try {
-			setState(70);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+			setState(60);
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(67); 
+				setState(57); 
 				expr(0);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(68); 
+				setState(58); 
 				match(Number);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(69); 
+				setState(59); 
 				match(String);
 				}
 				break;
@@ -581,8 +499,6 @@ public class KLQParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode L() { return getToken(KLQParser.L, 0); }
-		public TerminalNode LT() { return getToken(KLQParser.LT, 0); }
 		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -611,46 +527,46 @@ public class KLQParser extends Parser {
 		int _parentState = getState();
 		ExprContext _localctx = new ExprContext(_ctx, _parentState);
 		ExprContext _prevctx = _localctx;
-		int _startState = 14;
-		enterRecursionRule(_localctx, 14, RULE_expr, _p);
+		int _startState = 12;
+		enterRecursionRule(_localctx, 12, RULE_expr, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81);
+			setState(71);
 			switch (_input.LA(1)) {
 			case Number:
 				{
-				setState(73); 
+				setState(63); 
 				match(Number);
 				}
 				break;
 			case Date:
 				{
-				setState(74); 
+				setState(64); 
 				match(Date);
 				}
 				break;
 			case String:
 				{
-				setState(75); 
+				setState(65); 
 				match(String);
 				}
 				break;
 			case ANSWER:
 				{
-				setState(76); 
+				setState(66); 
 				match(ANSWER);
 				}
 				break;
 			case T__1:
 				{
-				setState(77); 
+				setState(67); 
 				match(T__1);
-				setState(78); 
+				setState(68); 
 				expr(0);
-				setState(79); 
+				setState(69); 
 				match(T__2);
 				}
 				break;
@@ -658,29 +574,29 @@ public class KLQParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(94);
+			setState(84);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(92);
-					switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
+					setState(82);
+					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(83);
+						setState(73);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(84);
+						setState(74);
 						_la = _input.LA(1);
 						if ( !(_la==MUL || _la==DIV) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(85); 
+						setState(75); 
 						expr(9);
 						}
 						break;
@@ -688,15 +604,15 @@ public class KLQParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(86);
+						setState(76);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(87);
+						setState(77);
 						_la = _input.LA(1);
 						if ( !(_la==ADD || _la==SUB) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(88); 
+						setState(78); 
 						expr(8);
 						}
 						break;
@@ -704,24 +620,24 @@ public class KLQParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(89);
+						setState(79);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(90);
+						setState(80);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << G) | (1L << L) | (1L << GT) | (1L << LT))) != 0)) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(91); 
+						setState(81); 
 						expr(7);
 						}
 						break;
 					}
 					} 
 				}
-				setState(96);
+				setState(86);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
 			}
 		}
@@ -764,26 +680,26 @@ public class KLQParser extends Parser {
 
 	public final AnswerSetContext answerSet() throws RecognitionException {
 		AnswerSetContext _localctx = new AnswerSetContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_answerSet);
+		enterRule(_localctx, 14, RULE_answerSet);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(97); 
+			setState(87); 
 			answer();
-			setState(102);
+			setState(92);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__3) {
 				{
 				{
-				setState(98); 
+				setState(88); 
 				match(T__3);
-				setState(99); 
+				setState(89); 
 				answer();
 				}
 				}
-				setState(104);
+				setState(94);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -802,7 +718,7 @@ public class KLQParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 7: 
+		case 6: 
 			return expr_sempred((ExprContext)_localctx, predIndex);
 		}
 		return true;
@@ -820,33 +736,31 @@ public class KLQParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3,l\4\2\t\2\4\3\t\3"+
-		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\6\2\26\n"+
-		"\2\r\2\16\2\27\3\3\3\3\6\3\34\n\3\r\3\16\3\35\3\3\3\3\3\4\3\4\3\4\3\5"+
-		"\3\5\6\5\'\n\5\r\5\16\5(\3\5\5\5,\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6@\n\6\3\6\3\6\3\7\3\7\3\b"+
-		"\3\b\3\b\5\bI\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\tT\n\t\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\7\t_\n\t\f\t\16\tb\13\t\3\n\3\n\3\n\7\ng"+
-		"\n\n\f\n\16\nj\13\n\3\n\2\3\20\13\2\4\6\b\n\f\16\20\22\2\6\3\2\21\26\3"+
-		"\2\34\35\3\2\32\33\3\2\36!u\2\25\3\2\2\2\4\31\3\2\2\2\6!\3\2\2\2\b$\3"+
-		"\2\2\2\n?\3\2\2\2\fC\3\2\2\2\16H\3\2\2\2\20S\3\2\2\2\22c\3\2\2\2\24\26"+
-		"\5\4\3\2\25\24\3\2\2\2\26\27\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\3"+
-		"\3\2\2\2\31\33\5\6\4\2\32\34\5\n\6\2\33\32\3\2\2\2\34\35\3\2\2\2\35\33"+
-		"\3\2\2\2\35\36\3\2\2\2\36\37\3\2\2\2\37 \5\b\5\2 \5\3\2\2\2!\"\7\t\2\2"+
-		"\"#\7)\2\2#\7\3\2\2\2$+\7\n\2\2%\'\7)\2\2&%\3\2\2\2\'(\3\2\2\2(&\3\2\2"+
-		"\2()\3\2\2\2),\3\2\2\2*,\7\2\2\3+&\3\2\2\2+*\3\2\2\2,\t\3\2\2\2-.\7\13"+
-		"\2\2./\7\3\2\2/@\7\"\2\2\60\61\7\f\2\2\61\62\7\3\2\2\62@\5\f\7\2\63\64"+
-		"\7\r\2\2\64\65\7\3\2\2\65@\5\22\n\2\66\67\7\16\2\2\678\7\3\2\28@\7#\2"+
-		"\29:\7\17\2\2:;\7\3\2\2;@\7\"\2\2<=\7\20\2\2=>\7\3\2\2>@\5\22\n\2?-\3"+
-		"\2\2\2?\60\3\2\2\2?\63\3\2\2\2?\66\3\2\2\2?9\3\2\2\2?<\3\2\2\2@A\3\2\2"+
-		"\2AB\7)\2\2B\13\3\2\2\2CD\t\2\2\2D\r\3\2\2\2EI\5\20\t\2FI\7$\2\2GI\7#"+
-		"\2\2HE\3\2\2\2HF\3\2\2\2HG\3\2\2\2I\17\3\2\2\2JK\b\t\1\2KT\7$\2\2LT\7"+
-		"%\2\2MT\7#\2\2NT\7\31\2\2OP\7\4\2\2PQ\5\20\t\2QR\7\5\2\2RT\3\2\2\2SJ\3"+
-		"\2\2\2SL\3\2\2\2SM\3\2\2\2SN\3\2\2\2SO\3\2\2\2T`\3\2\2\2UV\f\n\2\2VW\t"+
-		"\3\2\2W_\5\20\t\13XY\f\t\2\2YZ\t\4\2\2Z_\5\20\t\n[\\\f\b\2\2\\]\t\5\2"+
-		"\2]_\5\20\t\t^U\3\2\2\2^X\3\2\2\2^[\3\2\2\2_b\3\2\2\2`^\3\2\2\2`a\3\2"+
-		"\2\2a\21\3\2\2\2b`\3\2\2\2ch\5\16\b\2de\7\6\2\2eg\5\16\b\2fd\3\2\2\2g"+
-		"j\3\2\2\2hf\3\2\2\2hi\3\2\2\2i\23\3\2\2\2jh\3\2\2\2\f\27\35(+?HS^`h";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3,b\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\6\2\24\n\2\r\2\16"+
+		"\2\25\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\3\5\3*\n\3\3\3\3\3\3\4\3\4\3\4\3\5\3\5\6\5\63\n\5\r\5\16\5\64\3"+
+		"\5\5\58\n\5\3\6\3\6\3\7\3\7\3\7\5\7?\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
+		"\b\3\b\5\bJ\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\bU\n\b\f\b\16\b"+
+		"X\13\b\3\t\3\t\3\t\7\t]\n\t\f\t\16\t`\13\t\3\t\2\3\16\n\2\4\6\b\n\f\16"+
+		"\20\2\6\3\2\21\26\3\2\34\35\3\2\32\33\3\2\36!g\2\23\3\2\2\2\4\27\3\2\2"+
+		"\2\6-\3\2\2\2\b\60\3\2\2\2\n9\3\2\2\2\f>\3\2\2\2\16I\3\2\2\2\20Y\3\2\2"+
+		"\2\22\24\5\4\3\2\23\22\3\2\2\2\24\25\3\2\2\2\25\23\3\2\2\2\25\26\3\2\2"+
+		"\2\26\3\3\2\2\2\27\30\5\6\4\2\30\31\7\13\2\2\31\32\7\3\2\2\32\33\7\"\2"+
+		"\2\33\34\7)\2\2\34\35\7\16\2\2\35\36\7\3\2\2\36\37\7#\2\2\37 \7)\2\2 "+
+		"!\7\f\2\2!\"\7\3\2\2\"#\5\n\6\2#)\7)\2\2$%\7\r\2\2%&\7\3\2\2&\'\5\20\t"+
+		"\2\'(\7)\2\2(*\3\2\2\2)$\3\2\2\2)*\3\2\2\2*+\3\2\2\2+,\5\b\5\2,\5\3\2"+
+		"\2\2-.\7\t\2\2./\7)\2\2/\7\3\2\2\2\60\67\7\n\2\2\61\63\7)\2\2\62\61\3"+
+		"\2\2\2\63\64\3\2\2\2\64\62\3\2\2\2\64\65\3\2\2\2\658\3\2\2\2\668\7\2\2"+
+		"\3\67\62\3\2\2\2\67\66\3\2\2\28\t\3\2\2\29:\t\2\2\2:\13\3\2\2\2;?\5\16"+
+		"\b\2<?\7$\2\2=?\7#\2\2>;\3\2\2\2><\3\2\2\2>=\3\2\2\2?\r\3\2\2\2@A\b\b"+
+		"\1\2AJ\7$\2\2BJ\7%\2\2CJ\7#\2\2DJ\7\31\2\2EF\7\4\2\2FG\5\16\b\2GH\7\5"+
+		"\2\2HJ\3\2\2\2I@\3\2\2\2IB\3\2\2\2IC\3\2\2\2ID\3\2\2\2IE\3\2\2\2JV\3\2"+
+		"\2\2KL\f\n\2\2LM\t\3\2\2MU\5\16\b\13NO\f\t\2\2OP\t\4\2\2PU\5\16\b\nQR"+
+		"\f\b\2\2RS\t\5\2\2SU\5\16\b\tTK\3\2\2\2TN\3\2\2\2TQ\3\2\2\2UX\3\2\2\2"+
+		"VT\3\2\2\2VW\3\2\2\2W\17\3\2\2\2XV\3\2\2\2Y^\5\f\7\2Z[\7\6\2\2[]\5\f\7"+
+		"\2\\Z\3\2\2\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_\21\3\2\2\2`^\3\2\2\2\13"+
+		"\25)\64\67>ITV^";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

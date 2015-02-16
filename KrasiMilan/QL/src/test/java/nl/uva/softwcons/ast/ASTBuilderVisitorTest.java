@@ -12,6 +12,9 @@ import org.junit.Test;
 
 public class ASTBuilderVisitorTest {
 
+    private static final Type[] ALL_PARSEABLE_TYPES = { Type.BOOLEAN, Type.STRING, Type.DATE, Type.DECIMAL,
+            Type.INTEGER };
+
     @Test
     public void testSingleQuestionInForm() {
         String questionText = "question: \"Label\" boolean";
@@ -46,11 +49,10 @@ public class ASTBuilderVisitorTest {
         String integerQuestion = "question: \"Label me\" integer";
         String dateQuestion = "question: \"Label me\" date";
         String decimalQuestion = "question: \"Label me\" decimal";
-        String moneyQuestion = "question: \"Label me\" money";
         Form form = Questionnaire.build(buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
-                dateQuestion, decimalQuestion, moneyQuestion));
+                dateQuestion, decimalQuestion));
 
-        assertThat(form.getStatements()).extracting("type").containsExactly((Object[]) Type.values());
+        assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
     }
 
     @Test
@@ -62,7 +64,7 @@ public class ASTBuilderVisitorTest {
         assertThat(form.getStatements().get(0)).isExactlyInstanceOf(ComputedQuestion.class);
         assertThat(question.getId()).isEqualTo("question");
         assertThat(question.getLabel()).isEqualTo("Label");
-        assertThat(question.getValue()).isInstanceOf(Expression.class);
+        assertThat(question.getExpression()).isInstanceOf(Expression.class);
     }
 
     @Test
@@ -77,10 +79,10 @@ public class ASTBuilderVisitorTest {
         assertThat(form.getStatements()).hasOnlyElementsOfType(ComputedQuestion.class);
         assertThat(question1.getId()).isEqualTo("question1");
         assertThat(question1.getLabel()).isEqualTo("Label 1");
-        assertThat(question1.getValue()).isInstanceOf(Expression.class);
+        assertThat(question1.getExpression()).isInstanceOf(Expression.class);
         assertThat(question2.getId()).isEqualTo("question2");
         assertThat(question2.getLabel()).isEqualTo("Label 2");
-        assertThat(question2.getValue()).isInstanceOf(Expression.class);
+        assertThat(question2.getExpression()).isInstanceOf(Expression.class);
     }
 
     @Test
@@ -90,11 +92,10 @@ public class ASTBuilderVisitorTest {
         String integerQuestion = "question: \"Label me\" integer(1+2)";
         String dateQuestion = "question: \"Label me\" date(true)";
         String decimalQuestion = "question: \"Label me\" decimal(1+2)";
-        String moneyQuestion = "question: \"Label me\" money(true)";
         Form form = Questionnaire.build(buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
-                dateQuestion, decimalQuestion, moneyQuestion));
+                dateQuestion, decimalQuestion));
 
-        assertThat(form.getStatements()).extracting("type").containsExactly((Object[]) Type.values());
+        assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
     }
 
     private String buildForm(final String formName, final String... statements) {

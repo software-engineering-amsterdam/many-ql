@@ -60,26 +60,35 @@ input:
 
 
 expression
-    : primary
-    | expression ('*'|'/') expression
-    | expression ('+'|'-') expression
-    | expression ('<=' | '>=' | '>' | '<') expression
-    | expression ('==' | '!=') expression
-    | expression OR_OP expression
-    | expression AND_OP expression;
-
-primary:
-    parExpression
-    | id;
-
-parExpression:
-    '(' expression ')';
+    : id
+    | '(' expression ')'
+    | expression (expressionTimes|expressionDivided) expression
+    | expression (expressionPlus|expressionMinus) expression
+    | expression (expressionSmallerEqual | expressionBiggerEqual | expressionBigger | expressionSmaller) expression
+    | expression (expressionEqual | expressionNotEqual) expression
+    | expression expressionAnd expression
+    | expression expressionOr expression;
 
 id
     : '['id']'
     | STRING
     | NUMBER
     | TEXT;
+
+expressionTimes: '*';
+expressionDivided: '/';
+expressionPlus: '+';
+expressionMinus: '-';
+expressionSmallerEqual: '<=';
+expressionBiggerEqual: '>=';
+expressionBigger: '>';
+expressionSmaller: '<';
+expressionEqual: '==';
+expressionNotEqual: '!=';
+expressionAnd: '&&';
+expressionOr: '||';
+
+
 
 /*
 logicalExpression: logic (LOGICAL_SEPARATOR logic)*;
@@ -100,9 +109,6 @@ NUMBER
 fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
 fragment NL   : '\r' '\n' | '\n' | '\r';
-
-AND_OP: '&&';
-OR_OP: '||';
 
 TEXT : [0-9a-zA-Z\._]+;
 

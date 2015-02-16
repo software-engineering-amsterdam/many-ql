@@ -13,7 +13,7 @@ public class LessThanOrEqual extends BinaryExpression implements PrimitiveExpres
 	
 	@Override
 	public BoolValue evaluate() {
-		return ((IntLiteral)left).evaluate().GreaterThan(((IntLiteral)right).evaluate());
+		return ((IntLiteral)left).evaluate().LessThanOrEqual(((IntLiteral)right).evaluate());
 	}
 
 }
