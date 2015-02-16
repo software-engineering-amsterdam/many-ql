@@ -61,7 +61,7 @@ class QuestionnaireGUI:
             # print condition's - depended questions
             self.draw_questions(c_question.get_c_questions())
         else:
-            self.draw_questions(c_question.get_e_questions()) #TODO: Need to debug
+            self.draw_questions(c_question.get_e_questions())
 
     def show(self):
         self.qGui.mainloop()

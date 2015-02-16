@@ -15,6 +15,11 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + self.str_expression
 
+    def type_validator(self, qtype):
+        if type(self.str_expression) is qtype:
+            return True
+        return False
+
 
 # Questions
 class Question:
@@ -22,6 +27,7 @@ class Question:
         self.id = qid
         self.label = label
         self.type = qtype
+        self.answer = []
 
     def ast_print(self, level=0):
         s = "\n" + "   " * level + "Question:" + self.id + "\n"
@@ -29,6 +35,13 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
+
+    def update(self, new_answer):
+        if Expression.type_validator(new_answer, self.get_type()):
+            self.answer = new_answer
+            return True
+        else:
+            return False
 
     # Getters
     def get_label(self):
@@ -48,6 +61,9 @@ class Question:
 
     def is_conditional(self):
         return False
+
+    def get_answer(self):
+        return self.answer
 
 
 class AdvancedQuestions(Question):
