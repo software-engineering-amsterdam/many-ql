@@ -23,6 +23,5 @@ public class BoolValue extends GenericValue<Boolean> {
 	}	
 	public BoolValue Or(BoolValue right){
 		return new BoolValue(value || right.value);
-	}	
-	
+	}		
 }
