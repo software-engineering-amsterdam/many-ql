@@ -30,6 +30,8 @@ namespace AST.Test
                 QuestionnaireVisitor visitor = new QuestionnaireVisitor();
 
                 Questionnaire form = visitor.Visit(parser.questionnaire());
+
+                string text = form.ToString();
             }
         }
     }
