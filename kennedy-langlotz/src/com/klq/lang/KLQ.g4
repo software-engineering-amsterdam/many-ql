@@ -54,10 +54,10 @@ specification
     :
     ( 'id'       ':' QuestionId
     | 'type'     ':' questionType
-    | 'value'    ':' answers        //optional
+    | 'value'    ':' answerSet        //optional
     | 'text'     ':' String         //optional
     | 'requires' ':' QuestionId     //optional
-    | 'only'     ':' answers        //optional, for *requires*
+    | 'only'     ':' answerSet        //optional, for *requires*
     ) NEWLINE
     ;
 
@@ -110,7 +110,7 @@ expr
     |'(' expr ')'
     ;
 
-answers
+answerSet
     : answer (', ' answer)*
     ;
 
