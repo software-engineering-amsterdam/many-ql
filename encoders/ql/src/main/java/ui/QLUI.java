@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.uva.sea.ql.encoders.model.DataType;
 import org.uva.sea.ql.encoders.model.Question;
 import org.uva.sea.ql.encoders.model.Questionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
@@ -51,19 +52,19 @@ public class QLUI extends JFrame {
 			int y = 0;
 			for (Question question : questions) {
 				// add(new JLabel(question.getName()), 0, y);
-				String type = question.getType();
-				switch (type) {
-				case "boolean":
+				DataType dataType = question.getDataType();
+				switch (dataType) {
+				case BOOLEAN:
 					add(new JCheckBox(question.getQuestionText()), 0, y);
 					break;
-				case "money":
+				case MONEY:
 					add(new JLabel(question.getQuestionText()), 0, y);
 					JTextField textField = new JTextField();
 					textField.setPreferredSize(new Dimension(200, 15));
 					add(textField, 1, y);
 					break;
 				default:
-					throw new IllegalStateException("Unsupported type: " + type);
+					throw new IllegalStateException("Unsupported type: " + dataType);
 				}
 
 				y++;

@@ -11,15 +11,15 @@ public class Question {
 
 	private final String condition;
 
-	private final String type;
+	private final DataType type;
 
 	private final String questionText;
 
-	public Question(String name, String condition, String type,
+	public Question(String name, String condition, DataType dataType,
 			String questionText) {
 		this.name = name;
 		this.condition = condition;
-		this.type = type;
+		this.type = dataType;
 		this.questionText = questionText;
 	}
 
@@ -27,7 +27,7 @@ public class Question {
 		return name;
 	}
 
-	public String getType() {
+	public DataType getDataType() {
 		return type;
 	}
 
