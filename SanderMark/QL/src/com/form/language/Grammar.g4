@@ -33,6 +33,27 @@ syntaxtree returns [PrimitiveExpression pExp]
 
 */
 
+expression returns [PrimitiveExpression result]
+	: '(' x=expression ')'	{ $result = $x.result;}
+	| '-' x=expression		{ $result = new Negation($x.result);}
+	| l=expression '*' r=expression		{ $result = new Multiplication($l.result, $r.result);}
+	| l=expression '/' r=expression		{ $result = new Division($l.result, $r.result);}
+	| l=expression '+' r=expression		{ $result = new Addition($l.result, $r.result); }
+	| l=expression '-' r=expression		{ $result = new Substraction($l.result, $r.result); }
+	| l=expression '==' r=expression	{ $result = new Equal($l.result, $r.result); }
+	| l=expression '>' r=expression		{ $result = new GreaterThan($l.result, $r.result); }
+	| l=expression '>=' r=expression	{ $result = new GreaterThanOrEqual($l.result, $r.result); }
+	| l=expression '<' r=expression		{ $result = new LessThan($l.result, $r.result); }
+	| l=expression '=<' r=expression	{ $result = new LessThanOrEqual($l.result, $r.result); }
+	| lit = literal						{ $result = $lit.result; }
+	;
+
+literal returns [PrimitiveExpression result]
+	: BOOL		{$result = new BoolLiteral(Boolean.parseBoolean($BOOL.text));}
+	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text));}
+	;
+
+
 term returns [PrimitiveExpression pExp]
 	:	IDENT {$pExp = new IntLiteral(0);}
 	|	'(' add ')' {$pExp = $add.pExp;}
@@ -109,5 +130,6 @@ fragment LETTER : ('a'..'z' | 'A'..'Z') ;
 fragment DIGIT : '0'..'9';
 INTEGER : DIGIT+ ;
 IDENT : LETTER (LETTER | DIGIT)*;
+BOOL : 'true' | 'false';
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;
