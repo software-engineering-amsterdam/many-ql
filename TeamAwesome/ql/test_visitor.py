@@ -4,7 +4,7 @@ from antlr4 import *
 from QLLexer import QLLexer
 from QLParser import QLParser
 from QLListener import QLListener
-from customQLVisitor import CustomQLVisitor
+from CustomQLVisitor import CustomQLVisitor
 from AST import AST
 
 input = FileStream("test_visitor.QL")
