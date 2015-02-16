@@ -60,12 +60,61 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\..\..\..\..\backup\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainBaseVisitor.cs">
+      <Link>GeneratedFiles\QLMainBaseVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\backup\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainLexer.cs">
+      <Link>GeneratedFiles\QLMainLexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\backup\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainParser.cs">
+      <Link>GeneratedFiles\QLMainParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\backup\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainVisitor.cs">
+      <Link>GeneratedFiles\QLMainVisitor.cs</Link>
+    </Compile>
+    <Compile Include="AST\iASTNode.cs" />
+    <Compile Include="AST\Nodes\Arithmetic\AddArithmeticNode.cs" />
+    <Compile Include="AST\Nodes\Arithmetic\DivideArithmeticNode.cs" />
+    <Compile Include="AST\Nodes\Arithmetic\multiplyArithmeticNode.cs" />
+    <Compile Include="AST\Nodes\Arithmetic\PrioArithmetic.cs" />
+    <Compile Include="AST\Nodes\Arithmetic\SubtractArrithmeticNode.cs" />
+    <Compile Include="AST\Nodes\Comparison\GreaterThanNode.cs" />
+    <Compile Include="AST\Nodes\Comparison\GreaterThanOrEqualNode.cs" />
+    <Compile Include="AST\Nodes\Comparison\LessThanNode.cs" />
+    <Compile Include="AST\Nodes\Comparison\LessThanOrEqualNode.cs" />
+    <Compile Include="AST\Nodes\Comparison\PrioComparisonNode.cs" />
+    <Compile Include="AST\Nodes\Expression\AndNode.cs" />
+    <Compile Include="AST\Nodes\Expression\EqNode.cs" />
+    <Compile Include="AST\Nodes\Expression\NeqNode.cs" />
+    <Compile Include="AST\Nodes\Expression\NotNode.cs" />
+    <Compile Include="AST\Nodes\Expression\OrNode.cs" />
+    <Compile Include="AST\Nodes\Expression\PrioExpressionNode.cs" />
+    <Compile Include="AST\Nodes\FormNode.cs" />
+    <Compile Include="AST\Nodes\FormObject\ConditionalNode.cs" />
+    <Compile Include="AST\Nodes\FormObject\FieldNode.cs" />
+    <Compile Include="AST\Nodes\FormObject\QuestionNode.cs" />
+    <Compile Include="AST\Nodes\FormSectionNode.cs" />
+    <Compile Include="AST\Nodes\idNode.cs" />
+    <Compile Include="AST\Nodes\KeyValPairNode.cs" />
+    <Compile Include="AST\Nodes\Types\BoolNode.cs" />
+    <Compile Include="AST\Nodes\Types\DateNode.cs" />
+    <Compile Include="AST\Nodes\Types\DecimalNode.cs" />
+    <Compile Include="AST\Nodes\Types\IntNode.cs" />
+    <Compile Include="AST\Nodes\Types\ListNode.cs" />
+    <Compile Include="AST\Nodes\Types\MoneyNode.cs" />
+    <Compile Include="AST\Nodes\Types\StringNode.cs" />
+    <Compile Include="AST\QLMainVisitor.cs" />
+    <Compile Include="GUI\Element\CheckboxElement.cs" />
+    <Compile Include="GUI\Element\DatePickerElement.cs" />
     <Compile Include="GUI\Element\ElementBase.cs" />
-    <Compile Include="GUI\Factories\ElementFactory\ElementFactory.cs" />
+    <Compile Include="GUI\Factories\Element\ElementFactory.cs" />
     <Compile Include="GUI\Element\TextBoxElement.cs" />
-    <Compile Include="GUI\Factories\QuestionnaireForm\QuestionnaireFormFactory.cs" />
-    <Compile Include="GUI\Interfaces\IElement.cs" />
-    <Compile Include="GUI\Interfaces\IForm.cs" />
+    <Compile Include="GUI\Factories\Form\FormFactory.cs" />
+    <Compile Include="GUI\Interfaces\Element\ICheckBoxElement.cs" />
+    <Compile Include="GUI\Interfaces\Element\IDatePickerElement.cs" />
+    <Compile Include="GUI\Interfaces\Element\IElement.cs" />
+    <Compile Include="GUI\Interfaces\Form\IForm.cs" />
+    <Compile Include="GUI\Interfaces\Element\ITextBoxElement.cs" />
     <Compile Include="Resources\TypeNames.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -75,10 +124,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GeneratedFiles\QLMainBaseVisitor.cs" />
-    <Compile Include="GeneratedFiles\QLMainLexer.cs" />
-    <Compile Include="GeneratedFiles\QLMainParser.cs" />
-    <Compile Include="GeneratedFiles\QLMainVisitor.cs" />
     <Compile Include="GUI\Form\Conditional.cs" />
     <Compile Include="GUI\Form\Form.cs" />
     <Compile Include="GUI\Form\Question.cs" />

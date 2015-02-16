@@ -28,7 +28,8 @@ def print_tree(tree_test, lev):
         print(spaces + "` " + str(tree_test))
 
 def main():
-    AST("test_visitor.QL").prettyPrint()
+    ast = AST("test_visitor.QL")
+    ast.prettyPrint()
     #visitor = CustomQLVisitor()
     #print(visitor.visit(tree_test).forms[0].statements[0].identifier.lineNumber)
     #print_tree(tree_test, 0)    

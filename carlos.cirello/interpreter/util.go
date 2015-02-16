@@ -11,31 +11,15 @@ func (exec Execute) resolveMathNode(n ast.Evaluatable) float32 {
 	default:
 		log.Fatalf("Unknown type while resolving node %T", t)
 	case *ast.MathAddNode:
-		left := exec.resolveMathNode(n.(*ast.MathAddNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathAddNode).RightTerm)
-		return left + right
+		return exec.MathAddNode(n.(*ast.MathAddNode))
 	case *ast.MathSubNode:
-		left := exec.resolveMathNode(n.(*ast.MathSubNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathSubNode).RightTerm)
-		return left - right
+		return exec.MathSubNode(n.(*ast.MathSubNode))
 	case *ast.MathMulNode:
-		left := exec.resolveMathNode(n.(*ast.MathMulNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathMulNode).RightTerm)
-		return left * right
+		return exec.MathMulNode(n.(*ast.MathMulNode))
 	case *ast.MathDivNode:
-		left := exec.resolveMathNode(n.(*ast.MathDivNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathDivNode).RightTerm)
-		return left / right
+		return exec.MathDivNode(n.(*ast.MathDivNode))
 	case *ast.TermNode:
-		value := exec.resolveTermNode(n.(*ast.TermNode))
-		switch t := value.(type) {
-		default:
-			log.Fatalf("Variable not a number. Got %T", t)
-		case int:
-			return float32(value.(int))
-		case float32:
-			return value.(float32)
-		}
+		return exec.MathTermNode(n.(*ast.TermNode))
 	}
 	return 0
 }
@@ -79,4 +63,37 @@ func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
 		}
 	}
 	return t.NumericConstant
+}
+
+func (exec *Execute) resolveComparisonNode(n interface{}) bool {
+	conditionState := true
+	switch t := n.(type) {
+	default:
+		log.Fatalf("impossible condition type. got: %T", t)
+	case *ast.TermNode:
+		if !exec.TermNode(n.(*ast.TermNode)) {
+			conditionState = false
+		}
+	case *ast.EqualsNode:
+		if !exec.EqualsNode(n.(*ast.EqualsNode)) {
+			conditionState = false
+		}
+	case *ast.MoreThanNode:
+		if !exec.MoreThanNode(n.(*ast.MoreThanNode)) {
+			conditionState = false
+		}
+	case *ast.LessThanNode:
+		if !exec.LessThanNode(n.(*ast.LessThanNode)) {
+			conditionState = false
+		}
+	case *ast.MoreOrEqualsThanNode:
+		if !exec.MoreOrEqualsThanNode(n.(*ast.MoreOrEqualsThanNode)) {
+			conditionState = false
+		}
+	case *ast.LessOrEqualsThanNode:
+		if !exec.LessOrEqualsThanNode(n.(*ast.LessOrEqualsThanNode)) {
+			conditionState = false
+		}
+	}
+	return conditionState
 }

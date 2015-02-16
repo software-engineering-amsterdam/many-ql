@@ -14,4 +14,21 @@ public class Question extends Statement {
         this.type = type;
     }
 
+    @Override
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
 }

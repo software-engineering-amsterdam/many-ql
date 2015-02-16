@@ -20,6 +20,16 @@ public class Form extends AstNode
         this.statements = statements;
     }
 
+    public String getId()
+    {
+        return this.id;
+    }
+
+    public List<Statement> getStatements()
+    {
+        return this.statements;
+    }
+
     public void visit(Visitor visitor) { visitor.visit(this); }
 
     public Iterable<? extends AstNode> getChildren()

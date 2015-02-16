@@ -6,6 +6,7 @@ Question 1 (bool): Do you love hummus?
 
 Question 2 (integer): What is the most awesome number? 
 
+<<<<<<< HEAD
 if (True == True) {
     Question 3 (integer) : Give me some number.
 
@@ -17,6 +18,10 @@ else {
 
 if ((9 + 3) * (4 / 5 + 1) == 1) {
     Question 3 (bool): Is this a conditional question?
+=======
+if ((9 + 3) * (4 / 5 + 1) > 1) {
+    Question 2b (bool): Is this a conditional question?
+>>>>>>> e0bbfa1a1ee2689b7b466b2d7425ad6e352e3960
 
     Question 4 (bool): Do you really think that?
 

@@ -94,6 +94,8 @@ class AdvancedQuestions(Question):
             labels.append(label.get_label())
         print(labels)
         return labels
+    def get_e_questions(self):
+        return self.else_questions
 
 class Form:
     def __init__(self, name, introduction, questions):

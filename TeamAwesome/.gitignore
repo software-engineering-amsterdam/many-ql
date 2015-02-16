@@ -1,4 +1,6 @@
 *.swp
+*.sublime-project
+*.sublime-workspace
 .idea/
 *.tokens
 *Lexer.py

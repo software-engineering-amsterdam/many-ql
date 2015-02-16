@@ -27,12 +27,13 @@ type: BOOL_TYPE
 	;
 
 
-expr:   expr (MUL|DIV) expr                         # mulDiv
-    |   expr (ADD|SUB) expr                         # addSub
-    |   expr (GT|GEq|LT|LEq|Eq|NEq) expr            # compare
-    |   NOT expr                                    # not
-    |   expr (AND) expr                             # and
-    |   expr (OR) expr                              # or
+expr:   expr op=(MUL|DIV) expr                      # binaryExpr
+    |   op=SUB expr                                 # unaryExpr
+    |   expr op=(ADD|SUB) expr                      # binaryExpr
+    |   expr op=(GT|GEq|LT|LEq|Eq|NEq) expr         # binaryExpr
+    |   op=NOT expr                                 # unaryExpr
+    |   expr op=AND expr                            # binaryExpr
+    |   expr op=OR expr                             # binaryExpr
     |   '(' expr ')'                                # parenthesis
     |   BOOLEAN                                     # boolean
     |   INT                                         # integer

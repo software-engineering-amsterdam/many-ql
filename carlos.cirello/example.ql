@@ -5,6 +5,8 @@ form SomeForm {
 	"What's the answer to life the universe and everything?"
 	questionTwo   integer
 
+	"Calculated field" questionSixteen computed = questionTwo * 2
+
 	"Are you happy today?"
 	questionThree bool
 
@@ -34,8 +36,22 @@ form SomeForm {
 	}
 
 	if (questionTwo == 0) {
-		"Question 2 is equals to 0?"
+		"(If-Else) Question 2 is equals to 0?"
 		questionTen bool
+	} else {
+		"(If-Else) Question 2 is not equals to 0?"
+		questionTenElse bool
+	}
+
+	if (questionTwo == 0) {
+		"(IF-ElseIf-Else) Question 2 is equals to 0?"
+		questionTenAndHalf bool
+	} else if (questionTwo == 1) {
+		"(IF-ElseIf-Else) Question 2 is equals to 1?"
+		questionTenAndHalfElseIf bool
+	} else {
+		"(IF-ElseIf-Else) Question 2 is not equals to 0?"
+		questionTenAndHalfElse bool
 	}
 
 	if (1+1 == 2) {
@@ -57,4 +73,10 @@ form SomeForm {
 		"is 4/2=2?"
 		questionFourteen bool
 	}
+
+	// if (questionOne == "surak"){
+	// 	"How do you feel?"
+	// 	questionFifteen string
+	// }
+
 }
