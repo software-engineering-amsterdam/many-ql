@@ -1,4 +1,4 @@
-package org.fugazi.ast;
+package org.fugazi.ast.type;
 
 import org.fugazi.ast.type.*;
 

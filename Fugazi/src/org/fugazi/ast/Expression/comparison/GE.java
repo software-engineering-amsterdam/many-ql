@@ -16,6 +16,6 @@ public class GE extends Comparison {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitGEExpression(this);
+        return visitor.visitGE(this);
     }
 }

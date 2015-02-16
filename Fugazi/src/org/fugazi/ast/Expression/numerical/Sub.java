@@ -16,6 +16,6 @@ public class Sub extends Numerical {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitSubExpression(this);
+        return visitor.visitSub(this);
     }
 }

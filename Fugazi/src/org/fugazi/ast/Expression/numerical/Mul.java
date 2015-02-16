@@ -16,6 +16,6 @@ public class Mul extends Numerical {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitMulExpression(this);
+        return visitor.visitMul(this);
     }
 }

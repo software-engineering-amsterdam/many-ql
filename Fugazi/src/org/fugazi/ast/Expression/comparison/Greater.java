@@ -16,6 +16,6 @@ public class Greater extends Comparison {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitGreaterExpression(this);
+        return visitor.visitGreater(this);
     }
 }

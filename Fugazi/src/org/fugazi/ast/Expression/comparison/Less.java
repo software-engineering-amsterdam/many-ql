@@ -16,6 +16,6 @@ public class Less extends Comparison {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitLessExpression(this);
+        return visitor.visitLesser(this);
     }
 }

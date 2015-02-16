@@ -16,6 +16,6 @@ public class Div extends Numerical {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitDivExpression(this);
+        return visitor.visitDiv(this);
     }
 }

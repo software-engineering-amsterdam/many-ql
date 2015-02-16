@@ -16,6 +16,6 @@ public class Not extends Unary {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitNotExpression(this);
+        return visitor.visitNot(this);
     }
 }

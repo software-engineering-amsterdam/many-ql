@@ -16,6 +16,6 @@ public class EQ extends Comparison {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitEQExpression(this);
+        return visitor.visitEQ(this);
     }
 }

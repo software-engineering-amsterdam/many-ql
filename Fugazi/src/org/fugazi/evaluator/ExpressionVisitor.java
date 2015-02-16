@@ -15,66 +15,66 @@ import org.fugazi.ast.expression.unary.Positive;
 public class ExpressionVisitor implements IExpressionVisitor <ExpressionResult> {
     
     // Logical
-    public ExpressionResult visitAndExpression(And andExpression) {
+    public ExpressionResult visitAnd(And andExpression) {
         return null;        
     }
     
-    public ExpressionResult visitOrExpression(Or lessExpression ) {         
+    public ExpressionResult visitOr(Or lessExpression) {
         return null;             
     }     
 
     // Unary
-    public ExpressionResult visitNotExpression(Not not ) {         
+    public ExpressionResult visitNot(Not not) {
         return null;             
     }   
     
-    public ExpressionResult visitNegExpression(Negative negative ) {         
+    public ExpressionResult visitNegative(Negative negative) {
         return null;             
     }   
     
-    public ExpressionResult visitPosExpression(Positive positive ) {
+    public ExpressionResult visitPositive(Positive positive) {
         return null;             
     }     
 
     // Comparison
-    public ExpressionResult visitEQExpression(EQ eqExpression ) {         
+    public ExpressionResult visitEQ(EQ eqExpression) {
         return null;             
     }   
     
-    public ExpressionResult visitGEExpression(GE geExpression ) {         
+    public ExpressionResult visitGE(GE geExpression) {
         return null;             
     }   
     
-    public ExpressionResult visitGreaterExpression(Greater greaterExpression ) {         
+    public ExpressionResult visitGreater(Greater greaterExpression) {
         return null;             
     }     
     
-    public ExpressionResult visitLEExpression(LE leExpression ) {         
+    public ExpressionResult visitLE(LE leExpression) {
         return null;             
     }
     
-    public ExpressionResult visitLessExpression(Less lessExpression ) {        
+    public ExpressionResult visitLesser(Less lessExpression) {
         return null;            
     }
     
-    public ExpressionResult visitNotEqExpression(NotEq notEqExpression ) {         
+    public ExpressionResult visitNotEq(NotEq notEqExpression) {
         return null;             
     }     
 
     // Numerical
-    public ExpressionResult visitAddExpression(Add addExpression ) {         
+    public ExpressionResult visitAdd(Add addExpression) {
         return null;             
     }
     
-    public ExpressionResult visitSubExpression(Sub subExpression ) {         
+    public ExpressionResult visitSub(Sub subExpression) {
         return null;             
     }
     
-    public ExpressionResult visitMulExpression(Mul mulExpression ) {         
+    public ExpressionResult visitMul(Mul mulExpression) {
         return null;             
     }
     
-    public ExpressionResult visitDivExpression(Div divExpression ) {         
+    public ExpressionResult visitDiv(Div divExpression) {
         return null;             
     }     
 }

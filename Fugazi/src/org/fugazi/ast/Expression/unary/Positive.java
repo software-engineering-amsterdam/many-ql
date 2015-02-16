@@ -16,6 +16,6 @@ public class Positive extends Unary {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitPosExpression(this);
+        return visitor.visitPositive(this);
     }
 }

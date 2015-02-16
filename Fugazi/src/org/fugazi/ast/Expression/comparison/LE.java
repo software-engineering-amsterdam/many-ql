@@ -16,6 +16,6 @@ public class LE extends Comparison {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitLEExpression(this);
+        return visitor.visitLE(this);
     }
 }

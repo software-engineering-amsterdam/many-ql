@@ -16,6 +16,6 @@ public class And extends Logical {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitAndExpression(this);
+        return visitor.visitAnd(this);
     }
 }

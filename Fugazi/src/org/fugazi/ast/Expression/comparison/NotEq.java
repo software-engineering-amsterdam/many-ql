@@ -16,6 +16,6 @@ public class NotEq extends Comparison {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitNotEqExpression(this);
+        return visitor.visitNotEq(this);
     }
 }

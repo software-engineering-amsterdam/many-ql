@@ -16,6 +16,6 @@ public class Or extends Logical {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitOrExpression(this);
+        return visitor.visitOr(this);
     }
 }

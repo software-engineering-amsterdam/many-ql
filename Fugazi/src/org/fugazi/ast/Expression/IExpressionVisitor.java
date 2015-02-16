@@ -14,25 +14,25 @@ import org.fugazi.ast.expression.unary.Positive;
 public interface IExpressionVisitor<T> {
 
     // Logical
-    public T visitAndExpression(And andExpression);
-    public T visitOrExpression(Or lessExpression);
+    public T visitAnd(And andExpression);
+    public T visitOr(Or lessExpression);
 
     // Unary
-    public T visitNotExpression(Not not);
-    public T visitNegExpression(Negative negative);
-    public T visitPosExpression(Positive positive);
+    public T visitNot(Not not);
+    public T visitNegative(Negative negative);
+    public T visitPositive(Positive positive);
 
     // Comparison
-    public T visitEQExpression(EQ eqExpression);
-    public T visitGEExpression(GE geExpression);
-    public T visitGreaterExpression(Greater greaterExpression);
-    public T visitLEExpression(LE leExpression);
-    public T visitLessExpression(Less lessExpression);
-    public T visitNotEqExpression(NotEq notEqExpression);
+    public T visitEQ(EQ eqExpression);
+    public T visitGE(GE geExpression);
+    public T visitGreater(Greater greaterExpression);
+    public T visitLE(LE leExpression);
+    public T visitLesser(Less lessExpression);
+    public T visitNotEq(NotEq notEqExpression);
 
     // Numerical
-    public T visitAddExpression(Add addExpression);
-    public T visitSubExpression(Sub subExpression);
-    public T visitMulExpression(Mul mulExpression);
-    public T visitDivExpression(Div divExpression);
+    public T visitAdd(Add addExpression);
+    public T visitSub(Sub subExpression);
+    public T visitMul(Mul mulExpression);
+    public T visitDiv(Div divExpression);
 }

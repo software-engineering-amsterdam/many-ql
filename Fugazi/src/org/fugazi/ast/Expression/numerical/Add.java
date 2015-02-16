@@ -16,6 +16,6 @@ public class Add extends Numerical {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitAddExpression(this);
+        return visitor.visitAdd(this);
     }
 }
