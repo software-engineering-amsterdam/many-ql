@@ -2,6 +2,7 @@ from tkinter import *
 from ast import *
 from processor import *
 import sys
+import grammar
 
 
 class QuestionnaireGUI:
@@ -23,7 +24,7 @@ class QuestionnaireGUI:
     def draw_questions(self, questions):
         for question in questions:
             self.row_counter += 1
-            if isinstance(question, AdvancedQuestions):
+            if question.is_conditional():
                 self.draw_conditional_q(question)
                 continue
             self.draw_question(question)

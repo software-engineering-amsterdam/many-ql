@@ -46,6 +46,9 @@ class Question:
     def all_labels(self):
         return [self.label]
 
+    def is_conditional(self):
+        return False
+
 
 class AdvancedQuestions(Question):
     def __init__(self, condition, questions):
@@ -90,6 +93,9 @@ class AdvancedQuestions(Question):
 
     def get_e_questions(self):
         return self.else_questions
+
+    def is_conditional(self):
+        return True
 
 
 class Form:
