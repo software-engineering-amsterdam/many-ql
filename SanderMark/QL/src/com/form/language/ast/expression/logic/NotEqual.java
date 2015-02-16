@@ -13,7 +13,7 @@ public class NotEqual extends BinaryExpression implements PrimitiveExpression {
 	
 	@Override
 	public BoolValue evaluate() {
-		return ((IntLiteral)left).evaluate().GreaterThan(((IntLiteral)right).evaluate());
+		return ((IntLiteral)left).evaluate().NotEqual(((IntLiteral)right).evaluate());
 	}
 
 }

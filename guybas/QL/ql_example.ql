@@ -33,7 +33,7 @@ else {
 }
 
 if (True == True) {
-    Question 7 (bool): This is always true isn't it?
+    Question 78 (bool): This is always true isn't it?
 }
 else {
     Question 8 (text): What is it then?

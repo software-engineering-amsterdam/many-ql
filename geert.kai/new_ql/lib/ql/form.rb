@@ -1,64 +1,4 @@
-class Operator
-  attr_reader :method, :arguments
-
-  def initialize(method:, arguments:)
-    @method = method
-    @arguments = arguments
-  end
-
-  def calculate
-    method.call(arguments)
-  end
-
-  def valid?
-    arguments.all do |argument|
-      argument.type == argument_type && argument.valid?
-    end
-  end
-end
-
-class BooleanOperator < Operator # || &&
-  def type
-    :boolean
-  end
-
-  def argument_type
-    :boolean
-  end
-end
-
-class CompareOperator < Operator # ==, !=, <, >
-  def type
-    :boolean
-  end
-
-  def argument_type
-    :integer
-  end
-end
-
-class ComputeOperator < Operator # * + - /
-  def type
-    :integer
-  end
-
-  def argument_type
-    :integer
-  end
-end
-
-class Statement
-  def statements
-    raise "Statement.statements niet geimplementeerd"
-  end
-
-  def questions
-    statements.flat_map(&:questions)
-  end
-end
-
-
-class Form < Statement
+class Form 
   attr_reader :name, :statements
 
   def initialize(name:, statements:)
@@ -67,21 +7,43 @@ class Form < Statement
   end
 end
 
-class Question < Statement
-  attr_reader :description, :variable_name, :type
+class Statement
+  #def statements
+    #raise "Statement.statements niet geimplementeerd"
+  #end
 
-  def initialize(description:, variable_name:, type:)
+  #def questions
+    #statements.flat_map(&:questions)
+  #end
+end
+
+class Question < Statement
+  attr_reader :description, :variable_definition
+
+  def initialize(description:, variable_definition:)
     @description = description
-    @variable_name = variable_name
-    @type = type
+    @variable_definition = variable_definition
   end
 
-  def questions
-    self
+  #def questions
+    #self
+  #end
+end
+
+class VariableDefinition
+  attr_reader :name, :type
+
+  def initialize(name:, type:)
+    @name = name
+    @type = type
   end
 end
 
-class If < Statement
+# expression to this superclass?
+class ConditionalStatement < Statement
+end
+
+class If < ConditionalStatement
   attr_reader :expression, :statements
 
   def initialize(expression:, statements:)
@@ -90,7 +52,7 @@ class If < Statement
   end
 end
 
-class IfElse < Statement
+class IfElse < ConditionalStatement
   attr_reader :expression, :statements_true, :statements_false
 
   def initialize(expression:, statements_true:, statements_false:)

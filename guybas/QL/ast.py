@@ -1,10 +1,12 @@
 # ast
+from exceptions import *
 
 
 class Expression:
     def __init__(self, expression):
         self.str_expression = expression
         self.is_else = False
+        print(expression)
 
     def evaluate(self):
         pass
@@ -15,6 +17,11 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + self.str_expression
 
+    def type_validator(answer, qtype):
+        if isinstance(answer, str):
+            return True
+        return False
+
 
 # Questions
 class Question:
@@ -22,6 +29,7 @@ class Question:
         self.id = qid
         self.label = label
         self.type = qtype
+        self.answer = []
 
     def ast_print(self, level=0):
         s = "\n" + "   " * level + "Question:" + self.id + "\n"
@@ -29,6 +37,12 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
+
+    def update(self, new_answer):
+        if Expression.type_validator(new_answer, self.get_type()) is True:
+            self.answer = [new_answer]
+        else:
+            raise QException("Answer type and input type collision")
 
     # Getters
     def get_label(self):
@@ -40,18 +54,18 @@ class Question:
     def get_id(self):
         return self.id
 
+    def all_ids(self):
+        return [self.id]
 
-class IfQuestion(Question):
-    def __init__(self, qid, qtype, label, condition):
-        self.id = qid
-        self.type = qtype
-        self.label = label
-        self.condition = condition
+    def all_labels(self):
+        return [self.label]
 
-    def ast_print(self, level=0):
-        s = "\n" + "   " * level + "If (" + self.condition.ast_print(0) + ")"
-        s += super(IfQuestion, self).ast_print(level + 1)
-        return s
+    def is_conditional(self):
+        return False
+
+    def get_answer(self):
+        return self.answer
+
 
 class AdvancedQuestions(Question):
     def __init__(self, condition, questions):
@@ -78,24 +92,28 @@ class AdvancedQuestions(Question):
     def get_condition(self):
         return self.condition.ast_print()
 
-    def get_id(self):
+    def all_ids(self):
         ids = []
         for question in self.questions:
-            ids.append(question.get_id())
+            ids += question.all_ids()
         for question in self.else_questions:
-            ids.append(question.get_id())
+            ids += question.all_ids()
         return ids
 
-    def get_label(self):
+    def all_labels(self):
         labels = []
         for label in self.questions:
-            labels.append(label.get_label())
+            labels += label.all_labels()
         for question in self.else_questions:
-            labels.append(label.get_label())
-        print(labels)
+            labels += label.all_labels()
         return labels
+
     def get_e_questions(self):
         return self.else_questions
+
+    def is_conditional(self):
+        return True
+
 
 class Form:
     def __init__(self, name, introduction, questions):

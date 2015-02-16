@@ -28,9 +28,9 @@ public class TaZQLParser extends Parser {
 		"WS", "NEWLINE", "COMMENTS"
 	};
 	public static final int
-		RULE_questionnaire = 0, RULE_formSection = 1, RULE_question = 2, RULE_expression = 3;
+		RULE_questionnaire = 0, RULE_form = 1, RULE_question = 2, RULE_expression = 3;
 	public static final String[] ruleNames = {
-		"questionnaire", "formSection", "question", "expression"
+		"questionnaire", "form", "question", "expression"
 	};
 
 	@Override
@@ -54,8 +54,8 @@ public class TaZQLParser extends Parser {
 	}
 	public static class QuestionnaireContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(TaZQLParser.EOF, 0); }
-		public FormSectionContext formSection() {
-			return getRuleContext(FormSectionContext.class,0);
+		public FormContext form() {
+			return getRuleContext(FormContext.class,0);
 		}
 		public QuestionnaireContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -82,7 +82,7 @@ public class TaZQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(8); formSection();
+			setState(8); form();
 			setState(9); match(EOF);
 			}
 		}
@@ -97,7 +97,7 @@ public class TaZQLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class FormSectionContext extends ParserRuleContext {
+	public static class FormContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(TaZQLParser.ID, 0); }
 		public QuestionContext question(int i) {
 			return getRuleContext(QuestionContext.class,i);
@@ -105,28 +105,28 @@ public class TaZQLParser extends Parser {
 		public List<QuestionContext> question() {
 			return getRuleContexts(QuestionContext.class);
 		}
-		public FormSectionContext(ParserRuleContext parent, int invokingState) {
+		public FormContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_formSection; }
+		@Override public int getRuleIndex() { return RULE_form; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterFormSection(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterForm(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitFormSection(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitForm(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitFormSection(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitForm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final FormSectionContext formSection() throws RecognitionException {
-		FormSectionContext _localctx = new FormSectionContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_formSection);
+	public final FormContext form() throws RecognitionException {
+		FormContext _localctx = new FormContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_form);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);

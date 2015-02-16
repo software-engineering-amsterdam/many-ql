@@ -1,6 +1,8 @@
 package org.uva.sea.ql.model.literal;
 
-public class BooleanLiteral extends AbstractLiteral<Boolean>{
+import org.uva.sea.ql.model.value.BooleanValue;
+
+public class BooleanLiteral extends AbstractLiteral{
 	private final boolean booleanValue;
 
 	public BooleanLiteral(boolean boolValue) {
@@ -8,7 +10,7 @@ public class BooleanLiteral extends AbstractLiteral<Boolean>{
 	}
 
 	@Override
-	public Boolean getValue() {
-		return this.booleanValue;
+	public BooleanValue evaluateExpression() {
+		return new BooleanValue(booleanValue);
 	}	
 }
