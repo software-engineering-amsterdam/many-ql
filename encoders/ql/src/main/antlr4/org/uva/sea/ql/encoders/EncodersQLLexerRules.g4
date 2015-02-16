@@ -33,5 +33,5 @@ QUOTEDSTRING  : '"' .+? '"' ;
 
 NAME          : [a-zA-Z]+ ;
 
-WS            : (' ' | '\t')+ ;
+WS            : (' ' | '\t')+ -> skip ;
 NL            :  '\r'? '\n' ;

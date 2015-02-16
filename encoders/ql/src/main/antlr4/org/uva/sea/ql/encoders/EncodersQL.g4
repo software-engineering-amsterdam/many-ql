@@ -2,21 +2,21 @@ grammar EncodersQL;
 import EncodersQLLexerRules;
 
 questionnaire:
-    'form' WS formName=NAME WS '{' WS* NL
+    'form' formName=NAME '{'  NL
     (question | conditionalBlock | NL )+
     '}'
     EOF;
 
         
 question:
-    WS* questionString=QUOTEDSTRING NL
-    WS* questionName=NAME ':' WS type=DATATYPE NL;
+     questionString=QUOTEDSTRING NL
+     questionName=NAME ':' type=DATATYPE NL;
     
     
 conditionalBlock:
-    WS* 'if' WS '(' conditional ')' WS '{' NL
+     'if' '(' conditional ')' '{' NL
     question+
-    WS* '}' NL;
+     '}' NL;
     
 conditional:
     NAME;
