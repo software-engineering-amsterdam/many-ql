@@ -25,13 +25,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatement(@NotNull QLParser.StatementContext ctx) { }
+	@Override public void enterExpression(@NotNull QLParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatement(@NotNull QLParser.StatementContext ctx) { }
+	@Override public void exitExpression(@NotNull QLParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -49,13 +49,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
+	@Override public void enterQuestion(@NotNull QLParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
+	@Override public void exitQuestion(@NotNull QLParser.QuestionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatement(@NotNull QLParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(@NotNull QLParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -73,25 +85,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr(@NotNull QLParser.ExprContext ctx) { }
+	@Override public void enterQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr(@NotNull QLParser.ExprContext ctx) { }
+	@Override public void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElseStatement(@NotNull QLParser.ElseStatementContext ctx) { }
+	@Override public void enterIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElseStatement(@NotNull QLParser.ElseStatementContext ctx) { }
+	@Override public void exitIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -104,30 +116,6 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitQuestionType(@NotNull QLParser.QuestionTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterQuestion(@NotNull QLParser.QuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestion(@NotNull QLParser.QuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElseIfStatement(@NotNull QLParser.ElseIfStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElseIfStatement(@NotNull QLParser.ElseIfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -152,18 +140,6 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLiteral(@NotNull QLParser.LiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

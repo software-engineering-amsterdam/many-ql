@@ -2,7 +2,8 @@ package typechecker
 
 import ast.QLAST
 
-class QLTypeChecker extends QLAST{
+class QLTypeChecker extends {
+    import QLAST._
 
     var questionVariableMap = Map[String, Integer]()
   

@@ -15,9 +15,9 @@ namespace QuestionnaireLanguage.AST.Nodes.FormObject
             children = new List<iASTNode>();
         }
 
-        public void AddChild( iASTNode conditionalNode)
+        public void AddChild(iASTNode node)
         {
-            children.Add(conditionalNode);
+            children.Add(node);
         }
 
         public IList<iASTNode> GetChildren()

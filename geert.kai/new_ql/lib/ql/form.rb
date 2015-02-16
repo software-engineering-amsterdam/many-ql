@@ -1,9 +1,16 @@
+
 class Form 
   attr_reader :name, :statements
 
   def initialize(name:, statements:)
     @name = name
     @statements = statements
+  end
+
+  def accept visitor
+    statements.each do |statement|
+      statement.accept visitor
+    end
   end
 end
 
@@ -24,7 +31,10 @@ class Question < Statement
     @description = description
     @variable_definition = variable_definition
   end
-
+  
+  def accept visitor
+    vistor.visit(self)
+  end
   #def questions
     #self
   #end
@@ -41,6 +51,15 @@ end
 
 # expression to this superclass?
 class ConditionalStatement < Statement
+  def accept visitor
+    exception.each do |expression|
+      expression.accept visitor
+   end
+
+   statements.each do |statement|
+      statement.accept visitor
+    end
+  end
 end
 
 class If < ConditionalStatement

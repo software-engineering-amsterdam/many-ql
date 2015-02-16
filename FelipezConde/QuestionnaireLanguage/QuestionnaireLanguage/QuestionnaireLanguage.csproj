@@ -64,7 +64,7 @@
     <Compile Include="AST\Nodes\Arithmetic\AddArithmeticNode.cs" />
     <Compile Include="AST\Nodes\Arithmetic\DivideArithmeticNode.cs" />
     <Compile Include="AST\Nodes\Arithmetic\iArithmeticNode.cs" />
-    <Compile Include="AST\Nodes\Arithmetic\multiplyArithmeticNode.cs" />
+    <Compile Include="AST\Nodes\Arithmetic\MultiplyArithmeticNode.cs" />
     <Compile Include="AST\Nodes\Arithmetic\PrioArithmetic.cs" />
     <Compile Include="AST\Nodes\Arithmetic\SubtractArrithmeticNode.cs" />
     <Compile Include="AST\Nodes\Comparison\GreaterThanNode.cs" />
@@ -84,17 +84,18 @@
     <Compile Include="AST\Nodes\FormElement\iFormElementNode.cs" />
     <Compile Include="AST\Nodes\FormNode.cs" />
     <Compile Include="AST\Nodes\FormObject\ConditionalNode.cs" />
-    <Compile Include="AST\Nodes\FormObject\FieldNode.cs" />
+    <Compile Include="AST\Nodes\FormObject\FieldNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AST\Nodes\FormObject\iFormObjectNode.cs" />
     <Compile Include="AST\Nodes\FormObject\QuestionNode.cs" />
     <Compile Include="AST\Nodes\FormSection\FormSectionNode.cs" />
     <Compile Include="AST\Nodes\FormSection\iFormSectionNode.cs" />
     <Compile Include="AST\Nodes\GenericTypeName\GenericTypeNameNode.cs" />
-    <Compile Include="AST\Nodes\idNode.cs" />
     <Compile Include="AST\Nodes\GenericTypeName\iGenericTypeNameNode.cs" />
+    <Compile Include="AST\Nodes\IdNode.cs" />
     <Compile Include="AST\Nodes\KeyValuePair\iKeyValuePairNode.cs" />
     <Compile Include="AST\Nodes\KeyValuePair\KeyValuePairNode.cs" />
-    <Compile Include="AST\Resources\PrimitiveTypeName.cs" />
     <Compile Include="AST\Nodes\Types\BoolNode.cs" />
     <Compile Include="AST\Nodes\Types\DateNode.cs" />
     <Compile Include="AST\Nodes\Types\DecimalNode.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="AST\Nodes\Types\ListNode.cs" />
     <Compile Include="AST\Nodes\Types\MoneyNode.cs" />
     <Compile Include="AST\Nodes\Types\StringNode.cs" />
+    <Compile Include="AST\Resources\PrimitiveTypeName.cs" />
     <Compile Include="AST\QLMainVisitor.cs" />
     <Compile Include="GeneratedFiles\QLMainBaseVisitor.cs" />
     <Compile Include="GeneratedFiles\QLMainLexer.cs" />

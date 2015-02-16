@@ -17,15 +17,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface QLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link QLParser#statement}.
+	 * Enter a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatement(@NotNull QLParser.StatementContext ctx);
+	void enterExpression(@NotNull QLParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#statement}.
+	 * Exit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatement(@NotNull QLParser.StatementContext ctx);
+	void exitExpression(@NotNull QLParser.ExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
@@ -37,15 +37,25 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitForm(@NotNull QLParser.FormContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#questionName}.
+	 * Enter a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuestionName(@NotNull QLParser.QuestionNameContext ctx);
+	void enterQuestion(@NotNull QLParser.QuestionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#questionName}.
+	 * Exit a parse tree produced by {@link QLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx);
+	void exitQuestion(@NotNull QLParser.QuestionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(@NotNull QLParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(@NotNull QLParser.StatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree
@@ -57,25 +67,25 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitBlock(@NotNull QLParser.BlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#expr}.
+	 * Enter a parse tree produced by {@link QLParser#questionName}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr(@NotNull QLParser.ExprContext ctx);
+	void enterQuestionName(@NotNull QLParser.QuestionNameContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#expr}.
+	 * Exit a parse tree produced by {@link QLParser#questionName}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr(@NotNull QLParser.ExprContext ctx);
+	void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#elseStatement}.
+	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterElseStatement(@NotNull QLParser.ElseStatementContext ctx);
+	void enterIfStatement(@NotNull QLParser.IfStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#elseStatement}.
+	 * Exit a parse tree produced by {@link QLParser#ifStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitElseStatement(@NotNull QLParser.ElseStatementContext ctx);
+	void exitIfStatement(@NotNull QLParser.IfStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
@@ -86,26 +96,6 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestionType(@NotNull QLParser.QuestionTypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#question}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestion(@NotNull QLParser.QuestionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#question}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestion(@NotNull QLParser.QuestionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#elseIfStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterElseIfStatement(@NotNull QLParser.ElseIfStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#elseIfStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitElseIfStatement(@NotNull QLParser.ElseIfStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#questionLabel}.
 	 * @param ctx the parse tree
@@ -126,14 +116,4 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteral(@NotNull QLParser.LiteralContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterIfStatement(@NotNull QLParser.IfStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#ifStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitIfStatement(@NotNull QLParser.IfStatementContext ctx);
 }

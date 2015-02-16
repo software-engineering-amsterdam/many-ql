@@ -1,3 +1,3 @@
 require_relative "lib/ql"
 
-@form = QL.parse("spec/source_files/expression_query.ql").first
+@form = QL.parse("spec/source_files/expression_query.ql")

@@ -8,5 +8,21 @@ namespace QuestionnaireLanguage.AST.Nodes.FormElement
 {
     public class FormElementNode : iFormElementNode
     {
+        private IList<iASTNode> children;
+
+        public FormElementNode()
+        {
+            children = new List<iASTNode>();
+        }
+
+        public void AddChild(iASTNode node)
+        {
+            children.Add(node);
+        }
+
+        public IList<iASTNode> GetChildren()
+        {
+            return children;
+        }
     }
 }

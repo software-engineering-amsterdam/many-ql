@@ -1,10 +1,12 @@
 package ast
 
-trait QLAST {
+object QLAST {
 
   // Form
-  sealed abstract class Statement
   case class Form(label: String, e: Statement)
+
+  // Statements
+  sealed abstract class Statement
   case class Sequence(statements: List[Statement]) extends Statement
   case class IfStatement(e: Expression, s1: Statement, s2: Option[Statement]) extends Statement
 
