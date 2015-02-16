@@ -1,6 +1,7 @@
 from AST import AST
 import ASTNodes
 from collections import OrderedDict
+from CustomTypes import *
 
 class QuestionTable(OrderedDict):
 	def __init__(self, ast):
@@ -33,6 +34,13 @@ class ExpressionsTuple(tuple):
 	def evaluate(self):
 		return all(expr.evaluate() for expr in self)
 
+class QuestionList(list):
+	def getVisibleQuestion(self):
+		for question in self:
+			if question.isVisible():
+				return question
+		return None
+
 class Form(object):
 	def __init__(self, formStatementNode):
 		assert isinstance(formStatementNode, ASTNodes.FormStatement)
@@ -46,13 +54,6 @@ class Expression(object):
 
 	def evaluate(self):
 		return True
-
-class QuestionList(list):
-	def getVisibleQuestion(self):
-		for question in self:
-			if question.isVisible():
-				return question
-		return None
 
 class Question(object):
 	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form):

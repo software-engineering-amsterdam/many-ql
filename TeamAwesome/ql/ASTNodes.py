@@ -1,5 +1,3 @@
-from decimal import *
-
 class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
@@ -84,12 +82,3 @@ class BinaryExpression(Expression):
 
     def __str__(self):
         return "(%s %s %s)" %(self.left, self.op, self.right)
-
-class Money(Decimal):
-    pass
-
-class Identifier(str):
-    def __new__(cls, string, lineNumber):
-        obj = str.__new__(cls, string)
-        obj.lineNumber = lineNumber
-        return obj
