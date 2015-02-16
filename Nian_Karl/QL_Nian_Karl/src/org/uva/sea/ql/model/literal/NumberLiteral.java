@@ -1,10 +1,10 @@
 package org.uva.sea.ql.model.literal;
 
-public class IntegerLiteral extends AbstractLiteral<Integer> {
+public class NumberLiteral extends AbstractLiteral<Integer> {
 
 	private final int intValue;
 	
-	public IntegerLiteral(int intValue) {
+	public NumberLiteral(int intValue) {
 		this.intValue = intValue;
 	}
 	
