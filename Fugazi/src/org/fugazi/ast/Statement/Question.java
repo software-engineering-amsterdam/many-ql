@@ -37,6 +37,6 @@ public class Question extends Statement {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitQuestionStatement(this);
+        return visitor.visitQuestion(this);
     }
 }

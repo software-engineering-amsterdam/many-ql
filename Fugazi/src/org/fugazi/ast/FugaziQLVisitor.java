@@ -25,13 +25,6 @@ import org.fugazi.ast.form.Form;
 
 import java.util.ArrayList;
 
-
-/*
-WHY VISITOR?
-1. Each visit can return an AST node.
-2. Build our ASt.
-*/
-
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
     /**
