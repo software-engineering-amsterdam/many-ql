@@ -1,7 +1,7 @@
 package org.uva.sea.ql.encoders.model;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Questionnaire containing {@link Question}s.
@@ -13,7 +13,7 @@ public class Questionnaire {
 	private String name;
 
 	/** Questions, mapped by their name. */
-	private Map<String, Question> questions = new HashMap<String, Question>();
+	private TreeMap<String, Question> questions = new TreeMap<String, Question>();
 
 	public Map<String, Question> getQuestions() {
 		return questions;
