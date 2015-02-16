@@ -8,6 +8,22 @@ grammar Grammar;
 	import com.form.language.ast.values.*;
 }
 
+statement
+: assignmentStatement
+| ifStatement
+;
+
+assignmentStatement
+: IDENT ':=' expression ';'
+;
+
+ifStatement returns [PrimitiveExpression pExp]
+: 'if' expression 'then' statement+
+  ('else' statement+)?	
+  'end' 'if' ';'
+;
+
+
 syntaxtree returns [PrimitiveExpression pExp]
 : expression {$pExp = $expression.pExp; }
 ;
