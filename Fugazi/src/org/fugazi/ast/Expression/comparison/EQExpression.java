@@ -1,4 +1,7 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.Expression.comparison;
+
+import org.fugazi.ast.IASTVisitor;
+import org.fugazi.ast.Expression.Expression;
 
 /**
  * The Equal '=='.
@@ -15,7 +18,7 @@ public class EQExpression extends ComparisonExpression {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visitEQExpression(this);
     }
 }

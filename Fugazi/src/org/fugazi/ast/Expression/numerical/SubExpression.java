@@ -1,4 +1,7 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.Expression.numerical;
+
+import org.fugazi.ast.Expression.Expression;
+import org.fugazi.ast.IASTVisitor;
 
 /**
  * The Sub '-'.
@@ -15,7 +18,7 @@ public class SubExpression extends NumericalExpression {
     }
 
     @Override
-    public <T> T accept(IExpressionVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visitSubExpression(this);
     }
 }
