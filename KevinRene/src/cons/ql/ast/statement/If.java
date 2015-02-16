@@ -1,39 +1,38 @@
 package cons.ql.ast.statement;
 
+import java.util.Arrays;
+
 import cons.ql.ast.Expression;
 import cons.ql.ast.Statement;
-import cons.ql.ast.visitor.Visitor;
 
 public class If extends Statement {
-	private Expression expression;
-	private Block statements;
+	private final int EXPRESSION = 0;
+	private final int BLOCK = 1;
 	
 	/**
 	 * Constructor for the conditional block
 	 * @param statement
 	 */
-	public If(Expression expression, Block statements) {
-		this.expression = expression;
-		this.statements = statements;
+	public If(Expression expression, Block block) {
+		this.members.addAll(Arrays.asList(expression, block));
 	}
 	
-	public Block statements() {
-		return this.statements;
+	public Expression getExpression() {
+		return (Expression) this.members.get(EXPRESSION);
+	}
+	
+	public Block getBlock() {
+		return (Block) this.members.get(BLOCK);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("IfThen(");
 		
-		sb.append(expression.toString() + ", ");
-		sb.append(statements.toString());
+		sb.append(getExpression().toString() + ", ");
+		sb.append(getBlock().toString());
 		sb.append(")");
 		
 		return sb.toString();
-	}
-
-	@Override
-	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub		
 	}
 }

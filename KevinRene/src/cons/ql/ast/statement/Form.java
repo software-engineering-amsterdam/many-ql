@@ -1,42 +1,34 @@
 package cons.ql.ast.statement;
 
+import java.util.Arrays;
+
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.literal.QLIdent;
-import cons.ql.ast.visitor.Visitor;
 
-public class Form extends Statement {	
-	protected QLIdent identifier;
-	protected Block block;
+public class Form extends Statement {
+	private final int IDENTIFIER = 0;
+	private final int BLOCK = 1;
 	
-	public Form(QLIdent identifier, Block statements) {
-		this.identifier = identifier;
-		this.block = statements;
+	public Form(QLIdent identifier, Block block) {
+		this.members.addAll(Arrays.asList(identifier, block));
 	}
 	
 	public QLIdent getIdent() {
-		return this.identifier;
+		return (QLIdent) this.members.get(IDENTIFIER);
 	}
 	
 	public Block getBlock() {
-		return this.block;
+		return (Block) this.members.get(BLOCK);
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Form(");
 		
-		sb.append(identifier.toString() + ", ");
-		sb.append(block.toString());
+		sb.append(getIdent().toString() + ", ");
+		sb.append(getBlock().toString());
 		sb.append(")");
 		
 		return sb.toString();
-	}
-
-	@Override
-	public void accept(Visitor visitor) {
-		identifier.accept(visitor);
-		block.accept(visitor);
-		
-		visitor.visit(this);		
 	}
 }

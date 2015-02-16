@@ -31,7 +31,7 @@ public class TypeCheckerTest {
 	
 	@Test
 	public void testExpressionVisitor() {
-		String myExpression = "5 == 5";
+		String myExpression = "5 + 5";
 		
 		ASTNode myTree = Parser.parse(myExpression);
 		TypeChecker typeChecker = new TypeChecker();
