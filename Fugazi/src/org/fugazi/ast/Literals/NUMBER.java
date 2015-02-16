@@ -1,28 +1,28 @@
 package org.fugazi.ast.Literals;
 
-/**
- * The Number.
- */
+import org.fugazi.ast.IASTVisitor;
+
 public class NUMBER extends Literal {
 
-    private String name;
+    // The value of the number.
+    private String value;
 
-    public NUMBER(String name) {
-        this.name = name;
+    public NUMBER(String _value) {
+        this.value = _value;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
-        return name;
+        return value;
     }
 
     @Override
-    public <T> T accept(ILiteralVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visitNUMBER(this);
     }
 }
 

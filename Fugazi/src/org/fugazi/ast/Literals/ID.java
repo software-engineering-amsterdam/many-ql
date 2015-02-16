@@ -1,14 +1,17 @@
 package org.fugazi.ast.Literals;
 
+import org.fugazi.ast.IASTVisitor;
+
 /**
  * The identifier.
  */
 public class ID extends Literal {
 
+    // The name of the identifier.
     private String name;
 
-    public ID(String name) {
-        this.name = name;
+    public ID(String _name) {
+        this.name = _name;
     }
 
     public String getName() {
@@ -21,8 +24,8 @@ public class ID extends Literal {
     }
 
     @Override
-    public <T> T accept(ILiteralVisitor<T> visitor) {
-        return visitor.visit(this);
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visitID(this);
     }
 }
 

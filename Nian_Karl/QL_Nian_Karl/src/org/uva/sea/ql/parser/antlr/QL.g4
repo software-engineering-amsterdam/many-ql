@@ -3,24 +3,36 @@ grammar QL;
 
 @parser::header
 {
+	import org.uva.sea.ql.model.expression.*;
+	import org.uva.sea.ql.model.expression.commonexpression.*;
+	import org.uva.sea.ql.model.expression.booleanexpression.*;
+	import org.uva.sea.ql.model.expression.mathexpression.*;
+	import org.uva.sea.ql.model.literal.*;
+	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
 {
+//	import org.uva.sea.ql.model.expression.*;
+//	import org.uva.sea.ql.model.expression.mathexpression.*;
+//	import org.uva.sea.ql.model.expression.booleanexpression.*;
+//	import org.uva.sea.ql.model.expression.commonexpression.*;
 }
 
 // Parser rules
-form : question (question | statement)*;
-
+form : 'form' identifier LEFT_BRACES question (question | statement)* RIGHT_BRACES
+	| expr
+;
 
 question: questionType identifier stringLiteral SEMICOLON;
 
 statement:	IF LEFT_PARENTHESES expr RIGHT_PARENTHESES LEFT_BRACES (question)+ RIGHT_BRACES;
 
-expr: literal
+expr: 
+	literal
 	| expr AND expr
 	| expr OR expr
-	| expr EQUAL expr
+	| expr EQUAL_COND expr
 	| expr GREATER expr
 	| expr EQUAL_GREATER expr
 	| expr EQUAL expr
@@ -31,6 +43,77 @@ expr: literal
 	| expr MULTIPLY expr 
 	| expr DEVIDE expr 
 ;
+//=========================================
+    
+   
+//unExpr returns [AbstractValue result]
+//    :  '+' x=unExpr { $result = new PositiveExpression($x.result); }
+//    |  '-' x=unExpr { $result = new NegativeExpression($x.result); }
+//    |  '!' x=unExpr { $result = new NotExpression($x.result); }
+////    |  x=expr    { $result = $x.result; }
+//    ;
+//    
+//    
+//mulExpr returns [Expression result]
+//    :   lhs=unExpr { $result=$lhs.result; } ( op=( '*' | '/' ) rhs=unExpr 
+//    { 
+//      if ($op.text.equals("*")) {
+//        $result = new MulExpression($result, rhs);
+//      }
+//      if ($op.text.equals("<=")) {
+//        $result = new DivExpression($result, rhs);      
+//      }
+//    })*
+//    ;
+//    
+//  
+//addExpr returns [Expression result]
+//    :   lhs=mulExpr { $result=$lhs.result; } ( op=('+' | '-') rhs=mulExpr
+//    { 
+//      if ($op.text.equals("+")) {
+//        $result = new AddExpression($result, rhs);
+//      }
+//      if ($op.text.equals("-")) {
+//        $result = new SubExpression($result, rhs);      
+//      }
+//    })*
+//    ;
+//  
+//relExpr returns [Expression result]
+//    :   lhs=addExpr { $result=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=addExpr 
+//    { 
+//      if ($op.text.equals("<")) {
+//        $result = new LessExpression($result, rhs);
+//      }
+//      if ($op.text.equals("<=")) {
+//        $result = new LessOrEqualExpression($result, rhs);      
+//      }
+//      if ($op.text.equals(">")) {
+//        $result = new GreaterExpression($result, rhs);
+//      }
+//      if ($op.text.equals(">=")) {
+//        $result = new GreaterOrEqualExpression($result, rhs);      
+//      }
+//      if ($op.text.equals("==")) {
+//        $result = new EqualExpression($result, rhs);
+//      }
+//      if ($op.text.equals("!=")) {
+//        $result = new NegationExpression($result, rhs);
+//      }
+//    })*
+//    ;
+//    
+//andExpr returns [AbstractValue result]
+//    :   lhs=relExpr { $result=$lhs.result; } ( '&&' rhs=relExpr { $result = new AndExpression($result, rhs); } )*
+//    ;
+//    
+//
+//orExpr returns [AbstractValue result]
+//    :   lhs=andExpr { $result = $lhs.result; } ( '||' rhs=andExpr { $result = new OrExpression.java($result, rhs); } )*
+//    ;
+
+
+//=========================================
 
 questionType :INT | STR | CUR | BOOL;
 
@@ -87,7 +170,7 @@ MINUS:			'-';
 DEVIDE:			'/';
 MULTIPLY:		'*';
 
-Int: [0-9]+;
+Int: [1-9][0-9]*;
 
 Str: '"' .*? '"';
 

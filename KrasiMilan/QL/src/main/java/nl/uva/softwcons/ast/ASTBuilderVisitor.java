@@ -1,5 +1,6 @@
 package nl.uva.softwcons.ast;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -8,7 +9,7 @@ import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.AdditionExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.DivisionExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplyExpression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.SubstractionExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.EqualExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqualExpression;
@@ -19,11 +20,11 @@ import nl.uva.softwcons.ast.expression.binary.comparison.NotEqualExpression;
 import nl.uva.softwcons.ast.expression.binary.logical.AndExpression;
 import nl.uva.softwcons.ast.expression.binary.logical.OrExpression;
 import nl.uva.softwcons.ast.expression.identifier.IdentifierExpression;
-import nl.uva.softwcons.ast.expression.literal.BooleanExpression;
-import nl.uva.softwcons.ast.expression.literal.IntegerExpression;
-import nl.uva.softwcons.ast.expression.literal.StringExpression;
+import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
+import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
+import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
+import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
-import nl.uva.softwcons.ast.expression.unary.arithmetic.NegationExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
@@ -36,6 +37,7 @@ import nl.uva.softwcons.generated.QLParser.BinaryExprContext;
 import nl.uva.softwcons.generated.QLParser.BooleanContext;
 import nl.uva.softwcons.generated.QLParser.ComputedQuestionContext;
 import nl.uva.softwcons.generated.QLParser.ConditionalContext;
+import nl.uva.softwcons.generated.QLParser.DecimalContext;
 import nl.uva.softwcons.generated.QLParser.FormContext;
 import nl.uva.softwcons.generated.QLParser.IdContext;
 import nl.uva.softwcons.generated.QLParser.IntegerContext;
@@ -97,7 +99,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
         switch (ctx.op.getText()) {
         case "*":
-            return new MultiplyExpression(leftExpression, rightExpression);
+            return new MultiplicationExpression(leftExpression, rightExpression);
         case "/":
             return new DivisionExpression(leftExpression, rightExpression);
         case "-":
@@ -130,8 +132,6 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         final Expression expr = (Expression) ctx.expr().accept(this);
 
         switch (ctx.op.getText()) {
-        case "-":
-            return new NegationExpression(expr);
         case "!":
             return new NotExpression(expr);
         default:
@@ -145,18 +145,23 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public BooleanExpression visitBoolean(BooleanContext ctx) {
-        return new BooleanExpression(Boolean.valueOf(ctx.BOOLEAN().getText()));
+    public BooleanLiteral visitBoolean(BooleanContext ctx) {
+        return new BooleanLiteral(Boolean.valueOf(ctx.BOOLEAN().getText()));
     }
 
     @Override
-    public IntegerExpression visitInteger(IntegerContext ctx) {
-        return new IntegerExpression(Integer.parseInt(ctx.INT().getText()));
+    public IntegerLiteral visitInteger(IntegerContext ctx) {
+        return new IntegerLiteral(Integer.parseInt(ctx.INT().getText()));
     }
 
     @Override
-    public StringExpression visitString(StringContext ctx) {
-        return new StringExpression(ctx.STRING().getText());
+    public StringLiteral visitString(StringContext ctx) {
+        return new StringLiteral(ctx.STRING().getText());
+    }
+
+    @Override
+    public ASTNode visitDecimal(DecimalContext ctx) {
+        return new DecimalLiteral(new BigDecimal(ctx.DECIMAL().getText()));
     }
 
     @Override
