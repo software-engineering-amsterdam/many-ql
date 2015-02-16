@@ -5,6 +5,8 @@ grammar Grammar;
 	import com.form.language.ast.*;
 	import com.form.language.ast.expression.*;
 	import com.form.language.ast.expression.math.*;	
+	import com.form.language.ast.expression.literal.*;	
+	import com.form.language.ast.expression.logic.*;
 	import com.form.language.ast.values.*;
 }
 
@@ -53,32 +55,32 @@ mult returns [PrimitiveExpression pExp]
 	;
 		
 add returns [PrimitiveExpression pExp]
-	:	op1=mult {$pExp = $op1.pExp; }
+	:	op1=syntaxtree {$pExp = $op1.pExp; }
 	 	(	'-' op2=unary {$pExp = new Substraction($pExp, $op2.pExp);}
 		| 	'+' op2=unary {$pExp = new Addition($pExp, $op2.pExp);}
 		)*
 	;
 	
 rel returns [PrimitiveExpression pExp]
-    :   lhs=add { $pExp=$lhs.result; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=add 
+    :   lhs=add { $pExp=$lhs.pExp; } ( op=('<'|'<='|'>'|'>='|'=='|'!=') rhs=add 
     { 
       if ($op.text.equals("<")) {
-        $pExp = new LT($pExp, rhs);
+        $pExp = new LessThan($pExp, rhs);
       }
       if ($op.text.equals("<=")) {
-        $pExp = new LEq($pExp, rhs);      
+        $pExp = new LessThanOrEqual($pExp, rhs);      
       }
       if ($op.text.equals(">")) {
-        $pExp = new GT($pExp, rhs);
+        $pExp = new GreaterThan($pExp, rhs);
       }
       if ($op.text.equals(">=")) {
-        $pExp = new GEq($pExp, rhs);      
+        $pExp = new GreaterThanOrEqual($pExp, rhs);      
       }
       if ($op.text.equals("==")) {
-        $pExp = new Eq($pExp, rhs);
+        $pExp = new Equal($pExp, rhs);
       }
       if ($op.text.equals("!=")) {
-        $pExp = new NEq($pExp, rhs);
+        $pExp = new NotEqual($pExp, rhs);
       }
     })*
     ;

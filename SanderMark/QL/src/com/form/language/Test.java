@@ -14,7 +14,7 @@ public class Test {
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
-		PrimitiveExpression evaluator = parser.syntaxtree().expression().pExp;
+		PrimitiveExpression evaluator = parser.syntaxtree().add().pExp;
 		System.out.println((evaluator.evaluate()));
 		//visitor.visit(tree);
 	}

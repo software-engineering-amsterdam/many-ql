@@ -1,8 +1,16 @@
 from AST import AST
 
 class ExecutionStack(object):
-	def __init__(self, ast):
+	def __init__(self, statements):
+		self.stack = []
+
+		for statement in statements:
+			self.addToStack(statement)
+
+	def addToStack(statement):
 		pass
+
+
 
 def Question(object):
 	def __init__(self):
