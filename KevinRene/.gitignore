@@ -4,3 +4,8 @@ bin/
 # Package Files #
 *.war
 *.ear
+
+.settings
+
+# He annoys me
+Rene
