@@ -37,12 +37,14 @@ class Expressions:
     expr        :: atom (operator expr)*
     condition   :: expr compare expr
     '''
-
     bool            = Literal("True") | Literal("False")
     integer         = Word(nums)
     text            = BasicTypes.sentences
     
-    value           = bool | integer | text
+    value           = bool.setParseAction(ASTReady.make_bool) | \
+                      integer.setParseAction(ASTReady.make_int) | \
+                      text
+
     compare         = oneOf("> >= < <= ==")
     operator        = oneOf('+ - / *')
 
@@ -72,7 +74,7 @@ class FormFormat:
 
     id              = BasicTypes.characters
     label           = BasicTypes.sentence
-    
+
     answerR         = Literal("bool") | Literal("integer") | Literal("text")
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
                        ).setParseAction(ASTReady.make_question)

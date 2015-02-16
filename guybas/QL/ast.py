@@ -1,10 +1,17 @@
 # ast
 
+class QuestionTypes:
+    def __init__(self):
+        pass
 
 class Expression:
     def __init__(self, expression):
-        self.str_expression = expression
+        self.expression = expression
+        self.str_expression = str(expression)
         self.is_else = False
+
+    def analyze(self):
+        pass
 
     def evaluate(self):
         pass
@@ -14,6 +21,9 @@ class Expression:
 
     def ast_print(self, level=0):
         return "   " * level + self.str_expression
+
+    def variables(self):
+        pass
 
 
 # Questions
@@ -52,6 +62,9 @@ class AdvancedQuestions(Question):
         self.condition = condition
         self.questions = questions
         self.else_questions = []
+
+    def dependencies(self):
+        return self.condition.variables()
 
     def add_else(self, questions):
         self.else_questions = questions
@@ -113,7 +126,3 @@ class Form:
 
     def get_introduction(self):
         return self.introduction
-
-class FormObject:
-    def __init__(self):
-        pass
