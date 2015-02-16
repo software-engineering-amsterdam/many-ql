@@ -1,86 +1,55 @@
 import ASTNodes
 
 def check(ast):
-    """
-    Type checks the AST.
+    return checkDispatch(TypeCheckResult(), ast.root)
 
-    Returns an instance of TypeCheckResult
-
-    Language features:
-    - No nested form statements
-    - No else statements
-
-    - Unary and binary arithmetic can only be performed on numeric
-      type
-    - Logical negation can only be performed on boolean type
-    - Less-than and greater-than comparison can only be performed on
-      numeric type
-    - Equality and inequality comparison can be performed on
-      boolean, numeric and string type
-    - Logical AND and OR can only be performed on boolean type
-
-    Numeric types: integer, money
-
-    Detailed features implemented:
-
-    *Statements*
-    - root can only contain form statements
-      (should be caught by parser)
-    - form statements can only contain if and question statements
-    - if statements can only contain if and question statements
-    - assigned default values of question_type statements must match
-      the type
-
-    *Expressions*
-    - (See Language features)
-    """
-    result = TypeCheckResult()
-    check_Dispatch(result, ast.root)
-    return result
-
-def check_Dispatch(result, node):
+# Dynamic dispatch like thing in python
+def checkDispatch(result, node):
     c = node.__class__.__name__
-    procedure = 'check_' + c
+    procedure = 'check' + c
     if procedure not in globals():
-        result.addMessage(TypeCheckErrorMessage(
+        return result.addMessage(TypeCheckErrorMessage(
             'cannot check '+c+': procedure '+procedure\
            +' does not exist in type checker'
         ))
     else:
-        globals()[procedure](result, node)
+        return globals()[procedure](result, node)
 
-def check_RootNode(result, node):
+def checkRootNode(result, node):
     for s in node.statements:
         if not isinstance(s, ASTNodes.FormStatementNode):
-            result.addMessage(TypeCheckErrorMessage(
+            result = result.addMessage(TypeCheckErrorMessage(
                 'expected a form statement',
                 lineNumber(s)
             ))
-        check_Dispatch(result, s)
+        result = checkDispatch(result, s)
+    return result
 
-def check_FormStatementNode(result, node):
+def checkFormStatementNode(result, node):
     for s in node.statements:
         if not isinstance(s, ASTNodes.IfStatementNode) \
             and not isinstance(s, ASTNodes.QuestionStatementNode):
-            result.addMessage(TypeCheckErrorMessage(
+            result = result.addMessage(TypeCheckErrorMessage(
                 'expected an if statement or question statement',
                 lineNumber(s)
             ))
-        check_Dispatch(result, s)
+        result = checkDispatch(result, s)
+    return result
 
-def check_IfStatementNode(result, node):
+def checkIfStatementNode(result, node):
     for s in node.statements:
         if not isinstance(s, ASTNodes.IfStatementNode) \
             and not isinstance(s, ASTNodes.QuestionStatementNode):
-            result.addMessage(TypeCheckErrorMessage(
+            result = result.addMessage(TypeCheckErrorMessage(
                 'expected an if statement or question statement',
                 lineNumber(s)
             ))
-        check_Dispatch(result, s)
+        result = checkDispatch(result, s)
+    return result
     # TODO: typecheck expression
 
-def check_QuestionStatementNode(result, node):
-    pass
+def checkQuestionStatementNode(result, node):
+    return result
 
 def lineNumber(entity):
     if hasattr(entity, 'lineNumber'):
@@ -112,8 +81,8 @@ class TypeCheckErrorMessage(TypeCheckMessage):
         return '[ERROR] '+super().__str__()
 
 class TypeCheckResult:
-    def __init__(self):
-        self.__messages = []
+    def __init__(self, messages = []):
+        self.__messages = messages
 
     @property
     def messages(self):
@@ -127,7 +96,7 @@ class TypeCheckResult:
         )
 
     def addMessage(self, message):
-        self.__messages.append(message)
+        return TypeCheckResult(self.__messages + [message])
 
     @property
     def success(self):
