@@ -1,7 +1,5 @@
-// Generated from QL.g4 by ANTLR 4.4
-package org.uva.sea.ql.parser.antlr;
-
-
+// Generated from QL.g4 by ANTLR 4.5
+package ql.antlr;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -20,75 +18,82 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifier(@NotNull QLParser.IdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitForm(QLParser.FormContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitForm(@NotNull QLParser.FormContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBlock(QLParser.BlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitQuestion(@NotNull QLParser.QuestionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStatement(QLParser.StatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBool(@NotNull QLParser.BoolContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQuestion(QLParser.QuestionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStringLiteral(@NotNull QLParser.StringLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQuestionType(QLParser.QuestionTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatement(@NotNull QLParser.StatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBuiltinType(QLParser.BuiltinTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr(@NotNull QLParser.ExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUserType(QLParser.UserTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitQuestionType(@NotNull QLParser.QuestionTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQuestionName(QLParser.QuestionNameContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBooleanLiteral(@NotNull QLParser.BooleanLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQuestionLabel(QLParser.QuestionLabelContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLiteral(@NotNull QLParser.LiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIfstatement(QLParser.IfstatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNumberLiteral(@NotNull QLParser.NumberLiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpression(QLParser.ExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitLiteral(QLParser.LiteralContext ctx) { return visitChildren(ctx); }
 }
