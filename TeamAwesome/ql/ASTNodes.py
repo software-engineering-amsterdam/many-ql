@@ -9,6 +9,9 @@ class RootNode(Node):
         Node.__init__(self, 0)
         self.statements = statements
 
+    def getChildren(self):
+        return self.statements
+
 class StatementNode(Node):
     def getChildren():
         raise NotImplementedError()
