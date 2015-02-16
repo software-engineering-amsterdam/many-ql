@@ -423,7 +423,7 @@ qldefault:
 		{
 			q := qlS[qlpt-0].question
 			qs := qlVAL.stack
-			action := &ast.ActionNode{Action: q}
+			action := ast.NewActionNode(q)
 			qs = append(qs, action)
 			qlVAL.stack = qs
 		}
@@ -432,7 +432,7 @@ qldefault:
 		{
 			ifNode := qlS[qlpt-0].ifNode
 			qs := qlVAL.stack
-			action := &ast.ActionNode{Action: ifNode}
+			action := ast.NewActionNode(ifNode)
 			qs = append(qs, action)
 			qlVAL.stack = qs
 		}

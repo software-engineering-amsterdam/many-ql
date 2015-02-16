@@ -36,7 +36,7 @@ func (walk Walk) QuestionaireNode(q *ast.QuestionaireNode) {
 
 // ActionNode branches to QuestionNode or IfNode Walkerrs
 func (walk Walk) ActionNode(a *ast.ActionNode) {
-	walk.Exec(a.Action)
+	walk.Exec(a.Action())
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
