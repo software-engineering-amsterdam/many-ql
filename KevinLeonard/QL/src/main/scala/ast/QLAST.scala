@@ -30,7 +30,7 @@ trait QLAST {
   case class StringLiteral(value: String) extends Literal
   case class Or(l: Expression, r: Expression) extends Expression
   case class And(l: Expression, r: Expression) extends Expression
-  case class Not(v: Expression) extends Expression
+  case class Not(e: Expression) extends Expression
   case class Equal(l: Expression, r: Expression) extends Expression
   case class NotEqual(l: Expression, r: Expression) extends Expression
   case class LessThan(l: Expression, r: Expression) extends Expression
