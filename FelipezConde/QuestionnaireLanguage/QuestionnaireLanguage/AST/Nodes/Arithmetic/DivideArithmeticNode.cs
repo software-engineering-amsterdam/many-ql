@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireLanguage.AST.Nodes.Arithmetic
 {
-    public class DivideArithmeticNode : iASTNode
+    public class DivideArithmeticNode : iArithmeticNode
     {
     }
 }

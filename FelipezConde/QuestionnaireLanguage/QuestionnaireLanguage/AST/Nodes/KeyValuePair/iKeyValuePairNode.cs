@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuestionnaireLanguage.AST.Nodes.Types
+namespace QuestionnaireLanguage.AST.Nodes.KeyValuePair
 {
-    public class MoneyNode : iTypeNode
+    public interface iKeyValuePairNode : iASTNode
     {
     }
 }
