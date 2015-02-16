@@ -1,5 +1,7 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.visitor.Visitor;
+
 /**
  * Created by bore on 09/02/15.
  */
@@ -10,10 +12,8 @@ public class SubtractionExpression extends BinaryOperatorExpression
         super(left, right);
     }
 
-    @Override
-    public ConstantExpression getValue()
+    public void visit(Visitor visitor)
     {
-        IntegerExpression result = new IntegerExpression(5);
-        return result;
+        visitor.visit(this);
     }
 }

@@ -4,10 +4,8 @@ import collections
 
 class Processor:
     def conditions_proc(self, condition):
-        # TODO: process the expression, and return true/false
-        c_list = ParseResults(condition).asList()
-        c_str  = self.rlist2string(c_list)
-        result = eval(c_str)
+        # process the expression, and return true/false
+        result = eval(condition)
         if result:
             return True
         return False

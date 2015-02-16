@@ -1,6 +1,6 @@
 package org.fugazi.ast.Statement;
 
-import org.fugazi.ast.Expression.LogicalExpression;
+import org.fugazi.ast.Expression.Expression;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class IfStatement extends Statement {
 
     // The condition to be checked.
-    private LogicalExpression condition;
+    private Expression condition;
     
     // The list of the statements that would be executed in case the condition if true.
     private ArrayList<Statement> statements;
@@ -20,7 +20,7 @@ public class IfStatement extends Statement {
      * @param _condition The condition to be checked.
      * @param _statements The list of the statements
      */
-    public IfStatement(LogicalExpression _condition, ArrayList<Statement> _statements) {
+    public IfStatement(Expression _condition, ArrayList<Statement> _statements) {
         this.condition = _condition;
         this.statements = _statements;
     }
@@ -29,7 +29,7 @@ public class IfStatement extends Statement {
      * Get the condition
      * @return condition
      */
-    public LogicalExpression getCondition() {
+    public Expression getCondition() {
         return this.condition;
     }
 
@@ -43,11 +43,17 @@ public class IfStatement extends Statement {
 
     @Override
     public String toString() {
-        return "if (" + this.condition.toString() + ") {\n" + this.statements + "}";
+        String string = "\n if (" + this.condition.toString() + ") {\n";
+
+        for (Statement statement : this.statements)
+            string += statement.toString();
+        string += "\n}";
+        
+        return string;
     }
 
     @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
+    public <T> T accept(IStatementVisitor<T> visitor) {
         return visitor.visit(this);
     }
 }

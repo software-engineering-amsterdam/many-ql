@@ -4,45 +4,41 @@ options {
 	language = Java;
 }
 
-//@header {
-//	package com.antlr4.zarina.tazql;
-//}
-
-parse      		: formSection EOF;
+questionnaire	: formSection EOF;
 
 formSection 	: 'FORM' ID '{' question+ '} END';
 
-question		: simpleQuestion 														# basicQuestion
-				| computedQuestion														# calcQuestion
+question		: ID TEXT TYPE	 			 											# simpleQuestion
+				| ID TEXT TYPE '(' expression ')'										# calcQuestion
 				| 'if' '(' expression ')' '{' question+ '}'								# ifStatement
 				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'	# ifelseStatement
 				;
 
-expression		: ID 																	# id
-				| BOOLEAN 																# boolean
-				| TEXT 																	# text
-				| NUMBER																# number
+expression		: '!' expression														# not															
 				| expression ('*'| '/') expression										# multDiv
 				| expression ('+'| '-') expression										# addSub
+				| expression ('>'|'>='|'<'|'<=') expression								# equation
 				| expression ('=='|'!=') expression										# eqNot
 				| expression ('&&') expression											# and
 				| expression ('||') expression											# or
-				| expression ('>'|'>='|'<'|'<=') expression								# equation
+				| BOOLEAN 																# boolean
+				| ID 																	# id
+				| TEXT 																	# text
+				| NUMBER																# number
 				| '(' expression ')'													# prio		
 				;
 				
-simpleQuestion	: ID TEXT TYPE;   	 
-				 									
-computedQuestion: ID TEXT TYPE '(' expression ')';
+//simpleQuestion	: ID TEXT TYPE;   				 									
+//computedQuestion: ID TEXT TYPE '(' expression ')';
  
-TYPE  			: 'choice' | 'digit' | 'text';				  
+TYPE  			: 'choice' | 'digits' | 'text';				  
 BOOLEAN			: 'true' | 'false';  
 	  
 	  
 NUMBER			: '0'..'9'+ ('.' '0'..'9'+)*;
-TEXT			:'['(ID |SPECIAL|NUMBER|WS)*']';	
+TEXT			:'"'.*? '"';	
 ID 				:('a'..'z'|'A'..'Z'|'_')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*; 
 WS  			: (' ' | '\t' | '\n' | '\r')+ -> skip;
-SPECIAL			: [:?!,\.;];
+
 NEWLINE 		:'\r'?'\n';
 COMMENTS		: '//' NEWLINE -> skip;

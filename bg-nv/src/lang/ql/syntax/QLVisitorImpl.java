@@ -3,10 +3,7 @@ package lang.ql.syntax;
 import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.statement.IfCondition;
-import lang.ql.ast.statement.Question;
-import lang.ql.ast.statement.QuestionType;
-import lang.ql.ast.statement.Statement;
+import lang.ql.ast.statement.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 /**
@@ -36,7 +33,6 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     @Override
     public AstNode visitStatement(@NotNull QLParser.StatementContext context)
     {
-        // TODO: could the if be avoided?
         if (context.question() != null)
         {
             return visit(context.question());
@@ -49,17 +45,16 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     public AstNode visitQuestion(@NotNull QLParser.QuestionContext context)
     {
         String id = context.Identifier().getText();
-        // TODO: Handle exception of QuestionType conversion
         QuestionType questionType = QuestionType.valueOf(context.QuestionType().getText().toUpperCase());
         String text = context.String().getText();
 
         if (context.expression() != null)
         {
             Expression expression = (Expression)visitExpression(context.expression());
-            return new Question(id, questionType, text, expression);
+            return new CalculatedQuestion(id, questionType, text, expression);
         }
-        // TODO: May be have two Question classes, one with and one without expression?
-        return new Question(id, questionType, text, null);
+
+        return new Question(id, questionType, text);
     }
 
     @Override
@@ -68,9 +63,9 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         Expression expression = (Expression)visitExpression(context.expression());
 
         List<Statement> ifStatements = new ArrayList<Statement>();
-        for (QLParser.StatementContext stat : context.statement())
+        for (QLParser.StatementContext statement : context.statement())
         {
-            Statement s = (Statement)this.visit(stat);
+            Statement s = (Statement)this.visit(statement);
             ifStatements.add(s);
         }
 
@@ -98,19 +93,21 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         Expression left = (Expression)this.visit(lContext);
         Expression right = (Expression)this.visit(rContext);
 
-        if (operator == "+") { return new AdditionExpression(left, right); }
-        if (operator == "-") { return new SubtractionExpression(left, right); }
+        if (operator.equals("+")) { return new AdditionExpression(left, right); }
+        if (operator.equals("-")) { return new SubtractionExpression(left, right); }
+        if (operator.equals(">")) { return new GreaterThanExpression(left, right); }
         // TODO: add all expressions here
-        return null;
+        throw new IllegalArgumentException("No such binary operator: " + operator);
     }
 
     public Expression visitUnaryExpression(QLParser.ExpressionContext operandContext, String operator)
     {
         Expression operand = (Expression)this.visit(operandContext);
 
+        if (operator == "+") { return new UnaryPlusExpression(operand); }
+        if (operator == "-") { return new UnaryMinusExpression(operand); }
         // TODO: add expressions
-        //if (operator == "+") { return new UnaryPlusExpression(); }
-        return null;
+        throw new IllegalArgumentException("No such unary operator: " + operator);
     }
 
     public Expression visitConstantExpression(QLParser.ExpressionContext operandContext)
@@ -138,6 +135,6 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         }
 
         // TODO: add date and decimal expressions
-        return null;
+        throw new IllegalArgumentException("Illegal constant expression");
     }
 }

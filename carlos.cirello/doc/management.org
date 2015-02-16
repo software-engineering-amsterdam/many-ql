@@ -6,7 +6,8 @@
   {5} Lex and Yacc in Go - implemented [[https://github.com/noypi/schedparser]]
   {6} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
   {7} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
-* QL [1/3]
+  {8} [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
+* QL [2/4]
   - [X] Basic Architecture {4}
   - [ ] Compiler [0/2] {1}
     - [ ] Write grammar [3/10]
@@ -25,9 +26,8 @@
       - [ ] read from multiple files :COULD:
     - [ ] Generate AST [1/3]
       - [X] Basic cases
-      - [ ] Advanced cases [0/3]
-        - [ ] IF positive
-        - [ ] IF negative
+      - [ ] Advanced cases [1/2]
+        - [X] IF positive
         - [ ] Expressions
       - [ ] All cases
         - [ ] Double declaration
@@ -38,25 +38,25 @@
       - [ ] Advanced cases
       - [ ] All cases
       - [ ] Transpose restrictions from the dependency into the main doc.
-
-  ** Functionalities [0/10] {2}
+  - [X] Preload answers from CSV file
+  ** Functionalities [1/10] {2}
     - [ ] The language supports: [0/3]
       - [ ] Bool [2/3]
         - [X] Basic Algorithm
         - [X] Initial Tests
         - [ ] 100% coverage
-        - [ ] Top/Bottom restrictions
-        - [ ] Number masking
       - [ ] Int [2/3]
         - [X] Basic Algorithm
         - [X] Initial Tests
         - [ ] 100% coverage
+        - [ ] Top/Bottom restrictions
+        - [ ] Number masking
       - [ ] String [2/3]
         - [X] Basic Algorithm
         - [X] Initial Tests
         - [ ] 100% coverage
     - [ ] Questions are enabled and disabled when different values are entered.
-    - [ ] Type Checker: reference to undefined questions
+    - [X] Type Checker: reference to undefined questions
     - [ ] Type Checker: duplicate question declarations with different types
     - [ ] Type Checker: conditions that are not of the type boolean
     - [ ] Type Checker: operands of invalid type to operators
@@ -74,7 +74,7 @@
   ** Nice to have
     - Loop
     - Optional answers (nil response)
-    - Preload answers from CSV file
+
 
 * QLS
   - [ ] Basic Architecture

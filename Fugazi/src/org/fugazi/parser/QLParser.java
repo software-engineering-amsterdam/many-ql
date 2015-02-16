@@ -20,25 +20,24 @@ public class QLParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		ID=25, NUMBER=26, STRING=27, BOOLEAN=28, INT=29, MONEY=30, COMMENT=31, 
-		WS=32, LINE_COMMENT=33;
+		T__24=25, ID=26, NUMBER=27, STRING=28, BOOLEAN=29, INT=30, MONEY=31, COMMENT=32, 
+		WS=33, LINE_COMMENT=34;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_ifStatement = 2, RULE_questionDeclaration = 3, 
-		RULE_type = 4, RULE_numericalExpression = 5, RULE_logicalExpression = 6;
+		RULE_type = 4, RULE_expression = 5;
 	public static final String[] ruleNames = {
-		"form", "statement", "ifStatement", "questionDeclaration", "type", "numericalExpression", 
-		"logicalExpression"
+		"form", "statement", "ifStatement", "questionDeclaration", "type", "expression"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "';'", "'='", "'bool'", 
-		"'money'", "'int'", "'*'", "'/'", "'+'", "'-'", "'!'", "'>'", "'>='", 
-		"'<'", "'<='", "'=='", "'!='", "'&&'", "'||'"
+		"'money'", "'int'", "'string'", "'+'", "'-'", "'!'", "'*'", "'/'", "'>'", 
+		"'>='", "'<'", "'<='", "'=='", "'!='", "'&&'", "'||'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, "ID", "NUMBER", "STRING", "BOOLEAN", "INT", "MONEY", "COMMENT", 
+		null, null, "ID", "NUMBER", "STRING", "BOOLEAN", "INT", "MONEY", "COMMENT", 
 		"WS", "LINE_COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -124,27 +123,27 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(14); 
+			setState(12); 
 			match(T__0);
-			setState(15); 
+			setState(13); 
 			match(ID);
-			setState(16); 
+			setState(14); 
 			match(T__1);
-			setState(20);
+			setState(18);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11))) != 0)) {
 				{
 				{
-				setState(17); 
+				setState(15); 
 				statement();
 				}
 				}
-				setState(22);
+				setState(20);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(23); 
+			setState(21); 
 			match(T__2);
 			}
 		}
@@ -189,21 +188,22 @@ public class QLParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_statement);
 		try {
-			setState(27);
+			setState(25);
 			switch (_input.LA(1)) {
 			case T__8:
 			case T__9:
 			case T__10:
+			case T__11:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(25); 
+				setState(23); 
 				questionDeclaration();
 				}
 				break;
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(26); 
+				setState(24); 
 				ifStatement();
 				}
 				break;
@@ -223,8 +223,8 @@ public class QLParser extends Parser {
 	}
 
 	public static class IfStatementContext extends ParserRuleContext {
-		public LogicalExpressionContext logicalExpression() {
-			return getRuleContext(LogicalExpressionContext.class,0);
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
 		public List<IfStatementContext> ifStatement() {
 			return getRuleContexts(IfStatementContext.class);
@@ -264,34 +264,35 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29); 
+			setState(27); 
 			match(T__3);
-			setState(30); 
+			setState(28); 
 			match(T__4);
-			setState(31); 
-			logicalExpression(0);
-			setState(32); 
+			setState(29); 
+			expression(0);
+			setState(30); 
 			match(T__5);
-			setState(33); 
+			setState(31); 
 			match(T__1);
-			setState(38);
+			setState(36);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11))) != 0)) {
 				{
-				setState(36);
+				setState(34);
 				switch (_input.LA(1)) {
 				case T__3:
 					{
-					setState(34); 
+					setState(32); 
 					ifStatement();
 					}
 					break;
 				case T__8:
 				case T__9:
 				case T__10:
+				case T__11:
 					{
-					setState(35); 
+					setState(33); 
 					questionDeclaration();
 					}
 					break;
@@ -299,11 +300,11 @@ public class QLParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(40);
+				setState(38);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(41); 
+			setState(39); 
 			match(T__2);
 			}
 		}
@@ -335,8 +336,8 @@ public class QLParser extends Parser {
 		}
 		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
 		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
-		public NumericalExpressionContext numericalExpression() {
-			return getRuleContext(NumericalExpressionContext.class,0);
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
 		public AssignmentQuestionContext(QuestionDeclarationContext ctx) { copyFrom(ctx); }
 		@Override
@@ -379,23 +380,23 @@ public class QLParser extends Parser {
 		QuestionDeclarationContext _localctx = new QuestionDeclarationContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_questionDeclaration);
 		try {
-			setState(59);
+			setState(57);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				_localctx = new NoAssignmentQuestionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(43); 
+				setState(41); 
 				type();
-				setState(44); 
+				setState(42); 
 				match(ID);
-				setState(45); 
+				setState(43); 
 				match(T__4);
-				setState(46); 
+				setState(44); 
 				match(STRING);
-				setState(47); 
+				setState(45); 
 				match(T__5);
-				setState(48); 
+				setState(46); 
 				match(T__6);
 				}
 				break;
@@ -403,21 +404,21 @@ public class QLParser extends Parser {
 				_localctx = new AssignmentQuestionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(50); 
+				setState(48); 
 				type();
-				setState(51); 
+				setState(49); 
 				match(ID);
-				setState(52); 
+				setState(50); 
 				match(T__4);
-				setState(53); 
+				setState(51); 
 				match(STRING);
-				setState(54); 
+				setState(52); 
 				match(T__5);
-				setState(55); 
+				setState(53); 
 				match(T__7);
-				setState(56); 
-				numericalExpression(0);
-				setState(57); 
+				setState(54); 
+				expression(0);
+				setState(55); 
 				match(T__6);
 				}
 				break;
@@ -439,17 +440,73 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
+	 
+		public TypeContext() { }
+		public void copyFrom(TypeContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class StringTypeContext extends TypeContext {
+		public StringTypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterType(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterStringType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitType(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitStringType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitType(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStringType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BoolTypeContext extends TypeContext {
+		public BoolTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterBoolType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitBoolType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBoolType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntTypeContext extends TypeContext {
+		public IntTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterIntType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitIntType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIntType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MoneyTypeContext extends TypeContext {
+		public MoneyTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterMoneyType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitMoneyType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitMoneyType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -457,16 +514,43 @@ public class QLParser extends Parser {
 	public final TypeContext type() throws RecognitionException {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_type);
-		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(61);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			consume();
+			setState(63);
+			switch (_input.LA(1)) {
+			case T__8:
+				_localctx = new BoolTypeContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(59); 
+				match(T__8);
+				}
+				break;
+			case T__9:
+				_localctx = new MoneyTypeContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(60); 
+				match(T__9);
+				}
+				break;
+			case T__10:
+				_localctx = new IntTypeContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(61); 
+				match(T__10);
+				}
+				break;
+			case T__11:
+				_localctx = new StringTypeContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(62); 
+				match(T__11);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -480,78 +564,200 @@ public class QLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class NumericalExpressionContext extends ParserRuleContext {
-		public NumericalExpressionContext(ParserRuleContext parent, int invokingState) {
+	public static class ExpressionContext extends ParserRuleContext {
+		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_numericalExpression; }
+		@Override public int getRuleIndex() { return RULE_expression; }
 	 
-		public NumericalExpressionContext() { }
-		public void copyFrom(NumericalExpressionContext ctx) {
+		public ExpressionContext() { }
+		public void copyFrom(ExpressionContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class BracketedExpressionContext extends NumericalExpressionContext {
-		public NumericalExpressionContext numericalExpression() {
-			return getRuleContext(NumericalExpressionContext.class,0);
-		}
-		public BracketedExpressionContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
+	public static class StringExpressionContext extends ExpressionContext {
+		public TerminalNode STRING() { return getToken(QLParser.STRING, 0); }
+		public StringExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterBracketedExpression(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterStringExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitBracketedExpression(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitStringExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBracketedExpression(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStringExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionNumberContext extends NumericalExpressionContext {
-		public TerminalNode NUMBER() { return getToken(QLParser.NUMBER, 0); }
-		public ExpressionNumberContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
+	public static class LogicalOrExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public LogicalOrExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpressionNumber(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalOrExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpressionNumber(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalOrExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExpressionNumber(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalOrExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExpressionIdContext extends NumericalExpressionContext {
+	public static class SingleExpressionContext extends ExpressionContext {
+		public Token op;
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public SingleExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterSingleExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitSingleExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitSingleExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ParenthesisExpressionContext extends ExpressionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public ParenthesisExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterParenthesisExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitParenthesisExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitParenthesisExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IdentifierExpressionContext extends ExpressionContext {
 		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
-		public ExpressionIdContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
+		public IdentifierExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpressionId(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterIdentifierExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpressionId(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitIdentifierExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExpressionId(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIdentifierExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class AddSubExpressionContext extends NumericalExpressionContext {
-		public List<NumericalExpressionContext> numericalExpression() {
-			return getRuleContexts(NumericalExpressionContext.class);
+	public static class BooleanExpressionContext extends ExpressionContext {
+		public TerminalNode BOOLEAN() { return getToken(QLParser.BOOLEAN, 0); }
+		public BooleanExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterBooleanExpression(this);
 		}
-		public NumericalExpressionContext numericalExpression(int i) {
-			return getRuleContext(NumericalExpressionContext.class,i);
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitBooleanExpression(this);
 		}
-		public AddSubExpressionContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBooleanExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NumberExpressionContext extends ExpressionContext {
+		public TerminalNode NUMBER() { return getToken(QLParser.NUMBER, 0); }
+		public NumberExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterNumberExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitNumberExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitNumberExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LogicalAndExpressionContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public LogicalAndExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalAndExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalAndExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalAndExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ComparisonExpressionContext extends ExpressionContext {
+		public Token op;
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public ComparisonExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterComparisonExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitComparisonExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitComparisonExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AddSubExpressionContext extends ExpressionContext {
+		public Token op;
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public AddSubExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).enterAddSubExpression(this);
@@ -566,14 +772,15 @@ public class QLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MulDivExpressionContext extends NumericalExpressionContext {
-		public List<NumericalExpressionContext> numericalExpression() {
-			return getRuleContexts(NumericalExpressionContext.class);
+	public static class MulDivExpressionContext extends ExpressionContext {
+		public Token op;
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
 		}
-		public NumericalExpressionContext numericalExpression(int i) {
-			return getRuleContext(NumericalExpressionContext.class,i);
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
 		}
-		public MulDivExpressionContext(NumericalExpressionContext ctx) { copyFrom(ctx); }
+		public MulDivExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof QLListener ) ((QLListener)listener).enterMulDivExpression(this);
@@ -589,258 +796,187 @@ public class QLParser extends Parser {
 		}
 	}
 
-	public final NumericalExpressionContext numericalExpression() throws RecognitionException {
-		return numericalExpression(0);
+	public final ExpressionContext expression() throws RecognitionException {
+		return expression(0);
 	}
 
-	private NumericalExpressionContext numericalExpression(int _p) throws RecognitionException {
+	private ExpressionContext expression(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		NumericalExpressionContext _localctx = new NumericalExpressionContext(_ctx, _parentState);
-		NumericalExpressionContext _prevctx = _localctx;
+		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
+		ExpressionContext _prevctx = _localctx;
 		int _startState = 10;
-		enterRecursionRule(_localctx, 10, RULE_numericalExpression, _p);
+		enterRecursionRule(_localctx, 10, RULE_expression, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
+			setState(76);
 			switch (_input.LA(1)) {
-			case T__4:
+			case T__12:
+			case T__13:
+			case T__14:
 				{
-				_localctx = new BracketedExpressionContext(_localctx);
+				_localctx = new SingleExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(64); 
-				match(T__4);
-				setState(65); 
-				numericalExpression(0);
-				setState(66); 
-				match(T__5);
+				setState(66);
+				((SingleExpressionContext)_localctx).op = _input.LT(1);
+				_la = _input.LA(1);
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__12) | (1L << T__13) | (1L << T__14))) != 0)) ) {
+					((SingleExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+				}
+				consume();
+				setState(67); 
+				expression(11);
 				}
 				break;
-			case ID:
+			case BOOLEAN:
 				{
-				_localctx = new ExpressionIdContext(_localctx);
+				_localctx = new BooleanExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(68); 
-				match(ID);
-				}
-				break;
-			case NUMBER:
-				{
-				_localctx = new ExpressionNumberContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(69); 
-				match(NUMBER);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
-			}
-			_ctx.stop = _input.LT(-1);
-			setState(80);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( _parseListeners!=null ) triggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					setState(78);
-					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
-					case 1:
-						{
-						_localctx = new MulDivExpressionContext(new NumericalExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_numericalExpression);
-						setState(72);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(73);
-						_la = _input.LA(1);
-						if ( !(_la==T__11 || _la==T__12) ) {
-						_errHandler.recoverInline(this);
-						}
-						consume();
-						setState(74); 
-						numericalExpression(5);
-						}
-						break;
-					case 2:
-						{
-						_localctx = new AddSubExpressionContext(new NumericalExpressionContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_numericalExpression);
-						setState(75);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(76);
-						_la = _input.LA(1);
-						if ( !(_la==T__13 || _la==T__14) ) {
-						_errHandler.recoverInline(this);
-						}
-						consume();
-						setState(77); 
-						numericalExpression(4);
-						}
-						break;
-					}
-					} 
-				}
-				setState(82);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			unrollRecursionContexts(_parentctx);
-		}
-		return _localctx;
-	}
-
-	public static class LogicalExpressionContext extends ParserRuleContext {
-		public List<LogicalExpressionContext> logicalExpression() {
-			return getRuleContexts(LogicalExpressionContext.class);
-		}
-		public LogicalExpressionContext logicalExpression(int i) {
-			return getRuleContext(LogicalExpressionContext.class,i);
-		}
-		public TerminalNode ID() { return getToken(QLParser.ID, 0); }
-		public TerminalNode NUMBER() { return getToken(QLParser.NUMBER, 0); }
-		public LogicalExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_logicalExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final LogicalExpressionContext logicalExpression() throws RecognitionException {
-		return logicalExpression(0);
-	}
-
-	private LogicalExpressionContext logicalExpression(int _p) throws RecognitionException {
-		ParserRuleContext _parentctx = _ctx;
-		int _parentState = getState();
-		LogicalExpressionContext _localctx = new LogicalExpressionContext(_ctx, _parentState);
-		LogicalExpressionContext _prevctx = _localctx;
-		int _startState = 12;
-		enterRecursionRule(_localctx, 12, RULE_logicalExpression, _p);
-		int _la;
-		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(92);
-			switch (_input.LA(1)) {
-			case T__15:
-				{
-				setState(84); 
-				match(T__15);
-				setState(85); 
-				logicalExpression(6);
-				}
-				break;
-			case T__4:
-				{
-				setState(86); 
-				match(T__4);
-				setState(87); 
-				logicalExpression(0);
-				setState(88); 
-				match(T__5);
+				match(BOOLEAN);
 				}
 				break;
 			case ID:
 				{
-				setState(90); 
+				_localctx = new IdentifierExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(69); 
 				match(ID);
 				}
 				break;
 			case NUMBER:
 				{
-				setState(91); 
+				_localctx = new NumberExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(70); 
 				match(NUMBER);
+				}
+				break;
+			case STRING:
+				{
+				_localctx = new StringExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(71); 
+				match(STRING);
+				}
+				break;
+			case T__4:
+				{
+				_localctx = new ParenthesisExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(72); 
+				match(T__4);
+				setState(73); 
+				expression(0);
+				setState(74); 
+				match(T__5);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(105);
+			setState(95);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(103);
-					switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+					setState(93);
+					switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 					case 1:
 						{
-						_localctx = new LogicalExpressionContext(_parentctx, _parentState);
-						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpression);
-						setState(94);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(95);
+						_localctx = new MulDivExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(78);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(79);
+						((MulDivExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21))) != 0)) ) {
-						_errHandler.recoverInline(this);
+						if ( !(_la==T__15 || _la==T__16) ) {
+							((MulDivExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(96); 
-						logicalExpression(6);
+						setState(80); 
+						expression(11);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new LogicalExpressionContext(_parentctx, _parentState);
-						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpression);
-						setState(97);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(98); 
-						match(T__22);
-						setState(99); 
-						logicalExpression(5);
+						_localctx = new AddSubExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(81);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(82);
+						((AddSubExpressionContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !(_la==T__12 || _la==T__13) ) {
+							((AddSubExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						consume();
+						setState(83); 
+						expression(10);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new LogicalExpressionContext(_parentctx, _parentState);
-						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpression);
-						setState(100);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(101); 
+						_localctx = new ComparisonExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(84);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(85);
+						((ComparisonExpressionContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22))) != 0)) ) {
+							((ComparisonExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						consume();
+						setState(86); 
+						expression(9);
+						}
+						break;
+					case 4:
+						{
+						_localctx = new LogicalAndExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(87);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(88); 
 						match(T__23);
-						setState(102); 
-						logicalExpression(4);
+						setState(89); 
+						expression(8);
+						}
+						break;
+					case 5:
+						{
+						_localctx = new LogicalOrExpressionContext(new ExpressionContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(90);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(91); 
+						match(T__24);
+						setState(92); 
+						expression(7);
 						}
 						break;
 					}
 					} 
 				}
-				setState(107);
+				setState(97);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			}
 			}
 		}
@@ -858,62 +994,53 @@ public class QLParser extends Parser {
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 5: 
-			return numericalExpression_sempred((NumericalExpressionContext)_localctx, predIndex);
-		case 6: 
-			return logicalExpression_sempred((LogicalExpressionContext)_localctx, predIndex);
+			return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
 	}
-	private boolean numericalExpression_sempred(NumericalExpressionContext _localctx, int predIndex) {
+	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0: 
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 10);
 		case 1: 
-			return precpred(_ctx, 3);
-		}
-		return true;
-	}
-	private boolean logicalExpression_sempred(LogicalExpressionContext _localctx, int predIndex) {
-		switch (predIndex) {
+			return precpred(_ctx, 9);
 		case 2: 
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 8);
 		case 3: 
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 7);
 		case 4: 
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 6);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3#o\4\2\t\2\4\3\t\3"+
-		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\3\2\7\2\25\n\2\f"+
-		"\2\16\2\30\13\2\3\2\3\2\3\3\3\3\5\3\36\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\7\4\'\n\4\f\4\16\4*\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5>\n\5\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\5\7I\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7Q\n\7\f\7\16\7T\13\7\3\b\3\b"+
-		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b_\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
-		"\3\b\7\bj\n\b\f\b\16\bm\13\b\3\b\2\4\f\16\t\2\4\6\b\n\f\16\2\6\3\2\13"+
-		"\r\3\2\16\17\3\2\20\21\3\2\23\30v\2\20\3\2\2\2\4\35\3\2\2\2\6\37\3\2\2"+
-		"\2\b=\3\2\2\2\n?\3\2\2\2\fH\3\2\2\2\16^\3\2\2\2\20\21\7\3\2\2\21\22\7"+
-		"\33\2\2\22\26\7\4\2\2\23\25\5\4\3\2\24\23\3\2\2\2\25\30\3\2\2\2\26\24"+
-		"\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2\2\30\26\3\2\2\2\31\32\7\5\2\2\32\3"+
-		"\3\2\2\2\33\36\5\b\5\2\34\36\5\6\4\2\35\33\3\2\2\2\35\34\3\2\2\2\36\5"+
-		"\3\2\2\2\37 \7\6\2\2 !\7\7\2\2!\"\5\16\b\2\"#\7\b\2\2#(\7\4\2\2$\'\5\6"+
-		"\4\2%\'\5\b\5\2&$\3\2\2\2&%\3\2\2\2\'*\3\2\2\2(&\3\2\2\2()\3\2\2\2)+\3"+
-		"\2\2\2*(\3\2\2\2+,\7\5\2\2,\7\3\2\2\2-.\5\n\6\2./\7\33\2\2/\60\7\7\2\2"+
-		"\60\61\7\35\2\2\61\62\7\b\2\2\62\63\7\t\2\2\63>\3\2\2\2\64\65\5\n\6\2"+
-		"\65\66\7\33\2\2\66\67\7\7\2\2\678\7\35\2\289\7\b\2\29:\7\n\2\2:;\5\f\7"+
-		"\2;<\7\t\2\2<>\3\2\2\2=-\3\2\2\2=\64\3\2\2\2>\t\3\2\2\2?@\t\2\2\2@\13"+
-		"\3\2\2\2AB\b\7\1\2BC\7\7\2\2CD\5\f\7\2DE\7\b\2\2EI\3\2\2\2FI\7\33\2\2"+
-		"GI\7\34\2\2HA\3\2\2\2HF\3\2\2\2HG\3\2\2\2IR\3\2\2\2JK\f\6\2\2KL\t\3\2"+
-		"\2LQ\5\f\7\7MN\f\5\2\2NO\t\4\2\2OQ\5\f\7\6PJ\3\2\2\2PM\3\2\2\2QT\3\2\2"+
-		"\2RP\3\2\2\2RS\3\2\2\2S\r\3\2\2\2TR\3\2\2\2UV\b\b\1\2VW\7\22\2\2W_\5\16"+
-		"\b\bXY\7\7\2\2YZ\5\16\b\2Z[\7\b\2\2[_\3\2\2\2\\_\7\33\2\2]_\7\34\2\2^"+
-		"U\3\2\2\2^X\3\2\2\2^\\\3\2\2\2^]\3\2\2\2_k\3\2\2\2`a\f\7\2\2ab\t\5\2\2"+
-		"bj\5\16\b\bcd\f\6\2\2de\7\31\2\2ej\5\16\b\7fg\f\5\2\2gh\7\32\2\2hj\5\16"+
-		"\b\6i`\3\2\2\2ic\3\2\2\2if\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\17\3"+
-		"\2\2\2mk\3\2\2\2\r\26\35&(=HPR^ik";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$e\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\3\2\7\2\23\n\2\f\2\16\2\26"+
+		"\13\2\3\2\3\2\3\3\3\3\5\3\34\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4%\n\4"+
+		"\f\4\16\4(\13\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
+		"\5\3\5\3\5\3\5\3\5\5\5<\n\5\3\6\3\6\3\6\3\6\5\6B\n\6\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7O\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7`\n\7\f\7\16\7c\13\7\3\7\2\3\f\b\2\4\6\b"+
+		"\n\f\2\6\3\2\17\21\3\2\22\23\3\2\17\20\3\2\24\31p\2\16\3\2\2\2\4\33\3"+
+		"\2\2\2\6\35\3\2\2\2\b;\3\2\2\2\nA\3\2\2\2\fN\3\2\2\2\16\17\7\3\2\2\17"+
+		"\20\7\34\2\2\20\24\7\4\2\2\21\23\5\4\3\2\22\21\3\2\2\2\23\26\3\2\2\2\24"+
+		"\22\3\2\2\2\24\25\3\2\2\2\25\27\3\2\2\2\26\24\3\2\2\2\27\30\7\5\2\2\30"+
+		"\3\3\2\2\2\31\34\5\b\5\2\32\34\5\6\4\2\33\31\3\2\2\2\33\32\3\2\2\2\34"+
+		"\5\3\2\2\2\35\36\7\6\2\2\36\37\7\7\2\2\37 \5\f\7\2 !\7\b\2\2!&\7\4\2\2"+
+		"\"%\5\6\4\2#%\5\b\5\2$\"\3\2\2\2$#\3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'\3\2"+
+		"\2\2\')\3\2\2\2(&\3\2\2\2)*\7\5\2\2*\7\3\2\2\2+,\5\n\6\2,-\7\34\2\2-."+
+		"\7\7\2\2./\7\36\2\2/\60\7\b\2\2\60\61\7\t\2\2\61<\3\2\2\2\62\63\5\n\6"+
+		"\2\63\64\7\34\2\2\64\65\7\7\2\2\65\66\7\36\2\2\66\67\7\b\2\2\678\7\n\2"+
+		"\289\5\f\7\29:\7\t\2\2:<\3\2\2\2;+\3\2\2\2;\62\3\2\2\2<\t\3\2\2\2=B\7"+
+		"\13\2\2>B\7\f\2\2?B\7\r\2\2@B\7\16\2\2A=\3\2\2\2A>\3\2\2\2A?\3\2\2\2A"+
+		"@\3\2\2\2B\13\3\2\2\2CD\b\7\1\2DE\t\2\2\2EO\5\f\7\rFO\7\37\2\2GO\7\34"+
+		"\2\2HO\7\35\2\2IO\7\36\2\2JK\7\7\2\2KL\5\f\7\2LM\7\b\2\2MO\3\2\2\2NC\3"+
+		"\2\2\2NF\3\2\2\2NG\3\2\2\2NH\3\2\2\2NI\3\2\2\2NJ\3\2\2\2Oa\3\2\2\2PQ\f"+
+		"\f\2\2QR\t\3\2\2R`\5\f\7\rST\f\13\2\2TU\t\4\2\2U`\5\f\7\fVW\f\n\2\2WX"+
+		"\t\5\2\2X`\5\f\7\13YZ\f\t\2\2Z[\7\32\2\2[`\5\f\7\n\\]\f\b\2\2]^\7\33\2"+
+		"\2^`\5\f\7\t_P\3\2\2\2_S\3\2\2\2_V\3\2\2\2_Y\3\2\2\2_\\\3\2\2\2`c\3\2"+
+		"\2\2a_\3\2\2\2ab\3\2\2\2b\r\3\2\2\2ca\3\2\2\2\13\24\33$&;AN_a";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

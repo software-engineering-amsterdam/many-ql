@@ -1,5 +1,7 @@
 package lang.ql.ast.expression;
 
+import lang.ql.ast.visitor.Visitor;
+
 import java.math.BigInteger;
 import java.util.Currency;
 
@@ -12,4 +14,6 @@ public class DecimalExpression extends ConstantExpression<BigInteger>
     {
         super(value);
     }
+
+    public void visit(Visitor visitor) { visitor.visit(this); }
 }

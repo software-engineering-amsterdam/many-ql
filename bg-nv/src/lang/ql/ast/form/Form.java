@@ -2,6 +2,8 @@ package lang.ql.ast.form;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.statement.Statement;
+import lang.ql.ast.visitor.Visitor;
+
 import java.util.List;
 
 /**
@@ -17,6 +19,18 @@ public class Form extends AstNode
         this.id = id;
         this.statements = statements;
     }
+
+    public String getId()
+    {
+        return this.id;
+    }
+
+    public List<Statement> getStatements()
+    {
+        return this.statements;
+    }
+
+    public void visit(Visitor visitor) { visitor.visit(this); }
 
     public Iterable<? extends AstNode> getChildren()
     {

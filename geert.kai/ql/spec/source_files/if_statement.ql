@@ -1,7 +1,15 @@
-form
+form Familie
   "Bent u getrouwd?"
     getrouwd?: integer
 
-  if getrouwd?
+  "Heeft u kinderen?"
+    kinderen?: integer
+ 
+  if (getrouwd?)
     "Wat is de naam van uw partner?"
       naam_partner: string
+  end 
+
+  "Wat is uw naam?"
+    naam: string
+end
