@@ -8,6 +8,10 @@ class QLEvaluatorSpec extends Specification {
   import evaluators._
 
   "evaluation of expressions" should {
+
+  }
+
+  "evaluation of expressions" should {
     "evaluate or expressions" in {
       eval(Or(BooleanLiteral(true), BooleanLiteral(false))) must beEqualTo(true)
     }
@@ -130,6 +134,18 @@ class QLEvaluatorSpec extends Specification {
 
     "evaluate div expressions" in {
       eval(Div(NumberLiteral(2), NumberLiteral(1))) must beEqualTo(2)
+    }
+
+    "evaluate boolean literals" in {
+      eval(BooleanLiteral(true)) must beEqualTo(true)
+    }
+
+    "evaluate number literals" in {
+      eval(NumberLiteral(1)) must beEqualTo(1)
+    }
+
+    "evaluate string literals" in {
+      eval(StringLiteral("a")) must beEqualTo("a")
     }
 
     "evaluate nested expressions" in {

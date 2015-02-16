@@ -1,11 +1,15 @@
 package com.klq.gui;
 
+import com.klq.logic.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -23,22 +27,23 @@ public class FXTest extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Hello World");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello, World!");
-            }
-        });
+        Id id = new Id("question1");
+        AnswerSet answerSet = new AnswerSet();
+        answerSet.add(new Answer("This is an answer"));
+        answerSet.add(new Answer("This is also an answer"));
+        Text text = new Text("This is a question, that is even more long!?");
+
+        Question q1 = new Question(id, Type.SET, answerSet, text, null, null);
+        QuestionPane questionPane = new QuestionPane(q1);
+
         GridPane root = new GridPane();
-        root.getChildren().add(btn);
-        Label label = new Label("Test Label");
-        label.setFont(DEFAULT);
-        root.getChildren().add(label);
-        root.setConstraints(label, 1, 1);
-        root.setConstraints(btn, 1, 2);
+        //questionPane.setStyle("-fx-background-color: black;");
+
+        primaryStage.setTitle("Test");
+
+        root.getChildren().add(questionPane);
+
+        root.setConstraints(questionPane, 0, 0);
         primaryStage.setScene(new Scene(root, 250, 300));
         primaryStage.show();
 

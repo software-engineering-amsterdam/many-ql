@@ -1,10 +1,11 @@
 package ast.question;
 
 import ast.expression.Expression;
+import ast.expression.variables.Id;
 import ast.type.TextType;
 import ast.type.Type;
 
-public class ComputationQuestion extends SimpleQuestion {
+public abstract class ComputationQuestion extends SimpleQuestion {
 	private Expression expression;
 		
 	public ComputationQuestion (Id questionID, TextType questionText, Type questionType, Expression expression) {
