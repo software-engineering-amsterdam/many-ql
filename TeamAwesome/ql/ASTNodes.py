@@ -4,7 +4,7 @@ class Node(object):
     def __init__(self, lineNumber):
         self.lineNumber = lineNumber
 
-class RootNode(Node):
+class Root(Node):
     def __init__(self, statements):
         super().__init__(self, 0)
         self.statements = statements
@@ -12,11 +12,11 @@ class RootNode(Node):
     def getChildren(self):
         return self.statements
 
-class StatementNode(Node):
+class Statement(Node):
     def getChildren():
         raise NotImplementedError()
 
-class FormStatementNode(StatementNode):
+class FormStatement(Statement):
     def __init__(self, identifier, statements, lineNumber):
         super().__init__(self, lineNumber)
         self.identifier = identifier
@@ -28,7 +28,7 @@ class FormStatementNode(StatementNode):
     def getChildren(self):
         return self.statements
 
-class QuestionStatementNode(StatementNode):
+class QuestionStatement(Statement):
     def __init__(self, identifier, text, questionType, lineNumber, expr = None):
         super().__init__(self, lineNumber)
         self.identifier = identifier
@@ -43,7 +43,7 @@ class QuestionStatementNode(StatementNode):
     def getChildren(self):
         return []
 
-class IfStatementNode(StatementNode):
+class IfStatement(Statement):
     def __init__(self, expr, statements, lineNumber):
         super().__init__(self, lineNumber)
         self.expr = expr
@@ -55,7 +55,7 @@ class IfStatementNode(StatementNode):
     def getChildren(self):
         return self.statements
 
-class AtomicExpressionNode(Node):
+class AtomicExpression(Node):
     def __init__(self, left, lineNumber):
         super().__init__(self, lineNumber)
         self.left = left
@@ -63,7 +63,7 @@ class AtomicExpressionNode(Node):
     def __str__(self):
         return str(self.left)
 
-class UnaryExpressionNode(Node):
+class UnaryExpression(Node):
     def __init__(self, op, right, lineNumber):
         super().__init__(self, lineNumber)
         self.op = op
@@ -72,7 +72,7 @@ class UnaryExpressionNode(Node):
     def __str__(self):
         return "(%s %s)" %(self.op, self.right)
 
-class BinaryExpressionNode(Node):
+class BinaryExpression(Node):
     def __init__(self, left, op, right, lineNumber):
         super().__init__(self, lineNumber)
         self.left = left
