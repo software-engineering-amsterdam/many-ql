@@ -9,6 +9,8 @@
   {8} [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
 * QL [2/4]
   - [X] Basic Architecture {4}
+  - [ ] Interpreter wise error handling
+    - [ ] Pretty and informing error message
   - [ ] Compiler [0/2] {1}
     - [ ] Write grammar [5/10]
       - [X] form parsing :MUST:
