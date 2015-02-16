@@ -1,4 +1,5 @@
-// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/com/klq/lang/KLQ.g4 by ANTLR 4.5
+package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -31,7 +32,14 @@ public class KLQBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements KL
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEnd(@NotNull KLQParser.EndContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -39,6 +47,13 @@ public class KLQBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements KL
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitSpecification(@NotNull KLQParser.SpecificationContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -59,12 +74,5 @@ public class KLQBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements KL
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAnswers(@NotNull KLQParser.AnswersContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAnswerSet(@NotNull KLQParser.AnswerSetContext ctx) { return visitChildren(ctx); }
 }
