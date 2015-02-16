@@ -4,4 +4,5 @@ package ast
 type IfNode struct {
 	Conditions Evaluatable
 	Stack      []*ActionNode
+	ElseNode   *IfNode
 }
