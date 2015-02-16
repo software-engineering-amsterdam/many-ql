@@ -1,9 +1,10 @@
 from AST import AST
 import ASTNodes
+from collections import OrderedDict
 
-class QuestionTable(dict):
+class QuestionTable(OrderedDict):
 	def __init__(self, ast):
-		dict.__init__(self, {})
+		super().__init__(self)
 
 		for formStatement in ast.root.statements:
 			form = Form(formStatement)
@@ -21,7 +22,9 @@ class QuestionTable(dict):
 				self.__addStatement(childStatement, childExpressionsTuple, form)
 		else:
 			question = Question(statement, expressionsTuple, form)
-			self[question.identifier] = question
+			questionList = self.get(question.identifier, QuestionList())
+			questionList.append(question)
+			self[question.identifier] = questionList
 
 class ExpressionsTuple(tuple):
 	def __add__(self, value):
@@ -44,6 +47,13 @@ class Expression(object):
 	def evaluate(self):
 		return True
 
+class QuestionList(list):
+	def getVisibleQuestion(self):
+		for question in self:
+			if question.isVisible():
+				return question
+		return None
+
 class Question(object):
 	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form):
 		assert isinstance(questionStatementNode, ASTNodes.QuestionStatement)
@@ -61,17 +71,26 @@ class Question(object):
 
 class Page(object):
 	def __init__(self, questionTable, questionIdentifiers):
-		self.questions = []
+		self.questionLists = []
 		for identifier in questionIdentifiers:
-			self.questions.append(questionTable[identifier])
+			self.questionLists.append(questionTable[identifier])
 
 	def getVisibleQuestions(self):
-		return [question for question in self.questions if question.isVisible()]
+		visibleQuestions = []
+		
+		for questionList in self.questionLists:
+			visibleQuestion = questionList.getVisibleQuestion()
+			if visibleQuestion:
+				visibleQuestions.append(visibleQuestion)
+
+		return visibleQuestions
+
 
 ast = AST("test_visitor.QL")
 qt = QuestionTable(ast)
 page = Page(qt, qt.keys())
-print(page.getVisibleQuestions())
+for q in page.getVisibleQuestions():
+	print(q.text)
 
 #for identifier, question in ec.items():
 #	print(identifier, question)
