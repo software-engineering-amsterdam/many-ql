@@ -1,6 +1,6 @@
-package org.fugazi.ast.Expression.logical;
+package org.fugazi.ast.expression.logical;
 
-import org.fugazi.ast.Expression.Expression;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
 /**

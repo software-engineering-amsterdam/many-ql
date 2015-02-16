@@ -1,6 +1,6 @@
-package org.fugazi.ast.Expression.comparison;
+package org.fugazi.ast.expression.comparison;
 
-import org.fugazi.ast.Expression.Expression;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
 /**

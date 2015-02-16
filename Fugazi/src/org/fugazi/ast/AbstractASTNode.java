@@ -1,4 +1,4 @@
-package org.fugazi.ast.ASTNode;
+package org.fugazi.ast;
 
 import org.fugazi.ast.IASTVisitor;
 

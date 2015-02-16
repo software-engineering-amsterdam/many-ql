@@ -1,6 +1,6 @@
-package org.fugazi.ast.Literals;
+package org.fugazi.ast.literal;
 
-import org.fugazi.ast.ASTNode.AbstractASTNode;
+import org.fugazi.ast.AbstractASTNode;
 
 public abstract class Literal extends AbstractASTNode {
 

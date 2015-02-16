@@ -1,4 +1,4 @@
-package org.fugazi.ast.Literals;
+package org.fugazi.ast.literal;
 
 import org.fugazi.ast.IASTVisitor;
 

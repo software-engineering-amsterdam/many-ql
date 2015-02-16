@@ -1,13 +1,13 @@
 package org.fugazi.ast;
 
-import org.fugazi.ast.Form.Form;
-import org.fugazi.ast.Expression.comparison.*;
-import org.fugazi.ast.Expression.logical.*;
-import org.fugazi.ast.Expression.numerical.*;
-import org.fugazi.ast.Expression.unary.*;
-import org.fugazi.ast.Literals.*;
-import org.fugazi.ast.Statement.*;
-import org.fugazi.ast.Type.*;
+import org.fugazi.ast.form.Form;
+import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.logical.*;
+import org.fugazi.ast.expression.numerical.*;
+import org.fugazi.ast.expression.unary.*;
+import org.fugazi.ast.literal.*;
+import org.fugazi.ast.statement.*;
+import org.fugazi.ast.type.*;
 
 public interface IASTVisitor<T> {
 
@@ -52,7 +52,7 @@ public interface IASTVisitor<T> {
 
     /**
      * ==============
-     * Literals
+     * literals
      * ==============
      */
     public T visitID(ID idLiteral);

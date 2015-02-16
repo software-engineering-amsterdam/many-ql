@@ -1,6 +1,6 @@
-package org.fugazi.ast.Expression.unary;
+package org.fugazi.ast.expression.unary;
 
-import org.fugazi.ast.Expression.Expression;
+import org.fugazi.ast.expression.Expression;
 
 public abstract class UnaryExpression extends Expression {
 

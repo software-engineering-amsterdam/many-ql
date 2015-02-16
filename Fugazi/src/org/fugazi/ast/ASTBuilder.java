@@ -1,7 +1,6 @@
 package org.fugazi.ast;
 
-import org.fugazi.ast.Form.Form;
-import org.fugazi.ast.ASTNode.AbstractASTNode;
+import org.fugazi.ast.form.Form;
 import org.fugazi.parser.QLLexer;
 import org.fugazi.parser.QLParser;
 

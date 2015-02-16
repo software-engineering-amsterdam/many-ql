@@ -1,8 +1,8 @@
-package org.fugazi.ast.Form;
+package org.fugazi.ast.form;
 
-import org.fugazi.ast.ASTNode.AbstractASTNode;
+import org.fugazi.ast.AbstractASTNode;
 import org.fugazi.ast.IASTVisitor;
-import org.fugazi.ast.Statement.Statement;
+import org.fugazi.ast.statement.Statement;
 
 import java.util.ArrayList;
 

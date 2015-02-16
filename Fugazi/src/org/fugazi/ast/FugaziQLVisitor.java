@@ -1,39 +1,30 @@
 package org.fugazi.ast;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.fugazi.ast.ASTNode.AbstractASTNode;
-import org.fugazi.ast.Expression.*;
-import org.fugazi.ast.Expression.comparison.*;
-import org.fugazi.ast.Expression.logical.AndExpression;
-import org.fugazi.ast.Expression.logical.LogicalExpression;
-import org.fugazi.ast.Expression.logical.OrExpression;
-import org.fugazi.ast.Expression.numerical.*;
-import org.fugazi.ast.Expression.unary.NegExpression;
-import org.fugazi.ast.Expression.unary.NotExpression;
-import org.fugazi.ast.Expression.unary.PosExpression;
-import org.fugazi.ast.Expression.unary.UnaryExpression;
-import org.fugazi.ast.Literals.ID;
-import org.fugazi.ast.Literals.NUMBER;
-import org.fugazi.ast.Literals.STRING;
-import org.fugazi.ast.Statement.IfStatement;
-import org.fugazi.ast.Statement.QuestionStatement;
-import org.fugazi.ast.Statement.ComputedQuestionStatement;
-import org.fugazi.ast.Statement.Statement;
-import org.fugazi.ast.Type.*;
+import org.fugazi.ast.expression.*;
+import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.logical.AndExpression;
+import org.fugazi.ast.expression.logical.LogicalExpression;
+import org.fugazi.ast.expression.logical.OrExpression;
+import org.fugazi.ast.expression.numerical.*;
+import org.fugazi.ast.expression.unary.NegExpression;
+import org.fugazi.ast.expression.unary.NotExpression;
+import org.fugazi.ast.expression.unary.PosExpression;
+import org.fugazi.ast.expression.unary.UnaryExpression;
+import org.fugazi.ast.literal.ID;
+import org.fugazi.ast.literal.NUMBER;
+import org.fugazi.ast.literal.STRING;
+import org.fugazi.ast.statement.IfStatement;
+import org.fugazi.ast.statement.QuestionStatement;
+import org.fugazi.ast.statement.ComputedQuestionStatement;
+import org.fugazi.ast.statement.Statement;
+import org.fugazi.ast.type.*;
 import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
-import org.fugazi.ast.Form.Form;
+import org.fugazi.ast.form.Form;
 
 import java.util.ArrayList;
 
-/*
-reference to undefined questions
-duplicate question declarations with different types
-conditions that are not of the type boolean
-operands of invalid type to operators
-cyclic dependencies between questions
-duplicate labels (warning)
-*/
 
 /*
 WHY VISITOR?
@@ -45,7 +36,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
     /**
      * =======================
-     * Form
+     * form
      * =======================
      */
     
@@ -91,7 +82,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
             statements.add(stat);
         }
 
-        // Create an if Statement
+        // Create an if statement
         IfStatement ifStatement = new IfStatement(condition, statements);
         System.out.println("CONDITION: " + ctx.expression().getText());
 
@@ -274,7 +265,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
     /**
      * =======================
-     * Literals
+     * literals
      * =======================
      */
     @Override

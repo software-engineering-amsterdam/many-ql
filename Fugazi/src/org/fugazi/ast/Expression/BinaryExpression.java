@@ -1,4 +1,4 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.expression;
 
 public abstract class BinaryExpression extends Expression {
 

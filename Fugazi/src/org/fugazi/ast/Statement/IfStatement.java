@@ -1,6 +1,6 @@
-package org.fugazi.ast.Statement;
+package org.fugazi.ast.statement;
 
-import org.fugazi.ast.Expression.Expression;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.IASTVisitor;
 
 import java.util.ArrayList;

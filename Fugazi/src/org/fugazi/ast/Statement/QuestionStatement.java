@@ -1,8 +1,8 @@
-package org.fugazi.ast.Statement;
+package org.fugazi.ast.statement;
 
 import org.fugazi.ast.IASTVisitor;
-import org.fugazi.ast.Literals.ID;
-import org.fugazi.ast.Type.Type;
+import org.fugazi.ast.literal.ID;
+import org.fugazi.ast.type.Type;
 
 public class QuestionStatement extends Statement {
 

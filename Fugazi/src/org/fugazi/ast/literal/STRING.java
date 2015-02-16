@@ -1,13 +1,16 @@
-package org.fugazi.ast.Literals;
+package org.fugazi.ast.literal;
 
 import org.fugazi.ast.IASTVisitor;
 
-public class NUMBER extends Literal {
+/**
+ * The String.
+ */
+public class STRING extends Literal {
 
-    // The value of the number.
+    // The value of the string
     private String value;
 
-    public NUMBER(String _value) {
+    public STRING(String _value) {
         this.value = _value;
     }
 
@@ -22,7 +25,6 @@ public class NUMBER extends Literal {
 
     @Override
     public <T> T accept(IASTVisitor<T> visitor) {
-        return visitor.visitNUMBER(this);
+        return visitor.visitSTRING(this);
     }
 }
-
