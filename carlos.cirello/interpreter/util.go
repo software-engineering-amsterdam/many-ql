@@ -52,13 +52,13 @@ func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
 
 		switch q.Type() {
 		case ast.BoolQuestionType:
-			content := q.Content.(*ast.BoolQuestion)
+			content := q.Content().(*ast.BoolQuestion)
 			return content.Value()
 		case ast.IntQuestionType:
-			content := q.Content.(*ast.IntQuestion)
+			content := q.Content().(*ast.IntQuestion)
 			return content.Value()
 		case ast.StringQuestionType:
-			content := q.Content.(*ast.StringQuestion)
+			content := q.Content().(*ast.StringQuestion)
 			return content.String()
 		}
 	}

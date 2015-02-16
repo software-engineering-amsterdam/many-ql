@@ -46,12 +46,12 @@ func (exec Execute) ActionNode(a *ast.ActionNode) {
 func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 	exec.symbolChan <- &symbolEvent{
 		command: SymbolCreate,
-		name:    q.Identifier,
+		name:    q.Identifier(),
 		content: q,
 	}
 
 	if q.Type() == ast.ComputedQuestionType {
-		expr := q.Content.(*ast.ComputedQuestion).Expression
+		expr := q.Content().(*ast.ComputedQuestion).Expression
 		q.From(fmt.Sprintf("%f", exec.resolveMathNode(expr)))
 	}
 

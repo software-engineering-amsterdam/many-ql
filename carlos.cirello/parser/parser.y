@@ -96,11 +96,7 @@ stack:
 question:
 	QuotedStringToken TextToken questionType
 	{
-		$$.question = &ast.QuestionNode{
-			Label: $1.content,
-			Identifier: $2.content,
-			Content: $3.questionType,
-		}
+		$$.question = ast.NewQuestionNode($1.content, $2.content, $3.questionType, false)
 	}
 	;
 
