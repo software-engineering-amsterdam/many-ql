@@ -11,4 +11,8 @@ public abstract class ExpressionValue<T> {
     ExpressionValue(T _value) {
         this.value = _value;
     }
+
+    public T getValue() {
+        return this.value;
+    }
 }

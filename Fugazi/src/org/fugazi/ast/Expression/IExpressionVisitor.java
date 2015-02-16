@@ -1,6 +1,9 @@
 package org.fugazi.ast.expression;
 
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;
 import org.fugazi.ast.expression.numerical.Add;
@@ -35,4 +38,9 @@ public interface IExpressionVisitor<T> {
     public T visitSub(Sub sub);
     public T visitMul(Mul mul);
     public T visitDiv(Div div);
+
+    // Literals
+    public T visitID(ID id);
+    public T visitNUMBER(NUMBER number);
+    public T visitSTRING(STRING string);
 }

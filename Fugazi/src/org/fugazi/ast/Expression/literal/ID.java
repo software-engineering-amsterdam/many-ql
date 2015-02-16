@@ -1,4 +1,6 @@
-package org.fugazi.ast.literal;
+package org.fugazi.ast.expression.literal;
+
+import org.fugazi.ast.expression.IExpressionVisitor;
 
 public class ID extends Literal {
 
@@ -17,7 +19,7 @@ public class ID extends Literal {
         return this.name;
     }
 
-    public <T> T accept(ILiteralVisitor<T> visitor) {
+    public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitID(this);
     }
 }

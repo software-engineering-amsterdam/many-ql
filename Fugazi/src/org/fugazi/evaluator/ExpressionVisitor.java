@@ -1,9 +1,12 @@
 package org.fugazi.evaluator;
 
 import org.fugazi.ast.expression.Binary;
-import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;
 import org.fugazi.ast.expression.numerical.Add;
@@ -14,22 +17,10 @@ import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
 
-import java.util.Map;
-
 public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
-    
-    private final ValueStorage values = new ValueStorage();
 
-    public ExpressionVisitor() {
-        
-    }
+    ExpressionVisitor() {
 
-    public void saveValue(String _id, ExpressionValue _val) {
-        values.saveValue(_id, _val);
-    }
-    
-    public ExpressionValue getValue(String _id) {
-        return values.getValue(_id);
     }
 
     // Logical
@@ -81,7 +72,7 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
 
     // Numerical
     public ExpressionValue visitAdd(Add add) {
-        return null;             
+        return null;
     }
     
     public ExpressionValue visitSub(Sub sub) {
@@ -94,5 +85,17 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
     
     public ExpressionValue visitDiv(Div div) {
         return null;             
-    }     
+    }
+
+    public ExpressionValue visitID(ID id) {
+        return null;
+    }
+    
+    public ExpressionValue visitNUMBER(NUMBER number) {
+        return null;
+    }
+
+    public ExpressionValue visitSTRING(STRING string) {
+        return null;
+    }
 }

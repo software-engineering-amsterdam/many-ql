@@ -1,6 +1,6 @@
 package org.fugazi.ast.statement;
 
-import org.fugazi.ast.literal.ID;
+import org.fugazi.ast.expression.literal.ID;
 import org.fugazi.ast.type.Type;
 
 public class Question extends Statement {
