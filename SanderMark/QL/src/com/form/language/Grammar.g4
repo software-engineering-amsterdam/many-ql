@@ -26,7 +26,10 @@ statement returns [Statement result]
 | Istmt=ifStatement {$result = $Istmt.result;}
 ;
 
-
+question returns [Question result]
+	: 'question' STRING ID TYPE {new Question($STRING.text, $ID.text, $TYPE.text);}
+	;
+	
 assignmentStatement returns [Statement result]
 : ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result);}
 ;
@@ -62,10 +65,11 @@ literal returns [PrimitiveExpression result]
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
-INTEGER : [0-9]+;
 BOOL : 'true' | 'false';
+TYPE: 'Boolean' | 'String' | 'Number';
 
+INTEGER : [0-9]+;
 ID : ([a-z][A-Za-z0-9]+);
-
+STRING: ('"'[A-Za-z0-9\?]*'"');
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;
