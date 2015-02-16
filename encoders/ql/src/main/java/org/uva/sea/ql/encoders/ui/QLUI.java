@@ -1,4 +1,4 @@
-package ui;
+package org.uva.sea.ql.encoders.ui;
 
 import java.awt.Component;
 import java.awt.Dimension;
