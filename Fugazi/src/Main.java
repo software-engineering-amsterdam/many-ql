@@ -1,16 +1,8 @@
 import org.fugazi.ast.ASTBuilder;
-import org.fugazi.ast.Form.Form;
-import org.fugazi.ast.Statement.QuestionStatement;
-import org.fugazi.ast.Statement.Statement;
-import org.fugazi.ast.Type.BoolType;
-import org.fugazi.ast.Type.IntType;
-import org.fugazi.ast.Type.MoneyType;
+import org.fugazi.ast.form.Form;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Main {
 
@@ -28,13 +20,30 @@ public class Main {
 
         // Create The AST BUILDER.
         ASTBuilder astBuilder = new ASTBuilder(input);
-
         // Build the AST.
         Form form = astBuilder.buildForm();
+
+        // TODO: type checking.
+//        ErrorManager errorList = typeChecker.checkForm();
+//
+//        if errorList.length() {
+//            print errors;
+//            return 1;
+////        }
+//
+//        ErrorManager err = new ErrorManager();
+//        TypeCheckError typeCheckError = new Typeckcker(err);
+//
+//        TypeCheckError.check(form);
+//
+//        Iterable typechecker.getErrorList();
+//
+//        if typechecker.isformvalid():
+//        //show...
+//        else:
+//        // exit 1
         
         // TODO: evaluation.
-        
-        // TODO: type checking.
         
         // TODO: Render GUI.
     }
