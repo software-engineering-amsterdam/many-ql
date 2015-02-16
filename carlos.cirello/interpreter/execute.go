@@ -1,6 +1,7 @@
 package interpreter
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
@@ -47,6 +48,11 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 		command: SymbolCreate,
 		name:    q.Identifier,
 		content: q,
+	}
+
+	if q.Type() == ast.ComputedQuestionType {
+		expr := q.Content.(*ast.ComputedQuestion).Expression
+		q.From(fmt.Sprintf("%f", exec.resolveMathNode(expr)))
 	}
 
 	questionCopy := q.Clone()

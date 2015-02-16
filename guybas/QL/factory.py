@@ -1,5 +1,4 @@
 # Abstract syntax
-
 from ast import *
 
 
@@ -30,7 +29,8 @@ class ASTReady:
         questions = []
         for i in range(1, len(tokens)):
             questions.append(tokens[i])
-        return ConditionalQuestions(condition, questions)
+        return AdvancedQuestions(condition, questions)
+
 
     def make_else(tokens):
         condition = tokens[0]
@@ -45,7 +45,7 @@ class ASTReady:
         else_questions = []
         for i in range(k + 1, len(tokens)):
             else_questions.append(tokens[i])
-        x = ConditionalQuestions(condition, questions)
+        x = AdvancedQuestions(condition, questions)
         x.add_else(else_questions)
         return x
         
