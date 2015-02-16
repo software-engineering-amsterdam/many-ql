@@ -15,7 +15,7 @@ class AST(object):
 		self.root = visitor.visit(tree)
 
 	def prettyPrint(self):
-		for statement in self.root.statements:
+		for statement in self.root.getChildren():
 			self._printStatement(statement, 0)
 
 	def _printStatement(self, statement, lev):
