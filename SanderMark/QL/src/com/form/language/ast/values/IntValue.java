@@ -13,5 +13,11 @@ public class IntValue extends GenericValue<Integer>{
 	public IntValue Add(IntValue addition){
 		return new IntValue(value + addition.evaluate());
 	}
+	
+	@Override
+	public String toString(){
+		return new Integer(value).toString();
+		
+	}
 
 }

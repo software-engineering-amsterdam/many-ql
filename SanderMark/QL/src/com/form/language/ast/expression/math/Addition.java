@@ -1,8 +1,8 @@
 package com.form.language.ast.expression.math;
 
 import com.form.language.ast.expression.BinaryExpression;
-import com.form.language.ast.expression.IntLiteral;
 import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.literal.IntLiteral;
 import com.form.language.ast.values.IntValue;
 
 public class Addition extends BinaryExpression implements PrimitiveExpression {

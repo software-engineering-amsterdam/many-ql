@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuestionnaireLanguage.GUI.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace QuestionnaireLanguage.GUI.Form
 {
     public class FormSection
     {
-        public StackPanel Create()
+        public StackPanel CreateForm()
         {
             StackPanel _stack = new StackPanel();
 

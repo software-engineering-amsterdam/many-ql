@@ -60,12 +60,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GUI\Element\CheckboxElement.cs" />
+    <Compile Include="GUI\Element\DatePickerElement.cs" />
     <Compile Include="GUI\Element\ElementBase.cs" />
-    <Compile Include="GUI\Factories\ElementFactory\ElementFactory.cs" />
+    <Compile Include="GUI\Factories\Element\ElementFactory.cs" />
     <Compile Include="GUI\Element\TextBoxElement.cs" />
-    <Compile Include="GUI\Factories\QuestionnaireForm\QuestionnaireFormFactory.cs" />
-    <Compile Include="GUI\Interfaces\IElement.cs" />
-    <Compile Include="GUI\Interfaces\IForm.cs" />
+    <Compile Include="GUI\Factories\Form\FormFactory.cs" />
+    <Compile Include="GUI\Interfaces\Element\ICheckBoxElement.cs" />
+    <Compile Include="GUI\Interfaces\Element\IDatePickerElement.cs" />
+    <Compile Include="GUI\Interfaces\Element\IElement.cs" />
+    <Compile Include="GUI\Interfaces\Form\IForm.cs" />
+    <Compile Include="GUI\Interfaces\Element\ITextBoxElement.cs" />
     <Compile Include="Resources\TypeNames.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
