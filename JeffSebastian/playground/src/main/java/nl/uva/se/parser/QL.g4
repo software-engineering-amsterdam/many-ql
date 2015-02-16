@@ -17,11 +17,11 @@ form
 	;
 
 question
-	: IDENTIFIER type ':' '"'String'"' #questionDeclaration
+	: type IDENTIFIER ':' String  #questionDeclaration
 	;
 
 condition
-	: IF '(' expression ')' (statement)+ (ELSE (statement)+)?	#conditionDeclaration
+	: IF '(' expression ')' '{' (statement)+ '}' (ELSE '{' (statement)+ '}')?	#conditionDeclaration
 	;
 
 statement	
