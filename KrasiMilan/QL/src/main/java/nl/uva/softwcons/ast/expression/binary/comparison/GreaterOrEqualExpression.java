@@ -1,20 +1,17 @@
 package nl.uva.softwcons.ast.expression.binary.comparison;
 
 import nl.uva.softwcons.ast.expression.Expression;
+import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
-import nl.uva.softwcons.eval.value.Value;
 
 public class GreaterOrEqualExpression extends BinaryExpression {
 
     public GreaterOrEqualExpression(Expression left, Expression right) {
         super(left, right);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
-    public Value evaluate() {
-        // TODO Auto-generated method stub
-        return null;
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
-
 }

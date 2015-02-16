@@ -1,7 +1,7 @@
 package nl.uva.softwcons.ast.expression.identifier;
 
 import nl.uva.softwcons.ast.expression.Expression;
-import nl.uva.softwcons.eval.value.Value;
+import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
 public class IdentifierExpression extends Expression {
     private String name;
@@ -11,9 +11,12 @@ public class IdentifierExpression extends Expression {
     }
 
     @Override
-    public Value evaluate() {
-        // TODO Auto-generated method stub
-        return null;
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

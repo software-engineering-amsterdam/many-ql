@@ -13,6 +13,11 @@ public class ComputedQuestion extends Question {
         this.value = value;
     }
 
+    @Override
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
     public Expression getValue() {
         return value;
     }

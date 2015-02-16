@@ -32,9 +32,32 @@
 </dependencies>
   
 <build>
+
+	<resources>
+		
+		<!-- add resources folder to certain location -->
+		<resource>
+			<directory>src/main/resources</directory>
+			<targetPath>${project.build.outputDirectory}/resources</targetPath>
+		</resource>
+		
+	</resources>
+	
 	<plugins>
-  
-	    <plugin>
+		
+		<!-- download source code in eclipse -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-eclipse-plugin</artifactId>
+			<version>2.9</version>
+			<configuration>
+				<downloadSources>true</downloadSources>
+				<downloadJavadocs>false</downloadJavadocs>
+			</configuration>
+        </plugin>
+        
+        <!-- Set a compiler level -->
+		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
 			<version>3.2</version>
@@ -44,7 +67,8 @@
 			</configuration>
         </plugin>
         
-	  	<plugin>
+        <!-- antlr4 maven plugin -->
+		<plugin>
 		    <groupId>org.antlr</groupId>
 		    <artifactId>antlr4-maven-plugin</artifactId>
 		    <version>4.5</version>
@@ -60,29 +84,69 @@
 		        </execution>
 		    </executions>
 		</plugin>
-		<!--
-		<plugin>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>build-helper-maven-plugin</artifactId>
-			<version>1.9.1</version>
+		
+        <!-- Make this jar executable -->
+        <!-- <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>2.5</version>
+			<configuration>
+				<archive>
+					<manifest>
+						<addClasspath>true</addClasspath>
+						<mainClass>uva.TaxForm.App</mainClass>
+						<classpathPrefix>dependency-jars/</classpathPrefix>
+					</manifest>
+				</archive>
+			</configuration>
+        </plugin> -->
+        
+        <!-- Copy project dependency -->
+        <!-- <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>2.5.1</version>
 			<executions>
 				<execution>
+					<id>copy-dependencies</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy-dependencies</goal>
+					</goals>
 					<configuration>
-					    <id>add-source</id>
-					    <phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						 
-						<libDirectory>${basedir}/src/main/java/uva.TaxForm.antlr4.parsers</libDirectory>
-						<sources>
-							<source>${basedir}/src/main/java/uva.TaxForm.antlr4.parsers</source>
-						</sources>
+						<includeScope>runtime</includeScope>
+						<outputDirectory>${project.build.directory}/dependency-jars</outputDirectory>
 					</configuration>
 				</execution>
 			</executions>
-		</plugin>
-		 -->
+        </plugin> -->
+        
+        <!-- Maven Assembly Plugin -->
+        <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>2.5.3</version>
+			<configuration>
+				<descriptorRefs>
+					<descriptorRef>jar-with-dependencies</descriptorRef>
+				</descriptorRefs>
+				<archive>
+					<manifest>
+						<mainClass>uva.TaxForm.App</mainClass>
+					</manifest>
+				</archive>
+			</configuration>
+			<executions>
+				<execution>
+					<id>make-assembly</id>
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				</execution>
+			</executions>
+        </plugin>
+
 	</plugins>
 </build>
   

@@ -1,8 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.types;
 
-import org.uva.student.calinwouter.qlqls.ql.interpreter.components.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
-import java.util.AbstractMap;
 import java.util.HashMap;
 
 public abstract class AbstractPushable<T> {

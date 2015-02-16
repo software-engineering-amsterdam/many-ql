@@ -1,6 +1,7 @@
 ﻿using QuestionnaireLanguage.GUI.Elements;
-using QuestionnaireLanguage.GUI.Factories.ElementFactory;
-using QuestionnaireLanguage.GUI.Interfaces;
+using QuestionnaireLanguage.GUI.Factories.Element;
+using QuestionnaireLanguage.GUI.Interfaces.Element;
+using QuestionnaireLanguage.GUI.Interfaces.Form;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,11 @@ namespace QuestionnaireLanguage.GUI.Form
         {
             Control control = new Control();
 
-            TextBoxElement element = ElementFactory.ObtainTextBox(Id, Label);
+            TextBoxElement element = ElementFactory.GetTextBox(Id, Label);
 
             return element.GetControl();
         }
-        public Control CreateForm1(string type)
+        public Control CreateForm(string type)
         {
             //TextBoxElement element = ElementFactory.ObtainTextBox(Id, Label);
             IElement element = ElementFactory.GetElement(type);

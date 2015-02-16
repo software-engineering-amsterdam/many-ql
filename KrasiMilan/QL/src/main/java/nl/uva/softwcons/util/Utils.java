@@ -1,6 +1,6 @@
 package nl.uva.softwcons.util;
 
-public class Utils {
+public final class Utils {
 
     // Suppresses default constructor, ensuring non-instantiability.
     private Utils() {
@@ -18,7 +18,7 @@ public class Utils {
     public static String unquote(String str) {
 
         if ((str.startsWith("\"") && str.endsWith("\"")) || (str.startsWith("'") && str.endsWith("'"))) {
-            str = str.substring(1, str.length() - 1);
+            return str.substring(1, str.length() - 1);
         }
 
         return str;

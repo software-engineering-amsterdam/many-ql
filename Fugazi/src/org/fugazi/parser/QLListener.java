@@ -1,4 +1,4 @@
-// Generated from /Users/Sugar/Documents/Msc/Software-Construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
+// Generated from /Users/lukaszharezlak/Projects/uva_software_construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
 package org.fugazi.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -147,18 +147,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code singleExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterSingleExpression(@NotNull QLParser.SingleExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code singleExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitSingleExpression(@NotNull QLParser.SingleExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code identifierExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
@@ -170,6 +158,18 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code booleanExpression}
 	 * labeled alternative in {@link QLParser#expression}.

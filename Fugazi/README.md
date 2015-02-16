@@ -105,7 +105,9 @@ OR cmd+shift+G*
 
 Architecture
 =======
-//TODO
+## Class diagram
+
+![Class diagram](https://lh6.googleusercontent.com/0d9Rtc9nWYU6KRbII8q8ucI4-vCt6iW5nd0lliNElMiUjFY1Au2ubUu7C0YlC2np5oCrnnz3BZI=w1413-h577)
 
 QL & QLS
 =========

@@ -14,4 +14,16 @@ public class Conditional extends Statement {
         this.questions = questions;
     }
 
+    @Override
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    public Expression getCondition() {
+        return condition;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
 }

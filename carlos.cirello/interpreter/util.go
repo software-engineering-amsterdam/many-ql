@@ -80,3 +80,36 @@ func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
 	}
 	return t.NumericConstant
 }
+
+func (exec *Execute) resolveComparisonNode(n interface{}) bool {
+	conditionState := true
+	switch t := n.(type) {
+	default:
+		log.Fatalf("impossible condition type. got: %T", t)
+	case *ast.TermNode:
+		if !exec.TermNode(n.(*ast.TermNode)) {
+			conditionState = false
+		}
+	case *ast.EqualsNode:
+		if !exec.EqualsNode(n.(*ast.EqualsNode)) {
+			conditionState = false
+		}
+	case *ast.MoreThanNode:
+		if !exec.MoreThanNode(n.(*ast.MoreThanNode)) {
+			conditionState = false
+		}
+	case *ast.LessThanNode:
+		if !exec.LessThanNode(n.(*ast.LessThanNode)) {
+			conditionState = false
+		}
+	case *ast.MoreOrEqualsThanNode:
+		if !exec.MoreOrEqualsThanNode(n.(*ast.MoreOrEqualsThanNode)) {
+			conditionState = false
+		}
+	case *ast.LessOrEqualsThanNode:
+		if !exec.LessOrEqualsThanNode(n.(*ast.LessOrEqualsThanNode)) {
+			conditionState = false
+		}
+	}
+	return conditionState
+}

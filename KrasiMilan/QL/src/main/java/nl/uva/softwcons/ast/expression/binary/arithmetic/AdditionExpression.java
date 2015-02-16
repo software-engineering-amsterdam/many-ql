@@ -1,8 +1,8 @@
 package nl.uva.softwcons.ast.expression.binary.arithmetic;
 
 import nl.uva.softwcons.ast.expression.Expression;
+import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
-import nl.uva.softwcons.eval.value.Value;
 
 public class AdditionExpression extends BinaryExpression {
 
@@ -11,9 +11,8 @@ public class AdditionExpression extends BinaryExpression {
     }
 
     @Override
-    public Value evaluate() {
-        // TODO Auto-generated method stub
-        return null;
+    public <T> T accept(ExpressionVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
 }
