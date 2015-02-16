@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireLanguage.AST.Nodes.Arithmetic
 {
-    public class PrioArithmetic : iASTNode
+    public class PrioArithmetic : iArithmeticNode
     {
 
 

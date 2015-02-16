@@ -9,4 +9,10 @@ public class BoolValue extends GenericValue<Boolean> {
 	public boolean evaluate() {
 		return value;
 }
+	@Override
+	public String toString(){
+		return new Boolean(value).toString();
+		
+	}
+	
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireLanguage.AST.Nodes.Comparison
 {
-    public class GreaterThanOrEqualNode : iASTNode
+    public class GreaterThanOrEqualNode : iComparisonNode
     {
     }
 }
