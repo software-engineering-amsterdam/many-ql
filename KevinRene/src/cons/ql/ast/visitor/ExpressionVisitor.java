@@ -42,9 +42,9 @@ public interface ExpressionVisitor extends Visitor {
 		subNode.getRight().accept(this);
 	}
 	
-	public void visit(QLBoolean booleanNode);	
-	public void visit(QLFloat floatNode);	
-	public void visit(Identifier identNode);	
+	public void visit(QLBoolean booleanNode);
+	public void visit(QLFloat floatNode);
+	public void visit(Identifier identNode);
 	public void visit(QLInteger intNode);
 	public void visit(QLString stringNode);
 	

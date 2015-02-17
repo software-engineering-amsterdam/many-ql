@@ -21,7 +21,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	public boolean checkStaticTypes(ASTNode tree) {
 		tree.accept(this);
 		
-		if (!errors.isEmpty()) {			
+		if (!errors.isEmpty()) {
 			for (String error : errors) {
 				System.out.println("[Error]: " + error);
 			}			
@@ -125,13 +125,22 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	
 	@Override
 	public void visit(Neg negNode) {
-		// TODO Auto-generated method stub
+		negNode.getExpression().accept(this);
 		
+		// Expression must be a numeric
+		if (negNode.getType().compatibleWith(negNode.getExpression().getType())) {
+			errors.add("<Not> Expected type: QLNumeric, actual type: " + negNode.getExpression().getType());
+		}
 	}
 	
 	@Override
 	public void visit(Pos posNode) {
-		// TODO Auto-generated method stub
+		posNode.getExpression().accept(this);
+		
+		// Expression must be a numeric
+		if (posNode.getType().compatibleWith(posNode.getExpression().getType())) {
+			errors.add("<Not> Expected type: QLNumeric, actual type: " + posNode.getExpression().getType());
+		}
 		
 	}
 	
@@ -145,7 +154,21 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(Eq eqNode) {
+		Expression left = eqNode.getLeft();
+		Expression right = eqNode.getRight();
 		
+		left.accept(this);
+		right.accept(this);
+		
+		// Both operands should be compatible with eachother	
+		if (!(right.getType().compatibleWith(left.getType()) &&
+			left.getType().compatibleWith(right.getType()))) {
+			
+			errors.add("<" + left.getClass().getSimpleName() + "> Expected type: " 
+					+ left.getType().compatibilities() + ", actual types: "	
+					+ left.getType() + " & " + right.getType()
+					+ ".");
+		}
 	}
 
 	@Override
@@ -170,7 +193,21 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(NEq neqNode) {
+		Expression left = neqNode.getLeft();
+		Expression right = neqNode.getRight();
 		
+		left.accept(this);
+		right.accept(this);
+		
+		// Both operands should be compatible with eachother	
+		if (!(right.getType().compatibleWith(left.getType()) &&
+			left.getType().compatibleWith(right.getType()))) {
+			
+			errors.add("<" + left.getClass().getSimpleName() + "> Expected type: " 
+					+ left.getType().compatibilities() + ", actual types: "	
+					+ left.getType() + " & " + right.getType()
+					+ ".");
+		}
 	}
 
 	@Override
@@ -180,18 +217,20 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(Not notNode) {
-		// TODO Auto-generated method stub
+		notNode.getExpression().accept(this);
 		
+		// Expression must be a boolean
+		if (notNode.getType().compatibleWith(notNode.getExpression().getType())) {
+			errors.add("<Not> Expected type: QLBoolean, actual type: " + notNode.getExpression().getType());
+		}
 	}
 
 	/**
 	 * Statements
 	 */	
-	@Override
-	public void visit(Block blockNode) {
-		// TODO Auto-generated method stub
-		
-	}
+	// Use default method
+	// @Override
+	// public void visit(Block blockNode) {}
 
 	@Override
 	public void visit(ComputedQuestion compQuestionNode) {

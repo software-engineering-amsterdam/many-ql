@@ -93,7 +93,8 @@ public class TypeCheckerTest {
 	}
 	
 	@Test
-	public void testinaryNumericRelationalOperator() {
+	public void testBinaryNumericRelationalOperator() {
+		
 		ASTNode tree = Parser.parse("10 > 103");		
 		assertEquals(true, typeChecker.checkStaticTypes(tree));
 		
@@ -110,6 +111,56 @@ public class TypeCheckerTest {
 		assertEquals(false, typeChecker.checkStaticTypes(tree));
 		
 		tree = Parser.parse("10 >= false");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+	}
+	
+	@Test
+	public void testEq() {
+		ASTNode tree = Parser.parse("10 == 100");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("true == false");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+
+		tree = Parser.parse("10.1 == 100.5");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+
+		tree = Parser.parse("\"a\" == \"b\"");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		// Type mismatch
+		tree = Parser.parse("10 == true");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("true == \"string\"");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+
+		tree = Parser.parse("false == 100.5");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+	}
+	
+	@Test
+	public void testNEq() {
+		ASTNode tree = Parser.parse("10 != 100");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("true != false");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+
+		tree = Parser.parse("10.1 != 100.5");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+
+		tree = Parser.parse("\"a\" != \"b\"");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		// Type mismatch
+		tree = Parser.parse("10 != true");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("true != \"string\"");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+
+		tree = Parser.parse("false != 100.5");		
 		assertEquals(false, typeChecker.checkStaticTypes(tree));
 	}
 }
