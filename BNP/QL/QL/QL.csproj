@@ -58,9 +58,17 @@
     <Compile Include="Infrastructure\ParserErrorHandler.cs" />
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
     <Compile Include="Model\AbstractNodeBase.cs" />
-    <Compile Include="Model\NodeFactory.cs" />
+    <Compile Include="Model\Block.cs" />
+    <Compile Include="Model\Form.cs" />
+    <Compile Include="Model\NodeMapper.cs" />
     <Compile Include="Model\QuestionUnit.cs" />
     <Compile Include="Model\SourceLocation.cs" />
+    <Compile Include="Model\StatementUnit.cs" />
+    <Compile Include="Model\Terminals\Identifier.cs" />
+    <Compile Include="Model\Terminals\Number.cs" />
+    <Compile Include="Model\Terminals\TerminalBase.cs" />
+    <Compile Include="Model\Terminals\Text.cs" />
+    <Compile Include="Model\Terminals\Yesno.cs" />
     <Compile Include="Model\UnitBase.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
@@ -76,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="AST Diagram.cd" />
     <None Include="Definitions\CodeFile1.ql" />
     <None Include="Definitions\Ideas v1.ql" />
     <None Include="Definitions\Ideas v2.ql" />

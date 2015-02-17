@@ -34,17 +34,10 @@ namespace QL.Grammars
         {
             Console.WriteLine("Unit: {0}", context.GetText());
 
-            if (_parser.InContext("unit") && context.ChildCount > 0)
-            {
-                var id = context.GetChild(1).GetText();
-                var question = context.GetChild(context.ChildCount - 2).GetText();
-                var arguments = context.children.Skip(3).Select(child => child.GetText()).Take(context.ChildCount - 3 - 3).ToArray();
-
-                QuestionUnit questionUnit = new QuestionUnit(id, question, arguments);
-
-                _parsedUnits.Add(questionUnit);
-            }
-
+            //NodeFactory factory = new NodeFactory();
+            //var astNode = factory.Build(context);
+            //_parsedUnits.Add(astNode);
+            
             return base.VisitUnit(context);
         }
 
@@ -66,10 +59,10 @@ namespace QL.Grammars
             return base.VisitExpression(context);
         }
 
-        public override QLParser.FormBlockContext VisitIfStatement(QLParser.IfStatementContext context)
+        public override QLParser.FormBlockContext VisitControlBlock(QLParser.ControlBlockContext context)
         {
             Console.WriteLine("IfStatement: {0}", context.GetText());
-            return base.VisitIfStatement(context);
+            return base.VisitControlBlock(context);
         }
 
         public override QLParser.FormBlockContext VisitOperator(QLParser.OperatorContext context)

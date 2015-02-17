@@ -51,7 +51,7 @@ typeDefExt	: typedef
 
 unit		: UNITTYPE IDENTIFIER '(' TYPENAME (',' ATTR)* ')' TEXT ';'
 			| UNITTYPE IDENTIFIER '(' TYPENAME ',' (typedef|expression) ')' TEXT ';'
-			| ifStatement
+			| controlBlock
 			;
 
 block		: '{' unit* '}';
@@ -72,4 +72,4 @@ expression	: typeDefExt
 				')');
 
 
-ifStatement	: 'if' expression block ('else' ifStatement)* ('else' block)? ';';
+controlBlock	: 'if' expression block ('else' controlBlock)* ('else' block)? ';';
