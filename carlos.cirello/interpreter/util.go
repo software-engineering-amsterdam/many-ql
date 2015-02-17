@@ -6,7 +6,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-func (exec Execute) resolveMathNode(n ast.Evaluatable) float32 {
+func (exec Execute) resolveMathNode(n interface{}) float32 {
 	switch t := n.(type) {
 	default:
 		log.Fatalf("Unknown type while resolving node %T", t)

@@ -7,29 +7,37 @@ import (
 )
 
 func (exec Execute) MathAddNode(s *ast.MathAddNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
+	lt := s.LeftTerm()
+	rt := s.RightTerm()
+	left := exec.resolveMathNode(lt)
+	right := exec.resolveMathNode(rt)
 
 	return left + right
 }
 
 func (exec Execute) MathSubNode(s *ast.MathSubNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
+	lt := s.LeftTerm()
+	rt := s.RightTerm()
+	left := exec.resolveMathNode(lt)
+	right := exec.resolveMathNode(rt)
 
 	return left - right
 }
 
 func (exec Execute) MathMulNode(s *ast.MathMulNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
+	lt := s.LeftTerm()
+	rt := s.RightTerm()
+	left := exec.resolveMathNode(lt)
+	right := exec.resolveMathNode(rt)
 
 	return left * right
 }
 
 func (exec Execute) MathDivNode(s *ast.MathDivNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
+	lt := s.LeftTerm()
+	rt := s.RightTerm()
+	left := exec.resolveMathNode(lt)
+	right := exec.resolveMathNode(rt)
 
 	return left / right
 }

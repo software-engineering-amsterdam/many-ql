@@ -167,38 +167,23 @@ ifBlock:
 evaluatable:
 	term EqualsToToken term
 	{
-		condition := new (ast.EqualsNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewEqualsNode($1.evaluatable, $3.evaluatable)
 	}
 	| term MoreThanToken term
 	{
-		condition := new (ast.MoreThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMoreThanNode($1.evaluatable, $3.evaluatable)
 	}
 	| term LessThanToken term
 	{
-		condition := new (ast.LessThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewLessThanNode($1.evaluatable, $3.evaluatable)
 	}
 	| term MoreOrEqualsThanToken term
 	{
-		condition := new (ast.MoreOrEqualsThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMoreOrEqualsThanNode($1.evaluatable, $3.evaluatable)
 	}
 	| term LessOrEqualsThanToken term
 	{
-		condition := new (ast.LessOrEqualsThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewLessOrEqualsThanNode($1.evaluatable, $3.evaluatable)
 	}
 	| term
 	;
@@ -206,31 +191,19 @@ evaluatable:
 term:
 	term '+' term
 	{
-		condition := new (ast.MathAddNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathAddNode($1.evaluatable, $3.evaluatable)
 	}
 	| term '-' term
 	{
-		condition := new (ast.MathSubNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathSubNode($1.evaluatable, $3.evaluatable)
 	}
 	| term '*' term
 	{
-		condition := new (ast.MathMulNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathMulNode($1.evaluatable, $3.evaluatable)
 	}
 	| term '/' term
 	{
-		condition := new (ast.MathDivNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathDivNode($1.evaluatable, $3.evaluatable)
 	}
 	| value
 	{

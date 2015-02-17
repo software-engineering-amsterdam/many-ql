@@ -87,7 +87,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:275
+//line parser.y:248
 
 //line yacctab:1
 var qlExca = []int{
@@ -508,82 +508,55 @@ qldefault:
 	case 15:
 		//line parser.y:169
 		{
-			condition := new(ast.EqualsNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewEqualsNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 16:
-		//line parser.y:176
+		//line parser.y:173
 		{
-			condition := new(ast.MoreThanNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewMoreThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 17:
-		//line parser.y:183
+		//line parser.y:177
 		{
-			condition := new(ast.LessThanNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewLessThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 18:
-		//line parser.y:190
+		//line parser.y:181
 		{
-			condition := new(ast.MoreOrEqualsThanNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewMoreOrEqualsThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 19:
-		//line parser.y:197
+		//line parser.y:185
 		{
-			condition := new(ast.LessOrEqualsThanNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewLessOrEqualsThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 21:
-		//line parser.y:208
+		//line parser.y:193
 		{
-			condition := new(ast.MathAddNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewMathAddNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 22:
-		//line parser.y:215
+		//line parser.y:197
 		{
-			condition := new(ast.MathSubNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewMathSubNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 23:
-		//line parser.y:222
+		//line parser.y:201
 		{
-			condition := new(ast.MathMulNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewMathMulNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 24:
-		//line parser.y:229
+		//line parser.y:205
 		{
-			condition := new(ast.MathDivNode)
-			condition.LeftTerm = qlS[qlpt-2].evaluatable
-			condition.RightTerm = qlS[qlpt-0].evaluatable
-			qlVAL.evaluatable = condition
+			qlVAL.evaluatable = ast.NewMathDivNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable)
 		}
 	case 25:
-		//line parser.y:236
+		//line parser.y:209
 		{
 			qlVAL.evaluatable = qlS[qlpt-0].termNode
 		}
 	case 26:
-		//line parser.y:243
+		//line parser.y:216
 		{
 			num, _ := strconv.ParseFloat(qlS[qlpt-0].content, 32)
 			qlVAL.num = float32(num)
@@ -596,7 +569,7 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 27:
-		//line parser.y:255
+		//line parser.y:228
 		{
 			termNode := ast.NewTermNode(
 				ast.IdentifierReferenceNodeType,
@@ -607,7 +580,7 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 28:
-		//line parser.y:265
+		//line parser.y:238
 		{
 			termNode := ast.NewTermNode(
 				ast.StringConstantNodeType,
