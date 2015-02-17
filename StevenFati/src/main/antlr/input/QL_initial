@@ -18,5 +18,6 @@ form FORMNAME {
         }
     }
     NAME DECIMAL "enter decimal number"
+    NAME4 INTEGER "total value:" (NAME3 * 4)
 }
 // sdfsf
