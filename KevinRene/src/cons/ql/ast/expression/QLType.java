@@ -22,7 +22,6 @@ public abstract class QLType extends Expression {
 	}
 	
 	/**
-	 * 
 	 * @return the list of compatibilities
 	 */
 	public List<String> compatibilities() {

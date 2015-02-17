@@ -55,6 +55,29 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		}
 	}
 	
+	private boolean checkBinaryNumericRelationalOperator(Binary op) {
+		Expression left = op.getLeft();
+		Expression right = op.getRight();
+		
+		left.accept(this);
+		right.accept(this);
+		
+		// Types of operands must be compatible
+		// And they must be compatible to the operator's type
+		
+		if (left.getType().compatibleWith(right.getType()) &&
+				left.getType().compatibleWith(new QLNumeric()) &&
+				right.getType().compatibleWith(new QLNumeric())) {
+			return true;
+		}
+		else {
+			errors.add("<" + op.getType() + "> Expected type: QLNumeric, actual types: "	
+					+ left.getType() + " & " + right.getType() + ".");
+			
+			return false;
+		}
+	}
+	
 	private boolean checkBinaryRelationalOperator(Binary op) {
 		Expression left = op.getLeft();
 		Expression right = op.getRight();
@@ -117,8 +140,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	 */
 	@Override
 	public void visit(And andNode) {
-		checkBinaryRelationalOperator(andNode);
-		
+		checkBinaryRelationalOperator(andNode);	
 	}
 
 	@Override
@@ -128,26 +150,22 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(GEq geqNode) {
-		// Both must be numeric
-		
+		checkBinaryNumericRelationalOperator(geqNode);
 	}
 
 	@Override
 	public void visit(GT gtNode) {
-		// Both must be numeric
-		
+		checkBinaryNumericRelationalOperator(gtNode);
 	}
 
 	@Override
 	public void visit(LEq leqNode) {
-		// Both must be numeric
-		
+		checkBinaryNumericRelationalOperator(leqNode);
 	}
 
 	@Override
 	public void visit(LT ltNode) {
-		// Both must be numeric
-		
+		checkBinaryNumericRelationalOperator(ltNode);
 	}
 
 	@Override
@@ -183,16 +201,14 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		if(!compQuestionNode.getType().toString().equals(
 				compQuestionNode.getExpression().toString())) {
 			errors.add("<" + compQuestionNode.getIdent() + ">:" 
-					+ compQuestionNode.getType() + " was assigned with "	
+					+ compQuestionNode.getType() + " was assigned a "	
 					+ compQuestionNode.getExpression().getType() + ".");
 		}
 	}
 	
-	@Override
-	public void visit(Form formNode) {
-		// TODO Auto-generated method stub
-		
-	}
+	// Use the default method
+	// @Override
+	// public void visit(Form formNode) {}
 
 	@Override
 	public void visit(If ifNode) {

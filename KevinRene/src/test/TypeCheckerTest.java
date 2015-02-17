@@ -91,4 +91,25 @@ public class TypeCheckerTest {
 		tree = Parser.parse("if (123) { houseValue : money { \"Lol I dont care\" } }");		
 		assertEquals(false, typeChecker.checkStaticTypes(tree));
 	}
+	
+	@Test
+	public void testinaryNumericRelationalOperator() {
+		ASTNode tree = Parser.parse("10 > 103");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("10.3 >= 103");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("10 <= 103");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("10 < 103");		
+		assertEquals(true, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("true < 104");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+		
+		tree = Parser.parse("10 >= false");		
+		assertEquals(false, typeChecker.checkStaticTypes(tree));
+	}
 }
