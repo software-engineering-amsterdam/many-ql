@@ -7,6 +7,7 @@ form taxOfficeExample {
   if ( !4 - 5 )  {}
 
   if ( a && b  or c)  {}
+
   if ( !a && b and c)  {}
   if ( 2*a == 55)  {}
   if ( b*2 == 55)  {}
@@ -15,4 +16,9 @@ form taxOfficeExample {
 
   if ( (((((()))))) )  {}
   if ( () + () )  {}
+
+  # Optional parentheses, ala python
+  if noParentheses  {}
+  if a and b {}
+
 }
