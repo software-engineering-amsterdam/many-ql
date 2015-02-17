@@ -11,7 +11,10 @@ object QLAST {
   case class IfStatement(e: Expression, s1: Statement, s2: Option[Statement]) extends Statement
 
   // Questions
-  sealed abstract class Question extends Statement
+  sealed abstract class Question extends Statement {
+    val v: Variable
+    val label: String
+  }
   case class BooleanQuestion(v: Variable, label: String) extends Question
   case class IntegerQuestion(v: Variable, label: String) extends Question
   case class StringQuestion(v: Variable, label: String) extends Question
