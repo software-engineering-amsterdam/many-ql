@@ -1,3 +1,6 @@
+require_relative "static_checker"
+require_relative "../ast/ast"
+require "byebug"
 
 class TypeChecker < StaticChecker
   def initialize(form)
@@ -17,7 +20,7 @@ class TypeChecker < StaticChecker
     end
   end
 
-  visitor_for Condition do |condition|
+  visitor_for Conditional do |condition|
     raise "Expression in condition not a boolean: {condition}." unless condition.expression.accept(self) == :boolean
 
     condition.statements.map do |statement|
@@ -40,5 +43,10 @@ class TypeChecker < StaticChecker
 
   visitor_for Literal do |literal|
     literal.type
+  end
+
+  def check
+    byebug
+    visit form
   end
 end
