@@ -1,4 +1,4 @@
-if (10 > 15) then
+if (10 > question1) then
     if (a > b && b > c) then
         question
             id : question1
@@ -13,5 +13,5 @@ question
     id : question2
     text : "Hello!"
     type : date
-    value : 21.12.
+    value : 21.12.1990
 end
