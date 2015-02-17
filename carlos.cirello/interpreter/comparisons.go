@@ -11,39 +11,23 @@ func (exec Execute) EqualsNode(s *ast.EqualsNode) bool {
 	return left == right
 }
 
-func (exec Execute) MoreThanNode(s *ast.MoreThanNode) bool {
-	lt := s.LeftTerm()
-	rt := s.RightTerm()
-	left := exec.resolveMathNode(lt)
-	right := exec.resolveMathNode(rt)
-
+func (exec Execute) MoreThanNode(n *ast.MoreThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left > right
 }
 
-func (exec Execute) LessThanNode(s *ast.LessThanNode) bool {
-	lt := s.LeftTerm()
-	rt := s.RightTerm()
-	left := exec.resolveMathNode(lt)
-	right := exec.resolveMathNode(rt)
-
+func (exec Execute) LessThanNode(n *ast.LessThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left < right
 }
 
-func (exec Execute) MoreOrEqualsThanNode(s *ast.MoreOrEqualsThanNode) bool {
-	lt := s.LeftTerm()
-	rt := s.RightTerm()
-	left := exec.resolveMathNode(lt)
-	right := exec.resolveMathNode(rt)
-
+func (exec Execute) MoreOrEqualsThanNode(n *ast.MoreOrEqualsThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left >= right
 }
 
-func (exec Execute) LessOrEqualsThanNode(s *ast.LessOrEqualsThanNode) bool {
-	lt := s.LeftTerm()
-	rt := s.RightTerm()
-	left := exec.resolveMathNode(lt)
-	right := exec.resolveMathNode(rt)
-
+func (exec Execute) LessOrEqualsThanNode(n *ast.LessOrEqualsThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left <= right
 }
 

@@ -6,6 +6,16 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
+func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left, right float32) {
+	lt := n.LeftTerm()
+	rt := n.RightTerm()
+
+	left = exec.resolveMathNode(lt)
+	right = exec.resolveMathNode(rt)
+
+	return left, right
+}
+
 func (exec Execute) resolveMathNode(n interface{}) float32 {
 	switch t := n.(type) {
 	default:
