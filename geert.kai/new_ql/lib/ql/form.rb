@@ -1,4 +1,3 @@
-
 class Form 
   attr_reader :name, :statements
 
@@ -52,7 +51,7 @@ end
 # expression to this superclass?
 class ConditionalStatement < Statement
   def accept visitor
-    # TODO: dit klopt niet. wat is exception?
+    # TODO: dit klopt niet. Wat is exception?
     exception.each do |expression|
       expression.accept visitor
    end
