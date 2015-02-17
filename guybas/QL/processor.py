@@ -3,9 +3,19 @@ import collections
 
 
 class Processor:
-    def conditions_proc(self, condition):
+    def conditions_proc(self, expression):
+        """
+        This function will convert the expression identifiers into
+        parameters and will check whether the expression is True or False
+        :param str condition: the if expression
+        :return: bool
+        """
+        # bind ids to values
+        print(expression)
+        # simplified_c = expression.replace()
+
         # process the expression, and return true/false
-        result = eval(condition)
+        result = eval(simplified_c)
         if result:
             return True
         return False

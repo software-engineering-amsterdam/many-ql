@@ -27,7 +27,7 @@ class BasicTypes:
 class QuestionTypes:
     """
     bool        :: True | False
-    integer     :: [0123456789]
+    number      :: [0123456789]
     text        :: sentences
     """
     boolean         = (Literal("True") | Literal("False")).setParseAction(ASTReady.make_bool)
@@ -46,7 +46,7 @@ class QuestionTypes:
 class Expressions:
     """
 
-    value       :: bool | integer | text
+    value       :: bool | number | text
     compare     :: > | >= | < | <= | ==
     operators   :: + | - | / | *
 
@@ -74,7 +74,7 @@ class FormFormat:
     id          :: characters
     label       :: sentence
 
-    answerR     :: "bool" | "integer" | "text"
+    answerR     :: "bool" | "number" | "text"
     question    :: Question id ( answerR ) : label
     questions   :: question+
 

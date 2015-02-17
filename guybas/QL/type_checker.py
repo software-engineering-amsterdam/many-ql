@@ -50,7 +50,6 @@ class TypeChecker:
         :param str|bool ctype: The expected type to compare with, False to return the input type
         :return: True|False|str
         """
-        type_class = ...
         if isinstance(cinput, str):
             type_class = QuestionTypes.textName
         elif isinstance(cinput, (int, float, complex)): # in python 3 int = long
