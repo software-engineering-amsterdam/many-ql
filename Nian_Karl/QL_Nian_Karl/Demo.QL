@@ -6,12 +6,13 @@ form SalarySurvey{
 	Bool isMarried "Are you married?";
 	
 	if(5123123+5){
-		Int employeeNr "What is your employee number?";
-		Int employeeNr "What is your employee number?";
-		Int employeeNr "What is your employee number?";
-		Int employeeNr "What is your employee number?";
-		
-	} else {
-		Int studentNr "What is your student number?";
+		Int employeeNr1 "What is your employee number?";
+		Int employeeNr2 "What is your employee number?";
+		Int employeeNr3 "What is your employee number?";
+		Int employeeNr4 "What is your employee number?";
 	}
+	
+	if((100 > 5) && ((5+6) < 10)){
+	
+	} 
 }
