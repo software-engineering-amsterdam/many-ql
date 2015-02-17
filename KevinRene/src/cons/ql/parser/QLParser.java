@@ -1,11 +1,12 @@
-// Output created by jacc on Tue Feb 17 12:52:22 CET 2015
+// Output created by jacc on Tue Feb 17 13:32:24 CET 2015
 
 package cons.ql.parser;
 
 import cons.ql.ast.*;
 import cons.ql.ast.expression.*;
-import cons.ql.ast.expression.unary.*;
 import cons.ql.ast.expression.type.*;
+import cons.ql.ast.expression.unary.*;
+import cons.ql.ast.expression.literal.*;
 import cons.ql.ast.expression.arithmetic.*;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.statement.*;
@@ -572,7 +573,7 @@ class QLParser implements QLTokens {
                         case FLOAT:
                             yyn = 13;
                             continue;
-                        case INT:
+                        case INTEGER:
                             yyn = 18;
                             continue;
                         case MONEY:
@@ -1243,7 +1244,7 @@ class QLParser implements QLTokens {
                 return 16;
             case IF:
                 return 17;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1651,7 +1652,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1687,7 +1688,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1723,7 +1724,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1759,7 +1760,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1795,7 +1796,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1831,7 +1832,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1867,7 +1868,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1903,7 +1904,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1939,7 +1940,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -1975,7 +1976,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2011,7 +2012,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2047,7 +2048,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2083,7 +2084,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2119,7 +2120,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2155,7 +2156,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2191,7 +2192,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2227,7 +2228,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2733,7 +2734,7 @@ class QLParser implements QLTokens {
                 return 13;
             case FLOATLITERAL:
                 return 14;
-            case INT:
+            case INTEGER:
                 return 18;
             case INTEGERLITERAL:
                 return 19;
@@ -2867,7 +2868,7 @@ class QLParser implements QLTokens {
     }
 
     private int yyr5() { // form : FORM IDENTIFIER '{' statements '}'
-        { yyrv = new Form(((QLIdentifier)yysv[yysp-4]), ((Block)yysv[yysp-2])); }
+        { yyrv = new Form(((Identifier)yysv[yysp-4]), ((Block)yysv[yysp-2])); }
         yysv[yysp-=5] = yyrv;
         return 3;
     }
@@ -2967,13 +2968,13 @@ class QLParser implements QLTokens {
     }
 
     private int yyr8() { // statement : IDENTIFIER ':' type '{' STRINGLITERAL '}'
-        { yyrv = new Question(((QLIdentifier)yysv[yysp-6]), ((QLType)yysv[yysp-4]), ((QLString)yysv[yysp-2])); }
+        { yyrv = new Question(((Identifier)yysv[yysp-6]), ((QLType)yysv[yysp-4]), ((StringLiteral)yysv[yysp-2])); }
         yysv[yysp-=6] = yyrv;
         return yypstatement();
     }
 
     private int yyr9() { // statement : IDENTIFIER ':' type '{' STRINGLITERAL ASSIGN '(' expression ')' '}'
-        { yyrv = new ComputedQuestion(((QLIdentifier)yysv[yysp-10]), ((QLType)yysv[yysp-8]), ((QLString)yysv[yysp-6]), ((Expression)yysv[yysp-3])); }
+        { yyrv = new ComputedQuestion(((Identifier)yysv[yysp-10]), ((QLType)yysv[yysp-8]), ((StringLiteral)yysv[yysp-6]), ((Expression)yysv[yysp-3])); }
         yysv[yysp-=10] = yyrv;
         return yypstatement();
     }
@@ -3036,7 +3037,7 @@ class QLParser implements QLTokens {
         return 8;
     }
 
-    private int yyr20() { // type : INT
+    private int yyr20() { // type : INTEGER
         { yyrv = new QLInteger(); }
         yysv[yysp-=1] = yyrv;
         return yyptype();

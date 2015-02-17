@@ -3,16 +3,17 @@ package cons.ql.ast.statement;
 import cons.Register;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLIdentifier;
+import cons.ql.ast.expression.literal.Identifier;
+import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.visitor.Visitor;
 
 public class Question extends Statement {	
-	private final QLIdentifier identifier;
+	private final Identifier identifier;
 	private final QLType type;
-	private final QLString questionText;
+	private final StringLiteral questionText;
 	
-	public Question(QLIdentifier identifier, QLType type, QLString questionText) {
+	public Question(Identifier identifier, QLType type, StringLiteral questionText) {
 		this.identifier = identifier;
 		this.type = type;
 		this.questionText = questionText;
@@ -20,7 +21,7 @@ public class Question extends Statement {
 		Register.getInstance().store(this.identifier, this);
 	}
 	
-	public QLIdentifier getIdent() {
+	public Identifier getIdent() {
 		return this.identifier;
 	}
 	
@@ -28,7 +29,7 @@ public class Question extends Statement {
 		return this.type;
 	}
 	
-	public QLString getText() {
+	public StringLiteral getText() {
 		return this.questionText;
 	}
 

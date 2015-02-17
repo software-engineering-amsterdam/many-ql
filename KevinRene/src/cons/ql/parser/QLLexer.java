@@ -7,10 +7,10 @@ import java.util.Map;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.expression.literal.BooleanLiteral;
-import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLIdentifier;
-import cons.ql.ast.expression.type.QLInteger;
-import cons.ql.ast.expression.type.QLString;
+import cons.ql.ast.expression.literal.FloatLiteral;
+import cons.ql.ast.expression.literal.Identifier;
+import cons.ql.ast.expression.literal.IntegerLiteral;
+import cons.ql.ast.expression.literal.StringLiteral;
 
 public class QLLexer implements QLTokens {
 	private static final Map<String, Integer> KEYWORDS;
@@ -171,7 +171,7 @@ public class QLLexer implements QLTokens {
 			    	nextChar();
 		    		String string = sb.toString();
 					
-		    		yylval = new QLString(string);
+		    		yylval = new StringLiteral(string);
 		    		return token = STRINGLITERAL;
 			    }
 			    default: {
@@ -197,7 +197,7 @@ public class QLLexer implements QLTokens {
 			    			nextChar(); 
 			    		} while (Character.isDigit(c) || (c == '.' && !isFloat));
 			    		
-			    		yylval = isFloat ? new QLFloat((float)n) : new QLInteger((int)n);
+			    		yylval = isFloat ? new FloatLiteral((float)n) : new IntegerLiteral((int)n);
 			    		
 			    		return token = isFloat ? FLOATLITERAL : INTEGERLITERAL;
 			    	}
@@ -223,7 +223,7 @@ public class QLLexer implements QLTokens {
 			    			return token = KEYWORDS.get(name);
 			    		}
 						
-			    		yylval = new QLIdentifier(name);
+			    		yylval = new Identifier(name);
 			    		return token = IDENTIFIER;
 			    	}
 			    	throw new RuntimeException("Unexpected character: " + (char)c);

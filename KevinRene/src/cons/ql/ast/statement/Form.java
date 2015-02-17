@@ -2,21 +2,21 @@ package cons.ql.ast.statement;
 
 import cons.Register;
 import cons.ql.ast.Statement;
-import cons.ql.ast.expression.type.QLIdentifier;
+import cons.ql.ast.expression.literal.Identifier;
 import cons.ql.ast.visitor.Visitor;
 
 public class Form extends Statement {
-	private final QLIdentifier identifier;
+	private final Identifier identifier;
 	private final Block block;
 	
-	public Form(QLIdentifier identifier, Block block) {
+	public Form(Identifier identifier, Block block) {
 		this.identifier = identifier;
 		this.block = block;
 		
 		Register.getInstance().store(this.identifier, this);
 	}
 	
-	public QLIdentifier getIdent() {
+	public Identifier getIdent() {
 		return this.identifier;
 	}
 	

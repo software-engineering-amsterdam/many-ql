@@ -3,15 +3,15 @@ package cons.ql.ast.statement;
 import cons.Register;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLIdentifier;
-import cons.ql.ast.expression.type.QLString;
+import cons.ql.ast.expression.literal.Identifier;
+import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.visitor.Visitor;
 
 
 public class ComputedQuestion extends Question {
 	private final Expression expression;
 	
-	public ComputedQuestion(QLIdentifier identifier, QLType type, QLString text, Expression expression) {
+	public ComputedQuestion(Identifier identifier, QLType type, StringLiteral text, Expression expression) {
 		super(identifier, type, text);		
 		this.expression = expression;		
 		
@@ -28,7 +28,7 @@ public class ComputedQuestion extends Question {
 		
 		sb.append(getIdent().toString() + ", ");
 		sb.append(getType().toString() + ", ");
-		sb.append(getText().toString());
+		sb.append(getText().toString() + ", ");
 		sb.append(getExpression().toString());
 		sb.append(")");
 		

@@ -6,11 +6,18 @@
 
 %token <BooleanLiteral> BOOLEANLITERAL
 
-%token <QLInt> INTEGERLITERAL INT
+%token <QLInteger> INTEGER
 %token <QLBoolean> BOOLEAN
-%token <QLString> STRINGLITERAL STRING
-%token <QLFloat> MONEYLITERAL MONEY FLOATLITERAL FLOAT
-%token <QLIdentifier> IDENTIFIER
+%token <QLString> STRING
+%token <QLFloat> MONEY FLOAT
+
+%token <IntegerLiteral> INTEGERLITERAL 
+%token <BooleanLiteral> BOOLEANLITERAL
+%token <StringLiteral> STRINGLITERAL
+%token <FloatLiteral> FLOATLITERAL
+%token <FloatLiteral> MONEYLITERAL
+
+%token <Identifier> IDENTIFIER
 %token FORM IF ELSE ASSIGN
 %token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!' '"' ':' '.'
 %token '(' ')' '{' '}'
@@ -26,7 +33,7 @@
 %left SUB
 
 %type <Expression> expression
-%type <QLType> literal
+%type <Expression> literal
 %type <QLType> type
 %type <Form> form
 %type <Statement> statement
@@ -35,8 +42,9 @@
 %{
 import cons.ql.ast.*;
 import cons.ql.ast.expression.*;
-import cons.ql.ast.expression.unary.*;
 import cons.ql.ast.expression.type.*;
+import cons.ql.ast.expression.unary.*;
+import cons.ql.ast.expression.literal.*;
 import cons.ql.ast.expression.arithmetic.*;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.statement.*;
@@ -79,14 +87,13 @@ import cons.ql.ast.statement.*;
 		 	| '(' expression ')'	{ $$ = $2; }
 		 	;
 
- type 	: INT		{ $$ = new QLInteger(); }
+ type 	: INTEGER		{ $$ = new QLInteger(); }
  		| MONEY		{ $$ = new QLFloat(); }
 		| FLOAT		{ $$ = new QLFloat(); }
 		| BOOLEAN	{ $$ = new QLBoolean(); }
 		| STRING 	{ $$ = new QLString(); }
 		;
 
- // INIT<Type> stands for an initialised instance.
  literal : INTEGERLITERAL
 		 | MONEYLITERAL
 		 | FLOATLITERAL

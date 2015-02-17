@@ -2,13 +2,13 @@ package cons.ql.ast.expression.literal;
 
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.visitor.Visitor;
 
-public class BooleanLiteral extends Expression {	
-	boolean value;
+public class FloatLiteral extends Expression {	
+	float value;
 	
-	public BooleanLiteral(boolean value) {
+	public FloatLiteral(float value) {
 		this.value = value;
 	}
 	
@@ -22,6 +22,6 @@ public class BooleanLiteral extends Expression {
 
 	@Override
 	public QLType getType() {
-		return new QLBoolean();
+		return new QLFloat();
 	}
 }

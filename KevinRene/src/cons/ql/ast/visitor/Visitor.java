@@ -4,6 +4,7 @@ import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
 import cons.ql.ast.expression.arithmetic.Sub;
+import cons.ql.ast.expression.literal.Identifier;
 import cons.ql.ast.expression.relational.And;
 import cons.ql.ast.expression.relational.Eq;
 import cons.ql.ast.expression.relational.GEq;
@@ -14,7 +15,6 @@ import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLIdentifier;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
@@ -36,7 +36,7 @@ public interface Visitor {
 	public void visit(QLBoolean booleanNode);	
 	public void visit(QLFloat floatNode);	
 	public void visit(QLNumeric numericNode);
-	public void visit(QLIdentifier identNode);
+	public void visit(Identifier identNode);
 	public void visit(QLInteger intNode);
 	public void visit(QLString stringNode);
 	

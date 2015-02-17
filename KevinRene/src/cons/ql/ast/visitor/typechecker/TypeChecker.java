@@ -6,6 +6,7 @@ import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Binary;
 import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.literal.Identifier;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.expression.type.*;
 import cons.ql.ast.expression.unary.*;
@@ -51,7 +52,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 			errors.add("<" + op.getClass().getSimpleName() + "> Expected type: " 
 					+ op.getType().compatibilities()
 					+ ", actual types: "	
-					+ left.getType().getName() + " & " + right.getType().getName()
+					+ left.getType().toString() + " & " + right.getType().toString()
 					+ ".");
 			
 			return false;
@@ -75,7 +76,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 			errors.add("<" + op.getClass().getSimpleName() + "> Expected type: " 
 					+ op.getType().compatibilities()
 					+ ", actual types: "	
-					+ left.getType().getName() + " & " + right.getType().getName()
+					+ left.getType().toString() + " & " + right.getType().toString()
 					+ ".");
 			
 			return false;
@@ -217,14 +218,10 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(Question questionNode) {
-
-		QLIdentifier ident = questionNode.getIdent();
+		// Identifier identifier = questionNode.getIdent();
 		
 		// Do we allow redeclaration?
 		// If not, do a check here
-		
-		
-		
 	}
 	
 	/**
@@ -238,7 +235,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	public void visit(QLFloat floatNode) {}
 
 	@Override
-	public void visit(QLIdentifier identNode) {}
+	public void visit(Identifier identNode) {}
 
 	@Override
 	public void visit(QLInteger intNode) {}

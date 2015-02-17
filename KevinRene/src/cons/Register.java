@@ -5,10 +5,10 @@ import java.util.Map;
 
 import cons.exception.UndefinedVariableException;
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.type.QLIdentifier;
+import cons.ql.ast.expression.literal.Identifier;
 
 public class Register {
-	private Map<QLIdentifier, ASTNode> register = new HashMap<QLIdentifier, ASTNode>();
+	private Map<Identifier, ASTNode> register = new HashMap<Identifier, ASTNode>();
 	private final static Register INSTANCE = new Register();
 	
 	private Register() {}
@@ -17,19 +17,19 @@ public class Register {
 		return INSTANCE;
 	}
 	
-	public void store(QLIdentifier identifier, ASTNode typeInstance) {
+	public void store(Identifier identifier, ASTNode typeInstance) {
 		register.put(identifier, typeInstance);
 	}
 	
-	public ASTNode resolve(QLIdentifier identifier) throws UndefinedVariableException {
+	public ASTNode resolve(Identifier identifier) throws UndefinedVariableException {
 		if(register.containsKey(identifier)) {
 			return register.get(identifier);
 		}
 		
-		throw new UndefinedVariableException(identifier.getValue() + " is undefined.");
+		throw new UndefinedVariableException(identifier.toString() + " is undefined.");
 	}
 	
-	public Map<QLIdentifier, ASTNode> getBindings() {
+	public Map<Identifier, ASTNode> getBindings() {
 		return this.register;
 	}	
 }

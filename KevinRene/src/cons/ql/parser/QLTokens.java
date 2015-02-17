@@ -1,4 +1,4 @@
-// Output created by jacc on Tue Feb 17 12:52:22 CET 2015
+// Output created by jacc on Tue Feb 17 13:32:24 CET 2015
 
 package cons.ql.parser;
 
@@ -17,7 +17,7 @@ interface QLTokens {
     int GEQ = 11;
     int IDENTIFIER = 12;
     int IF = 13;
-    int INT = 14;
+    int INTEGER = 14;
     int INTEGERLITERAL = 15;
     int LEQ = 16;
     int MONEY = 17;

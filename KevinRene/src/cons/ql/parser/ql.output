@@ -1,4 +1,4 @@
-// Output created by jacc on Tue Feb 17 12:52:22 CET 2015
+// Output created by jacc on Tue Feb 17 13:32:24 CET 2015
 
 state 0 (entry on top)
     $accept : _top $end
@@ -10,7 +10,7 @@ state 0 (entry on top)
     FORM shift 15
     IDENTIFIER shift 16
     IF shift 17
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -293,8 +293,8 @@ state 17 (entry on IF)
     '(' shift 42
     . error
 
-state 18 (entry on INT)
-    type : INT_    (20)
+state 18 (entry on INTEGER)
+    type : INTEGER_    (20)
 
     ')' reduce 20
     EQ reduce 20
@@ -417,7 +417,7 @@ state 24 (entry on '!')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -444,7 +444,7 @@ state 25 (entry on '(')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -471,7 +471,7 @@ state 26 (entry on '+')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -498,7 +498,7 @@ state 27 (entry on '-')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -525,7 +525,7 @@ state 28 (entry on AND)
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -552,7 +552,7 @@ state 29 (entry on EQ)
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -579,7 +579,7 @@ state 30 (entry on GEQ)
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -606,7 +606,7 @@ state 31 (entry on LEQ)
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -633,7 +633,7 @@ state 32 (entry on NEQ)
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -660,7 +660,7 @@ state 33 (entry on OR)
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -687,7 +687,7 @@ state 34 (entry on '*')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -714,7 +714,7 @@ state 35 (entry on '+')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -741,7 +741,7 @@ state 36 (entry on '-')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -768,7 +768,7 @@ state 37 (entry on '/')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -795,7 +795,7 @@ state 38 (entry on '<')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -822,7 +822,7 @@ state 39 (entry on '>')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -854,7 +854,7 @@ state 41 (entry on ':')
 
     BOOLEAN shift 11
     FLOAT shift 13
-    INT shift 18
+    INTEGER shift 18
     MONEY shift 20
     STRING shift 22
     . error
@@ -868,7 +868,7 @@ state 42 (entry on '(')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21
@@ -1564,7 +1564,7 @@ state 76 (entry on '(')
     BOOLEANLITERAL shift 12
     FLOAT shift 13
     FLOATLITERAL shift 14
-    INT shift 18
+    INTEGER shift 18
     INTEGERLITERAL shift 19
     MONEY shift 20
     MONEYLITERAL shift 21

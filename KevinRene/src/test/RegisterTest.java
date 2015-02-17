@@ -8,8 +8,8 @@ import org.junit.rules.ExpectedException;
 
 import cons.Register;
 import cons.exception.UndefinedVariableException;
-import cons.ql.ast.expression.type.QLIdentifier;
-import cons.ql.ast.expression.type.QLString;
+import cons.ql.ast.expression.literal.Identifier;
+import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.statement.Form;
 
 public class RegisterTest {
@@ -20,8 +20,8 @@ public class RegisterTest {
 	
 	@Test
 	public void testRegistration() throws UndefinedVariableException {
-		QLString myString = new QLString("My String");
-		QLIdentifier myIdentifier = new QLIdentifier("aString");
+		StringLiteral myString = new StringLiteral("My String");
+		Identifier myIdentifier = new Identifier("aString");
 		
 		register.store(myIdentifier, myString);
 		try {
@@ -31,7 +31,7 @@ public class RegisterTest {
 			
 		}
 		
-		myString = new QLString("Other value");
+		myString = new StringLiteral("Other value");
 		Register.getInstance().store(myIdentifier, myString);
 		
 		assertEquals("Should return the newly bound type instance.", 
@@ -40,7 +40,7 @@ public class RegisterTest {
 	
 	@Test
 	public void testAutomaticRegistration() throws UndefinedVariableException {
-		QLIdentifier myIdentifier = new QLIdentifier("taxFormExample");
+		Identifier myIdentifier = new Identifier("taxFormExample");
 		Form myForm = new Form(myIdentifier, null);
 		
 		assertEquals("A created form should be registered",
@@ -49,7 +49,7 @@ public class RegisterTest {
 	
 	@Test
 	public void throwsUndefinedVariableException() throws UndefinedVariableException {
-		QLIdentifier myIdentifier = new QLIdentifier("aString");
+		Identifier myIdentifier = new Identifier("aString");
 		
 		expected.expect(UndefinedVariableException.class);
 		expected.expectMessage("aString is undefined");
