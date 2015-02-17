@@ -41,12 +41,12 @@ public class SymbolVisitor extends VisitorAbstract
     @Override
     public void visit(Question n)
     {
-        this.symbolTable.define(n.getId(), n.getQuestionType());
+        this.symbolTable.define(n, n.getQuestionType());
     }
 
     @Override
     public void visit(CalculatedQuestion n)
     {
-        this.symbolTable.define(n.getId(), n.getQuestionType());
+        this.symbolTable.define(n, n.getQuestionType());
     }
 }
