@@ -43,6 +43,7 @@ class Expression:
     def as_list(self):
         return self.expression
 
+
 # Questions
 class Question:
     def __init__(self, qid, qtype, label):
@@ -50,6 +51,7 @@ class Question:
         self.label = label
         self.type = qtype
         self.answer = []
+        self.parent_id = None
 
     def ast_print(self, level=0):
         s = "\n" + "   " * level + "Question:" + self.id + "\n"
@@ -57,6 +59,9 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
+
+    def set_parent_id(self, pid):
+        self.parent_id = pid
 
     # Getters
     def get_label(self):
@@ -79,6 +84,9 @@ class Question:
 
     def get_answer(self):
         return self.answer
+
+    def get_parent_id(self):
+        return self.parent_id
 
     def all_dependencies(self, dependencies):
         if self.id not in dependencies:
