@@ -35,12 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr4.Runtime.net45">
-      <HintPath>..\packages\Antlr4.Runtime.4.3.0\lib\net45\Antlr4.Runtime.net45.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr4.StringTemplate">
-      <HintPath>..\packages\Antlr4.StringTemplate.4.0.6.9004\lib\net35\Antlr4.StringTemplate.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -60,56 +54,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AST\iASTNode.cs" />
-    <Compile Include="AST\Nodes\Arithmetic\AddArithmeticNode.cs" />
-    <Compile Include="AST\Nodes\Arithmetic\DivideArithmeticNode.cs" />
-    <Compile Include="AST\Nodes\Arithmetic\iArithmeticNode.cs" />
-    <Compile Include="AST\Nodes\Arithmetic\MultiplyArithmeticNode.cs" />
-    <Compile Include="AST\Nodes\Arithmetic\PrioArithmetic.cs" />
-    <Compile Include="AST\Nodes\Arithmetic\SubtractArrithmeticNode.cs" />
-    <Compile Include="AST\Nodes\Comparison\GreaterThanNode.cs" />
-    <Compile Include="AST\Nodes\Comparison\GreaterThanOrEqualNode.cs" />
-    <Compile Include="AST\Nodes\Comparison\iComparisonNode.cs" />
-    <Compile Include="AST\Nodes\Comparison\LessThanNode.cs" />
-    <Compile Include="AST\Nodes\Comparison\LessThanOrEqualNode.cs" />
-    <Compile Include="AST\Nodes\Comparison\PrioComparisonNode.cs" />
-    <Compile Include="AST\Nodes\Expression\AndNode.cs" />
-    <Compile Include="AST\Nodes\Expression\EqNode.cs" />
-    <Compile Include="AST\Nodes\Expression\iExpressionNode.cs" />
-    <Compile Include="AST\Nodes\Expression\NeqNode.cs" />
-    <Compile Include="AST\Nodes\Expression\NotNode.cs" />
-    <Compile Include="AST\Nodes\Expression\OrNode.cs" />
-    <Compile Include="AST\Nodes\Expression\PrioExpressionNode.cs" />
-    <Compile Include="AST\Nodes\FormElement\FormElementNode.cs" />
-    <Compile Include="AST\Nodes\FormElement\iFormElementNode.cs" />
-    <Compile Include="AST\Nodes\FormNode.cs" />
-    <Compile Include="AST\Nodes\FormObject\ConditionalNode.cs" />
-    <Compile Include="AST\Nodes\FormObject\FieldNode.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AST\Nodes\FormObject\iFormObjectNode.cs" />
-    <Compile Include="AST\Nodes\FormObject\QuestionNode.cs" />
-    <Compile Include="AST\Nodes\FormSection\FormSectionNode.cs" />
-    <Compile Include="AST\Nodes\FormSection\iFormSectionNode.cs" />
-    <Compile Include="AST\Nodes\GenericTypeName\GenericTypeNameNode.cs" />
-    <Compile Include="AST\Nodes\GenericTypeName\iGenericTypeNameNode.cs" />
-    <Compile Include="AST\Nodes\IdNode.cs" />
-    <Compile Include="AST\Nodes\KeyValuePair\iKeyValuePairNode.cs" />
-    <Compile Include="AST\Nodes\KeyValuePair\KeyValuePairNode.cs" />
-    <Compile Include="AST\Nodes\Types\BoolNode.cs" />
-    <Compile Include="AST\Nodes\Types\DateNode.cs" />
-    <Compile Include="AST\Nodes\Types\DecimalNode.cs" />
-    <Compile Include="AST\Nodes\Types\IntNode.cs" />
-    <Compile Include="AST\Nodes\Types\iTypeNode.cs" />
-    <Compile Include="AST\Nodes\Types\ListNode.cs" />
-    <Compile Include="AST\Nodes\Types\MoneyNode.cs" />
-    <Compile Include="AST\Nodes\Types\StringNode.cs" />
-    <Compile Include="AST\Resources\PrimitiveTypeName.cs" />
-    <Compile Include="AST\QLMainVisitor.cs" />
-    <Compile Include="GeneratedFiles\QLMainBaseVisitor.cs" />
-    <Compile Include="GeneratedFiles\QLMainLexer.cs" />
-    <Compile Include="GeneratedFiles\QLMainParser.cs" />
-    <Compile Include="GeneratedFiles\QLMainVisitor.cs" />
     <Compile Include="GUI\Element\CheckboxElement.cs" />
     <Compile Include="GUI\Element\DatePickerElement.cs" />
     <Compile Include="GUI\Element\ElementBase.cs" />
@@ -134,10 +78,6 @@
     <Compile Include="GUI\Form\Form.cs" />
     <Compile Include="GUI\Form\Question.cs" />
     <Compile Include="GUI\Form\FormBase.cs" />
-    <Compile Include="Implementation\Interpreters\Elements\ConditionalInterpreter.cs" />
-    <Compile Include="Implementation\Interpreters\Elements\FieldInterpreter.cs" />
-    <Compile Include="Implementation\Interpreters\Elements\QuestionInterpreter.cs" />
-    <Compile Include="Implementation\Interpreters\FormInterpreter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -171,7 +111,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AST\AST.csproj">
+      <Project>{51a4b3e5-24b7-4df6-8b9e-c97c363f02da}</Project>
+      <Name>AST</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Antlr4.4.3.0\build\Antlr4.targets" Condition="Exists('..\packages\Antlr4.4.3.0\build\Antlr4.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

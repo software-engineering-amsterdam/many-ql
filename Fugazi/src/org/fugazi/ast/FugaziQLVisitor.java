@@ -3,6 +3,7 @@ package org.fugazi.ast;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Logical;
 import org.fugazi.ast.expression.logical.Or;
@@ -13,7 +14,7 @@ import org.fugazi.ast.expression.unary.Positive;
 import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.form.Form;
 import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.IfStatement;
@@ -128,11 +129,6 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     public BoolType visitBoolType(@NotNull QLParser.BoolTypeContext ctx) {
         System.out.print("TYPE: " + "Bool ");
         return new BoolType();
-    }
-
-    @Override public MoneyType visitMoneyType(@NotNull QLParser.MoneyTypeContext ctx) {
-        System.out.print("TYPE: " + "Money ");
-        return new MoneyType();
     }
 
     @Override public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
@@ -262,9 +258,9 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
      * =======================
      */
     @Override
-    public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
-        System.out.print(" " + ctx.NUMBER().getText() + " ");
-        return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
+    public INT visitIntExpression(@NotNull QLParser.IntExpressionContext ctx) {
+        System.out.print(" " + ctx.INT().getText() + " ");
+        return (INT) ctx.INT().accept(this); // Accept the QL Visitor of the INT
     }
 
     @Override

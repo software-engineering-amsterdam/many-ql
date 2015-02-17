@@ -11,7 +11,6 @@ public class TypeCheckerVisitor implements ITypeVisitor<Void> {
      */
     public Void visitBoolType(BoolType boolType){return null;}
     public Void visitIntType(IntType intType){return null;}
-    public Void visitMoneyType(MoneyType moneyType){return null;}
     public Void visitStringType(StringType moneyType){return null;}
     public Void visitUndefinedType(UndefinedType undefinedType){return null;}
 }

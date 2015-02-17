@@ -1,17 +1,16 @@
 package ast.question;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ast.expression.Expression;
 
-public abstract class IfStatement extends IQuestionVisitable {
+public class IfStatement extends IQuestionVisitable {
 
-	private Expression ifExpression;
-	private ArrayList<IQuestionVisitable> ifStatement, elseStatement;
+	private final Expression ifExpression;
+	private List<Question> ifStatement;
 	
-	public IfStatement(Expression ifExpression, ArrayList<IQuestionVisitable> ifStatement,  ArrayList<IQuestionVisitable> elseStatement) {
+	public IfStatement(Expression ifExpression, List<Question> ifStatement) {
 		this.ifStatement = ifStatement;
-		this.elseStatement = elseStatement;
 		this.ifExpression = ifExpression;
 	}
 	
@@ -19,18 +18,22 @@ public abstract class IfStatement extends IQuestionVisitable {
 		return ifExpression;
 	}
 	
-	public ArrayList<IQuestionVisitable> getIfStatement(){
+	public List<Question> getIfStatement(){
 		return ifStatement;
-	}
-	
-	public ArrayList<IQuestionVisitable> getElseStatement(){
-		return elseStatement;
 	}
 	
 	@Override
 	public <T> T accept(IQuestionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
+	
+	@Override
+	public String toString() {
+		String output = "if " + " ( " + this.ifExpression + " ) { ";
+		for(Question q: ifStatement)
+			output += q.toString() + "\n";
+		output += " } ";
+	
+		return output;
+	}
 }
-
-// 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'

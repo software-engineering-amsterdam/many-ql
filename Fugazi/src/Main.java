@@ -1,8 +1,11 @@
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
+import org.fugazi.type_checker.ASTNodeError;
+import org.fugazi.type_checker.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -23,26 +26,16 @@ public class Main {
         // Build the AST.
         Form form = astBuilder.buildForm();
 
-        // TODO: type checking.
-//        ErrorManager errorList = typeChecker.checkForm();
-//
-//        if errorList.length() {
-//            print errors;
-//            return 1;
-////        }
-//
-//        ErrorManager err = new ErrorManager();
-//        TypeCheckError typeCheckError = new Typeckcker(err);
-//
-//        TypeCheckError.check(form);
-//
-//        Iterable typechecker.getErrorList();
-//
-//        if typechecker.isformvalid():
-//        //show...
-//        else:
-//        // exit 1
-        
+        // Perform type checking.
+        TypeChecker typeChecker = new TypeChecker();
+        boolean isFormTypeCorrect = typeChecker.checkForm(form);
+        // if form is not type-correct, display warnings, errors and exit
+        if (!isFormTypeCorrect) {
+            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
+            typeChecker.displayFormWarningsAndErrors();
+            return;
+        }
+
         // TODO: evaluation.
         
         // TODO: Render GUI.

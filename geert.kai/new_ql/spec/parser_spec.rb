@@ -12,8 +12,8 @@ describe "Parsing" do
 
     question = form.statements.first
     expect(question.description).to eq "Wat is je naam?"
-    expect(question.variable_definition.name).to eq "naam"
-    expect(question.variable_definition.type).to eq "string"
+    expect(question.variable_name).to eq "naam"
+    expect(question.type).to eq "string"
   end
 end
 
@@ -24,6 +24,6 @@ describe "Expression" do
     expression = form.statements[1].expression
     expect(expression.lhs).to eq 10
     expect(expression.rhs).to eq 18
-    expect(expression.evaluate).to eq true
+    expect(expression.operator).to eq :<
   end
 end

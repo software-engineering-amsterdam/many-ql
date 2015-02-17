@@ -2,10 +2,12 @@ package com.klq.gui;
 
 import com.klq.logic.AnswerSet;
 import com.klq.logic.Question;
+import com.sun.javafx.scene.EnteredExitedHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -39,6 +41,7 @@ public class QuestionPane extends GridPane {
         this.setVgap(5);
         this.setPadding(new Insets(5));
         this.setBorder(createBorder());
+        this.setBackground(createBackground());
     }
 
     private void createQuestionLabel(String text) {
@@ -77,27 +80,37 @@ public class QuestionPane extends GridPane {
                 setAnswer(date.toString());
             }
         });
+        this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
 
     private void createTextField(AnswerSet answerSet){
-        TextField input = new TextField(answerSet.get(0).toString());
+        final TextField input = new TextField(answerSet.get(0).toString());
         input.setPromptText(answerSet.get(0).toString());
+        input.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                input.selectAll();
+            }
+        });
         this.getChildren().add(input);
-
         this.setConstraints(input, 0, 1);
     }
 
-    private Border createBorder() {
-        CornerRadii radii = new CornerRadii(0.05, true);
-        BorderStroke stroke = new BorderStroke(Paint.valueOf("grey"), BorderStrokeStyle.SOLID, radii, BorderWidths.DEFAULT);
-        Border result = new Border(stroke);
 
-        return result;
+    final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
+            false, true, true, false, false, true, true, false);
+    private Border createBorder() {
+        BorderStroke stroke = new BorderStroke(Paint.valueOf("#000000"), BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT);
+        return new Border(stroke);
+    }
+
+    private Background createBackground() {
+        BackgroundFill fill = new BackgroundFill(Paint.valueOf("#EEEEEE"), RADII, new Insets(1));
+        return new Background(fill);
     }
 
     private void setAnswer(String answer){
         //TODO
     }
-
 }

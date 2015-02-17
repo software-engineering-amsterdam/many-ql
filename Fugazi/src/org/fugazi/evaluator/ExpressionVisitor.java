@@ -1,11 +1,12 @@
 package org.fugazi.evaluator;
 
 import org.fugazi.ast.expression.Binary;
+import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.NUMBER;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;
@@ -72,6 +73,13 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
 
     // Numerical
     public ExpressionValue visitAdd(Add add) {
+        
+//        IntValue left = (IntValue) add.getLeft().accept(this);
+//        IntValue right = (IntValue) add.getRight().accept(this);
+//        
+//        Integer integer = left.getValue() + right.getValue();
+//        
+//        return new IntValue(integer);
         return null;
     }
     
@@ -91,7 +99,7 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
         return null;
     }
     
-    public ExpressionValue visitNUMBER(NUMBER number) {
+    public ExpressionValue visitINT(INT number) {
         return null;
     }
 

@@ -2,12 +2,6 @@ grammar QL;
 
 @parser::header
 {
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
@@ -20,8 +14,8 @@ block : LEFT_BRACE statement* RIGHT_BRACE;
 
 statement
 	: block
-	| question
-	| ifStatement
+	| question 
+	| ifStatement 
 	;
 	
 question : questionType questionName questionLabel SEMICOLON;
@@ -53,7 +47,8 @@ expression:
 	| expression PLUS expression 
 	| expression MINUS expression 
 	| expression MULTIPLY expression 
-	| expression DEVIDE expression 
+	| expression DEVIDE expression
+	| '(' expression ')'
 ;
 
 literal
@@ -111,7 +106,7 @@ DecimalNumeral : Non_Zero_Digit Digit* | [0];
 
 BooleanLiteral: 'true' | 'false';
 
-StringLiteral: '"' .*? '"';
+StringLiteral: '"' (~[\r\n"] | '""')* '"';
 
 DateLiteral : Day '-' Month '-' Year;
 

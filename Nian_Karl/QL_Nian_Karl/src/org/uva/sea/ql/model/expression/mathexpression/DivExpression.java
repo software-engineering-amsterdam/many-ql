@@ -1,9 +1,7 @@
 package org.uva.sea.ql.model.expression.mathexpression;
 
 import org.uva.sea.ql.model.expression.BinaryExpression;
-import org.uva.sea.ql.model.literal.AbstractLiteral;
 import org.uva.sea.ql.model.literal.NumberLiteral;
-import org.uva.sea.ql.model.value.AbstractValue;
 import org.uva.sea.ql.model.value.IntegerValue;
 
 public class DivExpression extends BinaryExpression {
