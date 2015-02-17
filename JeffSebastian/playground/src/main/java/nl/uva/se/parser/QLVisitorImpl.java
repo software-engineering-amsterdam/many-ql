@@ -11,6 +11,7 @@ import nl.uva.se.ast.expression.LogicalOperators.GreaterOrEqual;
 import nl.uva.se.ast.expression.LogicalOperators.GreaterThen;
 import nl.uva.se.ast.expression.LogicalOperators.LessOrEqual;
 import nl.uva.se.ast.expression.LogicalOperators.LessThen;
+import nl.uva.se.ast.expression.LogicalOperators.Not;
 import nl.uva.se.ast.expression.LogicalOperators.NotEqual;
 import nl.uva.se.ast.expression.LogicalOperators.Or;
 import nl.uva.se.ast.expression.MathematicalOperators.Divide;
@@ -77,9 +78,15 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 	public Node visitCondition(ConditionContext ctx) {
 		int lineNumber = ctx.start.getLine();
 		int offset = ctx.start.getCharPositionInLine();
+		List<Statement> statements = new ArrayList<Statement>();
 
+		for (StatementContext context : ctx.statement()) {
+			statements.add((Statement) visitStatement(context));
+		}
+		
 		return new Condition(lineNumber, offset,
-				(Expression) visitExpression(ctx.expression()));
+				(Expression) visitExpression(ctx.expression()),
+				statements);
 	}
 
 	@Override
@@ -99,10 +106,6 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 		Operator operator = Operator.getByName(ctx.op.getText());
 		int lineNumber = ctx.start.getLine();
 		int offset = ctx.start.getCharPositionInLine();
-		
-		if (ctx.singleLtr != null) {
-			
-		}
 		
 		if (operator == null) {
 			throw new IllegalArgumentException("Operator " + ctx.op.getText() + " not supported!");
@@ -139,7 +142,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 				return new Multiply(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
 			case NOT:
-				return null;
+				return new Not(lineNumber, offset, (Expression) visitExpression(ctx.singleExpr));
 			case NOT_EQUAL:
 				return new NotEqual(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
