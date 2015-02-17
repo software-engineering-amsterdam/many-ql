@@ -31,7 +31,7 @@ public class Parser {
 					break;
 				}
 				else {
-					printASTTree(str);
+					//printASTTree(str);
 				}
 			}
 		} catch (IOException e) {
@@ -76,74 +76,5 @@ public class Parser {
 		parser.parse();
 		
 		return parser.getResult();
-	}
-	
-	/**
-	 * Prints the AST tree from a given input string
-	 * @param input
-	 */
-	public static void printASTTree (String input) {
-		printSubTree(parse(input), "", true);
-	}
-	
-	/**
-	 * Prints a subtree, where a subtree consists of a root node and possibly children
-	 * @param root
-	 * @param prefix The string that leads up the the current print, includes whitespace and
-	 * 					possibly branches. For the actual root this is ""
-	 * @param tail Whether or not the current root node is the final child
-	 */
-	private static void printSubTree(ASTNode root, String prefix, boolean isTail) {
-		
-		if (root == null) {
-			System.out.println("This node is undefined");
-			return;
-		}
-
-		String type = root.getClass().getSimpleName();
-		System.out.println(prefix + (isTail ? "└── " : "├── ") + root + " : " + type);
-		
-		prefix += (isTail ? "  " : "│  ");
-		
-		// TODO: find a way to get rid of instanceof, perhaps keep a list of children?
-		if (root instanceof Binary) {
-			Binary binary = (Binary)root;
-			
-			printSubTree(binary.getLeft(), prefix, false);
-			printSubTree(binary.getRight(), prefix, true);
-		}
-		else if (root instanceof ComputedQuestion) {
-			ComputedQuestion assignment = (ComputedQuestion) root;
-			
-			printSubTree(assignment.getIdentifier(), prefix, false);
-			printSubTree(assignment.getType(), prefix, false);
-			printSubTree(assignment.getText(), prefix, false);
-			printSubTree(assignment.getExpression(), prefix, true);
-		}
-		else if (root instanceof Question) {
-			Question question = (Question)root;
-			
-			printSubTree(question.getIdentifier(), prefix, false);
-			printSubTree(question.getType(), prefix, false);
-			printSubTree(question.getText(), prefix, true);
-		}
-		else if (root instanceof Block) {
-			Block block = (Block)root;
-			
-			// First print the children except for the last one due to different
-			// tail values. The last one should have a tail.
-			int len = block.statements().size();
-			for (int i = 0; i < len - 1; i++) {
-				printSubTree(block.statements().get(i), prefix, false);
-			}
-			if (len > 0) {
-				printSubTree(block.statements().get(len - 1), prefix, true);				
-			}
-		}
-		else if (root instanceof Form) {
-			Form form = (Form)root;
-			printSubTree(form.getIdentifier(), prefix, false);
-			printSubTree(form.getBlock(), prefix, true);
-		}
 	}
 }
