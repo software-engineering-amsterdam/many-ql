@@ -1,4 +1,4 @@
-// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/com/klq/lang/KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -48,16 +48,6 @@ public interface KLQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link KLQParser#specification}.
-	 * @param ctx the parse tree
-	 */
-	void enterSpecification(@NotNull KLQParser.SpecificationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link KLQParser#specification}.
-	 * @param ctx the parse tree
-	 */
-	void exitSpecification(@NotNull KLQParser.SpecificationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link KLQParser#questionType}.
 	 * @param ctx the parse tree

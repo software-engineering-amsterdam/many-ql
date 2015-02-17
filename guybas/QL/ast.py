@@ -2,26 +2,52 @@
 from exceptions import *
 
 
+class Operator:
+    def __init__(self, operator):
+        self.operator = operator
+
+    def __str__(self):
+        return str(self.operator)
+
+
 class Expression:
     def __init__(self, expression):
-        self.str_expression = expression
+        self.expression = expression[0]
         self.is_else = False
-        print(expression)
+        self.dependencies = Expression.analyze(self.expression)
 
-    def evaluate(self):
-        pass
+    def analyze(expr):
+        dependencies = []
+        for element in expr:
+            if isinstance(element, str):
+                dependencies.append(element)
+            elif isinstance(element, list):
+                dependencies += Expression.analyze(element)
+        return dependencies
 
-    def dependencies(self):
-        pass
+    def sub_expression(expr):
+        s = ""
+        for e in expr:
+            if isinstance(e, list):
+                s += "( " + Expression.sub_expression(e) + ") "
+            else:
+                s += str(e) + " "
+        return s
+
+    def check(self):
+        return self.dependencies
 
     def ast_print(self, level=0):
-        return "   " * level + self.str_expression
+        return "   " * level + Expression.sub_expression(self.expression)
 
-    def type_validator(answer, qtype):
-        if isinstance(answer, str):
-            return True
-        return False
-
+    def as_list(self):
+        l = []
+        for e in self.expression:
+            if isinstance(e, list):
+                l.append(Expression.as_list(e))
+            else:
+                l.append(str(e))
+        return l
 
 # Questions
 class Question:
@@ -37,12 +63,6 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
-
-    def update(self, new_answer):
-        if Expression.type_validator(new_answer, self.get_type()) is True:
-            self.answer = [new_answer]
-        else:
-            raise QException("Answer type and input type collision")
 
     # Getters
     def get_label(self):
@@ -66,12 +86,18 @@ class Question:
     def get_answer(self):
         return self.answer
 
+    def all_dependencies(self):
+        return {self.id : []}
+
 
 class AdvancedQuestions(Question):
     def __init__(self, condition, questions):
         self.condition = condition
         self.questions = questions
         self.else_questions = []
+
+    def dependencies(self):
+        return self.condition.variables()
 
     def add_else(self, questions):
         self.else_questions = questions
@@ -90,7 +116,7 @@ class AdvancedQuestions(Question):
         return self.questions
 
     def get_condition(self):
-        return self.condition.ast_print()
+        return self.condition.as_list()
 
     def all_ids(self):
         ids = []
@@ -114,6 +140,14 @@ class AdvancedQuestions(Question):
     def is_conditional(self):
         return True
 
+    def all_dependencies(self):
+        d = {}
+        dependencies = self.condition.check()
+        ids = self.all_ids()
+        for id in ids:
+            d[id] = dependencies
+        return d
+
 
 class Form:
     def __init__(self, name, introduction, questions):
@@ -136,7 +170,3 @@ class Form:
 
     def get_introduction(self):
         return self.introduction
-
-class FormObject:
-    def __init__(self):
-        pass

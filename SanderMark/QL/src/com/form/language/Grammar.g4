@@ -7,25 +7,37 @@ grammar Grammar;
 	import com.form.language.ast.expression.math.*;	
 	import com.form.language.ast.expression.literal.*;	
 	import com.form.language.ast.expression.logic.*;
+	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
 }
 
-/*
-statement
-: assignmentStatement
-| ifStatement
-;
- 
-assignmentStatement
-: ID ':=' add ';'
+form returns [Form result]
+	: 'form' ID '{' stmts=statementList {new Form($ID.text,$stmts.result);}'}'
 ;
 
-ifStatement returns [PrimitiveExpression pExp]
-: 'if' add 'then' statement+
-  ('else' statement+)?	
-  'end' 'if' ';'
+statementList returns [List<Statement> result]
+	@init {List<Statement> stmts = new ArrayList<Statement>();}
+	: (stmt=statement {stmts.add($stmt.result);})+ 
+	{$result = stmts;}
+	;
+
+statement returns [Statement result]
+: Astmt=assignmentStatement {$result = $Astmt.result;}
+| Istmt=ifStatement {$result = $Istmt.result;}
 ;
-*/
+
+question returns [Question result]
+	: 'question' STRING ID TYPE {new Question($STRING.text, $ID.text, $TYPE.text);}
+	;
+	
+assignmentStatement returns [Statement result]
+: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result);}
+;
+
+ifStatement returns [Statement result]
+: 'if' exp=expression 'then' slist=statementList
+  'end' {$result = new IfStatement($exp.result,$slist.result);}
+;
 
 expression returns [PrimitiveExpression result]
 	: '(' x=expression ')'				{ $result = $x.result;}
@@ -53,10 +65,11 @@ literal returns [PrimitiveExpression result]
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
-INTEGER : [0-9]+;
 BOOL : 'true' | 'false';
+TYPE: 'Boolean' | 'String' | 'Number';
 
+INTEGER : [0-9]+;
 ID : ([a-z][A-Za-z0-9]+);
-
+STRING: ('"'[A-Za-z0-9\?]*'"');
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;

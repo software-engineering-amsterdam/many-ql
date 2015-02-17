@@ -2,22 +2,14 @@
 	 * @Zarina
 	 */
 
-	package com.antlr4.zarina.tazql;
+package com.antlr4.zarina.tazql;
 
-	import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.util.Scanner;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.tree.gui.TreeViewer;
-
-import ast.Testik;
 
 
 	public class MainTaZQL {
@@ -26,37 +18,26 @@ import ast.Testik;
 			Scanner scan = null;
 			try {
 				// has to be fixed later
-				FileInputStream questionnaireFile = new FileInputStream("./test.ql"); 
+				FileInputStream questionnaireFile = new FileInputStream("./test2.ql"); 
 				scan = new Scanner(questionnaireFile, "UTF-8").useDelimiter("\\A");
 				String inputQuestions = scan.next();
-				//	System.out.println(inputQuestions);
-				
-				
+								
 				ANTLRInputStream inputStream = new ANTLRInputStream(inputQuestions);
+				
 				TaZQLLexer lexer = new TaZQLLexer(inputStream);
 				CommonTokenStream tokens = new CommonTokenStream( lexer );
-				TaZQLParser parser = new TaZQLParser(tokens);
+				TaZQLParser parser = new TaZQLParser(tokens);			
 				
-				//Walk the tree
-				ParseTree tree = parser.parse();			
-				ParseTreeWalker walker = new ParseTreeWalker();
-			//	Questions q = new Questions();
-			//	walker.walk( new MyTaZQLBaseListener(q), tree );
-			//	MainFrame mf = new MainFrame();
-			//	Testik v = new Testik();
-				//v.visit(tree);
-				
-				//String sum = (String)visitor.visitQuestion(tree);
-				//System.out.println("sum=" + new QuestionVisitor().visitSimpleQuestion(tree));
-								
-				//parser.setBuildParseTree(true);
-				//parser.addParseListener(new MyTaZQLBaseListener(q));
-				
+				//Walk my tree
+				ParseTree tree = parser.questionnaire();
+				MyBaseVisitor v = new MyBaseVisitor();
+				v.visit(tree);
+					
 				// Build a tree in console
 				System.out.println("Tree: " + tree.toStringTree(parser));
 									    
-				
 				// Tree in JFrame
+				/*
 				JFrame treeframe = new JFrame("Tree");
 				treeframe.setContentPane( new JScrollPane( new TreeViewer( null, tree ) ) );
 				treeframe.setPreferredSize( new Dimension( 600, 400 ) );
@@ -64,7 +45,7 @@ import ast.Testik;
 				treeframe.setLocationRelativeTo( null );
 				treeframe.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 				treeframe.setVisible( true );			
-				
+				*/
 			}
 			catch (Exception e){
 				System.err.println(e.getMessage());

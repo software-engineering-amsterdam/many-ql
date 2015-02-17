@@ -6,7 +6,7 @@ end
 
 describe "Parsing" do
   it "parses a one query form" do
-    form = QL.parse( source("one_query") ).first
+    form = QL.parse( source("one_query") )
     expect(form.name).to eq "Naam"
     expect(form.statements.size).to eq 1
 
@@ -19,11 +19,11 @@ end
 
 describe "Expression" do
   it "parses a simple expression" do
-    form = QL.parse( source("expression_query") ).first
+    form = QL.parse( source("expression_query") )
     
     expression = form.statements[1].expression
+    expect(expression.lhs).to eq 10
+    expect(expression.rhs).to eq 18
     expect(expression.operator).to eq :<
-    expect(expression.arguments).to eq [10, 18]
-    expect(expression.value).to eq true
   end
 end

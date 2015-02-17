@@ -6,10 +6,16 @@ form taxOfficeExample {
 
   if 2 + 4 > 7 {
     question hasBoughtHouse {
-      "Did you buy a house"
+      "Did you buy a house1"
       boolean = "no"
     }
   }
+
+  question hasBoughtHouse {
+    "Did you buy a house2"
+    boolean = "no"
+  }
+  
 }
 
 form second_form {

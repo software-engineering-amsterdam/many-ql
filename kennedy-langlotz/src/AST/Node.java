@@ -10,7 +10,9 @@ public abstract class Node {
     private Node parent;
     private ArrayList<Node> children;
 
-    public Node(){}
+    public Node(){
+        children = new ArrayList<Node>();
+    }
 
     public Node(String loc){
         this.loc = loc;
@@ -47,4 +49,7 @@ public abstract class Node {
     }
 
     public abstract void accept(Visitor visitor);
+
+    public void printSelf() {
+    }
 }

@@ -1,15 +1,8 @@
 class QL::Parser
 token STRING VARIABLE_NAME INTEGER
 rule
-  forms
-    : forms form { result = val[0].push(val[1]) }
-    | form { result = [ val[0] ] }
-    ;
   form
-    : 'form' form_name statements 'end' { result = Form.new(name: val[1], statements: val[2]) }
-    ;
-  form_name
-    : VARIABLE_NAME 
+    : 'form' variable_name statements 'end' { result = Form.new(name: val[1], statements: val[2]) }
     ;
   statements
     : statements statement { result = val[0].push(val[1]) }
@@ -20,10 +13,7 @@ rule
     | conditional
     ;
   question
-    : string variable_definition { result = Question.new(description: val[0], variable_definition: val[1]) }
-    ;
-  variable_definition
-    variable_name ':' type { result = VariableDefinition.new(name: val[0], type: val[2]) }
+    : string variable_name ':' type { result = Question.new(description: val[0], variable_name: val[1], type: val[3]) }
     ;
   variable_name
     : VARIABLE_NAME 
@@ -33,6 +23,7 @@ rule
     | 'integer'
     | 'string'
     ;
+
   conditional
     : if
     | if_else
@@ -43,6 +34,7 @@ rule
   if_else
     : 'if' '(' expression ')' statements 'else' statements 'end' { result = IfElse.new(expression: val[2], statements_true: val[4], statements_false: val[6]) }
     ;
+
   expression
     : expression '==' expression { result = Equal.new(val[0], val[2]) }
     | expression '<=' expression { result = LessThanOrEqualTo.new(val[0], val[2]) }
@@ -57,8 +49,8 @@ rule
     | expression '+'  expression { result = Plus.new(val[0], val[2]) }
     | expression '-'  expression { result = Minus.new(val[0], val[2]) }
     | '(' expression ')'
-    | variable_name { result = Variable.new(val[0]) }
     | constant
+    | variable_name { result = Variable.new(val[0]) }
     ;
 
   constant
@@ -68,21 +60,21 @@ rule
     ;
  
   integer
-    : INTEGER { result = val[0].to_i }
+    : INTEGER { result = IntegerLiteral.new(val[0].to_i) }
     ;
   string
     # TODO: get rid of double quotes in a nicer way.
-    : STRING { result = val[0][1..-2] }
+    : STRING { result = StringLiteral.new(val[0][1..-2]) }
     ;
   boolean
-    : 'true' { result = true } 
-    | 'false' { result = false }
+    : 'true' { result = BooleanLiteral.new(true) } 
+    | 'false' { result = BooleanLiteral.new(false) }
     ;
 end
 
 ---- inner
 
-  require_relative 'form'
+  require_relative '../ql'
 
   def initialize tokenizer
     @tokenizer = tokenizer

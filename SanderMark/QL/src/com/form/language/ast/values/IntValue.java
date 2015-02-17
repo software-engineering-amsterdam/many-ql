@@ -10,7 +10,11 @@ public class IntValue extends GenericValue<Integer>{
 		return value;
 	} 
 	
-	//Math	
+	//Math
+	public IntValue Negation()
+	{
+		return new IntValue(-value);
+	}	
 	public IntValue Addition(IntValue right){
 		return new IntValue(value + right.evaluate());
 	}	
@@ -45,7 +49,8 @@ public class IntValue extends GenericValue<Integer>{
 	}	
 	public BoolValue NotEqual(IntValue right){
 		return new BoolValue(value != right.value);
-	}	
+	}
+
 	
 	@Override
 	public String toString(){

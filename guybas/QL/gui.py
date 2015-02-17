@@ -1,6 +1,7 @@
 from tkinter import *
 from processor import *
 from grammar import *
+from mapper import *
 
 
 class QuestionnaireGUI:
@@ -38,18 +39,19 @@ class QuestionnaireGUI:
             Radiobutton(text="True", value=1, variable=self.row_counter).grid(row=self.row_counter, column=1, sticky=W)
             Radiobutton(text="False", value=0, variable=self.row_counter).grid(row=self.row_counter, column=2, sticky=W)
             self.column_span = 2
-        elif question.get_type() is QuestionTypes.integerName:
-            Spinbox(from_=0, to_=10000, ).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
+        elif question.get_type() is QuestionTypes.numberName:
+            Spinbox(from_=0, to_=10000).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
         elif question.get_type() is QuestionTypes.textName:
             e = Entry(textvariable=str_var)
             e.bind("<KeyPress><KeyRelease>", lambda event: self.update(question, e.get()))
-            
+
             e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
         # str_var.set("a default value")
         # s = str_var.get()
 
-    def update(self, question, new_answer):
-        question.update(new_answer)
+    @staticmethod
+    def update(question, new_answer):
+        Mapper.update(question, new_answer)
         print(new_answer)
 
     def draw_conditional_q(self, c_question):

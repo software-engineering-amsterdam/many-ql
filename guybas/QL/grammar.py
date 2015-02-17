@@ -27,33 +27,40 @@ class BasicTypes:
 class QuestionTypes:
     """
     bool        :: True | False
-    integer     :: [0123456789]
+    number      :: [0123456789]
     text        :: sentences
     """
-    boolean         = Literal("True") | Literal("False")
+    boolean         = (Literal("True") | Literal("False")).setParseAction(ASTReady.make_bool)
     booleanName     = 'bool'
 
-    integer         = Word(nums)
-    integerName     = 'integer'
+    number         = Word(nums).setParseAction(ASTReady.make_int)
+    numberName     = 'number'
 
     text            = BasicTypes.sentences
     textName        = 'text'
 
+    # for future use
+    list            = ...
+    listName        = 'list'
 
 class Expressions:
     """
-    value       :: bool | integer | text
+
+    value       :: bool | number | text
     compare     :: > | >= | < | <= | ==
     operators   :: + | - | / | *
 
     atom        :: value | (expr)
     expr        :: atom (operator expr)*
     condition   :: expr compare expr
+
     """
-    
-    value           = QuestionTypes.boolean | QuestionTypes.integer | QuestionTypes.text
-    compare         = oneOf("> >= < <= ==")
-    operator        = oneOf('+ - / *')
+
+
+    id              = BasicTypes.characters
+    value           = QuestionTypes.boolean | QuestionTypes.number | id
+    compare         = oneOf("> >= < <= == && || !").setParseAction(ASTReady.make_operator)
+    operator        = oneOf('+ - / *').setParseAction(ASTReady.make_operator)
 
     expr            = Forward()
     atom            = value | Group(Suppress("(") + expr + Suppress(")"))
@@ -67,7 +74,7 @@ class FormFormat:
     id          :: characters
     label       :: sentence
 
-    answerR     :: "bool" | "integer" | "text"
+    answerR     :: "bool" | "number" | "text"
     question    :: Question id ( answerR ) : label
     questions   :: question+
 
@@ -81,8 +88,8 @@ class FormFormat:
 
     id              = BasicTypes.characters
     label           = BasicTypes.sentence
-    
-    answerR         = Literal(QuestionTypes.booleanName) | Literal(QuestionTypes.integerName) | Literal(QuestionTypes.textName)
+
+    answerR         = Literal(QuestionTypes.booleanName) | Literal(QuestionTypes.numberName) | Literal(QuestionTypes.textName)
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
                        ).setParseAction(ASTReady.make_question)
     questions       = OneOrMore(question)
