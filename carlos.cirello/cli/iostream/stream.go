@@ -8,7 +8,8 @@ import (
 
 // New instantiates streams according to parameters input. As Unix convention,
 // "-" always means stdin/stdout.
-func New(srcFn, inFn, outFn string) (srcReader, inReader io.Reader, outWriter io.Writer) {
+func New(srcFn, inFn, outFn string) (srcReader, inReader io.Reader,
+	outWriter io.Writer) {
 	srcReader = setupSrcReader(srcFn)
 	inReader = setupInReader(inFn)
 	outWriter = setupOutReader(outFn)

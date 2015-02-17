@@ -10,7 +10,8 @@ type IfNode struct {
 	pos        scanner.Position
 }
 
-func NewIfNode(conditions Evaluatable, stack []*ActionNode, elseNode *IfNode, pos scanner.Position) *IfNode {
+func NewIfNode(conditions Evaluatable, stack []*ActionNode, elseNode *IfNode,
+	pos scanner.Position) *IfNode {
 	return &IfNode{conditions, stack, elseNode, pos}
 }
 

@@ -12,7 +12,8 @@ type Positionable interface {
 	Pos() scanner.Position
 }
 
-func NewDoubleTermNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *DoubleTermNode {
+func NewDoubleTermNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *DoubleTermNode {
 	return &DoubleTermNode{
 		leftTerm:  leftTerm,
 		rightTerm: rightTerm,

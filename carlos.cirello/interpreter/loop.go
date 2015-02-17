@@ -57,7 +57,8 @@ func (v *interpreter) updateSymbolTable() {
 				v.symbolTable[r.name] = r.content
 			}
 		} else {
-			log.Fatalf("Invalid operation at symbols table: %#v", r.command)
+			log.Fatalf("Invalid operation at symbols table: %#v",
+				r.command)
 		}
 	}
 }

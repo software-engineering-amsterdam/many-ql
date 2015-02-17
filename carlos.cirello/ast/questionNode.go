@@ -22,7 +22,8 @@ type QuestionNode struct {
 	pos        scanner.Position
 }
 
-func NewQuestionNode(label, identifier string, content Parser, answered bool, pos scanner.Position) *QuestionNode {
+func NewQuestionNode(label, identifier string, content Parser, answered bool,
+	pos scanner.Position) *QuestionNode {
 	return &QuestionNode{label, identifier, content, answered, pos}
 }
 

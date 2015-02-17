@@ -9,7 +9,8 @@ type QuestionaireNode struct {
 	pos   scanner.Position
 }
 
-func NewQuestionaireNode(label string, stack []*ActionNode, pos scanner.Position) *QuestionaireNode {
+func NewQuestionaireNode(label string, stack []*ActionNode,
+	pos scanner.Position) *QuestionaireNode {
 	return &QuestionaireNode{label, stack, pos}
 }
 
