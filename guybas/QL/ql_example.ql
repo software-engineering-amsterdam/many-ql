@@ -19,43 +19,11 @@ if (hummus == True) {
 if (con == True) {
     Question trans (bool) : Will transitive closure work?
 }
-
-
-/*
-if (True == True) {
-    Question something (number) : How many numbers does this if loop contain?
-
+else {
     Question check (bool) : Will this work?
 }
-else {
-    Question 6 (text): What is it then?
-}
 
-if (hummus == True) {
-    Question 2b (bool): Is this a conditional question?
-
-    Question 4 (bool): Do you really think that?
-
-    if (True == True) {
-        Question 4b (bool) : Will this work?
-    }
+if (5 * (3 + 4) - 3 + (2 / 1) == True) {
+    Question dunno (bool) : Do you know what to write?
 }
-
-if (hummus == True) {
-    Question 5 (bool): This is always true isn't it?
-}
-else {
-    Question 6 (text): What is it then?
-}
-
-if (True == True) {
-    Question 78 (bool): This is always true isn't it?
-}
-else {
-    Question 8 (text): What is it then?
-}
-
-// another comment
-Question 9 (text): What do you think of this DSL?
-*/
 

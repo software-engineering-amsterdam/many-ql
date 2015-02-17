@@ -1,6 +1,8 @@
 from grammar import *
 from ast import *
+from factory import *
 import unittest
+
 
 
 class TestGrammar(unittest.TestCase):
@@ -37,17 +39,71 @@ class TestGrammar(unittest.TestCase):
         result = QuestionTypes.boolean.parseString("False").asList()
         self.assertEqual(result, ["False"])
 
-    def test_expressions(self):
+    def test_simple_expression(self):
         result = Expressions.expr.parseString("1 + 2").asList()
         self.assertIsInstance(result[1], Operator)
 
         result[1] = (result[1]).operator
         self.assertEqual(result, [1, "+", 2])
 
-        result = Expressions.expr.parseString("(3 * (4 - 1) == 9)").asList()
+    def test_complex_expression(self):
+        result = Expressions.expr.parseString("5 * (3 + 4) - 3 + (2 / 1) == True").asList()
+        # create string representations of the operator objects
+        result[1] = (result[1]).operator
+        result[2][1] = (result[2][1]).operator
+        result[3] = result[3].operator
+        result[5] = result[5].operator
+        result[6][1] = (result[6][1]).operator
+        result[7] = result[7].operator
+        self.assertEqual(result, [5, "*", [3, "+", 4], "-", 3, "+", [2, "/", 1], "==", True])
+
+    def test_boolean_expression(self):
+        result = Expressions.expr.parseString("hummus == True").asList()
+        result[1] = (result[1]).operator
+        self.assertEqual(result, ["hummus", "==", True])
+
+        result = Expressions.expr.parseString("True == hummus").asList()
+        result[1] = (result[1]).operator
+        self.assertEqual(result, [True, "==", "hummus"])
+
+        result = Expressions.expr.parseString("True").asList()
+        self.assertEqual(result, [True])
+
+        result = Expressions.expr.parseString("hummus").asList()
+        self.assertEqual(result, ["hummus"])
+
+    def test_complex_boolean_expression(self):
+        result = Expressions.expr.parseString("good && bad || (1 + 3) > (2 * 1) ").asList()
         result[1] = (result[1]).operator
         result[3] = (result[3]).operator
-        self.assertEqual(result, [3, [4, "-", 1], "==", 9])
+
+        result[4][1] = (result[4][1]).operator
+        result[5] = result[5].operator
+        result[6][1] = (result[6][1]).operator
+        self.assertEqual(result, ["good", "&&", "bad", "||", [1, "+", 3], ">", [2, "*", 1]])
+
+    def test_answer_format(self):
+        result = FormFormat.answerR.parseString("bool").asList()
+        self.assertEqual(result, ["bool"])
+
+        result = FormFormat.answerR.parseString("text").asList()
+        self.assertEqual(result, ["text"])
+
+        result = FormFormat.answerR.parseString("number").asList()
+        self.assertEqual(result, ["number"])
+
+    @unittest.expectedFailure
+    def test_answer_format_fail(self):
+        result = FormFormat.answerR.parseString("set").asList()
+        self.assertEqual(result, ["set"])
+
+    def test_question(self):
+        pass
+        result = (FormFormat.question.parseString("Question why (text) : What do you like about hummus?")).asList()
+        self.assertIsInstance(result[0], Question)
+        self.assertEqual(result[0].id, "why")
+        self.assertEqual(result[0].answer, "text")
+        self.assertEqual(result[0].label, "What do you like about hummus ?")
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestGrammar)
 unittest.TextTestRunner(verbosity=2).run(suite)
