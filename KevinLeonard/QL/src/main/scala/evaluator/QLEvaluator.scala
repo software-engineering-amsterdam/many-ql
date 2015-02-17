@@ -1,18 +1,21 @@
 package evaluator
 
-import ast.QLAST
-import scala.io.StdIn
+import ast.QLAST._
 import scala.collection.immutable.Map
 
 class QLEvaluator {
-  import QLAST._
 
   type VariableName = String
   type VariableValue = Any // TODO: fix specificity of type
   type Environment = Map[VariableName, VariableValue]
+
+  private val defaultBooleanValue = false
+  private val defaultIntegerValue = 0
+  private val defaultStringValue = ""
+
   val emptyEnvironment = Map[VariableName, VariableValue] ()
 
-  def eval(f: Form, environment: Environment = emptyEnvironment) : Environment = eval(f.e, environment)
+  def eval(f: Form, environment: Environment = emptyEnvironment): Environment = eval(f.e, environment)
 
   def eval(s: Statement, env: Environment): Environment = s match {
     case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env) }
@@ -24,30 +27,12 @@ class QLEvaluator {
       case true => eval(s1, env)
       case false => eval(s2, env)
     }
-    case BooleanQuestion(Variable(name), label) =>
-      println(label)
-      val value = StdIn.readBoolean()
-      env + (name -> value)
-    case IntegerQuestion(Variable(name), label) =>
-      println(label)
-      val value = StdIn.readInt()
-      env + (name -> value)
-    case StringQuestion(Variable(name), label) =>
-      println(label)
-      val value = StdIn.readLine()
-      env + (name -> value)
-    case ComputedBooleanQuestion(Variable(name), label, e) =>
-      println(label + "[default: " + eval(e, env) + "]")
-      val value = StdIn.readBoolean()
-      env + (name -> value)
-    case ComputedIntegerQuestion(Variable(name), label, e) =>
-      println(label + "[default: " + eval(e, env) + "]")
-      val value = StdIn.readInt()
-      env + (name -> value)
-    case ComputedStringQuestion(Variable(name), label, e) =>
-      println(label + "[default: " + eval(e, env) + "]")
-      val value = StdIn.readLine()
-      env + (name -> value)
+    case BooleanQuestion(Variable(name), label) => env + (name -> defaultBooleanValue)
+    case IntegerQuestion(Variable(name), label) => env + (name -> defaultIntegerValue)
+    case StringQuestion(Variable(name), label) => env + (name -> defaultStringValue)
+    case ComputedBooleanQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
+    case ComputedIntegerQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
+    case ComputedStringQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
   }
 
   // TODO: fix specificity of return type

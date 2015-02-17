@@ -33,8 +33,8 @@ class QuestionTypes:
     boolean         = (Literal("True") | Literal("False")).setParseAction(ASTReady.make_bool)
     booleanName     = 'bool'
 
-    integer         = Word(nums).setParseAction(ASTReady.make_int)
-    integerName     = 'integer'
+    number         = Word(nums).setParseAction(ASTReady.make_int)
+    numberName     = 'number'
 
     text            = BasicTypes.sentences
     textName        = 'text'
@@ -54,7 +54,7 @@ class Expressions:
 
 
     id              = BasicTypes.characters
-    value           = QuestionTypes.boolean | QuestionTypes.integer | id
+    value           = QuestionTypes.boolean | QuestionTypes.number | id
     compare         = oneOf("> >= < <= == && || !").setParseAction(ASTReady.make_operator)
     operator        = oneOf('+ - / *').setParseAction(ASTReady.make_operator)
 
@@ -85,7 +85,7 @@ class FormFormat:
     id              = BasicTypes.characters
     label           = BasicTypes.sentence
 
-    answerR         = Literal(QuestionTypes.booleanName) | Literal(QuestionTypes.integerName) | Literal(QuestionTypes.textName)
+    answerR         = Literal(QuestionTypes.booleanName) | Literal(QuestionTypes.numberName) | Literal(QuestionTypes.textName)
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
                        ).setParseAction(ASTReady.make_question)
     questions       = OneOrMore(question)
