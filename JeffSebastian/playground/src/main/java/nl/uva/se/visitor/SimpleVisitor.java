@@ -1,20 +1,20 @@
 package nl.uva.se.visitor;
 
-import nl.uva.se.ast.expression.And;
-import nl.uva.se.ast.expression.Divide;
-import nl.uva.se.ast.expression.Equal;
-import nl.uva.se.ast.expression.GreaterOrEqual;
-import nl.uva.se.ast.expression.GreaterThen;
-import nl.uva.se.ast.expression.LessOrEqual;
-import nl.uva.se.ast.expression.LessThen;
-import nl.uva.se.ast.expression.Minus;
-import nl.uva.se.ast.expression.Modulo;
-import nl.uva.se.ast.expression.Multiply;
-import nl.uva.se.ast.expression.Not;
-import nl.uva.se.ast.expression.NotEqual;
-import nl.uva.se.ast.expression.Or;
-import nl.uva.se.ast.expression.Plus;
-import nl.uva.se.ast.expression.Power;
+import nl.uva.se.ast.expression.LogicalOperators.And;
+import nl.uva.se.ast.expression.LogicalOperators.Equal;
+import nl.uva.se.ast.expression.LogicalOperators.GreaterOrEqual;
+import nl.uva.se.ast.expression.LogicalOperators.GreaterThen;
+import nl.uva.se.ast.expression.LogicalOperators.LessOrEqual;
+import nl.uva.se.ast.expression.LogicalOperators.LessThen;
+import nl.uva.se.ast.expression.LogicalOperators.Not;
+import nl.uva.se.ast.expression.LogicalOperators.NotEqual;
+import nl.uva.se.ast.expression.LogicalOperators.Or;
+import nl.uva.se.ast.expression.MathematicalOperators.Addition;
+import nl.uva.se.ast.expression.MathematicalOperators.Divide;
+import nl.uva.se.ast.expression.MathematicalOperators.Modulo;
+import nl.uva.se.ast.expression.MathematicalOperators.Multiply;
+import nl.uva.se.ast.expression.MathematicalOperators.Power;
+import nl.uva.se.ast.expression.MathematicalOperators.Substraction;
 import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
@@ -64,7 +64,7 @@ public class SimpleVisitor implements Visitor {
 	}
 
 	@Override
-	public void visit(Plus plus) {
+	public void visit(Addition plus) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -88,7 +88,7 @@ public class SimpleVisitor implements Visitor {
 	}
 
 	@Override
-	public void visit(Minus minus) {
+	public void visit(Substraction minus) {
 		// TODO Auto-generated method stub
 		
 	}

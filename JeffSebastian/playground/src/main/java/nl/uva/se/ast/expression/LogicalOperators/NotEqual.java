@@ -1,5 +1,7 @@
-package nl.uva.se.ast.expression;
+package nl.uva.se.ast.expression.LogicalOperators;
 
+import nl.uva.se.ast.expression.Binary;
+import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.visitor.Visitor;
 
 public class NotEqual extends Binary {
