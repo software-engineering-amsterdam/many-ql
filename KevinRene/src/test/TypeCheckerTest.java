@@ -58,7 +58,7 @@ public class TypeCheckerTest {
 	
 	@Test
 	public void testTypeAdd() {
-		String myForm = "(1 * 1442) / 1.1";
+		String myForm = "(true * 1442) / 1.1";
 		ASTNode tree = Parser.parse(myForm);
 		
 		boolean result = typeChecker.checkStaticTypes(tree);

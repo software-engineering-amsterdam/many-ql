@@ -1,36 +1,14 @@
-// Output created by jacc on Mon Feb 16 17:35:15 CET 2015
+// Output created by jacc on Tue Feb 17 12:32:27 CET 2015
 
 package cons.ql.parser;
 
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.Expression;
-import cons.ql.ast.Statement;
-import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.arithmetic.Add;
-import cons.ql.ast.expression.arithmetic.Div;
-import cons.ql.ast.expression.arithmetic.Mul;
-import cons.ql.ast.expression.arithmetic.Sub;
-import cons.ql.ast.expression.relational.And;
-import cons.ql.ast.expression.relational.Eq;
-import cons.ql.ast.expression.relational.GEq;
-import cons.ql.ast.expression.relational.GT;
-import cons.ql.ast.expression.relational.LEq;
-import cons.ql.ast.expression.relational.LT;
-import cons.ql.ast.expression.relational.NEq;
-import cons.ql.ast.expression.relational.Or;
-import cons.ql.ast.expression.type.QLBoolean;
-import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLIdent;
-import cons.ql.ast.expression.type.QLInt;
-import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.expression.unary.Neg;
-import cons.ql.ast.expression.unary.Not;
-import cons.ql.ast.expression.unary.Pos;
-import cons.ql.ast.statement.Block;
-import cons.ql.ast.statement.ComputedQuestion;
-import cons.ql.ast.statement.Form;
-import cons.ql.ast.statement.If;
-import cons.ql.ast.statement.Question;
+import cons.ql.ast.*;
+import cons.ql.ast.expression.*;
+import cons.ql.ast.expression.unary.*;
+import cons.ql.ast.expression.type.*;
+import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.relational.*;
+import cons.ql.ast.statement.*;
 
 @SuppressWarnings("all")
 

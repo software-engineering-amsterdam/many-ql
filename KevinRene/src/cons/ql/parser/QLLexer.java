@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cons.ql.ast.ASTNode;
+import cons.ql.ast.expression.literal.BooleanLiteral;
 import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLIdent;
 import cons.ql.ast.expression.type.QLInt;
@@ -22,6 +23,8 @@ public class QLLexer implements QLTokens {
 		KEYWORDS.put("money", MONEY);
 		KEYWORDS.put("if", IF);
 		KEYWORDS.put("else", ELSE);
+		KEYWORDS.put("true", INITBOOLEAN);
+		KEYWORDS.put("false", INITBOOLEAN);
 	}
 	
 	
@@ -207,6 +210,14 @@ public class QLLexer implements QLTokens {
 			    		} while (Character.isLetterOrDigit(c));
 			    		
 			    		String name = sb.toString();
+			    		
+			    		// Boolean literals
+			    		if (name.equals("true")) {
+			    			yylval = new BooleanLiteral(true);
+			    		}
+			    		if (name.equals("false")) {
+			    			yylval = new BooleanLiteral(false);
+			    		}
 			    		
 			    		if (KEYWORDS.containsKey(name)) {
 			    			return token = KEYWORDS.get(name);
