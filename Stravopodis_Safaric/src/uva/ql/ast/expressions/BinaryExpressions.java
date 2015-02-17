@@ -1,16 +1,17 @@
 package uva.ql.ast.expressions;
-
-import uva.ql.supporting.Tuple;
+import uva.ql.supporting.*;
 
 public class BinaryExpressions extends Expression{
 
 	private Expression left;
 	private Expression right;
-	private String operator;
+	private Operator operator;
 	
-	public BinaryExpressions(Expression _left, Expression _right, String _operator){
-		this.left = isValidExpression(_left);
-		this.right = isValidExpression(_right);
+	public BinaryExpressions(Expression _left, Expression _right, Operator _operator, 
+			Tuple<Integer, Integer> codeLines) {
+		super(codeLines);
+		this.left = _left;
+		this.right = _right;
 		this.operator = _operator;
 	}
 	
@@ -22,20 +23,12 @@ public class BinaryExpressions extends Expression{
 		return this.right;
 	}
 	
-	public String getOperator(){
+	public Operator getOperator(){
 		return this.operator;
 	}
 	
-	private Expression isValidExpression(Expression e){
-		if (e != null){
-			return e;
-		}
-		return null;
-	}
-
 	@Override
-	public Tuple<Integer, Integer> getCodeLine() {
-		return null;
+	public String toString(){
+		return this.getClass().toString();
 	}
-	
 }

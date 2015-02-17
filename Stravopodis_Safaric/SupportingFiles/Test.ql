@@ -2,20 +2,19 @@ form HouseSelling {
     
     question hasSoldHouse typeof boolean {
         hasSoldHouse = "Did you sold an house?";
-        hasSoldHouse.questionType = ComputableQuestion;
-        hasSoldHouse.value = false ;
+        hasSoldHouse = false;
     }
     question hasRentHouse typeof boolean {
         hasRentHouse = "Did you rent a house?";
-        hasRentHouse.questionType = OrdinaryQuestion;
-        hasRentHouse.value = false;
+        hasRentHouse = false;
     }
-
     if (hasSoldHouse == true){
         question hasBoughtHouse typeof int {
-            hasBoughtHouse = "What was the price of the house?";
-            hasBoughtHouse.questionType = ComputableQuestion;
-            hasBoughtHouse.value = 100000;
+            hasBoughtHouse = "What was the price of the house?"; 
+        }
+        question houseCalculation typeof string {
+            houseCalculation = "The price of the house";
+            houseCalculation = hasBoughtBouse * 100;
         }
     }
 }

@@ -2,15 +2,18 @@ package org.fugazi.type_checker;
 
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.form.Form;
+//import org.fugazi.evaluator.ExpressionValue;
+//import org.fugazi.evaluator.visitor.ExpressionVisitor;
+//import org.fugazi.evaluator.UndefinedValue;
+//import org.fugazi.evaluator.ValueStorage;
 
-import java.util.ArrayList;
 
 /*
-// TODO type checker detect
+// TODO type checker must detect
+
 reference to undefined questions
 duplicate question declarations with different types
 conditions that are not of the type boolean
-operands of invalid type to operators
 cyclic dependencies between questions
 duplicate labels (warning)
  */
@@ -21,9 +24,11 @@ public class TypeChecker {
     // should it be final then?
     // or use clean method like now?
     private final ASTErrorHandler astErrorHandler;
+    private final TypeCheckerVisitor visitor;
 
     public TypeChecker() {
         this.astErrorHandler = new ASTErrorHandler();
+        this.visitor = new TypeCheckerVisitor();
     }
 
     /**
@@ -34,6 +39,7 @@ public class TypeChecker {
 
     // TODO should there be a separate isFormCorrect method?
     public boolean checkForm(Form form) {
+        form.accept(this.visitor);
         return !this.astErrorHandler.hasErrors();
     }
 

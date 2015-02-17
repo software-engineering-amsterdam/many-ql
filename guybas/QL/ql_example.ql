@@ -23,7 +23,11 @@ else {
     Question check (bool) : Will this work?
 }
 
-if (5 * (3 + 4) - 3 + (2 / 1) == True) {
+if (5 * (3 + 4) - 3 + (2 / 1) > 1) {
     Question dunno (bool) : Do you know what to write?
+}
+
+if (5 * (3 + 4) - 3 + (2 / 1) > 0) {
+    Question reading (bool) : Do you know what to read?
 }
 
