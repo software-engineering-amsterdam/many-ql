@@ -1,0 +1,3 @@
+class TypeChecker < BaseVisitor
+   
+end
