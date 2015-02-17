@@ -1,4 +1,4 @@
-require_relative "../lib/ql/pretty_printer"
+require_relative "../lib/ql/static_checker/pretty_printer"
 
 describe "Pretty printer" do
   it "prints an empty tree" do

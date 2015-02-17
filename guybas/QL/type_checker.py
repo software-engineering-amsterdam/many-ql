@@ -72,10 +72,12 @@ class TypeChecker:
             type_class = QuestionTypes.booleanName
         elif isinstance(cinput, list):
             type_class = QuestionTypes.listName
+        elif isinstance(cinput, Operator):
+            type_class = Expressions.operatorName
         else:
             raise QException("Undefined input.")
 
-        if ctype & ctype is type_class:
+        if ctype and ctype is type_class:
             return True
         elif ctype:
             return False

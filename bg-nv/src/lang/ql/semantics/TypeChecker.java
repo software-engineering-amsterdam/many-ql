@@ -18,10 +18,12 @@ public class TypeChecker extends VisitorAbstract
     private static String invalidTypeOperands = "Operands of invalid type";
     // TODO: add check that duplicate questions are of the same type
     // TODO: add warning for duplicate questions
+    // TODO: solve the passing of question dependencies in a different manner
 
     private SymbolTable symbolTable;
     private Stack<QuestionType> typeStack;
     private Stack<Question> variablesStack;
+
     private Map<Question, Set<Question>> questionDependencies;
     private Errors errors;
 
@@ -86,7 +88,7 @@ public class TypeChecker extends VisitorAbstract
         {
             this.errors.logException(new IllegalArgumentException(
                     String.format("Question \"%s\" is defined as %s, but it is assigned a value of type %s.",
-                    q.getId(), defined, calculated)));
+                            q.getId(), defined, calculated)));
         }
 
         Set<Question> dep = new HashSet<Question>();
@@ -201,7 +203,7 @@ public class TypeChecker extends VisitorAbstract
         {
             this.errors.logException(new IllegalArgumentException(
                     String.format("%s has children of different types: %s and %s.",
-                    n.getClass().getSimpleName(), leftChildType, rightChildType)));
+                            n.getClass().getSimpleName(), leftChildType, rightChildType)));
         }
     }
 
@@ -219,10 +221,14 @@ public class TypeChecker extends VisitorAbstract
         try
         {
             return this.typeStack.pop();
-        }
-        catch (EmptyStackException ex)
+        } catch (EmptyStackException ex)
         {
             throw ex;
         }
+    }
+
+    public Map<Question, Set<Question>> getQuestionDependencies()
+    {
+        return questionDependencies;
     }
 }

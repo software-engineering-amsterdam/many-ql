@@ -1,12 +1,15 @@
 package org.uva.sea.ql.parser.antlr;
 
+import java.util.List;
+
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.uva.sea.ql.model.statement.Statement;
 import org.uva.sea.ql.parser.antlr.QLParser.FormContext;
 import org.uva.sea.ql.parser.impl.QLImplListener;
+import org.uva.sea.ql.parser.impl.QLImplVisitor;
 
 
 public class QL {
@@ -24,6 +27,10 @@ public class QL {
 		QLParser parser = new QLParser(tokenStream);
 		QLImplListener listener = new QLImplListener();
 		FormContext form = parser.form();
+		
+		QLImplVisitor visitor = new QLImplVisitor();
+		List<Statement> result = visitor.visit(form);
+		
 		ParseTreeWalker walker = new ParseTreeWalker();
 		walker.walk(listener,form);
 		System.out.println("Omg.");

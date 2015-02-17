@@ -1,14 +1,12 @@
 package com.form.language.gui;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -18,7 +16,6 @@ import org.antlr.v4.runtime.TokenStream;
 
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
-import com.form.language.ast.expression.PrimitiveExpression;
 
 public class Form {
 
@@ -55,7 +52,7 @@ public class Form {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 367);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 				
@@ -64,8 +61,12 @@ public class Form {
 		frame.getContentPane().add(textArea_input);
 		
 		textArea_output = new JTextArea();
-		textArea_output.setBounds(10, 160, 414, 91);
+		textArea_output.setBounds(10, 154, 414, 91);
 		frame.getContentPane().add(textArea_output);
+
+		final JPanel panel = new JPanel();
+		panel.setBounds(10, 256, 414, 62);
+		frame.getContentPane().add(panel);
 		
 		JButton btnNewButton = new JButton("Parse");
 		btnNewButton.addMouseListener(new MouseAdapter() {
@@ -75,12 +76,14 @@ public class Form {
 				GrammarLexer lexer = new GrammarLexer(charStream);
 				TokenStream tokenStream = new CommonTokenStream(lexer);
 				GrammarParser parser = new GrammarParser(tokenStream);
-				PrimitiveExpression evaluator = parser.expression().result;
-				//System.out.println((evaluator.evaluate()));
-				textArea_output.setText((evaluator.evaluate().toString()));
+				com.form.language.ast.statement.Form form = parser.form().result;
+				//textArea_output.setText(form.id);
+				panel.add(form.createGUIComponent());
+				
+				//textArea_output.setText((evaluator.evaluate().toString()));
 			}
 		});
-		btnNewButton.setBounds(280, 120, 89, 23);
+		btnNewButton.setBounds(335, 120, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 	}
 }

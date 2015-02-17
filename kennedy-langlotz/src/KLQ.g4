@@ -11,7 +11,6 @@ VALUE       : 'value' ;
 SET         : 'set' ;
 BOOLEAN     : 'boolean' ;
 DATE        : 'date' ;
-CURRENCY    : 'currency' ;
 STRING      : 'string' ;
 NUMERAL     : 'numeral' ;
 ANSWER      : 'answer' ;
@@ -32,23 +31,22 @@ AND : '&&' ;
 OR  : '||' ;
 
 questionnaire
-    :
-    ( condQuestion
-    | question
-    )*
-    ;
-
-condQuestion
-    : 'if' expr 'then' NEWLINE
-    ( condQuestion
-    | question
-    ) End
+    : question+
     ;
 
 question
+    : uncondQuestion
+    | condQuestion
+    ;
+
+condQuestion
+    : 'if' expr 'then' NEWLINE question End
+    ;
+
+uncondQuestion
     : 'question' NEWLINE
           'id'       ':' id=QuestionId      NEWLINE
-          'text'     ':' String             NEWLINE
+          'text'     ':' text=String        NEWLINE
           'type'     ':' type=questionType  NEWLINE
          ('value'    ':' answerSet          NEWLINE)?
       End
@@ -69,7 +67,6 @@ questionType
     : 'set'
     | 'boolean'
     | 'date'
-    | 'currency'
     | 'string'
     | 'numeral'
     ;
@@ -83,7 +80,7 @@ Number
     | Decimal
     ;
 Date
-    : Int ( '.' | '-' | '/' ) Int ( '.' | '-' | '/' ) Int?
+    : Int ( '.' | '-' | '/' ) Int ( '.' | '-' | '/' ) Int
     ;
 
 Time
@@ -91,16 +88,16 @@ Time
     ;
 
 expr
-    : expr ( '*' | '/' ) expr
-    | expr ( '+' | '-' ) expr
-    | expr ( '>=' | '>' | '<=' | '<' ) expr
-    | expr '&&'  expr
-    | expr '||' expr
-    | '(' expr ')'
-    | Number
-    | Date
-    | String
-    | QuestionId
+    : expr ( '*' | '/' ) expr #MulDiv
+    | expr ( '+' | '-' ) expr #AddSub
+    | expr ( '>=' | '>' | '<=' | '<' ) expr #Comparators
+    | expr '&&'  expr #And
+    | expr '||' expr #Or
+    | '(' expr ')' #Parens
+    | Number #Number
+    | Date #Date
+    | String #String
+    | QuestionId #id
     ;
 
 answerSet
