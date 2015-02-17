@@ -41,7 +41,7 @@ public class QuestionPane extends GridPane {
         this.setVgap(5);
         this.setPadding(new Insets(5));
         this.setBorder(createBorder());
-        this.setBackground(new Background(new BackgroundFill(Paint.valueOf(""))));
+        this.setBackground(createBackground());
     }
 
     private void createQuestionLabel(String text) {
@@ -97,17 +97,20 @@ public class QuestionPane extends GridPane {
         this.setConstraints(input, 0, 1);
     }
 
-    private Border createBorder() {
-        CornerRadii radii = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
-                false, true, true, false, false, true, true, false);
-        BorderStroke stroke = new BorderStroke(Paint.valueOf("black"), BorderStrokeStyle.SOLID, radii, BorderWidths.DEFAULT);
-        Border result = new Border(stroke);
 
-        return result;
+    final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
+            false, true, true, false, false, true, true, false);
+    private Border createBorder() {
+        BorderStroke stroke = new BorderStroke(Paint.valueOf("#000000"), BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT);
+        return new Border(stroke);
+    }
+
+    private Background createBackground() {
+        BackgroundFill fill = new BackgroundFill(Paint.valueOf("#EEEEEE"), RADII, new Insets(1));
+        return new Background(fill);
     }
 
     private void setAnswer(String answer){
         //TODO
     }
-
 }
