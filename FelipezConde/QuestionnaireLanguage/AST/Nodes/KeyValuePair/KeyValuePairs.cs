@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AST.Nodes.FormElement
+namespace AST.Nodes.KeyValuePair
 {
-    public class FormElement : IFormElementNode
+    public class KeyValuePairs : IKeyValuePairsNode
     {
         private IList<IASTNode> children;
 
-        public FormElement()
+        public KeyValuePairs()
         {
             children = new List<IASTNode>();
         }
