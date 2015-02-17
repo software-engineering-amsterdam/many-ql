@@ -7,12 +7,12 @@ public class QLInteger extends QLNumeric {
 	public QLInteger() {}
 	
 	@Override
-	public void accept(Visitor visitor) {		
-		visitor.visit(this);
-	}
-
-	@Override
 	public QLType getType() {
 		return new QLInteger();
+	}
+	
+	@Override
+	public void accept(Visitor visitor) {		
+		visitor.visit(this);
 	}
 }

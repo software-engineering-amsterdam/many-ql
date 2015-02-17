@@ -14,99 +14,130 @@ import cons.ql.ast.visitor.StatementVisitor;
 public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 	private String prefix = "";
 	
+	/**
+	 * Indent the prefix to indicate that a printable block
+	 * of nodes has been entered.
+	 */
 	private void indent() {
 		this.prefix += "   ";
 	}
 	
+	/**
+	 * Unindent the prefix. This happens when a block of
+	 * printable nodes has been printed and the function
+	 * exits. 
+	 */
 	private void unindent() {
 		this.prefix = this.prefix.substring(0, this.prefix.length() - 3);
 	}
 	
-	private void printNode(ASTNode node, boolean isTail) {
+	/**
+	 * Print a node in the console. The node its toString
+	 * method will be printed first, followed the the type
+	 * of the node, separated by a colon.
+	 * 
+	 * @param node - The node to print.
+	 */
+	private void printNode(ASTNode node) {
 		String type = node.getClass().getSimpleName();
+		// Strip the string until only the name of the node is left.
 		String nodeString = node.toString().split("\\(")[0];
 		
-		System.out.println(prefix + (isTail ? "└── " : "├── ") + nodeString + " : " + type);
+		System.out.println(prefix + ("└── ") + nodeString + " : " + type);
 	}
 	
+	/**
+	 * Binary nodes need to printed in the same way. This
+	 * function centralises the logic for printing such a
+	 * node. 
+	 * 
+	 * @param binaryNode - The binary node to print.
+	 */
 	private void printBinaryNode(Binary binaryNode) {
-		printNode(binaryNode, true);
+		printNode(binaryNode);
 		
 		indent();
 		ExpressionVisitor.super.visit(binaryNode);
 		unindent();
 	}
 	
+	/**
+	 * Unary nodes need to be printed in the same way. 
+	 * This function centralises the logic for printing
+	 * such a node.
+	 * 
+	 * @param unaryNode - The unary node to print.
+	 */
 	private void printUnaryNode(Unary unaryNode) {
-		printNode(unaryNode, true);
+		printNode(unaryNode);
 		
 		indent();
 		ExpressionVisitor.super.visit(unaryNode);
 		unindent();
 	}
 
-	/**
-	 * Identifier node
-	 */
+	/*********************
+	 == IDENTIFIER NODE ==
+	 *********************/
 	@Override
 	public void visit(Identifier identNode) {
-		printNode(identNode, true);
+		printNode(identNode);
 	}
 
-	/**
-	 * Type nodes
-	 */
+	/****************
+	 == TYPE NODES ==
+	 ****************/
 	@Override
 	public void visit(QLBoolean booleanNode) {
-		printNode(booleanNode, true);
+		printNode(booleanNode);
 	}
 
 	@Override
 	public void visit(QLFloat floatNode) {
-		printNode(floatNode, true);
+		printNode(floatNode);
 	}
 
 	@Override
 	public void visit(QLInteger intNode) {
-		printNode(intNode, true);
+		printNode(intNode);
 	}
 
 	@Override
 	public void visit(QLNumeric numericNode) {
-		printNode(numericNode, true);
+		printNode(numericNode);
 	}
 
 	@Override
 	public void visit(QLString stringNode) {
-		printNode(stringNode, true);
+		printNode(stringNode);
 	}
 
-	/**
-	 * Literal nodes
-	 */
+	/*******************
+	 == LITERAL NODES ==
+	 *******************/
 	@Override
 	public void visit(BooleanLiteral booleanNode) {
-		printNode(booleanNode, true);
+		printNode(booleanNode);
 	}
 
 	@Override
 	public void visit(FloatLiteral floatNode) {
-		printNode(floatNode, true);
+		printNode(floatNode);
 	}
 
 	@Override
 	public void visit(IntegerLiteral intNode) {
-		printNode(intNode, true);
+		printNode(intNode);
 	}
 
 	@Override
 	public void visit(StringLiteral stringNode) {
-		printNode(stringNode, true);
+		printNode(stringNode);
 	}
 
-	/**
-	 * Binary nodes
-	 */
+	/******************
+	 == BINARY NODES ==
+	 ******************/
 	@Override
 	public void visit(Add addNode) {
 		printBinaryNode(addNode);
@@ -167,9 +198,9 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 		printBinaryNode(orNode);
 	}
 
-	/**
-	 * Unary nodes
-	 */
+	/*****************
+	 == UNARY NODES ==
+	 *****************/
 	@Override
 	public void visit(Neg negNode) {
 		printUnaryNode(negNode);
@@ -185,12 +216,12 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 		printUnaryNode(posNode);
 	}
 	
-	/**
-	 * Statement nodes
-	 */
+	/*********************
+	 == STATEMENT NODES ==
+	 *********************/
 	@Override
 	public void visit(Block blockNode) {
-		printNode(blockNode, true);
+		printNode(blockNode);
 		
 		indent();
 		StatementVisitor.super.visit(blockNode);
@@ -199,7 +230,7 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 
 	@Override
 	public void visit(ComputedQuestion compQuestionNode) {
-		printNode(compQuestionNode, true);
+		printNode(compQuestionNode);
 		
 		indent();
 		StatementVisitor.super.visit(compQuestionNode);
@@ -208,7 +239,7 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 
 	@Override
 	public void visit(Form formNode) {
-		printNode(formNode, true);
+		printNode(formNode);
 		
 		indent();		
 		StatementVisitor.super.visit(formNode);
@@ -217,7 +248,7 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 
 	@Override
 	public void visit(If ifNode) {
-		printNode(ifNode, true);
+		printNode(ifNode);
 		
 		indent();		
 		StatementVisitor.super.visit(ifNode);
@@ -226,7 +257,7 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 
 	@Override
 	public void visit(Question questionNode) {
-		printNode(questionNode, true);
+		printNode(questionNode);
 		
 		indent();		
 		StatementVisitor.super.visit(questionNode);

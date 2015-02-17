@@ -12,8 +12,7 @@ public class QLNumeric extends QLType {
 
 	@Override
 	public QLType getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new QLNumeric();
 	}
 	
 	@Override
