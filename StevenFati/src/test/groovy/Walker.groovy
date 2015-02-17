@@ -9,16 +9,16 @@ class Walker extends Specification {
 
     def "smoke"() {
         setup:
-        ANTLRFileStream antlrFileStream = new ANTLRFileStream("src/main/antlr/input/QL_initial");
-        QLLexer lexer = new QLLexer(antlrFileStream);
-        CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(commonTokenStream);
+        ANTLRFileStream antlrFileStream = new ANTLRFileStream("src/main/antlr/input/QL_initial")
+        QLLexer lexer = new QLLexer(antlrFileStream)
+        CommonTokenStream commonTokenStream = new CommonTokenStream(lexer)
+        QLParser parser = new QLParser(commonTokenStream)
         def tree = parser.start()
 
-        QLBaseVisitorImpl baseVisitor = new QLBaseVisitorImpl();
-        baseVisitor.visit(tree);
+        QLBaseVisitorImpl baseVisitor = new QLBaseVisitorImpl()
+        baseVisitor.visit(tree)
 
         expect:
-        true;
+        true
     }
 }

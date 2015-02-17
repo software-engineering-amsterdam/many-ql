@@ -9,155 +9,197 @@ class QLEvaluatorSpec extends Specification {
   import evaluators._
 
   "evaluation of statements" should {
-    // TODO: how to deal with the StdIn?
+    "add default value of boolean to environment when evaluating boolean question" in {
+      eval(BooleanQuestion(Variable("a"), "label"), emptyEnvironment) must beEqualTo(Map("a" -> false))
+    }
+
+    "add default value of boolean to environment when evaluating integer question" in {
+      eval(IntegerQuestion(Variable("a"), "label"), emptyEnvironment) must beEqualTo(Map("a" -> 0))
+    }
+
+    "add default value of boolean to environment when evaluating string question" in {
+      eval(StringQuestion(Variable("a"), "label"), emptyEnvironment) must beEqualTo(Map("a" -> ""))
+    }
+
+    "add default value of boolean to environment when evaluating boolean question" in {
+      eval(ComputedBooleanQuestion(Variable("a"), "label", BooleanLiteral(true)), emptyEnvironment) must beEqualTo(Map("a" -> true))
+    }
+
+    "add default value of boolean to environment when evaluating boolean question" in {
+      eval(ComputedIntegerQuestion(Variable("a"), "label", NumberLiteral(1)), emptyEnvironment) must beEqualTo(Map("a" -> 1))
+    }
+
+    "add default value of boolean to environment when evaluating boolean question" in {
+      eval(ComputedStringQuestion(Variable("a"), "label", StringLiteral("b")), emptyEnvironment) must beEqualTo(Map("a" -> "b"))
+    }
+
+    "eval the statements in the if block, if the expression evaluates to true" in {
+      eval(IfStatement(BooleanLiteral(true), BooleanQuestion(Variable("a"), "label"), None), emptyEnvironment) must beEqualTo(Map("a" -> false))
+    }
+
+    "eval no statements, if the expression evaluates to false" in {
+      eval(IfStatement(BooleanLiteral(false), BooleanQuestion(Variable("a"), "label"), None), emptyEnvironment) must beEqualTo(emptyEnvironment)
+    }
+
+    "eval the statements in the if block, if the expression evaluates to true" in {
+      eval(IfStatement(BooleanLiteral(true), BooleanQuestion(Variable("a"), "label"), Some(BooleanQuestion(Variable("b"), "label"))), emptyEnvironment) must beEqualTo(Map("a" -> false))
+    }
+
+    "eval the statements in the else block, if the expression evaluates to false" in {
+      eval(IfStatement(BooleanLiteral(false), BooleanQuestion(Variable("a"), "label"), Some(BooleanQuestion(Variable("b"), "label"))), emptyEnvironment) must beEqualTo(Map("b" -> false))
+    }
+
+    "eval all the statements in a sequence" in {
+      eval(Sequence(List(BooleanQuestion(Variable("a"), "label"), BooleanQuestion(Variable("b"), "label"), BooleanQuestion(Variable("c"), "label"))), emptyEnvironment) must beEqualTo(Map("a" -> false, "b" -> false, "c" -> false))
+    }
   }
 
   "evaluation of expressions" should {
-    "evaluate or expressions" in {
+    "succeed for or expressions" in {
       eval(Or(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate and expressions" in {
+    "succeed for and expressions" in {
       eval(And(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate not expressions" in {
+    "succeed for not expressions" in {
       eval(Not(BooleanLiteral(true)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate equal expressions on booleans" in {
+    "succeed for equal expressions on booleans" in {
       eval(Equal(BooleanLiteral(true), BooleanLiteral(true)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate equal expressions on booleans" in {
+    "succeed for equal expressions on booleans" in {
       eval(Equal(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate equal expressions on numbers" in {
+    "succeed for equal expressions on numbers" in {
       eval(Equal(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate equal expressions on numbers" in {
+    "succeed for equal expressions on numbers" in {
       eval(Equal(NumberLiteral(1), NumberLiteral(2)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate equal expressions on strings" in {
+    "succeed for equal expressions on strings" in {
       eval(Equal(StringLiteral("a"), StringLiteral("a")), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate equal expressions on strings" in {
+    "succeed for equal expressions on strings" in {
       eval(Equal(StringLiteral("a"), StringLiteral("b")), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate notEqual expressions on booleans" in {
+    "succeed for notEqual expressions on booleans" in {
       eval(NotEqual(BooleanLiteral(true), BooleanLiteral(true)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate notEqual expressions on booleans" in {
+    "succeed for notEqual expressions on booleans" in {
       eval(NotEqual(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate notEqual expressions on numbers" in {
+    "succeed for notEqual expressions on numbers" in {
       eval(NotEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate notEqual expressions on numbers" in {
+    "succeed for notEqual expressions on numbers" in {
       eval(NotEqual(NumberLiteral(1), NumberLiteral(2)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate notEqual expressions on strings" in {
+    "succeed for notEqual expressions on strings" in {
       eval(NotEqual(StringLiteral("a"), StringLiteral("a")), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate notEqual expressions on strings" in {
+    "succeed for notEqual expressions on strings" in {
       eval(NotEqual(StringLiteral("a"), StringLiteral("b")), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate lessThan expressions" in {
+    "succeed for lessThan expressions" in {
       eval(LessThan(NumberLiteral(1), NumberLiteral(2)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate lessThan expressions" in {
+    "succeed for lessThan expressions" in {
       eval(LessThan(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate lessThan expressions" in {
+    "succeed for lessThan expressions" in {
       eval(LessThan(NumberLiteral(2), NumberLiteral(1)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate lessThanEqual expressions" in {
+    "succeed for lessThanEqual expressions" in {
       eval(LessThanEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate lessThanEqual expressions" in {
+    "succeed for lessThanEqual expressions" in {
       eval(LessThanEqual(NumberLiteral(1), NumberLiteral(2)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate lessThanEqual expressions" in {
+    "succeed for lessThanEqual expressions" in {
       eval(LessThanEqual(NumberLiteral(2), NumberLiteral(1)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate greaterThan expressions" in {
+    "succeed for greaterThan expressions" in {
       eval(GreaterThan(NumberLiteral(2), NumberLiteral(1)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate greaterThan expressions" in {
+    "succeed for greaterThan expressions" in {
       eval(GreaterThan(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate greaterThan expressions" in {
+    "succeed for greaterThan expressions" in {
       eval(GreaterThan(NumberLiteral(1), NumberLiteral(2)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate greaterThanEqual expressions" in {
+    "succeed for greaterThanEqual expressions" in {
       eval(GreaterThanEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate greaterThanEqual expressions" in {
+    "succeed for greaterThanEqual expressions" in {
       eval(GreaterThanEqual(NumberLiteral(2), NumberLiteral(1)), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate greaterThanEqual expressions" in {
+    "succeed for greaterThanEqual expressions" in {
       eval(GreaterThanEqual(NumberLiteral(1), NumberLiteral(2)), emptyEnvironment) must beEqualTo(false)
     }
 
-    "evaluate add expressions" in {
+    "succeed for add expressions" in {
       eval(Add(NumberLiteral(1), NumberLiteral(2)), emptyEnvironment) must beEqualTo(3)
     }
 
-    "evaluate sub expressions" in {
+    "succeed for sub expressions" in {
       eval(Sub(NumberLiteral(2), NumberLiteral(1)), emptyEnvironment) must beEqualTo(1)
     }
 
-    "evaluate mul expressions" in {
+    "succeed for mul expressions" in {
       eval(Mul(NumberLiteral(2), NumberLiteral(3)), emptyEnvironment) must beEqualTo(6)
     }
 
-    "evaluate div expressions" in {
+    "succeed for div expressions" in {
       eval(Div(NumberLiteral(2), NumberLiteral(1)), emptyEnvironment) must beEqualTo(2)
     }
 
-    "evaluate variable expressions" in {
-      eval(Variable("test"), emptyEnvironment + ("test" -> 3)) must beEqualTo(3)
+    "succeed for variable expressions" in {
+      eval(Variable("test"), Map("test" -> 3)) must beEqualTo(3)
     }
 
-    "evaluate boolean literals" in {
+    "succeed for boolean literals" in {
       eval(BooleanLiteral(true), emptyEnvironment) must beEqualTo(true)
     }
 
-    "evaluate number literals" in {
+    "succeed for number literals" in {
       eval(NumberLiteral(1), emptyEnvironment) must beEqualTo(1)
     }
 
-    "evaluate string literals" in {
+    "succeed for string literals" in {
       eval(StringLiteral("a"), emptyEnvironment) must beEqualTo("a")
     }
 
-    "evaluate nested expressions" in {
+    "succeed for nested expressions" in {
       eval(Mul(NumberLiteral(5), Add(NumberLiteral(3), NumberLiteral(2))), emptyEnvironment) must beEqualTo(25)
     }
 
-    "evaluate multiple nested expressions" in {
+    "succeed for multiple nested expressions" in {
       eval(And(Equal(NumberLiteral(7), Add(NumberLiteral(4), Div(NumberLiteral(6), NumberLiteral(2)))), Equal(StringLiteral("a"), StringLiteral("a"))), emptyEnvironment) must beEqualTo(true)
     }
   }
