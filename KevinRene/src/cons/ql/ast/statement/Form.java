@@ -16,7 +16,7 @@ public class Form extends Statement {
 		Register.getInstance().store(this.identifier, this);
 	}
 	
-	public Identifier getIdent() {
+	public Identifier getIdentifier() {
 		return this.identifier;
 	}
 	
@@ -28,7 +28,7 @@ public class Form extends Statement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Form(");
 		
-		sb.append(getIdent().toString() + ", ");
+		sb.append(getIdentifier().toString() + ", ");
 		sb.append(getBlock().toString());
 		sb.append(")");
 		

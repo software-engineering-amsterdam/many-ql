@@ -15,14 +15,14 @@ public interface StatementVisitor extends Visitor {
 	}
 	
 	default void visit(ComputedQuestion compQuestionNode) {
-		compQuestionNode.getIdent().accept(this);
+		compQuestionNode.getIdentifier().accept(this);
 		compQuestionNode.getType().accept(this);
 		compQuestionNode.getText().accept(this);
 		compQuestionNode.getExpression().accept(this);
 	}
 	
 	default void visit(Form formNode) {
-		formNode.getIdent().accept(this);
+		formNode.getIdentifier().accept(this);
 		formNode.getBlock().accept(this);
 	}
 	
@@ -32,7 +32,7 @@ public interface StatementVisitor extends Visitor {
 	}
 	
 	default void visit(Question questionNode) {
-		questionNode.getIdent().accept(this);
+		questionNode.getIdentifier().accept(this);
 		questionNode.getType().accept(this);
 		questionNode.getText().accept(this);
 	}

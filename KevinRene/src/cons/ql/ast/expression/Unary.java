@@ -11,6 +11,10 @@ public abstract class Unary extends Expression {
 		this.operator = operator;
 	}
 
+	public Expression getExpression() {
+		return operand;
+	}
+	
 	@Override
 	public String toString() {
 		return this.operator + this.operand.toString();

@@ -17,6 +17,7 @@ public class FloatLiteral extends Literal<Float> {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {}
-
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

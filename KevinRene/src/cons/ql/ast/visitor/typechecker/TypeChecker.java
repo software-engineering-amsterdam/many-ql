@@ -7,6 +7,10 @@ import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Binary;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.literal.BooleanLiteral;
+import cons.ql.ast.expression.literal.FloatLiteral;
+import cons.ql.ast.expression.literal.IntegerLiteral;
+import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.expression.type.*;
 import cons.ql.ast.expression.unary.*;
@@ -182,7 +186,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		// TODO: make this way easier.
 		if(!compQuestionNode.getType().toString().equals(
 				compQuestionNode.getExpression().toString())) {
-			errors.add("<" + compQuestionNode.getIdent() + ">:" 
+			errors.add("<" + compQuestionNode.getIdentifier() + ">:" 
 					+ compQuestionNode.getType() + " was assigned with "	
 					+ compQuestionNode.getExpression().getType() + ".");
 		}
@@ -233,4 +237,28 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(QLNumeric numericNode) {}
+
+	@Override
+	public void visit(BooleanLiteral booleanNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(FloatLiteral floatNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IntegerLiteral intNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StringLiteral stringNode) {
+		// TODO Auto-generated method stub
+		
+	}
 }

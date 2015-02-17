@@ -17,5 +17,7 @@ public class StringLiteral extends Literal<String> {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {}
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }
