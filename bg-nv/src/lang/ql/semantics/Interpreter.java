@@ -14,17 +14,20 @@ public class Interpreter extends VisitorAbstract
 {
     private Stack<Value> valueStack;
     private Map<String, Value> variableValues;
+    private Map<Question, Set<Question>> questionDependencies;
 
-    public Interpreter()
+    //TODO: solve the passing of question dependencies in a different manner
+    public Interpreter(Map<Question, Set<Question>> questionDependencies)
     {
         this.valueStack = new Stack<Value>();
         this.variableValues = new HashMap<String, Value>();
+        this.questionDependencies = questionDependencies;
     }
 
     @Override
     public void visit(Form f)
     {
-        for(Statement s : f.getStatements())
+        for (Statement s : f.getStatements())
         {
             s.accept(this);
         }
@@ -37,7 +40,7 @@ public class Interpreter extends VisitorAbstract
         Expression e = c.getExpression();
         e.accept(this);
 
-        for(Statement s : c.getStatements())
+        for (Statement s : c.getStatements())
         {
             s.accept(this);
         }
@@ -55,6 +58,11 @@ public class Interpreter extends VisitorAbstract
     {
         Expression e = n.getExpression();
         e.accept(this);
+        if (this.questionDependencies.containsKey(n))
+        { //TODO: throw exception if not?
+            Set<Question> questions = this.questionDependencies.get(n);
+            //TODO: now what?
+        }
         this.variableValues.put(n.getId(), this.popFromStack());
     }
 
@@ -149,10 +157,14 @@ public class Interpreter extends VisitorAbstract
         try
         {
             return this.valueStack.pop();
-        }
-        catch (EmptyStackException ex)
+        } catch (EmptyStackException ex)
         {
             throw ex;
         }
+    }
+
+    public Map<String, Value> getVariableValues()
+    {
+        return variableValues;
     }
 }
