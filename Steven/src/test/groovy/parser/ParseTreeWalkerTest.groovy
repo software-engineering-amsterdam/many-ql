@@ -39,7 +39,7 @@ class ParseTreeWalkerTest extends Specification {
 
     def "Walker should return a populated list"() {
         when:
-        Form form = parseTreeWalker.<Form> walk(PATH_TO_INPUT_FILE, new QLBaseVisitorImpl())
+        Form form = parseTreeWalker.walk(PATH_TO_INPUT_FILE, new QLBaseVisitorImpl())
 
         then:
         !form.getElements().empty

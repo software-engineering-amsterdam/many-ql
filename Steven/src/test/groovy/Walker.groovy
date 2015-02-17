@@ -3,7 +3,6 @@ import org.antlr.v4.runtime.CommonTokenStream
 import parser.QLBaseVisitorImpl
 import parser.antlrGenerated.QLLexer
 import parser.antlrGenerated.QLParser
-import parser.ast.nodes.AbstractNode
 import spock.lang.Specification
 
 /**

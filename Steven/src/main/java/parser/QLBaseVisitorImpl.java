@@ -1,11 +1,11 @@
 package parser;
 
+import exceptions.ParseException;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.antlrGenerated.QLBaseVisitor;
 import parser.antlrGenerated.QLParser;
 import parser.ast.nodes.AbstractNode;
 import parser.ast.nodes.Form;
-import parser.ast.nodes.Statement;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,8 +24,18 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     }
 
     @Override
-    public Statement visitStatement(@NotNull QLParser.StatementContext ctx) {
-//        return super.visitStatement(ctx);
-        return new Statement();
+    public AbstractNode visitStatement(@NotNull QLParser.StatementContext ctx) throws ParseException {
+        if (ctx.if_statement() != null) {
+            return visit(ctx.if_statement());
+        } else if (ctx.question() != null) {
+            return visit(ctx.question());
+        } else {
+            throw new ParseException("Found unknown or invalid Statement entry.");
+        }
+    }
+
+    @Override
+    public AbstractNode visitIf_statement(@NotNull QLParser.If_statementContext ctx) {
+        return super.visitIf_statement(ctx);
     }
 }
