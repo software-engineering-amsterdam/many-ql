@@ -10,16 +10,8 @@ namespace QL.Model
     public abstract class ElementBase
     {
         public SourceLocation SourceLocation { get; protected set; }
-        public IList<ElementBase> Children { get; private set; }
 
-        public ElementType ElementType
-        {
-            get { return Children == null || Children.Count == 0 ? ElementType.Leaf : ElementType.Node; }
-        }
+        public abstract ElementType ElementType { get; }
 
-        protected ElementBase()
-        {
-            Children = new List<ElementBase>();
-        }
     }
 }

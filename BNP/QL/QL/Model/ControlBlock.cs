@@ -7,7 +7,7 @@ using QL.Model.Enums;
 
 namespace QL.Model
 {
-    public class ControlBlock : AbstractNodeBase
+    public class ControlBlock : TreeElementBase
     {
         public ControlBlockType Type { get; set; }
     }
