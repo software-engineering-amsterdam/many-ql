@@ -47,7 +47,8 @@ expression:
 	| expression PLUS expression 
 	| expression MINUS expression 
 	| expression MULTIPLY expression 
-	| expression DEVIDE expression 
+	| expression DEVIDE expression
+	| '(' expression ')'
 ;
 
 literal

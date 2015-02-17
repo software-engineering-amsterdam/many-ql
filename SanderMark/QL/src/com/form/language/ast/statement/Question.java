@@ -32,13 +32,14 @@ public class Question implements Statement {
         
         label.setText(questionLabel);
         labelContainer.add(label);
-        qPanel.add(labelContainer);		
+        qPanel.add(labelContainer);	
 	}
 
 	@Override
 	public JComponent createGUIComponent() {
 		createQuestion();
 		createQuestionLabel();
+		System.out.println(qPanel.getComponentCount());
 		return qPanel;
 	}	
 }
