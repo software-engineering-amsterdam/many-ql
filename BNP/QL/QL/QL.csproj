@@ -57,6 +57,11 @@
     <Compile Include="Grammars\QLVisitor.cs" />
     <Compile Include="Infrastructure\ParserErrorHandler.cs" />
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
+    <Compile Include="Model\AbstractNodeBase.cs" />
+    <Compile Include="Model\NodeFactory.cs" />
+    <Compile Include="Model\QuestionUnit.cs" />
+    <Compile Include="Model\SourceLocation.cs" />
+    <Compile Include="Model\UnitBase.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />

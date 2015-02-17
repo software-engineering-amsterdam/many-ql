@@ -36,6 +36,8 @@ OPERATOR				: CALCOPERATOR
 						| NEQOPERATOR
 						;
 
+operator: OPERATOR;
+
 // Production rules
 typedef		: YESNO
 			| NUMBER
@@ -65,7 +67,7 @@ expression	: typeDefExt
 			| (
 				'('	( typeDefExt 
 					| expression 
-					|  (expression OPERATOR expression) 
+					|  (expression operator expression) 
 					) 
 				')');
 

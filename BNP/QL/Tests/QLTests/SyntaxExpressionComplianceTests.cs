@@ -3,7 +3,7 @@
 namespace Tests.QLTests
 {
     [TestClass]
-    public class SyntaxExpressionComplianceTests : SyntaxComplianceTestBase
+    public class SyntaxExpressionComplianceTests : QLTestBase
     {
         #region Basic equality comparisons
         [TestMethod]

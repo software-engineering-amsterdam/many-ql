@@ -3,7 +3,7 @@
 namespace Tests.QLTests
 {
     [TestClass]
-    public class SyntaxUnitComplianceTests : SyntaxComplianceTestBase
+    public class SyntaxUnitComplianceTests : QLTestBase
     {
         #region Questions of different types
         [TestMethod]
