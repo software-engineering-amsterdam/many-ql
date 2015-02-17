@@ -9,39 +9,17 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface TaZQLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link TaZQLParser#questionnaire}.
+	 * Enter a parse tree produced by the {@code booleanType}
+	 * labeled alternative in {@link TaZQLParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx);
+	void enterBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TaZQLParser#questionnaire}.
+	 * Exit a parse tree produced by the {@code booleanType}
+	 * labeled alternative in {@link TaZQLParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code or}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterOr(@NotNull TaZQLParser.OrContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code or}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitOr(@NotNull TaZQLParser.OrContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code eqNot}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterEqNot(@NotNull TaZQLParser.EqNotContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code eqNot}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitEqNot(@NotNull TaZQLParser.EqNotContext ctx);
+	void exitBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ifelseStatement}
 	 * labeled alternative in {@link TaZQLParser#question}.
@@ -55,29 +33,65 @@ public interface TaZQLListener extends ParseTreeListener {
 	 */
 	void exitIfelseStatement(@NotNull TaZQLParser.IfelseStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code equation}
-	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * Enter a parse tree produced by the {@code integerType}
+	 * labeled alternative in {@link TaZQLParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterEquation(@NotNull TaZQLParser.EquationContext ctx);
+	void enterIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code equation}
-	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * Exit a parse tree produced by the {@code integerType}
+	 * labeled alternative in {@link TaZQLParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitEquation(@NotNull TaZQLParser.EquationContext ctx);
+	void exitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code addSub}
+	 * Enter a parse tree produced by the {@code eqNotExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAddSub(@NotNull TaZQLParser.AddSubContext ctx);
+	void enterEqNotExpression(@NotNull TaZQLParser.EqNotExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code addSub}
+	 * Exit a parse tree produced by the {@code eqNotExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAddSub(@NotNull TaZQLParser.AddSubContext ctx);
+	void exitEqNotExpression(@NotNull TaZQLParser.EqNotExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code equationExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code equationExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code multDivExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code multDivExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code notExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotExpression(@NotNull TaZQLParser.NotExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code notExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotExpression(@NotNull TaZQLParser.NotExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ifStatement}
 	 * labeled alternative in {@link TaZQLParser#question}.
@@ -91,6 +105,18 @@ public interface TaZQLListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(@NotNull TaZQLParser.IfStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code booleanExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code booleanExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code simpleQuestion}
 	 * labeled alternative in {@link TaZQLParser#question}.
 	 * @param ctx the parse tree
@@ -102,6 +128,18 @@ public interface TaZQLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSimpleQuestion(@NotNull TaZQLParser.SimpleQuestionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code orExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrExpression(@NotNull TaZQLParser.OrExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code orExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrExpression(@NotNull TaZQLParser.OrExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code number}
 	 * labeled alternative in {@link TaZQLParser#expression}.
@@ -115,41 +153,29 @@ public interface TaZQLListener extends ParseTreeListener {
 	 */
 	void exitNumber(@NotNull TaZQLParser.NumberContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code calcQuestion}
+	 * Enter a parse tree produced by the {@code andExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code andExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code computationQuestion}
 	 * labeled alternative in {@link TaZQLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void enterCalcQuestion(@NotNull TaZQLParser.CalcQuestionContext ctx);
+	void enterComputationQuestion(@NotNull TaZQLParser.ComputationQuestionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code calcQuestion}
+	 * Exit a parse tree produced by the {@code computationQuestion}
 	 * labeled alternative in {@link TaZQLParser#question}.
 	 * @param ctx the parse tree
 	 */
-	void exitCalcQuestion(@NotNull TaZQLParser.CalcQuestionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code not}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNot(@NotNull TaZQLParser.NotContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code not}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNot(@NotNull TaZQLParser.NotContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code boolean}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterBoolean(@NotNull TaZQLParser.BooleanContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code boolean}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitBoolean(@NotNull TaZQLParser.BooleanContext ctx);
+	void exitComputationQuestion(@NotNull TaZQLParser.ComputationQuestionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TaZQLParser#form}.
 	 * @param ctx the parse tree
@@ -161,29 +187,41 @@ public interface TaZQLListener extends ParseTreeListener {
 	 */
 	void exitForm(@NotNull TaZQLParser.FormContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code multDiv}
+	 * Enter a parse tree produced by the {@code addSubExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterMultDiv(@NotNull TaZQLParser.MultDivContext ctx);
+	void enterAddSubExpression(@NotNull TaZQLParser.AddSubExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code multDiv}
+	 * Exit a parse tree produced by the {@code addSubExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitMultDiv(@NotNull TaZQLParser.MultDivContext ctx);
+	void exitAddSubExpression(@NotNull TaZQLParser.AddSubExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code and}
+	 * Enter a parse tree produced by the {@code nestedExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterAnd(@NotNull TaZQLParser.AndContext ctx);
+	void enterNestedExpression(@NotNull TaZQLParser.NestedExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code and}
+	 * Exit a parse tree produced by the {@code nestedExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitAnd(@NotNull TaZQLParser.AndContext ctx);
+	void exitNestedExpression(@NotNull TaZQLParser.NestedExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code stringType}
+	 * labeled alternative in {@link TaZQLParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringType(@NotNull TaZQLParser.StringTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stringType}
+	 * labeled alternative in {@link TaZQLParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringType(@NotNull TaZQLParser.StringTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code id}
 	 * labeled alternative in {@link TaZQLParser#expression}.
@@ -208,16 +246,4 @@ public interface TaZQLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitText(@NotNull TaZQLParser.TextContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code prio}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrio(@NotNull TaZQLParser.PrioContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code prio}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrio(@NotNull TaZQLParser.PrioContext ctx);
 }
