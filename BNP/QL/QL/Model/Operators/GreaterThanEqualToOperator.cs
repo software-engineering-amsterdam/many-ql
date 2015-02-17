@@ -3,7 +3,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class Comparison : IOperator<BinaryTreeElementBase, BinaryTreeElementBase>
+    public class GreaterThanEqualToOperator : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>
     {
         public ITerminalType Evaluate()
         {

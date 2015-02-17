@@ -3,7 +3,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class Addition : IOperator<BinaryTreeElementBase, BinaryTreeElementBase>
+    public class PlusOperator : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>
     {
         public ITerminalType Evaluate()
         {
