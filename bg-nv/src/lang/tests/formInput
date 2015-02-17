@@ -1,12 +1,16 @@
 form Box1HouseOwning
 {
+<<<<<<< HEAD
+ integer has "another test" 2
+ integer test "purely test question :)" sold + 2
+ if (true)
+=======
  integer anotherQ "Sup???"
  boolean tralala "shalala" hasSoldHouse
  boolean hasSoldHouse "purely test question :)"
  if (hasSoldHouse)
+>>>>>>> ff3b8c94a3822a700a8059da000b6db4d959b030
  {
-
-    boolean sold "Price the house was sold for:" tralala
+    integer sold "Price the house was sold for:" has + 1
  }
- boolean sold "Price the house was sold for:" tralala
 }

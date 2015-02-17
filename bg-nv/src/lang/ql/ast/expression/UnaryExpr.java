@@ -3,16 +3,16 @@ package lang.ql.ast.expression;
 /**
  * Created by bore on 14/02/15.
  */
-public class UnaryOperator extends Expression
+public abstract class UnaryExpr extends Expr
 {
-    private Expression operand;
+    private Expr operand;
 
-    public UnaryOperator(Expression operand)
+    public UnaryExpr(Expr operand)
     {
         this.operand = operand;
     }
 
-    public Expression getOperand()
+    public Expr getOperand()
     {
         return this.operand;
     }

@@ -14,20 +14,24 @@ public class Interpreter extends VisitorAbstract
 {
     private Stack<Value> valueStack;
     private Map<String, Value> variableValues;
-    private Map<Question, Set<Question>> questionDependencies;
+    private TypeChecker typeChecker;
+    private SymbolTable table;
 
     //TODO: solve the passing of question dependencies in a different manner
-    public Interpreter(Map<Question, Set<Question>> questionDependencies)
+    public Interpreter()
     {
         this.valueStack = new Stack<Value>();
         this.variableValues = new HashMap<String, Value>();
-        this.questionDependencies = questionDependencies;
+        this.typeChecker = new TypeChecker();
     }
 
     @Override
     public void visit(Form f)
     {
-        for (Statement s : f.getStatements())
+        this.typeChecker.visit(f);
+        this.table = this.typeChecker.table();
+
+        for(Statement s : f.getStatements())
         {
             s.accept(this);
         }
@@ -37,7 +41,7 @@ public class Interpreter extends VisitorAbstract
     @Override
     public void visit(IfCondition c)
     {
-        Expression e = c.getExpression();
+        Expr e = c.getExpr();
         e.accept(this);
 
         for (Statement s : c.getStatements())
@@ -56,43 +60,51 @@ public class Interpreter extends VisitorAbstract
     @Override
     public void visit(CalculatedQuestion n)
     {
-        Expression e = n.getExpression();
+        Expr e = n.getExpr();
         e.accept(this);
-        if (this.questionDependencies.containsKey(n))
-        { //TODO: throw exception if not?
-            Set<Question> questions = this.questionDependencies.get(n);
-            //TODO: now what?
-        }
+//        if (this.questionDependencies.containsKey(n))
+//        { //TODO: throw exception if not?
+//            Set<Question> questions = this.questionDependencies.get(n);
+//            //TODO: now what?
+//        }
         this.variableValues.put(n.getId(), this.popFromStack());
     }
 
     @Override
-    public void visit(IntegerExpr e)
+    public void visit(IntExpr e)
     {
         this.valueStack.push(new IntegerValue(e.getValue()));
     }
 
     @Override
-    public void visit(StringExpr e)
+    public void visit(StrExpr e)
     {
         this.valueStack.push(new StringValue(e.getValue()));
     }
 
     @Override
-    public void visit(BooleanExpr e)
+    public void visit(BoolExpr e)
     {
         this.valueStack.push(new BooleanValue(e.getValue()));
     }
 
     @Override
-    public void visit(DecimalExpr e)
+    public void visit(DecExpr e)
     {
         this.valueStack.push(new DecimalValue(e.getValue()));
     }
 
     @Override
-    public void visit(Variable e)
+    public void visit(Identifier e)
     {
+        // TODO: get the Question expression based on the identifier and compute its value and put it in the variableValues
+        if (!(this.variableValues.containsKey(e.getId())))
+        {
+            List<Question> qs = this.table.getQuestionsById(e.getId());
+            assert qs.size() == 1;
+            Question q = qs.get(0);
+            q.accept(this);
+        }
         Value v = this.variableValues.get(e.getId());
         this.valueStack.push(v);
     }

@@ -5,11 +5,11 @@ import lang.ql.semantics.Visitor;
 /**
  * Created by bore on 09/02/15.
  */
-public class Variable extends Expression
+public class Identifier extends Expr
 {
     private String id;
 
-    public Variable(String id)
+    public Identifier(String id)
     {
         this.id = id;
     }

@@ -7,9 +7,9 @@ import java.math.BigInteger;
 /**
  * Created by bore on 10/02/15.
  */
-public class DecimalExpr extends ConstantExpr<BigInteger>
+public class DecExpr extends ConstExpr<BigInteger>
 {
-    public DecimalExpr(BigInteger value)
+    public DecExpr(BigInteger value)
     {
         super(value);
     }

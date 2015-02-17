@@ -3,13 +3,13 @@ package lang.ql.ast.expression;
 import lang.ql.semantics.Visitor;
 
 /**
- * Created by bore on 10/02/15.
+ * Created by bore on 17/02/15.
  */
-public class BooleanExpr extends ConstantExpr<Boolean>
+public class GtEqu extends BinaryExpr
 {
-    public BooleanExpr(Boolean value)
+    public GtEqu(Expr left, Expr right)
     {
-        super(value);
+        super(left, right);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

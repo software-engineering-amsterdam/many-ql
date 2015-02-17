@@ -3,12 +3,12 @@ package lang.ql.ast.expression;
 /**
  * Created by bore on 10/02/15.
  */
-public abstract class ConstantExpr<T> extends Expression
+public abstract class ConstExpr<T> extends Expr
 {
     // TODO: Add Date constant expression
     protected T value;
 
-    public ConstantExpr(T value)
+    public ConstExpr(T value)
     {
         this.value = value;
     }

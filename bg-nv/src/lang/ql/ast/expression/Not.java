@@ -3,13 +3,13 @@ package lang.ql.ast.expression;
 import lang.ql.semantics.Visitor;
 
 /**
- * Created by bore on 14/02/15.
+ * Created by bore on 17/02/15.
  */
-public class Gt extends BinaryExpr
+public class Not extends UnaryExpr
 {
-    public Gt(Expr left, Expr right)
+    public Not(Expr operand)
     {
-        super(left, right);
+        super(operand);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

@@ -3,13 +3,13 @@ package lang.ql.ast.expression;
 import lang.ql.semantics.Visitor;
 
 /**
- * Created by bore on 09/02/15.
+ * Created by bore on 17/02/15.
  */
-public class IntegerExpr extends ConstantExpr<Integer>
+public class Mul extends BinaryExpr
 {
-    public IntegerExpr(int value)
+    public Mul(Expr left, Expr right)
     {
-        super(value);
+        super(left, right);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

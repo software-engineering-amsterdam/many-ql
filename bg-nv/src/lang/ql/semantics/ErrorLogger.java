@@ -5,12 +5,12 @@ import java.util.Stack;
 /**
  * Created by bore on 16/02/15.
  */
-public class Errors
+public class ErrorLogger
 {
     private Stack<RuntimeException> exceptions;
     private Stack<RuntimeException> warnings;
 
-    public Errors()
+    public ErrorLogger()
     {
         this.exceptions = new Stack<RuntimeException>();
         this.warnings = new Stack<RuntimeException>();

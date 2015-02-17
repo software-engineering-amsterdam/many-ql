@@ -50,8 +50,8 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
 
         if (context.expression() != null)
         {
-            Expression expression = (Expression)visitExpression(context.expression());
-            return new CalculatedQuestion(id, questionType, text, expression);
+            Expr expr = (Expr)visitExpression(context.expression());
+            return new CalculatedQuestion(id, questionType, text, expr);
         }
 
         return new Question(id, questionType, text);
@@ -60,7 +60,7 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     @Override
     public AstNode visitIfCondition(@NotNull QLParser.IfConditionContext context)
     {
-        Expression expression = (Expression)visitExpression(context.expression());
+        Expr expr = (Expr)visitExpression(context.expression());
 
         List<Statement> ifStatements = new ArrayList<Statement>();
         for (QLParser.StatementContext statement : context.statement())
@@ -69,7 +69,7 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
             ifStatements.add(s);
         }
 
-        return new IfCondition(expression, ifStatements);
+        return new IfCondition(expr, ifStatements);
     }
 
     @Override
@@ -88,10 +88,10 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         return this.visitConstantExpression(context);
     }
 
-    public Expression visitBinaryExpression(QLParser.ExpressionContext lContext, QLParser.ExpressionContext rContext, String operator)
+    public Expr visitBinaryExpression(QLParser.ExpressionContext lContext, QLParser.ExpressionContext rContext, String operator)
     {
-        Expression left = (Expression)this.visit(lContext);
-        Expression right = (Expression)this.visit(rContext);
+        Expr left = (Expr)this.visit(lContext);
+        Expr right = (Expr)this.visit(rContext);
 
         if (operator.equals("+")) { return new Add(left, right); }
         if (operator.equals("-")) { return new Sub(left, right); }
@@ -100,9 +100,9 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         throw new IllegalArgumentException("No such binary operator: " + operator);
     }
 
-    public Expression visitUnaryExpression(QLParser.ExpressionContext operandContext, String operator)
+    public Expr visitUnaryExpression(QLParser.ExpressionContext operandContext, String operator)
     {
-        Expression operand = (Expression)this.visit(operandContext);
+        Expr operand = (Expr)this.visit(operandContext);
 
         if (operator == "+") { return new Pos(operand); }
         if (operator == "-") { return new Neg(operand); }
@@ -110,28 +110,28 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         throw new IllegalArgumentException("No such unary operator: " + operator);
     }
 
-    public Expression visitConstantExpression(QLParser.ExpressionContext operandContext)
+    public Expr visitConstantExpression(QLParser.ExpressionContext operandContext)
     {
         if (operandContext.Integer() != null)
         {
             int value = Integer.parseInt(operandContext.Integer().getText());
-            return new IntegerExpr(value);
+            return new IntExpr(value);
         }
 
         if (operandContext.String() != null)
         {
-            return new StringExpr(operandContext.String().getText());
+            return new StrExpr(operandContext.String().getText());
         }
 
         if (operandContext.Identifier() != null)
         {
-            return new Variable(operandContext.Identifier().getText());
+            return new Identifier(operandContext.Identifier().getText());
         }
 
         if (operandContext.Boolean() != null)
         {
             Boolean value = Boolean.parseBoolean(operandContext.Boolean().getText());
-            return new BooleanExpr(value);
+            return new BoolExpr(value);
         }
 
         // TODO: add date and decimal expressions

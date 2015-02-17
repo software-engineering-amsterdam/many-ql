@@ -49,14 +49,7 @@ public class Main extends Application
             PrintVisitor print = new PrintVisitor();
             print.visit(ast);
 
-            SymbolVisitor symbolVisitor = new SymbolVisitor();
-            symbolVisitor.visit(ast);
-            SymbolTable table = symbolVisitor.getSymbolTable();
-
-            TypeChecker typeVisitor = new TypeChecker(table);
-            typeVisitor.visit(ast);
-
-            Interpreter v = new Interpreter(typeVisitor.getQuestionDependencies());
+            Interpreter v = new Interpreter();
             v.visit(ast);
             values = v.getVariableValues();
 
