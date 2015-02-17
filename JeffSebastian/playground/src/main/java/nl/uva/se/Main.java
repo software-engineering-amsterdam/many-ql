@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import nl.uva.se.parser.QLLexer;
 import nl.uva.se.parser.QLParser;
-import nl.uva.se.visitor.QLVisitorImpl;
+import nl.uva.se.parser.QLVisitorImpl;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;

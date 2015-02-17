@@ -39,7 +39,7 @@ func (exec *Execute) resolveNumeric(t *ast.TermNode) float32 {
 }
 
 func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
-	identifier := t.IdentifierReference
+	identifier := t.IdentifierReference()
 	if identifier != "" {
 		ret := make(chan *ast.QuestionNode)
 		exec.symbolChan <- &symbolEvent{
@@ -52,17 +52,17 @@ func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
 
 		switch q.Type() {
 		case ast.BoolQuestionType:
-			content := q.Content.(*ast.BoolQuestion)
+			content := q.Content().(*ast.BoolQuestion)
 			return content.Value()
 		case ast.IntQuestionType:
-			content := q.Content.(*ast.IntQuestion)
+			content := q.Content().(*ast.IntQuestion)
 			return content.Value()
 		case ast.StringQuestionType:
-			content := q.Content.(*ast.StringQuestion)
+			content := q.Content().(*ast.StringQuestion)
 			return content.String()
 		}
 	}
-	return t.NumericConstant
+	return t.NumericConstant()
 }
 
 func (exec *Execute) resolveComparisonNode(n interface{}) bool {

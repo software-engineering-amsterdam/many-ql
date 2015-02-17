@@ -1,25 +1,23 @@
 grammar KLQ;
 
 //Keywords
-PAGE        : 'page' ;
-SECTION     : 'section' ;
 QUESTION    : 'question' ;
 END         : 'end' ;
 ID          : 'id' ;
+TEXT        : 'text' ;
 TYPE        : 'type' ;
 VALUE       : 'value' ;
-TEXT        : 'text' ;
-REQUIRES    : 'requires' ;
-ONLY        : 'only' ;
+
 SET         : 'set' ;
 BOOLEAN     : 'boolean' ;
 DATE        : 'date' ;
 CURRENCY    : 'currency' ;
 STRING      : 'string' ;
 NUMERAL     : 'numeral' ;
-TODAY       : 'today' ;
-NOW         : 'now' ;
 ANSWER      : 'answer' ;
+
+IF          : 'if' ;
+THEN        : 'then' ;
 
 //Operators
 ADD : '+' ;
@@ -30,25 +28,33 @@ G   : '>' ;
 L   : '<' ;
 GT  : '>=' ;
 LT  : '<=' ;
+AND : '&&' ;
+OR  : '||' ;
 
-questionaire
-    : question+
+questionnaire
+    :
+    ( condQuestion
+    | question
+    )*
+    ;
+
+condQuestion
+    : 'if' expr 'then' NEWLINE
+    ( condQuestion
+    | question
+    ) End
     ;
 
 question
-    : questionBegin
-        'id'       ':' QuestionId   NEWLINE
-        'text'     ':' String       NEWLINE
-        'type'     ':' questionType NEWLINE
-       ('value'    ':' answerSet    NEWLINE)?
-      questionEnd
-    ;
-
-questionBegin
     : 'question' NEWLINE
+          'id'       ':' id=QuestionId      NEWLINE
+          'text'     ':' String             NEWLINE
+          'type'     ':' type=questionType  NEWLINE
+         ('value'    ':' answerSet          NEWLINE)?
+      End
     ;
 
-questionEnd :
+End :
     'end'
         ( NEWLINE+
         | EOF
@@ -78,33 +84,27 @@ Number
     ;
 Date
     : Int ( '.' | '-' | '/' ) Int ( '.' | '-' | '/' ) Int?
-    | 'today'
     ;
 
 Time
     : Int ( '.' | '-' | ':' ) Int
-    | 'now'
-    ;
-
-answer
-    : expr
-    | Number
-    | String
     ;
 
 expr
     : expr ( '*' | '/' ) expr
     | expr ( '+' | '-' ) expr
     | expr ( '>=' | '>' | '<=' | '<' ) expr
+    | expr '&&'  expr
+    | expr '||' expr
+    | '(' expr ')'
     | Number
     | Date
     | String
-    | 'answer'
-    |'(' expr ')'
+    | QuestionId
     ;
 
 answerSet
-    : answer (', ' answer)*
+    : expr (', ' expr)*
     ;
 
 Int : Digit+
@@ -113,8 +113,6 @@ Int : Digit+
 Decimal
     : Digit+ '.' Digit*
     ;
-
-
 
 fragment StringCharacter
     : ~[\\"]                    //TODO define possible Escape things.

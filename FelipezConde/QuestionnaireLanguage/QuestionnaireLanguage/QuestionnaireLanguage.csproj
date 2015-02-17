@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AST\Factory\AstFactory.cs" />
     <Compile Include="AST\iASTNode.cs" />
     <Compile Include="AST\Nodes\Arithmetic\AddArithmeticNode.cs" />
     <Compile Include="AST\Nodes\Arithmetic\DivideArithmeticNode.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="AST\Nodes\IdNode.cs" />
     <Compile Include="AST\Nodes\KeyValuePair\iKeyValuePairNode.cs" />
     <Compile Include="AST\Nodes\KeyValuePair\KeyValuePairNode.cs" />
+    <Compile Include="AST\Nodes\NodeFactory.cs" />
     <Compile Include="AST\Nodes\Types\BoolNode.cs" />
     <Compile Include="AST\Nodes\Types\DateNode.cs" />
     <Compile Include="AST\Nodes\Types\DecimalNode.cs" />

@@ -4,7 +4,7 @@ Introduction : Welcome to my questionnaire.
 
 Question hummus (bool): Do you love hummus?
 
-Question number (integer): What is the most awesome number?
+Question number (number): What is the most awesome number?
 
 if (hummus == True) {
     Question why (text) : What do you like about hummus?
@@ -23,7 +23,7 @@ if (con == True) {
 
 /*
 if (True == True) {
-    Question something (integer) : How many numbers does this if loop contain?
+    Question something (number) : How many numbers does this if loop contain?
 
     Question check (bool) : Will this work?
 }

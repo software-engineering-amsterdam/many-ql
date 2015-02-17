@@ -9,6 +9,7 @@ class Operator:
     def __str__(self):
         return str(self.operator)
 
+
 class Expression:
     def __init__(self, expression):
         self.expression = expression[0]
@@ -39,11 +40,14 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + Expression.sub_expression(self.expression)
 
-
-    def type_validator(answer, qtype):
-        if isinstance(answer, str):
-            return True
-        return False
+    def as_list(self):
+        l = []
+        for e in self.expression:
+            if isinstance(e, list):
+                l.append(Expression.as_list(e))
+            else:
+                l.append(str(e))
+        return l
 
 # Questions
 class Question:
@@ -59,12 +63,6 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
-
-    def update(self, new_answer):
-        if Expression.type_validator(new_answer, self.get_type()) is True:
-            self.answer = [new_answer]
-        else:
-            raise QException("Answer type and input type collision")
 
     # Getters
     def get_label(self):
@@ -123,7 +121,7 @@ class AdvancedQuestions(Question):
         return None
 
     def get_condition(self):
-        return self.condition.ast_print()
+        return self.condition.as_list()
 
     def all_ids(self):
         ids = []

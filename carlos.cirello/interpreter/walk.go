@@ -29,14 +29,14 @@ func (walk Walk) Exec(node interface{}) {
 
 // QuestionaireNode Walker all actionNodes of a questionaire (form)
 func (walk Walk) QuestionaireNode(q *ast.QuestionaireNode) {
-	for _, actionNode := range q.Stack {
+	for _, actionNode := range q.Stack() {
 		walk.Exec(actionNode)
 	}
 }
 
 // ActionNode branches to QuestionNode or IfNode Walkerrs
 func (walk Walk) ActionNode(a *ast.ActionNode) {
-	walk.Exec(a.Action)
+	walk.Exec(a.Action())
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
@@ -51,10 +51,10 @@ func (walk Walk) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (walk Walk) IfNode(i *ast.IfNode) {
-	for _, actionNode := range i.Stack {
+	for _, actionNode := range i.Stack() {
 		walk.Exec(actionNode)
 	}
-	if i.ElseNode != nil {
-		walk.Exec(i.ElseNode)
+	if i.ElseNode() != nil {
+		walk.Exec(i.ElseNode())
 	}
 }

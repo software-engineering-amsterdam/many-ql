@@ -11,6 +11,7 @@ using Antlr4.Runtime;
 using QuestionnaireLanguage.AST.Nodes.FormElement;
 using QuestionnaireLanguage.AST.Nodes.FormObject;
 using QuestionnaireLanguage.AST.Nodes.GenericTypeName;
+using QuestionnaireLanguage.AST.Factory;
 
 namespace QuestionnaireLanguage.AST
 {
@@ -27,17 +28,17 @@ namespace QuestionnaireLanguage.AST
             }
         }
 
-        public override iASTNode VisitForm(QLMainParser.FormContext context) 
+        public override iASTNode VisitForm(QLMainParser.FormContext context)
         {
             iASTNode ast = new FormNode();
 
             foreach (iASTNode child in VisitChildren(context))
                 ast.AddChild(child);
 
-            return ast; 
+            return ast;
         }
 
-        public override iASTNode VisitFormSection(QLMainParser.FormSectionContext context) 
+        public override iASTNode VisitFormSection(QLMainParser.FormSectionContext context)
         {
             iASTNode ast = new FormSectionNode();
 
@@ -47,7 +48,7 @@ namespace QuestionnaireLanguage.AST
             return ast;
         }
 
-        public override iASTNode VisitFormObject(QLMainParser.FormObjectContext context) 
+        public override iASTNode VisitFormObject(QLMainParser.FormObjectContext context)
         {
             iASTNode ast = new FormSectionNode();
 
@@ -60,7 +61,7 @@ namespace QuestionnaireLanguage.AST
         public override iASTNode VisitFormElem(QLMainParser.FormElemContext context)
         {
             iASTNode ast = new FormElementNode();
-            
+
             foreach (iASTNode child in VisitChildren(context))
                 ast.AddChild(child);
 
@@ -77,16 +78,9 @@ namespace QuestionnaireLanguage.AST
             return ast;
         }
 
-        public override iASTNode VisitFormElemType(QLMainParser.FormElemTypeContext context) 
+        public override iASTNode VisitFormElemType(QLMainParser.FormElemTypeContext context)
         {
-            iASTNode ast;
-
-            //iASTNode ast = context.GetText().Equals("question") ? new QuestionNode() : new FieldNode();
-
-            if (context.GetText().Equals("question"))
-                ast = new QuestionNode();
-            else// if (context.GetText().Equals("question"))
-                ast = new FieldNode();
+            iASTNode ast = AstFactory.GetNodeFactory().GetFormObjectNode(context.GetText());
 
             foreach (iASTNode child in VisitChildren(context))
                 ast.AddChild(child);
@@ -101,7 +95,7 @@ namespace QuestionnaireLanguage.AST
             //if (context.GetText().Equals("genericTypeName"))
             //    ast = new GenericTypeNameNode();
             //else
-           
+
             foreach (iASTNode child in VisitChildren(context))
                 ast.AddChild(child);
 

@@ -1,4 +1,4 @@
-// Generated from /home/narpendyah/intellij-idea-projects/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
+// Generated from /Users/bore/Projects/SoftwareConstruction/many-ql/bg-nv/src/lang/ql/syntax/QL.g4 by ANTLR 4.5
 package lang.ql.gen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -19,7 +19,7 @@ public class QLParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, QuestionType=20, Identifier=21, Boolean=22, Date=23, 
+		T__17=18, T__18=19, QuestionType=20, Boolean=21, Identifier=22, Date=23, 
 		Integer=24, Decimal=25, String=26, Comment=27, LineComment=28, WS=29;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_question = 2, RULE_ifCondition = 3, 
@@ -34,8 +34,8 @@ public class QLParser extends Parser {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, "QuestionType", "Identifier", 
-		"Boolean", "Date", "Integer", "Decimal", "String", "Comment", "LineComment", 
+		null, null, null, null, null, null, null, null, "QuestionType", "Boolean", 
+		"Identifier", "Date", "Integer", "Decimal", "String", "Comment", "LineComment", 
 		"WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -100,14 +100,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_form; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterForm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitForm(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitForm(this);
 			else return visitor.visitChildren(this);
@@ -168,14 +160,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitStatement(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
@@ -229,14 +213,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_question; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion(this);
 			else return visitor.visitChildren(this);
@@ -258,7 +234,7 @@ public class QLParser extends Parser {
 			match(String);
 			setState(30);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__6) | (1L << T__7) | (1L << Identifier) | (1L << Boolean) | (1L << Date) | (1L << Integer) | (1L << Decimal) | (1L << String))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__6) | (1L << T__7) | (1L << Boolean) | (1L << Identifier) | (1L << Date) | (1L << Integer) | (1L << Decimal) | (1L << String))) != 0)) {
 				{
 				setState(29); 
 				expression(0);
@@ -292,14 +268,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifCondition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterIfCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitIfCondition(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIfCondition(this);
@@ -385,14 +353,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_expressionList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpressionList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpressionList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExpressionList(this);
 			else return visitor.visitChildren(this);
@@ -419,7 +379,7 @@ public class QLParser extends Parser {
 				setState(55); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__6) | (1L << T__7) | (1L << Identifier) | (1L << Boolean) | (1L << Date) | (1L << Integer) | (1L << Decimal) | (1L << String))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__6) | (1L << T__7) | (1L << Boolean) | (1L << Identifier) | (1L << Date) | (1L << Integer) | (1L << Decimal) | (1L << String))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -456,14 +416,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExpression(this);
@@ -721,18 +673,18 @@ public class QLParser extends Parser {
 		"\3\7\3\7\5\7I\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
 		"\3\7\3\7\3\7\3\7\3\7\7\7]\n\7\f\7\16\7`\13\7\3\7\2\3\f\b\2\4\6\b\n\f\2"+
 		"\6\3\2\t\n\3\2\13\r\3\2\16\21\3\2\22\23n\2\16\3\2\2\2\4\32\3\2\2\2\6\34"+
-		"\3\2\2\2\b\64\3\2\2\2\n\67\3\2\2\2\fH\3\2\2\2\16\17\7\3\2\2\17\20\7\27"+
+		"\3\2\2\2\b\64\3\2\2\2\n\67\3\2\2\2\fH\3\2\2\2\16\17\7\3\2\2\17\20\7\30"+
 		"\2\2\20\22\7\4\2\2\21\23\5\4\3\2\22\21\3\2\2\2\23\24\3\2\2\2\24\22\3\2"+
 		"\2\2\24\25\3\2\2\2\25\26\3\2\2\2\26\27\7\5\2\2\27\3\3\2\2\2\30\33\5\6"+
 		"\4\2\31\33\5\b\5\2\32\30\3\2\2\2\32\31\3\2\2\2\33\5\3\2\2\2\34\35\7\26"+
-		"\2\2\35\36\7\27\2\2\36 \7\34\2\2\37!\5\f\7\2 \37\3\2\2\2 !\3\2\2\2!\7"+
+		"\2\2\35\36\7\30\2\2\36 \7\34\2\2\37!\5\f\7\2 \37\3\2\2\2 !\3\2\2\2!\7"+
 		"\3\2\2\2\"#\7\6\2\2#$\7\7\2\2$%\5\f\7\2%&\7\b\2\2&(\7\4\2\2\')\5\4\3\2"+
 		"(\'\3\2\2\2)*\3\2\2\2*(\3\2\2\2*+\3\2\2\2+,\3\2\2\2,-\7\5\2\2-\65\3\2"+
 		"\2\2./\7\6\2\2/\60\7\7\2\2\60\61\5\f\7\2\61\62\7\b\2\2\62\63\5\4\3\2\63"+
 		"\65\3\2\2\2\64\"\3\2\2\2\64.\3\2\2\2\65\t\3\2\2\2\668\5\f\7\2\67\66\3"+
 		"\2\2\289\3\2\2\29\67\3\2\2\29:\3\2\2\2:\13\3\2\2\2;<\b\7\1\2<=\t\2\2\2"+
-		"=I\5\f\7\17>?\7\7\2\2?@\5\f\7\2@A\7\b\2\2AI\3\2\2\2BI\7\30\2\2CI\7\31"+
-		"\2\2DI\7\33\2\2EI\7\34\2\2FI\7\27\2\2GI\7\32\2\2H;\3\2\2\2H>\3\2\2\2H"+
+		"=I\5\f\7\17>?\7\7\2\2?@\5\f\7\2@A\7\b\2\2AI\3\2\2\2BI\7\27\2\2CI\7\31"+
+		"\2\2DI\7\33\2\2EI\7\34\2\2FI\7\30\2\2GI\7\32\2\2H;\3\2\2\2H>\3\2\2\2H"+
 		"B\3\2\2\2HC\3\2\2\2HD\3\2\2\2HE\3\2\2\2HF\3\2\2\2HG\3\2\2\2I^\3\2\2\2"+
 		"JK\f\16\2\2KL\t\3\2\2L]\5\f\7\17MN\f\r\2\2NO\t\2\2\2O]\5\f\7\16PQ\f\f"+
 		"\2\2QR\t\4\2\2R]\5\f\7\rST\f\13\2\2TU\t\5\2\2U]\5\f\7\fVW\f\n\2\2WX\7"+

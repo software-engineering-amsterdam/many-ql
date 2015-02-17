@@ -5,30 +5,42 @@ import ast.QLAST
 class QLTypeChecker extends {
     import QLAST._
 
-    var questionVariableMap = Map[String, Integer]()
+    //type Variables = List[String]
   
-    // TODO: Add Tests
-    def addToVariableMap(v: Variable) = questionVariableMap.get(v.name) match {
-      case Some(counter) => questionVariableMap += (v.name -> (counter + 1)) // TODO: Error stack?
-      case None => questionVariableMap += (v.name -> 1)
+    var warnings: Set[String] = Set()
+    var errors: Set[String] = Set()
+    var questionsList: List[Question] = List()
+    
+    def isDuplicateQuestionVariable(questionList: List[Question], question: Question): Boolean = questionList.exists(q => q.v == question.v)
+
+    def isDuplicateQuestionLabel(questionList: List[Question], question: Question): Boolean = questionList.exists(q => q.label == question.label)
+
+    def addQuestion(question: Question) = questionsList = questionsList :+ question
+  
+    def checkQuestion(question: Question) = {
+      if (isDuplicateQuestionVariable(questionsList, question)) errors += (s"Error: Duplicate question key: ${question.v.name}")
+      if (isDuplicateQuestionLabel(questionsList, question)) warnings += (s"Warning: Duplicate question label: ${question.label}")
+      addQuestion(question)
     }
 
+    //def check(form: Form, vars: Variables = List()) = check(form.e, vars)
+  
     // TODO: Add Tests
     def check(statement: Statement): Literal = statement match {
-      case BooleanQuestion(v: Variable, label: String) => addToVariableMap(v); BooleanLiteral(true)
-      case ComputedBooleanQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
+      case question @ BooleanQuestion(v: Variable, label: String) => checkQuestion(question); BooleanLiteral(true)
+      case question @ NumberQuestion(v: Variable, label: String) => checkQuestion(question); BooleanLiteral(true)
+      case question @ StringQuestion(v: Variable, label: String) => checkQuestion(question); BooleanLiteral(true)
+      case question @ ComputedBooleanQuestion(v: Variable, label: String, e: Expression) => checkQuestion(question); check(e) match {
         case BooleanLiteral(true) => BooleanLiteral(true)
         case _ => sys.error("Invalid expression for computed boolean expression")
       }
-      case IntegerQuestion(v: Variable, label: String) => addToVariableMap(v); BooleanLiteral(true)
-      case ComputedIntegerQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
+      case question @ ComputedNumberQuestion(v: Variable, label: String, e: Expression) => checkQuestion(question); check(e) match {
         case BooleanLiteral(true) => BooleanLiteral(true)
         case _ => sys.error("Invalid expression for computed integer expression")
       }
-      case StringQuestion(v: Variable, label: String) => addToVariableMap(v); StringLiteral("")
-      case ComputedStringQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
+      case question @ ComputedStringQuestion(v: Variable, label: String, e: Expression) => checkQuestion(question); check(e) match {
         case BooleanLiteral(true) => BooleanLiteral(true)
-        case _ => sys.error("Invalid expression for computed integer expression")
+        case _ => sys.error("Invalid expression for computed string expression")
       }
     }
   
@@ -90,7 +102,6 @@ class QLTypeChecker extends {
         case (NumberLiteral(_), NumberLiteral(_)) => BooleanLiteral(true)
         case _ => sys.error("Invalid DIV expression.")
       }
-
       // TODO: Variable
 
       case BooleanLiteral(_) => BooleanLiteral(true)
