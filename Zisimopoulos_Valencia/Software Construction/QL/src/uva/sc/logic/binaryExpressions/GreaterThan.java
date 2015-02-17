@@ -1,5 +1,7 @@
 package uva.sc.logic.binaryExpressions;
 
-public class GreaterThan extends BinaryExpression{
+import uva.sc.logic.Expression;
+
+public class GreaterThan extends Expression{
 
 }

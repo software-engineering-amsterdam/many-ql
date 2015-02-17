@@ -1,5 +1,7 @@
 package uva.sc.logic.binaryExpressions;
 
-public class Equals extends BinaryExpression{
+import uva.sc.logic.Expression;
+
+public class Equals extends Expression{
 
 }

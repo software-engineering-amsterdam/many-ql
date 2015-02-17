@@ -1,5 +1,7 @@
 package uva.sc.logic.binaryExpressions;
 
-public class Multiplication extends BinaryExpression{
+import uva.sc.logic.Expression;
+
+public class Multiplication extends Expression{
 
 }

@@ -1,5 +1,7 @@
 package uva.sc.logic.unaryExpressions;
 
-public class Minus extends UnaryExpression{
+import uva.sc.logic.Expression;
+
+public class Minus extends Expression{
 
 }

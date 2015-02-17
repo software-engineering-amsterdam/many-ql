@@ -6,20 +6,31 @@ import java.util.List;
 import java.util.HashMap;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.omg.CORBA.CTX_RESTRICT_SCOPE;
 
-import uva.sc.ast.Node;
+import uva.sc.logic.Node;
 import uva.sc.ast.NodeTree;
-import uva.sc.ast.Tree;
 import uva.sc.logic.Form;
+import uva.sc.logic.Question;
+import uva.sc.logic.Statement;
+import uva.sc.logic.binaryExpressions.Addition;
 import uva.sc.parser.GrammarBaseVisitor;
 import uva.sc.parser.GrammarParser;
 import uva.sc.parser.GrammarParser.StatContext;
 
-public class EvalVisitor extends GrammarBaseVisitor<Value> {
+public class EvalVisitor extends GrammarBaseVisitor<Node> {
 	
-	private static HashMap<String, Value> memory = new HashMap<String, Value>();
-	Form form = null;
+	@Override
+	public Form visitForm(GrammarParser.FormContext ctx) {
+		List<Statement> statementList = new ArrayList<Statement>();
+		for (int i = 0 ; i < ctx.sts.size() ; i++) 
+			statementList.add((Statement)visitStat(ctx.sts.get(i)));
+		return new Form(ctx.ID().getText(), statementList);
+	}
+	
+	
+	
+	
+	
 	
 	@Override
 	public Addition visitAdditive(GrammarParser.AdditiveContext ctx) {
@@ -31,14 +42,13 @@ public class EvalVisitor extends GrammarBaseVisitor<Value> {
 		return null;
 	}
 	
-	@Override
-	public Form visitForm(GrammarParser.FormContext ctx) {
-		form = new Form(ctx.ID().getText(), visitStat(ctx.sts)); 
-		return form;
+	@Override 
+	public Question visitQuestion(GrammarParser.QuestionContext ctx) {
+		return new Question(ctx.STRING(), ctx.ID(), visitType(ctx.type()), visit ctx.expr());
 	}
 
 	@Override
-	public Value visitId(GrammarParser.IdContext ctx) {
+	public Addition visitId(GrammarParser.IdContext ctx) {
 		Value returnValue = null;
 		String id = ctx.ID().getText();
 		if (memory.containsKey(id))

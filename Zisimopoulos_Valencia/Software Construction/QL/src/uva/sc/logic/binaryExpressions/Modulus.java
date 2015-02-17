@@ -1,5 +1,7 @@
 package uva.sc.logic.binaryExpressions;
 
-public class Modulus extends BinaryExpression{
+import uva.sc.logic.Expression;
+
+public class Modulus extends Expression{
 
 }
