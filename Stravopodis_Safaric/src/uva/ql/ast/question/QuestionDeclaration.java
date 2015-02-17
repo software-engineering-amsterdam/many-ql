@@ -4,9 +4,10 @@ import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.statements.Statement;
 import uva.ql.supporting.Tuple;
 
-public abstract class QuestionDeclaration extends Statement {
-	protected Identifier identifier;
-	protected String questionString;
+public class QuestionDeclaration extends Statement {
+	
+	private Identifier identifier;
+	private String questionString;
 	
 	public QuestionDeclaration(Identifier _identifier, String _questionString, Tuple<Integer, Integer> _codeLines){
 		super(_codeLines);
@@ -14,4 +15,8 @@ public abstract class QuestionDeclaration extends Statement {
 		this.questionString = _questionString;
 	}
 	
+	@Override
+	public String toString(){
+		return this.getClass().getName() + "(" + this.identifier.getValue() + "," + this.questionString + ")";
+	}
 }

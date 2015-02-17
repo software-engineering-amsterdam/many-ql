@@ -5,16 +5,25 @@ import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.supporting.Tuple;
 
 public class Assign extends Statement {
-	protected Identifier identifier;
-	protected Expression expression;
+	private Identifier identifier;
+	private Expression expression;
+	private String string;
 	
 	public Assign(Identifier _identifier, Expression _expression, Tuple<Integer, Integer> _codeLines){
 		super(_codeLines);
 		this.identifier = _identifier;
 		this.expression = _expression;
 	}
+	public Assign(Identifier _identifier, String _string, Tuple<Integer, Integer> _codeLines){
+		super(_codeLines);
+		this.identifier = _identifier;
+		this.string = _string;
+	}
 	@Override
 	public String toString(){
-		return "Assign(" + this.identifier.getValue() + "," + this.expression + ")";
+		if (this.expression != null)
+			return "Assign(" + this.identifier.getValue() + "," + this.expression + ")";
+		else
+			return "Assign(" + this.identifier.getValue() + "," + this.string + ")";
 	}
 }
