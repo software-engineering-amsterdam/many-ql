@@ -93,9 +93,9 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         Expression left = (Expression)this.visit(lContext);
         Expression right = (Expression)this.visit(rContext);
 
-        if (operator.equals("+")) { return new AdditionExpression(left, right); }
-        if (operator.equals("-")) { return new SubtractionExpression(left, right); }
-        if (operator.equals(">")) { return new GreaterThanExpression(left, right); }
+        if (operator.equals("+")) { return new Add(left, right); }
+        if (operator.equals("-")) { return new Sub(left, right); }
+        if (operator.equals(">")) { return new Gt(left, right); }
         // TODO: add all expressions here
         throw new IllegalArgumentException("No such binary operator: " + operator);
     }
@@ -104,8 +104,8 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     {
         Expression operand = (Expression)this.visit(operandContext);
 
-        if (operator == "+") { return new UnaryPlusExpression(operand); }
-        if (operator == "-") { return new UnaryMinusExpression(operand); }
+        if (operator == "+") { return new Pos(operand); }
+        if (operator == "-") { return new Neg(operand); }
         // TODO: add expressions
         throw new IllegalArgumentException("No such unary operator: " + operator);
     }
@@ -115,23 +115,23 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         if (operandContext.Integer() != null)
         {
             int value = Integer.parseInt(operandContext.Integer().getText());
-            return new IntegerExpression(value);
+            return new IntegerExpr(value);
         }
 
         if (operandContext.String() != null)
         {
-            return new StringExpression(operandContext.String().getText());
+            return new StringExpr(operandContext.String().getText());
         }
 
         if (operandContext.Identifier() != null)
         {
-            return new VariableExpression(operandContext.Identifier().getText());
+            return new Variable(operandContext.Identifier().getText());
         }
 
         if (operandContext.Boolean() != null)
         {
             Boolean value = Boolean.parseBoolean(operandContext.Boolean().getText());
-            return new BooleanExpression(value);
+            return new BooleanExpr(value);
         }
 
         // TODO: add date and decimal expressions

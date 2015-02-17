@@ -2,12 +2,6 @@ grammar QL;
 
 @parser::header
 {
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
@@ -111,7 +105,7 @@ DecimalNumeral : Non_Zero_Digit Digit* | [0];
 
 BooleanLiteral: 'true' | 'false';
 
-StringLiteral: '"' .*? '"';
+StringLiteral: '"' (~[\r\n"] | '""')* '"';
 
 DateLiteral : Day '-' Month '-' Year;
 

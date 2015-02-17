@@ -95,10 +95,10 @@ walkLoop:
 					}
 
 					q := <-ret
-					q.Content.From(answer)
+					q.Content().From(answer)
 					v.symbolChan <- &symbolEvent{
 						command: SymbolUpdate,
-						name:    q.Identifier,
+						name:    q.Identifier(),
 						content: q,
 					}
 				}

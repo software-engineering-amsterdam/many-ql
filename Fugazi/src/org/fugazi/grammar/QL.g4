@@ -54,7 +54,7 @@ expression  : op=('+'|'-'|'!') expression                                       
 
 /**
  * =====================
- * LEXER RULES - Literals
+ * LEXER RULES - literals
  * =====================
  */
 

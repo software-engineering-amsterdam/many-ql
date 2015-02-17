@@ -1,11 +1,7 @@
 package lang.ql.ast.statement;
 
-import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.Expression;
-import lang.ql.ast.visitor.Visitor;
-
-import java.util.Arrays;
-import java.util.Collections;
+import lang.ql.semantics.Visitor;
 
 /**
  * Created by bore on 14/02/15.
@@ -25,10 +21,5 @@ public class CalculatedQuestion extends Question
         return this.expression;
     }
 
-    public void visit(Visitor visitor) { visitor.visit(this); }
-
-    public Iterable<? extends AstNode> getChildren()
-    {
-        return Arrays.asList(this.expression);
-    }
+    public void accept(Visitor visitor) { visitor.visit(this); }
 }

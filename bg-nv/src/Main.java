@@ -1,9 +1,6 @@
-import lang.ql.ast.AstNode;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.SymbolTable;
-import lang.ql.semantics.TypeChecker;
-import lang.ql.ast.visitor.PrintVisitor;
-import lang.ql.ast.visitor.SymbolVisitor;
+import lang.ql.semantics.*;
+import lang.ql.semantics.values.StringValue;
 import lang.ql.syntax.QLVisitorImpl;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
@@ -26,18 +23,22 @@ public class Main
             ParserRuleContext tree = parser.form();
 
             QLVisitorImpl visitor = new QLVisitorImpl();
-            AstNode root = visitor.visit(tree);
+            Form root = (Form)visitor.visit(tree);
 
             PrintVisitor print = new PrintVisitor();
-            print.visit((Form)root);
+            print.visit(root);
 
             SymbolVisitor symbolVisitor = new SymbolVisitor();
-            SymbolTable table = symbolVisitor.visit(root);
+            symbolVisitor.visit(root);
+            SymbolTable table = symbolVisitor.getSymbolTable();
 
-            TypeChecker typeVisitor = new TypeChecker();
-            typeVisitor.visit(root, table);
+            TypeChecker typeVisitor = new TypeChecker(table);
+            typeVisitor.visit(root);
 
-            System.out.println(root);
+            Interpreter v = new Interpreter();
+            v.visit(root);
+
+            System.out.println();
             System.out.println(print.getString());
         }
         catch (IOException e)

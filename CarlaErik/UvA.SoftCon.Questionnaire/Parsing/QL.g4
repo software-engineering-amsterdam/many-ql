@@ -7,10 +7,9 @@ grammar QL;
 questionnaire : stat* ;
 
 
-stat : TYPE ID STRING                                                            # Question
-     | 'if' '(' bool_expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
-	 | TYPE ID ('=' expr)?                                                       # Declaration
-	 | 'show' expr
+stat : TYPE ID STRING                                                       # Question
+     | 'if' '(' expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
+	 | TYPE ID ('=' expr)?                                                  # Declaration
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride

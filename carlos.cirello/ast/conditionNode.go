@@ -2,22 +2,6 @@ package ast
 
 type Evaluatable interface{}
 
-type TermNode struct {
-	Type                TermNodeType
-	NumericConstant     float32
-	StringConstant      string
-	IdentifierReference string
-	Evaluatable
-}
-
-type TermNodeType int
-
-const (
-	NumericConstantNodeType TermNodeType = iota
-	IdentifierReferenceNodeType
-	StringConstantNodeType
-)
-
 type DoubleTermNode struct {
 	LeftTerm  Evaluatable
 	RightTerm Evaluatable

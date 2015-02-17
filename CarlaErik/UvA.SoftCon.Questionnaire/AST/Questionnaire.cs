@@ -22,5 +22,16 @@ namespace UvA.SoftCon.Questionnaire.AST
         {
             Statements = statements;
         }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+
+            foreach (var statement in Statements)
+            {
+                result.AppendLine(statement.ToString());
+            }
+            return result.ToString();
+        }
     }
 }

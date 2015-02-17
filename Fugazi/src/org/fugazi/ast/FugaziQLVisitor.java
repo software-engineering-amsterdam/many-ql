@@ -1,51 +1,35 @@
 package org.fugazi.ast;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.fugazi.ast.ASTNode.AbstractASTNode;
-import org.fugazi.ast.Expression.*;
-import org.fugazi.ast.Expression.comparison.*;
-import org.fugazi.ast.Expression.logical.AndExpression;
-import org.fugazi.ast.Expression.logical.LogicalExpression;
-import org.fugazi.ast.Expression.logical.OrExpression;
-import org.fugazi.ast.Expression.numerical.*;
-import org.fugazi.ast.Expression.unary.NegExpression;
-import org.fugazi.ast.Expression.unary.NotExpression;
-import org.fugazi.ast.Expression.unary.PosExpression;
-import org.fugazi.ast.Expression.unary.UnaryExpression;
-import org.fugazi.ast.Literals.ID;
-import org.fugazi.ast.Literals.NUMBER;
-import org.fugazi.ast.Literals.STRING;
-import org.fugazi.ast.Statement.IfStatement;
-import org.fugazi.ast.Statement.QuestionStatement;
-import org.fugazi.ast.Statement.ComputedQuestionStatement;
-import org.fugazi.ast.Statement.Statement;
-import org.fugazi.ast.Type.*;
+import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.logical.And;
+import org.fugazi.ast.expression.logical.Logical;
+import org.fugazi.ast.expression.logical.Or;
+import org.fugazi.ast.expression.numerical.*;
+import org.fugazi.ast.expression.unary.Negative;
+import org.fugazi.ast.expression.unary.Not;
+import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.ast.expression.unary.Unary;
+import org.fugazi.ast.form.Form;
+import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.STRING;
+import org.fugazi.ast.statement.ComputedQuestion;
+import org.fugazi.ast.statement.IfStatement;
+import org.fugazi.ast.statement.Question;
+import org.fugazi.ast.statement.Statement;
+import org.fugazi.ast.type.*;
 import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
-import org.fugazi.ast.Form.Form;
 
 import java.util.ArrayList;
-
-/*
-reference to undefined questions
-duplicate question declarations with different types
-conditions that are not of the type boolean
-operands of invalid type to operators
-cyclic dependencies between questions
-duplicate labels (warning)
-*/
-
-/*
-WHY VISITOR?
-1. Each visit can return an AST node.
-2. Build our ASt.
-*/
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
     /**
      * =======================
-     * Form
+     * form
      * =======================
      */
     
@@ -91,7 +75,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
             statements.add(stat);
         }
 
-        // Create an if Statement
+        // Create an if statement
         IfStatement ifStatement = new IfStatement(condition, statements);
         System.out.println("CONDITION: " + ctx.expression().getText());
 
@@ -99,7 +83,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override
-    public QuestionStatement visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
+    public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         
         Type type = (Type) ctx.type().accept(this); 
 
@@ -110,14 +94,14 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         STRING grammarLabel = new STRING(ctx.STRING().getText());
         String label = grammarLabel.toString();
 
-        QuestionStatement question = new QuestionStatement(type, label, identifier);
+        Question question = new Question(type, label, identifier);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
 
         return question;
     }
 
     @Override
-    public ComputedQuestionStatement visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
+    public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
         
         Type type = (Type) ctx.type().accept(this);
 
@@ -128,7 +112,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
+        ComputedQuestion question = new ComputedQuestion(type, label, identifier, expression);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
         
         return question;
@@ -174,7 +158,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     }
 
     @Override 
-    public UnaryExpression visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
+    public Unary visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
         
         // Get the expression
@@ -182,17 +166,17 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         // Check the operator. 
         if (ctx.op.getText().equals("!"))
-            return new NotExpression(expr);
+            return new Not(expr);
         else if (ctx.op.getText().equals("-"))
-            return new NegExpression(expr);
+            return new Negative(expr);
         else if (ctx.op.getText().equals("+"))
-            return new PosExpression(expr);
+            return new Positive(expr);
         
         return null;
     }
     
     @Override
-    public NumericalExpression visitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) {
+    public Numerical visitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
 
         // Get the expressions
@@ -201,15 +185,15 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         // Check the operator.
         if (ctx.op.getText().equals("*"))                        // *
-            return new MulExpression(leftExpr, rightExpr);
+            return new Mul(leftExpr, rightExpr);
         else if (ctx.op.getText().equals("/"))                   // /
-            return new DivExpression(leftExpr, rightExpr);
+            return new Div(leftExpr, rightExpr);
 
         return null;
     }
 
     @Override
-    public NumericalExpression visitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) {
+    public Numerical visitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
 
         // Get the expressions
@@ -218,37 +202,37 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         // Check the operator.
         if (ctx.op.getText().equals("+"))                        // +
-            return new AddExpression(leftExpr, rightExpr);
+            return new Add(leftExpr, rightExpr);
         else if (ctx.op.getText().equals("-"))                  // -
-            return new SubExpression(leftExpr, rightExpr);
+            return new Sub(leftExpr, rightExpr);
 
         return null;
     }
 
     @Override
-    public LogicalExpression visitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) {
+    public Logical visitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) {
         System.out.print("OP: || ");
         
         // Get the expressions
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
         
-        return new OrExpression(leftExpr, rightExpr);
+        return new Or(leftExpr, rightExpr);
     }
     
     @Override
-    public LogicalExpression visitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) {
+    public Logical visitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) {
         System.out.print("OP: && ");
 
         // Get the expressions
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        return new AndExpression(leftExpr, rightExpr);
+        return new And(leftExpr, rightExpr);
     }
     
     @Override
-    public ComparisonExpression visitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) {
+    public Comparison visitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
 
         // Get the expressions
@@ -257,24 +241,24 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
         // Check the operator.
         if (ctx.op.getText().equals(">"))                            // >
-            return new GreaterExpression(leftExpr, rightExpr);
+            return new Greater(leftExpr, rightExpr);
         else if (ctx.op.getText().equals(">="))                      // >=
-            return new GEExpression(leftExpr, rightExpr);
+            return new GE(leftExpr, rightExpr);
         else if (ctx.op.getText().equals("<"))                       // <
-            return new LessExpression(leftExpr, rightExpr);
+            return new Less(leftExpr, rightExpr);
         else if (ctx.op.getText().equals("<="))                      // <=
-            return new LEExpression(leftExpr, rightExpr);
+            return new LE(leftExpr, rightExpr);
         else if (ctx.op.getText().equals("=="))                      // ==
-            return new EQExpression(leftExpr, rightExpr);
+            return new EQ(leftExpr, rightExpr);
         else if (ctx.op.getText().equals("!="))                      // !=
-            return new NotEqExpression(leftExpr, rightExpr);
+            return new NotEq(leftExpr, rightExpr);
 
         return null;
     }
 
     /**
      * =======================
-     * Literals
+     * literals
      * =======================
      */
     @Override
