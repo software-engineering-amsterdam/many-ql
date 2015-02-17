@@ -2,7 +2,7 @@
 
 namespace QL.Model.Terminals
 {
-    class Text : BinaryTreeElementBase, ITerminal<string>, ITerminalType
+    public class Text : BinaryTreeElementBase, ITerminal<string>, ITerminalType
     {
         public string Value { get; private set; }
 
@@ -13,6 +13,10 @@ namespace QL.Model.Terminals
             }
             
             return Value;
+        }
+        public Text(string value)
+        {
+            Value = value;
         }
     }
 }

@@ -7,18 +7,19 @@ using QL.Model.Terminals;
 
 namespace QL.Model
 {
-    public class RootNode : ElementBase
+    public class RootNode : TreeElementBase
     {
-        
 
-        public RootNode(List<ElementBase> children){
+
+        public RootNode(IReadOnlyList<Form> children)
+        {
             Children = children;
         }
 
-        public RootNode(List<Form> children)
+        public RootNode(IReadOnlyList<ElementBase> children)
         {
             // TODO: Complete member initialization
-            throw new Exception("Program should always consist from  form block(s).");//TODO create own distinct exception
+            throw new Exception("Program should always consist from form block(s).");//TODO create own distinct exception
             }
     }
 }

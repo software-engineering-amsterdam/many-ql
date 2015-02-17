@@ -9,7 +9,7 @@ namespace QL.Model
 {
     public abstract class TreeElementBase : ElementBase
     {
-        public IList<ElementBase> Children { get; private set; }
+        public IReadOnlyList<ElementBase> Children { get; protected set; }
 
         public override ElementType ElementType
         {

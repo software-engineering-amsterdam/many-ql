@@ -2,7 +2,7 @@
 
 namespace QL.Model.Terminals
 {
-    class Number : BinaryTreeElementBase, ITerminal<int?>, ITerminalType
+    public class Number : BinaryTreeElementBase, ITerminal<int?>, ITerminalType
     {
         public int? Value { get; private set; }
 

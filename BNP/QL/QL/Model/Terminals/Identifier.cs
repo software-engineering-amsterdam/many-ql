@@ -15,6 +15,10 @@ namespace QL.Model.Terminals
             
             return Value;
         }
+        public Identifier(string value)
+        {
+            Value = value;
+        }
 
     }
 }

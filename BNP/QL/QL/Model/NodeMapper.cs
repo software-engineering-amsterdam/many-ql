@@ -11,23 +11,40 @@ namespace QL.Model
 {
     public sealed class NodeMapper
     {
+        List<ElementBase> level;
+        public NodeMapper(){
+        }
+
         public UnitBase Create(QLParser.UnitContext context)
         {
-            var id = context.GetChild(1).GetText();
-            var question = context.GetChild(context.ChildCount - 2).GetText();
-            var arguments = context.children.Skip(3).Select(child => child.GetText()).Take(context.ChildCount - 3 - 3).ToArray();
-            QuestionUnit questionUnit = new QuestionUnit(id, question, arguments);
+            string id = context.GetChild(1).GetText();
+            string question = context.GetChild(context.ChildCount - 2).GetText();
+            string[] arguments = context.children.Skip(3).Select(child => child.GetText()).Take(context.ChildCount - 3 - 3).ToArray();
+            bool required;
+            if (arguments.Contains("required")){
+               required=true; 
+            }
+            else{
+                required=false;
+            }
+            QuestionUnit questionUnit = new QuestionUnit(new Identifier(id), new Text(question), required);
 
             return questionUnit;
             
         }
+        
 
         // todo: move to own mapper
-        public ElementBase Create(QLParser.FormBlockContext context)
+        public Form Create(QLParser.FormBlockContext context)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ElementBase> ExtractChilds();
+        //public IEnumerable<ElementBase> ExtractChilds();
+
+        internal void Create(Antlr4.Runtime.ParserRuleContext context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace QL
 {
     public class AstHandler
     {
-        private RootNode root { public get; set; }
+        RootNode root { get; set; }
         public AstHandler(List<Form> formBlocks){
 
 
