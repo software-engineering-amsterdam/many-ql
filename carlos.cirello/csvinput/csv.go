@@ -1,4 +1,4 @@
-package input
+package csvinput
 
 import (
 	"encoding/csv"

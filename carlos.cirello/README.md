@@ -13,6 +13,10 @@ This project depends on go-qml to compile execute, there for QT5 is expected to 
 Once QT5 is available, execute:
 
 ```
+$ cd $GOPATH
+$ mkdir github.com/
+$ mkdir github.com/software-engineering-amsterdam/
+$ cd github.com/software-engineering-amsterdam/
 $ git clone https://github.com/software-engineering-amsterdam/many-ql.git
 $ cd many-ql/carlos.cirello
 $ go build

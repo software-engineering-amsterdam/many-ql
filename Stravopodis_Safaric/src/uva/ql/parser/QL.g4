@@ -39,7 +39,7 @@ expr 		: x = expr op = EXP<assoc=right> y = expr
 			| x = expr op = (EQUAL | NOT_EQUAL) y = expr
 			| x = expr op = LOG_AND y = expr
 			| x = expr op = LOG_OR y = expr
-			| '(' x = expr ')' 																		
+			| expr 																		
 			| lit = literal																		
 			;
 	
