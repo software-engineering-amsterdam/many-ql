@@ -1,6 +1,8 @@
-require_relative 'ql/parser'
 require_relative 'ql/tokenizer'
-require "stringio"
+require_relative 'ql/parser'
+require_relative 'ql/ast'
+require_relative 'ql/visitor'
+
 require "byebug"
 
 module QL
@@ -9,7 +11,6 @@ module QL
     tokenizer = QL::Tokenizer.new input
     parser    = QL::Parser.new tokenizer
     result    = parser.parse
-    puts "result: #{result.statements}"
     result
   end
 end
