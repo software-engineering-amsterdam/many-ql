@@ -151,6 +151,16 @@ public interface TaZQLListener extends ParseTreeListener {
 	 */
 	void exitBoolean(@NotNull TaZQLParser.BooleanContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TaZQLParser#form}.
+	 * @param ctx the parse tree
+	 */
+	void enterForm(@NotNull TaZQLParser.FormContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TaZQLParser#form}.
+	 * @param ctx the parse tree
+	 */
+	void exitForm(@NotNull TaZQLParser.FormContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code multDiv}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
@@ -174,16 +184,6 @@ public interface TaZQLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAnd(@NotNull TaZQLParser.AndContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TaZQLParser#formSection}.
-	 * @param ctx the parse tree
-	 */
-	void enterFormSection(@NotNull TaZQLParser.FormSectionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TaZQLParser#formSection}.
-	 * @param ctx the parse tree
-	 */
-	void exitFormSection(@NotNull TaZQLParser.FormSectionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code id}
 	 * labeled alternative in {@link TaZQLParser#expression}.

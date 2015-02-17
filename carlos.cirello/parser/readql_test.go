@@ -29,7 +29,7 @@ func TestComments(t *testing.T) {
 		}`),
 		"test.ql",
 	)
-	lenQ := len(form.Stack)
+	lenQ := len(form.Stack())
 	if lenQ > 1 {
 		t.Errorf("Comment should be ignore and not yield tokens. There should be 1 question, got %d.", lenQ)
 	}
@@ -158,7 +158,43 @@ func TestCalculatedQuestion(t *testing.T) {
 			"Question 1" QuestionA integer
 
 			"Question Calculated"
-			questionThree integer = questionA*2
+			questionThree computed = questionA * 2
+		}
+		`),
+		"test.ql",
+	)
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}
+
+func TestIfElseConditions(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form ConditionsForm {
+			"QuestionLabel3" question3 bool
+			"QuestionLabel4" question4 bool
+			"QuestionLabel5" question5 bool
+
+			if (question3) {
+				"QuestionIfTrue" secondIfTrue string
+				"QuestionIfTrue2" secondIfTrue2 string
+			} else if (question4) {
+				"QuestionIfTrue" secondIfTrue string
+				"QuestionIfTrue2" secondIfTrue2 string
+			} else if (question5) {
+				"QuestionIfTrue" thirdIfTrue string
+				"QuestionIfTrue2" thirdIfTrue2 string
+			}
+
+			if (question3) {
+				"QuestionIfTrue" questionIfTrue string
+				"QuestionIfTrue2" questionIfTrue3 string
+			} else {
+				"QuestionIfFalse" questionIfFalse string
+				"QuestionIfFalse2" questionIfFalse2 string
+			}
 		}
 		`),
 		"test.ql",

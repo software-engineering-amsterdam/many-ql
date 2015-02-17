@@ -1,8 +1,5 @@
-package org.fugazi.ast.Type;
+package org.fugazi.ast.type;
 
-/**
- * The String type.
- */
 public class StringType extends Type {
 
     @Override
@@ -10,8 +7,7 @@ public class StringType extends Type {
         return "String";
     }
 
-    @Override
     public <T> T accept(ITypeVisitor<T> visitor) {
-        return visitor.visit(this);
+        return visitor.visitStringType(this);
     }
 }

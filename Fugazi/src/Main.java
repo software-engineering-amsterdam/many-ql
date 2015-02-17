@@ -1,8 +1,5 @@
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.fugazi.ast.FugaziQLVisitor;
-import org.fugazi.parser.QLLexer;
-import org.fugazi.parser.QLParser;
+import org.fugazi.ast.ASTBuilder;
+import org.fugazi.ast.form.Form;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -16,19 +13,38 @@ public class Main {
         if (args.length > 0)
             inputFile = args[0];
 
-        InputStream is = System.in;
+        InputStream input = System.in;
 
         if (inputFile != null)
-            is = new FileInputStream(inputFile);
+            input = new FileInputStream(inputFile);
 
-        ANTLRInputStream input = new ANTLRInputStream(is);
+        // Create The AST BUILDER.
+        ASTBuilder astBuilder = new ASTBuilder(input);
+        // Build the AST.
+        Form form = astBuilder.buildForm();
 
-        QLLexer lexer = new QLLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokens);
-        ParseTree tree = parser.form();
-
-        FugaziQLVisitor ql = new FugaziQLVisitor();
-        ql.visit(tree);
+        // TODO: type checking.
+//        ErrorManager errorList = typeChecker.checkForm();
+//
+//        if errorList.length() {
+//            print errors;
+//            return 1;
+////        }
+//
+//        ErrorManager err = new ErrorManager();
+//        TypeCheckError typeCheckError = new Typeckcker(err);
+//
+//        TypeCheckError.check(form);
+//
+//        Iterable typechecker.getErrorList();
+//
+//        if typechecker.isformvalid():
+//        //show...
+//        else:
+//        // exit 1
+        
+        // TODO: evaluation.
+        
+        // TODO: Render GUI.
     }
 }

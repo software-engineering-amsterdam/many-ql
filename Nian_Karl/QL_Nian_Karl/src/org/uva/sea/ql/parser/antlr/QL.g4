@@ -1,99 +1,129 @@
 grammar QL;
 
-
 @parser::header
 {
+	import org.uva.sea.ql.model.expression.*;
+	import org.uva.sea.ql.model.expression.commonexpression.*;
+	import org.uva.sea.ql.model.expression.booleanexpression.*;
+	import org.uva.sea.ql.model.expression.mathexpression.*;
+	import org.uva.sea.ql.model.literal.*;
+	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
-{
-}
+{}
 
 // Parser rules
-form : question (question | statement)*;
+form : FORM Identifier block;
 
+block : LEFT_BRACE statement* RIGHT_BRACE;
 
-question: questionType identifier stringLiteral SEMICOLON;
-
-statement:	IF LEFT_PARENTHESES expr RIGHT_PARENTHESES LEFT_BRACES (question)+ RIGHT_BRACES;
-
-expr: literal
-	| expr AND expr
-	| expr OR expr
-	| expr EQUAL expr
-	| expr GREATER expr
-	| expr EQUAL_GREATER expr
-	| expr EQUAL expr
-	| expr EQUAL_SMALLER expr
-	| expr SMALLER expr
-	| expr PLUS expr 
-	| expr MINUS expr 
-	| expr MULTIPLY expr 
-	| expr DEVIDE expr 
-;
-
-questionType :INT | STR | CUR | BOOL;
-
-identifier:	Ident;
-
-literal
-	 : numberLiteral
- 	 | booleanLiteral
- 	 | stringLiteral
- 	 | identifier
+statement
+	: block
+	| question
+	| ifStatement
 	;
 	
-booleanLiteral: 
-	bool;
+question : questionType questionName questionLabel SEMICOLON;
 
-numberLiteral
-	: Int
-	| Float
-	;
+questionType :INT | STR | CUR | BOOL | DEC | DATE;
 
-stringLiteral
-	: Str
-	;
+questionName : Identifier;
 
-bool: TRUE | FALSE;
+questionLabel : StringLiteral;
 
+ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
 
-// Lexer rules
-// Tokens
+//ifStatement : IF LEFT_PARENTHESES expression RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
+//
+//elseIfStatement : ELIF block elseStatement;
+//
+//elseStatement : ELSE block;
 
-INT:			'Int';
-STR:			'Str';
-CUR:			'Cur';
-BOOL:			'Bool';
-TRUE: 			'true';
-FALSE: 			'false';
-IF: 			'if';
-OR:				'||';
-AND:			'&&';
-EQUAL:			'=';
-GREATER: 		'>';
-EQUAL_GREATER: 	'>='; 
-EQUAL_COND:		'==';
-EQUAL_SMALLER: 	'<=';
-SMALLER: 		'<';
-LEFT_BRACES:	'{';
-RIGHT_BRACES:	'}';
-LEFT_PARENTHESES:	'(';
-RIGHT_PARENTHESES:	')';
-COLON:			':';
-SEMICOLON:		';';
-PLUS:			'+';
-MINUS:			'-';
-DEVIDE:			'/';
-MULTIPLY:		'*';
+expression: 
+	literal
+	| expression AND expression
+	| expression OR expression
+	| expression EQUAL_COND expression
+	| expression GREATER expression
+	| expression GREAT_EQUAL expression
+	| expression EQUAL expression
+	| expression LESS_EQUAL expression
+	| expression LESS expression
+	| expression PLUS expression 
+	| expression MINUS expression 
+	| expression MULTIPLY expression 
+	| expression DEVIDE expression 
+;
 
-Int: [0-9]+;
+literal
+ 	 : Identifier
+	 | IntegerLiteral
+	 | DecimalLiteral
+ 	 | BooleanLiteral
+ 	 | StringLiteral
+ 	 | DateLiteral
+	 ;
 
-Str: '"' .*? '"';
+/* LEXER RULES */
+// Keywords		==================================================================
+FORM		:		'form';
+IF			:		'if';
+THEN		:		'then';
+ELSE		:		'else';
+ELIF		:		'else if';
 
-Float: Int'.'Int;
+// DataTypes	==================================================================
+INT 		:		'Int';
+STR			:		'Str';
+CUR			:		'Cur';
+BOOL		:		'Bool';
+DEC			:		'Dec';
+DATE		:		'Date';
 
-//Date: ('0');
+// Operators	==================================================================
+OR			:		'||';
+AND			:		'&&';
+EQUAL		:		'=';
+EQUAL_COND	:		'==';
+GREATER		: 		'>';
+LESS		: 		'<';
+GREAT_EQUAL	: 		'>='; 
+LESS_EQUAL	: 		'<=';
+PLUS		:		'+';
+MINUS		:		'-';
+DEVIDE		:		'/';
+MULTIPLY	:		'*';
+
+// Symbols		==================================================================
+LEFT_BRACE	:		'{';
+RIGHT_BRACE	:		'}';
+LEFT_PAREN	:		'(';
+RIGHT_PAREN	:		')';
+COLON		:		':';
+SEMICOLON	:		';';
+
+IntegerLiteral: [1-9][0-9]*;
+
+DecimalLiteral: DecimalNumeral '.' Digit*;
+
+DecimalNumeral : Non_Zero_Digit Digit* | [0];
+
+BooleanLiteral: 'true' | 'false';
+
+StringLiteral: '"' .*? '"';
+
+DateLiteral : Day '-' Month '-' Year;
+
+Day: [Digit{2}];
+
+Month: [Digit{2}];
+
+Year: [Digit{4}];
+
+Non_Zero_Digit: [1-9];
+	
+Digit: [0-9];
 
 WhiteSpace  :(' ' | '\t' | '\n' | '\r') -> skip;
 
@@ -101,6 +131,4 @@ MultiComment : '/*' .*? '*/' -> skip;
 
 SingleComment: '//' .*? '\n' -> skip;
 
-Ident: [a-zA-Z][a-zA-Z0-9_]*;
-
-
+Identifier: [a-zA-Z][a-zA-Z0-9_]*;

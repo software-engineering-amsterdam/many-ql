@@ -95,6 +95,12 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBoolean(@NotNull TaZQLParser.BooleanContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link TaZQLParser#form}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForm(@NotNull TaZQLParser.FormContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code multDiv}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
@@ -108,12 +114,6 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAnd(@NotNull TaZQLParser.AndContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TaZQLParser#formSection}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFormSection(@NotNull TaZQLParser.FormSectionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code id}
 	 * labeled alternative in {@link TaZQLParser#expression}.

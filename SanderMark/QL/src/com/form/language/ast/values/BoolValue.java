@@ -9,4 +9,19 @@ public class BoolValue extends GenericValue<Boolean> {
 	public boolean evaluate() {
 		return value;
 }
+	@Override
+	public String toString(){
+		return new Boolean(value).toString();
+		
+	}
+	
+    public BoolValue Not(){
+    	return new BoolValue(!value);
+    }	
+	public BoolValue And(BoolValue right){
+		return new BoolValue(value && right.value);
+	}	
+	public BoolValue Or(BoolValue right){
+		return new BoolValue(value || right.value);
+	}		
 }

@@ -11,23 +11,87 @@ package nl.uva.se.parser;
 @parser::header {
 package nl.uva.se.parser;
 }
+	
+// -------- PARSER RULES --------
 
-form : 		FORM IDENTIFIER STARTSYMBOL (question|ifClause)* ENDSYMBOL #formType;
-question : 	IDENTIFIER TYPE ':' STRING #questionType;
-ifClause : 	IFCLAUSE '(' IDENTIFIER ')' STARTSYMBOL question* ENDSYMBOL #ifClauseType;
+form
+	: FORM Identifier '{' (statement)+ '}'
+	;
 
-// Tokens
+question
+	: Type Identifier ':' String
+	;
 
-FORM : 			'FORM' | 'Form' | 'form';
-IFCLAUSE : 		'IF' | 'If' | 'if';
-TYPE : 			'boolean' | 'money';
-OPERATOR : 		'+' | '-' | '*' | '/';
+condition
+	: IF '(' expression ')' '{' (statement)+ '}' (ELSE '{' (statement)+ '}')?
+	;
 
-STRING : 		'"' .*? '"';
-WHITESPACE : 	[ \t\r\n]+ -> skip ;
-STARTSYMBOL : 	'{';
-ENDSYMBOL : 	'}';
-IDENTIFIER:   	[a-zA-Z][a-zA-Z0-9]*;
-MARKER :		'?' | '!';
-DECIMAL :		INTEGER '.' INTEGER ;
-INTEGER :	 	('0'..'9')+;
+statement	
+	: question | condition
+	;
+
+expression                          				  								
+ : singleLtr=literal
+ | op=NOT singleExpr=expression
+ | left=expression op=(MULTIPLY | DIVIDE | MODULO | POWER) right=expression
+ | left=expression op=(PLUS | MINUS) right=expression
+ | left=expression op=(LESS_OR_EQUAL | GREATER_OR_EQUAL | LESS_THEN | GREATER_THAN) right=expression
+ | left=expression op=(EQUAL | NOT_EQUAL) right=expression
+ | left=expression op=AND right=expression
+ | left=expression op=OR right=expression
+ ;
+
+literal
+	: Integer
+	| Decimal
+	| Boolean
+	| String
+	| Identifier
+	;
+
+// -------- LEXER RULES --------
+
+Type
+	: 'boolean'
+	| 'decimal'
+	;
+	
+// FRAGMENTS
+fragment DIGIT				: [0-9];
+fragment LETTER_AND_NUMBER  : [a-zA-Z_][a-zA-Z_0-9]*;
+
+// KEYWORD TOKENS
+FORM 	: 'form'|'Form'|'FORM';
+IF 	 	: 'if'|'If'|'IF';
+ELSE 	: 'else'|'Else'|'ELSE';
+
+// CONDITION TOKENS
+OR 					: '||';
+AND 				: '&&';
+EQUAL 				: '==';
+NOT_EQUAL			: '!=';
+GREATER_THAN		: '>' ;
+LESS_THEN			: '<' ;
+GREATER_OR_EQUAL	: '>=';
+LESS_OR_EQUAL		: '<=';
+NOT					: '!' ;
+
+// MATH TOKENS
+POWER				: '^' ;
+MODULO				: '%' ;
+DIVIDE				: '/' ;
+MULTIPLY			: '*' ;
+MINUS				: '-' ;
+PLUS				: '+' ;
+
+// LITERALS
+Integer				: DIGIT*;
+Decimal				: DIGIT* '.' DIGIT*;
+Boolean				: 'true' | 'false';
+String				: '"' .*? '"';
+Identifier			: LETTER_AND_NUMBER*;
+
+// OVERHEAD
+WS:(' ' | '\t' | '\n' | '\r') -> channel(HIDDEN);
+MC: '/*' .*? '*/' -> channel(HIDDEN);
+SC: '//' .*? '\n' -> channel(HIDDEN);

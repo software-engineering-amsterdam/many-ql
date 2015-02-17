@@ -2,7 +2,7 @@ from antlr4 import *
 from QLLexer import QLLexer
 from QLParser import QLParser
 from QLListener import QLListener
-import customQLVisitor
+import CustomQLVisitor
 
 class AST(object):
 	def __init__(self, inputQLFile):			
@@ -10,12 +10,12 @@ class AST(object):
 		lexer = QLLexer(inputStream)
 		stream = CommonTokenStream(lexer)
 		parser = QLParser(stream)
-		visitor = customQLVisitor.CustomQLVisitor()
+		visitor = CustomQLVisitor.CustomQLVisitor()
 		tree = parser.root()
 		self.root = visitor.visit(tree)
 
 	def prettyPrint(self):
-		for statement in self.root.statements:
+		for statement in self.root.getChildren():
 			self._printStatement(statement, 0)
 
 	def _printStatement(self, statement, lev):
@@ -25,6 +25,5 @@ class AST(object):
 
 		print(spaces + str(statement))
 
-		if hasattr(statement, 'statements'):
-			for otherStatement in statement.statements:
-				self._printStatement(otherStatement, lev + 4)
+		for otherStatement in statement.getChildren():
+			self._printStatement(otherStatement, lev + 4)

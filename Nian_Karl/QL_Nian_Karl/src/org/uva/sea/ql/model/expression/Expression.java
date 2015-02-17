@@ -1,9 +1,8 @@
 package org.uva.sea.ql.model.expression;
 
-import org.uva.sea.ql.model.literal.AbstractLiteral;
+import org.uva.sea.ql.model.value.AbstractValue;
 
 
-public abstract class Expression<T> {
-	
-	public abstract AbstractLiteral<T> evaluateExpression();
+public interface Expression {	
+	public abstract AbstractValue<?> evaluateExpression();
 }

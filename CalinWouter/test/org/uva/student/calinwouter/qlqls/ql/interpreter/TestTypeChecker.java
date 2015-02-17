@@ -1,16 +1,15 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql;
 
 import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.exceptions.*;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 
 import java.io.IOException;
 
 import static org.junit.Assert.*;
-import static org.uva.student.calinwouter.qlqls.ql.interpreter.helper.QLGeneratorHelper.*;
+import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.*;
 
 /**
  * - Reference to undefined questions

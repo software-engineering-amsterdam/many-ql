@@ -84,6 +84,10 @@ public class QLLexer extends Lexer {
 	}
 
 
+		
+		void echo(Token id){}
+
+
 	public QLLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);

@@ -1,7 +1,13 @@
-Bool hasMoney "Do you have money"; 
-Int money "How much money" ;
-Str status "Are you married" ;
-
-if(5){
-	Str status "Are you married";
+form SalarySurvey{
+	Str name "What is your name?";
+	Int age "How old are you?";
+	Dec height "Waht is your height?";
+	Cur salary "How much is your annual salary?";
+	Bool isMarried "Are you married?";
+	
+	if(age > 25){
+		Int employeeNr "What is your employee number?";
+	} else {
+		Int studentNr "What is your student number?";
 	}
+}

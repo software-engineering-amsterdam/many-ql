@@ -1,59 +1,40 @@
-package org.fugazi.ast.Statement;
+package org.fugazi.ast.statement;
 
-import org.fugazi.ast.Expression.Expression;
-import java.util.ArrayList;
+import org.fugazi.ast.expression.Expression;
 
-/**
- * The If Statement class.
- * It is a Node of the AST, and a statement.
- */
+import java.util.List;
+
 public class IfStatement extends Statement {
 
-    // The condition to be checked.
-    private Expression condition;
+    private final Expression condition;
     
-    // The list of the statements that would be executed in case the condition if true.
-    private ArrayList<Statement> statements;
+    private final List<Statement> body;
 
-    /**
-     * Constructor
-     * @param _condition The condition to be checked.
-     * @param _statements The list of the statements
-     */
-    public IfStatement(Expression _condition, ArrayList<Statement> _statements) {
+    public IfStatement(Expression _condition, List<Statement> _body) {
         this.condition = _condition;
-        this.statements = _statements;
+        this.body = _body;
     }
 
-    /**
-     * Get the condition
-     * @return condition
-     */
     public Expression getCondition() {
         return this.condition;
     }
 
-    /**
-     * Get the list of statements.
-     * @return statements
-     */
-    public ArrayList<Statement> getStatements() {
-        return this.statements;
+    public List<Statement> getBody() {
+        return this.body;
     }
 
     @Override
     public String toString() {
         String string = "\n if (" + this.condition.toString() + ") {\n";
 
-        for (Statement statement : this.statements)
+        for (Statement statement : this.body)
             string += statement.toString();
         string += "\n}";
         
         return string;
     }
 
-    @Override
     public <T> T accept(IStatementVisitor<T> visitor) {
-        return visitor.visit(this);
+        return visitor.visitIfStatement(this);
     }
 }

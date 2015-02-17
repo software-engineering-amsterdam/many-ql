@@ -1,27 +1,46 @@
-package org.fugazi.ast.Expression;
+package org.fugazi.ast.expression;
 
-/**
- * Generic Visitor interface for Expressions.
- * @param <T>
- */
+import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.STRING;
+import org.fugazi.ast.expression.logical.And;
+import org.fugazi.ast.expression.logical.Or;
+import org.fugazi.ast.expression.numerical.Add;
+import org.fugazi.ast.expression.numerical.Div;
+import org.fugazi.ast.expression.numerical.Mul;
+import org.fugazi.ast.expression.numerical.Sub;
+import org.fugazi.ast.expression.unary.Negative;
+import org.fugazi.ast.expression.unary.Not;
+import org.fugazi.ast.expression.unary.Positive;
+
 public interface IExpressionVisitor<T> {
 
     // Logical
-    public T visit(AndExpression andExpression);
-    public T visit(OrExpression lessExpression);
-    public T visit(NotExpression notExpression);
-    
+    public T visitAnd(And and);
+    public T visitOr(Or less);
+
+    // Unary
+    public T visitNot(Not not);
+    public T visitNegative(Negative negative);
+    public T visitPositive(Positive positive);
+
     // Comparison
-    public T visit(EQExpression eqExpression);
-    public T visit(GEExpression geExpression);
-    public T visit(GreaterExpression greaterExpression);
-    public T visit(LEExpression leExpression);
-    public T visit(LessExpression lessExpression);    
-    public T visit(NotEqExpression notEqExpression);
-    
+    public T visitEQ(EQ eq);
+    public T visitGE(GE ge);
+    public T visitGreater(Greater greater);
+    public T visitLE(LE le);
+    public T visitLesser(Less less);
+    public T visitNotEq(NotEq notEq);
+
     // Numerical
-    public T visit(AddExpression addExpression);
-    public T visit(SubExpression subExpression);
-    public T visit(MulExpression mulExpression);
-    public T visit(DivExpression divExpression);
+    public T visitAdd(Add add);
+    public T visitSub(Sub sub);
+    public T visitMul(Mul mul);
+    public T visitDiv(Div div);
+
+    // Literals
+    public T visitID(ID id);
+    public T visitNUMBER(NUMBER number);
+    public T visitSTRING(STRING string);
 }

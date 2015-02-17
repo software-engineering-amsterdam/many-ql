@@ -36,6 +36,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %left  '+'  '-'
 %left  '*'  '/'
 
+// Add tokens here must also lead to a lexer update at lexer.go
 %token BlockBeginToken
 %token BlockEndToken
 %token FormToken
@@ -47,6 +48,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token StringQuestionToken
 %token IntQuestionToken
 %token BoolQuestionToken
+%token ComputedQuestionToken
 %token '+' '-' '*' '/' '(' ')'
 %token LessThanToken
 %token LessOrEqualsThanToken
@@ -54,6 +56,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token MoreOrEqualsThanToken
 %token EqualsToToken
 %token NumericToken
+%token ElseToken
 
 %%
 
@@ -67,10 +70,7 @@ top:
 questionaire:
 	FormToken TextToken '{' stack '}'
 	{
-		$$.questionaire = &ast.QuestionaireNode{
-			Label: $2.content,
-			Stack: $4.stack,
-		}
+		$$.questionaire = ast.NewQuestionaireNode($2.content, $4.stack)
 	}
 	;
 
@@ -79,7 +79,7 @@ stack:
 	{
 		q := $2.question
 		qs := $$.stack
-		action := &ast.ActionNode { Action: q }
+		action := ast.NewActionNode(q)
 		qs = append(qs, action)
 		$$.stack = qs
 	}
@@ -87,7 +87,7 @@ stack:
 	{
 		ifNode := $2.ifNode
 		qs := $$.stack
-		action := &ast.ActionNode { Action: ifNode }
+		action := ast.NewActionNode(ifNode)
 		qs = append(qs, action)
 		$$.stack = qs
 	}
@@ -96,21 +96,7 @@ stack:
 question:
 	QuotedStringToken TextToken questionType
 	{
-		$$.question = &ast.QuestionNode{
-			Label: $1.content,
-			Identifier: $2.content,
-			Content: $3.questionType,
-		}
-	}
-	|
-	QuotedStringToken TextToken questionType '=' term
-	{
-		$$.question = &ast.QuestionNode{
-			Label: $1.content,
-			Identifier: $2.content,
-			Content: $3.questionType,
-			ComputedContent: $5.evaluatable,
-		}
+		$$.question = ast.NewQuestionNode($1.content, $2.content, $3.questionType, false)
 	}
 	;
 
@@ -129,24 +115,52 @@ questionType:
 	{
 		$$.questionType = new(ast.BoolQuestion)
 	}
-	| TextToken
+	| ComputedQuestionToken '=' term
 	{
-		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool'. Found: %s", $1.content))
+		computedQuestion := new(ast.ComputedQuestion)
+		computedQuestion.Expression = $3.evaluatable
+		$$.questionType = computedQuestion
+	}
+	| term
+	{
+		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool' or 'computed'. Found: %s", $1.content))
 	}
 	;
 
 ifBlock:
 	IfToken '(' evaluatable ')' '{' stack '}'
 	{
-		ifNode := new(ast.IfNode)
-		ifNode.Conditions = $3.evaluatable
-		ifNode.Stack = $6.stack
-		$$.ifNode = ifNode
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, nil)
 
 		$$.evaluatable = new(ast.Evaluatable)
 		$$.stack = []*ast.ActionNode{}
 		$3.evaluatable = new(ast.Evaluatable)
 		$6.stack = []*ast.ActionNode{}
+	}
+	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken ifBlock
+	{
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, $9.ifNode)
+
+		$$.evaluatable = new(ast.Evaluatable)
+		$$.stack = []*ast.ActionNode{}
+		$3.evaluatable = new(ast.Evaluatable)
+		$6.stack = []*ast.ActionNode{}
+		$9.ifNode = nil
+	}
+	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken '{' stack '}'
+	{
+		elseNode := ast.NewIfNode(
+			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", ""),
+			$10.stack,
+			nil,
+		)
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, elseNode)
+
+		$$.evaluatable = new(ast.Evaluatable)
+		$$.stack = []*ast.ActionNode{}
+		$3.evaluatable = new(ast.Evaluatable)
+		$6.stack = []*ast.ActionNode{}
+		$10.stack = []*ast.ActionNode{}
 	}
 	;
 
@@ -229,23 +243,32 @@ value:
 	{
 		num, _ := strconv.ParseFloat($1.content, 32)
 		$$.num = float32(num)
-		termNode := new(ast.TermNode)
-		termNode.NumericConstant = $$.num
-		termNode.Type = ast.NumericConstantNodeType
+		termNode := ast.NewTermNode(
+			ast.NumericConstantNodeType,
+			$$.num,
+			"",
+			"",
+		)
 		$$.termNode = termNode
 	}
 	| TextToken
 	{
-		termNode := new(ast.TermNode)
-		termNode.IdentifierReference = $1.content
-		termNode.Type = ast.IdentifierReferenceNodeType
+		termNode := ast.NewTermNode(
+			ast.IdentifierReferenceNodeType,
+			$$.num,
+			"",
+			$1.content,
+		)
 		$$.termNode = termNode
 	}
 	| QuotedStringToken
 	{
-		termNode := new(ast.TermNode)
-		termNode.StringConstant = $1.content
-		termNode.Type = ast.StringConstantNodeType
+		termNode := ast.NewTermNode(
+			ast.StringConstantNodeType,
+			$$.num,
+			$1.content,
+			"",
+		)
 		$$.termNode = termNode
 	}
 	;

@@ -1,4 +1,4 @@
-package org.fugazi.ast.Type;
+package org.fugazi.ast.type;
 
 public class BoolType extends Type {
 
@@ -7,8 +7,8 @@ public class BoolType extends Type {
         return "Bool";
     }
 
-    @Override
     public <T> T accept(ITypeVisitor<T> visitor) {
-        return visitor.visit(this);
+        
+        return visitor.visitBoolType(this);
     }
 }

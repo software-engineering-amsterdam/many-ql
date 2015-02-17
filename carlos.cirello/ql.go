@@ -23,7 +23,7 @@ func main() {
 		csvReader.Read()
 	}
 
-	driver := graphic.GUI(aQuestionaire.Label)
+	driver := graphic.GUI(aQuestionaire.Label())
 	frontend.New(fromInterpreter, toInterpreter, driver)
 	driver.Loop()
 

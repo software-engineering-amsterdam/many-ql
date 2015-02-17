@@ -1,8 +1,5 @@
-package org.fugazi.ast.Type;
+package org.fugazi.ast.type;
 
-/**
- * The Undefined type.
- */
 public class UndefinedType extends Type {
 
     @Override
@@ -10,8 +7,7 @@ public class UndefinedType extends Type {
         return "Undefined";
     }
 
-    @Override
     public <T> T accept(ITypeVisitor<T> visitor) {
-        return visitor.visit(this);
+        return visitor.visitUndefinedType(this);
     }
 }

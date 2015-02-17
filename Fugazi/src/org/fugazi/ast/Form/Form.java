@@ -1,46 +1,31 @@
-package org.fugazi.ast.Form;
+package org.fugazi.ast.form;
 
-import org.fugazi.ast.ASTNode.ASTNode;
-import org.fugazi.ast.Statement.Statement;
+import org.fugazi.ast.AbstractASTNode;
+import org.fugazi.ast.IASTVisitor;
+import org.fugazi.ast.statement.Statement;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * The form class, this class represents the 'form' statement.
- * It is the root Node of the AST.
- */
-public class Form extends ASTNode {
+public class Form extends AbstractASTNode {
 
-    // Name of the form
-    private String name;
-    
-    // The list of the statements the form has.
-    private ArrayList<Statement> statements;
+    private final String name;
 
-    /**
-     * Constructor.
-     *
-     * @param _name the form's name
-     * @param _statements the statements of the form.
-     */
-    public Form(String _name, ArrayList<Statement> _statements) {
+    private final List<Statement> body;
+
+    public Form(String _name, List<Statement> _body) {
         this.name = _name;
-        this.statements = _statements;
+        this.body = _body;
     }
 
-    /**
-     * Get the form's name
-     * @return name
-     */
     public String getName() {
         return this.name;
     }
 
-    /**
-     * Get the form's statements.
-     * @return statements list.
-     */
-    public ArrayList<Statement> getStatements() {
-        return this.statements;
+    public List<Statement> getBody() {
+        return this.body;
+    }
+
+    public <T> T accept(IASTVisitor<T> visitor) {
+        return visitor.visitForm(this);
     }
 }

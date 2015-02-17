@@ -1,15 +1,15 @@
-package org.fugazi.ast.Type;
+package org.fugazi.ast.type;
 
-/**
- * Generic Visitor interface for types.
- * @param <T>
- */
 public interface ITypeVisitor<T> {
-
-    public T visit(BoolType boolType);
-    public T visit(IntType intType);
-    public T visit(MoneyType moneyType);
-    public T visit(StringType moneyType);
-    public T visit(UndefinedType undefinedType);
+    /**
+     * ==============
+     * Types
+     * ==============
+     */
+    public T visitBoolType(BoolType boolType);
+    public T visitIntType(IntType intType);
+    public T visitMoneyType(MoneyType moneyType);
+    public T visitStringType(StringType moneyType);
+    public T visitUndefinedType(UndefinedType undefinedType);
 }
 
