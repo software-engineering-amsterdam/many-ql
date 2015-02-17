@@ -1,5 +1,5 @@
 require_relative "visitor"
-require_relative "form"
+require_relative "../ast/form"
 
 class PrettyPrinter < BaseVisitor
   visitor_for Form do |form|

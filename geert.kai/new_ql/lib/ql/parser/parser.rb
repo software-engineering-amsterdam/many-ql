@@ -9,7 +9,7 @@ module QL
   class Parser < Racc::Parser
 
 
-  require_relative '../ql'
+  require_relative '../../ql'
 
   def initialize tokenizer
     @tokenizer = tokenizer

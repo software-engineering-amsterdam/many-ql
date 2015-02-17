@@ -1,5 +1,5 @@
-require_relative "../lib/ql/static_checker"
-require_relative "../lib/ql/ast"
+require_relative "../lib/ql/static_checker/static_checker"
+require_relative "../lib/ql/ast/ast"
 
 
 describe "Type checker" do

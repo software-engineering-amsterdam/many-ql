@@ -1,4 +1,4 @@
-require_relative "duplicate_label_checker"
+require_relative "visitor"
 
 class StaticChecker < BaseVisitor
   def initialize(form)
