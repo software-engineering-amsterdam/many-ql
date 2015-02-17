@@ -6,10 +6,15 @@ import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.visitor.Visitor;
 
 public class BooleanLiteral extends Expression {	
-	boolean value;
+	private final boolean value;
 	
 	public BooleanLiteral(boolean value) {
 		this.value = value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLBoolean();
 	}
 	
 	@Override
@@ -18,10 +23,5 @@ public class BooleanLiteral extends Expression {
 	@Override
 	public String toString() {
 		return "" + value;
-	}
-
-	@Override
-	public QLType getType() {
-		return new QLBoolean();
-	}
+	}	
 }

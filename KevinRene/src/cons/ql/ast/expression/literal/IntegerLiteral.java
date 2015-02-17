@@ -6,10 +6,15 @@ import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.visitor.Visitor;
 
 public class IntegerLiteral extends Expression {	
-	int value;
+	private final int value;
 	
 	public IntegerLiteral(int value) {
 		this.value = value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLInteger();
 	}
 	
 	@Override
@@ -18,10 +23,5 @@ public class IntegerLiteral extends Expression {
 	@Override
 	public String toString() {
 		return "" + value;
-	}
-
-	@Override
-	public QLType getType() {
-		return new QLInteger();
 	}
 }

@@ -6,10 +6,15 @@ import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.visitor.Visitor;
 
 public class FloatLiteral extends Expression {	
-	float value;
+	private final float value;
 	
 	public FloatLiteral(float value) {
 		this.value = value;
+	}
+	
+	@Override
+	public QLType getType() {
+		return new QLFloat();
 	}
 	
 	@Override
@@ -18,10 +23,5 @@ public class FloatLiteral extends Expression {
 	@Override
 	public String toString() {
 		return "" + value;
-	}
-
-	@Override
-	public QLType getType() {
-		return new QLFloat();
 	}
 }

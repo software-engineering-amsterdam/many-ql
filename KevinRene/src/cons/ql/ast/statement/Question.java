@@ -2,8 +2,8 @@ package cons.ql.ast.statement;
 
 import cons.Register;
 import cons.ql.ast.Statement;
+import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.literal.Identifier;
 import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.visitor.Visitor;

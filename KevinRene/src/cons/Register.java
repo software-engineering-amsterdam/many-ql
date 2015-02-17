@@ -5,7 +5,7 @@ import java.util.Map;
 
 import cons.exception.UndefinedVariableException;
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.literal.Identifier;
+import cons.ql.ast.expression.Identifier;
 
 public class Register {
 	private Map<Identifier, ASTNode> register = new HashMap<Identifier, ASTNode>();
