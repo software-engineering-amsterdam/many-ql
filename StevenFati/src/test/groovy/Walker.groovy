@@ -1,5 +1,9 @@
 import org.antlr.v4.runtime.ANTLRFileStream
 import org.antlr.v4.runtime.CommonTokenStream
+import parser.QLBaseVisitorImpl
+import parser.antlrGenerated.QLLexer
+import parser.antlrGenerated.QLParser
+import parser.ast.nodes.AbstractNode
 import spock.lang.Specification
 
 /**
@@ -13,10 +17,10 @@ class Walker extends Specification {
         QLLexer lexer = new QLLexer(antlrFileStream)
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexer)
         QLParser parser = new QLParser(commonTokenStream)
-        def tree = parser.start()
+        def tree = parser.form()
 
         QLBaseVisitorImpl baseVisitor = new QLBaseVisitorImpl()
-        baseVisitor.visit(tree)
+        def visit = baseVisitor.visit(tree)
 
         expect:
         true
