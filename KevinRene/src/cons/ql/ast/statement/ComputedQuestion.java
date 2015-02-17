@@ -3,19 +3,19 @@ package cons.ql.ast.statement;
 import cons.Register;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLIdent;
+import cons.ql.ast.expression.type.QLIdentifier;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.visitor.Visitor;
 
-@SuppressWarnings("rawtypes")
+
 public class ComputedQuestion extends Question {
 	private final Expression expression;
 	
-	public ComputedQuestion(QLIdent identifier, QLType type, QLString text, Expression expression) {
+	public ComputedQuestion(QLIdentifier identifier, QLType type, QLString text, Expression expression) {
 		super(identifier, type, text);		
 		this.expression = expression;		
 		
-		Register.getInstance().registerBinding(getIdent(), this);
+		Register.getInstance().store(getIdent(), this);
 	}
 
 	public Expression getExpression() {

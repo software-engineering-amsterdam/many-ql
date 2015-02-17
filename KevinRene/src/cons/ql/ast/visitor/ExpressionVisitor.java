@@ -14,8 +14,8 @@ import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLIdent;
-import cons.ql.ast.expression.type.QLInt;
+import cons.ql.ast.expression.type.QLIdentifier;
+import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.expression.unary.Neg;
 import cons.ql.ast.expression.unary.Not;
@@ -44,8 +44,8 @@ public interface ExpressionVisitor extends Visitor {
 	
 	public void visit(QLBoolean booleanNode);	
 	public void visit(QLFloat floatNode);	
-	public void visit(QLIdent identNode);	
-	public void visit(QLInt intNode);
+	public void visit(QLIdentifier identNode);	
+	public void visit(QLInteger intNode);
 	public void visit(QLString stringNode);
 	
 	default void visit(And andNode) {

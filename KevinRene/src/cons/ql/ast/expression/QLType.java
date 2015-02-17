@@ -1,12 +1,10 @@
 package cons.ql.ast.expression;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import cons.ql.ast.Expression;
 
-@SuppressWarnings("rawtypes")
 public abstract class QLType extends Expression {
 	
 	protected boolean defined;

@@ -8,7 +8,7 @@ import cons.ql.ast.visitor.Visitor;
 public class QLNumeric extends QLType {
 
 	public QLNumeric() {
-		super(Arrays.asList(QLFloat.class, QLInt.class, QLNumeric.class));
+		super(Arrays.asList(QLFloat.class, QLInteger.class, QLNumeric.class));
 	}
 
 	@Override

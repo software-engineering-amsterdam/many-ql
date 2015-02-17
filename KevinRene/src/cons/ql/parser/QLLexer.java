@@ -8,8 +8,8 @@ import java.util.Map;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.expression.literal.BooleanLiteral;
 import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLIdent;
-import cons.ql.ast.expression.type.QLInt;
+import cons.ql.ast.expression.type.QLIdentifier;
+import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLString;
 
 public class QLLexer implements QLTokens {
@@ -23,8 +23,8 @@ public class QLLexer implements QLTokens {
 		KEYWORDS.put("money", MONEY);
 		KEYWORDS.put("if", IF);
 		KEYWORDS.put("else", ELSE);
-		KEYWORDS.put("true", INITBOOLEAN);
-		KEYWORDS.put("false", INITBOOLEAN);
+		KEYWORDS.put("true", BOOLEANLITERAL);
+		KEYWORDS.put("false", BOOLEANLITERAL);
 	}
 	
 	
@@ -172,7 +172,7 @@ public class QLLexer implements QLTokens {
 		    		String string = sb.toString();
 					
 		    		yylval = new QLString(string);
-		    		return token = INITSTRING;
+		    		return token = STRINGLITERAL;
 			    }
 			    default: {
 			    	if (Character.isDigit(c)) {
@@ -197,9 +197,9 @@ public class QLLexer implements QLTokens {
 			    			nextChar(); 
 			    		} while (Character.isDigit(c) || (c == '.' && !isFloat));
 			    		
-			    		yylval = isFloat ? new QLFloat((float)n) : new QLInt((int)n);
+			    		yylval = isFloat ? new QLFloat((float)n) : new QLInteger((int)n);
 			    		
-			    		return token = isFloat ? INITFLOAT : INITINT;
+			    		return token = isFloat ? FLOATLITERAL : INTEGERLITERAL;
 			    	}
 			    	if (Character.isLetter(c)) {
 			    		StringBuilder sb = new StringBuilder();
@@ -223,8 +223,8 @@ public class QLLexer implements QLTokens {
 			    			return token = KEYWORDS.get(name);
 			    		}
 						
-			    		yylval = new QLIdent(name);
-			    		return token = IDENT;
+			    		yylval = new QLIdentifier(name);
+			    		return token = IDENTIFIER;
 			    	}
 			    	throw new RuntimeException("Unexpected character: " + (char)c);
 			    }

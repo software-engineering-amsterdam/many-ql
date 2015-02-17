@@ -20,8 +20,8 @@ import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLIdent;
-import cons.ql.ast.expression.type.QLInt;
+import cons.ql.ast.expression.type.QLIdentifier;
+import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.expression.unary.Neg;
@@ -240,7 +240,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	@Override
 	public void visit(Question questionNode) {
 
-		QLIdent ident = questionNode.getIdent();
+		QLIdentifier ident = questionNode.getIdent();
 		
 		// Do we allow redeclaration?
 		// If not, do a check here
@@ -260,10 +260,10 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	public void visit(QLFloat floatNode) {}
 
 	@Override
-	public void visit(QLIdent identNode) {}
+	public void visit(QLIdentifier identNode) {}
 
 	@Override
-	public void visit(QLInt intNode) {}
+	public void visit(QLInteger intNode) {}
 
 	@Override
 	public void visit(QLString stringNode) {}

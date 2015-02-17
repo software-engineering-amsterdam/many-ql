@@ -14,8 +14,8 @@ import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLIdent;
-import cons.ql.ast.expression.type.QLInt;
+import cons.ql.ast.expression.type.QLIdentifier;
+import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.expression.unary.Neg;
@@ -146,13 +146,13 @@ public class Evaluator implements ExpressionVisitor, StatementVisitor  {
 	}
 
 	@Override
-	public void visit(QLIdent identNode) {
+	public void visit(QLIdentifier identNode) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visit(QLInt intNode) {
+	public void visit(QLInteger intNode) {
 		// TODO Auto-generated method stub
 		
 	}
