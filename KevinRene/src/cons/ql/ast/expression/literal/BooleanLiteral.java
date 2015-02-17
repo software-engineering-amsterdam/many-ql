@@ -14,12 +14,12 @@ public class BooleanLiteral extends Expression {
 	
 	@Override
 	public void accept(Visitor visitor) {
-
+		
 	}
 
 	@Override
 	public String toString() {
-		return "";
+		return "" + value;
 	}
 
 	@Override

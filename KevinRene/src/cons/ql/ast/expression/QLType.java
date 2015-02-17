@@ -6,15 +6,14 @@ import java.util.stream.Collectors;
 import cons.ql.ast.Expression;
 
 public abstract class QLType extends Expression {
-	
-	protected boolean defined;
 	protected List<Class<? extends QLType>> compatibleTypes;
 	
-	public QLType(List<Class<? extends QLType>> ct) {
-		this.compatibleTypes = ct;
+	public QLType(List<Class<? extends QLType>> compatibleTypes) {
+		this.compatibleTypes = compatibleTypes;
 	}
 	
-	public String getName() {
+	@Override
+	public String toString() {
 		return this.getClass().getSimpleName();
 	}
 	
@@ -27,9 +26,8 @@ public abstract class QLType extends Expression {
 	 * @return the list of compatibilities
 	 */
 	public List<String> compatibilities() {
-		return compatibleTypes.
-				stream().
-				map(ct -> ct.getSimpleName()).
-				collect(Collectors.toList());
+		return compatibleTypes.stream()
+				.map(ct -> ct.getSimpleName())
+				.collect(Collectors.toList());
 	}
 }
