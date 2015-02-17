@@ -14,81 +14,43 @@ grammar QL;
 
 prog	: form EOF ;
 
-form	: 'form' title=ID '{' sts+=stat* '}' ;
+form	: 'form' ID '{' stat* '}' ;
 
-quest 	: 'question' ID typeof primitiveType '{' stat* '}' ;
+quest 	: 'question' ID typeof primitiveType '{' (expr | quest_decl)* '}' ;
 
 stat	: quest
-	 	| decl
-	 	| expr 
+	 	| decl 
 	 	| ifStatement
 	 	| quest_decl								
 	 	| assign
 	 	;
 
-quest_decl	: ID '=' STRING ';' 								// quest_decl only within questions
-			| ID '.' questionType '=' QuestionLiteral ';'
-			| ID '.' 'value' '=' expr ';';	
+quest_decl	: ID '=' STRING ';' 								
+			| assign;	
 
-decl		: primitiveType ID '='? expr? ';';		// Allows int x; && int x = 3 - 1; 
+decl		: primitiveType ID '='? expr? ';';
 
 assign		: ID '=' expr ';';
 
-expr returns [Expression result]: x = expr op = EXP<assoc=right> y = expr 
-								{
-									$result = (new Exponentiation($x.result,$y.result));
-								}	
-								| x = expr op = (MUL | DIV) y = expr
-								{
-									if ($op.type == MUL)
-									$result = (new Multiplication($x.result,$y.result));
-									else
-									$result = (new Division($x.result,$y.result));
-								}
-								| x = expr op = (ADD | SUB) y = expr
-								{
-									if ($op.type == ADD)
-									$result = (new Addition($x.result, $y.result));
-									else
-									$result = (new Substraction($x.result, $y.result));
-								}	
-								| x = expr op = (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) y = expr
-								{
-									switch($op.type){
-										case LESS: 			$result = (new Less($x.result,$y.result,$op.getText()));
-										case LESS_EQUAL:	$result = (new Less_Eq($x.result, $y.result, $op.getText()));
-										case GREATER:		$result = (new Greater($x.result, $y.result, $op.getText()));
-										case GREATER_EQUAL: $result = (new Greater_Eq($x.result, $y.result, $op.getText()));
-									}
-								}							
-								| x = expr op = (EQUAL | NOT_EQUAL) y = expr
-								{
-									if ($op.type == EQUAL)
-									$result = (new Equal($x.result, $y.result, $op.getText()));
-									else
-									$result = (new NotEqual($x.result, $y.result, $op.getText()));
-								}															
-								| x = expr op = LOG_AND y = expr
-								{
-									$result = (new And($x.result, $y.result, $op.getText()));
-								}																	
-								| x = expr op = LOG_OR y = expr
-								{
-									$result = (new Or($x.result, $y.result, $op.getText()));
-								}																	
-								| '(' x = expr ')'																		
-								| literal																	
-								;
+expr 		: x = expr op = EXP<assoc=right> y = expr 	
+			| x = expr op = (MUL | DIV) y = expr
+			| x = expr op = (ADD | SUB) y = expr
+			| x = expr op = (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) y = expr
+			| x = expr op = (EQUAL | NOT_EQUAL) y = expr
+			| x = expr op = LOG_AND y = expr
+			| x = expr op = LOG_OR y = expr
+			| '(' x = expr ')' 																		
+			| lit = literal																		
+			;
 	
-ifStatement		: ifThen = 'if' '(' expr ')' '{' stat* '}';
-				//| ifElse = 'if' '(' expr ')' '{' stat* '}' elseStat = 'else' '(' stat* ')';
+ifStatement		: ifThen = 'if' '(' expr ')' '{' (stat | expr)* '}';
 	
 
 literal		: BooleanLiteral
-			| (INT | ('(-'INT')'))
-			| (FLOAT | ('(-'FLOAT')'))
+			| (INT | ('(-'INT')')) 			
+			| (FLOAT | ('(-'FLOAT')'))		
 			| (CURRENCY | ('(-'CURRENCY')'))
-			| ID	
+			| ID							
 			;
 
 QuestionLiteral	: 'OrdinaryQuestion'

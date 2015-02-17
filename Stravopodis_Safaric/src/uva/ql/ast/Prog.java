@@ -1,6 +1,6 @@
 package uva.ql.ast;
 
-public class Prog extends ASTClass{
+public class Prog{
 	private Form form;
 	
 	public Prog (Form _form){

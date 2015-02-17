@@ -1,9 +1,14 @@
 package uva.ql.ast.expressions.literals;
 import uva.ql.ast.expressions.Expression;
+import uva.ql.supporting.Tuple;
 
-public abstract class Value<T> extends Expression{
+public class Value<T> extends Expression{
+
+	T value;
 	
-	public abstract T getValue();
-	public abstract String toString();
+	public Value(Tuple<Integer, Integer> codeLines) {
+		super(codeLines);
+	}
+	
 }
 

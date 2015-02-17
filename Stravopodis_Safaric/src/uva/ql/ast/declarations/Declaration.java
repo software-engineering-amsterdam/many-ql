@@ -1,21 +1,20 @@
 package uva.ql.ast.declarations;
 
-import java.util.List;
-
-import uva.ql.ast.ASTNode;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.Identifier;
+import uva.ql.ast.expressions.literals.Value;
 import uva.ql.ast.statements.Statement;
 import uva.ql.supporting.Tuple;
 
-public class Declaration extends Statement implements ASTNode{
+public class Declaration extends Statement{
 
 	protected Identifier identifier;
-	protected Type type;
+	protected Type<Value> type;
 	protected Expression expressions;
 	
-	public Declaration(Identifier _identifier, Type _type, Expression _expressions){
+	public Declaration(Identifier _identifier, Type<Value> _type, Expression _expressions, Tuple<Integer, Integer> _codeLines){
+		super(_codeLines);
 		this.identifier = _identifier;
 		this.type = _type;
 		this.expressions = _expressions;
