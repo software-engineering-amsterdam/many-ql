@@ -10,9 +10,11 @@ import org.antlr.v4.runtime.misc.NotNull;
 import uva.sc.logic.Node;
 import uva.sc.ast.NodeTree;
 import uva.sc.logic.Form;
+import uva.sc.logic.Literal;
 import uva.sc.logic.Question;
 import uva.sc.logic.Statement;
 import uva.sc.logic.binaryExpressions.Addition;
+import uva.sc.logic.binaryExpressions.Power;
 import uva.sc.parser.GrammarBaseVisitor;
 import uva.sc.parser.GrammarParser;
 import uva.sc.parser.GrammarParser.StatContext;
@@ -26,6 +28,32 @@ public class EvalVisitor extends GrammarBaseVisitor<Node> {
 			statementList.add((Statement)visitStat(ctx.sts.get(i)));
 		return new Form(ctx.ID().getText(), statementList);
 	}
+
+	@Override
+	public Node visitString(GrammarParser.StringContext ctx) {
+		String str = ctx.getText();
+		str = str.substring(1, str.length() - 1).replace("\"\"", "\"");
+		return new Literal(str);
+	}
+	
+	@Override
+	public Node visitNumber(GrammarParser.NumberContext ctx) {
+		return new Literal(Double.valueOf(ctx.getText()));
+	}
+	
+	@Override
+	public Node visitBoolean(GrammarParser.BooleanContext ctx) {
+		return new Literal(Boolean.valueOf(ctx.getText()));
+	}
+	
+	@Override
+	public Node visitPower(GrammarParser.PowerContext ctx) {
+		Node base = this.visit(ctx.expr(0));
+		Node exponent = this.visit(ctx.expr(1));
+		return new Power(base, exponent);
+	}
+	
+/*----------------------------------------------------------*/
 	
 	
 	
@@ -56,34 +84,6 @@ public class EvalVisitor extends GrammarBaseVisitor<Node> {
 		return returnValue;
 	}
 
-	@Override
-	public Value visitString(GrammarParser.StringContext ctx) {
-		String str = ctx.getText();
-		str = str.substring(1, str.length() - 1).replace("\"\"", "\"");
-		return new Value(str);
-	}
-	
-	@Override
-	public Value visitNumber(GrammarParser.NumberContext ctx) {
-		return new Value(Double.valueOf(ctx.getText()));
-	}
-	
-	@Override
-	public Value visitBoolean(GrammarParser.BooleanContext ctx) {
-		return new Value(Boolean.valueOf(ctx.getText()));
-	}
-	
-	@Override
-	public Value visitParenthesis(GrammarParser.ParenthesisContext ctx) {
-		return this.visit(ctx.expr());
-	}
-	
-	@Override
-	public Value visitPower(GrammarParser.PowerContext ctx) {
-		Value base = this.visit(ctx.expr(0));
-		Value exponent = this.visit(ctx.expr(1));
-		return new Value(Math.pow(base.asDouble(), exponent.asDouble()));
-	}
 	
 	@Override
 	public Value visitMultiplication(@NotNull GrammarParser.MultiplicationContext ctx) {
