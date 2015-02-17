@@ -7,7 +7,6 @@ import org.fugazi.ast.form.Form;
 //import org.fugazi.evaluator.UndefinedValue;
 //import org.fugazi.evaluator.ValueStorage;
 
-import java.util.ArrayList;
 
 /*
 // TODO type checker must detect

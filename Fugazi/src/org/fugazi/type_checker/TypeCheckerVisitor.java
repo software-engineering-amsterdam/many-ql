@@ -20,7 +20,6 @@ import org.fugazi.ast.statement.IfStatement;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 
