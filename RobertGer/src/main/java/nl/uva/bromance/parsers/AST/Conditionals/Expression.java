@@ -1,19 +1,19 @@
 package nl.uva.bromance.parsers.AST;
 
-import nl.uva.bromance.parsers.AST.Conditionals.Conditional;
 import nl.uva.bromance.parsers.AST.Conditionals.IfStatement;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
-public class Expression extends Conditional {
-    private static final String[] parentsAllowed = {"Expression","IfStatement"};
+public class Expression extends Node {
+    private static final String[] parentsAllowed = {"Expression","IfStatement","ElseIfStatement","ElseStatement","Input"};
     private String text;
 
-    public Expression(){
-        super();
+    public Expression(int lineNumber){
+        super(lineNumber,"Expression");
         this.setAcceptedParents(parentsAllowed);
     }
+    @Override
     public void printDebug(int i){
         for (int j=0; j < i; j++){
             System.out.print("\t");

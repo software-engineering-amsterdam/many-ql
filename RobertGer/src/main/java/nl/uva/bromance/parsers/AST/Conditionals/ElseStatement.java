@@ -1,19 +1,15 @@
 package nl.uva.bromance.parsers.AST.Conditionals;
 
-import nl.uva.bromance.parsers.AST.Expression;
 import nl.uva.bromance.parsers.AST.Node;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
-public class ElseStatement extends Expression {
-    public void printDebug(int i){
-        for (int j=0; j < i; j++){
-            System.out.print("\t");
-        }
-        System.out.print("[Else Statement]\n");
-        for (Node n :children){
-            n.printDebug(i+1);
-        }
+public class ElseStatement extends Node {
+    private static final String[] parentsAllowed = {"Form","Label","Calculation"};
+
+    public ElseStatement(int lineNumber) {
+        super(lineNumber,"ElseStatement");
+        super.setAcceptedParents(parentsAllowed);
     }
 }
