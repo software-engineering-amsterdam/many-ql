@@ -46,9 +46,9 @@ class TypeChecker:
         """
         This function allows to return the input type or to compare input type
         with pre-defined type
-        :param cinput: the input to check
-        :param ctype: The expected type to compare with, False to return the input type
-        :return: True | False | 'number' | 'text' | 'bool' | 'list'
+        :param int|str|boolean|list|float|complex cinput: the input to check
+        :param str|bool ctype: The expected type to compare with, False to return the input type
+        :return: True|False|str
         """
         type_class = ...
         if isinstance(cinput, str):
@@ -59,6 +59,8 @@ class TypeChecker:
             type_class = QuestionTypes.booleanName
         elif isinstance(cinput, list):
             type_class = QuestionTypes.listName
+        else:
+            raise QException("Undefined input.")
 
         if ctype & ctype is type_class:
             return True
