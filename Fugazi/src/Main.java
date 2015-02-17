@@ -1,9 +1,11 @@
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
+import org.fugazi.type_checker.ASTNodeError;
 import org.fugazi.type_checker.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -29,11 +31,11 @@ public class Main {
         boolean isFormTypeCorrect = typeChecker.checkForm(form);
         // if form is not type-correct, display warnings, errors and exit
         if (!isFormTypeCorrect) {
-            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
+            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
+            typeChecker.displayFormWarningsAndErrors();
             return;
         }
 
-        
         // TODO: evaluation.
         
         // TODO: Render GUI.
