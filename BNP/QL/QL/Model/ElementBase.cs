@@ -10,7 +10,7 @@ namespace QL.Model
     public abstract class ElementBase
     {
         public SourceLocation SourceLocation { get; protected set; }
-        public IList<ElementBase> Children { get; private set; }
+        public IList<ElementBase> Children { get; protected set; }
 
         public ElementType ElementType
         {
