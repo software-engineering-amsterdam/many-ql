@@ -43,6 +43,13 @@ class TypeChecker:
 
     @staticmethod
     def type_checker(cinput, ctype=False):
+        """
+        This function allows to return the input type or to compare input type
+        with pre-defined type
+        :param cinput: the input to check
+        :param ctype: The expected type to compare with, False to return the input type
+        :return: True | False | 'number' | 'text' | 'bool' | 'list'
+        """
         type_class = ...
         if isinstance(cinput, str):
             type_class = QuestionTypes.textName
@@ -50,6 +57,8 @@ class TypeChecker:
             type_class = QuestionTypes.numberName
         elif isinstance(cinput, bool):
             type_class = QuestionTypes.booleanName
+        elif isinstance(cinput, list):
+            type_class = QuestionTypes.listName
 
         if ctype & ctype is type_class:
             return True

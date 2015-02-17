@@ -39,6 +39,10 @@ class QuestionTypes:
     text            = BasicTypes.sentences
     textName        = 'text'
 
+    # for future use
+    list            = ...
+    listName        = 'list'
+
 class Expressions:
     """
 
