@@ -1,5 +1,11 @@
 package nl.uva.se.ast.expression;
 
-public interface Expression {
+import nl.uva.se.ast.Node;
+
+public abstract class Expression extends Node {
+
+	public Expression(int lineNumber, int offset) {
+		super(lineNumber, offset);
+	}
 
 }

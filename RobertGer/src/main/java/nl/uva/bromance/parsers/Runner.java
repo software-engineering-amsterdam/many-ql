@@ -1,5 +1,7 @@
 package nl.uva.bromance.parsers;
 
+import nl.uva.bromance.parsers.AST.Root;
+import nl.uva.bromance.parsers.AST.TypeChecker;
 import nl.uva.bromance.parsers.listeners.QLParseTreeListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -26,8 +28,9 @@ public class Runner {
 
         walker.walk(listener, tree);
 
-        //show AST in console
-        System.out.println(tree.toStringTree(parser));
+        Root ast = listener.getAst();
+        TypeChecker tc = new TypeChecker(ast);
+        tc.runChecks();
 
         //show AST in GUI
         JFrame frame = new JFrame("Antlr AST");

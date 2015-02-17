@@ -8,6 +8,24 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
   val checkers = new QLTypeChecker
   import checkers._
   
+  "question property check" should {
+    "isDuplicateQuestionVariable true" in {
+      isDuplicateQuestionVariable(List(BooleanQuestion(Variable("Test"), "Label")), BooleanQuestion(Variable("Test"), "Label")) must beEqualTo(true)
+    }
+    "isDuplicateQuestionVariable false" in {
+      isDuplicateQuestionVariable(List(BooleanQuestion(Variable("Test"), "Label")), BooleanQuestion(Variable("Other"), "Label")) must beEqualTo(false)
+    }
+    "isDuplicateQuestionLabel true" in {
+      isDuplicateQuestionLabel(List(BooleanQuestion(Variable("Test"), "Label")), BooleanQuestion(Variable("Test"), "Label")) must beEqualTo(true)
+    }
+    "isDuplicateQuestionLabel false" in {
+      isDuplicateQuestionLabel(List(BooleanQuestion(Variable("Test"), "Label")), BooleanQuestion(Variable("Test"), "Other Label")) must beEqualTo(false)
+    }
+    
+  }
+  
+  
+  
   "literals" should {
     "BooleanLiteral" in {
       check(BooleanLiteral(true)) must beEqualTo(BooleanLiteral(true))

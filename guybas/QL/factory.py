@@ -16,7 +16,7 @@ class ASTReady:
         return int(tokens[0])
 
     def make_operator(token):
-        return Operator(token)
+        return Operator(token[0])
 
     def sub_expression(tokens):
         e = []

@@ -9,6 +9,7 @@ class Operator:
     def __str__(self):
         return str(self.operator)
 
+
 class Expression:
     def __init__(self, expression):
         self.expression = expression[0]
@@ -39,11 +40,14 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + Expression.sub_expression(self.expression)
 
-
-    def type_validator(answer, qtype):
-        if isinstance(answer, str):
-            return True
-        return False
+    def as_list(self):
+        l = []
+        for e in self.expression:
+            if isinstance(e, list):
+                l.append(Expression.as_list(e))
+            else:
+                l.append(str(e))
+        return l
 
 # Questions
 class Question:
@@ -59,12 +63,6 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
-
-    def update(self, new_answer):
-        if Expression.type_validator(new_answer, self.get_type()) is True:
-            self.answer = [new_answer]
-        else:
-            raise QException("Answer type and input type collision")
 
     # Getters
     def get_label(self):
@@ -88,8 +86,10 @@ class Question:
     def get_answer(self):
         return self.answer
 
-    def all_dependencies(self):
-        return {self.id : []}
+    def all_dependencies(self, dependencies):
+        if self.id not in dependencies:
+            dependencies[self.id] = []
+        return dependencies
 
 
 class AdvancedQuestions(Question):
@@ -117,8 +117,11 @@ class AdvancedQuestions(Question):
     def get_c_questions(self):
         return self.questions
 
+    def get_id(self):
+        return None
+
     def get_condition(self):
-        return self.condition.ast_print()
+        return self.condition.as_list()
 
     def all_ids(self):
         ids = []
@@ -142,14 +145,16 @@ class AdvancedQuestions(Question):
     def is_conditional(self):
         return True
 
-    def all_dependencies(self):
-        d = {}
-        dependencies = self.condition.check()
+    def all_dependencies(self, dependencies):
         ids = self.all_ids()
-        for id in ids:
-            d[id] = dependencies
-        return d
-
+        for i in ids:
+            if i in dependencies:
+                dependencies[i] = dependencies[i] + self.condition.check()
+            else:
+                dependencies[i] = self.condition.check()
+        for q in self.questions:
+            dependencies = dict(list(dependencies.items()) + list(q.all_dependencies(dependencies).items()))
+        return dependencies
 
 class Form:
     def __init__(self, name, introduction, questions):

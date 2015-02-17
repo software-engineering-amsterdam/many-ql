@@ -1,18 +1,9 @@
-#class Expression
-  #attr_reader :operator, :arguments
+require_relative "form"
 
-  #def initialize(operator:, arguments:)
-    #@operator = operator
-    #@arguments = arguments
-  #end
-#
-#end
+class Expression < Node
+end
 
-# ExpressionVariable
-require_relative "visitor"
-
-class Variable
-  include Visitable
+class Variable < Expression
   attr_reader :name
 
   def initialize(name)
@@ -20,28 +11,30 @@ class Variable
   end
 end
 
-# Constants
+class Literal < Expression
+  attr_reader :value
 
-class Integer
-  include Visitable
+  def initialize(value)
+    @value = value
+  end
+
+  def ==(other_value)
+    value == other_value
+  end
 end
 
-class String
-  include Visitable
+class IntegerLiteral < Literal
 end
 
-class True
-  include Visitable
+class StringLiteral < Literal
 end
 
-class False
-  include Visitable
+class BooleanLiteral < Literal
 end
-
 
 # Expressions
 
-class BinaryExpression
+class BinaryExpression < Expression
   attr_reader :lhs, :rhs
 
   def initialize(lhs, rhs)
@@ -49,9 +42,9 @@ class BinaryExpression
     @rhs = rhs
   end
 
-  def accept visitor
-    lhs.accept visitor
-    rhs.accept visitor
+  def accept(visitor)
+    lhs.accept(visitor)
+    rhs.accept(visitor)
   end
 end
 
@@ -97,74 +90,73 @@ end
 
 class And < BooleanExpression
   def operator
-    :and
+    :&
   end
 end
 
 class Or < BooleanExpression
-  # Interpreter pattern.
-  def evaluate
-    lhs.evaluate || rhs.evaluate
+  def operator
+    :|
   end
 end
 
 class Equal < EqualityExpression
-  def evaluate
-    lhs == rhs
+  def operator
+    :==
   end
 end
 
 class Inequal < EqualityExpression
-  def evaluate
-    lhs != rhs
+  def operator
+    :!=
   end
 end
 
 class LessThan < OrderingExpression
-  def evaluate
-    lhs < rhs
+  def operator
+    :<
   end
 end
 
 class LessThanOrEqualTo < OrderingExpression
-  def evaluate
-    lhs <= rhs
+  def operator
+    :<=
   end
 end
 
 class GreaterThan < OrderingExpression
-  def evaluate
-    lhs > rhs
+  def operator
+    :>
   end
 end
 
 class GreaterThanOrEqualTo < OrderingExpression
-  def evaluate
-    lhs >= rhs
+  def operator
+    :>=
   end
 end
 
 class Plus < IntegerExpression
-  def evaluate
-    lhs + rhs
+  def operator
+    :+
   end
 end
 
 class Minus < IntegerExpression
-  def evaluate
-    lhs - rhs
+  def operator
+    :-
   end
 end
 
 class Multiplication < IntegerExpression
-  def evaluate
-    lhs * rhs
+  def operator
+    :*
   end
 end
 
 class Division < IntegerExpression
-  def evaluate
-    lhs / rhs
+  def operator
+    :/
   end
 end
 

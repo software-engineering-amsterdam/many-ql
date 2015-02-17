@@ -1,15 +1,3 @@
-# Visitables:
-# Form
-# Statement
-# VariableDefinition
-# Expression
-
-module Visitable
-  def accept(visitor)
-    visitor.visit(self)
-  end
-end
-
 # The Visitor class is our base class for all visitors.  It implements the  
 # "visit" method which Object#accept will call.   
 class BaseVisitor  
@@ -26,24 +14,24 @@ class BaseVisitor
   def visit(subject)
     subject.class.ancestors.each do |ancestor|  
       method_name = :"visit_#{ancestor.name}"  
-      next unless respond_to? method_name  
-      return send method_name, thing  
+      next unless respond_to?(method_name)
+      return send(method_name, subject)
     end  
                                                          
-    raise "Can't handle #{thing.class}"  
+    raise "Can't handle #{subject.class}"  
   end
 end
 
 class QuestionsVisitor < BaseVisitor
   visitor_for Question do |question|
-    question.statements
+    [ question ]
   end
 
   visitor_for Statement do |statement|
     statement.statements
   end
-
-  visitor_for Object do |question|
+  
+  visitor_for Node do |question|
     []
   end
 end

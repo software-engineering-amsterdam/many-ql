@@ -61,7 +61,7 @@ def p_question(p):
              | STRING TYPE
              | STRING TYPE function
              | STRING ID ':' TYPE
-             | STRING ID ':' TYPE function
+             | STRING ID ':' TYPE '=' function
     '''
     p[0] = nodes.Question(p)
 
@@ -83,7 +83,6 @@ def p_function_expression(p):
     '''
     if len(p) == 4:
         p[0] = p[2]
-
 
 
 def p_leaf(p):
