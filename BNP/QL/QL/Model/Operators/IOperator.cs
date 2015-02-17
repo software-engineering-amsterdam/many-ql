@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QL.Model
+namespace QL.Model.Operators
 {
-    public class Block : TreeElementBase
+    public interface IOperator<TLeft, TRight>
     {
 
     }

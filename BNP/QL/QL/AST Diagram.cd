@@ -3,7 +3,7 @@
   <Class Name="QL.Model.ElementBase" Collapsed="true">
     <Position X="3.5" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAABABAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\ElementBase.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -18,7 +18,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="QL.Model.UnitBase" Collapsed="true">
-    <Position X="1.5" Y="2.5" Width="1.5" />
+    <Position X="1.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\UnitBase.cs</FileName>
@@ -31,45 +31,13 @@
       <FileName>Model\StatementUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="QL.Grammars.QLVisitor" Collapsed="true">
-    <Position X="13.75" Y="0.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QAMAAAAAAAEAAAQAAAgAAAAAAAEACAQAgAAEABgAAQA=</HashCode>
-      <FileName>Grammars\QLVisitor.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="QL.Infrastructure.LexerErrorHandler" Collapsed="true">
-    <Position X="13.75" Y="2" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Infrastructure\LexerErrorHandler.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="QL.Infrastructure.ParserErrorHandler" Collapsed="true">
-    <Position X="15.75" Y="2" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Infrastructure\ParserErrorHandler.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="QL.Model.NodeMapper" Collapsed="true">
-    <Position X="7" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model\NodeMapper.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="QL.Model.Terminals.Identifier" Collapsed="true">
     <Position X="11.5" Y="3.5" Width="1.5" />
-    <InheritanceLine Type="QL.Model.ElementBase" FixedToPoint="true">
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="4.5" Y="1.062" />
-        <Point X="4.5" Y="1.812" />
-        <Point X="11.125" Y="1.812" />
-        <Point X="11.125" Y="3.688" />
-        <Point X="11.5" Y="3.688" />
+        <Point X="10.75" Y="1.191" />
+        <Point X="10.75" Y="3.875" />
+        <Point X="11.5" Y="3.875" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -80,13 +48,11 @@
   </Class>
   <Class Name="QL.Model.Terminals.Number" Collapsed="true">
     <Position X="11.5" Y="2.5" Width="1.5" />
-    <InheritanceLine Type="QL.Model.ElementBase" FixedToPoint="true">
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="4.5" Y="1.062" />
-        <Point X="4.5" Y="1.812" />
-        <Point X="11.125" Y="1.812" />
-        <Point X="11.125" Y="2.938" />
-        <Point X="11.5" Y="2.938" />
+        <Point X="10.75" Y="1.191" />
+        <Point X="10.75" Y="2.875" />
+        <Point X="11.5" Y="2.875" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -97,11 +63,11 @@
   </Class>
   <Class Name="QL.Model.Terminals.Text" Collapsed="true">
     <Position X="11.5" Y="1.5" Width="1.5" />
-    <InheritanceLine Type="QL.Model.ElementBase" FixedToPoint="true">
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
-        <Point X="4.5" Y="1.062" />
-        <Point X="4.5" Y="1.812" />
-        <Point X="11.5" Y="1.812" />
+        <Point X="10.75" Y="1.191" />
+        <Point X="10.75" Y="1.875" />
+        <Point X="11.5" Y="1.875" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -112,11 +78,11 @@
   </Class>
   <Class Name="QL.Model.Terminals.Yesno" Collapsed="true">
     <Position X="11.5" Y="4.5" Width="1.5" />
-    <InheritanceLine Type="QL.Model.ElementBase" FixedToPoint="true">
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="4.5" Y="1.062" />
-        <Point X="4.5" Y="4.75" />
-        <Point X="11.5" Y="4.75" />
+        <Point X="10.75" Y="1.191" />
+        <Point X="10.75" Y="4.875" />
+        <Point X="11.5" Y="4.875" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -126,36 +92,74 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="QL.Model.Block" Collapsed="true">
-    <Position X="9" Y="2.5" Width="1.5" />
+    <Position X="9" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Block.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="QL.Model.Form" Collapsed="true">
-    <Position X="6.75" Y="2.5" Width="1.5" />
-    <AssociationLine Name="Identifier" Type="QL.Model.Terminals.Identifier">
-      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="2.714" Y="0.05" Height="0.182" Width="0.905" />
-      </MemberNameLabel>
-    </AssociationLine>
+    <Position X="6.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
       <FileName>Model\Form.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Identifier" />
       <Property Name="Block" />
     </ShowAsAssociation>
   </Class>
   <Class Name="QL.Model.ControlBlock" Collapsed="true">
-    <Position X="4.75" Y="2.5" Width="1.5" />
+    <Position X="4.75" Y="2.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.TreeElementBase" FixedToPoint="true">
+      <Path>
+        <Point X="3.25" Y="2.191" />
+        <Point X="3.25" Y="2.45" />
+        <Point X="5.5" Y="2.45" />
+        <Point X="5.5" Y="2.75" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Model\ControlBlock.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QL.Model.BinaryTreeElementBase" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <AssociationLine Name="ElementType" Type="QL.Model.Enums.ElementType" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10" Y="0.938" />
+        <Point X="9.656" Y="0.938" />
+        <Point X="9.656" Y="1.812" />
+        <Point X="8.5" Y="1.812" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <FileName>Model\BinaryTreeElementBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ElementType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QL.Model.TreeElementBase" Collapsed="true">
+    <Position X="2.5" Y="1.5" Width="1.5" />
+    <InheritanceLine Type="QL.Model.ElementBase" ManuallyRouted="true">
+      <Path>
+        <Point X="4.5" Y="1.062" />
+        <Point X="4.5" Y="1.325" />
+        <Point X="3.25" Y="1.325" />
+        <Point X="3.25" Y="1.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TreeElementBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ElementType" />
     </ShowAsAssociation>
   </Class>
   <Struct Name="QL.Model.SourceLocation" Collapsed="true">
@@ -166,10 +170,17 @@
     </TypeIdentifier>
   </Struct>
   <Enum Name="QL.Model.Enums.ControlBlockType" Collapsed="true">
-    <Position X="4.75" Y="3.75" Width="1.5" />
+    <Position X="4.75" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Enums\ControlBlockType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QL.Model.Enums.ElementType" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAA=</HashCode>
+      <FileName>Model\Enums\ElementType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

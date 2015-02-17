@@ -2,7 +2,7 @@
 
 namespace QL.Model.Terminals
 {
-    class Text : ElementBase, ITerminal<string>
+    class Text : BinaryTreeElementBase, ITerminal<string>
     {
         public string Value { get; private set; }
 
