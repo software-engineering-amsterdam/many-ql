@@ -10,7 +10,7 @@ class QLEvaluator {
   type Environment = Map[VariableName, VariableValue]
 
   private val defaultBooleanValue = false
-  private val defaultIntegerValue = 0
+  private val defaultNumberValue = 0
   private val defaultStringValue = ""
 
   val emptyEnvironment = Map[VariableName, VariableValue] ()
@@ -28,16 +28,16 @@ class QLEvaluator {
       case false => eval(s2, env)
     }
     case BooleanQuestion(Variable(name), label) => env + (name -> defaultBooleanValue)
-    case IntegerQuestion(Variable(name), label) => env + (name -> defaultIntegerValue)
+    case NumberQuestion(Variable(name), label) => env + (name -> defaultNumberValue)
     case StringQuestion(Variable(name), label) => env + (name -> defaultStringValue)
     case ComputedBooleanQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
-    case ComputedIntegerQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
+    case ComputedNumberQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
     case ComputedStringQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
   }
 
   // TODO: fix specificity of return type
   def eval(e: Expression, env: Environment): Any = e match {
-    case Or(l, r) =>  (eval(l, env), eval(r, env)) match {
+    case Or(l, r) => (eval(l, env), eval(r, env)) match {
       case (l: Boolean, r: Boolean) => l || r
     }
     case And(l, r) => (eval(l, env), eval(r, env)) match {

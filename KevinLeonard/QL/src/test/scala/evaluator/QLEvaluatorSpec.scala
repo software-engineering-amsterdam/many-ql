@@ -13,11 +13,11 @@ class QLEvaluatorSpec extends Specification {
       eval(BooleanQuestion(Variable("a"), "label"), emptyEnvironment) must beEqualTo(Map("a" -> false))
     }
 
-    "add default value of boolean to environment when evaluating integer question" in {
-      eval(IntegerQuestion(Variable("a"), "label"), emptyEnvironment) must beEqualTo(Map("a" -> 0))
+    "add default value of number to environment when evaluating number question" in {
+      eval(NumberQuestion(Variable("a"), "label"), emptyEnvironment) must beEqualTo(Map("a" -> 0))
     }
 
-    "add default value of boolean to environment when evaluating string question" in {
+    "add default value of string to environment when evaluating string question" in {
       eval(StringQuestion(Variable("a"), "label"), emptyEnvironment) must beEqualTo(Map("a" -> ""))
     }
 
@@ -25,11 +25,11 @@ class QLEvaluatorSpec extends Specification {
       eval(ComputedBooleanQuestion(Variable("a"), "label", BooleanLiteral(true)), emptyEnvironment) must beEqualTo(Map("a" -> true))
     }
 
-    "add default value of boolean to environment when evaluating boolean question" in {
-      eval(ComputedIntegerQuestion(Variable("a"), "label", NumberLiteral(1)), emptyEnvironment) must beEqualTo(Map("a" -> 1))
+    "add default value of number to environment when evaluating number question" in {
+      eval(ComputedNumberQuestion(Variable("a"), "label", NumberLiteral(1)), emptyEnvironment) must beEqualTo(Map("a" -> 1))
     }
 
-    "add default value of boolean to environment when evaluating boolean question" in {
+    "add default value of string to environment when evaluating string question" in {
       eval(ComputedStringQuestion(Variable("a"), "label", StringLiteral("b")), emptyEnvironment) must beEqualTo(Map("a" -> "b"))
     }
 
