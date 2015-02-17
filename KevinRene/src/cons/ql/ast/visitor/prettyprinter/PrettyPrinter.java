@@ -14,8 +14,12 @@ import cons.ql.ast.visitor.StatementVisitor;
 public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 	private String prefix = "";
 	
-	public void printAST(ASTNode tree) {
-		tree.accept(this);
+	private void indent() {
+		this.prefix += "   ";
+	}
+	
+	private void unindent() {
+		this.prefix = this.prefix.substring(0, this.prefix.length() - 3);
 	}
 	
 	private void printNode(ASTNode node, boolean isTail) {
@@ -39,14 +43,6 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 		indent();
 		ExpressionVisitor.super.visit(unaryNode);
 		unindent();
-	}
-	
-	private void indent() {
-		this.prefix += "   ";
-	}
-	
-	private void unindent() {
-		this.prefix = this.prefix.substring(0, this.prefix.length() - 3);
 	}
 
 	/**

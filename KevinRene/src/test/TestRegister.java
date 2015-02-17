@@ -12,7 +12,7 @@ import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.statement.Form;
 
-public class RegisterTest {
+public class TestRegister {
 	private Register register = Register.getInstance();
 	
 	@Rule

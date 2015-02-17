@@ -274,7 +274,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 				
 		// TODO: make this way easier.
 		if(!compQuestionNode.getType().toString().equals(
-				compQuestionNode.getExpression().toString())) {
+				compQuestionNode.getExpression().getType().toString())) {
 
 			errors.add("<" + compQuestionNode.getIdentifier() + ">:" 
 					+ compQuestionNode.getType() + " was assigned a "

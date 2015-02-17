@@ -5,7 +5,6 @@ import cons.ql.ast.Statement;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.StringLiteral;
-import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.visitor.Visitor;
 
 public class Question extends Statement {	

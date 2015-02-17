@@ -13,7 +13,9 @@ import cons.ql.ast.visitor.prettyprinter.PrettyPrinter;
 import cons.ql.parser.Parser;
 import cons.ql.parser.QLLexer;
 
-public class ParserTest {
+public class TestParser {
+	Parser formParser = new Parser();
+	
 	@Test
 	public void testZeroToken() {
 		Reader myReader = new StringReader("");
@@ -26,7 +28,7 @@ public class ParserTest {
 	public void testParsableString() {
 		String myExpression = "5 + 5";
 		
-		ASTNode result = Parser.parse(myExpression);
+		ASTNode result = formParser.parse(myExpression);
 		assertNotNull(result);
 		
 		assertEquals("5 + 5", result.toString());
@@ -41,7 +43,7 @@ public class ParserTest {
 				+ "}"
 				+ "}";
 
-		ASTNode result = Parser.parse(myForm);
+		ASTNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
@@ -53,7 +55,7 @@ public class ParserTest {
 		String myForm =
 				"form newForm { houseValue : money { \"what is your house?\" assign(105050*238482/2342)} }";
 
-		ASTNode result = Parser.parse(myForm);
+		ASTNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, QLFloat, "
@@ -74,7 +76,7 @@ public class ParserTest {
 				+ 	"}"
 				+ "}";
 		
-		ASTNode result = Parser.parse(myForm);
+		ASTNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
@@ -82,7 +84,7 @@ public class ParserTest {
 				+ "Block(Question(houseValue, QLFloat, Lol I dont care)))))", result.toString());
 		
 		PrettyPrinter printer = new PrettyPrinter();
-		printer.printAST(result);
+		result.accept(printer);
 	}
 	
 	@Test
@@ -98,7 +100,7 @@ public class ParserTest {
 				+ 	"}"
 				+ "}";
 
-		ASTNode result = Parser.parse(myForm);
+		ASTNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
