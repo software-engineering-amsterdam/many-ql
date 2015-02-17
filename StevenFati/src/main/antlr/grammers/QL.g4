@@ -36,7 +36,10 @@ identifier
     ;
 // if question has an expression it is a computed question.
 question
-    : identifier question_type question_label expression?
+    : identifier question_type question_label question_expression?
+    ;
+question_expression
+    : '(' expression ')'
     ;
 question_type
     : 'STRING'

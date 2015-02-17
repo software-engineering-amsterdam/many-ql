@@ -3,7 +3,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import spock.lang.Specification
 
 /**
- * Created by stevensteven on 16/02/2015.
+ * Created by Steven Kok on 16/02/2015.
  */
 class Walker extends Specification {
 
