@@ -1,12 +1,6 @@
 // Generated from QL.g4 by ANTLR 4.4
 package org.uva.sea.ql.parser.antlr;
 
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -37,30 +31,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForm(@NotNull QLParser.FormContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForm(@NotNull QLParser.FormContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterQuestion(@NotNull QLParser.QuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuestion(@NotNull QLParser.QuestionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterStatement(@NotNull QLParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -73,13 +43,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(@NotNull QLParser.BlockContext ctx) { }
+	@Override public void enterForm(@NotNull QLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlock(@NotNull QLParser.BlockContext ctx) { }
+	@Override public void exitForm(@NotNull QLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -97,13 +67,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
+	@Override public void enterBlock(@NotNull QLParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
+	@Override public void exitBlock(@NotNull QLParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -116,6 +86,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitQuestionType(@NotNull QLParser.QuestionTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQuestion(@NotNull QLParser.QuestionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestion(@NotNull QLParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -140,6 +122,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLiteral(@NotNull QLParser.LiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
