@@ -7,6 +7,10 @@ import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Binary;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.literal.BooleanLiteral;
+import cons.ql.ast.expression.literal.FloatLiteral;
+import cons.ql.ast.expression.literal.IntegerLiteral;
+import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.expression.type.*;
 import cons.ql.ast.expression.unary.*;
@@ -99,10 +103,42 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		}
 	}
 	
+	@Override
+	public void visit(Identifier identNode) {}
+	
+	/**
+	 * Types
+	 */
+	@Override
+	public void visit(QLBoolean booleanNode) {}
+
+	@Override
+	public void visit(QLFloat floatNode) {}
+
+	@Override
+	public void visit(QLInteger intNode) {}
+
+	@Override
+	public void visit(QLString stringNode) {}
+
+	@Override
+	public void visit(QLNumeric numericNode) {}
+
+	@Override
+	public void visit(BooleanLiteral booleanNode) {}
+
+	@Override
+	public void visit(FloatLiteral floatNode) {}
+
+	@Override
+	public void visit(IntegerLiteral intNode) {}
+
+	@Override
+	public void visit(StringLiteral stringNode) {}
+	
 	/**
 	 * OPERATORS 
 	 */
-	
 	@Override
 	public void visit(Add addNode) {
 		checkBinaryNumericOperator(addNode);
@@ -239,8 +275,9 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		// TODO: make this way easier.
 		if(!compQuestionNode.getType().toString().equals(
 				compQuestionNode.getExpression().toString())) {
-			errors.add("<" + compQuestionNode.getIdent() + ">:" 
-					+ compQuestionNode.getType() + " was assigned a "	
+
+			errors.add("<" + compQuestionNode.getIdentifier() + ">:" 
+					+ compQuestionNode.getType() + " was assigned a "
 					+ compQuestionNode.getExpression().getType() + ".");
 		}
 	}
@@ -266,26 +303,4 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		// Do we allow redeclaration?
 		// If not, do a check here
 	}
-	
-	/**
-	 * Types
-	 */
-
-	@Override
-	public void visit(QLBoolean booleanNode) {}
-
-	@Override
-	public void visit(QLFloat floatNode) {}
-
-	@Override
-	public void visit(Identifier identNode) {}
-
-	@Override
-	public void visit(QLInteger intNode) {}
-
-	@Override
-	public void visit(QLString stringNode) {}
-
-	@Override
-	public void visit(QLNumeric numericNode) {}
 }

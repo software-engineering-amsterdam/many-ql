@@ -15,7 +15,7 @@ public class ComputedQuestion extends Question {
 		super(identifier, type, text);		
 		this.expression = expression;		
 		
-		Register.getInstance().store(getIdent(), this);
+		Register.getInstance().store(getIdentifier(), this);
 	}
 
 	public Expression getExpression() {
@@ -26,7 +26,7 @@ public class ComputedQuestion extends Question {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("ComputedQuestion(");
 		
-		sb.append(getIdent().toString() + ", ");
+		sb.append(getIdentifier().toString() + ", ");
 		sb.append(getType().toString() + ", ");
 		sb.append(getText().toString() + ", ");
 		sb.append(getExpression().toString());

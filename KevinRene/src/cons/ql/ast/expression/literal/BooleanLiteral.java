@@ -17,5 +17,7 @@ public class BooleanLiteral extends Literal<Boolean> {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {}
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+	}
 }

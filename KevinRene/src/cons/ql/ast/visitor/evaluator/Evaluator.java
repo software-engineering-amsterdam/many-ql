@@ -1,36 +1,37 @@
 package cons.ql.ast.visitor.evaluator;
 
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.expression.arithmetic.Add;
-import cons.ql.ast.expression.arithmetic.Div;
-import cons.ql.ast.expression.arithmetic.Mul;
-import cons.ql.ast.expression.arithmetic.Sub;
-import cons.ql.ast.expression.relational.And;
-import cons.ql.ast.expression.relational.Eq;
-import cons.ql.ast.expression.relational.GEq;
-import cons.ql.ast.expression.relational.GT;
-import cons.ql.ast.expression.relational.LEq;
-import cons.ql.ast.expression.relational.LT;
-import cons.ql.ast.expression.relational.NEq;
-import cons.ql.ast.expression.relational.Or;
-import cons.ql.ast.expression.type.QLBoolean;
-import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLInteger;
-import cons.ql.ast.expression.type.QLNumeric;
-import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.expression.unary.Neg;
-import cons.ql.ast.expression.unary.Not;
-import cons.ql.ast.expression.unary.Pos;
-import cons.ql.ast.statement.Block;
-import cons.ql.ast.statement.ComputedQuestion;
-import cons.ql.ast.statement.Form;
-import cons.ql.ast.statement.If;
-import cons.ql.ast.statement.Question;
+import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.literal.*;
+import cons.ql.ast.expression.relational.*;
+import cons.ql.ast.expression.unary.*;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
 public class Evaluator implements ExpressionVisitor, StatementVisitor  {
+	@Override
+	public void visit(BooleanLiteral booleanNode) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void visit(FloatLiteral floatNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IntegerLiteral intNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StringLiteral stringNode) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public void visit(Add addNode) {
 		// TODO Auto-generated method stub
@@ -44,13 +45,13 @@ public class Evaluator implements ExpressionVisitor, StatementVisitor  {
 	}
 
 	@Override
-	public void visit(Mul divNode) {
+	public void visit(Mul mulNode) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visit(Sub divNode) {
+	public void visit(Sub subNode) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -104,66 +105,6 @@ public class Evaluator implements ExpressionVisitor, StatementVisitor  {
 	}
 
 	@Override
-	public void visit(Block blockNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(ComputedQuestion compQuestionNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Form formNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(If ifNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Question questionNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(QLBoolean booleanNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(QLFloat floatNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Identifier identNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(QLInteger intNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(QLString stringNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void visit(Neg negNode) {
 		// TODO Auto-generated method stub
 		
@@ -181,9 +122,4 @@ public class Evaluator implements ExpressionVisitor, StatementVisitor  {
 		
 	}
 
-	@Override
-	public void visit(QLNumeric numericNode) {
-		// TODO Auto-generated method stub
-		
-	}
 }

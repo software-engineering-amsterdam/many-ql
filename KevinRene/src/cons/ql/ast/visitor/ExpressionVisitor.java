@@ -1,10 +1,16 @@
 package cons.ql.ast.visitor;
 
+import cons.ql.ast.expression.Binary;
 import cons.ql.ast.expression.Identifier;
+import cons.ql.ast.expression.Unary;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
 import cons.ql.ast.expression.arithmetic.Sub;
+import cons.ql.ast.expression.literal.BooleanLiteral;
+import cons.ql.ast.expression.literal.FloatLiteral;
+import cons.ql.ast.expression.literal.IntegerLiteral;
+import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.relational.And;
 import cons.ql.ast.expression.relational.Eq;
 import cons.ql.ast.expression.relational.GEq;
@@ -16,12 +22,36 @@ import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLInteger;
+import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.expression.unary.Neg;
 import cons.ql.ast.expression.unary.Not;
 import cons.ql.ast.expression.unary.Pos;
 
 public interface ExpressionVisitor extends Visitor {
+	default void visit(Unary unaryNode) {
+		unaryNode.getExpression().accept(this);
+	};
+	
+	default void visit(Binary binaryNode) {
+		binaryNode.getLeft().accept(this);
+		binaryNode.getRight().accept(this);
+	};
+	
+	default void visit(Identifier identNode) {}
+	
+	// Types contain nothing. An empty function will be the default visit action.
+	default void visit(QLBoolean booleanNode) {}
+	default void visit(QLFloat floatNode) {}    
+	default void visit(QLNumeric numericNode) {}
+	default void visit(QLInteger intNode) {}
+	default void visit(QLString stringNode) {}
+	
+	default void visit(BooleanLiteral booleanNode) {}	
+	default void visit(FloatLiteral floatNode) {}
+	default void visit(IntegerLiteral intNode) {}
+	default void visit(StringLiteral stringNode) {}
+	
 	default void visit(Add addNode) {
 		addNode.getLeft().accept(this);
 		addNode.getRight().accept(this);
@@ -41,13 +71,7 @@ public interface ExpressionVisitor extends Visitor {
 		subNode.getLeft().accept(this);
 		subNode.getRight().accept(this);
 	}
-	
-	public void visit(QLBoolean booleanNode);
-	public void visit(QLFloat floatNode);
-	public void visit(Identifier identNode);
-	public void visit(QLInteger intNode);
-	public void visit(QLString stringNode);
-	
+
 	default void visit(And andNode) {
 		andNode.getLeft().accept(this);
 		andNode.getRight().accept(this);
@@ -88,7 +112,13 @@ public interface ExpressionVisitor extends Visitor {
 		orNode.getRight().accept(this);
 	}
 	
-	public void visit(Neg negNode);
-	public void visit(Not notNode);
-	public void visit(Pos posNode);
+	default void visit(Neg negNode) {
+		negNode.getExpression().accept(this);
+	}
+	default void visit(Not notNode) {
+		notNode.getExpression().accept(this);
+	}
+	default void visit(Pos posNode) {
+		posNode.getExpression().accept(this);
+	}
 }

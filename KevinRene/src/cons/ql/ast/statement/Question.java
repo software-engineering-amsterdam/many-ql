@@ -21,7 +21,7 @@ public class Question extends Statement {
 		Register.getInstance().store(this.identifier, this);
 	}
 	
-	public Identifier getIdent() {
+	public Identifier getIdentifier() {
 		return this.identifier;
 	}
 	
@@ -37,7 +37,7 @@ public class Question extends Statement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Question(");
 		
-		sb.append(getIdent().toString() + ", ");
+		sb.append(getIdentifier().toString() + ", ");
 		sb.append(getType().toString() + ", ");
 		sb.append(getText().toString());
 		sb.append(")");

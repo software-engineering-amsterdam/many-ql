@@ -115,7 +115,7 @@ public class Parser {
 		else if (root instanceof ComputedQuestion) {
 			ComputedQuestion assignment = (ComputedQuestion) root;
 			
-			printSubTree(assignment.getIdent(), prefix, false);
+			printSubTree(assignment.getIdentifier(), prefix, false);
 			printSubTree(assignment.getType(), prefix, false);
 			printSubTree(assignment.getText(), prefix, false);
 			printSubTree(assignment.getExpression(), prefix, true);
@@ -123,7 +123,7 @@ public class Parser {
 		else if (root instanceof Question) {
 			Question question = (Question)root;
 			
-			printSubTree(question.getIdent(), prefix, false);
+			printSubTree(question.getIdentifier(), prefix, false);
 			printSubTree(question.getType(), prefix, false);
 			printSubTree(question.getText(), prefix, true);
 		}
@@ -142,7 +142,7 @@ public class Parser {
 		}
 		else if (root instanceof Form) {
 			Form form = (Form)root;
-			printSubTree(form.getIdent(), prefix, false);
+			printSubTree(form.getIdentifier(), prefix, false);
 			printSubTree(form.getBlock(), prefix, true);
 		}
 	}

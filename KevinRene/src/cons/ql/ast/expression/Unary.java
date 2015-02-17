@@ -10,7 +10,7 @@ public abstract class Unary extends Expression {
 		this.operand = operand;
 		this.operator = operator;
 	}
-
+	
 	@Override
 	public String toString() {
 		return this.operator + this.operand.toString();
