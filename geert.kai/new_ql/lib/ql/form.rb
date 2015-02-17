@@ -52,6 +52,7 @@ end
 # expression to this superclass?
 class ConditionalStatement < Statement
   def accept visitor
+    # TODO: dit klopt niet. wat is exception?
     exception.each do |expression|
       expression.accept visitor
    end

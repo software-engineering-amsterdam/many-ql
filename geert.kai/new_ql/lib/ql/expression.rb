@@ -102,8 +102,9 @@ class And < BooleanExpression
 end
 
 class Or < BooleanExpression
+  # Interpreter pattern.
   def evaluate
-    lhs || rhs
+    lhs.evaluate || rhs.evaluate
   end
 end
 

@@ -5,7 +5,7 @@ The type checker detects:
   --> doesn't parse
 
 duplicate question declarations with different types
-  
+ 
     
 conditions that are not of the type boolean
 operands of invalid type to operators
