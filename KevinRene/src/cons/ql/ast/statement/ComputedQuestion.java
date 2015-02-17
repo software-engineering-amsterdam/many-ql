@@ -1,5 +1,6 @@
 package cons.ql.ast.statement;
 
+import cons.Register;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
@@ -10,11 +11,11 @@ import cons.ql.ast.visitor.Visitor;
 public class ComputedQuestion extends Question {
 	private final Expression expression;
 	
-	@SuppressWarnings("unchecked")
 	public ComputedQuestion(QLIdent identifier, QLType type, QLString text, Expression expression) {
 		super(identifier, type, text);		
 		this.expression = expression;		
-		type.setValue(expression);
+		
+		Register.getInstance().registerBinding(getIdent(), this);
 	}
 
 	public Expression getExpression() {

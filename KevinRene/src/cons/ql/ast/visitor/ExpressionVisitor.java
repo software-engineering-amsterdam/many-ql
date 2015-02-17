@@ -26,25 +26,11 @@ public interface ExpressionVisitor extends Visitor {
 		subNode.getRight().accept(this);
 	}
 	
-	default void visit(QLBoolean booleanNode) {
-		System.out.println(booleanNode);
-	}
-	
-	default void visit(QLFloat floatNode) {
-		System.out.println(floatNode);
-	}
-	
-	default void visit(QLIdent identNode) {
-		System.out.println(identNode);
-	}
-	
-	default void visit(QLInt intNode) {
-		System.out.println(intNode);
-	}
-	
-	default void visit(QLString stringNode) {
-		System.out.println(stringNode);
-	}
+	public void visit(QLBoolean booleanNode);	
+	public void visit(QLFloat floatNode);	
+	public void visit(QLIdent identNode);	
+	public void visit(QLInt intNode);
+	public void visit(QLString stringNode);
 	
 	default void visit(And andNode) {
 		andNode.getLeft().accept(this);
@@ -86,15 +72,7 @@ public interface ExpressionVisitor extends Visitor {
 		orNode.getRight().accept(this);
 	}
 	
-	default void visit(Neg negNode) {
-		System.out.println(negNode);
-	}
-	
-	default void visit(Not notNode) {
-		System.out.println(notNode);
-	}
-	
-	default void visit(Pos posNode) {
-		System.out.println(posNode);
-	}
+	public void visit(Neg negNode);
+	public void visit(Not notNode);
+	public void visit(Pos posNode);
 }

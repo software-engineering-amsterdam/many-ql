@@ -146,11 +146,24 @@ public class QLLexer implements QLTokens {
 			    	StringBuilder sb = new StringBuilder();
 			    	// Skip opening quote.
 			    	nextChar();
+			    	
 			    	// Build a string from everything between the quotes.
 			    	while (c != '"') {
-		    			sb.append((char)c);
+			    		// Detected escaped quotes.
+			    		if(c == '\\') {
+				    		nextChar();
+				    		
+				    		if(c == '"') {
+				    			sb.append((char)c);
+				    			nextChar();
+				    			continue;
+				    		}
+				    	}
+			    		
+			    		sb.append((char)c);
 		    			nextChar();
 		    		}
+			    	
 			    	// Skip closing quote.
 			    	nextChar();
 		    		String string = sb.toString();

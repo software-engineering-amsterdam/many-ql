@@ -1,5 +1,6 @@
 package cons.ql.ast.statement;
 
+import cons.Register;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.literal.QLIdent;
@@ -16,6 +17,8 @@ public class Question extends Statement {
 		this.identifier = identifier;
 		this.type = type;
 		this.questionText = questionText;
+		
+		Register.getInstance().registerBinding(this.identifier, this);
 	}
 	
 	public QLIdent getIdent() {
