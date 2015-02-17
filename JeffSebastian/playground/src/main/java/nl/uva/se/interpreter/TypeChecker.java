@@ -1,4 +1,4 @@
-package nl.uva.se.visitor;
+package nl.uva.se.interpreter;
 
 import nl.uva.se.ast.expression.arithmetical.Addition;
 import nl.uva.se.ast.expression.arithmetical.Divide;
@@ -25,27 +25,31 @@ import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
+import nl.uva.se.visitor.Visitor;
 
-public class SimpleVisitor implements Visitor {
+public class TypeChecker implements Visitor {
 
 	@Override
 	public void visit(Form form) {
-		System.out.println(form.getId());
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void visit(Question question) {
-		System.out.println(question.getQuestion());
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		System.out.println(calculatedQuestion.getQuestion());
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void visit(Condition condition) {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -87,6 +91,18 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(Modulo modulo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Negative negative) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Positive positive) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -141,32 +157,24 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(BooleanLiteral booleanLiteral) {
-		System.out.println("Boolean: " + booleanLiteral.getName());
-	}
-
-	@Override
-	public void visit(DecimalLiteral decimalLiteral) {
-		System.out.println("Decimal: " + decimalLiteral.getName());
-	}
-
-	@Override
-	public void visit(IntegerLiteral integerLiteral) {
-		System.out.println("Integer: " + integerLiteral.getName());
-	}
-
-	@Override
-	public void visit(StringLiteral stringLiteral) {
-		System.out.println("String: " + stringLiteral.getName());
-	}
-
-	@Override
-	public void visit(Negative negative) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visit(Positive positive) {
+	public void visit(DecimalLiteral decimalLiteral) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IntegerLiteral integerLiteral) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StringLiteral stringLiteral) {
 		// TODO Auto-generated method stub
 		
 	}

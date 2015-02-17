@@ -1,12 +1,12 @@
-package nl.uva.se.ast.expression.LogicalOperators;
+package nl.uva.se.ast.expression.arithmetical;
 
 import nl.uva.se.ast.expression.Binary;
 import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.visitor.Visitor;
 
-public class GreaterOrEqual extends Binary{
+public class Addition extends Binary {
 
-	public GreaterOrEqual(int lineNumber, int offset, Expression left,
+	public Addition(int lineNumber, int offset, Expression left,
 			Expression right) {
 		super(lineNumber, offset, left, right);
 	}
@@ -14,5 +14,9 @@ public class GreaterOrEqual extends Binary{
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+		getLeft().accept(visitor);
+		getRight().accept(visitor);
 	}
+	
+
 }

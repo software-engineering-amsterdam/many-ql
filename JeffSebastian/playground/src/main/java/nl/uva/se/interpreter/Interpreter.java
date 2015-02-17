@@ -1,4 +1,4 @@
-package nl.uva.se.visitor;
+package nl.uva.se.interpreter;
 
 import nl.uva.se.ast.expression.arithmetical.Addition;
 import nl.uva.se.ast.expression.arithmetical.Divide;
@@ -25,150 +25,163 @@ import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
+import nl.uva.se.visitor.Visitor;
 
-public class SimpleVisitor implements Visitor {
+public class Interpreter implements Visitor {
 
-	@Override
-	public void visit(Form form) {
-		System.out.println(form.getId());
+	private SymbolTable symbols;
+
+	public Interpreter() {
+		symbols = SymbolTable.getInstance();
 	}
-
+	
 	@Override
 	public void visit(Question question) {
-		System.out.println(question.getQuestion());
+		symbols.addSymbol(question.getId(), question.getType());
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		System.out.println(calculatedQuestion.getQuestion());
-		
+		symbols.addSymbol(calculatedQuestion.getId(),
+				calculatedQuestion.getType());
+	}
+
+	@Override
+	public void visit(Form form) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void visit(Condition condition) {
-		
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void visit(Not not) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visit(NotEqual notEqual) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visit(Or or) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visit(Addition plus) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visit(Power power) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visit(Multiply multiply) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visit(Modulo modulo) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void visit(Substraction minus) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(LessThen lessThen) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(LessOrEqual lessOrEqual) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(GreaterThen greaterThen) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(GreaterOrEqual greaterOrEqual) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Equal equal) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Divide divide) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(And and) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(BooleanLiteral booleanLiteral) {
-		System.out.println("Boolean: " + booleanLiteral.getName());
-	}
-
-	@Override
-	public void visit(DecimalLiteral decimalLiteral) {
-		System.out.println("Decimal: " + decimalLiteral.getName());
-	}
-
-	@Override
-	public void visit(IntegerLiteral integerLiteral) {
-		System.out.println("Integer: " + integerLiteral.getName());
-	}
-
-	@Override
-	public void visit(StringLiteral stringLiteral) {
-		System.out.println("String: " + stringLiteral.getName());
 	}
 
 	@Override
 	public void visit(Negative negative) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void visit(Positive positive) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void visit(Substraction minus) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(LessThen lessThen) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(LessOrEqual lessOrEqual) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(GreaterThen greaterThen) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(GreaterOrEqual greaterOrEqual) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(Equal equal) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(Divide divide) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(And and) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(BooleanLiteral booleanLiteral) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(DecimalLiteral decimalLiteral) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(IntegerLiteral integerLiteral) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void visit(StringLiteral stringLiteral) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

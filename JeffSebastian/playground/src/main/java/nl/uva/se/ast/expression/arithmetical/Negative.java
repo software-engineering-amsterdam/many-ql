@@ -1,18 +1,19 @@
-package nl.uva.se.ast.expression.LogicalOperators;
+package nl.uva.se.ast.expression.arithmetical;
 
 import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.ast.expression.Unary;
 import nl.uva.se.visitor.Visitor;
 
-public class Not extends Unary{
+public class Negative extends Unary {
 
-	public Not(int lineNumber, int offset, Expression singleExpression) {
+	public Negative(int lineNumber, int offset, Expression singleExpression) {
 		super(lineNumber, offset, singleExpression);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
+		getSingleExpression().accept(visitor);
 	}
+
 }
