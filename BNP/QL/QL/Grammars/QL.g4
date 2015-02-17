@@ -2,13 +2,13 @@ grammar QL;
 
 // Definitions
 YESNO	: 'yes' | 'no';
-NUMBER	: '-'?[0-9]+;
+NUMBER	: '-'?[0-9]+; // note that this is only integer, does not include decimal maybe TODO
 IF		: 'if';
 ELSE	: 'else';
 TYPENAME: 'yesno' | 'number' | 'text';
 ATTR	: 'required' | 'optional';
 UNITTYPE: 'question' | 'statement';
-ID		: [a-zA-Z][a-zA-Z0-9]*;
+IDENTIFIER		: [a-zA-Z][a-zA-Z0-9]*;
 TEXT	: '\"' .*? '\"';
 
 // Ignore rules
@@ -45,18 +45,18 @@ typedef		: YESNO
 			;
 
 typeDefExt	: typedef
-			| ID
+			| IDENTIFIER
 			;
 
 
-unit		: UNITTYPE ID '(' TYPENAME (',' ATTR)* ')' TEXT ';'
-			| UNITTYPE ID '(' TYPENAME ',' (typedef|expression) ')' TEXT ';'
+unit		: UNITTYPE IDENTIFIER '(' TYPENAME (',' ATTR)* ')' TEXT ';'
+			| UNITTYPE IDENTIFIER '(' TYPENAME ',' (typedef|expression) ')' TEXT ';'
 			| ifStatement
 			;
 
 block		: '{' unit* '}';
 
-formBlock	: 'form' ID block;
+formBlock	: 'form' IDENTIFIER block;
 
 //to handle some input and provide somehow altered(or not) output.
 // our expression should be basically a function. 
