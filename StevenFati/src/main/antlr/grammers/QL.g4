@@ -1,5 +1,5 @@
 grammar QL;
-start
+form
     : 'form' identifier '{' statement+ '}';
 statement
     : question
