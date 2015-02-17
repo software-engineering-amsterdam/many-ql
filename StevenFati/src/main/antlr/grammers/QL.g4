@@ -34,10 +34,9 @@ operator
 identifier
     : (UPPERCASE | LOWERCASE | NUMBERS)+
     ;
-// if question has an expression it is a computed question.
 question
     : identifier question_type question_label question_expression?
-    ;
+    ; // if question has an expression it is a computed question.
 question_expression
     : '(' expression ')'
     ;
