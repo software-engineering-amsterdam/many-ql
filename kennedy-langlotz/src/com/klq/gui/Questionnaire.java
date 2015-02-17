@@ -30,18 +30,21 @@ public class Questionnaire extends Application {
     }
 
     public Questionnaire(List<Question> questions) {
-        this.vbox = new VBox(5);
         this.questions = questions;
+    }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        vbox = new VBox(5);
+        for (Question q : questions) {
+            vbox.getChildren().add(new QuestionPane(q));
+        }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Questionnaire");
-
-        for (Question q : questions) {
-            vbox.getChildren().add(new QuestionPane(q));
-        }
-
         primaryStage.setScene(new Scene(vbox, 250, 300));
         primaryStage.show();
     }
