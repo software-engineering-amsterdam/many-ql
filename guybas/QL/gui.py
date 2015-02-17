@@ -12,6 +12,7 @@ class QuestionnaireGUI:
         self.intro       = form.get_introduction()
         self.column_span = 1
         self.row_counter = 0
+        self.answersMap  = Mapper()
 
     def generate_gui(self):
         print("_" * 50)
@@ -49,14 +50,13 @@ class QuestionnaireGUI:
         # str_var.set("a default value")
         # s = str_var.get()
 
-    @staticmethod
-    def update(question, new_answer):
-        Mapper.update(question, new_answer)
+    def update(self, question, new_answer):
+        self.answersMap.update(question, new_answer)
         print(new_answer)
 
     def draw_conditional_q(self, c_question):
         processor = Processor()
-        condition = processor.conditions_proc(c_question.get_condition())
+        condition = processor.conditions_proc(c_question.get_condition(), self.answersMap)
         # check if condition holds
         if condition:
             # print condition's - depended questions

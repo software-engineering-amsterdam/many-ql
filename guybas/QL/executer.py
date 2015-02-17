@@ -3,6 +3,9 @@ from type_checker import *
 from gui import *
 from exceptions import *
 
+# TODO: fix een: hummus == True works, True == hummus doesn't.
+# TODO: fix twee: labels duplicate doesn't work well
+
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = ASTReady.make_form(formAsParseResults)

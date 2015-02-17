@@ -43,9 +43,9 @@ class QuestionTypes:
     list            = ...
     listName        = 'list'
 
+
 class Expressions:
     """
-
     value       :: bool | number | text
     compare     :: > | >= | < | <= | ==
     operators   :: + | - | / | *
@@ -53,14 +53,13 @@ class Expressions:
     atom        :: value | (expr)
     expr        :: atom (operator expr)*
     condition   :: expr compare expr
-
     """
-
 
     id              = BasicTypes.characters
     value           = QuestionTypes.boolean | QuestionTypes.number | id
     compare         = oneOf("> >= < <= == && || !").setParseAction(ASTReady.make_operator)
     operator        = oneOf('+ - / *').setParseAction(ASTReady.make_operator)
+    operatorName    = 'operator'
 
     expr            = Forward()
     atom            = value | Group(Suppress("(") + expr + Suppress(")"))
