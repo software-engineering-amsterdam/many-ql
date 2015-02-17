@@ -59,6 +59,8 @@
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
     <Compile Include="Model\AbstractNodeBase.cs" />
     <Compile Include="Model\Block.cs" />
+    <Compile Include="Model\ControlBlock.cs" />
+    <Compile Include="Model\Enums\ControlBlockType.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\NodeMapper.cs" />
     <Compile Include="Model\QuestionUnit.cs" />
