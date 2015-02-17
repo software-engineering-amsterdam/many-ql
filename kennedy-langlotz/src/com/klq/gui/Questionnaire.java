@@ -2,7 +2,9 @@ package com.klq.gui;
 
 import com.klq.logic.Question;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -14,36 +16,26 @@ import java.util.List;
  * Created by Timon on 10.02.2015.
  */
 public class Questionnaire extends Application {
+    private ScrollPane root;
     private VBox vbox;
-    private List<Question> questions;
 
     public static void main(String[] args) {
-        List<Question> questions = new ArrayList<Question>();
-        questions.add(ExampleQuestions.q1());
-        questions.add(ExampleQuestions.q2());
-        questions.add(ExampleQuestions.q3());
-        questions.add(ExampleQuestions.q4());
-        questions.add(ExampleQuestions.q5());
-
-        Questionnaire questionnaire = new Questionnaire(questions);
-        launch(args);
-    }
-
-    public Questionnaire(List<Question> questions) {
-        this.questions = questions;
-    }
-
-    @Override
-    public void init() throws Exception {
-        super.init();
-        vbox = new VBox(5);
-        for (Question q : questions) {
-            vbox.getChildren().add(new QuestionPane(q));
-        }
+        launch();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        vbox = new VBox(5);
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(5));
+        root = new ScrollPane(vbox);
+        root.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        root.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
+        for (Question q : ExampleQuestions.all()) {
+            vbox.getChildren().add(new QuestionPane(q));
+        }
+
         primaryStage.setTitle("Questionnaire");
         primaryStage.setScene(new Scene(vbox, 250, 300));
         primaryStage.show();

@@ -42,10 +42,6 @@ public class AnswerSet implements Iterable {
         return answers.remove(index);
     }
 
-    /*public AnswerSet<E> subsection(int[] indizes) {
-        AnswerSet<E> result = this.clone();
-    }*/
-
     @Override
     public Iterator iterator() {
         return answers.iterator();

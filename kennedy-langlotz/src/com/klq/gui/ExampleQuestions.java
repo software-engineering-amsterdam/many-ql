@@ -15,10 +15,23 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Timon on 10.02.2015.
  */
 public class ExampleQuestions {
+
+    public static List<Question> all(){
+        List<Question> questions = new ArrayList<Question>();
+        questions.add(q1());
+        questions.add(q2());
+        questions.add(q3());
+        questions.add(q4());
+        questions.add(q5());
+        return questions;
+    }
 
     public static Question q1(){
         Id id = new Id("question1");
