@@ -31,6 +31,9 @@ namespace QL
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 QLParser parser = new QLParser(tokens);
                 parser.AddErrorListener(new ParserErrorHandler());
+                QLListener listener = new QLListener();
+                parser.AddParseListener(listener);
+                
 
                 // parses the input as a formBlock(cos it's on the top)
                 var result = parser.formBlock();
