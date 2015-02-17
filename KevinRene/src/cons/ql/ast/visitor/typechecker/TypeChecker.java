@@ -110,29 +110,21 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	
 	@Override
 	public void visit(Add addNode) {
-		System.out.println("addnode");
-		
 		checkBinaryNumericOperator(addNode);
 	}
 
 	@Override
 	public void visit(Div divNode) {
-		System.out.println("divnode");
-		
 		checkBinaryNumericOperator(divNode);
 	}
 
 	@Override
 	public void visit(Mul mulNode) {
-		System.out.println("mulnode");
-		
 		checkBinaryNumericOperator(mulNode);
 	}
 
 	@Override
 	public void visit(Sub subNode) {
-		System.out.println("subnode");
-		
 		checkBinaryNumericOperator(subNode);
 	}
 	
@@ -153,7 +145,6 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	 */
 	@Override
 	public void visit(And andNode) {
-		System.out.println("andnode");
 		checkBinaryRelationalOperator(andNode);
 		
 	}
@@ -194,7 +185,6 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(Or orNode) {
-		System.out.println("ornode");
 		checkBinaryRelationalOperator(orNode);		
 	}
 
@@ -238,8 +228,13 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(If ifNode) {
-		// TODO Auto-generated method stub
+		// The expression must have a boolean type
 		
+		ifNode.getExpression().accept(this);
+		
+		if (ifNode.getExpression().getType().getClass() != QLBoolean.class) {
+			errors.add("Expected QLBoolean, got " + ifNode.getExpression().getType().getClass().getSimpleName());
+		}
 	}
 
 	@Override
