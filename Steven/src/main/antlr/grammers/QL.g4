@@ -6,7 +6,7 @@ statement
     | if_statement
     ;
 if_statement
-    : 'if' '(' expression ')' '{' statement '}' else_clause?
+    : 'if' '(' expression ')' '{' statement+ '}' else_clause?
     ;
 else_clause
     : 'else' '{' statement '}'
