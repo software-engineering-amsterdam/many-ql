@@ -25,7 +25,6 @@ public class Evaluator {
     }
 
     public ExpressionValue evaluateExpression(Expression _expression) {
-        System.out.println("================= Begin Evaluation. =================");
         return _expression.accept(this.expressionVisitor);
     }
 }

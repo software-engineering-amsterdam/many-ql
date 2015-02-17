@@ -1,12 +1,10 @@
-package org.fugazi.evaluator;
+package org.fugazi.type_checker.visitor;
 
-import org.fugazi.ast.expression.Binary;
-import org.fugazi.ast.expression.Expression;
-import org.fugazi.ast.expression.literal.INT;
-import org.fugazi.ast.expression.unary.Unary;
+
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;
@@ -17,88 +15,89 @@ import org.fugazi.ast.expression.numerical.Sub;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.evaluator.ExpressionValue;
 
-public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
+public class TypeCheckerExpressionVisitor implements IExpressionVisitor<ExpressionValue> {
 
-    ExpressionVisitor() {
+    TypeCheckerExpressionVisitor() {
 
     }
 
     // Logical
     public ExpressionValue visitAnd(And and) {
-        return null;        
+        return null;
     }
-    
+
     public ExpressionValue visitOr(Or less) {
-        return null;             
-    }     
+        return null;
+    }
 
     // Unary
     public ExpressionValue visitNot(Not not) {
-        return null;             
-    }   
-    
+        return null;
+    }
+
     public ExpressionValue visitNegative(Negative negative) {
-        return null;             
-    }   
-    
+        return null;
+    }
+
     public ExpressionValue visitPositive(Positive positive) {
-        return null;             
-    }     
+        return null;
+    }
 
     // Comparison
     public ExpressionValue visitEQ(EQ eq) {
-        return null;             
-    }   
-    
+        return null;
+    }
+
     public ExpressionValue visitGE(GE ge) {
-        return null;             
-    }   
-    
+        return null;
+    }
+
     public ExpressionValue visitGreater(Greater greater) {
-        return null;             
-    }     
-    
+        return null;
+    }
+
     public ExpressionValue visitLE(LE le) {
-        return null;             
+        return null;
     }
-    
+
     public ExpressionValue visitLesser(Less less) {
-        return null;            
+        return null;
     }
-    
+
     public ExpressionValue visitNotEq(NotEq notEq) {
-        return null;             
-    }     
+        return null;
+    }
 
     // Numerical
     public ExpressionValue visitAdd(Add add) {
-        
+
 //        IntValue left = (IntValue) add.getLeft().accept(this);
 //        IntValue right = (IntValue) add.getRight().accept(this);
-//        
+//
 //        Integer integer = left.getValue() + right.getValue();
-//        
+//
 //        return new IntValue(integer);
         return null;
     }
-    
+
     public ExpressionValue visitSub(Sub sub) {
-        return null;             
+        return null;
     }
-    
+
     public ExpressionValue visitMul(Mul mul) {
-        return null;             
+        return null;
     }
-    
+
     public ExpressionValue visitDiv(Div div) {
-        return null;             
+        return null;
     }
 
     public ExpressionValue visitID(ID id) {
         return null;
     }
-    
+
     public ExpressionValue visitINT(INT number) {
         return null;
     }
