@@ -14,7 +14,7 @@ else_clause
 expression
     : '(' expression ')'
     | negation='!' expression
-    | expression operator expression
+    | left=expression operator right=expression
     | NUMBERS+
     | identifier+
     | bool+
