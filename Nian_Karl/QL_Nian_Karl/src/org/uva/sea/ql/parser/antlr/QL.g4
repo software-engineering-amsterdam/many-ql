@@ -14,8 +14,8 @@ block : LEFT_BRACE statement* RIGHT_BRACE;
 
 statement
 	: block
-	| question
-	| ifStatement
+	| question 
+	| ifStatement 
 	;
 	
 question : questionType questionName questionLabel SEMICOLON;
