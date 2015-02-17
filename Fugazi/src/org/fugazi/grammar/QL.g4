@@ -16,7 +16,7 @@ statement   : questionDeclaration
 
 // an if statement
 // supported form: if(expr){...}
-ifStatement : 'if' '(' expression ')' '{' (ifStatement | questionDeclaration)* '}';
+ifStatement : 'if' '(' expression ')' '{' (statement)* '}';
 
 // Question types
 // two supported versions:
@@ -39,7 +39,7 @@ type    : 'bool'        # boolType
  */
 
 // this defines what an expression looks like. (logical and numerical)
-expression  : op=('+'|'-'|'!') expression                                           # singleExpression
+expression  : op=('+'|'-'|'!') expression                                           # unaryExpression
             | expression op=('*' | '/') expression                                  # mulDivExpression
             | expression op=('+' | '-') expression                                  # addSubExpression
             | expression op=('>' | '>=' | '<' | '<=' | '==' | '!=') expression      # comparisonExpression
@@ -54,7 +54,7 @@ expression  : op=('+'|'-'|'!') expression                                       
 
 /**
  * =====================
- * LEXER RULES
+ * LEXER RULES - literals
  * =====================
  */
 

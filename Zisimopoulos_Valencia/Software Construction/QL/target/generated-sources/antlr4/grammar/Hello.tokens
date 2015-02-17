@@ -1,0 +1,15 @@
+Float=3
+OR=7
+Bool=1
+AND=6
+ELSE=5
+TRUE=9
+FALSE=10
+ID=11
+WS=8
+IF=4
+Int=2
+'if'=4
+'&&'=6
+'||'=7
+'else'=5

@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GrammarProject;
-using Antlr4.Runtime.Tree;
 using System.IO;
+using AST;
+using AST.Test;
 
 namespace QuestionnaireLanguage
 {
@@ -29,18 +28,11 @@ namespace QuestionnaireLanguage
             
             InitializeComponent();
 
-            string program = 
-            File.ReadAllText(
-            @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\test9.txt");
-            //Console.WriteLine(program);
+            string path =  @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\";
+            string fileName = "test9.txt";
 
-            AntlrInputStream input = new AntlrInputStream(program);
-            QLMainLexer lexer = new QLMainLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            QLMainParser parser = new QLMainParser(tokens);
-            IParseTree tree = parser.form();
-
-            Console.WriteLine(tree.ToStringTree(parser));
+            TestClass test = new TestClass();
+            test.GetAST(path + fileName);
 
             /*FormVisitor visitor = new FormVisitor();
             Console.WriteLine(visitor.Visit(tree));*/

@@ -17,37 +17,13 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx) { }
+	@Override public void enterBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterOr(@NotNull TaZQLParser.OrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOr(@NotNull TaZQLParser.OrContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEqNot(@NotNull TaZQLParser.EqNotContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEqNot(@NotNull TaZQLParser.EqNotContext ctx) { }
+	@Override public void exitBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -65,25 +41,61 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEquation(@NotNull TaZQLParser.EquationContext ctx) { }
+	@Override public void enterIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEquation(@NotNull TaZQLParser.EquationContext ctx) { }
+	@Override public void exitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddSub(@NotNull TaZQLParser.AddSubContext ctx) { }
+	@Override public void enterEqNotExpression(@NotNull TaZQLParser.EqNotExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAddSub(@NotNull TaZQLParser.AddSubContext ctx) { }
+	@Override public void exitEqNotExpression(@NotNull TaZQLParser.EqNotExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNotExpression(@NotNull TaZQLParser.NotExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNotExpression(@NotNull TaZQLParser.NotExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -101,6 +113,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSimpleQuestion(@NotNull TaZQLParser.SimpleQuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -108,6 +132,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSimpleQuestion(@NotNull TaZQLParser.SimpleQuestionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOrExpression(@NotNull TaZQLParser.OrExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrExpression(@NotNull TaZQLParser.OrExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -125,73 +161,73 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCalcQuestion(@NotNull TaZQLParser.CalcQuestionContext ctx) { }
+	@Override public void enterAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCalcQuestion(@NotNull TaZQLParser.CalcQuestionContext ctx) { }
+	@Override public void exitAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNot(@NotNull TaZQLParser.NotContext ctx) { }
+	@Override public void enterComputationQuestion(@NotNull TaZQLParser.ComputationQuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNot(@NotNull TaZQLParser.NotContext ctx) { }
+	@Override public void exitComputationQuestion(@NotNull TaZQLParser.ComputationQuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBoolean(@NotNull TaZQLParser.BooleanContext ctx) { }
+	@Override public void enterForm(@NotNull TaZQLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBoolean(@NotNull TaZQLParser.BooleanContext ctx) { }
+	@Override public void exitForm(@NotNull TaZQLParser.FormContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMultDiv(@NotNull TaZQLParser.MultDivContext ctx) { }
+	@Override public void enterAddSubExpression(@NotNull TaZQLParser.AddSubExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMultDiv(@NotNull TaZQLParser.MultDivContext ctx) { }
+	@Override public void exitAddSubExpression(@NotNull TaZQLParser.AddSubExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAnd(@NotNull TaZQLParser.AndContext ctx) { }
+	@Override public void enterNestedExpression(@NotNull TaZQLParser.NestedExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAnd(@NotNull TaZQLParser.AndContext ctx) { }
+	@Override public void exitNestedExpression(@NotNull TaZQLParser.NestedExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFormSection(@NotNull TaZQLParser.FormSectionContext ctx) { }
+	@Override public void enterStringType(@NotNull TaZQLParser.StringTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFormSection(@NotNull TaZQLParser.FormSectionContext ctx) { }
+	@Override public void exitStringType(@NotNull TaZQLParser.StringTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -216,18 +252,6 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitText(@NotNull TaZQLParser.TextContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrio(@NotNull TaZQLParser.PrioContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrio(@NotNull TaZQLParser.PrioContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

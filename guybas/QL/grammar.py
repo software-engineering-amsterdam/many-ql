@@ -1,77 +1,110 @@
 # Grammar
 
 from pyparsing import *
-from exceptions import *
 from factory import *
-from gui import *
 
 
 class BasicTypes:
-    # endSign = . | ? | !
+    """
+    word        :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_]
+    endSign     :: . | ? | !
+    sentence    :: word+ endSign
+    sentences   :: sentence+
+    """
+
     endSign         = oneOf(". ? !")
     endSignEsc      = Suppress("\\") + endSign
     
-    # words = [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_] | endSign
     characters      = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
-    word            = endSignEsc | characters  
+    word            = endSignEsc | characters
     
-    # sentence = word+ endSign
     sentence        = (OneOrMore(word) + endSign).setParseAction(ASTReady.make_sentence)
     
-    # sentences = sentence+
     sentences       = OneOrMore(sentence)
     comment         = Literal("//") + restOfLine | cStyleComment
 
 
-class Expressions: 
-    # Possible answers values
-    bool            = Literal("True") | Literal("False")
-    integer         = Word(nums)
+class QuestionTypes:
+    """
+    bool        :: True | False
+    number      :: [0123456789]
+    text        :: sentences
+    """
+    boolean         = (Literal("True") | Literal("False")).setParseAction(ASTReady.make_bool)
+    booleanName     = 'bool'
+
+    number         = Word(nums).setParseAction(ASTReady.make_int)
+    numberName     = 'number'
+
     text            = BasicTypes.sentences
-    
-    # Expressions
-    value           = bool | integer | text
-    compare         = oneOf("> >= < <= ==")
-    operators       = oneOf('+ - / *')
-    
-    # atom = value | (expr)
-    # expr = atom (operator expr)*
+    textName        = 'text'
+
+    # for future use
+    list            = ...
+    listName        = 'list'
+
+
+class Expressions:
+    """
+    value       :: bool | number | text
+    compare     :: > | >= | < | <= | ==
+    operators   :: + | - | / | *
+
+    atom        :: value | (expr)
+    expr        :: atom (operator expr)*
+    condition   :: expr compare expr
+    """
+
+    id              = BasicTypes.characters
+    value           = QuestionTypes.boolean | QuestionTypes.number | id
+    compare         = oneOf("> >= < <= == && || !").setParseAction(ASTReady.make_operator)
+    operator        = oneOf('+ - / *').setParseAction(ASTReady.make_operator)
+    operatorName    = 'operator'
+
     expr            = Forward()
-    atom            = value | Group(Suppress("(") + expr + Suppress(")"))
-    expr            << atom + ZeroOrMore(operators + expr)
+    atom            = Group(Suppress("(") + expr + Suppress(")")) | value
+    expr            << atom + ZeroOrMore((operator | compare)+ expr)
     
-    # condition = expr compare value
-    condition       = Group(expr + compare + value) 
+    condition       = Group(expr)
 
 
 class FormFormat:
+    """
+    id          :: characters
+    label       :: sentence
+
+    answerR     :: "bool" | "number" | "text"
+    question    :: Question id ( answerR ) : label
+    questions   :: question+
+
+     pIf          :: if ( condition ) { aQuestions }
+    pIfElse      :: if ( condition ) { aQuestions } else { aQuestions }
+    aQuestions   :: pIf | pIfElse | questions
+
+    introduction :: sentences
+    form         :: id introduction? aQuestions
+    """
+
     id              = BasicTypes.characters
     label           = BasicTypes.sentence
-    
-    # possible answer types
-    answerR         = Literal("bool") | Literal("integer") | Literal("text")
-    
-    # question = Question id (answerR) : label 
+
+    answerR         = Literal(QuestionTypes.booleanName) | Literal(QuestionTypes.numberName) | Literal(QuestionTypes.textName)
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
-                       ).setParseAction(ASTReady.make_question)
+                       ).setParseAction(ASTReady.make_question).setResultsName("QUESTION")
     questions       = OneOrMore(question)
     
-    # pIf       = if (condition) { questions }
     aQuestions      = Forward()
     condition       = Expressions.condition.setParseAction(ASTReady.make_expression)
     pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
-                       OneOrMore(aQuestions) + Suppress("}"))
+                       OneOrMore(aQuestions) + Suppress("}")).setResultsName("IF")
                        
-    # pIfElse   = if (condition) { questions } else { questions }
-    pIfElse         = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
+    pIfElse         = ((Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
                        OneOrMore(aQuestions) + Suppress("}")) + Literal("else") + Suppress("{") + aQuestions + Suppress("}")
+    ).setResultsName("IFELSE")
     
-    # aQuestions    = pIf | pIfElse | questions
-    aQuestions      <<= OneOrMore(
-                          (pIfElse.setParseAction(ASTReady.make_else))
-                        | (pIf).setParseAction(ASTReady.make_if)
-                        | questions)
+    aQuestions      <<= OneOrMore((pIfElse.setParseAction(ASTReady.make_else))
+                                  | pIf.setParseAction(ASTReady.make_if)
+                                  | questions)
                       
-    # form = id introduction? aQuestions+
-    introduction    = Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences)
-    form            = id + Optional(introduction) + aQuestions
+    introduction    = (Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences)).setResultsName("INTRODUCTION")
+    form            = (id + Optional(introduction) + aQuestions).setResultsName("FORM")

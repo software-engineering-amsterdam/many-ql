@@ -1,4 +1,8 @@
 grammar QL;
+@members{
+	
+	void echo(Token id) { }
+}
 
 /* PARSER RULES */
 form 
@@ -37,7 +41,7 @@ userType
 	;
 
 questionName
-	: Identifier
+	: Identifier {echo($Identifier);}
 	;
 	
 questionLabel

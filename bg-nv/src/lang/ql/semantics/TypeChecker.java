@@ -2,9 +2,8 @@ package lang.ql.semantics;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
+import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.SymbolTable;
-import lang.ql.ast.visitor.VisitorAbstract;
 
 import java.util.*;
 
@@ -13,145 +12,223 @@ import java.util.*;
  */
 public class TypeChecker extends VisitorAbstract
 {
-    private SymbolTable symbolTable;
+    private static String ifConditionBoolean = "If statements should have conditions of type boolean";
+    private static String refToUndefQuestion = "Reference to undefined question";
+    private static String duplQuestWithDiffTypes = "Duplicate questions with different types";
+    private static String invalidTypeOperands = "Operands of invalid type";
+    // TODO: add check that duplicate questions are of the same type
+    // TODO: add warning for duplicate questions
+    // TODO: solve the passing of question dependencies in a different manner
 
-    public void visit(AstNode node, SymbolTable symbolTable)
+    private SymbolTable symbolTable;
+    private Stack<QuestionType> typeStack;
+    private Stack<Question> variablesStack;
+
+    private Map<Question, Set<Question>> questionDependencies;
+    private Errors errors;
+
+    public TypeChecker(SymbolTable symbolTable)
     {
         this.symbolTable = symbolTable;
-        this.visitInternal(node);
-    }
-
-    private void visitInternal(AstNode node)
-    {
-        if (node.getChildren() != null)
-        {
-            for (AstNode child : node.getChildren())
-            {
-                this.visitInternal(child);
-            }
-        }
-
-        node.visit(this);
+        this.typeStack = new Stack<QuestionType>();
+        this.variablesStack = new Stack<Question>();
+        this.questionDependencies = new HashMap<Question, Set<Question>>();
+        this.errors = new Errors();
     }
 
     @Override
-    public void visit(CalculatedQuestion n)
+    public void visit(Form form)
     {
-        QuestionType defined = n.getQuestionType();
-        QuestionType calculated = n.getExpression().getType();
+        for (Statement statement : form.getStatements())
+        {
+            statement.accept(this);
+        }
+
+        if (!(this.errors.getExceptions().empty()))
+        {
+            throw this.errors.getExceptions().pop();
+        }
+
+        // TODO: Check for cyclic dependencies
+        System.out.print("");
+    }
+
+    @Override
+    public void visit(IfCondition condition)
+    {
+        condition.getExpression().accept(this);
+
+        QuestionType type = this.popFromStack();
+        if (type != QuestionType.BOOLEAN)
+        {
+            this.errors.logException(new IllegalArgumentException(ifConditionBoolean));
+        }
+
+        for (Statement statement : condition.getStatements())
+        {
+            statement.accept(this);
+        }
+    }
+
+    @Override
+    public void visit(Question q)
+    {
+        this.questionDependencies.put(q, Collections.<Question>emptySet());
+    }
+
+    @Override
+    public void visit(CalculatedQuestion q)
+    {
+        q.getExpression().accept(this);
+
+        QuestionType defined = q.getQuestionType();
+        QuestionType calculated = this.popFromStack();
 
         if (defined != calculated)
         {
-            throw new IllegalArgumentException(String.format("%s is defined as %s, but it is assigned a %s.",
-                    n.getClass().getSimpleName(), defined, calculated));
+            this.errors.logException(new IllegalArgumentException(
+                    String.format("Question \"%s\" is defined as %s, but it is assigned a value of type %s.",
+                            q.getId(), defined, calculated)));
         }
-    }
 
-    @Override
-    public void visit(IfCondition n)
-    {
-        if (n.getExpression().getType() != QuestionType.BOOLEAN)
+        Set<Question> dep = new HashSet<Question>();
+        for (int i = 0; i < this.variablesStack.size(); i++)
         {
-            throw new IllegalArgumentException("If statements should have conditions of type boolean");
+            dep.add(this.variablesStack.pop());
         }
+
+        this.questionDependencies.put(q, dep);
     }
 
     @Override
-    public void visit(IntegerExpression n)
+    public void visit(IntegerExpr n)
     {
-        n.setType(QuestionType.INTEGER);
+        this.typeStack.push(QuestionType.INTEGER);
     }
 
     @Override
-    public void visit(BooleanExpression n)
+    public void visit(BooleanExpr n)
     {
-        n.setType(QuestionType.BOOLEAN);
+        this.typeStack.push(QuestionType.BOOLEAN);
     }
 
     @Override
-    public void visit(DecimalExpression n)
+    public void visit(DecimalExpr n)
     {
-        n.setType(QuestionType.DECIMAL);
+        this.typeStack.push(QuestionType.DECIMAL);
     }
 
     @Override
-    public void visit(StringExpression n)
+    public void visit(StringExpr n)
     {
-        n.setType(QuestionType.STRING);
+        this.typeStack.push(QuestionType.STRING);
     }
 
     @Override
-    public void visit(AdditionExpression n)
+    public void visit(Add e)
     {
-        this.checkBinaryOperators(n, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL, QuestionType.STRING));
-        n.setType(n.getLeft().getType());
+        e.getLeft().accept(this);
+        e.getRight().accept(this);
+
+        QuestionType right = this.popFromStack();
+        QuestionType left = this.popFromStack();
+
+        this.checkChildTypesConsistency(e, left, right);
+        this.checkAllowedTypes(e, left, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL, QuestionType.STRING));
+
+        this.typeStack.push(left);
     }
 
     @Override
-    public void visit(SubtractionExpression n)
+    public void visit(Sub e)
     {
-        this.checkBinaryOperators(n, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(n.getLeft().getType());
+        e.getLeft().accept(this);
+        e.getRight().accept(this);
+
+        QuestionType right = this.popFromStack();
+        QuestionType left = this.popFromStack();
+
+        this.checkChildTypesConsistency(e, left, right);
+        this.checkAllowedTypes(e, left, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
+
+        this.typeStack.push(left);
     }
 
     @Override
-    public void visit(GreaterThanExpression n)
+    public void visit(Gt e)
     {
-        this.checkBinaryOperators(n, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(QuestionType.BOOLEAN);
+//        this.checkBinaryOperators(e, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
+//        e.setType(QuestionType.BOOLEAN);
     }
 
     @Override
-    public void visit(UnaryMinusExpression n)
+    public void visit(Neg e)
     {
-        QuestionType operandType = n.getOperand().getType();
-        this.checkAllowedTypes(n, operandType, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(operandType);
+        e.getOperand().accept(this);
+
+        QuestionType type = this.popFromStack();
+        this.checkAllowedTypes(e, type, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
+        this.typeStack.push(type);
     }
 
     @Override
-    public void visit(UnaryPlusExpression n)
+    public void visit(Pos e)
     {
-        QuestionType operandType = n.getOperand().getType();
-        this.checkAllowedTypes(n, operandType, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(operandType);
+        e.getOperand().accept(this);
+
+        QuestionType type = this.popFromStack();
+        this.checkAllowedTypes(e, type, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
+        this.typeStack.push(type);
     }
 
     @Override
-    public void visit(VariableExpression n)
+    public void visit(Variable n)
     {
         QuestionType type = this.symbolTable.resolve(n.getId());
         if (type == null)
         {
-            throw new IllegalArgumentException(String.format("Identifier \"%s\" is not defined.", n.getId()));
+            this.errors.logException(new IllegalArgumentException(
+                    String.format("Identifier \"%s\" is not defined.", n.getId())));
         }
-        n.setType(type);
-    }
 
-    private void checkBinaryOperators(BinaryOperatorExpression n, List<QuestionType> allowedTypes)
-    {
-        QuestionType leftChildType = n.getLeft().getType();
-        QuestionType rightChildType = n.getRight().getType();
+        Question q = this.symbolTable.getQuestionByName(n.getId());
+        this.variablesStack.push(q);
 
-        this.checkChildTypesConsistency(n, leftChildType, rightChildType);
-        this.checkAllowedTypes(n, leftChildType, allowedTypes);
+        this.typeStack.push(type);
     }
 
     private void checkChildTypesConsistency(AstNode n, QuestionType leftChildType, QuestionType rightChildType)
     {
         if (leftChildType != rightChildType)
         {
-            throw new IllegalArgumentException(String.format("%s has children of different types: %s and %s.",
-                    n.getClass().getSimpleName(), leftChildType, rightChildType));
+            this.errors.logException(new IllegalArgumentException(
+                    String.format("%s has children of different types: %s and %s.",
+                            n.getClass().getSimpleName(), leftChildType, rightChildType)));
         }
     }
 
-    private void checkAllowedTypes(Expression n, QuestionType childType, List<QuestionType> allowedTypes)
+    private void checkAllowedTypes(Expression e, QuestionType childType, List<QuestionType> allowedTypes)
     {
         if (!allowedTypes.contains(childType))
         {
-            throw new IllegalArgumentException(String.format("%s cannot have children of type %s",
-                    n.getClass().getSimpleName(), childType));
+            this.errors.logException(new IllegalArgumentException(String.format("%s cannot have children of type %s",
+                    e.getClass().getSimpleName(), childType)));
         }
+    }
+
+    private QuestionType popFromStack()
+    {
+        try
+        {
+            return this.typeStack.pop();
+        } catch (EmptyStackException ex)
+        {
+            throw ex;
+        }
+    }
+
+    public Map<Question, Set<Question>> getQuestionDependencies()
+    {
+        return questionDependencies;
     }
 }

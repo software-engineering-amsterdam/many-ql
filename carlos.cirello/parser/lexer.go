@@ -24,6 +24,8 @@ const (
 	IntQuestionTokenText = "integer"
 	// BoolQuestionTokenText - Reserved Word
 	BoolQuestionTokenText = "bool"
+	// ComputedQuestionTokenText - Reserved Word
+	ComputedQuestionTokenText = "computed"
 
 	LessThanTokenText         = `<`
 	LessOrEqualsThanTokenText = `<=`
@@ -75,6 +77,8 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = IntQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
+	} else if txt == ComputedQuestionTokenText {
+		typ = ComputedQuestionToken
 	} else if txt == IfTokenText {
 		typ = IfToken
 	} else if txt == ElseTokenText {

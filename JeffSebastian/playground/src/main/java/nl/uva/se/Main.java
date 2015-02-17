@@ -2,9 +2,14 @@ package nl.uva.se;
 
 import java.io.IOException;
 
+import nl.uva.se.ast.Node;
+import nl.uva.se.ast.form.Form;
+import nl.uva.se.ast.statement.Statement;
 import nl.uva.se.parser.QLLexer;
 import nl.uva.se.parser.QLParser;
-import nl.uva.se.visitor.QLVisitorImpl;
+import nl.uva.se.parser.QLVisitorImpl;
+import nl.uva.se.visitor.SimpleVisitor;
+import nl.uva.se.visitor.Visitor;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -22,7 +27,13 @@ public class Main {
 			ParseTree tree = parser.form();
 			
 			QLVisitorImpl visitor = new QLVisitorImpl();
-			visitor.visit(tree);
+			Node ast = visitor.visit(tree);
+			
+			Visitor myVisitor = new SimpleVisitor();
+			ast.accept(myVisitor);
+			
+			
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

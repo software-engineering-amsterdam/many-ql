@@ -17,20 +17,20 @@ public class TaZQLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__20=1, T__19=2, T__18=3, T__17=4, T__16=5, T__15=6, T__14=7, T__13=8, 
-		T__12=9, T__11=10, T__10=11, T__9=12, T__8=13, T__7=14, T__6=15, T__5=16, 
-		T__4=17, T__3=18, T__2=19, T__1=20, T__0=21, TYPE=22, BOOLEAN=23, NUMBER=24, 
-		TEXT=25, ID=26, WS=27, NEWLINE=28, COMMENTS=29;
+		T__23=1, T__22=2, T__21=3, T__20=4, T__19=5, T__18=6, T__17=7, T__16=8, 
+		T__15=9, T__14=10, T__13=11, T__12=12, T__11=13, T__10=14, T__9=15, T__8=16, 
+		T__7=17, T__6=18, T__5=19, T__4=20, T__3=21, T__2=22, T__1=23, T__0=24, 
+		BOOLEAN=25, NUMBER=26, TEXT=27, ID=28, WS=29, NEWLINE=30, COMMENTS=31;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'/'", "'!='", "'||'", "'>='", "'{'", "'&&'", "'=='", "'<'", 
-		"'} END'", "'}'", "'>'", "'if'", "'FORM'", "'<='", "'!'", "'else'", "'('", 
-		"')'", "'*'", "'+'", "'-'", "TYPE", "BOOLEAN", "NUMBER", "TEXT", "ID", 
-		"WS", "NEWLINE", "COMMENTS"
+		"<INVALID>", "'/'", "'digits'", "'!='", "'||'", "'>='", "'{'", "'&&'", 
+		"'=='", "'<'", "'} END'", "'}'", "'>'", "'if'", "'FORM'", "'<='", "'!'", 
+		"'text'", "'else'", "'('", "')'", "'*'", "'choice'", "'+'", "'-'", "BOOLEAN", 
+		"NUMBER", "TEXT", "ID", "WS", "NEWLINE", "COMMENTS"
 	};
 	public static final int
-		RULE_questionnaire = 0, RULE_formSection = 1, RULE_question = 2, RULE_expression = 3;
+		RULE_form = 0, RULE_question = 1, RULE_expression = 2, RULE_type = 3;
 	public static final String[] ruleNames = {
-		"questionnaire", "formSection", "question", "expression"
+		"form", "question", "expression", "type"
 	};
 
 	@Override
@@ -52,102 +52,59 @@ public class TaZQLParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class QuestionnaireContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(TaZQLParser.EOF, 0); }
-		public FormSectionContext formSection() {
-			return getRuleContext(FormSectionContext.class,0);
-		}
-		public QuestionnaireContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_questionnaire; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterQuestionnaire(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitQuestionnaire(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitQuestionnaire(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final QuestionnaireContext questionnaire() throws RecognitionException {
-		QuestionnaireContext _localctx = new QuestionnaireContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_questionnaire);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(8); formSection();
-			setState(9); match(EOF);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class FormSectionContext extends ParserRuleContext {
+	public static class FormContext extends ParserRuleContext {
 		public TerminalNode ID() { return getToken(TaZQLParser.ID, 0); }
+		public TerminalNode EOF() { return getToken(TaZQLParser.EOF, 0); }
 		public QuestionContext question(int i) {
 			return getRuleContext(QuestionContext.class,i);
 		}
 		public List<QuestionContext> question() {
 			return getRuleContexts(QuestionContext.class);
 		}
-		public FormSectionContext(ParserRuleContext parent, int invokingState) {
+		public FormContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_formSection; }
+		@Override public int getRuleIndex() { return RULE_form; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterFormSection(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterForm(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitFormSection(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitForm(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitFormSection(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitForm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final FormSectionContext formSection() throws RecognitionException {
-		FormSectionContext _localctx = new FormSectionContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_formSection);
+	public final FormContext form() throws RecognitionException {
+		FormContext _localctx = new FormContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_form);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(11); match(T__8);
-			setState(12); match(ID);
-			setState(13); match(T__16);
-			setState(15); 
+			setState(8); match(T__10);
+			setState(9); match(ID);
+			setState(10); match(T__18);
+			setState(12); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(14); question();
+				setState(11); question();
 				}
 				}
-				setState(17); 
+				setState(14); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__9 || _la==ID );
-			setState(19); match(T__12);
+			} while ( _la==T__11 || _la==ID );
+			setState(16); match(T__14);
+			setState(17); match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -175,7 +132,9 @@ public class TaZQLParser extends Parser {
 	public static class SimpleQuestionContext extends QuestionContext {
 		public TerminalNode ID() { return getToken(TaZQLParser.ID, 0); }
 		public TerminalNode TEXT() { return getToken(TaZQLParser.TEXT, 0); }
-		public TerminalNode TYPE() { return getToken(TaZQLParser.TYPE, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
 		public SimpleQuestionContext(QuestionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -191,25 +150,27 @@ public class TaZQLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class CalcQuestionContext extends QuestionContext {
+	public static class ComputationQuestionContext extends QuestionContext {
 		public TerminalNode ID() { return getToken(TaZQLParser.ID, 0); }
 		public TerminalNode TEXT() { return getToken(TaZQLParser.TEXT, 0); }
-		public TerminalNode TYPE() { return getToken(TaZQLParser.TYPE, 0); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public CalcQuestionContext(QuestionContext ctx) { copyFrom(ctx); }
+		public ComputationQuestionContext(QuestionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterCalcQuestion(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterComputationQuestion(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitCalcQuestion(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitComputationQuestion(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitCalcQuestion(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitComputationQuestion(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -266,96 +227,96 @@ public class TaZQLParser extends Parser {
 
 	public final QuestionContext question() throws RecognitionException {
 		QuestionContext _localctx = new QuestionContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_question);
+		enterRule(_localctx, 2, RULE_question);
 		int _la;
 		try {
-			setState(63);
+			setState(61);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				_localctx = new SimpleQuestionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(21); match(ID);
-				setState(22); match(TEXT);
-				setState(23); match(TYPE);
+				setState(19); match(ID);
+				setState(20); match(TEXT);
+				setState(21); type();
 				}
 				break;
 			case 2:
-				_localctx = new CalcQuestionContext(_localctx);
+				_localctx = new ComputationQuestionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(24); match(ID);
-				setState(25); match(TEXT);
-				setState(26); match(TYPE);
+				setState(22); match(ID);
+				setState(23); match(TEXT);
+				setState(24); type();
+				setState(25); match(T__5);
+				setState(26); expression(0);
 				setState(27); match(T__4);
-				setState(28); expression(0);
-				setState(29); match(T__3);
 				}
 				break;
 			case 3:
 				_localctx = new IfStatementContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(31); match(T__9);
+				setState(29); match(T__11);
+				setState(30); match(T__5);
+				setState(31); expression(0);
 				setState(32); match(T__4);
-				setState(33); expression(0);
-				setState(34); match(T__3);
-				setState(35); match(T__16);
-				setState(37); 
+				setState(33); match(T__18);
+				setState(35); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(36); question();
+					setState(34); question();
 					}
 					}
-					setState(39); 
+					setState(37); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( _la==T__9 || _la==ID );
-				setState(41); match(T__11);
+				} while ( _la==T__11 || _la==ID );
+				setState(39); match(T__13);
 				}
 				break;
 			case 4:
 				_localctx = new IfelseStatementContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(43); match(T__9);
+				setState(41); match(T__11);
+				setState(42); match(T__5);
+				setState(43); expression(0);
 				setState(44); match(T__4);
-				setState(45); expression(0);
-				setState(46); match(T__3);
-				setState(47); match(T__16);
-				setState(49); 
+				setState(45); match(T__18);
+				setState(47); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(48); question();
+					setState(46); question();
 					}
 					}
-					setState(51); 
+					setState(49); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( _la==T__9 || _la==ID );
-				setState(53); match(T__11);
-				setState(54); match(T__5);
-				setState(55); match(T__16);
-				setState(57); 
+				} while ( _la==T__11 || _la==ID );
+				setState(51); match(T__13);
+				setState(52); match(T__6);
+				setState(53); match(T__18);
+				setState(55); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(56); question();
+					setState(54); question();
 					}
 					}
-					setState(59); 
+					setState(57); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( _la==T__9 || _la==ID );
-				setState(61); match(T__11);
+				} while ( _la==T__11 || _la==ID );
+				setState(59); match(T__13);
 				}
 				break;
 			}
@@ -382,6 +343,28 @@ public class TaZQLParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class OrExpressionContext extends ExpressionContext {
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public OrExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterOrExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitOrExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitOrExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class NumberContext extends ExpressionContext {
 		public TerminalNode NUMBER() { return getToken(TaZQLParser.NUMBER, 0); }
 		public NumberContext(ExpressionContext ctx) { copyFrom(ctx); }
@@ -399,171 +382,151 @@ public class TaZQLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class NotContext extends ExpressionContext {
+	public static class AndExpressionContext extends ExpressionContext {
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public AndExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterAndExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitAndExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitAndExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AddSubExpressionContext extends ExpressionContext {
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public AddSubExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterAddSubExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitAddSubExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitAddSubExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NestedExpressionContext extends ExpressionContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public NotContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public NestedExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterNot(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterNestedExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitNot(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitNestedExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitNot(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitNestedExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class BooleanContext extends ExpressionContext {
-		public TerminalNode BOOLEAN() { return getToken(TaZQLParser.BOOLEAN, 0); }
-		public BooleanContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterBoolean(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitBoolean(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitBoolean(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class OrContext extends ExpressionContext {
+	public static class EqNotExpressionContext extends ExpressionContext {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
-		public OrContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public EqNotExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterOr(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterEqNotExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitOr(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitEqNotExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitOr(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitEqNotExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MultDivContext extends ExpressionContext {
+	public static class EquationExpressionContext extends ExpressionContext {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
-		public MultDivContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public EquationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterMultDiv(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterEquationExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitMultDiv(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitEquationExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitMultDiv(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitEquationExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class EqNotContext extends ExpressionContext {
+	public static class MultDivExpressionContext extends ExpressionContext {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
-		public EqNotContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public MultDivExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterEqNot(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterMultDivExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitEqNot(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitMultDivExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitEqNot(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitMultDivExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class AndContext extends ExpressionContext {
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
+	public static class NotExpressionContext extends ExpressionContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public AndContext(ExpressionContext ctx) { copyFrom(ctx); }
+		public NotExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterAnd(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterNotExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitAnd(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitNotExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitAnd(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class EquationContext extends ExpressionContext {
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public EquationContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterEquation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitEquation(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitEquation(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class AddSubContext extends ExpressionContext {
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public List<ExpressionContext> expression() {
-			return getRuleContexts(ExpressionContext.class);
-		}
-		public AddSubContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterAddSub(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitAddSub(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitAddSub(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitNotExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -601,22 +564,20 @@ public class TaZQLParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class PrioContext extends ExpressionContext {
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public PrioContext(ExpressionContext ctx) { copyFrom(ctx); }
+	public static class BooleanExpressionContext extends ExpressionContext {
+		public TerminalNode BOOLEAN() { return getToken(TaZQLParser.BOOLEAN, 0); }
+		public BooleanExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterPrio(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterBooleanExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitPrio(this);
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitBooleanExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitPrio(this);
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitBooleanExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -630,31 +591,31 @@ public class TaZQLParser extends Parser {
 		int _parentState = getState();
 		ExpressionContext _localctx = new ExpressionContext(_ctx, _parentState);
 		ExpressionContext _prevctx = _localctx;
-		int _startState = 6;
-		enterRecursionRule(_localctx, 6, RULE_expression, _p);
+		int _startState = 4;
+		enterRecursionRule(_localctx, 4, RULE_expression, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76);
+			setState(74);
 			switch (_input.LA(1)) {
-			case T__6:
+			case T__8:
 				{
-				_localctx = new NotContext(_localctx);
+				_localctx = new NotExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(66); match(T__6);
-				setState(67); expression(12);
+				setState(64); match(T__8);
+				setState(65); expression(12);
 				}
 				break;
 			case BOOLEAN:
 				{
-				_localctx = new BooleanContext(_localctx);
+				_localctx = new BooleanExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(68); match(BOOLEAN);
+				setState(66); match(BOOLEAN);
 				}
 				break;
 			case ID:
@@ -662,7 +623,7 @@ public class TaZQLParser extends Parser {
 				_localctx = new IdContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(69); match(ID);
+				setState(67); match(ID);
 				}
 				break;
 			case TEXT:
@@ -670,7 +631,7 @@ public class TaZQLParser extends Parser {
 				_localctx = new TextContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(70); match(TEXT);
+				setState(68); match(TEXT);
 				}
 				break;
 			case NUMBER:
@@ -678,24 +639,24 @@ public class TaZQLParser extends Parser {
 				_localctx = new NumberContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(71); match(NUMBER);
+				setState(69); match(NUMBER);
 				}
 				break;
-			case T__4:
+			case T__5:
 				{
-				_localctx = new PrioContext(_localctx);
+				_localctx = new NestedExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
+				setState(70); match(T__5);
+				setState(71); expression(0);
 				setState(72); match(T__4);
-				setState(73); expression(0);
-				setState(74); match(T__3);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(98);
+			setState(96);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -703,96 +664,96 @@ public class TaZQLParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(96);
+					setState(94);
 					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
-						_localctx = new MultDivContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new MultDivExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(78);
+						setState(76);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(79);
+						setState(77);
 						_la = _input.LA(1);
-						if ( !(_la==T__20 || _la==T__2) ) {
+						if ( !(_la==T__23 || _la==T__3) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(80); expression(12);
+						setState(78); expression(12);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new AddSubContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new AddSubExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(81);
+						setState(79);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(82);
+						setState(80);
 						_la = _input.LA(1);
 						if ( !(_la==T__1 || _la==T__0) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(83); expression(11);
+						setState(81); expression(11);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new EquationContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new EquationExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(84);
+						setState(82);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(85);
+						setState(83);
 						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__17) | (1L << T__13) | (1L << T__10) | (1L << T__7))) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__15) | (1L << T__12) | (1L << T__9))) != 0)) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(86); expression(10);
+						setState(84); expression(10);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new EqNotContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new EqNotExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(87);
+						setState(85);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(88);
+						setState(86);
 						_la = _input.LA(1);
-						if ( !(_la==T__19 || _la==T__14) ) {
+						if ( !(_la==T__21 || _la==T__16) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(89); expression(9);
+						setState(87); expression(9);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new AndContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new AndExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(90);
+						setState(88);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						{
-						setState(91); match(T__15);
+						setState(89); match(T__17);
 						}
-						setState(92); expression(8);
+						setState(90); expression(8);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new OrContext(new ExpressionContext(_parentctx, _parentState));
+						_localctx = new OrExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(93);
+						setState(91);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						{
-						setState(94); match(T__18);
+						setState(92); match(T__20);
 						}
-						setState(95); expression(7);
+						setState(93); expression(7);
 						}
 						break;
 					}
 					} 
 				}
-				setState(100);
+				setState(98);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
@@ -809,9 +770,111 @@ public class TaZQLParser extends Parser {
 		return _localctx;
 	}
 
+	public static class TypeContext extends ParserRuleContext {
+		public TypeContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_type; }
+	 
+		public TypeContext() { }
+		public void copyFrom(TypeContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class BooleanTypeContext extends TypeContext {
+		public BooleanTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterBooleanType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitBooleanType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitBooleanType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntegerTypeContext extends TypeContext {
+		public IntegerTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterIntegerType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitIntegerType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitIntegerType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class StringTypeContext extends TypeContext {
+		public StringTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).enterStringType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TaZQLListener ) ((TaZQLListener)listener).exitStringType(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TaZQLVisitor ) return ((TaZQLVisitor<? extends T>)visitor).visitStringType(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final TypeContext type() throws RecognitionException {
+		TypeContext _localctx = new TypeContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_type);
+		try {
+			setState(102);
+			switch (_input.LA(1)) {
+			case T__2:
+				_localctx = new BooleanTypeContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(99); match(T__2);
+				}
+				break;
+			case T__22:
+				_localctx = new IntegerTypeContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(100); match(T__22);
+				}
+				break;
+			case T__7:
+				_localctx = new StringTypeContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(101); match(T__7);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 3: return expression_sempred((ExpressionContext)_localctx, predIndex);
+		case 2: return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
 	}
@@ -828,34 +891,35 @@ public class TaZQLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\37h\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\3\3\3\3\3\3\3\6\3\22\n\3\r\3\16\3\23"+
-		"\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\6\4(\n\4\r\4\16\4)\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\6\4\64\n\4\r\4\16"+
-		"\4\65\3\4\3\4\3\4\3\4\6\4<\n\4\r\4\16\4=\3\4\3\4\5\4B\n\4\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5O\n\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5c\n\5\f\5\16\5f\13\5\3"+
-		"\5\2\3\b\6\2\4\6\b\2\6\4\2\3\3\25\25\3\2\26\27\6\2\6\6\n\n\r\r\20\20\4"+
-		"\2\4\4\t\tu\2\n\3\2\2\2\4\r\3\2\2\2\6A\3\2\2\2\bN\3\2\2\2\n\13\5\4\3\2"+
-		"\13\f\7\2\2\3\f\3\3\2\2\2\r\16\7\17\2\2\16\17\7\34\2\2\17\21\7\7\2\2\20"+
-		"\22\5\6\4\2\21\20\3\2\2\2\22\23\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24"+
-		"\25\3\2\2\2\25\26\7\13\2\2\26\5\3\2\2\2\27\30\7\34\2\2\30\31\7\33\2\2"+
-		"\31B\7\30\2\2\32\33\7\34\2\2\33\34\7\33\2\2\34\35\7\30\2\2\35\36\7\23"+
-		"\2\2\36\37\5\b\5\2\37 \7\24\2\2 B\3\2\2\2!\"\7\16\2\2\"#\7\23\2\2#$\5"+
-		"\b\5\2$%\7\24\2\2%\'\7\7\2\2&(\5\6\4\2\'&\3\2\2\2()\3\2\2\2)\'\3\2\2\2"+
-		")*\3\2\2\2*+\3\2\2\2+,\7\f\2\2,B\3\2\2\2-.\7\16\2\2./\7\23\2\2/\60\5\b"+
-		"\5\2\60\61\7\24\2\2\61\63\7\7\2\2\62\64\5\6\4\2\63\62\3\2\2\2\64\65\3"+
-		"\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\66\67\3\2\2\2\678\7\f\2\289\7\22\2"+
-		"\29;\7\7\2\2:<\5\6\4\2;:\3\2\2\2<=\3\2\2\2=;\3\2\2\2=>\3\2\2\2>?\3\2\2"+
-		"\2?@\7\f\2\2@B\3\2\2\2A\27\3\2\2\2A\32\3\2\2\2A!\3\2\2\2A-\3\2\2\2B\7"+
-		"\3\2\2\2CD\b\5\1\2DE\7\21\2\2EO\5\b\5\16FO\7\31\2\2GO\7\34\2\2HO\7\33"+
-		"\2\2IO\7\32\2\2JK\7\23\2\2KL\5\b\5\2LM\7\24\2\2MO\3\2\2\2NC\3\2\2\2NF"+
-		"\3\2\2\2NG\3\2\2\2NH\3\2\2\2NI\3\2\2\2NJ\3\2\2\2Od\3\2\2\2PQ\f\r\2\2Q"+
-		"R\t\2\2\2Rc\5\b\5\16ST\f\f\2\2TU\t\3\2\2Uc\5\b\5\rVW\f\13\2\2WX\t\4\2"+
-		"\2Xc\5\b\5\fYZ\f\n\2\2Z[\t\5\2\2[c\5\b\5\13\\]\f\t\2\2]^\7\b\2\2^c\5\b"+
-		"\5\n_`\f\b\2\2`a\7\5\2\2ac\5\b\5\tbP\3\2\2\2bS\3\2\2\2bV\3\2\2\2bY\3\2"+
-		"\2\2b\\\3\2\2\2b_\3\2\2\2cf\3\2\2\2db\3\2\2\2de\3\2\2\2e\t\3\2\2\2fd\3"+
-		"\2\2\2\n\23)\65=ANbd";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3!k\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\4\5\t\5\3\2\3\2\3\2\3\2\6\2\17\n\2\r\2\16\2\20\3\2\3\2\3\2\3"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\6\3&\n"+
+		"\3\r\3\16\3\'\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\6\3\62\n\3\r\3\16\3\63\3"+
+		"\3\3\3\3\3\3\3\6\3:\n\3\r\3\16\3;\3\3\3\3\5\3@\n\3\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\5\4M\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4a\n\4\f\4\16\4d\13\4\3\5\3\5\3"+
+		"\5\5\5i\n\5\3\5\2\3\6\6\2\4\6\b\2\6\4\2\3\3\27\27\3\2\31\32\6\2\7\7\13"+
+		"\13\16\16\21\21\4\2\5\5\n\nz\2\n\3\2\2\2\4?\3\2\2\2\6L\3\2\2\2\bh\3\2"+
+		"\2\2\n\13\7\20\2\2\13\f\7\36\2\2\f\16\7\b\2\2\r\17\5\4\3\2\16\r\3\2\2"+
+		"\2\17\20\3\2\2\2\20\16\3\2\2\2\20\21\3\2\2\2\21\22\3\2\2\2\22\23\7\f\2"+
+		"\2\23\24\7\2\2\3\24\3\3\2\2\2\25\26\7\36\2\2\26\27\7\35\2\2\27@\5\b\5"+
+		"\2\30\31\7\36\2\2\31\32\7\35\2\2\32\33\5\b\5\2\33\34\7\25\2\2\34\35\5"+
+		"\6\4\2\35\36\7\26\2\2\36@\3\2\2\2\37 \7\17\2\2 !\7\25\2\2!\"\5\6\4\2\""+
+		"#\7\26\2\2#%\7\b\2\2$&\5\4\3\2%$\3\2\2\2&\'\3\2\2\2\'%\3\2\2\2\'(\3\2"+
+		"\2\2()\3\2\2\2)*\7\r\2\2*@\3\2\2\2+,\7\17\2\2,-\7\25\2\2-.\5\6\4\2./\7"+
+		"\26\2\2/\61\7\b\2\2\60\62\5\4\3\2\61\60\3\2\2\2\62\63\3\2\2\2\63\61\3"+
+		"\2\2\2\63\64\3\2\2\2\64\65\3\2\2\2\65\66\7\r\2\2\66\67\7\24\2\2\679\7"+
+		"\b\2\28:\5\4\3\298\3\2\2\2:;\3\2\2\2;9\3\2\2\2;<\3\2\2\2<=\3\2\2\2=>\7"+
+		"\r\2\2>@\3\2\2\2?\25\3\2\2\2?\30\3\2\2\2?\37\3\2\2\2?+\3\2\2\2@\5\3\2"+
+		"\2\2AB\b\4\1\2BC\7\22\2\2CM\5\6\4\16DM\7\33\2\2EM\7\36\2\2FM\7\35\2\2"+
+		"GM\7\34\2\2HI\7\25\2\2IJ\5\6\4\2JK\7\26\2\2KM\3\2\2\2LA\3\2\2\2LD\3\2"+
+		"\2\2LE\3\2\2\2LF\3\2\2\2LG\3\2\2\2LH\3\2\2\2Mb\3\2\2\2NO\f\r\2\2OP\t\2"+
+		"\2\2Pa\5\6\4\16QR\f\f\2\2RS\t\3\2\2Sa\5\6\4\rTU\f\13\2\2UV\t\4\2\2Va\5"+
+		"\6\4\fWX\f\n\2\2XY\t\5\2\2Ya\5\6\4\13Z[\f\t\2\2[\\\7\t\2\2\\a\5\6\4\n"+
+		"]^\f\b\2\2^_\7\6\2\2_a\5\6\4\t`N\3\2\2\2`Q\3\2\2\2`T\3\2\2\2`W\3\2\2\2"+
+		"`Z\3\2\2\2`]\3\2\2\2ad\3\2\2\2b`\3\2\2\2bc\3\2\2\2c\7\3\2\2\2db\3\2\2"+
+		"\2ei\7\30\2\2fi\7\4\2\2gi\7\23\2\2he\3\2\2\2hf\3\2\2\2hg\3\2\2\2i\t\3"+
+		"\2\2\2\13\20\'\63;?L`bh";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

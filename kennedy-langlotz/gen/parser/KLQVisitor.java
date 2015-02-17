@@ -1,4 +1,4 @@
-// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/com/klq/lang/KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface KLQVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link KLQParser#questionaire}.
+	 * Visit a parse tree produced by {@link KLQParser#questionnaire}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionaire(@NotNull KLQParser.QuestionaireContext ctx);
+	T visitQuestionnaire(@NotNull KLQParser.QuestionnaireContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KLQParser#question}.
 	 * @param ctx the parse tree
@@ -24,23 +24,17 @@ public interface KLQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(@NotNull KLQParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KLQParser#questionBegin}.
+	 * Visit a parse tree produced by {@link KLQParser#condQuestion}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx);
+	T visitCondQuestion(@NotNull KLQParser.CondQuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KLQParser#questionEnd}.
+	 * Visit a parse tree produced by {@link KLQParser#uncondQuestion}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link KLQParser#specification}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSpecification(@NotNull KLQParser.SpecificationContext ctx);
+	T visitUncondQuestion(@NotNull KLQParser.UncondQuestionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KLQParser#questionType}.
 	 * @param ctx the parse tree
@@ -48,17 +42,75 @@ public interface KLQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionType(@NotNull KLQParser.QuestionTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KLQParser#answer}.
+	 * Visit a parse tree produced by the {@code Or}
+	 * labeled alternative in {@link KLQParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAnswer(@NotNull KLQParser.AnswerContext ctx);
+	T visitOr(@NotNull KLQParser.OrContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link KLQParser#expr}.
+	 * Visit a parse tree produced by the {@code Number}
+	 * labeled alternative in {@link KLQParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr(@NotNull KLQParser.ExprContext ctx);
+	T visitNumber(@NotNull KLQParser.NumberContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MulDiv}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMulDiv(@NotNull KLQParser.MulDivContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AddSub}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddSub(@NotNull KLQParser.AddSubContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Parens}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParens(@NotNull KLQParser.ParensContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Comparators}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparators(@NotNull KLQParser.ComparatorsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code And}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnd(@NotNull KLQParser.AndContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code String}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(@NotNull KLQParser.StringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code id}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitId(@NotNull KLQParser.IdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Date}
+	 * labeled alternative in {@link KLQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDate(@NotNull KLQParser.DateContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KLQParser#answerSet}.
 	 * @param ctx the parse tree

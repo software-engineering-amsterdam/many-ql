@@ -1,6 +1,7 @@
 package interpreter
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
@@ -30,14 +31,14 @@ func (exec Execute) Exec(node interface{}) {
 
 // QuestionaireNode execute all actionNodes of a questionaire (form)
 func (exec Execute) QuestionaireNode(q *ast.QuestionaireNode) {
-	for _, actionNode := range q.Stack {
+	for _, actionNode := range q.Stack() {
 		exec.Exec(actionNode)
 	}
 }
 
 // ActionNode branches to QuestionNode or IfNode executers
 func (exec Execute) ActionNode(a *ast.ActionNode) {
-	exec.Exec(a.Action)
+	exec.Exec(a.Action())
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
@@ -45,8 +46,13 @@ func (exec Execute) ActionNode(a *ast.ActionNode) {
 func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 	exec.symbolChan <- &symbolEvent{
 		command: SymbolCreate,
-		name:    q.Identifier,
+		name:    q.Identifier(),
 		content: q,
+	}
+
+	if q.Type() == ast.ComputedQuestionType {
+		expr := q.Content().(*ast.ComputedQuestion).Expression
+		q.From(fmt.Sprintf("%f", exec.resolveMathNode(expr)))
 	}
 
 	questionCopy := q.Clone()
@@ -58,11 +64,11 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(i *ast.IfNode) {
-	if exec.resolveComparisonNode(i.Conditions) {
-		for _, actionNode := range i.Stack {
+	if exec.resolveComparisonNode(i.Conditions()) {
+		for _, actionNode := range i.Stack() {
 			exec.Exec(actionNode)
 		}
-	} else if i.ElseNode != nil {
-		exec.Exec(i.ElseNode)
+	} else if i.ElseNode() != nil {
+		exec.Exec(i.ElseNode())
 	}
 }

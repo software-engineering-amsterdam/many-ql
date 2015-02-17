@@ -2,34 +2,28 @@ Name_of_Questionnaire
 
 Introduction : Welcome to my questionnaire.
 
-Question 1 (bool): Do you love hummus?
+Question hummus (bool): Do you love hummus?
 
-Question 2 (integer): What is the most awesome number? 
+Question number (number): What is the most awesome number?
 
-if ((9 + 3) * (4 / 5 + 1) > 1) {
-    Question 2b (bool): Is this a conditional question?
+if (hummus == True) {
+    Question why (text) : What do you like about hummus?
 
-    Question 2c (bool): Do you really think that?
+    Question grade (number) : How would you grade it?
 
-    if (True == True) {
-        Question 2cb (bool) : Will this work?
+    if (grade < 6) {
+        Question con (bool) : This is quite contradicting isn't it?
     }
 }
 
-if (True == True) {
-    Question 2c (bool): This is always true isn't it?
+if (con == True) {
+    Question trans (bool) : Will transitive closure work?
 }
 else {
-    Question 2c (text): What is it then?
+    Question check (bool) : Will this work?
 }
 
-if (True == True) {
-    Question 2c (bool): This is always true isn't it?
+if (5 * (3 + 4) - 3 + (2 / 1) == True) {
+    Question dunno (bool) : Do you know what to write?
 }
-else {
-    Question 2c (text): What is it then?
-}
-
-// another comment
-Question 3 (text): What do you think of this DSL? 
 

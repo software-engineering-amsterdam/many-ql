@@ -11,31 +11,15 @@ func (exec Execute) resolveMathNode(n ast.Evaluatable) float32 {
 	default:
 		log.Fatalf("Unknown type while resolving node %T", t)
 	case *ast.MathAddNode:
-		left := exec.resolveMathNode(n.(*ast.MathAddNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathAddNode).RightTerm)
-		return left + right
+		return exec.MathAddNode(n.(*ast.MathAddNode))
 	case *ast.MathSubNode:
-		left := exec.resolveMathNode(n.(*ast.MathSubNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathSubNode).RightTerm)
-		return left - right
+		return exec.MathSubNode(n.(*ast.MathSubNode))
 	case *ast.MathMulNode:
-		left := exec.resolveMathNode(n.(*ast.MathMulNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathMulNode).RightTerm)
-		return left * right
+		return exec.MathMulNode(n.(*ast.MathMulNode))
 	case *ast.MathDivNode:
-		left := exec.resolveMathNode(n.(*ast.MathDivNode).LeftTerm)
-		right := exec.resolveMathNode(n.(*ast.MathDivNode).RightTerm)
-		return left / right
+		return exec.MathDivNode(n.(*ast.MathDivNode))
 	case *ast.TermNode:
-		value := exec.resolveTermNode(n.(*ast.TermNode))
-		switch t := value.(type) {
-		default:
-			log.Fatalf("Variable not a number. Got %T", t)
-		case int:
-			return float32(value.(int))
-		case float32:
-			return value.(float32)
-		}
+		return exec.MathTermNode(n.(*ast.TermNode))
 	}
 	return 0
 }
@@ -55,7 +39,7 @@ func (exec *Execute) resolveNumeric(t *ast.TermNode) float32 {
 }
 
 func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
-	identifier := t.IdentifierReference
+	identifier := t.IdentifierReference()
 	if identifier != "" {
 		ret := make(chan *ast.QuestionNode)
 		exec.symbolChan <- &symbolEvent{
@@ -68,17 +52,17 @@ func (exec *Execute) resolveTermNode(t *ast.TermNode) interface{} {
 
 		switch q.Type() {
 		case ast.BoolQuestionType:
-			content := q.Content.(*ast.BoolQuestion)
+			content := q.Content().(*ast.BoolQuestion)
 			return content.Value()
 		case ast.IntQuestionType:
-			content := q.Content.(*ast.IntQuestion)
+			content := q.Content().(*ast.IntQuestion)
 			return content.Value()
 		case ast.StringQuestionType:
-			content := q.Content.(*ast.StringQuestion)
+			content := q.Content().(*ast.StringQuestion)
 			return content.String()
 		}
 	}
-	return t.NumericConstant
+	return t.NumericConstant()
 }
 
 func (exec *Execute) resolveComparisonNode(n interface{}) bool {

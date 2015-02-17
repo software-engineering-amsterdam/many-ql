@@ -1,42 +1,35 @@
 package org.fugazi.ast;
 
 import org.antlr.v4.runtime.misc.NotNull;
-import org.fugazi.ast.ASTNode.ASTNode;
-import org.fugazi.ast.Expression.*;
-import org.fugazi.ast.Literals.ID;
-import org.fugazi.ast.Literals.NUMBER;
-import org.fugazi.ast.Literals.STRING;
-import org.fugazi.ast.Statement.IfStatement;
-import org.fugazi.ast.Statement.QuestionStatement;
-import org.fugazi.ast.Statement.ComputedQuestionStatement;
-import org.fugazi.ast.Statement.Statement;
-import org.fugazi.ast.Type.*;
+import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.logical.And;
+import org.fugazi.ast.expression.logical.Logical;
+import org.fugazi.ast.expression.logical.Or;
+import org.fugazi.ast.expression.numerical.*;
+import org.fugazi.ast.expression.unary.Negative;
+import org.fugazi.ast.expression.unary.Not;
+import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.ast.expression.unary.Unary;
+import org.fugazi.ast.form.Form;
+import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.STRING;
+import org.fugazi.ast.statement.ComputedQuestion;
+import org.fugazi.ast.statement.IfStatement;
+import org.fugazi.ast.statement.Question;
+import org.fugazi.ast.statement.Statement;
+import org.fugazi.ast.type.*;
 import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
-import org.fugazi.ast.Form.Form;
 
 import java.util.ArrayList;
 
-/*
-reference to undefined questions
-duplicate question declarations with different types
-conditions that are not of the type boolean
-operands of invalid type to operators
-cyclic dependencies between questions
-duplicate labels (warning)
-*/
-
-/*
-WHY VISITOR?
-1. Each visit can return an AST node.
-2. Build our ASt.
-*/
-
-public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
+public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
     /**
      * =======================
-     * Form
+     * form
      * =======================
      */
     
@@ -56,7 +49,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
 
         // Create the form.
         Form form = new Form(formName, formStatements);
-        System.out.print("FORM: " + form.getName());
+        System.out.println("FORM: " + form.getName());
 
         return form;
     }
@@ -76,19 +69,13 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
         // Get the body statements.
         ArrayList<Statement> statements = new ArrayList<Statement>();
 
-        // Add the inner if statements.
-        for (QLParser.IfStatementContext statement : ctx.ifStatement()) {
-            Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the ifStatement
-            statements.add(stat);
-        }
-
-        // Add the inner question declarations.
-        for (QLParser.QuestionDeclarationContext statement : ctx.questionDeclaration()) {
+        // Add the statements.
+        for (QLParser.StatementContext statement : ctx.statement()) {
             Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the statement
             statements.add(stat);
         }
 
-        // Create an if Statement
+        // Create an if statement
         IfStatement ifStatement = new IfStatement(condition, statements);
         System.out.println("CONDITION: " + ctx.expression().getText());
 
@@ -96,35 +83,36 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public QuestionStatement visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
+    public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         
         Type type = (Type) ctx.type().accept(this); 
 
         ID identifier = new ID(ctx.ID().getText());
 
-        // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
-        //STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText();
+        // TODO: Which is better?
+        // Literal? : STRING label = new STRING(ctx.STRING().getText());
+        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        String label = grammarLabel.toString();
 
-        QuestionStatement question = new QuestionStatement(type, label, identifier);
+        Question question = new Question(type, label, identifier);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
 
         return question;
     }
 
     @Override
-    public ComputedQuestionStatement visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
+    public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
         
         Type type = (Type) ctx.type().accept(this);
 
         ID identifier = new ID(ctx.ID().getText());
 
-        // TODO: Literal? : STRING label = new STRING(ctx.STRING().getText());
-        String label = ctx.STRING().getText();
+        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        String label = grammarLabel.toString();
 
         Expression expression = (Expression) ctx.expression().accept(this);
-        
-        ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
+
+        ComputedQuestion question = new ComputedQuestion(type, label, identifier, expression);
         System.out.println("LABEL: " + label + " ID: " + identifier + " ");
         
         return question;
@@ -163,133 +151,130 @@ public class FugaziQLVisitor extends QLBaseVisitor<ASTNode> {
      * Expressions
      * =======================
      */
-    // TODO: Think of this.
-    //@Override 
-    // public T visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) { 
-    // return visitChildren(ctx); 
-    // }
+    @Override
+    public Expression visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) {
+        System.out.print("PARENTHESIS: " + ctx.expression().getText() + " ");
+    return (Expression) ctx.expression().accept(this);
+    }
 
     @Override 
-    public SingleExpression visitSingleExpression(@NotNull QLParser.SingleExpressionContext ctx) {
+    public Unary visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
         
         // Get the expression
         Expression expr = (Expression) ctx.expression().accept(this);
 
-        // TODO: make this beautiful
         // Check the operator. 
-        if (ctx.op.getText() == "!")
-            return new NotExpression(expr);
+        if (ctx.op.getText().equals("!"))
+            return new Not(expr);
+        else if (ctx.op.getText().equals("-"))
+            return new Negative(expr);
+        else if (ctx.op.getText().equals("+"))
+            return new Positive(expr);
         
         return null;
     }
     
     @Override
-    public NumericalExpression visitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) {
+    public Numerical visitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
 
         // Get the expressions
         Expression leftExpr = (Expression) ctx.expression(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == "*")                        // *
-            return new MulExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "/")                   // /
-            return new DivExpression(leftExpr, rightExpr);
+        if (ctx.op.getText().equals("*"))                        // *
+            return new Mul(leftExpr, rightExpr);
+        else if (ctx.op.getText().equals("/"))                   // /
+            return new Div(leftExpr, rightExpr);
 
         return null;
     }
 
     @Override
-    public NumericalExpression visitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) {
+    public Numerical visitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
 
         // Get the expressions
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == "+")                        // +
-            return new AddExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "-")                   // -
-            return new SubExpression(leftExpr, rightExpr);
+        if (ctx.op.getText().equals("+"))                        // +
+            return new Add(leftExpr, rightExpr);
+        else if (ctx.op.getText().equals("-"))                  // -
+            return new Sub(leftExpr, rightExpr);
 
         return null;
     }
 
     @Override
-    public LogicalExpression visitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) {
+    public Logical visitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) {
         System.out.print("OP: || ");
         
         // Get the expressions
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
         
-        return new OrExpression(leftExpr, rightExpr);
+        return new Or(leftExpr, rightExpr);
     }
     
     @Override
-    public LogicalExpression visitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) {
+    public Logical visitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) {
         System.out.print("OP: && ");
 
         // Get the expressions
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        return new AndExpression(leftExpr, rightExpr);
+        return new And(leftExpr, rightExpr);
     }
     
     @Override
-    public ComparisonExpression visitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) {
+    public Comparison visitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) {
         System.out.print("OP: " + ctx.op.getText() + " ");
 
         // Get the expressions
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // TODO: make this beautiful
         // Check the operator.
-        if (ctx.op.getText() == ">")                            // >
-            return new GreaterExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == ">=")                      // >=
-            return new GEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "<")                       // <
-            return new LessExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "<=")                      // <=
-            return new LEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "==")                      // ==
-            return new EQExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText() == "!=")                      // !=
-            return new NotEqExpression(leftExpr, rightExpr);
+        if (ctx.op.getText().equals(">"))                            // >
+            return new Greater(leftExpr, rightExpr);
+        else if (ctx.op.getText().equals(">="))                      // >=
+            return new GE(leftExpr, rightExpr);
+        else if (ctx.op.getText().equals("<"))                       // <
+            return new Less(leftExpr, rightExpr);
+        else if (ctx.op.getText().equals("<="))                      // <=
+            return new LE(leftExpr, rightExpr);
+        else if (ctx.op.getText().equals("=="))                      // ==
+            return new EQ(leftExpr, rightExpr);
+        else if (ctx.op.getText().equals("!="))                      // !=
+            return new NotEq(leftExpr, rightExpr);
 
         return null;
     }
 
     /**
      * =======================
-     * Literals
+     * literals
      * =======================
      */
     @Override
     public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.NUMBER().getText() + " ");
         return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
     }
 
     @Override
     public BoolType visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.BOOLEAN().getText() + " ");
         return (BoolType) ctx.BOOLEAN().accept(this); // Accept the QL Visitor of the BOOLEAN
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
-        // TODO: is that right?
         System.out.print(" " + ctx.ID().getText() + " ");
         return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
     }

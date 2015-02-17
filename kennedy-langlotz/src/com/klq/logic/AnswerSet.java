@@ -7,14 +7,26 @@ import java.util.List;
 /**
  * Created by Timon on 10.02.2015.
  */
-public class AnswerSet<E> implements Iterable {
-    private List<E> answers;
+public class AnswerSet implements Iterable {
+    private List<Answer> answers;
+    public static final AnswerSet BOOLEAN = createAnswerSet(Type.BOOLEAN);
 
     public AnswerSet() {
-        answers = new ArrayList<E>();
+        answers = new ArrayList<Answer>();
     }
 
-    public boolean add(E answer) {
+    private static AnswerSet createAnswerSet(Type type){
+        AnswerSet result = new AnswerSet();
+        switch (type) {
+            case BOOLEAN:
+                result.add(Answer.YES);
+                result.add(Answer.NO);
+                break;
+        }
+        return result;
+    }
+
+    public boolean add(Answer answer) {
         return answers.add(answer);
     }
 
@@ -22,17 +34,13 @@ public class AnswerSet<E> implements Iterable {
         return answers.size();
     }
 
-    public E get(int index) {
+    public Answer get(int index) {
         return answers.get(index);
     }
 
-    public E remove(int index) {
+    public Answer remove(int index) {
         return answers.remove(index);
     }
-
-    /*public AnswerSet<E> subsection(int[] indizes) {
-        AnswerSet<E> result = this.clone();
-    }*/
 
     @Override
     public Iterator iterator() {

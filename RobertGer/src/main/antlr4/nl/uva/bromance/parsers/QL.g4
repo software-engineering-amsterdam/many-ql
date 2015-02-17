@@ -51,29 +51,21 @@ label:
 labelBody:
 '{'((ifStatement (elseIfStatement)* (elseStatement)?)| labelText)'}';
 
-labelText:
-    'Text:' (id STRING)+ id?
-    |'Text:' STRING;
+labelText: 'Text:' text=STRING;
 
 input:
     'Input:' expression;
 
 
 expression
-    : primary
-    | expression ('*'|'/') expression
-    | expression ('+'|'-') expression
-    | expression ('<=' | '>=' | '>' | '<') expression
-    | expression ('==' | '!=') expression
-    | expression OR_OP expression
-    | expression AND_OP expression;
-
-primary:
-    parExpression
-    | id;
-
-parExpression:
-    '(' expression ')';
+    : id
+    | '(' expression ')'
+    | expression (expressionTimes|expressionDivided) expression
+    | expression (expressionPlus|expressionMinus) expression
+    | expression (expressionSmallerEqual | expressionBiggerEqual | expressionBigger | expressionSmaller) expression
+    | expression (expressionEqual | expressionNotEqual) expression
+    | expression expressionAnd expression
+    | expression expressionOr expression;
 
 id
     : '['id']'
@@ -81,12 +73,19 @@ id
     | NUMBER
     | TEXT;
 
-/*
-logicalExpression: logic (LOGICAL_SEPARATOR logic)*;
-logic: ref=(TEXT)+ operator=LOGICAL_OPERATOR target=(TEXT)+
-ifStatement: 'If:' ref=(TEXT+) operator=OPERATOR '{' '}'  ;
-elseStatement: 'Else:' '{' '}';
-*/
+expressionTimes: '*';
+expressionDivided: '/';
+expressionPlus: '+';
+expressionMinus: '-';
+expressionSmallerEqual: '<=';
+expressionBiggerEqual: '>=';
+expressionBigger: '>';
+expressionSmaller: '<';
+expressionEqual: '==';
+expressionNotEqual: '!=';
+expressionAnd: '&&';
+expressionOr: '||';
+
 // String and number definitions taken from : https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
 STRING :  '"' (ESC | ~["\\])* '"' ;
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE);
@@ -100,9 +99,6 @@ NUMBER
 fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
 fragment NL   : '\r' '\n' | '\n' | '\r';
-
-AND_OP: '&&';
-OR_OP: '||';
 
 TEXT : [0-9a-zA-Z\._]+;
 
