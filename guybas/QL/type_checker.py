@@ -1,6 +1,6 @@
 # Type Checker
 import collections
-
+from grammar import *
 
 class TypeChecker:
 
@@ -40,3 +40,19 @@ class TypeChecker:
             new_dependencies = question.all_dependencies()
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         return dependencies
+
+    @staticmethod
+    def type_checker(cinput, ctype=False):
+        type_class = ...
+        if isinstance(cinput, str):
+            type_class = QuestionTypes.textName
+        elif isinstance(cinput, (int, float, complex)): # in python 3 int = long
+            type_class = QuestionTypes.numberName
+        elif isinstance(cinput, bool):
+            type_class = QuestionTypes.booleanName
+
+        if ctype & ctype is type_class:
+            return True
+        elif ctype:
+            return False
+        return type_class
