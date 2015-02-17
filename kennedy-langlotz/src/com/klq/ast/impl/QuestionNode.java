@@ -1,14 +1,12 @@
-package AST.KLQNodes;
+package com.klq.ast.impl;
 
-import AST.Node;
-import AST.Visitor;
-
-import java.util.Arrays;
+import com.klq.ast.ANode;
+import com.klq.ast.IVisitor;
 
 /**
  * Created by juriaan on 10-2-15.
  */
-public class Question extends Node {
+public class QuestionNode extends ANode {
     public enum QuestionType{
         SET, BOOLEAN, DATE, CURRENCY, STRING, NUMERAL
     }
@@ -17,15 +15,15 @@ public class Question extends Node {
     private String questionType;
     private String text;
 
-    public Question(){}
-    public Question(String questionID, String questionType, String text) {
+    public QuestionNode(){}
+    public QuestionNode(String questionID, String questionType, String text) {
         this.questionID = questionID;
         this.questionType = questionType;
         this.text = text;
     }
 
     @Override
-    public void accept(Visitor visitor) {
+    public void accept(IVisitor visitor) {
         visitor.visit(this);
     }
 
@@ -39,5 +37,17 @@ public class Question extends Node {
         System.out.println();
         System.out.println(getChildren().size());
         System.out.println();
+    }
+
+    public String getQuestionID() {
+        return questionID;
+    }
+
+    public String getQuestionType() {
+        return questionType;
+    }
+
+    public String getText() {
+        return text;
     }
 }

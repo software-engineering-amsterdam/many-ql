@@ -1,20 +1,20 @@
-package AST.KLQNodes;
+package com.klq.ast.impl;
 
-import AST.Node;
-import AST.Visitor;
+import com.klq.ast.ANode;
+import com.klq.ast.IVisitor;
 
 /**
  * Created by juriaan on 17-2-15.
  */
-public class Number extends Node {
+public class NumberNode extends ANode {
     private double number;
 
-    public Number(double number) {
+    public NumberNode(double number) {
         this.number = number;
     }
 
     @Override
-    public void accept(Visitor visitor) {
+    public void accept(IVisitor visitor) {
         visitor.visit(this);
     }
 
