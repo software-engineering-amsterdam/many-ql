@@ -1,12 +1,14 @@
 package ast
 
+import scala.util.parsing.input.Positional
+
 object QLAST {
 
   // Form
   case class Form(label: String, e: Statement)
 
   // Statements
-  sealed abstract class Statement
+  sealed abstract class Statement extends Positional
   case class Sequence(statements: List[Statement]) extends Statement
   case class IfStatement(e: Expression, s1: Statement, s2: Option[Statement]) extends Statement
 
@@ -28,7 +30,7 @@ object QLAST {
   case class StringType() extends QuestionType
 
   // Boolean and arithmetic expressions
-  sealed abstract class Expression
+  sealed abstract class Expression extends Positional
   case class Or(l: Expression, r: Expression) extends Expression
   case class And(l: Expression, r: Expression) extends Expression
   case class Not(e: Expression) extends Expression

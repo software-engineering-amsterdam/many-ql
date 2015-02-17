@@ -16,7 +16,7 @@ object QLInterpreter {
 
     parser.parseAll(parser.form, formFile) match {
       case parser.Success(ast, _) => ast match {
-        case f: Form => 
+        case f: Form =>
           typeChecker.check(f)
           evaluator.eval(f)
       }
