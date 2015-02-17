@@ -1,17 +1,15 @@
 package ast.question;
 
 import ast.expression.variables.Id;
-import ast.type.TextType;
 import ast.type.Type;
 
-public abstract class SimpleQuestion extends Question {
-	private Id questionID;
-	private TextType questionText;
-	private Type questionType;
+public class SimpleQuestion extends Question {
+	private final Id questionID;
+	private final String questionText;
+	private final Type questionType;
 	
 	
-	public SimpleQuestion (Id questionID, TextType questionText, Type questionType) {
-		//super();
+	public SimpleQuestion (Id questionID, String questionText, Type questionType) {
 		this.questionID = questionID;
 		this.questionText = questionText;
 		this.questionType = questionType;
@@ -21,7 +19,7 @@ public abstract class SimpleQuestion extends Question {
 		return questionID;
 	}
 	
-	public TextType getQuestionText(){
+	public String getQuestionText(){
 		return questionText;
 	}
 	
@@ -29,12 +27,12 @@ public abstract class SimpleQuestion extends Question {
 		return questionType;
 	}
 	
-/*
+
 	@Override
 	public String toString() {
-		return this.questionID + " \"" + this.questionText + "\" " + this.questionType ;
+		return this.questionID.toString() + " \"" + this.questionText + "\" " + this.questionType.toString() ;
 	}
-	*/
+	
 	@Override
 	public <T> T accept(IQuestionVisitor<T> visitor) {
 		return visitor.visit(this);
