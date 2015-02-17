@@ -28,10 +28,10 @@ namespace QL.Grammars
 
             base.EnterFormBlock(context);
         }
-        public override void ExitIfStatement(QLParser.IfStatementContext context)
+        public override void ExitControlBlock(QLParser.ControlBlockContext context)
         {
             Console.WriteLine("Exit:" + context.GetType().Name);
-            base.ExitIfStatement(context);
+            base.ExitControlBlock(context);
         }
     }
 }

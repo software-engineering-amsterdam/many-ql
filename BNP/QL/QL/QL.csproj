@@ -54,6 +54,7 @@
     <Compile Include="Grammars\QL.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
+    <Compile Include="Grammars\QLListener.cs" />
     <Compile Include="Grammars\QLVisitor.cs" />
     <Compile Include="Infrastructure\ParserErrorHandler.cs" />
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
