@@ -13,7 +13,7 @@ public class Addition extends BinaryExpression implements PrimitiveExpression {
 
 	@Override
 	public IntValue evaluate() {
-		return ((IntLiteral)left).evaluate().Add(((IntLiteral)right).evaluate());
+		return ((IntLiteral)left).evaluate().Addition(((IntLiteral)right).evaluate());
 	}
 	
 	

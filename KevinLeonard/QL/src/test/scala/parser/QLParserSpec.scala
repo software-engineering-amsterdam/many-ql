@@ -1,5 +1,6 @@
 package parser
 
+import ast.QLAST._
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
 

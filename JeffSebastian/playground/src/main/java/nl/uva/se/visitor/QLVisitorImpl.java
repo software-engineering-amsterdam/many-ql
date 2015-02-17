@@ -1,35 +1,35 @@
 package nl.uva.se.visitor;
 
 import nl.uva.se.parser.QLBaseVisitor;
-import nl.uva.se.parser.QLParser.FormTypeContext;
-import nl.uva.se.parser.QLParser.IfClauseTypeContext;
-import nl.uva.se.parser.QLParser.QuestionTypeContext;
+import nl.uva.se.parser.QLParser.ConditionContext;
+import nl.uva.se.parser.QLParser.ExpressionContext;
+import nl.uva.se.parser.QLParser.FormContext;
+import nl.uva.se.parser.QLParser.QuestionContext;
 
 public class QLVisitorImpl extends QLBaseVisitor<Object> {
-	
-	private int i = 1;
 
 	@Override
-	public Object visitFormType(FormTypeContext ctx) {
-		System.out.println(i + ": " + ctx.getText());
-		i++;
-		return visitChildren(ctx);
+	public Object visitForm(FormContext ctx) {
+		System.out.println("Form: " + ctx.getText());
+		return super.visitForm(ctx);
 	}
 
 	@Override
-	public Object visitQuestionType(QuestionTypeContext ctx) {
-		System.out.println(i + ": " + ctx.getText());
-		i++;
-		return visitChildren(ctx);
+	public Object visitQuestion(QuestionContext ctx) {
+		System.out.println("Question: " + ctx.getText());
+		return super.visitQuestion(ctx);
 	}
 
 	@Override
-	public Object visitIfClauseType(IfClauseTypeContext ctx) {
-		System.out.println(i + ": " + ctx.getText());
-		i++;
-		return visitChildren(ctx);
+	public Object visitCondition(ConditionContext ctx) {
+		System.out.println("Condition: " + ctx.getText());
+		return super.visitCondition(ctx);
 	}
-	
-	
+
+	@Override
+	public Object visitExpression(ExpressionContext ctx) {
+		System.out.println("Expression: " + ctx.getText());
+		return super.visitExpression(ctx);
+	}
 
 }

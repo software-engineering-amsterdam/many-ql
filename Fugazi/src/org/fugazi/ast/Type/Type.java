@@ -1,16 +1,10 @@
-package org.fugazi.ast.Type;
+package org.fugazi.ast.type;
 
-import org.fugazi.ast.ASTNode.AbstractASTNode;
+import org.fugazi.ast.AbstractASTNode;
 
-/**
- * The Type class. An abstract class the express a Type.
- * It is a Node of the AST.
- */
 public abstract class Type extends AbstractASTNode {
 
-    /**
-     * Convert to string
-     * @return string
-     */
     public abstract String toString();
+
+    public abstract <T> T accept(ITypeVisitor<T> visitor);
 }

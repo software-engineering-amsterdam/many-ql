@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace UvA.SoftCon.Questionnaire.AST.Expressions
 {
-    public interface IExpression<T>
+    public interface IExpression
     {
-        /// <summary>
-        /// Evaluates the expression and returns it result.
-        /// </summary>
-        /// <returns>The result of the evaluated expression.</returns>
-        T Evaluate();
     }
 }

@@ -8,5 +8,21 @@ namespace QuestionnaireLanguage.AST.Nodes.Arithmetic
 {
     public class SubtractArrithmeticNode : iArithmeticNode
     {
+        private IList<iASTNode> children;
+
+        public SubtractArrithmeticNode()
+        {
+            children = new List<iASTNode>();
+        }
+
+        public void AddChild(iASTNode node)
+        {
+            children.Add(node);
+        }
+
+        public IList<iASTNode> GetChildren()
+        {
+            return children;
+        }
     }
 }

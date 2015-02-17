@@ -10,6 +10,22 @@ namespace QuestionnaireLanguage.AST.Nodes.FormSection
 {
     public class FormSectionNode : iFormSectionNode
     {
+        private IList<iASTNode> children;
+
+        public FormSectionNode()
+        {
+            children = new List<iASTNode>();
+        }
+
+        public void AddChild(iASTNode node)
+        {
+            children.Add(node);
+        }
+
+        public IList<iASTNode> GetChildren()
+        {
+            return children;
+        }
 
     }
 }

@@ -3,6 +3,6 @@ form Box1HouseOwning
  boolean hasSoldHouse "purely test question :)"
  if (hasSoldHouse)
  {
-    integer sellingPrice "Price the house was sold for:" 2+1
+    integer hasSoldHouse "Price the house was sold for:" 2+1
  }
 }

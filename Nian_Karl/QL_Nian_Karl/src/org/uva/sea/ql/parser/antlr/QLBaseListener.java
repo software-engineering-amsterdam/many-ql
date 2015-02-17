@@ -2,6 +2,11 @@
 package org.uva.sea.ql.parser.antlr;
 
 	import org.uva.sea.ql.model.expression.*;
+	import org.uva.sea.ql.model.expression.commonexpression.*;
+	import org.uva.sea.ql.model.expression.booleanexpression.*;
+	import org.uva.sea.ql.model.expression.mathexpression.*;
+	import org.uva.sea.ql.model.literal.*;
+	import org.uva.sea.ql.model.value.*;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -20,13 +25,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAndExpr(@NotNull QLParser.AndExprContext ctx) { }
+	@Override public void enterExpression(@NotNull QLParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAndExpr(@NotNull QLParser.AndExprContext ctx) { }
+	@Override public void exitExpression(@NotNull QLParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -44,85 +49,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStringLiteral(@NotNull QLParser.StringLiteralContext ctx) { }
+	@Override public void enterQuestion(@NotNull QLParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStringLiteral(@NotNull QLParser.StringLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBooleanLiteral(@NotNull QLParser.BooleanLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBooleanLiteral(@NotNull QLParser.BooleanLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpr(@NotNull QLParser.ExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpr(@NotNull QLParser.ExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMulExpr(@NotNull QLParser.MulExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMulExpr(@NotNull QLParser.MulExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRelExpr(@NotNull QLParser.RelExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRelExpr(@NotNull QLParser.RelExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNumberLiteral(@NotNull QLParser.NumberLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNumberLiteral(@NotNull QLParser.NumberLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterOrExpr(@NotNull QLParser.OrExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOrExpr(@NotNull QLParser.OrExprContext ctx) { }
+	@Override public void exitQuestion(@NotNull QLParser.QuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -140,37 +73,37 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAddExpr(@NotNull QLParser.AddExprContext ctx) { }
+	@Override public void enterBlock(@NotNull QLParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAddExpr(@NotNull QLParser.AddExprContext ctx) { }
+	@Override public void exitBlock(@NotNull QLParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBool(@NotNull QLParser.BoolContext ctx) { }
+	@Override public void enterQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBool(@NotNull QLParser.BoolContext ctx) { }
+	@Override public void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestion(@NotNull QLParser.QuestionContext ctx) { }
+	@Override public void enterIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestion(@NotNull QLParser.QuestionContext ctx) { }
+	@Override public void exitIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -188,25 +121,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUnExpr(@NotNull QLParser.UnExprContext ctx) { }
+	@Override public void enterQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUnExpr(@NotNull QLParser.UnExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIdentifier(@NotNull QLParser.IdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIdentifier(@NotNull QLParser.IdentifierContext ctx) { }
+	@Override public void exitQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,21 +1,21 @@
 package org.uva.sea.ql.model.expression;
 
 import org.uva.sea.ql.model.literal.AbstractLiteral;
+import org.uva.sea.ql.model.value.AbstractValue;
 
-public class DataTypeExpression<T> extends Expression<T> {
+public abstract class DataTypeExpression implements Expression {
 
-	private AbstractLiteral<T> literal;
+	private AbstractLiteral literal;
 	
-	public DataTypeExpression(AbstractLiteral<T> literal) {
+	public DataTypeExpression(AbstractLiteral literal) {
 		this.literal = literal;
 	}
 	
 	@Override
-	public AbstractLiteral<T> evaluateExpression() {
-		return literal;
-	}
+	public abstract AbstractValue<?> evaluateExpression();
 	
-	public AbstractLiteral<T> getLiteral() {
+	public AbstractLiteral getLiteral() {
 		return literal;
 	}
+
 }

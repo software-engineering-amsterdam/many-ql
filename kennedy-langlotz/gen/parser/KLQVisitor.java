@@ -1,4 +1,4 @@
-// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/com/klq/lang/KLQ.g4 by ANTLR 4.5
+// Generated from /home/juriaan/Development/IdeaProjects/many-ql/kennedy-langlotz/src/KLQ.g4 by ANTLR 4.5
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -35,12 +35,6 @@ public interface KLQVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link KLQParser#specification}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSpecification(@NotNull KLQParser.SpecificationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link KLQParser#questionType}.
 	 * @param ctx the parse tree
