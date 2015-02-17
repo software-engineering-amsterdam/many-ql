@@ -4,17 +4,17 @@ package uva.ql.ast.expressions;
 
 public enum Operator{
 	ADD("+"),
-	DIV("-"),
+	DIV("/"),
 	EXP("^"),
 	MUL("*"),
 	SUB("-"),
 	LESS("<"),
-	LESS_EQ("<"),
+	LESS_EQ("<="),
 	GREATER(">"),
-	GREATER_EQ(">"),
+	GREATER_EQ(">="),
 	AND("&&"),
 	OR("||"),
-	EQUAL(""),
+	EQUAL("=="),
 	NOT_EQUAL("!");
 	
 	private String name;
@@ -26,11 +26,15 @@ public enum Operator{
 		return this.name;
 	}
 	public static Operator findOperator(String operator){
-		for (Operator o : values()){
-			if (o.name().equals(operator)){
+		
+		for(Operator o : Operator.values()){
+			System.out.println("Comparing " + o.getName() + " and " + operator);
+			if (o.getName().equals(operator)){
+				System.err.println("Found operator: " + o);
 				return o;
 			}
 		}
+		System.err.println("Did not found operator");
 		return null;
 	}
 }
