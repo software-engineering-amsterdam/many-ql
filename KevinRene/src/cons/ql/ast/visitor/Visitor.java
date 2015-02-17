@@ -1,6 +1,8 @@
 package cons.ql.ast.visitor;
 
+import cons.ql.ast.expression.Binary;
 import cons.ql.ast.expression.Identifier;
+import cons.ql.ast.expression.Unary;
 import cons.ql.ast.expression.arithmetic.*;
 import cons.ql.ast.expression.literal.*;
 import cons.ql.ast.expression.relational.*;
@@ -9,10 +11,8 @@ import cons.ql.ast.expression.unary.*;
 import cons.ql.ast.statement.*;
 
 public interface Visitor {
-	public void visit(Add addNode);	
-	public void visit(Div divNode);
-	public void visit(Mul mulNode);
-	public void visit(Sub subNode);
+	public void visit(Unary unaryNode);
+	public void visit(Binary binaryNode);
 	
 	public void visit(Identifier identNode);	
     
@@ -26,6 +26,11 @@ public interface Visitor {
 	public void visit(FloatLiteral floatNode);
 	public void visit(IntegerLiteral intNode);
 	public void visit(StringLiteral stringNode);
+	
+	public void visit(Add addNode);	
+	public void visit(Div divNode);
+	public void visit(Mul mulNode);
+	public void visit(Sub subNode);
 	
 	public void visit(And andNode);	
 	public void visit(Eq eqNode);

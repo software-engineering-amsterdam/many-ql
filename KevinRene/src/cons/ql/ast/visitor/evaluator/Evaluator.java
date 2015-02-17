@@ -9,30 +9,6 @@ import cons.ql.ast.visitor.StatementVisitor;
 
 public class Evaluator implements ExpressionVisitor, StatementVisitor  {
 	@Override
-	public void visit(Add addNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Div divNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Mul mulNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Sub subNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void visit(BooleanLiteral booleanNode) {
 		// TODO Auto-generated method stub
 		
@@ -52,6 +28,30 @@ public class Evaluator implements ExpressionVisitor, StatementVisitor  {
 
 	@Override
 	public void visit(StringLiteral stringNode) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void visit(Add addNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Div divNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Mul mulNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Sub subNode) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -80,10 +80,42 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		}
 	}
 	
+	@Override
+	public void visit(Identifier identNode) {}
+	
+	/**
+	 * Types
+	 */
+	@Override
+	public void visit(QLBoolean booleanNode) {}
+
+	@Override
+	public void visit(QLFloat floatNode) {}
+
+	@Override
+	public void visit(QLInteger intNode) {}
+
+	@Override
+	public void visit(QLString stringNode) {}
+
+	@Override
+	public void visit(QLNumeric numericNode) {}
+
+	@Override
+	public void visit(BooleanLiteral booleanNode) {}
+
+	@Override
+	public void visit(FloatLiteral floatNode) {}
+
+	@Override
+	public void visit(IntegerLiteral intNode) {}
+
+	@Override
+	public void visit(StringLiteral stringNode) {}
+	
 	/**
 	 * OPERATORS 
 	 */
-	
 	@Override
 	public void visit(Add addNode) {
 		checkBinaryNumericOperator(addNode);
@@ -214,51 +246,5 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		
 		// Do we allow redeclaration?
 		// If not, do a check here
-	}
-	
-	/**
-	 * Types
-	 */
-
-	@Override
-	public void visit(QLBoolean booleanNode) {}
-
-	@Override
-	public void visit(QLFloat floatNode) {}
-
-	@Override
-	public void visit(Identifier identNode) {}
-
-	@Override
-	public void visit(QLInteger intNode) {}
-
-	@Override
-	public void visit(QLString stringNode) {}
-
-	@Override
-	public void visit(QLNumeric numericNode) {}
-
-	@Override
-	public void visit(BooleanLiteral booleanNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(FloatLiteral floatNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(IntegerLiteral intNode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(StringLiteral stringNode) {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -1,31 +1,12 @@
 package cons.ql.ast.visitor.prettyprinter;
 
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.expression.arithmetic.Add;
-import cons.ql.ast.expression.arithmetic.Div;
-import cons.ql.ast.expression.arithmetic.Mul;
-import cons.ql.ast.expression.arithmetic.Sub;
-import cons.ql.ast.expression.literal.BooleanLiteral;
-import cons.ql.ast.expression.literal.FloatLiteral;
-import cons.ql.ast.expression.literal.IntegerLiteral;
-import cons.ql.ast.expression.literal.StringLiteral;
-import cons.ql.ast.expression.relational.And;
-import cons.ql.ast.expression.relational.Eq;
-import cons.ql.ast.expression.relational.GEq;
-import cons.ql.ast.expression.relational.GT;
-import cons.ql.ast.expression.relational.LEq;
-import cons.ql.ast.expression.relational.LT;
-import cons.ql.ast.expression.relational.NEq;
-import cons.ql.ast.expression.relational.Or;
-import cons.ql.ast.expression.type.QLBoolean;
-import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLInteger;
-import cons.ql.ast.expression.type.QLNumeric;
-import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.expression.unary.Neg;
-import cons.ql.ast.expression.unary.Not;
-import cons.ql.ast.expression.unary.Pos;
+import cons.ql.ast.expression.*;
+import cons.ql.ast.expression.arithmetic.*;
+import cons.ql.ast.expression.literal.*;
+import cons.ql.ast.expression.relational.*;
+import cons.ql.ast.expression.type.*;
+import cons.ql.ast.expression.unary.*;
 import cons.ql.ast.statement.*;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
@@ -44,6 +25,22 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 		System.out.println(prefix + (isTail ? "└── " : "├── ") + nodeString + " : " + type);
 	}
 	
+	private void printBinaryNode(Binary binaryNode) {
+		printNode(binaryNode, true);
+		
+		indent();
+		ExpressionVisitor.super.visit(binaryNode);
+		unindent();
+	}
+	
+	private void printUnaryNode(Unary unaryNode) {
+		printNode(unaryNode, true);
+		
+		indent();
+		ExpressionVisitor.super.visit(unaryNode);
+		unindent();
+	}
+	
 	private void indent() {
 		this.prefix += "   ";
 	}
@@ -51,7 +48,150 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 	private void unindent() {
 		this.prefix = this.prefix.substring(0, this.prefix.length() - 3);
 	}
+
+	/**
+	 * Identifier node
+	 */
+	@Override
+	public void visit(Identifier identNode) {
+		printNode(identNode, true);
+	}
+
+	/**
+	 * Type nodes
+	 */
+	@Override
+	public void visit(QLBoolean booleanNode) {
+		printNode(booleanNode, true);
+	}
+
+	@Override
+	public void visit(QLFloat floatNode) {
+		printNode(floatNode, true);
+	}
+
+	@Override
+	public void visit(QLInteger intNode) {
+		printNode(intNode, true);
+	}
+
+	@Override
+	public void visit(QLNumeric numericNode) {
+		printNode(numericNode, true);
+	}
+
+	@Override
+	public void visit(QLString stringNode) {
+		printNode(stringNode, true);
+	}
+
+	/**
+	 * Literal nodes
+	 */
+	@Override
+	public void visit(BooleanLiteral booleanNode) {
+		printNode(booleanNode, true);
+	}
+
+	@Override
+	public void visit(FloatLiteral floatNode) {
+		printNode(floatNode, true);
+	}
+
+	@Override
+	public void visit(IntegerLiteral intNode) {
+		printNode(intNode, true);
+	}
+
+	@Override
+	public void visit(StringLiteral stringNode) {
+		printNode(stringNode, true);
+	}
+
+	/**
+	 * Binary nodes
+	 */
+	@Override
+	public void visit(Add addNode) {
+		printBinaryNode(addNode);
+	}
+
+	@Override
+	public void visit(Div divNode) {
+		printBinaryNode(divNode);
+	}
+
+	@Override
+	public void visit(Mul mulNode) {
+		printBinaryNode(mulNode);
+	}
+
+	@Override
+	public void visit(Sub subNode) {
+		printBinaryNode(subNode);
+	}
 	
+	@Override
+	public void visit(And andNode) {
+		printBinaryNode(andNode);
+	}
+
+	@Override
+	public void visit(Eq eqNode) {
+		printBinaryNode(eqNode);
+	}
+
+	@Override
+	public void visit(GEq geqNode) {
+		printBinaryNode(geqNode);
+	}
+
+	@Override
+	public void visit(GT gtNode) {
+		printBinaryNode(gtNode);
+	}
+
+	@Override
+	public void visit(LEq leqNode) {
+		printBinaryNode(leqNode);
+	}
+
+	@Override
+	public void visit(LT ltNode) {
+		printBinaryNode(ltNode);
+	}
+
+	@Override
+	public void visit(NEq neqNode) {
+		printBinaryNode(neqNode);
+	}
+
+	@Override
+	public void visit(Or orNode) {
+		printBinaryNode(orNode);
+	}
+
+	/**
+	 * Unary nodes
+	 */
+	@Override
+	public void visit(Neg negNode) {
+		printUnaryNode(negNode);
+	}
+
+	@Override
+	public void visit(Not notNode) {
+		printUnaryNode(notNode);
+	}
+
+	@Override
+	public void visit(Pos posNode) {
+		printUnaryNode(posNode);
+	}
+	
+	/**
+	 * Statement nodes
+	 */
 	@Override
 	public void visit(Block blockNode) {
 		printNode(blockNode, true);
@@ -94,191 +234,6 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 		
 		indent();		
 		StatementVisitor.super.visit(questionNode);
-		unindent();
-	}
-	
-	@Override
-	public void visit(Add addNode) {
-		printNode(addNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(addNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Div divNode) {
-		printNode(divNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(divNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Mul mulNode) {
-		printNode(mulNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(mulNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Sub subNode) {
-		printNode(subNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(subNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Identifier identNode) {
-		printNode(identNode, true);
-	}
-
-	@Override
-	public void visit(QLBoolean booleanNode) {
-		printNode(booleanNode, true);
-	}
-
-	@Override
-	public void visit(QLFloat floatNode) {
-		printNode(floatNode, true);
-	}
-
-	@Override
-	public void visit(QLInteger intNode) {
-		printNode(intNode, true);
-	}
-
-	@Override
-	public void visit(QLNumeric numericNode) {
-		printNode(numericNode, true);
-	}
-
-	@Override
-	public void visit(QLString stringNode) {
-		printNode(stringNode, true);
-	}
-
-	@Override
-	public void visit(BooleanLiteral booleanNode) {
-		printNode(booleanNode, true);
-	}
-
-	@Override
-	public void visit(FloatLiteral floatNode) {
-		printNode(floatNode, true);
-	}
-
-	@Override
-	public void visit(IntegerLiteral intNode) {
-		printNode(intNode, true);
-	}
-
-	@Override
-	public void visit(StringLiteral stringNode) {
-		printNode(stringNode, true);
-	}
-
-	@Override
-	public void visit(And andNode) {
-		printNode(andNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(andNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Eq eqNode) {
-		printNode(eqNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(eqNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(GEq geqNode) {
-		printNode(geqNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(geqNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(GT gtNode) {
-		printNode(gtNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(gtNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(LEq leqNode) {
-		printNode(leqNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(leqNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(LT ltNode) {
-		printNode(ltNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(ltNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(NEq neqNode) {
-		printNode(neqNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(neqNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Or orNode) {
-		printNode(orNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(orNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Neg negNode) {
-		printNode(negNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(negNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Not notNode) {
-		printNode(notNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(notNode);
-		unindent();
-	}
-
-	@Override
-	public void visit(Pos posNode) {
-		printNode(posNode, true);
-		
-		indent();
-		ExpressionVisitor.super.visit(posNode);
 		unindent();
 	}
 }
