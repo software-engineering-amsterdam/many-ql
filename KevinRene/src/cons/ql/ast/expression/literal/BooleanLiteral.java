@@ -1,5 +1,6 @@
 package cons.ql.ast.expression.literal;
 
+import cons.ql.ast.expression.Literal;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.visitor.Visitor;

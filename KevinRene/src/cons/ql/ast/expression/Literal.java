@@ -1,9 +1,8 @@
-package cons.ql.ast.expression.literal;
+package cons.ql.ast.expression;
 
 import cons.ql.ast.Expression;
 
-public abstract class Literal<T> extends Expression {
-	
+public abstract class Literal<T> extends Expression {	
 	private final T value;
 	
 	public Literal(T value) {
