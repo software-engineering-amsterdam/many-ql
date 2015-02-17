@@ -34,15 +34,15 @@ class Question < Statement
   end
 end
 
-class ConditionalStatement < Statement
-  def accept visitor
+class Conditional < Statement
+  def accept(visitor)
    statements.map do |statement|
-      statement.accept visitor
+      statement.accept(visitor)
     end
   end
 end
 
-class If < ConditionalStatement
+class If < Conditional
   attr_reader :expression, :statements
 
   def initialize(expression:, statements:)
@@ -51,7 +51,7 @@ class If < ConditionalStatement
   end
 end
 
-class IfElse < ConditionalStatement
+class IfElse < Conditional
   attr_reader :expression, :statements_true, :statements_false
 
   def initialize(expression:, statements_true:, statements_false:)

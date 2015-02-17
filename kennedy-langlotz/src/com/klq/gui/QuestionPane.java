@@ -2,6 +2,7 @@ package com.klq.gui;
 
 import com.klq.logic.AnswerSet;
 import com.klq.logic.Question;
+import com.sun.javafx.scene.EnteredExitedHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -77,19 +78,27 @@ public class QuestionPane extends GridPane {
                 setAnswer(date.toString());
             }
         });
+        this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
 
     private void createTextField(AnswerSet answerSet){
-        TextField input = new TextField(answerSet.get(0).toString());
+        final TextField input = new TextField(answerSet.get(0).toString());
         input.setPromptText(answerSet.get(0).toString());
+        /*input.setOnMouseEntered(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                input.requestFocus();
+                input.selectAll();
+            }
+        });*/
         this.getChildren().add(input);
-
         this.setConstraints(input, 0, 1);
     }
 
     private Border createBorder() {
-        CornerRadii radii = new CornerRadii(0.05, true);
+        CornerRadii radii = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
+                false, true, true, false, false, true, true, false);
         BorderStroke stroke = new BorderStroke(Paint.valueOf("grey"), BorderStrokeStyle.SOLID, radii, BorderWidths.DEFAULT);
         Border result = new Border(stroke);
 

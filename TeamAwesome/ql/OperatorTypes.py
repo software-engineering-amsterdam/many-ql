@@ -4,16 +4,37 @@ class Table:
     def __init__(self):
         self._rules = Table._createRules()
 
+    def unaryOperationType(self, op, typeRight):
+        return self._rules.get((op, typeRight), None)
+
     def binaryOperationType(self, op, typeLeft, typeRight):
         return self._rules.get((op, typeLeft, typeRight), None)
 
     @staticmethod
     def _createRules():
         rules = {}
+        rules.update(Table._numericalUnaryOperatorRules())
+        rules.update(Table._booleanUnaryOperatorRules())
         rules.update(Table._numericalBinaryOperatorRules())
         rules.update(Table._stringBinaryOperatorRules())
         rules.update(Table._booleanBinaryOperatorRules())
         return rules
+
+    @staticmethod
+    def _numericalUnaryOperatorRules():
+        rules = {}
+        for op in ('-','+'):
+            rules.update({
+                (op, int) : int,
+                (op, Money) : Money
+            })
+        return rules
+
+    @staticmethod
+    def _booleanUnaryOperatorRules():
+        return {
+            ('!', bool) : bool
+        }
 
     @staticmethod
     def _numericalBinaryOperatorRules():

@@ -41,13 +41,7 @@ class Expression:
         return "   " * level + Expression.sub_expression(self.expression)
 
     def as_list(self):
-        l = []
-        for e in self.expression:
-            if isinstance(e, list):
-                l.append(Expression.as_list(e))
-            else:
-                l.append(str(e))
-        return l
+        return self.expression
 
 # Questions
 class Question:
