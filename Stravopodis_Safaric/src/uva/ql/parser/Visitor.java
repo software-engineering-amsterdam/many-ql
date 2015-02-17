@@ -4,6 +4,7 @@ import uva.ql.ast.ASTNode;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
+import uva.ql.ast.expressions.literals.IntValue;
 import uva.ql.ast.expressions.logic.And;
 import uva.ql.ast.expressions.logic.Equal;
 import uva.ql.ast.expressions.logic.Greater;
@@ -31,7 +32,8 @@ import uva.ql.parser.QLParser.QuestionTypeContext;
 import uva.ql.parser.QLParser.StatContext;
 import uva.ql.parser.QLParser.TypeofContext;
 import uva.ql.supporting.Tuple;
-import uva.ql.ast.expressions.Operator;
+import uva.ql.ast.expressions.literals.*;
+import uva.ql.ast.statements.Assign;
 
 public class Visitor extends QLBaseVisitor<ASTNode> {
 	
@@ -67,33 +69,40 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	}
 	
 	@Override 
-	public ASTNode visitAssign(AssignContext ctx) { 
-		return visitChildren(ctx); 
+	public ASTNode visitAssign(AssignContext ctx) {
+		Tuple<Integer,Integer> codeLines = new Tuple<Integer, Integer>(ctx.start.getLine(),ctx.stop.getLine());
+		return new Assign(new Identifier(ctx.ID().getText(), codeLines), (Expression)visitExpr(ctx.expr()), codeLines);
 	}
 	
 	@Override 
 	public ASTNode visitExpr(ExprContext ctx) { 
-		
-		Operator operator = Operator.findOperator(ctx.op.getText().toString());
 		Tuple<Integer,Integer> codeLines = new Tuple<Integer, Integer>(ctx.start.getLine(),ctx.stop.getLine());
 		
-		switch(operator){
-			case ADD:  return new Addition((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case SUB:  return new Substraction((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case MUL:  return new Multiplication((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case DIV:  return new Division((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case EXP:  return new Exponentiation((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case OR:   return new Or((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case AND:  return new And((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case LESS: return new Less((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case LESS_EQ:  return new Less_Eq((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case GREATER:  return new Greater((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case GREATER_EQ:  return new Greater_Eq((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case EQUAL:  return new Equal((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
-			case NOT_EQUAL:  return new NotEqual((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+		if (ctx.op != null){
+			Operator operator = Operator.findOperator(ctx.op.getText().toString());
+			if (ctx.y == null){
+				System.out.println("Parant");
+			}
+			switch(operator){
+				case ADD: return new Addition((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case SUB: return new Substraction((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines); 
+				case MUL: return new Multiplication((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case DIV: return new Division((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case EXP:  return new Exponentiation((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case OR:   return new Or((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case AND:  return new And((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case LESS: return new Less((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case LESS_EQ:  return new Less_Eq((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case GREATER:  return new Greater((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case GREATER_EQ:  return new Greater_Eq((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case EQUAL:  return new Equal((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+				case NOT_EQUAL:  return new NotEqual((Expression)visitExpr(ctx.x),(Expression)visitExpr(ctx.y), codeLines);
+			}
 		}
+		else
+			return visitLiteral(ctx.lit);
 		
-		return super.visitExpr(ctx);
+		return visitChildren(ctx);
 	}
 	
 	@Override 
@@ -102,7 +111,15 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	}
 	
 	@Override 
-	public ASTNode visitLiteral(LiteralContext ctx) { 
+	public ASTNode visitLiteral(LiteralContext ctx) {
+		Tuple<Integer,Integer> codeLines = new Tuple<Integer, Integer>(ctx.start.getLine(),ctx.stop.getLine());
+		
+		if (ctx.BooleanLiteral() != null) return new BooleanValue(Boolean.valueOf(ctx.getText()),codeLines);
+		else if (ctx.INT() != null) return new IntValue(Integer.valueOf(ctx.getText()), codeLines);
+		else if (ctx.FLOAT() != null) return new FloatValue(Float.valueOf(ctx.getText()), codeLines);
+		else if (ctx.CURRENCY() != null) return new CurrencyValue(Float.valueOf(ctx.getText()), codeLines);
+		else if (ctx.ID() != null) return new Identifier(ctx.getText(), codeLines);
+		
 		return visitChildren(ctx); 
 	}
 	
@@ -120,6 +137,5 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	public ASTNode visitQuestionType(QuestionTypeContext ctx) { 
 		return visitChildren(ctx); 
 	}
-	
 	
 }

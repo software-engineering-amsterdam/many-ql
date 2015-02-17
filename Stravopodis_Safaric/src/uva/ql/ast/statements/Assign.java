@@ -13,4 +13,8 @@ public class Assign extends Statement {
 		this.identifier = _identifier;
 		this.expression = _expression;
 	}
+	@Override
+	public String toString(){
+		return "Assign(" + this.identifier.getValue() + "," + this.expression + ")";
+	}
 }

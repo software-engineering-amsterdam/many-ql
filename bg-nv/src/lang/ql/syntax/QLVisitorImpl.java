@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.misc.NotNull;
  */
 import lang.ql.gen.*;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +77,11 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     @Override
     public AstNode visitExpression(@NotNull QLParser.ExpressionContext context)
     {
+        if (context.parenthesis != null)
+        {
+            return this.visitExpression(context.parenthesis);
+        }
+
         if (context.left != null && context.right != null)
         {
             return this.visitBinaryExpression(context.left, context.right, context.operator.getText());
@@ -95,8 +102,17 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
 
         if (operator.equals("+")) { return new Add(left, right); }
         if (operator.equals("-")) { return new Sub(left, right); }
+        if (operator.equals("*")) { return new Mul(left, right); }
+        if (operator.equals("/")) { return new Div(left, right); }
         if (operator.equals(">")) { return new Gt(left, right); }
-        // TODO: add all expressions here
+        if (operator.equals("<")) { return new Lt(left, right); }
+        if (operator.equals(">=")) { return new GtEqu(left, right); }
+        if (operator.equals("<=")) { return new LtEqu(left, right); }
+        if (operator.equals("=")) { return new Equ(left, right); }
+        if (operator.equals("!=")) { return new NotEqu(left, right); }
+        if (operator.equals("&&")) { return new And(left, right); }
+        if (operator.equals("||")) { return new Or(left, right); }
+
         throw new IllegalArgumentException("No such binary operator: " + operator);
     }
 
@@ -104,9 +120,10 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     {
         Expr operand = (Expr)this.visit(operandContext);
 
-        if (operator == "+") { return new Pos(operand); }
-        if (operator == "-") { return new Neg(operand); }
-        // TODO: add expressions
+        if (operator.equals("+")) { return new Pos(operand); }
+        if (operator.equals("-")) { return new Neg(operand); }
+        if (operator.equals("!")) { return new Not(operand); }
+
         throw new IllegalArgumentException("No such unary operator: " + operator);
     }
 
@@ -132,6 +149,12 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         {
             Boolean value = Boolean.parseBoolean(operandContext.Boolean().getText());
             return new BoolExpr(value);
+        }
+
+        if (operandContext.Decimal() != null)
+        {
+            BigDecimal value = new BigDecimal(operandContext.Decimal().getText());
+            return new DecExpr(value);
         }
 
         // TODO: add date and decimal expressions

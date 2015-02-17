@@ -3,6 +3,7 @@ package org.fugazi.type_checker.visitor;
 
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.BOOL;
 import org.fugazi.ast.expression.literal.ID;
 import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
@@ -103,6 +104,10 @@ public class TypeCheckerExpressionVisitor implements IExpressionVisitor<Expressi
     }
 
     public ExpressionValue visitSTRING(STRING string) {
+        return null;
+    }
+
+    public ExpressionValue visitBOOL(BOOL bool) {
         return null;
     }
 }
