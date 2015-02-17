@@ -13,7 +13,7 @@ namespace QL.Model
         public override string ToString()
         {
             if (value== null) {
-                throw new ArgumentNullException();
+                throw new Exception();
             }
             else {
                 return value;

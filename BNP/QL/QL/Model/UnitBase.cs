@@ -8,7 +8,7 @@ namespace QL.Model
 {
     public abstract class UnitBase : AbstractNodeBase
     {
-        public string ID { get; set; }
+        public Identifier Id { get; set; }
         public string DisplayText { get; set; }
 
         protected UnitBase()

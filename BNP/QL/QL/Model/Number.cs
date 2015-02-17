@@ -14,7 +14,7 @@ namespace QL.Model
         {
             if (value == null)
             {
-                throw new ArgumentNullException();
+                throw new Exception();
             }
             else
             {

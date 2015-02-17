@@ -10,10 +10,10 @@ namespace QL.Model
     {
         public string[] Parameters { get; private set; }
 
-        public QuestionUnit(string id, string displayText, params string[] parameters)
+        public QuestionUnit(Identifier id, string displayText, params string[] parameters)
         {
             Parameters = parameters;
-            ID = id;
+            Id = id; 
             DisplayText = displayText;
         }
     }

@@ -14,13 +14,15 @@ namespace QL.Model
         {
             if (value == null)
             {
-                throw new ArgumentNullException();
+                throw new Exception();
             }
-            else if (value)
-            {
-                return "Yes";
+            else if (value) { 
+                return "Yes"; 
             }
-            else return "No";
+
+            else { 
+                return "No"; 
+            }
         }
     }
 }

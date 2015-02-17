@@ -8,7 +8,7 @@ namespace QL.Model
 {
     abstract class TerminalBase
     {
-        abstract public string ToString();
+        
 
     }
 
