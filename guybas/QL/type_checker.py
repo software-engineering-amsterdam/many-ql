@@ -14,11 +14,13 @@ class TypeChecker:
             transitive_dependencies[k] = TypeChecker.transitive_dependencies_key(k, set([]), dependencies)
         print(transitive_dependencies)
 
+    @staticmethod
     def check_duplicates(list):
         # check for duplicates
         duplicates =  [x for x, y in collections.Counter(list).items() if y > 1]
         return duplicates
 
+    @staticmethod
     def check_ids(questions):
         ids = []
         for question in questions:
@@ -28,6 +30,7 @@ class TypeChecker:
             print("There are duplicate ids: " + str(duplicates))
         return ids
 
+    @staticmethod
     def check_labels(questions):
         labels = []
         for question in questions:
@@ -37,6 +40,7 @@ class TypeChecker:
             print("There are duplicate labels: " + str(duplicates))
         return labels
 
+    @staticmethod
     def check_dependencies(questions):
         dependencies = {}
         for question in questions:
@@ -44,6 +48,7 @@ class TypeChecker:
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         return dependencies
 
+    @staticmethod
     def transitive_dependencies_key(key, values, dependencies):
         for v in dependencies[key]:
             values.add(v)

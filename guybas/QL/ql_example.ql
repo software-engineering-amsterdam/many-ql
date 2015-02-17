@@ -9,7 +9,7 @@ Question number (number): What is the most awesome number?
 if (hummus == True) {
     Question why (text) : What do you like about hummus?
 
-    Question grade (integer) : How would you grade it?
+    Question grade (number) : How would you grade it?
 
     if (grade < 6) {
         Question con (bool) : This is quite contradicting isn't it?
