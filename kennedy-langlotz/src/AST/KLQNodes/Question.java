@@ -6,7 +6,9 @@ import AST.Visitor;
 /**
  * Created by juriaan on 10-2-15.
  */
-public class QuestionNode extends Node {
+public class Question extends Node {
+
+
     public enum QuestionType{
         SET, BOOLEAN, DATE, CURRENCY, STRING, NUMERAL
     }
@@ -14,13 +16,12 @@ public class QuestionNode extends Node {
     private String questionID;
     private String questionType;
     private String text;
-    private boolean computed;
 
-    public QuestionNode(String questionID, String questionType, String text, boolean computed) {
+    public Question(){}
+    public Question(String questionID, String questionType, String text) {
         this.questionID = questionID;
         this.questionType = questionType;
         this.text = text;
-        this.computed = computed;
     }
 
     @Override

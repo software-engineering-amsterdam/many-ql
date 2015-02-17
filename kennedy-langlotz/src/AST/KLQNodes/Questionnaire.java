@@ -6,7 +6,7 @@ import AST.Visitor;
 /**
  * Created by juriaan on 10-2-15.
  */
-public class QuestionnaireNode extends Node {
+public class Questionnaire extends Node {
     @Override
     public void accept(Visitor visitor) {
         for(Node child : this.getChildren()){

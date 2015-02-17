@@ -6,10 +6,10 @@ import AST.Visitor;
 /**
  * Created by juriaan on 10-2-15.
  */
-public class StringNode extends Node {
+public class ASTString extends Node {
     private String string;
 
-    public StringNode(String string) {
+    public ASTString(String string) {
         this.string = string;
     }
 
