@@ -17,7 +17,7 @@ public class StmtTypeChecker extends StmtInterpreter {
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
-        formInterpreter.setFieldWithoutReinterprete(node.getIdent().getText(),
+        formInterpreter.setField(node.getIdent().getText(),
                 typeInterpreter.getValue().getDefaultValue());
     }
 
@@ -29,7 +29,7 @@ public class StmtTypeChecker extends StmtInterpreter {
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
-        formInterpreter.setFieldWithoutReinterprete(node.getIdent().getText(),
+        formInterpreter.setField(node.getIdent().getText(),
                 typeInterpreter.getValue().getDefaultValue());
 
         ExpTypeChecker expTypeChecker = new ExpTypeChecker(formInterpreter);
