@@ -32,12 +32,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="QL.Model.Terminals.Identifier" Collapsed="true">
-    <Position X="11.5" Y="3.5" Width="1.5" />
+    <Position X="11.5" Y="5.25" Width="1.5" />
     <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
         <Point X="10.75" Y="1.191" />
-        <Point X="10.75" Y="3.875" />
-        <Point X="11.5" Y="3.875" />
+        <Point X="10.75" Y="5.625" />
+        <Point X="11.5" Y="5.625" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -47,12 +47,12 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="QL.Model.Terminals.Number" Collapsed="true">
-    <Position X="11.5" Y="2.5" Width="1.5" />
+    <Position X="11.5" Y="2.75" Width="1.5" />
     <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
         <Point X="10.75" Y="1.191" />
-        <Point X="10.75" Y="2.875" />
-        <Point X="11.5" Y="2.875" />
+        <Point X="10.75" Y="3.125" />
+        <Point X="11.5" Y="3.125" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -77,12 +77,12 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="QL.Model.Terminals.Yesno" Collapsed="true">
-    <Position X="11.5" Y="4.5" Width="1.5" />
+    <Position X="11.5" Y="4" Width="1.5" />
     <InheritanceLine Type="QL.Model.BinaryTreeElementBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="10.75" Y="1.191" />
-        <Point X="10.75" Y="4.875" />
-        <Point X="11.5" Y="4.875" />
+        <Point X="10.75" Y="4.375" />
+        <Point X="11.5" Y="4.375" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>

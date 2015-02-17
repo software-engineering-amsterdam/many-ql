@@ -2,7 +2,7 @@
 
 namespace QL.Model.Terminals
 {
-    class Yesno : BinaryTreeElementBase, ITerminal<bool?>
+    class Yesno : BinaryTreeElementBase, ITerminal<bool?>, ITerminalType
     {
         public bool? Value { get; private set; }
 

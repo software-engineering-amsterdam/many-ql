@@ -67,6 +67,8 @@
     <Compile Include="Model\Enums\ElementType.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\NodeMapper.cs" />
+    <Compile Include="Model\Operators\Addition.cs" />
+    <Compile Include="Model\Operators\Comparison.cs" />
     <Compile Include="Model\Operators\IOperator.cs" />
     <Compile Include="Model\QuestionUnit.cs" />
     <Compile Include="Model\RootNode.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Model\Terminals\Identifier.cs" />
     <Compile Include="Model\Terminals\ITerminal.cs" />
     <Compile Include="Model\Terminals\Number.cs" />
+    <Compile Include="Model\Terminals\TerminalType.cs" />
     <Compile Include="Model\Terminals\Text.cs" />
     <Compile Include="Model\Terminals\Yesno.cs" />
     <Compile Include="Model\TreeElementBase.cs" />
