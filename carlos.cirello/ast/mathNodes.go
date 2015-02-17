@@ -1,13 +1,15 @@
 package ast
 
+import "text/scanner"
+
 type MathAddNode struct {
 	DoubleTermNode
 	Evaluatable
 }
 
-func NewMathAddNode(leftTerm, rightTerm Evaluatable) *MathAddNode {
+func NewMathAddNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *MathAddNode {
 	mathAddNode := new(MathAddNode)
-	mathAddNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	mathAddNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return mathAddNode
 }
 
@@ -18,9 +20,9 @@ type MathSubNode struct {
 	Evaluatable
 }
 
-func NewMathSubNode(leftTerm, rightTerm Evaluatable) *MathSubNode {
+func NewMathSubNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *MathSubNode {
 	mathSubNode := new(MathSubNode)
-	mathSubNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	mathSubNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return mathSubNode
 }
 
@@ -31,9 +33,9 @@ type MathMulNode struct {
 	Evaluatable
 }
 
-func NewMathMulNode(leftTerm, rightTerm Evaluatable) *MathMulNode {
+func NewMathMulNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *MathMulNode {
 	mathMulNode := new(MathMulNode)
-	mathMulNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	mathMulNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return mathMulNode
 }
 
@@ -44,8 +46,8 @@ type MathDivNode struct {
 	Evaluatable
 }
 
-func NewMathDivNode(leftTerm, rightTerm Evaluatable) *MathDivNode {
+func NewMathDivNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *MathDivNode {
 	mathDivNode := new(MathDivNode)
-	mathDivNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	mathDivNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return mathDivNode
 }

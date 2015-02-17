@@ -1,22 +1,28 @@
 package ast
 
-import "strconv"
+import (
+	"strconv"
+	"text/scanner"
+)
 
 // IntQuestion stores the answer of question which type is integer numeric
-type IntQuestion int
+type IntQuestion struct {
+	value int
+	pos   scanner.Position
+}
 
 const IntQuestionType = "int"
 
 // From takes the input from Frontend and stores locally - Int
 func (s *IntQuestion) From(str string) error {
 	val, err := strconv.Atoi(str)
-	*s = IntQuestion(val)
+	s.value = val
 	return err
 }
 
 // String prints in human form the content of the question - Int
 func (s IntQuestion) String() string {
-	return strconv.Itoa(int(s))
+	return strconv.Itoa(s.value)
 }
 
 // Type returns "int", therefore indicating this question type name.
@@ -26,5 +32,5 @@ func (s IntQuestion) Type() string {
 
 // Value converts underlying int into primitive int
 func (s IntQuestion) Value() int {
-	return int(s)
+	return s.value
 }

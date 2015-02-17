@@ -1,13 +1,15 @@
 package ast
 
+import "text/scanner"
+
 type EqualsNode struct {
 	DoubleTermNode
 	Evaluatable
 }
 
-func NewEqualsNode(leftTerm, rightTerm Evaluatable) *EqualsNode {
+func NewEqualsNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *EqualsNode {
 	equalsNode := new(EqualsNode)
-	equalsNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	equalsNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return equalsNode
 }
 
@@ -18,9 +20,9 @@ type LessThanNode struct {
 	Evaluatable
 }
 
-func NewLessThanNode(leftTerm, rightTerm Evaluatable) *LessThanNode {
+func NewLessThanNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *LessThanNode {
 	lessThanNode := new(LessThanNode)
-	lessThanNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	lessThanNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return lessThanNode
 }
 
@@ -31,9 +33,9 @@ type MoreThanNode struct {
 	Evaluatable
 }
 
-func NewMoreThanNode(leftTerm, rightTerm Evaluatable) *MoreThanNode {
+func NewMoreThanNode(leftTerm, rightTerm Evaluatable, pos scanner.Position) *MoreThanNode {
 	moreThanNode := new(MoreThanNode)
-	moreThanNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	moreThanNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return moreThanNode
 }
 
@@ -44,9 +46,11 @@ type LessOrEqualsThanNode struct {
 	Evaluatable
 }
 
-func NewLessOrEqualsThanNode(leftTerm, rightTerm Evaluatable) *LessOrEqualsThanNode {
+func NewLessOrEqualsThanNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *LessOrEqualsThanNode {
 	lessOrEqualsThanNode := new(LessOrEqualsThanNode)
-	lessOrEqualsThanNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm)
+	lessOrEqualsThanNode.DoubleTermNode = *NewDoubleTermNode(leftTerm,
+		rightTerm, pos)
 	return lessOrEqualsThanNode
 }
 
@@ -57,9 +61,10 @@ type MoreOrEqualsThanNode struct {
 	Evaluatable
 }
 
-func NewMoreOrEqualsThanNode(leftTerm, rightTerm Evaluatable) *MoreOrEqualsThanNode {
+func NewMoreOrEqualsThanNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *MoreOrEqualsThanNode {
 	moreOrEqualsThanNode := new(MoreOrEqualsThanNode)
 	moreOrEqualsThanNode.DoubleTermNode = *NewDoubleTermNode(leftTerm,
-		rightTerm)
+		rightTerm, pos)
 	return moreOrEqualsThanNode
 }
