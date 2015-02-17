@@ -68,7 +68,7 @@ STRING :  '"' (ESC | ~["\\])* '"' ;
 BOOLEAN: ["true"|"false"];
 
 // integer definition
-// integer consists of an arbitrary number of digits
+// integer is a sequence of digits of a length that can vary
 INT : DIGIT+ ;
 
 // comment matches anything between /* and */

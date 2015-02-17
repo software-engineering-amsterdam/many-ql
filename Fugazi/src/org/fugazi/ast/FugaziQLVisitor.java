@@ -3,6 +3,7 @@ package org.fugazi.ast;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Logical;
 import org.fugazi.ast.expression.logical.Or;
@@ -13,7 +14,7 @@ import org.fugazi.ast.expression.unary.Positive;
 import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.form.Form;
 import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.IfStatement;
@@ -257,9 +258,9 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
      * =======================
      */
     @Override
-    public NUMBER visitIntExpression(@NotNull QLParser.IntExpressionContext ctx) {
+    public INT visitIntExpression(@NotNull QLParser.IntExpressionContext ctx) {
         System.out.print(" " + ctx.INT().getText() + " ");
-        return (NUMBER) ctx.INT().accept(this); // Accept the QL Visitor of the INT
+        return (INT) ctx.INT().accept(this); // Accept the QL Visitor of the INT
     }
 
     @Override

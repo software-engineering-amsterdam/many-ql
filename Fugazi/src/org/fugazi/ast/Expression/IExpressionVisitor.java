@@ -2,7 +2,7 @@ package org.fugazi.ast.expression;
 
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.NUMBER;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;
@@ -41,6 +41,6 @@ public interface IExpressionVisitor<T> {
 
     // Literals
     public T visitID(ID id);
-    public T visitNUMBER(NUMBER number);
+    public T visitINT(INT INT);
     public T visitSTRING(STRING string);
 }

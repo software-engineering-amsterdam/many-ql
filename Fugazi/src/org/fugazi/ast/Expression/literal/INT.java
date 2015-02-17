@@ -2,12 +2,11 @@ package org.fugazi.ast.expression.literal;
 
 import org.fugazi.ast.expression.IExpressionVisitor;
 
-// TODO: create money and int and not only number?
-public class NUMBER extends Literal {
+public class INT extends Literal {
 
-    private final double value;
+    private final int value;
 
-    public NUMBER(double _value) {
+    public INT(int _value) {
         this.value = _value;
     }
 
@@ -21,7 +20,7 @@ public class NUMBER extends Literal {
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {
-        return visitor.visitNUMBER(this);
+        return visitor.visitINT(this);
     }
 }
 
