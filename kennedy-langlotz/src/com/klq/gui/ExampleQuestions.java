@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by Timon on 10.02.2015.
  */
-public class ExampleQuestions {
+public class ExampleQuestions{
 
     public static List<Question> all(){
         List<Question> questions = new ArrayList<Question>();

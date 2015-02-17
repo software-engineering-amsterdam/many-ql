@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -40,6 +41,7 @@ public class QuestionPane extends GridPane {
         this.setVgap(5);
         this.setPadding(new Insets(5));
         this.setBorder(createBorder());
+        this.setBackground(new Background(new BackgroundFill(Paint.valueOf(""))));
     }
 
     private void createQuestionLabel(String text) {
@@ -85,13 +87,12 @@ public class QuestionPane extends GridPane {
     private void createTextField(AnswerSet answerSet){
         final TextField input = new TextField(answerSet.get(0).toString());
         input.setPromptText(answerSet.get(0).toString());
-        /*input.setOnMouseEntered(new EventHandler<ActionEvent>() {
+        input.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(ActionEvent event) {
-                input.requestFocus();
+            public void handle(MouseEvent event) {
                 input.selectAll();
             }
-        });*/
+        });
         this.getChildren().add(input);
         this.setConstraints(input, 0, 1);
     }
@@ -99,7 +100,7 @@ public class QuestionPane extends GridPane {
     private Border createBorder() {
         CornerRadii radii = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
                 false, true, true, false, false, true, true, false);
-        BorderStroke stroke = new BorderStroke(Paint.valueOf("grey"), BorderStrokeStyle.SOLID, radii, BorderWidths.DEFAULT);
+        BorderStroke stroke = new BorderStroke(Paint.valueOf("black"), BorderStrokeStyle.SOLID, radii, BorderWidths.DEFAULT);
         Border result = new Border(stroke);
 
         return result;
