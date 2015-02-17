@@ -25,7 +25,7 @@ public class Question extends Statement {
 		return this.identifier;
 	}
 	
-	public QLType  getType() {
+	public QLType getType() {
 		return this.type;
 	}
 	

@@ -110,7 +110,10 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	public void visit(ComputedQuestion compQuestionNode) {
 		StatementVisitor.super.visit(compQuestionNode);
 		
-		if(compQuestionNode.getType() != compQuestionNode.getExpression()) {
+		
+		// TODO: make this way easier.
+		if(!compQuestionNode.getType().getClass().getSimpleName().equals(
+				compQuestionNode.getExpression().getClass().getSimpleName())) {
 			errors.add("<" + compQuestionNode.getIdent() + ">:" 
 					+ compQuestionNode.getType().getClass().getSimpleName()
 					+ " was assigned with "	
