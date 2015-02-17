@@ -1,4 +1,4 @@
-require_relative "../lib/ql/type_checker"
+require_relative "../lib/ql/static_checker"
 require_relative "../lib/ql/ast"
 
 
