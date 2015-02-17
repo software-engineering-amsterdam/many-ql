@@ -16,7 +16,7 @@ class Form < Node
 
   def accept visitor
     statements.map do |statement|
-      statement.accept visitor
+      statement.accept(visitor)
     end
   end
 end
