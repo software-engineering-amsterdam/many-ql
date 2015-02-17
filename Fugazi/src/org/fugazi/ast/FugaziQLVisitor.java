@@ -130,11 +130,6 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         return new BoolType();
     }
 
-    @Override public MoneyType visitMoneyType(@NotNull QLParser.MoneyTypeContext ctx) {
-        System.out.print("TYPE: " + "Money ");
-        return new MoneyType();
-    }
-
     @Override public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
         System.out.print("TYPE: " + "Int ");
         return new IntType();
@@ -262,9 +257,9 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
      * =======================
      */
     @Override
-    public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
-        System.out.print(" " + ctx.NUMBER().getText() + " ");
-        return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
+    public NUMBER visitIntExpression(@NotNull QLParser.IntExpressionContext ctx) {
+        System.out.print(" " + ctx.INT().getText() + " ");
+        return (NUMBER) ctx.INT().accept(this); // Accept the QL Visitor of the INT
     }
 
     @Override
