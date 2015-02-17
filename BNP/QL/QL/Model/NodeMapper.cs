@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using QL.Grammars;
+using QL.Model.Terminals;
 
 namespace QL.Model
 {
@@ -21,10 +22,12 @@ namespace QL.Model
             return questionUnit;
         }
 
-        public AbstractNodeBase Create(QLParser.FormBlockContext context)
+        // todo: move to own mapper
+        public ElementBase Create(QLParser.FormBlockContext context)
         {
             throw new NotImplementedException();
         }
 
+        public IEnumerable<ElementBase> ExtractChilds();
     }
 }
