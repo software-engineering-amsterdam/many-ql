@@ -7,8 +7,8 @@ public class Form extends Node {
     private static final String[] parentsAllowed = {"Questionnaire"};
     private String identifier;
 
-    public Form(String id){
-        super();
+    public Form(int lineNumber, String id){
+        super(lineNumber,"Form");
         this.setAcceptedParents(parentsAllowed);
         if (id != null) {
             this.identifier = id;
@@ -16,6 +16,7 @@ public class Form extends Node {
             System.err.println("Form Error: No identifier specified");
         }
     }
+    @Override
     public void printDebug(int i){
         for (int j=0; j < i; j++){
             System.out.print("\t");

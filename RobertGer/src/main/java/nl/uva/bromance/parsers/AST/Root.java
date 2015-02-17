@@ -6,8 +6,8 @@ package nl.uva.bromance.parsers.AST;
 public class Root extends Node {
     private String identifier;
 
-    public Root(String id) {
-        super();
+    public Root(int lineNumber, String id) {
+        super(lineNumber,"Questionnaire");
         if (id != null) {
             this.identifier = id;
         } else {
@@ -15,17 +15,11 @@ public class Root extends Node {
         }
     }
 
-    @Override
-    public void addChild(Node child) {
-        if (child.parentIsAccepted("Questionnaire")) {
-            super.addChild(child);
-        } else {
-            System.err.println("Invalid Node Error: " + child.getClass() + " is not a valid child for a Root node");
-        }
-    }
     public String getIdentifier(){
         return this.identifier;
     }
+
+    @Override
     public void printDebug(int i){
         for (int j=0; j < i; j++){
             System.out.print("\t");

@@ -1,4 +1,11 @@
 class QL::Parser
+prechigh
+  left     '*' '/'
+  left     '+' '-'
+  nonassoc '==' '!=' '<=' '<' '>=' '>'
+  nonassoc '&&' '||' 
+preclow
+
 token STRING VARIABLE_NAME INTEGER
 rule
   form

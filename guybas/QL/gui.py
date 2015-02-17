@@ -1,6 +1,7 @@
 from tkinter import *
 from processor import *
 from grammar import *
+from mapper import *
 
 
 class QuestionnaireGUI:
@@ -11,6 +12,7 @@ class QuestionnaireGUI:
         self.intro       = form.get_introduction()
         self.column_span = 1
         self.row_counter = 0
+        self.answersMap  = Mapper()
 
     def generate_gui(self):
         print("_" * 50)
@@ -39,22 +41,22 @@ class QuestionnaireGUI:
             Radiobutton(text="False", value=0, variable=self.row_counter).grid(row=self.row_counter, column=2, sticky=W)
             self.column_span = 2
         elif question.get_type() is QuestionTypes.numberName:
-            Spinbox(from_=0, to_=10000, ).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
+            Spinbox(from_=0, to_=10000).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
         elif question.get_type() is QuestionTypes.textName:
             e = Entry(textvariable=str_var)
             e.bind("<KeyPress><KeyRelease>", lambda event: self.update(question, e.get()))
-            
+
             e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
         # str_var.set("a default value")
         # s = str_var.get()
 
     def update(self, question, new_answer):
-        question.update(new_answer)
+        self.answersMap.update(question, new_answer)
         print(new_answer)
 
     def draw_conditional_q(self, c_question):
         processor = Processor()
-        condition = processor.conditions_proc(c_question.get_condition())
+        condition = processor.conditions_proc(c_question.get_condition(), self.answersMap)
         # check if condition holds
         if condition:
             # print condition's - depended questions

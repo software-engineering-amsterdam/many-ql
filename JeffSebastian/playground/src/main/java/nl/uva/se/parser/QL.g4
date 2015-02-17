@@ -19,7 +19,7 @@ form
 	;
 
 question
-	: Type Identifier ':' String
+	: Type Identifier ':' String ('(' expression ')')?
 	;
 
 condition
@@ -32,7 +32,7 @@ statement
 
 expression                          				  								
  : singleLtr=literal
- | op=NOT singleExpr=expression
+ | op=(NOT | PLUS | MINUS) singleExpr=expression
  | left=expression op=(MULTIPLY | DIVIDE | MODULO | POWER) right=expression
  | left=expression op=(PLUS | MINUS) right=expression
  | left=expression op=(LESS_OR_EQUAL | GREATER_OR_EQUAL | LESS_THEN | GREATER_THAN) right=expression
