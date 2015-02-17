@@ -13,13 +13,14 @@ import java.io.IOException;
  */
 public class ParseTreeWalker {
 
-    public void walk(String inputFilePath, QLVisitor visitor) throws IOException {
+    public <T> T walk(String inputFilePath, QLVisitor visitor) throws IOException {
         ANTLRFileStream antlrFileStream = new ANTLRFileStream(inputFilePath);
         QLLexer lexer = new QLLexer(antlrFileStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(commonTokenStream);
         QLParser.FormContext tree = parser.form();
 
-        visitor.visit(tree);
+        Object visit = visitor.visit(tree);
+        return ((T) visit);
     }
 }

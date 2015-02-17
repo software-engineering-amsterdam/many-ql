@@ -1,15 +1,21 @@
 package parser
 
+import parser.ast.nodes.Form
 import spock.lang.Specification
 
 /**
  * Created by Steven Kok on 17/02/2015.
  */
 class ParseTreeWalkerTest extends Specification {
+    public static final String PATH_TO_INPUT_FILE = "src/main/antlr/input/QL_initial"
+    ParseTreeWalker parseTreeWalker
+
+    def setup() {
+        parseTreeWalker = new ParseTreeWalker()
+    }
 
     def "Walker should throw exception when providing wrong path"() {
         when:
-        ParseTreeWalker parseTreeWalker = new ParseTreeWalker()
         parseTreeWalker.walk(path, new QLBaseVisitorImpl())
 
         then:
@@ -25,10 +31,18 @@ class ParseTreeWalkerTest extends Specification {
 
     def "Walker shouldn't throw exception when provided correct path"() {
         when:
-        ParseTreeWalker parseTreeWalker = new ParseTreeWalker()
-        parseTreeWalker.walk("src/main/antlr/input/QL_initial", new QLBaseVisitorImpl())
+        parseTreeWalker.walk(PATH_TO_INPUT_FILE, new QLBaseVisitorImpl())
 
         then:
         noExceptionThrown()
+    }
+
+    def "Walker should return a populated list"() {
+        when:
+        Form form = parseTreeWalker.<Form> walk(PATH_TO_INPUT_FILE, new QLBaseVisitorImpl())
+
+        then:
+        !form.getElements().empty
+
     }
 }

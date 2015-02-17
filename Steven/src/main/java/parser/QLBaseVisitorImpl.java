@@ -7,8 +7,8 @@ import parser.ast.nodes.AbstractNode;
 import parser.ast.nodes.Form;
 import parser.ast.nodes.Statement;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 17/02/2015.
@@ -16,13 +16,11 @@ import java.util.List;
 public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
-        List<Statement> statements = new ArrayList<>();
-        ctx.statement().stream().forEach(statementContext -> {
-            statements.add((Statement) this.visit(statementContext));
-        });
-
-//        return super.visitForm(ctx);
-        return new Form(statements);
+        List<AbstractNode> abstractNodes = ctx.statement()
+                .stream()
+                .map(this::visit)
+                .collect(Collectors.toList());
+        return new Form(abstractNodes);
     }
 
     @Override
