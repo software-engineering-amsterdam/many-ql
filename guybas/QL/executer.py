@@ -5,6 +5,9 @@ from exceptions import *
 
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
+    #check = formAsParseResults.asDict()
+    #print(check)
+    #formAsParseResults.pprint()
     form = ASTReady.make_form(formAsParseResults)
     #print(form.ast_print())
 
