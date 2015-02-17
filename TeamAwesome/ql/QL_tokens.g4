@@ -17,7 +17,7 @@ STRING :  '"' (ESC | ~["\\])* '"' ;
 fragment ESC :   '\\' (["\\/bfnrt]) ;
 
 integer : INTEGER ;
-INTEGER : '-'? '0' | [1-9] [0-9]*  ;
+INTEGER : '0' | [1-9] [0-9]*  ;
 
 money : MONEY ;
 MONEY : INTEGER ('.' [0-9]+)? ;
