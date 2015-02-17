@@ -46,7 +46,7 @@ condQuestion
 uncondQuestion
     : 'question' NEWLINE
           'id'       ':' id=QuestionId      NEWLINE
-          'text'     ':' String             NEWLINE
+          'text'     ':' text=String        NEWLINE
           'type'     ':' type=questionType  NEWLINE
          ('value'    ':' answerSet          NEWLINE)?
       End
@@ -88,16 +88,16 @@ Time
     ;
 
 expr
-    : expr ( '*' | '/' ) expr
-    | expr ( '+' | '-' ) expr
-    | expr ( '>=' | '>' | '<=' | '<' ) expr
-    | expr '&&'  expr
-    | expr '||' expr
-    | '(' expr ')'
-    | Number
-    | Date
-    | String
-    | QuestionId
+    : expr ( '*' | '/' ) expr #MulDiv
+    | expr ( '+' | '-' ) expr #AddSub
+    | expr ( '>=' | '>' | '<=' | '<' ) expr #Comparators
+    | expr '&&'  expr #And
+    | expr '||' expr #Or
+    | '(' expr ')' #Parens
+    | Number #Number
+    | Date #Date
+    | String #String
+    | QuestionId #id
     ;
 
 answerSet
