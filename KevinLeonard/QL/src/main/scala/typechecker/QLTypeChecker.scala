@@ -28,13 +28,13 @@ class QLTypeChecker extends {
     // TODO: Add Tests
     def check(statement: Statement): Literal = statement match {
       case question @ BooleanQuestion(v: Variable, label: String) => checkQuestion(question); BooleanLiteral(true)
-      case question @ IntegerQuestion(v: Variable, label: String) => checkQuestion(question); BooleanLiteral(true)
+      case question @ NumberQuestion(v: Variable, label: String) => checkQuestion(question); BooleanLiteral(true)
       case question @ StringQuestion(v: Variable, label: String) => checkQuestion(question); BooleanLiteral(true)
       case question @ ComputedBooleanQuestion(v: Variable, label: String, e: Expression) => checkQuestion(question); check(e) match {
         case BooleanLiteral(true) => BooleanLiteral(true)
         case _ => sys.error("Invalid expression for computed boolean expression")
       }
-      case question @ ComputedIntegerQuestion(v: Variable, label: String, e: Expression) => checkQuestion(question); check(e) match {
+      case question @ ComputedNumberQuestion(v: Variable, label: String, e: Expression) => checkQuestion(question); check(e) match {
         case BooleanLiteral(true) => BooleanLiteral(true)
         case _ => sys.error("Invalid expression for computed integer expression")
       }

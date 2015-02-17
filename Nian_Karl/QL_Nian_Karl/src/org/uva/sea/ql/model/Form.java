@@ -1,26 +1,30 @@
 package org.uva.sea.ql.model;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.uva.sea.ql.model.statement.QuestionStatement;
+import org.uva.sea.ql.model.statement.Statement;
 
 public class Form {
-	private ArrayList<Question> questions;
+	private List<Statement> statementList;
 
 	public Form() {
-		this.questions = new ArrayList<Question>();
+		this.statementList = new ArrayList<Statement>();
 	}
 
-	public void addQuestion(Question question) {
-		this.questions.add(question);
+	public void addStatement(QuestionStatement question) {
+		this.statementList.add(question);
 	}
 	
-	public Question getQuestion(int i) {
-		if (i >= this.questions.size()) {
-			throw new IndexOutOfBoundsException("Index out of bound on " + i + " with size: " + this.questions.size());
+	public Statement getStatement(int i) {
+		if (i >= this.statementList.size()) {
+			throw new IndexOutOfBoundsException("Index out of bound on " + i + " with size: " + this.statementList.size());
 		}
-		return this.questions.get(i);
+		return this.statementList.get(i);
 	}
 	
-	public ArrayList<Question> getQuestions() {
-		return questions;
+	public List<Statement> getStatements() {
+		return statementList;
 	}
 }

@@ -4,5 +4,6 @@ public enum QuestionType {
 	INT,
 	STR,
 	CUR,
-	BOOL
+	BOOL,
+	NO_TYPE
 }

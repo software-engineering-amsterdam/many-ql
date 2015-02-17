@@ -5,18 +5,18 @@ form TaxForm {
 
     if hasSoldHouse {
         question totalHousesSold "How many houses did you sell in 2014?"
-        answer integer
+        answer number
 
         if totalHousesSold == 1 {
             question priceHouseSold "At what price did you sell your house?"
-            answer integer
+            answer number
         } else {
             if totalHousesSold == 2 {
                 question priceHouseSold1 "At what price did you sell your first house?"
-                answer integer
+                answer number
 
                 question priceHouseSold2 "At what price did you sell your second house?"
-                answer integer
+                answer number
             }
         }
     }

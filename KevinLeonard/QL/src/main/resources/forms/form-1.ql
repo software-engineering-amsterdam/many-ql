@@ -2,7 +2,7 @@ form TaxForm {
     
     // SINGLE LINE COMMENT
     question hasSoldHouse2 "How many houses did you sell in 2014?"
-    answer integer is (100)
+    answer number is (100)
     
     question hasSoldHouse3 "How many houses did you sell in 2014?"
     answer string is ("Dummy" + hasSoldHouse)
@@ -12,24 +12,24 @@ form TaxForm {
 
     if hasSoldHouse {
         question totalHousesSold "How many houses did you sell in 2014?"
-        answer integer
+        answer number
         
         if hasSoldHouse {
             question totalHousesSold "How many houses did you sell in 2014?"
-            answer integer
+            answer number
         }
 
         
     } else {
         question sellingPrice "What was the selling price?"
-        answer integer
+        answer number
 
         question houseBuyer "To whom did you sell the house?"
         answer string
         
         if hasSoldHouse {
             question totalHousesSold "How many houses did you sell in 2014?"
-            answer integer
+            answer number
         }
 
         
@@ -37,11 +37,11 @@ form TaxForm {
     
     if hasSoldHouse {
         question totalHousesSold "How many houses did you sell in 2014?"
-        answer integer
+        answer number
     }
     
     /* MULTI LINE COMMENTS
     question hasSoldHouse2 "How many houses did you sell in 2014?"
-    answer integer
+    answer number
     */
 }

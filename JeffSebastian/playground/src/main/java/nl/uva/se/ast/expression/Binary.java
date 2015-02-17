@@ -1,11 +1,12 @@
 package nl.uva.se.ast.expression;
 
-public abstract class Binary implements Expression {
+public abstract class Binary extends Expression {
 
 	private final Expression left;
 	private final Expression right;
-	
-	public Binary(Expression left, Expression right) {
+
+	public Binary(int lineNumber, int offset, Expression left, Expression right) {
+		super(lineNumber, offset);
 		this.left = left;
 		this.right = right;
 	}
@@ -17,5 +18,5 @@ public abstract class Binary implements Expression {
 	public Expression getRight() {
 		return right;
 	}
-	
+
 }

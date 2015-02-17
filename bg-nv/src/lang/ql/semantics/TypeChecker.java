@@ -16,15 +16,21 @@ public class TypeChecker extends VisitorAbstract
     private static String refToUndefQuestion = "Reference to undefined question";
     private static String duplQuestWithDiffTypes = "Duplicate questions with different types";
     private static String invalidTypeOperands = "Operands of invalid type";
+    // TODO: add check that duplicate questions are of the same type
+    // TODO: add warning for duplicate questions
 
     private SymbolTable symbolTable;
     private Stack<QuestionType> typeStack;
+    private Stack<Question> variablesStack;
+    private Map<Question, Set<Question>> questionDependencies;
     private Errors errors;
 
     public TypeChecker(SymbolTable symbolTable)
     {
         this.symbolTable = symbolTable;
         this.typeStack = new Stack<QuestionType>();
+        this.variablesStack = new Stack<Question>();
+        this.questionDependencies = new HashMap<Question, Set<Question>>();
         this.errors = new Errors();
     }
 
@@ -40,6 +46,9 @@ public class TypeChecker extends VisitorAbstract
         {
             throw this.errors.getExceptions().pop();
         }
+
+        // TODO: Check for cyclic dependencies
+        System.out.print("");
     }
 
     @Override
@@ -60,6 +69,12 @@ public class TypeChecker extends VisitorAbstract
     }
 
     @Override
+    public void visit(Question q)
+    {
+        this.questionDependencies.put(q, Collections.<Question>emptySet());
+    }
+
+    @Override
     public void visit(CalculatedQuestion q)
     {
         q.getExpression().accept(this);
@@ -73,6 +88,14 @@ public class TypeChecker extends VisitorAbstract
                     String.format("Question \"%s\" is defined as %s, but it is assigned a value of type %s.",
                     q.getId(), defined, calculated)));
         }
+
+        Set<Question> dep = new HashSet<Question>();
+        for (int i = 0; i < this.variablesStack.size(); i++)
+        {
+            dep.add(this.variablesStack.pop());
+        }
+
+        this.questionDependencies.put(q, dep);
     }
 
     @Override
@@ -165,6 +188,9 @@ public class TypeChecker extends VisitorAbstract
             this.errors.logException(new IllegalArgumentException(
                     String.format("Identifier \"%s\" is not defined.", n.getId())));
         }
+
+        Question q = this.symbolTable.getQuestionByName(n.getId());
+        this.variablesStack.push(q);
 
         this.typeStack.push(type);
     }

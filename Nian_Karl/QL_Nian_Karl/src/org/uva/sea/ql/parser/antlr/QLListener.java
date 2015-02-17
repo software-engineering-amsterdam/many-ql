@@ -1,12 +1,6 @@
 // Generated from QL.g4 by ANTLR 4.4
 package org.uva.sea.ql.parser.antlr;
 
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -27,26 +21,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitExpression(@NotNull QLParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#form}.
-	 * @param ctx the parse tree
-	 */
-	void enterForm(@NotNull QLParser.FormContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#form}.
-	 * @param ctx the parse tree
-	 */
-	void exitForm(@NotNull QLParser.FormContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QLParser#question}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuestion(@NotNull QLParser.QuestionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#question}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuestion(@NotNull QLParser.QuestionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -57,15 +31,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitStatement(@NotNull QLParser.StatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#block}.
+	 * Enter a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(@NotNull QLParser.BlockContext ctx);
+	void enterForm(@NotNull QLParser.FormContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#block}.
+	 * Exit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(@NotNull QLParser.BlockContext ctx);
+	void exitForm(@NotNull QLParser.FormContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#questionName}.
 	 * @param ctx the parse tree
@@ -77,15 +51,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
+	 * Enter a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfStatement(@NotNull QLParser.IfStatementContext ctx);
+	void enterBlock(@NotNull QLParser.BlockContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#ifStatement}.
+	 * Exit a parse tree produced by {@link QLParser#block}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfStatement(@NotNull QLParser.IfStatementContext ctx);
+	void exitBlock(@NotNull QLParser.BlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#questionType}.
 	 * @param ctx the parse tree
@@ -96,6 +70,16 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitQuestionType(@NotNull QLParser.QuestionTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuestion(@NotNull QLParser.QuestionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuestion(@NotNull QLParser.QuestionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#questionLabel}.
 	 * @param ctx the parse tree
@@ -116,4 +100,14 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLiteral(@NotNull QLParser.LiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStatement(@NotNull QLParser.IfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStatement(@NotNull QLParser.IfStatementContext ctx);
 }
