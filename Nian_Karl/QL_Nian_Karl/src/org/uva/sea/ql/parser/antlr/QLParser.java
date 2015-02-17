@@ -1,12 +1,6 @@
 // Generated from QL.g4 by ANTLR 4.4
 package org.uva.sea.ql.parser.antlr;
 
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -72,10 +66,10 @@ public class QLParser extends Parser {
 	}
 	public static class FormContext extends ParserRuleContext {
 		public TerminalNode Identifier() { return getToken(QLParser.Identifier, 0); }
-		public TerminalNode FORM() { return getToken(QLParser.FORM, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
+		public TerminalNode FORM() { return getToken(QLParser.FORM, 0); }
 		public FormContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -118,14 +112,14 @@ public class QLParser extends Parser {
 	}
 
 	public static class BlockContext extends ParserRuleContext {
-		public TerminalNode LEFT_BRACE() { return getToken(QLParser.LEFT_BRACE, 0); }
-		public StatementContext statement(int i) {
-			return getRuleContext(StatementContext.class,i);
-		}
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
 		public TerminalNode RIGHT_BRACE() { return getToken(QLParser.RIGHT_BRACE, 0); }
+		public TerminalNode LEFT_BRACE() { return getToken(QLParser.LEFT_BRACE, 0); }
+		public StatementContext statement(int i) {
+			return getRuleContext(StatementContext.class,i);
+		}
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -254,12 +248,12 @@ public class QLParser extends Parser {
 	}
 
 	public static class QuestionContext extends ParserRuleContext {
-		public QuestionTypeContext questionType() {
-			return getRuleContext(QuestionTypeContext.class,0);
-		}
 		public TerminalNode SEMICOLON() { return getToken(QLParser.SEMICOLON, 0); }
 		public QuestionNameContext questionName() {
 			return getRuleContext(QuestionNameContext.class,0);
+		}
+		public QuestionTypeContext questionType() {
+			return getRuleContext(QuestionTypeContext.class,0);
 		}
 		public QuestionLabelContext questionLabel() {
 			return getRuleContext(QuestionLabelContext.class,0);
@@ -307,12 +301,12 @@ public class QLParser extends Parser {
 	}
 
 	public static class QuestionTypeContext extends ParserRuleContext {
-		public TerminalNode DEC() { return getToken(QLParser.DEC, 0); }
 		public TerminalNode BOOL() { return getToken(QLParser.BOOL, 0); }
-		public TerminalNode STR() { return getToken(QLParser.STR, 0); }
-		public TerminalNode CUR() { return getToken(QLParser.CUR, 0); }
 		public TerminalNode DATE() { return getToken(QLParser.DATE, 0); }
+		public TerminalNode CUR() { return getToken(QLParser.CUR, 0); }
 		public TerminalNode INT() { return getToken(QLParser.INT, 0); }
+		public TerminalNode STR() { return getToken(QLParser.STR, 0); }
+		public TerminalNode DEC() { return getToken(QLParser.DEC, 0); }
 		public QuestionTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -441,19 +435,19 @@ public class QLParser extends Parser {
 	}
 
 	public static class IfStatementContext extends ParserRuleContext {
-		public TerminalNode ELSE() { return getToken(QLParser.ELSE, 0); }
 		public TerminalNode IF() { return getToken(QLParser.IF, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(QLParser.RIGHT_PAREN, 0); }
+		public TerminalNode ELSE() { return getToken(QLParser.ELSE, 0); }
 		public BlockContext block(int i) {
 			return getRuleContext(BlockContext.class,i);
 		}
-		public TerminalNode LEFT_PAREN() { return getToken(QLParser.LEFT_PAREN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
+		public TerminalNode RIGHT_PAREN() { return getToken(QLParser.RIGHT_PAREN, 0); }
 		public List<BlockContext> block() {
 			return getRuleContexts(BlockContext.class);
 		}
+		public TerminalNode LEFT_PAREN() { return getToken(QLParser.LEFT_PAREN, 0); }
 		public IfStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -508,27 +502,27 @@ public class QLParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
-		public TerminalNode LESS() { return getToken(QLParser.LESS, 0); }
 		public TerminalNode DEVIDE() { return getToken(QLParser.DEVIDE, 0); }
-		public ExpressionContext expression(int i) {
-			return getRuleContext(ExpressionContext.class,i);
-		}
-		public TerminalNode MULTIPLY() { return getToken(QLParser.MULTIPLY, 0); }
-		public TerminalNode OR() { return getToken(QLParser.OR, 0); }
-		public TerminalNode GREATER() { return getToken(QLParser.GREATER, 0); }
-		public TerminalNode EQUAL() { return getToken(QLParser.EQUAL, 0); }
-		public TerminalNode LESS_EQUAL() { return getToken(QLParser.LESS_EQUAL, 0); }
 		public TerminalNode GREAT_EQUAL() { return getToken(QLParser.GREAT_EQUAL, 0); }
-		public LiteralContext literal() {
-			return getRuleContext(LiteralContext.class,0);
-		}
 		public TerminalNode AND() { return getToken(QLParser.AND, 0); }
-		public TerminalNode PLUS() { return getToken(QLParser.PLUS, 0); }
 		public TerminalNode MINUS() { return getToken(QLParser.MINUS, 0); }
+		public TerminalNode OR() { return getToken(QLParser.OR, 0); }
+		public TerminalNode MULTIPLY() { return getToken(QLParser.MULTIPLY, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
+		public TerminalNode EQUAL() { return getToken(QLParser.EQUAL, 0); }
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
 		public TerminalNode EQUAL_COND() { return getToken(QLParser.EQUAL_COND, 0); }
+		public TerminalNode LESS_EQUAL() { return getToken(QLParser.LESS_EQUAL, 0); }
+		public TerminalNode LESS() { return getToken(QLParser.LESS, 0); }
+		public TerminalNode PLUS() { return getToken(QLParser.PLUS, 0); }
+		public TerminalNode GREATER() { return getToken(QLParser.GREATER, 0); }
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
+		}
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -719,11 +713,11 @@ public class QLParser extends Parser {
 
 	public static class LiteralContext extends ParserRuleContext {
 		public TerminalNode Identifier() { return getToken(QLParser.Identifier, 0); }
-		public TerminalNode DecimalLiteral() { return getToken(QLParser.DecimalLiteral, 0); }
-		public TerminalNode StringLiteral() { return getToken(QLParser.StringLiteral, 0); }
 		public TerminalNode IntegerLiteral() { return getToken(QLParser.IntegerLiteral, 0); }
-		public TerminalNode BooleanLiteral() { return getToken(QLParser.BooleanLiteral, 0); }
+		public TerminalNode StringLiteral() { return getToken(QLParser.StringLiteral, 0); }
+		public TerminalNode DecimalLiteral() { return getToken(QLParser.DecimalLiteral, 0); }
 		public TerminalNode DateLiteral() { return getToken(QLParser.DateLiteral, 0); }
+		public TerminalNode BooleanLiteral() { return getToken(QLParser.BooleanLiteral, 0); }
 		public LiteralContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}

@@ -1,13 +1,15 @@
-package org.uva.sea.ql.model;
+package org.uva.sea.ql.model.statement;
+
+import org.uva.sea.ql.model.QuestionType;
 
 
-public class Question {
+public class QuestionStatement  extends Statement{
 	private final QuestionType questionType;
 	private final String identifier;
 	private final String questionLabel;
 
 
-	public Question(QuestionType questionType, String identifier,
+	public QuestionStatement(QuestionType questionType, String identifier,
 			String questionLabel) {
 		super();
 		this.questionType = questionType;
@@ -26,5 +28,4 @@ public class Question {
 	public String getQuestionLabel() {
 		return questionLabel;
 	}
-
 }

@@ -1,26 +1,25 @@
 package nl.uva.se.ast;
 
-import java.util.Collections;
-import java.util.List;
+import nl.uva.se.visitor.Visitor;
 
-public abstract class Node<T> {
+public abstract class Node {
+	
+	private final int lineNumber;
+	private final int offset;
+	
+	public Node(int lineNumber, int offset) {
+		this.lineNumber = lineNumber;
+		this.offset = offset;
+	}
 
-	private List<T> children;
+	public abstract void accept(Visitor visitor);
 
-	public Node() {
-		children = Collections.<T>emptyList();
+	public int getLineNumber() {
+		return lineNumber;
+	}
+
+	public int getOffset() {
+		return offset;
 	}
 	
-	public Node(List<T> children) {
-		this.children = children;
-	}
-
-	public List<T> getChildren() {
-		return children;
-	}
-	
-	public boolean hasChildren() {
-		return children.size() > 0;
-	}
-
 }

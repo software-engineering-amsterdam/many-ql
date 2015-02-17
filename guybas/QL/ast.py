@@ -39,12 +39,6 @@ class Expression:
     def ast_print(self, level=0):
         return "   " * level + Expression.sub_expression(self.expression)
 
-
-    def type_validator(answer, qtype):
-        if isinstance(answer, str):
-            return True
-        return False
-
 # Questions
 class Question:
     def __init__(self, qid, qtype, label):
@@ -59,12 +53,6 @@ class Question:
         s += "   " * (level + 1) + str(self.type)
         s += "\n"
         return s
-
-    def update(self, new_answer):
-        if Expression.type_validator(new_answer, self.get_type()) is True:
-            self.answer = [new_answer]
-        else:
-            raise QException("Answer type and input type collision")
 
     # Getters
     def get_label(self):

@@ -20,8 +20,8 @@ class QLTypeChecker extends {
         case BooleanLiteral(true) => BooleanLiteral(true)
         case _ => sys.error("Invalid expression for computed boolean expression")
       }
-      case IntegerQuestion(v: Variable, label: String) => addToVariableMap(v); BooleanLiteral(true)
-      case ComputedIntegerQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
+      case NumberQuestion(v: Variable, label: String) => addToVariableMap(v); BooleanLiteral(true)
+      case ComputedNumberQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
         case BooleanLiteral(true) => BooleanLiteral(true)
         case _ => sys.error("Invalid expression for computed integer expression")
       }

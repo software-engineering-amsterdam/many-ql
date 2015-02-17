@@ -1,10 +1,10 @@
-package nl.uva.se.visitor;
+package nl.uva.se.parser;
 
-import nl.uva.se.parser.QLBaseVisitor;
 import nl.uva.se.parser.QLParser.ConditionContext;
 import nl.uva.se.parser.QLParser.ExpressionContext;
 import nl.uva.se.parser.QLParser.FormContext;
 import nl.uva.se.parser.QLParser.QuestionContext;
+
 
 public class QLVisitorImpl extends QLBaseVisitor<Object> {
 
