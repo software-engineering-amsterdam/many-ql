@@ -8,8 +8,8 @@ import uva.ql.supporting.Tuple;
 
 public class Question extends Statement {
 	
-	protected Identifier identifier;
-	protected Type<Value> type;
+	private Identifier identifier;
+	private Type<Value> type;
 	
 	public Question(Identifier _identifier, Type<Value> _type, Tuple<Integer, Integer> _codeLines){
 		super(_codeLines);

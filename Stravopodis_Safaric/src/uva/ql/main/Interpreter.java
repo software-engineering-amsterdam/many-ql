@@ -14,6 +14,7 @@ import uva.ql.ast.ASTNode;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.math.*;
 import uva.ql.ast.expressions.*;
+import uva.ql.ast.question.QuestionDeclaration;
 import uva.ql.ast.statements.Assign;
 import uva.ql.parser.QLLexer;
 import uva.ql.parser.QLParser;
@@ -26,7 +27,7 @@ public class Interpreter{
 	public static void main(String[] args) throws IOException{
 		
 		ANTLRInputStream inputStream = new ANTLRInputStream(new FileInputStream("SupportingFiles/Test.ql"));
-		inputStream = new ANTLRInputStream("hasBoughtHouse = 2 + 3;");
+		inputStream = new ANTLRInputStream("hasBoughtHouse = \"This is some string\";");
 		QLLexer lexer = new QLLexer(inputStream);
 		
 		CommonTokenStream stream = new CommonTokenStream(lexer);
@@ -37,6 +38,6 @@ public class Interpreter{
 		ASTNode ast = visitor.visit(tree);
 		
 		Assign a = (Assign)ast;
-		System.out.println("Assign check: " + a.toString());
+		System.out.println(a.toString());
 	}
 }
