@@ -9,24 +9,24 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(Form form) {
-		
+		System.out.println(form.getId());
 	}
 
 	@Override
 	public void visit(Question question) {
-		// TODO Auto-generated method stub
+		System.out.println(question.getQuestion());
 		
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		// TODO Auto-generated method stub
+		System.out.println(calculatedQuestion.getQuestion());
 		
 	}
 
 	@Override
 	public void visit(Condition condition) {
-		// TODO Auto-generated method stub
+		System.out.println("condition");
 		
 	}
 
