@@ -39,7 +39,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     private void push(AbstractPushable<?> o) {
         argumentStack.push(o);
-        System.out.println(" , " + argumentStack.size());
+        System.out.println(" pushing ,  " + argumentStack.size());
     }
 
     private AbstractPushable<?> pop() {
@@ -62,6 +62,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAEmptyIdentList(AEmptyIdentList node) {
+        System.out.println("Empty List: " + node.getIdent().getText());
         push(new AbstractPushable<Object[]>(new Object[0]) {
             @Override
             public Object[] getObjectArray() {
@@ -72,10 +73,11 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAFilledIdentList(AFilledIdentList node) {
-            ArrayList<Object> values = new ArrayList<Object>();
-            System.out.println("size: " + node.getElement().size());
-            for (int i = 0; i < node.getElement().size(); i++)
-                values.add(pop().getValue());
+        ArrayList<Object> values = new ArrayList<Object>();
+        System.out.println("Filled List: " + node.getIdent().getText());
+        System.out.println("size: " + node.getElement().size());
+        for (int i = 0; i < node.getElement().size(); i++)
+            values.add(pop().getValue());
         try {
             push(interopComponent(node.getIdent().getText(), values.toArray()));
         } catch (ClassNotFoundException e) {
@@ -89,6 +91,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outATypeElement(ATypeElement node) {
+        System.out.println("Type: " + node.getType());
         TypeInterpreter t = new TypeInterpreter();
         node.getType().apply(t);
         push(new AbstractPushable<TypeDescriptor<?>>(t.getValue()) {
@@ -101,7 +104,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAIdentElement(AIdentElement node) {
-        System.out.println("ident");
+        System.out.println("Ident: " + node.getIdent().getText());
         push(new AbstractPushable<String>(node.getIdent().getText()) {
             @Override
             public String getString() {
@@ -112,6 +115,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAHexElement(AHexElement node) {
+        System.out.println("Hex: " + node.getHex().getText());
         push(new AbstractPushable<Integer>(Integer.parseInt(node.getHex().getText().substring(1), 16)) {
             @Override
             public Integer getInteger() {
@@ -122,6 +126,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAStringElement(AStringElement node) {
+        System.out.println("String: "  + node.getString().getText());
         push(new AbstractPushable<String>(node.getString().getText()) {
             @Override
             public String getString() {
@@ -132,6 +137,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outANumberElement(ANumberElement node) {
+        System.out.println("Number: " + node.getNumber().getText());
         push(new AbstractPushable<Integer>(Integer.parseInt(node.getNumber().getText())) {
             @Override
             public Integer getInteger() {
@@ -142,6 +148,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAObjectElement(AObjectElement node) {
+        System.out.println("Object: " + node.getObjectEl().toString());
         HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
         ArrayList<HashMap.SimpleEntry<Object, Object>> values =
                 new ArrayList<HashMap.SimpleEntry<Object, Object>>();
@@ -151,6 +158,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAListElement(AListElement node) {
+        System.out.println("List : " + node.getIdentList().toString());
 //        node.get
 //        push(null); // TODO
     }
@@ -159,6 +167,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAObjectEl(AObjectEl node) {
+        System.out.println("Object el:" + node.getKey());
         push(new AbstractPushable<HashMap.SimpleEntry>(new HashMap.SimpleEntry<Object, Object>(
                 pop().getValue(),
                 pop().getValue())) {
@@ -170,7 +179,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     }
 
     public static void main(String[] args) throws ParserException, IOException, LexerException {
-        String input = "styleSheet(taxOfficeExample," +
+        String input = "styleSheet(taxOfficeExample,\n" +
                 "" +
                 "\tpage(Housing,\n" +
                         "\t\tsection(Buying,\n" +
@@ -179,21 +188,26 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
                         "\t\t\tquestion(hasMaintLoan))\n" +
                         "\t), page(Selling,\n" +
                         "\t\tsection(Selling,\n" +
-                        "\t\t\tquestion(hasSoldHouse, {widget: radio(\"Yes\", \"No\")})), \n" +
-                        "\t\tsection(\"You sold a house\",\n" +
-                        "\t\t\tquestion(sellingPrice, {widget: spinbox}),\n" +
-                        "\t\t\tquestion(privateDebt, {widget: spinbox}),\n" +
-                        "\t\t\tquestion(valueResidue)),\n" +
-                        "\t\tdefault(integer, {\n" +
-                        "\t\t\twidth: 400,\n" +
-                        "\t\t\tfont: \"Arial\",\n" +
-                        "\t\t\tfontsize: 14,\n" +
-                        "\t\t\tcolor: #999999,\n" +
-                        "\t\t\twidget: spinbox\n" +
-                        "\t\t})\n" +
-                        "\t), default(boolean, {widget: radio(\"Yes\", \"No\")})\n" +
+                        "\t\t\tquestion(hasSoldHouse, {widget: radio(\"Yes\", \"No\")}), \n" +
+                        "\t\t\tsection(\"You sold a house\",\n" +
+                        "\t\t\t\tquestion(sellingPrice, {widget: spinbox}),\n" +
+                        "\t\t\t\tquestion(privateDebt, {widget: spinbox}),\n" +
+                        "\t\t\t\tquestion(valueResidue),\n" +
+                        "\t\t\t\tdefault(integer, {\n" +
+                        "\t\t\t\t\twidth: 400,\n" +
+                        "\t\t\t\t\tfont: \"Arial\",\n" +
+                        "\t\t\t\t\tfontsize: 14,\n" +
+                        "\t\t\t\t\tcolor: #999999,\n" +
+                        "\t\t\t\t\twidget: spinbox\n" +
+                        "\t\t\t\t})\n" +
+                        "\t\t\t)\n"+
+                        "\t\t),\n" +"" +
+                        "\t\tdefault(boolean, {widget: radio(\"Yes\", \"No\")})\n" +
+                        "\t)\n" +
                         ")";
 
+        String emptyInput ="stylesheet()";
+        //System.out.println(emptyInput);
         InterpreterHelper.interpetStylesheetString(input);
     }
 }
