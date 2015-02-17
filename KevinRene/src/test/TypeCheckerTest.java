@@ -1,14 +1,23 @@
 package test;
 
-import static org.junit.Assert.*;
-
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
 
 public class TypeCheckerTest {
+	@Rule
+	public TestWatcher watcher = new TestWatcher() {
+	   protected void starting(Description description) {
+	      System.out.println("Starting test: " + description.getMethodName());
+	   }
+	};
+	
+	
 	private TypeChecker typeChecker = new TypeChecker();
 	
 	@Test
@@ -27,7 +36,7 @@ public class TypeCheckerTest {
 		
 		ASTNode myTree = Parser.parse(myForm);
 		
-		myTree = typeChecker.checkStaticTypes(myTree);
+		typeChecker.checkStaticTypes(myTree);
 	}
 	
 	@Test
@@ -36,7 +45,7 @@ public class TypeCheckerTest {
 		
 		ASTNode myTree = Parser.parse(myExpression);
 
-		myTree = typeChecker.checkStaticTypes(myTree);
+		typeChecker.checkStaticTypes(myTree);
 	}
 	
 	@Test
@@ -44,6 +53,15 @@ public class TypeCheckerTest {
 		String myForm = "houseValue : money { \"Lol I dont care\" assign(\"Rubbish\") }";
 		ASTNode result = Parser.parse(myForm);
 		
-		result = typeChecker.checkStaticTypes(result);
+		typeChecker.checkStaticTypes(result);
+	}
+	
+	@Test
+	public void testTypeAdd() {
+		String myForm = "(1 * 1442) / 1.1";
+		ASTNode tree = Parser.parse(myForm);
+		
+		boolean result = typeChecker.checkStaticTypes(tree);
+		System.out.println(result);
 	}
 }

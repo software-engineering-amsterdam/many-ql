@@ -1,7 +1,11 @@
 package cons.ql.ast.visitor;
 
 import cons.ql.ast.Statement;
-import cons.ql.ast.statement.*;
+import cons.ql.ast.statement.Block;
+import cons.ql.ast.statement.ComputedQuestion;
+import cons.ql.ast.statement.Form;
+import cons.ql.ast.statement.If;
+import cons.ql.ast.statement.Question;
 
 public interface StatementVisitor extends Visitor {
 	default void visit(Block blockNode) {

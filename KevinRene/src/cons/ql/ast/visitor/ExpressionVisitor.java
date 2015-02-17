@@ -1,9 +1,25 @@
 package cons.ql.ast.visitor;
 
-import cons.ql.ast.expression.arithmetic.*;
-import cons.ql.ast.expression.literal.*;
-import cons.ql.ast.expression.relational.*;
-import cons.ql.ast.expression.unary.*;
+import cons.ql.ast.expression.arithmetic.Add;
+import cons.ql.ast.expression.arithmetic.Div;
+import cons.ql.ast.expression.arithmetic.Mul;
+import cons.ql.ast.expression.arithmetic.Sub;
+import cons.ql.ast.expression.relational.And;
+import cons.ql.ast.expression.relational.Eq;
+import cons.ql.ast.expression.relational.GEq;
+import cons.ql.ast.expression.relational.GT;
+import cons.ql.ast.expression.relational.LEq;
+import cons.ql.ast.expression.relational.LT;
+import cons.ql.ast.expression.relational.NEq;
+import cons.ql.ast.expression.relational.Or;
+import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLFloat;
+import cons.ql.ast.expression.type.QLIdent;
+import cons.ql.ast.expression.type.QLInt;
+import cons.ql.ast.expression.type.QLString;
+import cons.ql.ast.expression.unary.Neg;
+import cons.ql.ast.expression.unary.Not;
+import cons.ql.ast.expression.unary.Pos;
 
 public interface ExpressionVisitor extends Visitor {
 	default void visit(Add addNode) {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import cons.exception.UndefinedVariableException;
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.literal.*;
+import cons.ql.ast.expression.type.QLIdent;
 
 public class Register {
 
@@ -33,4 +33,5 @@ public class Register {
 	public Map<QLIdent, ASTNode> getBindings() {
 		return this.register;
 	}
+	
 }

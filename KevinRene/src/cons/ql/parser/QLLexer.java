@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.literal.QLFloat;
-import cons.ql.ast.expression.literal.QLIdent;
-import cons.ql.ast.expression.literal.QLInt;
-import cons.ql.ast.expression.literal.QLString;
+import cons.ql.ast.expression.type.QLFloat;
+import cons.ql.ast.expression.type.QLIdent;
+import cons.ql.ast.expression.type.QLInt;
+import cons.ql.ast.expression.type.QLString;
 
 public class QLLexer implements QLTokens {
 	private static final Map<String, Integer> KEYWORDS;

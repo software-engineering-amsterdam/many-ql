@@ -1,11 +1,16 @@
 package cons.ql.parser;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.expression.Binary;
-import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.Block;
+import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.Question;
 

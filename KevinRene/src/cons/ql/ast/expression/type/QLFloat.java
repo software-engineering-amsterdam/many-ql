@@ -1,15 +1,19 @@
-package cons.ql.ast.expression.literal;
+package cons.ql.ast.expression.type;
 
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.visitor.Visitor;
 
-public class QLFloat extends QLType<Float> {	
+public class QLFloat extends QLNumeric {
+	
+	float value;
+	boolean defined;
+	
 	public QLFloat() {
-		super();
 	}
 	
 	public QLFloat(float value) {
-		super(value);
+		this.value = value;
+		this.defined = true;
 	}
 
 	@Override
@@ -20,5 +24,10 @@ public class QLFloat extends QLType<Float> {
 	@Override
 	public void accept(Visitor visitor) {		
 		visitor.visit(this);
+	}
+
+	@Override
+	public QLType getType() {
+		return new QLFloat();
 	}
 }

@@ -1,6 +1,6 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -8,8 +8,8 @@ import org.junit.rules.ExpectedException;
 
 import cons.Register;
 import cons.exception.UndefinedVariableException;
-import cons.ql.ast.expression.literal.*;
-import cons.ql.ast.statement.Block;
+import cons.ql.ast.expression.type.QLIdent;
+import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.statement.Form;
 
 public class RegisterTest {

@@ -1,15 +1,16 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.Reader;
+import java.io.StringReader;
 
 import org.junit.Test;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.parser.Parser;
 import cons.ql.parser.QLLexer;
-
-import java.io.Reader;
-import java.io.StringReader;
 
 public class ParserTest {
 	@Test
