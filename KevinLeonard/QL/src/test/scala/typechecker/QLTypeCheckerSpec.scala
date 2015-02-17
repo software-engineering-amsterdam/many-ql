@@ -206,8 +206,11 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
   }
 
   "ADD expressions" should {
-    "numbers be true" in {
-      check(Add(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+    "2 + 2 + 2" in {
+      check(Add(NumberLiteral(2), Add(NumberLiteral(2), NumberLiteral(2))), emptyEnvironment) must beEqualTo(defaultNumberValue)
+    }
+    "1 + 1" in {
+      check(Add(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
     }
     "strings be false" in {
       check(Add(StringLiteral(""), StringLiteral("")), emptyEnvironment) must throwA[RuntimeException](message = "Invalid ADD expression")
@@ -218,8 +221,8 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
   }
 
   "SUB expressions" should {
-    "numbers be true" in {
-      check(Sub(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+    "1 - 1" in {
+      check(Sub(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
     }
     "strings be false" in {
       check(Sub(StringLiteral(""), StringLiteral("")), emptyEnvironment) must throwA[RuntimeException](message = "Invalid SUB expression")
@@ -230,8 +233,8 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
   }
 
   "MUL expressions" should {
-    "numbers be true" in {
-      check(Mul(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+    "1 * 1" in {
+      check(Mul(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
     }
     "strings be false" in {
       check(Mul(StringLiteral(""), StringLiteral("")), emptyEnvironment) must throwA[RuntimeException](message = "Invalid MUL expression")
@@ -242,8 +245,8 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
   }
 
   "DIV expressions" should {
-    "numbers be true" in {
-      check(Div(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+    "1 / 1" in {
+      check(Div(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
     }
     "strings be false" in {
       check(Div(StringLiteral(""), StringLiteral("")), emptyEnvironment) must throwA[RuntimeException](message = "Invalid DIV expression")
