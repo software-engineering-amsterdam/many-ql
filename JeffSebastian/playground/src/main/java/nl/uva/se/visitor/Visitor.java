@@ -1,5 +1,6 @@
 package nl.uva.se.visitor;
 
+import nl.uva.se.ast.Node;
 import nl.uva.se.ast.expression.LogicalOperators.And;
 import nl.uva.se.ast.expression.LogicalOperators.Equal;
 import nl.uva.se.ast.expression.LogicalOperators.GreaterOrEqual;
@@ -16,7 +17,6 @@ import nl.uva.se.ast.expression.MathematicalOperators.Multiply;
 import nl.uva.se.ast.expression.MathematicalOperators.Power;
 import nl.uva.se.ast.expression.MathematicalOperators.Substraction;
 import nl.uva.se.ast.form.Form;
-import nl.uva.se.ast.literal.AbstractLiteral;
 import nl.uva.se.ast.literal.BooleanLiteral;
 import nl.uva.se.ast.literal.DecimalLiteral;
 import nl.uva.se.ast.literal.IntegerLiteral;

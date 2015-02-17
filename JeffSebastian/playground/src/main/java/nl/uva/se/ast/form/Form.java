@@ -29,6 +29,9 @@ public class Form extends Node {
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 		
+		for (Statement statement : statements) {
+			statement.accept(visitor);
+		}
 	}
 
 }

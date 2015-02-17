@@ -1,5 +1,6 @@
 package nl.uva.se.visitor;
 
+import nl.uva.se.ast.Node;
 import nl.uva.se.ast.expression.LogicalOperators.And;
 import nl.uva.se.ast.expression.LogicalOperators.Equal;
 import nl.uva.se.ast.expression.LogicalOperators.GreaterOrEqual;
@@ -44,7 +45,7 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(Condition condition) {
-		System.out.println("condition");
+		System.out.println(condition.getLineNumber() + ":" + condition.getOffset() + " condition");
 		
 	}
 
