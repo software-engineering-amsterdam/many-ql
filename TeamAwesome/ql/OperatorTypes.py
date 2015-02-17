@@ -1,27 +1,67 @@
 from CustomTypes import *
+import operator
 
 class Table:
     def __init__(self):
-        self._rules = Table._createRules()
+        self._binaryPythonOperators = {
+            '+'  : operator.add,
+            '-'  : operator.sub,
+            '/'  : lambda l, r : l / r,
+            '*'  : operator.mul,
+            '^'  : operator.pow,
+            '%'  : operator.mod,
+            '>'  : operator.gt,
+            '<'  : operator.lt,
+            '>=' : operator.ge,
+            '<=' : operator.le,
+            '==' : operator.eq,
+            '!=' : operator.ne,
+            '&&' : lambda l, r : l and r,
+            '||' : lambda l, r : l or r
+        }
+
+        self._unaryPythonOperators = {
+            '+' : lambda l : +l,
+            '-' : operator.neg,
+            '!' : operator.not_
+        }
+
+        self._rules = self._createRules()
 
     def unaryOperationType(self, op, typeRight):
         return self._rules.get((op, typeRight), None)
 
     def binaryOperationType(self, op, typeLeft, typeRight):
-        return self._rules.get((op, typeLeft, typeRight), None)
+        rule = self._rules.get((op, typeLeft, typeRight), None)
+        if rule:
+            return rule[0]
+        return None
 
-    @staticmethod
-    def _createRules():
+    def getBinaryOperator(self, op, leftValue, rightValue):
+        typeLeft = type(leftValue)
+        typeRight = type(rightValue)
+        rule = self._rules.get((op, typeLeft, typeRight), None)
+        if rule:
+            return rule[1]
+        return None
+
+    def _getBinaryPythonOperator(self, op):
+        return self._binaryPythonOperators[op]
+
+    def _getUnaryPythonOperator(self, op):
+        return self._unaryPythonOperators[op]
+
+    def _createRules(self):
         rules = {}
-        rules.update(Table._numericalUnaryOperatorRules())
-        rules.update(Table._booleanUnaryOperatorRules())
-        rules.update(Table._numericalBinaryOperatorRules())
-        rules.update(Table._stringBinaryOperatorRules())
-        rules.update(Table._booleanBinaryOperatorRules())
+        rules.update(self._numericalUnaryOperatorRules())
+        rules.update(self._booleanUnaryOperatorRules())
+        rules.update(self._numericalBinaryOperatorRules())
+        rules.update(self._stringBinaryOperatorRules())
+        rules.update(self._booleanBinaryOperatorRules())
         return rules
 
-    @staticmethod
-    def _numericalUnaryOperatorRules():
+    # TODO
+    def _numericalUnaryOperatorRules(self):
         rules = {}
         for op in ('-','+'):
             rules.update({
@@ -30,63 +70,71 @@ class Table:
             })
         return rules
 
-    @staticmethod
-    def _booleanUnaryOperatorRules():
+    # TODO
+    def _booleanUnaryOperatorRules(self):
         return {
             ('!', bool) : bool
         }
 
-    @staticmethod
-    def _numericalBinaryOperatorRules():
+    def _numericalBinaryOperatorRules(self):
         rules = {}
-        for op in ('^','*','/','%','+','-'):
+        for op in ('^','*','/','%','-','+'):
+            pyOp = self._getBinaryPythonOperator(op)
+
             rules.update({
-                (op, int, int) : int,
-                (op, int, Money) : Money,
-                (op, Money, int) : Money,
-                (op, Money, Money) : Money # Money, money money!
+                (op, int, int) : (int, lambda l, r, pyOp = pyOp : int(pyOp(l, r))),
+                (op, int, Money) : (Money, lambda l, r, pyOp = pyOp : Money(pyOp(l, r))),
+                (op, Money, int) : (Money, lambda l, r, pyOp = pyOp : Money(pyOp(l, r))),
+                (op, Money, Money) : (Money, lambda l, r, pyOp = pyOp : Money(pyOp(l, r))) # Money, money money!
             })
+
         return rules
 
-    @staticmethod
-    def _stringBinaryOperatorRules():
+    def _stringBinaryOperatorRules(self):
+        pyOp = self._getBinaryPythonOperator('*')
         rules = {
-            ('*', str, int) : str,
-            ('*', int, str) : str
+            ('*', str, int) : (str, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+            ('*', int, str) : (str, lambda l, r, pyOp = pyOp : pyOp(l, r))
         }
+
+        pyOp = self._getBinaryPythonOperator('+')
         for t in (str,int,Money,bool):
             rules.update({
-                ('+', str, t) : str,
-                ('+', t, str) : str,
+                ('+', str, t) : (str, lambda l, r, pyOp = pyOp : pyOp(l, str(r))),
+                ('+', t, str) : (str, lambda l, r, pyOp = pyOp : pyOp(str(l), r)),
             })
         return rules
 
-    @staticmethod
-    def _booleanBinaryOperatorRules():
+    def _booleanBinaryOperatorRules(self):
         rules = {}
 
         for op in ('<','<=','>','>='):
+            pyOp = self._getBinaryPythonOperator(op)
             rules.update({ 
-                (op, int, int) : bool,
-                (op, int, Money) : bool,
-                (op, Money, int) : bool,
-                (op, Money, Money) : bool,
-                (op, str, str) : bool
+                (op, int, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, int, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, Money, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, Money, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, str, str) : (bool, lambda l, r, pyOp = pyOp : pyOp(len(l), len(r)))
             })
 
         for op in ('==','!='):
+            pyOp = self._getBinaryPythonOperator(op)
             rules.update({
-                (op, int, int) : bool,
-                (op, int, Money) : bool,
-                (op, Money, int) : bool,
-                (op, Money, Money) : bool,
-                (op, str, str) : bool,
-                (op, bool, bool) : bool
+                (op, int, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, int, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, Money, int) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, Money, Money) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, str, str) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r)),
+                (op, bool, bool) : (bool, lambda l, r, pyOp = pyOp : pyOp(l, r))
             })
 
+        pyOpAnd = self._getBinaryPythonOperator('&&')
+        pyOpOr = self._getBinaryPythonOperator('||') 
+
         rules.update({
-            ('&&', bool, bool) : bool,
-            ('||', bool, bool) : bool    
+            ('&&', bool, bool) : (bool, lambda l, r, pyOp = pyOpAnd : pyOp(l, r)),
+            ('||', bool, bool) : (bool, lambda l, r, pyOp = pyOpOr : pyOp(l, r))    
         })
 
         return rules
