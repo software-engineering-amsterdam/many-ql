@@ -366,7 +366,9 @@ public class QLParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
+		public ExpressionContext left;
 		public Token negation;
+		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -530,13 +532,15 @@ public class QLParser extends Parser {
 					{
 					{
 					_localctx = new ExpressionContext(_parentctx, _parentState);
+					_localctx.left = _prevctx;
+					_localctx.left = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_expression);
 					setState(81);
 					if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 					setState(82); 
 					operator();
 					setState(83); 
-					expression(5);
+					((ExpressionContext)_localctx).right = expression(5);
 					}
 					} 
 				}

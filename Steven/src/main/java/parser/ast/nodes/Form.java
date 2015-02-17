@@ -1,5 +1,7 @@
 package parser.ast.nodes;
 
+import parser.ast.nodes.statement.Statement;
+
 import java.util.List;
 
 /**
@@ -7,13 +9,13 @@ import java.util.List;
  */
 public class Form implements AbstractNode {
 
-    private final List<AbstractNode> elements;
+    private final List<Statement> elements;
 
-    public Form(List<AbstractNode> elements) {
+    public Form(List<Statement> elements) {
         this.elements = elements;
     }
 
-    public List<AbstractNode> getElements() {
+    public List<Statement> getElements() {
         return elements;
     }
 }
