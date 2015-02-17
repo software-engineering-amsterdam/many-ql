@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Binary;
+import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.arithmetic.*;
-import cons.ql.ast.expression.literal.Identifier;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.expression.type.*;
 import cons.ql.ast.expression.unary.*;
@@ -21,12 +21,10 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	public boolean checkStaticTypes(ASTNode tree) {
 		tree.accept(this);
 		
-		if (!errors.isEmpty()) {
-			
+		if (!errors.isEmpty()) {			
 			for (String error : errors) {
 				System.out.println("[Error]: " + error);
-			}
-			
+			}			
 			return false;
 		}
 		
@@ -49,11 +47,9 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 			return true;
 		}
 		else {
-			errors.add("<" + op.getClass().getSimpleName() + "> Expected type: " 
-					+ op.getType().compatibilities()
-					+ ", actual types: "	
-					+ left.getType().toString() + " & " + right.getType().toString()
-					+ ".");
+			errors.add("<" + op.getType() + "> Expected type: " 
+					+ op.getType().compatibilities() + ", actual types: "	
+					+ left.getType() + " & " + right.getType() + ".");
 			
 			return false;
 		}
@@ -66,17 +62,14 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 		left.accept(this);
 		right.accept(this);
 		
-		// Both operands should be booleans
-		
+		// Both operands should be booleans		
 		if (op.getType().compatibleWith(left.getType()) &&
 			op.getType().compatibleWith(right.getType())) {
 			return true;
-		}
-		else {
+		} else {
 			errors.add("<" + op.getClass().getSimpleName() + "> Expected type: " 
-					+ op.getType().compatibilities()
-					+ ", actual types: "	
-					+ left.getType().toString() + " & " + right.getType().toString()
+					+ op.getType().compatibilities() + ", actual types: "	
+					+ left.getType() + " & " + right.getType()
 					+ ".");
 			
 			return false;
@@ -175,8 +168,7 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	/**
 	 * Statements
-	 */
-	
+	 */	
 	@Override
 	public void visit(Block blockNode) {
 		// TODO Auto-generated method stub
@@ -186,16 +178,13 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 	@Override
 	public void visit(ComputedQuestion compQuestionNode) {
 		StatementVisitor.super.visit(compQuestionNode);
-		
-		
+				
 		// TODO: make this way easier.
-		if(!compQuestionNode.getType().getClass().getSimpleName().equals(
-				compQuestionNode.getExpression().getClass().getSimpleName())) {
+		if(!compQuestionNode.getType().toString().equals(
+				compQuestionNode.getExpression().toString())) {
 			errors.add("<" + compQuestionNode.getIdent() + ">:" 
-					+ compQuestionNode.getType().getClass().getSimpleName()
-					+ " was assigned with "	
-					+ compQuestionNode.getExpression().getClass().getSimpleName() 
-					+ ".");
+					+ compQuestionNode.getType() + " was assigned with "	
+					+ compQuestionNode.getExpression().getType() + ".");
 		}
 	}
 	
@@ -207,12 +196,11 @@ public class TypeChecker implements ExpressionVisitor, StatementVisitor {
 
 	@Override
 	public void visit(If ifNode) {
-		// The expression must have a boolean type
-		
+		// The expression must have a boolean type		
 		ifNode.getExpression().accept(this);
 		
 		if (ifNode.getExpression().getType().getClass() != QLBoolean.class) {
-			errors.add("Expected QLBoolean, got " + ifNode.getExpression().getType().getClass().getSimpleName());
+			errors.add("Expected QLBoolean, got " + ifNode.getExpression().getType());
 		}
 	}
 

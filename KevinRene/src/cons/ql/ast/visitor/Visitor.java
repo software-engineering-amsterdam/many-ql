@@ -1,10 +1,10 @@
 package cons.ql.ast.visitor;
 
+import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
 import cons.ql.ast.expression.arithmetic.Sub;
-import cons.ql.ast.expression.literal.Identifier;
 import cons.ql.ast.expression.relational.And;
 import cons.ql.ast.expression.relational.Eq;
 import cons.ql.ast.expression.relational.GEq;

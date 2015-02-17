@@ -11,11 +11,10 @@ public class BooleanLiteral extends Literal<Boolean> {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {}
-
-
-	@Override
 	public QLType getType() {
 		return new QLBoolean();
 	}
+	
+	@Override
+	public void accept(Visitor visitor) {}
 }

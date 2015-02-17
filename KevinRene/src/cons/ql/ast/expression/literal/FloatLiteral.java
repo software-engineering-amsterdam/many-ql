@@ -11,11 +11,11 @@ public class FloatLiteral extends Literal<Float> {
 	}
 	
 	@Override
-	public void accept(Visitor visitor) {}
-
-
-	@Override
 	public QLType getType() {
 		return new QLFloat();
 	}
+	
+	@Override
+	public void accept(Visitor visitor) {}
+
 }

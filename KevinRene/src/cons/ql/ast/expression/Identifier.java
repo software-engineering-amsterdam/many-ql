@@ -1,7 +1,6 @@
-package cons.ql.ast.expression.literal;
+package cons.ql.ast.expression;
 
 import cons.ql.ast.Expression;
-import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.visitor.Visitor;
 

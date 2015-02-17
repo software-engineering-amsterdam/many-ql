@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cons.ql.ast.ASTNode;
+import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.literal.BooleanLiteral;
 import cons.ql.ast.expression.literal.FloatLiteral;
-import cons.ql.ast.expression.literal.Identifier;
 import cons.ql.ast.expression.literal.IntegerLiteral;
 import cons.ql.ast.expression.literal.StringLiteral;
 
