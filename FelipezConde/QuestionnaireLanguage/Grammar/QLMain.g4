@@ -4,9 +4,9 @@ grammar QLMain;
 
  form           : 'form' formSection
 ;formSection    : '{' formObject* '}' 
-;formObject     : formElement
+;formObject     : question
                 | conditional
-;formElement    : 'question' id typeName keyValuePairs
+; question       : 'question' id typeName keyValuePairs
 ; conditional   : 'enable when' expression formSection
 ;
 
@@ -22,19 +22,19 @@ grammar QLMain;
                    | 'money'
 ;value             : type
                    | expression
-;type              : bool
-                   | string
-                   | date
-                   | num
-                   | list
+;type              : bool    #BoolValue
+                   | string  #StringValue
+                   | date    #DateValue
+                   | num     #NumValue
+                   | list    #ListValue
 ;bool              : 'True'
                    | 'False'
 ;date              : 'date(' year '/' month '/' day ')'
                    | 'date(' year '/' month')' 
                    | 'date(' year ')'
-;num               : int
-                   | money
-                   | decimal
+;num               : int      #NumInt
+                   | money    #NumMoney
+                   | decimal  #NumDecimal
 ;list              : '[' (type (',' type )*)? ']'
 ;
 
@@ -56,24 +56,42 @@ grammar QLMain;
 ;
 
 /* Expression & arithmetic */
- expression     : '(' expression ')'
-                | bool
-                | id
-                |'!' expression
-                | expression '&&' expression
-                | expression '||' expression 
-                | expression ( '!=' | '==' ) expression
-                | comparison
+ expression     : '(' expression ')'                         #PriorityExpression
+                | type                                       #ExpressionType
+                | id                                         #ExpressionId
+                |'!' expression                              #Negate
+                | expression op='&&' expression              #And
+                | expression op='||' expression              #Or
+                | expression op=( '!=' | '==' ) expression   #Equality
+                | comparison                                 #ExpressionComparison
 
-;comparison     : '(' comparison ')' 
-                | arithmetic ( '>' | '<' | '>=' | '<=' ) arithmetic
+;comparison     : '(' comparison ')'                                     #PriorityComparison
+                | arithmetic op=( '>' | '<' | '>=' | '<=' ) arithmetic   #ArithmeticComparison
 
-;arithmetic     : '(' arithmetic ')'
-                | arithmetic ( '*' | '/' ) arithmetic 
-                | arithmetic ( '-' | '+' ) arithmetic
-                | id
-                | num
+;arithmetic     : '(' arithmetic ')'                      #PriorityArithmetic
+                | arithmetic op=( '*' | '/' ) arithmetic  #DivMul
+                | arithmetic op=( '-' | '+' ) arithmetic  #SubAdd
+                | id                                      #ArithmeticId
+                | num                                     #ArithmeticNum
                 ;
+
+/*Token Names*/
+GT   : '>';
+LT   : '<';
+EQ   : '==';
+NEQ  : '!=';
+GET  : '>=';
+LET  : '<=';
+AND  : '&&';
+OR   : '||';
+NOT  : '!';
+
+MUL  : '*';
+DIV  : '/';
+SUB  : '-';
+ADD  : '+';
+
+
 
 /*Lexer rules*/
 INT     : '-'?[0-9]+;

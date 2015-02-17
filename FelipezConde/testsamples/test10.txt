@@ -4,7 +4,7 @@ form {
             label = "This is a sample question. Do you understand?" 
         }  
         enable when q1 {
-            field f1 string {
+            question f1 string {
                 label = "nested in nested ahahahahaha",
                 value = "Nailed it!"
             }

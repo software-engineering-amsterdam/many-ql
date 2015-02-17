@@ -35,31 +35,25 @@ public abstract class VisitorAbstract implements Visitor
     }
 
     @Override
-    public void visit(Expression n)
+    public void visit(BoolExpr n)
     {
 
     }
 
     @Override
-    public void visit(BooleanExpr n)
+    public void visit(IntExpr n)
     {
 
     }
 
     @Override
-    public void visit(IntegerExpr n)
+    public void visit(DecExpr n)
     {
 
     }
 
     @Override
-    public void visit(DecimalExpr n)
-    {
-
-    }
-
-    @Override
-    public void visit(StringExpr n)
+    public void visit(StrExpr n)
     {
 
     }
@@ -77,7 +71,61 @@ public abstract class VisitorAbstract implements Visitor
     }
 
     @Override
+    public void visit(Mul e)
+    {
+
+    }
+
+    @Override
+    public void visit(Div e)
+    {
+
+    }
+
+    @Override
     public void visit(Gt n)
+    {
+
+    }
+
+    @Override
+    public void visit(Lt e)
+    {
+
+    }
+
+    @Override
+    public void visit(GtEqu e)
+    {
+
+    }
+
+    @Override
+    public void visit(LtEqu e)
+    {
+
+    }
+
+    @Override
+    public void visit(Equ e)
+    {
+
+    }
+
+    @Override
+    public void visit(NotEqu e)
+    {
+
+    }
+
+    @Override
+    public void visit(And e)
+    {
+
+    }
+
+    @Override
+    public void visit(Or e)
     {
 
     }
@@ -95,7 +143,13 @@ public abstract class VisitorAbstract implements Visitor
     }
 
     @Override
-    public void visit(Variable n)
+    public void visit(Not e)
+    {
+
+    }
+
+    @Override
+    public void visit(Identifier n)
     {
 
     }

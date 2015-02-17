@@ -1,8 +1,13 @@
 package uva.sc.logic.unaryExpressions;
 
-import uva.sc.logic.IExpression;
+import uva.sc.logic.Expression;
+import uva.sc.logic.Node;
 
-
-public class UnaryExpression implements IExpression{
-
+public abstract class UnaryExpression extends Expression{
+	
+	Node operand;
+	
+	public UnaryExpression (Node operand){
+		this.operand = operand;
+	}
 }

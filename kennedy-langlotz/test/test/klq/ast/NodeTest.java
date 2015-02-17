@@ -1,4 +1,4 @@
-//package AST;
+//package com.klq.AST;
 //
 //import org.junit.Before;
 //import org.junit.Test;

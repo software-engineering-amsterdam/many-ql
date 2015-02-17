@@ -7,39 +7,27 @@ Question hummus (bool): Do you love hummus?
 Question number (number): What is the most awesome number?
 
 if (hummus == True) {
-    Question something (number) : How many numbers does this if loop contain?
+    Question why (text) : What do you like about hummus?
 
-    Question check (bool) : Will this work?
-}
-else {
-    Question six (text): What is it then?
-}
+    Question grade (number) : How would you grade it?
 
-if (hummus == True) {
-    Question twee (bool): Is this a conditional question?
-
-    Question vier (bool): Do you really think that?
-
-    if (True == True) {
-        Question 4b (bool) : Will this work?
+    if (grade < 6) {
+        Question con (bool) : This is quite contradicting isn't it?
     }
 }
 
-if (hummus == True) {
-    Question vijf (bool): This is always true isn't it?
+if (con == True) {
+    Question trans (bool) : Will transitive closure work?
 }
 else {
-    Question zes (text): What is it then?
+    Question check (bool) : Will this work?
 }
 
-if (True == True) {
-    Question zeven (bool): This is always true isn't it?
-}
-else {
-    Question acht (text): What is it then?
+if (5 * (3 + 4) - 3 + (2 / 1) > 1) {
+    Question dunno (bool) : Do you know what to write?
 }
 
-// another comment
-Question negen (text): What do you think of this DSL?
-
+if (5 * (3 + 4) - 3 + (2 / 1) > 0) {
+    Question reading (bool) : Do you know what to read?
+}
 

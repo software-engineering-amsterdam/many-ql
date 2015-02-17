@@ -1,13 +1,12 @@
-import AST.Node;
-import AST.ParseTreeConverter;
+import com.klq.Visitor;
+import com.klq.ast.ANode;
+import com.klq.ast.ParseTreeConverter;
 import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.*;
 import parser.*;
-import AST.KLQNodes.*;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 /**
  * Created by Timon on 09.02.2015.
@@ -28,7 +27,13 @@ public class Main {
 
         ParseTreeConverter eval = new ParseTreeConverter();
         eval.visit(tree);
-        for (Node child : eval.getAst().getChildren()){
+
+        Visitor visitor = new Visitor();
+        eval.getAst().accept(visitor);
+
+        visitor.getQuestList();
+
+        for (ANode child : eval.getAst().getChildren()){
             child.printSelf();
         }
         System.out.println("done running");

@@ -3,14 +3,14 @@ package com.klq.logic.expression;
 /**
  * Created by Timon on 17.02.2015.
  */
-public class CalculationExpression extends Expression {
+public class CalculationExpression extends AExpression {
 
     public CalculationExpression(String content) {
         super(content);
     }
 
     @Override
-    public Expression evaluate() {
+    public AExpression evaluate() {
         return null;
     }
 
