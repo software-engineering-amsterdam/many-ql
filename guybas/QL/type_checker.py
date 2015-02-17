@@ -9,7 +9,10 @@ class TypeChecker:
         ids = TypeChecker.check_ids(self.form.questions)
         labels = TypeChecker.check_labels(self.form.questions)
         dependencies = TypeChecker.check_dependencies(self.form.questions)
-        print(dependencies)
+        transitive_dependencies = {}
+        for k in dependencies:
+            transitive_dependencies[k] = TypeChecker.transitive_dependencies_key(k, set([]), dependencies)
+        print(transitive_dependencies)
 
     def check_duplicates(list):
         # check for duplicates
@@ -37,9 +40,15 @@ class TypeChecker:
     def check_dependencies(questions):
         dependencies = {}
         for question in questions:
-            new_dependencies = question.all_dependencies()
+            new_dependencies = question.all_dependencies({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         return dependencies
+
+    def transitive_dependencies_key(key, values, dependencies):
+        for v in dependencies[key]:
+            values.add(v)
+            values = values.union(TypeChecker.transitive_dependencies_key(v, values, dependencies))
+        return values
 
     @staticmethod
     def type_checker(cinput, ctype=False):
@@ -50,7 +59,6 @@ class TypeChecker:
         :param str|bool ctype: The expected type to compare with, False to return the input type
         :return: True|False|str
         """
-        type_class = ...
         if isinstance(cinput, str):
             type_class = QuestionTypes.textName
         elif isinstance(cinput, (int, float, complex)): # in python 3 int = long

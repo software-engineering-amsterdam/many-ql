@@ -27,7 +27,7 @@ class BasicTypes:
 class QuestionTypes:
     """
     bool        :: True | False
-    integer     :: [0123456789]
+    number      :: [0123456789]
     text        :: sentences
     """
     boolean         = (Literal("True") | Literal("False")).setParseAction(ASTReady.make_bool)
@@ -46,7 +46,7 @@ class QuestionTypes:
 class Expressions:
     """
 
-    value       :: bool | integer | text
+    value       :: bool | number | text
     compare     :: > | >= | < | <= | ==
     operators   :: + | - | / | *
 
@@ -74,7 +74,7 @@ class FormFormat:
     id          :: characters
     label       :: sentence
 
-    answerR     :: "bool" | "integer" | "text"
+    answerR     :: "bool" | "number" | "text"
     question    :: Question id ( answerR ) : label
     questions   :: question+
 
@@ -91,20 +91,21 @@ class FormFormat:
 
     answerR         = Literal(QuestionTypes.booleanName) | Literal(QuestionTypes.numberName) | Literal(QuestionTypes.textName)
     question        = (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
-                       ).setParseAction(ASTReady.make_question)
+                       ).setParseAction(ASTReady.make_question).setResultsName("QUESTION")
     questions       = OneOrMore(question)
     
     aQuestions      = Forward()
     condition       = Expressions.condition.setParseAction(ASTReady.make_expression)
     pIf             = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
-                       OneOrMore(aQuestions) + Suppress("}"))
+                       OneOrMore(aQuestions) + Suppress("}")).setResultsName("IF")
                        
-    pIfElse         = (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
+    pIfElse         = ((Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
                        OneOrMore(aQuestions) + Suppress("}")) + Literal("else") + Suppress("{") + aQuestions + Suppress("}")
+    ).setResultsName("IFELSE")
     
     aQuestions      <<= OneOrMore((pIfElse.setParseAction(ASTReady.make_else))
                                   | pIf.setParseAction(ASTReady.make_if)
                                   | questions)
                       
-    introduction    = Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences)
-    form            = id + Optional(introduction) + aQuestions
+    introduction    = (Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences)).setResultsName("INTRODUCTION")
+    form            = (id + Optional(introduction) + aQuestions).setResultsName("FORM")
