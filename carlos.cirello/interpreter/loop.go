@@ -42,23 +42,24 @@ func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
 
 func (v *interpreter) updateSymbolTable() {
 	for r := range v.symbolChan {
-		if r.command == SymbolRead {
+		switch r.command {
+		default:
+			log.Fatalf("Invalid operation at symbols table: %#v",
+				r.command)
+		case SymbolRead:
 			question, ok := v.symbolTable[r.name]
 			if !ok {
 				log.Fatalf("Identifier unknown: %s", r.name)
 			}
 			r.ret <- question
-		} else if r.command == SymbolCreate {
+		case SymbolCreate:
 			if _, ok := v.symbolTable[r.name]; !ok {
 				v.symbolTable[r.name] = r.content
 			}
-		} else if r.command == SymbolUpdate {
+		case SymbolUpdate:
 			if _, ok := v.symbolTable[r.name]; ok {
 				v.symbolTable[r.name] = r.content
 			}
-		} else {
-			log.Fatalf("Invalid operation at symbols table: %#v",
-				r.command)
 		}
 	}
 }
