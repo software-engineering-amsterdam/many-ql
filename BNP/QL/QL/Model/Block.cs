@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QL.Model
 {
-    public class Block : AbstractNodeBase
+    public class Block : ElementBase
     {
 
     }

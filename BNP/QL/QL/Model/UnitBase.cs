@@ -7,7 +7,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model
 {
-    public abstract class UnitBase : AbstractNodeBase
+    public abstract class UnitBase : ElementBase
     {
         public Identifier Id { get; set; }
         public string DisplayText { get; set; }

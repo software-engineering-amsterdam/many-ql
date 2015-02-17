@@ -2,8 +2,10 @@
 
 namespace QL.Model.Terminals
 {
-    class Yesno : TerminalBase<bool?>
+    class Yesno : ElementBase, ITerminal<bool?>
     {
+        public bool? Value { get; private set; }
+
         public override string ToString()
         {
             if (!Value.HasValue)

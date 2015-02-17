@@ -2,8 +2,10 @@
 
 namespace QL.Model.Terminals
 {
-    class Text : TerminalBase<string>
+    class Text : ElementBase, ITerminal<string>
     {
+        public string Value { get; private set; }
+
         public override string ToString()
         {
             if (Value== null) {

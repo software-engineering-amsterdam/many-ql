@@ -2,8 +2,10 @@
 
 namespace QL.Model.Terminals
 {
-    class Number : TerminalBase<int?>
+    class Number : ElementBase, ITerminal<int?>
     {
+        public int? Value { get; private set; }
+
         public override string ToString()
         {
             if (!Value.HasValue)
@@ -13,5 +15,6 @@ namespace QL.Model.Terminals
             
             return Value.ToString();
         }
+
     }
 }

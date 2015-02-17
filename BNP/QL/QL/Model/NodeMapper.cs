@@ -22,10 +22,12 @@ namespace QL.Model
             
         }
 
-        public AbstractNodeBase Create(QLParser.FormBlockContext context)
+        // todo: move to own mapper
+        public ElementBase Create(QLParser.FormBlockContext context)
         {
             throw new NotImplementedException();
         }
 
+        public IEnumerable<ElementBase> ExtractChilds();
     }
 }
