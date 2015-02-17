@@ -28,5 +28,13 @@ public class Question extends Statement
         return this.questionType;
     }
 
-    public void accept(Visitor visitor) { visitor.visit(this); }
+    public String getText()
+    {
+        return this.text;
+    }
+
+    public void accept(Visitor visitor)
+    {
+        visitor.visit(this);
+    }
 }
