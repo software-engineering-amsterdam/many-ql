@@ -56,17 +56,17 @@ func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	if _, ok := g.sweepStack[q.Identifier]; !ok {
+	if _, ok := g.sweepStack[q.Identifier()]; !ok {
 		m := &render{
 			renderQuestion,
-			q.Identifier,
-			q.Label,
+			q.Identifier(),
+			q.Label(),
 			q.Type(),
-			q.Content,
+			q.Content(),
 		}
 		g.renderStack = append(g.renderStack, *m)
 	}
-	g.sweepStack[q.Identifier] = true
+	g.sweepStack[q.Identifier()] = true
 }
 
 // Flush transfers form stack into the screen.

@@ -1,25 +1,27 @@
 package ast
 
-trait QLAST {
+object QLAST {
 
   // Form
-  sealed abstract class Statement
   case class Form(label: String, e: Statement)
+
+  // Statements
+  sealed abstract class Statement
   case class Sequence(statements: List[Statement]) extends Statement
   case class IfStatement(e: Expression, s1: Statement, s2: Option[Statement]) extends Statement
 
   // Questions
   sealed abstract class Question extends Statement
   case class BooleanQuestion(v: Variable, label: String) extends Question
-  case class IntegerQuestion(v: Variable, label: String) extends Question
+  case class NumberQuestion(v: Variable, label: String) extends Question
   case class StringQuestion(v: Variable, label: String) extends Question
   sealed abstract class ComputedQuestion extends Question
   case class ComputedBooleanQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
-  case class ComputedIntegerQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
+  case class ComputedNumberQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
   case class ComputedStringQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
   sealed abstract class QuestionType
   case class BooleanType() extends QuestionType
-  case class IntegerType() extends QuestionType
+  case class NumberType() extends QuestionType
   case class StringType() extends QuestionType
 
   // Boolean and arithmetic expressions

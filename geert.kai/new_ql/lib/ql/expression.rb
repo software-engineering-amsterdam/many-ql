@@ -1,18 +1,50 @@
-#class Expression
-  #attr_reader :operator, :arguments
+require_relative "form"
 
-  #def initialize(operator:, arguments:)
-    #@operator = operator
-    #@arguments = arguments
-  #end
-#end
+class Expression < Node
+end
 
-class BinaryExpression
+class Variable < Expression
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+  end
+end
+
+class Literal < Expression
+  attr_reader :value
+
+  def initialize(value)
+    @value = value
+  end
+
+  def ==(other_value)
+    value == other_value
+  end
+end
+
+class IntegerLiteral < Literal
+end
+
+class StringLiteral < Literal
+end
+
+class BooleanLiteral < Literal
+end
+
+# Expressions
+
+class BinaryExpression < Expression
   attr_reader :lhs, :rhs
 
   def initialize(lhs, rhs)
     @lhs = lhs
     @rhs = rhs
+  end
+
+  def accept(visitor)
+    lhs.accept(visitor)
+    rhs.accept(visitor)
   end
 end
 
@@ -56,83 +88,75 @@ class IntegerExpression < BinaryExpression # * + - /
   end
 end
 
-class Variable
-  attr_reader :name
-
-  def initialize(name)
-    @name = name
-  end
-end
-
 class And < BooleanExpression
-  def evaluate
-    lhs && rhs
+  def operator
+    :&
   end
 end
 
 class Or < BooleanExpression
-  def evaluate
-    lhs || rhs
+  def operator
+    :|
   end
 end
 
 class Equal < EqualityExpression
-  def evaluate
-    lhs == rhs
+  def operator
+    :==
   end
 end
 
 class Inequal < EqualityExpression
-  def evaluate
-    lhs != rhs
+  def operator
+    :!=
   end
 end
 
 class LessThan < OrderingExpression
-  def evaluate
-    lhs < rhs
+  def operator
+    :<
   end
 end
 
 class LessThanOrEqualTo < OrderingExpression
-  def evaluate
-    lhs <= rhs
+  def operator
+    :<=
   end
 end
 
 class GreaterThan < OrderingExpression
-  def evaluate
-    lhs > rhs
+  def operator
+    :>
   end
 end
 
 class GreaterThanOrEqualTo < OrderingExpression
-  def evaluate
-    lhs >= rhs
+  def operator
+    :>=
   end
 end
 
 class Plus < IntegerExpression
-  def evaluate
-    lhs + rhs
+  def operator
+    :+
   end
 end
 
 class Minus < IntegerExpression
-  def evaluate
-    lhs - rhs
+  def operator
+    :-
   end
 end
 
 class Multiplication < IntegerExpression
-  def evaluate
-    lhs * rhs
+  def operator
+    :*
   end
 end
 
 class Division < IntegerExpression
-  def evaluate
-    lhs / rhs
+  def operator
+    :/
   end
 end
 

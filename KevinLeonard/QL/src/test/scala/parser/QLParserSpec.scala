@@ -1,5 +1,6 @@
 package parser
 
+import ast.QLAST._
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
 
@@ -33,9 +34,9 @@ class QLParserSpec extends Specification with ParserMatchers {
         .withResult(BooleanQuestion(Variable("var"), "\"label\""))
     }
 
-    "parse integer questions" in {
-      question must succeedOn("question var \"label\"\nanswer integer")
-        .withResult(IntegerQuestion(Variable("var"), "\"label\""))
+    "parse number questions" in {
+      question must succeedOn("question var \"label\"\nanswer number")
+        .withResult(NumberQuestion(Variable("var"), "\"label\""))
     }
 
     "parse string questions" in {
@@ -43,9 +44,9 @@ class QLParserSpec extends Specification with ParserMatchers {
         .withResult(StringQuestion(Variable("var"), "\"label\""))
     }
 
-    "parse computed integer questions" in {
-      question must succeedOn("question var \"label\"\nanswer integer is (fieldA + fieldB)")
-        .withResult(ComputedIntegerQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
+    "parse computed number questions" in {
+      question must succeedOn("question var \"label\"\nanswer number is (fieldA + fieldB)")
+        .withResult(ComputedNumberQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
     }
 
     "parse computed boolean questions" in {

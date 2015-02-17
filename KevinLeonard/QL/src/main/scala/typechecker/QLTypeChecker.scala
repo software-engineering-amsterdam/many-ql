@@ -2,7 +2,35 @@ package typechecker
 
 import ast.QLAST
 
-class QLTypeChecker extends QLAST{
+class QLTypeChecker extends {
+    import QLAST._
+
+    var questionVariableMap = Map[String, Integer]()
+  
+    // TODO: Add Tests
+    def addToVariableMap(v: Variable) = questionVariableMap.get(v.name) match {
+      case Some(counter) => questionVariableMap += (v.name -> (counter + 1)) // TODO: Error stack?
+      case None => questionVariableMap += (v.name -> 1)
+    }
+
+    // TODO: Add Tests
+    def check(statement: Statement): Literal = statement match {
+      case BooleanQuestion(v: Variable, label: String) => addToVariableMap(v); BooleanLiteral(true)
+      case ComputedBooleanQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
+        case BooleanLiteral(true) => BooleanLiteral(true)
+        case _ => sys.error("Invalid expression for computed boolean expression")
+      }
+      case NumberQuestion(v: Variable, label: String) => addToVariableMap(v); BooleanLiteral(true)
+      case ComputedNumberQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
+        case BooleanLiteral(true) => BooleanLiteral(true)
+        case _ => sys.error("Invalid expression for computed integer expression")
+      }
+      case StringQuestion(v: Variable, label: String) => addToVariableMap(v); StringLiteral("")
+      case ComputedStringQuestion(v: Variable, label: String, e: Expression) => addToVariableMap(v); check(e) match {
+        case BooleanLiteral(true) => BooleanLiteral(true)
+        case _ => sys.error("Invalid expression for computed integer expression")
+      }
+    }
   
     def check(expression: Expression): Literal = expression match {
       case Or(l: Expression, r: Expression) => (check(l), check(r)) match {
@@ -64,12 +92,10 @@ class QLTypeChecker extends QLAST{
       }
 
       // TODO: Variable
-        
-      // Literals
+
       case BooleanLiteral(_) => BooleanLiteral(true)
       case NumberLiteral(_) => NumberLiteral(1)
       case StringLiteral(_) => StringLiteral("")
+
     }
-    
-  
 }

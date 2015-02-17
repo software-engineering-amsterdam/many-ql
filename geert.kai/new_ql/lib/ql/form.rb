@@ -1,46 +1,45 @@
-class Form 
+require "byebug"
+
+class Node
+  def accept(visitor)
+    visitor.visit(self)
+  end
+end
+
+class Form < Node 
   attr_reader :name, :statements
 
   def initialize(name:, statements:)
     @name = name
     @statements = statements
   end
+
+  def accept visitor
+    statements.map do |statement|
+      statement.accept visitor
+    end
+  end
 end
 
-class Statement
-  #def statements
-    #raise "Statement.statements niet geimplementeerd"
-  #end
-
-  #def questions
-    #statements.flat_map(&:questions)
-  #end
+class Statement < Node
 end
 
 class Question < Statement
-  attr_reader :description, :variable_definition
+  attr_reader :description, :variable_name, :type
 
-  def initialize(description:, variable_definition:)
+  def initialize(description:, variable_name:, type:)
     @description = description
-    @variable_definition = variable_definition
-  end
-
-  #def questions
-    #self
-  #end
-end
-
-class VariableDefinition
-  attr_reader :name, :type
-
-  def initialize(name:, type:)
-    @name = name
+    @variable_name = variable_name
     @type = type
   end
 end
 
-# expression to this superclass?
 class ConditionalStatement < Statement
+  def accept visitor
+   statements.map do |statement|
+      statement.accept visitor
+    end
+  end
 end
 
 class If < ConditionalStatement

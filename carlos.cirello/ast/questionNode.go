@@ -12,10 +12,26 @@ type Parser interface {
 
 // QuestionNode models the structure of one question within a Questionaire.
 type QuestionNode struct {
-	Label      string
-	Identifier string
-	Content    Parser
-	Answered   bool
+	label      string
+	identifier string
+	content    Parser
+	answered   bool
+}
+
+func NewQuestionNode(label, identifier string, content Parser, answered bool) *QuestionNode {
+	return &QuestionNode{label, identifier, content, answered}
+}
+
+func (q *QuestionNode) Identifier() string {
+	return q.identifier
+}
+
+func (q *QuestionNode) Content() Parser {
+	return q.content
+}
+
+func (q *QuestionNode) Label() string {
+	return q.label
 }
 
 // Clone Question to be used for transmission between VM and Frontend
@@ -26,11 +42,11 @@ func (q QuestionNode) Clone() QuestionNode {
 // From takes the input from Frontend and stores locally,
 // into the concrete question type.
 func (q QuestionNode) From(str string) error {
-	return q.Content.From(str)
+	return q.content.From(str)
 }
 
 // Type returns the question type in string to facilitate later evaluation at
 // Frontend. It might be deprecated under architecture review.
 func (q QuestionNode) Type() string {
-	return q.Content.Type()
+	return q.content.Type()
 }

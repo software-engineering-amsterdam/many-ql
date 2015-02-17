@@ -1,6 +1,17 @@
+if (10 > 15) then
+    if (a > b && b > c) then
+        question
+            id : question1
+            text : "What is love"
+            type : boolean
+            value : "Baby don't hurt me", "Don't hurt me", 10.3 * 42.5 + 100
+        end
+    end
+end
+
 question
-    id : question1
-    type : boolean
-    text : "What is love"
-    value : "Baby dont hurt me", "Dont hurt me", 10.3 * 42.5 + 100
+    id : question2
+    text : "Hello!"
+    type : date
+    value : 21.12.
 end

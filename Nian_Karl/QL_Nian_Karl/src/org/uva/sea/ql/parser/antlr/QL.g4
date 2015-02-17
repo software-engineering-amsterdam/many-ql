@@ -1,23 +1,11 @@
 grammar QL;
 
-
 @parser::header
 {
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
-{
-//	import org.uva.sea.ql.model.expression.*;
-//	import org.uva.sea.ql.model.expression.mathexpression.*;
-//	import org.uva.sea.ql.model.expression.booleanexpression.*;
-//	import org.uva.sea.ql.model.expression.commonexpression.*;
-}
+{}
 
 // Parser rules
 form : FORM Identifier block;
@@ -38,29 +26,29 @@ questionName : Identifier;
 
 questionLabel : StringLiteral;
 
-ifStatement : IF LEFT_PARENTHESES expr RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
+ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
 
-elseIfStatement : ELIF block elseStatement;
+//ifStatement : IF LEFT_PARENTHESES expression RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
+//
+//elseIfStatement : ELIF block elseStatement;
+//
+//elseStatement : ELSE block;
 
-elseStatement : ELSE block;
-
-expr: 
+expression: 
 	literal
-	| expr AND expr
-	| expr OR expr
-	| expr EQUAL_COND expr
-	| expr GREATER expr
-	| expr EQUAL_GREATER expr
-	| expr EQUAL expr
-	| expr EQUAL_SMALLER expr
-	| expr SMALLER expr
-	| expr PLUS expr 
-	| expr MINUS expr 
-	| expr MULTIPLY expr 
-	| expr DEVIDE expr 
+	| expression AND expression
+	| expression OR expression
+	| expression EQUAL_COND expression
+	| expression GREATER expression
+	| expression GREAT_EQUAL expression
+	| expression EQUAL expression
+	| expression LESS_EQUAL expression
+	| expression LESS expression
+	| expression PLUS expression 
+	| expression MINUS expression 
+	| expression MULTIPLY expression 
+	| expression DEVIDE expression 
 ;
-//=========================================
-
 
 literal
  	 : Identifier
@@ -71,47 +59,43 @@ literal
  	 | DateLiteral
 	 ;
 
-
-// Lexer rules
-
-// Data Types
-INT:			'Int';
-STR:			'Str';
-CUR:			'Cur';
-BOOL:			'Bool';
-DEC:			'Dec';
-DATE:			'Date';
-
-
-// Keywords
+/* LEXER RULES */
+// Keywords		==================================================================
 FORM		:		'form';
 IF			:		'if';
 THEN		:		'then';
 ELSE		:		'else';
 ELIF		:		'else if';
 
-// Operators
-OR:				'||';
-AND:			'&&';
-EQUAL:			'=';
-GREATER: 		'>';
-EQUAL_GREATER: 	'>='; 
-EQUAL_COND:		'==';
-EQUAL_SMALLER: 	'<=';
-SMALLER: 		'<';
-PLUS:			'+';
-MINUS:			'-';
-DEVIDE:			'/';
-MULTIPLY:		'*';
+// DataTypes	==================================================================
+INT 		:		'Int';
+STR			:		'Str';
+CUR			:		'Cur';
+BOOL		:		'Bool';
+DEC			:		'Dec';
+DATE		:		'Date';
 
-// Symbols
-LEFT_BRACE:	'{';
-RIGHT_BRACE:	'}';
-LEFT_PARENTHESES:	'(';
-RIGHT_PARENTHESES:	')';
-COLON:			':';
-SEMICOLON:		';';
+// Operators	==================================================================
+OR			:		'||';
+AND			:		'&&';
+EQUAL		:		'=';
+EQUAL_COND	:		'==';
+GREATER		: 		'>';
+LESS		: 		'<';
+GREAT_EQUAL	: 		'>='; 
+LESS_EQUAL	: 		'<=';
+PLUS		:		'+';
+MINUS		:		'-';
+DEVIDE		:		'/';
+MULTIPLY	:		'*';
 
+// Symbols		==================================================================
+LEFT_BRACE	:		'{';
+RIGHT_BRACE	:		'}';
+LEFT_PAREN	:		'(';
+RIGHT_PAREN	:		')';
+COLON		:		':';
+SEMICOLON	:		';';
 
 IntegerLiteral: [1-9][0-9]*;
 
@@ -121,7 +105,7 @@ DecimalNumeral : Non_Zero_Digit Digit* | [0];
 
 BooleanLiteral: 'true' | 'false';
 
-StringLiteral: '"' .*? '"';
+StringLiteral: '"' (~[\r\n"] | '""')* '"';
 
 DateLiteral : Day '-' Month '-' Year;
 
@@ -135,8 +119,6 @@ Non_Zero_Digit: [1-9];
 	
 Digit: [0-9];
 
-//Date: ('0');
-
 WhiteSpace  :(' ' | '\t' | '\n' | '\r') -> skip;
 
 MultiComment : '/*' .*? '*/' -> skip;
@@ -144,5 +126,3 @@ MultiComment : '/*' .*? '*/' -> skip;
 SingleComment: '//' .*? '\n' -> skip;
 
 Identifier: [a-zA-Z][a-zA-Z0-9_]*;
-
-
