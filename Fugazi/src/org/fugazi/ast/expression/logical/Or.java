@@ -11,6 +11,10 @@ public class Or extends Logical {
 
     @Override
     public String toString() {
+        System.out.println("lalalal");
+//        return "lalalala";
+        System.out.println(this.left);
+        System.out.println(this.right.toString());
         return this.left.toString() + " || " + this.right.toString();
     }
 

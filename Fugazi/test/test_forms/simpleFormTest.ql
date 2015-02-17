@@ -8,6 +8,6 @@ form taxOfficeExample {
 
   // check
   if (age > 5) {
-    money valueResidue ("Value residue:") = (age - 1);
+    int valueResidue ("Value residue:") = (age - 1);
   }
 }

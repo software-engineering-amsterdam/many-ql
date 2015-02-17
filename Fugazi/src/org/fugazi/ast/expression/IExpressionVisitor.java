@@ -1,6 +1,7 @@
 package org.fugazi.ast.expression;
 
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.BOOL;
 import org.fugazi.ast.expression.literal.ID;
 import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
@@ -43,4 +44,5 @@ public interface IExpressionVisitor<T> {
     public T visitID(ID id);
     public T visitINT(INT INT);
     public T visitSTRING(STRING string);
+    public T visitBOOL(BOOL bool);
 }

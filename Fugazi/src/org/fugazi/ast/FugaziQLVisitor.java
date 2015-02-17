@@ -15,6 +15,7 @@ import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.form.Form;
 import org.fugazi.ast.expression.literal.ID;
 import org.fugazi.ast.expression.literal.INT;
+import org.fugazi.ast.expression.literal.BOOL;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.IfStatement;
@@ -260,18 +261,23 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     @Override
     public INT visitIntExpression(@NotNull QLParser.IntExpressionContext ctx) {
         System.out.print(" " + ctx.INT().getText() + " ");
-        return (INT) ctx.INT().accept(this); // Accept the QL Visitor of the INT
+
+        int value = Integer.parseInt(ctx.INT().getText());
+        return new INT(value);
     }
 
     @Override
-    public BoolType visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
+    public BOOL visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
         System.out.print(" " + ctx.BOOLEAN().getText() + " ");
-        return (BoolType) ctx.BOOLEAN().accept(this); // Accept the QL Visitor of the BOOLEAN
+        Boolean value = Boolean.parseBoolean(ctx.BOOLEAN().getText());
+        return new BOOL(value);
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
         System.out.print(" " + ctx.ID().getText() + " ");
-        return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
+
+        String name = ctx.ID().getText();
+        return new ID(name);
     }
 }

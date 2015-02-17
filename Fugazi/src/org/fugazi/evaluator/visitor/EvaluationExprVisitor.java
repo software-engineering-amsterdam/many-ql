@@ -1,9 +1,7 @@
-package org.fugazi.evaluator;
+package org.fugazi.evaluator.visitor;
 
-import org.fugazi.ast.expression.Binary;
-import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.literal.BOOL;
 import org.fugazi.ast.expression.literal.INT;
-import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.ID;
@@ -17,10 +15,11 @@ import org.fugazi.ast.expression.numerical.Sub;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.evaluator.ExpressionValue;
 
-public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
+public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValue> {
 
-    ExpressionVisitor() {
+    public EvaluationExprVisitor() {
 
     }
 
@@ -69,18 +68,15 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
     
     public ExpressionValue visitNotEq(NotEq notEq) {
         return null;             
-    }     
+    }
 
     // Numerical
     public ExpressionValue visitAdd(Add add) {
-        
-//        IntValue left = (IntValue) add.getLeft().accept(this);
-//        IntValue right = (IntValue) add.getRight().accept(this);
-//        
-//        Integer integer = left.getValue() + right.getValue();
-//        
-//        return new IntValue(integer);
-        return null;
+
+        ExpressionValue left = add.getLeft().accept(this);
+    	ExpressionValue right = add.getRight().accept(this);
+
+    	return left.add(right);
     }
     
     public ExpressionValue visitSub(Sub sub) {
@@ -104,6 +100,10 @@ public class ExpressionVisitor implements IExpressionVisitor <ExpressionValue> {
     }
 
     public ExpressionValue visitSTRING(STRING string) {
+        return null;
+    }
+
+    public ExpressionValue visitBOOL(BOOL bool) {
         return null;
     }
 }
