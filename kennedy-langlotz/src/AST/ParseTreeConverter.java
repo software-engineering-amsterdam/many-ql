@@ -1,5 +1,6 @@
 package AST;
 import AST.KLQNodes.*;
+import AST.KLQNodes.Number;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
 
@@ -11,43 +12,37 @@ public class ParseTreeConverter extends KLQBaseVisitor<Node>{
 
     @Override
     public Node visitUncondQuestion(@NotNull KLQParser.UncondQuestionContext ctx) {
-        Question question = new Question(ctx.id.getText(), ctx.type.getText(), ctx.text.getText());
+        Question question;
+
+        if(ctx.answerSet() == null){
+            question = new Question(ctx.id.getText(), ctx.type.getText(), ctx.text.getText());
+        }
+        else {
+            Node child = visit(ctx.answerSet());
+            question = new ComputedQuestion(ctx.id.getText(), ctx.type.getText(), ctx.text.getText());
+            question.getChildren().add(child);
+        }
+
         ast.getChildren().add(question);
-        visit(ctx.answerSet());
         return question;
     }
 
 //    @Override
-//    public Node visitExpr(KLQParser.ExprContext ctx) {
-//        System.out.println("been here");
-//        if(ctx.St    != null) {
-//            System.out.println(ctx.String().getText());
-//        }
-//        else if(ctx.Number() != null){
-//            System.out.println(ctx.Number().getText());
-//        }
-//
-//        return super.visitExpr(ctx);
+//    public Node visitDate(KLQParser.DateContext ctx) {
+//        System.out.println(ctx.Date().getText());
+//        return super.visitDate(ctx);
 //    }
-
-
-    @Override
-    public Node visitDate(KLQParser.DateContext ctx) {
-        System.out.println(ctx.Date().getText());
-        return super.visitDate(ctx);
-    }
 
     @Override
     public Node visitNumber(KLQParser.NumberContext ctx) {
-        System.out.println(ctx.Number().getText());
-        return super.visitNumber(ctx);
+        Number number = new Number(Double.valueOf(ctx.Number().getText()));
+        return number;
     }
 
-    @Override
-    public Node visitMulDiv(KLQParser.MulDivContext ctx) {
-        System.out.println("yolo");
-        return super.visitMulDiv(ctx);
-    }
+//    @Override
+//    public Node visitMulDiv(KLQParser.MulDivContext ctx) {
+//        return super.visitMulDiv(ctx);
+//    }
 
     public Questionnaire getAst() {
         return ast;

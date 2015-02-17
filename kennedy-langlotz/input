@@ -1,4 +1,4 @@
-if (10 > question1) then
+/*if (10 > question1) then
     if (a > b && b > c) then
         question
             id : question1
@@ -9,9 +9,15 @@ if (10 > question1) then
     end
 end
 
-question
+*/question
     id : question2
-    text : "Hello!"
-    type : date
-    value : 21.12.1990
+    text : "Age?"
+    type : numeral
+    value : 24
+end
+
+question
+    id : question3
+    text : "name?"
+    type : string
 end
