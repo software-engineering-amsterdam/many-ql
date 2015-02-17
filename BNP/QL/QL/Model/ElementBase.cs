@@ -11,8 +11,6 @@ namespace QL.Model
     {
         public SourceLocation SourceLocation { get; protected set; }
 
-        public IList<ElementBase> Children { get; protected set; }
-
         public abstract ElementType ElementType { get; }
 
     }
