@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Created by Gerrit Krijnen on 2/16/2015.
  */
 public class Question extends Node {
-    private static final String[] parentsAllowed = {"Form","Conditional"};
+    private static final String[] parentsAllowed = {"Form","IfStatement","ElseStatement","ElseIfStatement"};
     // TODO: Implement custom question type and remove here
     private static final String[] questionTypes = {"integer","string","boolean","custom"};
 
@@ -17,14 +17,26 @@ public class Question extends Node {
     private String questionType;
     private Range questionRange;
 
-    public Question(String id){
-        super();
+    public Question(int lineNumber, String id){
+        super(lineNumber,"Question");
         this.setAcceptedParents(parentsAllowed);
         if (id != null) {
-            this.identifier = id;
+            this.identifier = id.substring(1, id.length()-1);
         } else {
             System.err.println("Question Error: No identifier specified");
         }
+    }
+    public String getIdentifier(){
+        return identifier;
+    }
+    public String getQuestionString(){
+        return questionString;
+    }
+    public String getQuestionType(){
+        return questionType;
+    }
+    public Range getQuestionRange(){
+        return questionRange;
     }
     public void setQuestionString(String qs){
         if (qs != null) {
@@ -52,6 +64,7 @@ public class Question extends Node {
         this.questionRange = r;
     }
 
+    @Override
     public void printDebug(int i){
         for (int j=0; j < i; j++){
             System.out.print("\t");

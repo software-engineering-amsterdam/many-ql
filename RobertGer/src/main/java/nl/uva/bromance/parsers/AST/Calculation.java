@@ -6,8 +6,8 @@ public class Calculation extends Node {
     private static final String[] parentsAllowed = {"Form"};
     private String identifier;
 
-    public Calculation(String id){
-        super();
+    public Calculation(int lineNumber, String id){
+        super(lineNumber,"Calculation");
         this.setAcceptedParents(parentsAllowed);
         if (id != null) {
             this.identifier = id;
@@ -15,7 +15,7 @@ public class Calculation extends Node {
             System.err.println("Calculation Error: No identifier specified");
         }
     }
-
+    @Override
     public void printDebug(int i){
         for (int j=0; j < i; j++){
             System.out.print("\t");
@@ -24,7 +24,6 @@ public class Calculation extends Node {
         for (Node n :children){
             n.printDebug(i+1);
         }
-
     }
 
 }
