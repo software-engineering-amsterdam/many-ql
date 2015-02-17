@@ -62,10 +62,10 @@ class Expressions:
     operatorName    = 'operator'
 
     expr            = Forward()
-    atom            = value | Group(Suppress("(") + expr + Suppress(")"))
-    expr            << atom + ZeroOrMore(operator + expr)
+    atom            = Group(Suppress("(") + expr + Suppress(")")) | value
+    expr            << atom + ZeroOrMore((operator | compare)+ expr)
     
-    condition       = Group(expr + compare + expr)
+    condition       = Group(expr)
 
 
 class FormFormat:

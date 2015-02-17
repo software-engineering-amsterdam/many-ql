@@ -1,31 +1,31 @@
-package AST;
+package com.klq.ast;
 
 import java.util.ArrayList;
 
 /**
  * Created by juriaan on 9-2-15.
  */
-public abstract class Node {
+public abstract class ANode {
     private String loc;
-    private Node parent;
-    private ArrayList<Node> children;
+    private ANode parent;
+    private ArrayList<ANode> children;
 
-    public Node(){
-        children = new ArrayList<Node>();
+    public ANode(){
+        children = new ArrayList<ANode>();
     }
 
-    public Node(String loc){
+    public ANode(String loc){
         this.loc = loc;
         parent = null;
-        children = new ArrayList<Node>();
+        children = new ArrayList<ANode>();
     }
 
-    public Node getParent() {
+    public ANode getParent() {
         return parent;
     }
 
     //Set the parent node and change the children property of the parent.
-    public void setParent(Node parent) {
+    public void setParent(ANode parent) {
         removeParent();
         if(parent != null) {
             this.parent = parent;
@@ -40,15 +40,15 @@ public abstract class Node {
         }
     }
 
-    public ArrayList<Node> getChildren() {
+    public ArrayList<ANode> getChildren() {
         return children;
     }
 
-    public void setChildren(ArrayList<Node> children) {
+    public void setChildren(ArrayList<ANode> children) {
         this.children = children;
     }
 
-    public abstract void accept(Visitor visitor);
+    public abstract void accept(IVisitor visitor);
 
     public void printSelf() {
     }

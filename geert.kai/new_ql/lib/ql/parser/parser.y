@@ -81,7 +81,7 @@ end
 
 ---- inner
 
-  require_relative '../ql'
+  require_relative '../../ql'
 
   def initialize tokenizer
     @tokenizer = tokenizer

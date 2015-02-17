@@ -32,7 +32,7 @@ class QLTypeChecker extends {
     //def check(form: Form, vars: Variables = List()) = check(form.e, vars)
   
     
-    def check(form: Form, env: Environment): Environment = check(form.e, env)
+    def check(form: Form, env: Environment = emptyEnvironment): Environment = check(form.e, env)
   
     def check(statement: Statement, env: Environment): Environment = statement match {
       case Sequence(statements: List[Statement]) => statements.foldLeft(env) { (env, statement) => check(statement, env) }
@@ -108,20 +108,20 @@ class QLTypeChecker extends {
         case _ => sys.error("Invalid GREATER THAN EQUAL expression.")
       }
       case Add(l: Expression, r: Expression) => (check(l, env), check(r, env)) match {
-        case (NumberLiteral(_), NumberLiteral(_)) => defaultBooleanValue
+        case (NumberLiteral(_), NumberLiteral(_)) => defaultNumberValue
         case _ => sys.error("Invalid ADD expression.")
       }
       case Sub(l: Expression, r: Expression) => (check(l, env), check(r, env)) match {
-        case (NumberLiteral(_), NumberLiteral(_)) => defaultBooleanValue
+        case (NumberLiteral(_), NumberLiteral(_)) => defaultNumberValue
         case _ => sys.error("Invalid SUB expression.")
       }
         
       case Mul(l: Expression, r: Expression) => (check(l, env), check(r, env)) match {
-        case (NumberLiteral(_), NumberLiteral(_)) => defaultBooleanValue
+        case (NumberLiteral(_), NumberLiteral(_)) => defaultNumberValue
         case _ => sys.error("Invalid MUL expression.")
       }
       case Div(l: Expression, r: Expression) => (check(l, env), check(r, env)) match {
-        case (NumberLiteral(_), NumberLiteral(_)) => defaultBooleanValue
+        case (NumberLiteral(_), NumberLiteral(_)) => defaultNumberValue
         case _ => sys.error("Invalid DIV expression.")
       }
       case Variable(name: String) => env getOrElse(name, sys.error(s"Undefined variable: $name"))

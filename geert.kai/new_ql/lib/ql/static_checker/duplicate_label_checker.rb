@@ -1,12 +1,4 @@
-class StaticChecker < BaseVisitor
-  def initialize(form)
-    @form = form
-  end
-
-  private
-
-  attr_reader :form
-end
+require_relative "static_checker"
 
 class DuplicateLabelChecker < StaticChecker
   visitor_for Form do |form|
@@ -26,6 +18,7 @@ class DuplicateLabelChecker < StaticChecker
     duplicates = descriptions.each_with_object({}) do |desc, counts|
       counts[desc] = counts.fetch(desc, 0) + 1
     end.select { |desc, count| count > 1 }.keys
+
     { valid: duplicates.empty?, labels: duplicates }
   end
 end

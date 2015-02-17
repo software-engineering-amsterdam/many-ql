@@ -2,6 +2,7 @@ from AST import AST
 import ASTNodes
 from collections import OrderedDict
 from CustomTypes import *
+import OperatorTypes
 
 class QuestionTable(OrderedDict):
 	def __init__(self, ast):
@@ -31,13 +32,13 @@ class ExpressionsTuple(tuple):
 	def __add__(self, value):
 		return ExpressionsTuple(tuple.__add__(self, value))
 
-	def evaluate(self):
-		return all(expr.evaluate() for expr in self)
+	def evaluate(self, typeTable):
+		return all(expr.evaluate(typeTable) for expr in self)
 
 class QuestionList(list):
-	def getVisibleQuestion(self):
+	def getVisibleQuestion(self, typeTable):
 		for question in self:
-			if question.isVisible():
+			if question.isVisible(typeTable):
 				return question
 		return None
 
@@ -78,30 +79,29 @@ class BinaryExpression(object):
 		self.op = binaryExpressionNode.op
 		self.right = ExpressionFactory.create(binaryExpressionNode.right)
 
-	def evaluate(self):
-		left = self.left.evaluate()
-		right = self.right.evaluate()
-		
-		if self.op == '+':
-			return left + right
-		elif self.op == '>':
-			return left > right
+	def evaluate(self, typeTable):
+		leftValue = self.left.evaluate(typeTable)
+		rightValue = self.right.evaluate(typeTable)
+		pythonOp = typeTable.getBinaryOperator(self.op, leftValue, rightValue)
+
+		return pythonOp(leftValue, rightValue)
 
 class UnaryExpression(object):
 	def __init__(self, unaryExpressionNode):
 		self.op = unaryExpressionNode.op
 		self.right = ExpressionFactory.create(unaryExpressionNode.right)
 
-	def evaluate(self):
-		return True
+	def evaluate(self, typeTable):
+		rightValue = self.right.evaluate(typeTable)
+		pythonOp = typeTable.getUnaryPythonOperator(self.op)
+		return pythonOp(right)
 
 class AtomicExpression(object):
 	def __init__(self, atomicExpressionNode):
 		self.left = atomicExpressionNode.left
 
-	def evaluate(self):
+	def evaluate(self, typeTable):
 		return self.left
-
 
 class Question(object):
 	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form):
@@ -115,8 +115,8 @@ class Question(object):
 		self.conditionalExpressions = conditionalExpressionsTuple
 		self.form = form
 
-	def isVisible(self):
-		return self.conditionalExpressions.evaluate()
+	def isVisible(self, typeTable):
+		return self.conditionalExpressions.evaluate(typeTable)
 
 class Page(object):
 	def __init__(self, questionTable, questionIdentifiers):
@@ -124,21 +124,35 @@ class Page(object):
 		for identifier in questionIdentifiers:
 			self.questionLists.append(questionTable[identifier])
 
-	def getVisibleQuestions(self):
+	def getVisibleQuestions(self, typeTable):
 		visibleQuestions = []
 		
 		for questionList in self.questionLists:
-			visibleQuestion = questionList.getVisibleQuestion()
+			visibleQuestion = questionList.getVisibleQuestion(typeTable)
 			if visibleQuestion:
 				visibleQuestions.append(visibleQuestion)
 
 		return visibleQuestions
 
+class Evaluator(object):
+	def __init__(self, ast):
+		self.questionTable = QuestionTable(ast)
+		self.typeTable = OperatorTypes.Table()
+		self.pages = []
+
+	def createDefaultPages(self):
+		self.pages = []
+		self.pages.append(Page(self.questionTable, self.questionTable.keys()))
+
+	def getVisibleQuestions(self, pageNumber):
+		return self.pages[pageNumber].getVisibleQuestions(self.typeTable)
+
 
 ast = AST("test_visitor.QL")
-qt = QuestionTable(ast)
-page = Page(qt, qt.keys())
-for q in page.getVisibleQuestions():
+evaluator = Evaluator(ast)
+evaluator.createDefaultPages()
+
+for q in evaluator.getVisibleQuestions(0):
 	print(q.text)
 
 #for identifier, question in ec.items():

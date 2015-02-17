@@ -6,7 +6,8 @@ import TypeChecker
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
-    typeCheckResult = TypeChecker.check(ast)
+    tc = TypeChecker.TypeChecker()
+    typeCheckResult = tc.check(ast)
 
     expectedNumMessages = int(
         testFileName.split('.')[0].split('-')[2]
@@ -51,10 +52,10 @@ def main():
 
     for testFileName in testFileNames:
         if(not runTest(args.verbose, testFileName)):
-            ++failures
+            failures += 1
 
     print( '\n'\
-         + str(failures) + ' error(s) total.\n'\
+         + str(failures) + ' failure(s) total.\n'\
          + 'Tested '+str(len(testFileNames))+' file(s): '\
          + str(testFileNames)
          )

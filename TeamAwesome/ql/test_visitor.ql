@@ -4,7 +4,7 @@ form taxOfficeExample {
     boolean = 3.012
   }
 
-  if 2 + 4 > 7 {
+  if "h" * 2 + 6 > "hhhh" {
     question hasBoughtHouse {
       "Did you buy a house1"
       boolean = "no"

@@ -1,9 +1,6 @@
-require_relative 'ql/tokenizer'
-require_relative 'ql/parser'
-require_relative 'ql/ast'
-require_relative 'ql/visitor'
+require "require_all"
 
-require "byebug"
+require_all "lib/"
 
 module QL
   def self.parse(path)

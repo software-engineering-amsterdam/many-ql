@@ -13,7 +13,7 @@ class QLEvaluator {
   private val defaultNumberValue = 0
   private val defaultStringValue = ""
 
-  val emptyEnvironment = Map[VariableName, VariableValue] ()
+  val emptyEnvironment = Map[VariableName, VariableValue]()
 
   def eval(f: Form, environment: Environment = emptyEnvironment): Environment = eval(f.e, environment)
 

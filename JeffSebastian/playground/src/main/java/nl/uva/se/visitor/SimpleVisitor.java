@@ -1,5 +1,6 @@
 package nl.uva.se.visitor;
 
+import nl.uva.se.ast.Node;
 import nl.uva.se.ast.expression.LogicalOperators.And;
 import nl.uva.se.ast.expression.LogicalOperators.Equal;
 import nl.uva.se.ast.expression.LogicalOperators.GreaterOrEqual;
@@ -16,6 +17,10 @@ import nl.uva.se.ast.expression.MathematicalOperators.Multiply;
 import nl.uva.se.ast.expression.MathematicalOperators.Power;
 import nl.uva.se.ast.expression.MathematicalOperators.Substraction;
 import nl.uva.se.ast.form.Form;
+import nl.uva.se.ast.literal.BooleanLiteral;
+import nl.uva.se.ast.literal.DecimalLiteral;
+import nl.uva.se.ast.literal.IntegerLiteral;
+import nl.uva.se.ast.literal.StringLiteral;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
@@ -30,7 +35,6 @@ public class SimpleVisitor implements Visitor {
 	@Override
 	public void visit(Question question) {
 		System.out.println(question.getQuestion());
-		
 	}
 
 	@Override
@@ -41,7 +45,7 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(Condition condition) {
-		System.out.println("condition");
+		System.out.println(condition.getLineNumber() + ":" + condition.getOffset() + " condition");
 		
 	}
 
@@ -131,6 +135,30 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(And and) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(BooleanLiteral booleanLiteral) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(DecimalLiteral decimalLiteral) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(IntegerLiteral integerLiteral) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(StringLiteral stringLiteral) {
 		// TODO Auto-generated method stub
 		
 	}
