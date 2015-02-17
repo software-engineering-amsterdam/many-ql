@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace AST.Nodes.GenericTypeName
 {
-    public class GenericTypeName : IGenericTypeNameNode
+    public class TypeName : IGenericTypeNameNode
     {
         private IList<IASTNode> children;
 
-        public GenericTypeName()
+        public TypeName()
         {
             children = new List<IASTNode>();
         }

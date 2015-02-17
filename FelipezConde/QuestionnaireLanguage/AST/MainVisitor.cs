@@ -8,7 +8,6 @@ using AST.Nodes;
 using AST.Nodes.FormSection;
 using Antlr4.Runtime.Tree;
 using Antlr4.Runtime;
-using AST.Nodes.FormElement;
 using AST.Nodes.FormObject;
 using AST.Nodes.GenericTypeName;
 using AST.Factory;
@@ -18,7 +17,7 @@ namespace AST
 {
     public class MainVisitor : QLMainBaseVisitor<IASTNode>
     {
-        private IEnumerable<IASTNode> VisitChildren(ParserRuleContext context)
+        private IEnumerable<IASTNode> FilterAndVisitChildren(ParserRuleContext context)
         {
             foreach (IParseTree child in context.children)
             {
@@ -29,11 +28,12 @@ namespace AST
             }
         }
 
+        #region FormElements
         public override IASTNode VisitForm(QLMainParser.FormContext context)
         {
             IASTNode ast = new Form();
 
-            foreach (IASTNode child in VisitChildren(context))
+            foreach (IASTNode child in FilterAndVisitChildren(context))
                 ast.AddChild(child);
 
             return ast;
@@ -43,27 +43,17 @@ namespace AST
         {
             IASTNode ast = new FormSection();
 
-            foreach (IASTNode child in VisitChildren(context))
+            foreach (IASTNode child in FilterAndVisitChildren(context))
                 ast.AddChild(child);
 
             return ast;
         }
 
-        public override IASTNode VisitFormObject(QLMainParser.FormObjectContext context)
+        public override IASTNode VisitQuestion(QLMainParser.QuestionContext context)
         {
-            IASTNode ast = new FormSection();
+            IASTNode ast = ASTFactory.GetNode(context);
 
-            foreach (IASTNode child in VisitChildren(context))
-                ast.AddChild(child);
-
-            return ast;
-        }
-
-        public override IASTNode VisitFormElement(QLMainParser.FormElementContext context)
-        {
-            IASTNode ast = new FormElement();
-
-            foreach (IASTNode child in VisitChildren(context))
+            foreach (IASTNode child in FilterAndVisitChildren(context))
                 ast.AddChild(child);
 
             return ast;
@@ -73,99 +63,255 @@ namespace AST
         {
             IASTNode ast = new Conditional();
 
-            foreach (IASTNode child in VisitChildren(context))
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+        #endregion
+
+        #region Expressions
+
+        public override IASTNode VisitPrimitiveTypeName(QLMainParser.PrimitiveTypeNameContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+            
+            //foreach (IASTNode child in VisitChildren(context))
+            //    ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitGenericTypeName(QLMainParser.GenericTypeNameContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+        
+        public override IASTNode VisitPriorityExpression(QLMainParser.PriorityExpressionContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
                 ast.AddChild(child);
 
             return ast;
         }
 
-        public override IASTNode VisitTypeName(QLMainParser.TypeNameContext context)
+        public override IASTNode VisitExpressionId(QLMainParser.ExpressionIdContext context)
         {
-            IASTNode ast = new GenericTypeName();
+            IASTNode ast = ASTFactory.GetNode(context);
 
-            //if (context.GetText().Equals("genericTypeName"))
-            //    ast = new GenericTypeNameNode();
-            //else
-
-            foreach (IASTNode child in VisitChildren(context))
+            foreach (IASTNode child in FilterAndVisitChildren(context))
                 ast.AddChild(child);
 
             return ast;
         }
 
-    }
-
-    /*
-    /// <summary>
-    /// This Partial class contains the visitors that handle the form structure productions
-    /// </summary>
-    public partial class QLVisitor: GrammarProject.IQLMainVisitor<RoseTree>
-    {
-        Dictionary<string, string> symbolTable = new Dictionary<string, string>();
-        RoseTree AST;
-
-        ArithmeticVisitor arithmeticVis = new ArithmeticVisitor();
-        ExpressionVisitor expressionVis = new ExpressionVisitor();
-        KeyValPairVisitor keyValPairVis = new KeyValPairVisitor();
-        FormVisitor formVis = new FormVisitor();
-        TypeVisitor typeVis = new TypeVisitor();
-
-    }
-
-    /// <summary>
-    /// This partial class contains the visitors that handle the type related productions 
-    /// </summary>
-    public partial class QLVisitor : GrammarProject.IQLMainVisitor<RoseTree>
-    {
-        ArithmeticVisitor arVis = new ArithmeticVisitor();
-
-
-        RoseTree Antlr4.Runtime.Tree.IParseTreeVisitor<RoseTree>.Visit(Antlr4.Runtime.Tree.IParseTree tree)
+        public override IASTNode VisitNegate(QLMainParser.NegateContext context)
         {
-            throw new NotImplementedException();
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
         }
 
-        RoseTree Antlr4.Runtime.Tree.IParseTreeVisitor<RoseTree>.VisitChildren(Antlr4.Runtime.Tree.IRuleNode node)
+        public override IASTNode VisitAnd(QLMainParser.AndContext context)
         {
-            throw new NotImplementedException();
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
         }
 
-        RoseTree Antlr4.Runtime.Tree.IParseTreeVisitor<RoseTree>.VisitErrorNode(Antlr4.Runtime.Tree.IErrorNode node)
+        public override IASTNode VisitOr(QLMainParser.OrContext context)
         {
-            throw new NotImplementedException();
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
         }
 
-        RoseTree Antlr4.Runtime.Tree.IParseTreeVisitor<RoseTree>.VisitTerminal(Antlr4.Runtime.Tree.ITerminalNode node)
+        public override IASTNode VisitEquality(QLMainParser.EqualityContext context)
         {
-            throw new NotImplementedException();
-        }
-    }
+            IASTNode ast = ASTFactory.GetNode(context);
 
-    /// <summary>
-    /// This partial class contains the visitors that handle the KeyValPairs productions
-    /// </summary>
-    public partial class QLVisitor : GrammarProject.QLMainBaseVisitor<RoseTree>
-    {
-        RoseTree IQLMainVisitor<RoseTree>.VisitKeyValPair(QLMainParser.KeyValPairContext context)
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        #endregion
+
+        #region Comparison
+
+        public override IASTNode VisitPriorityComparison(QLMainParser.PriorityComparisonContext context)
         {
-            throw new NotImplementedException();
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
         }
+
+        public override IASTNode VisitArithmeticComparison(QLMainParser.ArithmeticComparisonContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitPriorityArithmetic(QLMainParser.PriorityArithmeticContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitDivMul(QLMainParser.DivMulContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitSubAdd(QLMainParser.SubAddContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitArithmeticId(QLMainParser.ArithmeticIdContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+        #endregion
+
+        #region Types
+        public override IASTNode VisitNumInt(QLMainParser.NumIntContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitNumDecimal(QLMainParser.NumDecimalContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitNumMoney(QLMainParser.NumMoneyContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitBoolValue(QLMainParser.BoolValueContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitStringValue(QLMainParser.StringValueContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitDateValue(QLMainParser.DateValueContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitList(QLMainParser.ListContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        #endregion
+
+        #region KeyValue
+
+        public override IASTNode VisitKeyValuePairs(QLMainParser.KeyValuePairsContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        public override IASTNode VisitKeyValuePair(QLMainParser.KeyValuePairContext context)
+        {
+            IASTNode ast = ASTFactory.GetNode(context);
+
+            foreach (IASTNode child in FilterAndVisitChildren(context))
+                ast.AddChild(child);
+
+            return ast;
+        }
+
+        #endregion
     }
-
-    /// <summary>
-    /// This partial class contains the visitors that handle the expression productions
-    /// </summary>
-    public partial class QLVisitor : GrammarProject.QLMainBaseVisitor<RoseTree>
-    {
-
-    }
-
-    /// <summary>
-    /// This partial class contains the visitors that handle the arithmetic productions
-    /// </summary>
-    public partial class QLVisitor : GrammarProject.QLMainBaseVisitor<RoseTree>
-    {
-
-    }
-     */
 }
