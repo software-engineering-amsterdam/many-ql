@@ -2,6 +2,7 @@ package org.fugazi.type_checker;
 
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.BOOL;
 import org.fugazi.ast.expression.literal.ID;
 import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
@@ -138,6 +139,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitSTRING(STRING string) {
+        return null;
+    }
+
+    @Override
+    public Object visitBOOL(BOOL bool) {
         return null;
     }
 

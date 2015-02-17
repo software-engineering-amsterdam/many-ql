@@ -1,5 +1,6 @@
 package org.fugazi.evaluator.visitor;
 
+import org.fugazi.ast.expression.literal.BOOL;
 import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
@@ -99,6 +100,10 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
     }
 
     public ExpressionValue visitSTRING(STRING string) {
+        return null;
+    }
+
+    public ExpressionValue visitBOOL(BOOL bool) {
         return null;
     }
 }
