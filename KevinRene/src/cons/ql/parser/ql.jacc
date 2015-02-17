@@ -4,13 +4,13 @@
 %semantic cons.ql.ast.ASTNode 
 
 
-%token <BooleanLiteral> INITBOOLEAN
+%token <BooleanLiteral> BOOLEANLITERAL
 
-%token <QLInt> INITINT INT
+%token <QLInt> INTEGERLITERAL INT
 %token <QLBoolean> BOOLEAN
-%token <QLString> INITSTRING STRING
-%token <QLFloat> INITMONEY MONEY INITFLOAT FLOAT
-%token <QLIdent> IDENT
+%token <QLString> STRINGLITERAL STRING
+%token <QLFloat> MONEYLITERAL MONEY FLOATLITERAL FLOAT
+%token <QLIdentifier> IDENTIFIER
 %token FORM IF ELSE ASSIGN
 %token '*' '/' '+' '-' OR AND NEQ EQ '<' LEQ '>' GEQ '!' '"' ':' '.'
 %token '(' ')' '{' '}'
@@ -54,23 +54,23 @@ import cons.ql.ast.statement.*;
  		| expression
  		;
 
- form : FORM IDENT '{' statements '}' { $$ = new Form($2, $4); }
+ form : FORM IDENTIFIER '{' statements '}' { $$ = new Form($2, $4); }
  	  ;
 
  statements : statement statements  { $$ = new Block($1, $2); }
 			| statement 			{ $$ = new Block($1); }
 			;
 
- statement : IDENT ':' type '{' INITSTRING '}' 							{ $$ = new Question($1, $3, $5); }
- 		   | IDENT ':' type '{' INITSTRING ASSIGN '(' expression ')' '}'{ $$ = new ComputedQuestion($1, $3, $5, $8); }
- 		   | IF '(' expression ')' '{' statements '}' elseBranch 		{ $$ = new If($3, $6); }
+ statement : IDENTIFIER ':' type '{' STRINGLITERAL '}' 							{ $$ = new Question($1, $3, $5); }
+ 		   | IDENTIFIER ':' type '{' STRINGLITERAL ASSIGN '(' expression ')' '}'{ $$ = new ComputedQuestion($1, $3, $5, $8); }
+ 		   | IF '(' expression ')' '{' statements '}' elseBranch 				{ $$ = new If($3, $6); }
  		   ;
 
  elseBranch : ELSE '{' statements '}' 
  			| /* empty */
  			;
 
- expression : IDENT
+ expression : IDENTIFIER
  			| type
  			| literal
  			| unaryExpression
@@ -79,7 +79,7 @@ import cons.ql.ast.statement.*;
 		 	| '(' expression ')'	{ $$ = $2; }
 		 	;
 
- type 	: INT		{ $$ = new QLInt(); }
+ type 	: INT		{ $$ = new QLInteger(); }
  		| MONEY		{ $$ = new QLFloat(); }
 		| FLOAT		{ $$ = new QLFloat(); }
 		| BOOLEAN	{ $$ = new QLBoolean(); }
@@ -87,11 +87,11 @@ import cons.ql.ast.statement.*;
 		;
 
  // INIT<Type> stands for an initialised instance.
- literal : INITINT
-		 | INITMONEY
-		 | INITFLOAT
-		 | INITBOOLEAN
-		 | INITSTRING
+ literal : INTEGERLITERAL
+		 | MONEYLITERAL
+		 | FLOATLITERAL
+		 | BOOLEANLITERAL
+		 | STRINGLITERAL
 		 ;
 
  unaryExpression : '+' expression %prec UPLUS 	{ $$ = new Pos($2); }

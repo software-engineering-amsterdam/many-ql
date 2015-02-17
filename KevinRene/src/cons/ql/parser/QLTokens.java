@@ -1,4 +1,4 @@
-// Output created by jacc on Tue Feb 17 12:32:27 CET 2015
+// Output created by jacc on Tue Feb 17 12:52:22 CET 2015
 
 package cons.ql.parser;
 
@@ -8,24 +8,24 @@ interface QLTokens {
     int AND = 2;
     int ASSIGN = 3;
     int BOOLEAN = 4;
-    int ELSE = 5;
-    int EQ = 6;
-    int FLOAT = 7;
-    int FORM = 8;
-    int GEQ = 9;
-    int IDENT = 10;
-    int IF = 11;
-    int INITBOOLEAN = 12;
-    int INITFLOAT = 13;
-    int INITINT = 14;
-    int INITMONEY = 15;
-    int INITSTRING = 16;
-    int INT = 17;
-    int LEQ = 18;
-    int MONEY = 19;
-    int NEQ = 20;
-    int OR = 21;
-    int STRING = 22;
+    int BOOLEANLITERAL = 5;
+    int ELSE = 6;
+    int EQ = 7;
+    int FLOAT = 8;
+    int FLOATLITERAL = 9;
+    int FORM = 10;
+    int GEQ = 11;
+    int IDENTIFIER = 12;
+    int IF = 13;
+    int INT = 14;
+    int INTEGERLITERAL = 15;
+    int LEQ = 16;
+    int MONEY = 17;
+    int MONEYLITERAL = 18;
+    int NEQ = 19;
+    int OR = 20;
+    int STRING = 21;
+    int STRINGLITERAL = 22;
     int SUB = 23;
     int UMIN = 24;
     int UNOT = 25;

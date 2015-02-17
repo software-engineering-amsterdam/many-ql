@@ -1,18 +1,16 @@
 package cons.ql.ast.expression.type;
 
-import java.util.Arrays;
-
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.visitor.Visitor;
 
-public class QLInt extends QLNumeric {
+public class QLInteger extends QLNumeric {
 	
 	int value;
 	boolean defined;
 	
-	public QLInt() {}
+	public QLInteger() {}
 	
-	public QLInt(int value) {
+	public QLInteger(int value) {
 		this.value = value;
 		this.defined = true;
 	}
@@ -29,6 +27,6 @@ public class QLInt extends QLNumeric {
 
 	@Override
 	public QLType getType() {
-		return new QLInt();
+		return new QLInteger();
 	}
 }

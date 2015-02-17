@@ -5,16 +5,16 @@ import java.util.Arrays;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.visitor.Visitor;
 
-public class QLIdent extends QLType {
+public class QLIdentifier extends QLType {
 	
 	String value;
 	boolean defined;
 	
-	public QLIdent() {
+	public QLIdentifier() {
 		super(Arrays.asList());
 	}
 	
-	public QLIdent(String value) {
+	public QLIdentifier(String value) {
 		super(Arrays.asList());
 		this.value = value;
 		this.defined = true;
@@ -37,6 +37,6 @@ public class QLIdent extends QLType {
 
 	@Override
 	public QLType getType() {
-		return new QLIdent();
+		return new QLIdentifier();
 	}
 }

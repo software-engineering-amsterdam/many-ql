@@ -5,8 +5,7 @@ import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.visitor.Visitor;
 
-public class BooleanLiteral extends Expression {
-	
+public class BooleanLiteral extends Expression {	
 	boolean value;
 	
 	public BooleanLiteral(boolean value) {
@@ -27,5 +26,4 @@ public class BooleanLiteral extends Expression {
 	public QLType getType() {
 		return new QLBoolean();
 	}
-
 }

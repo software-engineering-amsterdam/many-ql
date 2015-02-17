@@ -3,25 +3,24 @@ package cons.ql.ast.statement;
 import cons.Register;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLIdent;
+import cons.ql.ast.expression.type.QLIdentifier;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.visitor.Visitor;
 
-@SuppressWarnings("rawtypes")
 public class Question extends Statement {	
-	private final QLIdent identifier;
+	private final QLIdentifier identifier;
 	private final QLType type;
 	private final QLString questionText;
 	
-	public Question(QLIdent identifier, QLType type, QLString questionText) {
+	public Question(QLIdentifier identifier, QLType type, QLString questionText) {
 		this.identifier = identifier;
 		this.type = type;
 		this.questionText = questionText;
 		
-		Register.getInstance().registerBinding(this.identifier, this);
+		Register.getInstance().store(this.identifier, this);
 	}
 	
-	public QLIdent getIdent() {
+	public QLIdentifier getIdent() {
 		return this.identifier;
 	}
 	
