@@ -7,6 +7,7 @@ import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
+import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
 import org.uva.student.calinwouter.qlqls.qls.components.IComponent;
 import org.uva.student.calinwouter.qlqls.qls.types.AbstractPushable;
 
@@ -71,10 +72,10 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAFilledIdentList(AFilledIdentList node) {
-            ArrayList<Object> values = new ArrayList<Object>();
-            System.out.println("size: " + node.getElement().size());
-            for (int i = 0; i < node.getElement().size(); i++)
-                values.add(pop().getValue());
+        ArrayList<Object> values = new ArrayList<Object>();
+        System.out.println("size: " + node.getElement().size());
+        for (int i = 0; i < node.getElement().size(); i++)
+            values.add(pop().getValue());
         try {
             push(interopComponent(node.getIdent().getText(), values.toArray()));
         } catch (ClassNotFoundException e) {
@@ -84,18 +85,6 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void outATypeElement(ATypeElement node) {
-        TypeInterpreter t = new TypeInterpreter();
-        node.getType().apply(t);
-        push(new AbstractPushable<TypeDescriptor<?>>(t.getValue()) {
-            @Override
-            public TypeDescriptor<?> getTypeDescriptor() {
-                return getValue();
-            }
-        });
     }
 
     @Override
@@ -134,33 +123,17 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     }
 
     @Override
-    public void outABoolType(ABoolType node) {
-        push(new AbstractPushable<String>(node.toString()) {
-            @Override
-            public String getString() {
-                return getValue();
-            }
-        });
-    }
+    public void outATypeElement(ATypeElement node) {
+        TypeInterpreter typeInterpreter = new TypeInterpreter();
+        node.getType().apply(typeInterpreter);
+        push(new AbstractPushable<TypeDescriptor<?>>(typeInterpreter.getValue()) {
 
-    @Override
-    public void outAStringType(AStringType node) {
-        push(new AbstractPushable<String>(node.toString()) {
             @Override
-            public String getString() {
+            public TypeDescriptor<?> getTypeDescriptor() {
                 return getValue();
             }
         });
-    }
 
-    @Override
-    public void outAIntType(AIntType node) {
-        push(new AbstractPushable<String>(node.toString()) {
-            @Override
-            public String getString() {
-                return getValue();
-            }
-        });
     }
 
     @Override
@@ -176,12 +149,16 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     @Override
     public void outAObjectElement(AObjectElement node) {
         HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
-        ArrayList<HashMap.SimpleEntry<Object, Object>> values =
-                new ArrayList<HashMap.SimpleEntry<Object, Object>>();
         for (int i = 0; i < node.getObjectEl().size(); i++) {
             AbstractMap.SimpleEntry<Object, Object> entry = pop().getSimpleEntry();
             hashMap.put(entry.getKey(), entry.getValue());
         }
+        push(new AbstractPushable<HashMap<Object, Object>>(hashMap) {
+            @Override
+            public HashMap<Object, Object> getHashMap() {
+                return getValue();
+            }
+        });
     }
 
     @Override
