@@ -31,6 +31,7 @@ public class Form implements Statement {
 		{
 			Statement statement = s.next();
 			JComponent component = statement.createGUIComponent();
+			System.out.println(component);
 			fPanel.add(component);
 		}		
 		return fPanel;

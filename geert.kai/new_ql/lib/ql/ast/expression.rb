@@ -9,6 +9,10 @@ class Variable < Expression
   def initialize(name)
     @name = name
   end
+  
+  def type
+    
+  end
 end
 
 class Literal < Expression
@@ -24,12 +28,21 @@ class Literal < Expression
 end
 
 class IntegerLiteral < Literal
+  def type
+    :integer
+  end
 end
 
 class StringLiteral < Literal
+  def type
+    :string
+  end
 end
 
 class BooleanLiteral < Literal
+  def type
+    :boolean
+  end
 end
 
 # Expressions

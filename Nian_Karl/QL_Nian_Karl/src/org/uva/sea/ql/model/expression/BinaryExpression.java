@@ -4,21 +4,21 @@ import org.uva.sea.ql.model.literal.AbstractLiteral;
 import org.uva.sea.ql.model.value.AbstractValue;
 
 public abstract class BinaryExpression implements Expression{
-	protected AbstractLiteral leftExpression;
-	protected AbstractLiteral rightExpression;
+	protected Expression leftExpression;
+	protected Expression rightExpression;
 	
-	public BinaryExpression(AbstractLiteral leftExpression,
-			AbstractLiteral rightExpression) {
+	public BinaryExpression(Expression leftExpression,
+			Expression rightExpression) {
 		this.leftExpression = leftExpression;
 		this.rightExpression = rightExpression;
 	}
 	
-	public AbstractLiteral getLeftExpression() {
+	public Expression getLeftExpression() {
 		return leftExpression;
 	}
 
 
-	public AbstractLiteral getRightExpression() {
+	public Expression getRightExpression() {
 		return rightExpression;
 	}
 
