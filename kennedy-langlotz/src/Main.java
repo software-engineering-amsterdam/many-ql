@@ -24,7 +24,7 @@ public class Main {
         KLQLexer lexer = new KLQLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         KLQParser parser = new KLQParser(tokens);
-        ParseTree tree = parser.questionaire(); // parse
+        ParseTree tree = parser.questionnaire();
 
         ParseTreeConverter eval = new ParseTreeConverter();
         eval.visit(tree);

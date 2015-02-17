@@ -14,8 +14,8 @@ block : LEFT_BRACE statement* RIGHT_BRACE;
 
 statement
 	: block
-	| question
-	| ifStatement
+	| question 
+	| ifStatement 
 	;
 	
 question : questionType questionName questionLabel SEMICOLON;
@@ -47,7 +47,8 @@ expression:
 	| expression PLUS expression 
 	| expression MINUS expression 
 	| expression MULTIPLY expression 
-	| expression DEVIDE expression 
+	| expression DEVIDE expression
+	| '(' expression ')'
 ;
 
 literal

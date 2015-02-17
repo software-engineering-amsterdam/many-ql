@@ -1,4 +1,0 @@
-C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainLexer.cs
-C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainParser.cs
-C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainVisitor.cs
-C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\QuestionnaireLanguage\GrammarProject\obj\Debug\QLMainBaseVisitor.cs

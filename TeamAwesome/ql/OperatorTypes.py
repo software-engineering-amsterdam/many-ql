@@ -28,6 +28,9 @@ class Table:
 
         self._rules = self._createRules()
 
+    def unaryOperationType(self, op, typeRight):
+        return self._rules.get((op, typeRight), None)
+
     def binaryOperationType(self, op, typeLeft, typeRight):
         rule = self._rules.get((op, typeLeft, typeRight), None)
         if rule:
@@ -50,10 +53,28 @@ class Table:
 
     def _createRules(self):
         rules = {}
+        rules.update(self._numericalUnaryOperatorRules())
+        rules.update(self._booleanUnaryOperatorRules())
         rules.update(self._numericalBinaryOperatorRules())
         rules.update(self._stringBinaryOperatorRules())
         rules.update(self._booleanBinaryOperatorRules())
         return rules
+
+    # TODO
+    def _numericalUnaryOperatorRules(self):
+        rules = {}
+        for op in ('-','+'):
+            rules.update({
+                (op, int) : int,
+                (op, Money) : Money
+            })
+        return rules
+
+    # TODO
+    def _booleanUnaryOperatorRules(self):
+        return {
+            ('!', bool) : bool
+        }
 
     def _numericalBinaryOperatorRules(self):
         rules = {}

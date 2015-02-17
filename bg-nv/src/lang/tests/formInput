@@ -1,7 +1,8 @@
 form Box1HouseOwning
 {
+ integer anotherQ "Sup???"
  boolean tralala "shalala" hasSoldHouse
- boolean hasSoldHouse "purely test question :)" sold
+ boolean hasSoldHouse "purely test question :)"
  if (hasSoldHouse)
  {
 
