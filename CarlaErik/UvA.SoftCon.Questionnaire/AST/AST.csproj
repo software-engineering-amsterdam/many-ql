@@ -48,10 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Statements\DataType.cs" />
     <Compile Include="Model\Expressions\BinaryExpression.cs" />
     <Compile Include="Model\Expressions\Identifier.cs" />
     <Compile Include="Model\Expressions\Literal.cs" />
     <Compile Include="Model\Node.cs" />
+    <Compile Include="Model\Expressions\Operation.cs" />
+    <Compile Include="Model\Statements\Declaration.cs" />
     <Compile Include="QuestionnaireVisitor.cs" />
     <Compile Include="Model\Questionnaire.cs" />
     <Compile Include="Model\Expressions\IExpression.cs" />

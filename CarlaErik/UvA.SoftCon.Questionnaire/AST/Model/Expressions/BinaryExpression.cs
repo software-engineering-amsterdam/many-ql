@@ -8,7 +8,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
     public class BinaryExpression : Node, IExpression
     {
-        public string Operator
+        public Operation Operation
         {
             get;
             private set;
@@ -26,9 +26,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             private set;
         }
 
-        public BinaryExpression(string @operator, IExpression left, IExpression right)
+        public BinaryExpression(Operation operation, IExpression left, IExpression right)
         {
-            Operator = @operator;
+            Operation = operation;
             Left = left;
             Right = right;
         }

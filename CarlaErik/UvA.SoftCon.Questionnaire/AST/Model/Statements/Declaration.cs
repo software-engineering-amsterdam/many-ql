@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
-    public class Question : Node, IStatement
+    public class Declaration : Node, IStatement
     {
         public DataType DataType
         {
@@ -21,17 +21,17 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public string Label
+        public IExpression Initialization
         {
             get;
             private set;
         }
 
-        public Question(DataType dataType, Identifier id, string label)
+        public Declaration(DataType dataType, Identifier id, IExpression initialization)
         {
             DataType = dataType;
             Id = id;
-            Label = label;
+            Initialization = initialization;
         }
     }
 }

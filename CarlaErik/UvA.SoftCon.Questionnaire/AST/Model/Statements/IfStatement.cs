@@ -9,63 +9,34 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public class IfStatement : Node, IStatement
     {
-        public IExpression Condition
+        public IExpression If
         {
             get;
             private set;
         }
 
-        public ICollection<IStatement> IfTrue
+        public ICollection<IStatement> Then
         {
             get;
             private set;
         }
 
-        public ICollection<IStatement> IfFalse
+        public ICollection<IStatement> Else
         {
             get;
             private set;
         }
 
-        public IfStatement(IExpression condition, ICollection<IStatement> ifTrue) 
+        public IfStatement(IExpression @if, ICollection<IStatement> then) 
         {
-            Condition = condition;
-            IfTrue = ifTrue;
+            If = @if;
+            Then = then;
         }
 
-        public IfStatement(IExpression condition, ICollection<IStatement> ifTrue, ICollection<IStatement> ifFalse)
-            : this(condition, ifTrue)
+        public IfStatement(IExpression @if, ICollection<IStatement> then, ICollection<IStatement> @else)
+            : this(@if, then)
         {
-            IfFalse = ifFalse;
-        }
-
-        public override string ToString()
-        {
-            var result = new StringBuilder();
-
-            result.AppendFormat("if ({0})", Condition.ToString());
-            result.AppendLine();
-            result.AppendLine("{");
-
-            foreach (var statement in IfTrue)
-            {
-                result.AppendLine(statement.ToString());
-            }
-
-            result.AppendLine("}");
-
-            if (IfFalse.Count > 0)
-            {
-                result.AppendLine("else");
-                result.AppendLine("{");
-                foreach (var statement in IfFalse)
-                {
-                    result.AppendLine(statement.ToString());
-                }
-                result.AppendLine("}");
-            }
-
-            return result.ToString();
+            Else = @else;
         }
     }
 }
