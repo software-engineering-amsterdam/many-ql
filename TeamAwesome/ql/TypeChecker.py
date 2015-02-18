@@ -136,7 +136,7 @@ class TypesOfExpressionsVisitor(TypeCheckingVisitor):
 
             if errorsBefore == errorsAfter:
                 self._allowExpression(
-                    [node.type],
+                    [self._typeOfIdentifier(node.identifier, node)],
                     self._lastExprType,
                     node.expr
                 ) 
