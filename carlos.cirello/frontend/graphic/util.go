@@ -1,7 +1,9 @@
 package graphic
 
 import (
+	"bytes"
 	"log"
+	"text/template"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"gopkg.in/qml.v1"
@@ -10,17 +12,17 @@ import (
 func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 	newFieldCaption string, content interface{}, invisible bool) {
 
-	engine := qml.NewEngine()
-	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
-		newFieldCaption)
-	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
-	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
-			"Got:", newQuestionQML)
+	var questionQMLtemplate string
+	switch newFieldType {
+	default:
+		questionQMLtemplate = renderNewStringQuestion(newFieldName, newFieldCaption)
+	case ast.BoolQuestionType:
+		questionQMLtemplate = renderNewBooleanQuestion(newFieldName, newFieldCaption)
+	case ast.IntQuestionType:
+		questionQMLtemplate = renderNewNumericQuestion(newFieldName, newFieldCaption)
 	}
 
-	question := newQuestion.Create(nil)
-	question.Set("parent", rows)
+	question := renderAndInsertAt(questionQMLtemplate, rows)
 
 	if !invisible {
 		question.Set("visible", true)
@@ -78,4 +80,29 @@ func startQMLengine(appName string) qml.Object {
 		log.Fatal("Fatal error while parsing cradle.qml:", err)
 	}
 	return cradle
+}
+
+func renderTemplateQuestion(qml, fieldName, question, validator string) string {
+	var b bytes.Buffer
+	t := template.Must(template.New("newQuestion").Parse(qml))
+	t.Execute(&b, struct {
+		ObjectName   string
+		QuestionName string
+		Validator    string
+	}{fieldName, question, validator})
+	return b.String()
+}
+
+func renderAndInsertAt(newQuestionQML string, rows qml.Object) qml.Object {
+	engine := qml.NewEngine()
+	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
+	if err != nil {
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
+			"Got:", newQuestionQML)
+	}
+
+	question := newQuestion.Create(nil)
+	question.Set("parent", rows)
+
+	return question
 }
