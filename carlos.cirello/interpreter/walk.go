@@ -9,6 +9,7 @@ import (
 // Walk implements Executer interface, and walks through AST
 type Walk struct {
 	toFrontend chan *Event
+	nest       int
 }
 
 // Exec type switch through all possible root AST node types
@@ -43,18 +44,25 @@ func (walk Walk) ActionNode(a *ast.ActionNode) {
 // rendering.
 func (walk Walk) QuestionNode(q *ast.QuestionNode) {
 	questionCopy := q.Clone()
+	visible := Hidden
+	if 0 == walk.nest {
+		visible = Visible
+	}
 	walk.toFrontend <- &Event{
-		Type:     Render,
+		Type:     Draw,
 		Question: questionCopy,
+		Visible:  visible,
 	}
 }
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (walk Walk) IfNode(i *ast.IfNode) {
+	walk.nest++
 	for _, actionNode := range i.Stack() {
 		walk.Exec(actionNode)
 	}
 	if i.ElseNode() != nil {
 		walk.Exec(i.ElseNode())
 	}
+	walk.nest--
 }

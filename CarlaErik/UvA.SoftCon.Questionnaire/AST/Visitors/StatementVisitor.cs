@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Expressions;
-using UvA.SoftCon.Questionnaire.AST.Statements;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Parsing;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
@@ -18,31 +18,57 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             IExpression condition = context.expr().Accept(new ExpressionVisitor());
 
-            var ifTrueStatements = new List<IStatement>();
-            var ifFalseStatements = new List<IStatement>();
+            var thenStatements = new List<IStatement>();
+            var elseStatements = new List<IStatement>();
            
-            foreach (var child in context._then) 
+            foreach (var statement in context._then) 
             {
-                ifTrueStatements.Add(child.Accept(this));
+                thenStatements.Add(statement.Accept(this));
             }
-            foreach (var child in context._else)
+            foreach (var statement in context._else)
             {
-                ifFalseStatements.Add(child.Accept(this));
+                elseStatements.Add(statement.Accept(this));
             }
 
-            return new IfStatement(condition, ifTrueStatements, ifFalseStatements);
+            return new IfStatement(condition, thenStatements, elseStatements);
         }
 
         public override IStatement VisitQuestion(QLParser.QuestionContext context)
         {
-            string type = context.TYPE().GetText();
-            string id = context.ID().GetText();
+            DataType type = TypeStringToEnum(context.TYPE().GetText());
+            Identifier id = new Identifier(context.ID().GetText());
             string label = context.STRING().GetText();
 
             // Remove the leading and trailing '"' characters from the string literal.
             label = label.Trim('"');
 
             return new Question(type, id, label);
+        }
+
+        public override IStatement VisitDeclaration(QLParser.DeclarationContext context)
+        {
+            DataType dataType = TypeStringToEnum(context.TYPE().GetText());
+            Identifier id = new Identifier(context.ID().GetText());
+            IExpression initialization = context.expr().Accept(new ExpressionVisitor());
+
+            return new Declaration(dataType, id, initialization);
+        }
+
+        private static DataType TypeStringToEnum(string value)
+        {
+            switch (value)
+            {
+                case "bool":
+                    return DataType.Boolean;
+                case "double":
+                    return DataType.Double;
+                case "int":
+                    return DataType.Integer;
+                case "string":
+                    return DataType.String;
+                default:
+                    throw new ArgumentException("Parameter value does not contain a valid data type. Value: " + value);
+            }
         }
     }
 }

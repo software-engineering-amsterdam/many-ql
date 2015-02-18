@@ -51,13 +51,13 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 	}
 
 	if q.Type() == ast.ComputedQuestionType {
-		expr := q.Content().(*ast.ComputedQuestion).Expression
+		expr := q.Content().(*ast.ComputedQuestion).Value()
 		q.From(fmt.Sprintf("%f", exec.resolveMathNode(expr)))
 	}
 
 	questionCopy := q.Clone()
 	exec.toFrontend <- &Event{
-		Type:     Render,
+		Type:     Update,
 		Question: questionCopy,
 	}
 }

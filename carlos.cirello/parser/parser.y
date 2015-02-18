@@ -117,9 +117,7 @@ questionType:
 	}
 	| ComputedQuestionToken '=' term
 	{
-		computedQuestion := new(ast.ComputedQuestion)
-		computedQuestion.Expression = $3.evaluatable
-		$$.questionType = computedQuestion
+		$$.questionType = ast.NewComputedQuestion($3.evaluatable)
 	}
 	| term
 	{

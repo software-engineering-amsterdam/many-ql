@@ -13,7 +13,8 @@ import (
 // in order to be compliant with the VM expectations of
 // functionality.
 type Inputer interface {
-	InputQuestion(q *ast.QuestionNode)
+	DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility)
+	UpdateQuestion(q *ast.QuestionNode)
 	Loop()
 	Flush()
 	FetchAnswers() map[string]string
@@ -49,8 +50,11 @@ func (f *frontend) loop() {
 					Type: interpreter.ReadyT,
 				}
 
-			case interpreter.Render:
-				f.driver.InputQuestion(&r.Question)
+			case interpreter.Draw:
+				f.driver.DrawQuestion(&r.Question, r.Visible)
+
+			case interpreter.Update:
+				f.driver.UpdateQuestion(&r.Question)
 
 			case interpreter.Flush:
 				f.driver.Flush()
