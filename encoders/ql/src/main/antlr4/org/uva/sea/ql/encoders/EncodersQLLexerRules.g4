@@ -13,6 +13,8 @@ STRING        : 'string' ;
 MONEY         : 'money' ;
 DATE          : 'date' ;
 
+OPERATOR      : MUL | DIV | ADD| SUB;
+
 MUL           : '*' ;
 DIV           : '/' ;
 ADD           : '+' ;

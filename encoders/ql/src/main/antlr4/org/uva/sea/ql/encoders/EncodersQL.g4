@@ -10,14 +10,19 @@ questionnaire:
         
 question:
      questionString=QUOTEDSTRING NL
-     questionName=NAME ':' type=DATATYPE NL;
-    
-    
+     questionName=NAME ':' type=DATATYPE computation? NL;
+         
+computation:
+     '=' NL
+     '(' expression ')';
+     
 conditionalBlock:
      'if' '(' conditional ')' '{' NL
-    question+
+     question+
      '}' NL;
     
 conditional:
     NAME;
     
+expression:
+    leftHand=NAME  operator=OPERATOR rightHand=NAME;
