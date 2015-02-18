@@ -6,10 +6,22 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-func (exec Execute) resolveMathNode(n ast.Evaluatable) float32 {
+func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,
+	right float32) {
+	lt := n.LeftTerm()
+	rt := n.RightTerm()
+
+	left = exec.resolveMathNode(lt)
+	right = exec.resolveMathNode(rt)
+
+	return left, right
+}
+
+func (exec Execute) resolveMathNode(n interface{}) float32 {
 	switch t := n.(type) {
 	default:
-		log.Fatalf("Unknown type while resolving node %T", t)
+		pos := n.(ast.Positionable).Pos()
+		log.Fatalf("%s:runtime error: Unknown type while resolving node %T", pos, t)
 	case *ast.MathAddNode:
 		return exec.MathAddNode(n.(*ast.MathAddNode))
 	case *ast.MathSubNode:
@@ -24,12 +36,13 @@ func (exec Execute) resolveMathNode(n ast.Evaluatable) float32 {
 	return 0
 }
 
-func (exec *Execute) resolveNumeric(t *ast.TermNode) float32 {
-	node := exec.resolveTermNode(t)
+func (exec *Execute) resolveNumeric(n *ast.TermNode) float32 {
+	node := exec.resolveTermNode(n)
 	var nodeVal float32
 	switch t := node.(type) {
 	default:
-		log.Fatalf("Type impossible to execute comparison. got: %T", t)
+		pos := n.Pos()
+		log.Fatalf("%s:runtime error: Type impossible to execute comparison. got: %T", pos, t)
 	case int:
 		nodeVal = float32(node.(int))
 	case float32:
@@ -69,7 +82,8 @@ func (exec *Execute) resolveComparisonNode(n interface{}) bool {
 	conditionState := true
 	switch t := n.(type) {
 	default:
-		log.Fatalf("impossible condition type. got: %T", t)
+		pos := n.(ast.Positionable).Pos()
+		log.Fatalf("%s:runtime error: impossible condition type. got: %T", pos, t)
 	case *ast.TermNode:
 		if !exec.TermNode(n.(*ast.TermNode)) {
 			conditionState = false

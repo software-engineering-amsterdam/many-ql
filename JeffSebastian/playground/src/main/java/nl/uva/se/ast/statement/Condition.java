@@ -24,7 +24,7 @@ public class Condition extends Statement {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-		
+		expression.accept(visitor);
 		for (Statement statement : statements) {
 			statement.accept(visitor);
 		}

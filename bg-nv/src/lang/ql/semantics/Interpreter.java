@@ -131,7 +131,7 @@ public class Interpreter extends VisitorAbstract
         Value right = this.popFromStack();
         Value left = this.popFromStack();
 
-        Value result = left.subtract(right);
+        Value result = left.sub(right);
         this.valueStack.push(result);
     }
 
@@ -140,7 +140,7 @@ public class Interpreter extends VisitorAbstract
     {
         e.getOperand().accept(this);
         Value operand = this.popFromStack();
-        Value result = operand.unaryMinus();
+        Value result = operand.neg();
         this.valueStack.push(result);
     }
 

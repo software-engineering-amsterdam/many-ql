@@ -1,6 +1,9 @@
 package ast
 
-import "fmt"
+import (
+	"fmt"
+	"text/scanner"
+)
 
 // Parser interface describes the interface between the application and human
 // beings.
@@ -16,10 +19,12 @@ type QuestionNode struct {
 	identifier string
 	content    Parser
 	answered   bool
+	pos        scanner.Position
 }
 
-func NewQuestionNode(label, identifier string, content Parser, answered bool) *QuestionNode {
-	return &QuestionNode{label, identifier, content, answered}
+func NewQuestionNode(label, identifier string, content Parser, answered bool,
+	pos scanner.Position) *QuestionNode {
+	return &QuestionNode{label, identifier, content, answered, pos}
 }
 
 func (q *QuestionNode) Identifier() string {

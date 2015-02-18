@@ -1,9 +1,12 @@
 package ast
 
+import "text/scanner"
+
 // ComputedQuestion stores the answer of question which type is integer numeric
 type ComputedQuestion struct {
 	Expression Evaluatable
 	result     string
+	pos        scanner.Position
 }
 
 const ComputedQuestionType = "computed"
