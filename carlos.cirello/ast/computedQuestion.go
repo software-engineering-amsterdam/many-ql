@@ -9,8 +9,11 @@ type ComputedQuestion struct {
 	pos        scanner.Position
 }
 
+// ComputedQuestionType constant used for type comparison internally in interpreter
+// and frontend
 const ComputedQuestionType = "computed"
 
+// NewComputedQuestion factory of ComputedQuestion struct
 func NewComputedQuestion(expression Evaluatable) *ComputedQuestion {
 	return &ComputedQuestion{
 		expression: expression,

@@ -11,6 +11,8 @@ type IntQuestion struct {
 	pos   scanner.Position
 }
 
+// IntQuestionType constant used for type comparison internally in interpreter
+// and frontend
 const IntQuestionType = "int"
 
 // From takes the input from Frontend and stores locally - Int

@@ -6,12 +6,14 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-// Execute implements Executer interface, and walks through AST
+// Execute implements Executer interface, and it is used by Visitor to traverse
+// AST
 type Execute struct {
 	toFrontend chan *Event
 	symbolChan chan *symbolEvent
 }
 
+// NewExecute is the factory for Execute struct
 func NewExecute(toFrontend chan *Event, symbolChan chan *symbolEvent) *Visitor {
 	return &Visitor{
 		&Execute{

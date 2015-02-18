@@ -2,12 +2,14 @@ package interpreter
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 
-// Walk implements Executer interface, and walks through AST
+// Walk implements Executer interface, and it is used by Visitor to traverse
+// AST
 type Walk struct {
 	toFrontend chan *Event
 	nest       int
 }
 
+// NewWalk is the factory for Walk struct
 func NewWalk(toFrontend chan *Event) *Visitor {
 	return &Visitor{
 		&Walk{

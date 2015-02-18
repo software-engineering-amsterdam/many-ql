@@ -6,17 +6,20 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
+// Visitor is the base visitor struct which all other Executer AST tree are
+// injected for traversal
 type Visitor struct {
 	tree Executer
 }
 
+// NewVisitor factory for Visitor AST traversal struct
 func NewVisitor(tree Executer) *Visitor {
 	return &Visitor{
 		tree: tree,
 	}
 }
 
-// Exec type switch through all possible root AST node types
+// Visit type switch through all possible root AST node types
 func (v *Visitor) Visit(node interface{}) {
 	switch t := node.(type) {
 	default:

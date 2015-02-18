@@ -55,7 +55,7 @@ func GUI(appName string) frontend.Inputer {
 	return driver
 }
 
-// InputQuestion adds a new question into the GUI form stack
+// DrawQuestion adds a new question into the GUI form stack
 func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -76,6 +76,7 @@ func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility) 
 	g.sweepStack[q.Identifier()] = true
 }
 
+// UpdateQuestion updates an existing question in the GUI form stack
 func (g *Gui) UpdateQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
