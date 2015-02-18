@@ -16,7 +16,8 @@ type Walk struct {
 func (walk Walk) Exec(node interface{}) {
 	switch t := node.(type) {
 	default:
-		log.Fatalf("unexpected execution node type. got: %T", t)
+		pos := node.(ast.Positionable).Pos()
+		log.Fatalf("%s: unexpected execution node type. got: %T", pos, t)
 	case *ast.QuestionaireNode:
 		walk.QuestionaireNode(node.(*ast.QuestionaireNode))
 	case *ast.ActionNode:

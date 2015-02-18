@@ -30,7 +30,7 @@ func (exec Execute) MathTermNode(s *ast.TermNode) float32 {
 	value := exec.resolveTermNode(s)
 	switch t := value.(type) {
 	default:
-		log.Fatalf("Variable not a number. Got %T", t)
+		log.Fatalf("%s: variable not a number. Got %T", s.Pos(), t)
 	case int:
 		return float32(value.(int))
 	case float32:
