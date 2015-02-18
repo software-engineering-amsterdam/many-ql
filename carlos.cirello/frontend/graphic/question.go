@@ -14,7 +14,7 @@ import QtQuick.Layouts 1.0
 GroupBox {
 	title: "{{ .QuestionName }}"
 	Layout.fillWidth: true
-	// visible: false
+	visible: false
 
 	RowLayout {
 		anchors.fill: parent
@@ -35,7 +35,7 @@ import QtQuick.Controls.Styles 1.3
 
 GroupBox {
 	Layout.fillWidth: true
-	// visible: false
+	visible: false
 
 	RowLayout {
 		anchors.fill: parent

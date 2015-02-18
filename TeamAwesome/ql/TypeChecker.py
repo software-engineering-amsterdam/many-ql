@@ -40,11 +40,11 @@ class TypeChecker:
         return visitor.visit(self._ast.root)
 
     def _checkDuplicateQuestionLabels(self):
-        # TODO
-        return TypeCheckResult()
+        visitor = DuplicateQuestionLabelsVisitor()
+        return visitor.visit(self._ast.root)
 
 
-class TypeCheckVisitor(ASTVisitor):
+class TypeCheckingVisitor(ASTVisitor):
     def __init__(self):
         # You can add any type check result
         # to this variable here. It is returned
@@ -56,7 +56,7 @@ class TypeCheckVisitor(ASTVisitor):
         super()._visitRoot(node)
         return self._result
 
-class StatementNestingVisitor(TypeCheckVisitor):
+class StatementNestingVisitor(TypeCheckingVisitor):
     def _visitRoot(self, node):
         for n in node.getChildren():
             self._allowStatement(
@@ -99,7 +99,7 @@ class StatementNestingVisitor(TypeCheckVisitor):
                )
             )
 
-class TypesOfExpressionsVisitor(TypeCheckVisitor):
+class TypesOfExpressionsVisitor(TypeCheckingVisitor):
     def __init__(self, astRoot):
         super().__init__()
         self._astRoot = astRoot
@@ -253,7 +253,30 @@ class TypesOfExpressionsVisitor(TypeCheckVisitor):
 
         return None
 
+class DuplicateQuestionLabelsVisitor(TypeCheckingVisitor):
+    def __init__(self):
+        super().__init__()
+        self._labels = {}
 
+    def _visitRoot(self, node):
+        super()._visitRoot(node)
+
+        for text, lines in self._labels.items():
+            if len(lines) > 1:
+                self._result = self._result.withMessage(
+                    TypeCheckWarningMessage(
+                        'duplicate question label `'+text\
+                       +'` on lines: '+str(lines)
+                    )
+                )
+
+        return self._result
+
+
+    def _visitQuestionStatement(self, node):
+        if node.text not in self._labels:
+            self._labels[node.text] = []
+        self._labels[node.text].append(node.lineNumber)
 
 class TypeCheckMessage:
     def __init__(self, message, node = None):
@@ -266,7 +289,7 @@ class TypeCheckMessage:
 
     @property
     def line(self):
-        if getattr(self._node, 'lineNumber') is not None:
+        if getattr(self._node, 'lineNumber', None) is not None:
             return self._node.lineNumber
         else:
             return None
@@ -277,6 +300,9 @@ class TypeCheckMessage:
         else:
             return 'line '+str(self.line)+': '+self.message
 
+class TypeCheckWarningMessage(TypeCheckMessage):
+    def __str__(self):
+        return '[WARNING] '+super().__str__()
 
 class TypeCheckErrorMessage(TypeCheckMessage):
     def __str__(self):

@@ -31,7 +31,7 @@ func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
 		send:         toFrontend,
 		receive:      fromFrontend,
 		execute:      &Execute{toFrontend, symbolChan},
-		walk:         &Walk{toFrontend},
+		walk:         &Walk{toFrontend, 0},
 		symbolTable:  make(map[string]*ast.QuestionNode),
 		symbolChan:   symbolChan,
 	}

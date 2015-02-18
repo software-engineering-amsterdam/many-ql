@@ -57,7 +57,7 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 
 	questionCopy := q.Clone()
 	exec.toFrontend <- &Event{
-		Type:     Render,
+		Type:     Update,
 		Question: questionCopy,
 	}
 }
