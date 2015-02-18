@@ -1,7 +1,4 @@
 // Generated from QL.g4 by ANTLR 4.5
-package ql.antlr;
-
-
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -44,6 +41,18 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLParser#builtinType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBuiltinType(QLParser.BuiltinTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#userType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUserType(QLParser.UserTypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLParser#questionName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -56,11 +65,11 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestionLabel(QLParser.QuestionLabelContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#ifStatement}.
+	 * Visit a parse tree produced by {@link QLParser#ifstatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfStatement(QLParser.IfStatementContext ctx);
+	T visitIfstatement(QLParser.IfstatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree

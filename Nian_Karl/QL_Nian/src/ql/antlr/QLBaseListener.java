@@ -1,6 +1,8 @@
 // Generated from QL.g4 by ANTLR 4.5
 package ql.antlr;
 
+
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -77,30 +79,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBuiltinType(QLParser.BuiltinTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBuiltinType(QLParser.BuiltinTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterUserType(QLParser.UserTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUserType(QLParser.UserTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterQuestionName(QLParser.QuestionNameContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -125,13 +103,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfstatement(QLParser.IfstatementContext ctx) { }
+	@Override public void enterIfStatement(QLParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfstatement(QLParser.IfstatementContext ctx) { }
+	@Override public void exitIfStatement(QLParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

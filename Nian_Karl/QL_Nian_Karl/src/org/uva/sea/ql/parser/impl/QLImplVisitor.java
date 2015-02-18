@@ -47,7 +47,8 @@ public class QLImplVisitor extends QLBaseVisitor<List<Statement>> {
 			
 			Expression expr = new AddExpression(leftExpression, rightExpression);			
 			IfStatement statement = new IfStatement(expr);
-
+			
+			System.out.println(expr.evaluateExpression().getValue());
 			for (int i = 0; i < ctx.ifStatement().block().size(); i++) {
 				List<Statement> statements2 = visitStatement(ctx.ifStatement().block().get(i).statement(i));
 				for (int j = 0; j < statements2.size(); j++) {
