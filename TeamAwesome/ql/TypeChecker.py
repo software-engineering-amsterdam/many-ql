@@ -289,11 +289,8 @@ class TypeCheckMessage:
 
     @property
     def line(self):
-        if getattr(self._node, 'lineNumber', None) is not None:
-            return self._node.lineNumber
-        else:
-            return None
-
+        return getattr(self._node, 'lineNumber', None)
+        
     def __str__(self):
         if self.line is None:
             return self.message
