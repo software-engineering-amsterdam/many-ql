@@ -5,6 +5,7 @@ all:
 	./carlos.cirello -h || echo
 
 test:
+	go generate ./...
 	go test -v ./...
 
 coverage:
@@ -15,6 +16,7 @@ coverage:
 	go test -coverprofile=./frontend/coverage.out ./frontend
 	go test -coverprofile=./frontend/graphic/coverage.out ./frontend/graphic
 	go test -coverprofile=./frontend/text/coverage.out ./frontend/text
+	go test -coverprofile=./reader/coverage.out ./reader
 	go test -coverprofile=./vm/coverage.out ./vm
 
 	go tool cover -html=./ast/coverage.out -o cover/ast.html || echo Skipped
@@ -22,6 +24,7 @@ coverage:
 	go tool cover -html=./frontend/graphic/coverage.out -o cover/frontend/graphic.html || echo Skipped
 	go tool cover -html=./frontend/text/coverage.out -o cover/frontend/text.html || echo Skipped
 	go tool cover -html=./questionaire/coverage.out -o cover/questionaire.html || echo Skipped
+	go tool cover -html=./reader/coverage.out -o cover/reader.html || echo Skipped
 	go tool cover -html=./vm/coverage.out -o cover/vm.html || echo Skipped
 
 	rm -f ./ast/coverage.out
@@ -29,6 +32,7 @@ coverage:
 	rm -f ./frontend/coverage.out
 	rm -f ./frontend/graphic/coverage.out
 	rm -f ./frontend/text/coverage.out
+	rm -f ./reader/coverage.out
 	rm -f ./vm/coverage.out
 
 autotest:

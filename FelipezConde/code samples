@@ -1,0 +1,48 @@
+\*
+    TODO List:
+    - Todo:
+        - Structure of Interpreter (Daniel)
+        - GUI mapping (API to map to WPF) (Daniel)
+        - Constraints (Daniel)
+            * Uniqueness of keyvalue pairs, 
+            * which pairs are allowed in which structure
+            * Type checking
+                - return value type
+                - expressions
+                - list
+                - ...
+            * Unique identifier
+            * Error reporting!
+        - Make AST -> visit Parse Tree and rewrite (Jonatan)
+        - Unit tests (Daniel & Jonatan)
+            - Maybe testing harness? (Jonatan)
+        - [asdf]{1,3} how to do this in ANTLR metadata *
+        - Refactor Grammar
+        
+                text              tokens              Parse Tree               AST                          Instructions
+        Input ----------> lexer ----------> Parser ---------------> Visitor ----------> Semantics Analyzer --------------> GUI
+        
+
+
+    Things to watch out for:
+    - how to define comments (and let the lexer or parser strip them) x
+    - how to say use 4 or more of these {4,...} 
+    - how to remove whitspace (space, tabs, newlines) x
+    - how to define strings x
+    - how to stop lexer from removing whitespace from strings x
+    - how to define list values (radio [1,2,3,4,5] or sth.) x
+    - Use the grammar to enforce uniqueness of keyvaluepairs
+    - Use the grammar to enforce required keyvaluepairs (Too liberal)
+    - Value can be an expression! x
+
+    Style suggestions:
+    remove type from key value pair! x
+    value pair: replace ':' with '=' x
+    guards:
+        value | a < b     = True     x
+              | otherwise = False    x
+*\
+
+
+
+

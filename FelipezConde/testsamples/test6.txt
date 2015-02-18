@@ -1,0 +1,8 @@
+-- Sample 5: conditional with question
+form {
+    enable when True {
+        question q1 bool {
+            label = [1,2,3] 
+        }  
+    }
+}

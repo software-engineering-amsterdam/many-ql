@@ -1,0 +1,109 @@
+grammar QL;
+questionnaire: 'Name:' name=STRING questionnaireBody;
+
+questionnaireBody:
+    '{'(form)+'}';
+
+form: 'Form:' name=STRING formBody;
+
+formBody:
+    '{'(question|calculation|(ifStatement (elseIfStatement)* (elseStatement)?)|label)*'}';
+
+question: 'Question:' name=STRING questionBody;
+
+questionBody: '{'(questionText
+               | questionAnswer
+               | questionRange)*'}';
+
+questionText: 'Text:' text=STRING;
+//QuestionAnser abstractions
+questionAnswer: 'Answer:' (questionAnswerSimple|questionAnswerCustom);
+questionAnswerSimple: type=('integer' | 'Integer' | 'double' | 'Double' | 'string' | 'String');
+questionAnswerCustom: '['STRING ('||' STRING)+']';
+
+//QuestionRange abstractions
+questionRange: 'Range:' (questionRangeFromTo | questionRangeBiggerThan | questionRangeSmallerThan);
+questionRangeFromTo: lower=NUMBER '-' higher=NUMBER;
+questionRangeBiggerThan: '>' num=NUMBER;
+questionRangeSmallerThan: '<' num=NUMBER;
+
+//QuestionCalculation
+calculation:
+    'Calculation:' name=STRING calculationBody;
+
+calculationBody:
+   '{' ((ifStatement (elseIfStatement)* (elseStatement)?)|input)+'}';
+
+ifStatement:
+    'If:' expression statementBody;
+
+elseStatement:
+    'Else:' statementBody;
+
+elseIfStatement:
+    'Else If:' expression statementBody;
+
+statementBody:
+    '{'(question|calculation|input|labelText)*'}';
+
+label:
+'Label:'name=STRING labelBody;
+labelBody:
+'{'((ifStatement (elseIfStatement)* (elseStatement)?)| labelText)'}';
+
+labelText: 'Text:' text=STRING;
+
+input:
+    'Input:' expression;
+
+
+expression
+    : id
+    | '(' expression ')'
+    | expression (expressionTimes|expressionDivided) expression
+    | expression (expressionPlus|expressionMinus) expression
+    | expression (expressionSmallerEqual | expressionBiggerEqual | expressionBigger | expressionSmaller) expression
+    | expression (expressionEqual | expressionNotEqual) expression
+    | expression expressionAnd expression
+    | expression expressionOr expression;
+
+id
+    : '['id']'
+    | STRING
+    | NUMBER
+    | TEXT;
+
+expressionTimes: '*';
+expressionDivided: '/';
+expressionPlus: '+';
+expressionMinus: '-';
+expressionSmallerEqual: '<=';
+expressionBiggerEqual: '>=';
+expressionBigger: '>';
+expressionSmaller: '<';
+expressionEqual: '==';
+expressionNotEqual: '!=';
+expressionAnd: '&&';
+expressionOr: '||';
+
+// String and number definitions taken from : https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
+STRING :  '"' (ESC | ~["\\])* '"' ;
+fragment ESC :   '\\' (["\\/bfnrt] | UNICODE);
+fragment UNICODE : 'u' HEX HEX HEX HEX ;
+fragment HEX : [0-9a-fA-F] ;
+NUMBER
+    :   '-'? INT '.' [0-9]+ EXP? // 1.35, 1.35E-9, 0.3, -4.5
+    |   '-'? INT EXP             // 1e10 -3e4
+    |   '-'? INT                 // -3, 45
+    ;
+fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
+fragment EXP :   [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
+fragment NL   : '\r' '\n' | '\n' | '\r';
+
+TEXT : [0-9a-zA-Z\._]+;
+
+//Skip single line comments and whitespace.
+COMMENT
+    :   '//' ~[\r\n]* -> skip
+    ;
+WS  :   [ \t\n\r]+ -> skip ;

@@ -1,0 +1,15 @@
+form {
+    question q1 int {
+        label   = "What do you think of computers?",
+        options = [1,2,3,4,5] 
+    } 
+    question q2 bool {
+        label = "Do you want an extra question?"
+    }
+    enable when (q2 && True) {
+        question f1 string {
+            label = "hmm...",
+            value = "Sorry, computer says no..."
+        }     
+    }
+}

@@ -1,0 +1,22 @@
+some_form {
+	q1 {
+		question : "blablabla?"
+		answer_type : boolean
+		text_true : "yes"
+		text_false : "no"
+		default_value : true
+	}
+
+	if (!q1.answer) {
+		q2 {
+			question : "blablablaga?"
+			answer_type : int
+			answer : q1.answer - q0.answer
+		}
+	}
+
+	q3 {
+		question : ""
+		answer_type : something
+	}
+}

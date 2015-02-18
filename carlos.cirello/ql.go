@@ -1,55 +1,32 @@
 package main
 
 import (
-	"bufio"
-	"flag"
-	"os"
-
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/iostream"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/csvinput"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/csvoutput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
-	frontendText "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/text"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/vm"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
 )
 
 func main() {
-	frontendFlag := flag.String("frontend", "GUI", "GUI or text")
-	flag.Parse()
-	if *frontendFlag == "GUI" {
-		graphic.GUI("GUI Form")
-	} else {
-		aQuestionaire := &ast.Questionaire{
-			Label: "University of Amsterdam Revenue Service",
-			Questions: []*ast.Question{
-				&ast.Question{
-					Label:   "What is the answer to life the universe and everything?",
-					Content: new(ast.IntQuestion),
-				},
-				&ast.Question{
-					Label:   "Who said the logic is the cement of our civilization with which we ascended from Chaos using reason as our guide?",
-					Content: new(ast.StringQuestion),
-				},
-				&ast.Question{
-					Label:   "Hungry-p",
-					Content: new(ast.BoolQuestion),
-				},
-			},
-		}
+	srcFn, inFn, outFn := cli.Args()
 
-		toFrontend, fromFrontend := frontend.New(
-			frontendText.NewReader(
-				bufio.NewReader(os.Stdin),
-				os.Stdout,
-			),
-		)
+	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
+	aQuestionaire := parser.ReadQL(srcReader, srcFn)
+	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)
 
-		vm.New(aQuestionaire, toFrontend, fromFrontend)
-		// aQuestionaire.PrettyPrintJSON()
-
-		// for _, question := range aQuestionaire.Questions {
-		// 	textFE.InputQuestion(question)
-		// }
-
-		// aQuestionaire.PrettyPrintJSON()
+	if inReader != nil {
+		csvReader := csvinput.New(fromInterpreter, toInterpreter, inReader)
+		csvReader.Read()
 	}
+
+	driver := graphic.GUI(aQuestionaire.Label())
+	frontend.New(fromInterpreter, toInterpreter, driver)
+	driver.Loop()
+
+	csvWriter := csvoutput.New(fromInterpreter, toInterpreter, outWriter)
+	csvWriter.Write()
 }

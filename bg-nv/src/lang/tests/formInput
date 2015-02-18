@@ -1,0 +1,9 @@
+form Box1HouseOwning
+{
+ decimal has "another test" 2.1
+ decimal test "purely test question :)" sold + 2.0
+ if (true)
+ {
+    decimal sold "Price the house was sold for:" has + 1.0
+ }
+}

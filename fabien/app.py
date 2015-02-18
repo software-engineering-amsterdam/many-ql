@@ -1,19 +1,28 @@
 #!/usr/bin/env python
 
-from QL import QL
+#from src.gui.app import GUI
 
+from src.QL.parser import Parser
+
+
+#from src.typechecker import TypeChecker
+from src.typechecker import UndefinedQuestions, DuplicateQuestions
+
+# Dummy GUI app:
+# File dialog to select "form" to be parsed (output displayed in terminal)
 if __name__ == '__main__':
-    app = QL()
+    #gui = GUI()
+    #gui.mainloop()
 
-    test = app.parse(
-      "form taxOfficeExample { \
-        \"Did you sell a house in 2010?\" \
-           hasSoldHouse: boolean \
-        \"Did you buy a house in 2010?\" \
-           hasBoughtHouse: boolean \
-        \"Did you enter a loan?\" \
-           hasMaintLoan: boolean \
-      }"
-    )
+    parser = Parser()
+    Form = parser.parse("form Hello { 'Hello \"All\" world!' bubbel:int \n 'Hello \"All\" world!' bubbel:int } ")
 
-    print test
+    checker = UndefinedQuestions()
+
+    if checker.isValid(Form):
+        print "\nNo undefined questions in:\n\n%s" % Form
+
+    checker = DuplicateQuestions()
+
+    if checker.isValid(Form):
+        print "\nNo duplicate questions with different types in:\n\n%s" % Form

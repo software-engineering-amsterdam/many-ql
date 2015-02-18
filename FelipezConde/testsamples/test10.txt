@@ -1,0 +1,14 @@
+form {
+    enable when True {
+        question q1 bool {
+            label = "This is a sample question. Do you understand?" 
+        }  
+        enable when q1 {
+            question f1 string {
+                label = "nested in nested ahahahahaha",
+                value = "Nailed it!"
+            }
+        }
+        
+    }
+}

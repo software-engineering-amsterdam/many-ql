@@ -1,0 +1,26 @@
+﻿<Window x:Class="QuestionnaireLanguage.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid Margin="0,0,314,175">
+        <StackPanel Name="_stack">
+            <Button Name="button1" Click="Clicked">Click Me!</Button>
+            <DatePickerTextBox Name="_datePicker"></DatePickerTextBox>
+            <DatePicker Name="_1" Height="25" Focusable="False"></DatePicker>
+            <x:Code>
+                <![CDATA[
+            void Clicked(object sender, RoutedEventArgs e)
+            {
+                button1.Content = "Hello World";
+                TextBox txtNumber = new TextBox();
+                txtNumber.Name = "txtNumber";
+                txtNumber.Text = "1776";
+                _stack.Children.Add(txtNumber);
+            }
+          ]]>
+            </x:Code>
+
+        </StackPanel>
+        
+    </Grid>
+</Window>

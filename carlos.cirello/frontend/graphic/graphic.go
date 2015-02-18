@@ -3,81 +3,204 @@ package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
-	"fmt"
 	"log"
-	"os"
+	"sync"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"gopkg.in/qml.v1"
 )
 
-type msg struct {
-	Name    string
-	Label   string
-	Content string
+type renderAction int
+
+const (
+	renderQuestion renderAction = iota
+	nukeQuestion
+)
+
+type render struct {
+	action     renderAction
+	identifier string
+	label      string
+	fieldType  string
+	content    interface{}
 }
 
-// Render creates the craddle for GUI.
-func GUI(appName string) {
-	var msgChan chan msg
-	msgChan = make(chan msg)
-	go func() {
-		newQuestion := &msg{
-			Name:    "newQuestion",
-			Label:   "Is this a question from a message?",
-			Content: "",
-		}
-		msgChan <- *newQuestion
+// Gui holds the driver which is used by Frontend to execute the application
+type Gui struct {
+	renderEvent chan render
+	appName     string
 
-		newQuestion2 := &msg{
-			Name:    "newQuestion2",
-			Label:   "Is this a second question from a message?",
-			Content: "",
-		}
-		msgChan <- *newQuestion2
-	}()
-	if err := qml.Run(func() error {
-		win := startQMLengine(appName).CreateWindow(nil)
-		rows := win.Root().ObjectByName("questions")
-		win.Show()
+	mu          sync.Mutex
+	renderStack []render
+	answerStack map[string]string
+	sweepStack  map[string]bool
+	symbolTable map[string]qml.Object
+}
 
-		for {
-			select {
-			case event := <-msgChan:
-				addNewQuestion(
-					rows,
-					event.Name,
-					event.Label,
-				)
+// GUI creates the driver for Frontend process.
+func GUI(appName string) frontend.Inputer {
+	driver := &Gui{
+		appName: appName,
+
+		renderEvent: make(chan render),
+		answerStack: make(map[string]string),
+		sweepStack:  make(map[string]bool),
+		symbolTable: make(map[string]qml.Object),
+	}
+	return driver
+}
+
+// InputQuestion adds a new question into the GUI form stack
+func (g *Gui) InputQuestion(q *ast.QuestionNode) {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	if _, ok := g.sweepStack[q.Identifier()]; !ok {
+		m := &render{
+			renderQuestion,
+			q.Identifier(),
+			q.Label(),
+			q.Type(),
+			q.Content(),
+		}
+		g.renderStack = append(g.renderStack, *m)
+	}
+	g.sweepStack[q.Identifier()] = true
+}
+
+// Flush transfers form stack into the screen.
+func (g *Gui) Flush() {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	for _, v := range g.renderStack {
+		g.renderEvent <- v
+	}
+	g.renderStack = []render{}
+
+	for k, v := range g.sweepStack {
+		if !v {
+			nukeEvent := &render{
+				action:     nukeQuestion,
+				identifier: k,
 			}
+			g.renderEvent <- *nukeEvent
+			delete(g.sweepStack, k)
+		} else {
+			g.sweepStack[k] = false
 		}
-
-		win.Wait()
-
-		return nil
-	}); err != nil {
-		fmt.Fprintf(os.Stderr, "error: %v\n", err)
-		os.Exit(1)
 	}
 }
 
-func addNewQuestion(rows qml.Object, newTextfieldName, newTextfieldQuestion string) {
+// FetchAnswers unloads the current captured answers from user to Frontend
+// process and VM
+func (g *Gui) FetchAnswers() map[string]string {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	answerStack := g.answerStack
+	g.answerStack = make(map[string]string)
+	return answerStack
+}
+
+// Loop executes GUI main loop, which actually delegates the interface to the
+// underlying library (go-qml).
+func (g *Gui) Loop() {
+	qml.Run(g.loop)
+}
+
+func (g *Gui) loop() error {
+	win := startQMLengine(g.appName).CreateWindow(nil)
+	rows := win.Root().ObjectByName("questions")
+	win.Show()
+	go g.addQuestionLoop(rows)
+	win.Wait()
+	return nil
+}
+
+func (g *Gui) addQuestionLoop(rows qml.Object) {
+	for {
+		select {
+		case event := <-g.renderEvent:
+			switch event.action {
+			case renderQuestion:
+				qml.Lock()
+				g.addNewQuestion(
+					rows,
+					event.fieldType,
+					event.identifier,
+					event.label,
+					event.content,
+				)
+				qml.Unlock()
+			case nukeQuestion:
+				qml.Lock()
+				g.hideQuestion(rows, event.identifier)
+				qml.Unlock()
+			}
+		}
+	}
+}
+
+func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
+	newFieldCaption string, content interface{}) {
+
+	if question, ok := g.symbolTable[newFieldName]; ok {
+		log.Printf("marking %s as visible", newFieldName)
+		question.Set("visible", true)
+		return
+	}
+
 	engine := qml.NewEngine()
-	newQuestionQML := renderNewQuestion(newTextfieldName,
-		newTextfieldQuestion)
+	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
+		newFieldCaption)
 	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
 	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err)
+		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
+			"Got:", newQuestionQML)
 	}
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
-	textField := question.ObjectByName(
-		renderNewQuestionTextfieldName(newTextfieldName))
-	textField.On("editingFinished", func() {
-		log.Println("finished editing, send to VM:",
-			textField.String("text"))
-	})
-	// question.Destroy()
+
+	g.symbolTable[newFieldName] = question
+
+	newFieldPtr := question.ObjectByName(newFieldName)
+	// todo(carlos) improve readability
+	switch newFieldType {
+	case ast.BoolQuestionType:
+		if content.(*ast.BoolQuestion).String() == "Yes" {
+			newFieldPtr.Set("checked", true)
+		}
+		newFieldPtr.On("clicked", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.Bool("checked")
+
+			g.answerStack[objectName] = "0"
+			if content {
+				g.answerStack[objectName] = "1"
+			}
+		})
+	default:
+		newFieldPtr.Set("text", content.(ast.Parser).String())
+		newFieldPtr.On("editingFinished", func() {
+			g.mu.Lock()
+			defer g.mu.Unlock()
+
+			objectName := newFieldPtr.String("objectName")
+			content := newFieldPtr.String("text")
+			g.answerStack[objectName] = content
+		})
+	}
+}
+
+func (g *Gui) hideQuestion(rows qml.Object, fieldName string) {
+	log.Printf("marking %s as invisible", fieldName)
+	g.symbolTable[fieldName].Set("visible", "false")
 }
 
 func startQMLengine(appName string) qml.Object {
@@ -87,6 +210,5 @@ func startQMLengine(appName string) qml.Object {
 	if err != nil {
 		log.Fatal("Fatal error while parsing craddle.qml:", err)
 	}
-
 	return craddle
 }
