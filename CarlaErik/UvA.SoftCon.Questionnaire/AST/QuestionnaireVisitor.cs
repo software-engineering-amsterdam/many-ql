@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Statements;
-using UvA.SoftCon.Questionnaire.AST.Literals;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.AST.Visitors;
 using UvA.SoftCon.Questionnaire.Parsing;
 

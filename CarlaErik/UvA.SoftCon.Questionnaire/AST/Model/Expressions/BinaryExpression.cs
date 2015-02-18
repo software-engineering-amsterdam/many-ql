@@ -4,10 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.AST.Expressions
+namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
-    public abstract class BinaryExpression : IExpression
+    public class BinaryExpression : Node, IExpression
     {
+        public string Operator
+        {
+            get;
+            private set;
+        }
+
         public IExpression Left
         {
             get;
@@ -20,8 +26,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Expressions
             private set;
         }
 
-        protected BinaryExpression(IExpression left, IExpression right)
+        public BinaryExpression(string @operator, IExpression left, IExpression right)
         {
+            Operator = @operator;
             Left = left;
             Right = right;
         }
