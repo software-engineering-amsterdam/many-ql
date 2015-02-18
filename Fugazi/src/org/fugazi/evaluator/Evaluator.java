@@ -10,7 +10,7 @@ public class Evaluator {
     
     public Evaluator() {
         this.values = new ValueStorage();
-        this.expressionVisitor = new EvaluationExprVisitor();
+        this.expressionVisitor = new EvaluationExprVisitor(values);
     }
 
     public void saveValue(String _id, ExpressionValue _val) {
