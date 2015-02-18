@@ -2,7 +2,6 @@ package interpreter
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
@@ -13,38 +12,30 @@ type Execute struct {
 	symbolChan chan *symbolEvent
 }
 
-// Exec type switch through all possible root AST node types
-func (exec Execute) Exec(node interface{}) {
-	switch t := node.(type) {
-	default:
-		pos := node.(ast.Positionable).Pos()
-		log.Fatalf("%s: unexpected execution node type. got: %T", pos, t)
-	case *ast.QuestionaireNode:
-		exec.QuestionaireNode(node.(*ast.QuestionaireNode))
-	case *ast.ActionNode:
-		exec.ActionNode(node.(*ast.ActionNode))
-	case *ast.QuestionNode:
-		exec.QuestionNode(node.(*ast.QuestionNode))
-	case *ast.IfNode:
-		exec.IfNode(node.(*ast.IfNode))
+func NewExecute(toFrontend chan *Event, symbolChan chan *symbolEvent) *Visitor {
+	return &Visitor{
+		&Execute{
+			toFrontend: toFrontend,
+			symbolChan: symbolChan,
+		},
 	}
 }
 
 // QuestionaireNode execute all actionNodes of a questionaire (form)
-func (exec Execute) QuestionaireNode(q *ast.QuestionaireNode) {
+func (exec Execute) QuestionaireNode(v *Visitor, q *ast.QuestionaireNode) {
 	for _, actionNode := range q.Stack() {
-		exec.Exec(actionNode)
+		v.Visit(actionNode)
 	}
 }
 
 // ActionNode branches to QuestionNode or IfNode executers
-func (exec Execute) ActionNode(a *ast.ActionNode) {
-	exec.Exec(a.Action())
+func (exec Execute) ActionNode(v *Visitor, a *ast.ActionNode) {
+	v.Visit(a.Action())
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
 // rendering.
-func (exec Execute) QuestionNode(q *ast.QuestionNode) {
+func (exec Execute) QuestionNode(v *Visitor, q *ast.QuestionNode) {
 	exec.symbolChan <- &symbolEvent{
 		command: SymbolCreate,
 		name:    q.Identifier(),
@@ -64,12 +55,12 @@ func (exec Execute) QuestionNode(q *ast.QuestionNode) {
 }
 
 // IfNode analyzes condition and run all children (ActionNodes)
-func (exec Execute) IfNode(i *ast.IfNode) {
+func (exec Execute) IfNode(v *Visitor, i *ast.IfNode) {
 	if exec.resolveComparisonNode(i.Conditions()) {
 		for _, actionNode := range i.Stack() {
-			exec.Exec(actionNode)
+			v.Visit(actionNode)
 		}
 	} else if i.ElseNode() != nil {
-		exec.Exec(i.ElseNode())
+		v.Visit(i.ElseNode())
 	}
 }

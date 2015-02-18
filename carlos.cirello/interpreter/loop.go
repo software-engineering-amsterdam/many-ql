@@ -13,8 +13,8 @@ type interpreter struct {
 	questionaire *ast.QuestionaireNode
 	send         chan *Event
 	receive      chan *Event
-	execute      ast.Executer
-	walk         ast.Executer
+	execute      *Visitor
+	walk         *Visitor
 
 	symbolTable map[string]*ast.QuestionNode
 	symbolChan  chan *symbolEvent
@@ -30,8 +30,8 @@ func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
-		execute:      &Execute{toFrontend, symbolChan},
-		walk:         &Walk{toFrontend, 0},
+		execute:      NewExecute(toFrontend, symbolChan),
+		walk:         NewWalk(toFrontend),
 		symbolTable:  make(map[string]*ast.QuestionNode),
 		symbolChan:   symbolChan,
 	}
@@ -74,7 +74,7 @@ walkLoop:
 		case r := <-v.receive:
 			switch r.Type {
 			case ReadyT:
-				v.walk.Exec(v.questionaire)
+				v.walk.Visit(v.questionaire)
 				v.send <- &Event{Type: Flush}
 				break walkLoop
 			}
@@ -87,7 +87,7 @@ walkLoop:
 			switch r.Type {
 			case Answers:
 				for identifier, answer := range r.Answers {
-					v.execute.Exec(v.questionaire)
+					v.execute.Visit(v.questionaire)
 					v.send <- &Event{Type: Flush}
 					ret := make(chan *ast.QuestionNode)
 					v.symbolChan <- &symbolEvent{
@@ -107,7 +107,7 @@ walkLoop:
 				fallthrough
 
 			case ReadyT:
-				v.execute.Exec(v.questionaire)
+				v.execute.Visit(v.questionaire)
 				v.send <- &Event{Type: Flush}
 			}
 
