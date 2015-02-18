@@ -10,7 +10,7 @@ public class BOOL extends Literal {
         this.value = _value;
     }
 
-    public Boolean getName() {
+    public Boolean getValue() {
         return this.value;
     }
 

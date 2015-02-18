@@ -10,7 +10,7 @@ public class INT extends Literal {
         this.value = _value;
     }
 
-    public double getValue() {
+    public int getValue() {
         return this.value;
     }
 
