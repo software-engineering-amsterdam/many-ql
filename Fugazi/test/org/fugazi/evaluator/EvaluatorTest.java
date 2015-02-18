@@ -1,5 +1,7 @@
 package org.fugazi.evaluator;
 
+import org.fugazi.ast.expression.comparison.EQ;
+import org.fugazi.ast.expression.comparison.NotEq;
 import org.fugazi.ast.expression.literal.*;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;
@@ -270,7 +272,7 @@ public class EvaluatorTest {
      * Test Positive
      */
     @Test
-    public void testPosExpressionWithBools() throws Exception {
+    public void testPosExpressionWithNums() throws Exception {
         // test: (+)5 = 5
         Positive expression = new Positive(num5);
         ExpressionValue value1 = evaluator.evaluateExpression(expression);
@@ -281,10 +283,94 @@ public class EvaluatorTest {
      * Test Negative
      */
     @Test
-    public void testNegExpressionWithBools() throws Exception {
+    public void testNegExpressionWithNums() throws Exception {
         // test: (-)5 = -5
         Negative expression = new Negative(num5);
         ExpressionValue value1 = evaluator.evaluateExpression(expression);
         assertEquals(value1.getValue(), -num5.getValue());
+    }
+
+    /**
+     * Test equals
+     */
+    @Test
+    public void testEqualsExpressionWithNums() throws Exception {
+        // test: 5 == 4 = false
+        EQ expression1 = new EQ(num5, num4);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), false);
+
+        // test: 5 == 5 = true
+        EQ expression2 = new EQ(num5, num5);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), true);
+    }
+
+    @Test
+    public void testEqualsExpressionWithStrings() throws Exception {
+        // test: Foo == bar = false;
+        EQ expression1 = new EQ(stringFoo, stringBar);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), false);
+
+        // test: Foo == Foo = true;
+        EQ expression2 = new EQ(stringFoo, stringFoo);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), true);
+    }
+
+    @Test
+    public void testEqualsExpressionWithBools() throws Exception {
+        // test: true == false = false;
+        EQ expression1 = new EQ(boolTrue, boolFalse);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), false);
+
+        // test: true == true = true;
+        EQ expression2 = new EQ(boolTrue, boolTrue);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), true);
+    }
+
+    /**
+     * Test not equals
+     */
+    @Test
+    public void testNotEqualsExpressionWithNums() throws Exception {
+        // test: 5 != 4 = true
+        NotEq expression1 = new NotEq(num5, num4);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), true);
+
+        // test: 5 != 5 = false
+        NotEq expression2 = new NotEq(num5, num5);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), false);
+    }
+
+    @Test
+    public void testNotEqualsExpressionWithStrings() throws Exception {
+        // test: Foo != bar = true;
+        NotEq expression1 = new NotEq(stringFoo, stringBar);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), true);
+
+        // test: Foo != Foo = false;
+        NotEq expression2 = new NotEq(stringFoo, stringFoo);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), false);
+    }
+
+    @Test
+    public void testNotEqualsExpressionWithBools() throws Exception {
+        // test: true != false = true;
+        NotEq expression1 = new NotEq(boolTrue, boolFalse);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), true);
+
+        // test: true != true = false;
+        NotEq expression2 = new NotEq(boolTrue, boolTrue);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), false);
     }
 }

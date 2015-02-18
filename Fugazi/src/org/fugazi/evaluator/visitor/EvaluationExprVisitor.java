@@ -61,30 +61,48 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
     }
 
     /**
-     * TODO: Comparison
+     * Comparison
      */
     public ExpressionValue visitEQ(EQ eq) {
-        return null;             
-    }   
+        ExpressionValue left = eq.getLeft().accept(this);
+        ExpressionValue right = eq.getRight().accept(this);
+
+        return left.equal(right);
+    }
+
+    public ExpressionValue visitGreater(Greater greater) {
+        ExpressionValue left = greater.getLeft().accept(this);
+        ExpressionValue right = greater.getRight().accept(this);
+
+        return left.greater(right);
+    }
+
+    public ExpressionValue visitLesser(Less less) {
+        ExpressionValue left = less.getLeft().accept(this);
+        ExpressionValue right = less.getRight().accept(this);
+
+        return left.less(right);
+    }
     
     public ExpressionValue visitGE(GE ge) {
-        return null;             
+        ExpressionValue left = ge.getLeft().accept(this);
+        ExpressionValue right = ge.getRight().accept(this);
+
+        return left.greaterEqual(right);
     }   
-    
-    public ExpressionValue visitGreater(Greater greater) {
-        return null;             
-    }     
-    
+
     public ExpressionValue visitLE(LE le) {
-        return null;             
+        ExpressionValue left = le.getLeft().accept(this);
+        ExpressionValue right = le.getRight().accept(this);
+
+        return left.lessEqual(right);
     }
-    
-    public ExpressionValue visitLesser(Less less) {
-        return null;            
-    }
-    
+
     public ExpressionValue visitNotEq(NotEq notEq) {
-        return null;             
+        ExpressionValue left = notEq.getLeft().accept(this);
+        ExpressionValue right = notEq.getRight().accept(this);
+
+        return left.notEqual(right);
     }
 
     /**
