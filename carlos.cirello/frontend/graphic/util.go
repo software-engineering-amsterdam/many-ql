@@ -9,57 +9,24 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
+func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	newFieldCaption string, content interface{}, invisible bool) {
 
-	var questionQMLtemplate string
+	var question qml.Object
 	switch newFieldType {
 	default:
-		questionQMLtemplate = renderNewStringQuestion(newFieldName, newFieldCaption)
+		question = g.renderNewStringQuestion(newFieldName, newFieldCaption, content)
 	case ast.BoolQuestionType:
-		questionQMLtemplate = renderNewBooleanQuestion(newFieldName, newFieldCaption)
+		question = g.renderNewBooleanQuestion(newFieldName, newFieldCaption, content)
 	case ast.IntQuestionType:
-		questionQMLtemplate = renderNewNumericQuestion(newFieldName, newFieldCaption)
+		question = g.renderNewNumericQuestion(newFieldName, newFieldCaption, content)
 	}
-
-	question := renderAndInsertAt(questionQMLtemplate, rows)
 
 	if !invisible {
 		question.Set("visible", true)
 	}
 
 	g.symbolTable[newFieldName] = question
-
-	newFieldPtr := question.ObjectByName(newFieldName)
-	// todo(carlos) improve readability
-	switch newFieldType {
-	case ast.BoolQuestionType:
-		if content.(*ast.BoolQuestion).String() == "Yes" {
-			newFieldPtr.Set("checked", true)
-		}
-		newFieldPtr.On("clicked", func() {
-			g.mu.Lock()
-			defer g.mu.Unlock()
-
-			objectName := newFieldPtr.String("objectName")
-			content := newFieldPtr.Bool("checked")
-
-			g.answerStack[objectName] = "0"
-			if content {
-				g.answerStack[objectName] = "1"
-			}
-		})
-	default:
-		newFieldPtr.Set("text", content.(ast.Parser).String())
-		newFieldPtr.On("editingFinished", func() {
-			g.mu.Lock()
-			defer g.mu.Unlock()
-
-			objectName := newFieldPtr.String("objectName")
-			content := newFieldPtr.String("text")
-			g.answerStack[objectName] = content
-		})
-	}
 }
 
 func (g *Gui) updateQuestion(newFieldName string) {
@@ -68,7 +35,7 @@ func (g *Gui) updateQuestion(newFieldName string) {
 	}
 }
 
-func (g *Gui) hideQuestion(rows qml.Object, fieldName string) {
+func (g *Gui) hideQuestion(fieldName string) {
 	g.symbolTable[fieldName].Set("visible", "false")
 }
 

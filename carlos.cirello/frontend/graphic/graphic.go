@@ -39,6 +39,7 @@ type Gui struct {
 	answerStack map[string]string
 	sweepStack  map[string]bool
 	symbolTable map[string]qml.Object
+	rows        qml.Object
 }
 
 // GUI creates the driver for Frontend process.
@@ -140,14 +141,14 @@ func (g *Gui) Loop() {
 
 func (g *Gui) loop() error {
 	win := startQMLengine(g.appName).CreateWindow(nil)
-	rows := win.Root().ObjectByName("questions")
+	g.rows = win.Root().ObjectByName("questions")
 	win.Show()
-	go g.renderLoop(rows)
+	go g.renderLoop()
 	win.Wait()
 	return nil
 }
 
-func (g *Gui) renderLoop(rows qml.Object) {
+func (g *Gui) renderLoop() {
 	for {
 		select {
 		case event := <-g.renderEvent:
@@ -155,7 +156,6 @@ func (g *Gui) renderLoop(rows qml.Object) {
 			case drawQuestion:
 				qml.Lock()
 				g.addNewQuestion(
-					rows,
 					event.fieldType,
 					event.identifier,
 					event.label,
@@ -169,7 +169,7 @@ func (g *Gui) renderLoop(rows qml.Object) {
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
-				g.hideQuestion(rows, event.identifier)
+				g.hideQuestion(event.identifier)
 				qml.Unlock()
 			}
 		}
