@@ -15,37 +15,54 @@ import org.fugazi.ast.expression.numerical.Sub;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
-import org.fugazi.evaluator.ExpressionValue;
+import org.fugazi.evaluator.*;
 
 public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValue> {
 
-    public EvaluationExprVisitor() {
-
+    private final ValueStorage values;
+    
+    public EvaluationExprVisitor(ValueStorage _values) {
+        this.values = _values;
     }
 
-    // Logical
+    /**
+     * Logical
+     */
     public ExpressionValue visitAnd(And and) {
-        return null;        
+        ExpressionValue left = and.getLeft().accept(this);
+        ExpressionValue right = and.getRight().accept(this);
+
+        return left.and(right);
     }
     
-    public ExpressionValue visitOr(Or less) {
-        return null;             
-    }     
+    public ExpressionValue visitOr(Or or) {
+        ExpressionValue left = or.getLeft().accept(this);
+        ExpressionValue right = or.getRight().accept(this);
 
-    // Unary
+        return left.or(right);
+    }
+
+    /**
+     * Unary
+     */
     public ExpressionValue visitNot(Not not) {
-        return null;             
+        ExpressionValue expression = not.getExpr().accept(this);
+        return expression.not();
     }   
     
     public ExpressionValue visitNegative(Negative negative) {
-        return null;             
+        ExpressionValue expression = negative.getExpr().accept(this);
+        return expression.negative();
     }   
     
     public ExpressionValue visitPositive(Positive positive) {
-        return null;             
-    }     
+        ExpressionValue expression = positive.getExpr().accept(this);
+        return expression.positive();
+    }
 
-    // Comparison
+    /**
+     * TODO: Comparison
+     */
     public ExpressionValue visitEQ(EQ eq) {
         return null;             
     }   
@@ -70,9 +87,10 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
         return null;             
     }
 
-    // Numerical
+    /**
+     * Numerical
+     */
     public ExpressionValue visitAdd(Add add) {
-
         ExpressionValue left = add.getLeft().accept(this);
     	ExpressionValue right = add.getRight().accept(this);
 
@@ -80,30 +98,42 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
     }
     
     public ExpressionValue visitSub(Sub sub) {
-        return null;             
+        ExpressionValue left = sub.getLeft().accept(this);
+        ExpressionValue right = sub.getRight().accept(this);
+
+        return left.sub(right);
     }
     
     public ExpressionValue visitMul(Mul mul) {
-        return null;             
+        ExpressionValue left = mul.getLeft().accept(this);
+        ExpressionValue right = mul.getRight().accept(this);
+
+        return left.mul(right);
     }
     
     public ExpressionValue visitDiv(Div div) {
-        return null;             
+        ExpressionValue left = div.getLeft().accept(this);
+        ExpressionValue right = div.getRight().accept(this);
+
+        return left.div(right);
     }
 
+    /**
+     * Literals
+     */
     public ExpressionValue visitID(ID id) {
-        return null;
+        return values.containsKey(id.getName()) ? values.get(id.getName()) : new UndefinedValue(); // TODO: throw exception?
     }
     
     public ExpressionValue visitINT(INT number) {
-        return null;
+        return new IntValue(number.getValue());
     }
 
     public ExpressionValue visitSTRING(STRING string) {
-        return null;
+        return new StringValue(string.getValue());
     }
 
     public ExpressionValue visitBOOL(BOOL bool) {
-        return null;
+        return new BoolValue(bool.getValue());
     }
 }
