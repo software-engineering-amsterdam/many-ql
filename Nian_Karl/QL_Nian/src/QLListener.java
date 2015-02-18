@@ -1,7 +1,4 @@
 // Generated from QL.g4 by ANTLR 4.5
-package ql.antlr;
-
-
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -61,6 +58,26 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestionType(QLParser.QuestionTypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QLParser#builtinType}.
+	 * @param ctx the parse tree
+	 */
+	void enterBuiltinType(QLParser.BuiltinTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#builtinType}.
+	 * @param ctx the parse tree
+	 */
+	void exitBuiltinType(QLParser.BuiltinTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QLParser#userType}.
+	 * @param ctx the parse tree
+	 */
+	void enterUserType(QLParser.UserTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QLParser#userType}.
+	 * @param ctx the parse tree
+	 */
+	void exitUserType(QLParser.UserTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QLParser#questionName}.
 	 * @param ctx the parse tree
 	 */
@@ -81,15 +98,15 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitQuestionLabel(QLParser.QuestionLabelContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#ifStatement}.
+	 * Enter a parse tree produced by {@link QLParser#ifstatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfStatement(QLParser.IfStatementContext ctx);
+	void enterIfstatement(QLParser.IfstatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#ifStatement}.
+	 * Exit a parse tree produced by {@link QLParser#ifstatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfStatement(QLParser.IfStatementContext ctx);
+	void exitIfstatement(QLParser.IfstatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
