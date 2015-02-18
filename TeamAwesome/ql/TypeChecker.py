@@ -1,8 +1,14 @@
 import ASTNodes
 import OperatorTypes
 import CustomTypes
-from enum import Enum
 
+def check(ast):
+    return TypeChecker().check(ast) 
+
+# The actual typechecking happens in a class method
+# because we want some internal state so we don't have to
+# change argument signatures in our methods every time
+# we add something to the type checker.
 class TypeChecker:
     def check(self, ast):
         self._ast = ast
