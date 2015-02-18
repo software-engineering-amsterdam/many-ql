@@ -31,8 +31,8 @@ class TypeChecker:
         return TypeCheckResult()
 
     def _checkCyclicQuestionDependencies(self):
-        # TODO
-        return TypeCheckResult()
+        visitor = CyclicQuestionDependenciesVisitor(self._ast.root)
+        return visitor.visit(self._ast.root)
 
     # Includes checking for undefined identifiers
     def _checkTypesOfExpressions(self):
@@ -263,12 +263,13 @@ class DuplicateQuestionLabelsVisitor(TypeCheckingVisitor):
 
         for text, lines in self._labels.items():
             if len(lines) > 1:
-                self._result = self._result.withMessage(
-                    TypeCheckWarningMessage(
-                        'duplicate question label `'+text\
-                       +'` on lines: '+str(lines)
+                for l in lines:
+                    self._result = self._result.withMessage(
+                        TypeCheckWarningMessage(
+                            'duplicate question label `'+text+'`',
+                            l
+                        )
                     )
-                )
 
         return self._result
 
@@ -278,10 +279,81 @@ class DuplicateQuestionLabelsVisitor(TypeCheckingVisitor):
             self._labels[node.text] = []
         self._labels[node.text].append(node.lineNumber)
 
+class CyclicQuestionDependenciesVisitor(TypeCheckingVisitor):
+    def __init__(self, astRoot):
+        super().__init__()
+        self._astRoot = astRoot
+
+    def _visitQuestionStatement(self, node):
+        paths = self._dependencyPaths([], node)
+        for p in paths:
+            if p[-1] in p[:-1]:
+                self._result = self._result.withMessage(
+                    TypeCheckErrorMessage(
+                        'there is a question dependency cycle: '\
+                       +' <- '.join([q.identifier for q in p])\
+                       +'. It means the calculation of the answer '\
+                       +'requires its own result as input. This is '\
+                       +'incalculable. Please double check the '\
+                       +'expressions of the questions.',
+                        node.expr
+                    )
+                )
+
+    def _dependencyPaths(self, path, node):
+        dupe = node in path
+
+        path.append(node)
+
+        if node.expr is None or dupe:
+            return [path]
+
+        paths = []
+
+        identifiers = self._extractIdentifiers(node.expr)
+        for i in identifiers:
+            question = self._questionIdentifiedBy(i, self._astRoot)
+            if question is not None:
+                paths.extend(self._dependencyPaths(path, question))
+
+        return paths
+
+    def _extractIdentifiers(self, node):
+        visitor = ExtractIdentifiersVisitor()
+        visitor.visit(node)
+        return visitor.identifiers
+
+    def _questionIdentifiedBy(self, identifier, node):
+        if isinstance(node, ASTNodes.QuestionStatement) and \
+            node.identifier == identifier:
+            return node
+
+        for n in node.getChildren():
+            question = self._questionIdentifiedBy(identifier, n)
+            if question is not None:
+                return question
+
+        return None
+
+class ExtractIdentifiersVisitor(ASTVisitor):
+    def __init__(self):
+        self.__identifiers = []
+
+    @property
+    def identifiers(self):
+        return self.__identifiers
+
+    def _visitAtomicExpression(self, node):
+        if isinstance(node.left, CustomTypes.Identifier):
+            self.__identifiers.append(node.left) 
+
 class TypeCheckMessage:
-    def __init__(self, message, node = None):
+    def __init__(self, message, nodeOrLine = None):
         self.__message = message
-        self._node = node
+        if isinstance(nodeOrLine, ASTNodes.Node):
+            self.__line = getattr(nodeOrLine, 'lineNumber', None)
+        else:
+            self.__line = nodeOrLine
 
     @property
     def message(self):
@@ -289,8 +361,8 @@ class TypeCheckMessage:
 
     @property
     def line(self):
-        return getattr(self._node, 'lineNumber', None)
-        
+        return self.__line
+
     def __str__(self):
         if self.line is None:
             return self.message
