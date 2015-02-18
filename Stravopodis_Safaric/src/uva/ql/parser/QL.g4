@@ -16,7 +16,7 @@ prog	: form EOF ;
 
 form	: 'form' ID '{' stat* '}' ;
 
-quest 	: 'question' ID typeof primitiveType '{' stat* '}' ;
+quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
 
 stat	: expr
 		| quest
