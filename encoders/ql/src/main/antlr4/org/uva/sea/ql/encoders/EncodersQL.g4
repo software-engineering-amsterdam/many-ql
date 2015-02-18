@@ -25,4 +25,6 @@ conditional:
     NAME;
     
 expression:
-    leftHand=NAME  operator=OPERATOR rightHand=NAME;
+    leftHand=expression  operator=OPERATOR rightHand=expression
+    | NAME;
+    
