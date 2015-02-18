@@ -34,22 +34,22 @@ ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
 //
 //elseStatement : ELSE block;
 
-expression: 
-	literal
-	| expression AND expression
-	| expression OR expression
-	| expression EQUAL_COND expression
-	| expression GREATER expression
-	| expression GREAT_EQUAL expression
-	| expression EQUAL expression
-	| expression LESS_EQUAL expression
-	| expression LESS expression
-	| expression PLUS expression 
-	| expression MINUS expression 
-	| expression MULTIPLY expression 
-	| expression DEVIDE expression
-	| LEFT_PAREN expression RIGHT_PAREN 
-;
+expression
+	: literal								#ExprLiteral
+	| expression 	AND 		expression	#ExprAnd
+	| expression 	OR 			expression	#ExprOr
+	| expression 	EQUAL 		expression	#ExprEqual
+	| expression 	GREATER 	expression	#ExprGreater
+	| expression 	GREAT_EQUAL	expression	#ExprGreaterEqual
+	| expression 	ASSIGN 		expression	#ExprAssign
+	| expression 	LESS_EQUAL 	expression	#ExprLessEqual
+	| expression 	LESS 		expression	#ExprLess
+	| expression 	PLUS 		expression	#ExprPlus
+	| expression 	MINUS 		expression	#ExprMinus
+	| expression 	MULTIPLY 	expression	#ExprMultiply
+	| expression 	DEVIDE 		expression	#ExprDevide
+	| LEFT_PAREN 	expression 	RIGHT_PAREN	#ExprParentheses
+	;
 
 literal
  	 : Identifier
@@ -79,8 +79,8 @@ DATE		:		'Date';
 // Operators	==================================================================
 OR			:		'||';
 AND			:		'&&';
-EQUAL		:		'=';
-EQUAL_COND	:		'==';
+ASSIGN		:		'=';
+EQUAL		:		'==';
 GREATER		: 		'>';
 LESS		: 		'<';
 GREAT_EQUAL	: 		'>='; 
