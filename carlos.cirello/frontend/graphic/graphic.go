@@ -8,13 +8,15 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
 	"gopkg.in/qml.v1"
 )
 
 type renderAction int
 
 const (
-	renderQuestion renderAction = iota
+	drawQuestion renderAction = iota
+	updateQuestion
 	nukeQuestion
 )
 
@@ -24,6 +26,7 @@ type render struct {
 	label      string
 	fieldType  string
 	content    interface{}
+	invisible  bool
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
@@ -32,6 +35,7 @@ type Gui struct {
 	appName     string
 
 	mu          sync.Mutex
+	drawStack   []render
 	renderStack []render
 	answerStack map[string]string
 	sweepStack  map[string]bool
@@ -52,17 +56,37 @@ func GUI(appName string) frontend.Inputer {
 }
 
 // InputQuestion adds a new question into the GUI form stack
-func (g *Gui) InputQuestion(q *ast.QuestionNode) {
+func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility) {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	invisible := false
+	if visible == interpreter.Hidden {
+		invisible = true
+	}
+	m := &render{
+		drawQuestion,
+		q.Identifier(),
+		q.Label(),
+		q.Type(),
+		q.Content(),
+		invisible,
+	}
+	g.drawStack = append(g.drawStack, *m)
+	g.sweepStack[q.Identifier()] = true
+}
+
+func (g *Gui) UpdateQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	if _, ok := g.sweepStack[q.Identifier()]; !ok {
 		m := &render{
-			renderQuestion,
-			q.Identifier(),
-			q.Label(),
-			q.Type(),
-			q.Content(),
+			action:     updateQuestion,
+			identifier: q.Identifier(),
+			label:      q.Label(),
+			fieldType:  q.Type(),
+			content:    q.Content(),
 		}
 		g.renderStack = append(g.renderStack, *m)
 	}
@@ -73,6 +97,11 @@ func (g *Gui) InputQuestion(q *ast.QuestionNode) {
 func (g *Gui) Flush() {
 	g.mu.Lock()
 	defer g.mu.Unlock()
+
+	for _, v := range g.drawStack {
+		g.renderEvent <- v
+	}
+	g.drawStack = []render{}
 
 	for _, v := range g.renderStack {
 		g.renderEvent <- v
@@ -124,7 +153,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 		select {
 		case event := <-g.renderEvent:
 			switch event.action {
-			case renderQuestion:
+			case drawQuestion:
 				qml.Lock()
 				g.addNewQuestion(
 					rows,
@@ -132,7 +161,12 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 					event.identifier,
 					event.label,
 					event.content,
+					event.invisible,
 				)
+				qml.Unlock()
+			case updateQuestion:
+				qml.Lock()
+				g.updateQuestion(event.identifier)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
@@ -144,13 +178,7 @@ func (g *Gui) addQuestionLoop(rows qml.Object) {
 }
 
 func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
-	newFieldCaption string, content interface{}) {
-
-	if question, ok := g.symbolTable[newFieldName]; ok {
-		log.Printf("marking %s as visible", newFieldName)
-		question.Set("visible", true)
-		return
-	}
+	newFieldCaption string, content interface{}, invisible bool) {
 
 	engine := qml.NewEngine()
 	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
@@ -163,6 +191,10 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 
 	question := newQuestion.Create(nil)
 	question.Set("parent", rows)
+
+	if !invisible {
+		question.Set("visible", true)
+	}
 
 	g.symbolTable[newFieldName] = question
 
@@ -198,8 +230,13 @@ func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
 	}
 }
 
+func (g *Gui) updateQuestion(newFieldName string) {
+	if question, ok := g.symbolTable[newFieldName]; ok {
+		question.Set("visible", true)
+	}
+}
+
 func (g *Gui) hideQuestion(rows qml.Object, fieldName string) {
-	log.Printf("marking %s as invisible", fieldName)
 	g.symbolTable[fieldName].Set("visible", "false")
 }
 
