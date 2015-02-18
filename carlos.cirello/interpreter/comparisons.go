@@ -2,12 +2,16 @@ package interpreter
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 
-func (exec Execute) EqualsNode(s *ast.EqualsNode) bool {
-	lt := s.LeftTerm()
-	rt := s.RightTerm()
-	left := exec.resolveMathNode(lt)
-	right := exec.resolveMathNode(rt)
+func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
+	lt, ltOk := n.LeftTerm().(*ast.TermNode)
+	rt, rtOk := n.RightTerm().(*ast.TermNode)
+	if ltOk && rtOk {
+		vl := exec.resolveTermNode(lt)
+		vr := exec.resolveTermNode(rt)
+		return vl == vr
+	}
 
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left == right
 }
 
