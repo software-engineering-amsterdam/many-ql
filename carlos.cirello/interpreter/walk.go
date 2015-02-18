@@ -48,7 +48,6 @@ func (walk Walk) QuestionNode(q *ast.QuestionNode) {
 	if 0 == walk.nest {
 		visible = Visible
 	}
-	log.Println(questionCopy.Identifier(), " ", visible)
 	walk.toFrontend <- &Event{
 		Type:     Draw,
 		Question: questionCopy,
