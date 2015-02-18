@@ -29,9 +29,30 @@ func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	g.symbolTable[newFieldName] = question
 }
 
-func (g *Gui) updateQuestion(newFieldName string) {
-	if question, ok := g.symbolTable[newFieldName]; ok {
+func (g *Gui) updateQuestion(fieldName string, content interface{}) {
+	if question, ok := g.symbolTable[fieldName]; ok {
 		question.Set("visible", true)
+
+		fieldPtr := question.ObjectByName(fieldName)
+
+		if fieldPtr.Bool("activeFocus") {
+			// Don't let regular update loop to overwrite current
+			// user edit in the focused field.
+			return
+		}
+		switch value := content.(type) {
+		default:
+			if value.(ast.Parser).String() != fieldPtr.String("text") {
+				fieldPtr.Set("text", value.(ast.Parser).String())
+			}
+		case *ast.BoolQuestion:
+			if value.String() == "Yes" {
+				fieldPtr.Set("checked", true)
+			} else {
+				fieldPtr.Set("checked", false)
+			}
+		}
+
 	}
 }
 

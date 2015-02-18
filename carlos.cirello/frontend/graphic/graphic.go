@@ -80,16 +80,14 @@ func (g *Gui) UpdateQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	if _, ok := g.sweepStack[q.Identifier()]; !ok {
-		m := &render{
-			action:     updateQuestion,
-			identifier: q.Identifier(),
-			label:      q.Label(),
-			fieldType:  q.Type(),
-			content:    q.Content(),
-		}
-		g.renderStack = append(g.renderStack, *m)
+	m := &render{
+		action:     updateQuestion,
+		identifier: q.Identifier(),
+		label:      q.Label(),
+		fieldType:  q.Type(),
+		content:    q.Content(),
 	}
+	g.renderStack = append(g.renderStack, *m)
 	g.sweepStack[q.Identifier()] = true
 }
 
@@ -165,7 +163,7 @@ func (g *Gui) renderLoop() {
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier)
+				g.updateQuestion(event.identifier, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
