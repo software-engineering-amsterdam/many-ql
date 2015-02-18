@@ -75,18 +75,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitBoolType(@NotNull QLParser.BoolTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code moneyType}
-	 * labeled alternative in {@link QLParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void enterMoneyType(@NotNull QLParser.MoneyTypeContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code moneyType}
-	 * labeled alternative in {@link QLParser#type}.
-	 * @param ctx the parse tree
-	 */
-	void exitMoneyType(@NotNull QLParser.MoneyTypeContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code intType}
 	 * labeled alternative in {@link QLParser#type}.
 	 * @param ctx the parse tree
@@ -195,18 +183,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code numberExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNumberExpression(@NotNull QLParser.NumberExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code numberExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code comparisonExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
@@ -218,6 +194,18 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code intExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntExpression(@NotNull QLParser.IntExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code intExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntExpression(@NotNull QLParser.IntExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code addSubExpression}
 	 * labeled alternative in {@link QLParser#expression}.

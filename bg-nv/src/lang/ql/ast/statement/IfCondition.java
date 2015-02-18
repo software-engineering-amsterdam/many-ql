@@ -1,6 +1,6 @@
 package lang.ql.ast.statement;
 
-import lang.ql.ast.expression.Expression;
+import lang.ql.ast.expression.Expr;
 import lang.ql.semantics.Visitor;
 
 import java.util.List;
@@ -10,18 +10,18 @@ import java.util.List;
  */
 public class IfCondition extends Statement
 {
-    private Expression expression;
+    private Expr expr;
     private List<Statement> statements;
 
-    public IfCondition(Expression expression, List<Statement> statements)
+    public IfCondition(Expr expr, List<Statement> statements)
     {
-        this.expression = expression;
+        this.expr = expr;
         this.statements = statements;
     }
 
-    public Expression getExpression()
+    public Expr getExpr()
     {
-        return this.expression;
+        return this.expr;
     }
 
     public List<Statement> getStatements()

@@ -1,51 +1,64 @@
 package lang.ql.semantics;
 
+import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.Question;
 import lang.ql.ast.statement.QuestionType;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by bore on 13/02/15.
  */
 public class SymbolTable
 {
-    private Map<Question, QuestionType> questionToType;
-    private Map<String, Question> stringToQuestion;
+    private Map<String, QuestionType> symbols;
+    private Set<RuntimeException> errors;
+    private Set<Question> questions;
 
     public SymbolTable()
     {
-        this.questionToType = new HashMap<Question, QuestionType>();
-        this.stringToQuestion = new HashMap<String, Question>();
+        this.symbols = new HashMap<String, QuestionType>();
+        this.errors = new HashSet<RuntimeException>();
+        this.questions = new HashSet<Question>();
     }
 
-    public void define(Question question, QuestionType type)
+    public void define(Question q, QuestionType type)
     {
-        this.questionToType.put(question, type);
-        this.stringToQuestion.put(question.getId(), question);
+        String id = q.getId();
+        if (this.symbols.containsKey(id))
+        {
+            QuestionType duplicateType = this.symbols.get(id);
+            IllegalStateException ex = new IllegalStateException(ErrorMessages.identifierAlreadyDeclared(id));
+
+            if (!(type.equals(duplicateType)))
+            {
+                ex = new IllegalStateException(ErrorMessages.identifierDeclaredOfDiffType(id));
+            }
+
+            this.errors.add(ex);
+        }
+
+        this.symbols.put(id, type);
+        this.questions.add(q);
     }
 
     public QuestionType resolve(String name)
     {
-        Question q = this.getQuestionByName(name);
+        assert this.symbols.containsKey(name);
 
-        if (!(this.questionToType.containsKey(q)))
-        {
-            throw new IllegalStateException("Not found in symbol table");
-        }
-
-        return this.questionToType.get(q);
+        return this.symbols.get(name);
     }
 
-    public Question getQuestionByName(String name)
+    public List<Question> getQuestionsById(String id)
     {
-        if (!(this.stringToQuestion.containsKey(name)))
+        List<Question> result = new ArrayList<Question>();
+        for (Question q : this.questions)
         {
-            throw new IllegalStateException("Not found in symbol table");
+            if (q.getId().equals(id))
+            {
+                result.add(q);
+            }
         }
-
-        return this.stringToQuestion.get(name);
+        return result;
     }
 }

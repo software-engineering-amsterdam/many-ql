@@ -70,7 +70,7 @@ top:
 questionaire:
 	FormToken TextToken '{' stack '}'
 	{
-		$$.questionaire = ast.NewQuestionaireNode($2.content, $4.stack)
+		$$.questionaire = ast.NewQuestionaireNode($2.content, $4.stack, $2.position)
 	}
 	;
 
@@ -79,7 +79,7 @@ stack:
 	{
 		q := $2.question
 		qs := $$.stack
-		action := ast.NewActionNode(q)
+		action := ast.NewActionNode(q, $2.position)
 		qs = append(qs, action)
 		$$.stack = qs
 	}
@@ -87,7 +87,7 @@ stack:
 	{
 		ifNode := $2.ifNode
 		qs := $$.stack
-		action := ast.NewActionNode(ifNode)
+		action := ast.NewActionNode(ifNode, $2.position)
 		qs = append(qs, action)
 		$$.stack = qs
 	}
@@ -96,7 +96,7 @@ stack:
 question:
 	QuotedStringToken TextToken questionType
 	{
-		$$.question = ast.NewQuestionNode($1.content, $2.content, $3.questionType, false)
+		$$.question = ast.NewQuestionNode($1.content, $2.content, $3.questionType, false, $1.position)
 	}
 	;
 
@@ -130,7 +130,7 @@ questionType:
 ifBlock:
 	IfToken '(' evaluatable ')' '{' stack '}'
 	{
-		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, nil)
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, nil, $1.position)
 
 		$$.evaluatable = new(ast.Evaluatable)
 		$$.stack = []*ast.ActionNode{}
@@ -139,7 +139,7 @@ ifBlock:
 	}
 	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken ifBlock
 	{
-		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, $9.ifNode)
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, $9.ifNode, $1.position)
 
 		$$.evaluatable = new(ast.Evaluatable)
 		$$.stack = []*ast.ActionNode{}
@@ -150,11 +150,12 @@ ifBlock:
 	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken '{' stack '}'
 	{
 		elseNode := ast.NewIfNode(
-			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", ""),
+			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", "", $8.position),
 			$10.stack,
 			nil,
+			$8.position,
 		)
-		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, elseNode)
+		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, elseNode, $1.position)
 
 		$$.evaluatable = new(ast.Evaluatable)
 		$$.stack = []*ast.ActionNode{}
@@ -167,38 +168,23 @@ ifBlock:
 evaluatable:
 	term EqualsToToken term
 	{
-		condition := new (ast.EqualsNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewEqualsNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term MoreThanToken term
 	{
-		condition := new (ast.MoreThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMoreThanNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term LessThanToken term
 	{
-		condition := new (ast.LessThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewLessThanNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term MoreOrEqualsThanToken term
 	{
-		condition := new (ast.MoreOrEqualsThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMoreOrEqualsThanNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term LessOrEqualsThanToken term
 	{
-		condition := new (ast.LessOrEqualsThanNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewLessOrEqualsThanNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term
 	;
@@ -206,35 +192,24 @@ evaluatable:
 term:
 	term '+' term
 	{
-		condition := new (ast.MathAddNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathAddNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term '-' term
 	{
-		condition := new (ast.MathSubNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathSubNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term '*' term
 	{
-		condition := new (ast.MathMulNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathMulNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term '/' term
 	{
-		condition := new (ast.MathDivNode)
-		condition.LeftTerm = $1.evaluatable
-		condition.RightTerm = $3.evaluatable
-		$$.evaluatable = condition
+		$$.evaluatable = ast.NewMathDivNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| value
 	{
 		$$.evaluatable = $1.termNode
+		$$.position = $1.position
 	}
 	;
 
@@ -248,6 +223,7 @@ value:
 			$$.num,
 			"",
 			"",
+			$1.position,
 		)
 		$$.termNode = termNode
 	}
@@ -258,6 +234,7 @@ value:
 			$$.num,
 			"",
 			$1.content,
+			$1.position,
 		)
 		$$.termNode = termNode
 	}
@@ -268,6 +245,7 @@ value:
 			$$.num,
 			$1.content,
 			"",
+			$1.position,
 		)
 		$$.termNode = termNode
 	}

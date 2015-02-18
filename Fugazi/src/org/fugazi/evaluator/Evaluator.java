@@ -1,15 +1,16 @@
 package org.fugazi.evaluator;
 
 import org.fugazi.ast.expression.Expression;
+import org.fugazi.evaluator.visitor.EvaluationExprVisitor;
 
 public class Evaluator {
 
     private final ValueStorage values;
-    private final ExpressionVisitor expressionVisitor;
+    private final EvaluationExprVisitor expressionVisitor;
     
     public Evaluator() {
         this.values = new ValueStorage();
-        this.expressionVisitor = new ExpressionVisitor();
+        this.expressionVisitor = new EvaluationExprVisitor();
     }
 
     public void saveValue(String _id, ExpressionValue _val) {
@@ -25,7 +26,6 @@ public class Evaluator {
     }
 
     public ExpressionValue evaluateExpression(Expression _expression) {
-        System.out.println("================= Begin Evaluation. =================");
         return _expression.accept(this.expressionVisitor);
     }
 }

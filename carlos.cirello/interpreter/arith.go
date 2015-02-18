@@ -6,31 +6,23 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
-func (exec Execute) MathAddNode(s *ast.MathAddNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
-
+func (exec Execute) MathAddNode(n *ast.MathAddNode) float32 {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left + right
 }
 
-func (exec Execute) MathSubNode(s *ast.MathSubNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
-
+func (exec Execute) MathSubNode(n *ast.MathSubNode) float32 {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left - right
 }
 
-func (exec Execute) MathMulNode(s *ast.MathMulNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
-
+func (exec Execute) MathMulNode(n *ast.MathMulNode) float32 {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left * right
 }
 
-func (exec Execute) MathDivNode(s *ast.MathDivNode) float32 {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
-
+func (exec Execute) MathDivNode(n *ast.MathDivNode) float32 {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left / right
 }
 

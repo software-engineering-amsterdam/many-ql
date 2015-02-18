@@ -3,37 +3,31 @@ package interpreter
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 
 func (exec Execute) EqualsNode(s *ast.EqualsNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
+	lt := s.LeftTerm()
+	rt := s.RightTerm()
+	left := exec.resolveMathNode(lt)
+	right := exec.resolveMathNode(rt)
 
 	return left == right
 }
 
-func (exec Execute) MoreThanNode(s *ast.MoreThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+func (exec Execute) MoreThanNode(n *ast.MoreThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left > right
 }
 
-func (exec Execute) LessThanNode(s *ast.LessThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+func (exec Execute) LessThanNode(n *ast.LessThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left < right
 }
 
-func (exec Execute) MoreOrEqualsThanNode(s *ast.MoreOrEqualsThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+func (exec Execute) MoreOrEqualsThanNode(n *ast.MoreOrEqualsThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left >= right
 }
 
-func (exec Execute) LessOrEqualsThanNode(s *ast.LessOrEqualsThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+func (exec Execute) LessOrEqualsThanNode(n *ast.LessOrEqualsThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left <= right
 }
 

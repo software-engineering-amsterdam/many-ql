@@ -89,18 +89,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMoneyType(@NotNull QLParser.MoneyTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMoneyType(@NotNull QLParser.MoneyTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterIntType(@NotNull QLParser.IntTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -209,18 +197,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -228,6 +204,18 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntExpression(@NotNull QLParser.IntExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntExpression(@NotNull QLParser.IntExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

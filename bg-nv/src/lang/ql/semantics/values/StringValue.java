@@ -26,4 +26,29 @@ public class StringValue extends Value<String>
     {
         return new StringValue(v.getValue() + this.getValue());
     }
+
+    @Override
+    public Value equ(Value v)
+    {
+        return v.addString(this);
+    }
+
+    @Override
+    public Value equString(StringValue v)
+    {
+        return new BooleanValue(v.getValue().equals(this.getValue()));
+    }
+
+    @Override
+    public Value notEqu(Value v)
+    {
+        return v.notEquString(this);
+    }
+
+    @Override
+    public Value notEquString(StringValue v)
+    {
+        boolean r = !(v.getValue().equals(this.getValue()));
+        return new BooleanValue(r);
+    }
 }

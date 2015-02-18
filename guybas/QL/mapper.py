@@ -5,7 +5,8 @@ from exceptions import *
 class Mapper:
     # map from id to answers
     def __init__(self):
-        self.answers = {}
+        self.answers  = {}
+        self.inputObj = {}
 
     def update(self, question, answer):
         qid = question.get_id()

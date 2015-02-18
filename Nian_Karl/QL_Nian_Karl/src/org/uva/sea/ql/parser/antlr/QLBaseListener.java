@@ -19,25 +19,49 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression(@NotNull QLParser.ExpressionContext ctx) { }
+	@Override public void enterAndExpr(@NotNull QLParser.AndExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression(@NotNull QLParser.ExpressionContext ctx) { }
+	@Override public void exitAndExpr(@NotNull QLParser.AndExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatement(@NotNull QLParser.StatementContext ctx) { }
+	@Override public void enterPlus(@NotNull QLParser.PlusContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatement(@NotNull QLParser.StatementContext ctx) { }
+	@Override public void exitPlus(@NotNull QLParser.PlusContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMult(@NotNull QLParser.MultContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMult(@NotNull QLParser.MultContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMinus(@NotNull QLParser.MinusContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMinus(@NotNull QLParser.MinusContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -55,13 +79,49 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
+	@Override public void enterGreaterEqualCond(@NotNull QLParser.GreaterEqualCondContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
+	@Override public void exitGreaterEqualCond(@NotNull QLParser.GreaterEqualCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEqualCond(@NotNull QLParser.EqualCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEqualCond(@NotNull QLParser.EqualCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDiv(@NotNull QLParser.DivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDiv(@NotNull QLParser.DivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessEqualCond(@NotNull QLParser.LessEqualCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessEqualCond(@NotNull QLParser.LessEqualCondContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -79,13 +139,109 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionType(@NotNull QLParser.QuestionTypeContext ctx) { }
+	@Override public void enterQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionType(@NotNull QLParser.QuestionTypeContext ctx) { }
+	@Override public void exitQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOrExpr(@NotNull QLParser.OrExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrExpr(@NotNull QLParser.OrExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatement(@NotNull QLParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(@NotNull QLParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGreaterCond(@NotNull QLParser.GreaterCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGreaterCond(@NotNull QLParser.GreaterCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessCond(@NotNull QLParser.LessCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessCond(@NotNull QLParser.LessCondContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestionName(@NotNull QLParser.QuestionNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNormalLit(@NotNull QLParser.NormalLitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNormalLit(@NotNull QLParser.NormalLitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParenthesis(@NotNull QLParser.ParenthesisContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParenthesis(@NotNull QLParser.ParenthesisContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -103,13 +259,13 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx) { }
+	@Override public void enterQuestionType(@NotNull QLParser.QuestionTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx) { }
+	@Override public void exitQuestionType(@NotNull QLParser.QuestionTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -122,18 +278,6 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLiteral(@NotNull QLParser.LiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIfStatement(@NotNull QLParser.IfStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
