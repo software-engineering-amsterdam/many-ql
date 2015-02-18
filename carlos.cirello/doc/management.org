@@ -13,7 +13,7 @@
     - [ ] Pretty and informing error message
   - [ ] Resolve the Visitor debate. {7}
   - [ ] Compiler [0/2] {1}
-    - [ ] Write grammar [5/10]
+    - [ ] Write grammar [6/10]
       - [X] form parsing :MUST:
       - [X] question parsing :MUST:
       - [X] add support for comment :MUST:
@@ -22,9 +22,10 @@
       - [ ] Treat against invalid variable types
         - [ ] Is this a grammar level error? Not likely.
       - [X] conditional question :MUST:
-      - [ ] default value for questions :MUST:
+      - [X] default value for questions :MUST:
       - [ ] math evaluation for IF and default values :MUST:
         - [ ] Protect against undeclared and empty values :MUST:
+        - [ ] Support for (...) blocks
       - [ ] multiple form in the same file :SHOULD:
       - [ ] read from multiple files :COULD:
     - [ ] Generate AST [1/3]
