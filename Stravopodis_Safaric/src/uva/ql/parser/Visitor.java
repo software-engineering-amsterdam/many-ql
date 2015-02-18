@@ -37,8 +37,14 @@ import uva.ql.supporting.Tuple;
 import uva.ql.ast.expressions.literals.*;
 import uva.ql.ast.question.QuestionDeclaration;
 import uva.ql.ast.statements.Assign;
+import uva.ql.ast.statements.Statement;
+
+import java.util.*;
 
 public class Visitor extends QLBaseVisitor<ASTNode> {
+	
+	public static List<StatContext> stats = new ArrayList<StatContext>();
+			
 	
 	
 	@Override 
@@ -48,6 +54,9 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	
 	@Override 
 	public ASTNode visitForm(FormContext ctx) { 
+		//System.out.println(ctx.stms);
+		List <StatContext> stats = ctx.stms;
+		
 		return visitChildren(ctx); 
 	}
 	
@@ -60,6 +69,12 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	
 	@Override 
 	public ASTNode visitStat(StatContext ctx) { 
+		/*Tuple<Integer,Integer> codeLines = getCodeLines(ctx);*/
+		List <Statement> states = new ArrayList<Statement>();
+		for (StatContext context : stats){
+			Statement state =  (Statement)visitStat(context);
+			states.add((Statement)visitStat(context));}
+		System.out.println(ctx.getText());
 		// Statements -> quest, decl, ifStatement, quest_decl, assign
 		return visitChildren(ctx); 
 	}
