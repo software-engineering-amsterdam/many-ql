@@ -23,11 +23,29 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
-import java.awt.*;
+/*
+Operators with invalid types:
+- Comparison cannot have string and both have to be of the same type.
+- GE, Greater, LE, Less must be int
+- and / or must have booleans
+
+- every numerical must have ints
+  - add div mul sub
+- every logical must have bool
+  - or and not
+
+- negative must have int
+necessary functions:
+ - check if string
+ - check if int
+ - check if bool
+ - check if of same type
+
+ */
+
 import java.util.List;
 
 public class TypeCheckerVisitor implements IASTVisitor {
-
 
     @Override
     public Object visitForm(Form form) {
@@ -48,6 +66,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
         System.out.println("So I am visiting an and:" + and.toString());
         Expression left = and.getLeft();
         Expression right = and.getRight();
+
+        boolean leftCorrect = this.checkIfInt(left);
+
+        System.out.println("\n\nLeft correct: " + leftCorrect);
 
         left.accept(this);
         right.accept(this);
@@ -289,4 +311,46 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public Void visitUndefinedType(UndefinedType undefinedType){return null;}
 
     // operands of invalid type to operators
+
+    private boolean checkIfInt(Expression expression) {
+
+        IntType intType = new IntType();
+        System.out.println(intType.equals(new IntType()));
+        for (Type type : expression.getSupportedTypes()) {
+            if (type.getClass() == intType.getClass()) {
+                return true;
+            }
+        }
+        return false;
+
+        // TODO naively thought this would work
+        // maybe needs to be rethought
+//        return expression.getSupportedTypes().contains(new IntType());
+    }
+
+    private boolean checkIfBool(Expression expression) {
+        BoolType boolType = new BoolType();
+        for (Type type : expression.getSupportedTypes()) {
+            if (type.getClass() == boolType.getClass()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkIfString(Expression expression) {
+        StringType stringType = new StringType();
+        for (Type type : expression.getSupportedTypes()) {
+            if (type.getClass() == stringType.getClass()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+//    private boolean checkIfSameType(Expression leftExpression, Expression rightExpression) {
+//
+//        // supported types of both expressions must be equal
+//        return true;
+//    }
 }
