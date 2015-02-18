@@ -81,4 +81,36 @@ public abstract class ExpressionValue<T> {
         // TODO: throw UndefinedExpeption?
         return new UndefinedValue();
     }
+
+    public BoolValue equal(ExpressionValue exprValue) {
+        return new BoolValue(this.value == exprValue.getValue());
+    }
+
+    public BoolValue notEqual(ExpressionValue exprValue) {
+        return new BoolValue(this.value != exprValue.getValue());
+    }
+
+    // TODO: implement
+    public ExpressionValue greater(ExpressionValue exprValue) {
+        // TODO: throw UndefinedExpeption?
+        return new UndefinedValue();
+    }
+
+    // TODO: implement
+    public ExpressionValue less(ExpressionValue exprValue) {
+        // TODO: throw UndefinedExpeption?
+        return new UndefinedValue();
+    }
+
+    // TODO: implement
+    public ExpressionValue greaterEqual(ExpressionValue exprValue) {
+        // TODO: throw UndefinedExpeption?
+        return new UndefinedValue();
+    }
+
+    // TODO: implement
+    public ExpressionValue lessEqual(ExpressionValue exprValue) {
+        // TODO: throw UndefinedExpeption?
+        return new UndefinedValue();
+    }
 }
