@@ -1,6 +1,7 @@
 package nl.uva.softwcons.ast;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import helper.TestHelper;
 import nl.uva.softwcons.Questionnaire;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.form.Form;
@@ -18,7 +19,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testSingleQuestionInForm() {
         String questionText = "question: \"Label\" boolean";
-        Form form = Questionnaire.build(buildForm("form1", questionText));
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
         Question question = (Question) form.getBody().getStatements().get(0);
 
         assertThat(form.getBody().getStatements().get(0)).isExactlyInstanceOf(Question.class);
@@ -30,7 +31,7 @@ public class ASTBuilderVisitorTest {
     public void testMultipleQuestionsInForm() {
         String question1Text = "question1: \"Label 1\" boolean";
         String question2Text = "question2: \"Label 2\" boolean";
-        Form form = Questionnaire.build(buildForm("form1", question1Text, question2Text));
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text));
         Question question1 = (Question) form.getBody().getStatements().get(0);
         Question question2 = (Question) form.getBody().getStatements().get(1);
 
@@ -49,7 +50,7 @@ public class ASTBuilderVisitorTest {
         String integerQuestion = "question: \"Label me\" integer";
         String dateQuestion = "question: \"Label me\" date";
         String decimalQuestion = "question: \"Label me\" decimal";
-        Form form = Questionnaire.build(buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
                 dateQuestion, decimalQuestion));
 
         assertThat(form.getBody().getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
@@ -58,7 +59,7 @@ public class ASTBuilderVisitorTest {
     @Test
     public void testSingleComputedQuestionInForm() {
         String questionText = "question: \"Label\" boolean (6 * 5)";
-        Form form = Questionnaire.build(buildForm("form1", questionText));
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
         ComputedQuestion question = (ComputedQuestion) form.getBody().getStatements().get(0);
 
         assertThat(form.getBody().getStatements().get(0)).isExactlyInstanceOf(ComputedQuestion.class);
@@ -71,7 +72,7 @@ public class ASTBuilderVisitorTest {
     public void testMultipleComputedQuestionsInForm() {
         String question1Text = "question1: \"Label 1\" boolean (true)";
         String question2Text = "question2: \"Label 2\" boolean (6+2>3)";
-        Form form = Questionnaire.build(buildForm("form1", question1Text, question2Text));
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", question1Text, question2Text));
         ComputedQuestion question1 = (ComputedQuestion) form.getBody().getStatements().get(0);
         ComputedQuestion question2 = (ComputedQuestion) form.getBody().getStatements().get(1);
 
@@ -92,14 +93,10 @@ public class ASTBuilderVisitorTest {
         String integerQuestion = "question: \"Label me\" integer(1+2)";
         String dateQuestion = "question: \"Label me\" date(true)";
         String decimalQuestion = "question: \"Label me\" decimal(1+2)";
-        Form form = Questionnaire.build(buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
                 dateQuestion, decimalQuestion));
 
         assertThat(form.getBody().getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
-    }
-
-    private String buildForm(final String formName, final String... statements) {
-        return String.format("form %s { %s }", formName, String.join(" ", statements));
     }
 
 }
