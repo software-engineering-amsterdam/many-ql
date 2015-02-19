@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IASTVisitor.cs" />
     <Compile Include="Model\Statements\DataType.cs" />
     <Compile Include="Model\Expressions\BinaryExpression.cs" />
     <Compile Include="Model\Expressions\Identifier.cs" />

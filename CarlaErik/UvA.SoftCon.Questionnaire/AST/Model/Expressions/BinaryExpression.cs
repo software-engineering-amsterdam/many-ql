@@ -32,5 +32,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             Left = left;
             Right = right;
         }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }
