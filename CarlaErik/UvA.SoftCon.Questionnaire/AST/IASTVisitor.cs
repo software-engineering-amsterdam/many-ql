@@ -10,12 +10,13 @@ namespace UvA.SoftCon.Questionnaire.AST
 {
     public interface IASTVisitor
     {
-        void Visit(Questionnaire context);
-        void Visit(BinaryExpression context);
-        void Visit(Identifier context);
-        void Visit<T>(Literal<T> context);
-        void Visit(Question context);
-        void Visit(Declaration context);
-        void Visit(IfStatement context);
+        void Visit(Questionnaire node);
+        void Visit(BinaryExpression node);
+        void Visit(Identifier node);
+        void Visit<T>(Literal<T> node);
+        void Visit(Question node);
+        void Visit(Declaration node);
+        void Visit(Assignment node);
+        void Visit(IfStatement node);
     }
 }
