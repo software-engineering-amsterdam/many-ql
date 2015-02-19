@@ -14,7 +14,7 @@ question:
          
 computation:
      '=' NL
-     '(' expression ')';
+     expression;
      
 conditionalBlock:
      'if' '(' conditional ')' '{' NL
@@ -25,6 +25,7 @@ conditional:
     NAME;
     
 expression:
+    '(' expression ')' |
     leftHand=expression  operator=OPERATOR rightHand=expression
     | NAME;
     
