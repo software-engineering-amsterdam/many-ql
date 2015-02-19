@@ -5,9 +5,9 @@ import lang.ql.semantics.Visitor;
 /**
  * Created by bore on 16/02/15.
  */
-public class Or extends BinaryOperator
+public class Or extends BinaryExpr
 {
-    public Or(Expression left, Expression right)
+    public Or(Expr left, Expr right)
     {
         super(left, right);
     }

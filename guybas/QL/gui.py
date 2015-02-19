@@ -21,15 +21,16 @@ class QuestionnaireGUI:
         Label(text=self.intro, height=2).grid(row=self.row_counter, column=0, sticky=W)
         self.draw_questions(self.questions)
 
-    def draw_questions(self, questions):
+    def draw_questions(self, questions, condition_id=False):
         for question in questions:
             self.row_counter += 1
             if question.is_conditional():
-                self.draw_conditional_q(question)
+                self.draw_conditional_q(question, condition_id)
                 continue
-            self.draw_question(question)
+            self.draw_question(question, condition_id)
 
-    def draw_question(self, question):
+    def draw_question(self, question, condition_id=False):
+        print(question.get_parent_id())
         int_var = IntVar()
         str_var = StringVar()
         # print the question
@@ -54,7 +55,7 @@ class QuestionnaireGUI:
         self.answersMap.update(question, new_answer)
         print(new_answer)
 
-    def draw_conditional_q(self, c_question):
+    def draw_conditional_q(self, c_question, condition_id=False):
         processor = Processor()
         condition = processor.conditions_proc(c_question.get_condition(), self.answersMap)
         # check if condition holds

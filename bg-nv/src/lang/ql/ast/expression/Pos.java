@@ -5,9 +5,9 @@ import lang.ql.semantics.Visitor;
 /**
  * Created by bore on 14/02/15.
  */
-public class Pos extends UnaryOperator
+public class Pos extends UnaryExpr
 {
-    public Pos(Expression operand)
+    public Pos(Expr operand)
     {
         super(operand);
     }

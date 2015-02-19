@@ -9,7 +9,7 @@ public class Value {
     public Value(Object value) {
         this.value = value;
     }
-
+    
     public Boolean asBoolean() {
         return (Boolean)value;
     }

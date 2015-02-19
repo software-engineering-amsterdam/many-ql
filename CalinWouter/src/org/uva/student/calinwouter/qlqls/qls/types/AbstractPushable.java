@@ -1,7 +1,9 @@
 package org.uva.student.calinwouter.qlqls.qls.types;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.qls.model.IModel;
 
+import javax.naming.OperationNotSupportedException;
 import java.util.HashMap;
 
 public abstract class AbstractPushable<T> {
@@ -31,6 +33,10 @@ public abstract class AbstractPushable<T> {
 
     public Integer getInteger() {
         throw new RuntimeException("Value is not of type Integer, but of type: " + value.getClass() + ".");
+    }
+
+    public void apply(IModel model) {
+        throw new RuntimeException(new OperationNotSupportedException());
     }
 
     public AbstractPushable(T value) {

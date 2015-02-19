@@ -53,7 +53,7 @@ while_stat
  : WHILE expr stat_block
  ;*/
  
-expr
+expr										
  : expr '^' expr           					#power
  | '-' expr                           		#unaryMinus
  | '!' expr                             	#not

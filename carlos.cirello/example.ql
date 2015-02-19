@@ -59,9 +59,9 @@ form SomeForm {
 		"18 - is 4/2=2?" questionFourteen bool
 	}
 
-	// if (questionOne == "surak"){
-	// 	"19 - How do you feel?" questionFifteen string
-	// }
+	if (questionOne == "surak"){
+		"19 - How do you feel?" questionFifteen string
+	}
 
 	"20 - Calculated field" questionSixteen computed = questionTwo * 2
 }
