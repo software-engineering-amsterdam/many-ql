@@ -16,7 +16,7 @@ const (
 	FormTokenText = "form"
 	// IfTokenText - Reserved Word
 	IfTokenText = "if"
-	// IfTokenText - Reserved Word
+	// ElseTokenText - Reserved Word
 	ElseTokenText = "else"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
@@ -27,11 +27,16 @@ const (
 	// ComputedQuestionTokenText - Reserved Word
 	ComputedQuestionTokenText = "computed"
 
-	LessThanTokenText         = `<`
+	// LessThanTokenText - Reserved Symbols
+	LessThanTokenText = `<`
+	// LessOrEqualsThanTokenText - Reserved Symbols
 	LessOrEqualsThanTokenText = `<=`
-	MoreThanTokenText         = `>`
+	// MoreThanTokenText - Reserved Symbols
+	MoreThanTokenText = `>`
+	// MoreOrEqualsThanTokenText - Reserved Symbols
 	MoreOrEqualsThanTokenText = `>=`
-	EqualsToTokenText         = `==`
+	// EqualsToTokenText - Reserved Symbols
+	EqualsToTokenText = `==`
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`

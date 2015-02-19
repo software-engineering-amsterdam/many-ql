@@ -7,7 +7,7 @@ form {
         label = "Do you want an extra question?"
     }
     enable when (q2 && True) {
-        field f1 string {
+        question f1 string {
             label = "hmm...",
             value = "Sorry, computer says no..."
         }     

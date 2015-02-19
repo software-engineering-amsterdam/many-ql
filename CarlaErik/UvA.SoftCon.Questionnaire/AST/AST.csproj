@@ -48,42 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expressions\Boolean\BooleanEqualsExpression.cs" />
-    <Compile Include="Expressions\Boolean\NumericEqualsExpression.cs" />
-    <Compile Include="Expressions\Numeric\BinaryNumericExpression.cs" />
-    <Compile Include="Expressions\Numeric\DivisionExpression.cs" />
-    <Compile Include="Expressions\Numeric\MultiplyExpression.cs" />
-    <Compile Include="Expressions\String\ConcatinationExpression.cs" />
-    <Compile Include="Expressions\String\IStringExpression.cs" />
-    <Compile Include="Identifiers\BooleanIdentifier.cs" />
-    <Compile Include="Identifiers\Identifier.cs" />
-    <Compile Include="Identifiers\NumericIdentifier.cs" />
-    <Compile Include="Identifiers\StringIdentifier.cs" />
-    <Compile Include="Literals\IntegerLiteral.cs" />
-    <Compile Include="Literals\Literal.cs" />
-    <Compile Include="Literals\StringLiteral.cs" />
+    <Compile Include="Model\Statements\DataType.cs" />
+    <Compile Include="Model\Expressions\BinaryExpression.cs" />
+    <Compile Include="Model\Expressions\Identifier.cs" />
+    <Compile Include="Model\Expressions\Literal.cs" />
+    <Compile Include="Model\Node.cs" />
+    <Compile Include="Model\Expressions\Operation.cs" />
+    <Compile Include="Model\Statements\Declaration.cs" />
     <Compile Include="QuestionnaireVisitor.cs" />
-    <Compile Include="Expressions\Boolean\AndExpression.cs" />
-    <Compile Include="Expressions\Boolean\BinaryBooleanExpression.cs" />
-    <Compile Include="Expressions\Boolean\GreaterThanExpression.cs" />
-    <Compile Include="Expressions\Boolean\IBooleanExpression.cs" />
-    <Compile Include="Expressions\Boolean\LessThanExpression.cs" />
-    <Compile Include="Expressions\Boolean\OrExpression.cs" />
-    <Compile Include="Expressions\Numeric\INumericExpression.cs" />
-    <Compile Include="Questionnaire.cs" />
-    <Compile Include="Expressions\IExpression.cs" />
+    <Compile Include="Model\Questionnaire.cs" />
+    <Compile Include="Model\Expressions\IExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statements\BooleanQuestion.cs" />
-    <Compile Include="Statements\IfStatement.cs" />
-    <Compile Include="Statements\IStatement.cs" />
-    <Compile Include="Statements\NumericQuestion.cs" />
-    <Compile Include="Statements\Question.cs" />
-    <Compile Include="Literals\BooleanLiteral.cs" />
-    <Compile Include="Statements\TextQuestion.cs" />
-    <Compile Include="Visitors\BooleanExpressionVisitor.cs" />
-    <Compile Include="Visitors\NumericExpressionVisitor.cs" />
+    <Compile Include="Model\Statements\IfStatement.cs" />
+    <Compile Include="Model\Statements\IStatement.cs" />
+    <Compile Include="Model\Statements\Question.cs" />
+    <Compile Include="Visitors\ExpressionVisitor.cs" />
     <Compile Include="Visitors\StatementVisitor.cs" />
-    <Compile Include="Visitors\StringExpressionVisitor.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -17,13 +17,13 @@ public class KLQBaseListener implements KLQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionaire(@NotNull KLQParser.QuestionaireContext ctx) { }
+	@Override public void enterQuestionnaire(@NotNull KLQParser.QuestionnaireContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionaire(@NotNull KLQParser.QuestionaireContext ctx) { }
+	@Override public void exitQuestionnaire(@NotNull KLQParser.QuestionnaireContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -41,25 +41,25 @@ public class KLQBaseListener implements KLQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx) { }
+	@Override public void enterCondQuestion(@NotNull KLQParser.CondQuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionBegin(@NotNull KLQParser.QuestionBeginContext ctx) { }
+	@Override public void exitCondQuestion(@NotNull KLQParser.CondQuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx) { }
+	@Override public void enterUncondQuestion(@NotNull KLQParser.UncondQuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQuestionEnd(@NotNull KLQParser.QuestionEndContext ctx) { }
+	@Override public void exitUncondQuestion(@NotNull KLQParser.UncondQuestionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -77,25 +77,121 @@ public class KLQBaseListener implements KLQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAnswer(@NotNull KLQParser.AnswerContext ctx) { }
+	@Override public void enterOr(@NotNull KLQParser.OrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAnswer(@NotNull KLQParser.AnswerContext ctx) { }
+	@Override public void exitOr(@NotNull KLQParser.OrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr(@NotNull KLQParser.ExprContext ctx) { }
+	@Override public void enterNumber(@NotNull KLQParser.NumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr(@NotNull KLQParser.ExprContext ctx) { }
+	@Override public void exitNumber(@NotNull KLQParser.NumberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMulDiv(@NotNull KLQParser.MulDivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMulDiv(@NotNull KLQParser.MulDivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAddSub(@NotNull KLQParser.AddSubContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAddSub(@NotNull KLQParser.AddSubContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParens(@NotNull KLQParser.ParensContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParens(@NotNull KLQParser.ParensContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComparators(@NotNull KLQParser.ComparatorsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComparators(@NotNull KLQParser.ComparatorsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnd(@NotNull KLQParser.AndContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnd(@NotNull KLQParser.AndContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterString(@NotNull KLQParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString(@NotNull KLQParser.StringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterId(@NotNull KLQParser.IdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitId(@NotNull KLQParser.IdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDate(@NotNull KLQParser.DateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDate(@NotNull KLQParser.DateContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

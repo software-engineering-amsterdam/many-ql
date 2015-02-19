@@ -23,7 +23,7 @@ class TestCases(unittest.TestCase):
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
-            self.assertEquals(len(parsed.children), 3)
+            self.assertEquals(len(parsed.children), 4)
 
             file.close()
 
@@ -89,6 +89,6 @@ class TestCases(unittest.TestCase):
             parsed = self.parser.parse(file.read())
 
             self.assertEquals(parsed.__class__.__name__, "Form")
-            self.assertEquals(len(parsed.children), 11)
+            self.assertEquals(len(parsed.children), 13)
 
             file.close()

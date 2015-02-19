@@ -2,12 +2,6 @@ grammar QL;
 
 @parser::header
 {
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
@@ -20,8 +14,8 @@ block : LEFT_BRACE statement* RIGHT_BRACE;
 
 statement
 	: block
-	| question
-	| ifStatement
+	| question 
+	| ifStatement 
 	;
 	
 question : questionType questionName questionLabel SEMICOLON;
@@ -41,19 +35,20 @@ ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
 //elseStatement : ELSE block;
 
 expression: 
-	literal
-	| expression AND expression
-	| expression OR expression
-	| expression EQUAL_COND expression
-	| expression GREATER expression
-	| expression GREAT_EQUAL expression
-	| expression EQUAL expression
-	| expression LESS_EQUAL expression
-	| expression LESS expression
-	| expression PLUS expression 
-	| expression MINUS expression 
-	| expression MULTIPLY expression 
-	| expression DEVIDE expression 
+	literal #normalLit
+	| expression AND expression #andExpr
+	| expression OR expression #orExpr
+	| expression EQUAL_COND expression #equalCond
+	| expression GREATER expression #greaterCond
+	| expression GREAT_EQUAL expression #greaterEqualCond
+	| expression EQUAL expression #equalCond
+	| expression LESS_EQUAL expression #lessEqualCond
+	| expression LESS expression #lessCond
+	| expression PLUS expression  #plus
+	| expression MINUS expression  #minus
+	| expression MULTIPLY expression #mult
+	| expression DEVIDE expression #div
+	| '(' expression ')' #parenthesis
 ;
 
 literal
@@ -111,7 +106,7 @@ DecimalNumeral : Non_Zero_Digit Digit* | [0];
 
 BooleanLiteral: 'true' | 'false';
 
-StringLiteral: '"' .*? '"';
+StringLiteral: '"' (~[\r\n"] | '""')* '"';
 
 DateLiteral : Day '-' Month '-' Year;
 

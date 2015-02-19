@@ -24,7 +24,7 @@ precedence = (
 
 def p_form(p):
     '''formdef : FORM ID block'''
-    p[0] = nodes.Form(p[2], p[3])
+    p[0] = nodes.Form(p)
 
 
 def p_block(p):
@@ -33,6 +33,8 @@ def p_block(p):
     '''
     if len(p) == 4:
         p[0] = p[2]
+    else:
+        p[0] = []
 
 def p_statements(p):
     '''statements : statement
@@ -53,39 +55,28 @@ def p_statement(p):
     p[0] = p[1]
 
 
-def p_question_simple(p):
-    '''question : STRING'''
-    p[0] = nodes.Question(p[1])
-
-
-def p_question_with_type(p):
-    '''question : STRING TYPE
-                | STRING TYPE function
+def p_question(p):
     '''
-    p[0] = nodes.Question(p[1], p[2], None, p[3])
-
-
-def p_question_typed_label(p):
-    '''question : STRING ID ':' TYPE
-                | STRING ID ':' TYPE function
+    question : STRING
+             | STRING TYPE
+             | STRING TYPE function
+             | STRING ID ':' TYPE
+             | STRING ID ':' TYPE '=' function
     '''
-    if len(p) == 5:
-        p[0] = nodes.Question(p[1], p[4], p[2])
-    else:
-        p[0] = nodes.Question(p[1], p[4], p[2], p[5])
+    p[0] = nodes.Question(p)
 
 
 def p_if(p):
-    '''ifdef : IF function block
-             | IF function block ELSE block
-    '''
-    if len(p) == 4:
-      p[0] = nodes.Branch(p[2], p[3], [])
-    else:
-      p[0] = nodes.Branch(p[2], p[3], p[5])
+    '''ifdef : IF expr block'''
+    p[0] = nodes.Branch(p, p[3])
 
 
-def p_grouped_expression(p):
+def p_ifElse(p):
+    '''ifdef : IF expr block ELSE block'''
+    p[0] = nodes.Branch(p, p[3], p[5])
+
+
+def p_function_expression(p):
     '''
     function : '(' ')'
              | '(' expr ')'
@@ -94,11 +85,18 @@ def p_grouped_expression(p):
         p[0] = p[2]
 
 
-def p_single_term_expression(p):
-    '''expr : ID
-            | NUMBER
-            | STRING
-            | function
+def p_leaf(p):
+    '''
+    expr : ID
+         | NUMBER
+         | STRING
+    '''
+    p[0] = nodes.Leaf(p, p[1])
+
+
+def p_function(p):
+    '''
+    expr : function
     '''
     p[0] = p[1]
 
@@ -120,7 +118,7 @@ def p_binary_expression(p):
             | expr '*' expr
             | expr '/' expr
     '''
-    p[0] = nodes.Expression(p[2], p[1], p[3])
+    p[0] = nodes.Expression(p, p[2], p[1], p[3])
 
 
 def p_unary_minus_expression(p):
@@ -134,7 +132,6 @@ def p_not_expression(p):
 
 
 def p_error(p):
-    print "Syntax error at '%s'" % p
     raise ParseError(p)
 
 
