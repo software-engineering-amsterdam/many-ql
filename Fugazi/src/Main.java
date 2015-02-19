@@ -1,11 +1,17 @@
 import org.fugazi.ast.ASTBuilder;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.form.Form;
+import org.fugazi.ast.type.BoolType;
+import org.fugazi.ast.type.IntType;
+import org.fugazi.ast.type.StringType;
+import org.fugazi.evaluator.Evaluator;
 import org.fugazi.type_checker.ASTNodeError;
 import org.fugazi.type_checker.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -33,13 +39,12 @@ public class Main {
         if (!isFormTypeCorrect) {
             System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
             typeChecker.displayFormWarningsAndErrors();
-            return;
         } else {
             System.out.print("Yes, so I ran.");
         }
 
-        // TODO: evaluation.
-        
+        Evaluator evaluator = new Evaluator();
+
         // TODO: Render GUI.
     }
 }

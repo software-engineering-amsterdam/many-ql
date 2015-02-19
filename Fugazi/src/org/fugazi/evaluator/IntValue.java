@@ -67,4 +67,44 @@ public class IntValue extends ExpressionValue<Integer> {
     public ExpressionValue positive() {
         return new IntValue(this.value);
     }
+
+    @Override
+    public ExpressionValue greater(ExpressionValue exprValue) {
+        return this.greaterInt((IntValue) exprValue);
+    }
+
+    @Override
+    public ExpressionValue greaterInt(IntValue exprValue) {
+        return new BoolValue(this.value > exprValue.getValue());
+    }
+
+    @Override
+    public ExpressionValue less(ExpressionValue exprValue) {
+        return this.lessInt((IntValue) exprValue);
+    }
+
+    @Override
+    public ExpressionValue lessInt(IntValue exprValue) {
+        return new BoolValue(this.value < exprValue.getValue());
+    }
+
+    @Override
+    public ExpressionValue greaterEqual(ExpressionValue exprValue) {
+        return this.greaterEqualInt((IntValue) exprValue);
+    }
+
+    @Override
+    public ExpressionValue greaterEqualInt(IntValue exprValue) {
+        return new BoolValue(this.value >= exprValue.getValue());
+    }
+
+    @Override
+    public ExpressionValue lessEqual(ExpressionValue exprValue) {
+        return this.lessEqualInt((IntValue) exprValue);
+    }
+
+    @Override
+    public ExpressionValue lessEqualInt(IntValue exprValue) {
+        return new BoolValue(this.value <= exprValue.getValue());
+    }
 }
