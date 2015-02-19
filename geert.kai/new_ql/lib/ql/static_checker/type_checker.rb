@@ -3,8 +3,7 @@ require_relative "../ast/ast"
 require "byebug"
 
 class TypeChecker < StaticChecker
-  def initialize(form)
-    @form = form
+  def after_initialize(form)
     @types = {}
   end
 
