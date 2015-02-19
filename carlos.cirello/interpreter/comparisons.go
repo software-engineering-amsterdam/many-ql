@@ -57,3 +57,17 @@ func (exec Execute) TermNode(s *ast.TermNode) bool {
 
 	return false
 }
+
+// BoolAndNode is the visitor for "and" comparison operation
+func (exec Execute) BoolAndNode(n *ast.BoolAndNode) bool {
+	left := exec.resolveComparisonNode(n.DoubleTermNode.LeftTerm())
+	right := exec.resolveComparisonNode(n.DoubleTermNode.RightTerm())
+	return left && right
+}
+
+// BoolOrNode is the visitor for "or" comparison operation
+func (exec Execute) BoolOrNode(n *ast.BoolOrNode) bool {
+	left := exec.resolveComparisonNode(n.DoubleTermNode.LeftTerm())
+	right := exec.resolveComparisonNode(n.DoubleTermNode.RightTerm())
+	return left || right
+}

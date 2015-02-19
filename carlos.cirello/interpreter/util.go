@@ -114,6 +114,14 @@ func (exec *Execute) resolveComparisonNode(n interface{}) bool {
 		if !exec.LessOrEqualsThanNode(n.(*ast.LessOrEqualsThanNode)) {
 			conditionState = false
 		}
+	case *ast.BoolAndNode:
+		if !exec.BoolAndNode(n.(*ast.BoolAndNode)) {
+			conditionState = false
+		}
+	case *ast.BoolOrNode:
+		if !exec.BoolOrNode(n.(*ast.BoolOrNode)) {
+			conditionState = false
+		}
 	}
 	return conditionState
 }

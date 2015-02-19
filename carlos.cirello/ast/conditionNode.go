@@ -2,6 +2,38 @@ package ast
 
 import "text/scanner"
 
+// BoolAndNode is the AST node for equality (==) comparison
+type BoolAndNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewBoolAndNode factory for BoolAndNode AST node
+func NewBoolAndNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *BoolAndNode {
+	boolAndNode := new(BoolAndNode)
+	boolAndNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
+	return boolAndNode
+}
+
+//----
+
+// BoolOrNode is the AST node for equality (==) comparison
+type BoolOrNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewBoolOrNode factory for BoolOrNode AST node
+func NewBoolOrNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *BoolOrNode {
+	boolOrNode := new(BoolOrNode)
+	boolOrNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
+	return boolOrNode
+}
+
+//----
+
 // EqualsNode is the AST node for equality (==) comparison
 type EqualsNode struct {
 	DoubleTermNode

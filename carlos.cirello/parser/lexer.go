@@ -26,6 +26,10 @@ const (
 	BoolQuestionTokenText = "bool"
 	// ComputedQuestionTokenText - Reserved Word
 	ComputedQuestionTokenText = "computed"
+	// BoolAndTokenText - Reserved Word
+	BoolAndTokenText = "and"
+	// BoolOrTokenText - Reserved Word
+	BoolOrTokenText = "or"
 
 	// LessThanTokenText - Reserved Symbols
 	LessThanTokenText = `<`
@@ -84,6 +88,10 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolQuestionToken
 	} else if txt == ComputedQuestionTokenText {
 		typ = ComputedQuestionToken
+	} else if txt == BoolAndTokenText {
+		typ = BoolAndToken
+	} else if txt == BoolOrTokenText {
+		typ = BoolOrToken
 	} else if txt == IfTokenText {
 		typ = IfToken
 	} else if txt == ElseTokenText {

@@ -64,4 +64,12 @@ form SomeForm {
 	}
 
 	"20 - Calculated field" questionSixteen computed = questionTwo * 2
+
+	if (questionOne == "surak" or questionTwo == 42){
+		"21 - OR field" questionSeventeen computed = questionTwo * 2
+	}
+
+	if (questionOne == "surak" and questionTwo == 42){
+		"22 - AND field" questionEighteen computed = questionTwo * 2
+	}
 }

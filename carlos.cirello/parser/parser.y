@@ -57,6 +57,8 @@ var finalQuestionaire *ast.QuestionaireNode
 %token EqualsToToken
 %token NumericToken
 %token ElseToken
+%token BoolAndToken
+%token BoolOrToken
 
 %%
 
@@ -126,7 +128,7 @@ questionType:
 	;
 
 ifBlock:
-	IfToken '(' evaluatable ')' '{' stack '}'
+	IfToken '(' andOrBlock ')' '{' stack '}'
 	{
 		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, nil, $1.position)
 
@@ -135,7 +137,7 @@ ifBlock:
 		$3.evaluatable = new(ast.Evaluatable)
 		$6.stack = []*ast.ActionNode{}
 	}
-	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken ifBlock
+	| IfToken '(' andOrBlock ')' '{' stack '}' ElseToken ifBlock
 	{
 		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, $9.ifNode, $1.position)
 
@@ -145,7 +147,7 @@ ifBlock:
 		$6.stack = []*ast.ActionNode{}
 		$9.ifNode = nil
 	}
-	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken '{' stack '}'
+	| IfToken '(' andOrBlock ')' '{' stack '}' ElseToken '{' stack '}'
 	{
 		elseNode := ast.NewIfNode(
 			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", "", $8.position),
@@ -161,6 +163,18 @@ ifBlock:
 		$6.stack = []*ast.ActionNode{}
 		$10.stack = []*ast.ActionNode{}
 	}
+	;
+
+andOrBlock:
+	evaluatable BoolAndToken evaluatable
+	{
+		$$.evaluatable = ast.NewBoolAndNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| evaluatable BoolOrToken evaluatable
+	{
+		$$.evaluatable = ast.NewBoolOrNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| evaluatable
 	;
 
 evaluatable:
