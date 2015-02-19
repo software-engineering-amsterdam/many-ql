@@ -8,14 +8,13 @@ import org.fugazi.ast.expression.literal.ID;
 import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
+import org.fugazi.ast.expression.logical.Logical;
 import org.fugazi.ast.expression.logical.Or;
-import org.fugazi.ast.expression.numerical.Add;
-import org.fugazi.ast.expression.numerical.Div;
-import org.fugazi.ast.expression.numerical.Mul;
-import org.fugazi.ast.expression.numerical.Sub;
+import org.fugazi.ast.expression.numerical.*;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.form.Form;
 import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.IfStatement;
@@ -23,221 +22,32 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
-import java.awt.*;
 import java.util.List;
 
 public class TypeCheckerVisitor implements IASTVisitor {
 
+    private final ASTErrorHandler astErrorHandler;
+
+    public TypeCheckerVisitor(){
+        this.astErrorHandler = new ASTErrorHandler();
+    }
+
+    /**
+     * =======================
+     * General visitors
+     * =======================
+     */
 
     @Override
     public Object visitForm(Form form) {
-        System.out.println("\n\n\nVisiting a form: " + form.getName());
-
         List<Statement> statementList = form.getBody();
 
         for (Statement statement : statementList) {
-
-            System.out.println("Visting a statement: " + statement.toString());
             statement.accept(this);
         }
         return null;
     }
 
-    @Override
-    public Object visitAnd(And and) {
-        System.out.println("So I am visiting an and:" + and.toString());
-        Expression left = and.getLeft();
-        Expression right = and.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitOr(Or or) {
-        System.out.println("So I am visiting an or:" + or.toString());
-
-        Expression left = or.getLeft();
-        Expression right = or.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitNot(Not not) {
-
-        System.out.println("So I am visiting a not:" + not.toString());
-
-        Expression expression = not.getExpr();
-
-        expression.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitNegative(Negative negative) {
-        System.out.println("So I am visiting a negative:" + negative.toString());
-
-        Expression expression = negative.getExpr();
-
-        expression.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitPositive(Positive positive) {
-        System.out.println("So I am visiting a positive:" + positive.toString());
-
-        Expression expression = positive.getExpr();
-
-        expression.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitEQ(EQ eq) {
-        System.out.println("So I am visiting an eq:" + eq.toString());
-        Expression left = eq.getLeft();
-        Expression right = eq.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitGE(GE ge) {
-
-        System.out.println("So I am visiting a ge:" + ge.toString());
-        Expression left = ge.getLeft();
-        Expression right = ge.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitGreater(Greater greater) {
-
-        System.out.println("So I am visiting a ge:" + greater.toString());
-        Expression left = greater.getLeft();
-        Expression right = greater.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitLE(LE le) {
-
-        System.out.println("So I am visiting a le:" + le.toString());
-        Expression left = le.getLeft();
-        Expression right = le.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitLesser(Less less) {
-
-        System.out.println("So I am visiting a less:" + less.toString());
-        Expression left = less.getLeft();
-        Expression right = less.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitNotEq(NotEq notEq) {
-
-        System.out.println("So I am visiting a notEq:" + notEq.toString());
-        Expression left = notEq.getLeft();
-        Expression right = notEq.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitAdd(Add add) {
-
-        System.out.println("So I am visiting an add:" + add.toString());
-        Expression left = add.getLeft();
-        Expression right = add.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitSub(Sub sub) {
-
-        System.out.println("So I am visiting a sub:" + sub.toString());
-        Expression left = sub.getLeft();
-        Expression right = sub.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitMul(Mul mul) {
-
-        System.out.println("So I am visiting a mul:" + mul.toString());
-        Expression left = mul.getLeft();
-        Expression right = mul.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitDiv(Div div) {
-        System.out.println("So I am visiting a div:" + div.toString());
-        Expression left = div.getLeft();
-        Expression right = div.getRight();
-
-        left.accept(this);
-        right.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitID(ID idLiteral) {
-        System.out.println("So I am visiting an id:" + idLiteral.toString());
-        return null;
-    }
-
-    @Override
-    public Object visitINT(INT intLiteral) {
-        System.out.println("So I am visiting an INT:" + intLiteral.toString());
-        return null;
-    }
-
-    @Override
-    public Object visitSTRING(STRING stringLiteral) {
-        System.out.println("So I am visiting a string:" + stringLiteral.toString());
-        return null;
-    }
-
-    @Override
-    public Object visitBOOL(BOOL boolLiteral) {
-        System.out.println("So I am visiting a bool:" + boolLiteral.toString());
-        return null;
-    }
 
     @Override
     public Object visitQuestion(Question question) {
@@ -248,13 +58,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
         type.accept(this);
         identifier.accept(this);
-
         return null;
     }
 
     @Override
     public Object visitIfStatement(IfStatement ifStatement) {
-        System.out.println("Visting ifStatement: " + ifStatement.toString());
         Expression expression = ifStatement.getCondition();
         List<Statement> statementList = ifStatement.getBody();
 
@@ -267,7 +75,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitComputedQuestion(ComputedQuestion assignQuest) {
-        System.out.println("Visting computed question: " + assignQuest.toString());
 
         Type type = assignQuest.getType();
         ID identifier = assignQuest.getIdentifier();
@@ -279,6 +86,269 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return null;
     }
 
+    /**
+     * =======================
+     * Binary visitors
+     * =======================
+     */
+
+    /*
+       This checks if both sides of the binary logical expression are of required type bool.
+    */
+    private Object visitBinaryLogical(Logical logical) {
+        Expression left = logical.getLeft();
+        Expression right = logical.getRight();
+
+        boolean leftCorrect = this.checkIfBool(left);
+        boolean rightCorrect = this.checkIfBool(right);
+
+        if (!leftCorrect) {
+            this.astErrorHandler.registerNewError( logical,
+                    "Left side of the binary logical expression not of type bool."
+            );
+        }
+        if (!rightCorrect) {
+            this.astErrorHandler.registerNewError( logical,
+                    "Right side of the binary logical expression not of type bool."
+            );
+        }
+
+        left.accept(this);
+        right.accept(this);
+        return null;
+
+    }
+
+    /*
+       This checks if the unary logical expression is of required type bool.
+    */
+    private Object visitUnaryLogical(Unary unary) {
+        Expression expr = unary.getExpr();
+
+        boolean exprCorrect = this.checkIfBool(unary);
+
+        if (!exprCorrect) {
+            this.astErrorHandler.registerNewError( unary,
+                    "Unary logical expression not of type bool."
+            );
+        }
+        expr.accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitAnd(And and) {
+        return this.visitBinaryLogical(and);
+    }
+
+    @Override
+    public Object visitOr(Or or) {
+        return this.visitBinaryLogical(or);
+    }
+
+    @Override
+    public Object visitNot(Not not) {
+        return this.visitUnaryLogical(not);
+    }
+
+    /*
+       This checks if both sides of the binary logical comparison are of required type bool.
+    */
+    private Object visitBinaryComparison(Comparison comparison) {
+        Expression left = comparison.getLeft();
+        Expression right = comparison.getRight();
+
+        boolean leftCorrect = this.checkIfInt(left);
+        boolean rightCorrect = this.checkIfInt(right);
+
+        if (!leftCorrect) {
+            System.out.println("\n\nLeft not correct.");
+            this.astErrorHandler.registerNewError( comparison,
+                    "Left side of the binary comparison expression not of type int."
+            );
+        }
+        if (!rightCorrect) {
+            System.out.println("\n\nRight not correct. ");
+            this.astErrorHandler.registerNewError( comparison,
+                    "Right side of the binary comparison expression not of type int."
+            );
+        }
+
+        left.accept(this);
+        right.accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitEQ(EQ eq) {
+        return this.visitBinaryComparison(eq);
+    }
+
+    @Override
+    public Object visitGE(GE ge) {
+        return this.visitBinaryComparison(ge);
+    }
+
+    @Override
+    public Object visitGreater(Greater greater) {
+        return this.visitBinaryComparison(greater);
+    }
+
+    @Override
+    public Object visitLE(LE le) {
+        return this.visitBinaryComparison(le);
+    }
+
+    @Override
+    public Object visitLesser(Less less) {
+        return this.visitBinaryComparison(less);
+    }
+
+    @Override
+    public Object visitNotEq(NotEq notEq) {
+        return this.visitBinaryComparison(notEq);
+    }
+
+    /**
+     * =======================
+     * Numerical visitors
+     * =======================
+     */
+    /*
+       This checks if both sides of the binary numerical comparison are of required type int.
+    */
+    private Object visitBinaryNumerical(Numerical numerical) {
+        Expression left = numerical.getLeft();
+        Expression right = numerical.getRight();
+
+        boolean leftCorrect = this.checkIfInt(left);
+        boolean rightCorrect = this.checkIfInt(right);
+
+        if (!leftCorrect) {
+            this.astErrorHandler.registerNewError( numerical,
+                    "Left side of the binary expression not of type int."
+            );
+        }
+        if (!rightCorrect) {
+            this.astErrorHandler.registerNewError( numerical,
+                    "Right side of the binary expression not of type int."
+            );
+        }
+
+        left.accept(this);
+        right.accept(this);
+        return null;
+
+    }
+
+    /*
+       This checks if the unary numerical expression is of required type int.
+    */
+    private Object visitUnaryNumerical(Unary unary) {
+        // Both sides of the expressions need to be of type boolean.
+        Expression expr = unary.getExpr();
+
+        boolean exprCorrect = this.checkIfInt(unary);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( unary,
+                    "Unary numerical expression not of type int."
+            );
+        }
+        expr.accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitNegative(Negative negative) {
+        return this.visitUnaryNumerical(negative);
+    }
+
+    @Override
+    public Object visitPositive(Positive positive) {
+        return this.visitUnaryNumerical(positive);
+    }
+
+    @Override
+    public Object visitAdd(Add add) {
+        return this.visitBinaryNumerical(add);
+    }
+
+    @Override
+    public Object visitSub(Sub sub) {
+        return this.visitBinaryNumerical(sub);
+    }
+
+    @Override
+    public Object visitMul(Mul mul) {
+        return this.visitBinaryNumerical(mul);
+    }
+
+    @Override
+    public Object visitDiv(Div div) {
+        return this.visitBinaryNumerical(div);
+    }
+
+    /**
+     * =======================
+     * Literal visitors
+     * =======================
+     */
+
+    @Override
+    public Object visitID(ID idLiteral) {
+        // all types allowed
+        return null;
+    }
+
+    @Override
+    public Object visitINT(INT intLiteral) {
+
+        boolean exprCorrect = this.checkIfInt(intLiteral);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( intLiteral,
+                    "Int Literal not of type int."
+            );
+        }
+        return null;
+    }
+
+    @Override
+    public Object visitSTRING(STRING stringLiteral) {
+        boolean exprCorrect = this.checkIfString(stringLiteral);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( stringLiteral,
+                    "String Literal not of type string."
+            );
+        }
+        return null;
+    }
+
+    @Override
+    public Object visitBOOL(BOOL boolLiteral) {
+        boolean exprCorrect = this.checkIfBool(boolLiteral);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( boolLiteral,
+                    "Bool Literal not of type bool."
+            );
+        }
+        return null;
+    }
+
+    /**
+     * =======================
+     * Type visitors
+     * =======================
+     */
+
+
     @Override
     public Void visitBoolType(BoolType boolType){return null;}
     @Override
@@ -288,5 +358,38 @@ public class TypeCheckerVisitor implements IASTVisitor {
     @Override
     public Void visitUndefinedType(UndefinedType undefinedType){return null;}
 
-    // operands of invalid type to operators
+    /**
+     * =======================
+     * Checker functions
+     * =======================
+     */
+
+    private boolean checkIfInt(Expression expression) {
+        return expression.getSupportedTypes().contains(new IntType().getClass());
+    }
+
+    private boolean checkIfBool(Expression expression) {
+        return expression.getSupportedTypes().contains(new BoolType().getClass());
+    }
+
+    private boolean checkIfString(Expression expression) {
+        return expression.getSupportedTypes().contains(new StringType().getClass());
+    }
+
+    /**
+     * =======================
+     * Exposed general form functions
+     * =======================
+     */
+
+
+    public boolean isFormCorrect() {
+        return !this.astErrorHandler.hasErrors();
+    }
+
+
+    public void displayFormWarningsAndErrors() {
+        this.astErrorHandler.displayWarningsAndErrors();
+        return;
+    }
 }
