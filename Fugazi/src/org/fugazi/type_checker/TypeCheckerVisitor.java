@@ -22,33 +22,6 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
-/*
-comments which visitor requires what
-
-Operators with invalid types:
-
-- Comparison cannot have string and both have to be of the same type.
-- GE, Greater, LE, Less must be int
-
- - check if of same type
-
- DONE
- necessary functions:
- - check if string
- - check if int
- - check if bool
-
-- every numerical must have ints
-  - add div mul sub
-
-  - every logical must have bool
-  - or and not
-
- - negative / positive must have int
-
-
- */
-
 import java.util.List;
 
 public class TypeCheckerVisitor implements IASTVisitor {
@@ -58,6 +31,12 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public TypeCheckerVisitor(){
         this.astErrorHandler = new ASTErrorHandler();
     }
+
+    /**
+     * =======================
+     * General visitors
+     * =======================
+     */
 
     @Override
     public Object visitForm(Form form) {
@@ -69,8 +48,54 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return null;
     }
 
+
+    @Override
+    public Object visitQuestion(Question question) {
+        System.out.println("Visting question: " + question.toString());
+
+        Type type = question.getType();
+        ID identifier = question.getIdentifier();
+
+        type.accept(this);
+        identifier.accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitIfStatement(IfStatement ifStatement) {
+        Expression expression = ifStatement.getCondition();
+        List<Statement> statementList = ifStatement.getBody();
+
+        expression.accept(this);
+        for (Statement statement : statementList) {
+            statement.accept(this);
+        }
+        return null;
+    }
+
+    @Override
+    public Object visitComputedQuestion(ComputedQuestion assignQuest) {
+
+        Type type = assignQuest.getType();
+        ID identifier = assignQuest.getIdentifier();
+        Expression computed = assignQuest.getComputedExpression();
+
+        type.accept(this);
+        identifier.accept(this);
+        computed.accept(this);
+        return null;
+    }
+
+    /**
+     * =======================
+     * Binary visitors
+     * =======================
+     */
+
+    /*
+       This checks if both sides of the binary logical expression are of required type bool.
+    */
     private Object visitBinaryLogical(Logical logical) {
-        // Both sides of the expressions need to be of type boolean.
         Expression left = logical.getLeft();
         Expression right = logical.getRight();
 
@@ -78,15 +103,13 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean rightCorrect = this.checkIfBool(right);
 
         if (!leftCorrect) {
-            System.out.println("\n\nLeft not correct.");
             this.astErrorHandler.registerNewError( logical,
-                    "Left side of that expression not of type bool."
+                    "Left side of the binary logical expression not of type bool."
             );
         }
         if (!rightCorrect) {
-            System.out.println("\n\nRight not correct. ");
             this.astErrorHandler.registerNewError( logical,
-                    "Left side of that expression not of type bool."
+                    "Right side of the binary logical expression not of type bool."
             );
         }
 
@@ -96,16 +119,17 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     }
 
+    /*
+       This checks if the unary logical expression is of required type bool.
+    */
     private Object visitUnaryLogical(Unary unary) {
-        // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
 
         boolean exprCorrect = this.checkIfBool(unary);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( unary,
-                    "Expression not of type bool."
+                    "Unary logical expression not of type bool."
             );
         }
         expr.accept(this);
@@ -127,8 +151,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return this.visitUnaryLogical(not);
     }
 
+    /*
+       This checks if both sides of the binary logical comparison are of required type bool.
+    */
     private Object visitBinaryComparison(Comparison comparison) {
-        // Both sides of the expressions need to be of type boolean.
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
 
@@ -138,13 +164,13 @@ public class TypeCheckerVisitor implements IASTVisitor {
         if (!leftCorrect) {
             System.out.println("\n\nLeft not correct.");
             this.astErrorHandler.registerNewError( comparison,
-                    "Left side of that comparison expression not of type int."
+                    "Left side of the binary comparison expression not of type int."
             );
         }
         if (!rightCorrect) {
             System.out.println("\n\nRight not correct. ");
             this.astErrorHandler.registerNewError( comparison,
-                    "Left side of that comparison expression not of type int."
+                    "Right side of the binary comparison expression not of type int."
             );
         }
 
@@ -183,8 +209,15 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return this.visitBinaryComparison(notEq);
     }
 
+    /**
+     * =======================
+     * Numerical visitors
+     * =======================
+     */
+    /*
+       This checks if both sides of the binary numerical comparison are of required type int.
+    */
     private Object visitBinaryNumerical(Numerical numerical) {
-        // Both sides of the expressions need to be of type boolean.
         Expression left = numerical.getLeft();
         Expression right = numerical.getRight();
 
@@ -192,15 +225,13 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean rightCorrect = this.checkIfInt(right);
 
         if (!leftCorrect) {
-            System.out.println("\n\nLeft not correct.");
             this.astErrorHandler.registerNewError( numerical,
-                    "Left side of that expression not of type bool."
+                    "Left side of the binary expression not of type int."
             );
         }
         if (!rightCorrect) {
-            System.out.println("\n\nRight not correct. ");
             this.astErrorHandler.registerNewError( numerical,
-                    "Left side of that expression not of type bool."
+                    "Right side of the binary expression not of type int."
             );
         }
 
@@ -210,6 +241,9 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     }
 
+    /*
+       This checks if the unary numerical expression is of required type int.
+    */
     private Object visitUnaryNumerical(Unary unary) {
         // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
@@ -219,7 +253,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
         if (!exprCorrect) {
             System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( unary,
-                    "Expression not of type int."
+                    "Unary numerical expression not of type int."
             );
         }
         expr.accept(this);
@@ -256,8 +290,15 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return this.visitBinaryNumerical(div);
     }
 
+    /**
+     * =======================
+     * Literal visitors
+     * =======================
+     */
+
     @Override
     public Object visitID(ID idLiteral) {
+        // all types allowed
         return null;
     }
 
@@ -301,44 +342,12 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return null;
     }
 
-    @Override
-    public Object visitQuestion(Question question) {
-        System.out.println("Visting question: " + question.toString());
+    /**
+     * =======================
+     * Type visitors
+     * =======================
+     */
 
-        Type type = question.getType();
-        ID identifier = question.getIdentifier();
-
-        type.accept(this);
-        identifier.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitIfStatement(IfStatement ifStatement) {
-        System.out.println("Visting ifStatement: " + ifStatement.toString());
-        Expression expression = ifStatement.getCondition();
-        List<Statement> statementList = ifStatement.getBody();
-
-        expression.accept(this);
-        for (Statement statement : statementList) {
-            statement.accept(this);
-        }
-        return null;
-    }
-
-    @Override
-    public Object visitComputedQuestion(ComputedQuestion assignQuest) {
-        System.out.println("Visting computed question: " + assignQuest.toString());
-
-        Type type = assignQuest.getType();
-        ID identifier = assignQuest.getIdentifier();
-        Expression computed = assignQuest.getComputedExpression();
-
-        type.accept(this);
-        identifier.accept(this);
-        computed.accept(this);
-        return null;
-    }
 
     @Override
     public Void visitBoolType(BoolType boolType){return null;}
@@ -349,7 +358,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
     @Override
     public Void visitUndefinedType(UndefinedType undefinedType){return null;}
 
-    // operands of invalid type to operators
+    /**
+     * =======================
+     * Checker functions
+     * =======================
+     */
 
     private boolean checkIfInt(Expression expression) {
         return expression.getSupportedTypes().contains(new IntType().getClass());
@@ -362,6 +375,12 @@ public class TypeCheckerVisitor implements IASTVisitor {
     private boolean checkIfString(Expression expression) {
         return expression.getSupportedTypes().contains(new StringType().getClass());
     }
+
+    /**
+     * =======================
+     * Exposed general form functions
+     * =======================
+     */
 
 
     public boolean isFormCorrect() {
