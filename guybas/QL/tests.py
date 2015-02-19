@@ -1,8 +1,6 @@
 from grammar import *
-from ast import *
 from factory import *
 import unittest
-
 
 
 class TestGrammar(unittest.TestCase):
@@ -97,13 +95,49 @@ class TestGrammar(unittest.TestCase):
         result = FormFormat.answerR.parseString("set").asList()
         self.assertEqual(result, ["set"])
 
+
+class TestAST(unittest.TestCase):
+
     def test_question(self):
-        pass
         result = (FormFormat.question.parseString("Question why (text) : What do you like about hummus?")).asList()
         self.assertIsInstance(result[0], Question)
         self.assertEqual(result[0].id, "why")
-        self.assertEqual(result[0].answer, "text")
+        self.assertEqual(result[0].type, "text")
         self.assertEqual(result[0].label, "What do you like about hummus ?")
 
+    def test_if_question(self):
+        result = (FormFormat.pIf.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? }")).asList()
+        self.assertIsInstance(result[0], AdvancedQuestions)
+
+    @unittest.expectedFailure
+    def test_if_question_fail(self):
+        result = (FormFormat.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? }")).asList()
+        self.assertIsInstance(result[0], AdvancedQuestions)
+
+    def test_else_questions(self):
+        result = (FormFormat.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? } else { Question iselse (bool) : Is this an else questions? }")).asList()
+        self.assertIsInstance(result[0], AdvancedQuestions)
+
+    def test_form(self):
+        form_as_parse_results = FormFormat.form.ignore(BasicTypes.comment).parseFile("test_example.ql")
+        result = ASTReady.make_form(form_as_parse_results)
+        self.assertIsInstance(result, Form)
+
+        self.assertEqual(result.introduction,"Welcome to my questionnaire .")
+        self.assertEqual(result.name, "Name_of_Questionnaire")
+        self.assertTrue(len(result.questions) == 5)
+
+    def test_get_dependencies(self):
+        pass
+
+    def test_all_ids(self):
+        pass
+
+    def test_all_dependencies(self):
+        pass
+
+
+# Execute tests
 suite = unittest.TestLoader().loadTestsFromTestCase(TestGrammar)
+suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestAST))
 unittest.TextTestRunner(verbosity=2).run(suite)

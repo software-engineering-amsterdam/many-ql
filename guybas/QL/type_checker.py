@@ -9,10 +9,7 @@ class TypeChecker:
         ids = TypeChecker.check_ids(self.form.questions)
         labels = TypeChecker.check_labels(self.form.questions)
         dependencies = TypeChecker.check_dependencies(self.form.questions)
-        transitive_dependencies = {}
-        for k in dependencies:
-            transitive_dependencies[k] = TypeChecker.transitive_dependencies_key(k, set([]), dependencies)
-        print(transitive_dependencies)
+        transitive_dependencies = TypeChecker.transitive_dependencies(dependencies)
 
     @staticmethod
     def check_duplicates(list):
@@ -34,7 +31,7 @@ class TypeChecker:
     def check_labels(questions):
         labels = []
         for question in questions:
-            labels +=  question.all_labels()
+            labels += question.all_labels()
         duplicates = TypeChecker.check_duplicates(labels)
         if duplicates:
             print("There are duplicate labels: " + str(duplicates))
@@ -56,6 +53,13 @@ class TypeChecker:
         return values
 
     @staticmethod
+    def transitive_dependencies(dependencies):
+        transitive_dependencies = {}
+        for k in dependencies:
+            transitive_dependencies[k] = TypeChecker.transitive_dependencies_key(k, set([]), dependencies)
+        return transitive_dependencies
+
+    @staticmethod
     def type_checker(cinput, ctype=False):
         """
         This function allows to return the input type or to compare input type
@@ -66,7 +70,7 @@ class TypeChecker:
         """
         if isinstance(cinput, str):
             type_class = QuestionTypes.textName
-        elif isinstance(cinput, (int, float, complex)): # in python 3 int = long
+        elif isinstance(cinput, (int, float, complex)):  # in python 3 int = long
             type_class = QuestionTypes.numberName
         elif isinstance(cinput, bool):
             type_class = QuestionTypes.booleanName

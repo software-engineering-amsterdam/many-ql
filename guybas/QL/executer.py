@@ -3,8 +3,11 @@ from type_checker import *
 from gui import *
 from exceptions import *
 
-# TODO: fix een: hummus == True works, True == hummus doesn't.
-# TODO: fix twee: labels duplicate doesn't work well
+# TODO: refactor in directories and / or namespaces
+# TODO: consisted naming: camel case / underscore / variable names / etc.
+# TODO: type checker: check if expression is well formed
+# TODO: create question (statement) interface
+# TODO: unit tests for type checker and processor (and gui?)
 
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
@@ -12,12 +15,12 @@ try:
     #print(check)
     #formAsParseResults.pprint()
     form = ASTReady.make_form(formAsParseResults)
-    print(form.ast_print())
+    #print(form.ast_print())
 
     typeChecker = TypeChecker(form)
-    gui = QuestionnaireGUI(form)
-    gui.generate_gui()
-    gui.show()
+    #gui = QuestionnaireGUI(form)
+    #gui.generate_gui()
+    #gui.show()
 
 except Exception as e:
     exceptions_handling(e)

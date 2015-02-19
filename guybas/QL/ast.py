@@ -43,6 +43,7 @@ class Expression:
     def as_list(self):
         return self.expression
 
+
 # Questions
 class Question:
     def __init__(self, qid, qtype, label):
@@ -127,10 +128,10 @@ class AdvancedQuestions(Question):
 
     def all_labels(self):
         labels = []
-        for label in self.questions:
-            labels += label.all_labels()
+        for question in self.questions:
+            labels += question.all_labels()
         for question in self.else_questions:
-            labels += label.all_labels()
+            labels += question.all_labels()
         return labels
 
     def get_e_questions(self):
@@ -149,6 +150,7 @@ class AdvancedQuestions(Question):
         for q in self.questions:
             dependencies = dict(list(dependencies.items()) + list(q.all_dependencies(dependencies).items()))
         return dependencies
+
 
 class Form:
     def __init__(self, name, introduction, questions):
