@@ -15,10 +15,8 @@ public class NotEq extends Comparison {
 
     public NotEq(Expression _left, Expression _right) {
         super(_left, _right);
-        Class intTypeClass = new IntType().getClass();
         Class boolTypeClass = new BoolType().getClass();
         this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(intTypeClass);
         this.supportedTypes.add(boolTypeClass);
     }
 

@@ -47,6 +47,12 @@ import java.util.List;
 
 public class TypeCheckerVisitor implements IASTVisitor {
 
+    private final ASTErrorHandler astErrorHandler;
+
+    public TypeCheckerVisitor(){
+        this.astErrorHandler = new ASTErrorHandler();
+    }
+
     @Override
     public Object visitForm(Form form) {
         System.out.println("\n\n\nVisiting a form: " + form.getName());
@@ -63,13 +69,26 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitAnd(And and) {
+        // Both sides of the expressions need to be of type boolean.
         System.out.println("So I am visiting an and:" + and.toString());
         Expression left = and.getLeft();
         Expression right = and.getRight();
 
         boolean leftCorrect = this.checkIfInt(left);
+        boolean rightCorrect = this.checkIfBool(right);
 
-        System.out.println("\n\nLeft correct: " + leftCorrect);
+        if (!leftCorrect) {
+            System.out.println("\n\nLeft not correct.");
+            this.astErrorHandler.registerNewError( and,
+                    "Left side of that expression not of type bool."
+            );
+        }
+        if (!rightCorrect) {
+            System.out.println("\n\nRight not correct. ");
+            this.astErrorHandler.registerNewError( and,
+                    "Left side of that expression not of type bool."
+            );
+        }
 
         left.accept(this);
         right.accept(this);
@@ -316,29 +335,29 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return expression.getSupportedTypes().contains(new IntType().getClass());
     }
 
-//    private boolean checkIfBool(Expression expression) {
-//        BoolType boolType = new BoolType();
-//        for (Type type : expression.getSupportedTypes()) {
-//            if (type.getClass() == boolType.getClass()) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    private boolean checkIfBool(Expression expression) {
+        return expression.getSupportedTypes().contains(new BoolType().getClass());
+    }
 
-//    private boolean checkIfString(Expression expression) {
-//        StringType stringType = new StringType();
-//        for (Type type : expression.getSupportedTypes()) {
-//            if (type.getClass() == stringType.getClass()) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    private boolean checkIfString(Expression expression) {
+        return expression.getSupportedTypes().contains(new StringType().getClass());
+    }
+
+
 
 //    private boolean checkIfSameType(Expression leftExpression, Expression rightExpression) {
 //
 //        // supported types of both expressions must be equal
 //        return true;
 //    }
+
+    public boolean isFormCorrect() {
+        return !this.astErrorHandler.hasErrors();
+    }
+
+
+    public void displayFormWarningsAndErrors() {
+        this.astErrorHandler.displayWarningsAndErrors();
+        return;
+    }
 }

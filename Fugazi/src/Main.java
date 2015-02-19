@@ -43,7 +43,6 @@ public class Main {
             System.out.print("Yes, so I ran.");
         }
 
-
         // TODO: evaluation.
 
         // TODO: Render GUI.
