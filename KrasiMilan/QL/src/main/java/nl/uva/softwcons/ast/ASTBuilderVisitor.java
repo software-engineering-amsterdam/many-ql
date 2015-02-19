@@ -27,6 +27,7 @@ import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
 import nl.uva.softwcons.ast.form.Form;
+import nl.uva.softwcons.ast.statement.Block;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
@@ -56,7 +57,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         final List<Statement> statements = ctx.statement().stream().map(st -> (Statement) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Form(formName, statements);
+        return new Form(formName, new Block(statements));
     }
 
     @Override
