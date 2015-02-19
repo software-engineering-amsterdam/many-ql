@@ -25,6 +25,10 @@ else {
 
 if (5 * (3 + 4) - 3 + (2 / 1) > 1) {
     Question dunno (bool) : Do you know what to write?
+    Question dunno2 (bool) : Do you know what to write tomorrow?
+    if (5 * (3 + 4) - 3 + (2 / 1) > 0) {
+        Question reading2 (bool) : Do you know what to read hm?
+    }
 }
 
 if (5 * (3 + 4) - 3 + (2 / 1) > 0) {
