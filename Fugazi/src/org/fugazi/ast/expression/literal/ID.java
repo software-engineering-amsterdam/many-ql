@@ -18,13 +18,8 @@ public class ID extends Literal {
     public ID(String _name, Type _type) {
         this.name = _name;
         this.type = _type;
-        Class stringTypeClass = new StringType().getClass();
-        Class intTypeClass = new IntType().getClass();
-        Class boolTypeClass = new BoolType().getClass();
         this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(stringTypeClass);
-        this.supportedTypes.add(intTypeClass);
-        this.supportedTypes.add(boolTypeClass);
+        this.supportedTypes.add(type.getClass());
     }
 
     public String getName() {
