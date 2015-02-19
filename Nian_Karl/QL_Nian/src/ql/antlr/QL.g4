@@ -1,13 +1,6 @@
 grammar QL;
 
-@parser::header
-{
-}
-
-@lexer::header
-{}
-
-// Parser rules
+/*  PARSER RULES  */
 form : FORM Identifier block;
 
 block : LEFT_BRACE statement* RIGHT_BRACE;

@@ -1,7 +1,5 @@
 // Generated from QL.g4 by ANTLR 4.5
 package ql.antlr;
-
-
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
