@@ -26,8 +26,19 @@ import org.fugazi.parser.QLBaseVisitor;
 import org.fugazi.parser.QLParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
+
+    private final HashMap<String, Type> identifiers = new HashMap<String, Type>();
+
+    private void addIdentifier(String _name, Type _type) {
+        identifiers.put(_name, _type);
+    }
+
+    private Type getIdentifier(String _name) {
+        return identifiers.containsKey(_name) ? identifiers.get(_name) : null;
+    }
 
     /**
      * =======================
@@ -89,7 +100,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         
         Type type = (Type) ctx.type().accept(this); 
 
-        ID identifier = new ID(ctx.ID().getText());
+        ID identifier = new ID(ctx.ID().getText(), type);
+        this.addIdentifier(identifier.getName(), type);
 
         // TODO: Which is better?
         // Literal? : STRING label = new STRING(ctx.STRING().getText());
@@ -107,7 +119,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         
         Type type = (Type) ctx.type().accept(this);
 
-        ID identifier = new ID(ctx.ID().getText());
+        ID identifier = new ID(ctx.ID().getText(), type);
+        this.addIdentifier(identifier.getName(), type);
 
         STRING grammarLabel = new STRING(ctx.STRING().getText());
         String label = grammarLabel.toString();
@@ -275,9 +288,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
-        System.out.print(" " + ctx.ID().getText() + " ");
+        System.out.print(" *" + ctx.ID().getText() + " ");
 
         String name = ctx.ID().getText();
-        return new ID(name);
+        Type type = this.getIdentifier(name);
+        return new ID(name, type);
     }
 }

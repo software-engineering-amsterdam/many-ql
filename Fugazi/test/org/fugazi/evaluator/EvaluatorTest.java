@@ -1,7 +1,6 @@
 package org.fugazi.evaluator;
 
-import org.fugazi.ast.expression.comparison.EQ;
-import org.fugazi.ast.expression.comparison.NotEq;
+import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.*;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;
@@ -9,6 +8,7 @@ import org.fugazi.ast.expression.numerical.*;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.ast.type.IntType;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -171,7 +171,7 @@ public class EvaluatorTest {
      */
     @Test
     public void testIDExpression() throws Exception {
-        ID id = new ID(testString1);
+        ID id = new ID(testString1, new IntType());
         evaluator.saveValue(testString1, new IntValue(5));
         ExpressionValue value = evaluator.evaluateExpression(id);
         assertEquals(value.getValue(), 5);
@@ -372,5 +372,153 @@ public class EvaluatorTest {
         NotEq expression2 = new NotEq(boolTrue, boolTrue);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), false);
+    }
+
+    /**
+     * Test Greater
+     */
+    @Test
+    public void testGreaterExpressionWithNums() throws Exception {
+        // test: 5 > 4 = true
+        Greater expression1 = new Greater(num5, num4);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), true);
+
+        // test: 5 > 5 = false
+        Greater expression2 = new Greater(num5, num5);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), false);
+
+        // test: 4 > 5 = false
+        Greater expression3 = new Greater(num4, num5);
+        ExpressionValue value3 = evaluator.evaluateExpression(expression3);
+        assertEquals(value3.getValue(), false);
+    }
+
+    @Test
+    public void testGreaterExpressionWithStrings() throws Exception {
+        // test: Undefined
+        Greater expression1 = new Greater(stringFoo, stringBar);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
+    }
+
+    @Test
+    public void testGreaterExpressionWithBools() throws Exception {
+        // test: Undefined
+        Greater expression1 = new Greater(boolTrue, boolFalse);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
+    }
+
+    /**
+     * Test Lesser
+     */
+    @Test
+    public void testLesserExpressionWithNums() throws Exception {
+        // test: 5 < 4 = false
+        Less expression1 = new Less(num5, num4);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), false);
+
+        // test: 5 < 5 = false
+        Less expression2 = new Less(num5, num5);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), false);
+
+        // test: 4 < 5 = true
+        Less expression3 = new Less(num4, num5);
+        ExpressionValue value3 = evaluator.evaluateExpression(expression3);
+        assertEquals(value3.getValue(), true);
+    }
+
+    @Test
+    public void testLesserExpressionWithStrings() throws Exception {
+        // test: Undefined
+        Less expression1 = new Less(stringFoo, stringBar);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
+    }
+
+    @Test
+    public void testLesserExpressionWithBools() throws Exception {
+        // test: Undefined
+        Less expression1 = new Less(boolTrue, boolFalse);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
+    }
+
+    /**
+     * Test Greater Equal
+     */
+    @Test
+    public void testGreaterEqualExpressionWithNums() throws Exception {
+        // test: 5 >= 4 = true
+        GE expression1 = new GE(num5, num4);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), true);
+
+        // test: 5 >= 5 = true
+        GE expression2 = new GE(num5, num5);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), true);
+
+        // test: 4 >= 5 = false
+        GE expression3 = new GE(num4, num5);
+        ExpressionValue value3 = evaluator.evaluateExpression(expression3);
+        assertEquals(value3.getValue(), false);
+    }
+
+    @Test
+    public void testGreaterEqualExpressionWithStrings() throws Exception {
+        // test: Undefined
+        GE expression1 = new GE(stringFoo, stringBar);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
+    }
+
+    @Test
+    public void testGreaterEqualExpressionWithBools() throws Exception {
+        // test: Undefined
+        GE expression1 = new GE(boolTrue, boolFalse);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
+    }
+
+    /**
+     * Test Less Equal
+     */
+    @Test
+    public void testLessEqualExpressionWithNums() throws Exception {
+        // test: 5 <= 4 = false
+        LE expression1 = new LE(num5, num4);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), false);
+
+        // test: 5 <= 5 = true
+        LE expression2 = new LE(num5, num5);
+        ExpressionValue value2 = evaluator.evaluateExpression(expression2);
+        assertEquals(value2.getValue(), true);
+
+        // test: 4 <= 5 = true
+        LE expression3 = new LE(num4, num5);
+        ExpressionValue value3 = evaluator.evaluateExpression(expression3);
+        assertEquals(value3.getValue(), true);
+    }
+
+    @Test
+    public void testLessEqualExpressionWithStrings() throws Exception {
+        // test: Undefined
+        LE expression1 = new LE(stringFoo, stringBar);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
+    }
+
+    @Test
+    public void testLessEqualExpressionWithBools() throws Exception {
+        // test: Undefined
+        LE expression1 = new LE(boolTrue, boolFalse);
+        ExpressionValue value1 = evaluator.evaluateExpression(expression1);
+        assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
 }

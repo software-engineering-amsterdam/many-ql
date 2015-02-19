@@ -7,31 +7,24 @@ using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
-    public class Question : Node, IStatement
+    public class Assignment : Node, IStatement
     {
-        public DataType DataType
+        public Identifier Variable
         {
             get;
             private set;
         }
 
-        public Identifier Id
+        public IExpression Expression
         {
             get;
             private set;
         }
 
-        public string Label
+        public Assignment(Identifier variable, IExpression expression)
         {
-            get;
-            private set;
-        }
-
-        public Question(DataType dataType, Identifier id, string label)
-        {
-            DataType = dataType;
-            Id = id;
-            Label = label;
+            Variable = variable;
+            Expression = expression;
         }
 
         public override void Accept(IASTVisitor visitor)

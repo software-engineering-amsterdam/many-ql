@@ -54,6 +54,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             return new Declaration(dataType, id, initialization);
         }
 
+        public override IStatement VisitAssignment(QLParser.AssignmentContext context)
+        {
+            Identifier variable = new Identifier(context.ID().GetText());
+            IExpression expression = context.expr().Accept(new ExpressionVisitor());
+
+            return new Assignment(variable, expression);
+        }
+
         private static DataType TypeStringToEnum(string value)
         {
             switch (value)

@@ -3,14 +3,14 @@ form SomeForm {
 	questionOne   string
 
 	"2 - What's the answer to life the universe and everything?"
-	questionTwo   integer
+	questionTwo   numeric
 
 	"3 - Are you happy today?"
 	questionThree bool
 
 	if (questionThree) {
 		"4 - Why are you happy today?" questionFour string
-		"5 - Grade your happiness?"    questionFive integer
+		"5 - Grade your happiness?"    questionFive numeric
 	}
 
 	if (questionTwo > 5) {
@@ -64,4 +64,20 @@ form SomeForm {
 	}
 
 	"20 - Calculated field" questionSixteen computed = questionTwo * 2
+
+	if (questionOne == "surak" or questionTwo == 42){
+		"21 - OR field" questionSeventeen computed = questionTwo * 2
+	}
+
+	if (questionOne == "surak" and questionTwo == 42){
+		"22 - AND field" questionEighteen computed = questionTwo * 2
+	}
+
+	if (questionOne != "surak" and questionTwo == 42){
+		"22 - AND field - not surak" questionNineteen computed = questionTwo * 2
+	}
+
+	if ((questionOne != "surak") and questionTwo == 42){
+		"23 - AND field - not surak - ()" questionTwenty computed = questionTwo * 2
+	}
 }

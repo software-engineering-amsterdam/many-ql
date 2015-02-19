@@ -67,8 +67,8 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 		case ast.BoolQuestionType:
 			content := q.Content().(*ast.BoolQuestion)
 			return content.Value()
-		case ast.IntQuestionType:
-			content := q.Content().(*ast.IntQuestion)
+		case ast.NumericQuestionType:
+			content := q.Content().(*ast.NumericQuestion)
 			return content.Value()
 		case ast.StringQuestionType:
 			content := q.Content().(*ast.StringQuestion)
@@ -82,38 +82,4 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 		return t.(*ast.TermNode).StringConstant()
 	}
 	return nil
-}
-
-func (exec *Execute) resolveComparisonNode(n interface{}) bool {
-	conditionState := true
-	switch t := n.(type) {
-	default:
-		pos := n.(ast.Positionable).Pos()
-		log.Fatalf("%s:runtime error: impossible condition type. got: %T", pos, t)
-	case *ast.TermNode:
-		if !exec.TermNode(n.(*ast.TermNode)) {
-			conditionState = false
-		}
-	case *ast.EqualsNode:
-		if !exec.EqualsNode(n.(*ast.EqualsNode)) {
-			conditionState = false
-		}
-	case *ast.MoreThanNode:
-		if !exec.MoreThanNode(n.(*ast.MoreThanNode)) {
-			conditionState = false
-		}
-	case *ast.LessThanNode:
-		if !exec.LessThanNode(n.(*ast.LessThanNode)) {
-			conditionState = false
-		}
-	case *ast.MoreOrEqualsThanNode:
-		if !exec.MoreOrEqualsThanNode(n.(*ast.MoreOrEqualsThanNode)) {
-			conditionState = false
-		}
-	case *ast.LessOrEqualsThanNode:
-		if !exec.LessOrEqualsThanNode(n.(*ast.LessOrEqualsThanNode)) {
-			conditionState = false
-		}
-	}
-	return conditionState
 }

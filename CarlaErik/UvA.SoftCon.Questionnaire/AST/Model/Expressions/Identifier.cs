@@ -19,6 +19,11 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             Name = name;
         }
 
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override string ToString()
         {
             return Name;

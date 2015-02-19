@@ -23,5 +23,10 @@ namespace UvA.SoftCon.Questionnaire.AST
         {
             Statements = statements;
         }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }
