@@ -266,5 +266,9 @@ value:
 		)
 		$$.termNode = termNode
 	}
+	| '(' andOrBlock ')'
+	{
+		$$ = $2
+	}
 	;
 %%
