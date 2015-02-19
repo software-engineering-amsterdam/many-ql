@@ -14,6 +14,7 @@ import org.fugazi.ast.expression.numerical.*;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.ast.expression.unary.Unary;
 import org.fugazi.ast.form.Form;
 import org.fugazi.ast.statement.ComputedQuestion;
 import org.fugazi.ast.statement.IfStatement;
@@ -22,17 +23,29 @@ import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
 /*
+comments which visitor requires what
+
 Operators with invalid types:
+
 - Comparison cannot have string and both have to be of the same type.
 - GE, Greater, LE, Less must be int
-- and / or must have booleans
 
-- negative must have int
-necessary functions:
+ - check if of same type
+
+ DONE
+ necessary functions:
  - check if string
  - check if int
  - check if bool
- - check if of same type
+
+- every numerical must have ints
+  - add div mul sub
+
+  - every logical must have bool
+  - or and not
+
+ - negative / positive must have int
+
 
  */
 
@@ -83,6 +96,22 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     }
 
+    private Object visitUnaryLogical(Unary unary) {
+        // Both sides of the expressions need to be of type boolean.
+        Expression expr = unary.getExpr();
+
+        boolean exprCorrect = this.checkIfBool(unary);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( unary,
+                    "Expression not of type bool."
+            );
+        }
+        expr.accept(this);
+        return null;
+    }
+
     @Override
     public Object visitAnd(And and) {
         return this.visitBinaryLogical(and);
@@ -95,44 +124,8 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitNot(Not not) {
-
-        System.out.println("So I am visiting a not:" + not.toString());
-
-        Expression expression = not.getExpr();
-
-        boolean exprCorrect = this.checkIfBool(expression);
-
-        if (!exprCorrect) {
-            System.out.println("\n\nLeft not correct.");
-            this.astErrorHandler.registerNewError(not,
-                    "The expression not of type bool."
-            );
-        }
-
-        expression.accept(this);
-        return null;
+        return this.visitUnaryLogical(not);
     }
-
-    @Override
-    public Object visitNegative(Negative negative) {
-        System.out.println("So I am visiting a negative:" + negative.toString());
-
-        Expression expression = negative.getExpr();
-
-        expression.accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitPositive(Positive positive) {
-        System.out.println("So I am visiting a positive:" + positive.toString());
-
-        Expression expression = positive.getExpr();
-
-        expression.accept(this);
-        return null;
-    }
-
 
     private Object visitBinaryComparison(Comparison comparison) {
         // Both sides of the expressions need to be of type boolean.
@@ -217,6 +210,32 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     }
 
+    private Object visitUnaryNumerical(Unary unary) {
+        // Both sides of the expressions need to be of type boolean.
+        Expression expr = unary.getExpr();
+
+        boolean exprCorrect = this.checkIfInt(unary);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( unary,
+                    "Expression not of type int."
+            );
+        }
+        expr.accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitNegative(Negative negative) {
+        return this.visitUnaryNumerical(negative);
+    }
+
+    @Override
+    public Object visitPositive(Positive positive) {
+        return this.visitUnaryNumerical(positive);
+    }
+
     @Override
     public Object visitAdd(Add add) {
         return this.visitBinaryNumerical(add);
@@ -239,25 +258,46 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitID(ID idLiteral) {
-        System.out.println("So I am visiting an id:" + idLiteral.toString());
         return null;
     }
 
     @Override
     public Object visitINT(INT intLiteral) {
-        System.out.println("So I am visiting an INT:" + intLiteral.toString());
+
+        boolean exprCorrect = this.checkIfInt(intLiteral);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( intLiteral,
+                    "Int Literal not of type int."
+            );
+        }
         return null;
     }
 
     @Override
     public Object visitSTRING(STRING stringLiteral) {
-        System.out.println("So I am visiting a string:" + stringLiteral.toString());
+        boolean exprCorrect = this.checkIfString(stringLiteral);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( stringLiteral,
+                    "String Literal not of type string."
+            );
+        }
         return null;
     }
 
     @Override
     public Object visitBOOL(BOOL boolLiteral) {
-        System.out.println("So I am visiting a bool:" + boolLiteral.toString());
+        boolean exprCorrect = this.checkIfBool(boolLiteral);
+
+        if (!exprCorrect) {
+            System.out.println("\n\nExpr not correct.");
+            this.astErrorHandler.registerNewError( boolLiteral,
+                    "Bool Literal not of type bool."
+            );
+        }
         return null;
     }
 
@@ -270,7 +310,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
         type.accept(this);
         identifier.accept(this);
-
         return null;
     }
 
@@ -324,13 +363,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return expression.getSupportedTypes().contains(new StringType().getClass());
     }
 
-
-
-//    private boolean checkIfSameType(Expression leftExpression, Expression rightExpression) {
-//
-//        // supported types of both expressions must be equal
-//        return true;
-//    }
 
     public boolean isFormCorrect() {
         return !this.astErrorHandler.hasErrors();
