@@ -30,9 +30,8 @@ public class FormTypeChecker extends FormInterpreter {
 
     @Override
     public void caseAForm(AForm node) {
-        super.caseAForm(node);    //To change body of overridden methods use File | Settings | File Templates.
         try {
-            super.reInterpret();
+            super.caseAForm(node);
         } catch(InterpretationException e) {
             fatalException = e;
         }

@@ -1,168 +1,129 @@
 grammar QL;
-@members{
-	
-	void echo(Token id){}
+
+@parser::header
+{
 }
 
-/* PARSER RULES */
-form 
-	: FORM Identifier block
-	;
+@lexer::header
+{}
 
-block
-	:	LBRACE statement* RBRACE
-	;
+// Parser rules
+form : FORM Identifier block;
+
+block : LEFT_BRACE statement* RIGHT_BRACE;
 
 statement
 	: block
 	| question
-	| ifstatement
-	;
-
-// Question Declaration	
-question : questionType questionName questionLabel SEMI;
-
-questionType
-	: builtinType
-	| userType
+	| ifStatement
 	;
 	
-builtinType
-	: INT
-	| STR
-	| BOOL
-	| DATE
-	| DEC
-	| CUR
-	;
-	
-userType
-	: Cap_Start_Identifier
-	;
+question : questionType questionName questionLabel SEMICOLON;
 
-questionName
-	: Identifier {echo($Identifier);}
-	;
-	
-questionLabel
-	: StringLiteral
-	;
+questionType :INT | STR | CUR | BOOL | DEC | DATE;
 
-// If statement
-ifstatement
-	:	IF LPAREN expression RPAREN statement (ELSE statement)?
-	;
+questionName : Identifier;
 
-expression
-	: Identifier
-	| literal
-	|	expression AND expression
-	|	expression OR expression
-	|	expression EQUAL expression
-	|	expression NOTEQUAL expression
-	|	expression ASSIGN expression
-	|	expression GT expression
-	|	expression LT expression
-	|	expression GE expression
-	|	expression LE expression
-	|	expression ADD expression
-	|	expression SUB expression
-	|	expression MUL expression
-	|	expression DIV expression
-	| BANG expression
-	;
+questionLabel : StringLiteral;
+
+ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
+
+//ifStatement : IF LEFT_PARENTHESES expression RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
+//
+//elseIfStatement : ELIF block elseStatement;
+//
+//elseStatement : ELSE block;
+
+expression: 
+	literal
+	| expression AND expression
+	| expression OR expression
+	| expression EQUAL_COND expression
+	| expression GREATER expression
+	| expression GREAT_EQUAL expression
+	| expression EQUAL expression
+	| expression LESS_EQUAL expression
+	| expression LESS expression
+	| expression PLUS expression 
+	| expression MINUS expression 
+	| expression MULTIPLY expression 
+	| expression DEVIDE expression
+	| LEFT_PAREN expression RIGHT_PAREN 
+;
 
 literal
-	: IntegerLiteral
-	| StringLiteral
-	| BooleanLiteral
-	| DateLiteral
-	| DecimalLiteral
-	| CurrencyLiteral
-	;
+ 	 : Identifier
+	 | IntegerLiteral
+	 | DecimalLiteral
+ 	 | BooleanLiteral
+ 	 | StringLiteral
+ 	 | DateLiteral
+	 ;
 
 /* LEXER RULES */
-// Keywords
-FORM		:		'Form';
+// Keywords		==================================================================
+FORM		:		'form';
 IF			:		'if';
+THEN		:		'then';
 ELSE		:		'else';
+ELIF		:		'else if';
 
-
-// Data Types
-INT 		:		'Integer';
-STR 		:		'String';
-BOOL		:		'Boolean';
+// DataTypes	==================================================================
+INT 		:		'Int';
+STR			:		'Str';
+CUR			:		'Cur';
+BOOL		:		'Bool';
+DEC			:		'Dec';
 DATE		:		'Date';
-DEC			:		'Decimal';
-CUR 		:		'Currency';
 
-// Symbols
-SEMI		:		';';
-LBRACE	:		'{';
-RBRACE	:		'}';
-LPAREN	: 	'(';
-RPAREN	:		')';
-
-// Operators
-AND			:		'&&';
+// Operators	==================================================================
 OR			:		'||';
-EQUAL		:		'==';
-NOTEQUAL:		'!=';
-ASSIGN	:		'=';
-GT			:		'>';
-LT			:		'<';
-GE			:		'>=';
-LE			:		'<=';
-ADD			:		'+';
-SUB			:		'-';
-MUL			:		'*';
-DIV			:		'/';
-BANG		:		'!';
+AND			:		'&&';
+EQUAL		:		'=';
+EQUAL_COND	:		'==';
+GREATER		: 		'>';
+LESS		: 		'<';
+GREAT_EQUAL	: 		'>='; 
+LESS_EQUAL	: 		'<=';
+PLUS		:		'+';
+MINUS		:		'-';
+DEVIDE		:		'/';
+MULTIPLY	:		'*';
 
+// Symbols		==================================================================
+LEFT_BRACE	:		'{';
+RIGHT_BRACE	:		'}';
+LEFT_PAREN	:		'(';
+RIGHT_PAREN	:		')';
+COLON		:		':';
+SEMICOLON	:		';';
 
-// Literals
-IntegerLiteral   // do we need this?
-	: //Non_Zero_Digit Digit*
-	;
+IntegerLiteral: [1-9][0-9]*;
+
+DecimalLiteral: DecimalNumeral '.' Digit*;
+
+DecimalNumeral : Non_Zero_Digit Digit* | [0];
+
+BooleanLiteral: 'true' | 'false';
+
+StringLiteral: '"' (~[\r\n"] | '""')* '"';
+
+DateLiteral : Day '-' Month '-' Year;
+
+Day: [Digit{2}];
+
+Month: [Digit{2}];
+
+Year: [Digit{4}];
+
+Non_Zero_Digit: [1-9];
 	
-StringLiteral
-	: '"' .*? '"'
-	;
+Digit: [0-9];
 
-BooleanLiteral
-	: 'true'
-	| 'false'
-	;
+WhiteSpace  :(' ' | '\t' | '\n' | '\r') -> skip;
 
-DateLiteral
-	:
-	;
+MultiComment : '/*' .*? '*/' -> skip;
 
-DecimalLiteral
-	: [0]
-	| [1-9][0-9]*
-	;
+SingleComment: '//' .*? '\n' -> skip;
 
-CurrencyLiteral
-	:
-	;
-
-Non_Zero_Digit
-	: [1-9]
-	;
-	
-Digit
-	: [0-9]
-	;
-	
-Cap_Start_Identifier
-	: [A-Z][a-zA-Z0-9]*
-	;
-Identifier
-	: [a-zA-Z][a-zA-Z0-9]*
-	;
-	
-WHITE_SPACE
-	: [ \t\r\n]+ -> skip
-	;
-
+Identifier: [a-zA-Z][a-zA-Z0-9_]*;

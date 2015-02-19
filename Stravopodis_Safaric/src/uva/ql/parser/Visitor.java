@@ -1,9 +1,12 @@
 package uva.ql.parser;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
+import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.IntValue;
 import uva.ql.ast.expressions.logic.And;
 import uva.ql.ast.expressions.logic.Equal;
@@ -27,15 +30,21 @@ import uva.ql.parser.QLParser.LiteralContext;
 import uva.ql.parser.QLParser.PrimitiveTypeContext;
 import uva.ql.parser.QLParser.ProgContext;
 import uva.ql.parser.QLParser.QuestContext;
-import uva.ql.parser.QLParser.Quest_declContext;
 import uva.ql.parser.QLParser.QuestionTypeContext;
 import uva.ql.parser.QLParser.StatContext;
 import uva.ql.parser.QLParser.TypeofContext;
 import uva.ql.supporting.Tuple;
 import uva.ql.ast.expressions.literals.*;
+import uva.ql.ast.question.QuestionDeclaration;
 import uva.ql.ast.statements.Assign;
+import uva.ql.ast.statements.Statement;
+
+import java.util.*;
 
 public class Visitor extends QLBaseVisitor<ASTNode> {
+	
+	public static List<StatContext> stats = new ArrayList<StatContext>();
+			
 	
 	
 	@Override 
@@ -45,38 +54,51 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	
 	@Override 
 	public ASTNode visitForm(FormContext ctx) { 
+		//System.out.println(ctx.stms);
+		List <StatContext> stats = ctx.stms;
+		
 		return visitChildren(ctx); 
 	}
 	
 	@Override 
 	public ASTNode visitQuest(QuestContext ctx) { 
+		// quest 	: 'question' ID typeof primitiveType '{' (expr | quest_decl)* '}' ;
+		
 		return visitChildren(ctx); 
 	}
 	
 	@Override 
 	public ASTNode visitStat(StatContext ctx) { 
+		/*Tuple<Integer,Integer> codeLines = getCodeLines(ctx);*/
+		List <Statement> states = new ArrayList<Statement>();
+		for (StatContext context : stats){
+			Statement state =  (Statement)visitStat(context);
+			states.add((Statement)visitStat(context));}
+		System.out.println(ctx.getText());
+		// Statements -> quest, decl, ifStatement, quest_decl, assign
 		return visitChildren(ctx); 
 	}
-	
-	@Override 
-	public ASTNode visitQuest_decl(Quest_declContext ctx) { 
-		return visitChildren(ctx); 
-	}
-	
+
 	@Override 
 	public ASTNode visitDecl(DeclContext ctx) { 
 		return visitChildren(ctx); 
 	}
 	
+	@Override
+	public ASTNode visitAssignExpr(QLParser.AssignExprContext ctx) { 
+		Tuple<Integer,Integer> codeLines = getCodeLines(ctx);
+		return new Assign(new Identifier(ctx.ID().toString(), codeLines), (Expression)visitExpr(ctx.expr()), codeLines);
+	}
+
 	@Override 
-	public ASTNode visitAssign(AssignContext ctx) {
-		Tuple<Integer,Integer> codeLines = new Tuple<Integer, Integer>(ctx.start.getLine(),ctx.stop.getLine());
-		return new Assign(new Identifier(ctx.ID().getText(), codeLines), (Expression)visitExpr(ctx.expr()), codeLines);
+	public ASTNode visitAssignStr(QLParser.AssignStrContext ctx) { 
+		Tuple<Integer,Integer> codeLines = getCodeLines(ctx);
+		return new Assign(new Identifier(ctx.ID().toString(), codeLines), ctx.STRING().getText(), codeLines);
 	}
 	
 	@Override 
 	public ASTNode visitExpr(ExprContext ctx) { 
-		Tuple<Integer,Integer> codeLines = new Tuple<Integer, Integer>(ctx.start.getLine(),ctx.stop.getLine());
+		Tuple<Integer,Integer> codeLines = getCodeLines(ctx);
 		
 		if (ctx.op != null){
 			Operator operator = Operator.findOperator(ctx.op.getText().toString());
@@ -107,12 +129,15 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	
 	@Override 
 	public ASTNode visitIfStatement(IfStatementContext ctx) { 
+		
+		
+		
 		return visitChildren(ctx); 
 	}
 	
 	@Override 
 	public ASTNode visitLiteral(LiteralContext ctx) {
-		Tuple<Integer,Integer> codeLines = new Tuple<Integer, Integer>(ctx.start.getLine(),ctx.stop.getLine());
+		Tuple<Integer,Integer> codeLines = getCodeLines(ctx);
 		
 		if (ctx.BooleanLiteral() != null) return new BooleanValue(Boolean.valueOf(ctx.getText()),codeLines);
 		else if (ctx.INT() != null) return new IntValue(Integer.valueOf(ctx.getText()), codeLines);
@@ -136,6 +161,11 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	@Override 
 	public ASTNode visitQuestionType(QuestionTypeContext ctx) { 
 		return visitChildren(ctx); 
+	}
+	
+	// Visitor functions
+	private Tuple<Integer, Integer> getCodeLines(ParserRuleContext ctx){
+		return new Tuple<Integer, Integer>(ctx.start.getLine(),ctx.stop.getLine());
 	}
 	
 }

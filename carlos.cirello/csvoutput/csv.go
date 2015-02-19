@@ -39,9 +39,10 @@ commLoop:
 		select {
 		case r := <-o.receive:
 			switch r.Type {
-			case interpreter.Render:
+			case interpreter.Update:
 				v := r.Question
-				csv.Write([]string{v.Identifier(), v.Label(), v.Content().String()})
+				csv.Write([]string{v.Identifier(), v.Label(),
+					v.Content().String()})
 			case interpreter.Flush:
 				csv.Flush()
 				break commLoop

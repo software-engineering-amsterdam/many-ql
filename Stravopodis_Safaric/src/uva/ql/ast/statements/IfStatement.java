@@ -8,7 +8,7 @@ import uva.ql.supporting.Tuple;
 public class IfStatement extends Statement {
 	
 	protected Expression expression;
-	protected List<Statement> statements;
+	protected List<Object> children;
 	
 	public IfStatement(Expression _expression, Tuple<Integer, Integer> _codeLines){
 		super(_codeLines);
@@ -17,7 +17,7 @@ public class IfStatement extends Statement {
 	public Expression getExpression(){
 		return this.expression;
 	}
-	public List<Statement> getStatements(){
-		return this.statements;
+	public List<Object> getChildren(){
+		return this.children;
 	}
 }

@@ -34,6 +34,8 @@ public class Main {
             System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
             typeChecker.displayFormWarningsAndErrors();
             return;
+        } else {
+            System.out.print("Yes, so I ran.");
         }
 
         // TODO: evaluation.

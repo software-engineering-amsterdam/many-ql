@@ -19,20 +19,8 @@ $ mkdir github.com/software-engineering-amsterdam/
 $ cd github.com/software-engineering-amsterdam/
 $ git clone https://github.com/software-engineering-amsterdam/many-ql.git
 $ cd many-ql/carlos.cirello
-$ go build
-$ ./carlos.cirello
-
-or
-
-C:\...> carlos.cirello
-```
-
-Or if you are in Unix-derived environment:
-```
-$ git clone https://github.com/software-engineering-amsterdam/many-ql.git
-$ cd many-ql/carlos.cirello
 $ make
-$ ./carlos.cirello
+$ ./carlos.cirello -src="example.ql"
 ```
 
 # Documentation

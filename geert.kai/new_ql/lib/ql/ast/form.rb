@@ -14,7 +14,7 @@ class Form < Node
     @statements = statements
   end
 
-  def accept visitor
+  def accept(visitor)
     statements.map do |statement|
       statement.accept(visitor)
     end
@@ -36,6 +36,8 @@ end
 
 class Conditional < Statement
   def accept(visitor)
+   visitor.visit(self)
+
    statements.map do |statement|
       statement.accept(visitor)
     end

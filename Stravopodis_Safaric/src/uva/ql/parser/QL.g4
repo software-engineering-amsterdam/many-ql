@@ -16,21 +16,19 @@ prog	: form EOF ;
 
 form	: 'form' ID '{' stat* '}' ;
 
-quest 	: 'question' ID typeof primitiveType '{' (expr | quest_decl)* '}' ;
+quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
 
-stat	: quest
+stat	: expr
+		| quest
 	 	| decl 
-	 	| ifStatement
-	 	| quest_decl								
+	 	| ifStatement								
 	 	| assign
 	 	;
 
-quest_decl	: ID '=' STRING ';' 								
-			| assign;	
-
 decl		: primitiveType ID '='? expr? ';';
 
-assign		: ID '=' expr ';';
+assign		: ID '=' expr ';' 	# AssignExpr			
+			| ID '=' STRING ';' # AssignStr; 				
 
 expr 		: x = expr op = EXP<assoc=right> y = expr 	
 			| x = expr op = (MUL | DIV) y = expr
@@ -39,11 +37,11 @@ expr 		: x = expr op = EXP<assoc=right> y = expr
 			| x = expr op = (EQUAL | NOT_EQUAL) y = expr
 			| x = expr op = LOG_AND y = expr
 			| x = expr op = LOG_OR y = expr
-			| expr 																		
+			| LP x = expr RC																		
 			| lit = literal																		
 			;
 	
-ifStatement		: ifThen = 'if' '(' expr ')' '{' (stat | expr)* '}';
+ifStatement		: ifThen = 'if' '(' expr ')' '{' stat '}';
 	
 
 literal		: BooleanLiteral
