@@ -25,6 +25,20 @@ expression
     | primary=Integer
     ;
 
+fragment StringCharacter : EscapeSequence | ~[\\] ;
+
+fragment Quote : [“”"'];
+
+fragment EscapeSequence : '\\' Quote;
+
+fragment Letter : [a-zA-Z];
+
+fragment Digit : ZeroDigit|NonZeroDigit;
+
+fragment NonZeroDigit : [1-9];
+
+fragment ZeroDigit : [0];
+
 QuestionType
    : 'boolean'
    | 'decimal'
@@ -41,30 +55,12 @@ Identifier : (Letter)(Letter|Digit|'_')*;
 
 Integer : (ZeroDigit | NonZeroDigit Digit*);
 
-Decimal : (Epsilon | NonZeroDigit Digit* | ZeroDigit) '.' Digit+ ;
+Decimal : ( NonZeroDigit Digit* | ZeroDigit? ) '.' Digit+ ;
 
-String: Quote StringCharacter+? Quote;
-
-fragment StringCharacter
-    : ~[\\]
-    | EscapeSequence
-    ;
-
-fragment Quote: [n“”"'\\];
-fragment EscapeSequence: '\\' Quote; //NOTE: removed btfr, we probably don't want to support that
-
-fragment Epsilon : ; //just for readability
-
-fragment Letter : Lowercase|Uppercase;
-fragment Lowercase : [a-z];
-fragment Uppercase : [a-zA-Z];
-
-fragment Digit : ZeroDigit|NonZeroDigit;
-fragment NonZeroDigit : [1-9];
-fragment ZeroDigit : [0];
+String : Quote StringCharacter*? Quote;
 
 Comment : '/*' .*? '*/' -> skip;
 
 LineComment : '//' ~[\r\n]* -> skip;
 
-WS : [ \t\r\n]+ -> skip ;
+WS : [ \t\r\n]+ -> skip;

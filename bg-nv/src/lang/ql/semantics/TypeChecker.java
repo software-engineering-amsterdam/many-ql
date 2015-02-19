@@ -116,7 +116,7 @@ public class TypeChecker extends VisitorAbstract
     }
 
     @Override
-    public void visit(Identifier n)
+    public void visit(Indent n)
     {
         QuestionType type = this.symbolTable.resolve(n.getId());
         if (type == null)

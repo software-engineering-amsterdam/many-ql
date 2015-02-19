@@ -1,4 +1,4 @@
-package lang.tests.Expressions;
+package lang.tests.ast;
 
 import lang.ql.ast.expression.*;
 import lang.tests.ParserHelper;

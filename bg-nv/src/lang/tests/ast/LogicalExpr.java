@@ -1,6 +1,7 @@
-package lang.tests.Expressions;
+package lang.tests.ast;
 
 import lang.ql.ast.expression.And;
+import lang.ql.ast.expression.Gt;
 import lang.ql.ast.expression.Not;
 import lang.ql.ast.expression.Or;
 import lang.tests.ParserHelper;
@@ -60,7 +61,6 @@ public class LogicalExpr
         assertNotNull(a);
         assertTrue(a.getRight() instanceof And);
     }
-
 
     @Test
     public void orExpr()
@@ -133,4 +133,12 @@ public class LogicalExpr
         assertTrue(a.getOperand() instanceof And);
     }
 
+    @Test
+    public void orGtAnd()
+    {
+        And a = TestHelper.as(ParserHelper.ParseExpression("x||y>z&&w"), And.class);
+        assertNotNull(a);
+        Or left = TestHelper.as(a.getLeft(), Or.class);
+        assertTrue(left.getRight() instanceof Gt);
+    }
 }

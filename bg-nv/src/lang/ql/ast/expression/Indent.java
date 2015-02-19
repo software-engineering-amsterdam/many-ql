@@ -5,11 +5,11 @@ import lang.ql.semantics.Visitor;
 /**
  * Created by bore on 09/02/15.
  */
-public class Identifier extends Expr
+public class Indent extends Expr
 {
     private String id;
 
-    public Identifier(String id)
+    public Indent(String id)
     {
         this.id = id;
     }

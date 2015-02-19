@@ -12,7 +12,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 import lang.ql.gen.*;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
     {
         String id = context.Identifier().getText();
         QuestionType questionType = QuestionType.valueOf(context.QuestionType().getText().toUpperCase());
-        String text = context.String().getText();
+        String text = unescapedString(context.String().getText());
 
         if (context.expression() != null)
         {
@@ -108,7 +107,7 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
         if (operator.equals("<")) { return new Lt(left, right); }
         if (operator.equals(">=")) { return new GtEqu(left, right); }
         if (operator.equals("<=")) { return new LtEqu(left, right); }
-        if (operator.equals("=")) { return new Equ(left, right); }
+        if (operator.equals("==")) { return new Equ(left, right); }
         if (operator.equals("!=")) { return new NotEqu(left, right); }
         if (operator.equals("&&")) { return new And(left, right); }
         if (operator.equals("||")) { return new Or(left, right); }
@@ -137,12 +136,13 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
 
         if (operandContext.String() != null)
         {
-            return new StrExpr(operandContext.String().getText());
+            String s = unescapedString(operandContext.String().getText());
+            return new StrExpr(s);
         }
 
         if (operandContext.Identifier() != null)
         {
-            return new Identifier(operandContext.Identifier().getText());
+            return new Indent(operandContext.Identifier().getText());
         }
 
         if (operandContext.Boolean() != null)
@@ -159,5 +159,18 @@ public class QLVisitorImpl extends QLBaseVisitor<AstNode>
 
         // TODO: add date and decimal expressions
         throw new IllegalArgumentException("Illegal constant expression");
+    }
+
+    private String unescapedString(String s)
+    {
+        String result = s.substring(1, s.length()-1);
+        String[] quotes = new String[] {"\"", "“", "”", "'"};
+
+        for (String q : quotes)
+        {
+            result = result.replace("\\" + q, q);
+        }
+
+        return result;
     }
 }
