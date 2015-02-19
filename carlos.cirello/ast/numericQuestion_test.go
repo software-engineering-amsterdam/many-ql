@@ -5,7 +5,7 @@ import "testing"
 func TestNumericQuestion(t *testing.T) {
 	input := "42"
 
-	aIntQuestion := new(IntQuestion)
+	aIntQuestion := new(NumericQuestion)
 	aIntQuestion.From(input)
 
 	if got := aIntQuestion.String(); input != got {
