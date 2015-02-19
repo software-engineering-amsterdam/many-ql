@@ -2,7 +2,7 @@ package ast
 
 import "testing"
 
-func TestIntQuestion(t *testing.T) {
+func TestNumericQuestion(t *testing.T) {
 	input := "42"
 
 	aIntQuestion := new(IntQuestion)

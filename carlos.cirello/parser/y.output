@@ -96,7 +96,7 @@ state 12
 	QuotedStringToken  shift 23
 	TextToken  shift 22
 	StringQuestionToken  shift 15
-	IntQuestionToken  shift 16
+	NumericQuestionToken  shift 16
 	BoolQuestionToken  shift 17
 	ComputedQuestionToken  shift 18
 	NumericToken  shift 21
@@ -134,7 +134,7 @@ state 15
 
 
 state 16
-	questionType:  IntQuestionToken.    (8)
+	questionType:  NumericQuestionToken.    (8)
 
 	.  reduce 8 (src line 112)
 

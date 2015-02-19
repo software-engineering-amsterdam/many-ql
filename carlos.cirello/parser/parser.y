@@ -46,7 +46,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token QuotedStringToken
 %token TextToken
 %token StringQuestionToken
-%token IntQuestionToken
+%token NumericQuestionToken
 %token BoolQuestionToken
 %token ComputedQuestionToken
 %token '+' '-' '*' '/' '(' ')'
@@ -109,9 +109,9 @@ questionType:
 	{
 		$$.questionType = new(ast.StringQuestion)
 	}
-	| IntQuestionToken
+	| NumericQuestionToken
 	{
-		$$.questionType = new(ast.IntQuestion)
+		$$.questionType = new(ast.NumericQuestion)
 	}
 	| BoolQuestionToken
 	{
@@ -123,7 +123,7 @@ questionType:
 	}
 	| term
 	{
-		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool' or 'computed'. Found: %s", $1.content))
+		qllex.Error(fmt.Sprintf("Question type must be 'string', 'numeric', 'bool' or 'computed'. Found: %s", $1.content))
 	}
 	;
 

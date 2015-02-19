@@ -3,14 +3,14 @@ form SomeForm {
 	questionOne   string
 
 	"2 - What's the answer to life the universe and everything?"
-	questionTwo   integer
+	questionTwo   numeric
 
 	"3 - Are you happy today?"
 	questionThree bool
 
 	if (questionThree) {
 		"4 - Why are you happy today?" questionFour string
-		"5 - Grade your happiness?"    questionFive integer
+		"5 - Grade your happiness?"    questionFive numeric
 	}
 
 	if (questionTwo > 5) {

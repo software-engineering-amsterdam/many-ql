@@ -20,8 +20,8 @@ const (
 	ElseTokenText = "else"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
-	// IntQuestionTokenText - Reserved Word
-	IntQuestionTokenText = "integer"
+	// NumericQuestionTokenText - Reserved Word
+	NumericQuestionTokenText = "numeric"
 	// BoolQuestionTokenText - Reserved Word
 	BoolQuestionTokenText = "bool"
 	// ComputedQuestionTokenText - Reserved Word
@@ -82,8 +82,8 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = FormToken
 	} else if txt == StringQuestionTokenText {
 		typ = StringQuestionToken
-	} else if txt == IntQuestionTokenText {
-		typ = IntQuestionToken
+	} else if txt == NumericQuestionTokenText {
+		typ = NumericQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
 	} else if txt == ComputedQuestionTokenText {

@@ -43,7 +43,7 @@ const ParenEndToken = 57351
 const QuotedStringToken = 57352
 const TextToken = 57353
 const StringQuestionToken = 57354
-const IntQuestionToken = 57355
+const NumericQuestionToken = 57355
 const BoolQuestionToken = 57356
 const ComputedQuestionToken = 57357
 const LessThanToken = 57358
@@ -70,7 +70,7 @@ var qlToknames = []string{
 	"QuotedStringToken",
 	"TextToken",
 	"StringQuestionToken",
-	"IntQuestionToken",
+	"NumericQuestionToken",
 	"BoolQuestionToken",
 	"ComputedQuestionToken",
 	"'('",
@@ -457,7 +457,7 @@ qldefault:
 	case 8:
 		//line parser.y:113
 		{
-			qlVAL.questionType = new(ast.IntQuestion)
+			qlVAL.questionType = new(ast.NumericQuestion)
 		}
 	case 9:
 		//line parser.y:117
@@ -472,7 +472,7 @@ qldefault:
 	case 11:
 		//line parser.y:125
 		{
-			qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool' or 'computed'. Found: %s", qlS[qlpt-0].content))
+			qllex.Error(fmt.Sprintf("Question type must be 'string', 'numeric', 'bool' or 'computed'. Found: %s", qlS[qlpt-0].content))
 		}
 	case 12:
 		//line parser.y:132
