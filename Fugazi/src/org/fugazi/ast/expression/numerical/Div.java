@@ -10,12 +10,14 @@ import java.util.List;
 
 public class Div extends Numerical {
 
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public Div(Expression _left, Expression _right) {
         super(_left, _right);
-        this.supportedTypes = new ArrayList<Type>();
-        this.supportedTypes.add(new IntType());
+
+        Class intTypeClass = new IntType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(intTypeClass);
     }
 
     @Override
@@ -24,7 +26,7 @@ public class Div extends Numerical {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 

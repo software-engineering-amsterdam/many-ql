@@ -1,6 +1,7 @@
 package org.fugazi.ast.expression.literal;
 
 import org.fugazi.ast.expression.IExpressionVisitor;
+import org.fugazi.ast.type.BoolType;
 import org.fugazi.ast.type.IntType;
 import org.fugazi.ast.type.Type;
 
@@ -10,12 +11,13 @@ import java.util.List;
 public class INT extends Literal {
 
     private final int value;
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public INT(int _value) {
         this.value = _value;
-        this.supportedTypes = new ArrayList<Type>();
-        this.supportedTypes.add(new IntType());
+        Class intTypeClass = new IntType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(intTypeClass);
     }
 
     public int getValue() {
@@ -28,7 +30,7 @@ public class INT extends Literal {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 

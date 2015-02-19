@@ -11,12 +11,13 @@ import java.util.List;
 public class BOOL extends Literal {
 
     private final Boolean value;
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public BOOL(Boolean _value) {
         this.value = _value;
-        this.supportedTypes = new ArrayList<Type>();
-        this.supportedTypes.add(new BoolType());
+        Class boolTypeClass = new BoolType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(boolTypeClass);
     }
 
     public Boolean getValue() {
@@ -29,7 +30,7 @@ public class BOOL extends Literal {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 

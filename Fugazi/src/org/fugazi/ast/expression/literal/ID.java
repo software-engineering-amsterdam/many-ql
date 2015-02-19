@@ -12,12 +12,13 @@ import java.util.List;
 public class ID extends Literal {
 
     private final String name;
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public ID(String _name) {
         this.name = _name;
-        this.supportedTypes = new ArrayList<Type>();
-        this.supportedTypes.add(new StringType());
+        Class stringTypeClass = new StringType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(stringTypeClass);
     }
 
     public String getName() {
@@ -30,7 +31,7 @@ public class ID extends Literal {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 

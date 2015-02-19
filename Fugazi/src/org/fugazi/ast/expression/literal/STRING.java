@@ -2,7 +2,6 @@ package org.fugazi.ast.expression.literal;
 
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.StringType;
-import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +9,13 @@ import java.util.List;
 public class STRING extends Literal {
 
     private final String value;
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public STRING(String _value) {
         this.value = _value;
-        this.supportedTypes = new ArrayList<Type>();
-        this.supportedTypes.add(new StringType());
+        Class stringTypeClass = new StringType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(stringTypeClass);
     }
 
     public String getValue() {
@@ -28,7 +28,7 @@ public class STRING extends Literal {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 

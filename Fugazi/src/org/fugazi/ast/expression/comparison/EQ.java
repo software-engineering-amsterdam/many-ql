@@ -11,13 +11,16 @@ import java.util.List;
 
 public class EQ extends Comparison {
 
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public EQ(Expression _left, Expression _right) {
         super(_left, _right);
-        this.supportedTypes = new ArrayList<Type>();
-        this.supportedTypes.add(new IntType());
-        this.supportedTypes.add(new BoolType());
+
+        Class intTypeClass = new IntType().getClass();
+        Class boolTypeClass = new BoolType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(intTypeClass);
+        this.supportedTypes.add(boolTypeClass);
     }
 
     @Override
@@ -26,7 +29,7 @@ public class EQ extends Comparison {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 

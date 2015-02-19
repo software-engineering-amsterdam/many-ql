@@ -10,12 +10,14 @@ import java.util.List;
 
 public class Not extends Unary {
 
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public Not(Expression _expr) {
         super(_expr);
-        this.supportedTypes = new ArrayList<Type>();
-        this.supportedTypes.add(new BoolType());
+
+        Class boolTypeClass = new BoolType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(boolTypeClass);
     }
 
     @Override
@@ -24,7 +26,7 @@ public class Not extends Unary {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 

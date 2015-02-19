@@ -1,11 +1,16 @@
 import org.fugazi.ast.ASTBuilder;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.form.Form;
+import org.fugazi.ast.type.BoolType;
+import org.fugazi.ast.type.IntType;
+import org.fugazi.ast.type.StringType;
 import org.fugazi.type_checker.ASTNodeError;
 import org.fugazi.type_checker.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -38,8 +43,9 @@ public class Main {
             System.out.print("Yes, so I ran.");
         }
 
+
         // TODO: evaluation.
-        
+
         // TODO: Render GUI.
     }
 }

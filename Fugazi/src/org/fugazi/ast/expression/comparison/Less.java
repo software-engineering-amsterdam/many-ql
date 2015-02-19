@@ -11,12 +11,13 @@ import java.util.List;
 
 public class Less extends Comparison {
 
-    private final List<Type> supportedTypes;
+    private final List<Class> supportedTypes;
 
     public Less(Expression _left, Expression _right) {
         super(_left, _right);
-        supportedTypes = new ArrayList<Type>();
-        supportedTypes.add(new IntType());
+        Class intTypeClass = new IntType().getClass();
+        this.supportedTypes = new ArrayList<Class>();
+        this.supportedTypes.add(intTypeClass);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class Less extends Comparison {
     }
 
     @Override
-    public List<Type> getSupportedTypes() {
+    public List<Class> getSupportedTypes() {
         return this.supportedTypes;
     }
 
