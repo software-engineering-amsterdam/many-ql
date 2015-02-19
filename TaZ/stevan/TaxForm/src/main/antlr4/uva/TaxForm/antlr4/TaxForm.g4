@@ -22,7 +22,7 @@ MINUS		: '-' ;
 ADD			: '+' ;
 MULTIPLY	: '*' ;
 DIVIDE		: '/' ;
-
+/*
 TRUE		: 'TRUE'  | 'true'  | 'YES' | 'yes' ;
 FALSE		: 'FALSE' | 'false' | 'NO'  | 'no' ;
 
@@ -30,6 +30,9 @@ BOOLEAN
 	: TRUE
 	| FALSE
 	;
+ */
+ 
+BOOLEAN		: 'boolean' ;
 STRING		: '"' ( '\\"' | '\\\\' | ~["\\] )* '"' ;
 INT			: DIGIT+ ;
 //DATE		:  ;
@@ -37,6 +40,7 @@ FLOAT
 	: DIGIT+ [.,] DIGIT*
 	| DIGIT* [.,] DIGIT+
 	;
+MONEY		: 'money' ;
 
 ID	: [a-z] [a-zA-Z0-9]* ;
 	
@@ -58,17 +62,17 @@ form : 'form' varName '{' ( question | condition )+ '}' ;
  * First, each question is identified by a name that at the same time represents the result 
  * of the question. In other words the name of the question is also the variable that holds 
  * the answer.
- */
-/*
+ * 
  * Second, a question has a label that contains the actual question text presented to the user.
- */
-/*
- * Third, every question has a type. Finally, a question can optionally be associated
- * to an expression: this makes the question computed.
+ * 
+ * Third, every question has a type.
+ * 
+ * Finally, a question can optionally be associated to an expression: this makes the question 
+ * computed.
  */
 label : STRING (DIGIT+)? ('?'|':')? ;
 varName : ID ;
-varType : ID ;
+varType : ( BOOLEAN | MONEY | INT | STRING ) ;
 
 question : label varName ':' ( varType | computed ) ;
 
@@ -86,7 +90,12 @@ computed : varType ( ASSIGN '(' expression ')' ) ;
  * questions at once.
  */
 condition 
-	: 'if' '(' expression ')' '{' ( question | condition )+ '}'	#ifCondition
+	: 'if' '(' expression ')' '{' ( question | condition )+ '}'	
+		(
+			('else' '{' ( question | condition )+ '}')
+			|
+			('else' condition)+
+		)? #ifCondition
 	;
 
 /*
