@@ -1,105 +1,359 @@
 import ASTNodes
-from enum import Enum
+import OperatorTypes
+import CustomTypes
+from ASTVisitor import ASTVisitor
 
 def check(ast):
-    return dispatchCheck(TypeCheckResult(), ast.root)
+    return TypeChecker().check(ast) 
 
-# Dynamic dispatch like thing in python
-def dispatchCheck(result, node):
-    c = node.__class__.__name__
-    procedure = 'check' + c
-    if procedure not in globals():
-        return result.addMessage(TypeCheckErrorMessage(
-            'cannot check '+c+': procedure '+procedure\
-           +' does not exist in type checker'
+# The actual typechecking happens in a class method
+# because we want some internal state so we don't have to
+# change argument signatures in our methods every time
+# we add something to the type checker.
+class TypeChecker:
+    def check(self, ast):
+        self._ast = ast
+
+        return TypeCheckResult.merge([
+            self._checkStatementNesting(),
+            self._checkQuestionRedefinitions(),
+            self._checkCyclicQuestionDependencies(),
+            self._checkTypesOfExpressions(),
+            self._checkDuplicateQuestionLabels()
+        ])
+
+    def _checkStatementNesting(self):
+        visitor = StatementNestingVisitor()
+        return visitor.visit(self._ast.root)
+
+    def _checkQuestionRedefinitions(self):
+        # TODO
+        return TypeCheckResult()
+
+    def _checkCyclicQuestionDependencies(self):
+        visitor = CyclicQuestionDependenciesVisitor(self._ast.root)
+        return visitor.visit(self._ast.root)
+
+    # Includes checking for undefined identifiers
+    def _checkTypesOfExpressions(self):
+        visitor = TypesOfExpressionsVisitor(self._ast.root)
+        return visitor.visit(self._ast.root)
+
+    def _checkDuplicateQuestionLabels(self):
+        visitor = DuplicateQuestionLabelsVisitor()
+        return visitor.visit(self._ast.root)
+
+
+class TypeCheckingVisitor(ASTVisitor):
+    def __init__(self):
+        # You can add any type check result
+        # to this variable here. It is returned
+        # by _visitRoot by default. 
+        # To save you from typing of some 'return's
+        self._result = TypeCheckResult()
+
+    def _visitRoot(self, node):
+        super()._visitRoot(node)
+        return self._result
+
+class StatementNestingVisitor(TypeCheckingVisitor):
+    def _visitRoot(self, node):
+        for n in node.getChildren():
+            self._allowStatement(
+                [ASTNodes.FormStatement],
+                n
+            )
+        return super()._visitRoot(node)
+
+    def _visitFormStatement(self, node):
+        for n in node.getChildren():
+            self._allowStatement(
+                [ASTNodes.IfStatement,
+                 ASTNodes.QuestionStatement],
+                n
+            )
+        super()._visitFormStatement(node)
+
+    def _visitIfStatement(self, node):
+        for n in node.getChildren():
+            self._allowStatement(
+                [ASTNodes.IfStatement,
+                 ASTNodes.QuestionStatement],
+                n
+            )
+        super()._visitIfStatement(node)
+
+    def _allowStatement(self, allowedTypes, node):
+        isAllowed = any(map(
+            lambda a: isinstance(node, a),
+            allowedTypes
         ))
-    else:
-        return globals()[procedure](result, node)
+        if not isAllowed:
+            self._result = self._result.withMessage(
+                TypeCheckErrorMessage(
+                    'got a statement of type '\
+                   +node.__class__.__name__\
+                   +' but only these statement types are allowed '\
+                   +'here: '+str([a.__name__ for a in allowedTypes]),
+                   node
+               )
+            )
 
-def checkRootNode(result, node):
-    for s in node.statements:
-        result = dispatchCheck(result, s)
-        result = allowStatement(
-            result,
-            [ASTNodes.FormStatementNode],
-            s
-        )
-    return result
+class TypesOfExpressionsVisitor(TypeCheckingVisitor):
+    def __init__(self, astRoot):
+        super().__init__()
+        self._astRoot = astRoot
+        self._operatorTable = OperatorTypes.Table()
 
-def checkFormStatementNode(result, node):
-    return formIfCommonCheck(result, node)
+        # The type of the last WELL-TYPED expression.
+        # i.e. if the last checked expression was for some reason
+        # invalid then this variable remains what it was before
+        # that check happened.
+        # So don't rely on this after you encounter an error
+        # in a sub expression.
+        self._lastExprType = None
 
-def checkIfStatementNode(result, node):
-    errorsBefore = len(result.errors)
-    result = dispatchCheck(result, node.expr)
-    errorsAfter = len(result.errors)
+    def _visitIfStatement(self, node):
+        errorsBefore = len(self._result.errors)
+        self.visit(node.expr)
+        errorsAfter = len(self._result.errors)
 
-    # No errors while type checking expression.
-    # So expression has some type. Now we take it into
-    # consideration. Why not do the same for statements?
-    # Because statements are potentially huge and we like
-    # to inform the user of any errors even if the statement
-    # is nested wrongly. Expressions are not really like that.
-    if(errorsBefore == errorsAfter):
-        result = allowExpression(
-            result,
-            [ExpressionType.BOOLEAN],
-            node.expr
-        )
+        if errorsBefore == errorsAfter:
+            self._allowExpression(
+                [bool],
+                self._lastExprType,
+                node.expr
+            )
 
-    return formIfCommonCheck(result, node)
+        for n in node.getChildren():
+            self.visit(n)
 
-def checkQuestionStatementNode(result, node):
-    return result
+    def _visitQuestionStatement(self, node):
+        if node.expr is not None:
+            errorsBefore = len(self._result.errors)
+            self.visit(node.expr)
+            errorsAfter = len(self._result.errors)
 
-def formIfCommonCheck(result, node):
-    for s in node.statements:
-        result = dispatchCheck(result, s)
-        result = allowStatement(
-            result,
-            [ASTNodes.IfStatementNode,
-             ASTNodes.QuestionStatementNode],
-            s
-        )
-    return result
+            if errorsBefore == errorsAfter:
+                self._allowExpression(
+                    [self._typeOfIdentifier(node.identifier, node)],
+                    self._lastExprType,
+                    node.expr
+                ) 
 
-def allowStatement(result, allowed, statement):
-    isAllowed = any(map(
-        lambda a: isinstance(statement, a),
-        allowed
-    ))
-    if not isAllowed:
-        return result.addMessage(TypeCheckErrorMessage(
-            'got a statement of type '+statement.__class__.__name__\
-           +' but only these statement types are allowed here: '\
-           +str(map(lambda a: a.__name__, allowed)),
-           lineNumber(statement)
-        ))
-    else:
-        return result
+        for n in node.getChildren():
+            self.visit(n)
 
-def allowExpression(result, allowed, expr):
-    exprType = expressionType(expr)
-    if exprType not in allowed:
-        return result.addMessage(TypeCheckErrorMessage(
-            'got an expression of type '+exprType\
-           +' but only these expression types are allowed here: '\
-           +str(allowed)
-        ))
-    else:
-        return result
+    def _visitAtomicExpression(self, node):
+        if isinstance(node.left, CustomTypes.Identifier):
+            identType = self._typeOfIdentifier(
+                node.left,
+                self._astRoot
+            )
+            if identType is None:
+                self._result = self._result.withMessage(
+                    TypeCheckErrorMessage(
+                        'undefined identifier '+node.left,
+                        node
+                    )
+                )
+            else:
+                self._lastExprType = identType
+        else:
+            self._lastExprType = type(node.left)
 
-def lineNumber(entity):
-    if hasattr(entity, 'lineNumber'):
-        return entity.lineNumber
-    else:
+    def _visitUnaryExpression(self, node):
+        errorsBefore = len(self._result.errors)
+        self.visit(node.right)
+        errorsAfter = len(self._result.errors)
+
+        if errorsBefore != errorsAfter:
+            return
+
+        opType = \
+            self._operatorTable.unaryOperationType(
+                node.op,
+                self._lastExprType
+            )
+
+        if opType is None:
+            self._result = self._result.withMessage(
+                TypeCheckErrorMessage(
+                    'invalid operands to unary operator `'+node.op\
+                   +'`: '+str(node.right),
+                   node
+                )
+            )
+        else:
+            self._lastExprType = opType
+
+    def _visitBinaryExpression(self, node):
+        errorsBefore = len(self._result.errors)
+        self.visit(node.left)
+        errorsAfter = len(self._result.errors)
+
+        if errorsBefore != errorsAfter:
+            return
+
+        leftType = self._lastExprType
+
+        errorsBefore = errorsAfter
+        self.visit(node.right)
+        errorsAfter = len(self._result.errors)
+
+        if errorsBefore != errorsAfter:
+            return
+
+        rightType = self._lastExprType
+
+        opType = \
+            self._operatorTable.binaryOperationType(
+                node.op,
+                leftType,
+                rightType
+            )
+
+        if opType is None: 
+            self._result = self._result.withMessage(
+                TypeCheckErrorMessage(
+                    'invalid operands to binary operator `'+node.op\
+                   +'`: ('+str(node.left)+','+str(node.right)+')',
+                    node
+                )
+            )
+        else:
+            self._lastExprType = opType
+
+
+    def _allowExpression(self, allowedTypes, exprType, node):
+        if exprType not in allowedTypes:
+            self._result = self._result.withMessage(
+                TypeCheckErrorMessage(
+                    'got an expression of type `'+str(exprType)\
+                   +'` but only these expression types are allowed '\
+                   +'here: '+str(allowedTypes),
+                   node
+                )
+            )
+
+    def _typeOfIdentifier(self, identifier, node):
+        if isinstance(node, ASTNodes.QuestionStatement) and\
+            node.identifier == identifier:
+            return {
+                'boolean' : bool,
+                'string' : str,
+                'integer' : int,
+                'money' : CustomTypes.Money
+            }[node.type]
+
+        for n in node.getChildren():
+            ident = self._typeOfIdentifier(identifier, n)
+            if ident is not None:
+                return ident
+
         return None
 
+class DuplicateQuestionLabelsVisitor(TypeCheckingVisitor):
+    def __init__(self):
+        super().__init__()
+        self._labels = {}
+
+    def _visitRoot(self, node):
+        super()._visitRoot(node)
+
+        for text, lines in self._labels.items():
+            if len(lines) > 1:
+                for l in lines:
+                    self._result = self._result.withMessage(
+                        TypeCheckWarningMessage(
+                            'duplicate question label `'+text+'`',
+                            l
+                        )
+                    )
+
+        return self._result
+
+
+    def _visitQuestionStatement(self, node):
+        if node.text not in self._labels:
+            self._labels[node.text] = []
+        self._labels[node.text].append(node.lineNumber)
+
+class CyclicQuestionDependenciesVisitor(TypeCheckingVisitor):
+    def __init__(self, astRoot):
+        super().__init__()
+        self._astRoot = astRoot
+
+    def _visitQuestionStatement(self, node):
+        paths = self._dependencyPaths([], node)
+        for p in paths:
+            if p[-1] in p[:-1]:
+                self._result = self._result.withMessage(
+                    TypeCheckErrorMessage(
+                        'there is a question dependency cycle: '\
+                       +' <- '.join([q.identifier for q in p])\
+                       +'. It means the calculation of the answer '\
+                       +'requires its own result as input. This is '\
+                       +'incalculable. Please double check the '\
+                       +'expressions of the questions.',
+                        node.expr
+                    )
+                )
+
+    def _dependencyPaths(self, path, node):
+        dupe = node in path
+
+        path.append(node)
+
+        if node.expr is None or dupe:
+            return [path]
+
+        paths = []
+
+        identifiers = self._extractIdentifiers(node.expr)
+        for i in identifiers:
+            question = self._questionIdentifiedBy(i, self._astRoot)
+            if question is not None:
+                paths.extend(self._dependencyPaths(path, question))
+
+        return paths
+
+    def _extractIdentifiers(self, node):
+        visitor = ExtractIdentifiersVisitor()
+        visitor.visit(node)
+        return visitor.identifiers
+
+    def _questionIdentifiedBy(self, identifier, node):
+        if isinstance(node, ASTNodes.QuestionStatement) and \
+            node.identifier == identifier:
+            return node
+
+        for n in node.getChildren():
+            question = self._questionIdentifiedBy(identifier, n)
+            if question is not None:
+                return question
+
+        return None
+
+class ExtractIdentifiersVisitor(ASTVisitor):
+    def __init__(self):
+        self.__identifiers = []
+
+    @property
+    def identifiers(self):
+        return self.__identifiers
+
+    def _visitAtomicExpression(self, node):
+        if isinstance(node.left, CustomTypes.Identifier):
+            self.__identifiers.append(node.left) 
 
 class TypeCheckMessage:
-    def __init__(self, message, line = None):
+    def __init__(self, message, nodeOrLine = None):
         self.__message = message
-        self.__line = line
+        if isinstance(nodeOrLine, ASTNodes.Node):
+            self.__line = getattr(nodeOrLine, 'lineNumber', None)
+        else:
+            self.__line = nodeOrLine
 
     @property
     def message(self):
@@ -115,6 +369,9 @@ class TypeCheckMessage:
         else:
             return 'line '+str(self.line)+': '+self.message
 
+class TypeCheckWarningMessage(TypeCheckMessage):
+    def __str__(self):
+        return '[WARNING] '+super().__str__()
 
 class TypeCheckErrorMessage(TypeCheckMessage):
     def __str__(self):
@@ -131,21 +388,21 @@ class TypeCheckResult:
 
     @property
     def errors(self):
-        return filter(
-            lambda m: isinstance(m, TypeCheckErrorMessage),
-            self.messages
-        )
+        return [
+            m for m in self.messages
+            if isinstance(m, TypeCheckErrorMessage)
+        ]
 
-    def addMessage(self, message):
+    def withMessage(self, message):
         return TypeCheckResult(self.__messages + [message])
+
+    @staticmethod
+    def merge(typeCheckResults):
+        result = TypeCheckResult()
+        for r in typeCheckResults:
+            result = TypeCheckResult(result.messages + r.messages)
+        return result
 
     @property
     def success(self):
         return (self.errors) == 0
-
-
-class ExpressionType(Enum):
-    BOOLEAN = 1
-    INTEGER = 2
-    MONEY = 3
-    STRING = 4

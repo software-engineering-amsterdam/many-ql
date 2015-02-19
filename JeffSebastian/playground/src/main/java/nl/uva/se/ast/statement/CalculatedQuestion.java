@@ -2,6 +2,7 @@ package nl.uva.se.ast.statement;
 
 import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.constant.Type;
+import nl.uva.se.visitor.Visitor;
 
 public class CalculatedQuestion extends Question {
 
@@ -17,4 +18,10 @@ public class CalculatedQuestion extends Question {
 		return expression;
 	}
 
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+		expression.accept(visitor);
+	}
+	
 }

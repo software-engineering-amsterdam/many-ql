@@ -36,12 +36,6 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfCondition(@NotNull QLParser.IfConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#expressionList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionList(@NotNull QLParser.ExpressionListContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

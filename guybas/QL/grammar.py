@@ -62,10 +62,10 @@ class Expressions:
     operatorName    = 'operator'
 
     expr            = Forward()
-    atom            = value | Group(Suppress("(") + expr + Suppress(")"))
-    expr            << atom + ZeroOrMore(operator + expr)
+    atom            = Group(Suppress("(") + expr + Suppress(")")) | value
+    expr            << atom + ZeroOrMore((operator | compare)+ expr)
     
-    condition       = Group(expr + compare + expr)
+    condition       = Group(expr)
 
 
 class FormFormat:
@@ -100,7 +100,7 @@ class FormFormat:
                        
     pIfElse         = ((Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
                        OneOrMore(aQuestions) + Suppress("}")) + Literal("else") + Suppress("{") + aQuestions + Suppress("}")
-    ).setResultsName("IFELSE")
+                       ).setResultsName("IFELSE")
     
     aQuestions      <<= OneOrMore((pIfElse.setParseAction(ASTReady.make_else))
                                   | pIf.setParseAction(ASTReady.make_if)

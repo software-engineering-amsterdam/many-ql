@@ -2,41 +2,45 @@ package interpreter
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 
-func (exec Execute) EqualsNode(s *ast.EqualsNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm)
-	right := exec.resolveMathNode(s.RightTerm)
+// EqualsNode is the visitor for Equals comparison operation
+func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
+	lt, ltOk := n.LeftTerm().(*ast.TermNode)
+	rt, rtOk := n.RightTerm().(*ast.TermNode)
+	if ltOk && rtOk {
+		vl := exec.resolveTermNode(lt)
+		vr := exec.resolveTermNode(rt)
+		return vl == vr
+	}
 
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left == right
 }
 
-func (exec Execute) MoreThanNode(s *ast.MoreThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+// MoreThanNode is the visitor for More Than comparison operation
+func (exec Execute) MoreThanNode(n *ast.MoreThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left > right
 }
 
-func (exec Execute) LessThanNode(s *ast.LessThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+// LessThanNode is the visitor for Less Than comparison operation
+func (exec Execute) LessThanNode(n *ast.LessThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left < right
 }
 
-func (exec Execute) MoreOrEqualsThanNode(s *ast.MoreOrEqualsThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+// MoreOrEqualsThanNode is the visitor for More Or Equals Than comparison operation
+func (exec Execute) MoreOrEqualsThanNode(n *ast.MoreOrEqualsThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left >= right
 }
 
-func (exec Execute) LessOrEqualsThanNode(s *ast.LessOrEqualsThanNode) bool {
-	left := exec.resolveMathNode(s.LeftTerm.(*ast.TermNode))
-	right := exec.resolveMathNode(s.RightTerm.(*ast.TermNode))
-
+// LessOrEqualsThanNode is the visitor for Less Or Equals Than comparison operation
+func (exec Execute) LessOrEqualsThanNode(n *ast.LessOrEqualsThanNode) bool {
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
 	return left <= right
 }
 
+// TermNode is the visitor for Term comparison operation
 func (exec Execute) TermNode(s *ast.TermNode) bool {
 	value := exec.resolveTermNode(s)
 

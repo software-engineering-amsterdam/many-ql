@@ -2,9 +2,9 @@ package uva.sc.logic;
 
 import java.util.List;
 
-public class If_Statement implements IStatement{
+public class If_Statement extends Statement {
 	
-	IExpression expr;
+	Expression expr;
 	List<Question> questions;
 
 }

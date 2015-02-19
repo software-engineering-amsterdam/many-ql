@@ -52,4 +52,8 @@ talk:
 	sleep 2
 	open 'http://127.0.0.1:3999/doc/carlos.cirello.ql.qls.slide'
 
+lint:
+	clear
+	golint ./... | head -n 20
+
 .FORCE:

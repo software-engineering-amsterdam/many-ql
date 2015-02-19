@@ -1,6 +1,6 @@
 package lang.ql.ast.statement;
 
-import lang.ql.ast.expression.Expression;
+import lang.ql.ast.expression.Expr;
 import lang.ql.semantics.Visitor;
 
 /**
@@ -8,17 +8,17 @@ import lang.ql.semantics.Visitor;
  */
 public class CalculatedQuestion extends Question
 {
-    private Expression expression;
+    private Expr expr;
 
-    public CalculatedQuestion(String id, QuestionType questionType, String text, Expression expression)
+    public CalculatedQuestion(String id, QuestionType questionType, String text, Expr expr)
     {
         super(id, questionType, text);
-        this.expression = expression;
+        this.expr = expr;
     }
 
-    public Expression getExpression()
+    public Expr getExpr()
     {
-        return this.expression;
+        return this.expr;
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }
