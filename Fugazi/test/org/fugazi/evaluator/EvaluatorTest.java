@@ -8,6 +8,7 @@ import org.fugazi.ast.expression.numerical.*;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.ast.type.IntType;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -170,7 +171,7 @@ public class EvaluatorTest {
      */
     @Test
     public void testIDExpression() throws Exception {
-        ID id = new ID(testString1);
+        ID id = new ID(testString1, new IntType());
         evaluator.saveValue(testString1, new IntValue(5));
         ExpressionValue value = evaluator.evaluateExpression(id);
         assertEquals(value.getValue(), 5);

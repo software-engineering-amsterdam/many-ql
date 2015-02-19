@@ -12,10 +12,12 @@ import java.util.List;
 public class ID extends Literal {
 
     private final String name;
+    private final Type type;
     private final List<Class> supportedTypes;
 
-    public ID(String _name) {
+    public ID(String _name, Type _type) {
         this.name = _name;
+        this.type = _type;
         Class stringTypeClass = new StringType().getClass();
         Class intTypeClass = new IntType().getClass();
         Class boolTypeClass = new BoolType().getClass();
@@ -27,6 +29,10 @@ public class ID extends Literal {
 
     public String getName() {
         return this.name;
+    }
+
+    public Type getType() {
+        return this.type;
     }
 
     @Override

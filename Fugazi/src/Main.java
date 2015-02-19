@@ -4,6 +4,7 @@ import org.fugazi.ast.form.Form;
 import org.fugazi.ast.type.BoolType;
 import org.fugazi.ast.type.IntType;
 import org.fugazi.ast.type.StringType;
+import org.fugazi.evaluator.Evaluator;
 import org.fugazi.type_checker.ASTNodeError;
 import org.fugazi.type_checker.TypeChecker;
 
@@ -38,12 +39,11 @@ public class Main {
         if (!isFormTypeCorrect) {
             System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
             typeChecker.displayFormWarningsAndErrors();
-            return;
         } else {
             System.out.print("Yes, so I ran.");
         }
 
-        // TODO: evaluation.
+        Evaluator evaluator = new Evaluator();
 
         // TODO: Render GUI.
     }
