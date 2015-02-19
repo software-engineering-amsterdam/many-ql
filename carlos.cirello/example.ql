@@ -72,4 +72,8 @@ form SomeForm {
 	if (questionOne == "surak" and questionTwo == 42){
 		"22 - AND field" questionEighteen computed = questionTwo * 2
 	}
+
+	if (questionOne != "surak" and questionTwo == 42){
+		"22 - AND field - not surak" questionNineteen computed = questionTwo * 2
+	}
 }

@@ -41,6 +41,8 @@ const (
 	MoreOrEqualsThanTokenText = `>=`
 	// EqualsToTokenText - Reserved Symbols
 	EqualsToTokenText = `==`
+	// NotEqualsToTokenText - Reserved Symbols
+	NotEqualsToTokenText = `!=`
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
@@ -108,6 +110,10 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		x.scanner.Scan()
 		typ = EqualsToToken
 		txt = EqualsToTokenText
+	} else if (txt + nextRune) == NotEqualsToTokenText {
+		x.scanner.Scan()
+		typ = NotEqualsToToken
+		txt = NotEqualsToTokenText
 	} else if txt == MoreThanTokenText {
 		typ = MoreThanToken
 	} else if txt == LessThanTokenText {

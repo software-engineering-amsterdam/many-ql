@@ -94,6 +94,10 @@ func (exec *Execute) resolveComparisonNode(n interface{}) bool {
 		if !exec.TermNode(n.(*ast.TermNode)) {
 			conditionState = false
 		}
+	case *ast.NotEqualsNode:
+		if !exec.NotEqualsNode(n.(*ast.NotEqualsNode)) {
+			conditionState = false
+		}
 	case *ast.EqualsNode:
 		if !exec.EqualsNode(n.(*ast.EqualsNode)) {
 			conditionState = false

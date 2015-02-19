@@ -16,6 +16,20 @@ func (exec Execute) EqualsNode(n *ast.EqualsNode) bool {
 	return left == right
 }
 
+// NotEqualsNode is the visitor for not equals comparison operation
+func (exec Execute) NotEqualsNode(n *ast.NotEqualsNode) bool {
+	lt, ltOk := n.LeftTerm().(*ast.TermNode)
+	rt, rtOk := n.RightTerm().(*ast.TermNode)
+	if ltOk && rtOk {
+		vl := exec.resolveTermNode(lt)
+		vr := exec.resolveTermNode(rt)
+		return vl != vr
+	}
+
+	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)
+	return left != right
+}
+
 // MoreThanNode is the visitor for More Than comparison operation
 func (exec Execute) MoreThanNode(n *ast.MoreThanNode) bool {
 	left, right := exec.resolveBothMathNodes(n.DoubleTermNode)

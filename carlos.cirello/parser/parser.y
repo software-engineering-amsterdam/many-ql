@@ -55,6 +55,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token MoreThanToken
 %token MoreOrEqualsThanToken
 %token EqualsToToken
+%token NotEqualsToToken
 %token NumericToken
 %token ElseToken
 %token BoolAndToken
@@ -181,6 +182,10 @@ evaluatable:
 	term EqualsToToken term
 	{
 		$$.evaluatable = ast.NewEqualsNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| term NotEqualsToToken term
+	{
+		$$.evaluatable = ast.NewNotEqualsNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term MoreThanToken term
 	{

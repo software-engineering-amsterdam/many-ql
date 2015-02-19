@@ -50,6 +50,22 @@ func NewEqualsNode(leftTerm, rightTerm Evaluatable,
 
 //----
 
+// NotEqualsNode is the AST node for equality (==) comparison
+type NotEqualsNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewNotEqualsNode factory for NotEqualsNode AST node
+func NewNotEqualsNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *NotEqualsNode {
+	notEqualsNode := new(NotEqualsNode)
+	notEqualsNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
+	return notEqualsNode
+}
+
+//----
+
 // LessThanNode is the AST node for Less Than (<) comparison
 type LessThanNode struct {
 	DoubleTermNode
