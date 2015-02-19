@@ -59,6 +59,9 @@ class IfBlock(IStatement):
     def get_e_statements(self):
         return []
 
+    def set_parent_id(self, pid):
+        self.parent_id = pid
+
 
 class IfElseBlock(IfBlock):
 

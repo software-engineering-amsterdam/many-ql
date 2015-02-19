@@ -58,7 +58,7 @@ class FormFactory:
         questions = []
         m = Converters.get_md5(str(tokens))
         for i in range(1, len(tokens)):
-            #tokens[i].set_parent_id(m)
+            tokens[i].set_parent_id(m)
             questions.append(tokens[i])
         return IfBlock(condition, questions)
 
@@ -72,12 +72,12 @@ class FormFactory:
             if tokens[i] == "else":
                 break
             else:
-                #tokens[i].set_parent_id(m)
+                tokens[i].set_parent_id(m)
                 questions.append(tokens[i])
                 k += 1
         else_questions = []
         for i in range(k + 1, len(tokens)):
-            #tokens[i].set_parent_id(m)
+            tokens[i].set_parent_id(m)
             else_questions.append(tokens[i])
         x = IfElseBlock(condition, questions, else_questions)
         return x

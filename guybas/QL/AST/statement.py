@@ -26,3 +26,6 @@ class IStatement:
     # return all the dependencies in the statement of other statements
     def dependency_collection(self, dependencies):
         pass
+
+    def set_parent_id(self, pid):
+        pass
