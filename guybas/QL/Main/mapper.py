@@ -1,5 +1,5 @@
-from type_checker import *
-from exceptions import *
+from Main.type_checker import *
+from Main.exceptions import *
 
 
 class Mapper:

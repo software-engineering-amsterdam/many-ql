@@ -1,7 +1,5 @@
 # Grammar
 from pyparsing import Word, oneOf, OneOrMore, ZeroOrMore, Forward, Group, Literal, nums, restOfLine, Optional, delimitedList
-from ast import *
-from exceptions import *
 
 # Normal sentence grammar
 endSignEsc      = Word('?', exact = 3) | Word ('.', exact = 3) | Word('!', exact = 3)

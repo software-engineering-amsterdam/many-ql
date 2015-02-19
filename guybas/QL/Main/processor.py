@@ -1,7 +1,4 @@
-from pyparsing import *
-import collections
-from type_checker import *
-from mapper import *
+from Main.mapper import *
 
 
 class Processor:

@@ -1,13 +1,13 @@
 from tkinter import *
-from processor import *
-from grammar import *
-from mapper import *
+
+from Main.processor import *
+from Main.mapper import *
 
 
 class QuestionnaireGUI:
     def __init__(self, form):
         self.qGui        = Tk()
-        self.questions   = form.get_questions()
+        self.questions   = form.get_statements()
         self.title       = form.get_name()
         self.intro       = form.get_introduction()
         self.column_span = 1
@@ -37,13 +37,13 @@ class QuestionnaireGUI:
         Label(text=question.get_label(), height=2).grid(row=self.row_counter, column=0, sticky=W) #fg='#00FFFF', bg='#000000',
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
         # print the input box
-        if question.get_type() is QuestionTypes.booleanName:
+        if question.get_type() is QuestionTypes.bool_name:
             Radiobutton(text="True", value=1, variable=self.row_counter).grid(row=self.row_counter, column=1, sticky=W)
             Radiobutton(text="False", value=0, variable=self.row_counter).grid(row=self.row_counter, column=2, sticky=W)
             self.column_span = 2
-        elif question.get_type() is QuestionTypes.numberName:
+        elif question.get_type() is QuestionTypes.number_name:
             Spinbox(from_=0, to_=10000).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
-        elif question.get_type() is QuestionTypes.textName:
+        elif question.get_type() is QuestionTypes.text_name:
             e = Entry(textvariable=str_var)
             e.bind("<KeyPress><KeyRelease>", lambda event: self.update(question, e.get()))
 
@@ -60,10 +60,10 @@ class QuestionnaireGUI:
         condition = processor.conditions_proc(c_question.get_condition(), self.answersMap)
         # check if condition holds
         if condition:
-            # print condition's - depended questions
-            self.draw_questions(c_question.get_c_questions())
+            # print condition's - depended statements
+            self.draw_questions(c_question.get_c_statements())
         else:
-            self.draw_questions(c_question.get_e_questions())
+            self.draw_questions(c_question.get_e_statements())
 
     def show(self):
         self.qGui.mainloop()

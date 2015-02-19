@@ -1,6 +1,6 @@
-from grammar import *
-from factory import *
 import unittest
+
+from AST.factory import *
 
 
 class TestGrammar(unittest.TestCase):
@@ -115,12 +115,12 @@ class TestAST(unittest.TestCase):
         self.assertIsInstance(result[0], AdvancedQuestions)
 
     def test_else_questions(self):
-        result = (FormFormat.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? } else { Question iselse (bool) : Is this an else questions? }")).asList()
+        result = (FormFormat.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? } else { Question iselse (bool) : Is this an else statements? }")).asList()
         self.assertIsInstance(result[0], AdvancedQuestions)
 
     def test_form(self):
         form_as_parse_results = FormFormat.form.ignore(BasicTypes.comment).parseFile("test_example.ql")
-        result = ASTReady.make_form(form_as_parse_results)
+        result = Factory.make_form(form_as_parse_results)
         self.assertIsInstance(result, Form)
 
         self.assertEqual(result.introduction,"Welcome to my questionnaire .")

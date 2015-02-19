@@ -1,15 +1,27 @@
 # Type Checker
 import collections
-from grammar import *
+
+from Grammar.expressions import *
+from Main.exceptions import *
+
 
 class TypeChecker:
 
     def __init__(self, form):
         self.form = form
-        ids = TypeChecker.check_ids(self.form.questions)
-        labels = TypeChecker.check_labels(self.form.questions)
-        dependencies = TypeChecker.check_dependencies(self.form.questions)
+        ids = TypeChecker.check_ids(self.form.statements)
+        labels = TypeChecker.check_labels(self.form.statements)
+        dependencies = TypeChecker.check_dependencies(self.form.statements)
         transitive_dependencies = TypeChecker.transitive_dependencies(dependencies)
+
+        print("ids:")
+        print(ids)
+
+        print("labels:")
+        print(labels)
+
+        print("transitive dependencies:")
+        print(transitive_dependencies)
 
     @staticmethod
     def check_duplicates(list):
@@ -21,7 +33,7 @@ class TypeChecker:
     def check_ids(questions):
         ids = []
         for question in questions:
-            ids += (question.all_ids())
+            ids += (question.id_collection())
         duplicates =  TypeChecker.check_duplicates(ids)
         if duplicates:
             print("There are duplicate ids: " + str(duplicates))
@@ -31,17 +43,17 @@ class TypeChecker:
     def check_labels(questions):
         labels = []
         for question in questions:
-            labels += question.all_labels()
+            labels += question.label_collection()
         duplicates = TypeChecker.check_duplicates(labels)
         if duplicates:
             print("There are duplicate labels: " + str(duplicates))
         return labels
 
     @staticmethod
-    def check_dependencies(questions):
+    def check_dependencies(statements):
         dependencies = {}
-        for question in questions:
-            new_dependencies = question.all_dependencies({})
+        for x in statements:
+            new_dependencies = x.dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         return dependencies
 
@@ -69,11 +81,11 @@ class TypeChecker:
         :return: True|False|str
         """
         if isinstance(cinput, str):
-            type_class = QuestionTypes.textName
+            type_class = QuestionTypes.text_name
         elif isinstance(cinput, (int, float, complex)):  # in python 3 int = long
-            type_class = QuestionTypes.numberName
+            type_class = QuestionTypes.number_name
         elif isinstance(cinput, bool):
-            type_class = QuestionTypes.booleanName
+            type_class = QuestionTypes.bool_name
         elif isinstance(cinput, list):
             type_class = QuestionTypes.listName
         elif isinstance(cinput, Operator):
