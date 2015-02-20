@@ -93,35 +93,35 @@ state 11
 state 12
 	question:  QuotedStringToken TextToken.questionType 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
+	QuotedStringToken  shift 24
+	TextToken  shift 23
 	StringQuestionToken  shift 15
 	NumericQuestionToken  shift 16
 	BoolQuestionToken  shift 17
 	ComputedQuestionToken  shift 18
-	'('  shift 24
-	NumericToken  shift 21
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	questionType  goto 14
 	term  goto 19
-	value  goto 20
+	value  goto 21
 
 state 13
 	ifBlock:  IfToken '('.andOrBlock ')' '{' stack '}' 
 	ifBlock:  IfToken '('.andOrBlock ')' '{' stack '}' ElseToken ifBlock 
 	ifBlock:  IfToken '('.andOrBlock ')' '{' stack '}' ElseToken '{' stack '}' 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 27
 	andOrBlock  goto 25
 	evaluatable  goto 26
-	value  goto 20
+	value  goto 21
 
 state 14
 	question:  QuotedStringToken TextToken questionType.    (6)
@@ -169,42 +169,42 @@ state 19
 
 
 state 20
-	term:  value.    (29)
+	term:  '('.andOrBlock ')' 
 
-	.  reduce 29 (src line 226)
-
-
-state 21
-	value:  NumericToken.    (30)
-
-	.  reduce 30 (src line 233)
-
-
-state 22
-	value:  TextToken.    (31)
-
-	.  reduce 31 (src line 247)
-
-
-state 23
-	value:  QuotedStringToken.    (32)
-
-	.  reduce 32 (src line 258)
-
-
-state 24
-	value:  '('.andOrBlock ')' 
-
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 27
 	andOrBlock  goto 33
 	evaluatable  goto 26
-	value  goto 20
+	value  goto 21
+
+state 21
+	term:  value.    (30)
+
+	.  reduce 30 (src line 230)
+
+
+state 22
+	value:  NumericToken.    (31)
+
+	.  reduce 31 (src line 237)
+
+
+state 23
+	value:  TextToken.    (32)
+
+	.  reduce 32 (src line 251)
+
+
+state 24
+	value:  QuotedStringToken.    (33)
+
+	.  reduce 33 (src line 262)
+
 
 state 25
 	ifBlock:  IfToken '(' andOrBlock.')' '{' stack '}' 
@@ -254,65 +254,65 @@ state 27
 state 28
 	questionType:  ComputedQuestionToken '='.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 43
-	value  goto 20
+	value  goto 21
 
 state 29
 	term:  term '+'.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 44
-	value  goto 20
+	value  goto 21
 
 state 30
 	term:  term '-'.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 45
-	value  goto 20
+	value  goto 21
 
 state 31
 	term:  term '*'.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 46
-	value  goto 20
+	value  goto 21
 
 state 32
 	term:  term '/'.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 47
-	value  goto 20
+	value  goto 21
 
 state 33
-	value:  '(' andOrBlock.')' 
+	term:  '(' andOrBlock.')' 
 
 	')'  shift 48
 	.  error
@@ -330,100 +330,100 @@ state 34
 state 35
 	andOrBlock:  evaluatable BoolAndToken.evaluatable 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 27
 	evaluatable  goto 50
-	value  goto 20
+	value  goto 21
 
 state 36
 	andOrBlock:  evaluatable BoolOrToken.evaluatable 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 27
 	evaluatable  goto 51
-	value  goto 20
+	value  goto 21
 
 state 37
 	evaluatable:  term EqualsToToken.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 52
-	value  goto 20
+	value  goto 21
 
 state 38
 	evaluatable:  term NotEqualsToToken.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 53
-	value  goto 20
+	value  goto 21
 
 state 39
 	evaluatable:  term MoreThanToken.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 54
-	value  goto 20
+	value  goto 21
 
 state 40
 	evaluatable:  term LessThanToken.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 55
-	value  goto 20
+	value  goto 21
 
 state 41
 	evaluatable:  term MoreOrEqualsThanToken.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 56
-	value  goto 20
+	value  goto 21
 
 state 42
 	evaluatable:  term LessOrEqualsThanToken.term 
 
-	QuotedStringToken  shift 23
-	TextToken  shift 22
-	'('  shift 24
-	NumericToken  shift 21
+	QuotedStringToken  shift 24
+	TextToken  shift 23
+	'('  shift 20
+	NumericToken  shift 22
 	.  error
 
 	term  goto 57
-	value  goto 20
+	value  goto 21
 
 state 43
 	questionType:  ComputedQuestionToken '=' term.    (10)
@@ -484,9 +484,9 @@ state 47
 
 
 state 48
-	value:  '(' andOrBlock ')'.    (33)
+	term:  '(' andOrBlock ')'.    (29)
 
-	.  reduce 33 (src line 269)
+	.  reduce 29 (src line 226)
 
 
 state 49

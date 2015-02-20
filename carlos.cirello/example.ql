@@ -59,25 +59,29 @@ form SomeForm {
 		"18 - is 4/2=2?" questionFourteen bool
 	}
 
-	if (questionOne == "surak"){
+	if (questionOne == "surak") {
 		"19 - How do you feel?" questionFifteen string
 	}
 
 	"20 - Calculated field" questionSixteen computed = questionTwo * 2
 
-	if (questionOne == "surak" or questionTwo == 42){
+	if (questionOne == "surak" or questionTwo == 42) {
 		"21 - OR field" questionSeventeen computed = questionTwo * 2
 	}
 
-	if (questionOne == "surak" and questionTwo == 42){
+	if (questionOne == "surak" and questionTwo == 42) {
 		"22 - AND field" questionEighteen computed = questionTwo * 2
 	}
 
-	if (questionOne != "surak" and questionTwo == 42){
+	if (questionOne != "surak" and questionTwo == 42) {
 		"22 - AND field - not surak" questionNineteen computed = questionTwo * 2
 	}
 
-	if ((questionOne != "surak") and questionTwo == 42){
-		"23 - AND field - not surak - ()" questionTwenty computed = questionTwo * 2
+	if ((questionOne != "surak") and (questionTwo == 42)) {
+		"23 - AND field - not surak - () and ()" questionTwenty computed = questionTwo * 2
+	}
+
+	if ((questionOne != "surak") and (questionTwo == 42)) {
+		"24 - OR field - not surak - () and ()" questionTwentyOne computed = questionTwo * 2
 	}
 }

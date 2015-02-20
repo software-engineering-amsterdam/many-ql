@@ -223,6 +223,10 @@ term:
 	{
 		$$.evaluatable = ast.NewMathDivNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
+	| '(' andOrBlock ')'
+	{
+		$$ = $2
+	}
 	| value
 	{
 		$$.evaluatable = $1.termNode
@@ -265,10 +269,6 @@ value:
 			$1.position,
 		)
 		$$.termNode = termNode
-	}
-	| '(' andOrBlock ')'
-	{
-		$$ = $2
 	}
 	;
 %%
