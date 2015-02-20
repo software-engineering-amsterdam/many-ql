@@ -24,7 +24,7 @@ public class QuestionnaireParsingServiceImplTest {
 	// TODO create better name for test
 	@Test
 	public void testQuestionnaireNameIsParsed() throws Exception {
-		String location = RESOURCE_ROOT + "example.ql2";
+		String location = RESOURCE_ROOT + "input_form.ql";
 
 		Questionnaire questionnaire = questionnaireParsingService
 				.parse(location);
@@ -35,7 +35,7 @@ public class QuestionnaireParsingServiceImplTest {
 	// TODO create better name for test
 	@Test
 	public void testQuestionnaireQuestionIsParsed() throws Exception {
-		String location = RESOURCE_ROOT + "example.ql2";
+		String location = RESOURCE_ROOT + "input_form.ql";
 
 		String hasSoldHouse = "hasSoldHouse";
 		Questionnaire questionnaire = questionnaireParsingService
@@ -51,7 +51,7 @@ public class QuestionnaireParsingServiceImplTest {
 	// TODO create better name for test
 	@Test
 	public void testQuestionnaireConditionalBlockIsParsed() throws Exception {
-		String location = RESOURCE_ROOT + "example.ql2";
+		String location = RESOURCE_ROOT + "input_form.ql";
 
 		String questionName = "sellingPrice";
 		Questionnaire questionnaire = questionnaireParsingService
