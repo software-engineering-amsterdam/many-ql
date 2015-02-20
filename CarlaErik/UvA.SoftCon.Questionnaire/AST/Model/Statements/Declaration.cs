@@ -33,5 +33,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             Id = id;
             Initialization = initialization;
         }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

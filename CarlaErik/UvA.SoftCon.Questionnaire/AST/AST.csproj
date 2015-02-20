@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASTController.cs" />
+    <Compile Include="IASTVisitor.cs" />
+    <Compile Include="Model\Statements\Assignment.cs" />
     <Compile Include="Model\Statements\DataType.cs" />
     <Compile Include="Model\Expressions\BinaryExpression.cs" />
     <Compile Include="Model\Expressions\Identifier.cs" />
@@ -55,7 +58,7 @@
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\Expressions\Operation.cs" />
     <Compile Include="Model\Statements\Declaration.cs" />
-    <Compile Include="QuestionnaireVisitor.cs" />
+    <Compile Include="Visitors\QuestionnaireVisitor.cs" />
     <Compile Include="Model\Questionnaire.cs" />
     <Compile Include="Model\Expressions\IExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

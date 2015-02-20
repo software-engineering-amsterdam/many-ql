@@ -8,6 +8,9 @@ using UvA.SoftCon.Questionnaire.Parsing;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
 {
+    /// <summary>
+    /// Represents a visitor for the <c>expr</c> parser rule.
+    /// </summary>
     internal class ExpressionVisitor : QLBaseVisitor<IExpression>
     {
         public override IExpression VisitPrecedenceOverride(QLParser.PrecedenceOverrideContext context)

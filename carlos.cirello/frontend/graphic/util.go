@@ -9,66 +9,54 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
+func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	newFieldCaption string, content interface{}, invisible bool) {
 
-	var questionQMLtemplate string
+	var question qml.Object
 	switch newFieldType {
 	default:
-		questionQMLtemplate = renderNewStringQuestion(newFieldName, newFieldCaption)
+		question = g.renderNewStringQuestion(newFieldName, newFieldCaption, content)
 	case ast.BoolQuestionType:
-		questionQMLtemplate = renderNewBooleanQuestion(newFieldName, newFieldCaption)
-	case ast.IntQuestionType:
-		questionQMLtemplate = renderNewNumericQuestion(newFieldName, newFieldCaption)
+		question = g.renderNewBooleanQuestion(newFieldName, newFieldCaption, content)
+	case ast.NumericQuestionType:
+		question = g.renderNewNumericQuestion(newFieldName, newFieldCaption, content)
 	}
-
-	question := renderAndInsertAt(questionQMLtemplate, rows)
 
 	if !invisible {
 		question.Set("visible", true)
 	}
 
 	g.symbolTable[newFieldName] = question
-
-	newFieldPtr := question.ObjectByName(newFieldName)
-	// todo(carlos) improve readability
-	switch newFieldType {
-	case ast.BoolQuestionType:
-		if content.(*ast.BoolQuestion).String() == "Yes" {
-			newFieldPtr.Set("checked", true)
-		}
-		newFieldPtr.On("clicked", func() {
-			g.mu.Lock()
-			defer g.mu.Unlock()
-
-			objectName := newFieldPtr.String("objectName")
-			content := newFieldPtr.Bool("checked")
-
-			g.answerStack[objectName] = "0"
-			if content {
-				g.answerStack[objectName] = "1"
-			}
-		})
-	default:
-		newFieldPtr.Set("text", content.(ast.Parser).String())
-		newFieldPtr.On("editingFinished", func() {
-			g.mu.Lock()
-			defer g.mu.Unlock()
-
-			objectName := newFieldPtr.String("objectName")
-			content := newFieldPtr.String("text")
-			g.answerStack[objectName] = content
-		})
-	}
 }
 
-func (g *Gui) updateQuestion(newFieldName string) {
-	if question, ok := g.symbolTable[newFieldName]; ok {
+func (g *Gui) updateQuestion(fieldName string, content interface{}) {
+	if question, ok := g.symbolTable[fieldName]; ok {
 		question.Set("visible", true)
+
+		fieldPtr := question.ObjectByName(fieldName)
+
+		if fieldPtr.Bool("activeFocus") {
+			// Don't let regular update loop to overwrite current
+			// user edit in the focused field.
+			return
+		}
+		switch value := content.(type) {
+		default:
+			if value.(ast.Parser).String() != fieldPtr.String("text") {
+				fieldPtr.Set("text", value.(ast.Parser).String())
+			}
+		case *ast.BoolQuestion:
+			if value.String() == "Yes" {
+				fieldPtr.Set("checked", true)
+			} else {
+				fieldPtr.Set("checked", false)
+			}
+		}
+
 	}
 }
 
-func (g *Gui) hideQuestion(rows qml.Object, fieldName string) {
+func (g *Gui) hideQuestion(fieldName string) {
 	g.symbolTable[fieldName].Set("visible", "false")
 }
 

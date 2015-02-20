@@ -2,26 +2,26 @@ require_relative "static_checker"
 require_relative "../ast/ast"
 require "byebug"
 
-class TypeChecker < StaticChecker
-  def initialize(form)
-    @form = form
-    @types = {}
-  end
+class DuplicateReferenceError < StandardError
+end
 
-  visitor_for Form do |form|
-    form.accept(self)
+class TypeChecker < StaticChecker
+  def after_initialize(form)
+    @types = {}
   end
 
   visitor_for Question do |question|
     unless @types[question.variable_name]
       @types[question.variable_name] = question.type
     else
-      raise "Variable #{question.variable_name} already defined"
+      raise DuplicateReferenceError.new("Variable #{question.variable_name} already defined")
     end
   end
 
   visitor_for Conditional do |condition|
-    raise "Expression in condition not a boolean: {condition}." unless condition.expression.accept(self) == :boolean
+    unless condition.expression.accept(self) == :boolean
+      raise TypeError.new("Expression in condition not a boolean: #{condition}.") 
+    end
 
     condition.statements.map do |statement|
       statement.accept(self)
@@ -29,15 +29,21 @@ class TypeChecker < StaticChecker
   end
 
   visitor_for BinaryExpression do |expression|
-    if expression.accept(self).all { |type| expression.argument_type == type }
-      expression.type
-    else
-      raise "Types don't match in binary expression."
+    [expression.lhs, expression.rhs].each do |expr|
+      unless expression.possible_argument_types.include?(expr.accept(self))
+        raise TypeError.new "#{expr.type} doesn't match any of #{expression.possible_argument_types} in #{expression}."
+      end
     end
+
+    unless expression.lhs.type == expression.rhs.type
+      raise TypeError.new "#{expression.lhs} doesn't match type of #{expression.rhs}"
+    end
+
+    expression.type
   end
 
-  visitor_for Variable do |condition|
-    raise "Variable not defined." unless @types[variable.name]
+  visitor_for Variable do |variable|
+    raise NameError.new("Variable #{variable.name} not defined.") unless @types[variable.name]
     @types[variable.name]
   end
 
@@ -46,7 +52,6 @@ class TypeChecker < StaticChecker
   end
 
   def check
-    byebug
     visit form
   end
 end

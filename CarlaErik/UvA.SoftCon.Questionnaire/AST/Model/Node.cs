@@ -10,7 +10,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
     {
         protected Node()
         {
-
         }
+
+        public abstract void Accept(IASTVisitor visitor);
     }
 }

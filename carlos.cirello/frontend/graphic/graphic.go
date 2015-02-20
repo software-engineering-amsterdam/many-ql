@@ -7,7 +7,7 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"gopkg.in/qml.v1"
 )
 
@@ -39,6 +39,7 @@ type Gui struct {
 	answerStack map[string]string
 	sweepStack  map[string]bool
 	symbolTable map[string]qml.Object
+	rows        qml.Object
 }
 
 // GUI creates the driver for Frontend process.
@@ -54,13 +55,13 @@ func GUI(appName string) frontend.Inputer {
 	return driver
 }
 
-// InputQuestion adds a new question into the GUI form stack
-func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility) {
+// DrawQuestion adds a new question into the GUI form stack
+func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible event.Visibility) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	invisible := false
-	if visible == interpreter.Hidden {
+	if visible == event.Hidden {
 		invisible = true
 	}
 	m := &render{
@@ -75,20 +76,19 @@ func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility) 
 	g.sweepStack[q.Identifier()] = true
 }
 
+// UpdateQuestion updates an existing question in the GUI form stack
 func (g *Gui) UpdateQuestion(q *ast.QuestionNode) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	if _, ok := g.sweepStack[q.Identifier()]; !ok {
-		m := &render{
-			action:     updateQuestion,
-			identifier: q.Identifier(),
-			label:      q.Label(),
-			fieldType:  q.Type(),
-			content:    q.Content(),
-		}
-		g.renderStack = append(g.renderStack, *m)
+	m := &render{
+		action:     updateQuestion,
+		identifier: q.Identifier(),
+		label:      q.Label(),
+		fieldType:  q.Type(),
+		content:    q.Content(),
 	}
+	g.renderStack = append(g.renderStack, *m)
 	g.sweepStack[q.Identifier()] = true
 }
 
@@ -140,14 +140,14 @@ func (g *Gui) Loop() {
 
 func (g *Gui) loop() error {
 	win := startQMLengine(g.appName).CreateWindow(nil)
-	rows := win.Root().ObjectByName("questions")
+	g.rows = win.Root().ObjectByName("questions")
 	win.Show()
-	go g.renderLoop(rows)
+	go g.renderLoop()
 	win.Wait()
 	return nil
 }
 
-func (g *Gui) renderLoop(rows qml.Object) {
+func (g *Gui) renderLoop() {
 	for {
 		select {
 		case event := <-g.renderEvent:
@@ -155,7 +155,6 @@ func (g *Gui) renderLoop(rows qml.Object) {
 			case drawQuestion:
 				qml.Lock()
 				g.addNewQuestion(
-					rows,
 					event.fieldType,
 					event.identifier,
 					event.label,
@@ -165,11 +164,11 @@ func (g *Gui) renderLoop(rows qml.Object) {
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier)
+				g.updateQuestion(event.identifier, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
-				g.hideQuestion(rows, event.identifier)
+				g.hideQuestion(event.identifier)
 				qml.Unlock()
 			}
 		}

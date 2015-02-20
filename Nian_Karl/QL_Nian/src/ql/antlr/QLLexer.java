@@ -18,20 +18,19 @@ public class QLLexer extends Lexer {
 		new PredictionContextCache();
 	public static final int
 		FORM=1, IF=2, THEN=3, ELSE=4, ELIF=5, INT=6, STR=7, CUR=8, BOOL=9, DEC=10, 
-		DATE=11, OR=12, AND=13, EQUAL=14, EQUAL_COND=15, GREATER=16, LESS=17, 
-		GREAT_EQUAL=18, LESS_EQUAL=19, PLUS=20, MINUS=21, DEVIDE=22, MULTIPLY=23, 
-		LEFT_BRACE=24, RIGHT_BRACE=25, LEFT_PAREN=26, RIGHT_PAREN=27, COLON=28, 
-		SEMICOLON=29, IntegerLiteral=30, DecimalLiteral=31, DecimalNumeral=32, 
-		BooleanLiteral=33, StringLiteral=34, DateLiteral=35, Day=36, Month=37, 
-		Year=38, Non_Zero_Digit=39, Digit=40, WhiteSpace=41, MultiComment=42, 
-		SingleComment=43, Identifier=44;
+		DATE=11, OR=12, AND=13, ASSIGN=14, EQUAL=15, GREATER=16, LESS=17, GREAT_EQUAL=18, 
+		LESS_EQUAL=19, PLUS=20, MINUS=21, DEVIDE=22, MULTIPLY=23, LEFT_BRACE=24, 
+		RIGHT_BRACE=25, LEFT_PAREN=26, RIGHT_PAREN=27, COLON=28, SEMICOLON=29, 
+		IntegerLiteral=30, DecimalLiteral=31, DecimalNumeral=32, BooleanLiteral=33, 
+		StringLiteral=34, DateLiteral=35, Day=36, Month=37, Year=38, Non_Zero_Digit=39, 
+		Digit=40, WhiteSpace=41, MultiComment=42, SingleComment=43, Identifier=44;
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
 	};
 
 	public static final String[] ruleNames = {
 		"FORM", "IF", "THEN", "ELSE", "ELIF", "INT", "STR", "CUR", "BOOL", "DEC", 
-		"DATE", "OR", "AND", "EQUAL", "EQUAL_COND", "GREATER", "LESS", "GREAT_EQUAL", 
+		"DATE", "OR", "AND", "ASSIGN", "EQUAL", "GREATER", "LESS", "GREAT_EQUAL", 
 		"LESS_EQUAL", "PLUS", "MINUS", "DEVIDE", "MULTIPLY", "LEFT_BRACE", "RIGHT_BRACE", 
 		"LEFT_PAREN", "RIGHT_PAREN", "COLON", "SEMICOLON", "IntegerLiteral", "DecimalLiteral", 
 		"DecimalNumeral", "BooleanLiteral", "StringLiteral", "DateLiteral", "Day", 
@@ -47,12 +46,12 @@ public class QLLexer extends Lexer {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "FORM", "IF", "THEN", "ELSE", "ELIF", "INT", "STR", "CUR", "BOOL", 
-		"DEC", "DATE", "OR", "AND", "EQUAL", "EQUAL_COND", "GREATER", "LESS", 
-		"GREAT_EQUAL", "LESS_EQUAL", "PLUS", "MINUS", "DEVIDE", "MULTIPLY", "LEFT_BRACE", 
-		"RIGHT_BRACE", "LEFT_PAREN", "RIGHT_PAREN", "COLON", "SEMICOLON", "IntegerLiteral", 
-		"DecimalLiteral", "DecimalNumeral", "BooleanLiteral", "StringLiteral", 
-		"DateLiteral", "Day", "Month", "Year", "Non_Zero_Digit", "Digit", "WhiteSpace", 
-		"MultiComment", "SingleComment", "Identifier"
+		"DEC", "DATE", "OR", "AND", "ASSIGN", "EQUAL", "GREATER", "LESS", "GREAT_EQUAL", 
+		"LESS_EQUAL", "PLUS", "MINUS", "DEVIDE", "MULTIPLY", "LEFT_BRACE", "RIGHT_BRACE", 
+		"LEFT_PAREN", "RIGHT_PAREN", "COLON", "SEMICOLON", "IntegerLiteral", "DecimalLiteral", 
+		"DecimalNumeral", "BooleanLiteral", "StringLiteral", "DateLiteral", "Day", 
+		"Month", "Year", "Non_Zero_Digit", "Digit", "WhiteSpace", "MultiComment", 
+		"SingleComment", "Identifier"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 

@@ -4,20 +4,20 @@ import (
 	"encoding/csv"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
 // Output holds an io.Writer which is used to store the responses of the form
 // (either into a file, or some other medium).
 type Output struct {
-	receive chan *interpreter.Event
-	send    chan *interpreter.Event
+	receive chan *event.Frontend
+	send    chan *event.Frontend
 	stream  io.Writer
 }
 
 // New takes in a pair of channels for the interpreter, a writer stream and
 // prepare an object to be consumed later.
-func New(fromInterpreter, toInterpreter chan *interpreter.Event,
+func New(fromInterpreter, toInterpreter chan *event.Frontend,
 	stream io.Writer) *Output {
 	return &Output{
 		receive: fromInterpreter,
@@ -30,8 +30,18 @@ func New(fromInterpreter, toInterpreter chan *interpreter.Event,
 // output stream.
 func (o *Output) Write() {
 	csv := csv.NewWriter(o.stream)
-	o.send <- &interpreter.Event{
-		Type: interpreter.ReadyT,
+
+	readyT := &event.Frontend{
+		Type: event.ReadyT,
+	}
+
+readyTLoop:
+	for {
+		select {
+		case <-o.receive:
+		case o.send <- readyT:
+			break readyTLoop
+		}
 	}
 
 commLoop:
@@ -39,11 +49,11 @@ commLoop:
 		select {
 		case r := <-o.receive:
 			switch r.Type {
-			case interpreter.Update:
+			case event.UpdateQuestion:
 				v := r.Question
 				csv.Write([]string{v.Identifier(), v.Label(),
 					v.Content().String()})
-			case interpreter.Flush:
+			case event.Flush:
 				csv.Flush()
 				break commLoop
 			}

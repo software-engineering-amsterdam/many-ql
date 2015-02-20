@@ -1,7 +1,5 @@
 // Generated from QL.g4 by ANTLR 4.5
 package ql.antlr;
-
-
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -20,13 +18,12 @@ public class QLParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		FORM=1, IF=2, THEN=3, ELSE=4, ELIF=5, INT=6, STR=7, CUR=8, BOOL=9, DEC=10, 
-		DATE=11, OR=12, AND=13, EQUAL=14, EQUAL_COND=15, GREATER=16, LESS=17, 
-		GREAT_EQUAL=18, LESS_EQUAL=19, PLUS=20, MINUS=21, DEVIDE=22, MULTIPLY=23, 
-		LEFT_BRACE=24, RIGHT_BRACE=25, LEFT_PAREN=26, RIGHT_PAREN=27, COLON=28, 
-		SEMICOLON=29, IntegerLiteral=30, DecimalLiteral=31, DecimalNumeral=32, 
-		BooleanLiteral=33, StringLiteral=34, DateLiteral=35, Day=36, Month=37, 
-		Year=38, Non_Zero_Digit=39, Digit=40, WhiteSpace=41, MultiComment=42, 
-		SingleComment=43, Identifier=44;
+		DATE=11, OR=12, AND=13, ASSIGN=14, EQUAL=15, GREATER=16, LESS=17, GREAT_EQUAL=18, 
+		LESS_EQUAL=19, PLUS=20, MINUS=21, DEVIDE=22, MULTIPLY=23, LEFT_BRACE=24, 
+		RIGHT_BRACE=25, LEFT_PAREN=26, RIGHT_PAREN=27, COLON=28, SEMICOLON=29, 
+		IntegerLiteral=30, DecimalLiteral=31, DecimalNumeral=32, BooleanLiteral=33, 
+		StringLiteral=34, DateLiteral=35, Day=36, Month=37, Year=38, Non_Zero_Digit=39, 
+		Digit=40, WhiteSpace=41, MultiComment=42, SingleComment=43, Identifier=44;
 	public static final int
 		RULE_form = 0, RULE_block = 1, RULE_statement = 2, RULE_question = 3, 
 		RULE_questionType = 4, RULE_questionName = 5, RULE_questionLabel = 6, 
@@ -44,12 +41,12 @@ public class QLParser extends Parser {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "FORM", "IF", "THEN", "ELSE", "ELIF", "INT", "STR", "CUR", "BOOL", 
-		"DEC", "DATE", "OR", "AND", "EQUAL", "EQUAL_COND", "GREATER", "LESS", 
-		"GREAT_EQUAL", "LESS_EQUAL", "PLUS", "MINUS", "DEVIDE", "MULTIPLY", "LEFT_BRACE", 
-		"RIGHT_BRACE", "LEFT_PAREN", "RIGHT_PAREN", "COLON", "SEMICOLON", "IntegerLiteral", 
-		"DecimalLiteral", "DecimalNumeral", "BooleanLiteral", "StringLiteral", 
-		"DateLiteral", "Day", "Month", "Year", "Non_Zero_Digit", "Digit", "WhiteSpace", 
-		"MultiComment", "SingleComment", "Identifier"
+		"DEC", "DATE", "OR", "AND", "ASSIGN", "EQUAL", "GREATER", "LESS", "GREAT_EQUAL", 
+		"LESS_EQUAL", "PLUS", "MINUS", "DEVIDE", "MULTIPLY", "LEFT_BRACE", "RIGHT_BRACE", 
+		"LEFT_PAREN", "RIGHT_PAREN", "COLON", "SEMICOLON", "IntegerLiteral", "DecimalLiteral", 
+		"DecimalNumeral", "BooleanLiteral", "StringLiteral", "DateLiteral", "Day", 
+		"Month", "Year", "Non_Zero_Digit", "Digit", "WhiteSpace", "MultiComment", 
+		"SingleComment", "Identifier"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -561,44 +558,329 @@ public class QLParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
-		public LiteralContext literal() {
-			return getRuleContext(LiteralContext.class,0);
+		public ExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public TerminalNode LEFT_PAREN() { return getToken(QLParser.LEFT_PAREN, 0); }
+		@Override public int getRuleIndex() { return RULE_expression; }
+	 
+		public ExpressionContext() { }
+		public void copyFrom(ExpressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ExprGreaterContext extends ExpressionContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode RIGHT_PAREN() { return getToken(QLParser.RIGHT_PAREN, 0); }
-		public TerminalNode AND() { return getToken(QLParser.AND, 0); }
-		public TerminalNode OR() { return getToken(QLParser.OR, 0); }
-		public TerminalNode EQUAL_COND() { return getToken(QLParser.EQUAL_COND, 0); }
 		public TerminalNode GREATER() { return getToken(QLParser.GREATER, 0); }
-		public TerminalNode GREAT_EQUAL() { return getToken(QLParser.GREAT_EQUAL, 0); }
-		public TerminalNode EQUAL() { return getToken(QLParser.EQUAL, 0); }
-		public TerminalNode LESS_EQUAL() { return getToken(QLParser.LESS_EQUAL, 0); }
-		public TerminalNode LESS() { return getToken(QLParser.LESS, 0); }
-		public TerminalNode PLUS() { return getToken(QLParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(QLParser.MINUS, 0); }
-		public TerminalNode MULTIPLY() { return getToken(QLParser.MULTIPLY, 0); }
-		public TerminalNode DEVIDE() { return getToken(QLParser.DEVIDE, 0); }
-		public ExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expression; }
+		public ExprGreaterContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpression(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprGreater(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpression(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprGreater(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprGreater(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprPlusContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode PLUS() { return getToken(QLParser.PLUS, 0); }
+		public ExprPlusContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprPlus(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprPlus(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprPlus(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprParenthesesContext extends ExpressionContext {
+		public TerminalNode LEFT_PAREN() { return getToken(QLParser.LEFT_PAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode RIGHT_PAREN() { return getToken(QLParser.RIGHT_PAREN, 0); }
+		public ExprParenthesesContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprParentheses(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprParentheses(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprParentheses(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprLessContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode LESS() { return getToken(QLParser.LESS, 0); }
+		public ExprLessContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprLess(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprLess(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprLess(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprLessEqualContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode LESS_EQUAL() { return getToken(QLParser.LESS_EQUAL, 0); }
+		public ExprLessEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprLessEqual(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprLessEqual(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprLessEqual(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprAndContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode AND() { return getToken(QLParser.AND, 0); }
+		public ExprAndContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprAnd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprAnd(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprAnd(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprDevideContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode DEVIDE() { return getToken(QLParser.DEVIDE, 0); }
+		public ExprDevideContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprDevide(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprDevide(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprDevide(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprMinusContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode MINUS() { return getToken(QLParser.MINUS, 0); }
+		public ExprMinusContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprMinus(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprMinus(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprMinus(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprOrContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode OR() { return getToken(QLParser.OR, 0); }
+		public ExprOrContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprOr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprOr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprOr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprGreaterEqualContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode GREAT_EQUAL() { return getToken(QLParser.GREAT_EQUAL, 0); }
+		public ExprGreaterEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprGreaterEqual(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprGreaterEqual(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprGreaterEqual(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprLiteralContext extends ExpressionContext {
+		public LiteralContext literal() {
+			return getRuleContext(LiteralContext.class,0);
+		}
+		public ExprLiteralContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprLiteral(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprLiteral(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprAssignContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode ASSIGN() { return getToken(QLParser.ASSIGN, 0); }
+		public ExprAssignContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprAssign(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprAssign(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprAssign(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprMultiplyContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode MULTIPLY() { return getToken(QLParser.MULTIPLY, 0); }
+		public ExprMultiplyContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprMultiply(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprMultiply(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprMultiply(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprEqualContext extends ExpressionContext {
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode EQUAL() { return getToken(QLParser.EQUAL, 0); }
+		public ExprEqualContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterExprEqual(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitExprEqual(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExprEqual(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -627,12 +909,19 @@ public class QLParser extends Parser {
 			case DateLiteral:
 			case Identifier:
 				{
+				_localctx = new ExprLiteralContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
 				setState(59);
 				literal();
 				}
 				break;
 			case LEFT_PAREN:
 				{
+				_localctx = new ExprParenthesesContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(60);
 				match(LEFT_PAREN);
 				setState(61);
@@ -657,7 +946,7 @@ public class QLParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprAndContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(66);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
@@ -669,7 +958,7 @@ public class QLParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprOrContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(69);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
@@ -681,19 +970,19 @@ public class QLParser extends Parser {
 						break;
 					case 3:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprEqualContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(72);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(73);
-						match(EQUAL_COND);
+						match(EQUAL);
 						setState(74);
 						expression(12);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprGreaterContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(75);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
@@ -705,7 +994,7 @@ public class QLParser extends Parser {
 						break;
 					case 5:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprGreaterEqualContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(78);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
@@ -717,19 +1006,19 @@ public class QLParser extends Parser {
 						break;
 					case 6:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprAssignContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(81);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(82);
-						match(EQUAL);
+						match(ASSIGN);
 						setState(83);
 						expression(9);
 						}
 						break;
 					case 7:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprLessEqualContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(84);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
@@ -741,7 +1030,7 @@ public class QLParser extends Parser {
 						break;
 					case 8:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprLessContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(87);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
@@ -753,7 +1042,7 @@ public class QLParser extends Parser {
 						break;
 					case 9:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprPlusContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(90);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
@@ -765,7 +1054,7 @@ public class QLParser extends Parser {
 						break;
 					case 10:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprMinusContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(93);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
@@ -777,7 +1066,7 @@ public class QLParser extends Parser {
 						break;
 					case 11:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprMultiplyContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(96);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
@@ -789,7 +1078,7 @@ public class QLParser extends Parser {
 						break;
 					case 12:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new ExprDevideContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(99);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");

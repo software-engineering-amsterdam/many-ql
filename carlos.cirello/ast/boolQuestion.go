@@ -11,6 +11,8 @@ type BoolQuestion struct {
 	pos   scanner.Position
 }
 
+// BoolQuestionType constant used for type comparison internally in interpreter
+// and frontend
 const BoolQuestionType = "bool"
 
 // From takes the input from Frontend and stores locally - Boolean

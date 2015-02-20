@@ -15,28 +15,33 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public ICollection<IStatement> Then
+        public IReadOnlyList<IStatement> Then
         {
             get;
             private set;
         }
 
-        public ICollection<IStatement> Else
+        public IReadOnlyList<IStatement> Else
         {
             get;
             private set;
         }
 
-        public IfStatement(IExpression @if, ICollection<IStatement> then) 
+        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then) 
         {
             If = @if;
             Then = then;
         }
 
-        public IfStatement(IExpression @if, ICollection<IStatement> then, ICollection<IStatement> @else)
+        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then, IReadOnlyList<IStatement> @else)
             : this(@if, then)
         {
             Else = @else;
+        }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }
