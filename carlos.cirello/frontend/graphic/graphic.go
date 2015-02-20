@@ -7,7 +7,7 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"gopkg.in/qml.v1"
 )
 
@@ -56,12 +56,12 @@ func GUI(appName string) frontend.Inputer {
 }
 
 // DrawQuestion adds a new question into the GUI form stack
-func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility) {
+func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible event.Visibility) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	invisible := false
-	if visible == interpreter.Hidden {
+	if visible == event.Hidden {
 		invisible = true
 	}
 	m := &render{

@@ -18,5 +18,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
         {
             Value = value;
         }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit<T>(this);
+        }
     }
 }

@@ -38,5 +38,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
         {
             Else = @else;
         }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

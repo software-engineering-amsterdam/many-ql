@@ -18,7 +18,7 @@ func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 		question = g.renderNewStringQuestion(newFieldName, newFieldCaption, content)
 	case ast.BoolQuestionType:
 		question = g.renderNewBooleanQuestion(newFieldName, newFieldCaption, content)
-	case ast.IntQuestionType:
+	case ast.NumericQuestionType:
 		question = g.renderNewNumericQuestion(newFieldName, newFieldCaption, content)
 	}
 

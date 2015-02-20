@@ -26,7 +26,7 @@ of support and many active online communities.
 
 ## Unit Tests
 
-//TODO: JUnit?
+For test framework we are using JUnit4.
 
 ## IDE
 

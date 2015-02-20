@@ -149,7 +149,7 @@ public abstract class VisitorAbstract implements Visitor
     }
 
     @Override
-    public void visit(Identifier n)
+    public void visit(Indent n)
     {
 
     }

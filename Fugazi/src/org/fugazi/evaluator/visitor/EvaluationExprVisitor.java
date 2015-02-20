@@ -70,6 +70,13 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
         return left.equal(right);
     }
 
+    public ExpressionValue visitNotEq(NotEq notEq) {
+        ExpressionValue left = notEq.getLeft().accept(this);
+        ExpressionValue right = notEq.getRight().accept(this);
+
+        return left.notEqual(right);
+    }
+
     public ExpressionValue visitGreater(Greater greater) {
         ExpressionValue left = greater.getLeft().accept(this);
         ExpressionValue right = greater.getRight().accept(this);
@@ -96,13 +103,6 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
         ExpressionValue right = le.getRight().accept(this);
 
         return left.lessEqual(right);
-    }
-
-    public ExpressionValue visitNotEq(NotEq notEq) {
-        ExpressionValue left = notEq.getLeft().accept(this);
-        ExpressionValue right = notEq.getRight().accept(this);
-
-        return left.notEqual(right);
     }
 
     /**

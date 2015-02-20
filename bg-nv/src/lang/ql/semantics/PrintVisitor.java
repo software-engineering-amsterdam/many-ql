@@ -185,7 +185,7 @@ public class PrintVisitor implements Visitor
     }
 
     @Override
-    public void visit(Identifier n)
+    public void visit(Indent n)
     {
 
     }
