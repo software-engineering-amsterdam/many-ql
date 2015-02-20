@@ -2,9 +2,9 @@ package event
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 
-// Event carries the communication between VM and Frontend
-type Event struct {
-	Type EventType
+// Frontend carries the communication between VM and Frontend
+type Frontend struct {
+	Type FrontendEventType
 
 	Question ast.QuestionNode
 	Visible  Visibility
@@ -12,13 +12,13 @@ type Event struct {
 	Answers map[string]string
 }
 
-// EventType describes the communication protocol between the VM
+// FrontendEventType describes the communication protocol between the VM
 // and Frontend goroutines.
-type EventType int
+type FrontendEventType int
 
 const (
 	// ReadyP VM message to confirm readiness of frontend
-	ReadyP EventType = iota
+	ReadyP FrontendEventType = iota
 	// ReadyT Frontend confirmation of readiness
 	ReadyT
 	// DrawQuestion sends to Frontend driver the request for one question
@@ -37,7 +37,7 @@ const (
 
 // Visibility enum type which determinates whether a new rendered field must be
 // shown right away or must wait until some other condition is true. In
-// practice, it prevents fields within if-blocks to be shown unless their
+// practice, it prFrontends fields within if-blocks to be shown unless their
 // if-conditions are true first.
 type Visibility int
 

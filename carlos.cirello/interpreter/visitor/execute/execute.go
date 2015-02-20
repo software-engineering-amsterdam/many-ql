@@ -11,12 +11,12 @@ import (
 // Execute implements Executer interface, and it is used by Visitor to traverse
 // AST
 type Execute struct {
-	toFrontend chan *event.Event
+	toFrontend chan *event.Frontend
 	symbolChan chan *event.Symbol
 }
 
 // New is the factory for Execute struct
-func New(toFrontend chan *event.Event, symbolChan chan *event.Symbol) *visitor.Visitor {
+func New(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *visitor.Visitor {
 	return &visitor.Visitor{
 		&Execute{
 			toFrontend: toFrontend,
@@ -52,7 +52,7 @@ func (exec Execute) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
 	}
 
 	questionCopy := q.Clone()
-	exec.toFrontend <- &event.Event{
+	exec.toFrontend <- &event.Frontend{
 		Type:     event.UpdateQuestion,
 		Question: questionCopy,
 	}

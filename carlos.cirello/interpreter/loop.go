@@ -16,8 +16,8 @@ import (
 
 type interpreter struct {
 	questionaire *ast.QuestionaireNode
-	send         chan *event.Event
-	receive      chan *event.Event
+	send         chan *event.Frontend
+	receive      chan *event.Frontend
 	execute      *visitor.Visitor
 	draw         *visitor.Visitor
 
@@ -27,9 +27,9 @@ type interpreter struct {
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.QuestionaireNode) (chan *event.Event, chan *event.Event) {
-	toFrontend := make(chan *event.Event)
-	fromFrontend := make(chan *event.Event)
+func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
+	toFrontend := make(chan *event.Frontend)
+	fromFrontend := make(chan *event.Frontend)
 	symbolChan := make(chan *event.Symbol)
 	v := &interpreter{
 		questionaire: q,
@@ -70,7 +70,7 @@ func (v *interpreter) updateSymbolTable() {
 }
 
 func (v *interpreter) loop() {
-	v.send <- &event.Event{
+	v.send <- &event.Frontend{
 		Type: event.ReadyP,
 	}
 walkLoop:
@@ -80,7 +80,7 @@ walkLoop:
 			switch r.Type {
 			case event.ReadyT:
 				v.draw.Visit(v.questionaire)
-				v.send <- &event.Event{Type: event.Flush}
+				v.send <- &event.Frontend{Type: event.Flush}
 				break walkLoop
 			}
 		}
@@ -94,7 +94,7 @@ walkLoop:
 			case event.Answers:
 				for identifier, answer := range r.Answers {
 					v.execute.Visit(v.questionaire)
-					v.send <- &event.Event{Type: event.Flush}
+					v.send <- &event.Frontend{Type: event.Flush}
 					ret := make(chan *ast.QuestionNode)
 					v.symbolChan <- &event.Symbol{
 						Command: event.SymbolRead,
@@ -114,11 +114,11 @@ walkLoop:
 
 			case event.ReadyT:
 				v.execute.Visit(v.questionaire)
-				v.send <- &event.Event{Type: event.Flush}
+				v.send <- &event.Frontend{Type: event.Flush}
 			}
 
 		case <-ticker:
-			v.send <- &event.Event{Type: event.FetchAnswers}
+			v.send <- &event.Frontend{Type: event.FetchAnswers}
 		}
 	}
 

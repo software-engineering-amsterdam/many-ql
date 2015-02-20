@@ -10,14 +10,14 @@ import (
 // Input holds an io.Reader which is used to transfer the responses of the form
 // from a CSV file.
 type Input struct {
-	receive chan *event.Event
-	send    chan *event.Event
+	receive chan *event.Frontend
+	send    chan *event.Frontend
 	stream  io.Reader
 }
 
 // New takes in a pair of channels for the interpreter, a reader stream and
 // prepare an object to be consumed later.
-func New(fromInterpreter, toInterpreter chan *event.Event,
+func New(fromInterpreter, toInterpreter chan *event.Frontend,
 	stream io.Reader) *Input {
 	return &Input{
 		receive: fromInterpreter,
@@ -40,7 +40,7 @@ func (i *Input) Read() {
 	}
 	<-i.receive
 
-	readyT := &event.Event{
+	readyT := &event.Frontend{
 		Type: event.ReadyT,
 	}
 
@@ -53,7 +53,7 @@ commLoopReadyT:
 		}
 	}
 
-	sendAnswers := &event.Event{
+	sendAnswers := &event.Frontend{
 		Type:    event.Answers,
 		Answers: answers,
 	}

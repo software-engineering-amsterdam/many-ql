@@ -9,12 +9,12 @@ import (
 // Draw implements Executer interface, and it is used by Visitor to traverse
 // AST
 type Draw struct {
-	toFrontend chan *event.Event
+	toFrontend chan *event.Frontend
 	nest       int
 }
 
 // New is the factory for Draw struct
-func New(toFrontend chan *event.Event) *visitor.Visitor {
+func New(toFrontend chan *event.Frontend) *visitor.Visitor {
 	return &visitor.Visitor{
 		&Draw{
 			toFrontend: toFrontend,
@@ -43,7 +43,7 @@ func (Draw Draw) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
 	if 0 == Draw.nest {
 		visible = event.Visible
 	}
-	Draw.toFrontend <- &event.Event{
+	Draw.toFrontend <- &event.Frontend{
 		Type:     event.DrawQuestion,
 		Question: questionCopy,
 		Visible:  visible,

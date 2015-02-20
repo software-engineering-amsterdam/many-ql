@@ -10,14 +10,14 @@ import (
 // Output holds an io.Writer which is used to store the responses of the form
 // (either into a file, or some other medium).
 type Output struct {
-	receive chan *event.Event
-	send    chan *event.Event
+	receive chan *event.Frontend
+	send    chan *event.Frontend
 	stream  io.Writer
 }
 
 // New takes in a pair of channels for the interpreter, a writer stream and
 // prepare an object to be consumed later.
-func New(fromInterpreter, toInterpreter chan *event.Event,
+func New(fromInterpreter, toInterpreter chan *event.Frontend,
 	stream io.Writer) *Output {
 	return &Output{
 		receive: fromInterpreter,
@@ -31,7 +31,7 @@ func New(fromInterpreter, toInterpreter chan *event.Event,
 func (o *Output) Write() {
 	csv := csv.NewWriter(o.stream)
 
-	readyT := &event.Event{
+	readyT := &event.Frontend{
 		Type: event.ReadyT,
 	}
 
