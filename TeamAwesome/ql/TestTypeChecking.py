@@ -2,11 +2,11 @@ import argparse
 import glob
 
 from AST import AST
-import TypeChecker
+from typechecking import typechecking
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
-    typeCheckResult = TypeChecker.check(ast)
+    typeCheckResult = typechecking.check(ast)
 
     expectedNumMessages = int(
         testFileName.split('.')[0].split('-')[2]
