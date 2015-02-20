@@ -51,7 +51,7 @@ func (exec Execute) QuestionNode(v *Visitor, q *ast.QuestionNode) {
 
 	questionCopy := q.Clone()
 	exec.toFrontend <- &Event{
-		Type:     Update,
+		Type:     UpdateQuestion,
 		Question: questionCopy,
 	}
 }

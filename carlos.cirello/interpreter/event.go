@@ -21,10 +21,10 @@ const (
 	ReadyP EventType = iota
 	// ReadyT Frontend confirmation of readiness
 	ReadyT
-	// Draw sends to Frontend driver the request for one question
-	Draw
-	// Update sends to Frontend ... todo
-	Update
+	// DrawQuestion sends to Frontend driver the request for one question
+	DrawQuestion
+	// UpdateQuestion sends to Frontend ... todo
+	UpdateQuestion
 	// Flush forces Frontend driver to assemble the screen
 	Flush
 	// FetchAnswers is the signal from VM to read the current captured

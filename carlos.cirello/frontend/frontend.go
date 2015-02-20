@@ -50,10 +50,10 @@ func (f *frontend) loop() {
 					Type: interpreter.ReadyT,
 				}
 
-			case interpreter.Draw:
+			case interpreter.DrawQuestion:
 				f.driver.DrawQuestion(&r.Question, r.Visible)
 
-			case interpreter.Update:
+			case interpreter.UpdateQuestion:
 				f.driver.UpdateQuestion(&r.Question)
 
 			case interpreter.Flush:

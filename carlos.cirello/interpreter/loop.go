@@ -15,7 +15,7 @@ type interpreter struct {
 	send         chan *Event
 	receive      chan *Event
 	execute      *Visitor
-	walk         *Visitor
+	draw         *Visitor
 
 	symbolTable map[string]*ast.QuestionNode
 	symbolChan  chan *symbolEvent
@@ -32,7 +32,7 @@ func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
 		send:         toFrontend,
 		receive:      fromFrontend,
 		execute:      NewExecute(toFrontend, symbolChan),
-		walk:         NewWalk(toFrontend),
+		draw:         NewDraw(toFrontend),
 		symbolTable:  make(map[string]*ast.QuestionNode),
 		symbolChan:   symbolChan,
 	}
@@ -75,7 +75,7 @@ walkLoop:
 		case r := <-v.receive:
 			switch r.Type {
 			case ReadyT:
-				v.walk.Visit(v.questionaire)
+				v.draw.Visit(v.questionaire)
 				v.send <- &Event{Type: Flush}
 				break walkLoop
 			}
