@@ -6,10 +6,8 @@ import OperatorTypes
 import CustomTypes
 import ASTNodes
 
-def check(ast):
-    return TypesOfExpressionsVisitor(ast).visit(ast.root)
 
-class TypesOfExpressionsVisitor(Visitor):
+class Checker(Visitor):
     def __init__(self, ast):
         super().__init__(ast)
         self._operatorTable = OperatorTypes.Table()

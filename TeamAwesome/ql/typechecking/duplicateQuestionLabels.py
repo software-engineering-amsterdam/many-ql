@@ -1,10 +1,7 @@
 from .Visitor import Visitor
 from . import Message
 
-def check(ast):
-    return DuplicateQuestionLabelsVisitor(ast).visit(ast.root)
-
-class DuplicateQuestionLabelsVisitor(Visitor):
+class Checker(Visitor):
     def __init__(self, ast):
         super().__init__(ast)
         self._labels = {}

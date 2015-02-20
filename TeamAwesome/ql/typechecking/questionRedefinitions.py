@@ -2,10 +2,7 @@ from .Visitor import Visitor
 from .common import typeOfIdentifier, nativeQuestionType
 from . import Message
 
-def check(ast):
-    return QuestionRedefinitionsVisitor(ast).visit(ast.root)
-
-class QuestionRedefinitionsVisitor(Visitor):
+class Checker(Visitor):
     def _visitQuestionStatement(self, node):
         myType = nativeQuestionType(node.type)
         expectedType = typeOfIdentifier(

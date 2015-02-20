@@ -3,10 +3,8 @@ from . import Message
 
 import ASTNodes
 
-def check(ast):
-    return StatementNestingVisitor(ast).visit(ast.root)
 
-class StatementNestingVisitor(Visitor):
+class Checker(Visitor):
     def _visitRoot(self, node):
         for n in node.getChildren():
             self._allowStatement(

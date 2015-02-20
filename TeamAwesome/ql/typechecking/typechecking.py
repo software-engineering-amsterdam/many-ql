@@ -7,8 +7,9 @@ from . import \
 
 from .Result import Result
 
+
 def check(ast):
-    checkers = [
+    modules = [
         statementNesting,
         cyclicQuestionDependencies,
         typesOfExpressions,
@@ -16,6 +17,6 @@ def check(ast):
         questionRedefinitions
     ];
 
-    results = map(lambda c: c.check(ast), checkers)
-
+    checkers = map(lambda m: m.Checker(ast), modules)
+    results = map(lambda c: c.visit(ast.root), checkers)
     return Result.merge(list(results))

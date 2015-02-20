@@ -6,10 +6,7 @@ import CustomTypes
 from ASTVisitor import ASTVisitor
 
 
-def check(ast):
-    return CyclicQuestionDependenciesVisitor(ast).visit(ast.root)
-
-class CyclicQuestionDependenciesVisitor(Visitor):
+class Checker(Visitor):
     def _visitQuestionStatement(self, node):
         paths = self._dependencyPaths([], node)
         for p in paths:
