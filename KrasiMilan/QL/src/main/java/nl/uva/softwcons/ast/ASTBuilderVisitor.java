@@ -119,7 +119,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
             return new EqualExpression(leftExpression, rightExpression);
         case "!=":
             return new NotEqualExpression(leftExpression, rightExpression);
-        case "=>":
+        case ">=":
             return new GreaterOrEqualExpression(leftExpression, rightExpression);
         case ">":
             return new GreaterThanExpression(leftExpression, rightExpression);
