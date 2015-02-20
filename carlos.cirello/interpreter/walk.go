@@ -47,7 +47,7 @@ func (walk Walk) QuestionNode(v *Visitor, q *ast.QuestionNode) {
 }
 
 // IfNode analyzes condition and run all children (ActionNodes)
-func (walk Walk) IfNode(v *Visitor, i *ast.IfNode) {
+func (walk *Walk) IfNode(v *Visitor, i *ast.IfNode) {
 	walk.nest++
 	for _, actionNode := range i.Stack() {
 		v.Visit(actionNode)
