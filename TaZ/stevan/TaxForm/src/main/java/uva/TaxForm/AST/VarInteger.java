@@ -1,9 +1,17 @@
 package uva.TaxForm.AST;
 
-public class QuestionTypeInteger extends QuestionType {
+public class VarInteger extends NodeVar {
 
 	private int value;
 
+	public String getName() {
+		return super.getName();
+	}
+	
+	public void setName(String name) {
+		super.setName(name);
+	}
+	
 	public int getValue() {
 		return value;
 	}

@@ -74,9 +74,9 @@ label : STRING (DIGIT+)? ('?'|':')? ;
 varName : ID ;
 varType : ( BOOLEAN | MONEY | INT | STRING ) ;
 
-question : label varName ':' varType computed? ;
+question : label varName ':' (varType | computed)? ;
 
-computed : ASSIGN '(' expression+ ')' ;
+computed : varType ASSIGN '(' expression+ ')' ;
 
 /*
  * Conditional structures associate an enabling condition to a question, in which

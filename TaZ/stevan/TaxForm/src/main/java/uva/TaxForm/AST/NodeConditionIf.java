@@ -2,7 +2,7 @@ package uva.TaxForm.AST;
 
 import java.util.LinkedList;
 
-public class NodeIfCondition extends NodeCondition {
+public class NodeConditionIf extends NodeCondition {
 
 	boolean expression = false;		//Not guilty, until proven guilty. Make a separate Class for it?
 	

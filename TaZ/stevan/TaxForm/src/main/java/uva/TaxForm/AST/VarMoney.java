@@ -1,8 +1,16 @@
 package uva.TaxForm.AST;
 
-public class QuestionTypeMoney extends QuestionType {
+public class VarMoney extends NodeVar {
 
 	private float value;
+	
+	public String getName() {
+		return super.getName();
+	}
+	
+	public void setName(String name) {
+		super.setName(name);
+	}
 
 	public float getValue() {
 		return value;
