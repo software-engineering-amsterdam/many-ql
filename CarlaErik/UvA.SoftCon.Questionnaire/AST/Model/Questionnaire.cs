@@ -9,17 +9,17 @@ using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 namespace UvA.SoftCon.Questionnaire.AST
 {
     /// <summary>
-    /// Represents a questionnaire.
+    /// Represents the root of a questionnaire AST.
     /// </summary>
     public sealed class Questionnaire : Node
     {
-        public IReadOnlyCollection<IStatement> Statements
+        public IReadOnlyList<IStatement> Statements
         {
             get;
             private set;
         }
 
-        public Questionnaire(IReadOnlyCollection<IStatement> statements)
+        public Questionnaire(IReadOnlyList<IStatement> statements)
         {
             Statements = statements;
         }
