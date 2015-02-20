@@ -5,6 +5,7 @@ package interpreter
 
 import (
 	"log"
+	"time"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
@@ -81,6 +82,7 @@ walkLoop:
 		}
 	}
 
+	ticker := time.Tick(100 * time.Millisecond)
 	for {
 		select {
 		case r := <-v.receive:
@@ -111,7 +113,7 @@ walkLoop:
 				v.send <- &Event{Type: Flush}
 			}
 
-		default:
+		case <-ticker:
 			v.send <- &Event{Type: FetchAnswers}
 		}
 	}
