@@ -2,7 +2,7 @@ package uva.TaxForm.AST;
 
 import java.util.LinkedList;
 
-public class Form extends Node {
+public class NodeForm extends Node {
 
 	private String name;
 
@@ -20,5 +20,9 @@ public class Form extends Node {
 	
 	public LinkedList<Node> getNodes() {
 		return super.getNodes();
+	}
+	
+	public String toString() {
+		return super.toString(name);
 	}
 }

@@ -15,4 +15,8 @@ public class QuestionTypeBoolean extends QuestionType {
 	public void setValue(String value) {
 		this.value = Boolean.parseBoolean(value);
 	}
+	
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

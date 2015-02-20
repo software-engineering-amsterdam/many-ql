@@ -1,10 +1,7 @@
 package uva.TaxForm;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.net.URL;
-
-import uva.TaxForm.GUI.GUI;
 
 public class App {
 	

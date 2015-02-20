@@ -74,9 +74,9 @@ label : STRING (DIGIT+)? ('?'|':')? ;
 varName : ID ;
 varType : ( BOOLEAN | MONEY | INT | STRING ) ;
 
-question : label varName ':' ( varType | computed ) ;
+question : label varName ':' varType computed? ;
 
-computed : varType ( ASSIGN '(' expression ')' ) ;
+computed : ASSIGN '(' expression+ ')' ;
 
 /*
  * Conditional structures associate an enabling condition to a question, in which
@@ -90,7 +90,7 @@ computed : varType ( ASSIGN '(' expression ')' ) ;
  * questions at once.
  */
 condition 
-	: 'if' '(' expression ')' '{' ( question | condition )+ '}'	
+	: 'if' '(' expression+ ')' '{' ( question | condition )+ '}'	
 		(
 			('else' '{' ( question | condition )+ '}')
 			|
@@ -104,21 +104,20 @@ condition
  * boolean, string, integer, date and decimal and money/currency.
  */
 expression
-	: varName													#singleExpression
-	| varName AND varName										#andExpression
-	| varName OR varName										#orExpression
-	| varName NOT varName										#notExpression
-	| varName LOWER varName										#lowerExpression
-	| varName UPPER varName										#upperExpression
-	| varName LOWER_EQUAL varName								#lowerEqualExpression
-	| varName UPPER_EQUAL varName								#upperEqualExpression
-	| varName EQUAL varName										#equalExpression
-	| varName NOT_EQUAL varName									#notEqualExpression
-	| varName DIVIDE varName									#divideExpression
-	| varName MINUS varName										#minusExpression
-	| varName ADD varName										#addExpression
-	| varName MULTIPLY varName									#multiplyExpression
-	| varName DIVIDE varName									#divideExpression
+	: varName											#singleExpression
+	| AND varName										#andExpression
+	| OR varName										#orExpression
+	| NOT varName										#notExpression
+	| LOWER varName										#lowerExpression
+	| UPPER varName										#upperExpression
+	| LOWER_EQUAL varName								#lowerEqualExpression
+	| UPPER_EQUAL varName								#upperEqualExpression
+	| EQUAL varName										#equalExpression
+	| NOT_EQUAL varName									#notEqualExpression
+	| MINUS varName										#minusExpression
+	| ADD varName										#addExpression
+	| MULTIPLY varName									#multiplyExpression
+	| DIVIDE varName									#divideExpression
 	;
 
 

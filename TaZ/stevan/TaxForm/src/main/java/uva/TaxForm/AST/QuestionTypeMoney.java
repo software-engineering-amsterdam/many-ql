@@ -15,4 +15,8 @@ public class QuestionTypeMoney extends QuestionType {
 	public void setValue(String value) {
 		this.value = Float.parseFloat(value);
 	}
+	
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

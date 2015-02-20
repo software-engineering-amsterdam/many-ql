@@ -15,4 +15,8 @@ public class QuestionTypeInteger extends QuestionType {
 	public void setValue(String value) {
 		this.value = Integer.parseInt(value);
 	}
+	
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

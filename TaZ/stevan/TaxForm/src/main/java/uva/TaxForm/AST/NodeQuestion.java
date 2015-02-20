@@ -1,11 +1,11 @@
 package uva.TaxForm.AST;
 
-public class Question extends Node {
+public class NodeQuestion extends Node {
 	
 	private String name;
 	private String label;
 	private QuestionType type;
-	private Expression expression;	//TODO: implement Expression
+	private NodeExpression expression;	//TODO: implement Expression
 	
 	public String getName() {
 		return name;
@@ -37,5 +37,17 @@ public class Question extends Node {
 
 	public void setLevel(int level) {
 		super.setLevel(level);
+	}
+	
+	public NodeExpression getExpression() {
+		return expression;
+	}
+
+	public void setExpression(NodeExpression expression) {
+		this.expression = expression;
+	}
+
+	public String toString() {
+		return super.toString(name + " - " + type.toString());
 	}
 }
