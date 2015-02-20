@@ -35,12 +35,11 @@ public class Main {
         // Perform type checking.
         TypeChecker typeChecker = new TypeChecker();
         boolean isFormTypeCorrect = typeChecker.checkForm(form);
+
         // if form is not type-correct, display warnings, errors and exit
         if (!isFormTypeCorrect) {
             System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
             typeChecker.displayFormWarningsAndErrors();
-        } else {
-            System.out.print("Yes, so I ran.");
         }
 
         Evaluator evaluator = new Evaluator();
