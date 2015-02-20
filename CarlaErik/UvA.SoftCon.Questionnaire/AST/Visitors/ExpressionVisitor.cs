@@ -102,7 +102,12 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
 
         public override IExpression VisitStringLiteral(QLParser.StringLiteralContext context)
         {
-            return new Literal<string>(context.STRING().GetText());
+            string value = context.STRING().GetText();
+            
+            // Remove the leading and trailing '"' characters from the string literal.
+            value = value.Trim('"');
+
+            return new Literal<string>(value);
         }
     }
 }

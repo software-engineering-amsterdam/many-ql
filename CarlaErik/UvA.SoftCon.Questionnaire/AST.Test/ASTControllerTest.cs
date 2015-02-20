@@ -7,13 +7,13 @@ using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 
-namespace AST.Test
+namespace UvA.SoftCon.Questionnaire.AST.Test
 {
     /// <summary>
     /// Provides test methods for the <see cref="UvA.SoftCon.Questionnaire.AST.ASTController"/> class.
     /// </summary>
     [TestClass]
-    public class QuestionnaireVisitorTest
+    public class ASTControllerTest
     {
         [TestMethod]
         public void TestParseEmptyString()
@@ -49,6 +49,48 @@ namespace AST.Test
             Assert.AreEqual<DataType>(DataType.String, question.DataType);
         }
 
+
+        [TestMethod]
+        public void TestParseDeclaration()
+        {
+            // Arrange
+            var controller = new ASTController();
+            string ql = "int counter";
+
+            // Act
+            var form = controller.ParseQLString(ql);
+
+            // Assert
+            Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
+            Assert.AreEqual<int>(1, form.Statements.Count);
+            var declaration = form.Statements[0] as Declaration;
+
+            Assert.AreEqual<DataType>(DataType.Integer, declaration.DataType);
+            Assert.AreEqual<string>("counter", declaration.Id.Name);
+            Assert.IsNull(declaration.Initialization);
+        }
+
+        [TestMethod]
+        public void TestParseDeclarationWithInitialization()
+        {
+            // Arrange
+            var controller = new ASTController();
+            string ql = "string surname = \"Verhoofstad\"";
+
+            // Act
+            var form = controller.ParseQLString(ql);
+
+            // Assert
+            Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
+            Assert.AreEqual<int>(1, form.Statements.Count);
+            var declaration = form.Statements[0] as Declaration;
+
+            Assert.AreEqual<DataType>(DataType.String, declaration.DataType);
+            Assert.AreEqual<string>("surname", declaration.Id.Name);
+            Assert.IsInstanceOfType(declaration.Initialization, typeof(Literal<string>));
+            var initialization = declaration.Initialization as Literal<string>;
+            Assert.AreEqual<string>("Verhoofstad", initialization.Value);
+        }
 
         [TestMethod]
         public void TestParseAssignment()

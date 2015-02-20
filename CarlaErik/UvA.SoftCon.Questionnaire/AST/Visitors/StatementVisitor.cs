@@ -50,9 +50,16 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
             Identifier id = new Identifier(context.ID().GetText());
-            IExpression initialization = context.expr().Accept(new ExpressionVisitor());
 
-            return new Declaration(dataType, id, initialization);
+            if (context.expr() != null)
+            {
+                IExpression initialization = context.expr().Accept(new ExpressionVisitor());
+                return new Declaration(dataType, id, initialization);
+            }
+            else
+            {
+                return new Declaration(dataType, id);
+            }
         }
 
         public override IStatement VisitAssignment(QLParser.AssignmentContext context)
