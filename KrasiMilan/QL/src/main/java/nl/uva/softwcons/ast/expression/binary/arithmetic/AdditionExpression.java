@@ -2,9 +2,8 @@ package nl.uva.softwcons.ast.expression.binary.arithmetic;
 
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
-import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 
-public class AdditionExpression extends BinaryExpression {
+public class AdditionExpression extends ArithmeticExpression {
 
     public AdditionExpression(Expression left, Expression right) {
         super(left, right);
