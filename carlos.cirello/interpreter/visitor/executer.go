@@ -1,4 +1,4 @@
-package interpreter
+package visitor
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 

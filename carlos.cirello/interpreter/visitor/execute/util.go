@@ -1,9 +1,10 @@
-package interpreter
+package execute
 
 import (
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
 func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,
@@ -55,10 +56,10 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 	identifier := t.(*ast.TermNode).IdentifierReference()
 	if identifier != "" {
 		ret := make(chan *ast.QuestionNode)
-		exec.symbolChan <- &symbolEvent{
-			command: SymbolRead,
-			name:    identifier,
-			ret:     ret,
+		exec.symbolChan <- &event.Symbol{
+			Command: event.SymbolRead,
+			Name:    identifier,
+			Ret:     ret,
 		}
 
 		q := <-ret

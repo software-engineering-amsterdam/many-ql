@@ -6,14 +6,14 @@ package frontend
 
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
 // Inputer describes the actions which frontend must implement
 // in order to be compliant with the VM expectations of
 // functionality.
 type Inputer interface {
-	DrawQuestion(q *ast.QuestionNode, visible interpreter.Visibility)
+	DrawQuestion(q *ast.QuestionNode, visible event.Visibility)
 	UpdateQuestion(q *ast.QuestionNode)
 	Loop()
 	Flush()
@@ -23,7 +23,7 @@ type Inputer interface {
 // New instantiates a frontend goroutine, looping all the
 // communications with the VM into the chosen Frontend
 // (GUI, Text, Web).
-func New(fromVM, toVM chan *interpreter.Event, driver Inputer) {
+func New(fromVM, toVM chan *event.Event, driver Inputer) {
 	f := &frontend{
 		receive: fromVM,
 		send:    toVM,
@@ -34,8 +34,8 @@ func New(fromVM, toVM chan *interpreter.Event, driver Inputer) {
 }
 
 type frontend struct {
-	receive chan *interpreter.Event
-	send    chan *interpreter.Event
+	receive chan *event.Event
+	send    chan *event.Event
 
 	driver Inputer
 }
@@ -45,25 +45,25 @@ func (f *frontend) loop() {
 		select {
 		case r := <-f.receive:
 			switch r.Type {
-			case interpreter.ReadyP:
-				f.send <- &interpreter.Event{
-					Type: interpreter.ReadyT,
+			case event.ReadyP:
+				f.send <- &event.Event{
+					Type: event.ReadyT,
 				}
 
-			case interpreter.DrawQuestion:
+			case event.DrawQuestion:
 				f.driver.DrawQuestion(&r.Question, r.Visible)
 
-			case interpreter.UpdateQuestion:
+			case event.UpdateQuestion:
 				f.driver.UpdateQuestion(&r.Question)
 
-			case interpreter.Flush:
+			case event.Flush:
 				f.driver.Flush()
 
-			case interpreter.FetchAnswers:
+			case event.FetchAnswers:
 				fetchedAnswers := f.driver.FetchAnswers()
 				if len(fetchedAnswers) > 0 {
-					f.send <- &interpreter.Event{
-						Type:    interpreter.Answers,
+					f.send <- &event.Event{
+						Type:    event.Answers,
 						Answers: fetchedAnswers,
 					}
 				}
