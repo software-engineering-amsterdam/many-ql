@@ -1,5 +1,6 @@
 from .Visitor import Visitor
 from . import Message
+from .common import questionIdentifiedBy
 
 import ASTNodes
 import CustomTypes
@@ -33,7 +34,7 @@ class Checker(Visitor):
 
         identifiers = self._extractIdentifiers(node.expr)
         for i in identifiers:
-            question = self._questionIdentifiedBy(i, self._ast.root)
+            question = questionIdentifiedBy(i, self._ast.root)
             if question is not None:
                 paths.extend(self._dependencyPaths(path, question))
 
@@ -44,17 +45,6 @@ class Checker(Visitor):
         visitor.visit(node)
         return visitor.identifiers
 
-    def _questionIdentifiedBy(self, identifier, node):
-        if isinstance(node, ASTNodes.QuestionStatement) and \
-            node.identifier == identifier:
-            return node
-
-        for n in node.getChildren():
-            question = self._questionIdentifiedBy(identifier, n)
-            if question is not None:
-                return question
-
-        return None
 
 class ExtractIdentifiersVisitor(ASTVisitor):
     def __init__(self):

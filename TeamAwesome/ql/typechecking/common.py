@@ -9,15 +9,20 @@ def nativeQuestionType(questionType):
         'money' : CustomTypes.Money
     }[questionType]
 
-def typeOfIdentifier(identifier, node):
-    if isinstance(node, ASTNodes.QuestionStatement) and\
+def questionIdentifiedBy(identifier, node):
+    if isinstance(node, ASTNodes.QuestionStatement) and \
         node.identifier == identifier:
-        return nativeQuestionType(node.type)
+        return node
 
     for n in node.getChildren():
-        ident = typeOfIdentifier(identifier, n)
-        if ident is not None:
-            return ident
+        question = questionIdentifiedBy(identifier, n)
+        if question is not None:
+            return question
 
     return None
-    
+
+def typeOfIdentifier(identifier, node):
+    question = questionIdentifiedBy(identifier, node)
+    if question is None:
+        return None
+    return nativeQuestionType(question.type)
