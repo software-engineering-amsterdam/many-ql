@@ -1,6 +1,8 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.NodeCondition;
 
 import java.util.LinkedList;
+
+import uva.TaxForm.AST.Node;
 
 public class NodeConditionIf extends NodeCondition {
 

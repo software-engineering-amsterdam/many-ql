@@ -1,33 +1,19 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.NodeQuestion;
+
+import uva.TaxForm.AST.Node;
+import uva.TaxForm.AST.NodeExp.NodeExp;
 
 public class NodeQuestion extends Node {
 	
 	private String label;
-	private NodeVar var;
 	private NodeExp exp;
 	
-	public String getName() {
-		return this.var.getName();
-	}
-
-	public void setName(String name) {
-		this.var.setName(name);
-	}
-
 	public String getLabel() {
 		return label;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public NodeVar getVar() {
-		return this.var;
-	}
-
-	public void setVar(NodeVar var) {
-		this.var = var;
 	}
 
 	public int getLevel() {
@@ -44,9 +30,5 @@ public class NodeQuestion extends Node {
 
 	public void setExpression(NodeExp exp) {
 		this.exp = exp;
-	}
-
-	public String toString() {
-		return super.toString(this.getName() + " - " + var.toString());
 	}
 }

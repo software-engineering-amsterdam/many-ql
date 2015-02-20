@@ -1,19 +1,20 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.NodeVar;
 
-public class VarMoney extends NodeVar {
-
+public class VarMoney {
+	
+	private String name;
 	private float value;
 	
 	public String getName() {
-		return super.getName();
+		return this.name;
 	}
 	
 	public void setName(String name) {
-		super.setName(name);
+		this.name = name;
 	}
 
 	public float getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setValue(float value) {
@@ -22,9 +23,5 @@ public class VarMoney extends NodeVar {
 	
 	public void setValue(String value) {
 		this.value = Float.parseFloat(value);
-	}
-	
-	public String toString() {
-		return String.valueOf(value);
 	}
 }

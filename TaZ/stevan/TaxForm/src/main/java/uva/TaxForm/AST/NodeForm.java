@@ -21,8 +21,4 @@ public class NodeForm extends Node {
 	public LinkedList<Node> getNodes() {
 		return super.getNodes();
 	}
-	
-	public String toString() {
-		return super.toString(name);
-	}
 }

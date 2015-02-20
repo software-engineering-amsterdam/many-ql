@@ -1,4 +1,6 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.NodeExp;
+
+import uva.TaxForm.AST.Node;
 
 public class NodeExpConditional extends NodeExp {
 

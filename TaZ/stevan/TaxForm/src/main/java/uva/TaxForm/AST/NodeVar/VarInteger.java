@@ -1,15 +1,16 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.NodeVar;
 
 public class VarInteger extends NodeVar {
-
+	
+	private String name;
 	private int value;
 
 	public String getName() {
-		return super.getName();
+		return this.name;
 	}
 	
 	public void setName(String name) {
-		super.setName(name);
+		this.name = name;
 	}
 	
 	public int getValue() {
@@ -22,9 +23,5 @@ public class VarInteger extends NodeVar {
 	
 	public void setValue(String value) {
 		this.value = Integer.parseInt(value);
-	}
-	
-	public String toString() {
-		return String.valueOf(value);
 	}
 }

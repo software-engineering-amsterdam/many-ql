@@ -4,25 +4,22 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import uva.TaxForm.AST.Node;
-import uva.TaxForm.AST.NodeConditionIf;
-import uva.TaxForm.AST.NodeExp;
-import uva.TaxForm.AST.NodeExpArithmetic;
 import uva.TaxForm.AST.NodeForm;
-import uva.TaxForm.AST.NodeQuestion;
-import uva.TaxForm.AST.NodeVar;
-import uva.TaxForm.AST.VarBoolean;
-import uva.TaxForm.AST.VarInteger;
-import uva.TaxForm.AST.VarMoney;
-import uva.TaxForm.AST.VarString;
-import uva.TaxForm.Utils.NodeUtils;
-import uva.TaxForm.Utils.StringUtils;
+import uva.TaxForm.AST.NodeCondition.NodeConditionIf;
+import uva.TaxForm.AST.NodeExp.NodeExp;
+import uva.TaxForm.AST.NodeExp.NodeExpArithmetic;
+import uva.TaxForm.AST.NodeQuestion.NodeQuestion;
+import uva.TaxForm.AST.NodeQuestion.NodeQuestionBoolean;
+import uva.TaxForm.AST.NodeQuestion.NodeQuestionInteger;
+import uva.TaxForm.AST.NodeQuestion.NodeQuestionMoney;
+import uva.TaxForm.AST.NodeQuestion.NodeQuestionString;
+import uva.TaxForm.AST.NodeVar.NodeVar;
+import uva.TaxForm.AST.Utils.UtilsNode;
+import uva.TaxForm.AST.Visitors.VisitorCondition;
+import uva.TaxForm.AST.Visitors.VisitorForm;
 import uva.TaxForm.antlr4.TaxFormBaseVisitor;
 import uva.TaxForm.antlr4.TaxFormParser;
 import uva.TaxForm.antlr4.TaxFormParser.ComputedContext;
-import uva.TaxForm.antlr4.TaxFormParser.IfConditionContext;
-import uva.TaxForm.antlr4.TaxFormParser.MinusExpressionContext;
-import uva.TaxForm.antlr4.TaxFormParser.QuestionContext;
-import uva.TaxForm.antlr4.TaxFormParser.SingleExpressionContext;
 import uva.TaxForm.antlr4.TaxFormParser.VarTypeContext;
 
 public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
@@ -31,44 +28,20 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 
 	public Integer visitForm( @NotNull TaxFormParser.FormContext ctx ) {
 		
-		this.form.setName(ctx.varName().getText());
-		
-		System.out.println(form.toString());
-		
 		/*
 		 * A questionnaire consists of a number of questions arranged in sequential and conditional
 		 * structures, and grouping constructs.
 		 * 
 		 * Sequential composition prescribes the order of presentation.
 		 */
+		this.form.setName(ctx.varName().getText());
 		
-		//TODO: Replace by generic static method? in uva.TaxForm.Utils.NodeUtils
-		for ( int i=0; i<ctx.children.size(); i++ ) {
-			
-			//System.out.println(ctx.getChild(i).getClass().getCanonicalName());
-			
-			//QuestionContext
-			if (ctx.getChild(i).getClass().equals(uva.TaxForm.antlr4.TaxFormParser.QuestionContext.class)) {
-				this.visitQuestion((QuestionContext) ctx.getChild(i), this.form);
-			}
-			//IfConditionContext
-			else if (ctx.getChild(i).getClass().equals(uva.TaxForm.antlr4.TaxFormParser.IfConditionContext.class)) {
-				this.visitIfCondition((IfConditionContext) ctx.getChild(i), this.form);
-			}
-		}
+		VisitorForm.visit(this, ctx, this.form);
 		
-		//visitChildren(ctx);
 		return ctx.getRuleIndex();
 	}
 	
 	public Integer visitQuestion( @NotNull TaxFormParser.QuestionContext ctx, Node node ) {
-		
-		//System.out.println(ctx.getParent().invokingState + " - " + ctx.invokingState + " - question");
-		
-		NodeQuestion question = new NodeQuestion();
-		question.setLabel(ctx.label().getText());
-		question.setLevel(node.getLevel() + 1);
-		node.add(question);
 		
 		VarTypeContext varCTX = null;
 		
@@ -79,67 +52,103 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 			varCTX = ctx.computed().varType();
 		}
 		
-		//Set VarType
+		//Set NodeQuestionType
 		if (varCTX != null) {
+			
+			//Check for computed question
+			Boolean computed = varCTX.getParent().getClass().equals(uva.TaxForm.antlr4.TaxFormParser.ComputedContext.class);
+			
 			//Boolean
 			if (varCTX.BOOLEAN() != null) {
-				VarBoolean var = new VarBoolean();
-				var.setName(ctx.varName().getText());
-				question.setVar(var);
+				NodeQuestionBoolean question = UtilsNode.setBooleanQuestionValues(ctx, node);
+				if (computed)
+					this.visitComputed((ComputedContext) varCTX.getParent(), question);
 			}
 			//Money
 			else if (varCTX.MONEY() != null) {
-				VarMoney var = new VarMoney();
-				var.setName(ctx.varName().getText());
-				question.setVar(var);
+				NodeQuestionMoney question = UtilsNode.setMoneyQuestionValues(ctx, node);
+				if (computed)
+					this.visitComputed((ComputedContext) varCTX.getParent(), question);
 			}
 			//Integer
 			else if (varCTX.INT() != null) {
-				VarInteger var = new VarInteger();
-				var.setName(ctx.varName().getText());
-				question.setVar(var);
+				NodeQuestionInteger question = UtilsNode.setIntegerQuestionValues(ctx, node);
+				if (computed)
+					this.visitComputed((ComputedContext) varCTX.getParent(), question);
 			}
 			//String
 			else if (varCTX.STRING() != null){
-				VarString var = new VarString();
-				var.setName(ctx.varName().getText());
-				question.setVar(var);
-			}
-			
-			System.out.println(question.toString());
-		}
-		
-		//Check for Computed Question
-		if (ctx.computed() != null) {
-			
-			for (int i=0; i<ctx.children.size(); i++) {
-				if (ctx.getChild(i).getClass().equals(uva.TaxForm.antlr4.TaxFormParser.ComputedContext.class)) {
-					this.visitComputed((ComputedContext) ctx.getChild(i), question);
-				}
+				NodeQuestionString question = UtilsNode.setStringQuestionValues(ctx, node);
+				if (computed)
+					this.visitComputed((ComputedContext) varCTX.getParent(), question);
 			}
 		}
-		
-		//System.out.println(StringUtils.repeat("\t", question.getLevel()) + question.getName());
 		
 		return ctx.getChildCount();
 	}
 	
 	public Integer visitComputed( @NotNull TaxFormParser.ComputedContext ctx, NodeQuestion question ) {
 		
-		System.out.println(ctx.getParent().invokingState + " - " + ctx.invokingState + " - computed");
-		/*System.out.println(ctx.getParent().getText());
-		System.out.println(question.getClass().getName());*/
+		/*System.out.println(ctx.getParent().invokingState + " - " + ctx.invokingState + " - computed");
+		System.out.println(ctx.getParent().getText());
+		System.out.println(question.getClass().equals(uva.TaxForm.AST.NodeQuestionMoney.class));
 		
-		NodeExp nodeExp = new NodeExp();
-		question.setExpression(nodeExp);
-		
-		nodeExp.setLevel(question.getLevel() + 1);
-		nodeExp.add(question.getVar());
-		
-		NodeExpArithmetic nodeAssign = new NodeExpArithmetic();
-		nodeAssign.setLevel(question.getLevel() + 1);
-		nodeAssign.setOperator("=");
-		nodeExp.add(nodeAssign);
+		if (question.getClass().equals(uva.TaxForm.AST.NodeQuestionBoolean.class)) {
+			
+			NodeQuestionBoolean boolQuestion = (NodeQuestionBoolean) question;
+			NodeExp nodeExp = new NodeExp();
+			
+			boolQuestion.setExpression(nodeExp);
+			nodeExp.setLevel(boolQuestion.getLevel() + 1);
+			//nodeExp.add(boolQuestion.getVar());
+			
+			NodeExpArithmetic nodeAssign = new NodeExpArithmetic();
+			nodeAssign.setLevel(boolQuestion.getLevel() + 1);
+			nodeAssign.setOperator("=");
+			nodeExp.add(nodeAssign);
+		}
+		else if (question.getClass().equals(uva.TaxForm.AST.NodeQuestionMoney.class)) {
+
+			NodeQuestionMoney moneyQuestion = (NodeQuestionMoney) question;
+			NodeExp nodeExp = new NodeExp();
+			
+			moneyQuestion.setExpression(nodeExp);
+			nodeExp.setLevel(moneyQuestion.getLevel() + 1);
+			//nodeExp.add(moneyQuestion.getVar());
+			
+			NodeExpArithmetic nodeAssign = new NodeExpArithmetic();
+			nodeAssign.setLevel(moneyQuestion.getLevel() + 1);
+			nodeAssign.setOperator("=");
+			nodeExp.add(nodeAssign);
+		}
+		else if (question.getClass().equals(uva.TaxForm.AST.NodeQuestionInteger.class)) {
+
+			NodeQuestionInteger integerQuestion = (NodeQuestionInteger) question;
+			NodeExp nodeExp = new NodeExp();
+			
+			integerQuestion.setExpression(nodeExp);
+			nodeExp.setLevel(integerQuestion.getLevel() + 1);
+			//nodeExp.add(integerQuestion.getVar());
+			
+			NodeExpArithmetic nodeAssign = new NodeExpArithmetic();
+			nodeAssign.setLevel(integerQuestion.getLevel() + 1);
+			nodeAssign.setOperator("=");
+			nodeExp.add(nodeAssign);
+		}
+		else if (question.getClass().equals(uva.TaxForm.AST.NodeQuestionString.class)) {
+
+			NodeQuestionString stringQuestion = (NodeQuestionString) question;
+			NodeExp nodeExp = new NodeExp();
+			
+			stringQuestion.setExpression(nodeExp);
+			nodeExp.setLevel(stringQuestion.getLevel() + 1);
+			//nodeExp.add(stringQuestion.getVar());
+			
+			NodeExpArithmetic nodeAssign = new NodeExpArithmetic();
+			nodeAssign.setLevel(stringQuestion.getLevel() + 1);
+			nodeAssign.setOperator("=");
+			nodeExp.add(nodeAssign);
+		}
 		
 		
 
@@ -153,7 +162,7 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 				
 				this.visitMinusExpression((MinusExpressionContext) ctx.expression().get(i), nodeExp);
 			}
-		}
+		}*/
 		
 		return ctx.getRuleIndex();
 	}
@@ -162,9 +171,10 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 		
 		System.out.println("Single: " + ctx.getText());
 		
-		NodeVar var = NodeUtils.getVarInTree(ctx.getText(), this.form);
+		NodeVar var = new NodeVar();
+		var = UtilsNode.getVarInTree(ctx.getText(), this.form);
 		
-		System.out.println("varName: " + var.getName());
+		System.out.println("varName: " + UtilsNode.getVarInTree(ctx.getText(), this.form));
 		
 		//Set VarType
 		/*if (ctx.varType() != null) {
@@ -223,32 +233,12 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 	
 	public Integer visitIfCondition( @NotNull TaxFormParser.IfConditionContext ctx, Node node ) {
 		
-		//System.out.println(ctx.getParent().invokingState + " - " + ctx.invokingState + " - ifCondition");
-		
 		NodeConditionIf condition = new NodeConditionIf();
 		condition.setLevel(node.getLevel() + 1);
 		node.add(condition);
 		
-		//System.out.println(StringUtils.repeat("\t", condition.getLevel()) + "IfCondition");
+		VisitorCondition.ifVisit(this, ctx, node);
 		
-		//TODO: Replace by generic static method? in uva.TaxForm.Utils.NodeUtils
-		for ( int i=0; i<ctx.children.size(); i++ ) {
-			
-			//System.out.println(ctx.getChild(i).getClass().getCanonicalName());
-			
-			//QuestionContext
-			if (ctx.getChild(i).getClass().equals(uva.TaxForm.antlr4.TaxFormParser.QuestionContext.class)) {
-				this.visitQuestion((QuestionContext) ctx.getChild(i), condition);
-			}
-			//IfConditionContext
-			/*else if (ctx.getChild(i).getClass().equals(uva.TaxForm.antlr4.TaxFormParser.IfConditionContext.class)) {
-				this.visitIfCondition((IfConditionContext) ctx.getChild(i), condition);
-			}*/
-		}
-		
-		
-		
-		//visitChildren(ctx);
 		return ctx.getRuleIndex();
 	}
 	

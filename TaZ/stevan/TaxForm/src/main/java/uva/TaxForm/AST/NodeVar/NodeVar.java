@@ -1,4 +1,6 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.NodeVar;
+
+import uva.TaxForm.AST.Node;
 
 public class NodeVar extends Node {
 

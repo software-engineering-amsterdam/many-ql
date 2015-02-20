@@ -1,15 +1,16 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.NodeVar;
 
 public class VarBoolean extends NodeVar {
 
+	private String name;
 	private boolean value;
 
 	public String getName() {
-		return super.getName();
+		return this.name;
 	}
 	
 	public void setName(String name) {
-		super.setName(name);
+		this.name = name;
 	}
 	
 	public boolean isValue() {
@@ -22,9 +23,5 @@ public class VarBoolean extends NodeVar {
 	
 	public void setValue(String value) {
 		this.value = Boolean.parseBoolean(value);
-	}
-	
-	public String toString() {
-		return String.valueOf(value);
 	}
 }

@@ -1,16 +1,13 @@
 package uva.TaxForm.AST;
 
 import java.util.LinkedList;
-import uva.TaxForm.Utils.StringUtils;
 
 public class Node {
 	
 	private LinkedList<Node> nodes = new LinkedList<Node>();
 	private int level = 0;
 	
-	Node() {
-		super();
-	}
+	protected Node() {}
 	
 	public void add(Node node) {
 		nodes.add(node);
@@ -26,15 +23,5 @@ public class Node {
 
 	public void setLevel(int level) {
 		this.level = level;
-	}
-	
-	public String toString() {
-		String str = StringUtils.repeat("\t", level); 
-		return str;
-	}
-	
-	public String toString(String var) {
-		String str = StringUtils.repeat("\t", level) + var; 
-		return str;
 	}
 }
