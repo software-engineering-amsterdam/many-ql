@@ -1,13 +1,13 @@
 package uva.ql.ast.expressions.logic;
 
+import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
-import uva.ql.supporting.Tuple;
 
 public class NotEqual extends BinaryExpressions{
 
-	public NotEqual(Expression _left, Expression _right, Tuple<Integer, Integer> _codeLines) {
+	public NotEqual(Expression _left, Expression _right, CodeLines _codeLines) {
 		super(_left, _right, Operator.NOT_EQUAL, _codeLines);
 		// TODO Auto-generated constructor stub
 	}
