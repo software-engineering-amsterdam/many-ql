@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Parsing;
+using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
 {
@@ -35,7 +36,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
 
         public override IStatement VisitQuestion(QLParser.QuestionContext context)
         {
-            DataType type = TypeStringToEnum(context.TYPE().GetText());
+            DataType type = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
             Identifier id = new Identifier(context.ID().GetText());
             string label = context.STRING().GetText();
 
@@ -47,7 +48,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
 
         public override IStatement VisitDeclaration(QLParser.DeclarationContext context)
         {
-            DataType dataType = TypeStringToEnum(context.TYPE().GetText());
+            DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
             Identifier id = new Identifier(context.ID().GetText());
             IExpression initialization = context.expr().Accept(new ExpressionVisitor());
 
@@ -60,23 +61,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression expression = context.expr().Accept(new ExpressionVisitor());
 
             return new Assignment(variable, expression);
-        }
-
-        private static DataType TypeStringToEnum(string value)
-        {
-            switch (value)
-            {
-                case "bool":
-                    return DataType.Boolean;
-                case "double":
-                    return DataType.Double;
-                case "int":
-                    return DataType.Integer;
-                case "string":
-                    return DataType.String;
-                default:
-                    throw new ArgumentException("Parameter value does not contain a valid data type. Value: " + value);
-            }
         }
     }
 }

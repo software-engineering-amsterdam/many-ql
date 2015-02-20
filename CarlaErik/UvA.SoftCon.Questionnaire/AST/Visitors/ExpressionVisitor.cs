@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.Parsing;
+using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
 {
@@ -22,16 +23,17 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             IExpression left = context.expr(0).Accept(this);
             IExpression right = context.expr(1).Accept(this);
-            Operation operation = OperatorStringToEnum(context.GetChild(1).GetText());
+            Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new BinaryExpression(operation, left, right);
         }
+
 
         public override IExpression VisitAddSubstract(QLParser.AddSubstractContext context)
         {
             IExpression left = context.expr(0).Accept(this);
             IExpression right = context.expr(1).Accept(this);
-            Operation operation = OperatorStringToEnum(context.GetChild(1).GetText());
+            Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new BinaryExpression(operation, left, right);
         }
@@ -40,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             IExpression left = context.expr(0).Accept(this);
             IExpression right = context.expr(1).Accept(this);
-            Operation operation = OperatorStringToEnum(context.GetChild(1).GetText());
+            Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new BinaryExpression(operation, left, right);
         }
@@ -49,7 +51,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             IExpression left = context.expr(0).Accept(this);
             IExpression right = context.expr(1).Accept(this);
-            Operation operation = OperatorStringToEnum(context.GetChild(1).GetText());
+            Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new BinaryExpression(operation, left, right);
         }
@@ -58,7 +60,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             IExpression left = context.expr(0).Accept(this);
             IExpression right = context.expr(1).Accept(this);
-            Operation operation = OperatorStringToEnum(context.GetChild(1).GetText());
+            Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new BinaryExpression(operation, left, right);
         }
@@ -67,7 +69,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             IExpression left = context.expr(0).Accept(this);
             IExpression right = context.expr(1).Accept(this);
-            Operation operation = OperatorStringToEnum(context.GetChild(1).GetText());
+            Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
             return new BinaryExpression(operation, left, right);
         }
@@ -101,39 +103,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         public override IExpression VisitStringLiteral(QLParser.StringLiteralContext context)
         {
             return new Literal<string>(context.STRING().GetText());
-        }
-
-        private static Operation OperatorStringToEnum(string value)
-        {
-            switch (value)
-            {
-                case "*":
-                    return Operation.Multiply;
-                case "/":
-                    return Operation.Divide;
-                case "+":
-                    return Operation.Add;
-                case "-":
-                    return Operation.Substract;
-                case "<":
-                    return Operation.LessThan;
-                case ">":
-                    return Operation.GreaterThan;
-                case "<=":
-                    return Operation.LessThanOrEqualTo;
-                case ">=":
-                    return Operation.GreaterThanOrEqualTo;
-                case "==":
-                    return Operation.Equals;
-                case "!=":
-                    return Operation.NotEquals;
-                case "&&":
-                    return Operation.And;
-                case "||":
-                    return Operation.Or;
-                default:
-                    throw new ArgumentException("Parameter value does not contain a valid operator. Value: " + value);
-            }
         }
     }
 }
