@@ -30,8 +30,18 @@ func New(fromInterpreter, toInterpreter chan *interpreter.Event,
 // output stream.
 func (o *Output) Write() {
 	csv := csv.NewWriter(o.stream)
-	o.send <- &interpreter.Event{
+
+	readyT := &interpreter.Event{
 		Type: interpreter.ReadyT,
+	}
+
+readyTLoop:
+	for {
+		select {
+		case <-o.receive:
+		case o.send <- readyT:
+			break readyTLoop
+		}
 	}
 
 commLoop:
