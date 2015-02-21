@@ -1,7 +1,7 @@
 package org.uva.sea.ql.encoders.ast;
 
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Questionnaire containing {@link Question}s.
@@ -10,19 +10,24 @@ public class Questionnaire {
 
 	private String name;
 
-	/** Questions, mapped by their name. */
-	private SortedMap<String, Question> questions = new TreeMap<String, Question>();
+	private List<Question> questions = new ArrayList<Question>();
 
-	public SortedMap<String, Question> getQuestions() {
+	public List<Question> getQuestions() {
 		return questions;
 	}
 
 	public Question getQuestion(String name) {
-		return questions.get(name);
+		for (Question question : questions) {
+			if (question.getName().equals(name)) {
+				return question;
+			}
+		}
+		throw new IllegalStateException(
+				"Questionnaire does not contain question with name " + name);
 	}
 
 	public void addQuestion(Question question) {
-		questions.put(question.getName(), question);
+		questions.add(question);
 	}
 
 	public String getName() {

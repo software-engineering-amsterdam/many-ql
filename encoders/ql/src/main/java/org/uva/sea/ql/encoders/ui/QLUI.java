@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -47,8 +47,7 @@ public class QLUI extends JFrame {
 		try {
 			Questionnaire questionnaire = questionnaireParsingService
 					.parse("src/main/resources/input_form.ql");
-			Collection<Question> questions = questionnaire.getQuestions()
-					.values();
+			List<Question> questions = questionnaire.getQuestions();
 			int y = 0;
 			for (Question question : questions) {
 				// add(new JLabel(question.getName()), 0, y);
@@ -64,7 +63,8 @@ public class QLUI extends JFrame {
 					add(textField, 1, y);
 					break;
 				default:
-					throw new IllegalStateException("Unsupported type: " + dataType);
+					throw new IllegalStateException("Unsupported type: "
+							+ dataType);
 				}
 
 				y++;
