@@ -29,8 +29,15 @@ func New(fromInterpreter, toInterpreter chan *event.Frontend,
 // Write reads all questions from current state of the interpreter and writes to
 // Input stream.
 func (i *Input) Read() {
+	answers := i.readAnswers()
+	i.handshake()
+	i.sendAnswers(answers)
+	i.handoverAndRedraw()
+}
+
+func (i *Input) readAnswers() (answers map[string]string) {
 	csvReader := csv.NewReader(i.stream)
-	answers := make(map[string]string)
+	answers = make(map[string]string)
 	for {
 		row, err := csvReader.Read()
 		if err != nil {
@@ -38,32 +45,58 @@ func (i *Input) Read() {
 		}
 		answers[row[0]] = row[2]
 	}
-	<-i.receive
+	return answers
+}
 
-	readyT := &event.Frontend{
+func (i *Input) handshake() {
+	// handshake
+	<-i.receive
+	i.send <- &event.Frontend{
 		Type: event.ReadyT,
 	}
 
-commLoopReadyT:
+	// skip rendering
+renderingSkipLoop:
 	for {
 		select {
-		case <-i.receive:
-		case i.send <- readyT:
-			break commLoopReadyT
+		case r := <-i.receive:
+			if r.Type == event.Flush {
+				break renderingSkipLoop
+			}
 		}
 	}
+}
 
-	sendAnswers := &event.Frontend{
+func (i *Input) sendAnswers(answers map[string]string) {
+	answersEvent := &event.Frontend{
 		Type:    event.Answers,
 		Answers: answers,
 	}
-
 commLoop:
 	for {
 		select {
-		case <-i.receive:
-		case i.send <- sendAnswers:
+
+		case i.send <- answersEvent:
 			break commLoop
+
+		default:
+
+		}
+	}
+}
+
+func (i *Input) handoverAndRedraw() {
+	redrawEvent := &event.Frontend{Type: event.Redraw}
+redrawLoop:
+	for {
+		select {
+		case <-i.receive:
+
+		case i.send <- redrawEvent:
+			break redrawLoop
+
+		default:
+
 		}
 	}
 }
