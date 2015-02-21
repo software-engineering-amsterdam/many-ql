@@ -16,6 +16,6 @@ public class UIQuestionFactory {
             return new UITextQuestion(_question);
         }
 
-        return null;
+        return new UINullQuestion();
     }
 }

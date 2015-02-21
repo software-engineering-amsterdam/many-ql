@@ -13,8 +13,10 @@ public class UITextQuestion implements UIQuestion {
         this.question = _question;
 
         panel = new JPanel();
-        panel.add(new JTextField());
         panel.add(new JLabel(this.question.getLabel()));
+        JFormattedTextField textOnlyField = new JFormattedTextField();
+        textOnlyField.setColumns(10);
+        panel.add(textOnlyField);
     }
 
     @Override
