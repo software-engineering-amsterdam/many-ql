@@ -39,6 +39,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     private Type getIdentifier(String _name) {
         return identifiers.containsKey(_name) ? identifiers.get(_name) : null;
     }
+    
+    private String removeStringQuotes(String _str) {
+        return _str.replaceAll("^\"|\"$", "");
+    }
 
     /**
      * =======================
@@ -85,7 +89,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         this.addIdentifier(identifier.getName(), type);
 
         STRING grammarLabel = new STRING(ctx.STRING().getText());
-        String label = grammarLabel.toString();
+        String label = removeStringQuotes(grammarLabel.toString());
 
         return new Question(type, label, identifier);
     }
@@ -97,7 +101,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         this.addIdentifier(identifier.getName(), type);
 
         STRING grammarLabel = new STRING(ctx.STRING().getText());
-        String label = grammarLabel.toString();
+        String label = removeStringQuotes(grammarLabel.toString());
 
         Expression expression = (Expression) ctx.expression().accept(this);
 
