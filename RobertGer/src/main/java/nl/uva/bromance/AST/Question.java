@@ -5,8 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.AST.Range.Range;
+import nl.uva.bromance.Answer;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
@@ -99,5 +101,16 @@ public class Question extends Node {
         }
 
         return super.visualize(parent);
+    }
+
+    @Override
+    public void typeCheck(Map<String, Node> references, Node node) {
+        Question q = (Question) node;
+        if (references.get(q.getIdentifier()) == null) {
+
+        } else {
+            Answer a = new Answer(q.getQuestionType());
+            references.put(q.getIdentifier(), q);
+        }
     }
 }
