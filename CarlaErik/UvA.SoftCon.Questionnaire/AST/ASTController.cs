@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Visitors;
 using UvA.SoftCon.Questionnaire.Parsing;
 
@@ -12,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.AST
 {
     public class ASTController
     {
-        public Questionnaire ParseQLFile(FileInfo qlFile)
+        public Form ParseQLFile(FileInfo qlFile)
         {
             if(qlFile == null) { throw new ArgumentNullException("qlFile"); }
             if(!qlFile.Exists) { throw new FileNotFoundException("Could not find file " + qlFile.FullName + "."); }
@@ -23,7 +24,7 @@ namespace UvA.SoftCon.Questionnaire.AST
             }
         }
 
-        public Questionnaire ParseQLString(string ql)
+        public Form ParseQLString(string ql)
         {
             if (ql == null) { throw new ArgumentNullException("ql"); }
 
@@ -33,7 +34,7 @@ namespace UvA.SoftCon.Questionnaire.AST
             }
         }
 
-        public Questionnaire ParseQLStream(TextReader reader)
+        public Form ParseQLStream(TextReader reader)
         {
             if (reader == null) { throw new ArgumentNullException("reader"); }
 
@@ -45,9 +46,9 @@ namespace UvA.SoftCon.Questionnaire.AST
 
             var parser = new QLParser(tokens);
 
-            var visitor = new QuestionnaireVisitor();
+            var visitor = new FormVisitor();
 
-            return visitor.Visit(parser.questionnaire());
+            return visitor.Visit(parser.form());
         }
     }
 }

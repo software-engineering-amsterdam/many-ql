@@ -27,7 +27,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             private set;
         }
 
-        public BinaryExpression(Operation operation, IExpression left, IExpression right)
+        public BinaryExpression(Operation operation, IExpression left, IExpression right, TextPosition position)
+            : base(position)
         {
             Operation = operation;
             Left = left;

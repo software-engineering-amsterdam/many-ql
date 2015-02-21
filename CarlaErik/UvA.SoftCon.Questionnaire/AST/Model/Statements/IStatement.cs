@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
-    public interface IStatement
+    public interface IStatement : INode
     {
     }
 }

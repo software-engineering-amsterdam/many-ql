@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
-namespace UvA.SoftCon.Questionnaire.AST
+namespace UvA.SoftCon.Questionnaire.AST.Model
 {
     /// <summary>
     /// Represents the root of a questionnaire AST.
     /// </summary>
-    public sealed class Questionnaire : Node
+    public sealed class Form : Node
     {
         public IReadOnlyList<IStatement> Statements
         {
@@ -19,7 +19,8 @@ namespace UvA.SoftCon.Questionnaire.AST
             private set;
         }
 
-        public Questionnaire(IReadOnlyList<IStatement> statements)
+        public Form(IReadOnlyList<IStatement> statements, TextPosition position)
+            : base(position)
         {
             Statements = statements;
         }

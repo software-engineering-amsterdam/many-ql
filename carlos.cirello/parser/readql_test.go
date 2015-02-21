@@ -3,6 +3,8 @@ package parser
 import (
 	"strings"
 	"testing"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
 func TestBasic(t *testing.T) {
@@ -199,6 +201,36 @@ func TestIfElseConditions(t *testing.T) {
 		`),
 		"test.ql",
 	)
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}
+
+func TestNegation(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form SomeForm {
+			"Question 1" questionOne string
+			"Question 2" questionTwo numeric
+
+			if (!(questionOne == "string" and questionTwo == 42)) {
+				"NegationBlock" computedQuestion computed = questionTwo * 2
+			}
+		}
+		`),
+		"test.ql",
+	)
+	rootCondition := form.Stack()[2].Action().(*ast.IfNode).Conditions()
+	if got, ok := rootCondition.(*ast.BoolNegNode); !ok {
+		t.Errorf("severe grammar error: expected BoolNegNode. got: %T", got)
+	}
+
+	firstChild := rootCondition.(*ast.BoolNegNode).SingleTermNode.Term()
+	if got, ok := firstChild.(*ast.BoolAndNode); !ok {
+		t.Errorf("severe grammar error: expected BoolAndNode. got: %T", got)
+	}
+
 	if form == nil {
 		t.Errorf("Compilation should not return nil")
 		return

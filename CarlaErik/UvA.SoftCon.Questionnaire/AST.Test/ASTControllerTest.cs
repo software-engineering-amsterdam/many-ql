@@ -49,7 +49,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             Assert.AreEqual<DataType>(DataType.String, question.DataType);
         }
 
-
         [TestMethod]
         public void TestParseDeclaration()
         {

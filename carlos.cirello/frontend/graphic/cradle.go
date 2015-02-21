@@ -14,16 +14,19 @@ ApplicationWindow {
 	title: "{{ .AppName }}"
 	visible: true
 	property int margin: 11
-	width: mainLayout.implicitWidth + 2 * margin
-	height: mainLayout.implicitHeight + 2 * margin
-	minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
-	minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
+	width: 800
+	height: 600
 
-	ColumnLayout {
-		id: mainLayout
-		objectName: "questions"
-		anchors.fill: parent
-		anchors.margins: margin
+	ScrollView {
+		width: 800
+		height: 600
+		verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+		contentItem: ColumnLayout {
+			Layout.fillHeight: true
+			width: 800
+			id: mainLayout
+			objectName: "questions"
+		}
 	}
 }
 `
