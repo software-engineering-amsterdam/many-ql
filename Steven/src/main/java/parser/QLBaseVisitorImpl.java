@@ -13,9 +13,9 @@ import parser.ast.nodes.question.QuestionType;
 import parser.ast.nodes.statement.IfStatement;
 import parser.ast.nodes.statement.Statement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 17/02/2015.
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
-        List<Statement> statements = collectAllStatements(ctx.statement());
+        List<Statement> statements = collectStatements(ctx.statement());
         return new Form(statements);
     }
 
@@ -41,7 +41,7 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     @Override
     public AbstractNode visitIf_statement(@NotNull QLParser.If_statementContext ctx) {
         Expression expression = (Expression) visit(ctx.expression());
-        List<Statement> statements = collectAllStatements(ctx.statement());
+        List<Statement> statements = collectStatements(ctx.statement());
         return new IfStatement(expression, statements);
     }
 
@@ -136,11 +136,10 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
                 && ctx.right != null;
     }
 
-    private List<Statement> collectAllStatements(List<QLParser.StatementContext> statementContexts) {
-        List<Statement> statements = new ArrayList<>();
-        for (QLParser.StatementContext statementContext : statementContexts) {
-            statements.add((Statement) visit(statementContext));
-        }
-        return statements;
+    private List<Statement> collectStatements(List<QLParser.StatementContext> statementContexts) {
+        return statementContexts
+                .stream()
+                .map(statementContext -> (Statement) visit(statementContext))
+                .collect(Collectors.toList());
     }
 }
