@@ -63,7 +63,7 @@ class CustomQLVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#boolean.
     def visitBoolean(self, ctx):
-        return self.ctx.getText() == 'true';
+        return ctx.getText() == 'true';
 
     # Visit a parse tree produced by QLParser#question_type.
     def visitQuestion_type(self, ctx):

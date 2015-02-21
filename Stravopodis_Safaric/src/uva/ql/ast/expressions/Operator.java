@@ -25,17 +25,13 @@ public enum Operator{
 	public String getName(){
 		return this.name;
 	}
+	
 	public static Operator findOperator(String operator){
-		
-		for(Operator o : Operator.values()){
-			System.out.println("Comparing " + o.getName() + " and " + operator);
-			if (o.getName().equals(operator)){
-				System.err.println("Found operator: " + o);
+		for(Operator o : Operator.values())
+			if (o.getName().equals(operator))
 				return o;
-			}
-		}
-		System.err.println("Did not found operator");
 		return null;
 	}
 }
+
 

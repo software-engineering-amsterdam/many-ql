@@ -9,7 +9,7 @@ end
 class Form < Node 
   attr_reader :name, :statements
 
-  def initialize(name:, statements:)
+  def initialize(name:, statements: [])
     @name = name
     @statements = statements
   end
@@ -47,7 +47,7 @@ end
 class If < Conditional
   attr_reader :expression, :statements
 
-  def initialize(expression:, statements:)
+  def initialize(expression:, statements: [])
     @expression = expression
     @statements = statements
   end
@@ -56,7 +56,7 @@ end
 class IfElse < Conditional
   attr_reader :expression, :statements_true, :statements_false
 
-  def initialize(expression:, statements_true:, statements_false:)
+  def initialize(expression:, statements_true: [], statements_false: [])
     @expression = expression
     @statements_true = statements_true
     @statements_false = statements_false

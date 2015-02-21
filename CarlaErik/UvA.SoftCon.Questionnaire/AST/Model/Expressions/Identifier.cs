@@ -14,9 +14,15 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             private set;
         }
 
-        public Identifier(string name)
+        public Identifier(string name, TextPosition position)
+            : base(position)
         {
             Name = name;
+        }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override string ToString()

@@ -27,11 +27,17 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public Question(DataType dataType, Identifier id, string label)
+        public Question(DataType dataType, Identifier id, string label, TextPosition position)
+            : base(position)
         {
             DataType = dataType;
             Id = id;
             Label = label;
+        }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

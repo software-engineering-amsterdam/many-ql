@@ -4,20 +4,20 @@ import (
 	"encoding/csv"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
 // Input holds an io.Reader which is used to transfer the responses of the form
 // from a CSV file.
 type Input struct {
-	receive chan *interpreter.Event
-	send    chan *interpreter.Event
+	receive chan *event.Frontend
+	send    chan *event.Frontend
 	stream  io.Reader
 }
 
 // New takes in a pair of channels for the interpreter, a reader stream and
 // prepare an object to be consumed later.
-func New(fromInterpreter, toInterpreter chan *interpreter.Event,
+func New(fromInterpreter, toInterpreter chan *event.Frontend,
 	stream io.Reader) *Input {
 	return &Input{
 		receive: fromInterpreter,
@@ -40,8 +40,8 @@ func (i *Input) Read() {
 	}
 	<-i.receive
 
-	readyT := &interpreter.Event{
-		Type: interpreter.ReadyT,
+	readyT := &event.Frontend{
+		Type: event.ReadyT,
 	}
 
 commLoopReadyT:
@@ -53,8 +53,8 @@ commLoopReadyT:
 		}
 	}
 
-	sendAnswers := &interpreter.Event{
-		Type:    interpreter.Answers,
+	sendAnswers := &event.Frontend{
+		Type:    event.Answers,
 		Answers: answers,
 	}
 

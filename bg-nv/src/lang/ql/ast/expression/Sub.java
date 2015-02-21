@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class Sub extends BinaryExpr
 {
-    public Sub(Expr left, Expr right)
+    public Sub(Expr left, Expr right, int lineNumber)
     {
-        super(left, right);
+        super(left, right, lineNumber);
     }
 
     public void accept(Visitor visitor)

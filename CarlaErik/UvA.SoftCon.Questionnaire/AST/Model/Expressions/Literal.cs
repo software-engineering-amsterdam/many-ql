@@ -14,9 +14,20 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             private set;
         }
 
-        public Literal(T value)
+        public Literal(T value, TextPosition position)
+            : base(position)
         {
             Value = value;
+        }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit<T>(this);
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 }

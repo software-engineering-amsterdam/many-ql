@@ -8,28 +8,39 @@ import lang.ql.semantics.values.*;
 import java.util.*;
 
 /**
- * Created by bore on 15/02/15.
- */
-public class Interpreter extends VisitorAbstract
+* Created by bore on 15/02/15.
+*/
+public class Interpreter implements Visitor
 {
     private Stack<Value> valueStack;
     private Map<String, Value> variableValues;
-    private TypeChecker typeChecker;
-    private SymbolTable table;
+    private QuestErrInfo info;
 
-    //TODO: solve the passing of question dependencies in a different manner
     public Interpreter()
     {
         this.valueStack = new Stack<Value>();
         this.variableValues = new HashMap<String, Value>();
-        this.typeChecker = new TypeChecker();
+    }
+
+    public Map<String, Value> getVariableValues()
+    {
+        return variableValues;
+    }
+
+    private void initializeQuestErrInfo(Form f)
+    {
+        if (this.info == null)
+        {
+            TypeChecker visitor = new TypeChecker();
+            f.accept(visitor);
+            this.info = visitor.getInfo();
+        }
     }
 
     @Override
     public void visit(Form f)
     {
-        this.typeChecker.visit(f);
-        this.table = this.typeChecker.table();
+        this.initializeQuestErrInfo(f);
 
         for(Statement s : f.getStatements())
         {
@@ -53,7 +64,7 @@ public class Interpreter extends VisitorAbstract
     @Override
     public void visit(Question n)
     {
-        Value defaultValue = this.getDefaultValue(n.getQuestionType());
+        Value defaultValue = ValueFactory.makeValue(n.getType());
         this.variableValues.put(n.getId(), defaultValue);
     }
 
@@ -95,12 +106,12 @@ public class Interpreter extends VisitorAbstract
     }
 
     @Override
-    public void visit(Identifier e)
+    public void visit(Indent e)
     {
         // TODO: get the Question expression based on the identifier and compute its value and put it in the variableValues
         if (!(this.variableValues.containsKey(e.getId())))
         {
-            List<Question> qs = this.table.getQuestionsById(e.getId());
+            List<Question> qs = this.info.getQuestionsById(e.getId());
             assert qs.size() == 1;
             Question q = qs.get(0);
             q.accept(this);
@@ -112,9 +123,7 @@ public class Interpreter extends VisitorAbstract
     @Override
     public void visit(Add e)
     {
-        e.getLeft().accept(this);
-        e.getRight().accept(this);
-
+        this.visitBinaryChildren(e);
         Value right = this.popFromStack();
         Value left = this.popFromStack();
 
@@ -125,13 +134,33 @@ public class Interpreter extends VisitorAbstract
     @Override
     public void visit(Sub e)
     {
-        e.getLeft().accept(this);
-        e.getRight().accept(this);
-
+        this.visitBinaryChildren(e);
         Value right = this.popFromStack();
         Value left = this.popFromStack();
 
         Value result = left.sub(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(Mul e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.mul(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(Div e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.div(right);
         this.valueStack.push(result);
     }
 
@@ -144,24 +173,116 @@ public class Interpreter extends VisitorAbstract
         this.valueStack.push(result);
     }
 
-    private Value getDefaultValue(QuestionType type)
+    @Override
+    public void visit(Pos e)
     {
-        if (type == QuestionType.BOOLEAN)
-        {
-            return BooleanValue.getDefaultValue();
-        }
+        e.getOperand().accept(this);
+        Value operand = this.popFromStack();
+        Value result = operand.pos();
+        this.valueStack.push(result);
+    }
 
-        if (type == QuestionType.STRING)
-        {
-            return StringValue.getDefaultValue();
-        }
+    @Override
+    public void visit(Not e)
+    {
+        e.getOperand().accept(this);
+        Value operand = this.popFromStack();
+        Value result = operand.not();
+        this.valueStack.push(result);
+    }
 
-        if (type == QuestionType.INTEGER)
-        {
-            return IntegerValue.getDefaultValue();
-        }
+    @Override
+    public void visit(Gt e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
 
-        return DecimalValue.getDefaultValue();
+        Value result = left.gt(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(Lt e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.lt(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(GtEqu e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.gtEqu(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(LtEqu e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.ltEqu(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(Equ e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.equ(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(NotEqu e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.notEqu(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(And e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.and(right);
+        this.valueStack.push(result);
+    }
+
+    @Override
+    public void visit(Or e)
+    {
+        this.visitBinaryChildren(e);
+        Value right = this.popFromStack();
+        Value left = this.popFromStack();
+
+        Value result = left.or(right);
+        this.valueStack.push(result);
+    }
+
+    private void visitBinaryChildren(BinaryExpr e)
+    {
+        e.getLeft().accept(this);
+        e.getRight().accept(this);
     }
 
     private Value popFromStack()
@@ -169,14 +290,11 @@ public class Interpreter extends VisitorAbstract
         try
         {
             return this.valueStack.pop();
-        } catch (EmptyStackException ex)
+        }
+        catch (EmptyStackException ex)
         {
+            // TODO: try to recover
             throw ex;
         }
-    }
-
-    public Map<String, Value> getVariableValues()
-    {
-        return variableValues;
     }
 }

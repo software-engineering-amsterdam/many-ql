@@ -1,6 +1,6 @@
 package evaluator
 
-import ast.QLAST._
+import ast._
 import org.specs2.mutable.Specification
 
 class QLEvaluatorSpec extends Specification {

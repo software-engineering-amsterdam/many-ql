@@ -4,12 +4,13 @@
 grammar QL;
 
 /* Start rule */
-questionnaire : stat* ;
+form : stat* ;
 
 
 stat : TYPE ID STRING                                                       # Question
      | 'if' '(' expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
 	 | TYPE ID ('=' expr)?                                                  # Declaration
+	 | ID '=' expr                                                          # Assignment
 	 | 'show' expr                                                          # ShowExpression
 	 ;
 

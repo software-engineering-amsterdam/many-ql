@@ -2,6 +2,53 @@ package ast
 
 import "text/scanner"
 
+// BoolNegNode is the AST node for equality (==) comparison
+type BoolNegNode struct {
+	SingleTermNode
+	Evaluatable
+}
+
+// NewBoolNegNode factory for BoolNegNode AST node
+func NewBoolNegNode(term Evaluatable, pos scanner.Position) *BoolNegNode {
+	boolNegNode := new(BoolNegNode)
+	boolNegNode.SingleTermNode = *NewSingleTermNode(term, pos)
+	return boolNegNode
+}
+
+//----
+
+// BoolAndNode is the AST node for equality (==) comparison
+type BoolAndNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewBoolAndNode factory for BoolAndNode AST node
+func NewBoolAndNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *BoolAndNode {
+	boolAndNode := new(BoolAndNode)
+	boolAndNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
+	return boolAndNode
+}
+
+//----
+
+// BoolOrNode is the AST node for equality (==) comparison
+type BoolOrNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewBoolOrNode factory for BoolOrNode AST node
+func NewBoolOrNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *BoolOrNode {
+	boolOrNode := new(BoolOrNode)
+	boolOrNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
+	return boolOrNode
+}
+
+//----
+
 // EqualsNode is the AST node for equality (==) comparison
 type EqualsNode struct {
 	DoubleTermNode
@@ -14,6 +61,22 @@ func NewEqualsNode(leftTerm, rightTerm Evaluatable,
 	equalsNode := new(EqualsNode)
 	equalsNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
 	return equalsNode
+}
+
+//----
+
+// NotEqualsNode is the AST node for equality (==) comparison
+type NotEqualsNode struct {
+	DoubleTermNode
+	Evaluatable
+}
+
+// NewNotEqualsNode factory for NotEqualsNode AST node
+func NewNotEqualsNode(leftTerm, rightTerm Evaluatable,
+	pos scanner.Position) *NotEqualsNode {
+	notEqualsNode := new(NotEqualsNode)
+	notEqualsNode.DoubleTermNode = *NewDoubleTermNode(leftTerm, rightTerm, pos)
+	return notEqualsNode
 }
 
 //----

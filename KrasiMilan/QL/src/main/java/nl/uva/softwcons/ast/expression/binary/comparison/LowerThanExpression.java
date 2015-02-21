@@ -2,11 +2,10 @@ package nl.uva.softwcons.ast.expression.binary.comparison;
 
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
-import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 
-public class LowerThanExpression extends BinaryExpression {
+public class LowerThanExpression extends ComparisonExpression {
 
-    public LowerThanExpression(Expression left, Expression right) {
+    public LowerThanExpression(final Expression left, final Expression right) {
         super(left, right);
     }
 

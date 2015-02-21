@@ -1,0 +1,4 @@
+form sampleForm {
+    boolean question “Sample label” "string"||"anotherString"
+    boolean anotherQuestion “Another sample label” true*false
+}

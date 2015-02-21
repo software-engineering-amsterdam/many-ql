@@ -1,5 +1,8 @@
 package org.fugazi.type_checker;
 
+import org.fugazi.ast.AbstractASTNode;
+import org.fugazi.ast.expression.logical.And;
+
 import java.util.ArrayList;
 
 public class ASTErrorHandler {
@@ -12,36 +15,47 @@ public class ASTErrorHandler {
         this.warnings = new ArrayList<ASTNodeError>();
     }
 
-    // TODO should this be an 'isCorrect' method? what is correct?
     public boolean hasErrors() {
         return !this.errors.isEmpty();
     }
 
-    // TODO merge the two below into one method?
-    public void registerNewError(ASTNodeError _error) {
-        this.errors.add(_error);
+    public boolean hasWarnings() {
+        return !this.warnings.isEmpty();
     }
 
-    public void registerNewWarning(ASTNodeError _warning) {
-        this.warnings.add(_warning);
+    // TODO merge the two below into one method?
+    public void registerNewError(AbstractASTNode _errorNode, String _message) {
+        this.errors.add(new ASTNodeError(
+                ASTNodeErrorType.ERROR, _errorNode, _message
+        ));
+    }
+
+    public void registerNewWarning(AbstractASTNode _errorNode, String _message) {
+        this.warnings.add(new ASTNodeError(
+                ASTNodeErrorType.WARNING, _errorNode, _message
+        ));
     }
 
     public void displayNodeError(ASTNodeError error) {
-        System.out.println("Error found in your AST tree:");
-
         System.out.print(error.getErrorType() + ": ");
         System.out.println(" at node " + error.getNode());
 
-        System.out.println(error.getMessage());
+        System.out.println(error.getMessage()+ "\n");
     }
 
     public void displayErrors() {
+        if (this.hasErrors()) {
+            System.out.println("\n\n\nFollowing errors found in the form:\n");
+        }
         for (ASTNodeError error : this.errors) {
             this.displayNodeError(error);
         }
     }
 
     public void displayWarnings() {
+        if (this.hasWarnings()) {
+            System.out.println("\n\n\nFollowing errors found in the form:\n");
+        }
         for (ASTNodeError warning : this.warnings) {
             this.displayNodeError(warning);
         }

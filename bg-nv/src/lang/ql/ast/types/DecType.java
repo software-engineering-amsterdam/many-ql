@@ -5,4 +5,8 @@ package lang.ql.ast.types;
  */
 public class DecType extends Type
 {
+    public DecType()
+    {
+        super("decimal");
+    }
 }

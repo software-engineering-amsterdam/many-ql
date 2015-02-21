@@ -30,7 +30,7 @@ public class StringValue extends Value<String>
     @Override
     public Value equ(Value v)
     {
-        return v.addString(this);
+        return v.equString(this);
     }
 
     @Override

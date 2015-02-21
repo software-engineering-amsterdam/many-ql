@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
-    public interface IExpression
+    public interface IExpression : INode
     {
     }
 }
