@@ -127,7 +127,7 @@ public class QLParseTreeListener extends QLBaseListener {
         nodeStack.push(new ElseIfStatement(ctx.start.getLine()));
     }
 
-    //TODO: Maybe create something like an interface for nodes that allow ifelseifelse statments.
+    //TODO: Maybe create something like an interface for nodes that allow if/elseif/else statements (think hasIfStatemnt etc.)
     public void exitIfStatement(QLParser.IfStatementContext ctx) {
         IfStatement ifs = (IfStatement) nodeStack.pop();
         Node peek = nodeStack.peek();
