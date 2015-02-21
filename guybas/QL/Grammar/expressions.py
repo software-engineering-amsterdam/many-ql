@@ -13,7 +13,7 @@ class Expressions:
 
     # operators   :: + | - | / | * | > | >= | < | <= | == | && | || | !
     operator = oneOf('+ - / * > >= < <= == && || !').setParseAction(ExpressionFactory.make_operator)
-    operatorName = 'operator'
+    operator_name = 'operator'
 
     expr = Forward()
 

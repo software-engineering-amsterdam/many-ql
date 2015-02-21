@@ -13,7 +13,7 @@ class Processor:
         """
         # verify that the format is as expected
         if not TypeChecker.type_checker(expression, 'list'):
-            raise QException('Expression is not a list!')
+            raise QException('ComplexExpression is not a list!')
 
         # bind ids to values
         simplified_c = Processor.bind_values(expression, answers_map)

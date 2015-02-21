@@ -89,7 +89,7 @@ class TypeChecker:
         elif isinstance(cinput, list):
             type_class = QuestionTypes.listName
         elif isinstance(cinput, Operator):
-            type_class = Expressions.operatorName
+            type_class = Expressions.operator_name
         else:
             raise QException("Undefined input.")
 
@@ -98,3 +98,7 @@ class TypeChecker:
         elif ctype:
             return False
         return type_class
+
+    @staticmethod
+    def is_valid_expression(subexpression):
+        pass
