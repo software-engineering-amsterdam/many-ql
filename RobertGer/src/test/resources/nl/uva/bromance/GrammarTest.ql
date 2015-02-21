@@ -25,6 +25,20 @@ Name: "Tax" {
         }
     }
 
+            Form: "withBoolean question" {
+            	Question: "test" {
+            		Text: "Are you currently employed?"
+            		Answer: boolean
+            	}
+                Calculation: "ttl_income_tax" {
+                    		If: partner == "Married" || partner == "Cohabitation" {
+                    			Input: (income1 + income_partner) * 0.43
+                    		} Else: {
+                    			Input: income1 * 0.43
+                    		}
+                    	}
+            }
+
         Form: "withCalculation" {
         	Question: "income1" {
         		Text: "How much money did you earn through employer paid wages during 2014?"

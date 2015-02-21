@@ -1,5 +1,11 @@
 Name: "Tax" {
     Form: "default" {
+
+		Question: "employment" {
+			Text: "Are you currently employed?"
+			Answer: boolean
+		}
+
         Question: "partner" {
 			Text: "What is your marital status?"
 			Answer: ["Single" || "Married" || "Cohabitation"]
@@ -76,7 +82,7 @@ Name: "Tax" {
                 	}
                 }
                 Label: "simple_label"{
-                    Text: "Such simple, [ttl_income_tax] many amaze, wow!"
+                    Text: "Such simple, many amaze, wow!"
                 }
             }
 }

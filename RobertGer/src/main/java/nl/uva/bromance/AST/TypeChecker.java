@@ -1,6 +1,6 @@
-package nl.uva.bromance.parsers.AST;
+package nl.uva.bromance.AST;
 
-import nl.uva.bromance.parsers.Answer;
+import nl.uva.bromance.Answer;
 
 import java.util.HashMap;
 

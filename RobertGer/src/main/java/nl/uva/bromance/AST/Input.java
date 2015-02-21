@@ -1,4 +1,4 @@
-package nl.uva.bromance.parsers.AST;
+package nl.uva.bromance.AST;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.

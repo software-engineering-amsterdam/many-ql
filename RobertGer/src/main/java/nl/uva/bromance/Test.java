@@ -1,4 +1,4 @@
-package nl.uva.bromance.parsers;
+package nl.uva.bromance;
 
 /**
  * Created by Robert on 3-2-2015.

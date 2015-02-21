@@ -1,6 +1,6 @@
-package nl.uva.bromance.parsers.AST.Conditionals;
+package nl.uva.bromance.AST.Conditionals;
 
-import nl.uva.bromance.parsers.AST.Node;
+import nl.uva.bromance.AST.Node;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.

@@ -1,8 +1,12 @@
-package nl.uva.bromance.parsers;
+package nl.uva.bromance;
 
-import nl.uva.bromance.parsers.AST.Root;
-import nl.uva.bromance.parsers.AST.TypeChecker;
-import nl.uva.bromance.parsers.listeners.QLParseTreeListener;
+import javafx.stage.Stage;
+import nl.uva.bromance.AST.Root;
+import nl.uva.bromance.AST.TypeChecker;
+import nl.uva.bromance.listeners.QLParseTreeListener;
+import nl.uva.bromance.parsers.QLLexer;
+import nl.uva.bromance.parsers.QLParser;
+import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -18,7 +22,7 @@ import java.util.Arrays;
  */
 public class Runner {
 
-    public void run() throws IOException {
+    public void run(Stage primaryStage) throws IOException {
         QLLexer lexer = new QLLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.ql")));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
@@ -31,6 +35,8 @@ public class Runner {
         Root ast = listener.getAst();
         TypeChecker tc = new TypeChecker(ast);
         tc.runChecks();
+
+        new Visualizer().visualize(ast, primaryStage);
 
         //show AST in GUI
         JFrame frame = new JFrame("Antlr AST");

@@ -1,24 +1,23 @@
-package nl.uva.bromance.parsers.AST.Range;
+package nl.uva.bromance.AST.Range;
 
 /**
  * Created by Gerrit Krijnen on 2/9/2015.
  */
-public class BiggerThan implements Range {
+public class SmallerThan implements Range {
 
     int val;
-
-    public BiggerThan(int value) {
+    public SmallerThan(int value) {
         this.val = value;
     }
 
     public boolean valueConformsToRange(int value) {
-        if (value > this.val)
+        if (value < this.val)
             return true;
         else
             return false;
     }
 
     public String toString() {
-        return "> " + val;
+        return "< " + val;
     }
 }

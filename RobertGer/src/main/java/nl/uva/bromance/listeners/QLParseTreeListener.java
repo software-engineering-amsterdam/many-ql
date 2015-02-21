@@ -1,13 +1,14 @@
-package nl.uva.bromance.parsers.listeners;
+package nl.uva.bromance.listeners;
 
 
-import nl.uva.bromance.parsers.AST.*;
-import nl.uva.bromance.parsers.AST.Conditionals.ElseIfStatement;
-import nl.uva.bromance.parsers.AST.Conditionals.ElseStatement;
-import nl.uva.bromance.parsers.AST.Conditionals.IfStatement;
-import nl.uva.bromance.parsers.AST.Range.Between;
-import nl.uva.bromance.parsers.AST.Range.BiggerThan;
-import nl.uva.bromance.parsers.AST.Range.SmallerThan;
+import nl.uva.bromance.AST.*;
+import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
+import nl.uva.bromance.AST.Conditionals.ElseStatement;
+import nl.uva.bromance.AST.Conditionals.Expression;
+import nl.uva.bromance.AST.Conditionals.IfStatement;
+import nl.uva.bromance.AST.Range.Between;
+import nl.uva.bromance.AST.Range.BiggerThan;
+import nl.uva.bromance.AST.Range.SmallerThan;
 import nl.uva.bromance.parsers.QLBaseListener;
 import nl.uva.bromance.parsers.QLParser;
 
@@ -18,7 +19,7 @@ public class QLParseTreeListener extends QLBaseListener {
     private Stack<Node> nodeStack = new Stack();
     private Root ast = null;
 
-    public Root getAst(){
+    public Root getAst() {
         return ast;
     }
 
@@ -96,17 +97,19 @@ public class QLParseTreeListener extends QLBaseListener {
         nodeStack.peek().addChild(l);
     }
 
-    public void exitLabelText(QLParser.LabelTextContext ctx){
+    public void exitLabelText(QLParser.LabelTextContext ctx) {
         nodeStack.peek().addChild(new LabelText(ctx.start.getLine(), ctx.text.getText()));
     }
 
-    public void enterInput(QLParser.InputContext ctx){
+    public void enterInput(QLParser.InputContext ctx) {
         nodeStack.push(new Input(ctx.start.getLine()));
     }
-    public void exitInput(QLParser.InputContext ctx){
+
+    public void exitInput(QLParser.InputContext ctx) {
         Input in = (Input) nodeStack.pop();
         nodeStack.peek().addChild(in);
     }
+
     /*
      * Expression logic
      */

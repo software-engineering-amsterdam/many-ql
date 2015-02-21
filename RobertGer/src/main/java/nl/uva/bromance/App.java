@@ -1,4 +1,4 @@
-package nl.uva.bromance.parsers;
+package nl.uva.bromance;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,9 +13,11 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            new Runner().run();
+            new Runner().run(primaryStage);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }
