@@ -143,6 +143,9 @@ func TestIfArithAndComparisonExpressions(t *testing.T) {
 		strings.NewReader(`
 		form Math {
 			if(100 + 200 > 300){}
+			if(100 + 200 > 300 and 300 > 100){}
+			if(100 + 200 > 300 or 300 > 100){}
+			if(1 != 2){}
 		}
 		`),
 		"test.ql",
@@ -235,4 +238,12 @@ func TestNegation(t *testing.T) {
 		t.Errorf("Compilation should not return nil")
 		return
 	}
+}
+
+func TestInvalidSyntax(t *testing.T) {
+	defer func() {
+		recover()
+	}()
+	ReadQL(strings.NewReader("form A"), "invalid.ql")
+	t.Errorf("Invalid syntax should panic")
 }
