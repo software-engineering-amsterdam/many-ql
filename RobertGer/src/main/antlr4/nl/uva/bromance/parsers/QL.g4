@@ -18,7 +18,7 @@ questionBody: '{'(questionText
 questionText: 'Text:' text=STRING;
 //QuestionAnser abstractions
 questionAnswer: 'Answer:' (questionAnswerSimple|questionAnswerCustom);
-questionAnswerSimple: type=('integer' | 'Integer' | 'double' | 'Double' | 'string' | 'String');
+questionAnswerSimple: type=('integer' | 'Integer'| 'boolean' | 'Boolean' | 'double' | 'Double' | 'string' | 'String');
 questionAnswerCustom: '['STRING ('||' STRING)+']';
 
 //QuestionRange abstractions
