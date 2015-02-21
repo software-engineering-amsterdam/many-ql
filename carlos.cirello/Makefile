@@ -11,29 +11,14 @@ test:
 coverage:
 	mkdir cover || echo "cover/ already exists. Mkdir skipped."
 
-	go test -coverprofile=./ast/coverage.out ./ast
-	go test -coverprofile=./compiler/coverage.out ./compiler
-	go test -coverprofile=./frontend/coverage.out ./frontend
-	go test -coverprofile=./frontend/graphic/coverage.out ./frontend/graphic
-	go test -coverprofile=./frontend/text/coverage.out ./frontend/text
-	go test -coverprofile=./reader/coverage.out ./reader
-	go test -coverprofile=./vm/coverage.out ./vm
+	go test -coverprofile=./cli/coverage.out ./cli
+	go test -coverprofile=./cli/iostream/coverage.out ./cli/iostream
 
-	go tool cover -html=./ast/coverage.out -o cover/ast.html || echo Skipped
-	go tool cover -html=./compiler/coverage.out -o cover/compiler.html || echo Skipped
-	go tool cover -html=./frontend/graphic/coverage.out -o cover/frontend/graphic.html || echo Skipped
-	go tool cover -html=./frontend/text/coverage.out -o cover/frontend/text.html || echo Skipped
-	go tool cover -html=./questionaire/coverage.out -o cover/questionaire.html || echo Skipped
-	go tool cover -html=./reader/coverage.out -o cover/reader.html || echo Skipped
-	go tool cover -html=./vm/coverage.out -o cover/vm.html || echo Skipped
+	go tool cover -html=./cli/coverage.out -o cover/cli.html || echo Skipped
+	go tool cover -html=./cli/iostream/coverage.out -o cover/cli_iostream.html || echo Skipped
 
-	rm -f ./ast/coverage.out
-	rm -f ./compiler/coverage.out
-	rm -f ./frontend/coverage.out
-	rm -f ./frontend/graphic/coverage.out
-	rm -f ./frontend/text/coverage.out
-	rm -f ./reader/coverage.out
-	rm -f ./vm/coverage.out
+	rm -f ./cli/coverage.out
+	rm -f ./cli/iostream/coverage.out
 
 autotest:
 	./autotest.sh '.' 'clear; make test; go run ql.go'
