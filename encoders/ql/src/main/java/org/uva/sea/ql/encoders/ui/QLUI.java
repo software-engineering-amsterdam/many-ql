@@ -40,7 +40,7 @@ public class QLUI extends Application {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		ScrollPane scrollPane = new ScrollPane(grid);
-		scrollPane.setPrefSize(400, 275);
+		scrollPane.setPrefSize(500, 275);
 
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 		try {
@@ -51,7 +51,7 @@ public class QLUI extends Application {
 			e.printStackTrace();
 		}
 
-		Scene scene = new Scene(scrollPane, 400, 275);
+		Scene scene = new Scene(scrollPane, 500, 275);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -67,7 +67,8 @@ public class QLUI extends Application {
 			DataType dataType = question.getDataType();
 			switch (dataType) {
 			case BOOLEAN:
-				grid.add(new CheckBox(question.getQuestionText()), 0, y);
+				grid.add(new Label(question.getQuestionText()), 0, y);
+				grid.add(new CheckBox("Yes"), 1, y);
 				break;
 			case MONEY:
 				grid.add(new Label(question.getQuestionText()), 0, y);

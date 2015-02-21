@@ -28,6 +28,7 @@ public class QuestionnaireListener extends EncodersQLBaseListener {
 		String questionName = ctx.questionName.getText();
 		DataType dataType = DataType.valueOf(ctx.type.getText().toUpperCase());
 		String questionString = ctx.questionString.getText();
+		questionString = questionString.replaceAll("\"", "");
 
 		Question question = new Question(questionName, condition, dataType,
 				questionString);
