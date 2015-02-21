@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.uva.sea.ql.encoders.model.DataType;
-import org.uva.sea.ql.encoders.model.Question;
-import org.uva.sea.ql.encoders.model.Questionnaire;
+import org.uva.sea.ql.encoders.ast.DataType;
+import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 

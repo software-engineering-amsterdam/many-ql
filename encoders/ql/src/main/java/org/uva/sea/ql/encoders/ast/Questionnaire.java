@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.model;
+package org.uva.sea.ql.encoders.ast;
 
 import java.util.SortedMap;
 import java.util.TreeMap;

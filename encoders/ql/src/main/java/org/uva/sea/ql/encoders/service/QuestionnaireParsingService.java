@@ -2,7 +2,7 @@ package org.uva.sea.ql.encoders.service;
 
 import java.io.IOException;
 
-import org.uva.sea.ql.encoders.model.Questionnaire;
+import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 /**
  * Service for parsing questionnaire input files.

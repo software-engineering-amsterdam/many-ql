@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.sea.ql.encoders.EncodersQLLexer;
 import org.uva.sea.ql.encoders.EncodersQLParser;
-import org.uva.sea.ql.encoders.model.Questionnaire;
+import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.

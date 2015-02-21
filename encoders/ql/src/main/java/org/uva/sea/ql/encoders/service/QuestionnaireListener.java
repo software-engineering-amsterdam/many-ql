@@ -5,9 +5,9 @@ import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalBlockContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
-import org.uva.sea.ql.encoders.model.DataType;
-import org.uva.sea.ql.encoders.model.Question;
-import org.uva.sea.ql.encoders.model.Questionnaire;
+import org.uva.sea.ql.encoders.ast.DataType;
+import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 /**
  * Creates and fills a {@link Questionnaire} based on the parser input.

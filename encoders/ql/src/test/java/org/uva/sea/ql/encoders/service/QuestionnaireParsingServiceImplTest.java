@@ -6,9 +6,9 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.sea.ql.encoders.model.DataType;
-import org.uva.sea.ql.encoders.model.Question;
-import org.uva.sea.ql.encoders.model.Questionnaire;
+import org.uva.sea.ql.encoders.ast.DataType;
+import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 public class QuestionnaireParsingServiceImplTest {
 
