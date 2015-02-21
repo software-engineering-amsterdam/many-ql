@@ -3,13 +3,12 @@ package cons;
 import java.util.HashMap;
 import java.util.Map;
 
-import cons.exception.UndefinedVariableException;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.type.QLError;
 
 public class TypeRegister {
-	private Map<Identifier, QLType> register = new HashMap<Identifier, QLType>();
+	private Map<String, QLType> register = new HashMap<String, QLType>();
 	private final static TypeRegister INSTANCE = new TypeRegister();
 	
 	private TypeRegister() {}
@@ -19,19 +18,19 @@ public class TypeRegister {
 	}
 	
 	public void store(Identifier identifier, QLType typeInstance) {
-		register.put(identifier, typeInstance);
+		register.put(identifier.toString(), typeInstance);
 	}
 	
 	public QLType resolve(Identifier identifier) {
-		if(register.containsKey(identifier)) {
-			return register.get(identifier);
+		if(register.containsKey(identifier.toString())) {
+			return register.get(identifier.toString());
 		}
 		else {
 			return new QLError();
 		}
 	}
 	
-	public Map<Identifier, QLType> getBindings() {
+	public Map<String, QLType> getBindings() {
 		return this.register;
 	}	
 }

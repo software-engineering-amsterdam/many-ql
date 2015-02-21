@@ -1,6 +1,5 @@
 package cons.ql.ast.statement;
 
-import cons.TypeRegister;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
@@ -15,7 +14,7 @@ public class ComputedQuestion extends Question {
 		super(identifier, type, text);		
 		this.expression = expression;		
 		
-		TypeRegister.getInstance().store(getIdentifier(), this.getType());
+//		TypeRegister.getInstance().store(this.getIdentifier(), this.getType());
 	}
 
 	public Expression getExpression() {

@@ -2,6 +2,7 @@ package cons.ql.ast.visitor.typechecker;
 
 import java.util.ArrayList;
 
+import cons.TypeRegister;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Binary;
@@ -70,7 +71,7 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 			return true;
 		}
 		else {
-			errors.add("<" + op.getType() + "> Expected type: " 
+			errors.add("<" + op + "> Expected type: " 
 					+ op.getType().compatibilities() + ", actual types: "	
 					+ left.getType() + " & " + right.getType() + ".");
 			
@@ -94,7 +95,7 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 			return true;
 		}
 		else {
-			errors.add("<" + op.getType() + "> Expected type: QLNumeric, actual types: "	
+			errors.add("<" + op + "> Expected type: QLNumeric, actual types: "	
 					+ left.getType() + " & " + right.getType() + ".");
 			
 			return false;
@@ -130,7 +131,30 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 	/**
 	 * Types
 	 */
+	@Override
+	public Void visit(QLString qlString) {
+		return null;
+	}
 
+	@Override
+	public Void visit(QLNumeric qlNumeric) {
+		return null;
+	}
+
+	@Override
+	public Void visit(QLFloat qlFloat) {
+		return null;
+	}
+
+	@Override
+	public Void visit(QLInteger qlInteger) {
+		return null;
+	}
+
+	@Override
+	public Void visit(QLBoolean qlBoolean) {
+		return null;
+	}
 	
 	/**
 	 * OPERATORS 
@@ -285,8 +309,8 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 		StatementVisitor.super.visit(compQuestionNode);
 				
 		// TODO: make this way easier.
-		if(!compQuestionNode.getType().toString().equals(
-				compQuestionNode.getExpression().toString())) {
+		if(!compQuestionNode.getType().compatibleWith(
+				compQuestionNode.getExpression().getType())) {
 
 			errors.add("<" + compQuestionNode.getIdentifier() + ">:" 
 					+ compQuestionNode.getType() + " was assigned a "
@@ -316,34 +340,10 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 		
 		// Do we allow redeclaration?
 		// If not, do a check here
-		
 		return null;
 	}
 
-	@Override
-	public Void visit(QLString qlString) {
-		return null;
-	}
 
-	@Override
-	public Void visit(QLNumeric qlNumeric) {
-		return null;
-	}
-
-	@Override
-	public Void visit(QLFloat qlFloat) {
-		return null;
-	}
-
-	@Override
-	public Void visit(QLInteger qlInteger) {
-		return null;
-	}
-
-	@Override
-	public Void visit(QLBoolean qlBoolean) {
-		return null;
-	}
 
 	@Override
 	public Void visit(StringLiteral stringLiteral) {

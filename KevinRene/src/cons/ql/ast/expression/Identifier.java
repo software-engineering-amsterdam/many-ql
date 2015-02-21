@@ -1,9 +1,7 @@
 package cons.ql.ast.expression;
 
 import cons.TypeRegister;
-import cons.exception.UndefinedVariableException;
 import cons.ql.ast.Expression;
-import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.visitor.Visitor;
 
 public class Identifier extends Expression {

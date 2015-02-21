@@ -16,8 +16,8 @@ public class Question extends Statement {
 		this.identifier = identifier;
 		this.type = type;
 		this.questionText = questionText;
-		
-		TypeRegister.getInstance().store(this.identifier, this.getType());
+				
+		TypeRegister.getInstance().store(this.identifier, this.type);
 	}
 	
 	public Identifier getIdentifier() {
