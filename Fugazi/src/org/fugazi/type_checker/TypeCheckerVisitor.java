@@ -19,14 +19,22 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
-import java.util.List;
+import java.util.*;
 
 public class TypeCheckerVisitor implements IASTVisitor {
 
     private final ASTErrorHandler astErrorHandler;
 
+    // used to detect duplicate  labels
+    private final List<String> questionLabels;
+
+    // used to detect circular dependencies
+    private final Map<ID, List<ID>> questionDependencies;
+
     public TypeCheckerVisitor(){
         this.astErrorHandler = new ASTErrorHandler();
+        this.questionLabels = new ArrayList<String>();
+        this.questionDependencies = new HashMap<ID, List<ID>>();
     }
 
     /**
@@ -51,6 +59,18 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
         Type type = question.getType();
         ID identifier = question.getIdentifier();
+        String label = question.getLabel();
+
+        // save and check for duplicate labels
+        boolean isLabelDuplicate = this.checkIfLabelAlreadyExists(label);
+
+        if (isLabelDuplicate) {
+            this.astErrorHandler.registerNewWarning(question,
+                    "Label defined multiple times! Possible confusion."
+            );
+        } else {
+            this.saveQuestionLabel(label);
+        }
 
         type.accept(this);
         identifier.accept(this);
@@ -75,6 +95,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
         Type type = assignQuest.getType();
         ID identifier = assignQuest.getIdentifier();
         Expression computed = assignQuest.getComputedExpression();
+
+        // check if no circular reference
+        System.out.println();System.out.println();
+        System.out.println(computed);System.out.println();System.out.println();
 
         type.accept(this);
         identifier.accept(this);
@@ -376,6 +400,21 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private boolean checkIfDefined(ID idLiteral) {
         return (idLiteral.getType() != null);
+    }
+
+    private boolean checkIfLabelAlreadyExists(String label){
+        return this.questionLabels.contains(label);
+    }
+
+    /**
+     * =======================
+     * Private data handling functions
+     * =======================
+     */
+
+    private void saveQuestionLabel(String label) {
+        this.questionLabels.add(label);
+        return;
     }
 
     /**

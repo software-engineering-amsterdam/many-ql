@@ -31,16 +31,17 @@ public class Main {
         TypeChecker typeChecker = new TypeChecker();
         boolean isFormTypesCorrect = typeChecker.checkForm(form);
 
-        // if form is not type-correct, display warnings, errors and exit
+        // display warnings and errors and if form is not type-correct, exit
+        typeChecker.displayFormWarningsAndErrors();
         if (!isFormTypesCorrect) {
-            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
-            typeChecker.displayFormWarningsAndErrors();
+            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
+            return;
         }
 
         Evaluator evaluator = new Evaluator();
 
         // Render GUI.
-        GUIManager guiManager = new GUIManager(form, evaluator);
-        guiManager.renderGUI();
+//        GUIManager guiManager = new GUIManager(form, evaluator);
+//        guiManager.renderGUI();
     }
 }

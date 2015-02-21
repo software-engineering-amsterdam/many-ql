@@ -13,7 +13,6 @@ import org.fugazi.ast.form.Form;
 
 duplicate question declarations with different types
 cyclic dependencies between questions
-duplicate labels (warning)
  */
 
 public class TypeChecker {
