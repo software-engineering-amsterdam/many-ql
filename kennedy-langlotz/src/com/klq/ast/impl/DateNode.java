@@ -3,15 +3,15 @@ package com.klq.ast.impl;
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by juriaan on 17-2-15.
  */
 public class DateNode extends ANode {
-    private Date date;
+    private LocalDate date;
 
-    public DateNode(Date date) {
+    public DateNode(LocalDate date) {
         this.date = date;
     }
 
@@ -20,7 +20,7 @@ public class DateNode extends ANode {
         visitor.visit(this);
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 }

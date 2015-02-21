@@ -10,9 +10,10 @@ import com.klq.ast.impl.NumberNode;
 public interface IVisitor {
     public void visit(QuestionnaireNode node);
     public void visit(QuestionNode node);
-    public void visit(ComputedQuestionNodeNode node);
+    public void visit(ComputedQuestionNode node);
     public void visit(StringNode node);
     public void visit(NumberNode node);
     public void visit(DateNode node);
     public void visit(ANode node);
+    public void visit(MulDivNode node);
 }

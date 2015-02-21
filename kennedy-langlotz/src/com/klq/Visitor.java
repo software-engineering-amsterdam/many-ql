@@ -26,6 +26,11 @@ public class Visitor implements IVisitor {
     }
 
     @Override
+    public void visit(MulDivNode node) {
+
+    }
+
+    @Override
     public void visit(QuestionNode node) {
         Id id = new Id(node.getQuestionID());
         Type type = Type.STRING;
@@ -34,13 +39,10 @@ public class Visitor implements IVisitor {
         com.klq.logic.Question question = new com.klq.logic.Question(id, type, null, text, null, null);
         questList.add(question);
 
-        for(ANode child : node.getChildren()){
-            visit(child);
-        }
     }
 
     @Override
-    public void visit(ComputedQuestionNodeNode node) {
+    public void visit(ComputedQuestionNode node) {
         Id id = new Id(node.getQuestionID());
         Type type = Type.NUMERAL;
         Text text = new Text(node.getText());
@@ -50,9 +52,6 @@ public class Visitor implements IVisitor {
         com.klq.logic.Question question = new com.klq.logic.Question(id, type, null, text, null, null);
         questList.add(question);
 
-        for(ANode child : node.getChildren()){
-            visit(child);
-        }
     }
 
     @Override
