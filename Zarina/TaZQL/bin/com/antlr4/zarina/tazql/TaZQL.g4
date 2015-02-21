@@ -14,11 +14,11 @@ question		: ID TEXT type	 			 											# simpleQuestion
 				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'	# ifelseStatement
 				;
 
-expression		: '!' expression														# notExpression															
-				| expression ('*'| '/') expression										# multDivExpression
-				| expression ('+'| '-') expression										# addSubExpression
-				| expression ('>'|'>='|'<'|'<=') expression								# equationExpression
-				| expression ('=='|'!=') expression										# eqNotExpression
+expression		: op='!' expression														# notExpression															
+				| expression op=('*'| '/') expression										# multDivExpression
+				| expression op=('+'| '-') expression										# addSubExpression
+				| expression op=('>'|'>='|'<'|'<=') expression								# equationExpression
+				| expression op=('=='|'!=') expression										# eqNotExpression
 				| expression ('&&') expression											# andExpression
 				| expression ('||') expression											# orExpression
 				| BOOLEAN 																# booleanExpression

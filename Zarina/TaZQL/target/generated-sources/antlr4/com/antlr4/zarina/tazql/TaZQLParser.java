@@ -405,6 +405,7 @@ public class TaZQLParser extends Parser {
 		}
 	}
 	public static class AddSubExpressionContext extends ExpressionContext {
+		public Token op;
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
@@ -446,6 +447,7 @@ public class TaZQLParser extends Parser {
 		}
 	}
 	public static class EqNotExpressionContext extends ExpressionContext {
+		public Token op;
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
@@ -468,6 +470,7 @@ public class TaZQLParser extends Parser {
 		}
 	}
 	public static class EquationExpressionContext extends ExpressionContext {
+		public Token op;
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
@@ -490,6 +493,7 @@ public class TaZQLParser extends Parser {
 		}
 	}
 	public static class MultDivExpressionContext extends ExpressionContext {
+		public Token op;
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
@@ -512,6 +516,7 @@ public class TaZQLParser extends Parser {
 		}
 	}
 	public static class NotExpressionContext extends ExpressionContext {
+		public Token op;
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -606,7 +611,7 @@ public class TaZQLParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(64); match(T__8);
+				setState(64); ((NotExpressionContext)_localctx).op = match(T__8);
 				setState(65); expression(12);
 				}
 				break;
@@ -673,9 +678,10 @@ public class TaZQLParser extends Parser {
 						setState(76);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(77);
+						((MultDivExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==T__23 || _la==T__3) ) {
-						_errHandler.recoverInline(this);
+							((MultDivExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
 						setState(78); expression(12);
@@ -688,9 +694,10 @@ public class TaZQLParser extends Parser {
 						setState(79);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(80);
+						((AddSubExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==T__1 || _la==T__0) ) {
-						_errHandler.recoverInline(this);
+							((AddSubExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
 						setState(81); expression(11);
@@ -703,9 +710,10 @@ public class TaZQLParser extends Parser {
 						setState(82);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(83);
+						((EquationExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__15) | (1L << T__12) | (1L << T__9))) != 0)) ) {
-						_errHandler.recoverInline(this);
+							((EquationExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
 						setState(84); expression(10);
@@ -718,9 +726,10 @@ public class TaZQLParser extends Parser {
 						setState(85);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(86);
+						((EqNotExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==T__21 || _la==T__16) ) {
-						_errHandler.recoverInline(this);
+							((EqNotExpressionContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
 						setState(87); expression(9);
