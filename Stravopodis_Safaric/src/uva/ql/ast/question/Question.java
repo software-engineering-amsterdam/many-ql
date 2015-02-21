@@ -1,25 +1,33 @@
 package uva.ql.ast.question;
 
-import uva.ql.ast.expressions.Type;
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.expressions.literals.Value;
 import uva.ql.ast.statements.Statement;
-import uva.ql.supporting.Tuple;
 
 public class Question extends Statement {
 	
 	private Identifier identifier;
-	private Type<Value> type;
+	private ASTNode type;
+	private Statement statement;
 	
-	public Question(Identifier _identifier, Type<Value> _type, Tuple<Integer, Integer> _codeLines){
+	public Question(Identifier _identifier, ASTNode _type, Statement _statement, CodeLines _codeLines){
 		super(_codeLines);
 		this.identifier = _identifier;
 		this.type = _type;
+		this.statement = _statement;
+	}
+	
+	public Statement getStatement(){
+		return this.statement;
+	}
+	public ASTNode getType(){
+		return this.type;
 	}
 	
 	@Override
 	public String toString(){
-		return null;
+		return "Question(" + this.identifier.getValue().toString() + ","  + this.type.toString() + ", Statement(" + this.statement.toString() + "))";
 	}
 }
 

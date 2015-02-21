@@ -1,22 +1,41 @@
 package uva.ql.ast.statements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uva.ql.ast.ASTNode;
-import uva.ql.parser.Visitor;
-import uva.ql.supporting.Tuple;
+import uva.ql.ast.CodeLines;
 
 public class Statement extends ASTNode{
 
-	public Statement(Tuple<Integer, Integer> _codeLines){
+	public List<ASTNode> statements;
+	
+	public Statement(CodeLines _codeLines){
 		super(_codeLines);
+		statements = new ArrayList<ASTNode>();
+	}
+	
+	public void addChild(ASTNode stat){
+		this.statements.add(stat);
+	}
+	public List<ASTNode> getChildren(){
+		return statements;
+	}
+	public boolean hasChildren(){
+		return this.statements.isEmpty();
 	}
 	
 	@Override
 	public String toString(){
-		return this.getClass().toString();
+		String statementString = "";
+		for (ASTNode s : statements){
+			statementString+=s.toString();
+			if (s != statements.get(statements.size()-1)) statementString+=",";
+		}
+		return statementString;
 	}
-
-	@Override
-	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
+	
+	public Statement getStatement(){
+		return this;
 	}
 }

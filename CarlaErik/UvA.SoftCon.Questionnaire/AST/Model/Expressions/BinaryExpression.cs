@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
@@ -36,6 +37,11 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
         public override void Accept(IASTVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2}", Left.ToString(), StringEnum.GetStringValue(Operation), Right.ToString());
         }
     }
 }

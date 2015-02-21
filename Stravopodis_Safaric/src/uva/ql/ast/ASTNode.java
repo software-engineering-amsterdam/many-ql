@@ -1,24 +1,23 @@
 package uva.ql.ast;
 
-
-import uva.ql.parser.Visitor;
-import uva.ql.supporting.Tuple;
-
 public abstract class ASTNode {
 	
-	protected Tuple<Integer, Integer> lines;
-	public abstract void accept(Visitor visitor);
+	protected CodeLines lines;
 	
-	public ASTNode(Tuple<Integer,Integer> _lines){
+	public ASTNode(CodeLines _lines){
 		this.lines = _lines;
 	}
 	public ASTNode(){
 		super();
 	}
 	public int getStartLine(){
-		return this.lines.x;
+		return this.lines.getCodeLines().x;
 	}
 	public int getEndLine(){
-		return this.lines.y;
+		return this.lines.getCodeLines().y;
+	}
+	@Override
+	public String toString(){
+		return this.toString();
 	}
 }
