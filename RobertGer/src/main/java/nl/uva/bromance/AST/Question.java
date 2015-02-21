@@ -28,11 +28,7 @@ public class Question extends Node {
     public Question(int lineNumber, String id) {
         super(lineNumber, Question.class);
         this.setAcceptedParents(parentsAllowed);
-        if (id != null) {
-            this.identifier = id.substring(1, id.length() - 1);
-        } else {
-            System.err.println("Question Error: No identifier specified");
-        }
+        this.identifier = id.substring(1, id.length() - 1);
     }
 
     public String getIdentifier() {
@@ -48,11 +44,7 @@ public class Question extends Node {
     }
 
     public void setQuestionString(String qs) {
-        if (qs != null) {
-            this.questionString = qs;
-        } else {
-            System.err.println("Question Error: No question asked");
-        }
+        this.questionString = qs;
     }
 
     public void setQuestionType(String qt) {
@@ -103,26 +95,32 @@ public class Question extends Node {
                 radioButton.setToggleGroup(group);
                 parent.getChildren().add(radioButton);
             }
-
         }
         return null;
     }
 
+
+    //TODO: Think of something to maybe fix this god awful mess of if's
     @Override
     public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
-        if (references.get(getIdentifier()) == null) {
-            references.put(getIdentifier(), this);
+        if (getIdentifier() == null) {
+            throw new TypeCheckingException("TypeChecker Error @ line" + getLineNumber() + ": No identifier specified");
         } else {
+            references.put(getIdentifier(), this);
 
+            if (getQuestionString() == null) {
+                throw new TypeCheckingException("Question Error: No question asked");
+            }
             if ((isQuestionTypeBoolean() || isQuestionTypeString() && getQuestionRange() != null)) {
                 throw new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + getLineNumber() + ": Question " + getIdentifier() + ", no range allowed for types boolean and string.");
             }
-
             //TODO: Fix answerType error;
             throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier());
         }
     }
 
+
+    //TODO: Not digging the string checks for types. Need to sort this out at one point.
     public boolean isQuestionTypeBoolean() {
         return "boolean".equals(questionType) || "Boolean".equals(questionType);
     }
