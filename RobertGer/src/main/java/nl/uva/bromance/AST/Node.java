@@ -1,15 +1,17 @@
 package nl.uva.bromance.AST;
 
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.typechecking.TypeCheckable;
 import nl.uva.bromance.visualization.Visualizable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
-public abstract class Node implements Visualizable {
+public abstract class Node implements Visualizable, TypeCheckable {
     protected List<Node> children;
     private String[] acceptedParents;
     private final int lineNumber;
@@ -71,6 +73,10 @@ public abstract class Node implements Visualizable {
 
     public List<Node> getChildren() {
         return children;
+    }
+
+    @Override
+    public void typeCheck(Map<String, Node> references, Node node) {
     }
 
     @Override

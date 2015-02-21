@@ -4,6 +4,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.util.Map;
+
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
@@ -44,5 +46,19 @@ public class Form extends Node {
         parent.getChildren().add(newParent);
 
         return newParent;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    public void typeCheck(Map<String, Node> references, Node node) {
+        Form f = (Form) node;
+        if (references.get(f.getIdentifier()) == null) {
+            references.put(f.getIdentifier(), f);
+        } else {
+            System.err.println("TypeChecker Error @ line " + f.getLineNumber() + ": Form " + f.getIdentifier() + " was already defined.");
+        }
     }
 }
