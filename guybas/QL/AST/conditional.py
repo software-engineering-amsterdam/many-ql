@@ -39,9 +39,9 @@ class IfBlock(IStatement):
         ids = self.id_collection()
         for i in ids:
             if i in dependencies:
-                dependencies[i] = dependencies[i] + self.condition.check()
+                dependencies[i] = dependencies[i] + self.condition.get_dependencies()
             else:
-                dependencies[i] = self.condition.check()
+                dependencies[i] = self.condition.get_dependencies()
         for x in self.statements:
             dependencies = dict(list(dependencies.items()) + list(x.dependency_collection(dependencies).items()))
         return dependencies
@@ -61,6 +61,12 @@ class IfBlock(IStatement):
 
     def set_parent_id(self, pid):
         self.parent_id = pid
+
+    def return_expressions(self):
+        s = [self.condition]
+        for x in self.statements:
+            s += x.return_expressions()
+        return s
 
 
 class IfElseBlock(IfBlock):
@@ -102,6 +108,14 @@ class IfElseBlock(IfBlock):
 
     def get_e_statements(self):
         return self.else_statements
+
+    def return_expressions(self):
+        s = [self.condition]
+        for x in self.statements:
+            s += x.return_expressions()
+        for x in self.else_statements:
+            s += x.return_expressions()
+        return s
 
 
 

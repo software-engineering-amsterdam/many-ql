@@ -6,7 +6,7 @@ class Processor:
     def conditions_proc(expression, answers_map):
         """
         This function will convert the expression identifiers into
-        parameters and will check whether the expression is True or False
+        parameters and will get_dependencies whether the expression is True or False
         :param list expression: the if condition content
         :param Mapper answers_map: mapper object with the question ids and their corresponding answers
         :return: bool

@@ -22,10 +22,10 @@ class Expressions:
     expr = Forward()
 
     # atom :: ( expr ) | value
-    atom = Group(Suppress("(") + expr + Suppress(")")) | value
+    atom = (Suppress("(") + expr + Suppress(")")).setParseAction(ExpressionFactory.make_expression) | value
 
     # expr :: atom | (operator expr)*
-    expr << atom + ZeroOrMore(operator + expr)
+    expr << (atom + ZeroOrMore(operator + expr)).setParseAction(ExpressionFactory.make_sub_expression)
 
     # condition :: expr
-    condition = Group(expr)
+    condition = expr

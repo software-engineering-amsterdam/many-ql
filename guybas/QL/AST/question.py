@@ -54,6 +54,9 @@ class Question(IStatement):
     def get_parent_id(self):
         return self.parent_id
 
+    def return_expressions(self):
+        return []
+
     def set_parent_id(self, pid):
         self.parent_id = pid
 

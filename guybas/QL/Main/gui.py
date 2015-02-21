@@ -37,13 +37,13 @@ class QuestionnaireGUI:
         Label(text=question.get_label(), height=2).grid(row=self.row_counter, column=0, sticky=W) #fg='#00FFFF', bg='#000000',
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
         # print the input box
-        if question.get_type() is QuestionTypes.bool_name:
+        if question.get_type() is BasicTypes.bool_name:
             Radiobutton(text="True", value=1, variable=self.row_counter).grid(row=self.row_counter, column=1, sticky=W)
             Radiobutton(text="False", value=0, variable=self.row_counter).grid(row=self.row_counter, column=2, sticky=W)
             self.column_span = 2
-        elif question.get_type() is QuestionTypes.number_name:
+        elif question.get_type() is BasicTypes.number_name:
             Spinbox(from_=0, to_=10000).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
-        elif question.get_type() is QuestionTypes.text_name:
+        elif question.get_type() is BasicTypes.text_name:
             e = Entry(textvariable=str_var)
             e.bind("<KeyPress><KeyRelease>", lambda event: self.update(question, e.get()))
 
@@ -58,7 +58,7 @@ class QuestionnaireGUI:
     def draw_conditional_q(self, c_question, condition_id=False):
         processor = Processor()
         condition = processor.conditions_proc(c_question.get_condition(), self.answersMap)
-        # check if condition holds
+        # get_dependencies if condition holds
         if condition:
             # print condition's - depended statements
             self.draw_questions(c_question.get_c_statements())
