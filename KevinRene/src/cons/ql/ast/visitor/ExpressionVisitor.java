@@ -20,6 +20,7 @@ import cons.ql.ast.expression.relational.LT;
 import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLError;
 import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
@@ -45,11 +46,12 @@ public interface ExpressionVisitor<T> extends Visitor<T> {
 	default T visit(Identifier identNode) {		return null;}
 	
 	// Types contain nothing. An empty function will be the default visit action.
-	default T visit(QLBoolean booleanNode) {	return null;}
-	default T visit(QLFloat floatNode) {		return null;}    
-	default T visit(QLNumeric numericNode) {	return null;}
-	default T visit(QLInteger intNode) {		return null;}
-	default T visit(QLString stringNode) {		return null;}
+	default T visit(QLBoolean booleanNode) 	{ return null; }
+	default T visit(QLFloat floatNode) 		{ return null; }    
+	default T visit(QLNumeric numericNode) 	{ return null; }
+	default T visit(QLInteger intNode) 		{ return null; }
+	default T visit(QLString stringNode) 	{ return null; }
+	default T visit(QLError errNode)		{ return null; }
 	
 	default T visit(BooleanLiteral booleanNode) {	return null;}	
 	default T visit(FloatLiteral floatNode) {		return null;}

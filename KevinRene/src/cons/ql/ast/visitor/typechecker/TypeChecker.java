@@ -2,7 +2,6 @@ package cons.ql.ast.visitor.typechecker;
 
 import java.util.ArrayList;
 
-import cons.TypeRegister;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Binary;
@@ -32,13 +31,15 @@ import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.expression.unary.Neg;
 import cons.ql.ast.expression.unary.Not;
 import cons.ql.ast.expression.unary.Pos;
+import cons.ql.ast.statement.Block;
 import cons.ql.ast.statement.ComputedQuestion;
+import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
 import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
-public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<Object> {
+public class TypeChecker implements ExpressionVisitor<Boolean>, StatementVisitor<Boolean> {
 	private ArrayList<String> errors = new ArrayList<String>();
 	
 	// TODO, should take a statement?
@@ -62,12 +63,10 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 		left.accept(this);
 		right.accept(this);
 		
-		// Types of operands must be compatible
-		// And they must be compatible to the operator's type
-		
-		if (left.getType().compatibleWith(right.getType()) &&
-				op.getType().compatibleWith(left.getType()) &&
-				op.getType().compatibleWith(right.getType())) {
+		// Both types must be numeric
+		if (left.getType().compatibleWith(new QLNumeric()) &&
+			right.getType().compatibleWith(new QLNumeric())) {
+			
 			return true;
 		}
 		else {
@@ -109,10 +108,11 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 		left.accept(this);
 		right.accept(this);
 		
-		// Both operands should be booleans		
-		if (op.getType().compatibleWith(left.getType()) &&
-			op.getType().compatibleWith(right.getType())) {
+		// Both operands should be booleans
+		if (left.getType().compatibleWith(new QLBoolean()) &&
+			right.getType().compatibleWith(new QLBoolean())) {
 			return true;
+		
 		} else {
 			errors.add("<" + op.getClass().getSimpleName() + "> Expected type: " 
 					+ op.getType().compatibilities() + ", actual types: "	
@@ -121,194 +121,143 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 			
 			return false;
 		}
-	}
-	
-	@Override
-	public Void visit(Identifier identNode) {
-		return null; 
-	}
-	
-	/**
-	 * Types
-	 */
-	@Override
-	public Void visit(QLString qlString) {
-		return null;
-	}
-
-	@Override
-	public Void visit(QLNumeric qlNumeric) {
-		return null;
-	}
-
-	@Override
-	public Void visit(QLFloat qlFloat) {
-		return null;
-	}
-
-	@Override
-	public Void visit(QLInteger qlInteger) {
-		return null;
-	}
-
-	@Override
-	public Void visit(QLBoolean qlBoolean) {
-		return null;
-	}
+	}	
 	
 	/**
 	 * OPERATORS 
 	 */
 	@Override
-	public Void visit(Add addNode) {
-		checkBinaryNumericOperator(addNode);
-		return null;
+	public Boolean visit(Add addNode) {
+		return checkBinaryNumericOperator(addNode);
 	}
 
 	@Override
-	public Void visit(Div divNode) {
-		checkBinaryNumericOperator(divNode);
-		return null;
+	public Boolean visit(Div divNode) {
+		return checkBinaryNumericOperator(divNode);
 	}
 
 	@Override
-	public Void visit(Mul mulNode) {
-		checkBinaryNumericOperator(mulNode);
-		return null;
+	public Boolean visit(Mul mulNode) {
+		return checkBinaryNumericOperator(mulNode);
 	}
 
 	@Override
-	public Void visit(Sub subNode) {
-		checkBinaryNumericOperator(subNode);
-		return null;
+	public Boolean visit(Sub subNode) {
+		return checkBinaryNumericOperator(subNode);
 	}
 	
 	@Override
-	public Void visit(Neg negNode) {
+	public Boolean visit(Neg negNode) {
 		negNode.getExpression().accept(this);
 		
 		// Expression must be a numeric
 		if (negNode.getType().compatibleWith(negNode.getExpression().getType())) {
 			errors.add("<Not> Expected type: QLNumeric, actual type: " + negNode.getExpression().getType());
 		}
-		return null;
+		return false;
 	}
 	
 	@Override
-	public Void visit(Pos posNode) {
+	public Boolean visit(Pos posNode) {
 		posNode.getExpression().accept(this);
 		
 		// Expression must be a numeric
 		if (posNode.getType().compatibleWith(posNode.getExpression().getType())) {
 			errors.add("<Not> Expected type: QLNumeric, actual type: " + posNode.getExpression().getType());
 		}
-		return null;
+		return false;
 		
+	}
+	
+	/**
+	 * EQUALITY OPERATORS
+	 */
+	
+	@Override
+	public Boolean visit(Eq eqNode) {
+		return equalityOperator(eqNode);
+	}
+	
+	@Override
+	public Boolean visit(NEq neqNode) {
+		return equalityOperator(neqNode);
+	}
+	
+	private boolean equalityOperator(Binary op) {
+		Expression left = op.getLeft();
+		Expression right = op.getRight();
+		
+		left.accept(this);
+		right.accept(this);
+		
+		// Both operands should be compatible with eachother	
+		if (!left.getType().compatibleWith(right.getType())) {
+			
+			errors.add("<" + op.getClass().getSimpleName() + "> "
+					+ "Expected types to be of " 
+					+ op.getLeft().getType().compatibilities() + ", "
+					+ "but got: "
+					+ op.getLeft().getType() + " & " + op.getRight().getType()
+					+ ".");
+			return false;
+		}
+		return true;
 	}
 	
 	/**
 	 * Relational operators
 	 */
+
 	@Override
-	public Void visit(And andNode) {
-		checkBinaryRelationalOperator(andNode);
-		return null;	
+	public Boolean visit(GEq geqNode) {
+		return checkBinaryNumericRelationalOperator(geqNode);
 	}
 
 	@Override
-	public Void visit(Eq eqNode) {
-		Expression left = eqNode.getLeft();
-		Expression right = eqNode.getRight();
-		
-		left.accept(this);
-		right.accept(this);
-		
-		// Both operands should be compatible with eachother	
-		if (!(right.getType().compatibleWith(left.getType()) &&
-			left.getType().compatibleWith(right.getType()))) {
-			
-			errors.add("<" + left.getClass().getSimpleName() + "> Expected type: " 
-					+ left.getType().compatibilities() + ", actual types: "	
-					+ left.getType() + " & " + right.getType()
-					+ ".");
-		}
-		return null;
+	public Boolean visit(GT gtNode) {
+		return checkBinaryNumericRelationalOperator(gtNode);
 	}
 
 	@Override
-	public Void visit(GEq geqNode) {
-		checkBinaryNumericRelationalOperator(geqNode);
-		return null;
+	public Boolean visit(LEq leqNode) {
+		return checkBinaryNumericRelationalOperator(leqNode);
 	}
 
 	@Override
-	public Void visit(GT gtNode) {
-		checkBinaryNumericRelationalOperator(gtNode);
-		return null;
+	public Boolean visit(LT ltNode) {
+		return checkBinaryNumericRelationalOperator(ltNode);
+	}
+
+	
+	@Override
+	public Boolean visit(And andNode) {
+		return checkBinaryRelationalOperator(andNode);	
+	}
+	
+	@Override
+	public Boolean visit(Or orNode) {
+		return checkBinaryRelationalOperator(orNode);
 	}
 
 	@Override
-	public Void visit(LEq leqNode) {
-		checkBinaryNumericRelationalOperator(leqNode);
-		return null;
-	}
-
-	@Override
-	public Void visit(LT ltNode) {
-		checkBinaryNumericRelationalOperator(ltNode);
-		return null;
-	}
-
-	@Override
-	public Void visit(NEq neqNode) {
-		Expression left = neqNode.getLeft();
-		Expression right = neqNode.getRight();
-		
-		left.accept(this);
-		right.accept(this);
-		
-		// Both operands should be compatible with eachother	
-		if (!(right.getType().compatibleWith(left.getType()) &&
-			left.getType().compatibleWith(right.getType()))) {
-			
-			errors.add("<" + left.getClass().getSimpleName() + "> Expected type: " 
-					+ left.getType().compatibilities() + ", actual types: "	
-					+ left.getType() + " & " + right.getType()
-					+ ".");
-		}
-		return null;
-	}
-
-	@Override
-	public Void visit(Or orNode) {
-		checkBinaryRelationalOperator(orNode);
-		return null;
-	}
-
-	@Override
-	public Void visit(Not notNode) {
+	public Boolean visit(Not notNode) {
 		notNode.getExpression().accept(this);
 		
-		// Expression must be a Void
-		if (notNode.getType().compatibleWith(notNode.getExpression().getType())) {
+		// Expression must be a Boolean
+		if (notNode.getExpression().getType().compatibleWith(new QLBoolean())) {
 			errors.add("<Not> Expected type: QLBoolean, actual type: " + notNode.getExpression().getType());
 		}
 		
-		return null;
+		return false;
 	}
 
 	/**
 	 * Statements
 	 */	
-	// Use default method
-	// @Override
-	// public void visit(Block blockNode) {}
-
 	@Override
-	public Void visit(ComputedQuestion compQuestionNode) {
+	public Boolean visit(ComputedQuestion compQuestionNode) {
 		StatementVisitor.super.visit(compQuestionNode);
-				
-		// TODO: make this way easier.
+		
 		if(!compQuestionNode.getType().compatibleWith(
 				compQuestionNode.getExpression().getType())) {
 
@@ -316,57 +265,25 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 					+ compQuestionNode.getType() + " was assigned a "
 					+ compQuestionNode.getExpression().getType() + ".");
 		}
-		return null;
+		return false;
 	}
 	
-	// Use the default method
-	// @Override
-	// public void visit(Form formNode) {}
-
 	@Override
-	public Void visit(If ifNode) {
-		// The expression must have a Void type		
+	public Boolean visit(If ifNode) {
+		// The expression must have a Boolean type		
 		ifNode.getExpression().accept(this);
 		
 		if (ifNode.getExpression().getType().getClass() != QLBoolean.class) {
 			errors.add("Expected QLBoolean, got " + ifNode.getExpression().getType());
 		}
-		return null;
+		return false;
 	}
 
 	@Override
-	public Void visit(Question questionNode) {
-		// Identifier identifier = questionNode.getIdent();
-		
+	public Boolean visit(Question questionNode) {
 		// Do we allow redeclaration?
 		// If not, do a check here
-		return null;
+		return false;
 	}
 
-
-
-	@Override
-	public Void visit(StringLiteral stringLiteral) {
-		return null;
-	}
-
-	@Override
-	public Void visit(IntegerLiteral integerLiteral) {
-		return null;
-	}
-
-	@Override
-	public Void visit(FloatLiteral floatLiteral) {
-		return null;
-	}
-
-	@Override
-	public Void visit(BooleanLiteral booleanLiteral) {
-		return null;
-	}
-
-	@Override
-	public Object visit(QLError qlError) {
-		return null;
-	}
 }
