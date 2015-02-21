@@ -32,7 +32,7 @@ func (s *SymbolTable) loop() {
 		case event.SymbolRead:
 			question, ok := s.table[r.Name]
 			if !ok {
-				log.Fatalf("Identifier unknown: %s", r.Name)
+				log.Fatalf("Identifier unknown at symbols table: %s", r.Name)
 			}
 			r.Ret <- question
 		case event.SymbolCreate:

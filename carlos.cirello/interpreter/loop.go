@@ -42,56 +42,72 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 }
 
 func (v *interpreter) loop() {
-	v.send <- &event.Frontend{
-		Type: event.ReadyP,
-	}
-walkLoop:
+	ticker := time.Tick(100 * time.Millisecond)
+	redraw := false
 	for {
-		select {
-		case r := <-v.receive:
-			switch r.Type {
-			case event.ReadyT:
-				v.draw.Visit(v.questionaire)
-				v.send <- &event.Frontend{Type: event.Flush}
-				break walkLoop
+		v.send <- &event.Frontend{
+			Type: event.ReadyP,
+		}
+
+	drawLoop:
+		for {
+			select {
+			case r := <-v.receive:
+				switch r.Type {
+				case event.ReadyT:
+					v.draw.Visit(v.questionaire)
+					v.send <- &event.Frontend{Type: event.Flush}
+					break drawLoop
+				}
 			}
 		}
-	}
 
-	ticker := time.Tick(100 * time.Millisecond)
-	for {
-		select {
-		case r := <-v.receive:
-			switch r.Type {
-			case event.Answers:
-				for identifier, answer := range r.Answers {
+		if redraw {
+			redraw = false
+			go func(receive chan *event.Frontend) {
+				receive <- &event.Frontend{Type: event.ReadyT}
+			}(v.receive)
+		}
+	mainLoop:
+		for {
+			select {
+			case r := <-v.receive:
+				switch r.Type {
+
+				case event.Answers:
+					for identifier, answer := range r.Answers {
+						v.execute.Visit(v.questionaire)
+						v.send <- &event.Frontend{Type: event.Flush}
+						ret := make(chan *ast.QuestionNode)
+						v.symbols.Events <- &event.Symbol{
+							Command: event.SymbolRead,
+							Name:    identifier,
+							Ret:     ret,
+						}
+
+						q := <-ret
+						q.Content().From(answer)
+						v.symbols.Events <- &event.Symbol{
+							Command: event.SymbolUpdate,
+							Name:    q.Identifier(),
+							Content: q,
+						}
+					}
+					fallthrough
+
+				case event.ReadyT:
 					v.execute.Visit(v.questionaire)
 					v.send <- &event.Frontend{Type: event.Flush}
-					ret := make(chan *ast.QuestionNode)
-					v.symbols.Events <- &event.Symbol{
-						Command: event.SymbolRead,
-						Name:    identifier,
-						Ret:     ret,
-					}
 
-					q := <-ret
-					q.Content().From(answer)
-					v.symbols.Events <- &event.Symbol{
-						Command: event.SymbolUpdate,
-						Name:    q.Identifier(),
-						Content: q,
-					}
+				case event.Redraw:
+					redraw = true
+					break mainLoop
+
 				}
-				fallthrough
 
-			case event.ReadyT:
-				v.execute.Visit(v.questionaire)
-				v.send <- &event.Frontend{Type: event.Flush}
+			case <-ticker:
+				v.send <- &event.Frontend{Type: event.FetchAnswers}
 			}
-
-		case <-ticker:
-			v.send <- &event.Frontend{Type: event.FetchAnswers}
 		}
 	}
-
 }

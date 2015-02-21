@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class Or extends BinaryExpr
 {
-    public Or(Expr left, Expr right)
+    public Or(Expr left, Expr right, int lineNumber)
     {
-        super(left, right);
+        super(left, right, lineNumber);
     }
 
     public void accept(Visitor visitor)

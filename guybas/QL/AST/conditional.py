@@ -35,7 +35,7 @@ class IfBlock(IStatement):
         return True
 
     # Override
-    def dependency_collection(self, dependencies):
+    def dependency_collection(self, dependencies): # TODO : change inefficiency
         ids = self.id_collection()
         for i in ids:
             if i in dependencies:

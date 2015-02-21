@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class LtEqu extends BinaryExpr
 {
-    public LtEqu(Expr left, Expr right)
+    public LtEqu(Expr left, Expr right, int lineNumber)
     {
-        super(left, right);
+        super(left, right, lineNumber);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

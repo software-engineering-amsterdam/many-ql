@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class BoolExpr extends ConstExpr<Boolean>
 {
-    public BoolExpr(Boolean value)
+    public BoolExpr(Boolean value, int lineNumber)
     {
-        super(value);
+        super(value, lineNumber);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

@@ -3,7 +3,7 @@ package nl.uva.softwcons.ast.expression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.AdditionExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.DivisionExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.SubstractionExpression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.SubtractionExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.EqualExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqualExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThanExpression;
@@ -28,7 +28,7 @@ public interface ExpressionVisitor<T> {
 
     T visit(MultiplicationExpression expr);
 
-    T visit(SubstractionExpression expr);
+    T visit(SubtractionExpression expr);
 
     /* Binary comparison expressions */
     T visit(EqualExpression expr);

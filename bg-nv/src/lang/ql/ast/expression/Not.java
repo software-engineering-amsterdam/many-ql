@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class Not extends UnaryExpr
 {
-    public Not(Expr operand)
+    public Not(Expr operand, int lineNumber)
     {
-        super(operand);
+        super(operand, lineNumber);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

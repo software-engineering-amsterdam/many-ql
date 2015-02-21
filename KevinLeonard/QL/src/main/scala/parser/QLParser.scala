@@ -37,7 +37,7 @@ class QLParser extends JavaTokenParsers {
     case v ~ label ~ StringType() ~ None => StringQuestion(v, label)
     case v ~ label ~ StringType() ~ Some(e) => ComputedStringQuestion(v, label, e)
   })
-  def questionType: Parser[QuestionType] = "answer" ~> ("boolean" ^^^ BooleanType() | "number" ^^^ NumberType() | "string" ^^^ StringType())
+  def questionType: Parser[Type] = "answer" ~> ("boolean" ^^^ BooleanType() | "number" ^^^ NumberType() | "string" ^^^ StringType())
 
   // if statement parsers
   def ifStatement: Parser[IfStatement] = positioned(("if" ~> expression) ~ statement ~ opt("else" ~> statement) ^^ {

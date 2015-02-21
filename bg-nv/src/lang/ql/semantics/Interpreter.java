@@ -8,33 +8,45 @@ import lang.ql.semantics.values.*;
 import java.util.*;
 
 /**
- * Created by bore on 15/02/15.
- */
-public class Interpreter extends VisitorAbstract
+* Created by bore on 15/02/15.
+*/
+public class Interpreter implements Visitor
 {
     private Stack<Value> valueStack;
     private Map<String, Value> variableValues;
-    private TypeChecker typeChecker;
-    private SymbolTable table;
+    private QuestErrInfo info;
 
-    //TODO: solve the passing of question dependencies in a different manner
     public Interpreter()
     {
         this.valueStack = new Stack<Value>();
         this.variableValues = new HashMap<String, Value>();
-        this.typeChecker = new TypeChecker();
     }
 
     public Map<String, Value> getVariableValues()
     {
         return variableValues;
     }
-    
+
+    private void initializeQuestErrInfo(Form f)
+    {
+        if (this.info == null)
+        {
+            TypeChecker visitor = new TypeChecker();
+            f.accept(visitor);
+            this.info = visitor.getInfo();
+        }
+    }
+
     @Override
     public void visit(Form f)
     {
-        this.typeChecker.visit(f);
-        this.table = this.typeChecker.table();
+        this.initializeQuestErrInfo(f);
+
+        if (!(this.info.getMessages().isEmpty()))
+        {
+            // TODO: handle semantic errors
+            throw new IllegalStateException("Semantic errors");
+        }
 
         for(Statement s : f.getStatements())
         {
@@ -58,7 +70,7 @@ public class Interpreter extends VisitorAbstract
     @Override
     public void visit(Question n)
     {
-        Value defaultValue = this.getDefaultValue(n.getQuestionType());
+        Value defaultValue = ValueFactory.makeValue(n.getType());
         this.variableValues.put(n.getId(), defaultValue);
     }
 
@@ -105,7 +117,7 @@ public class Interpreter extends VisitorAbstract
         // TODO: get the Question expression based on the identifier and compute its value and put it in the variableValues
         if (!(this.variableValues.containsKey(e.getId())))
         {
-            List<Question> qs = this.table.getQuestionsById(e.getId());
+            List<Question> qs = this.info.getQuestionsById(e.getId());
             assert qs.size() == 1;
             Question q = qs.get(0);
             q.accept(this);
@@ -279,26 +291,6 @@ public class Interpreter extends VisitorAbstract
         e.getRight().accept(this);
     }
 
-    private Value getDefaultValue(QuestionType type)
-    {
-        if (type == QuestionType.BOOLEAN)
-        {
-            return BooleanValue.getDefaultValue();
-        }
-
-        if (type == QuestionType.STRING)
-        {
-            return StringValue.getDefaultValue();
-        }
-
-        if (type == QuestionType.INTEGER)
-        {
-            return IntegerValue.getDefaultValue();
-        }
-
-        return DecimalValue.getDefaultValue();
-    }
-
     private Value popFromStack()
     {
         try
@@ -307,6 +299,7 @@ public class Interpreter extends VisitorAbstract
         }
         catch (EmptyStackException ex)
         {
+            // TODO: try to recover
             throw ex;
         }
     }

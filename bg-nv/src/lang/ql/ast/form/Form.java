@@ -14,8 +14,9 @@ public class Form extends AstNode
     private String id;
     private List<Statement> statements;
 
-    public Form(String id, List<Statement> statements)
+    public Form(String id, List<Statement> statements, int lineNumber)
     {
+        super(lineNumber);
         this.id = id;
         this.statements = statements;
     }

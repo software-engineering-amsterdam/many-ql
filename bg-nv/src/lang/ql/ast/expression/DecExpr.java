@@ -9,9 +9,9 @@ import java.math.BigDecimal;
  */
 public class DecExpr extends ConstExpr<BigDecimal>
 {
-    public DecExpr(BigDecimal value)
+    public DecExpr(BigDecimal value, int lineNumber)
     {
-        super(value);
+        super(value, lineNumber);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

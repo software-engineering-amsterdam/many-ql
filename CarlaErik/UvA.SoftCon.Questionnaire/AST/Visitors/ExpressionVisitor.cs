@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.Parsing;
 using UvA.SoftCon.Questionnaire.Utilities;
+using UvA.SoftCon.Questionnaire.AST.Extensions;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
 {
@@ -25,7 +26,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
-            return new BinaryExpression(operation, left, right);
+            return new BinaryExpression(operation, left, right, context.GetTextPosition());
         }
 
 
@@ -35,7 +36,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
-            return new BinaryExpression(operation, left, right);
+            return new BinaryExpression(operation, left, right, context.GetTextPosition());
         }
 
         public override IExpression VisitRelational(QLParser.RelationalContext context)
@@ -44,7 +45,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
-            return new BinaryExpression(operation, left, right);
+            return new BinaryExpression(operation, left, right, context.GetTextPosition());
         }
 
         public override IExpression VisitEquality(QLParser.EqualityContext context)
@@ -53,7 +54,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
-            return new BinaryExpression(operation, left, right);
+            return new BinaryExpression(operation, left, right, context.GetTextPosition());
         }
 
         public override IExpression VisitAnd(QLParser.AndContext context)
@@ -62,7 +63,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
-            return new BinaryExpression(operation, left, right);
+            return new BinaryExpression(operation, left, right, context.GetTextPosition());
         }
 
         public override IExpression VisitOr(QLParser.OrContext context)
@@ -71,33 +72,33 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression right = context.expr(1).Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(1).GetText());
 
-            return new BinaryExpression(operation, left, right);
+            return new BinaryExpression(operation, left, right, context.GetTextPosition());
         }
 
         public override IExpression VisitIdentifier(QLParser.IdentifierContext context)
         {
-            return new Identifier(context.ID().GetText());
+            return new Identifier(context.ID().GetText(), context.GetTextPosition());
         }
 
         public override IExpression VisitBooleanLiteral(QLParser.BooleanLiteralContext context)
         {
             bool value = Boolean.Parse(context.BOOL().GetText());
 
-            return new Literal<bool>(value);
+            return new Literal<bool>(value, context.GetTextPosition());
         }
 
         public override IExpression VisitIntegerLiteral(QLParser.IntegerLiteralContext context)
         {
             int value = Int32.Parse(context.INT().GetText());
 
-            return new Literal<int>(value);
+            return new Literal<int>(value, context.GetTextPosition());
         }
 
         public override IExpression VisitDoubleLiteral(QLParser.DoubleLiteralContext context)
         {
             double value = Double.Parse(context.DOUBLE().GetText());
 
-            return new Literal<double>(value);
+            return new Literal<double>(value, context.GetTextPosition());
         }
 
         public override IExpression VisitStringLiteral(QLParser.StringLiteralContext context)
@@ -107,7 +108,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             // Remove the leading and trailing '"' characters from the string literal.
             value = value.Trim('"');
 
-            return new Literal<string>(value);
+            return new Literal<string>(value, context.GetTextPosition());
         }
     }
 }
