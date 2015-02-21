@@ -18,6 +18,7 @@ import cons.ql.ast.expression.relational.LT;
 import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLError;
 import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
@@ -44,6 +45,7 @@ public interface Visitor<T> {
 	public T visit(QLFloat qlFloat);
 	public T visit(QLInteger qlInteger);
 	public T visit(QLBoolean qlBoolean);
+	public T visit(QLError qlError);
 
 	public T visit(Or or);
 	public T visit(NEq nEq);

@@ -23,6 +23,7 @@ import cons.ql.ast.expression.relational.LT;
 import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLError;
 import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
@@ -361,6 +362,11 @@ public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<
 
 	@Override
 	public Void visit(BooleanLiteral booleanLiteral) {
+		return null;
+	}
+
+	@Override
+	public Object visit(QLError qlError) {
 		return null;
 	}
 }

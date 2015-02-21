@@ -49,8 +49,7 @@ public interface ExpressionVisitor<T> extends Visitor<T> {
 	default T visit(QLFloat floatNode) {		return null;}    
 	default T visit(QLNumeric numericNode) {	return null;}
 	default T visit(QLInteger intNode) {		return null;}
-	default T visit(QLString stringNode) {
-		return null;}
+	default T visit(QLString stringNode) {		return null;}
 	
 	default T visit(BooleanLiteral booleanNode) {	return null;}	
 	default T visit(FloatLiteral floatNode) {		return null;}

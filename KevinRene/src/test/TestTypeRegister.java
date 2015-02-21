@@ -6,14 +6,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import cons.Register;
+import cons.TypeRegister;
 import cons.exception.UndefinedVariableException;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.statement.Form;
 
-public class TestRegister {
-	private Register register = Register.getInstance();
+public class TestTypeRegister {
+	private TypeRegister register = TypeRegister.getInstance();
 	
 	@Rule
 	public ExpectedException expected = ExpectedException.none();
@@ -23,36 +23,26 @@ public class TestRegister {
 		StringLiteral myString = new StringLiteral("My String");
 		Identifier myIdentifier = new Identifier("aString");
 		
-		register.store(myIdentifier, myString);
+		register.store(myIdentifier, myString.getType());
 		try {
 			assertEquals("Should return my previously bound type instance.", 
-					register.resolve(myIdentifier).toString(), "My String");
+					register.resolve(myIdentifier).toString(), "QLString");
 		} catch(Exception e) {
 			
 		}
 		
 		myString = new StringLiteral("Other value");
-		Register.getInstance().store(myIdentifier, myString);
+		TypeRegister.getInstance().store(myIdentifier, myString.getType());
 		
 		assertEquals("Should return the newly bound type instance.", 
-				register.resolve(myIdentifier).toString(), "Other value");
+				register.resolve(myIdentifier).toString(), "QLString");
 	}
 	
 	@Test
-	public void testAutomaticRegistration() throws UndefinedVariableException {
-		Identifier myIdentifier = new Identifier("taxFormExample");
-		Form myForm = new Form(myIdentifier, null);
-		
-		assertEquals("A created form should be registered",
-				register.resolve(myIdentifier), myForm);
-	}
-	
-	@Test
-	public void throwsUndefinedVariableException() throws UndefinedVariableException {
+	public void throwsQLError() {
 		Identifier myIdentifier = new Identifier("aString");
 		
-		expected.expect(UndefinedVariableException.class);
-		expected.expectMessage("aString is undefined");
-		register.resolve(myIdentifier);
+		assertEquals("Should return the error type", 
+				register.resolve(myIdentifier).toString(), "QLError");
 	}
 }

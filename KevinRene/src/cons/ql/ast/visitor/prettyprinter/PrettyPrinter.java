@@ -92,35 +92,36 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 	@Override
 	public Void visit(QLBoolean booleanNode) {
 		printNode(booleanNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(QLFloat floatNode) {
 		printNode(floatNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(QLInteger intNode) {
 		printNode(intNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(QLNumeric numericNode) {
-		printNode(numericNode);
-		
+		printNode(numericNode);	
 		return null;
 	}
 
 	@Override
 	public Void visit(QLString stringNode) {
 		printNode(stringNode);
-		
+		return null;
+	}
+	
+	@Override
+	public Void visit(QLError qlError) {	
+		printNode(qlError);
 		return null;
 	}
 
@@ -144,14 +145,12 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 	@Override
 	public Void visit(IntegerLiteral intNode) {
 		printNode(intNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(StringLiteral stringNode) {
-		printNode(stringNode);
-		
+		printNode(stringNode);	
 		return null;
 	}
 
@@ -160,85 +159,73 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 	 ******************/
 	@Override
 	public Void visit(Add addNode) {
-		printBinaryNode(addNode);
-		
+		printBinaryNode(addNode);	
 		return null;
 	}
 
 	@Override
 	public Void visit(Div divNode) {
-		printBinaryNode(divNode);
-		
+		printBinaryNode(divNode);	
 		return null;
 	}
 
 	@Override
 	public Void visit(Mul mulNode) {
 		printBinaryNode(mulNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(Sub subNode) {
 		printBinaryNode(subNode);
-		
 		return null;
 	}
 	
 	@Override
 	public Void visit(And andNode) {
 		printBinaryNode(andNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(Eq eqNode) {
 		printBinaryNode(eqNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(GEq geqNode) {
 		printBinaryNode(geqNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(GT gtNode) {
 		printBinaryNode(gtNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(LEq leqNode) {
 		printBinaryNode(leqNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(LT ltNode) {
 		printBinaryNode(ltNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(NEq neqNode) {
 		printBinaryNode(neqNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(Or orNode) {
 		printBinaryNode(orNode);
-		
 		return null;
 	}
 
@@ -248,21 +235,18 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 	@Override
 	public Void visit(Neg negNode) {
 		printUnaryNode(negNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(Not notNode) {
 		printUnaryNode(notNode);
-		
 		return null;
 	}
 
 	@Override
 	public Void visit(Pos posNode) {
 		printUnaryNode(posNode);
-		
 		return null;
 	}
 	

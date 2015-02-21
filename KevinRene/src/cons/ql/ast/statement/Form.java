@@ -1,6 +1,6 @@
 package cons.ql.ast.statement;
 
-import cons.Register;
+import cons.TypeRegister;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.visitor.Visitor;
@@ -13,7 +13,8 @@ public class Form extends Statement {
 		this.identifier = identifier;
 		this.block = block;
 		
-		Register.getInstance().store(this.identifier, this);
+		// TODO: Still needed?
+		// TypeRegister.getInstance().store(this.identifier, this);
 	}
 	
 	public Identifier getIdentifier() {
