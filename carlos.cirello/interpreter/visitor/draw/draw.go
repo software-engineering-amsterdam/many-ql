@@ -15,12 +15,7 @@ type Draw struct {
 
 // New is the factory for Draw struct
 func New(toFrontend chan *event.Frontend) *visitor.Visitor {
-	return &visitor.Visitor{
-		&Draw{
-			toFrontend: toFrontend,
-			nest:       0,
-		},
-	}
+	return visitor.NewVisitor(&Draw{toFrontend: toFrontend, nest: 0})
 }
 
 // QuestionaireNode Drawer all actionNodes of a questionaire (form)

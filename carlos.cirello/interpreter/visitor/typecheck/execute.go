@@ -16,7 +16,5 @@ func New(symbolChan chan *event.Symbol) *visitor.Visitor {
 		}
 	}(toFrontend)
 
-	return &visitor.Visitor{
-		execute.NewExecute(toFrontend, symbolChan),
-	}
+	return visitor.NewVisitor(execute.NewExecute(toFrontend, symbolChan))
 }

@@ -15,6 +15,7 @@ type Execute struct {
 	symbolChan chan *event.Symbol
 }
 
+// NewExecute is the factory for Execute struct tree
 func NewExecute(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *Execute {
 	return &Execute{
 		toFrontend: toFrontend,
@@ -22,11 +23,9 @@ func NewExecute(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) 
 	}
 }
 
-// New is the factory for Execute struct
+// New is the factory for a visitor.Visitor with Execute struct tree inside
 func New(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *visitor.Visitor {
-	return &visitor.Visitor{
-		NewExecute(toFrontend, symbolChan),
-	}
+	return visitor.NewVisitor(NewExecute(toFrontend, symbolChan))
 }
 
 // QuestionaireNode execute all actionNodes of a questionaire (form)
