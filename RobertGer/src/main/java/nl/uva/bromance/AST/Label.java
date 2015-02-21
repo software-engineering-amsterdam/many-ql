@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
 public class Label extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Form.class));
     private String identifier;
@@ -28,7 +25,7 @@ public class Label extends Node {
             System.out.print("\t");
         }
         System.out.print("[Label] { Name : " + this.identifier + " }\n");
-        for (Node n : children) {
+        for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
     }

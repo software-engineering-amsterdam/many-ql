@@ -15,9 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
 public class Question extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
     private List<String> customQuestionOptions = new ArrayList<>();
@@ -44,10 +41,6 @@ public class Question extends Node {
 
     public String getQuestionString() {
         return questionString;
-    }
-
-    public String getQuestionType() {
-        return questionType;
     }
 
     public Range getQuestionRange() {
@@ -88,7 +81,7 @@ public class Question extends Node {
             System.out.print("\t");
         }
         System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , Range: " + this.questionRange + " }\n");
-        for (Node n : children) {
+        for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
 
@@ -142,9 +135,6 @@ public class Question extends Node {
         return "integer".equals(questionType) || "Integer".equals(questionType);
     }
 
-    public boolean isQuestionTypeDouble() {
-        return "double".equals(questionType) || "Double".equals(questionType);
-    }
 
     public boolean isQuestionTypeCustom() {
         return "custom".equals(questionType) || "Custom".equals(questionType);
@@ -152,9 +142,7 @@ public class Question extends Node {
 
     public void setCustomQuestionOptions(List<TerminalNode> options) {
         for (TerminalNode option : options) {
-            if (option.getText() != "||") {
-                customQuestionOptions.add(option.getText());
-            }
+            customQuestionOptions.add(option.getText());
         }
 
     }

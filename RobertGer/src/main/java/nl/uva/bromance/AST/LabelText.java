@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
 public class LabelText extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Label.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class));
     private String text;
@@ -31,7 +28,7 @@ public class LabelText extends Node {
     }
 
     private List<String> extractVariablesFromText(String txt) {
-        List<String> stringList = new ArrayList();
+        List<String> stringList = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\[(.*?)\\]");
         Matcher matcher = pattern.matcher(txt);
         while (matcher.find()) {
@@ -40,8 +37,6 @@ public class LabelText extends Node {
         return stringList;
 
     }
-
-    ;
 
     @Override
     public void printDebug(int i) {
@@ -59,7 +54,7 @@ public class LabelText extends Node {
             }
         }
         System.out.print("]} \n");
-        for (Node n : children) {
+        for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
 

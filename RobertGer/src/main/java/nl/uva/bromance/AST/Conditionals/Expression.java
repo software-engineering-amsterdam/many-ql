@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
 public class Expression extends Node {
     //TODO: Add Input Class
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class));
@@ -25,7 +22,7 @@ public class Expression extends Node {
             System.out.print("\t");
         }
         System.out.print("[Expression] " + text + " \n");
-        for (Node n : children) {
+        for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
 

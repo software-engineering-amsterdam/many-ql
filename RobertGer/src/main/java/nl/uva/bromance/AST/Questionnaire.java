@@ -1,10 +1,5 @@
 package nl.uva.bromance.AST;
 
-import java.util.List;
-
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
 public class Questionnaire extends Node {
     private String identifier;
 
@@ -17,24 +12,14 @@ public class Questionnaire extends Node {
         }
     }
 
-    public String getIdentifier() {
-        return this.identifier;
-    }
-
     @Override
     public void printDebug(int i) {
         for (int j = 0; j < i; j++) {
             System.out.print("\t");
         }
         System.out.print("[Root] { Name : " + this.identifier + " }\n");
-        for (Node n : children) {
+        for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
     }
-
-    public List<Node> getChildren() {
-        return children;
-
-    }
-
 }

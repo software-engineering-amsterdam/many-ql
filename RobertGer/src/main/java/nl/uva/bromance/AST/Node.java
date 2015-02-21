@@ -9,22 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
 public abstract class Node implements Visualizable, TypeCheckable {
-    protected List<Node> children;
+    private List<Node> children;
     private List<Class<? extends Node>> acceptedParents;
     private final int lineNumber;
     private final Class<? extends Node> type;
 
     public Node(int ln, Class<? extends Node> type) {
-        this.children = new ArrayList();
-        this.lineNumber = ln;
-        this.type = type;
+        this(ln, type, new ArrayList<Node>());
     }
 
-    public Node(int ln, Class<? extends Node> type, List children) {
+    public Node(int ln, Class<? extends Node> type, List<Node> children) {
         this.lineNumber = ln;
         this.children = children;
         this.type = type;
@@ -38,7 +33,7 @@ public abstract class Node implements Visualizable, TypeCheckable {
         }
     }
 
-    public boolean parentIsAccepted(Class<? extends Node> parent) {
+    protected boolean parentIsAccepted(Class<? extends Node> parent) {
         for (Class<? extends Node> p : this.acceptedParents) {
             if (parent.equals(p))
                 return true;

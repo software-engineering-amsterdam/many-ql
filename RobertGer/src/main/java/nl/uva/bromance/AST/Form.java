@@ -10,9 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Gerrit Krijnen on 2/16/2015.
- */
 public class Form extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Questionnaire.class));
     private String identifier;
@@ -33,7 +30,7 @@ public class Form extends Node {
             System.out.print("\t");
         }
         System.out.print("[Form] { Name : " + this.identifier + " }\n");
-        for (Node n : children) {
+        for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
 
