@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class Div extends BinaryExpr
 {
-    public Div(Expr left, Expr right)
+    public Div(Expr left, Expr right, int lineNumber)
     {
-        super(left, right);
+        super(left, right, lineNumber);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

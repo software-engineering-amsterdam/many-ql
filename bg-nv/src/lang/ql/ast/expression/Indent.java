@@ -9,8 +9,9 @@ public class Indent extends Expr
 {
     private String id;
 
-    public Indent(String id)
+    public Indent(String id, int lineNumber)
     {
+        super(lineNumber);
         this.id = id;
     }
 

@@ -5,4 +5,8 @@ package lang.ql.ast.types;
  */
 public class StrType extends Type
 {
+    public StrType()
+    {
+        super("string");
+    }
 }
