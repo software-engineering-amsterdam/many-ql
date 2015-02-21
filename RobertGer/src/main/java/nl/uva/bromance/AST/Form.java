@@ -3,6 +3,9 @@ package nl.uva.bromance.AST;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
+import nl.uva.bromance.AST.Conditionals.ElseStatement;
+import nl.uva.bromance.AST.Conditionals.IfStatement;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 
 import java.util.ArrayList;
@@ -13,6 +16,10 @@ import java.util.Map;
 public class Form extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Questionnaire.class));
     private String identifier;
+
+    private IfStatement ifStatement;
+    private List<ElseIfStatement> elseIfStatements;
+    private ElseStatement elseStatement;
 
     public Form(int lineNumber, String id) {
         super(lineNumber, Form.class);
@@ -60,5 +67,29 @@ public class Form extends Node {
         } else {
             throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier());
         }
+    }
+
+    public IfStatement getIfStatement() {
+        return ifStatement;
+    }
+
+    public void setIfStatement(IfStatement ifStatement) {
+        this.ifStatement = ifStatement;
+    }
+
+    public void setElseIfStatements(List<ElseIfStatement> elseIfStatements) {
+        this.elseIfStatements = elseIfStatements;
+    }
+
+    public List<ElseIfStatement> getElseIfStatements() {
+        return elseIfStatements;
+    }
+
+    public ElseStatement getElseStatement() {
+        return elseStatement;
+    }
+
+    public void setElseStatement(ElseStatement elseStatement) {
+        this.elseStatement = elseStatement;
     }
 }

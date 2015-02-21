@@ -16,7 +16,7 @@ import java.util.Stack;
 
 public class QLParseTreeListener extends QLBaseListener {
 
-    private Stack<Node> nodeStack = new Stack();
+    private Stack<Node> nodeStack = new Stack<>();
     private Questionnaire ast = null;
 
     public Questionnaire getAst() {
@@ -62,11 +62,10 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
-        // TODO: Dirty hack, still need to add custom type
+        // TODO: Maybe make this prettier somehow?
         Question peek = (Question) nodeStack.peek();
         peek.setQuestionType("custom");
         peek.setCustomQuestionOptions(ctx.STRING());
-        System.err.println("Question of custom list type detected, ignored for now will be implemented later");
     }
 
     public void exitQuestionRangeFromTo(QLParser.QuestionRangeFromToContext ctx) {
@@ -123,13 +122,19 @@ public class QLParseTreeListener extends QLBaseListener {
         nodeStack.push(new ElseStatement(ctx.start.getLine()));
     }
 
+    //TODO: Create test with multiple elseifStatements
     public void enterElseIfStatement(QLParser.ElseIfStatementContext ctx) {
         nodeStack.push(new ElseIfStatement(ctx.start.getLine()));
     }
 
+    //TODO: Maybe create something like an interface for nodes that allow ifelseifelse statments.
     public void exitIfStatement(QLParser.IfStatementContext ctx) {
         IfStatement ifs = (IfStatement) nodeStack.pop();
-        nodeStack.peek().addChild(ifs);
+        Node peek = nodeStack.peek();
+        peek.addChild(ifs);
+        if (peek instanceof Form) {
+            ((Form) peek).setIfStatement(ifs);
+        }
     }
 
     public void exitElseStatement(QLParser.ElseStatementContext ctx) {
