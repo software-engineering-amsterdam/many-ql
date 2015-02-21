@@ -7,5 +7,17 @@ import lang.ql.semantics.Visitor;
  */
 public abstract class AstNode
 {
+    private int lineNumber;
+
     public abstract void accept(Visitor visitor);
+
+    public AstNode(int lineNumber)
+    {
+        this.lineNumber = lineNumber;
+    }
+
+    public int getLineNumber()
+    {
+        return this.lineNumber;
+    }
 }

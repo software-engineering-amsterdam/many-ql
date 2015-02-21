@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class Pos extends UnaryExpr
 {
-    public Pos(Expr operand)
+    public Pos(Expr operand, int lineNumber)
     {
-        super(operand);
+        super(operand, lineNumber);
     }
 
     public void accept(Visitor visitor)

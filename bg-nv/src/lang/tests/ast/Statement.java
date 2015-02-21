@@ -1,9 +1,8 @@
 package lang.tests.ast;
 
 import lang.ql.ast.expression.*;
-import lang.ql.ast.statement.CalculatedQuestion;
-import lang.ql.ast.statement.IfCondition;
-import lang.ql.ast.statement.Question;
+import lang.ql.ast.types.*;
+import lang.ql.ast.statement.*;
 import lang.tests.ParserHelper;
 import lang.tests.TestHelper;
 import org.junit.Test;
@@ -24,7 +23,17 @@ public class Statement
         assertNotNull(q);
         assertEquals("hasSoldHouse", q.getId());
         assertEquals("Example", q.getText());
-        // TODO: check for type
+        assertTrue(q.getType() instanceof BoolType);
+    }
+
+    @Test
+    public void decimalQuestion()
+    {
+        Question q = TestHelper.as(ParserHelper.ParseQuestion("decimal testQuestion5 \"Sample Test\""), Question.class);
+        assertNotNull(q);
+        assertEquals("testQuestion5", q.getId());
+        assertEquals("Sample Test", q.getText());
+        assertTrue(q.getType() instanceof DecType);
     }
 
     @Test
@@ -35,7 +44,7 @@ public class Statement
         assertNotNull(q);
         assertEquals("hasSoldHouse", q.getId());
         assertEquals("Example", q.getText());
-        // TODO: check for type
+        assertTrue(q.getType() instanceof IntType);
         assertTrue(q.getExpr() instanceof Add);
     }
 
@@ -47,14 +56,14 @@ public class Statement
         assertNotNull(q);
         assertEquals("Quest_123", q.getId());
         assertEquals("Example", q.getText());
-        // TODO: check for type
+        assertTrue(q.getType() instanceof StrType);
         assertTrue(q.getExpr() instanceof StrExpr);
     }
 
     @Test
     public void ifCond()
     {
-        IfCondition c = TestHelper.as(ParserHelper.ParseIfCondiion("if(true)\n{ boolean a \"\"}"), IfCondition.class);
+        IfCondition c = TestHelper.as(ParserHelper.ParseIfCondition("if(true)\n{ boolean a \"\"}"), IfCondition.class);
         assertNotNull(c);
         assertEquals(1, c.getStatements().size());
         assertTrue(c.getExpr() instanceof BoolExpr);
