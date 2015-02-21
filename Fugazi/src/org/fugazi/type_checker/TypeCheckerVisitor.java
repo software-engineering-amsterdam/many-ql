@@ -3,10 +3,7 @@ package org.fugazi.type_checker;
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
-import org.fugazi.ast.expression.literal.BOOL;
-import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.INT;
-import org.fugazi.ast.expression.literal.STRING;
+import org.fugazi.ast.expression.literal.*;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Logical;
 import org.fugazi.ast.expression.logical.Or;
@@ -51,7 +48,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitQuestion(Question question) {
-        System.out.println("Visting question: " + question.toString());
 
         Type type = question.getType();
         ID identifier = question.getIdentifier();
@@ -162,13 +158,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean rightCorrect = this.checkIfInt(right);
 
         if (!leftCorrect) {
-            System.out.println("\n\nLeft not correct.");
             this.astErrorHandler.registerNewError( comparison,
                     "Left side of the binary comparison expression not of type int."
             );
         }
         if (!rightCorrect) {
-            System.out.println("\n\nRight not correct. ");
             this.astErrorHandler.registerNewError( comparison,
                     "Right side of the binary comparison expression not of type int."
             );
@@ -251,7 +245,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfInt(unary);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( unary,
                     "Unary numerical expression not of type int."
             );
@@ -298,7 +291,15 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitID(ID idLiteral) {
-        // all types allowed
+        // check if variable defined
+        // if it's type equals null => it is undefined
+        boolean questionDefined = this.checkIfDefined(idLiteral);
+        if (!questionDefined) {
+            this.astErrorHandler.registerNewError( idLiteral,
+                    "Question not defined."
+            );
+        }
+
         return null;
     }
 
@@ -308,7 +309,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfInt(intLiteral);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( intLiteral,
                     "Int Literal not of type int."
             );
@@ -321,7 +321,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfString(stringLiteral);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( stringLiteral,
                     "String Literal not of type string."
             );
@@ -334,7 +333,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfBool(boolLiteral);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( boolLiteral,
                     "Bool Literal not of type bool."
             );
@@ -374,6 +372,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private boolean checkIfString(Expression expression) {
         return expression.getSupportedTypes().contains(new StringType().getClass());
+    }
+
+    private boolean checkIfDefined(ID idLiteral) {
+        return (idLiteral.getType() != null);
     }
 
     /**
