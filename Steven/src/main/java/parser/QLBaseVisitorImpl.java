@@ -1,17 +1,21 @@
 package parser;
 
+import exceptions.NoSuchType;
 import exceptions.ParseException;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.antlrGenerated.QLBaseVisitor;
 import parser.antlrGenerated.QLParser;
 import parser.ast.nodes.*;
-import parser.ast.nodes.expression.BinaryExpression;
-import parser.ast.nodes.expression.Expression;
+import parser.ast.nodes.expression.*;
+import parser.ast.nodes.question.Label;
+import parser.ast.nodes.question.Question;
+import parser.ast.nodes.question.QuestionType;
 import parser.ast.nodes.statement.IfStatement;
 import parser.ast.nodes.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Steven Kok on 17/02/2015.
@@ -42,19 +46,80 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     }
 
     @Override
+    public AbstractNode visitQuestion(@NotNull QLParser.QuestionContext ctx) {
+        QuestionType questionType = (QuestionType) visit(ctx.question_type());
+        Identifier identifier = (Identifier) visit(ctx.identifier());
+        Label label = (Label) visit(ctx.question_label());
+        Optional<Expression> questionExpression = getQuestionExpression(ctx);
+        return new Question(identifier, questionType, label, questionExpression);
+    }
+
+    private Optional<Expression> getQuestionExpression(QLParser.QuestionContext expressionContext) {
+        if (expressionContext.question_expression() != null) {
+            Expression expression = (Expression) visitExpression(expressionContext.question_expression().expression());
+            return Optional.of(expression);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public AbstractNode visitQuestion_expression(@NotNull QLParser.Question_expressionContext ctx) {
+        return visitExpression(ctx.expression());
+    }
+
+    @Override
+    public AbstractNode visitQuestion_label(@NotNull QLParser.Question_labelContext ctx) {
+        return new Label(ctx.getText());
+    }
+
+    @Override
+    public AbstractNode visitIdentifier(@NotNull QLParser.IdentifierContext ctx) {
+        return new Identifier(ctx.getText());
+    }
+
+    @Override
+    public AbstractNode visitQuestion_type(@NotNull QLParser.Question_typeContext ctx) {
+        try {
+            return QuestionType.getQuestionType(ctx.getText());
+        } catch (NoSuchType noSuchType) {
+            throw new ParseException(noSuchType.getMessage(), noSuchType);
+        }
+    }
+
+    @Override
     public AbstractNode visitExpression(@NotNull QLParser.ExpressionContext ctx) {
         if (isBinaryOperator(ctx)) {
-            visitBinaryOperator(ctx);
+            return visitBinaryOperator(ctx);
+        } else if (isUnaryOperator(ctx)) {
+            return visitUnaryOperator(ctx);
+        } else if (isIdentifier(ctx)) {
+            return new Identifier(ctx.getText());
+        } else {
+            throw new ParseException("Unknown expression: " + ctx.getText());
         }
+    }
 
-        return super.visitExpression(ctx);
+    private boolean isIdentifier(QLParser.ExpressionContext ctx) {
+        return ctx.identifier() != null;
     }
 
     private AbstractNode visitBinaryOperator(QLParser.ExpressionContext ctx) {
         Expression left = (Expression) visit(ctx.left);
         Expression right = (Expression) visit(ctx.right);
-
         return new BinaryExpression(left, right);
+    }
+
+    private AbstractNode visitUnaryOperator(QLParser.ExpressionContext ctx) {
+        if (ctx.negation != null) {
+            return new Not((Expression) visitExpression(ctx.expression(0)));
+        } else {
+            throw new ParseException("Unknown unary Operator: " + ctx.getText());
+        }
+    }
+
+    private boolean isUnaryOperator(QLParser.ExpressionContext ctx) {
+        return ctx.negation != null;
     }
 
     private boolean isQuestion(QLParser.StatementContext ctx) {
@@ -66,13 +131,9 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     }
 
     private boolean isBinaryOperator(QLParser.ExpressionContext ctx) {
-        if (ctx.operator() != null) {
-            assert ctx.left != null;
-            assert ctx.right != null;
-            return true;
-        } else {
-            return false;
-        }
+        return ctx.operator() != null
+                && ctx.left != null
+                && ctx.right != null;
     }
 
     private List<Statement> collectAllStatements(List<QLParser.StatementContext> statementContexts) {
