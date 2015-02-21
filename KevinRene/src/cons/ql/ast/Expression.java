@@ -1,6 +1,7 @@
 package cons.ql.ast;
 
 import cons.ql.ast.expression.QLType;
+import cons.ql.ast.visitor.Visitor;
 
 public abstract class Expression implements ASTNode {	
 	/**
@@ -11,4 +12,7 @@ public abstract class Expression implements ASTNode {
 	public abstract String toString();
 	
 	public abstract QLType getType();
+
+	public abstract <T> T accept(Visitor<T> visitor);
+
 }

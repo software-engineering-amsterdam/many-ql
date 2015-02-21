@@ -7,5 +7,5 @@ public interface ASTNode {
 	@Override
 	public String toString();
 	
-	public void accept(Visitor visitor);
+	public <T> T accept(Visitor<T> visitor);
 }

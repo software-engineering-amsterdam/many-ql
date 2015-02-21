@@ -7,33 +7,38 @@ import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
 import cons.ql.ast.statement.Question;
 
-public interface StatementVisitor extends Visitor {
-	default void visit(Block blockNode) {
+public interface StatementVisitor<T> extends Visitor {
+	default Void visit(Block blockNode) {
 		for(Statement statement : blockNode.statements()) {
 			statement.accept(this);
 		}
+		return null;
 	}
 	
-	default void visit(ComputedQuestion compQuestionNode) {
+	default Void visit(ComputedQuestion compQuestionNode) {
 		compQuestionNode.getIdentifier().accept(this);
 		compQuestionNode.getType().accept(this);
 		compQuestionNode.getText().accept(this);
 		compQuestionNode.getExpression().accept(this);
+		return null;
 	}
 	
-	default void visit(Form formNode) {
+	default Void visit(Form formNode) {
 		formNode.getIdentifier().accept(this);
 		formNode.getBlock().accept(this);
+		return null;
 	}
 	
-	default void visit(If ifNode) {
+	default Void visit(If ifNode) {
 		ifNode.getExpression().accept(this);
 		ifNode.getBlock().accept(this);
+		return null;
 	}
 	
-	default void visit(Question questionNode) {
+	default Void visit(Question questionNode) {
 		questionNode.getIdentifier().accept(this);
 		questionNode.getType().accept(this);
 		questionNode.getText().accept(this);
+		return null;
 	}
 }

@@ -80,187 +80,247 @@ public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
 	 == IDENTIFIER NODE ==
 	 *********************/
 	@Override
-	public void visit(Identifier identNode) {
+	public Void visit(Identifier identNode) {
 		printNode(identNode);
+		
+		return null;
 	}
 
 	/****************
 	 == TYPE NODES ==
 	 ****************/
 	@Override
-	public void visit(QLBoolean booleanNode) {
+	public Void visit(QLBoolean booleanNode) {
 		printNode(booleanNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(QLFloat floatNode) {
+	public Void visit(QLFloat floatNode) {
 		printNode(floatNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(QLInteger intNode) {
+	public Void visit(QLInteger intNode) {
 		printNode(intNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(QLNumeric numericNode) {
+	public Void visit(QLNumeric numericNode) {
 		printNode(numericNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(QLString stringNode) {
+	public Void visit(QLString stringNode) {
 		printNode(stringNode);
+		
+		return null;
 	}
 
 	/*******************
 	 == LITERAL NODES ==
 	 *******************/
 	@Override
-	public void visit(BooleanLiteral booleanNode) {
+	public Void visit(BooleanLiteral booleanNode) {
 		printNode(booleanNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(FloatLiteral floatNode) {
+	public Void visit(FloatLiteral floatNode) {
 		printNode(floatNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(IntegerLiteral intNode) {
+	public Void visit(IntegerLiteral intNode) {
 		printNode(intNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(StringLiteral stringNode) {
+	public Void visit(StringLiteral stringNode) {
 		printNode(stringNode);
+		
+		return null;
 	}
 
 	/******************
 	 == BINARY NODES ==
 	 ******************/
 	@Override
-	public void visit(Add addNode) {
+	public Void visit(Add addNode) {
 		printBinaryNode(addNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Div divNode) {
+	public Void visit(Div divNode) {
 		printBinaryNode(divNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Mul mulNode) {
+	public Void visit(Mul mulNode) {
 		printBinaryNode(mulNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Sub subNode) {
+	public Void visit(Sub subNode) {
 		printBinaryNode(subNode);
+		
+		return null;
 	}
 	
 	@Override
-	public void visit(And andNode) {
+	public Void visit(And andNode) {
 		printBinaryNode(andNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Eq eqNode) {
+	public Void visit(Eq eqNode) {
 		printBinaryNode(eqNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(GEq geqNode) {
+	public Void visit(GEq geqNode) {
 		printBinaryNode(geqNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(GT gtNode) {
+	public Void visit(GT gtNode) {
 		printBinaryNode(gtNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(LEq leqNode) {
+	public Void visit(LEq leqNode) {
 		printBinaryNode(leqNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(LT ltNode) {
+	public Void visit(LT ltNode) {
 		printBinaryNode(ltNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(NEq neqNode) {
+	public Void visit(NEq neqNode) {
 		printBinaryNode(neqNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Or orNode) {
+	public Void visit(Or orNode) {
 		printBinaryNode(orNode);
+		
+		return null;
 	}
 
 	/*****************
 	 == UNARY NODES ==
 	 *****************/
 	@Override
-	public void visit(Neg negNode) {
+	public Void visit(Neg negNode) {
 		printUnaryNode(negNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Not notNode) {
+	public Void visit(Not notNode) {
 		printUnaryNode(notNode);
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Pos posNode) {
+	public Void visit(Pos posNode) {
 		printUnaryNode(posNode);
+		
+		return null;
 	}
 	
 	/*********************
 	 == STATEMENT NODES ==
 	 *********************/
 	@Override
-	public void visit(Block blockNode) {
+	public Void visit(Block blockNode) {
 		printNode(blockNode);
 		
 		indent();
 		StatementVisitor.super.visit(blockNode);
 		unindent();
+		
+		return null;
 	}
 
 	@Override
-	public void visit(ComputedQuestion compQuestionNode) {
+	public Void visit(ComputedQuestion compQuestionNode) {
 		printNode(compQuestionNode);
 		
 		indent();
 		StatementVisitor.super.visit(compQuestionNode);
 		unindent();
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Form formNode) {
+	public Void visit(Form formNode) {
 		printNode(formNode);
 		
 		indent();		
 		StatementVisitor.super.visit(formNode);
 		unindent();
+		
+		return null;
 	}
 
 	@Override
-	public void visit(If ifNode) {
+	public Void visit(If ifNode) {
 		printNode(ifNode);
 		
 		indent();		
 		StatementVisitor.super.visit(ifNode);
 		unindent();
+		
+		return null;
 	}
 
 	@Override
-	public void visit(Question questionNode) {
+	public Void visit(Question questionNode) {
 		printNode(questionNode);
 		
 		indent();		
 		StatementVisitor.super.visit(questionNode);
 		unindent();
+		
+		return null;
 	}
 }

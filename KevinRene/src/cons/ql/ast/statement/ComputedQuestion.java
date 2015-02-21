@@ -35,8 +35,8 @@ public class ComputedQuestion extends Question {
 		return sb.toString();
 	}
 	
-	@Override 
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	@Override
+	public <T> T accept(Visitor<T> visitor) {		
+		return visitor.visit(this);
 	}
 }
