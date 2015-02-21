@@ -33,40 +33,40 @@ import cons.ql.ast.statement.Question;
 
 public interface Visitor<T> {
 
-	T visit(Pos pos);
-	T visit(Not not);
-	T visit(Neg neg);
+	public T visit(Pos pos);
+	public T visit(Not not);
+	public T visit(Neg neg);
 	
-	T visit(Identifier identifier);
+	public T visit(Identifier identifier);
 
-	T visit(QLString qlString);
-	T visit(QLNumeric qlNumeric);
-	T visit(QLFloat qlFloat);
-	T visit(QLInteger qlInteger);
-	T visit(QLBoolean qlBoolean);
+	public T visit(QLString qlString);
+	public T visit(QLNumeric qlNumeric);
+	public T visit(QLFloat qlFloat);
+	public T visit(QLInteger qlInteger);
+	public T visit(QLBoolean qlBoolean);
 
-	T visit(Or or);
-	T visit(NEq nEq);
-	T visit(LT lt);
-	T visit(LEq lEq);
-	T visit(GT gt);
-	T visit(GEq gEq);
-	T visit(Eq eq);
-	T visit(And and);
+	public T visit(Or or);
+	public T visit(NEq nEq);
+	public T visit(LT lt);
+	public T visit(LEq lEq);
+	public T visit(GT gt);
+	public T visit(GEq gEq);
+	public T visit(Eq eq);
+	public T visit(And and);
 
-	T visit(StringLiteral stringLiteral);
-	T visit(IntegerLiteral integerLiteral);
-	T visit(FloatLiteral floatLiteral);
-	T visit(BooleanLiteral booleanLiteral);
+	public T visit(StringLiteral stringLiteral);
+	public T visit(IntegerLiteral integerLiteral);
+	public T visit(FloatLiteral floatLiteral);
+	public T visit(BooleanLiteral booleanLiteral);
 
-	T visit(Add add);
-	T visit(Div div);
-	T visit(Mul mul);
-	T visit(Sub sub);
+	public T visit(Add add);
+	public T visit(Div div);
+	public T visit(Mul mul);
+	public T visit(Sub sub);
 
-	T visit(Block block);
-	T visit(ComputedQuestion computedQuestion);
-	T visit(Question question);
-	T visit(If if1);
-	T visit(Form form);
+	public T visit(Block block);
+	public T visit(ComputedQuestion computedQuestion);
+	public T visit(Question question);
+	public T visit(If if1);
+	public T visit(Form form);
 }

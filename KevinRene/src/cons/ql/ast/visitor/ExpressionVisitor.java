@@ -28,116 +28,116 @@ import cons.ql.ast.expression.unary.Neg;
 import cons.ql.ast.expression.unary.Not;
 import cons.ql.ast.expression.unary.Pos;
 
-public interface ExpressionVisitor<T> extends Visitor<T> {
+public interface ExpressionVisitor<T> extends Visitor<Void> {
 	
-	default T visit(Unary unaryNode) {
+	default Void visit(Unary unaryNode) {
 		unaryNode.getExpression().accept(this);
 		
 		return null;
 	};
 	
-	default T visit(Binary binaryNode) {
+	default Void visit(Binary binaryNode) {
 		binaryNode.getLeft().accept(this);
 		binaryNode.getRight().accept(this);
 		return null;
 	};
 	
-	default T visit(Identifier identNode) {		return null;}
+	default Void visit(Identifier identNode) {		return null;}
 	
 	// Types contain nothing. An empty function will be the default visit action.
-	default T visit(QLBoolean booleanNode) {	return null;}
-	default T visit(QLFloat floatNode) {		return null;}    
-	default T visit(QLNumeric numericNode) {	return null;}
-	default T visit(QLInteger intNode) {		return null;}
-	default T visit(QLString stringNode) {
+	default Void visit(QLBoolean booleanNode) {	return null;}
+	default Void visit(QLFloat floatNode) {		return null;}    
+	default Void visit(QLNumeric numericNode) {	return null;}
+	default Void visit(QLInteger intNode) {		return null;}
+	default Void visit(QLString stringNode) {
 		return null;}
 	
-	default T visit(BooleanLiteral booleanNode) {	return null;}	
-	default T visit(FloatLiteral floatNode) {		return null;}
-	default T visit(IntegerLiteral intNode) {		return null;}
-	default T visit(StringLiteral stringNode) {		return null;}
+	default Void visit(BooleanLiteral booleanNode) {	return null;}	
+	default Void visit(FloatLiteral floatNode) {		return null;}
+	default Void visit(IntegerLiteral intNode) {		return null;}
+	default Void visit(StringLiteral stringNode) {		return null;}
 	
-	default T visit(Add addNode) {
+	default Void visit(Add addNode) {
 		addNode.getLeft().accept(this);
 		addNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(Div divNode) {
+	default Void visit(Div divNode) {
 		divNode.getLeft().accept(this);
 		divNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(Mul mulNode) {
+	default Void visit(Mul mulNode) {
 		mulNode.getLeft().accept(this);
 		mulNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(Sub subNode) {
+	default Void visit(Sub subNode) {
 		subNode.getLeft().accept(this);
 		subNode.getRight().accept(this);
 		return null;
 	}
 
-	default T visit(And andNode) {
+	default Void visit(And andNode) {
 		andNode.getLeft().accept(this);
 		andNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(Eq eqNode) {
+	default Void visit(Eq eqNode) {
 		eqNode.getLeft().accept(this);
 		eqNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(GEq geqNode) {
+	default Void visit(GEq geqNode) {
 		geqNode.getLeft().accept(this);
 		geqNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(GT gtNode) {
+	default Void visit(GT gtNode) {
 		gtNode.getLeft().accept(this);
 		gtNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(LEq leqNode) {
+	default Void visit(LEq leqNode) {
 		leqNode.getLeft().accept(this);
 		leqNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(LT ltNode) {
+	default Void visit(LT ltNode) {
 		ltNode.getLeft().accept(this);
 		ltNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(NEq neqNode) {
+	default Void visit(NEq neqNode) {
 		neqNode.getLeft().accept(this);
 		neqNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(Or orNode) {
+	default Void visit(Or orNode) {
 		orNode.getLeft().accept(this);
 		orNode.getRight().accept(this);
 		return null;
 	}
 	
-	default T visit(Neg negNode) {
+	default Void visit(Neg negNode) {
 		negNode.getExpression().accept(this);
 		return null;
 	}
-	default T visit(Not notNode) {
+	default Void visit(Not notNode) {
 		notNode.getExpression().accept(this);
 		return null;
 	}
-	default T visit(Pos posNode) {
+	default Void visit(Pos posNode) {
 		posNode.getExpression().accept(this);
 		return null;
 	}

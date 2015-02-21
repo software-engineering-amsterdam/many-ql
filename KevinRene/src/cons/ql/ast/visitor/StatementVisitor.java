@@ -7,7 +7,7 @@ import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
 import cons.ql.ast.statement.Question;
 
-public interface StatementVisitor<T> extends Visitor {
+public interface StatementVisitor<T> extends Visitor<Void> {
 	default Void visit(Block blockNode) {
 		for(Statement statement : blockNode.statements()) {
 			statement.accept(this);

@@ -36,7 +36,7 @@ import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
-public class TypeChecker implements ExpressionVisitor, StatementVisitor {
+public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Void> {
 	private ArrayList<String> errors = new ArrayList<String>();
 	
 	// TODO, should take a statement?

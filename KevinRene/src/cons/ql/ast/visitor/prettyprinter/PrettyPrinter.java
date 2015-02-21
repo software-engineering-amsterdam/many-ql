@@ -11,7 +11,7 @@ import cons.ql.ast.statement.*;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
-public class PrettyPrinter implements StatementVisitor, ExpressionVisitor {
+public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<Void> {
 	private String prefix = "";
 	
 	/**
