@@ -4,11 +4,11 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
-	"log"
 	"time"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/draw"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/execute"
@@ -20,9 +20,7 @@ type interpreter struct {
 	receive      chan *event.Frontend
 	execute      *visitor.Visitor
 	draw         *visitor.Visitor
-
-	symbolTable map[string]*ast.QuestionNode
-	symbolChan  chan *event.Symbol
+	symbols      *symboltable.SymbolTable
 }
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
@@ -37,36 +35,10 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 		receive:      fromFrontend,
 		execute:      execute.New(toFrontend, symbolChan),
 		draw:         draw.New(toFrontend),
-		symbolTable:  make(map[string]*ast.QuestionNode),
-		symbolChan:   symbolChan,
+		symbols:      symboltable.New(symbolChan),
 	}
-	go v.updateSymbolTable()
 	go v.loop()
 	return toFrontend, fromFrontend
-}
-
-func (v *interpreter) updateSymbolTable() {
-	for r := range v.symbolChan {
-		switch r.Command {
-		default:
-			log.Fatalf("Invalid operation at symbols table: %#v",
-				r.Command)
-		case event.SymbolRead:
-			question, ok := v.symbolTable[r.Name]
-			if !ok {
-				log.Fatalf("Identifier unknown: %s", r.Name)
-			}
-			r.Ret <- question
-		case event.SymbolCreate:
-			if _, ok := v.symbolTable[r.Name]; !ok {
-				v.symbolTable[r.Name] = r.Content
-			}
-		case event.SymbolUpdate:
-			if _, ok := v.symbolTable[r.Name]; ok {
-				v.symbolTable[r.Name] = r.Content
-			}
-		}
-	}
 }
 
 func (v *interpreter) loop() {
@@ -96,7 +68,7 @@ walkLoop:
 					v.execute.Visit(v.questionaire)
 					v.send <- &event.Frontend{Type: event.Flush}
 					ret := make(chan *ast.QuestionNode)
-					v.symbolChan <- &event.Symbol{
+					v.symbols.Events <- &event.Symbol{
 						Command: event.SymbolRead,
 						Name:    identifier,
 						Ret:     ret,
@@ -104,7 +76,7 @@ walkLoop:
 
 					q := <-ret
 					q.Content().From(answer)
-					v.symbolChan <- &event.Symbol{
+					v.symbols.Events <- &event.Symbol{
 						Command: event.SymbolUpdate,
 						Name:    q.Identifier(),
 						Content: q,

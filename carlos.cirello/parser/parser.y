@@ -49,7 +49,7 @@ var finalQuestionaire *ast.QuestionaireNode
 %token NumericQuestionToken
 %token BoolQuestionToken
 %token ComputedQuestionToken
-%token '+' '-' '*' '/' '(' ')'
+%token '+' '-' '*' '/' '(' ')' '!'
 %token LessThanToken
 %token LessOrEqualsThanToken
 %token MoreThanToken
@@ -202,6 +202,10 @@ evaluatable:
 	| term LessOrEqualsThanToken term
 	{
 		$$.evaluatable = ast.NewLessOrEqualsThanNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| '!' evaluatable
+	{
+		$$.evaluatable = ast.NewBoolNegNode($2.evaluatable, $1.position)
 	}
 	| term
 	;

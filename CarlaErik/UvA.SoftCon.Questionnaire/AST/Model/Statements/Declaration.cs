@@ -27,10 +27,15 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public Declaration(DataType dataType, Identifier id, IExpression initialization)
+        public Declaration(DataType dataType, Identifier id)
         {
             DataType = dataType;
             Id = id;
+        }
+
+        public Declaration(DataType dataType, Identifier id, IExpression initialization)
+            : this(dataType, id)
+        {
             Initialization = initialization;
         }
 

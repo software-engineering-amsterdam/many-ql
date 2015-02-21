@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F6BD9147-7CBD-4937-BD8B-973A02C30C0F}</ProjectGuid>
+    <ProjectGuid>{751E11B8-6C64-49B6-92B5-A2E78447EA99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UvA.SoftCon.Questionnaire.Grammer</RootNamespace>
-    <AssemblyName>UvA.SoftCon.Questionnaire.Grammer</AssemblyName>
+    <RootNamespace>UvA.SoftCon.Questionnaire.Utilities</RootNamespace>
+    <AssemblyName>UvA.SoftCon.Questionnaire.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>S:\StrongName\Questionnaire.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -39,18 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StringEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="QL.g4">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>UvA.SoftCon.Questionnaire.Grammer</CustomToolNamespace>
+    <None Include="S:\StrongName\Questionnaire.snk">
+      <Link>Properties\Questionnaire.snk</Link>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>java org.antlr.v4.Tool -Dlanguage=CSharp "$(ProjectDir)QL.g4" -o "$(SolutionDir)Parsing" -package UvA.SoftCon.Questionnaire.Parsing</PreBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

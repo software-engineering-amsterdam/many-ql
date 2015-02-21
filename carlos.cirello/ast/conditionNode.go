@@ -2,6 +2,21 @@ package ast
 
 import "text/scanner"
 
+// BoolNegNode is the AST node for equality (==) comparison
+type BoolNegNode struct {
+	SingleTermNode
+	Evaluatable
+}
+
+// NewBoolNegNode factory for BoolNegNode AST node
+func NewBoolNegNode(term Evaluatable, pos scanner.Position) *BoolNegNode {
+	boolNegNode := new(BoolNegNode)
+	boolNegNode.SingleTermNode = *NewSingleTermNode(term, pos)
+	return boolNegNode
+}
+
+//----
+
 // BoolAndNode is the AST node for equality (==) comparison
 type BoolAndNode struct {
 	DoubleTermNode

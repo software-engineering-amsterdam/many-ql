@@ -23,5 +23,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
         {
             visitor.Visit<T>(this);
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

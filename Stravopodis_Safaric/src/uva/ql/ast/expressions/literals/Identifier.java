@@ -1,11 +1,11 @@
 package uva.ql.ast.expressions.literals;
 
-import uva.ql.supporting.Tuple;
+import uva.ql.ast.CodeLines;
 
 public class Identifier extends Value<String>{
 	protected String identifier;
 	
-	public Identifier(String _identifier, Tuple<Integer, Integer> _codeLines){
+	public Identifier(String _identifier, CodeLines _codeLines){
 		super(_codeLines);
 		this.identifier = _identifier;
 	}
@@ -14,7 +14,7 @@ public class Identifier extends Value<String>{
 	}
 	@Override
 	public String toString() {
-		return null;
+		return "Identifier(" + this.identifier + ")";
 	}
 	
 }

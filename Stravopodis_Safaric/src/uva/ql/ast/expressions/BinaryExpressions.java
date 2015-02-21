@@ -1,5 +1,5 @@
 package uva.ql.ast.expressions;
-import uva.ql.supporting.*;
+import uva.ql.ast.CodeLines;
 
 public class BinaryExpressions extends Expression{
 
@@ -8,8 +8,8 @@ public class BinaryExpressions extends Expression{
 	private Operator operator;
 	
 	public BinaryExpressions(Expression _left, Expression _right, Operator _operator, 
-			Tuple<Integer, Integer> codeLines) {
-		super(codeLines);
+			CodeLines _codeLines) {
+		super(_codeLines);
 		this.left = _left;
 		this.right = _right;
 		this.operator = _operator;
