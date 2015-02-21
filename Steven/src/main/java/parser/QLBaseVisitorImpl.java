@@ -1,18 +1,19 @@
 package parser;
 
-import exceptions.NoSuchType;
 import exceptions.ParseException;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.antlrGenerated.QLBaseVisitor;
 import parser.antlrGenerated.QLParser;
-import parser.ast.nodes.*;
+import parser.ast.nodes.AbstractNode;
+import parser.ast.nodes.Form;
 import parser.ast.nodes.expression.*;
 import parser.ast.nodes.question.Label;
 import parser.ast.nodes.question.Question;
 import parser.ast.nodes.question.QuestionType;
 import parser.ast.nodes.statement.IfStatement;
 import parser.ast.nodes.statement.Statement;
+import parser.ast.nodes.type.Boolean;
+import parser.ast.nodes.type.Number;
 
 import java.util.List;
 import java.util.Optional;
@@ -108,6 +109,10 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
             return visitBinaryOperator(ctx);
         } else if (isUnaryOperator(ctx)) {
             return visitUnaryOperator(ctx);
+        } else if (isBoolean(ctx)) {
+            return visitBoolean(ctx);
+        } else if (ctx.numbers != null) {
+            return visitNumbers(ctx);
         } else if (isIdentifier(ctx)) {
             return new Identifier(ctx.getText());
         } else {
@@ -115,8 +120,25 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
         }
     }
 
+    private AbstractNode visitNumbers(QLParser.ExpressionContext ctx) {
+        return new Number(Integer.parseInt(ctx.getText()));
+    }
+
+    private boolean isBoolean(QLParser.ExpressionContext ctx) {
+        return ctx.booleanExpression() != null;
+    }
+
+    private AbstractNode visitBoolean(@NotNull QLParser.ExpressionContext ctx) {
+        QLParser.BooleanExpressionContext booleanExpressionContext = ctx.booleanExpression();
+        if (booleanExpressionContext != null) {
+            return new Boolean(booleanExpressionContext.isTrue != null);
+        } else {
+            throw new ParseException("Unknown value for Boolean: " + ctx.getText());
+        }
+    }
+
     private boolean hasParenthesis(QLParser.ExpressionContext ctx) {
-        return (ctx.identifier().isEmpty() || ctx.identifier() == null)
+        return (ctx.identifier() == null || ctx.identifier().isEmpty())
                 && ctx.operator() == null
                 && ctx.expression() != null
                 && !ctx.expression().isEmpty();

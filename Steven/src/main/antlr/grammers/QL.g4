@@ -15,11 +15,14 @@ expression
     : '(' expression ')'
     | negation='!' expression
     | left=expression operator right=expression
-    | NUMBERS+
-    | identifier+
-    | BOOLEANEXPRESSION+
+    | numbers=NUMBERS
+    | identifier
+    | booleanExpression
     ;
-
+booleanExpression
+    : isTrue='true'
+    | isFalse='false'
+    ;
 operator
     : (multiplication='*' | division='/')
     | (add='+'| min='-')
@@ -31,6 +34,7 @@ operator
 identifier
     : (UPPERCASE | LOWERCASE | NUMBERS)+
     ;
+
 question
     : identifier question_type question_label question_expression?
     ; // if question has an expression it is a computed question.
@@ -60,10 +64,7 @@ NUMBERS
 STRING
     : '"' (~[\r\n"] | '""')* '"'
     ;
-BOOLEANEXPRESSION
-    : 'true'
-    | 'false'
-    ;
+
 COMMENT_LINE
     : '//' ~[\r\n]* -> skip
     ;

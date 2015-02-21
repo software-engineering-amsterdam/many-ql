@@ -42,6 +42,12 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(@NotNull QLParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLParser#booleanExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
