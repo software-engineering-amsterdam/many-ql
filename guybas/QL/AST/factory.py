@@ -43,7 +43,7 @@ class ExpressionFactory:
 
     @staticmethod
     def make_bool(tokens):
-        return Operator(tokens[0])
+        return Bool(tokens[0])
 
     @staticmethod
     def sub_expression(tokens):
@@ -54,7 +54,7 @@ class ExpressionFactory:
 
     @staticmethod
     def make_expression(tokens):
-        x = ComplexExpression(ExpressionFactory.sub_expression(tokens.asList()))
+        x = ComplexExpression(ExpressionFactory.sub_expression(tokens.asList()[0]))
         return x
 
 
