@@ -1,27 +1,17 @@
 package ast.expression.comparison;
 
+import ast.expression.BinaryExpression;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 
 // Greater than or equal to(>=)
 
-public class GreaterEqualExpression extends Expression {
+public class GreaterEqualExpression extends BinaryExpression {
 				
-	private Expression leftExp, rightExp;
-					
 	public GreaterEqualExpression (Expression leftExp, Expression rightExp) {
-		this.leftExp = leftExp;
-		this.rightExp = rightExp;
+		super(leftExp, rightExp);
 	}
-					
-	public Expression getLeftExp() {
-		return leftExp;
-	}
-					
-	public Expression getRightExp() {
-		return rightExp;
-	}
-					
+									
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
@@ -29,9 +19,8 @@ public class GreaterEqualExpression extends Expression {
 	
 	@Override
 	public String toString() {
-		return getLeftExp() + " >= " + getRightExp();
+		return this.getLeftExpression().toString() + " >= " + this.getRightExpression().toString();
 	}
-
 }
 
 
