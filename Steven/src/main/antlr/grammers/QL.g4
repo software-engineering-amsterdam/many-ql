@@ -12,7 +12,7 @@ else_clause
     : 'else' '{' statement '}'
     ;
 expression
-    : '(' expression ')'
+    : leftParenthesis='(' expression rightParenthesis=')'
     | negation='!' expression
     | left=expression operator right=expression
     | numbers=NUMBERS

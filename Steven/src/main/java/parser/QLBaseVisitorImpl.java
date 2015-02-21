@@ -138,10 +138,7 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     }
 
     private boolean hasParenthesis(QLParser.ExpressionContext ctx) {
-        return (ctx.identifier() == null || ctx.identifier().isEmpty())
-                && ctx.operator() == null
-                && ctx.expression() != null
-                && !ctx.expression().isEmpty();
+        return (ctx.leftParenthesis != null && ctx.rightParenthesis != null);
     }
 
     private boolean isIdentifier(QLParser.ExpressionContext ctx) {

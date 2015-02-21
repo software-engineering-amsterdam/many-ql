@@ -368,6 +368,8 @@ public class QLParser extends Parser {
 	public static class ExpressionContext extends ParserRuleContext {
 		public ExpressionContext left;
 		public Token negation;
+		public Token leftParenthesis;
+		public Token rightParenthesis;
 		public Token numbers;
 		public ExpressionContext right;
 		public List<ExpressionContext> expression() {
@@ -433,11 +435,11 @@ public class QLParser extends Parser {
 			case 2:
 				{
 				setState(60); 
-				match(T__4);
+				((ExpressionContext)_localctx).leftParenthesis = match(T__4);
 				setState(61); 
 				expression(0);
 				setState(62); 
-				match(T__5);
+				((ExpressionContext)_localctx).rightParenthesis = match(T__5);
 				}
 				break;
 			case 3:

@@ -4,9 +4,11 @@ import junit.framework.Assert
 import parser.ast.nodes.Form
 import parser.ast.nodes.expression.And
 import parser.ast.nodes.expression.BinaryExpression
+import parser.ast.nodes.expression.Expression
 import parser.ast.nodes.expression.GreaterThan
 import parser.ast.nodes.expression.Identifier
 import parser.ast.nodes.expression.Multiplication
+import parser.ast.nodes.expression.Not
 import parser.ast.nodes.statement.IfStatement
 import parser.ast.nodes.type.Number
 import spock.lang.Specification
@@ -50,5 +52,15 @@ class QLBaseVisitorImplTest extends Specification {
 
         Assert.assertEquals(parser.ast.nodes.type.Boolean.class, and.right.class)
         Assert.assertEquals(false, ((parser.ast.nodes.type.Boolean) and.right).isTrue())
+    }
+
+    def "Negation should be recognized on identifier"() {
+        when:
+        Form form = parseTreeWalker.walk("src/main/antlr/input/QL_negation", baseVisitor)
+        IfStatement ifStatement = (IfStatement) form.elements.get(0)
+
+        then:
+        Assert.assertEquals(And.class, ifStatement.expression.class)
+        Assert.assertEquals(Not.class, ((And) ifStatement.expression).left.class)
     }
 }
