@@ -46,7 +46,7 @@ public class QLUI extends JFrame {
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 		try {
 			Questionnaire questionnaire = questionnaireParsingService
-					.parse("src/main/resources/example.ql2");
+					.parse("src/main/resources/input_form.ql");
 			Collection<Question> questions = questionnaire.getQuestions()
 					.values();
 			int y = 0;
