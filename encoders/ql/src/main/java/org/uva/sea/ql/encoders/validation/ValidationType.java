@@ -1,0 +1,5 @@
+package org.uva.sea.ql.encoders.validation;
+
+public enum ValidationType {
+	UNDEFINED_REFERENCE, DUPLICATE_DECLARATION, CONDITION_NOT_BOOLEAN, INVALID_TYPE_OPRAND, CYCLIC_DEPENDENCY, DUPLICATE_LABEL;
+}

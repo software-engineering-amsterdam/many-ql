@@ -22,8 +22,7 @@ public class Questionnaire {
 				return question;
 			}
 		}
-		throw new IllegalStateException(
-				"Questionnaire does not contain question with name " + name);
+		return null;
 	}
 
 	public void addQuestion(Question question) {
