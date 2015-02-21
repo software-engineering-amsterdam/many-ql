@@ -10,8 +10,6 @@ import org.fugazi.ast.form.Form;
 
 /*
 // TODO type checker must detect
-
-duplicate question declarations with different types
 cyclic dependencies between questions
  */
 

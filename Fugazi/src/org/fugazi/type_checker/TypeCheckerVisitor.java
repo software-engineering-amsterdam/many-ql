@@ -28,12 +28,16 @@ public class TypeCheckerVisitor implements IASTVisitor {
     // used to detect duplicate  labels
     private final List<String> questionLabels;
 
+    // used to detect duplicate question types
+    private final Map<String, Type> questions;
+
     // used to detect circular dependencies
     private final Map<ID, List<ID>> questionDependencies;
 
     public TypeCheckerVisitor(){
         this.astErrorHandler = new ASTErrorHandler();
         this.questionLabels = new ArrayList<String>();
+        this.questions = new HashMap<String, Type>();
         this.questionDependencies = new HashMap<ID, List<ID>>();
     }
 
@@ -61,9 +65,21 @@ public class TypeCheckerVisitor implements IASTVisitor {
         ID identifier = question.getIdentifier();
         String label = question.getLabel();
 
+        // save and check if duplicate question with different type
+        boolean isQuestionDuplicate =
+            this.checkIfQuestionAlreadyDefinedWithDifferentType(
+                    identifier, type
+            );
+        if (isQuestionDuplicate) {
+            this.astErrorHandler.registerNewError(question,
+                    "Question already defined with different type."
+            );
+        } else {
+            this.saveQuestionType(identifier, type);
+        }
+
         // save and check for duplicate labels
         boolean isLabelDuplicate = this.checkIfLabelAlreadyExists(label);
-
         if (isLabelDuplicate) {
             this.astErrorHandler.registerNewWarning(question,
                     "Label defined multiple times! Possible confusion."
@@ -97,8 +113,8 @@ public class TypeCheckerVisitor implements IASTVisitor {
         Expression computed = assignQuest.getComputedExpression();
 
         // check if no circular reference
-        System.out.println();System.out.println();
-        System.out.println(computed);System.out.println();System.out.println();
+//        System.out.println();System.out.println();
+//        System.out.println(computed);System.out.println();System.out.println();
 
         type.accept(this);
         identifier.accept(this);
@@ -398,12 +414,25 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return expression.getSupportedTypes().contains(new StringType().getClass());
     }
 
+    private boolean checkIfSameType(Type type1, Type type2) {
+        return (type1.getClass() == type2.getClass());
+    }
+
     private boolean checkIfDefined(ID idLiteral) {
         return (idLiteral.getType() != null);
     }
 
     private boolean checkIfLabelAlreadyExists(String label){
         return this.questionLabels.contains(label);
+    }
+
+    private boolean checkIfQuestionAlreadyDefinedWithDifferentType(
+            ID questionId, Type questionType){
+        Type earlierQuestionType = this.questions.get(questionId.getName());
+        if (earlierQuestionType != null) {
+            return !this.checkIfSameType(earlierQuestionType, questionType);
+        }
+        return false;
     }
 
     /**
@@ -414,6 +443,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private void saveQuestionLabel(String label) {
         this.questionLabels.add(label);
+        return;
+    }
+
+    private void saveQuestionType(ID questionId, Type questionType) {
+        this.questions.put(questionId.getName(), questionType);
         return;
     }
 
