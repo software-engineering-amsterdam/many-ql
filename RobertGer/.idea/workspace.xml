@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="52c8e781-001b-42e6-abc8-2832e354ec33" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Dev\Workspaces\intellij\UvA\many-ql\RobertGer\src\test\resources\nl\uva\bromance\DrinkTest.ql" afterPath="" />
-      <change type="DELETED" beforePath="D:\Dev\Workspaces\intellij\UvA\many-ql\RobertGer\src\test\resources\nl\uva\bromance\ExpTest.ql" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FormParser.iws" />
@@ -1410,7 +1408,13 @@
       <option name="project" value="LOCAL" />
       <updated>1424541220384</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="- Removed old resources.">
+      <created>1424541280901</created>
+      <option name="number" value="00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1424541280901</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1533,7 +1537,8 @@
     <MESSAGE value="- Refined grammar a little bit." />
     <MESSAGE value="- Refined grammar a little bit. Still working on the Label part." />
     <MESSAGE value="- Added some basic visualization." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added some basic visualization." />
+    <MESSAGE value="- Removed old resources." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Removed old resources." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
