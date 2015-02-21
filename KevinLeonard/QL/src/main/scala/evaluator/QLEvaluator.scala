@@ -1,6 +1,6 @@
 package evaluator
 
-import ast.QLAST._
+import ast._
 import scala.collection.immutable.Map
 
 class QLEvaluator {

@@ -1,7 +1,6 @@
 package parser
 
-import ast.QLAST._
-
+import ast._
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class QLParser extends JavaTokenParsers {

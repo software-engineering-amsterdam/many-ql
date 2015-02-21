@@ -1,6 +1,6 @@
 package interpreter
 
-import ast.QLAST.Form
+import ast.Form
 import evaluator.QLEvaluator
 import parser.QLParser
 import typechecker.QLTypeChecker

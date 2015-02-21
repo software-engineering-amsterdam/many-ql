@@ -1,6 +1,6 @@
 package typechecker
 
-import ast.QLAST._
+import ast._
 import org.specs2.matcher.ExceptionMatchers
 import org.specs2.mutable.Specification
 

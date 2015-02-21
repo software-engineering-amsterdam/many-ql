@@ -1,9 +1,8 @@
 package typechecker
 
-import ast.QLAST
+import ast._
 
 class QLTypeChecker extends {
-  import QLAST._
 
   // Holds the defined variables and their type.
   // Note that we require variables to be declared before being used.
