@@ -7,7 +7,7 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.gui.ui_elements.UIComputedQuestion;
 import org.fugazi.gui.ui_elements.UINullQuestion;
 import org.fugazi.gui.ui_elements.UIQuestion;
-import org.fugazi.gui.ui_elements.UIQuestionFactory;
+import org.fugazi.gui.UIQuestionFactory;
 
 public class UIStatementVisitor implements IStatementVisitor <UIQuestion> {
 

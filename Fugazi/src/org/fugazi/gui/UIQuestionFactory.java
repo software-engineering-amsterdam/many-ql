@@ -1,6 +1,7 @@
-package org.fugazi.gui.ui_elements;
+package org.fugazi.gui;
 
 import org.fugazi.ast.statement.Question;
+import org.fugazi.gui.ui_elements.*;
 
 public class UIQuestionFactory {
 
