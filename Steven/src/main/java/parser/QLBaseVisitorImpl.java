@@ -89,6 +89,10 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitExpression(@NotNull QLParser.ExpressionContext ctx) {
+        if (hasParenthesis(ctx)) {
+            return visitExpression(ctx.expression().get(0));
+        }
+
         if (isBinaryOperator(ctx)) {
             return visitBinaryOperator(ctx);
         } else if (isUnaryOperator(ctx)) {
@@ -100,6 +104,13 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
         }
     }
 
+    private boolean hasParenthesis(QLParser.ExpressionContext ctx) {
+        return (ctx.identifier().isEmpty() || ctx.identifier() == null)
+                && ctx.operator() == null
+                && ctx.expression() != null
+                && !ctx.expression().isEmpty();
+    }
+
     private boolean isIdentifier(QLParser.ExpressionContext ctx) {
         return ctx.identifier() != null;
     }
@@ -107,7 +118,23 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     private AbstractNode visitBinaryOperator(QLParser.ExpressionContext ctx) {
         Expression left = (Expression) visit(ctx.left);
         Expression right = (Expression) visit(ctx.right);
-        return new BinaryExpression(left, right);
+
+        switch (ctx.operator().getText()) {
+            case "*":
+                return new Multiplication(left, right);
+            case "+":
+                return new Addition(left, right);
+            case "<":
+                return new LessThan(left, right);
+            case ">":
+                return new GreaterThan(left, right);
+            case "&&":
+                return new And(left, right);
+            case "||":
+                return new Or(left, right);
+            default:
+                throw new ParseException("No binary operator for symbol: " + ctx.operator().getText());
+        }
     }
 
     private AbstractNode visitUnaryOperator(QLParser.ExpressionContext ctx) {
