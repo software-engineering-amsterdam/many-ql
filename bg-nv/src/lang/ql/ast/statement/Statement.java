@@ -7,5 +7,8 @@ import lang.ql.ast.AstNode;
  */
 public abstract class Statement extends AstNode
 {
-
+    public Statement(int lineNumber)
+    {
+        super(lineNumber);
+    }
 }

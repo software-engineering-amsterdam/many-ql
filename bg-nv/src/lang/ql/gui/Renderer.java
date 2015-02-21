@@ -17,8 +17,6 @@ import lang.ql.ast.statement.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lang.ql.ast.statement.QuestionType.*;
-
 /**
  * Created by Nik on 17-02-2015
  */
@@ -60,18 +58,18 @@ public class Renderer extends Application
             Text statement = new Text(q.getText());
             qBox.getChildren().add(statement);
 
-            switch (q.getQuestionType())
-            {
-                case BOOLEAN:
-                    qBox.getChildren().add(new CheckBox());
-                    break;
-                case DATE:
-                case DECIMAL:
-                case INTEGER:
-                case STRING:
-                    qBox.getChildren().add(new TextField());
-                    break;
-            }
+//            switch (q.getType())
+//            {
+//                case BOOLEAN:
+//                    qBox.getChildren().add(new CheckBox());
+//                    break;
+//                case DATE:
+//                case DECIMAL:
+//                case INTEGER:
+//                case STRING:
+//                    qBox.getChildren().add(new TextField());
+//                    break;
+//            }
 
             grid.add(qBox, 0, i++);
         }
@@ -101,10 +99,10 @@ public class Renderer extends Application
     public static Form createUnicornForm()
     {
         List<Statement> statements = new ArrayList<Statement>();
-        statements.add(new Question("likeUnicorns", BOOLEAN, "Do you like unicorns?"));
-        statements.add(new Question("wantUnicorn", BOOLEAN, "Would you like to have a unicorn?"));
-        statements.add(new Question("howManyUnicorns", INTEGER, "How many unicorns can you accommodate?"));
-        return new Form("Unicorn Form", statements);
+//        statements.add(new Question("likeUnicorns", BOOLEAN, "Do you like unicorns?"));
+//        statements.add(new Question("wantUnicorn", BOOLEAN, "Would you like to have a unicorn?"));
+//        statements.add(new Question("howManyUnicorns", INTEGER, "How many unicorns can you accommodate?"));
+        return new Form("Unicorn Form", statements, 1);
     }
 
 }

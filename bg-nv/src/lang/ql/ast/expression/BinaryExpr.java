@@ -8,8 +8,9 @@ public abstract class BinaryExpr extends Expr
     private Expr left;
     private Expr right;
 
-    public BinaryExpr(Expr left, Expr right)
+    public BinaryExpr(Expr left, Expr right, int lineNumber)
     {
+        super(lineNumber);
         this.left = left;
         this.right = right;
     }

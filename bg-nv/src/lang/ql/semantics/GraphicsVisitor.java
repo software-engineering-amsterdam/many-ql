@@ -1,8 +1,7 @@
 package lang.ql.semantics;
 
 import javafx.geometry.*;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -13,12 +12,10 @@ import lang.ql.semantics.values.Value;
 
 import java.util.Map;
 
-import static lang.ql.ast.statement.QuestionType.*;
-
 /**
  * Created by Nik on 17-2-15.
  */
-public class GraphicsVisitor extends VisitorAbstract
+public class GraphicsVisitor implements Visitor
 {
 
     public GridPane getGrid()
@@ -62,18 +59,18 @@ public class GraphicsVisitor extends VisitorAbstract
 
         //TODO: bad bad switch, ga weg
         Value val = this.values.get(n);
-        switch (n.getQuestionType())
-        {
-            case BOOLEAN:
-                qBox.getChildren().add(new CheckBox());
-                break;
-            case DATE:
-            case DECIMAL:
-            case INTEGER:
-            case STRING:
-                qBox.getChildren().add(new TextField());
-                break;
-        }
+//        switch (n.getType())
+//        {
+//            case BOOLEAN:
+//                qBox.getChildren().add(new CheckBox());
+//                break;
+//            case DATE:
+//            case DECIMAL:
+//            case INTEGER:
+//            case STRING:
+//                qBox.getChildren().add(new TextField());
+//                break;
+//        }
 
         this.grid.add(qBox, 0, this.row++);
     }
@@ -87,20 +84,20 @@ public class GraphicsVisitor extends VisitorAbstract
         qBox.getChildren().add(statement);
 
         //TODO: bad bad switch, ga weg
-        switch (cq.getQuestionType())
-        {
-            case BOOLEAN:
-                CheckBox cb = new CheckBox();
-                cb.setDisable(true);
-                qBox.getChildren().add(cb);
-                break;
-            case DATE:
-            case DECIMAL:
-            case INTEGER:
-            case STRING:
-                qBox.getChildren().add(new Text("<some calculated value>"));
-                break;
-        }
+//        switch (cq.getType())
+//        {
+//            case BOOLEAN:
+//                CheckBox cb = new CheckBox();
+//                cb.setDisable(true);
+//                qBox.getChildren().add(cb);
+//                break;
+//            case DATE:
+//            case DECIMAL:
+//            case INTEGER:
+//            case STRING:
+//                qBox.getChildren().add(new Text("<some calculated value>"));
+//                break;
+//        }
 
         this.grid.add(qBox, 0, this.row++);
     }
@@ -112,5 +109,125 @@ public class GraphicsVisitor extends VisitorAbstract
         {
             s.accept(this);
         }
+    }
+
+    @Override
+    public void visit(BoolExpr e)
+    {
+
+    }
+
+    @Override
+    public void visit(IntExpr e)
+    {
+
+    }
+
+    @Override
+    public void visit(DecExpr e)
+    {
+
+    }
+
+    @Override
+    public void visit(StrExpr e)
+    {
+
+    }
+
+    @Override
+    public void visit(Indent e)
+    {
+
+    }
+
+    @Override
+    public void visit(Neg e)
+    {
+
+    }
+
+    @Override
+    public void visit(lang.ql.ast.expression.Pos e)
+    {
+
+    }
+
+    @Override
+    public void visit(Not e)
+    {
+
+    }
+
+    @Override
+    public void visit(Add e)
+    {
+
+    }
+
+    @Override
+    public void visit(Sub e)
+    {
+
+    }
+
+    @Override
+    public void visit(Mul e)
+    {
+
+    }
+
+    @Override
+    public void visit(Div e)
+    {
+
+    }
+
+    @Override
+    public void visit(Gt e)
+    {
+
+    }
+
+    @Override
+    public void visit(Lt e)
+    {
+
+    }
+
+    @Override
+    public void visit(GtEqu e)
+    {
+
+    }
+
+    @Override
+    public void visit(LtEqu e)
+    {
+
+    }
+
+    @Override
+    public void visit(Equ e)
+    {
+
+    }
+
+    @Override
+    public void visit(NotEqu e)
+    {
+
+    }
+
+    @Override
+    public void visit(And e)
+    {
+
+    }
+
+    @Override
+    public void visit(Or e)
+    {
+
     }
 }

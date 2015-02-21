@@ -4,7 +4,7 @@
 grammar QL;
 
 /* Start rule */
-questionnaire : stat* ;
+form : stat* ;
 
 
 stat : TYPE ID STRING                                                       # Question

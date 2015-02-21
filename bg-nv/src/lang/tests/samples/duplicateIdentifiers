@@ -1,0 +1,4 @@
+form sampleForm {
+    integer hasSoldHouse “Another sample”
+    integer hasSoldHouse "Sample"
+}
