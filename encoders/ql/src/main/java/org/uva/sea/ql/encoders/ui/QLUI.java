@@ -1,18 +1,21 @@
 package org.uva.sea.ql.encoders.ui;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Question;
@@ -20,68 +23,61 @@ import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
-public class QLUI extends JFrame {
-
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPanel;
+public class QLUI extends Application {
 
 	public static void main(String[] args) {
-		QLUI qlui = new QLUI();
-		qlui.setUpUI();
+		launch(args);
 	}
 
-	public QLUI() {
-		super("Questionnaire");
-	}
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Questionnaire");
 
-	private void setUpUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setPreferredSize(new Dimension(550, 400));
-		setLocationRelativeTo(null);
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		contentPanel = new JPanel(new GridBagLayout());
-		JScrollPane scrollPane = new JScrollPane(contentPanel);
-		add(scrollPane);
+		ScrollPane scrollPane = new ScrollPane(grid);
+		scrollPane.setPrefSize(400, 275);
 
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 		try {
 			Questionnaire questionnaire = questionnaireParsingService
 					.parse("src/main/resources/input_form.ql");
-			List<Question> questions = questionnaire.getQuestions();
-			int y = 0;
-			for (Question question : questions) {
-				// add(new JLabel(question.getName()), 0, y);
-				DataType dataType = question.getDataType();
-				switch (dataType) {
-				case BOOLEAN:
-					add(new JCheckBox(question.getQuestionText()), 0, y);
-					break;
-				case MONEY:
-					add(new JLabel(question.getQuestionText()), 0, y);
-					JTextField textField = new JTextField();
-					textField.setPreferredSize(new Dimension(200, 15));
-					add(textField, 1, y);
-					break;
-				default:
-					throw new IllegalStateException("Unsupported type: "
-							+ dataType);
-				}
-
-				y++;
-			}
+			setUpQuestionnaireUI(questionnaire, grid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		pack();
-		setVisible(true);
+		Scene scene = new Scene(scrollPane, 400, 275);
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 
-	private void add(Component comp, int x, int y) {
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = x;
-		c.gridy = y;
-		contentPanel.add(comp, c);
+	private void setUpQuestionnaireUI(Questionnaire questionnaire, GridPane grid) {
+		Text scenetitle = new Text(questionnaire.getName());
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		grid.add(scenetitle, 0, 0, 2, 1);
+
+		List<Question> questions = questionnaire.getQuestions();
+		int y = 1;
+		for (Question question : questions) {
+			DataType dataType = question.getDataType();
+			switch (dataType) {
+			case BOOLEAN:
+				grid.add(new CheckBox(question.getQuestionText()), 0, y);
+				break;
+			case MONEY:
+				grid.add(new Label(question.getQuestionText()), 0, y);
+				TextField textField = new TextField();
+				grid.add(textField, 1, y);
+				break;
+			default:
+				throw new IllegalStateException("Unsupported type: " + dataType);
+			}
+			y++;
+		}
 	}
 }
