@@ -9,16 +9,7 @@ test:
 	go test -v ./...
 
 coverage:
-	mkdir cover || echo "cover/ already exists. Mkdir skipped."
-
-	go test -coverprofile=./cli/coverage.out ./cli
-	go test -coverprofile=./cli/iostream/coverage.out ./cli/iostream
-
-	go tool cover -html=./cli/coverage.out -o cover/cli.html || echo Skipped
-	go tool cover -html=./cli/iostream/coverage.out -o cover/cli_iostream.html || echo Skipped
-
-	rm -f ./cli/coverage.out
-	rm -f ./cli/iostream/coverage.out
+	bash ./coverage.sh
 
 autotest:
 	./autotest.sh '.' 'clear; make test; go run ql.go'
