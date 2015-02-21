@@ -1,0 +1,13 @@
+package nl.uva.bromance.typechecking;
+
+import nl.uva.bromance.AST.Node;
+
+import java.util.Map;
+
+/**
+ * Created by Robert on 2/21/2015.
+ */
+public interface TypeCheckable {
+
+    void typeCheck(Map<String, Node> references, Node node);
+}
