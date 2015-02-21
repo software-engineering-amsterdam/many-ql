@@ -10,19 +10,19 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(BooleanQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> defaultBooleanValue))
+      check(BooleanQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(NumberQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> defaultNumberValue))
+      check(NumberQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> NumberType()))
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(StringQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> defaultStringValue))
+      check(StringQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> StringType()))
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(ComputedBooleanQuestion(Variable("X"), "label", BooleanLiteral(true)), emptyEnvironment) must beEqualTo(Map("X" -> defaultBooleanValue))
+      check(ComputedBooleanQuestion(Variable("X"), "label", BooleanLiteral(true)), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
     }
 
     "throw exception, if statement is computed boolean question with invalid expression" in {
@@ -30,7 +30,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(ComputedNumberQuestion(Variable("X"), "label", NumberLiteral(1)), emptyEnvironment) must beEqualTo(Map("X" -> defaultNumberValue))
+      check(ComputedNumberQuestion(Variable("X"), "label", NumberLiteral(1)), emptyEnvironment) must beEqualTo(Map("X" -> NumberType()))
     }
 
     "throw exception, if statement is computed number question with invalid expression" in {
@@ -38,7 +38,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(ComputedStringQuestion(Variable("X"), "label", StringLiteral("")), emptyEnvironment) must beEqualTo(Map("X" -> defaultStringValue))
+      check(ComputedStringQuestion(Variable("X"), "label", StringLiteral("")), emptyEnvironment) must beEqualTo(Map("X" -> StringType()))
     }
 
     "throw exception, if statement is computed string question with invalid expression" in {
@@ -62,41 +62,41 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variables + types to environment" in {
-      check(Sequence(List(BooleanQuestion(Variable("X"), "label"), NumberQuestion(Variable("Y"), "label"), StringQuestion(Variable("Z"), "label"))), emptyEnvironment) must beEqualTo(Map("X" -> defaultBooleanValue, "Y" -> defaultNumberValue, "Z" -> defaultStringValue))
+      check(Sequence(List(BooleanQuestion(Variable("X"), "label"), NumberQuestion(Variable("Y"), "label"), StringQuestion(Variable("Z"), "label"))), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()))
     }
     
     "add variable + type to environment " in {
-      check(Form("Form1", BooleanQuestion(Variable("X"), "label")), emptyEnvironment) must beEqualTo(Map("X" -> defaultBooleanValue))
+      check(Form("Form1", BooleanQuestion(Variable("X"), "label")), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
     }
   }
 
   "expression" should {
     "type check multiple expressions" in {
-      check(Not(And(Variable("X"), GreaterThan(NumberLiteral(2), NumberLiteral(1)))), Map("X" -> defaultBooleanValue)) must beEqualTo(defaultBooleanValue)
+      check(Not(And(Variable("X"), GreaterThan(NumberLiteral(2), NumberLiteral(1)))), Map("X" -> BooleanType())) must beEqualTo(BooleanType())
     }
   }
 
   "literals" should {
     "type check on booleans" in {
-      check(BooleanLiteral(true), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(BooleanLiteral(true), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "type check on numbers" in {
-      check(NumberLiteral(10), emptyEnvironment) must beEqualTo(defaultNumberValue)
+      check(NumberLiteral(10), emptyEnvironment) must beEqualTo(NumberType())
     }
 
     "type check on strings" in {
-      check(StringLiteral("Test"), emptyEnvironment) must beEqualTo(defaultStringValue)
+      check(StringLiteral("Test"), emptyEnvironment) must beEqualTo(StringType())
     }
   }
 
   "or expressions" should {
     "type check on booleans" in {
-      check(Or(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(Or(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "type check on booleans and expressions that resolve to booleans" in {
-      check(Or(Or(BooleanLiteral(true), BooleanLiteral(false)), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(Or(Or(BooleanLiteral(true), BooleanLiteral(false)), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on other types" in {
@@ -106,11 +106,11 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "and expressions" should {
     "type check on booleans" in {
-      check(And(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(And(BooleanLiteral(true), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "type check on booleans and expressions that resolve to booleans" in {
-      check(And(And(BooleanLiteral(true), BooleanLiteral(false)), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(And(And(BooleanLiteral(true), BooleanLiteral(false)), BooleanLiteral(false)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on other types" in {
@@ -120,7 +120,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "not expressions" should {
     "type check on booleans" in {
-      check(Not(BooleanLiteral(true)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(Not(BooleanLiteral(true)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on other types" in {
@@ -130,15 +130,15 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "equal expressions" should {
     "type check on booleans" in {
-      check(Equal(BooleanLiteral(true), BooleanLiteral(true)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(Equal(BooleanLiteral(true), BooleanLiteral(true)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "type check on numbers" in {
-      check(Equal(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(Equal(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "type check on strings" in {
-      check(Equal(StringLiteral(""), StringLiteral("")), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(Equal(StringLiteral(""), StringLiteral("")), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on two different types" in {
@@ -148,15 +148,15 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "not equal expressions" should {
     "type check on booleans" in {
-      check(NotEqual(BooleanLiteral(true), BooleanLiteral(true)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(NotEqual(BooleanLiteral(true), BooleanLiteral(true)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "type check on numbers" in {
-      check(NotEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(NotEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "type check on strings" in {
-      check(NotEqual(StringLiteral(""), StringLiteral("")), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(NotEqual(StringLiteral(""), StringLiteral("")), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on two different types" in {
@@ -166,7 +166,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "less than expressions" should {
     "type check on numbers" in {
-      check(LessThan(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(LessThan(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on strings" in {
@@ -180,7 +180,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "less than or equal expressions" should {
     "type check on numbers" in {
-      check(LessThanEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(LessThanEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on strings" in {
@@ -194,7 +194,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "greater than expressions" should {
     "type check on numbers" in {
-      check(GreaterThan(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(GreaterThan(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on strings" in {
@@ -208,7 +208,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "greater than or equal expressions" should {
     "type check on numbers" in {
-      check(GreaterThanEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultBooleanValue)
+      check(GreaterThanEqual(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(BooleanType())
     }
 
     "not type check on strings" in {
@@ -222,11 +222,11 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "addition expressions" should {
     "type check on 1 + 1" in {
-      check(Add(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
+      check(Add(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(NumberType())
     }
 
     "type check on 2 + 2 + 2" in {
-      check(Add(NumberLiteral(2), Add(NumberLiteral(2), NumberLiteral(2))), emptyEnvironment) must beEqualTo(defaultNumberValue)
+      check(Add(NumberLiteral(2), Add(NumberLiteral(2), NumberLiteral(2))), emptyEnvironment) must beEqualTo(NumberType())
     }
 
     "not type check on strings" in {
@@ -240,7 +240,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "subtraction expressions" should {
     "type check 1 - 1" in {
-      check(Sub(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
+      check(Sub(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(NumberType())
     }
 
     "not type check on strings" in {
@@ -254,7 +254,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "multiplication expressions" should {
     "type check on 1 * 1" in {
-      check(Mul(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
+      check(Mul(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(NumberType())
     }
 
     "not type check on strings" in {
@@ -268,7 +268,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "division expressions" should {
     "type check on 1 / 1" in {
-      check(Div(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(defaultNumberValue)
+      check(Div(NumberLiteral(1), NumberLiteral(1)), emptyEnvironment) must beEqualTo(NumberType())
     }
 
     "not type check on strings" in {
@@ -282,25 +282,25 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "variable expressions" should {
     "lookup integers" in {
-      check(Variable("X"), Map("X" -> defaultNumberValue)) must beEqualTo(defaultNumberValue)
+      check(Variable("X"), Map("X" -> NumberType())) must beEqualTo(NumberType())
     }
 
     "lookup strings" in {
-      check(Variable("X"), Map("X" -> defaultStringValue)) must beEqualTo(defaultStringValue)
+      check(Variable("X"), Map("X" -> StringType())) must beEqualTo(StringType())
     }
 
     "lookup booleans" in {
-      check(Variable("X"), Map("X" -> defaultBooleanValue)) must beEqualTo(defaultBooleanValue)
+      check(Variable("X"), Map("X" -> BooleanType())) must beEqualTo(BooleanType())
     }
 
     "fail when variable is undefined" in {
-      check(Variable("X"), Map("Y" -> defaultBooleanValue)) must throwA[RuntimeException]
+      check(Variable("X"), Map("Y" -> BooleanType())) must throwA[RuntimeException]
     }
   }
 
   "type checker" should {
     "detect duplicate question declarations" in {
-      check(BooleanQuestion(Variable("X"), "label"), Map("X" -> defaultBooleanValue)) must throwA[RuntimeException]
+      check(BooleanQuestion(Variable("X"), "label"), Map("X" -> BooleanType())) must throwA[RuntimeException]
     }
   }
 }

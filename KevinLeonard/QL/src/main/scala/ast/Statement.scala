@@ -19,7 +19,3 @@ sealed trait ComputedQuestion extends Question
 case class ComputedBooleanQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
 case class ComputedNumberQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
 case class ComputedStringQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
-sealed trait QuestionType
-case class BooleanType() extends QuestionType
-case class NumberType() extends QuestionType
-case class StringType() extends QuestionType
