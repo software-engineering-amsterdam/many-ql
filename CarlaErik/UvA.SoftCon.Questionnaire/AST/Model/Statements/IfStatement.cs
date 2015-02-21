@@ -27,14 +27,16 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then) 
+        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then, TextPosition position)
+            : base(position)
         {
             If = @if;
             Then = then;
+            Else = new List<IStatement>();
         }
 
-        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then, IReadOnlyList<IStatement> @else)
-            : this(@if, then)
+        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then, IReadOnlyList<IStatement> @else, TextPosition position)
+            : this(@if, then, position)
         {
             Else = @else;
         }

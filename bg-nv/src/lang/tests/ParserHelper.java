@@ -17,7 +17,7 @@ import java.io.InputStream;
  */
 public class ParserHelper
 {
-    private static final String path = "SampleForms/";
+    private static final String path = "samples/";
 
     public static AstNode ParseExpression(String input)
     {
@@ -37,7 +37,7 @@ public class ParserHelper
         return visitor.visitQuestion(c);
     }
 
-    public static AstNode ParseIfCondiion(String input)
+    public static AstNode ParseIfCondition(String input)
     {
         QLParser parser = createInputStreamParser(input);
         QLParser.IfConditionContext c = parser.ifCondition();

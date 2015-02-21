@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import helper.TestHelper;
 import nl.uva.softwcons.Questionnaire;
 import nl.uva.softwcons.ast.expression.Expression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Question;
@@ -99,4 +100,15 @@ public class ASTBuilderVisitorTest {
         assertThat(form.getBody().getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
     }
 
+    @Test
+    public void testMultiplicationExpression() {
+        String question = "question: \"Question\" integer(1*2)";
+        Form form = Questionnaire.build(buildForm("form1", question));
+        assertThat(((ComputedQuestion) form.getBody().getStatements().get(0)).getExpression()).isExactlyInstanceOf(
+                MultiplicationExpression.class);
+    }
+
+    private String buildForm(final String formName, final String... statements) {
+        return String.format("form %s { %s }", formName, String.join(" ", statements));
+    }
 }

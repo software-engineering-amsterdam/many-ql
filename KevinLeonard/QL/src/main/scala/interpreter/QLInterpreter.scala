@@ -1,6 +1,6 @@
 package interpreter
 
-import ast.QLAST.Form
+import ast.Form
 import evaluator.QLEvaluator
 import parser.QLParser
 import typechecker.QLTypeChecker
@@ -16,7 +16,7 @@ object QLInterpreter {
 
     parser.parseAll(parser.form, formFile) match {
       case parser.Success(ast, _) => ast match {
-        case f: Form => 
+        case f: Form =>
           typeChecker.check(f)
           evaluator.eval(f)
       }

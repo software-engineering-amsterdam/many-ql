@@ -7,8 +7,9 @@ public abstract class UnaryExpr extends Expr
 {
     private Expr operand;
 
-    public UnaryExpr(Expr operand)
+    public UnaryExpr(Expr operand, int lineNumber)
     {
+        super(lineNumber);
         this.operand = operand;
     }
 

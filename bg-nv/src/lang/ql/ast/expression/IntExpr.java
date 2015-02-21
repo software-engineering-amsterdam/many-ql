@@ -7,9 +7,9 @@ import lang.ql.semantics.Visitor;
  */
 public class IntExpr extends ConstExpr<Integer>
 {
-    public IntExpr(int value)
+    public IntExpr(int value, int lineNumber)
     {
-        super(value);
+        super(value, lineNumber);
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

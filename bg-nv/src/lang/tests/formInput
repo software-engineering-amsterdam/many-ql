@@ -1,4 +1,7 @@
 form Box1HouseOwning
 {
- string has "another test" ""
+ if (true)
+ {
+    integer qest "test"
+ }
 }

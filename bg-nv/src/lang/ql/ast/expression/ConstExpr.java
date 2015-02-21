@@ -8,8 +8,9 @@ public abstract class ConstExpr<T> extends Expr
     // TODO: Add Date constant expression
     protected T value;
 
-    public ConstExpr(T value)
+    public ConstExpr(T value, int lineNumber)
     {
+        super(lineNumber);
         this.value = value;
     }
 
