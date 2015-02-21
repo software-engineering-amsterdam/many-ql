@@ -13,6 +13,11 @@ form SomeForm {
 		"5 - Grade your happiness?"    questionFive numeric
 	}
 
+	if (!questionThree) {
+		"4 - Why are you unhappy today?" questionFourB string
+		"5 - Grade your unhappiness?"    questionFiveB numeric
+	}
+
 	if (questionTwo > 5) {
 		"6 - Question 2 is bigger than 5?" questionSix bool
 	}
@@ -84,4 +89,9 @@ form SomeForm {
 	if ((questionOne != "surak") and (questionTwo == 42)) {
 		"24 - OR field - not surak - () and ()" questionTwentyOne computed = questionTwo * 2
 	}
+
+	if (!(questionOne == "surak" and questionTwo == 42)) {
+		"22 - block negation (!())" questionTwentyTwo computed = questionTwo * 2
+	}
+
 }

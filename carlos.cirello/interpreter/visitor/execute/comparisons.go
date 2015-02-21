@@ -90,48 +90,50 @@ func (exec Execute) BoolOrNode(n *ast.BoolOrNode) bool {
 	return left || right
 }
 
+// BoolNegNode is the visitor for negation comparison operation
+func (exec Execute) BoolNegNode(n *ast.BoolNegNode) bool {
+	return !exec.resolveComparisonNode(n.Term())
+}
+
 func (exec *Execute) resolveComparisonNode(n interface{}) bool {
 	conditionState := true
+
 	switch t := n.(type) {
 	default:
 		pos := n.(ast.Positionable).Pos()
 		log.Fatalf("%s:runtime error: impossible condition type. got: %T", pos, t)
+
 	case *ast.TermNode:
-		if !exec.TermNode(n.(*ast.TermNode)) {
-			conditionState = false
-		}
+		conditionState = exec.TermNode(n.(*ast.TermNode))
+
 	case *ast.NotEqualsNode:
-		if !exec.NotEqualsNode(n.(*ast.NotEqualsNode)) {
-			conditionState = false
-		}
+		conditionState = exec.NotEqualsNode(n.(*ast.NotEqualsNode))
+
 	case *ast.EqualsNode:
-		if !exec.EqualsNode(n.(*ast.EqualsNode)) {
-			conditionState = false
-		}
+		conditionState = exec.EqualsNode(n.(*ast.EqualsNode))
+
 	case *ast.MoreThanNode:
-		if !exec.MoreThanNode(n.(*ast.MoreThanNode)) {
-			conditionState = false
-		}
+		conditionState = exec.MoreThanNode(n.(*ast.MoreThanNode))
+
 	case *ast.LessThanNode:
-		if !exec.LessThanNode(n.(*ast.LessThanNode)) {
-			conditionState = false
-		}
+		conditionState = exec.LessThanNode(n.(*ast.LessThanNode))
+
 	case *ast.MoreOrEqualsThanNode:
-		if !exec.MoreOrEqualsThanNode(n.(*ast.MoreOrEqualsThanNode)) {
-			conditionState = false
-		}
+		conditionState = exec.MoreOrEqualsThanNode(n.(*ast.MoreOrEqualsThanNode))
+
 	case *ast.LessOrEqualsThanNode:
-		if !exec.LessOrEqualsThanNode(n.(*ast.LessOrEqualsThanNode)) {
-			conditionState = false
-		}
+		conditionState = exec.LessOrEqualsThanNode(n.(*ast.LessOrEqualsThanNode))
+
 	case *ast.BoolAndNode:
-		if !exec.BoolAndNode(n.(*ast.BoolAndNode)) {
-			conditionState = false
-		}
+		conditionState = exec.BoolAndNode(n.(*ast.BoolAndNode))
+
 	case *ast.BoolOrNode:
-		if !exec.BoolOrNode(n.(*ast.BoolOrNode)) {
-			conditionState = false
-		}
+		conditionState = exec.BoolOrNode(n.(*ast.BoolOrNode))
+
+	case *ast.BoolNegNode:
+		conditionState = exec.BoolNegNode(n.(*ast.BoolNegNode))
+
 	}
+
 	return conditionState
 }

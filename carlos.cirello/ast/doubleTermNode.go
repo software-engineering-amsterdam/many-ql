@@ -35,8 +35,3 @@ func (d *DoubleTermNode) RightTerm() Evaluatable {
 func (d *DoubleTermNode) Pos() scanner.Position {
 	return d.pos
 }
-
-// Positionable interface meant to be used in error message rendering
-type Positionable interface {
-	Pos() scanner.Position
-}
