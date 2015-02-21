@@ -9,7 +9,7 @@ import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.AdditionExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.DivisionExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.SubstractionExpression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.SubtractionExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.EqualExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqualExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThanExpression;
@@ -135,10 +135,10 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Ty
     }
 
     @Override
-    public Type visit(SubstractionExpression expr) {
+    public Type visit(SubtractionExpression expr) {
         final Type leftExprType = expr.getLeftExpression().accept(this);
         final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = SubstractionExpression.resolveType(leftExprType, rightExprType);
+        final Type combinedExpressionType = SubtractionExpression.resolveType(leftExprType, rightExprType);
 
         validateExpressionType(expr, combinedExpressionType, Type.DECIMAL, Type.INTEGER);
 

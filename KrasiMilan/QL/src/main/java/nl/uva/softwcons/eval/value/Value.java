@@ -1,5 +1,8 @@
 package nl.uva.softwcons.eval.value;
 
-public class Value {
+public abstract class Value {
 
+    public abstract Object getValue();
+
+    public abstract BooleanValue isEqual(Value otherValue);
 }
