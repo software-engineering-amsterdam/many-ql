@@ -13,10 +13,15 @@ using AST.Nodes.GenericTypeName;
 using AST.Factory;
 using AST.Nodes.Interfaces;
 
-namespace AST
+namespace AST.ParseTreeVisitors
 {
     public class MainVisitor : QLMainBaseVisitor<IASTNode>
     {
+        /// <summary>
+        /// This method visits all children and filters out all children that do not have a context, i.e. are null.
+        /// </summary>
+        /// <param name="context">The context of the node whose children you want to visit</param>
+        /// <returns>An IEnumerable with the children, without the children that are null.</returns>
         private IEnumerable<IASTNode> FilterAndVisitChildren(ParserRuleContext context)
         {
             foreach (IParseTree child in context.children)

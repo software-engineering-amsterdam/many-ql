@@ -1,243 +1,86 @@
-﻿using AST.Nodes;
-using AST.Nodes.FormObject;
-using AST.Nodes.GenericTypeName;
+﻿using AST.Factory.PartialFactories;
 using AST.Nodes.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AST.Nodes.Expression;
-using Grammar;
-using AST.Nodes.FormSection;
-using AST.Nodes.Types;
-using AST.Nodes.Comparison;
-using AST.Nodes.Arithmetic;
 using AST.Nodes.KeyValuePair;
+using Grammar;
 
 namespace AST.Factory
 {
     public static class ASTFactory
     {
         #region FormElements
-        public static IASTNode GetNode(QLMainParser.FormContext context)
-        {
-            return new Form();
-        }
-
+        public static IASTNode GetNode(QLMainParser.FormContext context)       
+        { return FormElements.GetNode(context); }
         public static IASTNode GetNode(QLMainParser.FormSectionContext context)
-        {
-            return new FormSection();
-        }
-
-        public static IASTNode GetNode(QLMainParser.QuestionContext context)
-        {
-            return new Question();
-        }
-
+        { return FormElements.GetNode(context); }
+        public static IASTNode GetNode(QLMainParser.QuestionContext context)   
+        { return FormElements.GetNode(context); }
         public static IASTNode GetNode(QLMainParser.ConditionalContext context)
-        {
-            return new Conditional();
-        }
+        { return FormElements.GetNode(context); }
         #endregion
 
         #region Expressions
         public static IASTNode GetNode(QLMainParser.PrimitiveTypeNameContext context)
-        {
-            return null;
-        }
-
+        { return Expressions.GetNode(context); }
         public static IASTNode GetNode(QLMainParser.GenericTypeNameContext context)
-        {
-            return new TypeName();
-        }
-
+        { return Expressions.GetNode(context); }
         public static IASTNode GetNode(QLMainParser.PriorityExpressionContext context)
-        {
-            return new Nodes.Expression.Priority();
-        }
-
+        { return Expressions.GetNode(context); }
         public static IASTNode GetNode(QLMainParser.IdContext context)
-        {
-            return new Id();
-        }
-
+        { return Expressions.GetNode(context); }
         public static IASTNode GetNode(QLMainParser.ExpressionIdContext context)
-        {
-            return new Id();
-        }
-
-
+        { return Expressions.GetNode(context); }
         public static IASTNode GetNode(QLMainParser.AndContext context)
-        {
-            return new And();
-        }
-
-        //public static IASTNode GetNode(QLMainParser.ExpressionTypeContext context)
-        //{
-        //    return new Bool();
-        //}
-
+        { return Expressions.GetNode(context); }
+        public static IASTNode GetNode(QLMainParser.ExpressionTypeContext context)
+        { return Expressions.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.NegateContext context)
-        {
-            return new Negate();
-        }
-
+        { return Expressions.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.OrContext context)
-        {
-            return new Or();
-        }
-
+        { return Expressions.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.EqualityContext context)
-        {
-            IASTNode ast;
-
-            switch (context.op.Type)
-            {
-                case QLMainParser.EQ:
-                    ast = new Equal();
-                    break;
-                case QLMainParser.NEQ:
-                    ast = new NotEqual();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            return ast;
-        }
+        { return Expressions.GetNode(context); } 
         #endregion
 
         #region Comparison
         internal static IASTNode GetNode(QLMainParser.PriorityComparisonContext context)
-        {
-            return new Nodes.Comparison.Priority();
-        }
-
+        { return Comparisson.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.ArithmeticComparisonContext context)
-        {
-            IASTNode ast;
-
-            switch (context.op.Type)
-            {
-                case QLMainParser.GT:
-                    ast = new GreaterThan();
-                    break;
-                case QLMainParser.LT:
-                    ast = new LessThan();
-                    break;
-                case QLMainParser.GET:
-                    ast = new GreaterThanOrEqual();
-                    break;
-                case QLMainParser.LET:
-                    ast = new LessThanOrEqual();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            return ast;
-        }
+        { return Comparisson.GetNode(context); }
         #endregion
 
         #region Arithmetic
         internal static IASTNode GetNode(QLMainParser.PriorityArithmeticContext context)
-        {
-            return new Nodes.Arithmetic.Priority();
-        }
-
-        internal static IASTNode GetNode(QLMainParser.DivMulContext context)
-        {
-            IASTNode ast;
-
-            switch (context.op.Type)
-            {
-                case QLMainParser.MUL:
-                    ast = new Multiply();
-                    break;
-                case QLMainParser.DIV:
-                    ast = new Divide();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            return ast;
-        }
-
+        { return Arithmetic.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.SubAddContext context)
-        {
-            IASTNode ast;
-
-            switch (context.op.Type)
-            {
-                case QLMainParser.SUB:
-                    ast = new Subtract();
-                    break;
-                case QLMainParser.ADD:
-                    ast = new Add();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
-            return ast;
-        }
-
+        { return Arithmetic.GetNode(context); }
+        internal static IASTNode GetNode(QLMainParser.DivMulContext context)
+        { return Arithmetic.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.ArithmeticIdContext context)
-        {
-            return new Id();
-        }
+        { return Arithmetic.GetNode(context); }
         #endregion
 
         #region Types
         internal static IASTNode GetNode(QLMainParser.NumIntContext context)
-        {
-            return new Int();
-        }
-
+        { return Types.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.NumMoneyContext context)
-        {
-            return new Money();
-        }
-
+        { return Types.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.NumDecimalContext context)
-        {
-            return new Nodes.Types.Decimal();
-        }
-
+        { return Types.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.BoolValueContext context)
-        {
-            return new Nodes.Types.Bool();
-        }
-
+        { return Types.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.StringValueContext context)
-        {
-            return new Nodes.Types.String();
-        }
-
+        { return Types.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.DateValueContext context)
-        {
-            return new Nodes.Types.Date();
-        }
-
+        { return Types.GetNode(context); }
+        internal static IASTNode GetNode(QLMainParser.ListContext context)
+        { return Types.GetNode(context); }
         #endregion
 
         #region KeyValue
         internal static IASTNode GetNode(QLMainParser.KeyValuePairContext context)
-        {
-            return new KeyValuePair();
-        }
-        #endregion
-
+        { return KeyValue.GetNode(context); }
         internal static IASTNode GetNode(QLMainParser.KeyValuePairsContext context)
-        {
-            return new KeyValuePairs();
-        }
-
-        internal static IASTNode GetNode(QLMainParser.ListContext context)
-        {
-            return new List();
-        }
+        { return new KeyValuePairs(); }
+        #endregion 
     }
 }
