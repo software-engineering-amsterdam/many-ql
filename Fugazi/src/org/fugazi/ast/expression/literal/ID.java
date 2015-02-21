@@ -19,7 +19,11 @@ public class ID extends Literal {
         this.name = _name;
         this.type = _type;
         this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(type.getClass());
+        if (this.type != null) {
+            // without this check would crash
+            // for undefined variables
+            this.supportedTypes.add(type.getClass());
+        }
     }
 
     public String getName() {
