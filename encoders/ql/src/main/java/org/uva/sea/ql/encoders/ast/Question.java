@@ -2,8 +2,6 @@ package org.uva.sea.ql.encoders.ast;
 
 /**
  * Represents a question in the {@link Questionnaire}
- * 
- * @author Pim Tegelaar
  */
 public class Question {
 

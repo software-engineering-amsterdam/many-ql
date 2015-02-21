@@ -10,8 +10,6 @@ import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.
- * 
- * @author Pim Tegelaar
  */
 public class QuestionnaireParsingServiceImpl implements
 		QuestionnaireParsingService {

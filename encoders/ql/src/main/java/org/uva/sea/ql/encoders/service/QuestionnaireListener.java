@@ -11,8 +11,6 @@ import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 /**
  * Creates and fills a {@link Questionnaire} based on the parser input.
- * 
- * @author Pim Tegelaar
  */
 public class QuestionnaireListener extends EncodersQLBaseListener {
 

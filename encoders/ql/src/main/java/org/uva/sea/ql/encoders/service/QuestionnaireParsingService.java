@@ -6,8 +6,6 @@ import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 /**
  * Service for parsing questionnaire input files.
- * 
- * @author Pim Tegelaar
  */
 public interface QuestionnaireParsingService {
 

@@ -5,8 +5,6 @@ import java.util.TreeMap;
 
 /**
  * Questionnaire containing {@link Question}s.
- * 
- * @author Pim Tegelaar
  */
 public class Questionnaire {
 
