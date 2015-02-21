@@ -46,10 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeChecking\ErrorReporting\Message.cs" />
-    <Compile Include="TypeChecking\ErrorReporting\ErrorReportBuilder.cs" />
-    <Compile Include="TypeChecking\ErrorReporting\Severity.cs" />
-    <Compile Include="TypeChecking\VariableUsageCheckingVisitor.cs" />
+    <Compile Include="Validation\ErrorReporting\Message.cs" />
+    <Compile Include="Validation\ErrorReporting\ErrorReportBuilder.cs" />
+    <Compile Include="Validation\ErrorReporting\Severity.cs" />
+    <Compile Include="Validation\TypeCheckingVisitor.cs" />
+    <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AST\AST.csproj">

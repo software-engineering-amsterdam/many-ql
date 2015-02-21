@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.Utilities;
 
-namespace UvA.SoftCon.Questionnaire.Runtime.TypeChecking.ErrorReporting
+namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 {
     public enum Severity
     {

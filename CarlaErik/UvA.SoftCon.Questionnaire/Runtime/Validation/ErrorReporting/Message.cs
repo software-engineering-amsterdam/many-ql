@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.Utilities;
 
-namespace UvA.SoftCon.Questionnaire.Runtime.TypeChecking.ErrorReporting
+namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 {
     public class Message
     {
