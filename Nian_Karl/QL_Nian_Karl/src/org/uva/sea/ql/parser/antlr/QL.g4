@@ -35,20 +35,20 @@ ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
 //elseStatement : ELSE block;
 
 expression: 
-	literal
-	| expression AND expression
-	| expression OR expression
-	| expression EQUAL_COND expression
-	| expression GREATER expression
-	| expression GREAT_EQUAL expression
-	| expression EQUAL expression
-	| expression LESS_EQUAL expression
-	| expression LESS expression
-	| expression PLUS expression 
-	| expression MINUS expression 
-	| expression MULTIPLY expression 
-	| expression DEVIDE expression
-	| '(' expression ')'
+	literal #normalLit
+	| expression AND expression #andExpr
+	| expression OR expression #orExpr
+	| expression EQUAL_COND expression #equalCond
+	| expression GREATER expression #greaterCond
+	| expression GREAT_EQUAL expression #greaterEqualCond
+	| expression EQUAL expression #equalCond
+	| expression LESS_EQUAL expression #lessEqualCond
+	| expression LESS expression #lessCond
+	| expression PLUS expression  #plus
+	| expression MINUS expression  #minus
+	| expression MULTIPLY expression #mult
+	| expression DEVIDE expression #div
+	| '(' expression ')' #parenthesis
 ;
 
 literal

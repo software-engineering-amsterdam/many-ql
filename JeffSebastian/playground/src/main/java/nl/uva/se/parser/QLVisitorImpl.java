@@ -5,23 +5,28 @@ import java.util.List;
 
 import nl.uva.se.ast.Node;
 import nl.uva.se.ast.expression.Expression;
-import nl.uva.se.ast.expression.LogicalOperators.And;
-import nl.uva.se.ast.expression.LogicalOperators.Equal;
-import nl.uva.se.ast.expression.LogicalOperators.GreaterOrEqual;
-import nl.uva.se.ast.expression.LogicalOperators.GreaterThen;
-import nl.uva.se.ast.expression.LogicalOperators.LessOrEqual;
-import nl.uva.se.ast.expression.LogicalOperators.LessThen;
-import nl.uva.se.ast.expression.LogicalOperators.NotEqual;
-import nl.uva.se.ast.expression.LogicalOperators.Or;
-import nl.uva.se.ast.expression.MathematicalOperators.Divide;
-import nl.uva.se.ast.expression.MathematicalOperators.Modulo;
-import nl.uva.se.ast.expression.MathematicalOperators.Multiply;
-import nl.uva.se.ast.expression.MathematicalOperators.Power;
+import nl.uva.se.ast.expression.arithmetical.Addition;
+import nl.uva.se.ast.expression.arithmetical.Divide;
+import nl.uva.se.ast.expression.arithmetical.Modulo;
+import nl.uva.se.ast.expression.arithmetical.Multiply;
+import nl.uva.se.ast.expression.arithmetical.Negative;
+import nl.uva.se.ast.expression.arithmetical.Positive;
+import nl.uva.se.ast.expression.arithmetical.Power;
+import nl.uva.se.ast.expression.arithmetical.Substraction;
+import nl.uva.se.ast.expression.literal.BooleanLiteral;
+import nl.uva.se.ast.expression.literal.DecimalLiteral;
+import nl.uva.se.ast.expression.literal.IntegerLiteral;
+import nl.uva.se.ast.expression.literal.StringLiteral;
+import nl.uva.se.ast.expression.logical.And;
+import nl.uva.se.ast.expression.logical.Equal;
+import nl.uva.se.ast.expression.logical.GreaterOrEqual;
+import nl.uva.se.ast.expression.logical.GreaterThen;
+import nl.uva.se.ast.expression.logical.LessOrEqual;
+import nl.uva.se.ast.expression.logical.LessThen;
+import nl.uva.se.ast.expression.logical.Not;
+import nl.uva.se.ast.expression.logical.NotEqual;
+import nl.uva.se.ast.expression.logical.Or;
 import nl.uva.se.ast.form.Form;
-import nl.uva.se.ast.literal.BooleanLiteral;
-import nl.uva.se.ast.literal.DecimalLiteral;
-import nl.uva.se.ast.literal.IntegerLiteral;
-import nl.uva.se.ast.literal.StringLiteral;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
@@ -77,9 +82,15 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 	public Node visitCondition(ConditionContext ctx) {
 		int lineNumber = ctx.start.getLine();
 		int offset = ctx.start.getCharPositionInLine();
+		List<Statement> statements = new ArrayList<Statement>();
 
+		for (StatementContext context : ctx.statement()) {
+			statements.add((Statement) visitStatement(context));
+		}
+		
 		return new Condition(lineNumber, offset,
-				(Expression) visitExpression(ctx.expression()));
+				(Expression) visitExpression(ctx.expression()),
+				statements);
 	}
 
 	@Override
@@ -97,15 +108,22 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 		}
 		
 		Operator operator = Operator.getByName(ctx.op.getText());
+		if (operator == null) {
+			throw new IllegalArgumentException("Operator " + ctx.op.getText() + " not supported!");
+		}
+		
 		int lineNumber = ctx.start.getLine();
 		int offset = ctx.start.getCharPositionInLine();
 		
-		if (ctx.singleLtr != null) {
-			
-		}
-		
-		if (operator == null) {
-			throw new IllegalArgumentException("Operator " + ctx.op.getText() + " not supported!");
+		if (ctx.singleExpr != null) {
+			switch (operator) {
+				case PLUS:
+					return new Positive(lineNumber, offset, (Expression) visitExpression(ctx.singleExpr));
+				case MINUS:
+					return new Negative(lineNumber, offset, (Expression) visitExpression(ctx.singleExpr));
+				default:
+					throw new IllegalArgumentException("Unsupported unary operator " + ctx.op.getText());
+			}
 		}
 		
 		switch (operator) {
@@ -131,7 +149,8 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 				return new LessThen(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
 			case MINUS:
-				return null;
+				return new Substraction(lineNumber, offset, (Expression) visitExpression(ctx.left), 
+						(Expression) visitExpression(ctx.right));
 			case MODULO:
 				return new Modulo(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
@@ -139,7 +158,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 				return new Multiply(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
 			case NOT:
-				return null;
+				return new Not(lineNumber, offset, (Expression) visitExpression(ctx.singleExpr));
 			case NOT_EQUAL:
 				return new NotEqual(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
@@ -147,13 +166,14 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 				return new Or(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
 			case PLUS:
-				return null;
+				return new Addition(lineNumber, offset, (Expression) visitExpression(ctx.left), 
+						(Expression) visitExpression(ctx.right));
 			case POWER:
 				return new Power(lineNumber, offset, (Expression) visitExpression(ctx.left), 
 						(Expression) visitExpression(ctx.right));
+			default:
+				throw new IllegalStateException("No matching Operator");
 		}
-		
-		return super.visitExpression(ctx);
 	}
 
 	@Override

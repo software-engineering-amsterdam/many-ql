@@ -29,7 +29,7 @@ namespace QuestionnaireLanguage
             InitializeComponent();
 
             string path =  @"C:\Users\Daniel\Documents\UVA\Software Construction\Assignments\project\many-ql\FelipezConde\testsamples\";
-            string fileName = "test9.txt";
+            string fileName = "test6.txt";
 
             TestClass test = new TestClass();
             test.GetAST(path + fileName);

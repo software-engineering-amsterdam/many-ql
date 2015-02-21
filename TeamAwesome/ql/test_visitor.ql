@@ -1,13 +1,15 @@
 form taxOfficeExample { 
   question hasSoldHouse {
     "Did you sell a house in 2010?"
-    boolean = 3.012
+    money = 3
   }
 
-  if "h" * 2 + 6 > "hhhh" {
-    question hasBoughtHouse {
-      "Did you buy a house1"
-      boolean = "no"
+  if "h" * 2 + 6 > "h" {
+    if 3 == hasSoldHouse {
+      question hasBoughtHouse {
+        "Did you buy a house1"
+        boolean = "no"
+      }
     }
   }
 

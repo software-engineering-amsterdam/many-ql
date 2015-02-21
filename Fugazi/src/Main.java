@@ -1,8 +1,17 @@
 import org.fugazi.ast.ASTBuilder;
+import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.form.Form;
+import org.fugazi.ast.type.BoolType;
+import org.fugazi.ast.type.IntType;
+import org.fugazi.ast.type.StringType;
+import org.fugazi.evaluator.Evaluator;
+import org.fugazi.type_checker.ASTNodeError;
+import org.fugazi.type_checker.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -23,28 +32,19 @@ public class Main {
         // Build the AST.
         Form form = astBuilder.buildForm();
 
-        // TODO: type checking.
-//        ErrorManager errorList = typeChecker.checkForm();
-//
-//        if errorList.length() {
-//            print errors;
-//            return 1;
-////        }
-//
-//        ErrorManager err = new ErrorManager();
-//        TypeCheckError typeCheckError = new Typeckcker(err);
-//
-//        TypeCheckError.check(form);
-//
-//        Iterable typechecker.getErrorList();
-//
-//        if typechecker.isformvalid():
-//        //show...
-//        else:
-//        // exit 1
-        
-        // TODO: evaluation.
-        
+        // Perform type checking.
+        TypeChecker typeChecker = new TypeChecker();
+        boolean isFormTypeCorrect = typeChecker.checkForm(form);
+        // if form is not type-correct, display warnings, errors and exit
+        if (!isFormTypeCorrect) {
+            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors:");
+            typeChecker.displayFormWarningsAndErrors();
+        } else {
+            System.out.print("Yes, so I ran.");
+        }
+
+        Evaluator evaluator = new Evaluator();
+
         // TODO: Render GUI.
     }
 }

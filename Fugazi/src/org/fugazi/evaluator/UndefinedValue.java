@@ -1,11 +1,9 @@
 package org.fugazi.evaluator;
 
-import javax.lang.model.type.NullType;
+public class UndefinedValue extends ExpressionValue {
 
-// TODO: NullType??
-public class UndefinedValue extends ExpressionValue<NullType> {
-
-    UndefinedValue() {
-
+    public UndefinedValue() {
+        super(null);
     }
+    
 }

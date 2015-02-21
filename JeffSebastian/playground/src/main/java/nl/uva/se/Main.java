@@ -3,9 +3,13 @@ package nl.uva.se;
 import java.io.IOException;
 
 import nl.uva.se.ast.Node;
+import nl.uva.se.interpreter.Interpreter;
+import nl.uva.se.interpreter.SymbolTable;
 import nl.uva.se.parser.QLLexer;
 import nl.uva.se.parser.QLParser;
 import nl.uva.se.parser.QLVisitorImpl;
+import nl.uva.se.visitor.SimpleVisitor;
+import nl.uva.se.visitor.Visitor;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -24,6 +28,15 @@ public class Main {
 			
 			QLVisitorImpl visitor = new QLVisitorImpl();
 			Node ast = visitor.visit(tree);
+			
+			Interpreter interpreter = new Interpreter();
+			ast.accept(interpreter);
+			System.out.println(SymbolTable.getInstance());
+			
+			Visitor myVisitor = new SimpleVisitor();
+			ast.accept(myVisitor);
+			
+			// Symbol Table
 			
 			
 		} catch (IOException e) {

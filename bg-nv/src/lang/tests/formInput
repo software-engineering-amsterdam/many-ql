@@ -1,12 +1,4 @@
 form Box1HouseOwning
 {
- integer anotherQ "Sup???"
- boolean tralala "shalala" hasSoldHouse
- boolean hasSoldHouse "purely test question :)"
- if (hasSoldHouse)
- {
-
-    boolean sold "Price the house was sold for:" tralala
- }
- boolean sold "Price the house was sold for:" tralala
+ string has "another test" ""
 }

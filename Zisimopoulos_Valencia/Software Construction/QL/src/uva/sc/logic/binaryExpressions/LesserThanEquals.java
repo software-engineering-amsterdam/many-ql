@@ -1,5 +1,10 @@
 package uva.sc.logic.binaryExpressions;
 
-public class LesserThanEquals extends BinaryExpression{
+import uva.sc.logic.Node;
 
+public class LesserThanEquals extends BinaryExpression{
+	
+	public LesserThanEquals(Node firstOperand, Node secondOperand) {
+		super(firstOperand, secondOperand);
+	}
 }
