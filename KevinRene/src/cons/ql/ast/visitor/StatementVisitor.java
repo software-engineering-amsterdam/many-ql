@@ -7,15 +7,15 @@ import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
 import cons.ql.ast.statement.Question;
 
-public interface StatementVisitor<T> extends Visitor<Void> {
-	default Void visit(Block blockNode) {
+public interface StatementVisitor<T> extends Visitor<T> {
+	default T visit(Block blockNode) {
 		for(Statement statement : blockNode.statements()) {
 			statement.accept(this);
 		}
 		return null;
 	}
 	
-	default Void visit(ComputedQuestion compQuestionNode) {
+	default T visit(ComputedQuestion compQuestionNode) {
 		compQuestionNode.getIdentifier().accept(this);
 		compQuestionNode.getType().accept(this);
 		compQuestionNode.getText().accept(this);
@@ -23,19 +23,19 @@ public interface StatementVisitor<T> extends Visitor<Void> {
 		return null;
 	}
 	
-	default Void visit(Form formNode) {
+	default T visit(Form formNode) {
 		formNode.getIdentifier().accept(this);
 		formNode.getBlock().accept(this);
 		return null;
 	}
 	
-	default Void visit(If ifNode) {
+	default T visit(If ifNode) {
 		ifNode.getExpression().accept(this);
 		ifNode.getBlock().accept(this);
 		return null;
 	}
 	
-	default Void visit(Question questionNode) {
+	default T visit(Question questionNode) {
 		questionNode.getIdentifier().accept(this);
 		questionNode.getType().accept(this);
 		questionNode.getText().accept(this);

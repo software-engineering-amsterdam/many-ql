@@ -36,7 +36,7 @@ import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
-public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Void> {
+public class TypeChecker implements ExpressionVisitor<Object>, StatementVisitor<Object> {
 	private ArrayList<String> errors = new ArrayList<String>();
 	
 	// TODO, should take a statement?
@@ -320,9 +320,9 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	}
 
 	@Override
-	public Void visit(QLString qlString) {
+	public Boolean visit(QLString qlString) {
 		// TODO Auto-generated method stub
-		return null;
+		return true;
 	}
 
 	@Override
