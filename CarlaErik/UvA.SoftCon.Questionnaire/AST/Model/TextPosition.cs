@@ -6,19 +6,24 @@ using System.Threading.Tasks;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model
 {
-    public abstract class Node
+    public class TextPosition
     {
-        public TextPosition Position
+        public int Line
         {
             get;
             private set;
         }
 
-        protected Node(TextPosition position)
+        public int Column
         {
-            Position = position;
+            get;
+            private set;
         }
 
-        public abstract void Accept(IASTVisitor visitor);
+        public TextPosition(int line, int column)
+        {
+            Line = line;
+            Column = column;
+        }
     }
 }

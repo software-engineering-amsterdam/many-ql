@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ASTController.cs" />
     <Compile Include="ASTVisitor.cs" />
+    <Compile Include="Extensions\ParserRuleContextExtensions.cs" />
     <Compile Include="IASTVisitor.cs" />
     <Compile Include="Model\INode.cs" />
     <Compile Include="Model\Statements\Assignment.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\Expressions\Operation.cs" />
     <Compile Include="Model\Statements\Declaration.cs" />
+    <Compile Include="Model\TextPosition.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\Expressions\IExpression.cs" />

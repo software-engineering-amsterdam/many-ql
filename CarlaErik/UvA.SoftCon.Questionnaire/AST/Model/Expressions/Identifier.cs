@@ -14,7 +14,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             private set;
         }
 
-        public Identifier(string name)
+        public Identifier(string name, TextPosition position)
+            : base(position)
         {
             Name = name;
         }

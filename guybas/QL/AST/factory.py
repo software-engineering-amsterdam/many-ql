@@ -1,10 +1,12 @@
 # Factory which expects tokens and uses the ast classes to return a parsed ast
 # Everything is static (pipeline style)
 
-from AST.expression import *
+from AST.complexexpression import *
 from AST.question import *
 from AST.conditional import *
 from AST.form import *
+
+from AST.operators import *
 from Main.converters import *
 
 
@@ -28,8 +30,20 @@ class BasicFactory:
 class ExpressionFactory:
 
     @staticmethod
-    def make_operator(token):
-        return Operator(token[0])
+    def make_variable(tokens):
+        return Variable(tokens[0])
+
+    @staticmethod
+    def make_number(tokens):
+        return Number(tokens[0])
+
+    @staticmethod
+    def make_operator(tokens):
+        return Operator(tokens[0])
+
+    @staticmethod
+    def make_bool(tokens):
+        return Operator(tokens[0])
 
     @staticmethod
     def sub_expression(tokens):
@@ -40,11 +54,12 @@ class ExpressionFactory:
 
     @staticmethod
     def make_expression(tokens):
-        x = Expression(ExpressionFactory.sub_expression(tokens.asList()))
+        x = ComplexExpression(ExpressionFactory.sub_expression(tokens.asList()))
         return x
 
 
 class FormFactory:
+
     @staticmethod
     def make_question(tokens):
         number = tokens[0]

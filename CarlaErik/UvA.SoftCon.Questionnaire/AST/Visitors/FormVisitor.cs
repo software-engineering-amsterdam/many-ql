@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.AST.Visitors;
+using UvA.SoftCon.Questionnaire.AST.Extensions;
 using UvA.SoftCon.Questionnaire.Parsing;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
@@ -24,7 +25,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
                 statements.Add(child.Accept(new StatementVisitor()));
             }
 
-            return new Form(statements);
+            return new Form(statements, context.GetTextPosition());
         }
     }
 }

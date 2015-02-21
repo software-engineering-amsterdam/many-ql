@@ -46,12 +46,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeChecking\VariableUsageCheckingVisitor.cs" />
+    <Compile Include="Validation\ErrorReporting\Message.cs" />
+    <Compile Include="Validation\ErrorReporting\ErrorReportBuilder.cs" />
+    <Compile Include="Validation\ErrorReporting\Severity.cs" />
+    <Compile Include="Validation\TypeCheckingVisitor.cs" />
+    <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AST\AST.csproj">
       <Project>{23aa9a43-58a6-4870-a7bc-a3d5d8d5b8ce}</Project>
       <Name>AST</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

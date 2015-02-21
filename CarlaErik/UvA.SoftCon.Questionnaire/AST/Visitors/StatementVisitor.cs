@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.AST.Extensions;
 using UvA.SoftCon.Questionnaire.Parsing;
 using UvA.SoftCon.Questionnaire.Utilities;
 
@@ -31,43 +32,43 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
                 elseStatements.Add(statement.Accept(this));
             }
 
-            return new IfStatement(condition, thenStatements, elseStatements);
+            return new IfStatement(condition, thenStatements, elseStatements, context.GetTextPosition());
         }
 
         public override IStatement VisitQuestion(QLParser.QuestionContext context)
         {
             DataType type = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
-            Identifier id = new Identifier(context.ID().GetText());
+            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
             string label = context.STRING().GetText();
 
             // Remove the leading and trailing '"' characters from the string literal.
             label = label.Trim('"');
 
-            return new Question(type, id, label);
+            return new Question(type, id, label, context.GetTextPosition());
         }
 
         public override IStatement VisitDeclaration(QLParser.DeclarationContext context)
         {
             DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
-            Identifier id = new Identifier(context.ID().GetText());
+            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
 
             if (context.expr() != null)
             {
                 IExpression initialization = context.expr().Accept(new ExpressionVisitor());
-                return new Declaration(dataType, id, initialization);
+                return new Declaration(dataType, id, initialization, context.GetTextPosition());
             }
             else
             {
-                return new Declaration(dataType, id);
+                return new Declaration(dataType, id, context.GetTextPosition());
             }
         }
 
         public override IStatement VisitAssignment(QLParser.AssignmentContext context)
         {
-            Identifier variable = new Identifier(context.ID().GetText());
+            Identifier variable = new Identifier(context.ID().GetText(), context.GetTextPosition());
             IExpression expression = context.expr().Accept(new ExpressionVisitor());
 
-            return new Assignment(variable, expression);
+            return new Assignment(variable, expression, context.GetTextPosition());
         }
     }
 }

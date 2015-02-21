@@ -21,7 +21,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public Assignment(Identifier variable, IExpression expression)
+        public Assignment(Identifier variable, IExpression expression, TextPosition position)
+            : base(position)
         {
             Variable = variable;
             Expression = expression;

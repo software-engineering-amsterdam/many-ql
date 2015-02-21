@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
-namespace UvA.SoftCon.Questionnaire.Runtime.TypeChecking
+namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
     public class VariableUsageCheckingVisitor : ASTVisitor
     {
