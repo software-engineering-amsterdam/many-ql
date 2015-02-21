@@ -30,19 +30,19 @@ class QLTypeChecker extends {
         env // Return environment without the questions in s1 and s2.
       case _ => sys.error(s"Invalid boolean condition for if statement at line ${s.pos}")
     }
-    case BooleanQuestion(v: Variable, label: String) => env + (v.name -> defaultBooleanValue)
-    case NumberQuestion(v: Variable, label: String) => env + (v.name -> defaultNumberValue)
-    case StringQuestion(v: Variable, label: String) => env + (v.name -> defaultStringValue)
+    case BooleanQuestion(v: Variable, label: String) => tryAddVariable(v.name, defaultBooleanValue, env)
+    case NumberQuestion(v: Variable, label: String) => tryAddVariable(v.name, defaultNumberValue, env)
+    case StringQuestion(v: Variable, label: String) => tryAddVariable(v.name, defaultStringValue, env)
     case s @ ComputedBooleanQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
-      case BooleanLiteral(_) => env + (v.name -> defaultBooleanValue)
+      case BooleanLiteral(_) => tryAddVariable(v.name, defaultBooleanValue, env)
       case _ => sys.error(s"Invalid expression for value of computed boolean question at line ${s.pos}")
     }
     case s @ ComputedNumberQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
-      case NumberLiteral(_) => env + (v.name -> defaultNumberValue)
+      case NumberLiteral(_) => tryAddVariable(v.name, defaultNumberValue, env)
       case _ => sys.error(s"Invalid expression for value of computed number expression at line ${s.pos}")
     }
     case s @ ComputedStringQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
-      case StringLiteral(_) => env + (v.name -> defaultStringValue)
+      case StringLiteral(_) => tryAddVariable(v.name, defaultStringValue, env)
       case _ => sys.error(s"Invalid expression for value of computed string expression at line ${s.pos}")
     }
   }
@@ -108,5 +108,13 @@ class QLTypeChecker extends {
     case BooleanLiteral(_) => defaultBooleanValue
     case NumberLiteral(_) => defaultNumberValue
     case StringLiteral(_) => defaultStringValue
+  }
+
+  def tryAddVariable(name: String, _type: Literal, env: Environment): Environment = {
+    if (env contains name) {
+      sys.error(s"Variable $name is already defined")
+    } else {
+      env + (name -> _type)
+    }
   }
 }

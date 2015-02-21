@@ -297,4 +297,10 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
       check(Variable("X"), Map("Y" -> defaultBooleanValue)) must throwA[RuntimeException]
     }
   }
+
+  "type checker" should {
+    "detect duplicate question declarations" in {
+      check(BooleanQuestion(Variable("X"), "label"), Map("X" -> defaultBooleanValue)) must throwA[RuntimeException]
+    }
+  }
 }
