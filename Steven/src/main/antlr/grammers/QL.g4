@@ -17,19 +17,16 @@ expression
     | left=expression operator right=expression
     | NUMBERS+
     | identifier+
-    | bool+
+    | BOOLEANEXPRESSION+
     ;
-bool
-    : 'true'
-    | 'false'
-    ;
+
 operator
-    : ('*' | '/')
-    | ('+'| '-')
-    | ('>' | '<' | '<=' | '>=')
-    | ('==' | '!=')
-    | '&&'
-    | '||'
+    : (multiplication='*' | division='/')
+    | (add='+'| min='-')
+    | (greatherThan='>' | lessThan='<' | lessOrEqual='<=' | greaterOrEqual='>=')
+    | (equal='==' | notEqual='!=')
+    | and='&&'
+    | or='||'
     ;
 identifier
     : (UPPERCASE | LOWERCASE | NUMBERS)+
@@ -41,12 +38,12 @@ question_expression
     : '(' expression ')'
     ;
 question_type
-    : 'STRING'
-    | 'INTEGER'
-    | 'BOOLEAN'
-    | 'DATE'
-    | 'MONEY'
-    | 'DECIMAL'
+    : string='STRING'
+    | integer='INTEGER'
+    | booleanType='BOOLEAN'
+    | date='DATE'
+    | money='MONEY'
+    | decimal='DECIMAL'
     ;
 question_label
     : STRING
@@ -62,6 +59,10 @@ NUMBERS
     ;
 STRING
     : '"' (~[\r\n"] | '""')* '"'
+    ;
+BOOLEANEXPRESSION
+    : 'true'
+    | 'false'
     ;
 COMMENT_LINE
     : '//' ~[\r\n]* -> skip

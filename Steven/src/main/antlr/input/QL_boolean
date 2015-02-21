@@ -1,0 +1,5 @@
+form formname{
+    if ( true && false) {
+        true2 BOOLEAN "false"
+    }
+}

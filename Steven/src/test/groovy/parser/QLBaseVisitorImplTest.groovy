@@ -36,4 +36,12 @@ class QLBaseVisitorImplTest extends Specification {
         Assert.assertEquals(Multiplication.class, ((GreaterThan) expression.right).left.class)
         Assert.assertEquals(Identifier.class, ((GreaterThan) expression.right).right.class)
     }
+
+    def "Boolean types should be identified"() {
+        when:
+        Form form = parseTreeWalker.walk("src/main/antlr/input/QL_boolean", baseVisitor)
+
+        then:
+        true
+    }
 }

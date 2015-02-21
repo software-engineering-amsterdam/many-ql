@@ -3,14 +3,10 @@ package parser.ast.nodes.expression;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Not extends Expression {
-    private final Expression expression;
+public class Not extends UnaryExpression {
 
-    public Not(Expression expression) {
-        this.expression = expression;
+    public Not(Expression operand) {
+        super(operand);
     }
 
-    public Expression getExpression() {
-        return expression;
-    }
 }

@@ -59,16 +59,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitExpression(@NotNull QLParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#bool}.
-	 * @param ctx the parse tree
-	 */
-	void enterBool(@NotNull QLParser.BoolContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QLParser#bool}.
-	 * @param ctx the parse tree
-	 */
-	void exitBool(@NotNull QLParser.BoolContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link QLParser#operator}.
 	 * @param ctx the parse tree
 	 */

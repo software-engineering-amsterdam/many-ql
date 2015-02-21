@@ -20,29 +20,26 @@ public class QLParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, T__27=28, UPPERCASE=29, LOWERCASE=30, NUMBERS=31, 
-		STRING=32, COMMENT_LINE=33, WS=34;
+		T__24=25, T__25=26, UPPERCASE=27, LOWERCASE=28, NUMBERS=29, STRING=30, 
+		BOOLEANEXPRESSION=31, COMMENT_LINE=32, WS=33;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_if_statement = 2, RULE_else_clause = 3, 
-		RULE_expression = 4, RULE_bool = 5, RULE_operator = 6, RULE_identifier = 7, 
-		RULE_question = 8, RULE_question_expression = 9, RULE_question_type = 10, 
-		RULE_question_label = 11;
+		RULE_expression = 4, RULE_operator = 5, RULE_identifier = 6, RULE_question = 7, 
+		RULE_question_expression = 8, RULE_question_type = 9, RULE_question_label = 10;
 	public static final String[] ruleNames = {
-		"form", "statement", "if_statement", "else_clause", "expression", "bool", 
-		"operator", "identifier", "question", "question_expression", "question_type", 
-		"question_label"
+		"form", "statement", "if_statement", "else_clause", "expression", "operator", 
+		"identifier", "question", "question_expression", "question_type", "question_label"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "'else'", "'!'", "'true'", 
-		"'false'", "'*'", "'/'", "'+'", "'-'", "'>'", "'<'", "'<='", "'>='", "'=='", 
-		"'!='", "'&&'", "'||'", "'STRING'", "'INTEGER'", "'BOOLEAN'", "'DATE'", 
-		"'MONEY'", "'DECIMAL'"
+		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "'else'", "'!'", "'*'", 
+		"'/'", "'+'", "'-'", "'>'", "'<'", "'<='", "'>='", "'=='", "'!='", "'&&'", 
+		"'||'", "'STRING'", "'INTEGER'", "'BOOLEAN'", "'DATE'", "'MONEY'", "'DECIMAL'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, "UPPERCASE", "LOWERCASE", "NUMBERS", "STRING", 
+		null, null, null, "UPPERCASE", "LOWERCASE", "NUMBERS", "STRING", "BOOLEANEXPRESSION", 
 		"COMMENT_LINE", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -130,27 +127,27 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(24); 
+			setState(22); 
 			match(T__0);
-			setState(25); 
+			setState(23); 
 			identifier();
-			setState(26); 
+			setState(24); 
 			match(T__1);
-			setState(28); 
+			setState(26); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(27); 
+				setState(25); 
 				statement();
 				}
 				}
-				setState(30); 
+				setState(28); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << UPPERCASE) | (1L << LOWERCASE) | (1L << NUMBERS))) != 0) );
-			setState(32); 
+			setState(30); 
 			match(T__2);
 			}
 		}
@@ -195,21 +192,21 @@ public class QLParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_statement);
 		try {
-			setState(36);
+			setState(34);
 			switch (_input.LA(1)) {
 			case UPPERCASE:
 			case LOWERCASE:
 			case NUMBERS:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(34); 
+				setState(32); 
 				question();
 				}
 				break;
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(35); 
+				setState(33); 
 				if_statement();
 				}
 				break;
@@ -267,37 +264,37 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38); 
+			setState(36); 
 			match(T__3);
-			setState(39); 
+			setState(37); 
 			match(T__4);
-			setState(40); 
+			setState(38); 
 			expression(0);
-			setState(41); 
+			setState(39); 
 			match(T__5);
-			setState(42); 
+			setState(40); 
 			match(T__1);
-			setState(44); 
+			setState(42); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(43); 
+				setState(41); 
 				statement();
 				}
 				}
-				setState(46); 
+				setState(44); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << UPPERCASE) | (1L << LOWERCASE) | (1L << NUMBERS))) != 0) );
-			setState(48); 
+			setState(46); 
 			match(T__2);
-			setState(50);
+			setState(48);
 			_la = _input.LA(1);
 			if (_la==T__6) {
 				{
-				setState(49); 
+				setState(47); 
 				else_clause();
 				}
 			}
@@ -344,13 +341,13 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52); 
+			setState(50); 
 			match(T__6);
-			setState(53); 
+			setState(51); 
 			match(T__1);
-			setState(54); 
+			setState(52); 
 			statement();
-			setState(55); 
+			setState(53); 
 			match(T__2);
 			}
 		}
@@ -385,11 +382,9 @@ public class QLParser extends Parser {
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public List<BoolContext> bool() {
-			return getRuleContexts(BoolContext.class);
-		}
-		public BoolContext bool(int i) {
-			return getRuleContext(BoolContext.class,i);
+		public List<TerminalNode> BOOLEANEXPRESSION() { return getTokens(QLParser.BOOLEANEXPRESSION); }
+		public TerminalNode BOOLEANEXPRESSION(int i) {
+			return getToken(QLParser.BOOLEANEXPRESSION, i);
 		}
 		public OperatorContext operator() {
 			return getRuleContext(OperatorContext.class,0);
@@ -428,29 +423,29 @@ public class QLParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(79);
+			setState(77);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				{
-				setState(58); 
+				setState(56); 
 				((ExpressionContext)_localctx).negation = match(T__7);
-				setState(59); 
+				setState(57); 
 				expression(5);
 				}
 				break;
 			case 2:
 				{
-				setState(60); 
+				setState(58); 
 				match(T__4);
-				setState(61); 
+				setState(59); 
 				expression(0);
-				setState(62); 
+				setState(60); 
 				match(T__5);
 				}
 				break;
 			case 3:
 				{
-				setState(65); 
+				setState(63); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -458,7 +453,7 @@ public class QLParser extends Parser {
 					case 1:
 						{
 						{
-						setState(64); 
+						setState(62); 
 						match(NUMBERS);
 						}
 						}
@@ -466,7 +461,7 @@ public class QLParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(67); 
+					setState(65); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -474,7 +469,7 @@ public class QLParser extends Parser {
 				break;
 			case 4:
 				{
-				setState(70); 
+				setState(68); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -482,7 +477,7 @@ public class QLParser extends Parser {
 					case 1:
 						{
 						{
-						setState(69); 
+						setState(67); 
 						identifier();
 						}
 						}
@@ -490,7 +485,7 @@ public class QLParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(72); 
+					setState(70); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -498,7 +493,7 @@ public class QLParser extends Parser {
 				break;
 			case 5:
 				{
-				setState(75); 
+				setState(73); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -506,15 +501,15 @@ public class QLParser extends Parser {
 					case 1:
 						{
 						{
-						setState(74); 
-						bool();
+						setState(72); 
+						match(BOOLEANEXPRESSION);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(77); 
+					setState(75); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -522,7 +517,7 @@ public class QLParser extends Parser {
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(87);
+			setState(85);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -535,16 +530,16 @@ public class QLParser extends Parser {
 					_localctx.left = _prevctx;
 					_localctx.left = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_expression);
-					setState(81);
+					setState(79);
 					if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-					setState(82); 
+					setState(80); 
 					operator();
-					setState(83); 
+					setState(81); 
 					((ExpressionContext)_localctx).right = expression(5);
 					}
 					} 
 				}
-				setState(89);
+				setState(87);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			}
@@ -561,53 +556,19 @@ public class QLParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BoolContext extends ParserRuleContext {
-		public BoolContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_bool; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterBool(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitBool(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBool(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final BoolContext bool() throws RecognitionException {
-		BoolContext _localctx = new BoolContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_bool);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(90);
-			_la = _input.LA(1);
-			if ( !(_la==T__8 || _la==T__9) ) {
-			_errHandler.recoverInline(this);
-			}
-			consume();
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public static class OperatorContext extends ParserRuleContext {
+		public Token multiplication;
+		public Token division;
+		public Token add;
+		public Token min;
+		public Token greatherThan;
+		public Token lessThan;
+		public Token lessOrEqual;
+		public Token greaterOrEqual;
+		public Token equal;
+		public Token notEqual;
+		public Token and;
+		public Token or;
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -629,73 +590,128 @@ public class QLParser extends Parser {
 
 	public final OperatorContext operator() throws RecognitionException {
 		OperatorContext _localctx = new OperatorContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_operator);
-		int _la;
+		enterRule(_localctx, 10, RULE_operator);
 		try {
-			setState(98);
+			setState(108);
 			switch (_input.LA(1)) {
-			case T__10:
-			case T__11:
+			case T__8:
+			case T__9:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(92);
-				_la = _input.LA(1);
-				if ( !(_la==T__10 || _la==T__11) ) {
-				_errHandler.recoverInline(this);
+				setState(90);
+				switch (_input.LA(1)) {
+				case T__8:
+					{
+					setState(88); 
+					((OperatorContext)_localctx).multiplication = match(T__8);
+					}
+					break;
+				case T__9:
+					{
+					setState(89); 
+					((OperatorContext)_localctx).division = match(T__9);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-				consume();
+				}
+				break;
+			case T__10:
+			case T__11:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(94);
+				switch (_input.LA(1)) {
+				case T__10:
+					{
+					setState(92); 
+					((OperatorContext)_localctx).add = match(T__10);
+					}
+					break;
+				case T__11:
+					{
+					setState(93); 
+					((OperatorContext)_localctx).min = match(T__11);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
 				}
 				break;
 			case T__12:
 			case T__13:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(93);
-				_la = _input.LA(1);
-				if ( !(_la==T__12 || _la==T__13) ) {
-				_errHandler.recoverInline(this);
-				}
-				consume();
-				}
-				break;
 			case T__14:
 			case T__15:
-			case T__16:
-			case T__17:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(94);
-				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17))) != 0)) ) {
-				_errHandler.recoverInline(this);
+				setState(100);
+				switch (_input.LA(1)) {
+				case T__12:
+					{
+					setState(96); 
+					((OperatorContext)_localctx).greatherThan = match(T__12);
+					}
+					break;
+				case T__13:
+					{
+					setState(97); 
+					((OperatorContext)_localctx).lessThan = match(T__13);
+					}
+					break;
+				case T__14:
+					{
+					setState(98); 
+					((OperatorContext)_localctx).lessOrEqual = match(T__14);
+					}
+					break;
+				case T__15:
+					{
+					setState(99); 
+					((OperatorContext)_localctx).greaterOrEqual = match(T__15);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-				consume();
+				}
+				break;
+			case T__16:
+			case T__17:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(104);
+				switch (_input.LA(1)) {
+				case T__16:
+					{
+					setState(102); 
+					((OperatorContext)_localctx).equal = match(T__16);
+					}
+					break;
+				case T__17:
+					{
+					setState(103); 
+					((OperatorContext)_localctx).notEqual = match(T__17);
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
 				}
 				break;
 			case T__18:
-			case T__19:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(95);
-				_la = _input.LA(1);
-				if ( !(_la==T__18 || _la==T__19) ) {
-				_errHandler.recoverInline(this);
-				}
-				consume();
-				}
-				break;
-			case T__20:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(96); 
-				match(T__20);
+				setState(106); 
+				((OperatorContext)_localctx).and = match(T__18);
 				}
 				break;
-			case T__21:
+			case T__19:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(97); 
-				match(T__21);
+				setState(107); 
+				((OperatorContext)_localctx).or = match(T__19);
 				}
 				break;
 			default:
@@ -747,13 +763,13 @@ public class QLParser extends Parser {
 
 	public final IdentifierContext identifier() throws RecognitionException {
 		IdentifierContext _localctx = new IdentifierContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_identifier);
+		enterRule(_localctx, 12, RULE_identifier);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(101); 
+			setState(111); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -761,7 +777,7 @@ public class QLParser extends Parser {
 				case 1:
 					{
 					{
-					setState(100);
+					setState(110);
 					_la = _input.LA(1);
 					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << UPPERCASE) | (1L << LOWERCASE) | (1L << NUMBERS))) != 0)) ) {
 					_errHandler.recoverInline(this);
@@ -773,9 +789,9 @@ public class QLParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(103); 
+				setState(113); 
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 			}
 		}
@@ -824,22 +840,22 @@ public class QLParser extends Parser {
 
 	public final QuestionContext question() throws RecognitionException {
 		QuestionContext _localctx = new QuestionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_question);
+		enterRule(_localctx, 14, RULE_question);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(105); 
+			setState(115); 
 			identifier();
-			setState(106); 
+			setState(116); 
 			question_type();
-			setState(107); 
+			setState(117); 
 			question_label();
-			setState(109);
+			setState(119);
 			_la = _input.LA(1);
 			if (_la==T__4) {
 				{
-				setState(108); 
+				setState(118); 
 				question_expression();
 				}
 			}
@@ -882,15 +898,15 @@ public class QLParser extends Parser {
 
 	public final Question_expressionContext question_expression() throws RecognitionException {
 		Question_expressionContext _localctx = new Question_expressionContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_question_expression);
+		enterRule(_localctx, 16, RULE_question_expression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(111); 
+			setState(121); 
 			match(T__4);
-			setState(112); 
+			setState(122); 
 			expression(0);
-			setState(113); 
+			setState(123); 
 			match(T__5);
 			}
 		}
@@ -906,6 +922,12 @@ public class QLParser extends Parser {
 	}
 
 	public static class Question_typeContext extends ParserRuleContext {
+		public Token string;
+		public Token integer;
+		public Token booleanType;
+		public Token date;
+		public Token money;
+		public Token decimal;
 		public Question_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -927,17 +949,54 @@ public class QLParser extends Parser {
 
 	public final Question_typeContext question_type() throws RecognitionException {
 		Question_typeContext _localctx = new Question_typeContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_question_type);
-		int _la;
+		enterRule(_localctx, 18, RULE_question_type);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(115);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26) | (1L << T__27))) != 0)) ) {
-			_errHandler.recoverInline(this);
-			}
-			consume();
+			setState(131);
+			switch (_input.LA(1)) {
+			case T__20:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(125); 
+				((Question_typeContext)_localctx).string = match(T__20);
+				}
+				break;
+			case T__21:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(126); 
+				((Question_typeContext)_localctx).integer = match(T__21);
+				}
+				break;
+			case T__22:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(127); 
+				((Question_typeContext)_localctx).booleanType = match(T__22);
+				}
+				break;
+			case T__23:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(128); 
+				((Question_typeContext)_localctx).date = match(T__23);
+				}
+				break;
+			case T__24:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(129); 
+				((Question_typeContext)_localctx).money = match(T__24);
+				}
+				break;
+			case T__25:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(130); 
+				((Question_typeContext)_localctx).decimal = match(T__25);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -974,11 +1033,11 @@ public class QLParser extends Parser {
 
 	public final Question_labelContext question_label() throws RecognitionException {
 		Question_labelContext _localctx = new Question_labelContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_question_label);
+		enterRule(_localctx, 20, RULE_question_label);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(117); 
+			setState(133); 
 			match(STRING);
 			}
 		}
@@ -1009,36 +1068,43 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$z\4\2\t\2\4\3\t\3"+
-		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f"+
-		"\t\f\4\r\t\r\3\2\3\2\3\2\3\2\6\2\37\n\2\r\2\16\2 \3\2\3\2\3\3\3\3\5\3"+
-		"\'\n\3\3\4\3\4\3\4\3\4\3\4\3\4\6\4/\n\4\r\4\16\4\60\3\4\3\4\5\4\65\n\4"+
-		"\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\6\6D\n\6\r\6\16\6"+
-		"E\3\6\6\6I\n\6\r\6\16\6J\3\6\6\6N\n\6\r\6\16\6O\5\6R\n\6\3\6\3\6\3\6\3"+
-		"\6\7\6X\n\6\f\6\16\6[\13\6\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\5\be\n\b\3"+
-		"\t\6\th\n\t\r\t\16\ti\3\n\3\n\3\n\3\n\5\np\n\n\3\13\3\13\3\13\3\13\3\f"+
-		"\3\f\3\r\3\r\3\r\2\3\n\16\2\4\6\b\n\f\16\20\22\24\26\30\2\t\3\2\13\f\3"+
-		"\2\r\16\3\2\17\20\3\2\21\24\3\2\25\26\3\2\37!\3\2\31\36\u0080\2\32\3\2"+
-		"\2\2\4&\3\2\2\2\6(\3\2\2\2\b\66\3\2\2\2\nQ\3\2\2\2\f\\\3\2\2\2\16d\3\2"+
-		"\2\2\20g\3\2\2\2\22k\3\2\2\2\24q\3\2\2\2\26u\3\2\2\2\30w\3\2\2\2\32\33"+
-		"\7\3\2\2\33\34\5\20\t\2\34\36\7\4\2\2\35\37\5\4\3\2\36\35\3\2\2\2\37 "+
-		"\3\2\2\2 \36\3\2\2\2 !\3\2\2\2!\"\3\2\2\2\"#\7\5\2\2#\3\3\2\2\2$\'\5\22"+
-		"\n\2%\'\5\6\4\2&$\3\2\2\2&%\3\2\2\2\'\5\3\2\2\2()\7\6\2\2)*\7\7\2\2*+"+
-		"\5\n\6\2+,\7\b\2\2,.\7\4\2\2-/\5\4\3\2.-\3\2\2\2/\60\3\2\2\2\60.\3\2\2"+
-		"\2\60\61\3\2\2\2\61\62\3\2\2\2\62\64\7\5\2\2\63\65\5\b\5\2\64\63\3\2\2"+
-		"\2\64\65\3\2\2\2\65\7\3\2\2\2\66\67\7\t\2\2\678\7\4\2\289\5\4\3\29:\7"+
-		"\5\2\2:\t\3\2\2\2;<\b\6\1\2<=\7\n\2\2=R\5\n\6\7>?\7\7\2\2?@\5\n\6\2@A"+
-		"\7\b\2\2AR\3\2\2\2BD\7!\2\2CB\3\2\2\2DE\3\2\2\2EC\3\2\2\2EF\3\2\2\2FR"+
-		"\3\2\2\2GI\5\20\t\2HG\3\2\2\2IJ\3\2\2\2JH\3\2\2\2JK\3\2\2\2KR\3\2\2\2"+
-		"LN\5\f\7\2ML\3\2\2\2NO\3\2\2\2OM\3\2\2\2OP\3\2\2\2PR\3\2\2\2Q;\3\2\2\2"+
-		"Q>\3\2\2\2QC\3\2\2\2QH\3\2\2\2QM\3\2\2\2RY\3\2\2\2ST\f\6\2\2TU\5\16\b"+
-		"\2UV\5\n\6\7VX\3\2\2\2WS\3\2\2\2X[\3\2\2\2YW\3\2\2\2YZ\3\2\2\2Z\13\3\2"+
-		"\2\2[Y\3\2\2\2\\]\t\2\2\2]\r\3\2\2\2^e\t\3\2\2_e\t\4\2\2`e\t\5\2\2ae\t"+
-		"\6\2\2be\7\27\2\2ce\7\30\2\2d^\3\2\2\2d_\3\2\2\2d`\3\2\2\2da\3\2\2\2d"+
-		"b\3\2\2\2dc\3\2\2\2e\17\3\2\2\2fh\t\7\2\2gf\3\2\2\2hi\3\2\2\2ig\3\2\2"+
-		"\2ij\3\2\2\2j\21\3\2\2\2kl\5\20\t\2lm\5\26\f\2mo\5\30\r\2np\5\24\13\2"+
-		"on\3\2\2\2op\3\2\2\2p\23\3\2\2\2qr\7\7\2\2rs\5\n\6\2st\7\b\2\2t\25\3\2"+
-		"\2\2uv\t\b\2\2v\27\3\2\2\2wx\7\"\2\2x\31\3\2\2\2\16 &\60\64EJOQYdio";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3#\u008a\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\3\2\3\2\3\2\3\2\6\2\35\n\2\r\2\16\2\36\3\2\3\2\3\3\3\3\5\3"+
+		"%\n\3\3\4\3\4\3\4\3\4\3\4\3\4\6\4-\n\4\r\4\16\4.\3\4\3\4\5\4\63\n\4\3"+
+		"\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\6\6B\n\6\r\6\16\6C"+
+		"\3\6\6\6G\n\6\r\6\16\6H\3\6\6\6L\n\6\r\6\16\6M\5\6P\n\6\3\6\3\6\3\6\3"+
+		"\6\7\6V\n\6\f\6\16\6Y\13\6\3\7\3\7\5\7]\n\7\3\7\3\7\5\7a\n\7\3\7\3\7\3"+
+		"\7\3\7\5\7g\n\7\3\7\3\7\5\7k\n\7\3\7\3\7\5\7o\n\7\3\b\6\br\n\b\r\b\16"+
+		"\bs\3\t\3\t\3\t\3\t\5\tz\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13"+
+		"\3\13\5\13\u0086\n\13\3\f\3\f\3\f\2\3\n\r\2\4\6\b\n\f\16\20\22\24\26\2"+
+		"\3\3\2\35\37\u009c\2\30\3\2\2\2\4$\3\2\2\2\6&\3\2\2\2\b\64\3\2\2\2\nO"+
+		"\3\2\2\2\fn\3\2\2\2\16q\3\2\2\2\20u\3\2\2\2\22{\3\2\2\2\24\u0085\3\2\2"+
+		"\2\26\u0087\3\2\2\2\30\31\7\3\2\2\31\32\5\16\b\2\32\34\7\4\2\2\33\35\5"+
+		"\4\3\2\34\33\3\2\2\2\35\36\3\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37 \3\2"+
+		"\2\2 !\7\5\2\2!\3\3\2\2\2\"%\5\20\t\2#%\5\6\4\2$\"\3\2\2\2$#\3\2\2\2%"+
+		"\5\3\2\2\2&\'\7\6\2\2\'(\7\7\2\2()\5\n\6\2)*\7\b\2\2*,\7\4\2\2+-\5\4\3"+
+		"\2,+\3\2\2\2-.\3\2\2\2.,\3\2\2\2./\3\2\2\2/\60\3\2\2\2\60\62\7\5\2\2\61"+
+		"\63\5\b\5\2\62\61\3\2\2\2\62\63\3\2\2\2\63\7\3\2\2\2\64\65\7\t\2\2\65"+
+		"\66\7\4\2\2\66\67\5\4\3\2\678\7\5\2\28\t\3\2\2\29:\b\6\1\2:;\7\n\2\2;"+
+		"P\5\n\6\7<=\7\7\2\2=>\5\n\6\2>?\7\b\2\2?P\3\2\2\2@B\7\37\2\2A@\3\2\2\2"+
+		"BC\3\2\2\2CA\3\2\2\2CD\3\2\2\2DP\3\2\2\2EG\5\16\b\2FE\3\2\2\2GH\3\2\2"+
+		"\2HF\3\2\2\2HI\3\2\2\2IP\3\2\2\2JL\7!\2\2KJ\3\2\2\2LM\3\2\2\2MK\3\2\2"+
+		"\2MN\3\2\2\2NP\3\2\2\2O9\3\2\2\2O<\3\2\2\2OA\3\2\2\2OF\3\2\2\2OK\3\2\2"+
+		"\2PW\3\2\2\2QR\f\6\2\2RS\5\f\7\2ST\5\n\6\7TV\3\2\2\2UQ\3\2\2\2VY\3\2\2"+
+		"\2WU\3\2\2\2WX\3\2\2\2X\13\3\2\2\2YW\3\2\2\2Z]\7\13\2\2[]\7\f\2\2\\Z\3"+
+		"\2\2\2\\[\3\2\2\2]o\3\2\2\2^a\7\r\2\2_a\7\16\2\2`^\3\2\2\2`_\3\2\2\2a"+
+		"o\3\2\2\2bg\7\17\2\2cg\7\20\2\2dg\7\21\2\2eg\7\22\2\2fb\3\2\2\2fc\3\2"+
+		"\2\2fd\3\2\2\2fe\3\2\2\2go\3\2\2\2hk\7\23\2\2ik\7\24\2\2jh\3\2\2\2ji\3"+
+		"\2\2\2ko\3\2\2\2lo\7\25\2\2mo\7\26\2\2n\\\3\2\2\2n`\3\2\2\2nf\3\2\2\2"+
+		"nj\3\2\2\2nl\3\2\2\2nm\3\2\2\2o\r\3\2\2\2pr\t\2\2\2qp\3\2\2\2rs\3\2\2"+
+		"\2sq\3\2\2\2st\3\2\2\2t\17\3\2\2\2uv\5\16\b\2vw\5\24\13\2wy\5\26\f\2x"+
+		"z\5\22\n\2yx\3\2\2\2yz\3\2\2\2z\21\3\2\2\2{|\7\7\2\2|}\5\n\6\2}~\7\b\2"+
+		"\2~\23\3\2\2\2\177\u0086\7\27\2\2\u0080\u0086\7\30\2\2\u0081\u0086\7\31"+
+		"\2\2\u0082\u0086\7\32\2\2\u0083\u0086\7\33\2\2\u0084\u0086\7\34\2\2\u0085"+
+		"\177\3\2\2\2\u0085\u0080\3\2\2\2\u0085\u0081\3\2\2\2\u0085\u0082\3\2\2"+
+		"\2\u0085\u0083\3\2\2\2\u0085\u0084\3\2\2\2\u0086\25\3\2\2\2\u0087\u0088"+
+		"\7 \2\2\u0088\27\3\2\2\2\23\36$.\62CHMOW\\`fjnsy\u0085";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
