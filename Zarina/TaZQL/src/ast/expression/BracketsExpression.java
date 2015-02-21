@@ -1,5 +1,7 @@
 package ast.expression;
 
+import ast.unary.UnaryExpression;
+
 public class BracketsExpression extends UnaryExpression {
 
 	public BracketsExpression (Expression expression) {
