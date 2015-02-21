@@ -29,6 +29,10 @@ import ast.type.ChoiceType;
 import ast.type.DigitsType;
 import ast.type.TextType;
 import ast.type.Type;
+import ast.unary.MinusExpression;
+import ast.unary.NotExpression;
+import ast.unary.PlusExpression;
+import ast.unary.UnaryExpression;
 
 import com.antlr4.zarina.tazql.TaZQLBaseVisitor;
 import com.antlr4.zarina.tazql.TaZQLParser;
@@ -166,7 +170,18 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 				(Expression) ctx.expression(1).accept(this)); 
 	}
 	
-	
+	@Override public UnaryExpression visitUnaryExpression(@NotNull TaZQLParser.UnaryExpressionContext ctx) { 
+		if (ctx.op.getText().equals("!")) {
+			return new NotExpression((Expression) ctx.expression().accept(this)); 
+		}
+		if (ctx.op.getText().equals("+")) {
+			return new PlusExpression( (Expression) ctx.expression().accept(this)); 
+		}	
+		if (ctx.op.getText().equals("-")) {
+			return new MinusExpression((Expression) ctx.expression().accept(this)); 
+		}	
+		return null; 
+	}
 	
 	
 	@Override 
