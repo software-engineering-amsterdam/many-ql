@@ -42,6 +42,12 @@ public class Interpreter implements Visitor
     {
         this.initializeQuestErrInfo(f);
 
+        if (!(this.info.getMessages().isEmpty()))
+        {
+            // TODO: handle semantic errors
+            throw new IllegalStateException("Semantic errors");
+        }
+
         for(Statement s : f.getStatements())
         {
             s.accept(this);

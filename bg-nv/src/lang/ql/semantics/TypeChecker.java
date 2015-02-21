@@ -51,7 +51,11 @@ public class TypeChecker implements Visitor
             statement.accept(this);
         }
 
-        // TODO: Check for cyclic dependencies
+        List<String> cyclicIds = this.questionDependencies.findCycle();
+        if (cyclicIds != null)
+        {
+            this.info.addMessage(Error.cyclicQuestions(cyclicIds));
+        }
         System.out.print("");
     }
 

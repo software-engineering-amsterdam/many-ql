@@ -99,4 +99,34 @@ public class TypeCheckerTest
         TestHelper.assertErrorMessage(ms.get(0),
                 "Error (Line: 2): Question \"hasSoldHouse\" is declared twice with a different type on line 2 and 3");
     }
+
+    @Test
+    public void cyclicQuestionsError() throws FileNotFoundException
+    {
+        QuestErrInfo info = TestHelper.analyse("cyclicQuestions");
+        List<Message> ms = info.getMessages();
+        assertEquals(1, ms.size());
+
+        TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: b, c, a");
+    }
+
+    @Test
+    public void directCyclicQuestionsError() throws FileNotFoundException
+    {
+        QuestErrInfo info = TestHelper.analyse("directCyclicQuestions");
+        List<Message> ms = info.getMessages();
+        assertEquals(1, ms.size());
+
+        TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: income");
+    }
+
+    @Test
+    public void manyCyclicQuestionsError() throws FileNotFoundException
+    {
+        QuestErrInfo info = TestHelper.analyse("manyCyclicQuestions");
+        List<Message> ms = info.getMessages();
+        assertEquals(1, ms.size());
+
+        TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: tas, has, mas");
+    }
 }

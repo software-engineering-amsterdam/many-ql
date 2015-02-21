@@ -46,6 +46,16 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
             }
         }
 
+        public void GenerateDuplicateLabelMessages(DuplicateLabelCheckingVisitor visitor)
+        {
+            foreach (var duplicateLabel in visitor.DuplicateLabels)
+            {
+                string message = String.Format("Question '{0}' has a duplicate label.", duplicateLabel.Id.Name);
+
+                AddWarningMessage(message, duplicateLabel.Position);
+            }
+        }
+
         private void AddErrorMessage(string message, TextPosition position)
         {
             Messages.Add(new Message(Severity.Error, position, message));
