@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
+namespace UvA.SoftCon.Questionnaire.AST.Model
 {
-    public interface IStatement : INode
+    public interface INode
     {
+        void Accept(IASTVisitor visitor);
     }
 }
