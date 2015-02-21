@@ -15,13 +15,17 @@ type Execute struct {
 	symbolChan chan *event.Symbol
 }
 
+func NewExecute(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *Execute {
+	return &Execute{
+		toFrontend: toFrontend,
+		symbolChan: symbolChan,
+	}
+}
+
 // New is the factory for Execute struct
 func New(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *visitor.Visitor {
 	return &visitor.Visitor{
-		&Execute{
-			toFrontend: toFrontend,
-			symbolChan: symbolChan,
-		},
+		NewExecute(toFrontend, symbolChan),
 	}
 }
 
