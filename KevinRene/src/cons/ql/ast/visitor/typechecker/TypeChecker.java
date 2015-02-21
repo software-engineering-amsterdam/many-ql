@@ -264,7 +264,7 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	public Void visit(Not notNode) {
 		notNode.getExpression().accept(this);
 		
-		// Expression must be a boolean
+		// Expression must be a Void
 		if (notNode.getType().compatibleWith(notNode.getExpression().getType())) {
 			errors.add("<Not> Expected type: QLBoolean, actual type: " + notNode.getExpression().getType());
 		}
@@ -300,7 +300,7 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 
 	@Override
 	public Void visit(If ifNode) {
-		// The expression must have a boolean type		
+		// The expression must have a Void type		
 		ifNode.getExpression().accept(this);
 		
 		if (ifNode.getExpression().getType().getClass() != QLBoolean.class) {
@@ -321,55 +321,46 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 
 	@Override
 	public Void visit(QLString qlString) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(QLNumeric qlNumeric) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(QLFloat qlFloat) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(QLInteger qlInteger) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(QLBoolean qlBoolean) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(StringLiteral stringLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(IntegerLiteral integerLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(FloatLiteral floatLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Void visit(BooleanLiteral booleanLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
