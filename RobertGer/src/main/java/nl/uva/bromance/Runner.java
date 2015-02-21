@@ -2,7 +2,7 @@ package nl.uva.bromance;
 
 import javafx.stage.Stage;
 import nl.uva.bromance.AST.Root;
-import nl.uva.bromance.AST.TypeChecker;
+import nl.uva.bromance.typechecking.TypeChecker;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;

@@ -1,4 +1,8 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.typechecking;
+
+import nl.uva.bromance.AST.Node;
+import nl.uva.bromance.AST.Question;
+import nl.uva.bromance.AST.Root;
 
 import java.util.HashMap;
 
@@ -16,9 +20,9 @@ public class TypeChecker {
     public boolean runChecks() {
         buildReferenceMap(ast);
         System.out.println("Got questions :");
-        for (String key : references.keySet()) {
-            if ("Question".equals(key)) {
-                System.out.println(key);
+        for (Node value : references.values()) {
+            if (value instanceof Question) {
+                System.out.println(((Question) value).getQuestionString());
             }
         }
         return true;
@@ -26,10 +30,15 @@ public class TypeChecker {
 
     private void buildReferenceMap(Node n) {
         if (n.hasChildren()) {
-            for (Node child : n.children) {
-                n.typeCheck(references, n);
+            for (Node child : n.getChildren()) {
                 buildReferenceMap(child);
             }
+        }
+        try {
+            n.typeCheck(references);
+        } catch (TypeCheckingException e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

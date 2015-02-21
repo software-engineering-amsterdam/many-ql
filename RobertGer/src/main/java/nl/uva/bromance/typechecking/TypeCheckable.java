@@ -9,5 +9,5 @@ import java.util.Map;
  */
 public interface TypeCheckable {
 
-    void typeCheck(Map<String, Node> references, Node node);
+    void typeCheck(Map<String, Node> references) throws TypeCheckingException;
 }

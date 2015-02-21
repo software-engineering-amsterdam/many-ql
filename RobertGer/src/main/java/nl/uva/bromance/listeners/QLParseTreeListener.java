@@ -63,7 +63,9 @@ public class QLParseTreeListener extends QLBaseListener {
 
     public void enterQuestionAnswerCustom(QLParser.QuestionAnswerCustomContext ctx) {
         // TODO: Dirty hack, still need to add custom type
-        ((Question) nodeStack.peek()).setQuestionType("custom");
+        Question peek = (Question) nodeStack.peek();
+        peek.setQuestionType("custom");
+        peek.setCustomQuestionOptions(ctx.STRING());
         System.err.println("Question of custom list type detected, ignored for now will be implemented later");
     }
 

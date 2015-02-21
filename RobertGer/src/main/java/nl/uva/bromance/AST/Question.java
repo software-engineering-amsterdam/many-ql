@@ -1,13 +1,15 @@
 package nl.uva.bromance.AST;
 
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.AST.Range.Range;
-import nl.uva.bromance.Answer;
+import nl.uva.bromance.typechecking.TypeCheckingException;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Map;
  */
 public class Question extends Node {
     private static final String[] parentsAllowed = {"Form", "IfStatement", "ElseStatement", "ElseIfStatement"};
-    // TODO: Implement custom question type and remove here
+    private List<String> customQuestionOptions = new ArrayList<>();
     private static final String[] questionTypes = {"integer", "string", "boolean", "custom"};
 
     private String identifier;
@@ -92,25 +94,67 @@ public class Question extends Node {
     @Override
     public Pane visualize(Pane parent) {
         parent.getChildren().add(new Label(questionString));
-        if ("integer".equals(getQuestionType())) {
+        if (isQuestionTypeInteger()) {
             parent.getChildren().add(new TextField());
-        } else if ("string".equals(getQuestionType())) {
+        } else if (isQuestionTypeString()) {
             parent.getChildren().add(new TextField());
-        } else if ("boolean".equals(getQuestionType())) {
+        } else if (isQuestionTypeBoolean()) {
             parent.getChildren().add(new CheckBox());
-        }
+        } else if (isQuestionTypeCustom()) {
+            ToggleGroup group = new ToggleGroup();
+            for (String option : customQuestionOptions) {
+                RadioButton radioButton = new RadioButton(option);
+                radioButton.setToggleGroup(group);
+                parent.getChildren().add(radioButton);
+            }
 
-        return super.visualize(parent);
+        }
+        return null;
     }
 
     @Override
-    public void typeCheck(Map<String, Node> references, Node node) {
-        Question q = (Question) node;
-        if (references.get(q.getIdentifier()) == null) {
-
+    public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
+        if (references.get(getIdentifier()) == null) {
+            references.put(getIdentifier(), this);
         } else {
-            Answer a = new Answer(q.getQuestionType());
-            references.put(q.getIdentifier(), q);
+
+            if ((isQuestionTypeBoolean() || isQuestionTypeString() && getQuestionRange() != null)) {
+                throw new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + getLineNumber() + ": Question " + getIdentifier() + ", no range allowed for types boolean and string.");
+            }
+
+            //TODO: Fix answerType error;
+            throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier());
         }
     }
+
+    public boolean isQuestionTypeBoolean() {
+        return "boolean".equals(questionType) || "Boolean".equals(questionType);
+    }
+
+    public boolean isQuestionTypeString() {
+        return "string".equals(questionType) || "String".equals(questionType);
+    }
+
+    public boolean isQuestionTypeInteger() {
+        return "integer".equals(questionType) || "Integer".equals(questionType);
+    }
+
+    public boolean isQuestionTypeDouble() {
+        return "double".equals(questionType) || "Double".equals(questionType);
+    }
+
+    public boolean isQuestionTypeCustom() {
+        return "custom".equals(questionType) || "Custom".equals(questionType);
+    }
+
+    public void setCustomQuestionOptions(List<TerminalNode> options) {
+        for (TerminalNode option : options) {
+            if (option.getText() != "||") {
+                customQuestionOptions.add(option.getText());
+            }
+        }
+
+    }
+
 }
+

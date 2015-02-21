@@ -2,6 +2,7 @@ package nl.uva.bromance.AST;
 
 import javafx.scene.layout.Pane;
 import nl.uva.bromance.typechecking.TypeCheckable;
+import nl.uva.bromance.typechecking.TypeCheckingException;
 import nl.uva.bromance.visualization.Visualizable;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public abstract class Node implements Visualizable, TypeCheckable {
     }
 
     @Override
-    public void typeCheck(Map<String, Node> references, Node node) {
+    public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
     }
 
     @Override

@@ -3,6 +3,7 @@ package nl.uva.bromance.AST;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import nl.uva.bromance.typechecking.TypeCheckingException;
 
 import java.util.Map;
 
@@ -53,12 +54,11 @@ public class Form extends Node {
     }
 
     @Override
-    public void typeCheck(Map<String, Node> references, Node node) {
-        Form f = (Form) node;
-        if (references.get(f.getIdentifier()) == null) {
-            references.put(f.getIdentifier(), f);
+    public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
+        if (references.get(getIdentifier()) == null) {
+            references.put(getIdentifier(), this);
         } else {
-            System.err.println("TypeChecker Error @ line " + f.getLineNumber() + ": Form " + f.getIdentifier() + " was already defined.");
+            throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier());
         }
     }
 }
