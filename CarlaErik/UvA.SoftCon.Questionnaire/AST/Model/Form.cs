@@ -19,7 +19,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
             private set;
         }
 
-        public Form(IReadOnlyList<IStatement> statements)
+        public Form(IReadOnlyList<IStatement> statements, TextPosition position)
+            : base(position)
         {
             Statements = statements;
         }

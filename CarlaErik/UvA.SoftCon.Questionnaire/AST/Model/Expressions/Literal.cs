@@ -14,7 +14,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             private set;
         }
 
-        public Literal(T value)
+        public Literal(T value, TextPosition position)
+            : base(position)
         {
             Value = value;
         }
