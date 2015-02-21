@@ -4,23 +4,6 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
-import com.antlr4.zarina.tazql.TaZQLBaseVisitor;
-import com.antlr4.zarina.tazql.TaZQLParser;
-import com.antlr4.zarina.tazql.TaZQLParser.AddSubExpressionContext;
-import com.antlr4.zarina.tazql.TaZQLParser.BooleanTypeContext;
-import com.antlr4.zarina.tazql.TaZQLParser.BracketsExpressionContext;
-import com.antlr4.zarina.tazql.TaZQLParser.ComparissionExpressionContext;
-import com.antlr4.zarina.tazql.TaZQLParser.ComputationQuestionContext;
-import com.antlr4.zarina.tazql.TaZQLParser.FormContext;
-import com.antlr4.zarina.tazql.TaZQLParser.IdContext;
-import com.antlr4.zarina.tazql.TaZQLParser.IfStatementContext;
-import com.antlr4.zarina.tazql.TaZQLParser.IntegerTypeContext;
-import com.antlr4.zarina.tazql.TaZQLParser.MultDivExpressionContext;
-import com.antlr4.zarina.tazql.TaZQLParser.QuestionContext;
-import com.antlr4.zarina.tazql.TaZQLParser.SimpleQuestionContext;
-import com.antlr4.zarina.tazql.TaZQLParser.StringTypeContext;
-import com.antlr4.zarina.tazql.TaZQLParser.TextContext;
-
 import ast.AST;
 import ast.expression.BinaryExpression;
 import ast.expression.BracketsExpression;
@@ -33,6 +16,8 @@ import ast.expression.comparison.GreaterEqualExpression;
 import ast.expression.comparison.GreaterThanExpression;
 import ast.expression.comparison.LessEqualExpression;
 import ast.expression.comparison.LessThanExpression;
+import ast.expression.logical.AndExpression;
+import ast.expression.logical.OrExpression;
 import ast.expression.variables.Id;
 import ast.expression.variables.StringVariable;
 import ast.form.Form;
@@ -44,6 +29,9 @@ import ast.type.ChoiceType;
 import ast.type.DigitsType;
 import ast.type.TextType;
 import ast.type.Type;
+
+import com.antlr4.zarina.tazql.TaZQLBaseVisitor;
+import com.antlr4.zarina.tazql.TaZQLParser;
 
 public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	
@@ -165,6 +153,20 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		}	
 		return null; 
 	}
+	
+	@Override public BinaryExpression visitAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx) { 
+		return new AndExpression( 
+				(Expression) ctx.expression(0).accept(this), 
+				(Expression) ctx.expression(1).accept(this)); 
+	}
+	
+	@Override public BinaryExpression visitOrExpression(@NotNull TaZQLParser.OrExpressionContext ctx) { 
+		return new OrExpression( 
+				(Expression) ctx.expression(0).accept(this), 
+				(Expression) ctx.expression(1).accept(this)); 
+	}
+	
+	
 	
 	
 	@Override 
