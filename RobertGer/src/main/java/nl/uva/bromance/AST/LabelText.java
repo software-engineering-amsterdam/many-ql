@@ -1,8 +1,12 @@
 package nl.uva.bromance.AST;
 
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
+import nl.uva.bromance.AST.Conditionals.ElseStatement;
+import nl.uva.bromance.AST.Conditionals.IfStatement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,12 +15,12 @@ import java.util.regex.Pattern;
  * Created by Gerrit Krijnen on 2/16/2015.
  */
 public class LabelText extends Node {
-    private static final String[] parentsAllowed = {"Label", "IfStatement", "ElseIfStatement", "ElseStatement"};
+    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Label.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class));
     private String text;
     private List<String> variables;
 
     public LabelText(int lineNumber, String text) {
-        super(lineNumber, "LabelText");
+        super(lineNumber, LabelText.class);
         this.setAcceptedParents(parentsAllowed);
         if (text != null) {
             this.text = text;

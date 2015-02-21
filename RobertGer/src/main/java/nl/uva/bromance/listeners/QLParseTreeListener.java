@@ -17,18 +17,18 @@ import java.util.Stack;
 public class QLParseTreeListener extends QLBaseListener {
 
     private Stack<Node> nodeStack = new Stack();
-    private Root ast = null;
+    private Questionnaire ast = null;
 
-    public Root getAst() {
+    public Questionnaire getAst() {
         return ast;
     }
 
     public void enterQuestionnaire(QLParser.QuestionnaireContext ctx) {
-        nodeStack.push(new Root(ctx.start.getLine(), ctx.name.getText()));
+        nodeStack.push(new Questionnaire(ctx.start.getLine(), ctx.name.getText()));
     }
 
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
-        ast = (Root) nodeStack.pop();
+        ast = (Questionnaire) nodeStack.pop();
         System.out.println("--Printing AST--");
         ast.printDebug();
     }

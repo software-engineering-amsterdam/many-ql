@@ -1,7 +1,7 @@
 package nl.uva.bromance;
 
 import javafx.stage.Stage;
-import nl.uva.bromance.AST.Root;
+import nl.uva.bromance.AST.Questionnaire;
 import nl.uva.bromance.typechecking.TypeChecker;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
@@ -32,7 +32,7 @@ public class Runner {
 
         walker.walk(listener, tree);
 
-        Root ast = listener.getAst();
+        Questionnaire ast = listener.getAst();
         TypeChecker tc = new TypeChecker(ast);
         tc.runChecks();
 

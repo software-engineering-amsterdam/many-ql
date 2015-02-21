@@ -5,11 +5,11 @@ import java.util.List;
 /**
  * Created by Gerrit Krijnen on 2/16/2015.
  */
-public class Root extends Node {
+public class Questionnaire extends Node {
     private String identifier;
 
-    public Root(int lineNumber, String id) {
-        super(lineNumber, "Questionnaire");
+    public Questionnaire(int lineNumber, String id) {
+        super(lineNumber, Questionnaire.class);
         if (id != null) {
             this.identifier = id;
         } else {

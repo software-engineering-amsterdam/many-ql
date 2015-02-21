@@ -2,7 +2,7 @@ package nl.uva.bromance.typechecking;
 
 import nl.uva.bromance.AST.Node;
 import nl.uva.bromance.AST.Question;
-import nl.uva.bromance.AST.Root;
+import nl.uva.bromance.AST.Questionnaire;
 
 import java.util.HashMap;
 
@@ -11,9 +11,9 @@ import java.util.HashMap;
  */
 public class TypeChecker {
     private HashMap<String, Node> references = new HashMap<>();
-    private Root ast;
+    private Questionnaire ast;
 
-    public TypeChecker(Root ast) {
+    public TypeChecker(Questionnaire ast) {
         this.ast = ast;
     }
 

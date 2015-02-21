@@ -5,11 +5,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import nl.uva.bromance.AST.Node;
-import nl.uva.bromance.AST.Root;
+import nl.uva.bromance.AST.Questionnaire;
 
 public class Visualizer {
 
-    public void visualize(Root ast, Stage stage) {
+    public void visualize(Questionnaire ast, Stage stage) {
         VBox root = new VBox();
         Scene scene = new Scene(root);
 

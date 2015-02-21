@@ -3,6 +3,9 @@ package nl.uva.bromance.AST;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
+import nl.uva.bromance.AST.Conditionals.ElseStatement;
+import nl.uva.bromance.AST.Conditionals.IfStatement;
 import nl.uva.bromance.AST.Range.Range;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -16,7 +19,7 @@ import java.util.Map;
  * Created by Gerrit Krijnen on 2/16/2015.
  */
 public class Question extends Node {
-    private static final String[] parentsAllowed = {"Form", "IfStatement", "ElseStatement", "ElseIfStatement"};
+    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
     private List<String> customQuestionOptions = new ArrayList<>();
     private static final String[] questionTypes = {"integer", "string", "boolean", "custom"};
 
@@ -26,7 +29,7 @@ public class Question extends Node {
     private Range questionRange;
 
     public Question(int lineNumber, String id) {
-        super(lineNumber, "Question");
+        super(lineNumber, Question.class);
         this.setAcceptedParents(parentsAllowed);
         if (id != null) {
             this.identifier = id.substring(1, id.length() - 1);

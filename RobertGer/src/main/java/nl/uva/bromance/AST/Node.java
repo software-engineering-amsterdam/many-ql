@@ -14,17 +14,17 @@ import java.util.Map;
  */
 public abstract class Node implements Visualizable, TypeCheckable {
     protected List<Node> children;
-    private String[] acceptedParents;
+    private List<Class<? extends Node>> acceptedParents;
     private final int lineNumber;
-    private final String type;
+    private final Class<? extends Node> type;
 
-    public Node(int ln, String type) {
+    public Node(int ln, Class<? extends Node> type) {
         this.children = new ArrayList();
         this.lineNumber = ln;
         this.type = type;
     }
 
-    public Node(int ln, String type, List children) {
+    public Node(int ln, Class<? extends Node> type, List children) {
         this.lineNumber = ln;
         this.children = children;
         this.type = type;
@@ -38,8 +38,8 @@ public abstract class Node implements Visualizable, TypeCheckable {
         }
     }
 
-    public boolean parentIsAccepted(String parent) {
-        for (String p : this.acceptedParents) {
+    public boolean parentIsAccepted(Class<? extends Node> parent) {
+        for (Class<? extends Node> p : this.acceptedParents) {
             if (parent.equals(p))
                 return true;
         }
@@ -50,7 +50,7 @@ public abstract class Node implements Visualizable, TypeCheckable {
         return lineNumber;
     }
 
-    protected void setAcceptedParents(String[] parents) {
+    protected void setAcceptedParents(List<Class<? extends Node>> parents) {
         this.acceptedParents = parents;
     }
 
