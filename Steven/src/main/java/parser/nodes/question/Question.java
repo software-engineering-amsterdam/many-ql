@@ -38,4 +38,5 @@ public class Question extends Statement {
     public Optional<Expression> getExpression() {
         return expression;
     }
+
 }

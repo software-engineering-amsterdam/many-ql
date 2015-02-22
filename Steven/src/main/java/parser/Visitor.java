@@ -1,8 +1,9 @@
-package typeChecker;
+package parser;
 
 import parser.nodes.Form;
 import parser.nodes.expression.*;
 import parser.nodes.question.Label;
+import parser.nodes.question.Question;
 import parser.nodes.question.QuestionType;
 import parser.nodes.statement.IfStatement;
 import parser.nodes.statement.Statement;
@@ -17,6 +18,8 @@ public interface Visitor {
     void visit(Form form);
 
     void visit(IfStatement ifStatement);
+
+    void visit(Question question);
 
     void visit(Addition addition);
 

@@ -1,6 +1,6 @@
 package parser.nodes.expression;
 
-import typeChecker.Visitor;
+import parser.Visitor;
 
 /**
  * Created by Steven Kok on 21/02/2015.

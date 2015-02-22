@@ -1,7 +1,6 @@
 package parser.nodes.statement;
 
 import parser.nodes.expression.Expression;
-import typeChecker.Visitor;
 
 import java.util.List;
 

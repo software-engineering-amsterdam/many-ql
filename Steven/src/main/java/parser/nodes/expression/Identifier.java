@@ -1,6 +1,6 @@
 package parser.nodes.expression;
 
-import typeChecker.Visitor;
+import parser.Visitor;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -19,5 +19,22 @@ public class Identifier extends Expression {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Identifier that = (Identifier) o;
+
+        if (!identifier.equals(that.identifier)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return identifier.hashCode();
     }
 }

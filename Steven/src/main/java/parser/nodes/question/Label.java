@@ -1,7 +1,7 @@
 package parser.nodes.question;
 
 import parser.nodes.AbstractNode;
-import typeChecker.Visitor;
+import parser.Visitor;
 
 /**
  * Created by Steven Kok on 21/02/2015.

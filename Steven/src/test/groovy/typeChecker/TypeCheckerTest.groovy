@@ -1,5 +1,6 @@
 package typeChecker
 
+import exceptions.TypeCheckException
 import parser.ParseTreeWalker
 import parser.QLBaseVisitorImpl
 import parser.nodes.Form
@@ -12,14 +13,20 @@ class TypeCheckerTest extends Specification {
 
     ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
 
-    def "smoke"() {
+    def "Should throw exception with duplicate questions"() {
         when:
-        Form form = parseTreeWalker.walk("src/main/antlr/input/QL_initial", new QLBaseVisitorImpl())
+        Form form = parseTreeWalker.walk(input, new QLBaseVisitorImpl())
 
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form)
 
         then:
-        true
+        def exception = thrown(TypeCheckException)
+        exception.message.contains(message)
+
+        where:
+        input                                                     | message
+        "src/main/antlr/input/QL_duplicateQuestions"              | TypeChecker.ALREADY_DECLARED_QUESTION.substring(0, 20)
+        "src/main/antlr/input/QL_duplicateQuestionsDifferentType" | TypeChecker.ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE.substring(0, 20)
     }
 }
