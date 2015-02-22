@@ -15,7 +15,6 @@ DATE          : 'date';
 
 MULDIV: MUL | DIV;
 ADDSUB: ADD | SUB;
-ANDORNOT: AND | OR | NOT;
 LTGTLEGE: LT | GT | LE | GE;
 NEEQ: NE | EQ;
 

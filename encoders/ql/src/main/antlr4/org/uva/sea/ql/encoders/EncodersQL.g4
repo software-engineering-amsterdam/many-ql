@@ -26,10 +26,12 @@ conditional:
     
 expression:
     '(' expr=expression ')'
-    | leftHand=expression  operator=ANDORNOT rightHand=expression
-    | leftHand=expression  operator=LTGTLEGE rightHand=expression
-    | leftHand=expression  operator=NEEQ rightHand=expression
     | leftHand=expression  operator=MULDIV rightHand=expression
     | leftHand=expression  operator=ADDSUB rightHand=expression
+    | leftHand=expression  operator=NOT rightHand=expression
+    | leftHand=expression  operator=AND rightHand=expression
+    | leftHand=expression  operator=OR rightHand=expression
+    | leftHand=expression  operator=LTGTLEGE rightHand=expression
+    | leftHand=expression  operator=NEEQ rightHand=expression  
     | name=NAME;
     
