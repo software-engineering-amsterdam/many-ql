@@ -5,7 +5,7 @@ package nl.uva.bromance.AST.Conditionals;
  * <p/>
  * Stub class.
  */
-public interface Conditional {
+public interface ContainsExpression {
 
     Expression getExpression();
 

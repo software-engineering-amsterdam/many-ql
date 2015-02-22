@@ -166,8 +166,8 @@ public class QLParseTreeListener extends QLBaseListener {
         Expression e = (Expression) nodeStack.pop();
         Node peek = nodeStack.peek();
         peek.addChild(e);
-        if (peek instanceof Conditional) {
-            ((Conditional) peek).setExpression(e);
+        if (peek instanceof ContainsExpression) {
+            ((ContainsExpression) peek).setExpression(e);
         }
 
     }

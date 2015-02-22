@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="52c8e781-001b-42e6-abc8-2832e354ec33" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/CanContainConditionals.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Conditional.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseIfStatement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseIfStatement.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseStatement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseStatement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Expression.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Expression.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/IfStatement.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/IfStatement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Input.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Input.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLParseTreeListener.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLParseTreeListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Questionnaire.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Questionnaire.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\Dev\Workspaces\intellij\UvA\many-ql\RobertGer\src\main\java\nl\uva\bromance\AST\Conditionals\Conditional.java" afterPath="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ContainsExpression.java" />
     </list>
     <ignored path="FormParser.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,13 +39,12 @@
       <file leaf-file-name="IfStatement.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/IfStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+            <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="544">
               <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding>
-                <element signature="e#458#481#0" expanded="true" />
-                <element signature="e#774#775#0" expanded="true" />
-                <element signature="e#807#808#0" expanded="true" />
-                <element signature="e#921#922#0" expanded="true" />
+                <element signature="e#781#782#0" expanded="true" />
+                <element signature="e#814#815#0" expanded="true" />
+                <element signature="e#928#929#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -54,13 +53,11 @@
       <file leaf-file-name="ElseIfStatement.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseIfStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+              <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
               <folding>
-                <element signature="e#462#485#0" expanded="true" />
-                <element signature="e#786#787#0" expanded="true" />
-                <element signature="e#819#820#0" expanded="true" />
-                <element signature="e#933#934#0" expanded="true" />
+                <element signature="e#469#492#0" expanded="true" />
+                <element signature="e#940#941#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -69,23 +66,33 @@
       <file leaf-file-name="ElseStatement.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+            <state vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="544">
               <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
               <folding>
-                <element signature="e#460#483#0" expanded="true" />
-                <element signature="e#780#781#0" expanded="true" />
-                <element signature="e#813#814#0" expanded="true" />
-                <element signature="e#927#928#0" expanded="true" />
+                <element signature="e#467#490#0" expanded="true" />
+                <element signature="e#787#788#0" expanded="true" />
+                <element signature="e#820#821#0" expanded="true" />
+                <element signature="e#934#935#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Questionnaire.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="QL.g4" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/antlr4/nl/uva/bromance/parsers/QL.g4">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1360" max-vertical-offset="1955">
+              <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Questionnaire.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Questionnaire.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31428573" vertical-offset="0" max-vertical-offset="595">
-              <caret line="11" column="70" selection-start-line="11" selection-start-column="70" selection-end-line="11" selection-end-column="70" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+              <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -94,8 +101,8 @@
       <file leaf-file-name="QLParseTreeListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLParseTreeListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.3965516" vertical-offset="2434" max-vertical-offset="3808">
-              <caret line="169" column="50" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2434" max-vertical-offset="3808">
+              <caret line="169" column="57" selection-start-line="169" selection-start-column="57" selection-end-line="169" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5782#5783#0" expanded="true" />
@@ -107,42 +114,52 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GrammarTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/nl/uva/bromance/GrammarTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
-              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="GrammarTest.ql" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/nl/uva/bromance/GrammarTest.ql">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.56" vertical-offset="816" max-vertical-offset="1921">
-              <caret line="65" column="49" selection-start-line="65" selection-start-column="49" selection-end-line="65" selection-end-column="49" />
+            <state vertical-scroll-proportion="-23.48" vertical-offset="943" max-vertical-offset="1921">
+              <caret line="90" column="58" selection-start-line="90" selection-start-column="58" selection-end-line="90" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Conditional.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Conditional.java">
+      <file leaf-file-name="ContainsExpression.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ContainsExpression.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-              <caret line="11" column="46" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
+              <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Expression.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Input.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Input.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+              <caret line="26" column="54" selection-start-line="26" selection-start-column="54" selection-end-line="26" selection-end-column="54" />
+              <folding>
+                <element signature="e#669#670#0" expanded="true" />
+                <element signature="e#702#703#0" expanded="true" />
+                <element signature="e#816#817#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Expression.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Expression.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-              <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
-              <folding />
+            <state vertical-scroll-proportion="0.4742268" vertical-offset="149" max-vertical-offset="731">
+              <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+              <folding>
+                <element signature="e#340#363#0" expanded="true" />
+                <element signature="e#1075#1076#0" expanded="true" />
+                <element signature="e#1108#1109#0" expanded="true" />
+                <element signature="e#1178#1179#0" expanded="true" />
+                <element signature="e#1222#1223#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -156,8 +173,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/Drinkblaat.java" />
-        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/DrinkListener.java" />
         <option value="$PROJECT_DIR$/src/test/resources/nl/uva/bromance/DrinkTest.ql" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/ParseTreeListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/BurialListener.java" />
@@ -187,7 +202,6 @@
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/LabelText.java" />
         <option value="$PROJECT_DIR$/src/main/resources/nl/uva/bromance/GrammarTest.ql" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ContainsConditionals.java" />
-        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Expression.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/CanContainConditionals.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Label.java" />
@@ -201,12 +215,15 @@
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Question.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Form.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/typechecking/TypeChecker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Conditional.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLParseTreeListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/IfStatement.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseIfStatement.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseStatement.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Questionnaire.java" />
+        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Conditional.java" />
+        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ContainsExpression.java" />
+        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Input.java" />
+        <option value="$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Expression.java" />
       </list>
     </option>
   </component>
@@ -321,6 +338,20 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FormParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FormParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="Scope">
         <subPane subId="Problems" />
         <subPane subId="Project Files">
@@ -450,20 +481,6 @@
             <PATH_ELEMENT USER_OBJECT="listeners">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FormParser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FormParser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1301,6 +1318,10 @@
               <option name="myItemId" value="AST" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Input" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1368,6 +1389,36 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="Calculation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FormParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RobertGer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bromance" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AST" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1517,6 +1568,48 @@
               <option name="myItemId" value="Conditionals" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ElseIfStatement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FormParser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RobertGer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bromance" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AST" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Conditionals" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ContainsExpression" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ClassTreeNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1571,6 +1664,26 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="antlr4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uva" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bromance" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parsers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1641,146 +1754,6 @@
       <recent name="nl.uva.bromance.questionnaire" />
       <recent name="nl.uva.bromance.listeners" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="Moments ago" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/interpreter/event/symboltable.go</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/interpreter/loop.go</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/interpreter/symboltable/table.go</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/interpreter/visitor/draw/draw.go</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/interpreter/visitor/execute/execute.go</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/AExpression.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/test/test/klq/logic/expression/CalculationExpressionTest.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/examples/badForm1.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/examples/basicForm.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/interpreter/visitor/typecheck/execute.go</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/parser/doc.go</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/calculation/AToken.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/calculation/CalculationExpression.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/calculation/CloseParentheses.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/calculation/Number.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/calculation/OpenParentheses.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/calculation/Operator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/calculation/Tokenizer.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/comparison/AComparator.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/comparison/ComparatorOperation.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/comparison/ComparisonExpression.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/comparison/KLQDate.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/comparison/KLQNumber.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/comparison/KLQString.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/test/test/klq/logic/expression/ComparisonExpressionTest.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../carlos.cirello/example.ql</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/out/production/kennedy-langlotz/Main.class</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/ast/impl/ComputedQuestionNodeNode.java</PATH>
-            <PATH vcs="Git" revision="">$PROJECT_DIR$/../kennedy-langlotz/src/com/klq/logic/expression/CalculationExpression.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with property conflicts" />
-          <option name="myStatusName" value="Will be merged with property conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
   </component>
   <component name="RunManager" selected="Application.App">
     <configuration default="false" name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -2325,7 +2298,13 @@
       <option name="project" value="LOCAL" />
       <updated>1424596486771</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="- Added stub interface Conditional.&#10;- Added interface CanContainConditional and implemented it.&#10;(for real this time).">
+      <created>1424599794849</created>
+      <option name="number" value="00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1424599794849</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -2353,13 +2332,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864866" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3264865" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3264865" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -2367,23 +2345,24 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959402" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32756758" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36432433" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32805908" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="760" y="651" width="1051" height="311" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22809829" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32756758" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22809829" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12291667" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35567567" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35567567" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3264865" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36432433" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32756758" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2452,7 +2431,8 @@
     <MESSAGE value="- Updated parsetreeListener.&#10;- Updated grammarTest to accomodate possible new tests." />
     <MESSAGE value="- Getting tired so altered TODO's" />
     <MESSAGE value="- Added stub interface Conditional.&#10;- Added interface CanContainConditional and implemented it.&#10;- Added Optional in some place to avoid returning null or checking for null." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added stub interface Conditional.&#10;- Added interface CanContainConditional and implemented it.&#10;- Added Optional in some place to avoid returning null or checking for null." />
+    <MESSAGE value="- Added stub interface Conditional.&#10;- Added interface CanContainConditional and implemented it.&#10;(for real this time)." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added stub interface Conditional.&#10;- Added interface CanContainConditional and implemented it.&#10;(for real this time)." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2473,19 +2453,21 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Calculation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="612">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Label.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="612">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#516#539#0" expanded="true" />
+            <element signature="e#1476#1477#0" expanded="true" />
+            <element signature="e#1523#1524#0" expanded="true" />
+            <element signature="e#1709#1710#0" expanded="true" />
+            <element signature="e#1761#1762#0" expanded="true" />
+            <element signature="e#1966#1967#0" expanded="true" />
+            <element signature="e#2015#2016#0" expanded="true" />
+            <element signature="e#2083#2084#0" expanded="true" />
+            <element signature="e#2117#2118#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2493,7 +2475,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2176">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#1224#1225#0" expanded="true" />
+            <element signature="e#1278#1279#0" expanded="true" />
+            <element signature="e#1405#1406#0" expanded="true" />
+            <element signature="e#1462#1463#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2641,19 +2628,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/antlr4/nl/uva/bromance/parsers/QL.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1395" max-vertical-offset="1955">
-          <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_31/src.zip!/java/util/Stack.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1069" max-vertical-offset="2074">
           <caret line="97" column="26" selection-start-line="97" selection-start-column="26" selection-end-line="97" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2661,9 +2639,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
           <caret line="14" column="57" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2671,7 +2646,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="193" max-vertical-offset="5321">
           <caret line="49" column="19" selection-start-line="49" selection-start-column="19" selection-end-line="49" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2679,7 +2653,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2734,10 +2707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1468" max-vertical-offset="10081">
           <caret line="213" column="11" selection-start-line="213" selection-start-column="11" selection-end-line="213" selection-end-column="11" />
-          <folding>
-            <element signature="e#8033#8034#0" expanded="true" />
-            <element signature="e#8056#8057#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2853,38 +2822,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
           <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/nl/uva/bromance/GrammarTest.ql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.56" vertical-offset="816" max-vertical-offset="1921">
-          <caret line="65" column="49" selection-start-line="65" selection-start-column="49" selection-end-line="65" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Conditional.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-          <caret line="11" column="46" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Expression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/listeners/QLParseTreeListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.3965516" vertical-offset="2434" max-vertical-offset="3808">
-          <caret line="169" column="50" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2434" max-vertical-offset="3808">
+          <caret line="169" column="57" selection-start-line="169" selection-start-column="57" selection-end-line="169" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5782#5783#0" expanded="true" />
@@ -2900,23 +2847,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
-            <element signature="e#458#481#0" expanded="true" />
-            <element signature="e#774#775#0" expanded="true" />
-            <element signature="e#807#808#0" expanded="true" />
-            <element signature="e#921#922#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseIfStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding>
-            <element signature="e#462#485#0" expanded="true" />
-            <element signature="e#786#787#0" expanded="true" />
-            <element signature="e#819#820#0" expanded="true" />
-            <element signature="e#933#934#0" expanded="true" />
+            <element signature="e#781#782#0" expanded="true" />
+            <element signature="e#814#815#0" expanded="true" />
+            <element signature="e#928#929#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2926,19 +2859,80 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
           <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
           <folding>
-            <element signature="e#460#483#0" expanded="true" />
-            <element signature="e#780#781#0" expanded="true" />
-            <element signature="e#813#814#0" expanded="true" />
-            <element signature="e#927#928#0" expanded="true" />
+            <element signature="e#467#490#0" expanded="true" />
+            <element signature="e#787#788#0" expanded="true" />
+            <element signature="e#820#821#0" expanded="true" />
+            <element signature="e#934#935#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Questionnaire.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31428573" vertical-offset="0" max-vertical-offset="595">
-          <caret line="11" column="70" selection-start-line="11" selection-start-column="70" selection-end-line="11" selection-end-column="70" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ElseIfStatement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+          <folding>
+            <element signature="e#469#492#0" expanded="true" />
+            <element signature="e#940#941#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/nl/uva/bromance/GrammarTest.ql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-23.48" vertical-offset="943" max-vertical-offset="1921">
+          <caret line="90" column="58" selection-start-line="90" selection-start-column="58" selection-end-line="90" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/ContainsExpression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/antlr4/nl/uva/bromance/parsers/QL.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1360" max-vertical-offset="1955">
+          <caret line="21" column="50" selection-start-line="21" selection-start-column="50" selection-end-line="21" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Input.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+          <caret line="26" column="54" selection-start-line="26" selection-start-column="54" selection-end-line="26" selection-end-column="54" />
+          <folding>
+            <element signature="e#669#670#0" expanded="true" />
+            <element signature="e#702#703#0" expanded="true" />
+            <element signature="e#816#817#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/uva/bromance/AST/Conditionals/Expression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4742268" vertical-offset="149" max-vertical-offset="731">
+          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+          <folding>
+            <element signature="e#340#363#0" expanded="true" />
+            <element signature="e#1075#1076#0" expanded="true" />
+            <element signature="e#1108#1109#0" expanded="true" />
+            <element signature="e#1178#1179#0" expanded="true" />
+            <element signature="e#1222#1223#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

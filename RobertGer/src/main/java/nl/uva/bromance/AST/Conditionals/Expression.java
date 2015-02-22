@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Expression extends Node {
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
+public class Expression extends Node implements ContainsExpression {
+    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
+    private Expression expression;
 
     public Expression(int lineNumber) {
         super(lineNumber, Expression.class);
@@ -25,11 +26,19 @@ public class Expression extends Node {
         for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }
-
     }
 
     public void setText(String t) {
         this.text = t;
     }
 
+    @Override
+    public Expression getExpression() {
+        return expression;
+    }
+
+    @Override
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
 }
