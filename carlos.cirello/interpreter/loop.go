@@ -13,7 +13,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/draw"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/typecheck"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/typechecker"
 )
 
 type interpreter struct {
@@ -31,7 +31,7 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 	symbolChan := make(chan *event.Symbol)
 	st := symboltable.New(symbolChan)
 
-	tc, tcst := typecheck.New()
+	tc, tcst := typechecker.New()
 	tc.Visit(q)
 	if warn := tcst.Warn(); warn != nil {
 		for _, e := range warn {
@@ -42,7 +42,7 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 		for _, e := range err {
 			log.Println(e)
 		}
-		panic("typecheck errors found")
+		panic("typechecker errors found")
 	}
 
 	toFrontend := make(chan *event.Frontend)
@@ -96,6 +96,7 @@ func (v *interpreter) loop() {
 					for identifier, answer := range r.Answers {
 						v.execute.Visit(v.questionaire)
 						v.send <- &event.Frontend{Type: event.Flush}
+
 						ret := make(chan *ast.QuestionNode)
 						v.symbols.Events <- &event.Symbol{
 							Command: event.SymbolRead,
