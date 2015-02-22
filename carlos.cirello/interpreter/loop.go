@@ -4,6 +4,7 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
+	"log"
 	"time"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
@@ -30,8 +31,14 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 	symbolChan := make(chan *event.Symbol)
 	st := symboltable.New(symbolChan)
 
-	tc := typecheck.New(symbolChan)
+	tc, tcst := typecheck.New()
 	tc.Visit(q)
+	if err := tcst.Err(); err != nil {
+		for _, e := range err {
+			log.Println(e)
+		}
+		panic("typecheck errors found")
+	}
 
 	toFrontend := make(chan *event.Frontend)
 	fromFrontend := make(chan *event.Frontend)

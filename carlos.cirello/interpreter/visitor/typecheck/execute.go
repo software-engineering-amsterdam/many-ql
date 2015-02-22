@@ -7,8 +7,10 @@ import (
 )
 
 // New is the factory for Execute struct
-func New(symbolChan chan *event.Symbol) *visitor.Visitor {
+func New() (*visitor.Visitor, *symbolTable) {
 	toFrontend := make(chan *event.Frontend)
+	symbolChan := make(chan *event.Symbol)
+	st := newSymbolTable(symbolChan)
 
 	go func(toFrontend chan *event.Frontend) {
 		for {
@@ -16,5 +18,5 @@ func New(symbolChan chan *event.Symbol) *visitor.Visitor {
 		}
 	}(toFrontend)
 
-	return visitor.NewVisitor(execute.NewExecute(toFrontend, symbolChan))
+	return visitor.NewVisitor(execute.NewExecute(toFrontend, symbolChan)), st
 }
