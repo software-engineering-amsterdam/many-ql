@@ -7,5 +7,9 @@ public class NotEquals extends BinaryExpression{
 	public NotEquals(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op !=]";
+	}
 
 }

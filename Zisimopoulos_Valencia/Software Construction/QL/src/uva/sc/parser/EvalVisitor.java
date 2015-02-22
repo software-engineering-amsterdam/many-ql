@@ -1,4 +1,4 @@
-package uva.sc.test;
+package uva.sc.parser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,6 @@ import uva.sc.logic.Statement;
 import uva.sc.logic.Type;
 import uva.sc.logic.binaryExpressions.*;
 import uva.sc.logic.unaryExpressions.*;
-import uva.sc.parser.GrammarBaseVisitor;
-import uva.sc.parser.GrammarParser;
 
 public class EvalVisitor extends GrammarBaseVisitor<Node> {
 
@@ -34,9 +32,13 @@ public class EvalVisitor extends GrammarBaseVisitor<Node> {
 	public Question visitQuestion(GrammarParser.QuestionContext ctx) {
 		String label = ctx.STRING().getText();
 		String id = ctx.ID().getText();
-		Type type = (Type)this.visit(ctx.type());
-		Expression expression = (Expression)this.visit(ctx.expr());
-		return new Question (label, id, type, expression);
+		Type type = visitType(ctx.type());
+		if (ctx.expr() != null) {
+			Expression expression = (Expression)this.visit(ctx.expr());
+			return new Question (label, id, type, expression);
+		}
+		else
+			return new Question (label, id, type);
 	}
 	
 	@Override
@@ -46,6 +48,11 @@ public class EvalVisitor extends GrammarBaseVisitor<Node> {
 		for (int i = 0 ; i < ctx.qs.size() ; i++)
 			questionList.add((Question)visitQuestion(ctx.qs.get(i)));
 		return new If_Statement(expr, questionList);
+	}
+	
+	@Override 
+	public Type visitType(GrammarParser.TypeContext ctx) { 
+		return new Type(ctx.getText()); 
 	}
 
 /*============================ Literals ================================*/
