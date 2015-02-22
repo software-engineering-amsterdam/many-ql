@@ -1,7 +1,7 @@
 package org.uva.sea.ql.parser.impl;
 
+import org.uva.sea.ql.AST.Form;
 import org.uva.sea.ql.factory.QLFactory;
-import org.uva.sea.ql.model.Form;
 import org.uva.sea.ql.parser.antlr.QLBaseListener;
 import org.uva.sea.ql.parser.antlr.QLParser.IfStatementContext;
 import org.uva.sea.ql.parser.antlr.QLParser.QuestionContext;
