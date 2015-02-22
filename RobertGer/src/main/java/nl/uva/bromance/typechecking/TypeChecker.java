@@ -35,7 +35,7 @@ public class TypeChecker {
         }
         if (n.hasChildren()) {
             for (Node child : n.getChildren()) {
-                buildReferenceMap(child);
+                typeCheck(child);
             }
         }
     }

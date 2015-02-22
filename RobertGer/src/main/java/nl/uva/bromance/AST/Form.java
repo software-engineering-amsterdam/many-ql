@@ -71,7 +71,7 @@ public class Form extends Node implements CanContainConditionals {
     @Override
     public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
         if (getIdentifier().isPresent()) {
-            if (referenceMap.containsKey(getIdentifier().get())) {
+            if (referenceMap.get(getIdentifier().get()) != null) {
                 throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
             } else {
                 referenceMap.put(getIdentifier().get(), this);
