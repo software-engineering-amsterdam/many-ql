@@ -7,10 +7,14 @@ import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
 import nl.uva.bromance.AST.Conditionals.ElseStatement;
 import nl.uva.bromance.AST.Conditionals.IfStatement;
 import nl.uva.bromance.AST.Range.Range;
+import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Question extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
@@ -99,24 +103,27 @@ public class Question extends Node {
 
     //TODO: Think of something to maybe fix this god awful mess of if's
     @Override
-    public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
-        if (getIdentifier().isPresent()) {
-
-            references.put(getIdentifier().get(), this);
-            if (references.containsKey(getIdentifier()))
-                if (getQuestionString() == null) {
-                    throw new TypeCheckingException("Question Error: No question asked");
-                }
-            if ((isQuestionTypeBoolean() || isQuestionTypeString()) && getQuestionRange().isPresent()) {
-                throw new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + getLineNumber() + ": Question " + getIdentifier() + ", no range allowed for types boolean and string.");
-            }
-            //TODO: Fix answerType error;
-            throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
-        } else {
-            throw new TypeCheckingException("TypeChecker Error @ line" + getLineNumber() + ": No identifier specified");
+    public void typeCheck() throws TypeCheckingException {
+        if (getQuestionString() == null) {
+            throw new TypeCheckingException("Question Error: No question asked");
+        }
+        if ((isQuestionTypeBoolean() || isQuestionTypeString()) && getQuestionRange().isPresent()) {
+            throw new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + getLineNumber() + ": Question " + getIdentifier() + ", no range allowed for types boolean and string.");
         }
     }
 
+    @Override
+    public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
+        if (getIdentifier().isPresent()) {
+            if (referenceMap.get(getIdentifier().get()) != null) {
+                throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
+            } else {
+                referenceMap.put(getIdentifier().get(), this);
+            }
+        } else {
+            throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
+        }
+    }
 
     //TODO: Not digging the string checks for types. Need to sort this out at one point.
     public boolean isQuestionTypeBoolean() {

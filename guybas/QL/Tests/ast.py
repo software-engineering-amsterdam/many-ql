@@ -7,7 +7,7 @@ from AST.operators import *
 class TestAST(unittest.TestCase):
 
     def generate_statements(self):
-        q1 = Question("1a", "bool", "Is this a questions?")
+        q1 = Question("1a", "bool", "Is this a statements?")
         q2 = Question("2a", "text", "What?")
         q3 = Question("3a", "number", "Why!")
         q4 = Question("4a", "bool", "when")

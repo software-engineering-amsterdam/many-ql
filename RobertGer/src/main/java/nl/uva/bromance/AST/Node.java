@@ -1,13 +1,13 @@
 package nl.uva.bromance.AST;
 
 import javafx.scene.layout.Pane;
+import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckable;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 import nl.uva.bromance.visualization.Visualizable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public abstract class Node implements Visualizable, TypeCheckable {
@@ -73,7 +73,11 @@ public abstract class Node implements Visualizable, TypeCheckable {
     }
 
     @Override
-    public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
+    public void typeCheck() throws TypeCheckingException {
+    }
+
+    @Override
+    public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
     }
 
     @Override
