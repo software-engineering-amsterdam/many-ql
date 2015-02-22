@@ -20,6 +20,9 @@ class Expression:
     def get_dependencies(self):
         pass
 
+    def as_list(self):
+        return self.expression
+
 
 # Expression without parenthesis
 class SimpleExpression(Expression):

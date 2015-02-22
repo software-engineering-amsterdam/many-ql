@@ -11,18 +11,17 @@ class Processor:
         :param Mapper answers_map: mapper object with the question ids and their corresponding answers
         :return: bool
         """
-        # verify that the format is as expected
-        if not TypeChecker.type_checker(expression, 'list'):
-            raise QException('ComplexExpression is not a list!')
 
         # bind ids to values
-        simplified_c = Processor.bind_values(expression, answers_map)
+        #simplified_c = Processor.bind_values(expression, answers_map)
 
         # process the expression, and return true/false
-        result = eval(simplified_c)
+        variables = None
+        result = False #eval(expression, variables)
         if result:
             return True
-        return False
+        else:
+            return False
 
     @staticmethod
     def bind_values(expression, answers_map):

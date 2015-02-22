@@ -18,10 +18,10 @@ class TypeChecker:
         print("ids:")
         print(ids)
 
-        print("labels:")
+        print("\nlabels:")
         print(labels)
 
-        print("transitive dependencies:")
+        print("\ntransitive dependencies:")
         print(transitive_dependencies)
         print("")
         TypeChecker.is_valid_expression(self.form.statements, self.form.type_dict)
