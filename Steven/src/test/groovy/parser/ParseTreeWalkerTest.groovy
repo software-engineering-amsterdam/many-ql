@@ -1,6 +1,6 @@
 package parser
 
-import parser.ast.nodes.Form
+import parser.nodes.Form
 import spock.lang.Specification
 
 /**

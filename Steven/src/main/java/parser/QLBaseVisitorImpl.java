@@ -4,16 +4,16 @@ import exceptions.ParseException;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.antlrGenerated.QLBaseVisitor;
 import parser.antlrGenerated.QLParser;
-import parser.ast.nodes.AbstractNode;
-import parser.ast.nodes.Form;
-import parser.ast.nodes.expression.*;
-import parser.ast.nodes.question.Label;
-import parser.ast.nodes.question.Question;
-import parser.ast.nodes.question.QuestionType;
-import parser.ast.nodes.statement.IfStatement;
-import parser.ast.nodes.statement.Statement;
-import parser.ast.nodes.type.Boolean;
-import parser.ast.nodes.type.Number;
+import parser.nodes.AbstractNode;
+import parser.nodes.Form;
+import parser.nodes.expression.*;
+import parser.nodes.question.Label;
+import parser.nodes.question.Question;
+import parser.nodes.question.QuestionType;
+import parser.nodes.statement.IfStatement;
+import parser.nodes.statement.Statement;
+import parser.nodes.type.Boolean;
+import parser.nodes.type.Number;
 
 import java.util.List;
 import java.util.Optional;
@@ -213,7 +213,6 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     private boolean isNotEqual(QLParser.ExpressionContext ctx) {
         return ctx.operator().notEqual != null;
     }
-
 
     private AbstractNode visitUnaryOperator(QLParser.ExpressionContext ctx) {
         if (ctx.negation != null) {

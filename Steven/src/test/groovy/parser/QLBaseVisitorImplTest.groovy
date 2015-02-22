@@ -1,16 +1,17 @@
 package parser
 
 import junit.framework.Assert
-import parser.ast.nodes.Form
-import parser.ast.nodes.expression.And
-import parser.ast.nodes.expression.BinaryExpression
-import parser.ast.nodes.expression.Expression
-import parser.ast.nodes.expression.GreaterThan
-import parser.ast.nodes.expression.Identifier
-import parser.ast.nodes.expression.Multiplication
-import parser.ast.nodes.expression.Not
-import parser.ast.nodes.statement.IfStatement
-import parser.ast.nodes.type.Number
+import parser.nodes.Form
+import parser.ast.nodes.expression.*
+import parser.nodes.expression.And
+import parser.nodes.expression.BinaryExpression
+import parser.nodes.expression.GreaterThan
+import parser.nodes.expression.Identifier
+import parser.nodes.expression.Multiplication
+import parser.nodes.expression.Not
+import parser.nodes.statement.IfStatement
+import parser.nodes.type.Boolean
+import parser.nodes.type.Number
 import spock.lang.Specification
 
 /**
@@ -47,11 +48,11 @@ class QLBaseVisitorImplTest extends Specification {
         And and = (And) ifStatement.expression
 
         then:
-        Assert.assertEquals(parser.ast.nodes.type.Boolean.class, and.left.class)
-        Assert.assertEquals(true, ((parser.ast.nodes.type.Boolean) and.left).isTrue())
+        Assert.assertEquals(Boolean.class, and.left.class)
+        Assert.assertEquals(true, ((Boolean) and.left).isTrue())
 
-        Assert.assertEquals(parser.ast.nodes.type.Boolean.class, and.right.class)
-        Assert.assertEquals(false, ((parser.ast.nodes.type.Boolean) and.right).isTrue())
+        Assert.assertEquals(Boolean.class, and.right.class)
+        Assert.assertEquals(false, ((Boolean) and.right).isTrue())
     }
 
     def "Negation should be recognized on identifier"() {

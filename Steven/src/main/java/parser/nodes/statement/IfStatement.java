@@ -1,0 +1,28 @@
+package parser.nodes.statement;
+
+import parser.nodes.expression.Expression;
+import typeChecker.Visitor;
+
+import java.util.List;
+
+/**
+ * Created by Steven Kok on 17/02/2015.
+ */
+public class IfStatement extends Statement {
+    private final Expression expression;
+    private final List<Statement> statements;
+
+    public IfStatement(Expression expression, List<Statement> statements) {
+        this.expression = expression;
+        this.statements = statements;
+    }
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
+    }
+
+}
