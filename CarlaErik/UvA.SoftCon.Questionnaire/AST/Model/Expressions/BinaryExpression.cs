@@ -9,6 +9,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
     public class BinaryExpression : Node, IExpression
     {
+        public override NodeType Type
+        {
+            get
+            {
+                return NodeType.BinaryExpression;
+            }
+        }
+
         public Operation Operation
         {
             get;

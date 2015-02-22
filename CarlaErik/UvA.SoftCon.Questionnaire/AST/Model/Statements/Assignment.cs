@@ -9,6 +9,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public class Assignment : Node, IStatement
     {
+        public override NodeType Type
+        {
+            get 
+            {
+                return NodeType.Assignment;
+            }
+        }
+
         public Identifier Variable
         {
             get;

@@ -13,6 +13,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
     /// </summary>
     public sealed class Form : Node
     {
+        public override NodeType Type
+        {
+            get
+            {
+                return NodeType.Form;
+            }
+        }
+
         public IReadOnlyList<IStatement> Statements
         {
             get;

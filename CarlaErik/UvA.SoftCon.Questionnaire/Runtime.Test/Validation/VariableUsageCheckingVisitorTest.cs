@@ -24,7 +24,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             var statements = new List<IStatement>() 
             {
                 new Declaration(DataType.String, new Identifier("age", new TextPosition(1, 6)), new TextPosition(1,1)),
-                new Assignment(new Identifier("age", new TextPosition(2,1)), new Literal<int>(36, new TextPosition(2,4)), new TextPosition(2,1))
+                new Assignment(new Identifier("age", new TextPosition(2,1)), new IntegerLiteral(36, new TextPosition(2,4)), new TextPosition(2,1))
             };
 
             var ql = new Form(statements, new TextPosition(1,1));

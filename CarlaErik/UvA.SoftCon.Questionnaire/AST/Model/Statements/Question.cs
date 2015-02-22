@@ -9,6 +9,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public class Question : Node, IStatement
     {
+        public override NodeType Type
+        {
+            get
+            {
+                return NodeType.Question;
+            }
+        }
+
         public DataType DataType
         {
             get;

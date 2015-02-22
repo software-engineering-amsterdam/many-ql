@@ -84,21 +84,21 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
         {
             bool value = Boolean.Parse(context.BOOL().GetText());
 
-            return new Literal<bool>(value, context.GetTextPosition());
+            return new BooleanLiteral(value, context.GetTextPosition());
         }
 
         public override IExpression VisitIntegerLiteral(QLParser.IntegerLiteralContext context)
         {
             int value = Int32.Parse(context.INT().GetText());
 
-            return new Literal<int>(value, context.GetTextPosition());
+            return new IntegerLiteral(value, context.GetTextPosition());
         }
 
         public override IExpression VisitDoubleLiteral(QLParser.DoubleLiteralContext context)
         {
             double value = Double.Parse(context.DOUBLE().GetText());
 
-            return new Literal<double>(value, context.GetTextPosition());
+            return new DoubleLiteral(value, context.GetTextPosition());
         }
 
         public override IExpression VisitStringLiteral(QLParser.StringLiteralContext context)
@@ -108,7 +108,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             // Remove the leading and trailing '"' characters from the string literal.
             value = value.Trim('"');
 
-            return new Literal<string>(value, context.GetTextPosition());
+            return new StringLiteral(value, context.GetTextPosition());
         }
     }
 }
