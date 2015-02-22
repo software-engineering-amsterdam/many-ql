@@ -54,7 +54,7 @@ public class ASTErrorHandler {
 
     public void displayWarnings() {
         if (this.hasWarnings()) {
-            System.out.println("\n\n\nFollowing errors found in the form:\n");
+            System.out.println("\n\n\nFollowing warnings found in the form:\n");
         }
         for (ASTNodeError warning : this.warnings) {
             this.displayNodeError(warning);

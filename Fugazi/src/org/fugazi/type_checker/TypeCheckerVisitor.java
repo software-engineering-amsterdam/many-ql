@@ -3,10 +3,7 @@ package org.fugazi.type_checker;
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
-import org.fugazi.ast.expression.literal.BOOL;
-import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.INT;
-import org.fugazi.ast.expression.literal.STRING;
+import org.fugazi.ast.expression.literal.*;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Logical;
 import org.fugazi.ast.expression.logical.Or;
@@ -22,14 +19,26 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
-import java.util.List;
+import java.util.*;
 
 public class TypeCheckerVisitor implements IASTVisitor {
 
     private final ASTErrorHandler astErrorHandler;
 
+    // used to detect duplicate  labels
+    private final List<String> questionLabels;
+
+    // used to detect duplicate question types
+    private final Map<String, Type> questions;
+
+    // used to detect circular dependencies
+    private final Map<ID, List<ID>> questionDependencies;
+
     public TypeCheckerVisitor(){
         this.astErrorHandler = new ASTErrorHandler();
+        this.questionLabels = new ArrayList<String>();
+        this.questions = new HashMap<String, Type>();
+        this.questionDependencies = new HashMap<ID, List<ID>>();
     }
 
     /**
@@ -51,10 +60,33 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitQuestion(Question question) {
-        System.out.println("Visting question: " + question.toString());
 
         Type type = question.getType();
         ID identifier = question.getIdentifier();
+        String label = question.getLabel();
+
+        // save and check if duplicate question with different type
+        boolean isQuestionDuplicate =
+            this.checkIfQuestionAlreadyDefinedWithDifferentType(
+                    identifier, type
+            );
+        if (isQuestionDuplicate) {
+            this.astErrorHandler.registerNewError(question,
+                    "Question already defined with different type."
+            );
+        } else {
+            this.saveQuestionType(identifier, type);
+        }
+
+        // save and check for duplicate labels
+        boolean isLabelDuplicate = this.checkIfLabelAlreadyExists(label);
+        if (isLabelDuplicate) {
+            this.astErrorHandler.registerNewWarning(question,
+                    "Label defined multiple times! Possible confusion."
+            );
+        } else {
+            this.saveQuestionLabel(label);
+        }
 
         type.accept(this);
         identifier.accept(this);
@@ -79,6 +111,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
         Type type = assignQuest.getType();
         ID identifier = assignQuest.getIdentifier();
         Expression computed = assignQuest.getComputedExpression();
+
+        // check if no circular reference
+//        System.out.println();System.out.println();
+//        System.out.println(computed);System.out.println();System.out.println();
 
         type.accept(this);
         identifier.accept(this);
@@ -162,13 +198,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean rightCorrect = this.checkIfInt(right);
 
         if (!leftCorrect) {
-            System.out.println("\n\nLeft not correct.");
             this.astErrorHandler.registerNewError( comparison,
                     "Left side of the binary comparison expression not of type int."
             );
         }
         if (!rightCorrect) {
-            System.out.println("\n\nRight not correct. ");
             this.astErrorHandler.registerNewError( comparison,
                     "Right side of the binary comparison expression not of type int."
             );
@@ -251,7 +285,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfInt(unary);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( unary,
                     "Unary numerical expression not of type int."
             );
@@ -298,7 +331,15 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitID(ID idLiteral) {
-        // all types allowed
+        // check if variable defined
+        // if it's type equals null => it is undefined
+        boolean questionDefined = this.checkIfDefined(idLiteral);
+        if (!questionDefined) {
+            this.astErrorHandler.registerNewError( idLiteral,
+                    "Question not defined."
+            );
+        }
+
         return null;
     }
 
@@ -308,7 +349,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfInt(intLiteral);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( intLiteral,
                     "Int Literal not of type int."
             );
@@ -321,7 +361,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfString(stringLiteral);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( stringLiteral,
                     "String Literal not of type string."
             );
@@ -334,7 +373,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         boolean exprCorrect = this.checkIfBool(boolLiteral);
 
         if (!exprCorrect) {
-            System.out.println("\n\nExpr not correct.");
             this.astErrorHandler.registerNewError( boolLiteral,
                     "Bool Literal not of type bool."
             );
@@ -374,6 +412,43 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private boolean checkIfString(Expression expression) {
         return expression.getSupportedTypes().contains(new StringType().getClass());
+    }
+
+    private boolean checkIfSameType(Type type1, Type type2) {
+        return (type1.getClass() == type2.getClass());
+    }
+
+    private boolean checkIfDefined(ID idLiteral) {
+        return (idLiteral.getType() != null);
+    }
+
+    private boolean checkIfLabelAlreadyExists(String label){
+        return this.questionLabels.contains(label);
+    }
+
+    private boolean checkIfQuestionAlreadyDefinedWithDifferentType(
+            ID questionId, Type questionType){
+        Type earlierQuestionType = this.questions.get(questionId.getName());
+        if (earlierQuestionType != null) {
+            return !this.checkIfSameType(earlierQuestionType, questionType);
+        }
+        return false;
+    }
+
+    /**
+     * =======================
+     * Private data handling functions
+     * =======================
+     */
+
+    private void saveQuestionLabel(String label) {
+        this.questionLabels.add(label);
+        return;
+    }
+
+    private void saveQuestionType(ID questionId, Type questionType) {
+        this.questions.put(questionId.getName(), questionType);
+        return;
     }
 
     /**
