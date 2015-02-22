@@ -1,4 +1,5 @@
 import com.klq.Visitor;
+import com.klq.ast.ANode;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.ast.ASTPrinter;
 import com.klq.gui.QuestionPage;
@@ -36,14 +37,14 @@ public class Main extends Application {
         ParseTree tree = parser.questionnaire();
 
         ParseTreeConverter eval = new ParseTreeConverter();
-        eval.visit(tree);
+        ANode ast = eval.visit(tree);
 
         Visitor visitor = new Visitor();
-        eval.getAst().accept(visitor);
+        ast.accept(visitor);
 
         //print AST for test purposes
         ASTPrinter printer = new ASTPrinter();
-        eval.getAst().accept(printer);
+        ast.accept(printer);
 
         questionList = visitor.getQuestList();
         launch();

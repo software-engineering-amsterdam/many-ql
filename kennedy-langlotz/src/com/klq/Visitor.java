@@ -13,6 +13,16 @@ import java.util.List;
  * Created by juriaan on 17-2-15.
  */
 public class Visitor implements IVisitor {
+    @Override
+    public void visit(ConditionalNode node) {
+
+    }
+
+    @Override
+    public void visit(GreaterThanNode node) {
+
+    }
+
     List<com.klq.logic.Question> questList = new ArrayList<com.klq.logic.Question>();
 
     @Override
