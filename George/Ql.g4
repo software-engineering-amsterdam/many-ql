@@ -1,72 +1,127 @@
 grammar Ql;
 
-form : 'form' ID '{' (question '\n'?)* (ifBlock '\n'?)* '}' ;
-question : ID ':' label type (expr?) ;
-ifBlock: IF '(' expr ')' '{' '}';
+form : 'form' id '{' (question)* (ifblock)* '}' ;
+ifblock: IF '(' expression ')' '{' (question)* '}';
 
-ID : [a-zA-Z_] [a-zA-Z_0-9]*;
+question : id ':' label type (expression?);
 
-label : STRING;
+label : STRINGLITERAL;
 
-type : BOOLEAN
-	 | STRING
-	 | INTEGER
-	 | DATE
-	 | DECIMAL
-	 | MONEY
-	 ;
-	 	
-expr : ID
-	 | '(' expr ')' 
-	 | expr LOGIC expr
-	 | '!' expr
-	 | expr COMPARISON expr
-	 | expr ARITHMETIC expr
+IF : 'if';
+
+type : 'boolean'
+	 | 'string'
+	 | 'integer'
+	 | 'date'
+	 | 'decimal'
+	 | 'money'
 	 ;
 	 
-IF : 'if';
- 
-BOOLEAN : TRUE
-		| FALSE
-		;
-		
-TRUE : 'TRUE'
-	 | 'true'
+id : STRINGLITERAL
+   | CHARACTERLITERAL
+   | INTEGERLITERAL
+   | DECIMALLITERAL
+   | DATELITERAL
+   | BOOLEANLITERAL
+   | MONEYLITERAL
+   ;
+   
+CHARACTERLITERAL : [a-zA-Z_] [a-zA-Z_0-9]*;
+
+expression : id													#ExpreId
+	 | '(' expression ')' 										#PriorExpr
+	 | expression op=('*'|'/') expression     			   		#MulDiv
+	 | expression op=('+'|'-') expression      			    	#AddSub
+	 | expression op=('<=' | '>=' | '>' | '<') expression   	#Comp
+	 | expression op=('==' | '!=') expression               	#EqNotEq
+	 | expression op='&&' expression							#And
+	 | expression op='||' expression							#Or
+	 | '!' expression											#Negate
 	 ;
+	 
+BOOLEANLITERAL : TRUE | FALSE;
+TRUE : 'true' | 'TRUE';
+FALSE : 'false' | 'FALSE';
 
-FALSE : 'FALSE'
-	  | 'false';
-				
-STRING: '"' (ESC|.)*? '"' ;
+INTEGERLITERAL : '-'?POSITIVENUM ;		
+DECIMALLITERAL : INTEGERLITERAL'.'POSITIVENUM ;
+
+DATELITERAL : POSITIVENUM'/'POSITIVENUM'/'POSITIVENUM ;
+MONEYLITERAL : INTEGERLITERAL
+			 | DECIMALLITERAL
+			 ;
+ 						
+STRINGLITERAL
+    :   '"' StringCharacters? '"'
+    ;
+	
 fragment
-ESC : '\\"' | '\\\\' ; // 2-char sequences \" and \\
+StringCharacters
+    :   StringCharacter+
+    ;
+	
+fragment
+StringCharacter
+    :   ~["\\]
+	|   EscapeSequence
+	;	
+	
+fragment
+EscapeSequence
+    :   '\\' [btnfr"'\\]
+    |   OctalEscape
+    |   UnicodeEscape
+    ;
+	
+fragment
+OctalEscape
+    :   '\\' OctalDigit
+    |   '\\' OctalDigit OctalDigit
+    |   '\\' ZeroToThree OctalDigit OctalDigit
+    ;
 
-INTEGER : '-'?['0-9']+;		  
-DECIMAL: INTEGER'.'['0-9']+ ;
-DATE: ;	  
-MONEY : 'money';
+fragment
+UnicodeEscape
+    :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
+    ;	
+	
+fragment
+OctalDigit
+    :   [0-7]
+    ;
+	
+fragment
+HexDigit
+    :   [0-9a-fA-F]
+    ;	
+	
+fragment
+ZeroToThree
+    :   [0-3]
+    ;	
 
-LOGIC : '&&'
-	  | '||'
-	  | '!='
-	  ;
-	  	  	 	 
-COMPARISON: '<'
-		 	'>'
-		 	'>='
-		 	'<='
-		 	'!='
-		 	'==' 
-		 	;
-		 	
-ARITHMETIC: '/'
-			'*'
-			'+'
-			'-'	
- 			;
- 			
-LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;
-COMMENT : '/*' .*? '*/' -> skip ; 
- 		
-WS : [ \t\r\n]+ -> skip ; 		
- 			
+POSITIVENUM : ['0-9']+;	
+
+MUL  : '*' ;
+DIV  : '/' ;
+SUB  : '-' ;
+ADD  : '+' ;
+GT   : '>' ;
+LT   : '<' ;
+EQ   : '==' ;
+NEQ  : '!=' ;
+GRT  : '>=' ;
+LOT  : '<=' ;
+AND  : '&&' ;
+OR   : '||' ;
+NOT  : '!' ;
+			
+COMMENT
+    :   '/*' .*? '*/' -> skip
+    ;
+
+LINE_COMMENT
+    :   '//' ~[\r\n]* -> skip
+    ;
+	
+WS : [ \t\r\n]+ -> skip ; 
