@@ -3,26 +3,20 @@
  */
 package gui;
 
-import java.awt.Color;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import ast.form.Form;
 
 public class MainFrame {
 
-	private JPanel contentPane, leftPanel, rightPanel;
-	private JFrame mainFrame;
+	private final JPanel contentPane;
+	private final JFrame mainFrame;
 	
 
 	public MainFrame() {
-		mainUi();
-	}	
-	
-	public final void mainUi() {
 		mainFrame = new JFrame("Questionnaire");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setBounds(100, 100, 450, 300);
@@ -34,27 +28,11 @@ public class MainFrame {
 		mainFrame.setContentPane(contentPane);	
 	}
 	
-	// maybe for later
-		public final void panelManagment() {
-			leftPanel = new JPanel();
-			leftPanel.setBackground(Color.GRAY);
-			leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
-			leftPanel.setVisible(true);
-			
-			rightPanel = new JPanel();
-			rightPanel.setBackground(Color.BLUE);
-			rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
-			rightPanel.setVisible(true);
-			
-			
-			contentPane.add(leftPanel);
-			contentPane.add(rightPanel);
-		}
-		
-	
-	public void getLabel(String text, boolean visibility) {
-		contentPane.add(new JLabel(text)).setVisible(visibility);
-		contentPane.add(new JTextField());
+	public void magic(Form form) {
+		JPanel mainpanel = GUIVisitor.maker(form);
+		contentPane.add(mainpanel);
+		mainFrame.setTitle(form.getFormId().toString());
+		mainFrame.pack();
 		mainFrame.setVisible(true);
 	}
 }

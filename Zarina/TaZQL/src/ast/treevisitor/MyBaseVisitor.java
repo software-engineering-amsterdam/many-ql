@@ -13,12 +13,15 @@ import ast.expression.arithmetic.AdditionExpression;
 import ast.expression.arithmetic.DivisionExpression;
 import ast.expression.arithmetic.MultiplicationExpression;
 import ast.expression.arithmetic.SubstractionExpression;
+import ast.expression.comparison.EqualExpression;
 import ast.expression.comparison.GreaterEqualExpression;
 import ast.expression.comparison.GreaterThanExpression;
 import ast.expression.comparison.LessEqualExpression;
 import ast.expression.comparison.LessThanExpression;
+import ast.expression.comparison.NotEqualExpression;
 import ast.expression.logical.AndExpression;
 import ast.expression.logical.OrExpression;
+import ast.expression.variables.BooleanVariable;
 import ast.expression.variables.Id;
 import ast.expression.variables.IntegerVariable;
 import ast.expression.variables.StringVariable;
@@ -42,8 +45,6 @@ import com.antlr4.zarina.tazql.TaZQLParser;
 
 public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	
-	//Map<String,Object> memory = new HashMap<String, Object>();
-	
 	public MyBaseVisitor() {}
 
 	@Override 
@@ -53,7 +54,6 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		for ( TaZQLParser.QuestionContext q : ctx.question() ) {
 			questions.add((Question) q.accept(this)); 
 		}
-		//memory.put(formid, questions);
 
 		return new Form(ctx.ID().getText(), questions);
 	}
@@ -63,14 +63,13 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	@Override 
 	public SimpleQuestion visitSimpleQuestion(@NotNull TaZQLParser.SimpleQuestionContext ctx) { 
 		return new SimpleQuestion( ctx.ID().getText(), 
-								  ctx.TEXT().getText(), 
+								   ctx.TEXT().getText().replaceAll("^\"|\"$", ""),
 								  (Type) ctx.type().accept(this)); 
-		
 	}
 	@Override 
 	public ComputationQuestion visitComputationQuestion(@NotNull TaZQLParser.ComputationQuestionContext ctx) {
 		return new ComputationQuestion( ctx.ID().getText(), 
-				  						ctx.TEXT().getText(), 
+				  						ctx.TEXT().getText().replaceAll("^\"|\"$", ""), 
 				  						(Type) ctx.type().accept(this),
 				  						(Expression) ctx.expression().accept(this));  
 	}
@@ -84,7 +83,7 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return new IfStatement((Expression) ctx.expression().accept(this), questions); 
 	}
 	
-	
+	// TODO: fix if-else... double
 	@Override 
 	public IfElseStatement visitIfelseStatement(@NotNull TaZQLParser.IfelseStatementContext ctx) { 
 		List<Question> ifQuestions = new ArrayList<Question>();
@@ -99,6 +98,7 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return new IfElseStatement((Expression) ctx.expression().accept(this),
 									ifQuestions, elseQuestions); 
 	}
+	// doesn't work either, expects list. Question elseQuestions = (Question) ctx.question().get(1).accept(this);
 	
 	
 	// EXPRESSIONS
@@ -170,6 +170,23 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return null; 
 	}
 	
+	@Override 
+	public BinaryExpression visitEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx) { 
+		if (ctx.op.getText().equals("!=")) {
+			return new NotEqualExpression( 
+					(Expression) ctx.expression(0).accept(this), 
+					(Expression) ctx.expression(1).accept(this)); 
+		}
+			
+		if (ctx.op.getText().equals("==")) {
+			return new EqualExpression( 
+					(Expression) ctx.expression(0).accept(this), 
+					(Expression) ctx.expression(1).accept(this)); 
+		}	
+		return null;  
+	}
+	
+	
 	@Override public BinaryExpression visitAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx) { 
 		return new AndExpression( 
 				(Expression) ctx.expression(0).accept(this), 
@@ -204,20 +221,21 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		
 	@Override 
 	public StringVariable visitText(@NotNull TaZQLParser.TextContext ctx) { 
-		return new StringVariable(ctx.TEXT().getText().substring(1, ctx.getText().length()-1)); // removing first and last characters
+		return new StringVariable(ctx.TEXT().getText().replaceAll("^\"|\"$", "")); // removing first and last characters
 	}
 	
 	@Override 
 	public IntegerVariable visitNumber(@NotNull TaZQLParser.NumberContext ctx) { 
 		return new IntegerVariable(Integer.valueOf(ctx.NUMBER().getText()));
 	}
-	/*
-	@Override public BooleanVariable visitBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx) { 
-		return ; 
-	}
-	*/
 	
-	// Question types. 
+	@Override public BooleanVariable visitBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx) { 
+		return new BooleanVariable(Boolean.valueOf(ctx.BOOLEAN().getText()));
+	}
+	
+	
+	//  *** Question types ***
+	
 	@Override public ChoiceType visitBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx) { return new ChoiceType(); }
 	
 	@Override public DigitsType visitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx) { return new DigitsType(); }

@@ -6,7 +6,7 @@ import ast.expression.IExpressionVisitor;
 
 public class Id extends Expression {
 
-	private String id;
+	private final String id;
 	
 	public Id(String id) {
 		this.id = id;

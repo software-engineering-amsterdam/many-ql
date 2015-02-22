@@ -1,31 +1,39 @@
 package ast.form;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ast.AST;
-import ast.expression.variables.Id;
 import ast.question.Question;
 
 public class Form extends AST {
-	private final Id formId;
-	private ArrayList<Question> arrayQuestions;
+	private final String formId;
+	private List<Question> arrayQuestions;
 	
 	
-	public Form (Id formId, ArrayList<Question> arrayQuestions) {
+	public Form (String formId, List<Question> arrayQuestions) {
 		this.formId = formId;
 		this.arrayQuestions = arrayQuestions;
 	}	
 	
-	public Id getFormId(){
+	public String getFormId(){
 		return formId;
 	}
 	
-	public ArrayList<Question> getQuestionText(){
+	public List<Question> getQuestionText(){
 		return arrayQuestions;
 	}
 	
-
+	
 	public <T> T accept(IFormVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+	
+	public String toString() {
+		String output = "FORM " +this.formId + " { ";
+		for(Question q: arrayQuestions)
+			output += q.toString() + "\n";
+		output += " } END ";
+		
+		return output;
 	}
 }

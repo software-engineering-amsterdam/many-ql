@@ -1,31 +1,24 @@
 package ast.type;
 
-public class ChoiceType extends Type {
+public class UndefinedType extends Type {
 	
-	public ChoiceType() {}
-	
-	@Override
 	public String getValue() {
-		return "choice";
+		return null;
 	}
-			
+	
 	@Override
 	public String toString() {
-		return "choice";
+		return "undefined";
 	}
-		
+	
 	@Override
 	public <T> T accept(ITypeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
-	@Override
-	public boolean isCompatibleToBoolean() {
-		return true;
-	}
-	
+		
 	@Override
 	public boolean isCompatibleToType(Type type) {
-		return type.isCompatibleToBoolean();
+		return false;
 	}
+
 }
