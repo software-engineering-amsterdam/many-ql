@@ -164,7 +164,12 @@ public class QLParseTreeListener extends QLBaseListener {
 
     public void exitExpression(QLParser.ExpressionContext ctx) {
         Expression e = (Expression) nodeStack.pop();
-        nodeStack.peek().addChild(e);
+        Node peek = nodeStack.peek();
+        peek.addChild(e);
+        if (peek instanceof Conditional) {
+            ((Conditional) peek).setExpression(e);
+        }
+
     }
 
     public void enterExpressionTimes(QLParser.ExpressionTimesContext ctx) {

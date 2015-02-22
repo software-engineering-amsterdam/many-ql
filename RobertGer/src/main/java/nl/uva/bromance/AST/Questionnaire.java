@@ -8,6 +8,7 @@ public class Questionnaire extends Node {
         if (id != null) {
             this.identifier = id;
         } else {
+            //TODO: Consider mocing this to the typechecker.
             System.err.println("Root Error: No identifier specified");
         }
     }

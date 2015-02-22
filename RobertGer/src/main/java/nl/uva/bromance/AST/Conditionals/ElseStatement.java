@@ -14,9 +14,20 @@ import java.util.List;
  */
 public class ElseStatement extends Node implements Conditional {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Form.class, Label.class, Calculation.class));
+    private Expression expression;
 
     public ElseStatement(int lineNumber) {
         super(lineNumber, ElseStatement.class);
         super.setAcceptedParents(parentsAllowed);
+    }
+
+    @Override
+    public Expression getExpression() {
+        return expression;
+    }
+
+    @Override
+    public void setExpression(Expression expression) {
+        this.expression = expression;
     }
 }
