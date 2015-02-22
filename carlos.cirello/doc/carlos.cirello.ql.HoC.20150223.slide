@@ -15,22 +15,6 @@ http://cirello.org/
 
 - Interpreter, Symbol Tables and Frontends are separated - independent computations.
 
-* Frontend - Unified Interface
-
-GUI needs:
-
-- Handshake - move on when ready
-- Render a Question
-- Forward the content of a Question
-
-CSV I/O needs:
-
-- Handshake - move on when ready
-- Render a Question
-- Forward the content of a Question
-
-_One_protocol_is_enough_for_all_communication_
-
 * Symbol Table
 .code ../interpreter/symboltable/table.go /^func \(s \*SymbolTable\) loop/,/^}/
 
@@ -41,10 +25,10 @@ _One_protocol_is_enough_for_all_communication_
 .code ../interpreter/visitor/typechecker/symboltable.go /case event.SymbolRead/,/r\.Name\)\)\n\t\t\t}\n\n/
 
 * Interpreter - Type Checker
-.code ../interpreter/loop.go /func New/,/fromFrontend :=/
+.code ../interpreter/loop.go /func New/,/return toFrontend, fromFrontend\n}/
 
 * Interpreter - Type Checker - continued
-.code ../interpreter/loop.go /fromFrontend :=/,/return toFrontend, fromFrontend\n}/
+.code ../interpreter/loop.go /func typecheck/,/}\n}/
 
 * Type Checker - playground
 .play playground.go /func main/,/}\n}/

@@ -23,7 +23,7 @@ func main() {
 		}
 	}`), "test.ql")
 	tc, st := typechecker.New() // HL
-	tc.Visit(form)
+	tc.Visit(form)              // HL
 	if err := st.Err(); err != nil {
 		for _, e := range err {
 			fmt.Println(wordwrap.WrapString(fmt.Sprintln("Error:", e), 40))
