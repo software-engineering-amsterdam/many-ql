@@ -17,10 +17,41 @@ public class ComparisonExpression extends AExpression {
         String left = comparators[0];
         String right = comparators[1];
 
+        ComparatorOperation co = null;
+        if (content.contains(ComparatorOperation.GREATER_THAN.getOperator()))
+            co = ComparatorOperation.GREATER_THAN;
+        else if (content.contains(ComparatorOperation.GREATER_EQUAL.getOperator()))
+            co = ComparatorOperation.GREATER_EQUAL;
+        else if (content.contains(ComparatorOperation.LESS_EQUAL.getOperator()))
+            co = ComparatorOperation.LESS_EQUAL;
+        else if (content.contains(ComparatorOperation.LESS_THAN.getOperator()))
+            co = ComparatorOperation.LESS_THAN;
+        else if (content.contains(ComparatorOperation.EQUAL.getOperator()))
+            co = ComparatorOperation.EQUAL;
+        else if (content.contains(ComparatorOperation.NOT_EQUAL.getOperator()))
+            co = ComparatorOperation.NOT_EQUAL;
+
+
         int result = parse(left).compareTo(parse(right));
+        if (result == AComparator.UNCOMPARABLE)
+            throw new IllegalArgumentException("The two expressions are not comparable!");
 
-
-        return null;
+        switch (co){
+            case LESS_EQUAL:
+                return (new Boolean(result == -1)).toString();
+            case LESS_THAN:
+                return (new Boolean(result == -1 || result == 0)).toString();
+            case EQUAL:
+                return (new Boolean(result == 0)).toString();
+            case GREATER_EQUAL:
+                return (new Boolean(result == 0 || result == 1)).toString();
+            case GREATER_THAN:
+                return (new Boolean(result == 1)).toString();
+            case NOT_EQUAL:
+                return (new Boolean(result == 1 || result == -1)).toString();
+            default:
+                throw new IllegalArgumentException("Could not evaluate!");
+        }
     }
 
     private AComparator parse(String comparator){
