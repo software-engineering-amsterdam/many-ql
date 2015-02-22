@@ -6,8 +6,19 @@ using System.Threading.Tasks;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
+    /// <summary>
+    /// A name that uniquely defines or refers to a variable or question.
+    /// </summary>
     public class Identifier : Node, IExpression
     {
+        public override NodeType Type
+        {
+            get
+            {
+                return NodeType.Identifier;
+            }
+        }
+
         public string Name
         {
             get;
