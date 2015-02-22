@@ -13,7 +13,11 @@ public class Tokenizer {
     private AToken lastToken;
 
     public Tokenizer(CalculationExpression calculationExpression) {
-        expression = calculationExpression.getContent().toCharArray();
+        String content = calculationExpression.getContent();
+        if (content.startsWith("-")){
+            content = content.replaceFirst("-", "0-"); //workaround?!
+        }
+        expression = content.toCharArray();
         length = expression.length;
     }
 
