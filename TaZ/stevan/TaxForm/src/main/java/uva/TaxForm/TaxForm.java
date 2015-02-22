@@ -5,6 +5,8 @@ import java.net.URL;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+
+import uva.TaxForm.AST.Visitors.CommonTaxFormVisitor;
 import uva.TaxForm.antlr4.TaxFormLexer;
 import uva.TaxForm.antlr4.TaxFormParser;
 

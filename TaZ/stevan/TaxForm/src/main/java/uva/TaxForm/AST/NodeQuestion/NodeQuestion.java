@@ -1,12 +1,12 @@
 package uva.TaxForm.AST.NodeQuestion;
 
 import uva.TaxForm.AST.Node;
-import uva.TaxForm.AST.NodeExp.NodeExp;
+import uva.TaxForm.AST.NodeExp.Expression;
 
 public class NodeQuestion extends Node {
 	
 	private String label;
-	private NodeExp exp;
+	private Expression<?> exp;
 	
 	public String getLabel() {
 		return label;
@@ -24,11 +24,11 @@ public class NodeQuestion extends Node {
 		super.setLevel(level);
 	}
 	
-	public NodeExp getExpression() {
+	public Expression<?> getExpression() {
 		return this.exp;
 	}
 
-	public void setExpression(NodeExp exp) {
+	public void setExpression(Expression<?> exp) {
 		this.exp = exp;
 	}
 }

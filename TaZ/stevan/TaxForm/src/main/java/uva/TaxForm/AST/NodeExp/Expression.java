@@ -2,7 +2,7 @@ package uva.TaxForm.AST.NodeExp;
 
 import uva.TaxForm.AST.Node;
 
-public class NodeExpArithmetic extends NodeExp  {
+public class Expression<T> extends NodeExp  {
 
 	private String operator;
 	

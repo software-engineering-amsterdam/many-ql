@@ -1,4 +1,4 @@
-package uva.TaxForm.AST.NodeVar;
+package uva.TaxForm.Trash;
 
 public class VarMoney {
 	

@@ -1,6 +1,6 @@
-package uva.TaxForm.AST.NodeQuestion;
+package uva.TaxForm.Trash;
 
-import uva.TaxForm.AST.NodeVar.VarMoney;
+import uva.TaxForm.AST.NodeQuestion.NodeQuestion;
 
 public class NodeQuestionMoney extends NodeQuestion {
 

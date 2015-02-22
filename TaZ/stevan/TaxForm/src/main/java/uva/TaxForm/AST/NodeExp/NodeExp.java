@@ -6,11 +6,6 @@ import uva.TaxForm.AST.Node;
 
 public class NodeExp extends Node {
 
-	NodeExp() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	public boolean eval() {
 		
 		//TODO: Evaluate the expression and give true/false back if expression is valid/invalid

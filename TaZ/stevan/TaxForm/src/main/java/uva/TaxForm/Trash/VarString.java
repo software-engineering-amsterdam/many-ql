@@ -1,4 +1,6 @@
-package uva.TaxForm.AST.NodeVar;
+package uva.TaxForm.Trash;
+
+import uva.TaxForm.AST.NodeVar.NodeVar;
 
 public class VarString extends NodeVar{
 

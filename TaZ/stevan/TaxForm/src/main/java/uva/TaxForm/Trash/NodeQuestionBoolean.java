@@ -1,6 +1,6 @@
-package uva.TaxForm.AST.NodeQuestion;
+package uva.TaxForm.Trash;
 
-import uva.TaxForm.AST.NodeVar.VarBoolean;
+import uva.TaxForm.AST.NodeQuestion.NodeQuestion;
 
 public class NodeQuestionBoolean extends NodeQuestion {
 

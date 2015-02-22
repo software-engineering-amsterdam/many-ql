@@ -76,7 +76,7 @@ varType : ( BOOLEAN | MONEY | INT | STRING ) ;
 
 question : label varName ':' (varType | computed)? ;
 
-computed : varType ASSIGN '(' expression+ ')' ;
+computed : varType ASSIGN '(' allMighty+ ')' ;
 
 /*
  * Conditional structures associate an enabling condition to a question, in which
@@ -103,6 +103,11 @@ condition
  * > , >= , <= , != and == ) and basic arithmetic ( + , - , * and / ). The required types are:
  * boolean, string, integer, date and decimal and money/currency.
  */
+ 
+allMighty
+	: expression
+	;
+	
 expression
 	: varName											#singleExpression
 	| AND varName										#andExpression
@@ -114,10 +119,10 @@ expression
 	| UPPER_EQUAL varName								#upperEqualExpression
 	| EQUAL varName										#equalExpression
 	| NOT_EQUAL varName									#notEqualExpression
-	| MINUS varName										#minusExpression
-	| ADD varName										#addExpression
-	| MULTIPLY varName									#multiplyExpression
-	| DIVIDE varName									#divideExpression
+	| MINUS allMighty									#minusExpression
+	| ADD allMighty										#addExpression
+	| MULTIPLY allMighty								#multiplyExpression
+	| DIVIDE allMighty									#divideExpression
 	;
 
 
