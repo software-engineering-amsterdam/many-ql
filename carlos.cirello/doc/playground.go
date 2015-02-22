@@ -22,7 +22,7 @@ func main() {
 			"question3" question3 bool
 		}
 	}`), "test.ql")
-	tc, st := typechecker.New()
+	tc, st := typechecker.New() // HL
 	tc.Visit(form)
 	if err := st.Err(); err != nil {
 		for _, e := range err {
