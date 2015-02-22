@@ -240,6 +240,36 @@ func TestNegation(t *testing.T) {
 	}
 }
 
+func TestTrueFalseKeywords(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+			form SomeForm {
+				"bool question"	boolq bool
+				if (boolq == true) {
+					"sub question?" subq string
+				}
+			}
+		`),
+		"test.ql",
+	)
+
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+
+	rootCondition := form.Stack()[1].Action().(*ast.IfNode).Conditions()
+	if got, ok := rootCondition.(*ast.EqualsNode); !ok {
+		t.Errorf("severe grammar error: expected EqualsNode. got: %T", got)
+	}
+
+	firstChild := rootCondition.(*ast.EqualsNode).DoubleTermNode.RightTerm()
+	if got, ok := firstChild.(*ast.TermNode); !ok {
+		t.Errorf("severe grammar error: expected TermNode. got: %T", got)
+	}
+
+}
+
 func TestInvalidSyntax(t *testing.T) {
 	defer func() {
 		recover()

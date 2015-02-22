@@ -38,7 +38,7 @@ func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
 	)
 	tc, st := New()
 	tc.Visit(form)
-	if err := st.Err(); err != nil {
+	if err := st.Err(); err == nil {
 		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
 	}
 }
@@ -97,4 +97,19 @@ func TestCyclicDependencies(t *testing.T) {
 	tc, _ := New()
 	tc.Visit(form)
 	t.Errorf("Typecheck error: Invalid operations should trigger panic")
+}
+
+func TestRepeatedCaptions(t *testing.T) {
+	form := parser.ReadQL(
+		strings.NewReader(`form SomeForm {
+			"QuestionLabel" question1 string
+			"QuestionLabel" question2 numeric
+		}`),
+		"test.ql",
+	)
+	tc, st := New()
+	tc.Visit(form)
+	if warn := st.Warn(); warn == nil {
+		t.Errorf("Typecheck error: duplicated captions should trigger warnings")
+	}
 }

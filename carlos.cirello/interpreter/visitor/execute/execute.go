@@ -63,7 +63,7 @@ func (exec Execute) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(v *visitor.Visitor, i *ast.IfNode) {
-	if exec.resolveComparisonNode(i.Conditions()) {
+	if exec.ResolveComparisonNode(i.Conditions()) {
 		for _, actionNode := range i.Stack() {
 			v.Visit(actionNode)
 		}

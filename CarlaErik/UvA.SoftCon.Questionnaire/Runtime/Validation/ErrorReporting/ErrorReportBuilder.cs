@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model;
+using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 {
@@ -53,6 +54,32 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
                 string message = String.Format("Question '{0}' has a duplicate label.", duplicateLabel.Id.Name);
 
                 AddWarningMessage(message, duplicateLabel.Position);
+            }
+        }
+
+        public void GenerateTypeCheckingMessages(TypeCheckingVisitor visitor)
+        {
+            foreach (var assignment in visitor.InvalidAssignments)
+            {
+                string message = String.Format("Cannot assign a value of type '{0}' to variable '{1}' of type '{2}'.",
+                    StringEnum.GetStringValue(assignment.ExpressionType), assignment.Id.Name, StringEnum.GetStringValue(assignment.TargetType));
+
+                AddErrorMessage(message, assignment.Id.Position);
+            }
+
+            foreach (var ifStatement in visitor.InvalidIfStatements)
+            {
+                string message = "Condition of if-statement is not a boolean expression.";
+
+                AddErrorMessage(message, ifStatement.Position);
+            }
+
+            foreach (var invalidExpression in visitor.InvalidBinaryExpressions)
+            {
+                string message = String.Format("Operator '{0}' can not be applied to operands of type '{1}' and '{2}'.",
+                    StringEnum.GetStringValue(invalidExpression.Expression.Operation), StringEnum.GetStringValue(invalidExpression.LeftType), StringEnum.GetStringValue(invalidExpression.RightType));
+
+                AddErrorMessage(message, invalidExpression.Expression.Position);
             }
         }
 
