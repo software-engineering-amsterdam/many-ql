@@ -1,10 +1,12 @@
 package uva.ql.ast.expressions.literals;
 
 import uva.ql.ast.CodeLines;
+import uva.ql.ast.expressions.ExpressionVisitor;
+import uva.ql.ast.value.BooleanValue;
 
-public class BooleanLiteral extends Value<Boolean>{
+public class BooleanLiteral extends Literal{
 	
-	boolean value;
+	private boolean value;
 	
 	public BooleanLiteral(boolean _value, CodeLines _codeLines){
 		super(_codeLines);
@@ -13,12 +15,16 @@ public class BooleanLiteral extends Value<Boolean>{
 	public BooleanLiteral(CodeLines _codeLines){
 		super(_codeLines);
 	}
-	public Boolean getValue() {
-		return this.value;
+	@Override
+	public BooleanValue evaluate() {
+		return new BooleanValue(this.value);
 	}
 	@Override
 	public String toString() {
 		return "BooleanLiteral(" + String.valueOf(this.value) + ")";
 	}
-	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitBooleanLiteral(this);
+	}
 }

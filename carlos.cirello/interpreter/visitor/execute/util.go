@@ -64,6 +64,10 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 
 		q := <-ret
 
+		if q == nil {
+			return nil
+		}
+
 		switch q.Type() {
 		case ast.BoolQuestionType:
 			content := q.Content().(*ast.BoolQuestion)

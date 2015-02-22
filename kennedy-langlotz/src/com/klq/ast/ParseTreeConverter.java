@@ -6,16 +6,29 @@ import parser.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
  * Created by juriaan on 16-2-15.
  */
 public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
-    private QuestionnaireNode ast = new QuestionnaireNode();
+    /*==================================================================================================================
+    Statements
+     ==================================================================================================================*/
 
     @Override
-    public ANode visitUncondQuestion(@NotNull KLQParser.UncondQuestionContext ctx) {
+    public ANode visitQuestionnaire(KLQParser.QuestionnaireContext ctx) {
+        QuestionnaireNode ast = new QuestionnaireNode();
+
+        for(KLQParser.QuestionContext question : ctx.question()){
+            ast.getChildren().add(visit(question));
+        }
+        return ast;
+    }
+
+    @Override
+    public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
 
         if(ctx.answerSet() == null){
@@ -25,11 +38,24 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
             ANode child = visit(ctx.answerSet());
             questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), ctx.text.getText(), child);
         }
-
-        ast.getChildren().add(questionNode);
         return questionNode;
     }
 
+    @Override
+    public ANode visitCondQuestion(KLQParser.CondQuestionContext ctx) {
+        ANode condition = visit(ctx.expr());
+        ArrayList<ANode> body = new ArrayList<ANode>();
+
+        for(KLQParser.QuestionContext question : ctx.question()){
+            body.add(visit(question));
+        }
+
+        return new ConditionalNode(condition, body);
+    }
+
+    /*==================================================================================================================
+        Primitives
+         ==================================================================================================================*/
     @Override
     public ANode visitDate(KLQParser.DateContext ctx) {
         String dateString = ctx.Date().getText();
@@ -62,6 +88,9 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
         return stringNode;
     }
 
+    /*==================================================================================================================
+    Expressions
+     ==================================================================================================================*/
     @Override
     public ANode visitAddSub(KLQParser.AddSubContext ctx) {
         ANode leftChild = visit(ctx.expr(0));
@@ -93,11 +122,22 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
     }
 
     @Override
-    public ANode visitParens(KLQParser.ParensContext ctx) {
-        return visit(ctx.expr());
+    public ANode visitComparators(@NotNull KLQParser.ComparatorsContext ctx) {
+        ANode leftChild = visit(ctx.expr(0));
+        ANode rightChild = visit(ctx.expr(1));
+        ANode node;
+
+        if(ctx.operator.getType() == KLQParser.G) {
+            node = new GreaterThanNode(leftChild, rightChild);
+        }
+        else{
+            node = new GreaterThanNode(leftChild, rightChild);
+        }
+        return node;
     }
 
-    public QuestionnaireNode getAst() {
-        return ast;
+    @Override
+    public ANode visitParens(KLQParser.ParensContext ctx) {
+        return visit(ctx.expr());
     }
 }

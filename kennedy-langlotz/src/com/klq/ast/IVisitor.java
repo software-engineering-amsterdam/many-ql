@@ -18,4 +18,6 @@ public interface IVisitor {
     public void visit(DivideNode node);
     public void visit(AddNode node);
     public void visit(SubtractNode node);
+    public void visit(ConditionalNode node);
+    public void visit(GreaterThanNode node);
 }

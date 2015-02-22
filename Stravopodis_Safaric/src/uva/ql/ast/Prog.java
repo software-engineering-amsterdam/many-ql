@@ -1,5 +1,8 @@
 package uva.ql.ast;
 
+import uva.ql.ast.value.GenericValue;
+import uva.ql.ast.visitor.VisitorInterface;
+
 public class Prog extends ASTNode{
 	
 	private Form form;
@@ -15,5 +18,12 @@ public class Prog extends ASTNode{
 	@Override
 	public String toString(){
 		return "Prog(" + this.form.toString() + ")";
+	}
+	@Override
+	public GenericValue<?> evaluate() {
+		return null;
+	}
+	public <T> void accept(VisitorInterface<T> visitor){
+		visitor.visitProg(this);
 	}
 }

@@ -1,11 +1,12 @@
 package nl.uva.bromance;
 
 import javafx.stage.Stage;
+import nl.uva.bromance.AST.Conditionals.ExpressionEvaluator;
 import nl.uva.bromance.AST.Questionnaire;
-import nl.uva.bromance.typechecking.TypeChecker;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;
+import nl.uva.bromance.typechecking.TypeChecker;
 import nl.uva.bromance.visualization.Visualizer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -33,6 +34,7 @@ public class Runner {
         walker.walk(listener, tree);
 
         Questionnaire ast = listener.getAst();
+        ExpressionEvaluator.evaluateNode(ast);
         TypeChecker tc = new TypeChecker(ast);
         tc.runChecks();
 

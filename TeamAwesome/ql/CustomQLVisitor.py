@@ -45,8 +45,6 @@ class CustomQLVisitor(QLVisitor):
         lineNumber = ctx.start.line
 
         return ASTNodes.QuestionStatement(identifier, text, question_type, lineNumber, expr = expr)
-        #return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by QLParser#if_statement.
     def visitIf_statement(self, ctx):

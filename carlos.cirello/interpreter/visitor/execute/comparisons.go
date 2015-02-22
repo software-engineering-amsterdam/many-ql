@@ -95,6 +95,8 @@ func (exec Execute) BoolNegNode(n *ast.BoolNegNode) bool {
 	return !exec.ResolveComparisonNode(n.Term())
 }
 
+// ResolveComparisonNode is the helper function to process all comparison
+// operations
 func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 	conditionState := true
 

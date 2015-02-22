@@ -1,0 +1,50 @@
+QL & QLS
+Creating two programming languages by the book
+2 Feb 2015
+Tags: language, compiler, software construction
+
+Carlos Cirello
+University of Amsterdam
+carlos.cirello.nl@gmail.com
+http://cirello.org/
+@dericofilho
+
+* Architecture
+
+.image architecture.png
+
+- Interpreter, Symbol Tables and Frontends are separated - independent computations.
+
+* Frontend - Unified Interface
+
+GUI needs:
+
+- Handshake - move on when ready
+- Render a Question
+- Forward the content of a Question
+
+CSV I/O needs:
+
+- Handshake - move on when ready
+- Render a Question
+- Forward the content of a Question
+
+_One_protocol_is_enough_for_all_communication_
+
+* Symbol Table
+.code ../interpreter/symboltable/table.go /^func \(s \*SymbolTable\) loop/,/^}/
+
+* Interpreter and Symbol Table
+.code ../interpreter/loop.go /case event.Answers/,/fallthrough/
+
+* Symbol Table - Type Checker
+.code ../interpreter/visitor/typechecker/symboltable.go /case event.SymbolRead/,/r\.Name\)\)\n\t\t\t}\n\n/
+
+* Interpreter - Type Checker
+.code ../interpreter/loop.go /func New/,/fromFrontend :=/
+
+* Interpreter - Type Checker - continued
+.code ../interpreter/loop.go /fromFrontend :=/,/return toFrontend, fromFrontend\n}/
+
+* Type Checker - playground
+.play playground.go /func main/,/}\n}/
