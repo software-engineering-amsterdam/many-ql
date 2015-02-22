@@ -10,10 +10,7 @@ import nl.uva.bromance.AST.Range.Range;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Question extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Form.class, IfStatement.class, ElseStatement.class, ElseIfStatement.class));
@@ -31,16 +28,16 @@ public class Question extends Node {
         this.identifier = id.substring(1, id.length() - 1);
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public Optional<String> getIdentifier() {
+        return Optional.ofNullable(identifier);
     }
 
     public String getQuestionString() {
         return questionString;
     }
 
-    public Range getQuestionRange() {
-        return questionRange;
+    public Optional<Range> getQuestionRange() {
+        return Optional.ofNullable(questionRange);
     }
 
     public void setQuestionString(String qs) {
@@ -80,7 +77,7 @@ public class Question extends Node {
     }
 
     @Override
-    public Pane visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent) {
         parent.getChildren().add(new Label(questionString));
         if (isQuestionTypeInteger()) {
             parent.getChildren().add(new TextField());
@@ -96,26 +93,27 @@ public class Question extends Node {
                 parent.getChildren().add(radioButton);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
 
     //TODO: Think of something to maybe fix this god awful mess of if's
     @Override
     public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
-        if (getIdentifier() == null) {
-            throw new TypeCheckingException("TypeChecker Error @ line" + getLineNumber() + ": No identifier specified");
-        } else {
-            references.put(getIdentifier(), this);
+        if (getIdentifier().isPresent()) {
 
-            if (getQuestionString() == null) {
-                throw new TypeCheckingException("Question Error: No question asked");
-            }
-            if ((isQuestionTypeBoolean() || isQuestionTypeString() && getQuestionRange() != null)) {
+            references.put(getIdentifier().get(), this);
+            if (references.containsKey(getIdentifier()))
+                if (getQuestionString() == null) {
+                    throw new TypeCheckingException("Question Error: No question asked");
+                }
+            if ((isQuestionTypeBoolean() || isQuestionTypeString()) && getQuestionRange().isPresent()) {
                 throw new TypeCheckingException.QuestionRangeTypeCheckingException("TypeChecker Error @ line " + getLineNumber() + ": Question " + getIdentifier() + ", no range allowed for types boolean and string.");
             }
             //TODO: Fix answerType error;
-            throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier());
+            throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
+        } else {
+            throw new TypeCheckingException("TypeChecker Error @ line" + getLineNumber() + ": No identifier specified");
         }
     }
 

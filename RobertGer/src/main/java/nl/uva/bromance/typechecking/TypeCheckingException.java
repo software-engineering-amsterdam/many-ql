@@ -21,4 +21,10 @@ public class TypeCheckingException extends Exception {
 
     }
 
+    public static class NoIdentifierDefinedTypeCheckingException extends TypeCheckingException {
+        public NoIdentifierDefinedTypeCheckingException(int lineNumber) {
+            super("TypeChecker Error @ line " + lineNumber + "no identifier defined.");
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ import nl.uva.bromance.AST.Conditionals.IfStatement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,7 +62,7 @@ public class LabelText extends Node {
     }
 
     @Override
-    public Pane visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent) {
 
         parent.getChildren().add(new javafx.scene.control.Label(this.text));
 

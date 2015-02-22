@@ -8,6 +8,7 @@ import nl.uva.bromance.visualization.Visualizable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public abstract class Node implements Visualizable, TypeCheckable {
     private List<Node> children;
@@ -76,8 +77,8 @@ public abstract class Node implements Visualizable, TypeCheckable {
     }
 
     @Override
-    public Pane visualize(Pane parent) {
+    public Optional<? extends Pane> visualize(Pane parent) {
 
-        return null;
+        return Optional.empty();
     }
 }

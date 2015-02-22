@@ -7,11 +7,13 @@ import javafx.stage.Stage;
 import nl.uva.bromance.AST.Node;
 import nl.uva.bromance.AST.Questionnaire;
 
+import java.util.Optional;
+
 public class Visualizer {
 
     public void visualize(Questionnaire ast, Stage stage) {
-        VBox root = new VBox();
-        Scene scene = new Scene(root);
+        Optional<? extends Pane> root = Optional.of(new VBox());
+        Scene scene = new Scene(root.get());
 
         if (ast.hasChildren()) {
             visualChildren(ast, root);
@@ -21,17 +23,17 @@ public class Visualizer {
         stage.show();
     }
 
-    private void visualChildren(Node node, Pane parent) {
+    private void visualChildren(Node node, Optional<? extends Pane> parent) {
         for (Node child : node.getChildren()) {
             if (child.hasChildren()) {
-                Pane newParent = child.visualize(parent);
-                if (newParent != null) {
+                Optional<? extends Pane> newParent = child.visualize(parent.get());
+                if (newParent.isPresent()) {
                     visualChildren(child, newParent);
                 } else {
                     visualChildren(child, parent);
                 }
             } else {
-                child.visualize(parent);
+                child.visualize(parent.get());
             }
         }
     }

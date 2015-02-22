@@ -1,5 +1,7 @@
 package nl.uva.bromance;
 
+import java.util.Optional;
+
 /**
  * Created by Gerrit Krijnen on 2/17/2015.
  */
@@ -53,16 +55,16 @@ public class Answer {
         }
     }
 
-    public int getIntAnswer() {
-        return intAnswer;
+    public Optional<Integer> getIntAnswer() {
+        return Optional.of(intAnswer);
     }
 
-    public boolean getBoolAnswer() {
-        return boolAnswer;
+    public Optional<Boolean> getBoolAnswer() {
+        return Optional.of(boolAnswer);
     }
 
-    public String getStringAnswer() {
-        return stringAnswer;
+    public Optional<String> getStringAnswer() {
+        return Optional.of(stringAnswer);
     }
 
 

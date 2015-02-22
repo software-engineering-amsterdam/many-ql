@@ -1,5 +1,6 @@
 package nl.uva.bromance.AST.Conditionals;
 
+import nl.uva.bromance.AST.Input;
 import nl.uva.bromance.AST.Node;
 
 import java.util.ArrayList;
@@ -7,8 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Expression extends Node {
-    //TODO: Add Input Class
-    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class));
+    private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
 
     public Expression(int lineNumber) {

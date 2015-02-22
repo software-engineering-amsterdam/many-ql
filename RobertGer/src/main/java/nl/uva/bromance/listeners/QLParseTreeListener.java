@@ -2,10 +2,7 @@ package nl.uva.bromance.listeners;
 
 
 import nl.uva.bromance.AST.*;
-import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
-import nl.uva.bromance.AST.Conditionals.ElseStatement;
-import nl.uva.bromance.AST.Conditionals.Expression;
-import nl.uva.bromance.AST.Conditionals.IfStatement;
+import nl.uva.bromance.AST.Conditionals.*;
 import nl.uva.bromance.AST.Range.Between;
 import nl.uva.bromance.AST.Range.BiggerThan;
 import nl.uva.bromance.AST.Range.SmallerThan;
@@ -14,6 +11,8 @@ import nl.uva.bromance.parsers.QLParser;
 
 import java.util.Stack;
 
+//TODO: Maybe consider splitting this class into multiple listeners. It's getting kinda large.
+//TODO: Use Optional to make it obvious that the value can be null. Makes the code prettier as well.
 public class QLParseTreeListener extends QLBaseListener {
 
     private Stack<Node> nodeStack = new Stack<>();
@@ -127,24 +126,32 @@ public class QLParseTreeListener extends QLBaseListener {
         nodeStack.push(new ElseIfStatement(ctx.start.getLine()));
     }
 
-    //TODO: Maybe create something like an interface for nodes that allow if/elseif/else statements (think hasIfStatemnt etc.)
+    //TODO: Not happy with this solution. Maybe think of something that doesn't put the statements into the Node twice.
     public void exitIfStatement(QLParser.IfStatementContext ctx) {
         IfStatement ifs = (IfStatement) nodeStack.pop();
         Node peek = nodeStack.peek();
         peek.addChild(ifs);
-        if (peek instanceof Form) {
-            ((Form) peek).setIfStatement(ifs);
+        if (peek instanceof CanContainConditionals) {
+            ((CanContainConditionals) peek).setIfStatement(ifs);
         }
     }
 
     public void exitElseStatement(QLParser.ElseStatementContext ctx) {
         ElseStatement est = (ElseStatement) nodeStack.pop();
-        nodeStack.peek().addChild(est);
+        Node peek = nodeStack.peek();
+        peek.addChild(est);
+        if (peek instanceof CanContainConditionals) {
+            ((CanContainConditionals) peek).setElseStatement(est);
+        }
     }
 
     public void exitElseIfStatement(QLParser.ElseIfStatementContext ctx) {
         ElseIfStatement eis = (ElseIfStatement) nodeStack.pop();
-        nodeStack.peek().addChild(eis);
+        Node peek = nodeStack.peek();
+        peek.addChild(eis);
+        if (peek instanceof CanContainConditionals) {
+            ((CanContainConditionals) peek).setElseIfStatement(eis);
+        }
     }
 
     public void enterExpression(QLParser.ExpressionContext ctx) {
