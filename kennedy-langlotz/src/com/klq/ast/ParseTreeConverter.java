@@ -1,6 +1,6 @@
 package com.klq.ast;
 import com.klq.ast.impl.*;
-import com.klq.ast.impl.NumberNode;
+import com.klq.ast.impl.expr.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
 
@@ -64,18 +64,37 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitAddSub(KLQParser.AddSubContext ctx) {
-        System.out.println("plsujes");
-        System.out.println(ctx.expr(0).getText());
-        System.out.println(ctx.expr(1).getText());
-        return super.visitAddSub(ctx);
+        ANode leftChild = visit(ctx.expr(0));
+        ANode rightChild = visit(ctx.expr(1));
+        ANode node;
+
+        if(ctx.operator.getType() == KLQParser.ADD) {
+            node = new AddNode(leftChild, rightChild);
+        }
+        else{
+            node = new SubtractNode(leftChild, rightChild);
+        }
+        return node;
     }
 
     @Override
     public ANode visitMulDiv(KLQParser.MulDivContext ctx) {
         ANode leftChild = visit(ctx.expr(0));
         ANode rightChild = visit(ctx.expr(1));
-        MulDivNode mulDivNode = new MulDivNode(leftChild, rightChild);
-        return mulDivNode;
+        ANode node;
+
+        if(ctx.operator.getType() == KLQParser.MUL) {
+            node = new MultiplyNode(leftChild, rightChild);
+        }
+        else{
+            node = new DivideNode(leftChild, rightChild);
+        }
+        return node;
+    }
+
+    @Override
+    public ANode visitParens(KLQParser.ParensContext ctx) {
+        return visit(ctx.expr());
     }
 
     public QuestionnaireNode getAst() {
