@@ -75,6 +75,7 @@
 		    <executions>
 		        <execution>
 		        	<configuration>
+		        		<visitor>true</visitor>
 						<id>run antlr</id>
 						<phase>generate-sources</phase>
 					</configuration>
