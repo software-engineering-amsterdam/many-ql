@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.uva.sea.ql.model.statement.Statement;
+import org.uva.sea.ql.AST.statement.Statement;
 import org.uva.sea.ql.parser.antlr.QLParser.FormContext;
 import org.uva.sea.ql.parser.impl.QLImplListener;
 import org.uva.sea.ql.parser.impl.QLImplVisitor;

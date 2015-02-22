@@ -30,6 +30,20 @@ public class ASTPrinter implements IVisitor {
     }
 
     @Override
+    public void visit(GreaterThanNode node) {
+        System.out.println("Greater Than Node");
+        node.printChildren();
+        printLine();
+    }
+
+    @Override
+    public void visit(ConditionalNode node) {
+        System.out.println("Conditional Node");
+        node.printSelf();
+        printLine();
+    }
+
+    @Override
     public void visit(StringNode node) {
         System.out.println("String Node");
         System.out.printf("Value: %s", node.getString());

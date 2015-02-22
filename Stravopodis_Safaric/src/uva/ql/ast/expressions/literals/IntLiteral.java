@@ -1,9 +1,10 @@
 package uva.ql.ast.expressions.literals;
 
 import uva.ql.ast.CodeLines;
+import uva.ql.ast.expressions.ExpressionVisitor;
+import uva.ql.ast.value.NumberValue;
 
-
-public class IntLiteral extends Value<Integer>{
+public class IntLiteral extends Literal{
 	
 	private Integer value;
 	
@@ -14,13 +15,17 @@ public class IntLiteral extends Value<Integer>{
 	public IntLiteral(CodeLines _codeLines){
 		super(_codeLines);
 	}
-	public Integer getValue(){
-		return this.value;
+	@Override
+	public NumberValue evaluate() {
+		return new NumberValue(this.value);
 	}
 	@Override
 	public String toString(){
 		if (this.value == null) return "Integer()";
-		else return "Integer(" + String.valueOf(this.getValue()) + ")";
+		else return "Integer(" + String.valueOf(this.value) + ")";
 	}
-	
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitIntLiteral(this);
+	}
 }

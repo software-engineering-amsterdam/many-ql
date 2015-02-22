@@ -19,12 +19,21 @@ public class Assign extends Statement {
 		this.identifier = _identifier;
 		this.string = _string;
 	}
-	
+	public Expression getExpression(){
+		return this.expression;
+	}
+	public Identifier getIdentifier(){
+		return this.identifier;
+	}
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitAssign(this);
+	}
 	@Override
 	public String toString(){
 		if (this.expression != null)
-			return "Assign(" + this.identifier.getValue() + "," + this.expression + ")";
+			return "Assign(" + this.identifier.evaluate().getValue() + "," + this.expression + ")";
 		else
-			return "Assign(" + this.identifier.getValue() + "," + this.string + ")";
+			return "Assign(" + this.identifier.evaluate().getValue() + "," + this.string + ")";
 	}
 }

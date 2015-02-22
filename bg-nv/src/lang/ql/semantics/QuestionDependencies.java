@@ -28,12 +28,11 @@ public class QuestionDependencies
     public void addDependency(Question q, Question dep)
     {
         String id = q.getId();
-        if (this.dependencies.containsKey(id))
+        if (!this.dependencies.containsKey(id))
         {
-            this.dependencies.get(id).add(dep.getId());
+            this.addDependency(q);
         }
 
-        this.addDependency(q);
         this.dependencies.get(id).add(dep.getId());
     }
 
