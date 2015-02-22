@@ -11,36 +11,40 @@ http://cirello.org/
 
 * Architecture
 
-.image architecture.png _ 240
+.image architecture.png
 
-* Architecture
+- Interpreter, Symbol Tables and Frontends are separated - independent computations.
 
-- Parser and lexer are entangled. Grammar-based parser generator usually invokes the lexer on your behalf.
+* Frontend - Unified Interface
 
-- The result of the compilation process is fed into the VM. For now, a simple stack VM.
+GUI needs:
 
-- File/Code Reader, Compiler, VM and Frontend are completely separated - they are concurrent.
+- Handshake - move on when ready
+- Render a Question
+- Forward the content of a Question
 
-* Concurrency vs Parallelism
+CSV I/O needs:
 
-- Related but very different.
+- Handshake - move on when ready
+- Render a Question
+- Forward the content of a Question
 
-	- Concurrency: "Programming as the composition of independently executing processes."
+_One_protocol_is_enough_for_all_communication_
 
-	- Parallelism: "Programming as the simultaneous execution of (possibly related) computations."
+* Symbol Table
+.code ../interpreter/symboltable/table.go /^func \(s \*SymbolTable\) loop/,/^}/
 
-	                Rob Pike
+* Interpreter and Symbol Table
+.code ../interpreter/loop.go /case event.Answers/,/fallthrough/
 
-* Concurrency vs Parallelism
+* Symbol Table - Type Checker
+.code ../interpreter/visitor/typechecker/symboltable.go /case event.SymbolRead/,/r\.Name\)\)\n\t\t\t}\n\n/
 
-- Concurrency: How to handle many things at same time.
+* Interpreter - Type Checker
+.code ../interpreter/loop.go /func New/,/fromFrontend :=/
 
-- Parallelism: How to execute many things at same time.
+* Interpreter - Type Checker - continued
+.code ../interpreter/loop.go /fromFrontend :=/,/return toFrontend, fromFrontend\n}/
 
-* Frontend
-
-- Composable interfaces with communication happening through channels.
-
-- As long as the specialized frontend complies with the VM UI protocol, any interface can be developed: Graphic, Text and Web.
-
-.image rsz_architecture.png _ 240
+* Type Checker - playground
+.play playground.go /func main/,/}\n}/

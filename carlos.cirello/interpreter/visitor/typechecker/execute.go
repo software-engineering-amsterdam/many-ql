@@ -1,4 +1,4 @@
-package typecheck
+package typechecker
 
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"

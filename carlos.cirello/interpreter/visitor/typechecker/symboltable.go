@@ -1,4 +1,4 @@
-package typecheck
+package typechecker
 
 import (
 	"fmt"
@@ -69,6 +69,7 @@ func (s *SymbolTable) loop() {
 					"Duplicated identifier found at typechecker: %s",
 					r.Name))
 			}
+
 		case event.SymbolUpdate:
 			if _, ok := s.symbols[r.Name]; ok {
 				s.symbols[r.Name] = r.Content
