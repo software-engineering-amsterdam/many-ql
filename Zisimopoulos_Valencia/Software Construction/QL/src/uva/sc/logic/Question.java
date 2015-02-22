@@ -25,6 +25,7 @@ public class Question extends Statement{
 		String result = "[String]: " + this.str + ", [ID]: " + this.id + ", " + this.type.toString();
 		if (this.expr != null)
 			result += this.expr.toString();
+		result += "\n";
 		return result;		
 	}
 }

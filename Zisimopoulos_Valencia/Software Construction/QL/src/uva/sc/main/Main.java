@@ -2,14 +2,14 @@ package uva.sc.main;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
-
 import org.antlr.v4.runtime.ANTLRFileStream;
+
 import uva.sc.logic.Node;
 import uva.sc.parser.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        CharStream in = new ANTLRFileStream("/Users/santiagovalenciavargas/Documents/UvA/workspace/Software Construction/QL/form/test.grammar");
+        CharStream in = new ANTLRFileStream("C:/Users/Pantelis/workspace/QL/form/test.grammar");
         GrammarLexer lexer = new GrammarLexer(in);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         GrammarParser parser = new GrammarParser(tokens);

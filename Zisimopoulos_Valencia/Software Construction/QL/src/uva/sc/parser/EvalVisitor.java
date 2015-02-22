@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
+import uva.sc.logic.ID;
 import uva.sc.logic.Node;
 import uva.sc.logic.Expression;
 import uva.sc.logic.Form;
@@ -177,12 +178,8 @@ public class EvalVisitor extends GrammarBaseVisitor<Node> {
 		return this.visit(ctx.expr()); 
 	}
 
-	/*@Override
-	public Addition visitId(GrammarParser.IdContext ctx) {
-		Value returnValue = null;
-		String id = ctx.ID().getText();
-		if (memory.containsKey(id))
-			returnValue = memory.get(id); 
-		return returnValue;
-	}*/
+	@Override
+	public ID visitId(GrammarParser.IdContext ctx) { 
+		return new ID(ctx.ID().getText());
+	}
 }
