@@ -10,23 +10,6 @@ from AST.operators import *
 from Main.converters import *
 
 
-class BasicFactory:
-
-    @staticmethod
-    def make_sentence(tokens):
-        return ' '.join(tokens)
-
-    @staticmethod
-    def make_bool(tokens):
-        if tokens[0] == "True":
-            return True
-        else:
-            return False
-    @staticmethod
-    def make_int(tokens):
-        return int(tokens[0])
-
-
 class ExpressionFactory:
 
     @staticmethod
@@ -35,30 +18,38 @@ class ExpressionFactory:
 
     @staticmethod
     def make_number(tokens):
-        return Number(tokens[0])
+        return Number(int(tokens[0]))
 
     @staticmethod
-    def make_operator(tokens):
-        return Operator(tokens[0])
+    def make_calc_operator(tokens):
+        return CalcOperator(tokens[0])
+
+    @staticmethod
+    def make_comp_operator(tokens):
+        return CompareOperator(tokens[0])
 
     @staticmethod
     def make_bool(tokens):
-        return Operator(tokens[0])
+        if tokens[0] == "True":
+            return Bool(True)
+        else:
+            return Bool(False)
 
     @staticmethod
-    def sub_expression(tokens):
-        e = []
-        for token in tokens:
-            e += [token]
+    def make_sub_expression(tokens):
+        e = SimpleExpression(tokens)
         return e
 
     @staticmethod
     def make_expression(tokens):
-        x = ComplexExpression(ExpressionFactory.sub_expression(tokens.asList()))
+        x = ComplexExpression(tokens)
         return x
 
 
 class FormFactory:
+    @staticmethod
+    def make_sentence(tokens):
+        return ' '.join(tokens)
 
     @staticmethod
     def make_question(tokens):
@@ -100,7 +91,7 @@ class FormFactory:
     @staticmethod
     def make_form(tokens):
         name = tokens[0]
-        introduction = BasicFactory.make_sentence(tokens[1])
+        introduction = FormFactory.make_sentence(tokens[1])
         questions = []
         for i in range(2, len(tokens)):
             questions.append(tokens[i])

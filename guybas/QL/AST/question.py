@@ -38,6 +38,9 @@ class Question(IStatement):
             dependencies[self.id] = []
         return dependencies
 
+    def id_type_collection(self):
+        return {self.id : self.type}
+
     # Getters
     def get_label(self):
         return self.label
@@ -53,6 +56,9 @@ class Question(IStatement):
 
     def get_parent_id(self):
         return self.parent_id
+
+    def return_expressions(self):
+        return []
 
     def set_parent_id(self, pid):
         self.parent_id = pid

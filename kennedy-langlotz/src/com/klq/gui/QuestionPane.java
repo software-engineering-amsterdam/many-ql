@@ -85,8 +85,11 @@ public class QuestionPane extends GridPane {
     }
 
     private void createTextField(AnswerSet answerSet){
-        final TextField input = new TextField(answerSet.get(0).toString());
-        input.setPromptText(answerSet.get(0).toString());
+        final TextField input = new TextField();
+
+        if (answerSet != null) {
+            input.setPromptText(answerSet.get(0).toString());
+        }
         input.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

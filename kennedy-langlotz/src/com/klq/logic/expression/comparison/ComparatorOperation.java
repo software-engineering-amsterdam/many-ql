@@ -4,7 +4,7 @@ package com.klq.logic.expression.comparison;
  * Created by Timon on 22.02.2015.
  */
 public enum ComparatorOperation {
-    GREATER (">"), GREATER_THAN (">="), LESS ("<"), LESS_THAN ("<=");
+    GREATER_EQUAL(">="), GREATER_THAN (">"), LESS_THAN("<"), LESS_EQUAL("<="), EQUAL ("=="), NOT_EQUAL ("!=");
 
     private final String operator;
 
@@ -17,7 +17,8 @@ public enum ComparatorOperation {
     }
 
     public static String regex(){
-        return GREATER.operator + "|" + GREATER_THAN.operator + "|" +
-                LESS.operator + "|" + LESS_THAN.operator;
+        return GREATER_EQUAL.operator + "|" + GREATER_THAN.operator + "|" +
+                LESS_THAN.operator + "|" + LESS_EQUAL.operator + "|" +
+                EQUAL.operator + "|" + NOT_EQUAL;
     }
 }

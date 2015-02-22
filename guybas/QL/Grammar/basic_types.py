@@ -19,7 +19,7 @@ class BasicTypes:
     word = end_sign_esc | characters
 
     # sentence :: word+ end_sign
-    sentence = (OneOrMore(word) + end_sign).setParseAction(BasicFactory.make_sentence)
+    sentence = (OneOrMore(word) + end_sign).setParseAction(FormFactory.make_sentence)
 
     # sentences :: sentence+
     sentences = OneOrMore(sentence)
@@ -27,27 +27,11 @@ class BasicTypes:
     # comment :: // ....\n  | /* .... */
     comment = Literal("//") + restOfLine | cStyleComment
 
-
-class QuestionTypes:
-
-    # bool :: True | False
-    bool = (Literal("True") | Literal("False")).setParseAction(BasicFactory.make_bool)
-
     # bool_name :: "bool"
     bool_name = "bool"
 
-    # number :: [0-9]+
-    number = Word(nums).setParseAction(BasicFactory.make_int)
-
-    #number_name :: "number"
+    # number_name :: "number"
     number_name = "number"
 
-    # text :: sentences
-    text = BasicTypes.sentences
-
     # text_name :: "text"
-    text_name        = "text"
-
-    # for future use
-    list = ...
-    listName = 'list'
+    text_name = "text"

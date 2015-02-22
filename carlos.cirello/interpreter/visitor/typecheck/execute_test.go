@@ -23,25 +23,25 @@ func TestDuplicatedIdentifier(t *testing.T) {
 }
 
 // todo(carlos) TestDuplicatedIdentifierInIfBlocks
-// func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
-// 	form := parser.ReadQL(
-// 		strings.NewReader(`form SomeForm {
-// 			"QuestionLabel" question1 bool
-// 			if (question1){
-// 				"QuestionLabel2 - True" question2 string
-// 			}
-// 			if (!question1){
-// 				"QuestionLabel2 - False" question2 string
-// 			}
-// 		}`),
-// 		"test.ql",
-// 	)
-// 	tc, st := New()
-// 	tc.Visit(form)
-// 	if err := st.Err(); err == nil {
-// 		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
-// 	}
-// }
+func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
+	form := parser.ReadQL(
+		strings.NewReader(`form SomeForm {
+			"QuestionLabel" question1 bool
+			if (question1){
+				"QuestionLabel2 - True" question2 string
+			}
+			if (!question1){
+				"QuestionLabel2 - False" question2 string
+			}
+		}`),
+		"test.ql",
+	)
+	tc, st := New()
+	tc.Visit(form)
+	if err := st.Err(); err == nil {
+		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
+	}
+}
 
 func TestDuplicatedIdentifierDifferentTypes(t *testing.T) {
 	form := parser.ReadQL(
@@ -69,9 +69,11 @@ func TestInvalidOperands(t *testing.T) {
 		}`),
 		"test.ql",
 	)
-	tc, _ := New()
+	tc, st := New()
 	tc.Visit(form)
-	t.Errorf("Typecheck error: Invalid operations should trigger panic")
+	if err := st.Err(); err == nil {
+		t.Errorf("Typecheck error: invalid operations should trigger error")
+	}
 }
 
 func TestCyclicDependencies(t *testing.T) {
@@ -94,7 +96,24 @@ func TestCyclicDependencies(t *testing.T) {
 		`),
 		"test.ql",
 	)
-	tc, _ := New()
+	tc, st := New()
 	tc.Visit(form)
-	t.Errorf("Typecheck error: Invalid operations should trigger panic")
+	if err := st.Err(); err == nil {
+		t.Errorf("Typecheck error: cyclic dependencies should trigger error")
+	}
+}
+
+func TestRepeatedCaptions(t *testing.T) {
+	form := parser.ReadQL(
+		strings.NewReader(`form SomeForm {
+			"QuestionLabel" question1 string
+			"QuestionLabel" question2 numeric
+		}`),
+		"test.ql",
+	)
+	tc, st := New()
+	tc.Visit(form)
+	if warn := st.Warn(); warn == nil {
+		t.Errorf("Typecheck error: duplicated captions should trigger warnings")
+	}
 }

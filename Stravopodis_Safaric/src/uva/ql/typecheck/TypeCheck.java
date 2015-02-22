@@ -1,8 +1,8 @@
 package uva.ql.typecheck;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import uva.ql.typecheck.SymbolMap;
 
+import uva.ql.typecheck.SymbolMap;
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.Form;
@@ -48,15 +48,19 @@ import java.util.*;
 
 public class TypeCheck extends QLBaseVisitor <ASTNode> {
 	
-	SymbolMap quest = new SymbolMap();
+	public Map<String, String> smb = new LinkedHashMap <String,String>();
+	
+	private String id, type;
 	@Override 
 	public ASTNode visitQuest(QuestContext ctx) { 
 		
-		System.out.println(ctx.Identifier().getText());
-	
-			
+		id=(ctx.Identifier().getText());
+		type=(ctx.primitiveType().getText());
+		System.out.println(id+":"+type);
+		smb.put(id, type);
 		return super.visitQuest(ctx);
-	}
+		}
 	
+	//System.out.println(smb.toString());
 	
 }

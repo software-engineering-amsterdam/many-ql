@@ -33,6 +33,11 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 
 	tc, tcst := typecheck.New()
 	tc.Visit(q)
+	if warn := tcst.Warn(); warn != nil {
+		for _, e := range warn {
+			log.Printf("warning: %s", e)
+		}
+	}
 	if err := tcst.Err(); err != nil {
 		for _, e := range err {
 			log.Println(e)

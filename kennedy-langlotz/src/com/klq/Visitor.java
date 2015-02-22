@@ -3,6 +3,7 @@ package com.klq;
 import com.klq.ast.IVisitor;
 import com.klq.ast.ANode;
 import com.klq.ast.impl.*;
+import com.klq.ast.impl.expr.*;
 import com.klq.logic.*;
 
 import java.util.ArrayList;
@@ -26,7 +27,22 @@ public class Visitor implements IVisitor {
     }
 
     @Override
-    public void visit(MulDivNode node) {
+    public void visit(MultiplyNode node) {
+
+    }
+
+    @Override
+    public void visit(AddNode node) {
+
+    }
+
+    @Override
+    public void visit(SubtractNode node) {
+
+    }
+
+    @Override
+    public void visit(DivideNode node) {
 
     }
 

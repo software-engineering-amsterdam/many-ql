@@ -4,45 +4,79 @@ from collections import OrderedDict
 from CustomTypes import *
 import OperatorTypes
 
-# TODO make pretty
 class QuestionValueTable(object):
 	def __init__(self):
 		self._table = OrderedDict()
 
-	def add(self, key, val):
-		self._table[key] = val
+	def __iter__(self):
+		return self._table.__iter__()
 
-	def get(self, key, evaluator):
-		val = self._table[key]
+	def items(self):
+		return self._table.items()
+
+	def values(self):
+		return self._table.values()
+
+	def keys(self):
+		return self._table.keys()
+
+	def add(self, question, value):
+		oldValue = self._table.get(question, None)
+		if not (oldValue and isinstance(oldValue, Expression)):
+			self._table[question] = value
+
+	def get(self, question, evaluator):
+		val = self._table[question]
 
 		if isinstance(val, Expression):
 			return val.evaluate(evaluator)
 		return val
 
-
-class QuestionTable(OrderedDict):
+class QuestionTable(object):
 	def __init__(self, ast):
-		super().__init__(self)
+		self._table = OrderedDict()
 
 		for formStatement in ast.root.statements:
 			form = Form(formStatement)
 
 			for statement in formStatement.getChildren():
-				self._addStatement(statement, ExpressionsTuple(), form)
+				self._add(statement, ExpressionsTuple(), form)
 
-	def _addStatement(self, statement, expressionsTuple, form):
-		assert isinstance(statement, ASTNodes.IfStatement) or isinstance(statement, ASTNodes.QuestionStatement)
+	def __iter__(self):
+		return self._table.__iter__()
 
+	def items(self):
+		return self._table.items()
+
+	def values(self):
+		return self._table.values()
+
+	def keys(self):
+		return self._table.keys()
+
+	def _add(self, statement, expressionsTuple, form):
 		if isinstance(statement, ASTNodes.IfStatement):
 			childExpressionsTuple = expressionsTuple + (ExpressionFactory.create((statement.expr)),)
 			
 			for childStatement in statement.getChildren():
-				self._addStatement(childStatement, childExpressionsTuple, form)
+				self._add(childStatement, childExpressionsTuple, form)
 		else:
 			question = Question(statement, expressionsTuple, form)
-			questionList = self.get(question.identifier, QuestionList())
+			questionList = self._table.get(question.identifier, QuestionList())
 			questionList.append(question)
-			self[question.identifier] = questionList
+			self._table[question.identifier] = questionList
+
+	def get(self, identifier, evaluator):
+		assert isinstance(evaluator, Evaluator)
+
+		questions = self._table.get(identifier, None)
+		
+		if questions:
+			return questions.getVisibleQuestion(evaluator)
+		return questions
+
+	def getQuestionList(self, identifier):
+		return self._table.get(identifier, None)
 
 class ExpressionsTuple(tuple):
 	def __add__(self, value):
@@ -58,19 +92,13 @@ class QuestionList(list):
 				return question
 		return None
 
-class Form(object):
-	def __init__(self, formStatementNode):
-		assert isinstance(formStatementNode, ASTNodes.FormStatement)
-
-		self.identifier = formStatementNode.identifier
-
 class ExpressionFactory(object):
 	@staticmethod
 	def create(expressionNode):
-		assert isinstance(expressionNode, ASTNodes.Expression)
-		
-		method = ExpressionFactory._getCreateMethod(expressionNode)
-		return method(expressionNode)
+		if expressionNode:
+			method = ExpressionFactory._getCreateMethod(expressionNode)
+			return method(expressionNode)
+		return None
 		
 	@staticmethod
 	def _getCreateMethod(expressionNode):
@@ -98,12 +126,10 @@ class BinaryExpression(Expression):
 		self.op = binaryExpressionNode.op
 		self.right = ExpressionFactory.create(binaryExpressionNode.right)
 
-	def evaluate(self, evaluator):
+	def evaluate(self, evaluator):		
 		leftValue = self.left.evaluate(evaluator)
 		rightValue = self.right.evaluate(evaluator)
-		pythonOp = evaluator.typeTable.getBinaryOperator(self.op, leftValue, rightValue)
-
-		return pythonOp(leftValue, rightValue)
+		return evaluator.evaluateBinaryExpression(self.op, leftValue, rightValue)
 
 class UnaryExpression(Expression):
 	def __init__(self, unaryExpressionNode):
@@ -112,8 +138,7 @@ class UnaryExpression(Expression):
 
 	def evaluate(self, evaluator):
 		rightValue = self.right.evaluate(evaluator)
-		pythonOp = evaluator.typeTable.getUnaryPythonOperator(self.op)
-		return pythonOp(right)
+		return evaluator.evaluateUnaryExpression(self.op, rightValue)
 
 class AtomicExpression(Expression):
 	def __init__(self, atomicExpressionNode):
@@ -121,8 +146,14 @@ class AtomicExpression(Expression):
 
 	def evaluate(self, evaluator):
 		if isinstance(self.left, Identifier):
-			return evaluator.questionValueTable.get(self.left, evaluator)
+			return evaluator.getValue(self.left)
 		return self.left
+
+class Form(object):
+	def __init__(self, formStatementNode):
+		assert isinstance(formStatementNode, ASTNodes.FormStatement)
+
+		self.identifier = formStatementNode.identifier
 
 class Question(object):
 	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form):
@@ -136,54 +167,81 @@ class Question(object):
 		self.conditionalExpressions = conditionalExpressionsTuple
 		self.form = form
 
+	def __str__(self):
+		return "id:%s, text:%s, type:%s" %(self.identifier, self.text, self.type)
+
 	def isVisible(self, evaluator):
 		return self.conditionalExpressions.evaluate(evaluator)
 
-class Page(object):
-	def __init__(self, questionTable, questionIdentifiers):
-		self.questionLists = []
-		for identifier in questionIdentifiers:
-			self.questionLists.append(questionTable[identifier])
-
-	def getVisibleQuestions(self, evaluator):
-		visibleQuestions = []
-		
-		for questionList in self.questionLists:
-			visibleQuestion = questionList.getVisibleQuestion(evaluator)
-			if visibleQuestion:
-				visibleQuestions.append(visibleQuestion)
-
-		return visibleQuestions
-
 class Evaluator(object):
 	def __init__(self, ast):
-		self.questionTable = QuestionTable(ast)
-		self.questionValueTable = QuestionValueTable()
+		self._questionTable = QuestionTable(ast)
+		self._questionValueTable = QuestionValueTable()
 		
-		for identifier, questionList in self.questionTable.items():
-			question = questionList[0]
+		for questions in self._questionTable.values():
+			for question in questions:
+				if question.valueExpression:
+					self._questionValueTable.add(question, question.valueExpression)
+				else:
+					self._questionValueTable.add(question, None)
 
-			if question.valueExpression:
-				self.questionValueTable.add(identifier, question.valueExpression)
-			else:
-				self.questionValueTable(identifier, None)
+		self._typeTable = OperatorTypes.Table()
 
-		self.typeTable = OperatorTypes.Table()
+	def evaluateBinaryExpression(self, operator, leftValue, rightValue):
+		pythonOp = evaluator._typeTable.getBinaryOperator(operator, leftValue, rightValue)
+		if pythonOp:
+			return pythonOp(leftValue, rightValue)
+		return None
+
+	def evaluateUnaryExpression(self, operator, rightValue):
+		pythonOp = evaluator._typeTable.getUnaryOperator(operator, rightValue)
+		if pythonOp:
+			return pythonOp(rightValue)
+		return None
+
+	def addValue(self, identifier, value):
+		questions = self._questionTable.getQuestionList(identifier)
+
+		for question in questions:
+			self._questionValueTable.add(question, value)
+
+	def getValue(self, identifier):
+		question = self._questionTable.get(identifier, self)
+		return self._questionValueTable.get(question, self)
+
+	def getQuestion(self, identifier):
+		return self._questionTable.get(identifier, self)	
+
+	def getAllIdentifiers(self):
+		return self._questionTable.keys()
+
+# TODO rename to something else?
+class PageStructure(object):
+	def __init__(self, evaluator):
+		self.evaluator = evaluator	
 		self.pages = []
 
 	def createDefaultPages(self):
-		self.pages = []
-		self.pages.append(Page(self.questionTable, self.questionTable.keys()))
+		self.pages = [Page(self.evaluator.getAllIdentifiers())]
 
 	def getVisibleQuestions(self, pageNumber):
-		return self.pages[pageNumber].getVisibleQuestions(self)
+		return self.pages[pageNumber].getQuestions(self.evaluator)
+
+class Page(object):
+	def __init__(self, questionIdentifiers):
+		self.questionIdentifiers = questionIdentifiers
+
+	def getQuestions(self, evaluator):
+		questions = [evaluator.getQuestion(identifier) for identifier in self.questionIdentifiers]
+		return [question for question in questions if question != None]
 
 
 ast = AST("test_visitor.QL")
 evaluator = Evaluator(ast)
-evaluator.createDefaultPages()
+pageStructure = PageStructure(evaluator)
+pageStructure.createDefaultPages()
 
-for q in evaluator.getVisibleQuestions(0):
+for q in pageStructure.getVisibleQuestions(0):
 	print(q.text)
 
 #for identifier, question in ec.items():
