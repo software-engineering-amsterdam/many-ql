@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/iostream"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
@@ -12,6 +14,11 @@ import (
 )
 
 func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("error:", r)
+		}
+	}()
 	srcFn, inFn, outFn := cli.Args()
 
 	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)

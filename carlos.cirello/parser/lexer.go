@@ -1,9 +1,8 @@
 package parser
 
 import (
+	"fmt"
 	"io"
-	"log"
-	"os"
 	"strings"
 	"text/scanner"
 )
@@ -139,8 +138,7 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 
 // The parser calls this method on a parse error.
 func (x *lexer) Error(s string) {
-	log.Printf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s)
-	os.Exit(1)
+	panic(fmt.Sprintf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s))
 }
 
 func stripSurroundingQuotes(str string) string {

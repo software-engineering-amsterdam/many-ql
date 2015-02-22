@@ -1,25 +1,15 @@
 package ast.expression.comparison;
 
+import ast.expression.BinaryExpression;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 
 // For ==
 
-public class EqualExpression extends Expression {
-			
-	private Expression leftExp, rightExp;
-				
+public class EqualExpression extends BinaryExpression {
+						
 	public EqualExpression (Expression leftExp, Expression rightExp) {
-		this.leftExp = leftExp;
-		this.rightExp = rightExp;
-	}
-				
-	public Expression getLeftExp() {
-		return leftExp;
-	}
-				
-	public Expression getRightExp() {
-		return rightExp;
+		super (leftExp, rightExp);
 	}
 				
 	@Override
@@ -29,9 +19,8 @@ public class EqualExpression extends Expression {
 	
 	@Override
 	public String toString() {
-		return getLeftExp() + " == " + getRightExp();
+		return this.getLeftExpression().toString() + " == " + this.getRightExpression().toString();
 	}
-
 }
 
 

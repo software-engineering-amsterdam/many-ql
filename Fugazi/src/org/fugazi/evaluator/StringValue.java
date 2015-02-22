@@ -11,6 +11,7 @@ public class StringValue extends ExpressionValue<String> {
         return this.addString((StringValue)exprValue);
     }
 
+    @Override
     public ExpressionValue addString(StringValue exprValue) {
         return new StringValue(this.getValue() + exprValue.getValue());
     }
