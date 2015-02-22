@@ -28,22 +28,10 @@ type interpreter struct {
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
 func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
+	typecheck(q) // HL
+
 	symbolChan := make(chan *event.Symbol)
 	st := symboltable.New(symbolChan)
-
-	tc, tcst := typechecker.New()
-	tc.Visit(q)
-	if warn := tcst.Warn(); warn != nil {
-		for _, e := range warn {
-			log.Printf("warning: %s", e)
-		}
-	}
-	if err := tcst.Err(); err != nil {
-		for _, e := range err {
-			log.Println(e)
-		}
-		panic("typechecker errors found")
-	}
 
 	toFrontend := make(chan *event.Frontend)
 	fromFrontend := make(chan *event.Frontend)
@@ -56,7 +44,26 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 		symbols:      st,
 	}
 	go v.loop()
+
 	return toFrontend, fromFrontend
+}
+
+func typecheck(q *ast.QuestionaireNode) {
+	tc, symboltable := typechecker.New()
+	tc.Visit(q) // typechecker is a visitor // HL
+
+	if warn := symboltable.Warn(); warn != nil {
+		for _, e := range warn {
+			log.Printf("warning: %s", e)
+		}
+	}
+
+	if err := symboltable.Err(); err != nil {
+		for _, e := range err {
+			log.Println(e)
+		}
+		panic("typechecker errors found")
+	}
 }
 
 func (v *interpreter) loop() {
