@@ -50,7 +50,7 @@ func (tc Typechecker) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (tc Typechecker) IfNode(v *visitor.Visitor, i *ast.IfNode) {
-	tc.execute.IfNode(v, i)
+	tc.execute.ResolveComparisonNode(i.Conditions())
 
 	for _, actionNode := range i.Stack() {
 		v.Visit(actionNode)

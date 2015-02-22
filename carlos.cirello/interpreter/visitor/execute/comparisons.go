@@ -78,24 +78,24 @@ func (exec Execute) TermNode(s *ast.TermNode) bool {
 
 // BoolAndNode is the visitor for "and" comparison operation
 func (exec Execute) BoolAndNode(n *ast.BoolAndNode) bool {
-	left := exec.resolveComparisonNode(n.DoubleTermNode.LeftTerm())
-	right := exec.resolveComparisonNode(n.DoubleTermNode.RightTerm())
+	left := exec.ResolveComparisonNode(n.DoubleTermNode.LeftTerm())
+	right := exec.ResolveComparisonNode(n.DoubleTermNode.RightTerm())
 	return left && right
 }
 
 // BoolOrNode is the visitor for "or" comparison operation
 func (exec Execute) BoolOrNode(n *ast.BoolOrNode) bool {
-	left := exec.resolveComparisonNode(n.DoubleTermNode.LeftTerm())
-	right := exec.resolveComparisonNode(n.DoubleTermNode.RightTerm())
+	left := exec.ResolveComparisonNode(n.DoubleTermNode.LeftTerm())
+	right := exec.ResolveComparisonNode(n.DoubleTermNode.RightTerm())
 	return left || right
 }
 
 // BoolNegNode is the visitor for negation comparison operation
 func (exec Execute) BoolNegNode(n *ast.BoolNegNode) bool {
-	return !exec.resolveComparisonNode(n.Term())
+	return !exec.ResolveComparisonNode(n.Term())
 }
 
-func (exec *Execute) resolveComparisonNode(n interface{}) bool {
+func (exec *Execute) ResolveComparisonNode(n interface{}) bool {
 	conditionState := true
 
 	switch t := n.(type) {
