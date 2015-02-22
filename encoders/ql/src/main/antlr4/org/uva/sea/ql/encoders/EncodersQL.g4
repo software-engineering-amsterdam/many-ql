@@ -25,13 +25,14 @@ conditional:
     NAME;
     
 expression:
-    '(' expr=expression ')'
-    | leftHand=expression  operator=MULDIV rightHand=expression
-    | leftHand=expression  operator=ADDSUB rightHand=expression
-    | leftHand=expression  operator=NOT rightHand=expression
-    | leftHand=expression  operator=AND rightHand=expression
-    | leftHand=expression  operator=OR rightHand=expression
-    | leftHand=expression  operator=LTGTLEGE rightHand=expression
-    | leftHand=expression  operator=NEEQ rightHand=expression  
-    | name=NAME;
+    '(' expr=expression ')'                                         #BracedExpression
+    | leftHand=expression  operator=MULDIV rightHand=expression     #MulDiv
+    | leftHand=expression  operator=ADDSUB rightHand=expression     #AddSub
+    | leftHand=expression  operator=NOT rightHand=expression        #Not
+    | leftHand=expression  operator=AND rightHand=expression        #And
+    | leftHand=expression  operator=OR rightHand=expression         #Or
+    | leftHand=expression  operator=LTGTLEGE rightHand=expression   #LtGtLeGe
+    | leftHand=expression  operator=NEEQ rightHand=expression       #NeEq
+    | name=NAME                                                     #Name
+    ;
     
