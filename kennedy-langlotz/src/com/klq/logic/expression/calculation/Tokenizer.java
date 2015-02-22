@@ -1,6 +1,4 @@
-package com.klq.logic.expression.token;
-
-import com.klq.logic.expression.CalculationExpression;
+package com.klq.logic.expression.calculation;
 
 /**
  * Created by Timon on 21.02.2015.
@@ -90,7 +88,7 @@ public class Tokenizer {
 
     private String exceptionMessage(char currentChar){
         return "Could not parse character \"" + currentChar + "\" at index " + pos + ".\n" +
-                "Last token: " + lastToken.toString() + "\n" +
+                "Last calculation: " + lastToken.toString() + "\n" +
                 "Expression: " + String.valueOf(expression);
     }
 }

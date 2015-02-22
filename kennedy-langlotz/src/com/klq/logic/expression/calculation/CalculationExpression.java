@@ -1,7 +1,6 @@
-package com.klq.logic.expression;
+package com.klq.logic.expression.calculation;
 
-import com.klq.logic.expression.token.*;
-import com.klq.logic.expression.token.Number;
+import com.klq.logic.expression.AExpression;
 
 import java.util.EmptyStackException;
 import java.util.PriorityQueue;

@@ -1,4 +1,4 @@
-package com.klq.logic.expression.token;
+package com.klq.logic.expression.calculation;
 
 /**
  * Created by Timon on 21.02.2015.

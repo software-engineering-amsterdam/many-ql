@@ -1,6 +1,6 @@
 package test.klq.logic.expression;
 
-import com.klq.logic.expression.CalculationExpression;
+import com.klq.logic.expression.calculation.CalculationExpression;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
