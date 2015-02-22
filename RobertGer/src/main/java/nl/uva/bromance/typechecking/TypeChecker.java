@@ -4,13 +4,11 @@ import nl.uva.bromance.AST.Node;
 import nl.uva.bromance.AST.Question;
 import nl.uva.bromance.AST.Questionnaire;
 
-import java.util.HashMap;
-
 /**
  * Created by Gerrit Krijnen on 2/17/2015.
  */
 public class TypeChecker {
-    private HashMap<String, Node> references = new HashMap<>();
+    private ReferenceMap referenceMap = new ReferenceMap();
     private Questionnaire ast;
 
     public TypeChecker(Questionnaire ast) {
@@ -19,8 +17,9 @@ public class TypeChecker {
 
     public boolean runChecks() {
         buildReferenceMap(ast);
+        typeCheck(ast);
         System.out.println("Got questions :");
-        for (Node value : references.values()) {
+        for (Node value : referenceMap.values()) {
             if (value instanceof Question) {
                 System.out.println(((Question) value).getQuestionString());
             }
@@ -28,17 +27,29 @@ public class TypeChecker {
         return true;
     }
 
-    private void buildReferenceMap(Node n) {
+    private void typeCheck(Node n) {
+        try {
+            n.typeCheck();
+        } catch (TypeCheckingException e) {
+            e.printStackTrace();
+        }
         if (n.hasChildren()) {
             for (Node child : n.getChildren()) {
                 buildReferenceMap(child);
             }
         }
+    }
+
+    private void buildReferenceMap(Node n) {
         try {
-            n.typeCheck(references);
+            n.addReference(referenceMap);
         } catch (TypeCheckingException e) {
-            System.err.println(e.getMessage());
             e.printStackTrace();
+        }
+        if (n.hasChildren()) {
+            for (Node child : n.getChildren()) {
+                buildReferenceMap(child);
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import nl.uva.bromance.AST.Range.SmallerThan;
 import nl.uva.bromance.parsers.QLBaseListener;
 import nl.uva.bromance.parsers.QLParser;
 
+import java.util.Optional;
 import java.util.Stack;
 
 //TODO: Maybe consider splitting this class into multiple listeners. It's getting kinda large.
@@ -155,7 +156,7 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public void enterExpression(QLParser.ExpressionContext ctx) {
-        nodeStack.push(new Expression(ctx.start.getLine()));
+        nodeStack.push(new Expression(ctx.start.getLine(), Optional.ofNullable(ctx.operator)));
     }
 
     public void enterId(QLParser.IdContext ctx) {
@@ -170,53 +171,5 @@ public class QLParseTreeListener extends QLBaseListener {
             ((ContainsExpression) peek).setExpression(e);
         }
 
-    }
-
-    public void enterExpressionTimes(QLParser.ExpressionTimesContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionDivided(QLParser.ExpressionDividedContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionPlus(QLParser.ExpressionPlusContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionMinus(QLParser.ExpressionMinusContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionEqual(QLParser.ExpressionEqualContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionNotEqual(QLParser.ExpressionNotEqualContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionAnd(QLParser.ExpressionAndContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionOr(QLParser.ExpressionOrContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionSmallerEqual(QLParser.ExpressionSmallerEqualContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionBiggerEqual(QLParser.ExpressionBiggerEqualContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionBigger(QLParser.ExpressionBiggerContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
-    }
-
-    public void enterExpressionSmaller(QLParser.ExpressionSmallerContext ctx) {
-        ((Expression) nodeStack.peek()).setText(ctx.getText());
     }
 }

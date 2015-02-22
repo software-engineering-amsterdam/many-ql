@@ -19,13 +19,13 @@ questionText: 'Text:' text=STRING;
 //QuestionAnser abstractions
 questionAnswer: 'Answer:' (questionAnswerSimple|questionAnswerCustom);
 questionAnswerSimple: type=('integer' | 'Integer'| 'boolean' | 'Boolean' | 'double' | 'Double' | 'string' | 'String');
-questionAnswerCustom: '['STRING ('||' STRING)+']';
+questionAnswerCustom: '['STRING (OR STRING)+']';
 
 //QuestionRange abstractions
 questionRange: 'Range:' (questionRangeFromTo | questionRangeBiggerThan | questionRangeSmallerThan);
 questionRangeFromTo: lower=NUMBER '-' higher=NUMBER;
-questionRangeBiggerThan: '>' num=NUMBER;
-questionRangeSmallerThan: '<' num=NUMBER;
+questionRangeBiggerThan: BIGGERTHAN num=NUMBER;
+questionRangeSmallerThan: SMALLERTHAN num=NUMBER;
 
 //QuestionCalculation
 calculation:
@@ -60,12 +60,12 @@ input:
 expression
     : id
     | '(' expression ')'
-    | expression (expressionTimes|expressionDivided) expression
-    | expression (expressionPlus|expressionMinus) expression
-    | expression (expressionSmallerEqual | expressionBiggerEqual | expressionBigger | expressionSmaller) expression
-    | expression (expressionEqual | expressionNotEqual) expression
-    | expression expressionAnd expression
-    | expression expressionOr expression;
+    | expression operator=(TIMES|DIVISION) expression
+    | expression operator=(ADDITION|SUBTRACTION) expression
+    | expression operator=(SMALLETHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN) expression
+    | expression operator=(EQUALTO | NOTEQUALTO) expression
+    | expression operator=AND expression
+    | expression operator=OR expression;
 
 id
     : '['id']'
@@ -73,18 +73,18 @@ id
     | NUMBER
     | TEXT;
 
-expressionTimes: '*';
-expressionDivided: '/';
-expressionPlus: '+';
-expressionMinus: '-';
-expressionSmallerEqual: '<=';
-expressionBiggerEqual: '>=';
-expressionBigger: '>';
-expressionSmaller: '<';
-expressionEqual: '==';
-expressionNotEqual: '!=';
-expressionAnd: '&&';
-expressionOr: '||';
+TIMES: '*';
+DIVISION: '/';
+ADDITION: '+';
+SUBTRACTION: '-';
+SMALLETHANOREQUAL: '<=';
+BIGGERTHANOREQUAL: '>=';
+BIGGERTHAN: '>';
+SMALLERTHAN: '<';
+EQUALTO: '==';
+NOTEQUALTO: '!=';
+AND: '&&';
+OR: '||';
 
 // String and number definitions taken from : https://github.com/antlr/grammars-v4/blob/master/json/JSON.g4
 STRING :  '"' (ESC | ~["\\])* '"' ;

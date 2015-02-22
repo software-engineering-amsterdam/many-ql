@@ -2,18 +2,22 @@ package nl.uva.bromance.AST.Conditionals;
 
 import nl.uva.bromance.AST.Input;
 import nl.uva.bromance.AST.Node;
+import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class Expression extends Node implements ContainsExpression {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
     private Expression expression;
+    private Optional<Token> operator;
 
-    public Expression(int lineNumber) {
+    public Expression(int lineNumber, Optional<Token> operator) {
         super(lineNumber, Expression.class);
+        this.operator = operator;
         this.setAcceptedParents(parentsAllowed);
     }
 

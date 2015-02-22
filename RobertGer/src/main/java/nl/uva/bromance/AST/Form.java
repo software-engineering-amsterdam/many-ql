@@ -7,9 +7,13 @@ import nl.uva.bromance.AST.Conditionals.CanContainConditionals;
 import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
 import nl.uva.bromance.AST.Conditionals.ElseStatement;
 import nl.uva.bromance.AST.Conditionals.IfStatement;
+import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 public class Form extends Node implements CanContainConditionals {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Questionnaire.class));
@@ -60,15 +64,21 @@ public class Form extends Node implements CanContainConditionals {
     }
 
     @Override
-    public void typeCheck(Map<String, Node> references) throws TypeCheckingException {
+    public void typeCheck() throws TypeCheckingException {
+    }
+
+
+    @Override
+    public void addReference(ReferenceMap referenceMap) throws TypeCheckingException {
         if (getIdentifier().isPresent()) {
-            if (references.get(getIdentifier().get()) != null) {
+            if (referenceMap.containsKey(getIdentifier().get())) {
                 throw new TypeCheckingException.AlreadyDefinedTypeCheckingException(this, getIdentifier().get());
             } else {
-                references.put(getIdentifier().get(), this);
+                referenceMap.put(getIdentifier().get(), this);
             }
-        } else
+        } else {
             throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
+        }
     }
 
 
