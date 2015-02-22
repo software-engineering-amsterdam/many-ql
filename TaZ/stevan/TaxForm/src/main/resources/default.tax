@@ -16,5 +16,17 @@ form taxOfficeExample {
 		valueResidue: money = 
 			(sellingPrice - privateDebt)
 	}
+	
+	"Did you steal in 2010?"
+		hasStolen: boolean
+		
+	if (hasStolen) {
+		"How much did you steal?"
+			stealingAmount: money
+		"Did you hurt anyone in the process?"
+			hurtAnyone: boolean
+		"Did you get caught?"
+			gotCaught: boolean
+	}
 
 }

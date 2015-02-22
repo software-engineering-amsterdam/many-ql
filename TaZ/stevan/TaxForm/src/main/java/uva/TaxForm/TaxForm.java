@@ -3,9 +3,9 @@ package uva.TaxForm;
 import java.net.URL;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.TaxForm.Utils.TreeTaxFormListener;
+import uva.TaxForm.AST.Visitors.CommonTaxFormVisitor;
 import uva.TaxForm.antlr4.TaxFormLexer;
 import uva.TaxForm.antlr4.TaxFormParser;
 
@@ -32,23 +32,11 @@ public class TaxForm {
     	TaxFormLexer lexer = new TaxFormLexer(input);
     	CommonTokenStream tokens = new CommonTokenStream(lexer);
 		TaxFormParser parser = new TaxFormParser(tokens);
-		
-		ParseTreeWalker walker = new ParseTreeWalker();
-		CommonTaxFormListener listener = new CommonTaxFormListener(parser);
-		walker.walk(listener, parser.taxForm());
-		
-		//TreeTaxFormListener treeFrame = new TreeTaxFormListener(parser);
-		//walker.walk(treeFrame, parser.taxForm());
-		
-		
-		/*List<String> ruleNames = Arrays.asList(parser.getRuleNames());
-		parser.setBuildParseTree(true);
 
-		TreePrinterListener treeListener = new TreePrinterListener(ruleNames);
-		ParseTreeWalker.DEFAULT.walk(treeListener, parser.form());
-		String formatted = treeListener.toString();
-		
-		System.out.println(formatted);*/
-		
+		ParseTree tree = parser.form();
+		CommonTaxFormVisitor visitor = new CommonTaxFormVisitor();
+		visitor.visit(tree);
+		System.out.println( visitor.toString() );
+
     }
 }
