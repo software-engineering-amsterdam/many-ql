@@ -5,11 +5,11 @@ import lang.ql.semantics.Visitor;
 /**
  * Created by bore on 16/02/15.
  */
-public class Or extends BinaryOperator
+public class Or extends BinaryExpr
 {
-    public Or(Expression left, Expression right)
+    public Or(Expr left, Expr right, int lineNumber)
     {
-        super(left, right);
+        super(left, right, lineNumber);
     }
 
     public void accept(Visitor visitor)

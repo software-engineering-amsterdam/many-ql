@@ -1,9 +1,17 @@
 package uva.ql.ast.expressions.literals;
+import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.Expression;
 
-public abstract class Value<T> extends Expression{
+public class Value<T> extends Expression{
+
+	T value;
+	public Value(CodeLines _codeLines) {
+		super(_codeLines);
+	}
 	
-	public abstract T getValue();
-	public abstract String toString();
+	@Override
+	public String toString(){
+		return this.getClass().getName().toString() + "(" + this.getClass().getName().toString() + ")";
+	}
 }
 

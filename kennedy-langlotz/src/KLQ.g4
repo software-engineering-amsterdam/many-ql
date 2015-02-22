@@ -88,9 +88,9 @@ Time
     ;
 
 expr
-    : expr ( '*' | '/' ) expr #MulDiv
-    | expr ( '+' | '-' ) expr #AddSub
-    | expr ( '>=' | '>' | '<=' | '<' ) expr #Comparators
+    : expr operator=( '*' | '/' ) expr #MulDiv
+    | expr operator=( '+' | '-' ) expr #AddSub
+    | expr operator=( '>=' | '>' | '<=' | '<' ) expr #Comparators
     | expr '&&'  expr #And
     | expr '||' expr #Or
     | '(' expr ')' #Parens

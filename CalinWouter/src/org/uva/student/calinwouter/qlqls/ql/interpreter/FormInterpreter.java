@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
+import org.uva.student.calinwouter.qlqls.ql.model.FormField;
 import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldInUseException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
@@ -14,7 +15,6 @@ import java.util.List;
 public abstract class FormInterpreter extends AnalysisAdapter {
 
     private Map<String, TypeModel<?>> variableMap;
-    private LinkedList<PStmt> stmts;
     private Set<String> usedFields;
     private Set<String> usedLabels;
     protected List<InterpretationException> interpretationExceptions;
@@ -26,7 +26,14 @@ public abstract class FormInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseAForm(AForm node) {
-        stmts = node.getStmt();
+        LinkedList<PStmt> stmts = node.getStmt();
+        usedFields = new HashSet<String>();
+        usedLabels = new HashSet<String>();
+        warnings = new LinkedList<InterpretationException>();
+        interpretationExceptions = new LinkedList<InterpretationException>();
+        for (PStmt stmt : stmts) {
+            stmt.apply(createStmtInterpreter());
+        }
     }
 
     public TypeModel<?> getField(String key) {
@@ -51,23 +58,8 @@ public abstract class FormInterpreter extends AnalysisAdapter {
 
     protected abstract StmtInterpreter createStmtInterpreter();
 
-    protected void reInterpret() {
-        usedFields = new HashSet<String>();
-        usedLabels = new HashSet<String>();
-        warnings = new LinkedList<InterpretationException>();
-        interpretationExceptions = new LinkedList<InterpretationException>();
-        for (PStmt stmt : stmts) {
-            stmt.apply(createStmtInterpreter());
-        }
-    }
-
-    public void setFieldWithoutReinterprete(String key, TypeModel<?> value) {
-        variableMap.put(key, value);
-    }
-
     public void setField(String key, TypeModel<?> value) {
-        setFieldWithoutReinterprete(key, value);
-        reInterpret();
+        variableMap.put(key, value);
     }
 
     public FormInterpreter() {

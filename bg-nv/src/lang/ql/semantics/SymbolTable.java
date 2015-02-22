@@ -1,51 +1,53 @@
 package lang.ql.semantics;
 
 import lang.ql.ast.statement.Question;
-import lang.ql.ast.statement.QuestionType;
+import lang.ql.ast.types.Type;
+import lang.ql.semantics.errors.Error;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by bore on 13/02/15.
  */
 public class SymbolTable
 {
-    private Map<Question, QuestionType> questionToType;
-    private Map<String, Question> stringToQuestion;
+    private Map<String, Type> symbols;
+    private QuestErrInfo questErrInfo;
 
     public SymbolTable()
     {
-        this.questionToType = new HashMap<Question, QuestionType>();
-        this.stringToQuestion = new HashMap<String, Question>();
+        this.symbols = new HashMap<String, Type>();
+        this.questErrInfo = new QuestErrInfo();
     }
 
-    public void define(Question question, QuestionType type)
+    public QuestErrInfo getQuestErrInfo()
     {
-        this.questionToType.put(question, type);
-        this.stringToQuestion.put(question.getId(), question);
+        return this.questErrInfo;
     }
 
-    public QuestionType resolve(String name)
+    public void define(Question q, Type type)
     {
-        Question q = this.getQuestionByName(name);
-
-        if (!(this.questionToType.containsKey(q)))
+        String id = q.getId();
+        if (this.symbols.containsKey(id))
         {
-            throw new IllegalStateException("Not found in symbol table");
+            Type duplicateType = this.symbols.get(id);
+            Question duplicateQ = this.questErrInfo.getQuestionsById(id).get(0);
+            Error error = Error.identifierAlreadyDeclared(id, duplicateQ.getLineNumber(), q.getLineNumber());
+
+            if (!(type.equals(duplicateType)))
+            {
+                error = Error.identifierDeclaredOfDiffType(id, duplicateQ.getLineNumber(), q.getLineNumber());
+            }
+
+            this.questErrInfo.addMessage(error);
         }
 
-        return this.questionToType.get(q);
+        this.symbols.put(id, type);
+        this.questErrInfo.addQuestion(q);
     }
 
-    public Question getQuestionByName(String name)
+    public Type resolve(String name)
     {
-        if (!(this.stringToQuestion.containsKey(name)))
-        {
-            throw new IllegalStateException("Not found in symbol table");
-        }
-
-        return this.stringToQuestion.get(name);
+        return this.symbols.get(name);
     }
 }

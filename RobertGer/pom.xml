@@ -107,7 +107,7 @@
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>nl.uva.bromance.parsers.App</mainClass>
+                            <mainClass>nl.uva.bromance.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
+import lang.ql.ast.types.IntType;
+import lang.ql.ast.types.StrType;
 import lang.ql.semantics.*;
 import lang.ql.semantics.values.StringValue;
 import lang.ql.semantics.values.Value;
@@ -46,22 +48,11 @@ public class Main extends Application
             QLVisitorImpl visitor = new QLVisitorImpl();
             ast = (Form) visitor.visit(tree);
 
-            PrintVisitor print = new PrintVisitor();
-            print.visit(ast);
-
-            SymbolVisitor symbolVisitor = new SymbolVisitor();
-            symbolVisitor.visit(ast);
-            SymbolTable table = symbolVisitor.getSymbolTable();
-
-            TypeChecker typeVisitor = new TypeChecker(table);
-            typeVisitor.visit(ast);
-
-            Interpreter v = new Interpreter(typeVisitor.getQuestionDependencies());
+            Interpreter v = new Interpreter();
             v.visit(ast);
             values = v.getVariableValues();
 
-            System.out.println();
-            System.out.println(print.getString());
+            System.out.println(values);
         }
         catch (IOException e)
         {

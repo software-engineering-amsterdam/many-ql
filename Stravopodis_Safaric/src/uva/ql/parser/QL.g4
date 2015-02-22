@@ -14,112 +14,77 @@ grammar QL;
 
 prog	: form EOF ;
 
-form	: 'form' title=ID '{' sts+=stat* '}' ;
+form	: 'form' Identifier '{' stms+=stat* '}' ;
 
-quest 	: 'question' ID typeof primitiveType '{' stat* '}' ;
+<<<<<<< Updated upstream
+quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
+=======
+<<<<<<< HEAD
+quest 	: 'question' Identifier 'typeof' primitiveType '{' stms+=stat*'}';
+=======
+quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
+>>>>>>> FETCH_HEAD
+>>>>>>> Stashed changes
 
-stat	: quest
-	 	| decl
-	 	| expr 
-	 	| ifStatement
-	 	| quest_decl								
+stat	: expr
+		| quest
+	 	| decl 
+	 	| ifStatement								
 	 	| assign
 	 	;
 
-quest_decl	: ID '=' STRING ';' 								// quest_decl only within questions
-			| ID '.' questionType '=' QuestionLiteral ';'
-			| ID '.' 'value' '=' expr ';';	
+decl		: primitiveType Identifier '='? expr? ';';
 
-decl		: primitiveType ID '='? expr? ';';		// Allows int x; && int x = 3 - 1; 
+assign		: Identifier '=' exp = expr ';' 	# AssignExpr			
+			| Identifier '=' str = STRING ';' 	# AssignStr; 				
 
-assign		: ID '=' expr ';';
-
-expr returns [Expression result]: x = expr op = EXP<assoc=right> y = expr 
-								{
-									$result = (new Exponentiation($x.result,$y.result));
-								}	
-								| x = expr op = (MUL | DIV) y = expr
-								{
-									if ($op.type == MUL)
-									$result = (new Multiplication($x.result,$y.result));
-									else
-									$result = (new Division($x.result,$y.result));
-								}
-								| x = expr op = (ADD | SUB) y = expr
-								{
-									if ($op.type == ADD)
-									$result = (new Addition($x.result, $y.result));
-									else
-									$result = (new Substraction($x.result, $y.result));
-								}	
-								| x = expr op = (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) y = expr
-								{
-									switch($op.type){
-										case LESS: 			$result = (new Less($x.result,$y.result,$op.getText()));
-										case LESS_EQUAL:	$result = (new Less_Eq($x.result, $y.result, $op.getText()));
-										case GREATER:		$result = (new Greater($x.result, $y.result, $op.getText()));
-										case GREATER_EQUAL: $result = (new Greater_Eq($x.result, $y.result, $op.getText()));
-									}
-								}							
-								| x = expr op = (EQUAL | NOT_EQUAL) y = expr
-								{
-									if ($op.type == EQUAL)
-									$result = (new Equal($x.result, $y.result, $op.getText()));
-									else
-									$result = (new NotEqual($x.result, $y.result, $op.getText()));
-								}															
-								| x = expr op = LOG_AND y = expr
-								{
-									$result = (new And($x.result, $y.result, $op.getText()));
-								}																	
-								| x = expr op = LOG_OR y = expr
-								{
-									$result = (new Or($x.result, $y.result, $op.getText()));
-								}																	
-								| '(' x = expr ')'																		
-								| literal																	
-								;
+expr 		: LP x = expr RP
+			| x = expr op = EXP<assoc=right> y = expr 	
+			| x = expr op = (MUL | DIV) y = expr
+			| x = expr op = (ADD | SUB) y = expr
+			| x = expr op = (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) y = expr
+			| x = expr op = (EQUAL | NOT_EQUAL) y = expr
+			| x = expr op = LOG_AND y = expr
+			| x = expr op = LOG_OR y = expr																		
+			| lit = literal																		
+			;
 	
-ifStatement		: ifThen = 'if' '(' expr ')' '{' stat* '}';
-				//| ifElse = 'if' '(' expr ')' '{' stat* '}' elseStat = 'else' '(' stat* ')';
+ifStatement		: 'if' '(' expr ')' '{' stms+=stat* '}';
 	
 
 literal		: BooleanLiteral
-			| (INT | ('(-'INT')'))
-			| (FLOAT | ('(-'FLOAT')'))
-			| (CURRENCY | ('(-'CURRENCY')'))
-			| ID	
+			| Integer		
+			| Decimal
+			| Identifier							
 			;
 
 QuestionLiteral	: 'OrdinaryQuestion'
 				| 'ComputableQuestion'
 				;
-	
+
 BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
 primitiveType	: 'boolean'
-				| 'float'
-				| 'currency'
+				| 'decimal'
 				| 'string'
 				| 'int'
 				;
 
-WS			: (' ' | NL | '\t') -> skip;
+Identifier	: ID_LETTER (ID_LETTER | DIGIT)* ;
 
-ID			: ID_LETTER (ID_LETTER | INT)* ;
+Integer		: (DIGIT | ('(-'DIGIT')')) ;
+
+Decimal		: ('(''-')? DIGIT+ '.' DIGIT* ')'? ;
+
+WS			: (' ' | NL | '\t') -> skip;
 
 /* It gets form, if etc as an identifier and not as keywords */
 
 ID_LETTER	: 'a'..'z' | 'A'..'Z' | '_' ;
 
-INT			: '0' | [1-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
-
-FLOAT		: INT+ '.' INT*	// How to set the precision to for instance 4? That it returns a value of this precision
-			| '.' INT+;
-
-CURRENCY	: FLOAT;
+DIGIT			: '0' | [1-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
 
 STRING 		: '"'	(ESC|.)*? '"';
 fragment
@@ -130,8 +95,7 @@ COMMENT		: '/*' .*? '*/' -> skip;	// Multi line comments
 
 /* KEYWORDS - TOKENS */ 
 
-typeof		: 'typeof';
-questionType: 'questionType';
+
 MUL			: '*' ;
 DIV			: '/' ;
 ADD			: '+' ;
@@ -154,7 +118,3 @@ EXP			: '^' ;
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
 /* the listener ->  */
-
-
-
-

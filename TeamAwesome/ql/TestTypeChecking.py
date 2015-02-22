@@ -2,12 +2,11 @@ import argparse
 import glob
 
 from AST import AST
-import TypeChecker
+from typechecking import typechecking
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
-    tc = TypeChecker.TypeChecker()
-    typeCheckResult = tc.check(ast)
+    typeCheckResult = typechecking.check(ast)
 
     expectedNumMessages = int(
         testFileName.split('.')[0].split('-')[2]
@@ -16,10 +15,10 @@ def runTest(verbose, testFileName):
     numMessages = len(typeCheckResult.messages)
     success = numMessages == expectedNumMessages
 
-    if(not success):
+    if not success:
         print(('-'*10)+'Type check test FAIL')
 
-    if(not success or verbose):
+    if not success or verbose:
         for m in typeCheckResult.messages:
             print(m)
 

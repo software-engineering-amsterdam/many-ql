@@ -3,6 +3,7 @@ package com.klq;
 import com.klq.ast.IVisitor;
 import com.klq.ast.ANode;
 import com.klq.ast.impl.*;
+import com.klq.ast.impl.expr.*;
 import com.klq.logic.*;
 
 import java.util.ArrayList;
@@ -26,6 +27,26 @@ public class Visitor implements IVisitor {
     }
 
     @Override
+    public void visit(MultiplyNode node) {
+
+    }
+
+    @Override
+    public void visit(AddNode node) {
+
+    }
+
+    @Override
+    public void visit(SubtractNode node) {
+
+    }
+
+    @Override
+    public void visit(DivideNode node) {
+
+    }
+
+    @Override
     public void visit(QuestionNode node) {
         Id id = new Id(node.getQuestionID());
         Type type = Type.STRING;
@@ -34,13 +55,10 @@ public class Visitor implements IVisitor {
         com.klq.logic.Question question = new com.klq.logic.Question(id, type, null, text, null, null);
         questList.add(question);
 
-        for(ANode child : node.getChildren()){
-            visit(child);
-        }
     }
 
     @Override
-    public void visit(ComputedQuestionNodeNode node) {
+    public void visit(ComputedQuestionNode node) {
         Id id = new Id(node.getQuestionID());
         Type type = Type.NUMERAL;
         Text text = new Text(node.getText());
@@ -50,9 +68,6 @@ public class Visitor implements IVisitor {
         com.klq.logic.Question question = new com.klq.logic.Question(id, type, null, text, null, null);
         questList.add(question);
 
-        for(ANode child : node.getChildren()){
-            visit(child);
-        }
     }
 
     @Override

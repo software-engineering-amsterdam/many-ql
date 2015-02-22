@@ -1,25 +1,32 @@
 package main
 
 import (
+	"log"
+
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/stream"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/iostream"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/input"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/output"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
 )
 
 func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("error:", r)
+		}
+	}()
 	srcFn, inFn, outFn := cli.Args()
 
-	srcReader, inReader, outWriter := stream.New(srcFn, inFn, outFn)
+	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)
 	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)
 
 	if inReader != nil {
-		csvReader := input.New(fromInterpreter, toInterpreter, inReader)
+		csvReader := csvinput.New(fromInterpreter, toInterpreter, inReader)
 		csvReader.Read()
 	}
 
@@ -27,6 +34,6 @@ func main() {
 	frontend.New(fromInterpreter, toInterpreter, driver)
 	driver.Loop()
 
-	csvWriter := output.New(fromInterpreter, toInterpreter, outWriter)
+	csvWriter := csvoutput.New(fromInterpreter, toInterpreter, outWriter)
 	csvWriter.Write()
 }

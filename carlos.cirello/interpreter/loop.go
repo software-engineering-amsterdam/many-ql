@@ -5,113 +5,127 @@ package interpreter
 
 import (
 	"log"
+	"time"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/draw"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/execute"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/typecheck"
 )
 
 type interpreter struct {
 	questionaire *ast.QuestionaireNode
-	send         chan *Event
-	receive      chan *Event
-	execute      ast.Executer
-	walk         ast.Executer
-
-	symbolTable map[string]*ast.QuestionNode
-	symbolChan  chan *symbolEvent
+	send         chan *event.Frontend
+	receive      chan *event.Frontend
+	execute      *visitor.Visitor
+	draw         *visitor.Visitor
+	symbols      *symboltable.SymbolTable
 }
 
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
-func New(q *ast.QuestionaireNode) (chan *Event, chan *Event) {
-	toFrontend := make(chan *Event)
-	fromFrontend := make(chan *Event)
-	symbolChan := make(chan *symbolEvent)
+func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
+	symbolChan := make(chan *event.Symbol)
+	st := symboltable.New(symbolChan)
+
+	tc, tcst := typecheck.New()
+	tc.Visit(q)
+	if warn := tcst.Warn(); warn != nil {
+		for _, e := range warn {
+			log.Printf("warning: %s", e)
+		}
+	}
+	if err := tcst.Err(); err != nil {
+		for _, e := range err {
+			log.Println(e)
+		}
+		panic("typecheck errors found")
+	}
+
+	toFrontend := make(chan *event.Frontend)
+	fromFrontend := make(chan *event.Frontend)
 	v := &interpreter{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
-		execute:      &Execute{toFrontend, symbolChan},
-		walk:         &Walk{toFrontend},
-		symbolTable:  make(map[string]*ast.QuestionNode),
-		symbolChan:   symbolChan,
+		execute:      execute.New(toFrontend, symbolChan),
+		draw:         draw.New(toFrontend),
+		symbols:      st,
 	}
-	go v.updateSymbolTable()
 	go v.loop()
 	return toFrontend, fromFrontend
 }
 
-func (v *interpreter) updateSymbolTable() {
-	for r := range v.symbolChan {
-		if r.command == SymbolRead {
-			question, ok := v.symbolTable[r.name]
-			if !ok {
-				log.Fatalf("Identifier unknown: %s", r.name)
-			}
-			r.ret <- question
-		} else if r.command == SymbolCreate {
-			if _, ok := v.symbolTable[r.name]; !ok {
-				v.symbolTable[r.name] = r.content
-			}
-		} else if r.command == SymbolUpdate {
-			if _, ok := v.symbolTable[r.name]; ok {
-				v.symbolTable[r.name] = r.content
-			}
-		} else {
-			log.Fatalf("Invalid operation at symbols table: %#v", r.command)
-		}
-	}
-}
-
 func (v *interpreter) loop() {
-	v.send <- &Event{
-		Type: ReadyP,
-	}
-walkLoop:
+	ticker := time.Tick(100 * time.Millisecond)
+	redraw := false
 	for {
-		select {
-		case r := <-v.receive:
-			switch r.Type {
-			case ReadyT:
-				v.walk.Exec(v.questionaire)
-				v.send <- &Event{Type: Flush}
-				break walkLoop
-			}
+		v.send <- &event.Frontend{
+			Type: event.ReadyP,
 		}
-	}
 
-	for {
-		select {
-		case r := <-v.receive:
-			switch r.Type {
-			case Answers:
-				for identifier, answer := range r.Answers {
-					v.execute.Exec(v.questionaire)
-					v.send <- &Event{Type: Flush}
-					ret := make(chan *ast.QuestionNode)
-					v.symbolChan <- &symbolEvent{
-						command: SymbolRead,
-						name:    identifier,
-						ret:     ret,
-					}
-
-					q := <-ret
-					q.Content().From(answer)
-					v.symbolChan <- &symbolEvent{
-						command: SymbolUpdate,
-						name:    q.Identifier(),
-						content: q,
-					}
+	drawLoop:
+		for {
+			select {
+			case r := <-v.receive:
+				switch r.Type {
+				case event.ReadyT:
+					v.draw.Visit(v.questionaire)
+					v.send <- &event.Frontend{Type: event.Flush}
+					break drawLoop
 				}
-				fallthrough
-
-			case ReadyT:
-				v.execute.Exec(v.questionaire)
-				v.send <- &Event{Type: Flush}
 			}
+		}
 
-		default:
-			v.send <- &Event{Type: FetchAnswers}
+		if redraw {
+			redraw = false
+			go func(receive chan *event.Frontend) {
+				receive <- &event.Frontend{Type: event.ReadyT}
+			}(v.receive)
+		}
+	mainLoop:
+		for {
+			select {
+			case r := <-v.receive:
+				switch r.Type {
+
+				case event.Answers:
+					for identifier, answer := range r.Answers {
+						v.execute.Visit(v.questionaire)
+						v.send <- &event.Frontend{Type: event.Flush}
+						ret := make(chan *ast.QuestionNode)
+						v.symbols.Events <- &event.Symbol{
+							Command: event.SymbolRead,
+							Name:    identifier,
+							Ret:     ret,
+						}
+
+						q := <-ret
+						q.Content().From(answer)
+						v.symbols.Events <- &event.Symbol{
+							Command: event.SymbolUpdate,
+							Name:    q.Identifier(),
+							Content: q,
+						}
+					}
+					fallthrough
+
+				case event.ReadyT:
+					v.execute.Visit(v.questionaire)
+					v.send <- &event.Frontend{Type: event.Flush}
+
+				case event.Redraw:
+					redraw = true
+					break mainLoop
+
+				}
+
+			case <-ticker:
+				v.send <- &event.Frontend{Type: event.FetchAnswers}
+			}
 		}
 	}
-
 }

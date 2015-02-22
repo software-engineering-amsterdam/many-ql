@@ -1,30 +1,30 @@
 package uva.ql.ast;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.expressions.math.Addition;
 import uva.ql.ast.statements.Statement;
-import uva.ql.supporting.Tuple;
 
-public class Form implements ASTNode{
+public class Form extends ASTNode{
 	
-	protected Identifier identifier;
-	protected List<Statement> children;
+	private Identifier identifier;
+	private Statement statement;
 	
-	public Form (Identifier _identifier, List <Statement> stats){
+	public Form (Identifier _identifier, CodeLines _codeLines){
+		super(_codeLines);
 		this.identifier = _identifier;
-		this.children = stats;
 	}
-	public void addChild(Statement child){
-		this.children.add(child);
+	public Form(Identifier _identifier, Statement _statement, CodeLines _codeLines){
+		super(_codeLines);
+		this.identifier = _identifier;
+		this.statement = _statement;
 	}
-	
+	public Identifier getIdentifier(){
+		return this.identifier;
+	}
+	public Statement getStatement(){
+		return this.statement;
+	}
 	@Override
-	public Tuple<Integer, Integer> getCodeLine() {
-		// TODO Auto-generated method stub
-		return null;
+	public String toString(){
+		return "Form(" + this.identifier.toString() + "," + statement.toString() + ")";
 	}
 }

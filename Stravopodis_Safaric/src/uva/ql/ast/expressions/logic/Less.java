@@ -1,16 +1,17 @@
 package uva.ql.ast.expressions.logic;
 
+import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.Operators;
+import uva.ql.ast.expressions.Operator;
 
 public class Less extends BinaryExpressions{
 
-	public Less(Expression _left, Expression _right, String _operator){
-		super(_left, _right, Operators.LESS);
+	public Less(Expression _left, Expression _right, CodeLines _codeLines){
+		super(_left, _right, Operator.LESS, _codeLines);
 	}
 	@Override
 	public String toString(){
-		return this.getLeftExpr() + Operators.LESS + this.getLeftExpr();
+		return this.getLeftExpr() + Operator.LESS.getName() + this.getLeftExpr();
 	}
 }

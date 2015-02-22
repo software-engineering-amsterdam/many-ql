@@ -1,11 +1,23 @@
 package uva.ql.ast;
 
-import java.util.List;
-
-import uva.ql.supporting.Tuple;
-
-public interface ASTNode {
+public abstract class ASTNode {
 	
-	public String toString();
-	public Tuple<Integer, Integer> getCodeLine();
+	protected CodeLines lines;
+	
+	public ASTNode(CodeLines _lines){
+		this.lines = _lines;
+	}
+	public ASTNode(){
+		super();
+	}
+	public int getStartLine(){
+		return this.lines.getCodeLines().x;
+	}
+	public int getEndLine(){
+		return this.lines.getCodeLines().y;
+	}
+	@Override
+	public String toString(){
+		return this.toString();
+	}
 }

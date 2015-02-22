@@ -43,23 +43,25 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStat(QLParser.StatContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#quest_decl}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuest_decl(QLParser.Quest_declContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QLParser#decl}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDecl(QLParser.DeclContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#assign}.
+	 * Visit a parse tree produced by the {@code AssignExpr}
+	 * labeled alternative in {@link QLParser#assign}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssign(QLParser.AssignContext ctx);
+	T visitAssignExpr(QLParser.AssignExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AssignStr}
+	 * labeled alternative in {@link QLParser#assign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignStr(QLParser.AssignStrContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#expr}.
 	 * @param ctx the parse tree
@@ -84,16 +86,4 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrimitiveType(QLParser.PrimitiveTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#typeof}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTypeof(QLParser.TypeofContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestionType(QLParser.QuestionTypeContext ctx);
 }

@@ -1,6 +1,5 @@
-import com.klq.Visitor;
-import com.klq.ast.ANode;
 import com.klq.ast.ParseTreeConverter;
+import com.klq.ast.ASTPrinter;
 import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.*;
 import parser.*;
@@ -13,7 +12,6 @@ import java.io.InputStream;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println("start running");
         String inputFile = null;
         if ( args.length>0 ) inputFile = args[0];
         InputStream is = System.in;
@@ -28,14 +26,17 @@ public class Main {
         ParseTreeConverter eval = new ParseTreeConverter();
         eval.visit(tree);
 
-        Visitor visitor = new Visitor();
-        eval.getAst().accept(visitor);
+        //Visitor visitor = new Visitor();
+        //eval.getAst().accept(visitor);
 
-        visitor.getQuestList();
+        //print AST for test purposes
+        ASTPrinter printer = new ASTPrinter();
+        eval.getAst().accept(printer);
 
-        for (ANode child : eval.getAst().getChildren()){
-            child.printSelf();
-        }
-        System.out.println("done running");
+        //visitor.getQuestList();
+
+//        for (ANode child : eval.getAst().getChildren()){
+//            child.printSelf();
+//        }
     }
 }

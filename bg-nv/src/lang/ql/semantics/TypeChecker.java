@@ -4,64 +4,70 @@ import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
-
+import lang.ql.ast.types.*;
+import lang.ql.semantics.errors.Error;
 import java.util.*;
 
 /**
  * Created by bore on 13/02/15.
  */
-public class TypeChecker extends VisitorAbstract
+public class TypeChecker implements Visitor
 {
-    private static String ifConditionBoolean = "If statements should have conditions of type boolean";
-    private static String refToUndefQuestion = "Reference to undefined question";
-    private static String duplQuestWithDiffTypes = "Duplicate questions with different types";
-    private static String invalidTypeOperands = "Operands of invalid type";
-    // TODO: add check that duplicate questions are of the same type
-    // TODO: add warning for duplicate questions
-    // TODO: solve the passing of question dependencies in a different manner
-
     private SymbolTable symbolTable;
-    private Stack<QuestionType> typeStack;
-    private Stack<Question> variablesStack;
+    private Stack<Type> typeStack;
+    private Question currentQuestion;
+    private QuestionDependencies questionDependencies;
+    private QuestErrInfo info;
 
-    private Map<Question, Set<Question>> questionDependencies;
-    private Errors errors;
-
-    public TypeChecker(SymbolTable symbolTable)
+    public TypeChecker()
     {
-        this.symbolTable = symbolTable;
-        this.typeStack = new Stack<QuestionType>();
-        this.variablesStack = new Stack<Question>();
-        this.questionDependencies = new HashMap<Question, Set<Question>>();
-        this.errors = new Errors();
+        this.typeStack = new Stack<Type>();
+        this.questionDependencies = new QuestionDependencies();
+    }
+
+    public QuestErrInfo getInfo()
+    {
+        return this.info;
+    }
+
+    private void initializeSymbolTable(Form form)
+    {
+        if (this.symbolTable == null)
+        {
+            SymbolVisitor visitor = new SymbolVisitor();
+            form.accept(visitor);
+            this.symbolTable = visitor.getSymbolTable();
+            this.info = this.symbolTable.getQuestErrInfo();
+        }
     }
 
     @Override
     public void visit(Form form)
     {
+        this.initializeSymbolTable(form);
+
         for (Statement statement : form.getStatements())
         {
             statement.accept(this);
         }
 
-        if (!(this.errors.getExceptions().empty()))
+        List<String> cyclicIds = this.questionDependencies.findCycle();
+        if (cyclicIds != null)
         {
-            throw this.errors.getExceptions().pop();
+            this.info.addMessage(Error.cyclicQuestions(cyclicIds));
         }
-
-        // TODO: Check for cyclic dependencies
         System.out.print("");
     }
 
     @Override
     public void visit(IfCondition condition)
     {
-        condition.getExpression().accept(this);
+        condition.getExpr().accept(this);
 
-        QuestionType type = this.popFromStack();
-        if (type != QuestionType.BOOLEAN)
+        Type type = this.popType();
+        if (!(type.equals(new BoolType())))
         {
-            this.errors.logException(new IllegalArgumentException(ifConditionBoolean));
+            this.info.addMessage(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
         }
 
         for (Statement statement : condition.getStatements())
@@ -73,162 +79,258 @@ public class TypeChecker extends VisitorAbstract
     @Override
     public void visit(Question q)
     {
-        this.questionDependencies.put(q, Collections.<Question>emptySet());
+        this.questionDependencies.addDependency(q);
     }
 
     @Override
     public void visit(CalculatedQuestion q)
     {
-        q.getExpression().accept(this);
+        this.setScopeForExpr(q);
 
-        QuestionType defined = q.getQuestionType();
-        QuestionType calculated = this.popFromStack();
+        q.getExpr().accept(this);
 
-        if (defined != calculated)
+        Type defined = q.getType();
+        Type calculated = this.popType();
+
+        if (!(defined.equals(calculated)))
         {
-            this.errors.logException(new IllegalArgumentException(
-                    String.format("Question \"%s\" is defined as %s, but it is assigned a value of type %s.",
-                            q.getId(), defined, calculated)));
+            this.info.addMessage(Error.identifierDefEvalMismatch(
+                    q.getId(), defined.getTitle(), calculated.getTitle(), q.getLineNumber()));
         }
 
-        Set<Question> dep = new HashSet<Question>();
-        for (int i = 0; i < this.variablesStack.size(); i++)
+        this.resetScopeForExpr();
+    }
+
+    @Override
+    public void visit(Indent n)
+    {
+        Type type = this.symbolTable.resolve(n.getId());
+        if (type == null)
         {
-            dep.add(this.variablesStack.pop());
+            this.info.addMessage(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
+            type = this.tryToRecoverType();
         }
 
-        this.questionDependencies.put(q, dep);
+        List<Question> qs = this.info.getQuestionsById(n.getId());
+
+        if (this.currentQuestion != null)
+        {
+            for (Question q : qs)
+            {
+                this.questionDependencies.addDependency(this.currentQuestion, q);
+            }
+        }
+
+        this.pushType(type);
+    }
+
+    private Type tryToRecoverType()
+    {
+        if (this.typeStack.empty())
+        {
+            if (this.currentQuestion != null)
+            {
+                return this.currentQuestion.getType();
+            }
+
+            return new BoolType();
+        }
+
+        return this.typeStack.peek();
     }
 
     @Override
-    public void visit(IntegerExpr n)
+    public void visit(IntExpr n)
     {
-        this.typeStack.push(QuestionType.INTEGER);
+        this.pushType(new IntType());
     }
 
     @Override
-    public void visit(BooleanExpr n)
+    public void visit(BoolExpr n)
     {
-        this.typeStack.push(QuestionType.BOOLEAN);
+        this.pushType(new BoolType());
     }
 
     @Override
-    public void visit(DecimalExpr n)
+    public void visit(DecExpr n)
     {
-        this.typeStack.push(QuestionType.DECIMAL);
+        this.pushType(new DecType());
     }
 
     @Override
-    public void visit(StringExpr n)
+    public void visit(StrExpr n)
     {
-        this.typeStack.push(QuestionType.STRING);
+        this.pushType(new StrType());
     }
 
     @Override
     public void visit(Add e)
     {
-        e.getLeft().accept(this);
-        e.getRight().accept(this);
-
-        QuestionType right = this.popFromStack();
-        QuestionType left = this.popFromStack();
-
-        this.checkChildTypesConsistency(e, left, right);
-        this.checkAllowedTypes(e, left, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL, QuestionType.STRING));
-
-        this.typeStack.push(left);
+        this.visitBinaryExpr(e);
     }
 
     @Override
     public void visit(Sub e)
     {
-        e.getLeft().accept(this);
-        e.getRight().accept(this);
-
-        QuestionType right = this.popFromStack();
-        QuestionType left = this.popFromStack();
-
-        this.checkChildTypesConsistency(e, left, right);
-        this.checkAllowedTypes(e, left, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-
-        this.typeStack.push(left);
+        this.visitBinaryExpr(e);
     }
 
     @Override
-    public void visit(Gt e)
+    public void visit(Mul e)
     {
-//        this.checkBinaryOperators(e, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-//        e.setType(QuestionType.BOOLEAN);
+        this.visitBinaryExpr(e);
     }
 
     @Override
-    public void visit(Neg e)
+    public void visit(Div e)
     {
-        e.getOperand().accept(this);
-
-        QuestionType type = this.popFromStack();
-        this.checkAllowedTypes(e, type, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        this.typeStack.push(type);
+        this.visitBinaryExpr(e);
     }
 
     @Override
     public void visit(Pos e)
     {
-        e.getOperand().accept(this);
-
-        QuestionType type = this.popFromStack();
-        this.checkAllowedTypes(e, type, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        this.typeStack.push(type);
+        this.visitUnaryExpr(e);
     }
 
     @Override
-    public void visit(Variable n)
+    public void visit(Neg e)
     {
-        QuestionType type = this.symbolTable.resolve(n.getId());
-        if (type == null)
+        this.visitUnaryExpr(e);
+    }
+
+    @Override
+    public void visit(Not e)
+    {
+        this.visitUnaryExpr(e);
+    }
+
+    @Override
+    public void visit(Gt e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Lt e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(GtEqu e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(LtEqu e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Equ e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(NotEqu e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(And e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Or e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    private void visitBinaryExpr(BinaryExpr e)
+    {
+        e.getLeft().accept(this);
+        e.getRight().accept(this);
+
+        Type right = this.popType();
+        Type left = this.popType();
+
+        this.checkChildTypesConsistency(e, left, right);
+
+        this.checkTypeAndSetReturnType(e, left);
+    }
+
+    private void visitUnaryExpr(UnaryExpr e)
+    {
+        e.getOperand().accept(this);
+        Type operand = this.popType();
+
+        this.checkTypeAndSetReturnType(e, operand);
+    }
+
+    private void checkTypeAndSetReturnType(Expr e, Type childType)
+    {
+        String exprName = e.getClass().getSimpleName();
+        Set<Type> types = ExprTypes.exprAllowedTypes.get(exprName);
+
+        this.checkAllowedTypes(e, childType, types);
+
+        Type returnType = childType;
+        if (ExprTypes.exprReturnType.containsKey(exprName))
         {
-            this.errors.logException(new IllegalArgumentException(
-                    String.format("Identifier \"%s\" is not defined.", n.getId())));
+            returnType = ExprTypes.exprReturnType.get(exprName);
         }
 
-        Question q = this.symbolTable.getQuestionByName(n.getId());
-        this.variablesStack.push(q);
+        this.pushType(returnType);
+    }
 
+    private void checkChildTypesConsistency(AstNode n, Type leftChildType, Type rightChildType)
+    {
+        if (!(leftChildType.equals(rightChildType)))
+        {
+            this.info.addMessage(Error.typeMismatch(
+                    n.getClass().getSimpleName(), leftChildType, rightChildType,n.getLineNumber()));
+        }
+    }
+
+    private void checkAllowedTypes(Expr e, Type childType, Set<Type> allowedTypes)
+    {
+        if (!(allowedTypes.contains(childType)))
+        {
+            this.info.addMessage(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
+        }
+    }
+
+    private void pushType(Type type)
+    {
         this.typeStack.push(type);
     }
 
-    private void checkChildTypesConsistency(AstNode n, QuestionType leftChildType, QuestionType rightChildType)
-    {
-        if (leftChildType != rightChildType)
-        {
-            this.errors.logException(new IllegalArgumentException(
-                    String.format("%s has children of different types: %s and %s.",
-                            n.getClass().getSimpleName(), leftChildType, rightChildType)));
-        }
-    }
-
-    private void checkAllowedTypes(Expression e, QuestionType childType, List<QuestionType> allowedTypes)
-    {
-        if (!allowedTypes.contains(childType))
-        {
-            this.errors.logException(new IllegalArgumentException(String.format("%s cannot have children of type %s",
-                    e.getClass().getSimpleName(), childType)));
-        }
-    }
-
-    private QuestionType popFromStack()
+    private Type popType()
     {
         try
         {
             return this.typeStack.pop();
-        } catch (EmptyStackException ex)
+        }
+        catch (EmptyStackException ex)
         {
             throw ex;
         }
     }
 
-    public Map<Question, Set<Question>> getQuestionDependencies()
+    private void setScopeForExpr(CalculatedQuestion q)
     {
-        return questionDependencies;
+        this.currentQuestion = q;
+    }
+
+    private void resetScopeForExpr()
+    {
+        this.currentQuestion = null;
     }
 }

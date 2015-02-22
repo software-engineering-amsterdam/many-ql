@@ -1,14 +1,16 @@
 package nl.uva.softwcons.ast.expression.literal;
 
+import java.math.BigInteger;
+
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
 public class IntegerLiteral extends Expression {
 
-    private int value;
+    private BigInteger value;
 
     public IntegerLiteral(int value) {
-        this.value = value;
+        this.value = BigInteger.valueOf(value);
     }
 
     @Override
@@ -16,7 +18,7 @@ public class IntegerLiteral extends Expression {
         return visitor.visit(this);
     }
 
-    public int getValue() {
+    public BigInteger getValue() {
         return value;
     }
 

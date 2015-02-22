@@ -53,13 +53,6 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitQuest_decl(QLParser.Quest_declContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitDecl(QLParser.DeclContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -67,7 +60,14 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAssign(QLParser.AssignContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAssignExpr(QLParser.AssignExprContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAssignStr(QLParser.AssignStrContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -96,18 +96,4 @@ public class QLBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QLV
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitPrimitiveType(QLParser.PrimitiveTypeContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitTypeof(QLParser.TypeofContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitQuestionType(QLParser.QuestionTypeContext ctx) { return visitChildren(ctx); }
 }

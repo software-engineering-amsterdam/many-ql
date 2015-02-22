@@ -1,10 +1,6 @@
 require_relative "static_checker"
 
 class DuplicateLabelChecker < StaticChecker
-  visitor_for Form do |form|
-    form.accept(self)
-  end
-
   visitor_for Conditional do |conditional|
     conditional.accept(self)
   end

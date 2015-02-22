@@ -53,18 +53,6 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEqNotExpression(@NotNull TaZQLParser.EqNotExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEqNotExpression(@NotNull TaZQLParser.EqNotExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -77,6 +65,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBracketsExpression(@NotNull TaZQLParser.BracketsExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBracketsExpression(@NotNull TaZQLParser.BracketsExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -84,18 +84,6 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNotExpression(@NotNull TaZQLParser.NotExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNotExpression(@NotNull TaZQLParser.NotExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -161,6 +149,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterComparissionExpression(@NotNull TaZQLParser.ComparissionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComparissionExpression(@NotNull TaZQLParser.ComparissionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAndExpression(@NotNull TaZQLParser.AndExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -209,18 +209,6 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNestedExpression(@NotNull TaZQLParser.NestedExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNestedExpression(@NotNull TaZQLParser.NestedExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterStringType(@NotNull TaZQLParser.StringTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -252,6 +240,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitText(@NotNull TaZQLParser.TextContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterUnaryExpression(@NotNull TaZQLParser.UnaryExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUnaryExpression(@NotNull TaZQLParser.UnaryExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
