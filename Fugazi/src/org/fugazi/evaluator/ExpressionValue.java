@@ -11,6 +11,10 @@ public abstract class ExpressionValue<T> {
     public T getValue() {
         return this.value;
     }
+    
+    public boolean isNull() {
+        return false;
+    }
 
     public ExpressionValue add(ExpressionValue exprValue) {
         // TODO: throw UndefinedExpeption?

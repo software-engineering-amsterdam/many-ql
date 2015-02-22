@@ -83,7 +83,7 @@ public class EvaluatorTest {
         // test: Undefined
         Add expression = new Add(boolTrue, boolFalse);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -101,7 +101,7 @@ public class EvaluatorTest {
         // test: Undefined
         Sub expression = new Sub(stringFoo, stringBar);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class EvaluatorTest {
         // test: Undefined
         Add expression = new Add(boolTrue, boolFalse);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -128,7 +128,7 @@ public class EvaluatorTest {
         // test: Undefined
         Mul expression = new Mul(stringFoo, stringBar);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class EvaluatorTest {
         // test: Undefined
         Mul expression = new Mul(boolTrue, boolFalse);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -155,7 +155,7 @@ public class EvaluatorTest {
         // test: Undefined
         Div expression = new Div(stringFoo, stringBar);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
@@ -163,7 +163,7 @@ public class EvaluatorTest {
         // test: Undefined
         Div expression = new Div(boolTrue, boolFalse);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -206,7 +206,7 @@ public class EvaluatorTest {
         // test: Undefined
         And expression = new And(num5, num4);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
@@ -214,7 +214,7 @@ public class EvaluatorTest {
         // test: Undefined
         And expression = new And(stringFoo, stringBar);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
@@ -233,7 +233,7 @@ public class EvaluatorTest {
         // test: Undefined
         Or expression = new Or(num5, num4);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
@@ -241,7 +241,7 @@ public class EvaluatorTest {
         // test: Undefined
         Or expression = new Or(stringFoo, stringBar);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
