@@ -1,132 +1,113 @@
 package com.klq.logic.expression;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.klq.logic.expression.token.*;
+import com.klq.logic.expression.token.Number;
+
+import java.util.EmptyStackException;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by Timon on 17.02.2015.
  */
 public class CalculationExpression extends AExpression {
-    private final String NUMBER = "\\-?[0-9]*(\\.[0-9]*)?";
-    private final String OPERATOR = "[\\+\\-\\*/]";
 
     public CalculationExpression(String content) {
         super(content);
     }
 
     @Override
-    public String evaluate() {
-        return evaluate(evalParentheses(content));
-    }
-
-    private String evalParentheses(String content){
-        String result = content;
-        while(true) {
-            int parOpen = result.lastIndexOf("(");
-            int parClose = result.indexOf(")", parOpen);
-            if (parOpen == -1)
-                break;
-            String inner = result.substring(parOpen+1, parClose);
-            result = result.replace("(" + inner + ")", evaluate(inner));
-        }
-        return result;
-    }
-
-    private String evaluate(String content) {
-        List<String> values = new ArrayList(Arrays.asList(content.split(OPERATOR)));
-        List<String> operators = new ArrayList(Arrays.asList(content.split(NUMBER)));
-        operators = removeEmptyEntries(operators);
-        while (true) {
-            IndexOperationTuple tuple = findNextOperation(operators);
-            if (tuple.getIndex() == -1)
-                break;
-
-            double left = Double.parseDouble(values.get(tuple.getIndex()));
-            double right = Double.parseDouble(values.get(tuple.getIndex() + 1));
-            values.remove(tuple.getIndex() + 1);
-            operators.remove(tuple.getIndex());
-
-            String product = "";
-
-            switch (tuple.getOperation()) {
-                case MUL:
-                    product = Double.toString(left * right);
+    public String evaluate() throws IllegalArgumentException{
+        Tokenizer tokenizer = new Tokenizer(this);
+        Queue<AToken> outputQueue = new LinkedBlockingDeque<AToken>();
+        Stack<AToken> stack = new Stack<AToken>();
+        while (tokenizer.hasNext()){
+            AToken token = tokenizer.nextToken();
+            switch (token.getType()) {
+                case AToken.NUMBER:
+                    outputQueue.add(token);
                     break;
-                case DIV:
-                    product = Double.toString(left / right);
+                case AToken.OPERATOR:
+                    Operator o1 = (Operator) token;
+                    try {
+                        AToken o2 = stack.peek();
+                        while (o2.getType() == AToken.OPERATOR && (o1.getPrecedence() <= ((Operator)o2).getPrecedence()))
+                            outputQueue.add(stack.pop());
+                    } catch (EmptyStackException e) {}
+                    stack.push(o1);
                     break;
-                case ADD:
-                    product = Double.toString(left + right);
+                case AToken.PARENTHESES_OPEN:
+                    stack.push(token);
                     break;
-                case SUB:
-                    product = Double.toString(left - right);
+                case AToken.PARENTHESES_CLOSE:
+                    try {
+                        while (stack.peek().getType() != AToken.PARENTHESES_OPEN) {
+                            AToken t = stack.pop();
+                            if (t == null) {
+                                throw new IllegalArgumentException("Mismatched parentheses!");
+                            }
+                            outputQueue.add(t);
+                        }
+                    } catch (EmptyStackException e) {}
+                    stack.pop();
                     break;
             }
-            values.set(tuple.getIndex(), product);
         }
-        return values.get(0);
+        try {
+            while (stack.peek() != null) {
+                AToken t = stack.pop();
+                if (t.getType() == AToken.PARENTHESES_OPEN || t.getType() == AToken.PARENTHESES_CLOSE)
+                    throw new IllegalArgumentException("Mismatched parentheses!");
+                outputQueue.add(t);
+            }
+        } catch (EmptyStackException e) {}
+
+        return evaluateRpn(outputQueue);
     }
 
-    private List<String> removeEmptyEntries(List<String> list){
-        List<String> result = new ArrayList<String>();
-        result.addAll(list);
-        boolean cont = true;
-        do {
-            cont = result.remove("");
-        } while (cont);
-        return result;
+    private String evaluateRpn(Queue<AToken> queue) throws IllegalArgumentException{
+        Stack<AToken> stack = new Stack<AToken>();
+        while(!queue.isEmpty()){
+            AToken top = queue.poll();
+            if (top.getType() == AToken.NUMBER) {
+                stack.push(top);
+            } else if (top.getType() == AToken.OPERATOR) {
+                double right = Double.valueOf(((Number) stack.pop()).getValue());
+                double left = Double.valueOf(((Number) stack.pop()).getValue());
+                stack.push(calculate(left, right, ((Operator)top).getOperatorType()));
+            } else
+                throw new IllegalArgumentException("Queue not well formed!");
+        }
+        return ((Number)stack.pop()).getValue();
     }
 
-    private IndexOperationTuple findNextOperation(List<String> operators){
-        int mulIndex = operators.indexOf("*");
-        int divIndex = operators.indexOf("/");
-        int addIndex = operators.indexOf("+");
-        int subIndex = operators.indexOf("-");
-
-        if (mulIndex != -1 || divIndex != -1){
-            if (mulIndex == -1)
-                return new IndexOperationTuple(divIndex, Operation.DIV);
-            else if (divIndex == -1)
-                return new IndexOperationTuple(mulIndex, Operation.MUL);
-            else
-                return new IndexOperationTuple(Math.min(mulIndex, divIndex),
-                        (mulIndex < divIndex ? Operation.MUL : Operation.DIV));
-        } else if (addIndex != -1 || subIndex != -1){
-            if (addIndex == -1)
-                return new IndexOperationTuple(subIndex, Operation.SUB);
-            else if (subIndex == -1)
-                return new IndexOperationTuple(addIndex, Operation.ADD);
-            else
-                return new IndexOperationTuple(Math.min(addIndex, subIndex),
-                        (addIndex < subIndex ? Operation.ADD : Operation.SUB));
+    private Number calculate(double left, double right, Operator.OperatorType operator)
+            throws IllegalArgumentException{
+        switch (operator){
+            case MUL: return new Number(left * right);
+            case DIV: return new Number(left / right);
+            case ADD: return new Number(left + right);
+            case SUB: return new Number(left - right);
         }
-        return new IndexOperationTuple();
+        throw new IllegalArgumentException("Unknown operation: " + operator);
     }
 
-    enum Operation {
-        MUL, DIV, ADD, SUB
-    }
-
-    class IndexOperationTuple {
-        private final int index;
-        private final Operation operation;
-
-        public IndexOperationTuple(){
-            this(-1, null);
+    private String toRPN(PriorityQueue<AToken> queue){
+        String result = "";
+        for (AToken token : queue){
+            switch (token.getType()){
+                case AToken.NUMBER:
+                    result += ((Number) token).getValue();
+                    break;
+                case AToken.OPERATOR:
+                    result += ((Operator) token).getOperatorType();
+                    break;
+                default: result += "ERR";
+            }
+            result += " ";
         }
-
-        public IndexOperationTuple(int index, Operation operation) {
-            this.index = index;
-            this.operation = operation;
-        }
-
-        public int getIndex() {
-            return index;
-        }
-
-        public Operation getOperation() {
-            return operation;
-        }
+        return result.trim();
     }
 }

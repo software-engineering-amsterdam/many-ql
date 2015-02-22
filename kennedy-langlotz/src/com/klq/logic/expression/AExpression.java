@@ -10,5 +10,9 @@ public abstract class AExpression {
         this.content = content.replaceAll("\\s", "");
     }
 
-    public abstract String evaluate();
+    public abstract String evaluate() throws IllegalArgumentException;
+
+    public String getContent() {
+        return content;
+    }
 }
