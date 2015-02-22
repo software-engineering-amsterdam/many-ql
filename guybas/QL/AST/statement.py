@@ -27,5 +27,8 @@ class IStatement:
     def dependency_collection(self, dependencies):
         pass
 
+    def return_expressions(self):
+        pass
+
     def set_parent_id(self, pid):
         pass

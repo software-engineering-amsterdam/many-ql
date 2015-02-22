@@ -6,6 +6,18 @@ class Form:
         self.name = name
         self.introduction = introduction
         self.statements = statements
+        self.type_dict = self.create_statement_dict()
+
+    def create_statement_dict(self):
+        d = {}
+        for s in self.statements:
+            d = dict(list(d.items()) + list(s.id_type_collection().items()))
+        d["comp_operator"] = "comp_operator"
+        d["calc_operator"] = "calc_operator"
+        d["bool"] = "bool"
+        d["number"] = "number"
+
+        return d
 
     def pretty_print(self):
         s = self.name + "\n"

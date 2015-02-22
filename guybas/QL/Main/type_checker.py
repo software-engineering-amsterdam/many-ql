@@ -3,6 +3,7 @@ import collections
 
 from Grammar.expressions import *
 from Main.exceptions import *
+from Main.expression_validator import *
 
 
 class TypeChecker:
@@ -17,16 +18,18 @@ class TypeChecker:
         print("ids:")
         print(ids)
 
-        print("labels:")
+        print("\nlabels:")
         print(labels)
 
-        print("transitive dependencies:")
+        print("\ntransitive dependencies:")
         print(transitive_dependencies)
+        print("")
+        TypeChecker.is_valid_expression(self.form.statements, self.form.type_dict)
 
     @staticmethod
     def check_duplicates(list):
-        # check for duplicates
-        duplicates =  [x for x, y in collections.Counter(list).items() if y > 1]
+        # get_dependencies for duplicates
+        duplicates = [x for x, y in collections.Counter(list).items() if y > 1]
         return duplicates
 
     @staticmethod
@@ -76,18 +79,18 @@ class TypeChecker:
         """
         This function allows to return the input type or to compare input type
         with pre-defined type
-        :param int|str|boolean|list|float|complex cinput: the input to check
+        :param int|str|boolean|list|float|complex cinput: the input to get_dependencies
         :param str|bool ctype: The expected type to compare with, False to return the input type
         :return: True|False|str
         """
         if isinstance(cinput, str):
-            type_class = QuestionTypes.text_name
+            type_class = BasicTypes.text_name
         elif isinstance(cinput, (int, float, complex)):  # in python 3 int = long
-            type_class = QuestionTypes.number_name
+            type_class = BasicTypes.number_name
         elif isinstance(cinput, bool):
-            type_class = QuestionTypes.bool_name
+            type_class = BasicTypes.bool_name
         elif isinstance(cinput, list):
-            type_class = QuestionTypes.listName
+            type_class = BasicTypes.listName
         elif isinstance(cinput, Operator):
             type_class = Expressions.operator_name
         else:
@@ -100,5 +103,11 @@ class TypeChecker:
         return type_class
 
     @staticmethod
-    def is_valid_expression(subexpression):
-        pass
+    def is_valid_expression(statements, type_dict):
+        expressions = []
+        s = []
+
+        for x in statements:
+            expressions += x.return_expressions()
+        for e in expressions:
+            print(ExpressionValidator.validator(e.return_type(type_dict)))
