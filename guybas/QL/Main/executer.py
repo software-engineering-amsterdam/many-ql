@@ -12,10 +12,10 @@ try:
     #print(form.pretty_print())
 
     #print(form.type_dict)
-    typeChecker = TypeChecker(form)
-    #gui = QuestionnaireGUI(form)
-    #gui.generate_gui()
-    #gui.show()
+    #typeChecker = TypeChecker(form)
+    gui = QuestionnaireGUI(form)
+    gui.generate_gui()
+    gui.show()
 
 except Exception as e:
     exceptions_handling(e)

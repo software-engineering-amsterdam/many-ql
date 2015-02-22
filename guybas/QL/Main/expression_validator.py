@@ -7,7 +7,7 @@ class ExpressionValidator:
     @staticmethod
     def validator(expression):
         try:
-            bool = Literal("bool")
+            b = Literal("bool")
             number = Literal("number")
             op = Literal("calc_operator")
             calc_expr = Forward()
@@ -15,7 +15,7 @@ class ExpressionValidator:
             calc_expr << (atom + ZeroOrMore(op + calc_expr))
 
             compare = Literal("comp_operator")
-            comp_expr = bool + ZeroOrMore(compare + bool)
+            comp_expr = b + ZeroOrMore(compare + b)
             condition = calc_expr + compare + calc_expr | comp_expr
             final_condition = condition + stringEnd()
 

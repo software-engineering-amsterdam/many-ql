@@ -1,11 +1,11 @@
 form taxOfficeExample { 
   question hasSoldHouse {
     "Did you sell a house in 2010?"
-    money = 3
+    money = -3
   }
 
   if "h" * 2 + 6 > "h" {
-    if 3 == hasSoldHouse {
+    if 3 == -hasSoldHouse {
       question hasBoughtHouse {
         "Did you buy a house1"
         boolean = "no"
@@ -18,6 +18,11 @@ form taxOfficeExample {
     boolean = "no"
   }
   
+
+  question noValueQuestion {
+     "noValueQuestion"
+     boolean
+  }
 }
 
 form second_form {

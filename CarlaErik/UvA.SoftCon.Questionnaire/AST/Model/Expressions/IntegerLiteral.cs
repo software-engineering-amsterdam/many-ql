@@ -21,5 +21,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 
         public IntegerLiteral(int value, TextPosition position)
             : base(value, position) { }
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

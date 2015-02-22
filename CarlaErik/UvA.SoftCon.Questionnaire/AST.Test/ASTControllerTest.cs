@@ -6,6 +6,7 @@ using UvA.SoftCon.Questionnaire.Parsing;
 using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model;
 
 namespace UvA.SoftCon.Questionnaire.AST.Test
 {
@@ -107,6 +108,44 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             var assignment = form.Statements[0] as Assignment;
 
             Assert.AreEqual<string>("5 * 6 + 7", assignment.Expression.ToString());
+        }
+
+        [TestMethod]
+        public void TestParseIfStatement()
+        {
+            // Arrange
+            var controller = new ASTController();
+            string ql = "if(hasSoldHouse && boughtNew) { int sellingPrice = 0 }";
+
+            // Act
+            var form = controller.ParseQLString(ql);
+
+            // Assert
+            Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
+            Assert.AreEqual<int>(1, form.Statements.Count);
+            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements[0].Type);
+            var ifStatement = form.Statements[0] as IfStatement;
+            Assert.AreEqual<int>(1, ifStatement.Then.Count);
+            Assert.AreEqual<int>(0, ifStatement.Else.Count);
+        }
+
+        [TestMethod]
+        public void TestParseIfElseStatement()
+        {
+            // Arrange
+            var controller = new ASTController();
+            string ql = "if(hasSoldHouse && boughtNew) { int sellingPrice = 0 } else { int askingPrice = 0 }";
+
+            // Act
+            var form = controller.ParseQLString(ql);
+
+            // Assert
+            Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
+            Assert.AreEqual<int>(1, form.Statements.Count);
+            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements[0].Type);
+            var ifStatement = form.Statements[0] as IfStatement;
+            Assert.AreEqual<int>(1, ifStatement.Then.Count);
+            Assert.AreEqual<int>(1, ifStatement.Else.Count);
         }
     }
 }
