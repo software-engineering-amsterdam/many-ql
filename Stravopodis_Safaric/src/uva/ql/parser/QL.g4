@@ -16,15 +16,7 @@ prog	: form EOF ;
 
 form	: 'form' Identifier '{' stms+=stat* '}' ;
 
-<<<<<<< Updated upstream
-quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
-=======
-<<<<<<< HEAD
 quest 	: 'question' Identifier 'typeof' primitiveType '{' stms+=stat*'}';
-=======
-quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
->>>>>>> FETCH_HEAD
->>>>>>> Stashed changes
 
 stat	: expr
 		| quest
