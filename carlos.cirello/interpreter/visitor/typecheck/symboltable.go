@@ -7,6 +7,8 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
+// SymbolTable is the typechecker specific symbol table which detects duplicated
+// identifiers and labels
 type SymbolTable struct {
 	Events chan *event.Symbol
 
@@ -28,10 +30,12 @@ func newSymbolTable(events chan *event.Symbol) *SymbolTable {
 	return table
 }
 
+// Err returns all found errors during symbolTabel operation
 func (s SymbolTable) Err() []error {
 	return s.err
 }
 
+// Warn returns all found warnings during symbolTabel operation
 func (s SymbolTable) Warn() []error {
 	return s.warn
 }
