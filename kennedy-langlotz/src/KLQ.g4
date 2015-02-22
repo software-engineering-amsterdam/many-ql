@@ -40,7 +40,7 @@ question
     ;
 
 condQuestion
-    : 'if' expr 'then' NEWLINE question End
+    : 'if' expr 'then' NEWLINE question+ End
     ;
 
 uncondQuestion
