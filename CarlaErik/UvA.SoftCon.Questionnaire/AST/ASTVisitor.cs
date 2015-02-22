@@ -11,56 +11,68 @@ namespace UvA.SoftCon.Questionnaire.AST
 {
     public abstract class ASTVisitor : IASTVisitor
     {
-        public virtual void Visit(Form node)
+        public virtual void Visit(Form form)
         {
-            foreach (var statement in node.Statements)
+            foreach (var statement in form.Statements)
             {
                 statement.Accept(this);
             }
         }
 
-        public virtual void Visit(BinaryExpression node)
+        public virtual void Visit(BinaryExpression binaryExpression)
         {
-            node.Left.Accept(this);
-            node.Right.Accept(this);
+            binaryExpression.Left.Accept(this);
+            binaryExpression.Right.Accept(this);
         }
 
-        public virtual void Visit(Identifier node)
-        {
-        }
-
-        public virtual void Visit<T>(Literal<T> node)
+        public virtual void Visit(Identifier identifier)
         {
         }
 
-        public virtual void Visit(Question node)
+        public virtual void Visit(BooleanLiteral literal)
         {
-            node.Id.Accept(this);
         }
 
-        public virtual void Visit(Declaration node)
+        public virtual void Visit(DoubleLiteral literal)
         {
-            node.Id.Accept(this);
-            if (node.Initialization != null)
+        }
+
+        public virtual void Visit(IntegerLiteral literal)
+        {
+        }
+
+        public virtual void Visit(StringLiteral literal)
+        {
+        }
+
+        public virtual void Visit(Question question)
+        {
+            question.Id.Accept(this);
+        }
+
+        public virtual void Visit(Declaration declaration)
+        {
+            declaration.Id.Accept(this);
+            if (declaration.Initialization != null)
             {
-                node.Initialization.Accept(this);
+                declaration.Initialization.Accept(this);
             }
         }
 
-        public virtual void Visit(Assignment node)
+        public virtual void Visit(Assignment assignment)
         {
-            node.Variable.Accept(this);
-            node.Expression.Accept(this);
+            assignment.Variable.Accept(this);
+            assignment.Expression.Accept(this);
         }
 
-        public virtual void Visit(IfStatement node)
+        public virtual void Visit(IfStatement ifStatement)
         {
-            node.If.Accept(this);
-            foreach (var statement in node.Then)
+            ifStatement.If.Accept(this);
+            foreach (var statement in ifStatement.Then)
             {
                 statement.Accept(this);
             }
-            foreach (var statement in node.Else)
+            foreach (var statement in ifStatement.Else)
             {
                 statement.Accept(this);
             }
