@@ -11,9 +11,7 @@ import parser.nodes.statement.IfStatement;
 import parser.nodes.statement.Statement;
 import parser.nodes.type.Number;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -23,9 +21,11 @@ public class TypeChecker implements Visitor {
     public static final String ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE = "Question identifier: [%s] was already declared with type: [%s].";
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
     private final Map<Identifier, QuestionType> questions;
+    private final Set<Identifier> identifiers;
 
     public TypeChecker() {
         this.questions = new HashMap<>();
+        this.identifiers = new HashSet<>();
     }
 
     @Override
@@ -35,29 +35,24 @@ public class TypeChecker implements Visitor {
 
     private void visitStatement(List<Statement> statements) {
         if (statements != null && !statements.isEmpty()) {
-            statements
-                    .stream()
-                    .forEach(this::visitStatement);
-        }
-    }
-
-    private void visitStatement(Statement statement) {
-        if (statement instanceof IfStatement) {
-            visit((IfStatement) statement);
-        } else if (statement instanceof Question) {
-            visit((Question) statement);
-        } else {
-            visit(statement);
+            statements.stream()
+                    .forEach(statement -> statement.accept(this));
         }
     }
 
     @Override
     public void visit(IfStatement ifStatement) {
         visitStatement(ifStatement.getStatements());
+        visit(ifStatement.getExpression());
+    }
+
+    private void visit(Expression expression) {
+        expression.accept(this);
     }
 
     @Override
     public void visit(Statement statement) {
+        statement.accept(this);
     }
 
     @Override
@@ -93,7 +88,6 @@ public class TypeChecker implements Visitor {
 
     @Override
     public void visit(And and) {
-
     }
 
     @Override
@@ -113,7 +107,6 @@ public class TypeChecker implements Visitor {
 
     @Override
     public void visit(Identifier identifier) {
-        int i = 0;
     }
 
     @Override

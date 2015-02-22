@@ -1,5 +1,6 @@
 package parser.nodes.statement;
 
+import parser.Visitor;
 import parser.nodes.expression.Expression;
 
 import java.util.List;
@@ -24,4 +25,8 @@ public class IfStatement extends Statement {
         return statements;
     }
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -1,5 +1,6 @@
 package parser.nodes.question;
 
+import parser.Visitor;
 import parser.nodes.expression.Expression;
 import parser.nodes.expression.Identifier;
 import parser.nodes.statement.Statement;
@@ -39,4 +40,8 @@ public class Question extends Statement {
         return expression;
     }
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }
