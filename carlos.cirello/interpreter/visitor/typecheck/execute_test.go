@@ -38,7 +38,7 @@ func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
 	)
 	tc, st := New()
 	tc.Visit(form)
-	if err := st.Err(); err != nil {
+	if err := st.Err(); err == nil {
 		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
 	}
 }
