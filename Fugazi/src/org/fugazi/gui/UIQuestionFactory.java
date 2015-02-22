@@ -7,16 +7,16 @@ public class UIQuestionFactory {
 
     public UIQuestion getUIQuestion(Question _question) {
         
-        if (_question.getType().toString() == "Bool") {
+        if (_question.getType().toString().equals("Bool")) {
             return new UIBoolQuestion(_question);
 
-        } else if (_question.getType().toString() == "Int") {
+        } else if (_question.getType().toString().equals("Int")) {
             return new UINumQuestion(_question);
 
-        } else if (_question.getType().toString() == "String") {
+        } else if (_question.getType().toString().equals("String")) {
             return new UITextQuestion(_question);
         }
 
-        return new UINullQuestion();
+        return null;
     }
 }

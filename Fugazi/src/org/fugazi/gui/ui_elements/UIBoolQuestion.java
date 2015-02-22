@@ -4,18 +4,10 @@ import org.fugazi.ast.statement.Question;
 
 import javax.swing.*;
 
-public class UIBoolQuestion implements UIQuestion {
-
-    private final JCheckBox checkBox;
-    private final Question question;
+public class UIBoolQuestion extends UIQuestion {
 
     public UIBoolQuestion(Question _question) {
-        this.question = _question;
-        checkBox = new JCheckBox(this.question.getLabel());
-    } 
-    
-    @Override
-    public JComponent getComponent() {
-        return this.checkBox;
+        super(_question);
+        this.component = new JCheckBox(this.question.getLabel());
     }
 }

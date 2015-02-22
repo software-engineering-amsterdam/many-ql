@@ -1,25 +1,16 @@
 package org.fugazi.gui.ui_elements;
 
 import org.fugazi.ast.statement.ComputedQuestion;
-import org.fugazi.ast.statement.Question;
 
 import javax.swing.*;
 
-public class UIComputedQuestion implements UIQuestion {
-
-    private final JPanel panel;
-    private final Question question;
+public class UIComputedQuestion extends UIQuestion {
 
     public UIComputedQuestion(ComputedQuestion _question) {
-        this.question = _question;
+        super(_question);
 
-        panel = new JPanel();
-        panel.add(new JLabel(this.question.getLabel()));
-        //panel.add(new JLabel(this.question.getLabel()));
-    }
-
-    @Override
-    public JComponent getComponent() {
-        return this.panel;
+        this.component = new JPanel();
+        this.component.add(new JLabel(this.question.getLabel()));
+        //component.add(new JLabel(this.question.getLabel()));
     }
 }

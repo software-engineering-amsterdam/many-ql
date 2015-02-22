@@ -41,7 +41,7 @@ public class Main {
         Evaluator evaluator = new Evaluator();
 
         // Render GUI.
-//        GUIManager guiManager = new GUIManager(form, evaluator);
-//        guiManager.renderGUI();
+        GUIManager guiManager = new GUIManager(form, evaluator);
+        guiManager.renderGUI();
     }
 }

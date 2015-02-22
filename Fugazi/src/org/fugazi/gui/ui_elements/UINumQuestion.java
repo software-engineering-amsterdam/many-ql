@@ -4,23 +4,15 @@ import org.fugazi.ast.statement.Question;
 
 import javax.swing.*;
 
-public class UINumQuestion implements UIQuestion {
-
-    private final JPanel panel;
-    private final Question question;
+public class UINumQuestion extends UIQuestion {
 
     public UINumQuestion(Question _question) {
-        this.question = _question;
-        
-        panel = new JPanel();
-        panel.add(new JLabel(this.question.getLabel()));
+        super(_question);
+
+        this.component = new JPanel();
+        this.component.add(new JLabel(this.question.getLabel()));
         JFormattedTextField numOnlyField = new JFormattedTextField();
         numOnlyField.setColumns(10);
-        panel.add(numOnlyField);
-    }
-
-    @Override
-    public JComponent getComponent() {
-        return this.panel;
+        this.component.add(numOnlyField);
     }
 }

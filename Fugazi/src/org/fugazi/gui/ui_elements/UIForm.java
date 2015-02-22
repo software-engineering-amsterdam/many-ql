@@ -20,8 +20,8 @@ public class UIForm extends JFrame {
         this.add(panel);
     }
     
-    public void addQuestion(UIQuestion _question) {
-        JComponent component = _question.getComponent();
+    public void addElement(IUIElement _elem) {
+        JComponent component = _elem.getComponent();
         if (component != null)
             this.panel.add(component);
     }
