@@ -90,7 +90,7 @@ computed : varType ASSIGN '(' allMighty+ ')' ;
  * questions at once.
  */
 condition 
-	: 'if' '(' expression+ ')' '{' ( question | condition )+ '}'	
+	: 'if' '(' allMighty+ ')' '{' ( question | condition )+ '}'	
 		(
 			('else' '{' ( question | condition )+ '}')
 			|
@@ -110,15 +110,15 @@ allMighty
 	
 expression
 	: varName											#singleExpression
-	| AND varName										#andExpression
-	| OR varName										#orExpression
-	| NOT varName										#notExpression
-	| LOWER varName										#lowerExpression
-	| UPPER varName										#upperExpression
-	| LOWER_EQUAL varName								#lowerEqualExpression
-	| UPPER_EQUAL varName								#upperEqualExpression
-	| EQUAL varName										#equalExpression
-	| NOT_EQUAL varName									#notEqualExpression
+	| AND allMighty										#andExpression
+	| OR allMighty										#orExpression
+	| NOT allMighty										#notExpression
+	| LOWER allMighty									#lowerExpression
+	| UPPER allMighty									#upperExpression
+	| LOWER_EQUAL allMighty								#lowerEqualExpression
+	| UPPER_EQUAL allMighty								#upperEqualExpression
+	| EQUAL allMighty									#equalExpression
+	| NOT_EQUAL allMighty								#notEqualExpression
 	| MINUS allMighty									#minusExpression
 	| ADD allMighty										#addExpression
 	| MULTIPLY allMighty								#multiplyExpression
