@@ -38,6 +38,9 @@ class Question(IStatement):
             dependencies[self.id] = []
         return dependencies
 
+    def id_type_collection(self):
+        return {self.id : self.type}
+
     # Getters
     def get_label(self):
         return self.label

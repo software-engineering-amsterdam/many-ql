@@ -3,6 +3,7 @@ import collections
 
 from Grammar.expressions import *
 from Main.exceptions import *
+from Main.expression_validator import *
 
 
 class TypeChecker:
@@ -23,7 +24,7 @@ class TypeChecker:
         print("transitive dependencies:")
         print(transitive_dependencies)
         print("")
-        TypeChecker.is_valid_expression(self.form.statements)
+        TypeChecker.is_valid_expression(self.form.statements, self.form.type_dict)
 
     @staticmethod
     def check_duplicates(list):
@@ -102,10 +103,11 @@ class TypeChecker:
         return type_class
 
     @staticmethod
-    def is_valid_expression(statements):
+    def is_valid_expression(statements, type_dict):
         expressions = []
         s = []
+
         for x in statements:
             expressions += x.return_expressions()
         for e in expressions:
-            e.return_type()
+            print(ExpressionValidator.validator(e.return_type(type_dict)))

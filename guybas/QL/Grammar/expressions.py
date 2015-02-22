@@ -16,7 +16,8 @@ class Expressions:
             id.setParseAction(ExpressionFactory.make_variable)
 
     # operators   :: + | - | / | * | > | >= | < | <= | == | && | || | !
-    operator = oneOf('+ - / * > >= < <= == && || !').setParseAction(ExpressionFactory.make_operator)
+    operator = oneOf('+ - / *').setParseAction(ExpressionFactory.make_calc_operator) | \
+        oneOf(" > >= < <= == && || !").setParseAction((ExpressionFactory.make_comp_operator))
     operator_name = 'operator'
 
     expr = Forward()

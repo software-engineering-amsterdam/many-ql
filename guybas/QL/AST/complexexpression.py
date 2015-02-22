@@ -8,24 +8,10 @@ class Expression:
     def __init__(self):
         pass
 
-    def return_type(self):
-        types = []
-        b = False
-        op = None
-        last = None
+    def return_type(self, type_dict):
+        types = ""
         for e in self.expression:
-            x = e.return_type()
-            if b:
-                if e.return_type in op.compatible and last.return_type in op.compatible:
-                    last = op.return_type()
-                    b = False
-            elif x == "operator":
-                b = True
-                op = x
-            else:
-                last = e
-        print(self.expression)
-        print(last)
+            types += e.return_type(type_dict)
         return types
 
     def pretty_print(self):
@@ -74,8 +60,8 @@ class ComplexExpression(Expression):
     def as_list(self):
         return self.expression
 
-    def return_type(self):
-        types = []
+    def return_type(self, type_dict):
+        types = ""
         for e in self.expression:
-            types.append(e.return_type())
+            types += "( " + (e.return_type(type_dict)) + " )"
         return types

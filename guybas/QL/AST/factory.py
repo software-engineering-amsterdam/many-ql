@@ -21,8 +21,12 @@ class ExpressionFactory:
         return Number(int(tokens[0]))
 
     @staticmethod
-    def make_operator(tokens):
-        return Operator(tokens[0])
+    def make_calc_operator(tokens):
+        return CalcOperator(tokens[0])
+
+    @staticmethod
+    def make_comp_operator(tokens):
+        return CompareOperator(tokens[0])
 
     @staticmethod
     def make_bool(tokens):
