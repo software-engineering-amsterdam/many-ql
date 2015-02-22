@@ -1,4 +1,4 @@
-package lang.ql.ast.types;
+package lang.ql.ast.type;
 
 /**
  * Created by bore on 17/02/15.

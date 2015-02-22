@@ -1,5 +1,7 @@
 package lang.ql.semantics.values;
 
+import lang.ql.semantics.ValueVisitor;
+
 /**
  * Created by bore on 16/02/15.
  */
@@ -67,5 +69,11 @@ public class BooleanValue extends Value<Boolean>
     public Value notEquBoolean(BooleanValue v)
     {
         return new BooleanValue(!(v.getValue().equals(this.getValue())));
+    }
+
+    @Override
+    public void accept(ValueVisitor visitor)
+    {
+        visitor.visit(this);
     }
 }

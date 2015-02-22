@@ -3,6 +3,7 @@ package lang.ql.semantics;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
+import lang.ql.ast.type.*;
 
 /**
  * Created by bore on 13/02/15.

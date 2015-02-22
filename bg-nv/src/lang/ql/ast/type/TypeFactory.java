@@ -1,4 +1,4 @@
-package lang.ql.ast.types;
+package lang.ql.ast.type;
 
 /**
  * Created by bore on 20/02/15.
@@ -25,6 +25,11 @@ public class TypeFactory
         if (s.equalsIgnoreCase("string"))
         {
             return new StrType();
+        }
+
+        if (s.equalsIgnoreCase("date"))
+        {
+            return new DateType();
         }
 
         throw new IllegalStateException("Type does not exist");

@@ -1,7 +1,5 @@
 package lang.ql.semantics.errors;
 
-import lang.ql.ast.types.Type;
-
 /**
  * Created by bore on 20/02/15.
  */

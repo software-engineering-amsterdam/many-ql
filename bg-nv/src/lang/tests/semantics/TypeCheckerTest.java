@@ -41,7 +41,7 @@ public class TypeCheckerTest
         List<Message> ms = info.getMessages();
         assertEquals(1, ms.size());
         TestHelper.assertErrorMessage(ms.get(0),
-                "Error (Line 2): expression of type Add cannot have children of different types: integer and string");
+                "Error (Line 2): expression of type Add cannot have children of different type: integer and string");
     }
 
     @Test

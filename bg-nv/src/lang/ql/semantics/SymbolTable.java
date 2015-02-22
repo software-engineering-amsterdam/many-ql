@@ -1,7 +1,7 @@
 package lang.ql.semantics;
 
 import lang.ql.ast.statement.Question;
-import lang.ql.ast.types.Type;
+import lang.ql.ast.type.Type;
 import lang.ql.semantics.errors.Error;
 
 import java.util.*;
