@@ -10,8 +10,8 @@ import (
 type symbolTable struct {
 	Events chan *event.Symbol
 
-	symbols  map[string]*ast.QuestionNode
-	captions map[string][]string
+	symbols map[string]*ast.QuestionNode
+	labels  map[string][]string
 
 	err  []error
 	warn []error
@@ -19,9 +19,9 @@ type symbolTable struct {
 
 func newSymbolTable(events chan *event.Symbol) *symbolTable {
 	table := &symbolTable{
-		symbols:  make(map[string]*ast.QuestionNode),
-		captions: make(map[string][]string),
-		Events:   events,
+		symbols: make(map[string]*ast.QuestionNode),
+		labels:  make(map[string][]string),
+		Events:  events,
 	}
 
 	go table.loop()
@@ -54,12 +54,12 @@ func (s *symbolTable) loop() {
 		case event.SymbolCreate:
 			if _, ok := s.symbols[r.Name]; !ok {
 				s.symbols[r.Name] = r.Content
-				if _, ok := s.captions[r.Content.Label()]; ok {
+				if _, ok := s.labels[r.Content.Label()]; ok {
 					s.warn = append(s.warn, fmt.Errorf(
 						"Repeated question caption at typechecker: %s for %s",
 						r.Content.Label(), r.Name))
 				}
-				s.captions[r.Content.Label()] = append(s.captions[r.Content.Label()], r.Content.Identifier())
+				s.labels[r.Content.Label()] = append(s.labels[r.Content.Label()], r.Content.Identifier())
 			} else {
 				s.err = append(s.err, fmt.Errorf(
 					"Duplicated identifier found at typechecker: %s",
