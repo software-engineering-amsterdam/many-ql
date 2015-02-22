@@ -4,6 +4,8 @@
 
 package com.antlr4.zarina.tazql;
 
+import gui.MainFrame;
+
 import java.io.FileInputStream;
 import java.util.Scanner;
 
@@ -11,15 +13,19 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import ast.form.Form;
+import ast.treevisitor.MyBaseVisitor;
+
 
 	public class MainTaZQL {
 		
-		public static void main(String[] args) {
+		public static void main(String[] args) throws Exception {
 			Scanner scan = null;
-			try {
+	
 				// has to be fixed later
-				FileInputStream questionnaireFile = new FileInputStream("./test2.ql"); 
+				FileInputStream questionnaireFile = new FileInputStream("./test.ql"); 
 				scan = new Scanner(questionnaireFile, "UTF-8").useDelimiter("\\A");
+				
 				String inputQuestions = scan.next();
 								
 				ANTLRInputStream inputStream = new ANTLRInputStream(inputQuestions);
@@ -29,13 +35,18 @@ import org.antlr.v4.runtime.tree.ParseTree;
 				TaZQLParser parser = new TaZQLParser(tokens);			
 				
 				//Walk my tree
-				ParseTree tree = parser.questionnaire();
+				ParseTree tree = parser.form();
 				MyBaseVisitor v = new MyBaseVisitor();
-				v.visit(tree);
+				Form form = (Form) v.visit(tree);
 					
 				// Build a tree in console
-				System.out.println("Tree: " + tree.toStringTree(parser));
-									    
+			//	System.out.println("Tree: " + tree.toStringTree(parser));
+				System.out.println(form.toString());
+				
+				// Let's try my gui...
+			//	GUIMaker guiMaker = new GUIMaker();
+				MainFrame mf = new MainFrame();
+				mf.magic(form);
 				// Tree in JFrame
 				/*
 				JFrame treeframe = new JFrame("Tree");
@@ -47,17 +58,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 				treeframe.setVisible( true );			
 				*/
 			}
-			catch (Exception e){
-				System.err.println(e.getMessage());
-			} 
-			finally {
-				scan.close();
-				if (scan!=null) 
-					try {scan.close();} 
-					catch (Exception e) {System.err.println(e.getMessage());}
-				
-			} 
-		}	
+		
+	
 	   
 	}
 
