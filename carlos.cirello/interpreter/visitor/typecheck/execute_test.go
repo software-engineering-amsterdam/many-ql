@@ -23,25 +23,25 @@ func TestDuplicatedIdentifier(t *testing.T) {
 }
 
 // todo(carlos) TestDuplicatedIdentifierInIfBlocks
-// func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
-// 	form := parser.ReadQL(
-// 		strings.NewReader(`form SomeForm {
-// 			"QuestionLabel" question1 bool
-// 			if (question1){
-// 				"QuestionLabel2 - True" question2 string
-// 			}
-// 			if (!question1){
-// 				"QuestionLabel2 - False" question2 string
-// 			}
-// 		}`),
-// 		"test.ql",
-// 	)
-// 	tc, st := New()
-// 	tc.Visit(form)
-// 	if err := st.Err(); err == nil {
-// 		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
-// 	}
-// }
+func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
+	form := parser.ReadQL(
+		strings.NewReader(`form SomeForm {
+			"QuestionLabel" question1 bool
+			if (question1){
+				"QuestionLabel2 - True" question2 string
+			}
+			if (!question1){
+				"QuestionLabel2 - False" question2 string
+			}
+		}`),
+		"test.ql",
+	)
+	tc, st := New()
+	tc.Visit(form)
+	if err := st.Err(); err != nil {
+		t.Errorf("Typecheck error: duplicated identifiers should trigger error")
+	}
+}
 
 func TestDuplicatedIdentifierDifferentTypes(t *testing.T) {
 	form := parser.ReadQL(
