@@ -1,6 +1,7 @@
 package parser.nodes.question;
 
 import parser.Visitor;
+import parser.nodes.AbstractNode;
 import parser.nodes.expression.Expression;
 import parser.nodes.expression.Identifier;
 import parser.nodes.statement.Statement;
@@ -41,7 +42,7 @@ public class Question extends Statement {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public AbstractNode accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 }

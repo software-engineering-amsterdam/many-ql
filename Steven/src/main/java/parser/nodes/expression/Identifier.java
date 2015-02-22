@@ -1,6 +1,7 @@
 package parser.nodes.expression;
 
 import parser.Visitor;
+import parser.nodes.AbstractNode;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -17,8 +18,8 @@ public class Identifier extends Expression {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public AbstractNode accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override
@@ -41,5 +42,10 @@ public class Identifier extends Expression {
     @Override
     public String toString() {
         return identifier;
+    }
+
+    @Override
+    public boolean isConditional() {
+        return true;
     }
 }

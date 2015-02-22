@@ -89,13 +89,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOperator(@NotNull QLParser.OperatorContext ctx) { }
+	@Override public void enterArithmeticOperator(@NotNull QLParser.ArithmeticOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOperator(@NotNull QLParser.OperatorContext ctx) { }
+	@Override public void exitArithmeticOperator(@NotNull QLParser.ArithmeticOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicalOperator(@NotNull QLParser.LogicalOperatorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalOperator(@NotNull QLParser.LogicalOperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

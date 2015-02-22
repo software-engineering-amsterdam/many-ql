@@ -20,4 +20,10 @@ public abstract class BinaryExpression extends Expression {
     public Expression getRight() {
         return right;
     }
+
+    public String toString() {
+        return left + " " + right;
+    }
+
+
 }

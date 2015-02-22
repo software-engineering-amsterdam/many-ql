@@ -7,5 +7,5 @@ import parser.Visitor;
  */
 public interface AbstractNode {
 
-    public void accept(Visitor visitor);
+    public AbstractNode accept(Visitor visitor);
 }

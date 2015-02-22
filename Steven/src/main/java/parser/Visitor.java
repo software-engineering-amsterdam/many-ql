@@ -1,5 +1,6 @@
 package parser;
 
+import parser.nodes.AbstractNode;
 import parser.nodes.Form;
 import parser.nodes.expression.*;
 import parser.nodes.question.Label;
@@ -15,43 +16,43 @@ import parser.nodes.type.Number;
  */
 public interface Visitor {
 
-    void visit(Form form);
+    AbstractNode visit(Form form);
 
-    void visit(IfStatement ifStatement);
+    AbstractNode visit(IfStatement ifStatement);
 
-    void visit(Question question);
+    AbstractNode visit(Question question);
 
-    void visit(Addition addition);
+    AbstractNode visit(Addition addition);
 
-    void visit(And and);
+    AbstractNode visit(And and);
 
-    void visit(Equal equal);
+    AbstractNode visit(Equal equal);
 
-    void visit(GreaterOrEqual greaterOrEqual);
+    AbstractNode visit(GreaterOrEqual greaterOrEqual);
 
-    void visit(GreaterThan greaterThan);
+    AbstractNode visit(GreaterThan greaterThan);
 
-    void visit(Identifier identifier);
+    AbstractNode visit(Identifier identifier);
 
-    void visit(LessOrEqual lessOrEqual);
+    AbstractNode visit(LessOrEqual lessOrEqual);
 
-    void visit(LessThan lessThan);
+    AbstractNode visit(LessThan lessThan);
 
-    void visit(Multiplication multiplication);
+    AbstractNode visit(Multiplication multiplication);
 
-    void visit(Not not);
+    AbstractNode visit(Not not);
 
-    void visit(NotEqual notEqual);
+    AbstractNode visit(NotEqual notEqual);
 
-    void visit(Or or);
+    AbstractNode visit(Or or);
 
-    void visit(Statement statement);
+    AbstractNode visit(Statement statement);
 
-    void visit(Boolean aBoolean);
+    AbstractNode visit(Boolean aBoolean);
 
-    void visit(Number number);
+    AbstractNode visit(Number number);
 
-    void visit(QuestionType questionType);
+    AbstractNode visit(QuestionType questionType);
 
-    void visit(Label label);
+    AbstractNode visit(Label label);
 }

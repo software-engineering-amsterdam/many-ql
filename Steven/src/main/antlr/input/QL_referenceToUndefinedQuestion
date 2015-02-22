@@ -3,4 +3,8 @@ form formname{
     if ( name1 && name9) {
         name4 BOOLEAN "label"
     }
+
+    if( n || r){
+        name5 BOOLEAN "label"
+    }
 }

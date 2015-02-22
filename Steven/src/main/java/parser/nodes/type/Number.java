@@ -1,5 +1,6 @@
 package parser.nodes.type;
 
+import parser.nodes.AbstractNode;
 import parser.nodes.expression.Expression;
 import parser.Visitor;
 
@@ -19,7 +20,17 @@ public class Number extends Expression {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public AbstractNode accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
+    @Override
+    public boolean isConditional() {
+        return false;
     }
 }

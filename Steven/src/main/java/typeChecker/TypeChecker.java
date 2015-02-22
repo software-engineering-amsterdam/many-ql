@@ -2,6 +2,7 @@ package typeChecker;
 
 import exceptions.TypeCheckException;
 import parser.Visitor;
+import parser.nodes.AbstractNode;
 import parser.nodes.Form;
 import parser.nodes.expression.*;
 import parser.nodes.question.Label;
@@ -13,7 +14,6 @@ import parser.nodes.type.Number;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -22,6 +22,8 @@ public class TypeChecker implements Visitor {
 
     public static final String ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE = "Question identifier: [%s] was already declared with type: [%s].";
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
+    public static final String EXPRESSION_EXPECTS_BOOLEAN = "Expression expects boolean operands for type: [%s], but found: [%s]";
+    public static final String EXPRESSION_EXPECTS_NON_BOOLEAN = "Expression does not expect boolean operands for type: [%s], but found: [%s]";
     private final Map<Identifier, QuestionType> questions;
     private final Set<Identifier> identifiers;
 
@@ -31,16 +33,17 @@ public class TypeChecker implements Visitor {
     }
 
     @Override
-    public void visit(Form form) {
+    public AbstractNode visit(Form form) {
         visitStatement(form.getElements());
         checkReferenceToUndefinedQuestions();
+        return form;
     }
 
     private void checkReferenceToUndefinedQuestions() {
         String undefinedReferences = identifiers
                 .stream()
                 .filter(identifier -> !questions.containsKey(identifier))
-                .map(identifier -> identifier.toString())
+                .map(Identifier::toString)
                 .collect(Collectors.joining(", "));
         if (!undefinedReferences.isEmpty()) {
             throw new TypeCheckException("Invalid reference to undefined question: " + undefinedReferences);
@@ -55,22 +58,23 @@ public class TypeChecker implements Visitor {
     }
 
     @Override
-    public void visit(IfStatement ifStatement) {
+    public AbstractNode visit(IfStatement ifStatement) {
         visitStatement(ifStatement.getStatements());
         visit(ifStatement.getExpression());
+        return ifStatement;
     }
 
-    private void visit(Expression expression) {
-        expression.accept(this);
-    }
-
-    @Override
-    public void visit(Statement statement) {
-        statement.accept(this);
+    private AbstractNode visit(Expression expression) {
+        return expression.accept(this);
     }
 
     @Override
-    public void visit(Question question) {
+    public AbstractNode visit(Statement statement) {
+        return statement.accept(this);
+    }
+
+    @Override
+    public AbstractNode visit(Question question) {
         if (questionAlreadyFound(question)) {
             if (foundQuestionHasSameType(question)) {
                 throw new TypeCheckException(
@@ -82,7 +86,7 @@ public class TypeChecker implements Visitor {
                                 question.getIdentifier().getIdentifier(), questions.get(question.getIdentifier()).name()));
             }
         } else {
-            questions.put(question.getIdentifier(), question.getQuestionType());
+            return questions.put(question.getIdentifier(), question.getQuestionType());
         }
     }
 
@@ -96,83 +100,107 @@ public class TypeChecker implements Visitor {
     }
 
     @Override
-    public void visit(Addition addition) {
-
+    public AbstractNode visit(Addition addition) {
+        return visitArithmeticExpression(addition);
     }
 
     @Override
-    public void visit(And and) {
-        visit(and.getLeft());
-        visit(and.getRight());
+    public AbstractNode visit(And and) {
+        return visitLogicalExpression(and);
     }
 
     @Override
-    public void visit(Equal equal) {
+    public AbstractNode visit(Or or) {
+        return visitLogicalExpression(or);
+    }
 
+    private AbstractNode visitLogicalExpression(LogicalOperator expression) {
+        if (!expression.getLeft().isConditional()) {
+            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, expression.getClass().getSimpleName(), expression.getLeft().toString()));
+        } else if (!expression.getRight().isConditional()) {
+            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, expression.getClass().getSimpleName(), expression.getRight().toString()));
+        }
+        visit(expression.getLeft());
+        visit(expression.getRight());
+        return expression;
+    }
+
+    private AbstractNode visitArithmeticExpression(ArithmeticOperator expression) {
+        if (expression.getLeft().isConditional()) {
+            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_NON_BOOLEAN, expression.getClass().getSimpleName(), expression.getLeft().toString()));
+        } else if (expression.getRight().isConditional()) {
+            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_NON_BOOLEAN, expression.getClass().getSimpleName(), expression.getRight().toString()));
+        }
+        visit(expression.getLeft());
+        visit(expression.getRight());
+        return expression;
     }
 
     @Override
-    public void visit(GreaterOrEqual greaterOrEqual) {
-
+    public AbstractNode visit(Equal equal) {
+        visit(equal.getLeft());
+        visit(equal.getRight());
+        return equal;
     }
 
     @Override
-    public void visit(GreaterThan greaterThan) {
-
+    public AbstractNode visit(GreaterOrEqual greaterOrEqual) {
+        return visitLogicalExpression(greaterOrEqual);
     }
 
     @Override
-    public void visit(Identifier identifier) {
+    public AbstractNode visit(GreaterThan greaterThan) {
+        return visitLogicalExpression(greaterThan);
+    }
+
+    @Override
+    public AbstractNode visit(Identifier identifier) {
         identifiers.add(identifier); // may overwrite existing items
+        return identifier;
     }
 
     @Override
-    public void visit(LessOrEqual lessOrEqual) {
-
+    public AbstractNode visit(LessOrEqual lessOrEqual) {
+        return visitLogicalExpression(lessOrEqual);
     }
 
     @Override
-    public void visit(LessThan lessThan) {
-
+    public AbstractNode visit(LessThan lessThan) {
+        return visitLogicalExpression(lessThan);
     }
 
     @Override
-    public void visit(Multiplication multiplication) {
-
+    public AbstractNode visit(Multiplication multiplication) {
+        return visitArithmeticExpression(multiplication);
     }
 
     @Override
-    public void visit(Not not) {
-
+    public AbstractNode visit(Not not) {
+        return visit(not.getOperand());
     }
 
     @Override
-    public void visit(NotEqual notEqual) {
-
+    public AbstractNode visit(NotEqual notEqual) {
+        return notEqual;
     }
 
     @Override
-    public void visit(Or or) {
-
+    public AbstractNode visit(parser.nodes.type.Boolean aBoolean) {
+        return aBoolean;
     }
 
     @Override
-    public void visit(parser.nodes.type.Boolean aBoolean) {
-
+    public AbstractNode visit(Number number) {
+        return number;
     }
 
     @Override
-    public void visit(Number number) {
-
+    public AbstractNode visit(QuestionType questionType) {
+        return questionType;
     }
 
     @Override
-    public void visit(QuestionType questionType) {
-
-    }
-
-    @Override
-    public void visit(Label label) {
-
+    public AbstractNode visit(Label label) {
+        return label;
     }
 }

@@ -10,7 +10,7 @@ public enum QuestionType implements AbstractNode {
     STRING(), INTEGER(), BOOLEAN(), DATE(), MONEY(), DECIMAL();
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public AbstractNode accept(Visitor visitor) {
+        return visitor.visit(this);
     }
 }

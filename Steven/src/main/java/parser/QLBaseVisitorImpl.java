@@ -149,11 +149,36 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
         Expression left = (Expression) visit(ctx.left);
         Expression right = (Expression) visit(ctx.right);
 
+        if (ctx.arithmeticOperator() != null) {
+            return visitOperator(ctx, left, right);
+        } else if (ctx.logicalOperator() != null) {
+            return visitCondition(ctx.logicalOperator(), left, right);
+        } else {
+            throw new ParseException("No binary operator for symbol: " + ctx.arithmeticOperator().getText());
+        }
+    }
+
+
+    private boolean isMultiplication(QLParser.ExpressionContext ctx) {
+        return ctx.arithmeticOperator().multiplication != null;
+    }
+
+    private boolean isAddition(QLParser.ExpressionContext ctx) {
+        return ctx.arithmeticOperator().add != null;
+    }
+
+    public AbstractNode visitOperator(QLParser.ExpressionContext ctx, Expression left, Expression right) {
         if (isMultiplication(ctx)) {
             return new Multiplication(left, right);
         } else if (isAddition(ctx)) {
             return new Addition(left, right);
-        } else if (isLessThan(ctx)) {
+        } else {
+            throw new ParseException("");//todo
+        }
+    }
+
+    public AbstractNode visitCondition(@NotNull QLParser.LogicalOperatorContext ctx, Expression left, Expression right) {
+        if (isLessThan(ctx)) {
             return new LessThan(left, right);
         } else if (isGreaterThan(ctx)) {
             return new GreaterThan(left, right);
@@ -169,49 +194,41 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
             return new Equal(left, right);
         } else if (isNotEqual(ctx)) {
             return new NotEqual(left, right);
+        } else {
+            throw new ParseException("");//todo
         }
-
-        throw new ParseException("No binary operator for symbol: " + ctx.operator().getText());
     }
 
-    private boolean isMultiplication(QLParser.ExpressionContext ctx) {
-        return ctx.operator().multiplication != null;
+    private boolean isLessThan(QLParser.LogicalOperatorContext ctx) {
+        return ctx.lessThan != null;
     }
 
-    private boolean isAddition(QLParser.ExpressionContext ctx) {
-        return ctx.operator().add != null;
+    private boolean isGreaterThan(QLParser.LogicalOperatorContext ctx) {
+        return ctx.greatherThan != null;
     }
 
-    private boolean isLessThan(QLParser.ExpressionContext ctx) {
-        return ctx.operator().lessThan != null;
+    private boolean isAnd(QLParser.LogicalOperatorContext ctx) {
+        return ctx.and != null;
     }
 
-    private boolean isGreaterThan(QLParser.ExpressionContext ctx) {
-        return ctx.operator().greatherThan != null;
+    private boolean isOr(QLParser.LogicalOperatorContext ctx) {
+        return ctx.or != null;
     }
 
-    private boolean isAnd(QLParser.ExpressionContext ctx) {
-        return ctx.operator().and != null;
+    private boolean isLessOrEqual(QLParser.LogicalOperatorContext ctx) {
+        return ctx.lessOrEqual != null;
     }
 
-    private boolean isOr(QLParser.ExpressionContext ctx) {
-        return ctx.operator().or != null;
+    private boolean isGreaterOrEqual(QLParser.LogicalOperatorContext ctx) {
+        return ctx.greaterOrEqual != null;
     }
 
-    private boolean isLessOrEqual(QLParser.ExpressionContext ctx) {
-        return ctx.operator().lessOrEqual != null;
+    private boolean isEqual(QLParser.LogicalOperatorContext ctx) {
+        return ctx.equal != null;
     }
 
-    private boolean isGreaterOrEqual(QLParser.ExpressionContext ctx) {
-        return ctx.operator().greaterOrEqual != null;
-    }
-
-    private boolean isEqual(QLParser.ExpressionContext ctx) {
-        return ctx.operator().equal != null;
-    }
-
-    private boolean isNotEqual(QLParser.ExpressionContext ctx) {
-        return ctx.operator().notEqual != null;
+    private boolean isNotEqual(QLParser.LogicalOperatorContext ctx) {
+        return ctx.notEqual != null;
     }
 
     private AbstractNode visitUnaryOperator(QLParser.ExpressionContext ctx) {
@@ -235,7 +252,7 @@ public class QLBaseVisitorImpl extends QLBaseVisitor<AbstractNode> {
     }
 
     private boolean isBinaryOperator(QLParser.ExpressionContext ctx) {
-        return ctx.operator() != null
+        return (ctx.arithmeticOperator() != null || ctx.logicalOperator() != null)
                 && ctx.left != null
                 && ctx.right != null;
     }

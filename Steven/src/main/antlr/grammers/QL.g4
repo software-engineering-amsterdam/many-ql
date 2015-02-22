@@ -14,7 +14,8 @@ else_clause
 expression
     : leftParenthesis='(' expression rightParenthesis=')'
     | negation='!' expression
-    | left=expression operator right=expression
+    | left=expression arithmeticOperator right=expression
+    | left=expression logicalOperator right=expression
     | numbers=NUMBERS
     | identifier
     | booleanExpression
@@ -23,10 +24,12 @@ booleanExpression
     : isTrue='true'
     | isFalse='false'
     ;
-operator
+arithmeticOperator
     : (multiplication='*' | division='/')
     | (add='+'| min='-')
-    | (greatherThan='>' | lessThan='<' | lessOrEqual='<=' | greaterOrEqual='>=')
+    ;
+logicalOperator
+    : (greatherThan='>' | lessThan='<' | lessOrEqual='<=' | greaterOrEqual='>=')
     | (equal='==' | notEqual='!=')
     | and='&&'
     | or='||'
@@ -34,7 +37,6 @@ operator
 identifier
     : (UPPERCASE | LOWERCASE | NUMBERS)+
     ;
-
 question
     : identifier question_type question_label question_expression?
     ; // if question has an expression it is a computed question.
