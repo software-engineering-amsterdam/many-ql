@@ -98,3 +98,18 @@ func TestCyclicDependencies(t *testing.T) {
 	tc.Visit(form)
 	t.Errorf("Typecheck error: Invalid operations should trigger panic")
 }
+
+func TestRepeatedCaptions(t *testing.T) {
+	form := parser.ReadQL(
+		strings.NewReader(`form SomeForm {
+			"QuestionLabel" question1 string
+			"QuestionLabel" question2 numeric
+		}`),
+		"test.ql",
+	)
+	tc, st := New()
+	tc.Visit(form)
+	if warn := st.Warn(); warn == nil {
+		t.Errorf("Typecheck error: duplicated captions should trigger warnings")
+	}
+}

@@ -10,14 +10,18 @@ import (
 type symbolTable struct {
 	Events chan *event.Symbol
 
-	table map[string]*ast.QuestionNode
-	err   []error
+	symbols  map[string]*ast.QuestionNode
+	captions map[string][]string
+
+	err  []error
+	warn []error
 }
 
 func newSymbolTable(events chan *event.Symbol) *symbolTable {
 	table := &symbolTable{
-		table:  make(map[string]*ast.QuestionNode),
-		Events: events,
+		symbols:  make(map[string]*ast.QuestionNode),
+		captions: make(map[string][]string),
+		Events:   events,
 	}
 
 	go table.loop()
@@ -28,6 +32,10 @@ func (s symbolTable) Err() []error {
 	return s.err
 }
 
+func (s symbolTable) Warn() []error {
+	return s.warn
+}
+
 func (s *symbolTable) loop() {
 	for r := range s.Events {
 		switch r.Command {
@@ -36,7 +44,7 @@ func (s *symbolTable) loop() {
 				"Invalid operation at typechecker table: %#v",
 				r.Command))
 		case event.SymbolRead:
-			question, ok := s.table[r.Name]
+			question, ok := s.symbols[r.Name]
 			if !ok {
 				s.err = append(s.err, fmt.Errorf(
 					"Identifier unknown at typechecker table: %s",
@@ -44,16 +52,22 @@ func (s *symbolTable) loop() {
 			}
 			r.Ret <- question
 		case event.SymbolCreate:
-			if _, ok := s.table[r.Name]; !ok {
-				s.table[r.Name] = r.Content
+			if _, ok := s.symbols[r.Name]; !ok {
+				s.symbols[r.Name] = r.Content
+				if _, ok := s.captions[r.Content.Label()]; ok {
+					s.warn = append(s.warn, fmt.Errorf(
+						"Repeated question caption at typechecker: %s for %s",
+						r.Content.Label(), r.Name))
+				}
+				s.captions[r.Content.Label()] = append(s.captions[r.Content.Label()], r.Content.Identifier())
 			} else {
 				s.err = append(s.err, fmt.Errorf(
 					"Duplicated identifier found at typechecker: %s",
 					r.Name))
 			}
 		case event.SymbolUpdate:
-			if _, ok := s.table[r.Name]; ok {
-				s.table[r.Name] = r.Content
+			if _, ok := s.symbols[r.Name]; ok {
+				s.symbols[r.Name] = r.Content
 			}
 		}
 	}
