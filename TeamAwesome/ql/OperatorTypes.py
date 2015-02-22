@@ -37,6 +37,13 @@ class Table:
             return rule[0]
         return None
 
+    def getUnaryOperator(self, op, rightValue):
+        typeRight = type(rightValue)
+        rule = self._rules.get((op, typeRight), None)
+        if rule:
+            return rule[1]
+        return None
+
     def getBinaryOperator(self, op, leftValue, rightValue):
         typeLeft = type(leftValue)
         typeRight = type(rightValue)
@@ -60,20 +67,22 @@ class Table:
         rules.update(self._booleanBinaryOperatorRules())
         return rules
 
-    # TODO
     def _numericalUnaryOperatorRules(self):
         rules = {}
         for op in ('-','+'):
+            pyOp = self._getUnaryPythonOperator(op)
+
             rules.update({
-                (op, int) : int,
-                (op, Money) : Money
+                (op, int) : (int, lambda r, pyOp = pyOp : pyOp(r)),
+                (op, Money) : (Money, lambda r, pyOp = pyOp : Money(pyOp(r)))
             })
         return rules
 
-    # TODO
     def _booleanUnaryOperatorRules(self):
+        pyOp = self._getUnaryPythonOperator('!')
+        
         return {
-            ('!', bool) : bool
+            ('!', bool) : (bool, lambda r, pyOp = pyOp : pyOp(r))
         }
 
     def _numericalBinaryOperatorRules(self):

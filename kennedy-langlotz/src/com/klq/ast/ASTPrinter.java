@@ -1,8 +1,7 @@
 package com.klq.ast;
 
-import com.klq.ast.ANode;
-import com.klq.ast.IVisitor;
 import com.klq.ast.impl.*;
+import com.klq.ast.impl.expr.*;
 
 /**
  * Created by Juriaan on 21-2-2015.
@@ -55,8 +54,29 @@ public class ASTPrinter implements IVisitor {
     }
 
     @Override
-    public void visit(MulDivNode node) {
-        System.out.println("MulDiv Node");
+    public void visit(MultiplyNode node) {
+        System.out.println("Multiply Node");
+        node.printChildren();
+        printLine();
+    }
+
+    @Override
+    public void visit(AddNode node) {
+        System.out.println("Add Node");
+        node.printChildren();
+        printLine();
+    }
+
+    @Override
+    public void visit(SubtractNode node) {
+        System.out.println("Subtract Node");
+        node.printChildren();
+        printLine();
+    }
+
+    public void visit(DivideNode node){
+        System.out.println("Divide Node");
+        node.printChildren();
         printLine();
     }
 

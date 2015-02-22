@@ -1,16 +1,14 @@
-package com.klq.ast.impl;
+package com.klq.ast.impl.expr;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 
-import java.util.ArrayList;
-
 /**
  * Created by Juriaan on 21-2-2015.
  */
-public class MulDivNode extends ABinaryExprNode {
+public class SubtractNode extends ABinaryExprNode {
 
-    public MulDivNode(ANode leftChild, ANode rightChild) {
+    public SubtractNode(ANode leftChild, ANode rightChild) {
         super(leftChild, rightChild);
     }
 
