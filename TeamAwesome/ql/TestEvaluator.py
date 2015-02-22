@@ -2,30 +2,32 @@ import argparse
 import glob
 
 from AST import AST
-import TypeChecker
+from Evaluator import Evaluator, PageStructure
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
-    tc = TypeChecker.TypeChecker()
-    typeCheckResult = tc.check(ast)
+    evaluator = Evaluator(ast)
+    pageStructure = PageStructure(evaluator)
+    pageStructure.createDefaultPages()
 
-    expectedNumMessages = int(
-        testFileName.split('.')[0].split('-')[2]
+    numQuestions = len(pageStructure.getVisibleQuestions(0))
+
+    expectedNumQuestions = int(
+        testFileName.split('.')[0].split('-')[1]
     )
 
-    numMessages = len(typeCheckResult.messages)
-    success = numMessages == expectedNumMessages
+    success = numQuestions == expectedNumQuestions
 
-    if(not success):
-        print(('-'*10)+'Type check test FAIL')
+    if not success:
+        print(('-' * 10) + 'Evaluator test FAIL')
 
-    if(not success or verbose):
-        for m in typeCheckResult.messages:
-            print(m)
+    if not success or verbose:
+        for question in pageStructure.getVisibleQuestions(0):
+            print(question)
 
-        print( '^'+('-'*9)+testFileName+': '\
-             + 'got '+str(numMessages)+' message(s), expected '\
-             + str(expectedNumMessages) + ('-'*10)
+        print( '^' + ('-' * 9) + testFileName + ': '\
+             + 'got '+ str(numQuestions) + ' questions(s), expected '\
+             + str(expectedNumQuestions) + ('-' * 10)
              ) 
         
     return success
@@ -48,7 +50,7 @@ def main():
     if args.file:
         testFileNames = [args.file]
     else:
-        testFileNames = glob.glob('type-check-*.ql')
+        testFileNames = glob.glob('evaluator-*.ql')
 
     for testFileName in testFileNames:
         if(not runTest(args.verbose, testFileName)):
