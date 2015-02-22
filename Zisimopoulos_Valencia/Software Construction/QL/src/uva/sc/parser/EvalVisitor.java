@@ -26,13 +26,13 @@ public class EvalVisitor extends GrammarBaseVisitor<Node> {
 		List<Statement> statementList = new ArrayList<Statement>();
 		for (int i = 0 ; i < ctx.sts.size() ; i++) 
 			statementList.add((Statement)visitStat(ctx.sts.get(i)));
-		return new Form(ctx.ID().getText(), statementList);
+		return new Form(new ID(ctx.ID().getText()), statementList);
 	}
 	
 	@Override
 	public Question visitQuestion(GrammarParser.QuestionContext ctx) {
 		String label = ctx.STRING().getText();
-		String id = ctx.ID().getText();
+		ID id = new ID(ctx.ID().getText());
 		Type type = visitType(ctx.type());
 		if (ctx.expr() != null) {
 			Expression expression = (Expression)this.visit(ctx.expr());

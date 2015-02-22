@@ -1,7 +1,7 @@
 package uva.sc.logic;
 
-
 public class Literal extends Node{
+	
 	String str;
 	Double d;
 	int i;
