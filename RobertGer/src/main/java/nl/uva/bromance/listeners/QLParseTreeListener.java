@@ -8,6 +8,7 @@ import nl.uva.bromance.AST.Range.BiggerThan;
 import nl.uva.bromance.AST.Range.SmallerThan;
 import nl.uva.bromance.parsers.QLBaseListener;
 import nl.uva.bromance.parsers.QLParser;
+import org.antlr.v4.runtime.Token;
 
 import java.util.Optional;
 import java.util.Stack;
@@ -156,7 +157,11 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public void enterExpression(QLParser.ExpressionContext ctx) {
-        nodeStack.push(new Expression(ctx.start.getLine(), Optional.ofNullable(ctx.operator)));
+        Token start = null;
+        if (ctx.id() != null) {
+            start = ctx.id().getStart();
+        }
+        nodeStack.push(new Expression(ctx.start.getLine(), Optional.ofNullable(ctx.operator), Optional.ofNullable(start)));
     }
 
     public void enterId(QLParser.IdContext ctx) {
@@ -167,9 +172,5 @@ public class QLParseTreeListener extends QLBaseListener {
         Expression e = (Expression) nodeStack.pop();
         Node peek = nodeStack.peek();
         peek.addChild(e);
-        if (peek instanceof ContainsExpression) {
-            ((ContainsExpression) peek).setExpression(e);
-        }
-
     }
 }

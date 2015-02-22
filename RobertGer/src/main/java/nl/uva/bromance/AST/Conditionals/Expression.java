@@ -1,28 +1,28 @@
 package nl.uva.bromance.AST.Conditionals;
 
+import javafx.util.Pair;
 import nl.uva.bromance.AST.Input;
 import nl.uva.bromance.AST.Node;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Expression extends Node implements ContainsExpression {
+public class Expression extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
-    private Expression expression;
     private Optional<Token> operator;
-    //TODO: Consider doing something with this for evaluation.
-    public Pair<Expression, Expression> expressions = new Pair<>(null, null);
+    private Optional<Token> id;
+    //TODO: Consider using children instead of this pair.
+    private Optional<Pair<Expression, Expression>> expressionPair = Optional.empty();
 
-    public Expression(int lineNumber, Optional<Token> operator) {
-
+    public Expression(int lineNumber, Optional<Token> operator, Optional<Token> id) {
         super(lineNumber, Expression.class);
-        this.operator = operator;
         this.setAcceptedParents(parentsAllowed);
+        this.operator = operator;
+        this.id = id;
     }
 
     @Override
@@ -40,19 +40,29 @@ public class Expression extends Node implements ContainsExpression {
         this.text = t;
     }
 
-    @Override
-    public Expression getExpression() {
-        return expression;
-    }
-
-    @Override
-    public void setExpression(Expression expression) {
-        this.expression = expression;
-    }
-
 
     //TODO: Implement this.
     public void evaluate() {
+        if (hasChildren()) {
+            Node node = getChildren().get(0);
+            Node node1 = getChildren().get(0);
+            if (node != null && node1 != null) {
+                if (node instanceof Expression && node1 instanceof Expression) {
+                    Optional<Token> id1 = ((Expression) node).getId();
+                    Optional<Token> id2 = ((Expression) node1).getId();
+                    if (id1.isPresent() && id2.isPresent()) {
+                        if (id1.get().getType() != id2.get().getType()) {
+                            System.err.println("Expression Error @" + getLineNumber() + "cannot compare different types.");
+                        } else {
+                            System.err.println("Found id's of same type @" + getLineNumber());
+                        }
+                    }
+                }
+            }
+        }
+    }
 
+    public Optional<Token> getId() {
+        return id;
     }
 }
