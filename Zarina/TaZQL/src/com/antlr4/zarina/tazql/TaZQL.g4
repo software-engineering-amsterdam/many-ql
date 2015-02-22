@@ -3,7 +3,7 @@ grammar TaZQL;
 options {
 	language = Java;
 }
-
+questionnaire	: form;
 form			: 'FORM' ID '{' question+ '} END' EOF;
 
 question		: ID TEXT type	 			 											# simpleQuestion

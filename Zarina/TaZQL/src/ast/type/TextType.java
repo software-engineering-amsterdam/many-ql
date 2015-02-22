@@ -3,7 +3,10 @@ package ast.type;
 
 public class TextType extends Type {
 	
-	public String getType() {
+	public TextType() {}
+	
+	@Override
+	public String getValue() {
 		return "text";
 	}
 	
@@ -12,9 +15,18 @@ public class TextType extends Type {
 		return "text";
 	}
 	
-	 @Override
-	 public <T> T accept(ITypeVisitor<T> visitor) {
-		 return visitor.visit(this);
-	 }
-
+	@Override
+	public <T> T accept(ITypeVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+	
+	@Override
+	public boolean isCompatibleToString() {
+		return true;
+	}
+		
+	@Override
+	public boolean isCompatibleToType(Type type) {
+		return type.isCompatibleToString();
+	}
 }

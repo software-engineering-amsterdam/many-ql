@@ -2,6 +2,9 @@ package ast.type;
 
 public class DigitsType extends Type {
 		
+	public DigitsType() {}
+	
+	@Override
 	public String getValue() {
 		return "digits";
 	}
@@ -14,5 +17,15 @@ public class DigitsType extends Type {
 	@Override
 	public <T> T accept(ITypeVisitor<T> visitor) {
 		 return visitor.visit(this);
+	}
+	
+	@Override
+	public boolean isCompatibleToInteger() {
+		return true;
+	}
+		
+	@Override
+	public boolean isCompatibleToType(Type type) {
+		return type.isCompatibleToInteger();
 	}
 }

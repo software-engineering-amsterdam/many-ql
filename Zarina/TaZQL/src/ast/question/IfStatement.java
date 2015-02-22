@@ -29,7 +29,7 @@ public class IfStatement extends Question {
 	
 	@Override
 	public String toString() {
-		String output = "if " + " ( " + this.ifExpression.toString() + " ) { ";
+		String output = "if " + " ( " + this.ifExpression.toString() + " ) { \n";
 		for(Question q: ifStatement)
 			output += q.toString() + "\n";
 		output += " } ";

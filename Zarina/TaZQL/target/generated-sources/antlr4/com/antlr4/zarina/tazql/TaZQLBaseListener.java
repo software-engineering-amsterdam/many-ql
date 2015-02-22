@@ -17,6 +17,18 @@ public class TaZQLBaseListener implements TaZQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBooleanType(@NotNull TaZQLParser.BooleanTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}

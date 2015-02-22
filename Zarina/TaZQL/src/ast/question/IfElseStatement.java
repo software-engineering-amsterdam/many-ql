@@ -24,13 +24,11 @@ public class IfElseStatement extends IfStatement {
 	
 	@Override
 	public String toString() {
-		String output = "if " + " ( " + super.getExpression().toString() + " ) { ";
-			for(Question q: super.getIfStatement())
-				output += q.toString() + "\n";
-			output += " } else { ";
+		String output = super.toString();
+		output += "\n else { \n";
 			for(Question qe: elseStatement)
 				output += qe.toString() + "\n";
-			output += " }";
-			return output;
+		output += " }";
+	return output;
 	}
 }
