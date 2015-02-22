@@ -12,6 +12,8 @@ import parser.nodes.statement.Statement;
 import parser.nodes.type.Number;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -31,6 +33,18 @@ public class TypeChecker implements Visitor {
     @Override
     public void visit(Form form) {
         visitStatement(form.getElements());
+        checkReferenceToUndefinedQuestions();
+    }
+
+    private void checkReferenceToUndefinedQuestions() {
+        String undefinedReferences = identifiers
+                .stream()
+                .filter(identifier -> !questions.containsKey(identifier))
+                .map(identifier -> identifier.toString())
+                .collect(Collectors.joining(", "));
+        if (!undefinedReferences.isEmpty()) {
+            throw new TypeCheckException("Invalid reference to undefined question: " + undefinedReferences);
+        }
     }
 
     private void visitStatement(List<Statement> statements) {
@@ -88,6 +102,8 @@ public class TypeChecker implements Visitor {
 
     @Override
     public void visit(And and) {
+        visit(and.getLeft());
+        visit(and.getRight());
     }
 
     @Override
@@ -107,6 +123,7 @@ public class TypeChecker implements Visitor {
 
     @Override
     public void visit(Identifier identifier) {
+        identifiers.add(identifier); // may overwrite existing items
     }
 
     @Override

@@ -28,6 +28,6 @@ class TypeCheckerTest extends Specification {
         input                                                     | message
         "src/main/antlr/input/QL_duplicateQuestions"              | TypeChecker.ALREADY_DECLARED_QUESTION.substring(0, 20)
         "src/main/antlr/input/QL_duplicateQuestionsDifferentType" | TypeChecker.ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE.substring(0, 20)
-//        "src/main/antlr/input/QL_referenceToUndefinedQuestion"    | TypeChecker.ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE.substring(0, 20)
+        "src/main/antlr/input/QL_referenceToUndefinedQuestion"    | "name9, name1"
     }
 }

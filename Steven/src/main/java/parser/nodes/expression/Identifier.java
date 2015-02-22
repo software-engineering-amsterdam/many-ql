@@ -37,4 +37,9 @@ public class Identifier extends Expression {
     public int hashCode() {
         return identifier.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return identifier;
+    }
 }
