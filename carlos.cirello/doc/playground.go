@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/mitchellh/go-wordwrap"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/typechecker"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
 )
@@ -25,7 +26,7 @@ func main() {
 	tc.Visit(form)
 	if err := st.Err(); err != nil {
 		for _, e := range err {
-			fmt.Println("Typechecker error:", e)
+			fmt.Println(wordwrap.WrapString(fmt.Sprintln("Error:", e), 40))
 		}
 	} else {
 		fmt.Println("Success!")

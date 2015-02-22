@@ -61,6 +61,7 @@ expression returns [PrimitiveExpression result]
 literal returns [PrimitiveExpression result]
 	: BOOL		{$result = new BoolLiteral(Boolean.parseBoolean($BOOL.text));}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text));}
+	| STRING    {$result = new StringLiteral($STRING.text);}
 	;
 
 

@@ -1,8 +1,11 @@
 package com.form.language.ast.statement;
 
+import java.awt.Component;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import com.form.language.ast.expression.PrimitiveExpression;
 
@@ -19,8 +22,12 @@ public class IfStatement implements Statement {
 
 
 	@Override
-	public JComponent createGUIComponent() {
-		// TODO Auto-generated method stub
+	public JComponent createGUIComponent(JPanel panel) {
+		Component[] jArray =  panel.getComponents();		
+		for(Component c : jArray)
+		{
+			System.out.println(c.getName());
+		}				
 		return null;
 	}
 	

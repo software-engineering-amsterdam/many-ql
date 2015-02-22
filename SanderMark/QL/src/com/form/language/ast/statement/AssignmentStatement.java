@@ -1,6 +1,7 @@
 package com.form.language.ast.statement;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import com.form.language.ast.expression.PrimitiveExpression;
 
@@ -15,7 +16,7 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public JComponent createGUIComponent() {
+	public JComponent createGUIComponent(JPanel panel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
