@@ -26,7 +26,7 @@ talk:
 	cd doc
 	present -play=true &
 	sleep 2
-	open 'http://127.0.0.1:3999/doc/carlos.cirello.ql.qls.slide'
+	open 'http://127.0.0.1:3999/doc/carlos.cirello.ql.HoC.20150223.slide'
 
 lint:
 	clear
