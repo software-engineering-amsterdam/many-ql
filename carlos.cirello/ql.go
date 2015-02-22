@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	"os"
+	"runtime/pprof"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/iostream"
@@ -19,7 +21,15 @@ func main() {
 			log.Println("error:", r)
 		}
 	}()
-	srcFn, inFn, outFn := cli.Args()
+	srcFn, inFn, outFn, cpuProfileFn := cli.Args()
+	if cpuProfileFn != "" {
+		f, err := os.Create(cpuProfileFn)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 
 	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)
