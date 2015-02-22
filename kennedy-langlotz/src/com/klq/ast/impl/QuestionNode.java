@@ -2,23 +2,21 @@ package com.klq.ast.impl;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
+import com.klq.logic.Type;
 
 /**
  * Created by juriaan on 10-2-15.
  */
 public class QuestionNode extends ANode {
-    public enum QuestionType{
-        SET, BOOLEAN, DATE, CURRENCY, STRING, NUMERAL
-    }
 
     private String questionID;
-    private String questionType;
+    private Type questionType;
     private String text;
 
     public QuestionNode(){}
     public QuestionNode(String questionID, String questionType, String text) {
         this.questionID = questionID;
-        this.questionType = questionType;
+        this.questionType = Type.valueOf(questionType.toUpperCase());
         this.text = text;
     }
 
@@ -41,7 +39,7 @@ public class QuestionNode extends ANode {
         return questionID;
     }
 
-    public String getQuestionType() {
+    public Type getQuestionType() {
         return questionType;
     }
 
