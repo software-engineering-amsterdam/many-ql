@@ -1,5 +1,5 @@
-// Generated from /Users/santiagovalenciavargas/Documents/UvA/workspace/Software Construction/QL/src/uva/sc/parser/Grammar.g4 by ANTLR 4.5
-package uva.sc.parser;
+// Generated from Grammar.g4 by ANTLR 4.5
+ package uva.sc.parser; 
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;

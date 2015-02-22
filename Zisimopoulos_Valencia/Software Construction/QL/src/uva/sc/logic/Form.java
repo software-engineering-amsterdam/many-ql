@@ -12,4 +12,11 @@ public class Form extends Node{
 		this.statements = statementList;
 	}
 	
+	public String toString() {
+		String result ="[Form]:{\n\t" + "[ID]: " + this.id + "\n";
+		for (int i = 0 ; i < this.statements.size() ; i++)
+			result += "\t\t[Statement]:{" + statements.get(i).toString() + "}\n";
+		return result + "\n}";
+	}
+	
 }

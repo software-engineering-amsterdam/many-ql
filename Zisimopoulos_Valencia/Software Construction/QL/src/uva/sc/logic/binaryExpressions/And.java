@@ -7,5 +7,9 @@ public class And extends BinaryExpression{
 	public And(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op &&]";
+	}
 
 }

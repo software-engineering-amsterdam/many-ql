@@ -7,5 +7,9 @@ public class GreaterThan extends BinaryExpression{
 	public GreaterThan(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op >]";
+	}
 
 }
