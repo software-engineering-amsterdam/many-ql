@@ -3,7 +3,9 @@ package uva.ql.ast.expressions.logic;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.expressions.ExpressionVisitor;
 import uva.ql.ast.expressions.Operator;
+import uva.ql.ast.value.BooleanValue;
 
 public class And extends BinaryExpressions{
 
@@ -14,5 +16,17 @@ public class And extends BinaryExpressions{
 	@Override
 	public String toString(){
 		return this.getLeftExpr() + Operator.AND.getName() + this.getRightExpr();
+	}
+	@Override
+	public BooleanValue evaluate() {
+		if (!BooleanValue.isBooleanValue(this.getLeftExpr()) || !BooleanValue.isBooleanValue(this.getRightExpr()))
+			throw new IllegalArgumentException("Ilegal argument: && operator requires both operands BooleanValue");
+		
+		return new BooleanValue(	(boolean)this.getLeftExpr().evaluate().getValue() && 
+									(boolean)this.getRightExpr().evaluate().getValue());
+	}
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitAnd(this);
 	}
 }

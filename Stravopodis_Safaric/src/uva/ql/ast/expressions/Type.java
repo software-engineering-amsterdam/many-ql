@@ -1,12 +1,13 @@
 package uva.ql.ast.expressions;
 
-public abstract class Type<T> {
-	T value;
+public abstract class Type {
 	
-	public Type(T _value){
-		this.value = _value;
+	String name;
+	
+	public Type(String _name){
+		this.name = _name;
 	}
-	public T getType(){
-		return this.value;
+	public String getType(){
+		return this.name;
 	}
 }
