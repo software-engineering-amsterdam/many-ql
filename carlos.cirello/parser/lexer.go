@@ -29,6 +29,10 @@ const (
 	BoolAndTokenText = "and"
 	// BoolOrTokenText - Reserved Word
 	BoolOrTokenText = "or"
+	// BoolTrueTokenText - Reserved Word
+	BoolTrueTokenText = "true"
+	// BoolFalseTokenText - Reserved Word
+	BoolFalseTokenText = "false"
 
 	// LessThanTokenText - Reserved Symbols
 	LessThanTokenText = `<`
@@ -93,6 +97,10 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolAndToken
 	} else if txt == BoolOrTokenText {
 		typ = BoolOrToken
+	} else if txt == BoolTrueTokenText {
+		typ = BoolTrueToken
+	} else if txt == BoolFalseTokenText {
+		typ = BoolFalseToken
 	} else if txt == IfTokenText {
 		typ = IfToken
 	} else if txt == ElseTokenText {
