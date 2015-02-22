@@ -4,37 +4,41 @@ DATATYPE      : ( BOOLEAN
                 | INTEGER 
                 | STRING 
                 | MONEY
-                ) ;
+                );
 
-BOOLEAN       : 'boolean' ;
-INTEGER       : 'int' ;
-DECIMAL       : 'decimal' ;
-STRING        : 'string' ;
-MONEY         : 'money' ;
-DATE          : 'date' ;
+BOOLEAN       : 'boolean';
+INTEGER       : 'int';
+DECIMAL       : 'decimal';
+STRING        : 'string';
+MONEY         : 'money';
+DATE          : 'date';
 
 MULDIV: MUL | DIV;
 ADDSUB: ADD | SUB;
+ANDORNOT: AND | OR | NOT;
+LTGTLEGE: LT | GT | LE | GE;
+NEEQ: NE | EQ;
 
-MUL           : '*' ;
-DIV           : '/' ;
-ADD           : '+' ;
-SUB           : '-' ;
+MUL           : '*';
+DIV           : '/';
+ADD           : '+';
+SUB           : '-';
 
-AND           : '&&' ;
-OR            : '||' ;
-NOT           : '!' ;
+AND           : '&&';
+OR            : '||';
+NOT           : '!';
 
-LT            : '<' ;
-GT            : '>' ;
-LE            : '<=' ;
-GE            : '>=' ;
-NE            : '!=' ;
-EQ            : '==' ;
+LT            : '<';
+GT            : '>';
+LE            : '<=';
+GE            : '>=';
 
-QUOTEDSTRING  : '"' .+? '"' ;
+NE            : '!=';
+EQ            : '==';
 
-NAME          : [a-zA-Z]+ ;
+QUOTEDSTRING  : '"' .+? '"';
 
-WS            : (' ' | '\t')+ -> skip ;
-NL            :  '\r'? '\n' ;
+NAME          : [a-zA-Z]+;
+
+WS            : (' ' | '\t')+ -> skip;
+NL            :  '\r'? '\n';

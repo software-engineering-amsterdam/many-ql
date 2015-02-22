@@ -26,6 +26,9 @@ conditional:
     
 expression:
     '(' expr=expression ')'
+    | leftHand=expression  operator=ANDORNOT rightHand=expression
+    | leftHand=expression  operator=LTGTLEGE rightHand=expression
+    | leftHand=expression  operator=NEEQ rightHand=expression
     | leftHand=expression  operator=MULDIV rightHand=expression
     | leftHand=expression  operator=ADDSUB rightHand=expression
     | name=NAME;
