@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
-    public class Literal<T> : Node, IExpression
+    public abstract class Literal<T> : Node, IExpression
     {
         public T Value
         {
@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             private set;
         }
 
-        public Literal(T value, TextPosition position)
+        protected Literal(T value, TextPosition position)
             : base(position)
         {
             Value = value;

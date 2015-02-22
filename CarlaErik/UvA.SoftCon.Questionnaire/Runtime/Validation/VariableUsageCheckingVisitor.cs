@@ -9,6 +9,9 @@ using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
+    /// <summary>
+    /// Checks if variables or questions are defined, not redeclared and used.
+    /// </summary>
     public class VariableUsageCheckingVisitor : ASTVisitor
     {
         public class IdentifierUsageCount

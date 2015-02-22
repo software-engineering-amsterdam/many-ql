@@ -35,8 +35,6 @@ public class QuestionNode extends ANode {
         System.out.println();
         System.out.printf("text: %s", text);
         System.out.println();
-        System.out.println(getChildren().size());
-        System.out.println();
     }
 
     public String getQuestionID() {

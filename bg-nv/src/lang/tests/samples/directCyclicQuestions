@@ -1,0 +1,4 @@
+form sample
+{
+    integer income "label" income
+}

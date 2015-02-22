@@ -9,6 +9,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public class IfStatement : Node, IStatement
     {
+        public override NodeType Type
+        {
+            get
+            {
+                return NodeType.IfStatement;
+            }
+        }
+
         public IExpression If
         {
             get;

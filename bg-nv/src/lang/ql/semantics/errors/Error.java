@@ -2,6 +2,8 @@ package lang.ql.semantics.errors;
 
 import lang.ql.ast.types.Type;
 
+import java.util.List;
+
 /**
  * Created by bore on 20/02/15.
  */
@@ -48,6 +50,21 @@ public class Error extends Message
         return new Error(String.format(
                 "Error (Line: %d): Question \"%s\" is declared twice with a different type on line %d and %d",
                 line1, id, line1, line2));
+    }
+
+    public static Error cyclicQuestions(List<String> ids)
+    {
+        StringBuilder b = new StringBuilder("Error: the following questions form a cyclic dependency: ");
+        for (int i = 0; i < ids.size(); i++)
+        {
+            b.append(ids.get(i));
+            if (i < ids.size()-1)
+            {
+                b.append(", ");
+            }
+        }
+
+        return new Error(b.toString());
     }
 
     public Error(String message)

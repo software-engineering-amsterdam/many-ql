@@ -1,7 +1,7 @@
 package execute
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
@@ -101,7 +101,7 @@ func (exec *Execute) resolveComparisonNode(n interface{}) bool {
 	switch t := n.(type) {
 	default:
 		pos := n.(ast.Positionable).Pos()
-		log.Fatalf("%s:runtime error: impossible condition type. got: %T", pos, t)
+		panic(fmt.Sprintf("%s:runtime error: impossible condition type. got: %T", pos, t))
 
 	case *ast.TermNode:
 		conditionState = exec.TermNode(n.(*ast.TermNode))

@@ -33,6 +33,9 @@ const (
 	// Answers is the signal from Frontend to VM with the responses from
 	// user.
 	Answers
+	// Redraw is the signal from Frontend to VM asking to redraw the
+	// content, mainly used to switch between Frontend drivers
+	Redraw
 )
 
 // Visibility enum type which determinates whether a new rendered field must be

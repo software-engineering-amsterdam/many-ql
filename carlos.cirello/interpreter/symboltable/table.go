@@ -7,12 +7,16 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
+// SymbolTable holds a map with pairs of question identifiers and a reference to
+// it. It is the core of SymbolTable process.
 type SymbolTable struct {
 	Events chan *event.Symbol
 
 	table map[string]*ast.QuestionNode
 }
 
+// New is the factory for SymbolTable process. It spawns a background process
+// which listen for queries to its internal map.
 func New(events chan *event.Symbol) *SymbolTable {
 	table := &SymbolTable{
 		table:  make(map[string]*ast.QuestionNode),
@@ -32,7 +36,7 @@ func (s *SymbolTable) loop() {
 		case event.SymbolRead:
 			question, ok := s.table[r.Name]
 			if !ok {
-				log.Fatalf("Identifier unknown: %s", r.Name)
+				log.Fatalf("Identifier unknown at symbols table: %s", r.Name)
 			}
 			r.Ret <- question
 		case event.SymbolCreate:

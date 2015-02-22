@@ -53,7 +53,9 @@
       <Listener>False</Listener>
     </Antlr4>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GeneratedFiles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Antlr4.4.3.0\build\Antlr4.targets" Condition="Exists('..\packages\Antlr4.4.3.0\build\Antlr4.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

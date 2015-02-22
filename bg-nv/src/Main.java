@@ -48,19 +48,11 @@ public class Main extends Application
             QLVisitorImpl visitor = new QLVisitorImpl();
             ast = (Form) visitor.visit(tree);
 
-            IntType i = new IntType();
-            StrType j = new StrType();
-
-            boolean a = i.equals(j);
-
-//            TypeChecker t = new TypeChecker();
-//            t.visit(ast);
             Interpreter v = new Interpreter();
             v.visit(ast);
             values = v.getVariableValues();
 
-            System.out.println(i.getClass());
-            System.out.println("");
+            System.out.println(values);
         }
         catch (IOException e)
         {

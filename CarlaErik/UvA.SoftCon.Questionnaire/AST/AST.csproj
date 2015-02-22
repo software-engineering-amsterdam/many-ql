@@ -52,7 +52,12 @@
     <Compile Include="ASTVisitor.cs" />
     <Compile Include="Extensions\ParserRuleContextExtensions.cs" />
     <Compile Include="IASTVisitor.cs" />
+    <Compile Include="Model\Expressions\BooleanLiteral.cs" />
+    <Compile Include="Model\Expressions\DoubleLiteral.cs" />
+    <Compile Include="Model\Expressions\IntegerLiteral.cs" />
+    <Compile Include="Model\Expressions\StringLiteral.cs" />
     <Compile Include="Model\INode.cs" />
+    <Compile Include="Model\NodeType.cs" />
     <Compile Include="Model\Statements\Assignment.cs" />
     <Compile Include="Model\Statements\DataType.cs" />
     <Compile Include="Model\Expressions\BinaryExpression.cs" />
