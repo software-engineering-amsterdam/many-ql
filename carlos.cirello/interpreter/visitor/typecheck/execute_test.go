@@ -69,9 +69,11 @@ func TestInvalidOperands(t *testing.T) {
 		}`),
 		"test.ql",
 	)
-	tc, _ := New()
+	tc, st := New()
 	tc.Visit(form)
-	t.Errorf("Typecheck error: Invalid operations should trigger panic")
+	if err := st.Err(); err == nil {
+		t.Errorf("Typecheck error: invalid operations should trigger error")
+	}
 }
 
 func TestCyclicDependencies(t *testing.T) {
@@ -94,9 +96,11 @@ func TestCyclicDependencies(t *testing.T) {
 		`),
 		"test.ql",
 	)
-	tc, _ := New()
+	tc, st := New()
 	tc.Visit(form)
-	t.Errorf("Typecheck error: Invalid operations should trigger panic")
+	if err := st.Err(); err == nil {
+		t.Errorf("Typecheck error: cyclic dependencies should trigger error")
+	}
 }
 
 func TestRepeatedCaptions(t *testing.T) {
