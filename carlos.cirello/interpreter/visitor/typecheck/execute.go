@@ -7,8 +7,8 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/execute"
 )
 
-// New is the factory for Execute struct
-func New() (*visitor.Visitor, *symbolTable) {
+// New is the factory for Typechecker visitor struct
+func New() (*visitor.Visitor, *SymbolTable) {
 	toFrontend := make(chan *event.Frontend)
 	symbolChan := make(chan *event.Symbol)
 	st := newSymbolTable(symbolChan)
@@ -25,6 +25,7 @@ func New() (*visitor.Visitor, *symbolTable) {
 	return visitor.NewVisitor(tc), st
 }
 
+// Typechecker is the delegation structure for Execute and typechecking visitors
 type Typechecker struct {
 	execute *execute.Execute
 }

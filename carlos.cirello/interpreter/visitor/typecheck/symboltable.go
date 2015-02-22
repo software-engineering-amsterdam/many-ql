@@ -7,7 +7,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
-type symbolTable struct {
+type SymbolTable struct {
 	Events chan *event.Symbol
 
 	symbols map[string]*ast.QuestionNode
@@ -17,8 +17,8 @@ type symbolTable struct {
 	warn []error
 }
 
-func newSymbolTable(events chan *event.Symbol) *symbolTable {
-	table := &symbolTable{
+func newSymbolTable(events chan *event.Symbol) *SymbolTable {
+	table := &SymbolTable{
 		symbols: make(map[string]*ast.QuestionNode),
 		labels:  make(map[string][]string),
 		Events:  events,
@@ -28,15 +28,15 @@ func newSymbolTable(events chan *event.Symbol) *symbolTable {
 	return table
 }
 
-func (s symbolTable) Err() []error {
+func (s SymbolTable) Err() []error {
 	return s.err
 }
 
-func (s symbolTable) Warn() []error {
+func (s SymbolTable) Warn() []error {
 	return s.warn
 }
 
-func (s *symbolTable) loop() {
+func (s *SymbolTable) loop() {
 	for r := range s.Events {
 		switch r.Command {
 		default:
