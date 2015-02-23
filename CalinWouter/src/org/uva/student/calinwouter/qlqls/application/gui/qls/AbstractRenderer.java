@@ -5,6 +5,7 @@ import org.uva.student.calinwouter.qlqls.qls.model.*;
 
 import java.util.HashMap;
 
+// TODO THIS IS A DUPLICATE OF ABSTRACTMODEL!!!!
 public abstract class AbstractRenderer implements IModel {
     @Override
     public void caseHashMap(HashMap<Object, Object> hashMap) {
