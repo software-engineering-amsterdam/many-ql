@@ -14,7 +14,7 @@ public interface GuiVisitor
     public void visit(Line line);
     public void visit(Input input);
     public void visit(BoolInput input);
-    public void visit(DateInput input);
+//    public void visit(DateInput input);
     public void visit(DecInput input);
     public void visit(IntInput input);
     public void visit(StrInput input);

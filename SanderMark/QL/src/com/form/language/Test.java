@@ -10,7 +10,7 @@ import com.form.language.ast.expression.Expression;
 public class Test {
 	public static void main(String[] args) {
 		CharStream charStream = 
-				new ANTLRInputStream("1+1*5-6>3");
+				new ANTLRInputStream("1+1 == true");
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
