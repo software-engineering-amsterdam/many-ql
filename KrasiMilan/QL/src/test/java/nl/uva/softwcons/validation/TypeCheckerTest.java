@@ -27,7 +27,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testDuplicatedQuesionIdentifiers() {
+    public void testDuplicateQuesionIdentifiers() {
         final String question = "question: \"Label 1\" boolean";
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question, question);
 
@@ -36,7 +36,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testDuplicatedQuesionIdentifiersNotSuccessive() {
+    public void testDuplicateQuesionIdentifiersNotSuccessive() {
         final String question1 = "question: \"Label 1\" boolean";
         final String question2 = "question2: \"Label 2\" boolean";
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question1, question2, question1);
@@ -46,7 +46,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testDuplicatedQuesionIdentifiersWithConditional() {
+    public void testDuplicateQuesionIdentifiersWithConditional() {
         final String question = "question: \"Label\" boolean";
         final String ifStatement = " if (true) { question: \"Label\" boolean }";
 
@@ -57,7 +57,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testMultipleDuplicatedQuesionIdentifiersWithConditional() {
+    public void testMultipleDuplicateQuesionIdentifiersWithConditional() {
         final String question = "question: \"Label 1\" boolean";
         final String ifStatement = " if (true) { question: \"Label\" boolean }";
 
@@ -68,7 +68,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testDifferentDuplicatedQuesionIdentifiers() {
+    public void testDifferentDuplicateQuesionIdentifiers() {
         final String question = "question: \"Label\" boolean";
         final String question2 = "question2: \"Label\" boolean";
 
@@ -111,6 +111,14 @@ public class TypeCheckerTest {
     }
 
     @Test
+    public void testValidConditionalWithBooleanExpressionType() {
+        final String question = "if (true) { question: \"Label 1\" boolean }";
+        final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
+
+        assertThat(validationErrors).isEmpty();
+    }
+
+    @Test
     public void testInvalidQuestionWithBooleanType() {
         final String question = "question: \"Label 1\" boolean (3 * 4)";
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
@@ -144,14 +152,6 @@ public class TypeCheckerTest {
 
         assertThat(validationErrors).hasSize(1);
         assertThat(validationErrors).hasOnlyElementsOfType(InvalidQuestionExpressionType.class);
-    }
-
-    @Test
-    public void testValidConditionalWithBooleanExpressionType() {
-        final String question = "if (true) { question: \"Label 1\" boolean }";
-        final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
-
-        assertThat(validationErrors).isEmpty();
     }
 
     @Test
