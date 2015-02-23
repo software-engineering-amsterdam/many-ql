@@ -14,7 +14,6 @@ public class FieldRenderer extends AbstractRenderer {
 
     @Override
     public void caseQuestion(Question question) {
-
         super.caseQuestion(question);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
