@@ -1,7 +1,7 @@
 from CustomTypes import *
 import operator
 
-class Table:
+class OperatorTable:
     def __init__(self):
         self._binaryPythonOperators = {
             '+'  : operator.add,
@@ -150,3 +150,12 @@ class Table:
         })
 
         return rules
+
+
+def nativeQuestionType(questionType):
+    return {
+        'boolean' : bool,
+        'string' : str,
+        'integer' : int,
+        'money' : Money
+    }[questionType]
