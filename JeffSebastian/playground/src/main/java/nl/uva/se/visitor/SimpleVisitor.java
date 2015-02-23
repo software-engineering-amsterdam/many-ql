@@ -21,6 +21,7 @@ import nl.uva.se.ast.expression.logical.LessThen;
 import nl.uva.se.ast.expression.logical.Not;
 import nl.uva.se.ast.expression.logical.NotEqual;
 import nl.uva.se.ast.expression.logical.Or;
+import nl.uva.se.ast.expression.variable.Reference;
 import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
@@ -31,6 +32,7 @@ public class SimpleVisitor implements Visitor {
 	@Override
 	public void visit(Form form) {
 		System.out.println(form.getId());
+		form.visitChildren(this);
 	}
 
 	@Override
@@ -41,12 +43,13 @@ public class SimpleVisitor implements Visitor {
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
 		System.out.println(calculatedQuestion.getQuestion());
-		
+		calculatedQuestion.getExpression().accept(this);
 	}
 
 	@Override
 	public void visit(Condition condition) {
-		
+		condition.getExpression().accept(this);
+		condition.visitChildren(this);
 	}
 
 	@Override
@@ -93,8 +96,11 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(Substraction minus) {
-		// TODO Auto-generated method stub
-		
+		System.out.print("(");
+		minus.getLeft().accept(this);
+		System.out.print("-");
+		minus.getRight().accept(this);
+		System.out.print(")");
 	}
 
 	@Override
@@ -151,7 +157,7 @@ public class SimpleVisitor implements Visitor {
 
 	@Override
 	public void visit(IntegerLiteral integerLiteral) {
-		System.out.println("Integer: " + integerLiteral.getName());
+		System.out.print(integerLiteral.getName());
 	}
 
 	@Override
@@ -169,6 +175,11 @@ public class SimpleVisitor implements Visitor {
 	public void visit(Positive positive) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void visit(Reference reference) {
+		System.out.println("Reference: " + reference.getName());
 	}
 
 }
