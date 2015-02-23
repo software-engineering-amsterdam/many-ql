@@ -71,7 +71,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Question question = new Question(questionName, dataType, questionString);
 		if (ctx.parent instanceof ConditionalBlockContext) {
 			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
-			String condition = parent.conditional().NAME().getText();
+			Expression condition = (Expression) visit(parent.expression());
 			question.setCondition(condition);
 		}
 		ExpressionContext expressionContext = ctx.expr;
