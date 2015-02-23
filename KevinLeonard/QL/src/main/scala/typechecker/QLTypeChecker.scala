@@ -1,6 +1,7 @@
 package typechecker
 
 import ast._
+import scala.util.parsing.input.Position
 
 class QLTypeChecker {
 
@@ -21,19 +22,19 @@ class QLTypeChecker {
         env // Return environment without the questions in s1 and s2.
       case _ => sys.error(s"Invalid boolean condition for if statement at line ${s.pos}")
     }
-    case Question(BooleanType(), v: Variable, label: String, None) => env.tryAddVariable(v.name, BooleanType()).tryAddLabel(label)
+    case Question(BooleanType(), v: Variable, label: String, None) => env.tryAddVariable(v, BooleanType()).tryAddLabel(label)
     case s @ Question(BooleanType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
-      case BooleanType() => env.tryAddVariable(v.name, BooleanType()).tryAddLabel(label)
+      case BooleanType() => env.tryAddVariable(v, BooleanType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed boolean question at line ${s.pos}")
     }
-    case Question(NumberType(), v: Variable, label: String, None) => env.tryAddVariable(v.name, NumberType()).tryAddLabel(label)
+    case Question(NumberType(), v: Variable, label: String, None) => env.tryAddVariable(v, NumberType()).tryAddLabel(label)
     case s @ Question(NumberType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
-      case NumberType() => env.tryAddVariable(v.name, NumberType()).tryAddLabel(label)
+      case NumberType() => env.tryAddVariable(v, NumberType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed number expression at line ${s.pos}")
     }
-    case Question(StringType(), v: Variable, label: String, None) => env.tryAddVariable(v.name, StringType()).tryAddLabel(label)
+    case Question(StringType(), v: Variable, label: String, None) => env.tryAddVariable(v, StringType()).tryAddLabel(label)
     case s @ Question(StringType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
-      case StringType() => env.tryAddVariable(v.name, StringType()).tryAddLabel(label)
+      case StringType() => env.tryAddVariable(v, StringType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed string expression at line ${s.pos}")
     }
   }
@@ -101,15 +102,21 @@ class QLTypeChecker {
 
 }
 
-class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[String] = List()) {
+sealed trait Level
+case class Warning() extends Level
+case class Exception() extends Level
+
+class Error(val level: Level, val message: String, val position: Position)
+
+class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[String] = List(), val errors: List[Error] = List()) {
 
   def tryGetVariable(v: Variable): Type = typeOfFields getOrElse(v.name, sys.error(s"Undefined variable ${v.name} at line ${v.pos}"))
 
-  def tryAddVariable(name: String, _type: Type): Environment = {
-    if (typeOfFields contains name) {
-      sys.error(s"Variable $name is already defined")
+  def tryAddVariable(v: Variable, _type: Type): Environment = {
+    if (typeOfFields contains v.name) {
+      sys.error(s"Variable ${v.name} is already defined")
     } else {
-      new Environment(typeOfFields + (name -> _type), labels)
+      new Environment(typeOfFields + (v.name -> _type), labels, errors)
     }
   }
 
@@ -117,8 +124,12 @@ class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[
     if (labels contains label) {
       sys.error(s"Label $label is already defined")
     } else {
-      new Environment(typeOfFields, labels :+ label)
+      new Environment(typeOfFields, labels :+ label, errors)
     }
+  }
+  
+  def addError(level: Level, message: String, position: Position): Environment = {
+    new Environment(typeOfFields, labels, errors :+ new Error(level, message, position))
   }
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[Environment]
@@ -127,7 +138,8 @@ class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[
     case that: Environment =>
       (that canEqual this) &&
         typeOfFields == that.typeOfFields &&
-        labels == that.labels
+        labels == that.labels &&
+        errors == that.errors
     case _ => false
   }
 

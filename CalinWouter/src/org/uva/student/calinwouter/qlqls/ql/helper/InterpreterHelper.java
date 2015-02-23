@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
 
-// TODO make Spring service...
 public class InterpreterHelper {
 
     private static void interpretStringUsing(String input, FormInterpreter formInterpreter) throws ParserException, IOException, LexerException {
@@ -46,5 +45,7 @@ public class InterpreterHelper {
         interpretStringUsing(input, formInterpreter);
         return formInterpreter;
     }
+
+    private InterpreterHelper() {}
 
 }

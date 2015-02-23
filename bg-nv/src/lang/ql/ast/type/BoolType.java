@@ -9,4 +9,10 @@ public class BoolType extends Type
     {
         super("boolean");
     }
+
+    @Override
+    public void accept(TypeVisitor visitor)
+    {
+        visitor.visit(this);
+    }
 }
