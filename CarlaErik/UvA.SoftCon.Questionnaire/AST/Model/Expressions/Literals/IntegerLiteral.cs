@@ -4,25 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
+namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
 {
     /// <summary>
-    /// Represents a static, immutable double value.
+    /// Represents a static, immutable integer value.
     /// </summary>
-    public class DoubleLiteral : Literal<double>
+    public class IntegerLiteral : Literal<int>
     {
         public override NodeType Type
         {
             get
             {
-                return NodeType.DoubleLiteral;
+                return NodeType.IntegerLiteral;
             }
         }
 
-        public DoubleLiteral(double value, TextPosition position)
-            : base(value, position)
-        {
-        }
+        public IntegerLiteral(int value, TextPosition position)
+            : base(value, position) { }
 
         public override void Accept(IASTVisitor visitor)
         {

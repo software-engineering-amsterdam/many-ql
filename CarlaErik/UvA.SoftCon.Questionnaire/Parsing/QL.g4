@@ -15,6 +15,8 @@ stat : TYPE ID STRING                                                       # Qu
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride
+     : expr '++'                      # Increment
+	 | '!' expr                       # Negation
 	 | expr ('*'|'/') expr            # MultiplyDivide
 	 | expr ('+'|'-') expr            # AddSubstract
  	 | expr ('<'|'>'|'<='|'>=') expr  # Relational
@@ -24,7 +26,6 @@ expr : '(' expr ')'                   # PrecedenceOverride
 	 | ID                             # Identifier
      | BOOL                           # BooleanLiteral
 	 | INT                            # IntegerLiteral     
-	 | DOUBLE                         # DoubleLiteral
 	 | STRING                         # StringLiteral
 	 ;
 
@@ -35,8 +36,6 @@ expr : '(' expr ')'                   # PrecedenceOverride
 INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
 STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
-DOUBLE : '-'? DIGIT+ '.' DIGIT*    // Shall we support doubles?
-       | '-'?        '.' DIGIT+
 	   ;
 
 TYPE : 'int' | 'string' | 'bool' ;
