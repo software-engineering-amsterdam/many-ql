@@ -2,6 +2,8 @@ package com.klq.ast;
 
 import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.*;
+import com.klq.ast.impl.expr.comp.GreaterThanNode;
+import com.klq.ast.impl.expr.math.*;
 
 /**
  * Created by Juriaan on 21-2-2015.

@@ -2,10 +2,7 @@ package com.klq.ast;
 import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.*;
 import com.klq.ast.impl.expr.comp.GreaterThanNode;
-import com.klq.ast.impl.expr.math.AddNode;
-import com.klq.ast.impl.expr.math.MultiplyNode;
-import com.klq.ast.impl.expr.math.NumberNode;
-import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.ast.impl.expr.math.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
 
