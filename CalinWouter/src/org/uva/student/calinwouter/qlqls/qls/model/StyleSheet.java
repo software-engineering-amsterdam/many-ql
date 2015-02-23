@@ -6,15 +6,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class StyleSheet extends AbstractModel<StyleSheet> {
+    private String ident;
     private List<Page> pages;
     private List<Default> defaultSettings;
 
     public List<Page> getPages() {
-        return this.pages;
+        return pages;
     }
 
     public List<Default> getDefaultSettings() {
-        return this.defaultSettings;
+        return defaultSettings;
     }
 
     @Override
