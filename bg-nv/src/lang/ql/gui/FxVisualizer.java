@@ -43,7 +43,7 @@ public class FxVisualizer extends Visualizer
     public void visit(Form form)
     {
 
-        for (Statement s : form.getStatements())
+        for (Statement s : form.getBody())
         {
             s.accept(this);
         }
@@ -52,13 +52,13 @@ public class FxVisualizer extends Visualizer
     @Override
     public void visit(Question q)
     {
-        this.elements.add(new Text(q.getText()));
+        this.elements.add(new Text(q.getLabel()));
         this.values.getValue(q.getId()).accept(this);
 
-//        Text statement = new Text(q.getText());
+//        Text statement = new Text(q.getLabel());
 //        HBox qBox = new HBox(10);
 //
-//        Text statement = new Text(q.getText());
+//        Text statement = new Text(q.getLabel());
 //        qBox.getChildren().add(statement);
 //
 //        grid.add(qBox, 0, this.row++);
@@ -67,11 +67,11 @@ public class FxVisualizer extends Visualizer
     @Override
     public void visit(CalculatedQuestion cq)
     {
-        this.elements.add(new Text(cq.getText()));
-        cq.getExpr().accept(this);
+        this.elements.add(new Text(cq.getLabel()));
+        cq.getDefaultValue().accept(this);
 //        HBox qBox = new HBox(10);
 //
-//        Text statement = new Text(cq.getText());
+//        Text statement = new Text(cq.getLabel());
 //        qBox.getChildren().add(statement);
 //
 //        grid.add(qBox, 0, this.row++);
@@ -80,7 +80,7 @@ public class FxVisualizer extends Visualizer
     @Override
     public void visit(IfCondition ifCond)
     {
-        for (Statement s : ifCond.getStatements())
+        for (Statement s : ifCond.getBody())
         {
             s.accept(this);
         }

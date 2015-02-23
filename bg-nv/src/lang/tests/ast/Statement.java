@@ -22,7 +22,7 @@ public class Statement
         Question q = TestHelper.as(ParserHelper.ParseQuestion("boolean hasSoldHouse \"Example\""), Question.class);
         assertNotNull(q);
         assertEquals("hasSoldHouse", q.getId());
-        assertEquals("Example", q.getText());
+        assertEquals("Example", q.getLabel());
         assertTrue(q.getType() instanceof BoolType);
     }
 
@@ -32,7 +32,7 @@ public class Statement
         Question q = TestHelper.as(ParserHelper.ParseQuestion("decimal testQuestion5 \"Sample Test\""), Question.class);
         assertNotNull(q);
         assertEquals("testQuestion5", q.getId());
-        assertEquals("Sample Test", q.getText());
+        assertEquals("Sample Test", q.getLabel());
         assertTrue(q.getType() instanceof DecType);
     }
 
@@ -43,9 +43,9 @@ public class Statement
                 "integer hasSoldHouse \"Example\" 1+2/3"), CalculatedQuestion.class);
         assertNotNull(q);
         assertEquals("hasSoldHouse", q.getId());
-        assertEquals("Example", q.getText());
+        assertEquals("Example", q.getLabel());
         assertTrue(q.getType() instanceof IntType);
-        assertTrue(q.getExpr() instanceof Add);
+        assertTrue(q.getDefaultValue() instanceof Add);
     }
 
     @Test
@@ -55,9 +55,9 @@ public class Statement
                 "string Quest_123 \"Example\" \"test\""), CalculatedQuestion.class);
         assertNotNull(q);
         assertEquals("Quest_123", q.getId());
-        assertEquals("Example", q.getText());
+        assertEquals("Example", q.getLabel());
         assertTrue(q.getType() instanceof StrType);
-        assertTrue(q.getExpr() instanceof StrExpr);
+        assertTrue(q.getDefaultValue() instanceof StrExpr);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class Statement
     {
         IfCondition c = TestHelper.as(ParserHelper.ParseIfCondition("if(true)\n{ boolean a \"\"}"), IfCondition.class);
         assertNotNull(c);
-        assertEquals(1, c.getStatements().size());
-        assertTrue(c.getExpr() instanceof BoolExpr);
+        assertEquals(1, c.getBody().size());
+        assertTrue(c.getCondition() instanceof BoolExpr);
     }
 }

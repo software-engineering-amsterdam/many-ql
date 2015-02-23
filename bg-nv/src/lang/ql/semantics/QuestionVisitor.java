@@ -2,34 +2,32 @@ package lang.ql.semantics;
 
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.statement.*;
-import lang.ql.ast.type.Type;
-import lang.ql.semantics.errors.*;
-import lang.ql.semantics.errors.Error;
+import lang.ql.ast.statement.CalculatedQuestion;
+import lang.ql.ast.statement.IfCondition;
+import lang.ql.ast.statement.Question;
+import lang.ql.ast.statement.Statement;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by bore on 13/02/15.
+ * Created by bore on 23/02/15.
  */
-public class SymbolVisitor implements Visitor
+public class QuestionVisitor implements Visitor
 {
-    private SymbolTable symbolTable;
-    private List<Message> errors;
+    private Map<String, Question> idToQuestion;
 
-    public static SymbolResult extract(Form f)
+    public static Map<String, Question> getQuestions(Form f)
     {
-        SymbolVisitor visitor = new SymbolVisitor();
+        QuestionVisitor visitor = new QuestionVisitor();
         f.accept(visitor);
 
-        return new SymbolResult(visitor.symbolTable, visitor.errors);
+        return visitor.idToQuestion;
     }
 
-    private SymbolVisitor()
+    private QuestionVisitor()
     {
-        this.symbolTable = new SymbolTable();
-        this.errors = new ArrayList<Message>();
+        this.idToQuestion = new HashMap<String, Question>();
     }
 
     @Override
@@ -53,36 +51,13 @@ public class SymbolVisitor implements Visitor
     @Override
     public void visit(Question q)
     {
-        this.checkForError(q);
-        this.symbolTable.define(q);
+        this.idToQuestion.put(q.getId(), q);
     }
 
     @Override
     public void visit(CalculatedQuestion q)
     {
-        this.checkForError(q);
-        this.symbolTable.define(q);
-    }
-
-    private void checkForError(Question q)
-    {
-        String id = q.getId();
-        if (this.symbolTable.containsQuestionId(id))
-        {
-            Type duplicateType = this.symbolTable.resolve(id);
-            Question duplicateQuestion = this.symbolTable.getQuestion(id);
-            int duplicateLineNumber = duplicateQuestion.getLineNumber();
-            int currentLineNumber = q.getLineNumber();
-
-            Error error = Error.identifierAlreadyDeclared(id, duplicateLineNumber, currentLineNumber);
-
-            if (!(q.getType().equals(duplicateType)))
-            {
-                error = Error.identifierDeclaredOfDiffType(id, duplicateLineNumber, currentLineNumber);
-            }
-
-            this.errors.add(error);
-        }
+        this.idToQuestion.put(q.getId(), q);
     }
 
     @Override

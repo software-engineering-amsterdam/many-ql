@@ -56,7 +56,7 @@ public class TypeCheckerTest
     }
 
     @Test
-    public void undeclaredIdentError() throws FileNotFoundException
+    public void undeclaredIdError() throws FileNotFoundException
     {
         QuestErrInfo info = TestHelper.analyse("undeclaredIdentifier");
         List<Message> ms = info.getMessages();

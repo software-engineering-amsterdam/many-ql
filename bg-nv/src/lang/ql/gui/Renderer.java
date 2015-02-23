@@ -50,12 +50,12 @@ public class Renderer extends Application
         primaryStage.show();
 
         int i = 0;
-        for (Statement s : unicornForm.getStatements())
+        for (Statement s : unicornForm.getBody())
         {
             Question q = (Question) s;
             HBox qBox = new HBox(10);
 
-            Text statement = new Text(q.getText());
+            Text statement = new Text(q.getLabel());
             qBox.getChildren().add(statement);
 
 //            switch (q.getType())

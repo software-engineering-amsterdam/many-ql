@@ -1,4 +1,4 @@
-package lang.ql.syntax;
+package lang.ql.ast;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLVisitorImpl extends QLBaseVisitor<AstNode>
+public class QLVisitor extends QLBaseVisitor<AstNode>
 {
     @Override
     public AstNode visitForm(@NotNull QLParser.FormContext context)
