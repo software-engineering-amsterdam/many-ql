@@ -9,13 +9,8 @@ import cons.ql.ast.expression.type.QLError;
 
 public class TypeRegister {
 	private Map<String, QLType> register = new HashMap<String, QLType>();
-	private final static TypeRegister INSTANCE = new TypeRegister();
 	
-	private TypeRegister() {}
-	
-	public static TypeRegister getInstance() {
-		return INSTANCE;
-	}
+	public TypeRegister() {}
 	
 	public void store(Identifier identifier, QLType typeInstance) {
 		register.put(identifier.toString(), typeInstance);

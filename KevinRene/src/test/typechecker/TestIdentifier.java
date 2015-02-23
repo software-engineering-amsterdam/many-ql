@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import cons.TypeRegister;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
@@ -36,10 +37,14 @@ public class TestIdentifier {
      private boolean expected;
      
      private Parser formParser = new Parser();
-     private TypeChecker typeChecker = new TypeChecker();
+     private TypeRegister register = new TypeRegister();
+     private TypeChecker typeChecker = new TypeChecker(register);
 
      public TestIdentifier(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
+
+         register = new TypeRegister();
+         typeChecker = new TypeChecker(register);
     	 
     	 this.inputNode = formParser.parse(input);
     	 this.expected = expected;

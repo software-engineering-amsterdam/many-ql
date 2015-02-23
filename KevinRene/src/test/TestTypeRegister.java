@@ -14,15 +14,10 @@ import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.statement.Question;
 
 public class TestTypeRegister {
-	
-	@After
-	public void emptyRegister() {
-		TypeRegister.getInstance().clear();
-	}
-	
+		
 	@Test
 	public void testRegistration() {
-		TypeRegister register = TypeRegister.getInstance();
+		TypeRegister register = new TypeRegister();
 		
 		StringLiteral myString = new StringLiteral("My String");
 		Identifier myIdentifier = new Identifier("aString");
@@ -33,7 +28,7 @@ public class TestTypeRegister {
 			register.resolve(myIdentifier).toString(), "QLString");
 		
 		myString = new StringLiteral("Other value");
-		TypeRegister.getInstance().store(myIdentifier, myString.getType());
+		register.store(myIdentifier, myString.getType());
 		
 		assertEquals("Should return the newly bound type instance.", "QLString",
 				register.resolve(myIdentifier).toString());
@@ -41,7 +36,7 @@ public class TestTypeRegister {
 	
 	@Test
 	public void throwsQLError() {
-		TypeRegister register = TypeRegister.getInstance();
+		TypeRegister register = new TypeRegister();
 		
 		Identifier myIdentifier = new Identifier("aString");
 		
@@ -51,22 +46,21 @@ public class TestTypeRegister {
 	
 	@Test
 	public void testAdvancedRegistration() {
-		TypeRegister register = TypeRegister.getInstance();
+		TypeRegister register = new TypeRegister();
 		
 		Question question = new Question(
 				new Identifier("houseValue"), 
 				new QLFloat(), 
 				new StringLiteral("Value of house"));
 		
-		// The creation above should have added the identifier
-		// of the question to the register with a type of QLFloat()
+		register.store(question.getIdentifier(), question.getType());
 		
 		assertEquals("Should return the QLFLoat type", "QLFloat",
 				register.resolve(question.getIdentifier()).toString());
 	}
 	@Test
 	public void testDoubleRegistration() {
-		TypeRegister register = TypeRegister.getInstance();
+		TypeRegister register = new TypeRegister();
 		
 		Question question = new Question(
 				new Identifier("houseValue"), 
@@ -78,8 +72,8 @@ public class TestTypeRegister {
 				new QLFloat(), 
 				new StringLiteral("Value of car"));
 		
-		// The creation above should have added the identifier
-		// of the questions to the register with a type of QLFloat()
+		register.store(question.getIdentifier(), question.getType());
+		register.store(question2.getIdentifier(), question2.getType());
 
 		assertEquals("Should return the QLFLoat type", "QLFloat",
 				register.resolve(question.getIdentifier()).toString());

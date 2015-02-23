@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import cons.TypeRegister;
 import cons.ql.ast.Expression;
+import cons.ql.ast.expression.type.QLError;
 import cons.ql.ast.visitor.Visitor;
 
 public class Identifier extends Expression {
@@ -16,7 +17,7 @@ public class Identifier extends Expression {
 	
 	@Override
 	public QLType getType() {
-		return TypeRegister.getInstance().resolve(this);
+		return new QLError();
 	}
 	
 	@Override

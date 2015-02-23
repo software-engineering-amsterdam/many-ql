@@ -12,7 +12,6 @@ import cons.ql.parser.Parser;
 
 public class FormCreator {
 	private static Parser formParser = new Parser();
-	private static TypeChecker typeChecker = new TypeChecker();
 	private static PrettyPrinter prettyPrinter = new PrettyPrinter();
 	
 	/**
@@ -45,6 +44,9 @@ public class FormCreator {
 				}
 				else {
 					ASTNode tree = formParser.parse(str);
+					TypeRegister register = new TypeRegister();
+					TypeChecker typeChecker = new TypeChecker(register);
+					
 					
 					if(!typeChecker.check(tree)) {
 						System.out.println("Type error detected in the form.");

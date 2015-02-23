@@ -1,6 +1,5 @@
 package cons.ql.ast.statement;
 
-import cons.TypeRegister;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
@@ -16,8 +15,6 @@ public class Question extends Statement {
 		this.identifier = identifier;
 		this.type = type;
 		this.questionText = questionText;
-				
-		TypeRegister.getInstance().store(this.identifier, this.type);
 	}
 	
 	public Identifier getIdentifier() {

@@ -3,8 +3,10 @@ package cons.ql.ast.visitor.typechecker;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import cons.TypeRegister;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
+import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
@@ -31,6 +33,11 @@ import cons.ql.ast.visitor.StatementVisitor;
 
 public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Void> {
 	private ArrayList<String> errors = new ArrayList<String>();
+	private TypeRegister register;
+	
+	public TypeChecker(TypeRegister register) {
+		this.register = register;
+	}
 	
 	/**
 	 * Entry point, static type checks the supplied tree
@@ -51,6 +58,17 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 		return true;
 	}
 	
+	public QLType getType(Identifier identifier) {
+		System.out.println("identifier one");
+		return this.register.resolve(identifier);
+	}
+	
+	public QLType getType(Expression expr) {
+		System.out.println("expr one");
+		return expr.getType();
+	}
+	
+	
 	/**
 	 * Checks whether the given expression passes the type checker. 
 	 * If the types are not compatible with the given compatibleWith type
@@ -60,7 +78,6 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	 */
 	private Void checkExpression(Expression expr, QLType compatibleWith) {
 		
-		// accept all operands
 		expr.getOperands().stream().forEach(operand -> operand.accept(this));
 				
 		// Both operands should be compatible with compatibleWith
@@ -81,7 +98,7 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 		
 		return expr.getOperands()
 				.stream()
-				.map(n -> n.getType().compatibleWith(compatibleWith))
+				.map(n -> getType(n).compatibleWith(compatibleWith))
 				.allMatch(a -> a);
 	}
 	
@@ -90,7 +107,7 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 		// create string of actual types
 		String actualTypes = expr.getOperands()
 				.stream()
-				.map(x -> x.getType().toString())
+				.map(x -> getType(x).toString())
 				.collect(Collectors.joining(" & "));
 		
 		return "<" + expr.getClass().getSimpleName() + "> Expected type: " 
@@ -208,7 +225,7 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	
 	@Override
 	public Void visit(If ifNode) {
-		// The expression must have a Void type		
+		// The expression must have a boolean type		
 		ifNode.getExpression().accept(this);
 		
 		if (ifNode.getExpression().getType().getClass() != QLBoolean.class) {
@@ -221,7 +238,11 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	public Void visit(Question questionNode) {
 		// Do we allow redeclaration?
 		// If not, do a check here
+		
+		System.out.println("Storing questionNode in register");
+		register.store(questionNode.getIdentifier(), questionNode.getType());
+		System.out.println(register.getBindings());
+		
 		return null;
 	}
-
 }
