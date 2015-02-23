@@ -43,13 +43,15 @@ expression:
 	| Left= expression op = GREATER Right= expression #ExprGreater
 	| Left= expression op = GREAT_EQUAL Right= expression  #ExprGreaterEqual
 	| Left= expression op = LESS_EQUAL Right= expression #ExprLessEqual
-	| Left= expression op = LESS Right= expression #ExprLEss
+	| Left= expression op = LESS Right= expression #ExprLess
 	| Left= expression op = PLUS Right= expression  #ExprPlus
 	| Left= expression op = MINUS Right= expression  #ExprMinus
 	| Left= expression op = MULTIPLY Right= expression #ExprMultiply
 	| Left= expression op = DIVIDE Right= expression #ExprDivide
-	| '(' expression ')'  #ExprParentheses
-	| singleOp = '!' singleExpr= expression #ExprSingleOp 
+	| '(' singleExpr = expression ')'  #ExprParentheses
+	| op = '!' singleExpr= expression #ExprNot
+	| op = '-' singleExpr= expression #ExprNeg
+	 
 ;
 
 literal
@@ -88,7 +90,7 @@ GREAT_EQUAL	: 		'>=';
 LESS_EQUAL	: 		'<=';
 PLUS		:		'+';
 MINUS		:		'-';
-DEVIDE		:		'/';
+DIVIDE		:		'/';
 MULTIPLY	:		'*';
 
 // Symbols		==================================================================

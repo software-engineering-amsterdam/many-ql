@@ -4,10 +4,10 @@ import org.uva.sea.ql.AST.expression.BinaryExpression;
 import org.uva.sea.ql.AST.expression.Expression;
 import org.uva.sea.ql.AST.value.AbstractValue;
 
-public class GreaterOrEqualExpression extends BinaryExpression{
+public class LessEqualExpression extends BinaryExpression{
 	
 	
-	public GreaterOrEqualExpression(Expression leftExpression, Expression rightExpression) {
+	public LessEqualExpression(Expression leftExpression, Expression rightExpression) {
 		super(leftExpression, rightExpression);
 	}
 
