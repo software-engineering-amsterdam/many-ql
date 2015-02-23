@@ -7,4 +7,8 @@ public abstract class AbstractComponent<T> extends AbstractModel<T> {
     public boolean isVisible() {
         return visible;
     }
+
+    public void setVisible(boolean value) {
+        visible = value;
+    }
 }
