@@ -2,6 +2,7 @@ package typechecker
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
@@ -40,15 +41,35 @@ func (s SymbolTable) Warn() []error {
 	return s.warn
 }
 
+func (s *SymbolTable) ShowWarn() bool {
+	if warn := s.Warn(); warn != nil {
+		for _, e := range warn {
+			log.Printf("warning: %s", e)
+		}
+		return true
+	}
+	return false
+}
+
+func (s *SymbolTable) PanicErr() {
+	if err := s.Err(); err != nil {
+		for _, e := range err {
+			log.Println(e)
+		}
+		panic("typechecker errors found")
+	}
+}
+
 func (s *SymbolTable) loop() {
 	for r := range s.Events {
 		question, ok := s.symbolExistP(r.Identifier)
 		switch r.Command {
-		default:
-			s.err = append(s.err, fmt.Errorf(
-				"Invalid operation at typechecker table: %#v",
-				r.Command))
-
+		// default case in case of protocol breach
+		default: // OMIT
+			s.err = append(s.err, fmt.Errorf( // OMIT
+				"Invalid operation at typechecker table: %#v", // OMIT
+				r.Command)) // OMIT
+			// OMIT
 		case event.SymbolRead:
 			if !ok {
 				s.appendErrf(

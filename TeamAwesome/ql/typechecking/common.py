@@ -1,13 +1,5 @@
 import ASTNodes
-import CustomTypes
-
-def nativeQuestionType(questionType):
-    return {
-        'boolean' : bool,
-        'string' : str,
-        'integer' : int,
-        'money' : CustomTypes.Money
-    }[questionType]
+from TypeRules import nativeQuestionType
 
 def questionIdentifiedBy(identifier, node):
     if isinstance(node, ASTNodes.QuestionStatement) and \

@@ -27,9 +27,11 @@ public class StyleSheetRenderer extends AbstractRenderer {
     public void casePage(Page page) {
         JPanel pagePanel = new JPanel();
         for (Section s : page.getSections()) {
+            JPanel sectionPanel = new JPanel();
+            sectionPanel.setBorder(BorderFactory.createTitledBorder(s.getSectionName()));
             s.apply(this);
-            pagePanel.add(new JPanel(s.getSectionName(), lastCreatedComponent));
-
+            sectionPanel.add(lastCreatedComponent);
+            pagePanel.add(sectionPanel);
         }
         lastCreatedComponent = pagePanel;
     }

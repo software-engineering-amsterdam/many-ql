@@ -3,7 +3,7 @@ from . import Message
 from .common import typeOfIdentifier
 from .Cast import effectiveTypes
 
-import OperatorTypes
+import TypeRules
 import CustomTypes
 import ASTNodes
 
@@ -11,7 +11,7 @@ import ASTNodes
 class Checker(Visitor):
     def __init__(self, ast):
         super().__init__(ast)
-        self._operatorTable = OperatorTypes.Table()
+        self._operatorTable = TypeRules.OperatorTable()
 
         # The type of the last WELL-TYPED expression.
         # i.e. if the last checked expression was for some reason
