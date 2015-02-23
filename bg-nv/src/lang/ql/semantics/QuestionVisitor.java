@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by bore on 23/02/15.
  */
-public class QuestionVisitor<Void> implements Visitor
+public class QuestionVisitor implements Visitor<Void>
 {
     private Map<String, Question> idToQuestion;
 

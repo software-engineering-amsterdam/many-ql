@@ -27,7 +27,6 @@ public class Less_Eq extends BinaryExpressions{
 		if (!NumberValue.isNumberValue(this.getLeftExpr()) && !NumberValue.isNumberValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: <= operator requires both operands NumberValue");
 		
-		return new BooleanValue((int) this.getLeftExpr().evaluate().getValue() <=
-								(int) this.getRightExpr().evaluate().getValue());	
+		return NumberValue.numberValueFromExpr(this.getLeftExpr()).lessEqual(NumberValue.numberValueFromExpr(this.getRightExpr()));
 	}
 }

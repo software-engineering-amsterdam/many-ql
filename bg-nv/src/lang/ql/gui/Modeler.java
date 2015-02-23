@@ -4,6 +4,7 @@ import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
+import lang.ql.gui.GuiElement;
 import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by Nik on 17-2-15.
  */
-public class Modeler<Void> implements Visitor, TypeVisitor
+public class Modeler implements Visitor<GuiElement>, TypeVisitor<GuiElement>
 {
     private ValueTable values;
 
@@ -40,21 +41,19 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(Form form)
+    public GuiElement visit(Form form)
     {
         this.lines = new ArrayList<Line>();
         for (Statement s : form.getBody())
         {
             s.accept(this);
         }
-        this.canvas = new Canvas(form.getId(), this.lines);
-        this.lines = null;
 
-        return null;
+        return new Canvas(form.getId(), this.lines);
     }
 
     @Override
-    public Void visit(Question q)
+    public GuiElement visit(Question q)
     {
         this.currentValue = values.getValue(q.getId());
 
@@ -70,7 +69,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(CalculatedQuestion cq)
+    public GuiElement visit(CalculatedQuestion cq)
     {
         this.currentValue = values.getValue(cq.getId());
 
@@ -86,7 +85,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(BoolType type)
+    public GuiElement visit(BoolType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new BoolInput((BooleanValue)this.currentValue);
@@ -95,7 +94,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(DateType type)
+    public GuiElement visit(DateType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new DateInput((DateValue)this.currentValue);
@@ -104,7 +103,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(DecType type)
+    public GuiElement visit(DecType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new DecInput((DecimalValue)this.currentValue);
@@ -113,7 +112,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(IntType type)
+    public GuiElement visit(IntType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new IntInput((IntegerValue)this.currentValue);
@@ -122,7 +121,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(StrType type)
+    public GuiElement visit(StrType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new StrInput((StringValue)this.currentValue);
@@ -131,7 +130,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(UndefinedType type)
+    public GuiElement visit(UndefinedType type)
     {
         // TODO: remove the cast somehow
         //this.currentInput = new StrInput((StringValue)this.currentValue);
@@ -140,7 +139,7 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(IfCondition ifCond)
+    public GuiElement visit(IfCondition ifCond)
     {
         for (Statement s : ifCond.getBody())
         {
@@ -151,121 +150,121 @@ public class Modeler<Void> implements Visitor, TypeVisitor
     }
 
     @Override
-    public Void visit(BoolExpr e)
+    public GuiElement visit(BoolExpr e)
     {
         return null;
     }
 
     @Override
-    public Void visit(IntExpr e)
+    public GuiElement visit(IntExpr e)
     {
         return null;
     }
 
     @Override
-    public Void visit(DecExpr e)
+    public GuiElement visit(DecExpr e)
     {
         return null;
     }
 
     @Override
-    public Void visit(StrExpr e)
+    public GuiElement visit(StrExpr e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Ident e)
+    public GuiElement visit(Ident e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Neg e)
+    public GuiElement visit(Neg e)
     {
         return null;
     }
 
     @Override
-    public Void visit(lang.ql.ast.expression.Pos e)
+    public GuiElement visit(lang.ql.ast.expression.Pos e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Not e)
+    public GuiElement visit(Not e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Add e)
+    public GuiElement visit(Add e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Sub e)
+    public GuiElement visit(Sub e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Mul e)
+    public GuiElement visit(Mul e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Div e)
+    public GuiElement visit(Div e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Gt e)
+    public GuiElement visit(Gt e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Lt e)
+    public GuiElement visit(Lt e)
     {
         return null;
     }
 
     @Override
-    public Void visit(GtEqu e)
+    public GuiElement visit(GtEqu e)
     {
         return null;
     }
 
     @Override
-    public Void visit(LtEqu e)
+    public GuiElement visit(LtEqu e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Equ e)
+    public GuiElement visit(Equ e)
     {
         return null;
     }
 
     @Override
-    public Void visit(NotEqu e)
+    public GuiElement visit(NotEqu e)
     {
         return null;
     }
 
     @Override
-    public Void visit(And e)
+    public GuiElement visit(And e)
     {
         return null;
     }
 
     @Override
-    public Void visit(Or e)
+    public GuiElement visit(Or e)
     {
         return null;
     }

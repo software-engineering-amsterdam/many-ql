@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by bore on 13/02/15.
  */
-public class SymbolVisitor<Void> implements Visitor
+public class SymbolVisitor implements Visitor<Void>
 {
     private SymbolTable symbolTable;
     private List<Message> errors;

@@ -1,26 +1,33 @@
 package uva.ql.interpreter.typecheck;
 import uva.ql.interpreter.typecheck.Symbol;
+
 import java.util.*;
+
 import uva.ql.interpreter.typecheck.SymbolMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
-
-
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 
 public class SymbolMap {
-	protected List <Symbol> symbolList = new ArrayList<Symbol>();
+	
 	protected Map<String, List<Symbol>> symbols;
 	
 	public SymbolMap(){
-		symbols = new HashMap<String,List<Symbol>>();
+		this.symbols = new HashMap<String, List<Symbol>>();
 	}
-	public void putValue(String name, List<Symbol> symbolList, Symbol symbol){
-		symbolList.add(symbol);
-		symbols.put(name, symbolList);
+	public void putValue(String name, Symbol symbol){
+		if (!this.exists(name)){
+			this.putValueToList(new ArrayList<Symbol>(), name, symbol);
+		}
+		else {
+			this.putValueToList(this.retrieve(name), name, symbol);
+		}
+	}
+	private void putValueToList(List<Symbol> symbolsList, String name, Symbol symbol){
+		symbolsList.add(symbol);
+		this.symbols.put(name, symbolsList);
 	}
 	
 	public List<Symbol> retrieve(String name){
@@ -28,17 +35,63 @@ public class SymbolMap {
 			return symbols.get(name);
 		else return null;
 	}
-	public boolean symbolExists(String name, Symbol symbol){
-		return retrieve(name).contains(symbol);
-	}
-	public List<Symbol> retrieve(String name, Symbol symbol){
-		return retrieve(name + symbol);
+	public Symbol retrieveSymbol(List<Symbol> listSymbols, String identifier, String className){
+		
+		return null;
 	}
 	public boolean exists(String name){
-		return retrieve(name) != null;
+		return this.retrieve(name) != null;
+	}
+	public boolean existsWithClassType(String name, String className){
+		if (this.exists(name)){
+			for (Symbol s : this.retrieve(name)){
+				if (className.equals(s.className))
+					return true;
+			}
+		}
+		return false;
+	}
+	public boolean keyWithSymbolExists(String name, Symbol symbol){
+		if (this.exists(name)){
+			for (Symbol s : this.retrieve(name)){
+				if (symbol.equals(s)) return true;
+			}
+		}
+		return false;
+	}
+	public Symbol getSymbolForAttributes(String name, String type, String className){
+		int index = indexOfSymbol(this.retrieve(name), new Symbol(type, className, null));
+		if (index != -1) return this.retrieve(name).get(index);
+		return null;
 	}
 	public Set<String> getAllKeys(){
 		return symbols.keySet();
+	}
+	public List<String> getTypesForKey(String name){
+		List<String> listOfTypes = new ArrayList<String>();
+		for (Symbol s : this.retrieve(name))
+			listOfTypes.add(s.getSymbolType());
+		return listOfTypes;
+	}
+	
+	public int indexOfSymbol(List<Symbol> symbolList, Symbol symbol){
+		for (int i=0; i < symbolList.size(); i++){
+			if (symbol.equals(symbolList.get(i))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	public boolean contentExists(Object _content){
+		for (String key : this.getAllKeys()){
+			for (Symbol s : this.retrieve(key)){
+				if (s.content != null)
+					if (_content.toString().equals(s.content.toString())){
+						return true;
+				}
+			}
+		}
+		return false;
 	}
 	@Override
 	public String toString(){

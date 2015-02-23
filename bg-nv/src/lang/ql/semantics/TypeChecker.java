@@ -14,6 +14,7 @@ import java.util.*;
 /**
  * Created by bore on 13/02/15.
  */
+
 public class TypeChecker implements Visitor<Type>
 {
     private SymbolTable symbolTable;
