@@ -27,7 +27,7 @@ public class Main {
 		ASTBuilder visitor = new ASTBuilder();
 		//System.out.println(tree.accept(visitor));
 		ArrayList<Expression> result = visitor.visit(tree);
-		
+		System.out.println(result);
 		//System.out.println(tree.accept(visitor));
 		//System.out.println(tree.toStringTree(parser));
 	}

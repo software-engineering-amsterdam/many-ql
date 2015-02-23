@@ -36,19 +36,19 @@ ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
 
 expression: 
 	literal #normalLit
-	| expression AND expression #andExpr
-	| expression OR expression #orExpr
-	| expression EQUAL_COND expression #equalCond
+	| expression AND expression #ExprAnd
+	| expression OR expression #ExprOr
+	| expression EQUAL_COND expression #ExprEqualCond
 	| expression GREATER expression #greaterCond
-	| expression GREAT_EQUAL expression #greaterEqualCond
-	| expression EQUAL expression #equalCond
-	| expression LESS_EQUAL expression #lessEqualCond
-	| expression LESS expression #lessCond
-	| expression PLUS expression  #plus
-	| expression MINUS expression  #minus
-	| expression MULTIPLY expression #mult
-	| expression DEVIDE expression #div
-	| '(' expression ')' #parenthesis
+	| expression GREAT_EQUAL expression #ExprGreatEqual
+	| expression EQUAL expression #ExprEqual
+	| expression LESS_EQUAL expression #ExprLessEqual
+	| expression LESS expression #ExprLess
+	| expression PLUS expression  #ExprPlus
+	| expression MINUS expression  #ExprMinus
+	| expression MULTIPLY expression #ExprMultiply
+	| expression DEVIDE expression #ExprDivide
+	| '(' expression ')' #ExprParen
 ;
 
 literal
