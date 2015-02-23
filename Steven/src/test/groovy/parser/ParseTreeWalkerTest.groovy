@@ -22,17 +22,17 @@ import spock.lang.Specification
 class ParseTreeWalkerTest extends Specification {
 
     public static final String INPUT_PATH = "src/main/antlr/input/"
-    Main parseTreeWalker;
-    ParseTreeWalker baseVisitor;
+    AntlrParser antlrParser;
+    ParseTreeWalker parseTreeWalker;
 
     def setup() {
-        parseTreeWalker = new Main();
-        baseVisitor = new ParseTreeWalker();
+        antlrParser = new AntlrParser();
+        parseTreeWalker = new ParseTreeWalker();
     }
 
     def "Nested expression should be parsed correctly"() {
         when:
-        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_nestedExpression", baseVisitor, Form.class)
+        Form form = antlrParser.walk(INPUT_PATH + "QL_nestedExpression", parseTreeWalker, Form.class)
         IfStatement ifStatement = (IfStatement) form.elements.get(0)
         BinaryExpression expression = (BinaryExpression) ifStatement.expression
 
@@ -46,7 +46,7 @@ class ParseTreeWalkerTest extends Specification {
 
     def "Boolean types should be identified"() {
         when:
-        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_boolean", baseVisitor, Form.class)
+        Form form = antlrParser.walk(INPUT_PATH + "QL_boolean", parseTreeWalker, Form.class)
         IfStatement ifStatement = (IfStatement) form.elements.get(0)
         And and = (And) ifStatement.expression
 
@@ -60,7 +60,7 @@ class ParseTreeWalkerTest extends Specification {
 
     def "Negation should be recognized on identifier"() {
         when:
-        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_negation", baseVisitor, Form.class)
+        Form form = antlrParser.walk(INPUT_PATH + "QL_negation", parseTreeWalker, Form.class)
         IfStatement ifStatement = (IfStatement) form.elements.get(0)
 
         then:
@@ -70,7 +70,7 @@ class ParseTreeWalkerTest extends Specification {
 
     def "Should recognise else clause in If statement"() {
         when:
-        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_elseClause", baseVisitor, Form.class)
+        Form form = antlrParser.walk(INPUT_PATH + "QL_elseClause", parseTreeWalker, Form.class)
         IfStatement ifStatement = (IfStatement) form.elements.get(0)
 
         then:

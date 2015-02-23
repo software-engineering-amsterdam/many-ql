@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by Steven Kok on 17/02/2015.
  */
-public class Main {
+public class AntlrParser {
 
     public <T> T walk(String inputFilePath, QLVisitor visitor, Class<T> returnClass) throws IOException {
         ANTLRFileStream antlrFileStream = new ANTLRFileStream(inputFilePath);

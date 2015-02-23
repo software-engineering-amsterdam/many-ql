@@ -1,7 +1,7 @@
 package typeChecker
 
 import exceptions.TypeCheckException
-import parser.Main
+import parser.AntlrParser
 import parser.ParseTreeWalker
 import parser.nodes.Form
 import spock.lang.Specification
@@ -11,7 +11,7 @@ import spock.lang.Specification
  */
 class TypeCheckerTest extends Specification {
 
-    Main parseTreeWalker = new Main();
+    AntlrParser parseTreeWalker = new AntlrParser();
 
     def "Should throw exception with duplicate and unreferenced questions"() {
         when:

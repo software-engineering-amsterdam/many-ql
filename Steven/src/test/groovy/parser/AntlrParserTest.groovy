@@ -6,12 +6,12 @@ import spock.lang.Specification
 /**
  * Created by Steven Kok on 17/02/2015.
  */
-class MainTest extends Specification {
+class AntlrParserTest extends Specification {
     public static final String PATH_TO_INPUT_FILE = "src/main/antlr/input/QL_initial"
-    Main parseTreeWalker
+    AntlrParser parseTreeWalker
 
     def setup() {
-        parseTreeWalker = new Main()
+        parseTreeWalker = new AntlrParser()
     }
 
     def "Walker should throw exception when providing wrong path"() {
