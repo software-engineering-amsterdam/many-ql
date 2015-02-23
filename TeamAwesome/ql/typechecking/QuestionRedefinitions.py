@@ -1,5 +1,5 @@
 from .Visitor import Visitor
-from .common import typeOfIdentifier, nativeQuestionType
+from .Common import typeOfIdentifier, nativeQuestionType
 from . import Message
 
 class Checker(Visitor):

@@ -2,28 +2,28 @@ import argparse
 import glob
 
 from antlr4 import *
-from QLLexer import QLLexer
-from QLParser import QLParser
+from ql.parser.QLLexer import QLLexer
+from ql.parser.QLParser import QLParser
 
 def runTest(printTreeAlways, testFileName):
     input = FileStream(testFileName)
     lexer = QLLexer(input)
     stream = CommonTokenStream(lexer)
-    parser = QLParser(stream)
+    _parser = QLParser(stream)
 
     methodName = testFileName.split('.')[0].split('-')[2]
-    treeTest = getattr(parser, methodName)()
+    treeTest = getattr(_parser, methodName)()
 
-    if parser._syntaxErrors > 0 or printTreeAlways:
+    if _parser._syntaxErrors > 0 or printTreeAlways:
         printTree(treeTest, 0)
 
-    if parser._syntaxErrors > 0 or printTreeAlways:
+    if _parser._syntaxErrors > 0 or printTreeAlways:
         print( '^'+('-'*9)+methodName+'('+testFileName+'): '\
              + str(parser._syntaxErrors) + ' error(s)'\
              + ('-'*10)
              )
 
-    return parser._syntaxErrors
+    return _parser._syntaxErrors
 
 
 def printTree(treeTest, lev):

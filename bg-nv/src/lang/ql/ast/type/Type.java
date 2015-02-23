@@ -33,4 +33,6 @@ public abstract class Type
     {
         return this.title.hashCode();
     }
+
+    public abstract void accept(TypeVisitor visitor);
 }

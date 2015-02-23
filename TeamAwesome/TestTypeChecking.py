@@ -1,8 +1,8 @@
 import argparse
 import glob
 
-from AST import AST
-from typechecking import typechecking as tc
+from ql.ast.AST import AST
+from ql.typechecking import typechecking as tc
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
