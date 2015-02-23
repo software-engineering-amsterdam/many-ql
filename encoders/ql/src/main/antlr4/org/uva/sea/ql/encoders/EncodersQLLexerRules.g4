@@ -40,4 +40,4 @@ QUOTEDSTRING  : '"' .+? '"';
 NAME          : [a-zA-Z]+;
 
 WS            : (' ' | '\t')+ -> skip;
-NL            :  '\r'? '\n';
+NL            :  ('\r'? '\n') ->skip;

@@ -1,6 +1,6 @@
 package org.uva.sea.ql.encoders.ast;
 
-public class Expression {
+public class Expression extends AstNode {
 
 	private String name;
 

@@ -2,24 +2,25 @@ grammar EncodersQL;
 import EncodersQLLexerRules;
 
 questionnaire:
-    'form' formName=NAME '{'  NL
-    (question | conditionalBlock | NL )+
+    'form' formName=NAME '{'  
+    (stmt+=statement)+
     '}'
     EOF;
 
+statement: question | conditionalBlock;
         
 question:
-     questionString=QUOTEDSTRING NL
-     questionName=NAME ':' type=DATATYPE computation? NL;
+     questionString=QUOTEDSTRING 
+     questionName=NAME ':' type=DATATYPE computation? ;
          
 computation:
-     '=' NL
+     '=' 
      expr=expression;
      
 conditionalBlock:
-     'if' '(' conditional ')' '{' NL
-     question+
-     '}' NL;
+     'if' '(' conditional ')' '{' 
+     q+=question+
+     '}' ;
     
 conditional:
     NAME;
