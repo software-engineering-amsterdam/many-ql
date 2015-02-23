@@ -1,6 +1,7 @@
 package cons.ql.ast.visitor.typechecker;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import cons.TypeRegister;
@@ -12,6 +13,10 @@ import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
 import cons.ql.ast.expression.arithmetic.Sub;
+import cons.ql.ast.expression.literal.BooleanLiteral;
+import cons.ql.ast.expression.literal.FloatLiteral;
+import cons.ql.ast.expression.literal.IntegerLiteral;
+import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.relational.And;
 import cons.ql.ast.expression.relational.Eq;
 import cons.ql.ast.expression.relational.GEq;
@@ -21,7 +26,11 @@ import cons.ql.ast.expression.relational.LT;
 import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLError;
+import cons.ql.ast.expression.type.QLFloat;
+import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
+import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.expression.unary.Neg;
 import cons.ql.ast.expression.unary.Not;
 import cons.ql.ast.expression.unary.Pos;
@@ -31,7 +40,7 @@ import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
-public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Void> {
+public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<QLType> {
 	private ArrayList<String> errors = new ArrayList<String>();
 	private TypeRegister register;
 	
@@ -56,18 +65,7 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 		}
 		
 		return true;
-	}
-	
-	public QLType getType(Identifier identifier) {
-		System.out.println("identifier one");
-		return this.register.resolve(identifier);
-	}
-	
-	public QLType getType(Expression expr) {
-		System.out.println("expr one");
-		return expr.getType();
-	}
-	
+	}	
 	
 	/**
 	 * Checks whether the given expression passes the type checker. 
@@ -76,16 +74,19 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	 * @param expr
 	 * @param compatibleWith The QLType the operands should be compatible with
 	 */
-	private Void checkExpression(Expression expr, QLType compatibleWith) {
+	private QLType checkExpression(Expression expr, QLType compatibleWith) {
 		
-		expr.getOperands().stream().forEach(operand -> operand.accept(this));
+		List<QLType> operandTypes = expr.getOperands()
+				.stream()
+				.map(operand -> operand.accept(this))
+				.collect(Collectors.toList());
 				
 		// Both operands should be compatible with compatibleWith
-		if (!isCompatibleWith(expr, compatibleWith)) {
-			errors.add(createIncompatibleError(expr, compatibleWith));
+		if (!isCompatibleWith(operandTypes, compatibleWith)) {
+			errors.add(createIncompatibleError(expr, operandTypes, compatibleWith));
 		}
 		
-		return null;
+		return expr.getType();
 	}
 	
 	/**
@@ -94,20 +95,21 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	 * @param expr
 	 * @param compatibleWith
 	 */
-	public boolean isCompatibleWith(Expression expr, QLType compatibleWith) {
+	public boolean isCompatibleWith(List<QLType> operandTypes, QLType compatibleWith) {
 		
-		return expr.getOperands()
+		return operandTypes
 				.stream()
-				.map(n -> getType(n).compatibleWith(compatibleWith))
+				.map(n -> n.compatibleWith(compatibleWith))
 				.allMatch(a -> a);
 	}
 	
-	private String createIncompatibleError(Expression expr, QLType compatibleTo) {
+	private String createIncompatibleError(
+			Expression expr, List<QLType> operandTypes, QLType compatibleTo) {
 		
 		// create string of actual types
-		String actualTypes = expr.getOperands()
+		String actualTypes = operandTypes
 				.stream()
-				.map(x -> getType(x).toString())
+				.map(x -> x.toString())
 				.collect(Collectors.joining(" & "));
 		
 		return "<" + expr.getClass().getSimpleName() + "> Expected type: " 
@@ -120,32 +122,32 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	 * OPERATORS 
 	 */
 	@Override
-	public Void visit(Add addNode) {
+	public QLType visit(Add addNode) {
 		return checkExpression(addNode, new QLNumeric());
 	}
 
 	@Override
-	public Void visit(Div divNode) {
+	public QLType visit(Div divNode) {
 		return checkExpression(divNode, new QLNumeric());
 	}
 
 	@Override
-	public Void visit(Mul mulNode) {
+	public QLType visit(Mul mulNode) {
 		return checkExpression(mulNode, new QLNumeric());
 	}
 
 	@Override
-	public Void visit(Sub subNode) {
+	public QLType visit(Sub subNode) {
 		return checkExpression(subNode, new QLNumeric());
 	}
 	
 	@Override
-	public Void visit(Neg negNode) {
+	public QLType visit(Neg negNode) {
 		return checkExpression(negNode, new QLNumeric());
 	}
 	
 	@Override
-	public Void visit(Pos posNode) {
+	public QLType visit(Pos posNode) {
 		return checkExpression(posNode, new QLNumeric());
 	}
 	
@@ -157,12 +159,12 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	 */
 	
 	@Override
-	public Void visit(Eq eqNode) {
+	public QLType visit(Eq eqNode) {
 		return checkExpression(eqNode, eqNode.getLeft().getType());
 	}
 	
 	@Override
-	public Void visit(NEq neqNode) {
+	public QLType visit(NEq neqNode) {
 		return checkExpression(neqNode, neqNode.getLeft().getType());
 	}
 	
@@ -171,46 +173,66 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	 */
 
 	@Override
-	public Void visit(GEq geqNode) {
+	public QLType visit(GEq geqNode) {
 		return checkExpression(geqNode, new QLNumeric());
 	}
 
 	@Override
-	public Void visit(GT gtNode) {
+	public QLType visit(GT gtNode) {
 		return checkExpression(gtNode, new QLNumeric());
 	}
 
 	@Override
-	public Void visit(LEq leqNode) {
+	public QLType visit(LEq leqNode) {
 		return checkExpression(leqNode, new QLNumeric());
 	}
 
 	@Override
-	public Void visit(LT ltNode) {
+	public QLType visit(LT ltNode) {
 		return checkExpression(ltNode, new QLNumeric());
 	}
 
 	
 	@Override
-	public Void visit(And andNode) {
+	public QLType visit(And andNode) {
 		return checkExpression(andNode, new QLBoolean());	
 	}
 	
 	@Override
-	public Void visit(Or orNode) {
+	public QLType visit(Or orNode) {
 		return checkExpression(orNode, new QLBoolean());
 	}
 
 	@Override
-	public Void visit(Not notNode) {
+	public QLType visit(Not notNode) {
 		return checkExpression(notNode, new QLBoolean());
+	}
+	
+	/**
+	 * Types
+	 */
+	
+	public QLType visit(QLBoolean booleanNode) { return booleanNode.getType(); }
+	public QLType visit(QLFloat floatNode) 		{ return floatNode.getType(); }    
+	public QLType visit(QLNumeric numericNode) 	{ return numericNode.getType(); }
+	public QLType visit(QLInteger intNode) 		{ return intNode.getType(); }
+	public QLType visit(QLString stringNode) 	{ return stringNode.getType(); }
+	public QLType visit(QLError errNode)		{ return errNode.getType(); }
+	
+	public QLType visit(BooleanLiteral booleanNode) {	return booleanNode.getType();}	
+	public QLType visit(FloatLiteral floatNode) {		return floatNode.getType();}
+	public QLType visit(IntegerLiteral intNode) {		return intNode.getType();}
+	public QLType visit(StringLiteral stringNode) {		return stringNode.getType();}
+	
+	public QLType visit(Identifier identifier) {
+		return this.register.resolve(identifier);
 	}
 
 	/**
 	 * Statements
 	 */	
 	@Override
-	public Void visit(ComputedQuestion compQuestionNode) {
+	public QLType visit(ComputedQuestion compQuestionNode) {
 		StatementVisitor.super.visit(compQuestionNode);
 		
 		if(!compQuestionNode.getType().compatibleWith(
@@ -220,29 +242,27 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 					+ compQuestionNode.getType() + " was assigned a "
 					+ compQuestionNode.getExpression().getType() + ".");
 		}
-		return null;
+		return new QLError();
 	}
 	
 	@Override
-	public Void visit(If ifNode) {
+	public QLType visit(If ifNode) {
 		// The expression must have a boolean type		
 		ifNode.getExpression().accept(this);
 		
 		if (ifNode.getExpression().getType().getClass() != QLBoolean.class) {
 			errors.add("Expected QLBoolean, got " + ifNode.getExpression().getType());
 		}
-		return null;
+		return new QLError();
 	}
 
 	@Override
-	public Void visit(Question questionNode) {
+	public QLType visit(Question questionNode) {
 		// Do we allow redeclaration?
 		// If not, do a check here
 		
-		System.out.println("Storing questionNode in register");
 		register.store(questionNode.getIdentifier(), questionNode.getType());
-		System.out.println(register.getBindings());
 		
-		return null;
+		return new QLError();
 	}
 }
