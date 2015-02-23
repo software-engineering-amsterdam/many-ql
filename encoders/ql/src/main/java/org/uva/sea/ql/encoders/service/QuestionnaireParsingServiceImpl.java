@@ -25,13 +25,11 @@ public class QuestionnaireParsingServiceImpl implements
 		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(
 				lexer));
 
-		QuestionnaireListener questionnaireListener = new QuestionnaireListener();
-		parser.addParseListener(questionnaireListener);
 		QuestionnaireContext parseTree = parser.questionnaire();
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
 		visitor.visit(parseTree);
 
-		Questionnaire questionnaire = questionnaireListener.getQuestionnaire();
+		Questionnaire questionnaire = visitor.getQuestionnaire();
 		return questionnaire;
 	}
 

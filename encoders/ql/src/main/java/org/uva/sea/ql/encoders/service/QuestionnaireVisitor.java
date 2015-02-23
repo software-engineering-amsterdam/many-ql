@@ -22,6 +22,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<Void> {
 	@Override
 	public Void visitQuestionnaire(QuestionnaireContext ctx) {
 		questionnaire.setName(ctx.formName.getText());
+		super.visitChildren(ctx);
 		return null;
 	}
 
@@ -35,23 +36,27 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<Void> {
 		Question question = new Question(questionName, condition, dataType,
 				questionString);
 		questionnaire.addQuestion(question);
+		super.visitChildren(ctx);
 		return null;
 	}
 
 	@Override
 	public Void visitConditional(ConditionalContext ctx) {
 		this.condition = ctx.getText();
+		super.visitChildren(ctx);
 		return null;
 	}
 
 	@Override
 	public Void visitComputation(ComputationContext ctx) {
 		Expression expression2 = expressionVisitor.visit(ctx.expression());
+		super.visitChildren(ctx);
 		return null;
 	}
 
 	@Override
 	public Void visitConditionalBlock(ConditionalBlockContext ctx) {
+		super.visitChildren(ctx);
 		this.condition = null;
 		return null;
 	}

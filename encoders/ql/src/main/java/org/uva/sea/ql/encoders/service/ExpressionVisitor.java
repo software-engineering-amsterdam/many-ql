@@ -14,16 +14,15 @@ public class ExpressionVisitor extends EncodersQLBaseVisitor<Expression> {
 	public Expression visitNeEq(NeEqContext ctx) {
 		String operator = ctx.operator.getText();
 		Expression leftHand = visit(ctx.expression(0));
-		Expression rightHand = visit(ctx.expression(0));
-		Expression expression = new Expression(leftHand, rightHand, operator);
-		return expression;
+		Expression rightHand = visit(ctx.expression(1));
+		return new Expression(leftHand, rightHand, operator);
 	}
 
 	@Override
 	public Expression visitMulDiv(MulDivContext ctx) {
 		String operator = ctx.operator.getText();
 		Expression leftHand = visit(ctx.expression(0));
-		Expression rightHand = visit(ctx.expression(0));
+		Expression rightHand = visit(ctx.expression(1));
 		Expression expression = new Expression(leftHand, rightHand, operator);
 		return expression;
 	}
@@ -32,7 +31,7 @@ public class ExpressionVisitor extends EncodersQLBaseVisitor<Expression> {
 	public Expression visitLtGtLeGe(LtGtLeGeContext ctx) {
 		String operator = ctx.operator.getText();
 		Expression leftHand = visit(ctx.expression(0));
-		Expression rightHand = visit(ctx.expression(0));
+		Expression rightHand = visit(ctx.expression(1));
 		Expression expression = new Expression(leftHand, rightHand, operator);
 		return expression;
 	}
@@ -41,7 +40,7 @@ public class ExpressionVisitor extends EncodersQLBaseVisitor<Expression> {
 	public Expression visitNot(NotContext ctx) {
 		String operator = ctx.operator.getText();
 		Expression leftHand = visit(ctx.expression(0));
-		Expression rightHand = visit(ctx.expression(0));
+		Expression rightHand = visit(ctx.expression(1));
 		Expression expression = new Expression(leftHand, rightHand, operator);
 		return expression;
 	}
@@ -50,7 +49,7 @@ public class ExpressionVisitor extends EncodersQLBaseVisitor<Expression> {
 	public Expression visitOr(OrContext ctx) {
 		String operator = ctx.operator.getText();
 		Expression leftHand = visit(ctx.expression(0));
-		Expression rightHand = visit(ctx.expression(0));
+		Expression rightHand = visit(ctx.expression(1));
 		Expression expression = new Expression(leftHand, rightHand, operator);
 		return expression;
 	}
