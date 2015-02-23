@@ -1,6 +1,6 @@
 package org.fugazi.gui;
 
-import org.fugazi.gui.ui_elements.UIElement;
+import org.fugazi.gui.ui_elements.UIQuestion;
 
 import java.util.Observer;
 import java.util.Observable;
@@ -12,7 +12,7 @@ public class ElementsObserver implements Observer {
 
     public void update(Observable o, Object arg) {
         //TODO: beautiful
-        UIElement uiQuestion = (UIElement) o;
-        System.out.println(uiQuestion.getState().getValue());
+        UIQuestion uiQuestion = (UIQuestion) o;
+        System.out.println(uiQuestion.getId().getName() + " : " + uiQuestion.getState().getValue());
     }
 }

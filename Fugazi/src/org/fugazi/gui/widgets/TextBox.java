@@ -14,4 +14,8 @@ public class TextBox extends JPanel implements IWidget {
         this.valueField.setColumns(7);
         this.add(this.valueField);
     }
+
+    public JTextField getTextField() {
+        return this.valueField;
+    }
 }
