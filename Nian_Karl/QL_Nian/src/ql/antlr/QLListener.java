@@ -257,13 +257,75 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitExprEqual(QLParser.ExprEqualContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link QLParser#literal}.
+	 * Enter a parse tree produced by the {@code Id}
+	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void enterLiteral(QLParser.LiteralContext ctx);
+	void enterId(QLParser.IdContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link QLParser#literal}.
+	 * Exit a parse tree produced by the {@code Id}
+	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 */
-	void exitLiteral(QLParser.LiteralContext ctx);
+	void exitId(QLParser.IdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterInt(QLParser.IntContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitInt(QLParser.IntContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Dec}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterDec(QLParser.DecContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Dec}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitDec(QLParser.DecContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Bool}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterBool(QLParser.BoolContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Bool}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitBool(QLParser.BoolContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Str}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterStr(QLParser.StrContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Str}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitStr(QLParser.StrContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Date}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterDate(QLParser.DateContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Date}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitDate(QLParser.DateContext ctx);
 }

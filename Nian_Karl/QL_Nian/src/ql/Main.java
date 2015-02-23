@@ -16,7 +16,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		//ANTLRInputStream input = new ANTLRInputStream(System.in);
-		System.out.println("hello");
+		System.out.println("Start");
 		ANTLRFileStream input = new ANTLRFileStream("scripts/test.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -28,9 +28,6 @@ public class Main {
 		//System.out.println(tree.accept(visitor));
 		ArrayList<Expression> result = visitor.visit(tree);
 		
-		for (Expression e : result){
-			System.out.println(e.evaluate().getValue());
-		}
 		//System.out.println(tree.accept(visitor));
 		//System.out.println(tree.toStringTree(parser));
 	}

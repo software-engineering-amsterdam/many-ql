@@ -11,8 +11,8 @@ import org.uva.sea.ql.AST.statement.QuestionStatement;
 import org.uva.sea.ql.AST.statement.Statement;
 import org.uva.sea.ql.factory.QLFactory;
 import org.uva.sea.ql.parser.antlr.QLBaseVisitor;
-import org.uva.sea.ql.parser.antlr.QLParser.AddExprContext;
 import org.uva.sea.ql.parser.antlr.QLParser.AndExprContext;
+import org.uva.sea.ql.parser.antlr.QLParser.ExpressionContext;
 import org.uva.sea.ql.parser.antlr.QLParser.StatementContext;
 
 public class QLImplVisitor extends QLBaseVisitor<List<Statement>> {
@@ -41,22 +41,23 @@ public class QLImplVisitor extends QLBaseVisitor<List<Statement>> {
 			// Nian: Try to parse these crazy expressions like:
 			// "if((100 > 5) && ((5+6) < 10))"
 			// and get a boolean out of it.
-			String leftString = ctx.ifStatement().expression().expression(0)
-					.getText();
+			ExpressionContext exp = ctx.ifStatement().expression();
+			System.out.println(exp.children);
+			String leftString = ctx.ifStatement().expression().getChild(0).getText();
+			String rightString = ctx.ifStatement().expression().getChild(2).getText();
 			System.out.println(leftString);
+			System.out.println(rightString);
 			Expression leftExpression = new NumberLiteral(
 					Integer.parseInt(leftString));
 
-			String rightString = ctx.ifStatement().expression().expression(1)
-					.getText();
-			System.out.println(rightString);
 			Expression rightExpression = new NumberLiteral(
 					Integer.parseInt(rightString));
 
 			Expression expr = new AddExpression(leftExpression, rightExpression);
 			IfStatement statement = new IfStatement(expr);
 			
-			System.out.println(expr.evaluateExpression().getValue());
+			
+			System.out.println(expr.interpretExpression().getValue());
 			for (int i = 0; i < ctx.ifStatement().block().size(); i++) {
 				List<Statement> statements2 = visitStatement(ctx.ifStatement()
 						.block().get(i).statement(i));

@@ -2,8 +2,8 @@ package ql.ast.expression;
 
 public abstract class Binary extends Expression {
 	
-	private final Expression left;
-	private final Expression right;
+	protected final Expression left;
+	protected final Expression right;
 	
 	public Binary(Expression left, Expression right){
 		this.left = left;
