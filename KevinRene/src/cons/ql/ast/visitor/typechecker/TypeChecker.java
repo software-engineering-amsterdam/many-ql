@@ -1,10 +1,10 @@
 package cons.ql.ast.visitor.typechecker;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
-import cons.ql.ast.expression.Binary;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
@@ -32,8 +32,11 @@ import cons.ql.ast.visitor.StatementVisitor;
 public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Void> {
 	private ArrayList<String> errors = new ArrayList<String>();
 	
-	// TODO, should take a statement?
-	public boolean checkStaticTypes(ASTNode tree) {
+	/**
+	 * Entry point, static type checks the supplied tree
+	 * @return a boolean indicating pass or fail
+	 */
+	public boolean check(ASTNode tree) {
 		tree.accept(this);
 		
 		if (!errors.isEmpty()) {
@@ -46,28 +49,52 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 		return true;
 	}
 	
-	private boolean isCompatible(Binary op, QLType compatibleTo) {
-		return op.getLeft().getType().compatibleWith(compatibleTo) &&
-		op.getRight().getType().compatibleWith(compatibleTo);
-	}
-	
-	private Void checkBinary(Binary op, QLType compatibleTo) {
-		Expression left = op.getLeft();
-		Expression right = op.getRight();
+	/**
+	 * Checks whether the given expression passes the type checker. 
+	 * If the types are not compatible with the given compatibleWith type
+	 * then an error is added to the errors list.
+	 * @param expr
+	 * @param compatibleWith The QLType the operands should be compatible with
+	 */
+	private Void checkExpression(Expression expr, QLType compatibleWith) {
 		
-		left.accept(this);
-		right.accept(this);
-		
-		// Both operands should be compatible with compatibleTo
-		if (!isCompatible(op, compatibleTo)) {
-		
-			errors.add("<" + op.getClass().getSimpleName() + "> Expected type: " 
-					+ op.getType().compatibilities() + ", actual types: "	
-					+ left.getType() + " & " + right.getType()
-					+ ".");
+		// accept all operands
+		expr.getOperands().stream().forEach(operand -> operand.accept(this));
+				
+		// Both operands should be compatible with compatibleWith
+		if (!isCompatibleWith(expr, compatibleWith)) {
+			errors.add(createIncompatibleError(expr, compatibleWith));
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Checks whether the operands of an expression are compatible with the
+	 * expected QLType.
+	 * @param expr
+	 * @param compatibleWith
+	 */
+	public boolean isCompatibleWith(Expression expr, QLType compatibleWith) {
+		
+		return expr.getOperands()
+				.stream()
+				.map(n -> n.getType().compatibleWith(compatibleWith))
+				.allMatch(a -> a);
+	}
+	
+	private String createIncompatibleError(Expression expr, QLType compatibleTo) {
+		
+		// create string of actual types
+		String actualTypes = expr.getOperands()
+				.stream()
+				.map(x -> x.getType().toString())
+				.collect(Collectors.joining(" & "));
+		
+		return "<" + expr.getClass().getSimpleName() + "> Expected type: " 
+				+ compatibleTo.compatibilities() + ", actual types: "	
+				+ actualTypes
+				+ ".";
 	}
 	
 	/**
@@ -75,78 +102,49 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	 */
 	@Override
 	public Void visit(Add addNode) {
-		return checkBinary(addNode, new QLNumeric());
+		return checkExpression(addNode, new QLNumeric());
 	}
 
 	@Override
 	public Void visit(Div divNode) {
-		return checkBinary(divNode, new QLNumeric());
+		return checkExpression(divNode, new QLNumeric());
 	}
 
 	@Override
 	public Void visit(Mul mulNode) {
-		return checkBinary(mulNode, new QLNumeric());
+		return checkExpression(mulNode, new QLNumeric());
 	}
 
 	@Override
 	public Void visit(Sub subNode) {
-		return checkBinary(subNode, new QLNumeric());
+		return checkExpression(subNode, new QLNumeric());
 	}
 	
 	@Override
 	public Void visit(Neg negNode) {
-		negNode.getExpression().accept(this);
-		
-		// Expression must be a numeric
-		if (negNode.getType().compatibleWith(negNode.getExpression().getType())) {
-			errors.add("<Not> Expected type: QLNumeric, actual type: " + negNode.getExpression().getType());
-		}
-		return null;
+		return checkExpression(negNode, new QLNumeric());
 	}
 	
 	@Override
 	public Void visit(Pos posNode) {
-		posNode.getExpression().accept(this);
-		
-		// Expression must be a numeric
-		if (posNode.getType().compatibleWith(posNode.getExpression().getType())) {
-			errors.add("<Not> Expected type: QLNumeric, actual type: " + posNode.getExpression().getType());
-		}
-		return null;
+		return checkExpression(posNode, new QLNumeric());
 	}
 	
 	/**
 	 * EQUALITY OPERATORS
+	 * 
+	 * The left operand should be compatible with the right one.
+	 * So the compatibleWith value is one of the operands' type
 	 */
 	
 	@Override
 	public Void visit(Eq eqNode) {
-		return equalityOperator(eqNode);
+		return checkExpression(eqNode, eqNode.getRight().getType());
 	}
 	
 	@Override
 	public Void visit(NEq neqNode) {
-		return equalityOperator(neqNode);
-	}
-	
-	private Void equalityOperator(Binary op) {
-		Expression left = op.getLeft();
-		Expression right = op.getRight();
-		
-		left.accept(this);
-		right.accept(this);
-		
-		// Both operands should be compatible with eachother	
-		if (!left.getType().compatibleWith(right.getType())) {
-			
-			errors.add("<" + op.getClass().getSimpleName() + "> "
-					+ "Expected types to be of " 
-					+ op.getLeft().getType().compatibilities() + ", "
-					+ "but got: "
-					+ op.getLeft().getType() + " & " + op.getRight().getType()
-					+ ".");
-		}
-		return null;
+		return checkExpression(neqNode, neqNode.getRight().getType());
 	}
 	
 	/**
@@ -155,45 +153,38 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 
 	@Override
 	public Void visit(GEq geqNode) {
-		return checkBinary(geqNode, new QLNumeric());
+		return checkExpression(geqNode, new QLNumeric());
 	}
 
 	@Override
 	public Void visit(GT gtNode) {
-		return checkBinary(gtNode, new QLNumeric());
+		return checkExpression(gtNode, new QLNumeric());
 	}
 
 	@Override
 	public Void visit(LEq leqNode) {
-		return checkBinary(leqNode, new QLNumeric());
+		return checkExpression(leqNode, new QLNumeric());
 	}
 
 	@Override
 	public Void visit(LT ltNode) {
-		return checkBinary(ltNode, new QLNumeric());
+		return checkExpression(ltNode, new QLNumeric());
 	}
 
 	
 	@Override
 	public Void visit(And andNode) {
-		return checkBinary(andNode, new QLBoolean());	
+		return checkExpression(andNode, new QLBoolean());	
 	}
 	
 	@Override
 	public Void visit(Or orNode) {
-		return checkBinary(orNode, new QLBoolean());
+		return checkExpression(orNode, new QLBoolean());
 	}
 
 	@Override
 	public Void visit(Not notNode) {
-		notNode.getExpression().accept(this);
-		
-		// Expression must be a boolean
-		if (notNode.getExpression().getType().compatibleWith(new QLBoolean())) {
-			errors.add("<Not> Expected type: QLBoolean, actual type: " + notNode.getExpression().getType());
-		}
-		
-		return null;
+		return checkExpression(notNode, new QLBoolean());
 	}
 
 	/**

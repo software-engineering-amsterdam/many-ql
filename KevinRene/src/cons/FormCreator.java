@@ -32,7 +32,7 @@ public class FormCreator {
 				else {
 					ASTNode tree = formParser.parse(str);
 					
-					if(!typeChecker.checkStaticTypes(tree)) {
+					if(!typeChecker.check(tree)) {
 						System.out.println("Type error detected in the form.");
 						return;
 					}

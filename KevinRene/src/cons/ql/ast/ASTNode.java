@@ -1,6 +1,5 @@
 package cons.ql.ast;
 
-import cons.ql.ast.expression.QLType;
 import cons.ql.ast.visitor.Visitor;
 
 

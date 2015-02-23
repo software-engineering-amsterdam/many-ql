@@ -46,6 +46,6 @@ public class TestAdd {
      
      @Test
      public void testAdd() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(inputNode));
+    	 assertEquals(expected, typeChecker.check(inputNode));
      }
 }

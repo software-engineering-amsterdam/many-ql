@@ -1,5 +1,6 @@
 package cons.ql.ast.expression;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ public abstract class QLType extends Expression {
 	protected List<Class<? extends QLType>> compatibleTypes;
 	
 	public QLType(List<Class<? extends QLType>> compatibleTypes) {
+		super(Arrays.asList());
 		this.compatibleTypes = compatibleTypes;
 	}
 	

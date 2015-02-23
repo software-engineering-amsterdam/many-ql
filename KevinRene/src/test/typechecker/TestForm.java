@@ -56,6 +56,6 @@ public class TestForm {
      
      @Test
      public void testForm() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(inputNode));
+    	 assertEquals(expected, typeChecker.check(inputNode));
      }
 }

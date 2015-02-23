@@ -53,6 +53,6 @@ public class TestNEq {
      
      @Test
      public void testNEq() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(inputNode));
+    	 assertEquals(expected, typeChecker.check(inputNode));
      }
 }

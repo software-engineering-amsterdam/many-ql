@@ -15,7 +15,8 @@ import test.typechecker.*;
    TestNEq.class,
    TestOrAnd.class,
    TestRelational.class,
-   TestIdentifier.class
+   TestIdentifier.class,
+   TestCompatibility.class
 })
 public class TestTypeChecker {
 }

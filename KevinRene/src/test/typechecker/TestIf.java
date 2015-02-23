@@ -48,6 +48,6 @@ public class TestIf {
      
      @Test
      public void testIf() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(inputNode));
+    	 assertEquals(expected, typeChecker.check(inputNode));
      }
 }

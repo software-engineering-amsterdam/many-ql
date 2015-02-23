@@ -52,6 +52,6 @@ public class TestRelational {
      
      @Test
      public void testRelational() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(inputNode));
+    	 assertEquals(expected, typeChecker.check(inputNode));
      }
 }

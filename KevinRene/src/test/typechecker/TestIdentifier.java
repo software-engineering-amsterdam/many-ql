@@ -54,6 +54,6 @@ public class TestIdentifier {
      
      @Test
      public void testIdentifier() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(this.inputNode));
+    	 assertEquals(expected, typeChecker.check(this.inputNode));
      }
 }

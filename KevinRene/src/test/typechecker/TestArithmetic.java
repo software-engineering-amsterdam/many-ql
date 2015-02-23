@@ -46,6 +46,6 @@ public class TestArithmetic {
      
      @Test
      public void testArithmetic() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(inputNode));
+    	 assertEquals(expected, typeChecker.check(inputNode));
      }
 }

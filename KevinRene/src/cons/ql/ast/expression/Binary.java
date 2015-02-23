@@ -1,5 +1,7 @@
 package cons.ql.ast.expression;
 
+import java.util.Arrays;
+
 import cons.ql.ast.Expression;
 
 public abstract class Binary extends Expression {
@@ -7,6 +9,7 @@ public abstract class Binary extends Expression {
 	private String operator;
 	
 	public Binary(Expression left, Expression right, String operator) {
+		super(Arrays.asList(left, right));
 		this.left = left;
 		this.right = right;
 		this.operator = operator;

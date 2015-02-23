@@ -48,6 +48,6 @@ public class TestOrAnd {
      
      @Test
      public void testOrAnd() {
-    	 assertEquals(expected, typeChecker.checkStaticTypes(inputNode));
+    	 assertEquals(expected, typeChecker.check(inputNode));
      }
 }
