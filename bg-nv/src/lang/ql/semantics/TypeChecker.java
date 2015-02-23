@@ -14,10 +14,9 @@ import java.util.*;
 /**
  * Created by bore on 13/02/15.
  */
-public class TypeChecker<Void> implements Visitor
+public class TypeChecker implements Visitor<Type>
 {
     private SymbolTable symbolTable;
-    private Stack<Type> typeStack;
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
     private LabelMap labels;
@@ -44,14 +43,13 @@ public class TypeChecker<Void> implements Visitor
     private TypeChecker(SymbolTable table)
     {
         this.symbolTable = table;
-        this.typeStack = new Stack<Type>();
         this.questionDependencies = new QuestionDependencies();
         this.labels = new LabelMap();
         this.messages = new ArrayList<Message>();
     }
 
     @Override
-    public Void visit(Form form)
+    public Type visit(Form form)
     {
         for (Statement statement : form.getBody())
         {
@@ -62,12 +60,11 @@ public class TypeChecker<Void> implements Visitor
     }
 
     @Override
-    public Void visit(IfCondition condition)
+    public Type visit(IfCondition condition)
     {
-        condition.getCondition().accept(this);
+        Type condType = condition.getCondition().accept(this);
 
-        Type type = this.popType();
-        if (!(type.equals(new BoolType())))
+        if (!(condType.equals(new BoolType())))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
         }
@@ -81,7 +78,7 @@ public class TypeChecker<Void> implements Visitor
     }
 
     @Override
-    public Void visit(Question q)
+    public Type visit(Question q)
     {
         this.questionDependencies.addQuestion(q);
         this.labels.registerLabel(q);
@@ -90,21 +87,19 @@ public class TypeChecker<Void> implements Visitor
     }
 
     @Override
-    public Void visit(CalculatedQuestion q)
+    public Type visit(CalculatedQuestion q)
     {
         this.setScopeForExpr(q);
 
         this.questionDependencies.addQuestion(q);
         this.labels.registerLabel(q);
 
-        q.getDefaultValue().accept(this);
-
         Type defined = q.getType();
-        Type calculated = this.popType();
+        Type assigned = q.getDefaultValue().accept(this);
 
-        if (!(defined.equals(calculated)))
+        if (!(defined.equals(assigned)))
         {
-            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), calculated.getTitle(),
+            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), assigned.getTitle(),
                     q.getLineNumber()));
         }
 
@@ -114,202 +109,156 @@ public class TypeChecker<Void> implements Visitor
     }
 
     @Override
-    public Void visit(Ident n)
+    public Type visit(Ident n)
     {
         Type type = this.symbolTable.resolve(n.getId());
-        if (type != null)
-        {
-            if (this.currentQuestion != null)
-            {
-                Question q = this.symbolTable.getQuestion(n.getId());
-                this.questionDependencies.addDependency(this.currentQuestion, q);
-            }
-
-            this.pushType(type);
-        }
-        else
+        if (type == null)
         {
             this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
-            this.pushType(new UndefinedType());
+            return new UndefinedType();
         }
 
-        return null;
+        if (this.currentQuestion != null)
+        {
+            Question q = this.symbolTable.getQuestion(n.getId());
+            this.questionDependencies.addDependency(this.currentQuestion, q);
+        }
+
+        return type;
     }
 
     @Override
-    public Void visit(IntExpr n)
+    public Type visit(IntExpr n)
     {
-        this.pushType(new IntType());
-
-        return null;
+        return new IntType();
     }
 
     @Override
-    public Void visit(BoolExpr n)
+    public Type visit(BoolExpr n)
     {
-        this.pushType(new BoolType());
-
-        return null;
+        return new BoolType();
     }
 
     @Override
-    public Void visit(DecExpr n)
+    public Type visit(DecExpr n)
     {
-        this.pushType(new DecType());
-
-        return null;
+        return new DecType();
     }
 
     @Override
-    public Void visit(StrExpr n)
+    public Type visit(StrExpr n)
     {
-        this.pushType(new StrType());
-
-        return null;
+        return new StrType();
     }
 
     @Override
-    public Void visit(Add e)
+    public Type visit(Add e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(Sub e)
+    public Type visit(Sub e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(Mul e)
+    public Type visit(Mul e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(Div e)
+    public Type visit(Div e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(Pos e)
+    public Type visit(Pos e)
     {
-        this.visitUnaryExpr(e);
-
-        return null;
+        return this.visitUnaryExpr(e);
     }
 
     @Override
-    public Void visit(Neg e)
+    public Type visit(Neg e)
     {
-        this.visitUnaryExpr(e);
-
-        return null;
+        return this.visitUnaryExpr(e);
     }
 
     @Override
-    public Void visit(Not e)
+    public Type visit(Not e)
     {
-        this.visitUnaryExpr(e);
-
-        return null;
+        return this.visitUnaryExpr(e);
     }
 
     @Override
-    public Void visit(Gt e)
+    public Type visit(Gt e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(Lt e)
+    public Type visit(Lt e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(GtEqu e)
+    public Type visit(GtEqu e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(LtEqu e)
+    public Type visit(LtEqu e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(Equ e)
+    public Type visit(Equ e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(NotEqu e)
+    public Type visit(NotEqu e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(And e)
+    public Type visit(And e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
     @Override
-    public Void visit(Or e)
+    public Type visit(Or e)
     {
-        this.visitBinaryExpr(e);
-
-        return null;
+        return this.visitBinaryExpr(e);
     }
 
-    private void visitBinaryExpr(BinaryExpr e)
+    private Type visitBinaryExpr(BinaryExpr e)
     {
-        e.getLeft().accept(this);
-        e.getRight().accept(this);
-
-        Type right = this.popType();
-        Type left = this.popType();
+        Type left = e.getLeft().accept(this);
+        Type right = e.getRight().accept(this);
 
         this.checkChildTypesConsistency(e, left, right);
 
-        this.checkTypeAndSetReturnType(e, left);
+        return this.checkTypeAndSetReturnType(e, left);
     }
 
-    private void visitUnaryExpr(UnaryExpr e)
+    private Type visitUnaryExpr(UnaryExpr e)
     {
-        e.getOperand().accept(this);
-        Type operand = this.popType();
+        Type operand = e.getOperand().accept(this);
 
-        this.checkTypeAndSetReturnType(e, operand);
+        return this.checkTypeAndSetReturnType(e, operand);
     }
 
-    private void checkTypeAndSetReturnType(Expr e, Type childType)
+    private Type checkTypeAndSetReturnType(Expr e, Type childType)
     {
         String exprName = e.getClass().getSimpleName();
         Set<Type> types = ExprTypes.exprAllowedTypes.get(exprName);
@@ -322,7 +271,7 @@ public class TypeChecker<Void> implements Visitor
             returnType = ExprTypes.exprReturnType.get(exprName);
         }
 
-        this.pushType(returnType);
+        return returnType;
     }
 
     private void checkChildTypesConsistency(AstNode n, Type leftChildType, Type rightChildType)
@@ -340,16 +289,6 @@ public class TypeChecker<Void> implements Visitor
         {
             this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
         }
-    }
-
-    private void pushType(Type type)
-    {
-        this.typeStack.push(type);
-    }
-
-    private Type popType()
-    {
-        return this.typeStack.pop();
     }
 
     private void setScopeForExpr(CalculatedQuestion q)

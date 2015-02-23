@@ -2,11 +2,10 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
-import lang.ql.gui.GuiVisitor;
 import lang.ql.gui.Modeler;
 import lang.ql.gui.SimpleGui;
 import lang.ql.semantics.*;
-import lang.ql.ast.QLVisitor;
+import lang.ql.ast.AstBuilder;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -33,7 +32,7 @@ public class Main extends Application
             QLParser parser = new QLParser(tokens);
             ParserRuleContext tree = parser.form();
 
-            QLVisitor visitor = new QLVisitor();
+            AstBuilder visitor = new AstBuilder();
             ast = (Form) visitor.visit(tree);
 
             TypeChecker.check(ast);

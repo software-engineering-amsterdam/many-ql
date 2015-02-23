@@ -10,13 +10,14 @@ import lang.ql.semantics.values.*;
 /**
  * Created by bore on 23/02/15.
  */
-public class Evaluator implements Visitor
+public class Evaluator implements Visitor<Value>
 {
     private EvalEnv env;
 
-    public static void evaluate()
+    public static Value evaluate(Expr e, EvalEnv env)
     {
-
+        Evaluator eval = new Evaluator(env);
+        return e.accept(eval);
     }
 
     private Evaluator(EvalEnv env)
@@ -25,148 +26,170 @@ public class Evaluator implements Visitor
     }
 
     @Override
-    public void visit(Form f)
+    public Value visit(BoolExpr e)
     {
-
+        return new BooleanValue(e.getValue());
     }
 
     @Override
-    public void visit(Question q)
+    public Value visit(IntExpr e)
     {
-
+        return new IntegerValue(e.getValue());
     }
 
     @Override
-    public void visit(CalculatedQuestion q)
+    public Value visit(DecExpr e)
     {
-
+        return new DecimalValue(e.getValue());
     }
 
     @Override
-    public void visit(IfCondition c)
+    public Value visit(StrExpr e)
     {
-
+        return new StringValue(e.getValue());
     }
 
     @Override
-    public void visit(BoolExpr e)
+    public Value visit(Ident e)
     {
-         new BooleanValue(e.getValue());
+        throw new IllegalArgumentException();
     }
 
     @Override
-    public void visit(IntExpr e)
+    public Value visit(Neg e)
     {
-        new IntegerValue(e.getValue());
+        return e.getOperand().accept(this).neg();
     }
 
     @Override
-    public void visit(DecExpr e)
+    public Value visit(Pos e)
     {
-        new DecimalValue(e.getValue());
+        return e.getOperand().accept(this).pos();
     }
 
     @Override
-    public void visit(StrExpr e)
+    public Value visit(Not e)
     {
-        new StringValue(e.getValue());
+        return e.getOperand().accept(this).not();
     }
 
     @Override
-    public void visit(Indent e)
+    public Value visit(Add e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.add(right);
     }
 
     @Override
-    public void visit(Neg e)
+    public Value visit(Sub e)
     {
-        /* t */ e.getOperand().accept(this);
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.sub(right);
     }
 
     @Override
-    public void visit(Pos e)
+    public Value visit(Mul e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.mul(right);
     }
 
     @Override
-    public void visit(Not e)
+    public Value visit(Div e)
     {
-
-    }
-
-
-
-    @Override
-    public void visit(Add e)
-    {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.div(right);
     }
 
     @Override
-    public void visit(Sub e)
+    public Value visit(Gt e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.gt(right);
     }
 
     @Override
-    public void visit(Mul e)
+    public Value visit(Lt e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.lt(right);
     }
 
     @Override
-    public void visit(Div e)
+    public Value visit(GtEqu e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.gtEqu(right);
     }
 
     @Override
-    public void visit(Gt e)
+    public Value visit(LtEqu e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.ltEqu(right);
     }
 
     @Override
-    public void visit(Lt e)
+    public Value visit(Equ e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.equ(right);
     }
 
     @Override
-    public void visit(GtEqu e)
+    public Value visit(NotEqu e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.notEqu(right);
     }
 
     @Override
-    public void visit(LtEqu e)
+    public Value visit(And e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.and(right);
     }
 
     @Override
-    public void visit(Equ e)
+    public Value visit(Or e)
     {
-
+        Value left = e.getLeft().accept(this);
+        Value right = e.getRight().accept(this);
+        return left.or(right);
     }
 
     @Override
-    public void visit(NotEqu e)
+    public Value visit(Form f)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(And e)
+    public Value visit(Question q)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Or e)
+    public Value visit(CalculatedQuestion q)
     {
+        return null;
+    }
 
+    @Override
+    public Value visit(IfCondition c)
+    {
+        return null;
     }
 }
