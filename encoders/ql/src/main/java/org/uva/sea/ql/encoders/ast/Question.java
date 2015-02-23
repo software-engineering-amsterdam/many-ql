@@ -3,7 +3,7 @@ package org.uva.sea.ql.encoders.ast;
 /**
  * Represents a question in the {@link Questionnaire}
  */
-public class Question {
+public class Question extends AstNode {
 
 	private final String name;
 

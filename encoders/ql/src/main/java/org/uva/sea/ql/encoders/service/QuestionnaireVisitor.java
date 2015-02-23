@@ -8,21 +8,20 @@ import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalBlockContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StatementContext;
+import org.uva.sea.ql.encoders.ast.AstNode;
+import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 
-public class QuestionnaireVisitor extends EncodersQLBaseVisitor<Void> {
+public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	private final Questionnaire questionnaire = new Questionnaire();
 
 	private final ExpressionVisitor expressionVisitor = new ExpressionVisitor();
-	private final ConditionalVisitor conditionalVisitor = new ConditionalVisitor();
-	private final QuestionVisitor noConditionalQuestionVisitor = new QuestionVisitor(
-			null);
 
 	@Override
-	public Void visitQuestionnaire(QuestionnaireContext ctx) {
+	public AstNode visitQuestionnaire(QuestionnaireContext ctx) {
 		questionnaire.setName(ctx.formName.getText());
 		List<StatementContext> statements = ctx.stmt;
 
@@ -34,8 +33,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<Void> {
 			}
 			QuestionContext questionContext = statementContext.question();
 			if (questionContext != null) {
-				Question question = noConditionalQuestionVisitor
-						.visit(questionContext);
+				Question question = (Question) visit(questionContext);
 				questionnaire.addQuestion(question);
 			}
 		}
@@ -43,7 +41,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<Void> {
 	}
 
 	@Override
-	public Void visitComputation(ComputationContext ctx) {
+	public AstNode visitComputation(ComputationContext ctx) {
 		Expression expression2 = (Expression) expressionVisitor.visit(ctx
 				.expression());
 		visitChildren(ctx);
@@ -51,11 +49,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<Void> {
 	}
 
 	@Override
-	public Void visitConditionalBlock(ConditionalBlockContext ctx) {
-		String condition = conditionalVisitor.visit(ctx.conditional());
-		QuestionVisitor questionVisitor = new QuestionVisitor(condition);
+	public AstNode visitConditionalBlock(ConditionalBlockContext ctx) {
 		for (QuestionContext questionContext : ctx.question()) {
-			Question question = questionVisitor.visit(questionContext);
+			Question question = (Question) visit(questionContext);
 			questionnaire.addQuestion(question);
 		}
 		return null;
@@ -65,4 +61,21 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<Void> {
 		return questionnaire;
 	}
 
+	@Override
+	public Question visitQuestion(QuestionContext ctx) {
+		String condition = null;
+		if (ctx.parent instanceof ConditionalBlockContext) {
+			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
+			condition = parent.conditional().NAME().getText();
+		}
+		String questionName = ctx.questionName.getText();
+		DataType dataType = DataType.valueOf(ctx.type.getText().toUpperCase());
+		String questionString = ctx.questionString.getText();
+		questionString = questionString.replaceAll("\"", "");
+
+		Question question = new Question(questionName, condition, dataType,
+				questionString);
+		super.visitChildren(ctx);
+		return question;
+	}
 }
