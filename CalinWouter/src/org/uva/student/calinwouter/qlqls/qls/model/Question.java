@@ -9,7 +9,8 @@ public class Question extends AbstractFormField<Question> {
 
     @Override
     public void updateStates(HeadlessFormInterpreter headlessFormInterpreter, List<Default> defaultList) {
-        //this.value = headlessFormInterpreter.getField();
+        value = headlessFormInterpreter.getField(ident);
+        notifyUpdate();
     }
 
     @Override

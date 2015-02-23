@@ -1,21 +1,22 @@
 package org.uva.student.calinwouter.qlqls.qls.model;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
 
 import java.util.HashMap;
 
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractFormField<T> extends AbstractModel<T> {
-    private String ident;
+    protected String ident;
     protected HashMap<Object, Object> arguments;
     private int arg;
-    protected int value;
+    protected TypeModel<?> value;
 
     public String getFieldName() {
         return ident;
     }
 
-    public int getValue() {
+    public TypeModel<?> getValue() {
         return value;
     }
 

@@ -10,6 +10,7 @@ public class Page extends AbstractModel<Page> {
     private String ident;
     private List<Section> sections;
     private List<Default> defaultSettings;
+    private int arg;
 
     public List<Default> getDefaultSettings() {
         return defaultSettings;
@@ -17,6 +18,16 @@ public class Page extends AbstractModel<Page> {
 
     public String getPageName() {
         return ident;
+    }
+
+    @Override
+    public void caseString(String string) {
+        if (arg != 0) {
+            super.caseString(string);
+            return;
+        }
+        this.ident = string;
+        arg++;
     }
 
     @Override
@@ -38,6 +49,7 @@ public class Page extends AbstractModel<Page> {
         for (Section section : sections) {
             section.updateStates(headlessFormInterpreter, defaultList);
         }
+        notifyUpdate();
     }
 
     @Override
