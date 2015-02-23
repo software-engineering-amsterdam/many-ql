@@ -42,9 +42,6 @@ class Checker(Visitor):
                     node.expr
                 ) 
 
-        for n in node.getChildren():
-            self.visit(n)
-
     def _visitAtomicExpression(self, node):
         if isinstance(node.left, CustomTypes.Identifier):
             self._typeOfLastExpression = typeOfIdentifier(
