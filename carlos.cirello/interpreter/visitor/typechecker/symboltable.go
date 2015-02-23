@@ -62,7 +62,7 @@ func (s *SymbolTable) PanicErr() {
 
 func (s *SymbolTable) loop() {
 	for r := range s.Events {
-		question, ok := s.symbolExistP(r.Identifier)
+		question, ok := s.symbolExistP(r.Identifier) // comma-ok idiom
 		switch r.Command {
 		// default case in case of protocol breach
 		default: // OMIT

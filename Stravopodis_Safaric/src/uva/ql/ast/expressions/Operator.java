@@ -1,7 +1,5 @@
 package uva.ql.ast.expressions;
 
-
-
 public enum Operator{
 	ADD("+"),
 	DIV("/"),
@@ -15,7 +13,7 @@ public enum Operator{
 	AND("&&"),
 	OR("||"),
 	EQUAL("=="),
-	NOT_EQUAL("!");
+	NOT_EQUAL("!=");
 	
 	private String name;
 	
@@ -25,7 +23,6 @@ public enum Operator{
 	public String getName(){
 		return this.name;
 	}
-	
 	public static Operator findOperator(String operator){
 		for(Operator o : Operator.values())
 			if (o.getName().equals(operator))
