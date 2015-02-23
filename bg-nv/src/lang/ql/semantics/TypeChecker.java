@@ -24,9 +24,9 @@ public class TypeChecker implements Visitor
     public static List<Message> check(Form f)
     {
         SymbolResult symbolResult = SymbolVisitor.extract(f);
-        if (symbolResult.getMessages().isEmpty())
+        if (!(symbolResult.getMessages().isEmpty()))
         {
-            // TODO: symbol table has errors
+            return symbolResult.getMessages();
         }
 
         SymbolTable table = symbolResult.getSymbolTable();
@@ -49,6 +49,8 @@ public class TypeChecker implements Visitor
         this.questionDependencies = new QuestionDependencies();
         this.messages = new ArrayList<Message>();
     }
+
+    //private get
 
     @Override
     public void visit(Form form)
@@ -80,6 +82,8 @@ public class TypeChecker implements Visitor
     public void visit(Question q)
     {
         this.questionDependencies.addQuestion(q);
+
+
     }
 
     @Override
@@ -107,34 +111,21 @@ public class TypeChecker implements Visitor
     public void visit(Indent n)
     {
         Type type = this.symbolTable.resolve(n.getId());
-        if (type == null)
-        {
-            this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
-            type = this.tryToRecoverType();
-        }
-
-        if (this.currentQuestion != null)
-        {
-            Question q = this.symbolTable.getQuestion(n.getId());
-            this.questionDependencies.addDependency(this.currentQuestion, q);
-        }
-
-        this.pushType(type);
-    }
-
-    private Type tryToRecoverType()
-    {
-        if (this.typeStack.empty())
+        if (type != null)
         {
             if (this.currentQuestion != null)
             {
-                return this.currentQuestion.getType();
+                Question q = this.symbolTable.getQuestion(n.getId());
+                this.questionDependencies.addDependency(this.currentQuestion, q);
             }
 
-            return new BoolType();
+            this.pushType(type);
         }
-
-        return this.typeStack.peek();
+        else
+        {
+            this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
+            this.pushType(new UndefinedType());
+        }
     }
 
     @Override

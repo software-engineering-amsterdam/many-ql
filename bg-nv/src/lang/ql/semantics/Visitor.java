@@ -14,7 +14,7 @@ public interface Visitor
     void visit(Question q);
     void visit(CalculatedQuestion q);
     void visit(IfCondition c);
-    
+
     void visit(BoolExpr e);
     void visit(IntExpr e);
     void visit(DecExpr e);

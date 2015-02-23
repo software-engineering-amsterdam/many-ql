@@ -8,7 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -127,12 +126,12 @@ public class SimpleGui implements GuiVisitor
     {
         this.rowColumns.add(new CheckBox());
     }
-
-    @Override
-    public void visit(DateInput input)
-    {
-        this.rowColumns.add(new DatePicker());
-    }
+//
+//    @Override
+//    public void visit(DateInput input)
+//    {
+//        this.rowColumns.add(new DatePicker());
+//    }
 
     @Override
     public void visit(DecInput input)
