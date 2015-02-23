@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import cons.ql.ast.ASTNode;
+import cons.ql.ast.visitor.evaluator.Evaluator;
 import cons.ql.ast.visitor.prettyprinter.PrettyPrinter;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
@@ -38,6 +39,10 @@ public class FormCreator {
 					}
 					
 					tree.accept(prettyPrinter);
+					
+					Evaluator evaluator = new Evaluator();
+					
+					System.out.println(tree.accept(evaluator));
 				}
 			}
 		} catch (IOException e) {
