@@ -1,4 +1,4 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.dependency;
 
 import org.fugazi.ast.expression.literal.ID;
 

@@ -1,6 +1,5 @@
 package org.fugazi.type_checker;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.*;
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
@@ -19,6 +18,7 @@ import org.fugazi.ast.statement.IfStatement;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
+import org.fugazi.type_checker.dependency.DependencyList;
 
 import java.util.*;
 import java.util.List;

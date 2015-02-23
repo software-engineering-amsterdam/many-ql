@@ -1,9 +1,15 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.dependency;
 
 import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.type_checker.dependency.Dependency;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+    This is used instead of HashMap mapping IDs to List of dependencies.
+    Necessary because using ID's as keys for a HashMap is not possible out of the box.
+ */
 
 public class DependencyList {
 
@@ -13,7 +19,7 @@ public class DependencyList {
         this.dependecies = new ArrayList<Dependency>();
     }
 
-    public List<ID>getIds() {
+    public List<ID> getIds() {
         List<ID> ids = new ArrayList<ID>();
         for (Dependency dependency : this.dependecies) {
             ids.add(dependency.getDependee());
@@ -21,7 +27,6 @@ public class DependencyList {
         return ids;
     }
 
-    // get the list of items ID depends on
     public List<ID> getIdDependencies(ID id) {
         int idx = this.indexOf(id);
         if (idx == -1) {
@@ -42,7 +47,6 @@ public class DependencyList {
         return names;
     }
 
-    // add a new dependant for id
     public void addIdDependenant(ID id, ID dependant) {
         int idx = this.indexOf(id);
         if (idx == -1) {
@@ -53,6 +57,8 @@ public class DependencyList {
         return;
     }
 
+    // this needed to be overridden since AST variables are different object
+    // comparison can only be done on names
     private int indexOf(ID id) {
         int idx = 0;
         for (Dependency dependency : this.dependecies) {
