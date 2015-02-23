@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.AST.Types;
 using UvA.SoftCon.Questionnaire.Utilities;
 
-namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
+namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
     public class BinaryExpression : Node, IExpression
     {
@@ -15,12 +17,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             {
                 return NodeType.BinaryExpression;
             }
-        }
-
-        public Operation Operation
-        {
-            get; 
-            private set;
         }
 
         public IExpression Left
@@ -38,7 +34,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
         public BinaryExpression(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(position)
         {
-            Operation = operation;
             Left = left;
             Right = right;
         }
@@ -52,5 +47,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
         {
             return String.Format("{0} {1} {2}", Left.ToString(), StringEnum.GetStringValue(Operation), Right.ToString());
         }
+
+        public abstract DataType? GetType(IDictionary<string, DataType> symbolTable);
+
+        public abstract Value Evaluate(IDictionary<string, Value> environment);
     }
 }
