@@ -1,13 +1,14 @@
 package com.form.language.ast.expression.math;
 
-import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.UnaryExpression;
 import com.form.language.ast.expression.literal.IntLiteral;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
 
-public class Negation extends UnaryExpression implements PrimitiveExpression {
+public class Negation extends UnaryExpression implements Expression {
 	
-	public Negation(PrimitiveExpression value) {
+	public Negation(Expression value) {
 		super(value);
 	}
 
@@ -17,7 +18,7 @@ public class Negation extends UnaryExpression implements PrimitiveExpression {
 	}
 
 	@Override
-	public Boolean typeCorrect(Error e) {
+	public Type getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

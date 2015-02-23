@@ -1,9 +1,10 @@
 package com.form.language.ast.expression.literal;
 
-import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.Expression;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
 
-public class IntLiteral implements PrimitiveExpression {
+public class IntLiteral implements Expression {
 	private final int _value;
 	
 	public IntLiteral(int _value) {
@@ -17,7 +18,7 @@ public class IntLiteral implements PrimitiveExpression {
 	}
 
 	@Override
-	public Boolean typeCorrect(Error e) {
+	public Type getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

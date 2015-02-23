@@ -1,9 +1,9 @@
 package com.form.language.ast.expression;
 
-public abstract class BinaryExpression {
-	public PrimitiveExpression left;
-	public PrimitiveExpression right;
-	public BinaryExpression(PrimitiveExpression left, PrimitiveExpression right) {
+public abstract class BinaryExpression implements Expression {
+	public Expression left;
+	public Expression right;
+	public BinaryExpression(Expression left, Expression right) {
 		this.left = left;
 		this.right = right;
 	}
