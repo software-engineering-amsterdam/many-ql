@@ -1,4 +1,4 @@
-from CustomTypes import *
+from .CustomTypes import *
 import operator
 
 class OperatorTable:

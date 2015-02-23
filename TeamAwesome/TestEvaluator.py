@@ -1,8 +1,8 @@
 import argparse
 import glob
 
-from AST import AST
-from evaluator.evaluator import Evaluator, PageStructure
+from ql.ast.AST import AST
+from ql.evaluator.evaluator import Evaluator, PageStructure
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
