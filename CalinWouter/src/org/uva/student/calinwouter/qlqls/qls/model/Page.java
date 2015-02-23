@@ -39,5 +39,6 @@ public class Page extends AbstractModel<Page> {
     public Page() {
         sections = new LinkedList<Section>();
         defaultSettings = new LinkedList<Default>();
+        visible = false;
     }
 }
