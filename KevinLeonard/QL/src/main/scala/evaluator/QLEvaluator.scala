@@ -5,11 +5,12 @@ import scala.collection.immutable.Map
 
 class QLEvaluator {
 
-  type VariableName = String
   sealed trait VariableValue
   case class BoolVal(v: Boolean = false) extends VariableValue
   case class NumberVal(v: Int = 0) extends VariableValue
   case class StringVal(v: String = "") extends VariableValue
+
+  type VariableName = String
   type Environment = Map[VariableName, VariableValue]
 
   val emptyEnvironment = Map[VariableName, VariableValue]()
