@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Questionnaire containing {@link Question}s.
  */
-public class Questionnaire {
+public class Questionnaire extends AstNode {
 
 	private String name;
 

@@ -27,9 +27,8 @@ public class QuestionnaireParsingServiceImpl implements
 
 		QuestionnaireContext parseTree = parser.questionnaire();
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
-		visitor.visit(parseTree);
+		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
-		Questionnaire questionnaire = visitor.getQuestionnaire();
 		return questionnaire;
 	}
 

@@ -37,7 +37,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 				questionnaire.addQuestion(question);
 			}
 		}
-		return null;
+		return questionnaire;
 	}
 
 	@Override
@@ -55,10 +55,6 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 			questionnaire.addQuestion(question);
 		}
 		return null;
-	}
-
-	public Questionnaire getQuestionnaire() {
-		return questionnaire;
 	}
 
 	@Override
