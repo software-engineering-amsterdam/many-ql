@@ -13,8 +13,9 @@ type SymbolTable struct {
 	symbols map[string]interface{}
 	labels  map[string][]string
 
-	err  []error
-	warn []error
+	watchError bool
+	err        []error
+	warn       []error
 }
 
 // New is the constructor for SymbolTable
@@ -25,6 +26,10 @@ func New() *SymbolTable {
 	}
 
 	return table
+}
+
+func (s *SymbolTable) SetWatchError(v bool) {
+	s.watchError = v
 }
 
 // Err returns all found errors during symbolTable operation

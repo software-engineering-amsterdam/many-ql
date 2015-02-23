@@ -53,6 +53,8 @@ func openChannels() (toFrontend, fromFrontend chan *event.Frontend) {
 
 func typecheck(q *ast.QuestionaireNode) {
 	tc, symboltable := typechecker.New()
+	symboltable.SetWatchError(true)
+
 	tc.Visit(q)
 
 	symboltable.ShowWarn()
@@ -86,6 +88,8 @@ func (v *interpreter) loop() {
 				receive <- &event.Frontend{Type: event.ReadyT}
 			}(v.receive)
 		}
+		v.execute.Visit(v.questionaire)
+		v.send <- &event.Frontend{Type: event.Flush}
 	mainLoop:
 		for {
 			select {
@@ -94,14 +98,12 @@ func (v *interpreter) loop() {
 
 				case event.Answers:
 					for identifier, answer := range r.Answers {
-						v.execute.Visit(v.questionaire)
-						v.send <- &event.Frontend{Type: event.Flush}
-
 						q := v.symbols.Read(identifier)
 						q.(symboltable.StringParser).From(answer)
 						v.symbols.Update(identifier, q)
+						v.execute.Visit(v.questionaire)
+						v.send <- &event.Frontend{Type: event.Flush}
 					}
-					fallthrough
 
 				case event.ReadyT:
 					v.execute.Visit(v.questionaire)
