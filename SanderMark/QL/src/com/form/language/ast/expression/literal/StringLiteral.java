@@ -1,9 +1,11 @@
 package com.form.language.ast.expression.literal;
 
-import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.Expression;
+import com.form.language.ast.type.StringType;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.values.StringValue;
 
-public class StringLiteral implements PrimitiveExpression {
+public class StringLiteral implements Expression {
 	private final String value;
 	
 	public StringLiteral(String value) {
@@ -17,9 +19,8 @@ public class StringLiteral implements PrimitiveExpression {
 	}
 
 	@Override
-	public Boolean typeCorrect(Error e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Type getType() {
+		return new StringType();
 	}
 	
 }

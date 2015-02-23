@@ -1,13 +1,14 @@
 package com.form.language.ast.expression.logic;
 
 import com.form.language.ast.expression.BinaryExpression;
-import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.BoolLiteral;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 
-public class Or extends BinaryExpression implements PrimitiveExpression {
+public class Or extends BinaryExpression implements Expression {
 
-	public Or(PrimitiveExpression left, PrimitiveExpression right) {
+	public Or(Expression left, Expression right) {
 		super(left, right);
 	}
 	
@@ -17,7 +18,7 @@ public class Or extends BinaryExpression implements PrimitiveExpression {
 	}
 
 	@Override
-	public Boolean typeCorrect(Error e) {
+	public Type getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
