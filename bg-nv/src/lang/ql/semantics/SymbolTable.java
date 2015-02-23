@@ -25,7 +25,11 @@ public class SymbolTable
     public Type resolve(String name)
     {
         Question q = this.symbols.get(name);
-        return q.getType();
+        if (q != null)
+        {
+            return q.getType();
+        }
+        return null;
     }
 
     public boolean containsQuestionId(String id)

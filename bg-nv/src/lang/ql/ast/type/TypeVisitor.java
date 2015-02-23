@@ -10,4 +10,5 @@ public interface TypeVisitor
     public void visit(DecType type);
     public void visit(IntType type);
     public void visit(StrType type);
+    public void visit(UndefinedType type);
 }
