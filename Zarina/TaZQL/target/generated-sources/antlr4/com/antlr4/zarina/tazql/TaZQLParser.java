@@ -219,6 +219,10 @@ public class TaZQLParser extends Parser {
 		}
 	}
 	public static class IfelseStatementContext extends QuestionContext {
+		public ExpressionContext cond;
+		public QuestionContext question;
+		public List<QuestionContext> thenBranch = new ArrayList<QuestionContext>();
+		public List<QuestionContext> elseBranch = new ArrayList<QuestionContext>();
 		public QuestionContext question(int i) {
 			return getRuleContext(QuestionContext.class,i);
 		}
@@ -328,7 +332,7 @@ public class TaZQLParser extends Parser {
 				{
 				setState(45); match(T__11);
 				setState(46); match(T__5);
-				setState(47); expression(0);
+				setState(47); ((IfelseStatementContext)_localctx).cond = expression(0);
 				setState(48); match(T__4);
 				setState(49); match(T__18);
 				setState(51); 
@@ -337,7 +341,8 @@ public class TaZQLParser extends Parser {
 				do {
 					{
 					{
-					setState(50); question();
+					setState(50); ((IfelseStatementContext)_localctx).question = question();
+					((IfelseStatementContext)_localctx).thenBranch.add(((IfelseStatementContext)_localctx).question);
 					}
 					}
 					setState(53); 
@@ -353,7 +358,8 @@ public class TaZQLParser extends Parser {
 				do {
 					{
 					{
-					setState(58); question();
+					setState(58); ((IfelseStatementContext)_localctx).question = question();
+					((IfelseStatementContext)_localctx).elseBranch.add(((IfelseStatementContext)_localctx).question);
 					}
 					}
 					setState(61); 

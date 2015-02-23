@@ -106,17 +106,17 @@ func (v *interpreter) loop() {
 
 						ret := make(chan *ast.QuestionNode)
 						v.symbols.Events <- &event.Symbol{
-							Command: event.SymbolRead,
-							Name:    identifier,
-							Ret:     ret,
+							Command:    event.SymbolRead,
+							Identifier: identifier,
+							Ret:        ret,
 						}
 
 						q := <-ret
 						q.Content().From(answer)
 						v.symbols.Events <- &event.Symbol{
-							Command: event.SymbolUpdate,
-							Name:    q.Identifier(),
-							Content: q,
+							Command:    event.SymbolUpdate,
+							Identifier: q.Identifier(),
+							Content:    q,
 						}
 					}
 					fallthrough

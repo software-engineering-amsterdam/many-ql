@@ -80,8 +80,7 @@ public class Form extends Node implements CanContainConditionals {
             throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
         }
     }
-
-
+    //TODO: Create Identifier class.
     @Override
     public Optional<IfStatement> getIfsStatement() {
         return Optional.of(ifStatement);

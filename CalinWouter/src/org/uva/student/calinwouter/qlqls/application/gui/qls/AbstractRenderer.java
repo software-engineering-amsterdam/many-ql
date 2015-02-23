@@ -1,16 +1,11 @@
-package org.uva.student.calinwouter.qlqls.qls.model;
+package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.qls.types.AbstractPushable;
+import org.uva.student.calinwouter.qlqls.qls.model.*;
 
 import java.util.HashMap;
-import java.util.List;
 
-// TODO check if invoking this model fails the interpreter.
-public abstract class AbstractModel<T> implements IModel {
-    protected boolean visible;
-
+public abstract class AbstractRenderer implements IModel {
     @Override
     public void caseHashMap(HashMap<Object, Object> hashMap) {
         throw new UnsupportedOperationException();
@@ -22,7 +17,7 @@ public abstract class AbstractModel<T> implements IModel {
     }
 
     @Override
-    public void caseInteger(Integer styleSheet) {
+    public void caseInteger(Integer integer) {
         throw new UnsupportedOperationException();
     }
 
@@ -70,9 +65,4 @@ public abstract class AbstractModel<T> implements IModel {
     public void caseSpinbox(Spinbox radio) {
         throw new UnsupportedOperationException();
     }
-
-    public abstract void apply(IModel iModel);
-
-    public abstract void updateStates(HeadlessFormInterpreter headlessFormInterpreter, List<Default> defaultList);
-
 }

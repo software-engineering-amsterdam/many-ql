@@ -11,7 +11,6 @@ public class IntegerLiteral extends AbstractLiteral {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-		
 	}
 
 }

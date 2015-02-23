@@ -44,9 +44,9 @@ func (exec Execute) ActionNode(v *visitor.Visitor, a *ast.ActionNode) {
 // rendering.
 func (exec Execute) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
 	exec.symbolChan <- &event.Symbol{
-		Command: event.SymbolCreate,
-		Name:    q.Identifier(),
-		Content: q,
+		Command:    event.SymbolCreate,
+		Identifier: q.Identifier(),
+		Content:    q,
 	}
 
 	if q.Type() == ast.ComputedQuestionType {

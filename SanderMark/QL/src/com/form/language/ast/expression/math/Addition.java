@@ -15,6 +15,12 @@ public class Addition extends BinaryExpression implements PrimitiveExpression {
 	public IntValue evaluate() {
 		return ((IntLiteral)left).evaluate().Addition(((IntLiteral)right).evaluate());
 	}
+
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

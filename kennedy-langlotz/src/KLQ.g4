@@ -23,10 +23,12 @@ ADD : '+' ;
 SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
-G   : '>' ;
-L   : '<' ;
-GT  : '>=' ;
-LT  : '<=' ;
+GT  : '>' ;
+LT  : '<' ;
+GE  : '>=' ;
+LE  : '<=' ;
+EQ  : '==' ;
+NEQ : '!=' ;
 AND : '&&' ;
 OR  : '||' ;
 
@@ -83,14 +85,10 @@ Date
     : Int ( '.' | '-' | '/' ) Int ( '.' | '-' | '/' ) Int
     ;
 
-Time
-    : Int ( '.' | '-' | ':' ) Int
-    ;
-
 expr
     : expr operator=( '*' | '/' ) expr #MulDiv
     | expr operator=( '+' | '-' ) expr #AddSub
-    | expr operator=( '>=' | '>' | '<=' | '<' ) expr #Comparators
+    | expr operator=( '>=' | '>' | '<=' | '<' | '==' | '!=' ) expr #Comparators
     | expr '&&'  expr #And
     | expr '||' expr #Or
     | '(' expr ')' #Parens

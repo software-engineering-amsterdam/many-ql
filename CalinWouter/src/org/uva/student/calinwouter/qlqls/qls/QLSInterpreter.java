@@ -41,7 +41,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     }
 
     /**
-     * This method creates a new component based on the component name and it's arguments.
+     * This method creates applies the parameters to the component, returning the model.
      */
     public IModel interopComponent(String componentName, List<AbstractPushable<?>> args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         String className = COMPONENTS_PACKAGE_PREFIX + componentName.substring(0, 1).toUpperCase()

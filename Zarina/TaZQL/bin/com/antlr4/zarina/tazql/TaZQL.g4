@@ -9,7 +9,8 @@ form			: 'FORM' ID '{' question+ '} END' EOF;
 question		: ID TEXT type	 			 											# simpleQuestion
 				| ID TEXT type '(' expression ')'										# computationQuestion
 				| 'if' '(' expression ')' '{' question+ '}'								# ifStatement
-				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'	# ifelseStatement
+				| 'if' '(' cond=expression ')' '{' thenBranch+=question+ '}' 
+				  'else' '{' elseBranch+=question+ '}'									# ifelseStatement
 				;
 
 expression		: op=('!'|'+'|'-') expression											# unaryExpression															
