@@ -22,6 +22,7 @@ public class FormCreator {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("Press 'x' to stop");
+			System.out.println("Type 'file:<path>' to load a file from the forms folder.");
 			while (true) {
 				System.out.print("Enter a statement:");
 				String str = br.readLine();
@@ -29,12 +30,24 @@ public class FormCreator {
 					System.out.println("Stopped.");
 					break;
 				}
+				else if (str.startsWith("file:")) {
+					String path = str.replaceFirst("file:", "");
+					System.out.println("Loading from: " + path);
+					
+					try {
+						System.out.println("Not implemented, lol.");
+					}
+					catch (Exception e) {
+						System.out.println("An error has occured:");
+						System.err.println(e);
+					}
+				}
 				else {
 					ASTNode tree = formParser.parse(str);
 					
 					if(!typeChecker.check(tree)) {
 						System.out.println("Type error detected in the form.");
-						return;
+						continue;
 					}
 					
 					tree.accept(prettyPrinter);

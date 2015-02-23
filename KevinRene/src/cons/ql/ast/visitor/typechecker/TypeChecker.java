@@ -42,7 +42,9 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 		if (!errors.isEmpty()) {
 			for (String error : errors) {
 				System.out.println("[Error]: " + error);
-			}			
+			}
+			
+			errors.clear();
 			return false;
 		}
 		
@@ -139,12 +141,12 @@ public class TypeChecker implements ExpressionVisitor<Void>, StatementVisitor<Vo
 	
 	@Override
 	public Void visit(Eq eqNode) {
-		return checkExpression(eqNode, eqNode.getRight().getType());
+		return checkExpression(eqNode, eqNode.getLeft().getType());
 	}
 	
 	@Override
 	public Void visit(NEq neqNode) {
-		return checkExpression(neqNode, neqNode.getRight().getType());
+		return checkExpression(neqNode, neqNode.getLeft().getType());
 	}
 	
 	/**
