@@ -11,9 +11,11 @@ public class STRING extends Literal {
     private final String value;
     private final List<Class> supportedTypes;
 
-    public STRING(String _value) {
+    public STRING(String _value, int _lineNum) {
+        super(_lineNum);
+
         this.value = _value;
-        Class stringTypeClass = new StringType().getClass();
+        Class stringTypeClass = StringType.class;
         this.supportedTypes = new ArrayList<Class>();
         this.supportedTypes.add(stringTypeClass);
     }

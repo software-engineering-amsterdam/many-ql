@@ -409,15 +409,15 @@ public class TypeCheckerVisitor implements IASTVisitor {
      */
 
     private boolean checkIfInt(Expression expression) {
-        return expression.getSupportedTypes().contains(new IntType().getClass());
+        return expression.getSupportedTypes().contains(IntType.class);
     }
 
     private boolean checkIfBool(Expression expression) {
-        return expression.getSupportedTypes().contains(new BoolType().getClass());
+        return expression.getSupportedTypes().contains(BoolType.class);
     }
 
     private boolean checkIfString(Expression expression) {
-        return expression.getSupportedTypes().contains(new StringType().getClass());
+        return expression.getSupportedTypes().contains(StringType.class);
     }
 
     private boolean checkIfSameType(Type type1, Type type2) {

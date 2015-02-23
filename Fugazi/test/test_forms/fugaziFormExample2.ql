@@ -9,7 +9,7 @@ form taxOfficeExample {
   bool hasMaintLoan("Did you enter a loan?");
   string name("what is your name");
   int age("How old are you?");
-  
+
   // If a house has been sold.
   if (hasSoldHouse || (age > 15 && age <= 55)) {
     int sellingPrice ("What was the selling price?");

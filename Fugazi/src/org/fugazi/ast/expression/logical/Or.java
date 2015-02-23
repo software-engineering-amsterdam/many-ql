@@ -11,9 +11,10 @@ public class Or extends Logical {
 
     private final List<Class> supportedTypes;
 
-    public Or(Expression _left, Expression _right) {
-        super(_left, _right);
-        Class boolTypeClass = new BoolType().getClass();
+    public Or(Expression _left, Expression _right, int _lineNum) {
+        super(_left, _right, _lineNum);
+
+        Class boolTypeClass = BoolType.class;
         this.supportedTypes = new ArrayList<Class>();
         this.supportedTypes.add(boolTypeClass);
     }

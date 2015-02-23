@@ -11,10 +11,10 @@ public class EQ extends Comparison {
 
     private final List<Class> supportedTypes;
 
-    public EQ(Expression _left, Expression _right) {
-        super(_left, _right);
+    public EQ(Expression _left, Expression _right, int _lineNum) {
+        super(_left, _right, _lineNum);
 
-        Class boolTypeClass = new BoolType().getClass();
+        Class boolTypeClass = BoolType.class;
         this.supportedTypes = new ArrayList<Class>();
         this.supportedTypes.add(boolTypeClass);
     }

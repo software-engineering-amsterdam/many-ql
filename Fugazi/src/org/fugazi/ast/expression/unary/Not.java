@@ -11,10 +11,10 @@ public class Not extends Unary {
 
     private final List<Class> supportedTypes;
 
-    public Not(Expression _expr) {
-        super(_expr);
+    public Not(Expression _expr, int _lineNum) {
+        super(_expr, _lineNum);
 
-        Class boolTypeClass = new BoolType().getClass();
+        Class boolTypeClass = BoolType.class;
         this.supportedTypes = new ArrayList<Class>();
         this.supportedTypes.add(boolTypeClass);
     }

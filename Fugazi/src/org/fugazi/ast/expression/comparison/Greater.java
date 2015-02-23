@@ -11,9 +11,10 @@ public class Greater extends Comparison {
 
     private final List<Class> supportedTypes;
 
-    public Greater(Expression _left, Expression _right) {
-        super(_left, _right);
-        Class boolTypeClass = new BoolType().getClass();
+    public Greater(Expression _left, Expression _right, int _lineNum) {
+        super(_left, _right, _lineNum);
+
+        Class boolTypeClass = BoolType.class;
         this.supportedTypes = new ArrayList<Class>();
         this.supportedTypes.add(boolTypeClass);
     }

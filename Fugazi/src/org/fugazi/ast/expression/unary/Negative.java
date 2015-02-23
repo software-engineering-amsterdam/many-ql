@@ -11,10 +11,10 @@ public class Negative extends Unary {
 
     private final List<Class> supportedTypes;
 
-    public Negative(Expression _expr) {
-        super(_expr);
+    public Negative(Expression _expr, int _lineNum) {
+        super(_expr, _lineNum);
 
-        Class intTypeClass = new IntType().getClass();
+        Class intTypeClass = IntType.class;
         this.supportedTypes = new ArrayList<Class>();
         this.supportedTypes.add(intTypeClass);
     }

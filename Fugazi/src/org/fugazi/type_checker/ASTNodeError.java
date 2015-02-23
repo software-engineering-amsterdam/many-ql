@@ -24,6 +24,10 @@ public class ASTNodeError {
         return this.node;
     }
 
+    public int getLine() {
+        return this.node.getLineNumber();
+    }
+
     public String getMessage() {
         return this.message;
     }

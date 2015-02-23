@@ -1,5 +1,6 @@
 package org.fugazi.ast;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
@@ -46,6 +47,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         return _str.replaceAll("^\"|\"$", "");
     }
 
+    private int getLineNumber(ParserRuleContext ctx) {
+        return ctx.getStart().getLine();
+    }
+
     /**
      * =======================
      * form
@@ -62,7 +67,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
             formStatements.add(stat);
         }
 
-        return new Form(formName, formStatements);
+        return new Form(formName, formStatements, this.getLineNumber(ctx));
     }
 
     /**
@@ -81,33 +86,33 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
             statements.add(stat);
         }
 
-        return new IfStatement(condition, statements);
+        return new IfStatement(condition, statements, this.getLineNumber(ctx));
     }
 
     @Override
     public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
-        ID identifier = new ID(ctx.ID().getText(), type);
+        ID identifier = new ID(ctx.ID().getText(), type, this.getLineNumber(ctx));
         this.addIdentifier(identifier.getName(), type);
 
-        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        STRING grammarLabel = new STRING(ctx.STRING().getText(), this.getLineNumber(ctx));
         String label = removeStringQuotes(grammarLabel.toString());
 
-        return new Question(type, label, identifier);
+        return new Question(type, label, identifier, this.getLineNumber(ctx));
     }
 
     @Override
     public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
-        ID identifier = new ID(ctx.ID().getText(), type);
+        ID identifier = new ID(ctx.ID().getText(), type, this.getLineNumber(ctx));
         this.addIdentifier(identifier.getName(), type);
 
-        STRING grammarLabel = new STRING(ctx.STRING().getText());
+        STRING grammarLabel = new STRING(ctx.STRING().getText(), this.getLineNumber(ctx));
         String label = removeStringQuotes(grammarLabel.toString());
 
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        return new ComputedQuestion(type, label, identifier, expression);
+        return new ComputedQuestion(type, label, identifier, expression, this.getLineNumber(ctx));
     }
 
     /** 
@@ -118,16 +123,16 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     
     @Override 
     public BoolType visitBoolType(@NotNull QLParser.BoolTypeContext ctx) {
-        return new BoolType();
+        return new BoolType(this.getLineNumber(ctx));
     }
 
     @Override public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
-        return new IntType();
+        return new IntType(this.getLineNumber(ctx));
     }
 
     @Override 
     public StringType visitStringType(@NotNull QLParser.StringTypeContext ctx) { 
-        return new StringType();
+        return new StringType(this.getLineNumber(ctx));
     }
 
     /**
@@ -145,13 +150,13 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression expr = (Expression) ctx.expression().accept(this);
 
         if (ctx.op.getText().equals("!"))
-            return new Not(expr);
+            return new Not(expr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("-"))
-            return new Negative(expr);
+            return new Negative(expr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("+"))
-            return new Positive(expr);
+            return new Positive(expr, this.getLineNumber(ctx));
         
         return null;
     }
@@ -162,10 +167,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression rightExpr = (Expression) ctx.expression(1).accept(this);
 
         if (ctx.op.getText().equals("*"))
-            return new Mul(leftExpr, rightExpr);
+            return new Mul(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("/"))
-            return new Div(leftExpr, rightExpr);
+            return new Div(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         return null;
     }
@@ -176,10 +181,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
         if (ctx.op.getText().equals("+"))
-            return new Add(leftExpr, rightExpr);
+            return new Add(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("-"))
-            return new Sub(leftExpr, rightExpr);
+            return new Sub(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         return null;
     }
@@ -189,7 +194,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
         
-        return new Or(leftExpr, rightExpr);
+        return new Or(leftExpr, rightExpr, this.getLineNumber(ctx));
     }
     
     @Override
@@ -197,7 +202,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        return new And(leftExpr, rightExpr);
+        return new And(leftExpr, rightExpr, this.getLineNumber(ctx));
     }
     
     @Override
@@ -206,22 +211,22 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
         if (ctx.op.getText().equals(">"))
-            return new Greater(leftExpr, rightExpr);
+            return new Greater(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals(">="))
-            return new GE(leftExpr, rightExpr);
+            return new GE(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("<"))
-            return new Less(leftExpr, rightExpr);
+            return new Less(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("<="))
-            return new LE(leftExpr, rightExpr);
+            return new LE(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("=="))
-            return new EQ(leftExpr, rightExpr);
+            return new EQ(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         if (ctx.op.getText().equals("!="))
-            return new NotEq(leftExpr, rightExpr);
+            return new NotEq(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         return null;
     }
@@ -234,19 +239,19 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     @Override
     public INT visitIntExpression(@NotNull QLParser.IntExpressionContext ctx) {
         int value = Integer.parseInt(ctx.INT().getText());
-        return new INT(value);
+        return new INT(value, this.getLineNumber(ctx));
     }
 
     @Override
     public BOOL visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
         Boolean value = Boolean.parseBoolean(ctx.BOOLEAN().getText());
-        return new BOOL(value);
+        return new BOOL(value, this.getLineNumber(ctx));
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
         String name = ctx.ID().getText();
         Type type = this.getIdentifier(name);
-        return new ID(name, type);
+        return new ID(name, type, this.getLineNumber(ctx));
     }
 }

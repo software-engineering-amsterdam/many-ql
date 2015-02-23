@@ -37,7 +37,8 @@ public class ASTErrorHandler {
 
     public void displayNodeError(ASTNodeError error) {
         System.out.print(error.getErrorType() + ": ");
-        System.out.println(" at node " + error.getNode());
+        System.out.print(" at line " + error.getLine());
+        System.out.println(", expression: " + error.getNode().toString());
 
         System.out.println(error.getMessage()+ "\n");
     }
