@@ -2,7 +2,9 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
+import lang.ql.gui.GuiVisitor;
 import lang.ql.gui.Modeler;
+import lang.ql.gui.SimpleGui;
 import lang.ql.semantics.*;
 import lang.ql.syntax.QLVisitorImpl;
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -50,7 +52,8 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-//        Modeler visualizer = new Modeler(values);
-        Modeler.render(primaryStage, ast, values);
+        Modeler modeler = new Modeler(values);
+        modeler.visit(this.ast);
+        SimpleGui.run(modeler.getCanvas(), primaryStage);
     }
 }
