@@ -1,4 +1,4 @@
-package org.fugazi.evaluator;
+package org.fugazi.evaluator.expression_value;
 
 public class StringValue extends ExpressionValue<String> {
 

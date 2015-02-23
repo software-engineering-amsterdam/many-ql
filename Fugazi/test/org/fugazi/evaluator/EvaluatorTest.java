@@ -10,7 +10,10 @@ import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
 import org.fugazi.ast.type.IntType;
-import org.junit.AfterClass;
+import org.fugazi.evaluator.expression_value.BoolValue;
+import org.fugazi.evaluator.expression_value.ExpressionValue;
+import org.fugazi.evaluator.expression_value.IntValue;
+import org.fugazi.evaluator.expression_value.UndefinedValue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +25,7 @@ public class EvaluatorTest {
     
     // Test data
     private int fakeLine = 10;
+    private ValueStorage valueStorage = new ValueStorage();
     private final INT num5 = new INT(5, fakeLine);
     private final INT num4 = new INT(4, fakeLine);
     private final STRING stringFoo = new STRING("Foo", fakeLine);
@@ -35,31 +39,7 @@ public class EvaluatorTest {
 
     @Before
     public void setupEnv() {
-        ValueStorage valueStorage = new ValueStorage();
         evaluator = new Evaluator(valueStorage);
-    }
-
-//    @AfterClass
-//    public void clearValue() {
-//        evaluator.clearValues();
-//    }
-
-    /**
-     * Test Value Storage
-     */
-    @Test
-    public void testSaveValue() throws Exception {
-        // test: save testId
-        evaluator.saveValue(testId, new BoolValue(true));
-        assertTrue(evaluator.isValueExists(testId));
-    }
-
-    @Test
-    public void testGetValue() throws Exception {
-        // test: get testId
-        evaluator.saveValue(testId, new BoolValue(true));
-        ExpressionValue test = evaluator.getValue(testId);
-        assertEquals(true, test.getValue());
     }
     
     /**
@@ -175,7 +155,7 @@ public class EvaluatorTest {
     @Test
     public void testIDExpression() throws Exception {
         ID id = new ID(testString1, new IntType(fakeLine), fakeLine);
-        evaluator.saveValue(testString1, new IntValue(5));
+        valueStorage.saveValue(testString1, new IntValue(5));
         ExpressionValue value = evaluator.evaluateExpression(id);
         assertEquals(value.getValue(), 5);
     }

@@ -16,7 +16,7 @@ import org.fugazi.ast.expression.numerical.Sub;
 import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
-import org.fugazi.evaluator.ExpressionValue;
+import org.fugazi.evaluator.expression_value.ExpressionValue;
 
 public class TypeCheckerExpressionVisitor implements IExpressionVisitor<ExpressionValue> {
 
