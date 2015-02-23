@@ -17,6 +17,7 @@ public class Test {
 		Expression evaluator = parser.expression().result;
 		System.out.println((evaluator.getType()));
 		System.out.println((evaluator.evaluate()));
+
 		//visitor.visit(tree);
 	}
 }
