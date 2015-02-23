@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.AST.Node;
+import org.uva.sea.ql.AST.Visitor;
 import org.uva.sea.ql.AST.expression.Expression;
 
 public class IfStatement extends Statement{
@@ -38,8 +39,7 @@ public class IfStatement extends Statement{
 	}
 	
 	@Override
-	public List<Node> visit() {
-		
-		return null;
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

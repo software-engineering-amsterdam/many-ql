@@ -63,7 +63,7 @@ public class Visitor implements IVisitor {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        com.klq.logic.Question question = new com.klq.logic.Question(id, type, null, text, null, null);
+        com.klq.logic.Question question = new com.klq.logic.Question(id, type, null, text);
         questList.add(question);
 
     }
@@ -74,7 +74,7 @@ public class Visitor implements IVisitor {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        com.klq.logic.Question question = new com.klq.logic.Question(id, type, currentAnswers, text, null, null);
+        com.klq.logic.Question question = new com.klq.logic.Question(id, type, currentAnswers, text);
         questList.add(question);
         currentAnswers = new AnswerSet(); //reset the currentAnswers since the end of the question is reached
     }

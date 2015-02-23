@@ -13,6 +13,5 @@ public class Not extends Unary{
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-		getSingleExpression().accept(visitor);
 	}
 }
