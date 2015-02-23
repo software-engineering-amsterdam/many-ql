@@ -24,6 +24,14 @@ class Processor:
             return False
 
     @staticmethod
+    def extract_variables(expression):
+        print("<ShouldBeString>")
+        for e in expression:
+            print(e.pretty_print())
+        # print(expression)
+        print("</ShouldBeString>")
+
+    @staticmethod
     def bind_values(expression, answers_map):
         """
         This functions replace ids with their values as defined in the map

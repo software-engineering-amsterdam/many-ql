@@ -4,6 +4,7 @@ import collections
 from Grammar.expressions import *
 from Main.exceptions import *
 from Main.expression_validator import *
+from AST.operators import *
 
 
 class TypeChecker:
@@ -93,11 +94,11 @@ class TypeChecker:
             if cinput.isdigit():
                 type_class = BasicTypes.number_name
         elif isinstance(cinput, list):
-            type_class = BasicTypes.listName
+            type_class = BasicTypes.list_name
         elif isinstance(cinput, Operator):
             type_class = Expressions.operator_name
         else:
-            raise QException("Undefined input.")
+            raise QException("Undefined input " + type(cinput))
 
         if not ctype:
             return type_class
@@ -107,7 +108,6 @@ class TypeChecker:
         elif ctype is BasicTypes.text_name and type_class is BasicTypes.number_name:  # text could be number
             return True
         return False
-
 
     @staticmethod
     def is_valid_expression(statements, type_dict):
