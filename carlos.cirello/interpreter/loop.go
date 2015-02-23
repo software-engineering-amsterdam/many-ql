@@ -98,8 +98,8 @@ func (v *interpreter) loop() {
 						v.send <- &event.Frontend{Type: event.Flush}
 
 						q := v.symbols.Read(identifier)
-						q.(*ast.QuestionNode).Content().From(answer)
-						v.symbols.Update(identifier, q.(*ast.QuestionNode))
+						q.(symboltable.StringParser).From(answer)
+						v.symbols.Update(identifier, q)
 					}
 					fallthrough
 

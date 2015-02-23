@@ -3,7 +3,7 @@ package lang.tests;
 import lang.ql.ast.AstNode;
 import lang.ql.gen.QLLexer;
 import lang.ql.gen.QLParser;
-import lang.ql.ast.QLVisitor;
+import lang.ql.ast.AstBuilder;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
@@ -22,7 +22,7 @@ public class ParserHelper
     {
         QLParser parser = createInputStreamParser(input);
         QLParser.ExpressionContext c = parser.expression();
-        QLVisitor visitor = new QLVisitor();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitExpression(c);
     }
@@ -31,7 +31,7 @@ public class ParserHelper
     {
         QLParser parser = createInputStreamParser(input);
         QLParser.QuestionContext c = parser.question();
-        QLVisitor visitor = new QLVisitor();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitQuestion(c);
     }
@@ -40,7 +40,7 @@ public class ParserHelper
     {
         QLParser parser = createInputStreamParser(input);
         QLParser.IfConditionContext c = parser.ifCondition();
-        QLVisitor visitor = new QLVisitor();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitIfCondition(c);
     }
@@ -49,7 +49,7 @@ public class ParserHelper
     {
         QLParser parser = createFileStreamParser(file);
         QLParser.FormContext f = parser.form();
-        QLVisitor visitor = new QLVisitor();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitForm(f);
     }

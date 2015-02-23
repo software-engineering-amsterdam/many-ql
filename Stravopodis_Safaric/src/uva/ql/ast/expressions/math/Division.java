@@ -21,12 +21,11 @@ public class Division extends BinaryExpressions{
 	}
 	@Override
 	public NumberValue evaluate() {
-		NumberValue left = new NumberValue((Number)this.getLeftExpr().evaluate().getValue());
-		NumberValue right = new NumberValue((Number)this.getRightExpr().evaluate().getValue());
+		NumberValue left = NumberValue.numberValueFromExpr(this.getLeftExpr());
 		
-		if (left.toInt() == 0)
+		if (left.intValue() == 0)
 			throw new IllegalArgumentException("Argument divisor 0");
 		
-		return new NumberValue(	left.toDecimal() / right.toDecimal());
+		return left.division(NumberValue.numberValueFromExpr(getRightExpr()));
 	}
 }

@@ -9,24 +9,28 @@ public class BooleanValue extends GenericValue<Boolean> {
 	public BooleanValue(boolean _value){
 		this.value = _value;
 	}
-	
 	@Override
 	public Boolean getValue() {
 		return this.value;
 	}
+	
+	public static BooleanValue booleanValueFromExpr(Expression expr){
+		return new BooleanValue((boolean)expr.evaluate().getValue());
+	}
+	
 	public static boolean isBooleanValue(Expression expr){
 		return expr.evaluate().getClass() == BooleanValue.class;
 	}
-
-	@Override
-	public int toInt() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public BooleanValue and(BooleanValue value){
+		return new BooleanValue(this.value && value.value);
+	}
+	public BooleanValue or(BooleanValue value){
+		return new BooleanValue(this.value && value.value);
 	}
 
 	@Override
-	public float toDecimal() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public float floatValue() {return 0;}
+	@Override
+	public int intValue() {return 0;}
 }

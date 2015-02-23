@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLVisitor extends QLBaseVisitor<AstNode>
+public class AstBuilder extends QLBaseVisitor<AstNode>
 {
     @Override
     public AstNode visitForm(@NotNull QLParser.FormContext context)

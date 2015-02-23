@@ -44,17 +44,22 @@ func (exec Execute) ActionNode(v *visitor.Visitor, a *ast.ActionNode) {
 // QuestionNode adds question to symbol table, and dispatch to frontend
 // rendering.
 func (exec Execute) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
-	exec.symboltable.Create(q.Identifier(), q)
-	questionCopy := q.Clone()
+	exec.symboltable.Create(q.Identifier(), q.Label(), q.Type())
 
-	if questionCopy.Type() == ast.ComputedQuestionType {
-		expr := q.Content().(*ast.ComputedQuestion).Value()
-		questionCopy.From(fmt.Sprintf("%f", exec.resolveMathNode(expr)))
+	r := exec.symboltable.Read(q.Identifier())
+
+	if q.Type() == ast.ComputedQuestionType {
+		expr := q.Content().(*ast.ComputedQuestion).Expression()
+		computed := fmt.Sprintf("%f", exec.resolveMathNode(expr))
+		r.(symboltable.StringParser).From(computed)
 	}
 
 	exec.toFrontend <- &event.Frontend{
-		Type:     event.UpdateQuestion,
-		Question: questionCopy,
+		Type:       event.UpdateQuestion,
+		Identifier: q.Identifier(),
+		Label:      q.Label(),
+		FieldType:  q.Type(),
+		Value:      r.(fmt.Stringer).String(),
 	}
 }
 

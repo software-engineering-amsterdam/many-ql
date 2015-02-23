@@ -23,7 +23,9 @@ public class NotEqual extends BinaryExpressions{
 	}
 	@Override
 	public BooleanValue evaluate() {
-		return new BooleanValue(	this.getLeftExpr().evaluate().getValue() != 
-				this.getRightExpr().evaluate().getValue());
+		if (!this.getLeftExpr().evaluate().getValue().getClass().equals(this.getRightExpr().evaluate().getValue().getClass()))
+			throw new IllegalArgumentException("IllegalArgumentException: Both operands of != must be of same time");
+		
+		return new BooleanValue(this.getLeftExpr().evaluate().getValue() != this.getRightExpr().evaluate().getValue());
 	}
 }
