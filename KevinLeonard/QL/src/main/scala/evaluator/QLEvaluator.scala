@@ -11,13 +11,13 @@ class QLEvaluator {
   case class StringVal(v: String = "") extends VariableValue
 
   type VariableName = String
-  type Environment = Map[VariableName, VariableValue]
+  type EvalEnvironment = Map[VariableName, VariableValue]
 
   val emptyEnvironment = Map[VariableName, VariableValue]()
 
-  def eval(f: Form, environment: Environment = emptyEnvironment): Environment = eval(f.e, environment)
+  def eval(f: Form, environment: EvalEnvironment = emptyEnvironment): EvalEnvironment = eval(f.s, environment)
 
-  def eval(s: Statement, env: Environment): Environment = s match {
+  def eval(s: Statement, env: EvalEnvironment): EvalEnvironment = s match {
     case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env)}
     case IfStatement(e, ifBody, elseBodyOption) => doIfStatement(e, env, ifBody, elseBodyOption)
     case BooleanQuestion(Variable(name), label, None) => env + (name -> BoolVal())
@@ -28,7 +28,7 @@ class QLEvaluator {
     case StringQuestion(Variable(name), label, Some(e)) => env + (name -> eval(e, env))
   }
 
-  def eval(e: Expression, env: Environment): VariableValue = e match {
+  def eval(e: Expression, env: EvalEnvironment): VariableValue = e match {
     case Or(l, r) => doBooleanOperation(_ || _, l, r, env)
     case And(l, r) => doBooleanOperation(_ && _, l, r, env)
     case Not(e1) => doBooleanOperation(!_, e1, env)
@@ -48,7 +48,7 @@ class QLEvaluator {
     case StringLiteral(value) => StringVal(value)
   }
 
-  def doIfStatement(e: Expression, env: Environment, ifBody: Statement, elseBodyOption: Option[Statement]): Environment = {
+  def doIfStatement(e: Expression, env: EvalEnvironment, ifBody: Statement, elseBodyOption: Option[Statement]): EvalEnvironment = {
      eval(e, env) match {
       case BoolVal(true) => eval(ifBody, env)
       case BoolVal(false) => elseBodyOption match {
@@ -59,21 +59,21 @@ class QLEvaluator {
     }
   }
 
-  def doBooleanOperation(op: Boolean => Boolean, e1: Expression, env: Environment): BoolVal = {
+  def doBooleanOperation(op: Boolean => Boolean, e1: Expression, env: EvalEnvironment): BoolVal = {
     eval(e1, env) match {
       case BoolVal(b1) => BoolVal(op(b1))
       case _ => sys.error("Error in type checker. Boolean operator expects a boolean value.")
     }
   }
 
-  def doBooleanOperation(op: (Boolean, Boolean) => Boolean, e1: Expression, e2: Expression, env: Environment): BoolVal = {
+  def doBooleanOperation(op: (Boolean, Boolean) => Boolean, e1: Expression, e2: Expression, env: EvalEnvironment): BoolVal = {
     (eval(e1, env), eval(e2, env)) match {
       case (BoolVal(b1), BoolVal(b2)) => BoolVal(op(b1, b2))
       case _ => sys.error("Error in type checker. Boolean operator expects two boolean values.")
     }
   }
 
-  def doEqualityOperation(op: (Any, Any) => Boolean, e1: Expression, e2: Expression, env: Environment): BoolVal = {
+  def doEqualityOperation(op: (Any, Any) => Boolean, e1: Expression, e2: Expression, env: EvalEnvironment): BoolVal = {
     (eval(e1, env), eval(e2, env)) match {
       case (BoolVal(l), BoolVal(r)) => BoolVal(op(l, r))
       case (NumberVal(l), NumberVal(r)) => BoolVal(op(l, r))
@@ -82,14 +82,14 @@ class QLEvaluator {
     }
   }
 
-  def doOrderOperation(op: (Int, Int) => Boolean, e1: Expression, e2: Expression, env: Environment): BoolVal = {
+  def doOrderOperation(op: (Int, Int) => Boolean, e1: Expression, e2: Expression, env: EvalEnvironment): BoolVal = {
     (eval(e1, env), eval(e2, env)) match {
       case (NumberVal(b1), NumberVal(b2)) => BoolVal(op(b1, b2))
       case _ => sys.error("Error in type checker. Order operator expects two number values.")
     }
   }
 
-  def doArithmeticOperation(op: (Int, Int) => Int, e1: Expression, e2: Expression, env: Environment): NumberVal = {
+  def doArithmeticOperation(op: (Int, Int) => Int, e1: Expression, e2: Expression, env: EvalEnvironment): NumberVal = {
     (eval(e1, env), eval(e2, env)) match {
       case (NumberVal(b1), NumberVal(b2)) => NumberVal(op(b1, b2))
       case _ => sys.error("Error in type checker. Arithmetic operator expects two number values.")

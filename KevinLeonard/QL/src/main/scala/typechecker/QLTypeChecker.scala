@@ -4,7 +4,7 @@ import ast._
 
 class QLTypeChecker {
 
-  def check(form: Form, env: Environment = new Environment()): Environment = check(form.e, env)
+  def check(form: Form, env: Environment = new Environment()): Environment = check(form.s, env)
 
   def check(statement: Statement, env: Environment): Environment = statement match {
     case Sequence(statements: List[Statement]) => statements.foldLeft(env) { (env, statement) => check(statement, env) }
