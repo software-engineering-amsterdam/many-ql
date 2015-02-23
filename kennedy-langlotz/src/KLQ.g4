@@ -49,7 +49,7 @@ uncondQuestion
           'id'       ':' id=QuestionId      NEWLINE
           'text'     ':' text=String        NEWLINE
           'type'     ':' type=questionType  NEWLINE
-         ('value'    ':' options            NEWLINE)?
+         ('value'    ':' answerOptions      NEWLINE)?
       End
     ;
 
@@ -97,7 +97,7 @@ expr
     | QuestionId #id
     ;
 
-options
+answerOptions
     : expr (', ' expr)*
     ;
 
