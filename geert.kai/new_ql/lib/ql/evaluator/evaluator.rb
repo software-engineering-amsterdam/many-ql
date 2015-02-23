@@ -4,30 +4,40 @@ class Runner < BaseVisitor
   def initialize(form)
     @form = form
     @values = {}
-    @mode = :lookup # next, run, return
+    @mode = :run # next, run, return
     @lookup_question
+    
   end 
 
-  def set_current_question(value)
+  def answered(value)
     if @lookup_question
       @values[@lookup_question.variable_name] = value
     end
+    @mode = :lookup
   end
 
   def next_question
-    @form.visit(self)
+    self.visit(@form)
+    @lookup_question
   end
 
   visitor_for Form do |form|
-    form.accept(self)
+    form.statements.each do |statement|
+      statement.accept(self)
+      if @mode == :return
+        return
+      end
+    end
   end
 
   visitor_for Question do |question|
+    # byebug
     case @mode
     when :lookup
       @mode = :run if question == @lookup_question
     when :run
       @mode = :return      
+      @lookup_question = question
       question
     end
   end
@@ -35,10 +45,15 @@ class Runner < BaseVisitor
   visitor_for If do |if_statement|
     case @mode
     when :lookup
-      if_statement.visit(self)
+      if_statement.statements.each do |statement|
+        statement.accept(self)
+      end
     when :run
-      if Evaluator.evaluate(if_statement.expression, @values).class == TrueClass
-        if_statement.statements.visit(self)
+      if Evaluator.evaluate(expression: if_statement.expression, values: @values).class == TrueClass
+        if_statement.statements.each do |statement|
+          s = statement.accept(self)
+          return if @mode == :return
+        end
       end
     when :return
       nil
@@ -47,11 +62,11 @@ class Runner < BaseVisitor
 end
 
 class Evaluator < BaseVisitor
-  def self.evaluate(expression, values)
-    self.new(expression, values).evaluate
+  def self.evaluate(expression: , values: )
+    self.new(expression: expression, values: values).evaluate
   end
-
-  def initialize(expression, values)
+  
+  def initialize(expression: , values: )
     @expression = expression
     @values = values
   end
