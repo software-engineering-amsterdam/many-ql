@@ -35,8 +35,8 @@ public class Question extends Statement
         return this.label;
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(Visitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

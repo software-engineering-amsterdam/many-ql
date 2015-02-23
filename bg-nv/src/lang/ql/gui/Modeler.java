@@ -1,16 +1,5 @@
 package lang.ql.gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.*;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
@@ -30,7 +19,7 @@ import java.util.List;
 /**
  * Created by Nik on 17-2-15.
  */
-public class Modeler implements Visitor, TypeVisitor
+public class Modeler<Void> implements Visitor, TypeVisitor
 {
     private ValueTable values;
 
@@ -51,7 +40,7 @@ public class Modeler implements Visitor, TypeVisitor
     }
 
     @Override
-    public void visit(Form form)
+    public Void visit(Form form)
     {
         this.lines = new ArrayList<Line>();
         for (Statement s : form.getBody())
@@ -60,10 +49,12 @@ public class Modeler implements Visitor, TypeVisitor
         }
         this.canvas = new Canvas(form.getId(), this.lines);
         this.lines = null;
+
+        return null;
     }
 
     @Override
-    public void visit(Question q)
+    public Void visit(Question q)
     {
         this.currentValue = values.getValue(q.getId());
 
@@ -74,10 +65,12 @@ public class Modeler implements Visitor, TypeVisitor
 
         this.currentInput = null;
         this.currentValue = null;
+
+        return null;
     }
 
     @Override
-    public void visit(CalculatedQuestion cq)
+    public Void visit(CalculatedQuestion cq)
     {
         this.currentValue = values.getValue(cq.getId());
 
@@ -88,176 +81,192 @@ public class Modeler implements Visitor, TypeVisitor
 
         this.currentValue = null;
         this.currentInput = null;
+
+        return null;
     }
 
     @Override
-    public void visit(BoolType type)
+    public Void visit(BoolType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new BoolInput((BooleanValue)this.currentValue);
+
+        return null;
     }
 
     @Override
-    public void visit(DateType type)
+    public Void visit(DateType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new DateInput((DateValue)this.currentValue);
+
+        return null;
     }
 
     @Override
-    public void visit(DecType type)
+    public Void visit(DecType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new DecInput((DecimalValue)this.currentValue);
+
+        return null;
     }
 
     @Override
-    public void visit(IntType type)
+    public Void visit(IntType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new IntInput((IntegerValue)this.currentValue);
+
+        return null;
     }
 
     @Override
-    public void visit(StrType type)
+    public Void visit(StrType type)
     {
         // TODO: remove the cast somehow
         this.currentInput = new StrInput((StringValue)this.currentValue);
+
+        return null;
     }
 
     @Override
-    public void visit(UndefinedType type)
+    public Void visit(UndefinedType type)
     {
         // TODO: remove the cast somehow
         //this.currentInput = new StrInput((StringValue)this.currentValue);
+
+        return null;
     }
 
     @Override
-    public void visit(IfCondition ifCond)
+    public Void visit(IfCondition ifCond)
     {
         for (Statement s : ifCond.getBody())
         {
             s.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(BoolExpr e)
+    public Void visit(BoolExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(IntExpr e)
+    public Void visit(IntExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(DecExpr e)
+    public Void visit(DecExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(StrExpr e)
+    public Void visit(StrExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Indent e)
+    public Void visit(Ident e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Neg e)
+    public Void visit(Neg e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(lang.ql.ast.expression.Pos e)
+    public Void visit(lang.ql.ast.expression.Pos e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Not e)
+    public Void visit(Not e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Add e)
+    public Void visit(Add e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Sub e)
+    public Void visit(Sub e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Mul e)
+    public Void visit(Mul e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Div e)
+    public Void visit(Div e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Gt e)
+    public Void visit(Gt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Lt e)
+    public Void visit(Lt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(GtEqu e)
+    public Void visit(GtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(LtEqu e)
+    public Void visit(LtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Equ e)
+    public Void visit(Equ e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(NotEqu e)
+    public Void visit(NotEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(And e)
+    public Void visit(And e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Or e)
+    public Void visit(Or e)
     {
-
+        return null;
     }
 }

@@ -12,8 +12,8 @@ public class StrExpr extends ConstExpr<String>
         super(value, lineNumber);
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(Visitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }
