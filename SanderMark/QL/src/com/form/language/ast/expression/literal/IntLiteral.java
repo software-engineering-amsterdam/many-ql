@@ -15,5 +15,11 @@ public class IntLiteral implements PrimitiveExpression {
 	public IntValue evaluate() {
 		return new IntValue(_value);
 	}
+
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

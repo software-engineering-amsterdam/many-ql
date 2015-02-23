@@ -16,4 +16,10 @@ public class GreaterThan extends BinaryExpression implements PrimitiveExpression
 		return ((IntLiteral)left).evaluate().GreaterThan(((IntLiteral)right).evaluate());
 	}
 
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

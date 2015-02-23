@@ -12,10 +12,6 @@ sealed trait Question extends Statement {
   val v: Variable
   val label: String
 }
-case class BooleanQuestion(v: Variable, label: String) extends Question
-case class NumberQuestion(v: Variable, label: String) extends Question
-case class StringQuestion(v: Variable, label: String) extends Question
-sealed trait ComputedQuestion extends Question
-case class ComputedBooleanQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
-case class ComputedNumberQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
-case class ComputedStringQuestion(v: Variable, label: String, e: Expression) extends ComputedQuestion
+case class BooleanQuestion(v: Variable, label: String, e: Option[Expression]) extends Question
+case class NumberQuestion(v: Variable, label: String, e: Option[Expression]) extends Question
+case class StringQuestion(v: Variable, label: String, e: Option[Expression]) extends Question
