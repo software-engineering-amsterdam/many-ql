@@ -11,10 +11,6 @@ public class Page extends AbstractModel<Page> {
     private List<Section> sections;
     private List<Default> defaultSettings;
 
-    public List<Section> getSections() {
-        return sections;
-    }
-
     public List<Default> getDefaultSettings() {
         return defaultSettings;
     }
