@@ -2,7 +2,7 @@ import argparse
 import glob
 
 from AST import AST
-from Evaluator import Evaluator, PageStructure
+from evaluator.evaluator import Evaluator, PageStructure
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)

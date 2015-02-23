@@ -7,12 +7,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Page extends AbstractModel<Page> {
+    private String ident;
     private List<Section> sections;
     private List<Default> defaultSettings;
+
+    public List<Default> getDefaultSettings() {
+        return defaultSettings;
+    }
+
+    public String getPageName() {
+        return ident;
+    }
 
     @Override
     public void caseDefault(Default defaultSetting) {
         defaultSettings.add(defaultSetting);
+    }
+
+    public List<Section> getSections() {
+        return sections;
     }
 
     @Override

@@ -1,35 +1,22 @@
 require_relative "../static_checker/visitor"
 
-class Runner < BaseVisitor
+class Runner
   def initialize(form)
     @form = form
     @values = {}
   end 
 
   def next_question
-    "Pietje"
+    self.visit(@form)
   end
 
   def update(variable_name:, value:)
     @values[variable_name] = value
   end
-
-  visitor_for Form do |form|
-    form.accept(self)
-  end
-
-  visitor_for Question do |question|
-    if looked_for_question.nil?
-      question 
-    elsif question == looked_for_question
-      looked_for_question = nil
-    else
-  end
-
 end
 
 class Evaluator < BaseVisitor
-  def self.evaluate(expression, values)
+  def self.evaluate(expression:, values:)
     self.new(expression, values).evaluate
   end
 
@@ -53,5 +40,4 @@ class Evaluator < BaseVisitor
   visitor_for Literal do |literal|
     literal.value
   end
-
 end
