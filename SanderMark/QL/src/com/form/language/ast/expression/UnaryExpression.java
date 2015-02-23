@@ -1,8 +1,15 @@
 package com.form.language.ast.expression;
 
-public abstract class UnaryExpression {
-	public PrimitiveExpression value;
-	public UnaryExpression(PrimitiveExpression value) {
+import com.form.language.ast.type.ErrorType;
+
+public abstract class UnaryExpression implements Expression{
+	public Expression value;
+	public UnaryExpression(Expression value) {
 		this.value = value;
+	}
+	
+	@Override
+	public Boolean isCorrectlyTyped() {
+		return !this.getType().equals(new ErrorType());
 	}
 }

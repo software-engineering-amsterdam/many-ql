@@ -23,7 +23,7 @@ question
 	;
 
 condition
-	: IF '(' expression ')' '{' (statement)+ '}' (ELSE '{' (statement)+ '}')?
+	: IF expression '{' (statement)+ '}' (ELSE '{' (statement)+ '}')?
 	;
 
 statement	
@@ -31,7 +31,8 @@ statement
 	;
 
 expression                          				  								
- : singleLtr=literal
+ : '(' expr=expression ')'
+ | singleLtr=literal
  | op=(NOT | PLUS | MINUS) singleExpr=expression
  | left=expression op=(MULTIPLY | DIVIDE | MODULO | POWER) right=expression
  | left=expression op=(PLUS | MINUS) right=expression

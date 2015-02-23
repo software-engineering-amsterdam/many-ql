@@ -1,0 +1,11 @@
+form formname{
+    name BOOLEAN "label"
+
+    if(name){
+        name6 BOOLEAN "label"
+    }
+
+    if((3*4) || name){
+        name5 INTEGER "label"
+    }
+}

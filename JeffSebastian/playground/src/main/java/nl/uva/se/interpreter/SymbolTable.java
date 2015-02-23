@@ -9,9 +9,8 @@ import nl.uva.se.constant.Type;
 public class SymbolTable {
 
 	private Map<String, Type> symbols;
-	private static SymbolTable instance;
 	
-	private SymbolTable() {
+	public SymbolTable() {
 		symbols = new HashMap<String, Type>();
 	}
 	
@@ -19,14 +18,10 @@ public class SymbolTable {
 		symbols.put(name, type);
 	}
 	
-	public static SymbolTable getInstance() {
-		if (instance == null) {
-			instance = new SymbolTable();
-		}
-		
-		return instance;
+	public Map<String, Type> getSymbols() {
+		return symbols;
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

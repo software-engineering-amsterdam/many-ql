@@ -1,13 +1,16 @@
 package com.form.language.ast.expression.math;
 
 import com.form.language.ast.expression.BinaryExpression;
-import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.Expression;
+import com.form.language.ast.type.ErrorType;
+import com.form.language.ast.type.IntType;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
 
-public class Multiplication extends BinaryExpression implements PrimitiveExpression {
+public class Multiplication extends BinaryExpression implements Expression {
 	
-	public Multiplication(PrimitiveExpression left, PrimitiveExpression right) {
+	public Multiplication(Expression left, Expression right) {
 		super(left,right);
 	}
 
@@ -17,9 +20,9 @@ public class Multiplication extends BinaryExpression implements PrimitiveExpress
 	}
 
 	@Override
-	public Boolean typeCorrect(Error e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Type getType() {
+		if(left.getType().isIntType() && right.getType().isIntType()) return new IntType();
+		return new ErrorType();
 	}
 	
 	

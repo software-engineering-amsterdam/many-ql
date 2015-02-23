@@ -10,24 +10,24 @@ import java.util.List;
  */
 public class IfCondition extends Statement
 {
-    private Expr expr;
-    private List<Statement> statements;
+    private Expr condition;
+    private List<Statement> body;
 
     public IfCondition(Expr expr, List<Statement> statements, int lineNumber)
     {
         super(lineNumber);
-        this.expr = expr;
-        this.statements = statements;
+        this.condition = expr;
+        this.body = statements;
     }
 
-    public Expr getExpr()
+    public Expr getCondition()
     {
-        return this.expr;
+        return this.condition;
     }
 
-    public List<Statement> getStatements()
+    public List<Statement> getBody()
     {
-        return this.statements;
+        return this.body;
     }
 
     @Override

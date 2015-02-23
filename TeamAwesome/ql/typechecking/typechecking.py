@@ -1,20 +1,20 @@
 from . import \
-    statementNesting,\
-    cyclicQuestionDependencies,\
-    typesOfExpressions,\
-    duplicateQuestionLabels,\
-    questionRedefinitions
+    StatementNesting,\
+    CyclicQuestionDependencies,\
+    TypesOfExpressions,\
+    DuplicateQuestionLabels,\
+    QuestionRedefinitions
 
 from .Result import Result
 
 
 def check(ast):
     modules = [
-        statementNesting,
-        cyclicQuestionDependencies,
-        typesOfExpressions,
-        duplicateQuestionLabels,
-        questionRedefinitions
+        StatementNesting,
+        CyclicQuestionDependencies,
+        TypesOfExpressions,
+        DuplicateQuestionLabels,
+        QuestionRedefinitions
     ];
 
     checkers = map(lambda m: m.Checker(ast), modules)

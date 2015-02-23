@@ -6,7 +6,9 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import uva.TaxForm.AST.NodeForm;
 import uva.TaxForm.AST.Visitors.CommonTaxFormVisitor;
+import uva.TaxForm.AST.Visitors.Checker.QuestionChecker;
 import uva.TaxForm.antlr4.TaxFormLexer;
 import uva.TaxForm.antlr4.TaxFormParser;
 
@@ -36,7 +38,11 @@ public class TaxForm {
 		
 		ParseTree tree = parser.form();
 		CommonTaxFormVisitor visitor = new CommonTaxFormVisitor();
-		visitor.visit(tree);
-		System.out.println( visitor.toString() );
+		NodeForm ast = (NodeForm) visitor.visit(tree);
+		
+		System.out.println( ast.getName() );
+		
+		QuestionChecker Qchecker = new QuestionChecker();
+		System.out.println( Qchecker.duplicates(ast) );
     }
 }

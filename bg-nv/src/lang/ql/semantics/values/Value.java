@@ -1,7 +1,5 @@
 package lang.ql.semantics.values;
 
-import lang.ql.semantics.ValueVisitor;
-
 /**
  * Created by bore on 16/02/15.
  */
@@ -250,6 +248,4 @@ public abstract class Value<T>
     {
         throw new IllegalStateException();
     }
-
-    public abstract void accept(ValueVisitor visitor);
 }

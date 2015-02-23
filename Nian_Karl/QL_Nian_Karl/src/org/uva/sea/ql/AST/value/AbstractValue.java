@@ -7,8 +7,8 @@ public abstract class AbstractValue<T> {
 	public AbstractValue<T> minus(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
 	public AbstractValue<T> divide(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
 	public AbstractValue<T> multiply(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
-	public AbstractValue<T> and(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
 	public AbstractValue<T> or(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
+	public AbstractValue<T> and(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
 	public AbstractValue<T> greaterThan(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
 	public AbstractValue<T> lessThan(AbstractValue<T> value) { throw new UnsupportedOperationException(); }
 	public AbstractValue<T> greaterEqual(AbstractValue<T> value) { throw new UnsupportedOperationException(); }

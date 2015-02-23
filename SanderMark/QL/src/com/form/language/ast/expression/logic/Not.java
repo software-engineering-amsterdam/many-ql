@@ -1,13 +1,16 @@
 package com.form.language.ast.expression.logic;
 
 import com.form.language.ast.expression.UnaryExpression;
-import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.BoolLiteral;
+import com.form.language.ast.type.BoolType;
+import com.form.language.ast.type.ErrorType;
+import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 
-public class Not extends UnaryExpression implements PrimitiveExpression {
+public class Not extends UnaryExpression implements Expression {
 
-	public Not(PrimitiveExpression value) {
+	public Not(Expression value) {
 		super(value);
 	}
 
@@ -17,9 +20,9 @@ public class Not extends UnaryExpression implements PrimitiveExpression {
 	}
 
 	@Override
-	public Boolean typeCorrect(Error e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Type getType() {
+		if(super.value.getType().isBoolType()) return new BoolType();
+		return new ErrorType();
 	}
 
 }
