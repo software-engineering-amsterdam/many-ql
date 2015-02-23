@@ -12,14 +12,14 @@ class QLParser extends JavaTokenParsers {
 
   // literal parsers
   def literal: Parser[Literal] = boolean | number | string
-  def boolean: Parser[BooleanLiteral] = ("true" | "false") ^^ {
-    s => BooleanLiteral(s.toBoolean)
+  def boolean: Parser[Literal] = ("true" | "false") ^^ {
+    s => Literal(BooleanType(), BooleanValue(s.toBoolean))
   }
-  def number: Parser[NumberLiteral] = wholeNumber ^^ {
-    s => NumberLiteral(s.toInt)
+  def number: Parser[Literal] = wholeNumber ^^ {
+    s => Literal(NumberType(), NumberValue(s.toInt))
   }
-  def string: Parser[StringLiteral] = stringLiteral ^^ {
-    s => StringLiteral(s)
+  def string: Parser[Literal] = stringLiteral ^^ {
+    s => Literal(StringType(), StringValue(s))
   }
 
   // form parsers

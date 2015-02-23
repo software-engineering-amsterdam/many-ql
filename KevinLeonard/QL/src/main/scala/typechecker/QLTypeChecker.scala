@@ -96,17 +96,10 @@ class QLTypeChecker {
       case _ => sys.error(s"Invalid division expression at line ${e.pos}")
     }
     case v: Variable => env.tryGetVariable(v)
-    case BooleanLiteral(_) => BooleanType()
-    case NumberLiteral(_) => NumberType()
-    case StringLiteral(_) => StringType()
+    case Literal(t, _) => t
   }
 
 }
-
-sealed trait Type
-case class BooleanType() extends Type
-case class NumberType() extends Type
-case class StringType() extends Type
 
 class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[String] = List()) {
 
