@@ -4,9 +4,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.EventListener;
 
 public class StyleSheetRenderer extends AbstractRenderer {
     private Component lastCreatedComponent;
@@ -36,11 +33,10 @@ public class StyleSheetRenderer extends AbstractRenderer {
             sectionPanel.add(lastCreatedComponent);
             pagePanel.add(sectionPanel);
         }
-        page.addUpdateEventListener(new ActionListener() {
-
+        page.addUpdateEventListener(new ModelUpdateListener<Page>() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                //To change body of implemented methods use File | Settings | File Templates.
+            public void onUpdateEvent(Page page) {
+                //pagePanel.setVisible(page.isVisible());
             }
         });
         lastCreatedComponent = pagePanel;

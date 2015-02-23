@@ -13,6 +13,10 @@ public class Question extends AbstractFormField<Question> {
         notifyUpdate();
     }
 
+    public void applyWidget(IQuestionWidgetCallback widgetCallback) {
+        // TODO call the widget based on the type.
+    }
+
     @Override
     public void apply(IModel iModel) {
         iModel.caseQuestion(this);
