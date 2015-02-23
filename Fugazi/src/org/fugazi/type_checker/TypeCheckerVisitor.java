@@ -532,27 +532,28 @@ public class TypeCheckerVisitor implements IASTVisitor {
         // pop first element, update all it's dependencies and add them
         List<ID> idsWithNewDependencies = new ArrayList<ID>();
 
-        idsToAddNewDependencyTo.add(depender);
+        idsWithNewDependencies.add(depender);
 
         // so that we avoid endless looping when circular dependencies exist
         List<ID> alreadyAnalyzed = new ArrayList<ID>();
 
         while (idsWithNewDependencies.size() > 0) {
-            ID newDependee = idsWithNewDependencies.get(0);
+            ID newDependee = idsWithNewDependencies.remove(0);
 
             // check all elements that potentially depend on newDependee
             // dependee passed as parameter added to this function needs to be added to them too
             for (ID key : this.questionDependencies.getIds()) {
-                List<ID> dependenciesForKey = this.questionDependencies.getIdDependencies(key);
-                if (dependenciesForKey != null &&
-                        dependenciesForKey.contains(newDependee)) {
-                    if (alreadyAnalyzed.contains((key))) {
-                        System.out.println();
-                        System.out.println("CIRCULAR DEPENDENCY");
-                        System.out.println(key + " " + newDependee);
-                        System.out.println();
+                List<String> dependenciesForKey = this.questionDependencies.getIdDependencyNames(key);
+                if (dependenciesForKey != null) {
+                    if (dependenciesForKey.contains(newDependee.getName())) {
+                        if (alreadyAnalyzed.contains((key))) {
+                            System.out.println();
+                            System.out.println("CIRCULAR DEPENDENCY");
+                            System.out.println(key + " " + newDependee);
+                            System.out.println();
+                        }
+                        idsToAddNewDependencyTo.add(key);
                     }
-                    idsWithNewDependencies.add(key);
                 }
             }
 

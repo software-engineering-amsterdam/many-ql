@@ -30,6 +30,18 @@ public class DependencyList {
         return this.dependecies.get(idx).getDependants();
     }
 
+    public List<String> getIdDependencyNames(ID id) {
+        int idx = this.indexOf(id);
+        if (idx == -1) {
+            return null;
+        }
+        List<String> names = new ArrayList<String>();
+        for (ID dependency : this.dependecies.get(idx).getDependants()) {
+            names.add(dependency.getName());
+        }
+        return names;
+    }
+
     // add a new dependant for id
     public void addIdDependenant(ID id, ID dependant) {
         int idx = this.indexOf(id);
