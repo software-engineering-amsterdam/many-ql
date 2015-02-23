@@ -1,7 +1,5 @@
 package lang.ql.semantics.values;
 
-import lang.ql.semantics.ValueVisitor;
-
 /**
  * Created by bore on 16/02/15.
  */
@@ -146,11 +144,5 @@ public class IntegerValue extends Value<Integer>
     public Value negInteger()
     {
         return new IntegerValue(this.getValue() * -1);
-    }
-
-    @Override
-    public void accept(ValueVisitor visitor)
-    {
-        visitor.visit(this);
     }
 }
