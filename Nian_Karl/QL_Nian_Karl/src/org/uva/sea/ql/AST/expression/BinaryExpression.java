@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.AST.Node;
+import org.uva.sea.ql.AST.Visitor;
 import org.uva.sea.ql.AST.value.AbstractValue;
 
 public abstract class BinaryExpression extends Expression{
@@ -32,11 +33,4 @@ public abstract class BinaryExpression extends Expression{
 	@Override
 	public abstract AbstractValue<?> interpretExpression();
 	
-	@Override
-	public List<Node> visit() {
-		List<Node> nodes = new ArrayList<Node>();
-		nodes.addAll(leftExpression.visit());
-		nodes.addAll(rightExpression.visit());
-		return nodes;
-	}
 }

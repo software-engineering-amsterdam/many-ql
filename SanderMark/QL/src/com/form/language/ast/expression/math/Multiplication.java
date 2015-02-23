@@ -15,6 +15,12 @@ public class Multiplication extends BinaryExpression implements PrimitiveExpress
 	public GenericValue<Integer> evaluate() {
 		return new IntValue(((IntValue)super.left).evaluate() * ((IntValue)super.right).evaluate());
 	}
+
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

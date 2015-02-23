@@ -31,18 +31,18 @@ class QLTypeChecker extends {
         env // Return environment without the questions in s1 and s2.
       case _ => sys.error(s"Invalid boolean condition for if statement at line ${s.pos}")
     }
-    case BooleanQuestion(v: Variable, label: String) => tryAddVariable(v.name, BooleanType(), env)
-    case NumberQuestion(v: Variable, label: String) => tryAddVariable(v.name, NumberType(), env)
-    case StringQuestion(v: Variable, label: String) => tryAddVariable(v.name, StringType(), env)
-    case s @ ComputedBooleanQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
+    case BooleanQuestion(v: Variable, label: String, None) => tryAddVariable(v.name, BooleanType(), env)
+    case NumberQuestion(v: Variable, label: String, None) => tryAddVariable(v.name, NumberType(), env)
+    case StringQuestion(v: Variable, label: String, None) => tryAddVariable(v.name, StringType(), env)
+    case s @ BooleanQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case BooleanType() => tryAddVariable(v.name, BooleanType(), env)
       case _ => sys.error(s"Invalid expression for value of computed boolean question at line ${s.pos}")
     }
-    case s @ ComputedNumberQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
+    case s @ NumberQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case NumberType() => tryAddVariable(v.name, NumberType(), env)
       case _ => sys.error(s"Invalid expression for value of computed number expression at line ${s.pos}")
     }
-    case s @ ComputedStringQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
+    case s @ StringQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case StringType() => tryAddVariable(v.name, StringType(), env)
       case _ => sys.error(s"Invalid expression for value of computed string expression at line ${s.pos}")
     }

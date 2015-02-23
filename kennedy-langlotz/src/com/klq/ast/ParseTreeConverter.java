@@ -127,7 +127,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
         ANode rightChild = visit(ctx.expr(1));
         ANode node;
 
-        if(ctx.operator.getType() == KLQParser.G) {
+        if(ctx.operator.getType() == KLQParser.GT) {
             node = new GreaterThanNode(leftChild, rightChild);
         }
         else{

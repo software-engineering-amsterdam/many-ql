@@ -15,6 +15,12 @@ public class Negation extends UnaryExpression implements PrimitiveExpression {
 	public IntValue evaluate() {		
 		return ((IntLiteral)value).evaluate().Negation();
 	}
+
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
