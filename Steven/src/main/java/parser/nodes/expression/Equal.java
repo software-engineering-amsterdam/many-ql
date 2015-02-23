@@ -6,7 +6,7 @@ import parser.nodes.AbstractNode;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Equal extends LogicalOperator {
+public class Equal extends BinaryExpression {
     public Equal(Expression left, Expression right) {
         super(left, right);
     }
@@ -14,5 +14,10 @@ public class Equal extends LogicalOperator {
     @Override
     public AbstractNode accept(Visitor visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public boolean isConditional() {
+        return false;
     }
 }

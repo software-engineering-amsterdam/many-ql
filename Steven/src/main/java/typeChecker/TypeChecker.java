@@ -119,7 +119,7 @@ public class TypeChecker implements Visitor {
         return visitLogicalExpression(or);
     }
 
-    private AbstractNode visitLogicalExpression(LogicalOperator expression) {
+    private AbstractNode visitLogicalExpression(BinaryExpression expression) {
         confirmConditional(expression.getLeft(), EXPRESSION_EXPECTS_BOOLEAN);
         confirmConditional(expression.getRight(), EXPRESSION_EXPECTS_BOOLEAN);
         visit(expression.getLeft());
@@ -127,7 +127,7 @@ public class TypeChecker implements Visitor {
         return expression;
     }
 
-    private AbstractNode visitArithmeticExpression(ArithmeticOperator expression) {
+    private AbstractNode visitArithmeticExpression(BinaryExpression expression) {
         confirmConditional(expression.getLeft(), EXPRESSION_EXPECTS_NON_BOOLEAN);
         confirmConditional(expression.getRight(), EXPRESSION_EXPECTS_NON_BOOLEAN);
         visit(expression.getLeft());
@@ -150,12 +150,12 @@ public class TypeChecker implements Visitor {
 
     @Override
     public AbstractNode visit(GreaterOrEqual greaterOrEqual) {
-        return visitLogicalExpression(greaterOrEqual);
+        return visitArithmeticExpression(greaterOrEqual);
     }
 
     @Override
     public AbstractNode visit(GreaterThan greaterThan) {
-        return visitLogicalExpression(greaterThan);
+        return visitArithmeticExpression(greaterThan);
     }
 
     @Override
@@ -166,12 +166,12 @@ public class TypeChecker implements Visitor {
 
     @Override
     public AbstractNode visit(LessOrEqual lessOrEqual) {
-        return visitLogicalExpression(lessOrEqual);
+        return visitArithmeticExpression(lessOrEqual);
     }
 
     @Override
     public AbstractNode visit(LessThan lessThan) {
-        return visitLogicalExpression(lessThan);
+        return visitArithmeticExpression(lessThan);
     }
 
     @Override

@@ -44,9 +44,9 @@ class TypeCheckerTest extends Specification {
 
         where:
         input                                                         | message
-        "src/main/antlr/input/nonBoolean/QL_nonBooleanConditions_or"  | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
-        "src/main/antlr/input/nonBoolean/QL_nonBooleanConditions_and" | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
-        "src/main/antlr/input/nonBoolean/QL_nonBooleanConditions_not" | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
+        "src/main/antlr/input/logicalOperators/QL_invalidCondition_or"  | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
+        "src/main/antlr/input/logicalOperators/QL_invalidCondition_and" | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
+        "src/main/antlr/input/logicalOperators/QL_invalidCondition_not" | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
 
     }
 }
