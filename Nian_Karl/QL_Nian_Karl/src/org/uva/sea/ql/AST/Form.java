@@ -29,11 +29,7 @@ public class Form implements Node{
 	}
 
 	@Override
-	public List<Node> visit() {
-		List<Node> nodes = new ArrayList<Node>();
-		for (Statement s : statementList) {
-			nodes.addAll(s.visit());
-		}
-		return nodes;
+	public void accept(Visitor visit) {
+		visit.visit(this);
 	}
 }

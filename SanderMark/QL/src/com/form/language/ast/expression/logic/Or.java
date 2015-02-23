@@ -16,4 +16,10 @@ public class Or extends BinaryExpression implements PrimitiveExpression {
 		return ((BoolLiteral)left).evaluate().Or(((BoolLiteral)right).evaluate());
 	}
 
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
