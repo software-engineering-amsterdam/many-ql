@@ -3,6 +3,8 @@ Name_of_Questionnaire
 Introduction : Welcome to my questionnaire.
 
 Question hummus (bool): Do you love hummus?
+Question why (text) : With what?
+Question howmuch (number) : How much?
 
 if (hummus == True) {
     Question why (text) : What do you like about hummus?

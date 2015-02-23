@@ -83,12 +83,15 @@ class TypeChecker:
         :param str|bool ctype: The expected type to compare with, False to return the input type
         :return: True|False|str
         """
-        if isinstance(cinput, str):
-            type_class = BasicTypes.text_name
-        elif isinstance(cinput, (int, float, complex)):  # in python 3 int = long
-            type_class = BasicTypes.number_name
-        elif isinstance(cinput, bool):
+        if isinstance(cinput, bool):  # bool class is a subclass of int class
             type_class = BasicTypes.bool_name
+        elif isinstance(cinput, (int, float)):  # in python3 int = long
+            type_class = BasicTypes.number_name
+        elif isinstance(cinput, str):  # text str is a subclass of list class
+            type_class = BasicTypes.text_name
+            # str could be int
+            if cinput.isdigit():
+                type_class = BasicTypes.number_name
         elif isinstance(cinput, list):
             type_class = BasicTypes.listName
         elif isinstance(cinput, Operator):
@@ -96,11 +99,15 @@ class TypeChecker:
         else:
             raise QException("Undefined input.")
 
-        if ctype and ctype is type_class:
+        if not ctype:
+            return type_class
+
+        if ctype is type_class:
             return True
-        elif ctype:
-            return False
-        return type_class
+        elif ctype is BasicTypes.text_name and type_class is BasicTypes.number_name:  # text could be number
+            return True
+        return False
+
 
     @staticmethod
     def is_valid_expression(statements, type_dict):
