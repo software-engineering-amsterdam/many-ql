@@ -1,11 +1,11 @@
 from .Visitor import Visitor
 from . import Message
-from .common import questionIdentifiedBy
+from .Common import questionIdentifiedBy
 
-import ASTNodes
-import CustomTypes
-from ASTVisitor import ASTVisitor
+from ..ast import Nodes
+from ..ast.Visitor import Visitor as ASTVisitor
 
+from .. import CustomTypes
 
 class Checker(Visitor):
     def _visitQuestionStatement(self, node):

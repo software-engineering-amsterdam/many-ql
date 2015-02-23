@@ -9,4 +9,10 @@ public class DateType extends Type
     {
         super("date");
     }
+
+    @Override
+    public void accept(TypeVisitor visitor)
+    {
+        visitor.visit(this);
+    }
 }

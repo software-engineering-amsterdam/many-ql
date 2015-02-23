@@ -1,7 +1,5 @@
 package lang.ql.semantics.values;
 
-import lang.ql.semantics.ValueVisitor;
-
 import java.util.Date;
 
 /**
@@ -18,11 +16,5 @@ public class DateValue extends Value<Date>
     public static DateValue getDefaultValue()
     {
         return new DateValue(new Date());
-    }
-
-    @Override
-    public void accept(ValueVisitor visitor)
-    {
-        visitor.visit(this);
     }
 }

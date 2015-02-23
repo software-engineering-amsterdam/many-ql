@@ -4,11 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.*;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -17,64 +14,91 @@ import javafx.stage.Stage;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
+import lang.ql.ast.type.*;
+import lang.ql.gui.canvas.Canvas;
+import lang.ql.gui.input.Input;
+import lang.ql.gui.label.Label;
+import lang.ql.gui.line.Line;
 import lang.ql.semantics.ValueTable;
-import lang.ql.semantics.values.*;
+import lang.ql.semantics.Visitor;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Created by Nik on 17-2-15.
  */
-public class FxVisualizer extends Visualizer
+public class Modeler implements Visitor, TypeVisitor
 {
-    private Queue<Node> elements;
-
     private ValueTable values;
 
-    public FxVisualizer(ValueTable values)
+    private Canvas canvas;
+    private List<Line> lines;
+
+    public Modeler(ValueTable values)
     {
         this.values = values;
-        this.elements = new LinkedList<Node>();
     }
 
     @Override
     public void visit(Form form)
     {
-
+        this.lines = new ArrayList<Line>();
         for (Statement s : form.getStatements())
         {
             s.accept(this);
         }
+        this.canvas = new Canvas(this.lines);
+        this.lines = null;
     }
 
     @Override
     public void visit(Question q)
     {
-        this.elements.add(new Text(q.getText()));
-        this.values.getValue(q.getId()).accept(this);
-
-//        Text statement = new Text(q.getText());
-//        HBox qBox = new HBox(10);
-//
-//        Text statement = new Text(q.getText());
-//        qBox.getChildren().add(statement);
-//
-//        grid.add(qBox, 0, this.row++);
+        Label label = new Label(q.getText());
+        q.getType().accept(this);
+//        Input input = InputFactory.createInput(q.getType(), values.getValue(q.getId()));
+//        this.lines.add(new Line(label, input));
     }
 
     @Override
     public void visit(CalculatedQuestion cq)
     {
-        this.elements.add(new Text(cq.getText()));
-        cq.getExpr().accept(this);
-//        HBox qBox = new HBox(10);
-//
-//        Text statement = new Text(cq.getText());
-//        qBox.getChildren().add(statement);
-//
-//        grid.add(qBox, 0, this.row++);
+        Label label = new Label(cq.getText());
+        cq.getType().accept(this);
+//        Input input = InputFactory.createInput(cq.getType(), values.getValue(cq.getId()));
+//        this.lines.add(new Line(label, input));
+    }
+
+    @Override
+    public void visit(BoolType t)
+    {
+
+    }
+
+    @Override
+    public void visit(DateType type)
+    {
+
+    }
+
+    @Override
+    public void visit(DecType type)
+    {
+
+    }
+
+    @Override
+    public void visit(IntType t)
+    {
+
+    }
+
+    @Override
+    public void visit(StrType type)
+    {
+
     }
 
     @Override
@@ -89,16 +113,13 @@ public class FxVisualizer extends Visualizer
     @Override
     public void visit(BoolExpr e)
     {
-        this.elements.add(new CheckBox());
-//        HBox qBox = new HBox(10);
-//        qBox.getChildren().add(new CheckBox());
-//        grid.add(qBox, row++, 0);
+
     }
 
     @Override
     public void visit(IntExpr e)
     {
-        this.elements.add(new TextField());
+
     }
 
     @Override
@@ -209,39 +230,9 @@ public class FxVisualizer extends Visualizer
 
     }
 
-    @Override
-    public void visit(BooleanValue val)
+    public static void render(final Stage primaryStage, final Form form, final ValueTable values)
     {
-
-    }
-
-    @Override
-    public void visit(DateValue val)
-    {
-
-    }
-
-    @Override
-    public void visit(DecimalValue val)
-    {
-
-    }
-
-    @Override
-    public void visit(IntegerValue val)
-    {
-
-    }
-
-    @Override
-    public void visit(StringValue val)
-    {
-
-    }
-
-    public void render(final Stage primaryStage, final Form form)
-    {
-        FxVisualizer visualizer = new FxVisualizer(values);
+        Modeler visualizer = new Modeler(values);
 
         GridPane grid = new GridPane();
         grid.setAlignment(javafx.geometry.Pos.CENTER);
@@ -250,13 +241,6 @@ public class FxVisualizer extends Visualizer
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         visualizer.visit(form);
-
-        int row = 0;
-        for (Node n : this.elements)
-        {
-            grid.add(n, row++, 0);
-        }
-
 
         Button btn = new Button("Make magic happen");
         HBox hbBtn = new HBox(10);
@@ -275,7 +259,7 @@ public class FxVisualizer extends Visualizer
             {
                 actiontarget.setFill(Color.FIREBRICK);
                 actiontarget.setText("Unicorns");
-                updateValues();
+//                updateValues();
 //                render(primaryStage, form);
             }
         });
