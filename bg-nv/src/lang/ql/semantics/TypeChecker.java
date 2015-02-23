@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Created by bore on 13/02/15.
  */
-public class TypeChecker implements Visitor
+public class TypeChecker<Void> implements Visitor
 {
     private SymbolTable symbolTable;
     private Stack<Type> typeStack;
@@ -51,16 +51,18 @@ public class TypeChecker implements Visitor
     }
 
     @Override
-    public void visit(Form form)
+    public Void visit(Form form)
     {
         for (Statement statement : form.getBody())
         {
             statement.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(IfCondition condition)
+    public Void visit(IfCondition condition)
     {
         condition.getCondition().accept(this);
 
@@ -74,17 +76,21 @@ public class TypeChecker implements Visitor
         {
             statement.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(Question q)
+    public Void visit(Question q)
     {
         this.questionDependencies.addQuestion(q);
         this.labels.registerLabel(q);
+
+        return null;
     }
 
     @Override
-    public void visit(CalculatedQuestion q)
+    public Void visit(CalculatedQuestion q)
     {
         this.setScopeForExpr(q);
 
@@ -103,10 +109,12 @@ public class TypeChecker implements Visitor
         }
 
         this.resetScopeForExpr();
+
+        return null;
     }
 
     @Override
-    public void visit(Indent n)
+    public Void visit(Ident n)
     {
         Type type = this.symbolTable.resolve(n.getId());
         if (type != null)
@@ -124,120 +132,160 @@ public class TypeChecker implements Visitor
             this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
             this.pushType(new UndefinedType());
         }
+
+        return null;
     }
 
     @Override
-    public void visit(IntExpr n)
+    public Void visit(IntExpr n)
     {
         this.pushType(new IntType());
+
+        return null;
     }
 
     @Override
-    public void visit(BoolExpr n)
+    public Void visit(BoolExpr n)
     {
         this.pushType(new BoolType());
+
+        return null;
     }
 
     @Override
-    public void visit(DecExpr n)
+    public Void visit(DecExpr n)
     {
         this.pushType(new DecType());
+
+        return null;
     }
 
     @Override
-    public void visit(StrExpr n)
+    public Void visit(StrExpr n)
     {
         this.pushType(new StrType());
+
+        return null;
     }
 
     @Override
-    public void visit(Add e)
+    public Void visit(Add e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Sub e)
+    public Void visit(Sub e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Mul e)
+    public Void visit(Mul e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Div e)
+    public Void visit(Div e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Pos e)
+    public Void visit(Pos e)
     {
         this.visitUnaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Neg e)
+    public Void visit(Neg e)
     {
         this.visitUnaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Not e)
+    public Void visit(Not e)
     {
         this.visitUnaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Gt e)
+    public Void visit(Gt e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Lt e)
+    public Void visit(Lt e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(GtEqu e)
+    public Void visit(GtEqu e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(LtEqu e)
+    public Void visit(LtEqu e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Equ e)
+    public Void visit(Equ e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(NotEqu e)
+    public Void visit(NotEqu e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(And e)
+    public Void visit(And e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     @Override
-    public void visit(Or e)
+    public Void visit(Or e)
     {
         this.visitBinaryExpr(e);
+
+        return null;
     }
 
     private void visitBinaryExpr(BinaryExpr e)

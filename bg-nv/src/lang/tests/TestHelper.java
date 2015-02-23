@@ -1,7 +1,6 @@
 package lang.tests;
 
 import lang.ql.ast.form.Form;
-import lang.ql.semantics.QuestErrInfo;
 import lang.ql.semantics.TypeChecker;
 import lang.ql.semantics.errors.*;
 import lang.ql.semantics.errors.Error;

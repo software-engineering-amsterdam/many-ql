@@ -9,7 +9,7 @@ public abstract class AstNode
 {
     private int lineNumber;
 
-    public abstract void accept(Visitor visitor);
+    public abstract <T> T accept(Visitor<T> visitor);
 
     public AstNode(int lineNumber)
     {
