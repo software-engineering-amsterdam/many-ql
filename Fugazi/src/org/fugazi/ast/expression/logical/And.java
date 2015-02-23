@@ -8,14 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class And extends Logical {
-    private final List<Class> supportedTypes;
+    private final Class returnedType;
 
     public And(Expression _left, Expression _right, int _lineNum) {
         super(_left, _right, _lineNum);
-
-        Class boolTypeClass = BoolType.class;
-        this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(boolTypeClass);
+        this.returnedType = BoolType.class;
     }
 
     @Override
@@ -24,8 +21,8 @@ public class And extends Logical {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

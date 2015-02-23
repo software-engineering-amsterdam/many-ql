@@ -12,7 +12,7 @@ public abstract class Expression extends AbstractASTNode {
 
     public abstract String toString();
 
-    public abstract List<Class> getSupportedTypes();
+    public abstract Class getReturnedType();
 
     public abstract <T> T accept(IExpressionVisitor<T> visitor);
 }

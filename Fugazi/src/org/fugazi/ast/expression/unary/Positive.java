@@ -8,15 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Positive extends Unary {
-
-    private final List<Class> supportedTypes;
+    private final Class returnedType;
 
     public Positive(Expression _expr, int _lineNum) {
         super(_expr, _lineNum);
-
-        Class intTypeClass = IntType.class;
-        this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(intTypeClass);
+        this.returnedType = IntType.class;
     }
 
     @Override
@@ -25,8 +21,8 @@ public class Positive extends Unary {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {
