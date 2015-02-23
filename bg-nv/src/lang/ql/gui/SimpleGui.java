@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * Created by Nik on 23-2-15.
  */
-public class SimpleGui implements GuiVisitor
+public class SimpleGui implements GuiVisitor<Void>
 {
     private GridPane grid;
     private List<HBox> rows;
@@ -76,7 +77,7 @@ public class SimpleGui implements GuiVisitor
     }
 
     @Override
-    public void visit(Canvas c)
+    public Void visit(Canvas c)
     {
         this.grid = new GridPane();
         this.grid.setAlignment(Pos.CENTER);
@@ -95,10 +96,12 @@ public class SimpleGui implements GuiVisitor
             this.grid.add(box, 0, this.grid.getChildren().size()+1);
         }
         this.rows = null;
+
+        return null;
     }
 
     @Override
-    public void visit(Line line)
+    public Void visit(Line line)
     {
         this.rowColumns = new ArrayList<Node>();
 
@@ -113,47 +116,63 @@ public class SimpleGui implements GuiVisitor
         this.rows.add(box);
 
         this.rowColumns = null;
+
+        return null;
     }
 
     @Override
-    public void visit(Input input)
+    public Void visit(Input input)
     {
         input.accept(this);
+
+        return null;
     }
 
     @Override
-    public void visit(BoolInput input)
+    public Void visit(BoolInput input)
     {
         this.rowColumns.add(new CheckBox());
+
+        return null;
     }
-//
-//    @Override
-//    public void visit(DateInput input)
-//    {
-//        this.rowColumns.add(new DatePicker());
-//    }
 
     @Override
-    public void visit(DecInput input)
+    public Void visit(DateInput input)
+    {
+        this.rowColumns.add(new DatePicker());
+
+        return null;
+    }
+
+    @Override
+    public Void visit(DecInput input)
     {
         this.rowColumns.add(new TextField());
+
+        return null;
     }
 
     @Override
-    public void visit(IntInput input)
+    public Void visit(IntInput input)
     {
         this.rowColumns.add(new TextField());
+
+        return null;
     }
 
     @Override
-    public void visit(StrInput input)
+    public Void visit(StrInput input)
     {
         this.rowColumns.add(new TextField());
+
+        return null;
     }
 
     @Override
-    public void visit(Label label)
+    public Void visit(Label label)
     {
         this.rowColumns.add(new Text(label.getText()));
+
+        return null;
     }
 }

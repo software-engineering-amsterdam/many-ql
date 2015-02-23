@@ -10,14 +10,14 @@ import lang.ql.semantics.values.StringValue;
  */
 public class StrInput extends Input
 {
-    public StrInput(StringValue value)
+    public StrInput()
     {
-        super(value);
+        super();
     }
 
-    public StrInput(StringValue value, Boolean disabled)
+    public StrInput(Boolean disabled)
     {
-        super(value, disabled);
+        super(disabled);
     }
 
     public void accept(GuiVisitor visitor)
