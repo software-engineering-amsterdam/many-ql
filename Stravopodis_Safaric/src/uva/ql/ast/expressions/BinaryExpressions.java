@@ -1,7 +1,8 @@
 package uva.ql.ast.expressions;
 import uva.ql.ast.CodeLines;
+import uva.ql.ast.value.GenericValue;
 
-public class BinaryExpressions extends Expression{
+public abstract class BinaryExpressions extends Expression{
 
 	private Expression left;
 	private Expression right;
@@ -26,9 +27,6 @@ public class BinaryExpressions extends Expression{
 	public Operator getOperator(){
 		return this.operator;
 	}
-	
 	@Override
-	public String toString(){
-		return this.getClass().toString();
-	}
+	public abstract GenericValue<?> evaluate();
 }

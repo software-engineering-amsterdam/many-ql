@@ -19,7 +19,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 
         public Operation Operation
         {
-            get;
+            get; 
             private set;
         }
 

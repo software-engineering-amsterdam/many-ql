@@ -5,7 +5,7 @@ import org.uva.sea.ql.AST.Visitor;
 import org.uva.sea.ql.AST.value.AbstractValue;
 
 
-public abstract class Expression implements Node{	
+public abstract class Expression extends Node{	
 	public abstract AbstractValue<?> interpretExpression();
 	
 	@Override

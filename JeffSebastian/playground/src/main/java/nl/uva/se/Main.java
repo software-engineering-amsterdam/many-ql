@@ -31,13 +31,9 @@ public class Main {
 			
 			Interpreter interpreter = new Interpreter();
 			ast.accept(interpreter);
-			System.out.println(SymbolTable.getInstance());
 			
 			Visitor myVisitor = new SimpleVisitor();
 			ast.accept(myVisitor);
-			
-			// Symbol Table
-			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

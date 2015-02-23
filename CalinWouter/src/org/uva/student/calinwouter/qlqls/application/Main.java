@@ -40,7 +40,7 @@ public class Main {
                     "\t\t\tquestion(sellingPrice, {widget: spinbox}),\n" +
                     "\t\t\tquestion(privateDebt, {widget: spinbox}),\n" +
                     "\t\t\tquestion(valueResidue)),\n" +
-                    "\t\tdefault(integer, {\n" +
+                    "\t\tdefault(int, {\n" +
                     "\t\t\twidth: 400,\n" +
                     "\t\t\tfont: \"Arial\",\n" +
                     "\t\t\tfontsize: 14,\n" +

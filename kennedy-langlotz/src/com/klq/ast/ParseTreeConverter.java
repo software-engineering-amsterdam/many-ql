@@ -1,6 +1,8 @@
 package com.klq.ast;
 import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.*;
+import com.klq.ast.impl.expr.comp.GreaterThanNode;
+import com.klq.ast.impl.expr.math.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
 
@@ -31,11 +33,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
     public ANode visitUncondQuestion(KLQParser.UncondQuestionContext ctx) {
         QuestionNode questionNode;
 
-        if(ctx.answerSet() == null){
+        if(ctx.answerOptions() == null){
             questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), ctx.text.getText());
         }
         else {
-            ANode child = visit(ctx.answerSet());
+            ANode child = visit(ctx.answerOptions());
             questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), ctx.text.getText(), child);
         }
         return questionNode;

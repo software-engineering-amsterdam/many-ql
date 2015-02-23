@@ -1,14 +1,17 @@
 package uva.ql.ast.statements;
 
+import java.util.List;
+
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.visitor.VisitorInterface;
 
 public class IfStatement extends Statement {
 	
 	private Expression expression;
-	private Statement statement;
+	private List<Statement> statement;
 	
-	public IfStatement(Expression _expression, Statement _statement, CodeLines _codeLines){
+	public IfStatement(Expression _expression, List<Statement> _statement, CodeLines _codeLines){
 		super(_codeLines);
 		this.expression = _expression;
 		this.statement = _statement;
@@ -16,8 +19,12 @@ public class IfStatement extends Statement {
 	public Expression getExpression(){
 		return this.expression;
 	}
-	public Statement getStatement(){
+	public List<Statement> getStatement(){
 		return this.statement;
+	}
+	@Override
+	public <T> T accept(VisitorInterface<T> visitor) {
+		return visitor.visitIfStatement(this);
 	}
 	@Override
 	public String toString(){

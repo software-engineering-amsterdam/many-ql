@@ -32,9 +32,7 @@ public class VisitorComparison<T> {
 	//Upper
 	public static void visitUpper( @NotNull TaxFormParser.UpperExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpComparison assign = new OpComparison();
-		exp.add(assign);
+		init(question);
 		assign.setOperator(">");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
@@ -43,9 +41,7 @@ public class VisitorComparison<T> {
 	//LowerEqual
 	public static void visitLowerEqual( @NotNull TaxFormParser.LowerEqualExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpComparison assign = new OpComparison();
-		exp.add(assign);
+		init(question);
 		assign.setOperator("<=");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
@@ -54,9 +50,7 @@ public class VisitorComparison<T> {
 	//UpperEqual
 	public static void visitUpperEqual( @NotNull TaxFormParser.UpperEqualExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpComparison assign = new OpComparison();
-		exp.add(assign);
+		init(question);
 		assign.setOperator(">=");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
@@ -65,9 +59,7 @@ public class VisitorComparison<T> {
 	//Equal
 	public static void visitEqual( @NotNull TaxFormParser.EqualExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpComparison assign = new OpComparison();
-		exp.add(assign);
+		init(question);
 		assign.setOperator("==");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
@@ -76,9 +68,7 @@ public class VisitorComparison<T> {
 	//NotEqual
 	public static void visitNotEqual( @NotNull TaxFormParser.NotEqualExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpComparison assign = new OpComparison();
-		exp.add(assign);
+		init(question);
 		assign.setOperator("!=");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);

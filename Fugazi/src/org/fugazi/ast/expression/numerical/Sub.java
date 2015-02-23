@@ -3,7 +3,6 @@ package org.fugazi.ast.expression.numerical;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.IntType;
-import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +11,10 @@ public class Sub extends Numerical {
 
     private final List<Class> supportedTypes;
 
-    public Sub(Expression _left, Expression _right) {
-        super(_left, _right);
+    public Sub(Expression _left, Expression _right, int _lineNum) {
+        super(_left, _right, _lineNum);
 
-        Class intTypeClass = new IntType().getClass();
+        Class intTypeClass = IntType.class;
         this.supportedTypes = new ArrayList<Class>();
         this.supportedTypes.add(intTypeClass);
     }

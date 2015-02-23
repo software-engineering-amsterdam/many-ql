@@ -28,21 +28,9 @@ public class VisitorArithmetic {
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
 	}
 
-	/*public static void visitMinus( @NotNull TaxFormParser.MinusExpressionContext ctx, Question<?> question, NodeForm form ) {
-		
-		Expression<?> exp = question.getExpression();
-		OpArithmetic assign = new OpArithmetic();
-		exp.add(assign);
-		assign.setOperator("-");
-		
-		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
-	}*/
-	
 	public static void visitAdd( @NotNull TaxFormParser.AddExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpArithmetic assign = new OpArithmetic();
-		exp.add(assign);
+		init(question);
 		assign.setOperator("+");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
@@ -50,9 +38,7 @@ public class VisitorArithmetic {
 	
 	public static void visitMultiply( @NotNull TaxFormParser.MultiplyExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpArithmetic assign = new OpArithmetic();
-		exp.add(assign);
+		init(question);
 		assign.setOperator("*");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);
@@ -60,9 +46,7 @@ public class VisitorArithmetic {
 	
 	public static void visitDivide( @NotNull TaxFormParser.DivideExpressionContext ctx, Question<?> question, NodeForm form ) {
 		
-		Expression<?> exp = question.getExpression();
-		OpArithmetic assign = new OpArithmetic();
-		exp.add(assign);
+		init(question);
 		assign.setOperator("/");
 		
 		CommonTaxFormVisitor.visitAllMighty((AllMightyContext) ctx.allMighty(), question, form);

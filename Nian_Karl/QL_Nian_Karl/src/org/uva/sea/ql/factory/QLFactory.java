@@ -1,7 +1,10 @@
 package org.uva.sea.ql.factory;
 
 import org.uva.sea.ql.AST.QuestionType;
+import org.uva.sea.ql.AST.expression.Expression;
+import org.uva.sea.ql.AST.expression.Operator;
 import org.uva.sea.ql.AST.statement.QuestionStatement;
+import org.uva.sea.ql.parser.antlr.QLParser.ExpressionContext;
 import org.uva.sea.ql.parser.antlr.QLParser.QuestionContext;
 
 public class QLFactory implements IQLFactory {
@@ -31,4 +34,29 @@ public class QLFactory implements IQLFactory {
 			return QuestionType.NO_TYPE;
 		}
 	}
+	
+	public boolean stringToBoolean(String s) {
+		if (s.equals("true")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public Expression getExpression(ExpressionContext expr){
+		
+		return null;
+	}
+	
+	public Operator getOperator(String s){
+		for (Operator operator : Operator.values()) {
+			if (operator.getOperatorString().equals(s)) {
+				return operator;
+			}
+		}
+		return null; 
+	}
+	
+	
 }

@@ -1,26 +1,25 @@
 from .Table import *
 from .EvaluatorTypes import *
 
-from AST import AST
-import ASTNodes
-from CustomTypes import *
-import OperatorTypes
+from ..ast import AST, Nodes
+from ..CustomTypes import *
+from ..TypeRules import OperatorTable
 
 
 class Evaluator(object):
 	def __init__(self, ast):
 		self._questionTable = QuestionTable(ast)
 		self._questionValueTable = QuestionValueTable(self._questionTable)
-		self._typeTable = OperatorTypes.Table()
+		self._operatorTable = OperatorTable()
 
 	def evaluateBinaryExpression(self, operator, leftValue, rightValue):
-		pythonOp = self._typeTable.getBinaryOperator(operator, leftValue, rightValue)
+		pythonOp = self._operatorTable.getBinaryOperator(operator, leftValue, rightValue)
 		if pythonOp:
 			return pythonOp(leftValue, rightValue)
 		return None
 
 	def evaluateUnaryExpression(self, operator, rightValue):
-		pythonOp = self._typeTable.getUnaryOperator(operator, rightValue)
+		pythonOp = self._operatorTable.getUnaryOperator(operator, rightValue)
 		if pythonOp:
 			return pythonOp(rightValue)
 		return None

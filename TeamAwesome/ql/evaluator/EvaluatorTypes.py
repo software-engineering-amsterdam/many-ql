@@ -1,5 +1,4 @@
-from CustomTypes import *
-import ASTNodes
+from ..CustomTypes import *
 
 class ExpressionFactory(object):
 	@staticmethod
@@ -60,14 +59,10 @@ class AtomicExpression(Expression):
 
 class Form(object):
 	def __init__(self, formStatementNode):
-		assert isinstance(formStatementNode, ASTNodes.FormStatement)
-
 		self.identifier = formStatementNode.identifier
 
 class Question(object):
 	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form):
-		assert isinstance(questionStatementNode, ASTNodes.QuestionStatement)
-	
 		self.identifier = questionStatementNode.identifier	
 		self.valueExpression = ExpressionFactory.create(questionStatementNode.expr)
 		self.text = questionStatementNode.text

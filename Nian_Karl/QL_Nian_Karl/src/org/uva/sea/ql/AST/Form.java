@@ -6,7 +6,7 @@ import java.util.List;
 import org.uva.sea.ql.AST.statement.QuestionStatement;
 import org.uva.sea.ql.AST.statement.Statement;
 
-public class Form implements Node{
+public class Form extends Node{
 	private List<Statement> statementList;
 
 	public Form() {
