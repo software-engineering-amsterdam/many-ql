@@ -33,9 +33,7 @@ public class EvaluatorTest {
     private final BOOL boolTrue = new BOOL(true, fakeLine);
     private final BOOL boolFalse = new BOOL(false, fakeLine);
 
-    private final String testId = "testId";
     private final String testString1 = "testString1";
-    private final String testString2 = "testString2";
 
     @Before
     public void setupEnv() {
