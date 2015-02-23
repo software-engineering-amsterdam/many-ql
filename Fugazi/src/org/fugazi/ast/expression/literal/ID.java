@@ -10,19 +10,15 @@ public class ID extends Literal {
 
     private final String name;
     private final Type type;
-    private final List<Class> supportedTypes;
+    private final Class returnedType;
 
     public ID(String _name, Type _type, int _lineNum) {
         super(_lineNum);
 
         this.name = _name;
         this.type = _type;
-        this.supportedTypes = new ArrayList<Class>();
-        if (this.type != null) {
-            // without this check would crash
-            // for undefined variables
-            this.supportedTypes.add(type.getClass());
-        }
+        this.returnedType = this.type.getClass();
+
     }
 
     public String getName() {
@@ -39,8 +35,8 @@ public class ID extends Literal {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {
