@@ -36,7 +36,7 @@ import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
 
 public class TypeCheckVisitor implements VisitorInterface<Void>{
 
-	public SymbolMap symbols = new SymbolMap();
+	public static SymbolMap symbols = new SymbolMap();
 	
 	
 	@Override
@@ -74,20 +74,22 @@ public class TypeCheckVisitor implements VisitorInterface<Void>{
 	@Override
 	public Void visitQuestion(Question question) {
 		
+		Symbol symbol = new Symbol(question.getType(), question.getClass().getName());
+		
 		Identifier identifier = question.getIdentifier();
 		String identifierValue = identifier.evaluate().getValue();
-		CodeLines codeLines = question.getCodeLines();
 		
-		if (symbols.exists(identifierValue)){
-			Symbol _symbol = symbols.retrieve(identifierValue);
-			String message;
-			System.out.println(symbols.toString());
+		if (symbols.existsWithClassType(identifierValue, question.getClass().getName())){
 			
-			for (String s : symbols.getAllKeys()){
-				System.out.println(symbols.retrieve(s) + " " + s);
+			if (symbols.keyWithSymbolExists(identifierValue, symbol)){
+				System.err.println("Found duplicate of with same type: " + identifierValue);
+			}
+			else {
+				System.err.println("Found duplicate with different type: " + identifierValue);
 			}
 			
-			System.out.println(symbols.retrieve(identifierValue));
+			/*Symbol _symbol = symbols.retrieve(identifierValue);
+			String message;
 			
 			if (_symbol.getClassName().equals(question.getClass().getName())){
 				if (_symbol.getSymbolType().getTypeName().equals(question.getType().getTypeName()))
@@ -96,12 +98,13 @@ public class TypeCheckVisitor implements VisitorInterface<Void>{
 					message = "IllegalTypeException - duplicate questions, different type:";
 				
 				throw new IllegalTypeException(message + identifierValue + " " + question.getType() + " - " + identifierValue + "," + _symbol.getSymbolType());
-			}
+			}*/
+			System.out.println("Identifier exists");
 		}
 		
-		Symbol symbol = new Symbol(question.getType(), question.getClass().getName(), codeLines);
-		symbols.putValue(identifierValue, symbol);
 		
+		symbols.putValue(identifierValue, symbol);
+
 		for (Statement statement : question.getStatement()){
 			statement.accept(this);
 		}
@@ -125,7 +128,7 @@ public class TypeCheckVisitor implements VisitorInterface<Void>{
 			expression.accept(this);
 		}
 		
-		Symbol symbol = new Symbol(declaration.getType(), declaration.getClass().getName(), declaration.getCodeLines());
+		Symbol symbol = new Symbol(declaration.getType(), declaration.getClass().getName());
 		symbols.putValue(identifier.evaluate().getValue(), symbol);
 		
 		identifier.accept(this);
@@ -159,8 +162,8 @@ public class TypeCheckVisitor implements VisitorInterface<Void>{
 		Type type = new Type(assign.getExpression().evaluate().getValue().getClass().getSimpleName(), assign.getCodeLines());
 		String identifier = assign.getIdentifier().evaluate().getValue();
 		
-		symbols.putValue(identifier, new Symbol(type, assign.getClass().getName(), assign.getCodeLines()));
-		
+		symbols.putValue(identifier, new Symbol(type, assign.getClass().getName()));
+		System.out.println("assignment " + assign);
 		assign.getExpression().accept(this);
 		assign.getIdentifier().accept(this);
 		

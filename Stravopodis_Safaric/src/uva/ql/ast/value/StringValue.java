@@ -12,17 +12,10 @@ public class StringValue extends GenericValue<String> {
 	public String getValue() {
 		return this.value;
 	}
-
+	
 	@Override
-	public int toInt() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	public int intValue() {return 0;}
+	
 	@Override
-	public float toDecimal() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	public float floatValue() {return 0;}
 }

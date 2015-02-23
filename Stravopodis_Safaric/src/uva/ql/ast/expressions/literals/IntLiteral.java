@@ -21,8 +21,8 @@ public class IntLiteral extends Literal{
 	}
 	@Override
 	public String toString(){
-		if (this.value == null) return "Integer()";
-		else return "Integer(" + String.valueOf(this.value) + ")";
+		if (this.value == null) return "IntegerLiteral()";
+		else return "IntegerLiteral(" + String.valueOf(this.value) + ")";
 	}
 	@Override
 	public <T> T accept(VisitorInterface<T> visitor) {
