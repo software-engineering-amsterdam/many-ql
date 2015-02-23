@@ -12,24 +12,46 @@ import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.*;
 import parser.*;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Timon on 09.02.2015.
  */
 public class Main extends Application {
-    static List<Question> questionList;
+    private List<Question> questionList;
 
     public static void main(String[] args) throws Exception {
-        String inputFile = null;
-        if ( args.length>0 )
-            inputFile = args[0];
-        InputStream is = System.in;
-        if ( inputFile!=null )
-            is = new FileInputStream(inputFile);
-        ANTLRInputStream input = new ANTLRInputStream(is);
+        if (args == null || args.length == 0) {
+            System.out.println("No input file provided!");
+            return;
+        } else if (args.length > 1) {
+            System.out.println("Too many arguments. Please provide one input file.");
+            return;
+        }
+        Application.launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        Map<String, String> arguments = getParameters().getNamed();
+        String path = arguments.get("file");
+        File file = new File(path);
+        InputStream is;
+        try {
+            is = new FileInputStream(file);
+        } catch (FileNotFoundException fnf){
+            System.out.println("File not found!");
+            return;
+        }
+        ANTLRInputStream input;
+        try {
+            input = new ANTLRInputStream(is);
+        } catch (IOException io){
+            System.out.println("Error while creating the ANTLR input stream.");
+            return;
+        }
 
         KLQLexer lexer = new KLQLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -42,16 +64,12 @@ public class Main extends Application {
         Visitor visitor = new Visitor();
         ast.accept(visitor);
 
-        //print AST for test purposes
+        questionList = visitor.getQuestList();
+
+        /*print AST for test purposes
         ASTPrinter printer = new ASTPrinter();
         ast.accept(printer);
-
-        questionList = visitor.getQuestList();
-        launch();
-
-//        for (ANode child : eval.getAst().getChildren()){
-//            child.printSelf();
-//        }
+        */
     }
 
     @Override

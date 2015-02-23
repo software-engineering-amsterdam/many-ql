@@ -14,8 +14,6 @@ public class Divide extends Binary{
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-		getLeft().accept(visitor);
-		getRight().accept(visitor);
 	}
 
 }

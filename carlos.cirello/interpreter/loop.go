@@ -4,7 +4,6 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
-	"log"
 	"time"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
@@ -30,11 +29,9 @@ type interpreter struct {
 func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 	typecheck(q) // HL
 
-	symbolChan := make(chan *event.Symbol)
+	toFrontend, fromFrontend, symbolChan := openChannels()
 	st := symboltable.New(symbolChan)
 
-	toFrontend := make(chan *event.Frontend)
-	fromFrontend := make(chan *event.Frontend)
 	v := &interpreter{
 		questionaire: q,
 		send:         toFrontend,
@@ -48,22 +45,19 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 	return toFrontend, fromFrontend
 }
 
+func openChannels() (toFrontend, fromFrontend chan *event.Frontend, symbolChan chan *event.Symbol) {
+	toFrontend = make(chan *event.Frontend)
+	fromFrontend = make(chan *event.Frontend)
+	symbolChan = make(chan *event.Symbol)
+	return toFrontend, fromFrontend, symbolChan
+}
+
 func typecheck(q *ast.QuestionaireNode) {
 	tc, symboltable := typechecker.New()
 	tc.Visit(q) // typechecker is a visitor // HL
 
-	if warn := symboltable.Warn(); warn != nil {
-		for _, e := range warn {
-			log.Printf("warning: %s", e)
-		}
-	}
-
-	if err := symboltable.Err(); err != nil {
-		for _, e := range err {
-			log.Println(e)
-		}
-		panic("typechecker errors found")
-	}
+	symboltable.ShowWarn()
+	symboltable.PanicErr()
 }
 
 func (v *interpreter) loop() {
@@ -106,17 +100,17 @@ func (v *interpreter) loop() {
 
 						ret := make(chan *ast.QuestionNode)
 						v.symbols.Events <- &event.Symbol{
-							Command: event.SymbolRead,
-							Name:    identifier,
-							Ret:     ret,
+							Command:    event.SymbolRead,
+							Identifier: identifier,
+							Ret:        ret,
 						}
 
 						q := <-ret
 						q.Content().From(answer)
 						v.symbols.Events <- &event.Symbol{
-							Command: event.SymbolUpdate,
-							Name:    q.Identifier(),
-							Content: q,
+							Command:    event.SymbolUpdate,
+							Identifier: q.Identifier(),
+							Content:    q,
 						}
 					}
 					fallthrough

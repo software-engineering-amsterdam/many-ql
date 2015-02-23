@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Visitor implements IVisitor {
     List<com.klq.logic.Question> questList = new ArrayList<com.klq.logic.Question>();
-    AnswerSet currentAnswers = new AnswerSet();
+    OptionSet currentAnswers = new OptionSet();
 
     @Override
     public void visit(QuestionnaireNode node) {
@@ -63,7 +63,7 @@ public class Visitor implements IVisitor {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        com.klq.logic.Question question = new com.klq.logic.Question(id, type, null, text, null, null);
+        com.klq.logic.Question question = new com.klq.logic.Question(type, null, text);
         questList.add(question);
 
     }
@@ -74,9 +74,9 @@ public class Visitor implements IVisitor {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        com.klq.logic.Question question = new com.klq.logic.Question(id, type, currentAnswers, text, null, null);
+        com.klq.logic.Question question = new com.klq.logic.Question(type, currentAnswers, text);
         questList.add(question);
-        currentAnswers = new AnswerSet(); //reset the currentAnswers since the end of the question is reached
+        currentAnswers = new OptionSet(); //reset the currentAnswers since the end of the question is reached
     }
 
     @Override

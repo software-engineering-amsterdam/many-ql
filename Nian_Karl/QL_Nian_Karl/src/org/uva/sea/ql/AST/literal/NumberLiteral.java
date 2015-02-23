@@ -14,4 +14,5 @@ public class NumberLiteral  extends AbstractLiteral{
 	public IntegerValue interpretExpression() {
 		return new IntegerValue(intValue);
 	}
+
 }

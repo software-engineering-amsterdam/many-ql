@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.AST.Node;
+import org.uva.sea.ql.AST.Visitor;
 import org.uva.sea.ql.AST.literal.AbstractLiteral;
 import org.uva.sea.ql.AST.value.AbstractValue;
 
@@ -21,11 +22,5 @@ public abstract class DataTypeExpression extends Expression{
 	public AbstractLiteral getLiteral() {
 		return literal;
 	}
-	
-	@Override
-	public List<Node> visit() {
-		List<Node> nodes = new ArrayList<Node>();
-		nodes.add(literal);
-		return nodes;
-	}
+
 }

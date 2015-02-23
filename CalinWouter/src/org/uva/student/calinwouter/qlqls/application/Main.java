@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application;
 
+import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.Default;
@@ -29,15 +30,15 @@ public class Main {
                     "" +
                     "\tpage(Housing,\n" +
                     "\t\tsection(Buying,\n" +
-                    "\t\t\tquestion(hasBoughtHouse, {widget: checkbox})),\n" +
+                    "\t\t\tquestion(hasBoughtHouse, {widget: checkbox()})),\n" +
                     "\t\tsection(Loaning,\n" +
                     "\t\t\tquestion(hasMaintLoan))\n" +
                     "\t), page(Selling,\n" +
                     "\t\tsection(Selling,\n" +
                     "\t\t\tquestion(hasSoldHouse, {widget: radio(\"Yes\", \"No\")})), \n" +
                     "\t\tsection(\"You sold a house\",\n" +
-                    "\t\t\tquestion(sellingPrice, {widget: spinbox}),\n" +
-                    "\t\t\tquestion(privateDebt, {widget: spinbox}),\n" +
+                    "\t\t\tquestion(sellingPrice, {widget: spinbox()}),\n" +
+                    "\t\t\tquestion(privateDebt, {widget: spinbox()}),\n" +
                     "\t\t\tquestion(valueResidue)),\n" +
                     "\t\tdefault(integer, {\n" +
                     "\t\t\twidth: 400,\n" +
@@ -49,9 +50,15 @@ public class Main {
                     "\t), default(boolean, {widget: radio(\"Yes\", \"No\")})\n" +
                     ")";
 
+
+            // Create a static stylesheet.
             StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(input).getValue().getValue();
 
+            // Interprete the QL.
             styleSheet.updateStates(headlessFormInterpreter, new LinkedList<Default>());
+
+            // Apply QL to the stylesheet renderer.
+            styleSheet.apply(new StyleSheetRenderer());
 
         } catch(Exception e) {
             e.printStackTrace();
