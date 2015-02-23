@@ -1,5 +1,3 @@
-require "byebug"
-
 class Node
   def accept(visitor)
     visitor.visit(self)

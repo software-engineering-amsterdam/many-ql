@@ -10,11 +10,7 @@ class StaticChecker < BaseVisitor
   def after_initialize(base)
   end
 
-  def visit_form(base)
-    base.accept(self)
+  def visit_form(form)
+    form.accept(self)
   end
-
-  private
-
-  attr_reader :base
 end

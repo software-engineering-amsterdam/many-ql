@@ -9,10 +9,6 @@ class Variable < Expression
   def initialize(name)
     @name = name
   end
-  
-  def type
-    "Pietje" 
-  end
 end
 
 class Literal < Expression

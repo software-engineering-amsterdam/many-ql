@@ -1,6 +1,7 @@
 require_relative "static_checker"
 require_relative "../ast/ast"
 
+# TODO: replace the error raising!!
 class DuplicateReferenceError < StandardError
 end
 
@@ -10,7 +11,7 @@ class TypeChecker < StaticChecker
   end
 
   def check
-    visit(base)
+    visit(@base)
   end
 
   def visit_question(question)
