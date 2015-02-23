@@ -33,14 +33,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private final ASTErrorHandler astErrorHandler;
 
-    // TODO optimize these structures
-
     // used to detect duplicate  labels
     private final List<String> questionLabels;
-
     // used to detect duplicate question types
-    private final Map<String, Type> questions;
-
+    private final Map<String, Type> questionTypes;
     // used to detect circular dependencies
     private final DependencyList questionDependencies;
     private ID assignableIdLiteral;
@@ -48,7 +44,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public TypeCheckerVisitor(){
         this.astErrorHandler = new ASTErrorHandler();
         this.questionLabels = new ArrayList<String>();
-        this.questions = new HashMap<String, Type>();
+        this.questionTypes = new HashMap<String, Type>();
         this.questionDependencies = new DependencyList();
     }
 
@@ -120,9 +116,18 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public Object visitComputedQuestion(ComputedQuestion assignQuest) {
 
         ID identifier = assignQuest.getIdentifier();
+        Type type = assignQuest.getType();
         Expression computed = assignQuest.getComputedExpression();
 
-        // TODO check if assigned types correct
+        // check if assigned types equal
+        boolean typesEqual = this.checkIfTypesEqual(type.getClass(), computed.getReturnedType());
+        if (!typesEqual) {
+            this.astErrorHandler.registerNewError(assignQuest,
+                    "Attempted to assign type " + computed.getReturnedType()
+                            + " to variable of type " + type.getClass() + "."
+            );
+        }
+
 
         // check if no circular reference
         // is performed while visiting idLiterals
@@ -156,8 +161,8 @@ public class TypeCheckerVisitor implements IASTVisitor {
         Expression left = logical.getLeft();
         Expression right = logical.getRight();
 
-        boolean leftCorrect = this.checkIfBool(left);
-        boolean rightCorrect = this.checkIfBool(right);
+        boolean leftCorrect = this.checkIfExpressionIsBool(left);
+        boolean rightCorrect = this.checkIfExpressionIsBool(right);
 
         if (!leftCorrect) {
             this.astErrorHandler.registerNewError( logical,
@@ -182,7 +187,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     private Object visitUnaryLogical(Unary unary) {
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = this.checkIfBool(unary);
+        boolean exprCorrect = this.checkIfExpressionIsBool(unary);
 
         if (!exprCorrect) {
             this.astErrorHandler.registerNewError( unary,
@@ -215,8 +220,8 @@ public class TypeCheckerVisitor implements IASTVisitor {
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
 
-        boolean leftCorrect = this.checkIfInt(left);
-        boolean rightCorrect = this.checkIfInt(right);
+        boolean leftCorrect = this.checkIfExpressionIsInt(left);
+        boolean rightCorrect = this.checkIfExpressionIsInt(right);
 
         if (!leftCorrect) {
             this.astErrorHandler.registerNewError( comparison,
@@ -276,8 +281,8 @@ public class TypeCheckerVisitor implements IASTVisitor {
         Expression left = numerical.getLeft();
         Expression right = numerical.getRight();
 
-        boolean leftCorrect = this.checkIfInt(left);
-        boolean rightCorrect = this.checkIfInt(right);
+        boolean leftCorrect = this.checkIfExpressionIsInt(left);
+        boolean rightCorrect = this.checkIfExpressionIsInt(right);
 
         if (!leftCorrect) {
             this.astErrorHandler.registerNewError( numerical,
@@ -303,7 +308,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
         // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
 
-        boolean exprCorrect = this.checkIfInt(unary);
+        boolean exprCorrect = this.checkIfExpressionIsInt(unary);
 
         if (!exprCorrect) {
             this.astErrorHandler.registerNewError( unary,
@@ -354,18 +359,18 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public Object visitID(ID idLiteral) {
         // check if variable defined
         // if it's type equals null => it is undefined
-//        boolean questionDefined = this.checkIfDefined(idLiteral);
-//        if (!questionDefined) {
-//            this.astErrorHandler.registerNewError( idLiteral,
-//                    "Question not defined."
-//            );
-//        }
+        boolean questionDefined = this.checkIfDefined(idLiteral);
+        if (!questionDefined) {
+            this.astErrorHandler.registerNewError( idLiteral,
+                    "Question not defined."
+            );
+        }
 
         // if we are inside a computed expression
         // a dependency needs to be added and marked
         if (this.assignableIdLiteral != null) {
             // assignableIdLiteral is dependent on
-            // the current idListeral
+            // the current idLiteral
             this.addAndCheckDependency(this.assignableIdLiteral, idLiteral);
         }
 
@@ -375,7 +380,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     @Override
     public Object visitINT(INT intLiteral) {
 
-        boolean exprCorrect = this.checkIfInt(intLiteral);
+        boolean exprCorrect = this.checkIfExpressionIsInt(intLiteral);
 
         if (!exprCorrect) {
             this.astErrorHandler.registerNewError( intLiteral,
@@ -387,7 +392,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitSTRING(STRING stringLiteral) {
-        boolean exprCorrect = this.checkIfString(stringLiteral);
+        boolean exprCorrect = this.checkIfExpressionIsString(stringLiteral);
 
         if (!exprCorrect) {
             this.astErrorHandler.registerNewError( stringLiteral,
@@ -399,7 +404,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitBOOL(BOOL boolLiteral) {
-        boolean exprCorrect = this.checkIfBool(boolLiteral);
+        boolean exprCorrect = this.checkIfExpressionIsBool(boolLiteral);
 
         if (!exprCorrect) {
             this.astErrorHandler.registerNewError( boolLiteral,
@@ -431,20 +436,28 @@ public class TypeCheckerVisitor implements IASTVisitor {
      * =======================
      */
 
-    private boolean checkIfInt(Expression expression) {
-        return expression.getSupportedTypes().contains(IntType.class);
+    private boolean checkIfExpressionIsInt(Expression expression) {
+        return expression.getReturnedType() == IntType.class;
     }
 
-    private boolean checkIfBool(Expression expression) {
-        return expression.getSupportedTypes().contains(BoolType.class);
+    private boolean checkIfExpressionIsBool(Expression expression) {
+        return expression.getReturnedType() == BoolType.class;
     }
 
-    private boolean checkIfString(Expression expression) {
-        return expression.getSupportedTypes().contains(StringType.class);
+    private boolean checkIfExpressionIsString(Expression expression) {
+        return expression.getReturnedType() == StringType.class;
     }
 
-    private boolean checkIfSameType(Type type1, Type type2) {
+    private boolean checkIfExpressionOfEqualType(Expression ex1, Expression ex2) {
+        return ex1.getReturnedType() == ex2.getReturnedType();
+    }
+
+    // TODO make it more consistent
+    private boolean checkIfTypesEqual(Type type1, Type type2) {
         return (type1.getClass() == type2.getClass());
+    }
+    private boolean checkIfTypesEqual(Class class1, Class class2) {
+        return (class1 == class2);
     }
 
     private boolean checkIfDefined(ID idLiteral) {
@@ -457,9 +470,9 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private boolean checkIfQuestionAlreadyDefinedWithDifferentType(
             ID questionId, Type questionType){
-        Type earlierQuestionType = this.questions.get(questionId.getName());
+        Type earlierQuestionType = this.questionTypes.get(questionId.getName());
         if (earlierQuestionType != null) {
-            return !this.checkIfSameType(earlierQuestionType, questionType);
+            return !this.checkIfTypesEqual(earlierQuestionType, questionType);
         }
         return false;
     }
@@ -490,7 +503,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     private void saveQuestionType(ID questionId, Type questionType) {
-        this.questions.put(questionId.getName(), questionType);
+        this.questionTypes.put(questionId.getName(), questionType);
         return;
     }
 

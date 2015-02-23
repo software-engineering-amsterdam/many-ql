@@ -27,6 +27,8 @@ public class QL {
 		
 		QLImplVisitor visitor = new QLImplVisitor();
 		Node tree = visitor.visit(form);
+		System.out.println(tree);
+	
 		ParseTreeWalker walker = new ParseTreeWalker();
 		walker.walk(listener,form);
 		System.out.println("Omg.");

@@ -4,8 +4,12 @@ public class BoolType extends Type {
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
 		return this;
+	}
+	
+	@Override
+	public Boolean isBoolType(){
+		return true;
 	}
 
 }

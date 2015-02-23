@@ -9,17 +9,17 @@ import lang.ql.semantics.Visitor;
  */
 public class CalculatedQuestion extends Question
 {
-    private Expr expr;
+    private Expr defaultValue;
 
     public CalculatedQuestion(String id, Type type, String text, int lineNumber, Expr expr)
     {
         super(id, type, text, lineNumber);
-        this.expr = expr;
+        this.defaultValue = expr;
     }
 
-    public Expr getExpr()
+    public Expr getDefaultValue()
     {
-        return this.expr;
+        return this.defaultValue;
     }
 
     public void accept(Visitor visitor) { visitor.visit(this); }

@@ -23,4 +23,14 @@ public class Line extends GuiElement
     {
         visitor.visit(this);
     }
+
+    public Label getLabel()
+    {
+        return label;
+    }
+
+    public Input getInput()
+    {
+        return input;
+    }
 }

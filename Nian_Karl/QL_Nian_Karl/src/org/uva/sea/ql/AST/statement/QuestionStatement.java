@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.uva.sea.ql.AST.Node;
 import org.uva.sea.ql.AST.QuestionType;
-import org.uva.sea.ql.AST.Visitor;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 
 public class QuestionStatement extends Statement {

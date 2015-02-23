@@ -8,14 +8,19 @@ import lang.ql.gui.GuiVisitor;
  */
 public class Label extends GuiElement
 {
-    private String label;
-    public Label(String label)
+    private String text;
+    public Label(String text)
     {
-        this.label = label;
+        this.text = text;
     }
 
     public void accept(GuiVisitor visitor)
     {
         visitor.visit(this);
+    }
+
+    public String getText()
+    {
+        return text;
     }
 }

@@ -24,7 +24,7 @@ class Parser extends JavaTokenParsers {
 
   // form parsers
   def form: Parser[Form] = "form" ~> ident ~ statement ^^ {
-    case label ~ statement => Form(label, statement)
+    case label ~ statement => new Form(label, statement)
   }
   def statement: Parser[Statement] = "{" ~> rep(question | ifStatement) <~ "}" ^^ Sequence
 

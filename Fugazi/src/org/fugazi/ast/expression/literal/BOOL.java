@@ -9,15 +9,13 @@ import java.util.List;
 public class BOOL extends Literal {
 
     private final Boolean value;
-    private final List<Class> supportedTypes;
+    private final Class returnedType;
 
     public BOOL(Boolean _value, int _lineNum) {
         super(_lineNum);
 
         this.value = _value;
-        Class boolTypeClass = BoolType.class;
-        this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(boolTypeClass);
+        this.returnedType = BoolType.class;
     }
 
     public Boolean getValue() {
@@ -30,8 +28,8 @@ public class BOOL extends Literal {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

@@ -6,6 +6,7 @@ import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
+import lang.ql.semantics.errors.Message;
 
 import java.util.*;
 
@@ -18,60 +19,58 @@ public class TypeChecker implements Visitor
     private Stack<Type> typeStack;
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
-    private QuestErrInfo info;
-
-    public TypeChecker()
+    private List<Message> messages;
+    
+    public static List<Message> check(Form f)
     {
+        SymbolResult symbolResult = SymbolVisitor.extract(f);
+        if (symbolResult.getMessages().isEmpty())
+        {
+            // TODO: symbol table has errors
+        }
+
+        SymbolTable table = symbolResult.getSymbolTable();
+        TypeChecker typeChecker = new TypeChecker(table);
+        f.accept(typeChecker);
+
+        List<String> cyclicIds = typeChecker.questionDependencies.findCycle();
+        if (cyclicIds != null)
+        {
+            typeChecker.messages.add(Error.cyclicQuestions(cyclicIds));
+        }
+
+        return typeChecker.messages;
+    }
+
+    private TypeChecker(SymbolTable table)
+    {
+        this.symbolTable = table;
         this.typeStack = new Stack<Type>();
         this.questionDependencies = new QuestionDependencies();
-    }
-
-    public QuestErrInfo getInfo()
-    {
-        return this.info;
-    }
-
-    private void initializeSymbolTable(Form form)
-    {
-        if (this.symbolTable == null)
-        {
-            SymbolVisitor visitor = new SymbolVisitor();
-            form.accept(visitor);
-            this.symbolTable = visitor.getSymbolTable();
-            this.info = this.symbolTable.getQuestErrInfo();
-        }
+        this.messages = new ArrayList<Message>();
     }
 
     @Override
     public void visit(Form form)
     {
-        this.initializeSymbolTable(form);
-
-        for (Statement statement : form.getStatements())
+        for (Statement statement : form.getBody())
         {
             statement.accept(this);
         }
-
-        List<String> cyclicIds = this.questionDependencies.findCycle();
-        if (cyclicIds != null)
-        {
-            this.info.addMessage(Error.cyclicQuestions(cyclicIds));
-        }
-        System.out.print("");
     }
 
     @Override
     public void visit(IfCondition condition)
     {
-        condition.getExpr().accept(this);
+        condition.getCondition().accept(this);
 
         Type type = this.popType();
         if (!(type.equals(new BoolType())))
         {
-            this.info.addMessage(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
+            this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
         }
 
-        for (Statement statement : condition.getStatements())
+        for (Statement statement : condition.getBody())
         {
             statement.accept(this);
         }
@@ -80,7 +79,7 @@ public class TypeChecker implements Visitor
     @Override
     public void visit(Question q)
     {
-        this.questionDependencies.addDependency(q);
+        this.questionDependencies.addQuestion(q);
     }
 
     @Override
@@ -88,15 +87,17 @@ public class TypeChecker implements Visitor
     {
         this.setScopeForExpr(q);
 
-        q.getExpr().accept(this);
+        this.questionDependencies.addQuestion(q);
+
+        q.getDefaultValue().accept(this);
 
         Type defined = q.getType();
         Type calculated = this.popType();
 
         if (!(defined.equals(calculated)))
         {
-            this.info.addMessage(Error.identifierDefEvalMismatch(
-                    q.getId(), defined.getTitle(), calculated.getTitle(), q.getLineNumber()));
+            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), calculated.getTitle(),
+                    q.getLineNumber()));
         }
 
         this.resetScopeForExpr();
@@ -108,18 +109,14 @@ public class TypeChecker implements Visitor
         Type type = this.symbolTable.resolve(n.getId());
         if (type == null)
         {
-            this.info.addMessage(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
+            this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
             type = this.tryToRecoverType();
         }
 
-        List<Question> qs = this.info.getQuestionsById(n.getId());
-
         if (this.currentQuestion != null)
         {
-            for (Question q : qs)
-            {
-                this.questionDependencies.addDependency(this.currentQuestion, q);
-            }
+            Question q = this.symbolTable.getQuestion(n.getId());
+            this.questionDependencies.addDependency(this.currentQuestion, q);
         }
 
         this.pushType(type);
@@ -295,7 +292,7 @@ public class TypeChecker implements Visitor
     {
         if (!(leftChildType.equals(rightChildType)))
         {
-            this.info.addMessage(Error.typeMismatch(
+            this.messages.add(Error.typeMismatch(
                     n.getClass().getSimpleName(), leftChildType, rightChildType, n.getLineNumber()));
         }
     }
@@ -304,7 +301,7 @@ public class TypeChecker implements Visitor
     {
         if (!(allowedTypes.contains(childType)))
         {
-            this.info.addMessage(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
+            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
         }
     }
 
@@ -315,14 +312,7 @@ public class TypeChecker implements Visitor
 
     private Type popType()
     {
-        try
-        {
-            return this.typeStack.pop();
-        }
-        catch (EmptyStackException ex)
-        {
-            throw ex;
-        }
+        return this.typeStack.pop();
     }
 
     private void setScopeForExpr(CalculatedQuestion q)

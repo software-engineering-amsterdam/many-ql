@@ -35,3 +35,6 @@ class BasicTypes:
 
     # text_name :: "text"
     text_name = "text"
+
+    # list_name :: "list"
+    list_name = "list"

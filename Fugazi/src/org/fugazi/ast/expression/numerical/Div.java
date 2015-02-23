@@ -8,15 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Div extends Numerical {
-
-    private final List<Class> supportedTypes;
+    private final Class returnedType;
 
     public Div(Expression _left, Expression _right, int _lineNum) {
         super(_left, _right, _lineNum);
-
-        Class intTypeClass = IntType.class;
-        this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(intTypeClass);
+        this.returnedType = IntType.class;
     }
 
     @Override
@@ -25,8 +21,8 @@ public class Div extends Numerical {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {
