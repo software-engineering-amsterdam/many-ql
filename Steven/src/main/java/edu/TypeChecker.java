@@ -1,7 +1,7 @@
 package edu;
 
 import edu.exceptions.TypeCheckException;
-import edu.parser.Visitor;
+import edu.parser.VisitorImpl;
 import edu.parser.nodes.AbstractNode;
 import edu.parser.nodes.Form;
 import edu.parser.nodes.expression.*;
@@ -11,7 +11,6 @@ import edu.parser.nodes.question.QuestionType;
 import edu.parser.nodes.statement.ElseClause;
 import edu.parser.nodes.statement.IfStatement;
 import edu.parser.nodes.statement.Statement;
-import edu.parser.nodes.type.Number;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class TypeChecker implements Visitor {
+public class TypeChecker extends VisitorImpl {
 
     public static final String ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE = "Question identifier: [%s] was already declared with type: [%s].";
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
@@ -37,7 +36,7 @@ public class TypeChecker implements Visitor {
 
     @Override
     public AbstractNode visit(Form form) {
-        visitStatement(form.getElements());
+        visitStatements(form.getElements());
         checkDuplicatedQuestionLabels();
         return form;
     }
@@ -66,17 +65,10 @@ public class TypeChecker implements Visitor {
                 .collect(Collectors.toList());
     }
 
-    private void visitStatement(List<Statement> statements) {
-        if (statements != null && !statements.isEmpty()) {
-            statements.stream()
-                    .forEach(statement -> statement.accept(this));
-        }
-    }
-
     @Override
     public AbstractNode visit(IfStatement ifStatement) {
         visit(ifStatement.getExpression());
-        visitStatement(ifStatement.getStatements());
+        visitStatements(ifStatement.getStatements());
         return ifStatement;
     }
 
@@ -213,33 +205,8 @@ public class TypeChecker implements Visitor {
     }
 
     @Override
-    public AbstractNode visit(NotEqual notEqual) {
-        return notEqual;
-    }
-
-    @Override
-    public AbstractNode visit(edu.parser.nodes.type.Boolean aBoolean) {
-        return aBoolean;
-    }
-
-    @Override
-    public AbstractNode visit(Number number) {
-        return number;
-    }
-
-    @Override
-    public AbstractNode visit(QuestionType questionType) {
-        return questionType;
-    }
-
-    @Override
-    public AbstractNode visit(Label label) {
-        return label;
-    }
-
-    @Override
     public AbstractNode visit(ElseClause elseClause) {
-        visitStatement(elseClause.getStatements());
+        visitStatements(elseClause.getStatements());
         return elseClause;
     }
 }

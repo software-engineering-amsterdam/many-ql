@@ -1,4 +1,4 @@
-package edu.typeChecker
+package edu
 
 import edu.TypeChecker
 import edu.exceptions.TypeCheckException
