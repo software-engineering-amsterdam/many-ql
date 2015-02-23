@@ -4,6 +4,9 @@ import org.uva.student.calinwouter.qlqls.qls.model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
 
 public class StyleSheetRenderer extends AbstractRenderer {
     private Component lastCreatedComponent;
@@ -25,7 +28,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
 
     @Override
     public void casePage(Page page) {
-        JPanel pagePanel = new JPanel();
+        final JPanel pagePanel = new JPanel();
         for (Section s : page.getSections()) {
             JPanel sectionPanel = new JPanel();
             sectionPanel.setBorder(BorderFactory.createTitledBorder(s.getSectionName()));
@@ -33,6 +36,13 @@ public class StyleSheetRenderer extends AbstractRenderer {
             sectionPanel.add(lastCreatedComponent);
             pagePanel.add(sectionPanel);
         }
+        page.addUpdateEventListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        });
         lastCreatedComponent = pagePanel;
     }
 
