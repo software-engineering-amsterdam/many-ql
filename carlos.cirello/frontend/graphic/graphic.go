@@ -60,7 +60,6 @@ func (g *Gui) DrawQuestion(
 	identifier,
 	label,
 	typ string,
-	content ast.Parser,
 	visible event.Visibility,
 ) {
 	g.mu.Lock()
@@ -71,12 +70,11 @@ func (g *Gui) DrawQuestion(
 		invisible = true
 	}
 	m := &render{
-		drawQuestion,
-		identifier,
-		label,
-		typ,
-		content,
-		invisible,
+		action:     drawQuestion,
+		identifier: identifier,
+		label:      label,
+		fieldType:  typ,
+		invisible:  invisible,
 	}
 	g.drawStack = append(g.drawStack, *m)
 	g.sweepStack[identifier] = true
@@ -169,7 +167,6 @@ func (g *Gui) renderLoop() {
 					event.fieldType,
 					event.identifier,
 					event.label,
-					event.content,
 					event.invisible,
 				)
 				qml.Unlock()

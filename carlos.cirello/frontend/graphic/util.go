@@ -10,16 +10,16 @@ import (
 )
 
 func (g *Gui) addNewQuestion(newFieldType, newFieldName,
-	newFieldCaption string, content interface{}, invisible bool) {
+	newFieldCaption string, invisible bool) {
 
 	var question qml.Object
 	switch newFieldType {
 	default:
-		question = g.renderNewStringQuestion(newFieldName, newFieldCaption, content)
+		question = g.renderNewStringQuestion(newFieldName, newFieldCaption, "")
 	case ast.BoolQuestionType:
-		question = g.renderNewBooleanQuestion(newFieldName, newFieldCaption, content)
+		question = g.renderNewBooleanQuestion(newFieldName, newFieldCaption, false)
 	case ast.NumericQuestionType:
-		question = g.renderNewNumericQuestion(newFieldName, newFieldCaption, content)
+		question = g.renderNewNumericQuestion(newFieldName, newFieldCaption, 0)
 	}
 
 	if !invisible {

@@ -4,8 +4,6 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
-	"time"
-
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"

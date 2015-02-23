@@ -17,7 +17,6 @@ type Inputer interface {
 		identifier,
 		label,
 		typ string,
-		content ast.Parser,
 		visible event.Visibility,
 	)
 	UpdateQuestion(
@@ -63,10 +62,9 @@ func (f *frontend) loop() {
 
 			case event.DrawQuestion:
 				f.driver.DrawQuestion(
-					r.Question.Identifier(),
-					r.Question.Label(),
-					r.Question.Type(),
-					r.Question.Content(),
+					r.Identifier,
+					r.Label,
+					r.FieldType,
 					r.Visible,
 				)
 
