@@ -56,7 +56,6 @@ public class QL {
 		
 		QLImplVisitor visitor = new QLImplVisitor();
 		List<Statement> result = visitor.visit(form);
-		System.out.println("visited");
 		ParseTreeWalker walker = new ParseTreeWalker();
 		walker.walk(listener,form);
 		System.out.println("Omg.");
