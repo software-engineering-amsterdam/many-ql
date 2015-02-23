@@ -13,6 +13,8 @@ public abstract class FormField {
         return formInterpreter.getField(variable);
     }
 
+    public String getVariable() { return variable; }
+
     public void setValue(TypeModel<?> typeModel) {
         formInterpreter.setField(variable, typeModel);
     }

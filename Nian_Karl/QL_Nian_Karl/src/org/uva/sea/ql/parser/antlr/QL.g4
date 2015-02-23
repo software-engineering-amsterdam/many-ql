@@ -26,7 +26,8 @@ questionName : Identifier;
 
 questionLabel : StringLiteral;
 
-ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
+ifStatement : IF LEFT_PAREN condition=expression RIGHT_PAREN thenBranch=block
+			(ELSE elseBranch=block)?;
 
 //ifStatement : IF LEFT_PARENTHESES expression RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
 //
@@ -34,22 +35,21 @@ ifStatement : IF LEFT_PAREN expression RIGHT_PAREN block (ELSE block)?;
 //
 //elseStatement : ELSE block;
 
-expression: 
-	literal #normalLit
-	| expression AND expression #ExprAnd
-	| expression OR expression #ExprOr
-	| expression EQUAL_COND expression #ExprEqualCond
-	| expression GREATER expression #greaterCond
-	| expression GREAT_EQUAL expression #ExprGreatEqual
-	| expression EQUAL expression #ExprEqual
-	| expression LESS_EQUAL expression #ExprLessEqual
-	| expression LESS expression #ExprLess
-	| expression PLUS expression  #ExprPlus
-	| expression MINUS expression  #ExprMinus
-	| expression MULTIPLY expression #ExprMultiply
-	| expression DEVIDE expression #ExprDivide
-	| '(' expression ')' #ExprParen
-	| '!'expression #ExprNot
+expression:
+	Literal = literal #ExprLiteral
+	| Left=expression  op = AND Right=expression #ExprAnd
+	| Left= expression op = OR Right= expression #ExprOr
+	| Left= expression op = EQUAL_COND Right= expression #ExprEq 
+	| Left= expression op = GREATER Right= expression #ExprGreater
+	| Left= expression op = GREAT_EQUAL Right= expression  #ExprGreaterEqual
+	| Left= expression op = LESS_EQUAL Right= expression #ExprLessEqual
+	| Left= expression op = LESS Right= expression #ExprLEss
+	| Left= expression op = PLUS Right= expression  #ExprPlus
+	| Left= expression op = MINUS Right= expression  #ExprMinus
+	| Left= expression op = MULTIPLY Right= expression #ExprMultiply
+	| Left= expression op = DIVIDE Right= expression #ExprDivide
+	| '(' expression ')'  #ExprParentheses
+	| singleOp = '!' singleExpr= expression #ExprSingleOp 
 ;
 
 literal

@@ -40,7 +40,7 @@ ifStatement returns [Statement result]
   'end' {$result = new IfStatement($exp.result,$slist.result);}
 ;
 
-expression returns [PrimitiveExpression result]
+expression returns [Expression result]
 	: '(' x=expression ')'				{ $result = $x.result;}
 	| '-' x=expression					{ $result = new Negation($x.result);}
 	| '!' x=expression					{ $result = new Not($x.result);}
@@ -58,7 +58,7 @@ expression returns [PrimitiveExpression result]
 	| lit = literal						{ $result = $lit.result; }
 	;
 
-literal returns [PrimitiveExpression result]
+literal returns [Expression result]
 	: BOOL		{$result = new BoolLiteral(Boolean.parseBoolean($BOOL.text));}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text));}
 	;

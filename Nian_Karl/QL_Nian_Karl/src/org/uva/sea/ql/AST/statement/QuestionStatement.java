@@ -8,7 +8,7 @@ import org.uva.sea.ql.AST.QuestionType;
 import org.uva.sea.ql.AST.Visitor;
 
 
-public class QuestionStatement extends Statement implements Node{
+public class QuestionStatement extends Statement {
 	private final QuestionType questionType;
 	private final String identifier;
 	private final String questionLabel;
