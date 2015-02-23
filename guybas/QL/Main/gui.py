@@ -38,20 +38,26 @@ class QuestionnaireGUI:
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
         # print the input box
         if statement.get_type() is BasicTypes.bool_name:
-            Radiobutton(text="True", value=1, variable=self.row_counter).grid(row=self.row_counter, column=1, sticky=W)
-            Radiobutton(text="False", value=0, variable=self.row_counter).grid(row=self.row_counter, column=2, sticky=W)
+            e1 = Radiobutton(text="True", value=1, variable=self.row_counter,
+                             command=lambda: self.update(statement, True))
+            e2 = Radiobutton(text="False", value=0, variable=self.row_counter,
+                             command=lambda: self.update(statement, False))
+            e2.select()  # set default as False
+            e2.deselect()  # clean selection
+            e1.grid(row=self.row_counter, column=1, sticky=W)
+            e2.grid(row=self.row_counter, column=2, sticky=W)
             self.column_span = 2
         elif statement.get_type() is BasicTypes.number_name:
-            Spinbox(from_=0, to_=10000).grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
+            e = Spinbox(from_=0, to_=10000)
+            e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, e.get()))
+            e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
         elif statement.get_type() is BasicTypes.text_name:
             e = Entry(textvariable=str_var)
             e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, e.get()))
-
             e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
         # str_var.set("a default value")
         # s = str_var.get()
 
-    # TODO: use update for radio button as well
     def update(self, question, new_answer):
         self.answersMap.update(question, new_answer)
         print(new_answer)
