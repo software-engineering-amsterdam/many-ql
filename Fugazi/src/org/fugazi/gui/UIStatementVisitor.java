@@ -10,8 +10,8 @@ import org.fugazi.gui.ui_elements.UIComputedQuestion;
 public class UIStatementVisitor implements IStatementVisitor <IUIElement> {
 
     public IUIElement visitQuestion(Question _question) {
-        UIQuestionFactory questionFactory = new UIQuestionFactory();
-        return questionFactory.getUIQuestion(_question);
+        UITypeVisitor typeVisitor = new UITypeVisitor(_question);
+        return _question.getType().accept(typeVisitor);
     }
     
     public IUIElement visitIfStatement(IfStatement _ifStatement) {

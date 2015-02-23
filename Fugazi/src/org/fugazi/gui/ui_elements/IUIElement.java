@@ -2,6 +2,13 @@ package org.fugazi.gui.ui_elements;
 
 import org.fugazi.gui.widgets.IWidget;
 
-public interface IUIElement {
-    public abstract IWidget getWidget();
+import java.util.Observable;
+
+public abstract class IUIElement extends Observable {
+
+    protected IWidget widget;
+
+    public IWidget getWidget() {
+        return this.widget;
+    }
 }
