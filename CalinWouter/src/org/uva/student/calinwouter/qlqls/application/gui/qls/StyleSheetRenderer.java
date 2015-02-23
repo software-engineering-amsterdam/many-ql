@@ -25,7 +25,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
 
     @Override
     public void casePage(Page page) {
-        JPanel pagePanel = new JPanel();
+        final JPanel pagePanel = new JPanel();
         for (Section s : page.getSections()) {
             JPanel sectionPanel = new JPanel();
             sectionPanel.setBorder(BorderFactory.createTitledBorder(s.getSectionName()));
@@ -33,6 +33,12 @@ public class StyleSheetRenderer extends AbstractRenderer {
             sectionPanel.add(lastCreatedComponent);
             pagePanel.add(sectionPanel);
         }
+        page.addUpdateEventListener(new ModelUpdateListener<Page>() {
+            @Override
+            public void onUpdateEvent(Page page) {
+                //pagePanel.setVisible(page.isVisible());
+            }
+        });
         lastCreatedComponent = pagePanel;
     }
 

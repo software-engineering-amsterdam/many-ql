@@ -41,11 +41,11 @@ public class Expression extends Node {
     }
 
 
-    //TODO: Implement this.
+    //TODO: This is ugly, think of something plz!
     public void evaluate() {
-        if (hasChildren()) {
+        if (hasChildren() && getChildren().size() > 1) {
             Node node = getChildren().get(0);
-            Node node1 = getChildren().get(0);
+            Node node1 = getChildren().get(1);
             if (node != null && node1 != null) {
                 if (node instanceof Expression && node1 instanceof Expression) {
                     Optional<Token> id1 = ((Expression) node).getId();

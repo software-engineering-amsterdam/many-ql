@@ -9,17 +9,28 @@ public class StyleSheet extends AbstractModel<StyleSheet> {
     private String ident;
     private List<Page> pages;
     private List<Default> defaultSettings;
+    private int arg;
 
     public String getStyleSheetName() {
         return ident;
     }
 
     public List<Page> getPages() {
-        return this.pages;
+        return pages;
     }
 
     public List<Default> getDefaultSettings() {
-        return this.defaultSettings;
+        return defaultSettings;
+    }
+
+    @Override
+    public void caseString(String string) {
+        if (arg != 0) {
+            super.caseString(string);
+            return;
+        }
+        this.ident = string;
+        arg++;
     }
 
     @Override
