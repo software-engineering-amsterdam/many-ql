@@ -7,6 +7,7 @@ import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
 import lang.ql.semantics.errors.Message;
+import lang.ql.semantics.errors.Warning;
 
 import java.util.*;
 
@@ -19,6 +20,7 @@ public class TypeChecker implements Visitor
     private Stack<Type> typeStack;
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
+    private LabelMap labels;
     private List<Message> messages;
     
     public static List<Message> check(Form f)
@@ -33,11 +35,8 @@ public class TypeChecker implements Visitor
         TypeChecker typeChecker = new TypeChecker(table);
         f.accept(typeChecker);
 
-        List<String> cyclicIds = typeChecker.questionDependencies.findCycle();
-        if (cyclicIds != null)
-        {
-            typeChecker.messages.add(Error.cyclicQuestions(cyclicIds));
-        }
+        typeChecker.checkForLabelDuplication();
+        typeChecker.checkForCyclicDependencies();
 
         return typeChecker.messages;
     }
@@ -47,10 +46,9 @@ public class TypeChecker implements Visitor
         this.symbolTable = table;
         this.typeStack = new Stack<Type>();
         this.questionDependencies = new QuestionDependencies();
+        this.labels = new LabelMap();
         this.messages = new ArrayList<Message>();
     }
-
-    //private get
 
     @Override
     public void visit(Form form)
@@ -82,8 +80,7 @@ public class TypeChecker implements Visitor
     public void visit(Question q)
     {
         this.questionDependencies.addQuestion(q);
-
-
+        this.labels.registerLabel(q);
     }
 
     @Override
@@ -92,6 +89,7 @@ public class TypeChecker implements Visitor
         this.setScopeForExpr(q);
 
         this.questionDependencies.addQuestion(q);
+        this.labels.registerLabel(q);
 
         q.getDefaultValue().accept(this);
 
@@ -315,4 +313,23 @@ public class TypeChecker implements Visitor
     {
         this.currentQuestion = null;
     }
+
+    private void checkForCyclicDependencies()
+    {
+        List<String> cyclicIds = this.questionDependencies.findCycle();
+        if (cyclicIds != null)
+        {
+            this.messages.add(Error.cyclicQuestions(cyclicIds));
+        }
+    }
+
+    private void checkForLabelDuplication()
+    {
+        Set<List<String>> duplicates = this.labels.getDuplicateLabels();
+        for (List<String> d : duplicates)
+        {
+            this.messages.add(Warning.labelDuplication(d));
+        }
+    }
+
 }
