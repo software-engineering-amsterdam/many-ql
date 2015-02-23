@@ -9,4 +9,10 @@ public class IntType extends Type
     {
         super("integer");
     }
+
+    @Override
+    public void accept(TypeVisitor visitor)
+    {
+        visitor.visit(this);
+    }
 }

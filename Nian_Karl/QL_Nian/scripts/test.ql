@@ -5,15 +5,10 @@ form SalarySurvey{
 	Cur salary "How much is your annual salary?";
 	Bool isMarried "Are you married?";
 	
-	if(5123123+5){
+	if((3 + 4) + 9){
 		Int employeeNr1 "What is your employee number?";
 		Int employeeNr2 "What is your employee number?";
 		Int employeeNr3 "What is your employee number?";
 		Int employeeNr4 "What is your employee number?";
-	}
-	
-	if(2+3){
-	} 
-	if(21+99){
 	}
 }

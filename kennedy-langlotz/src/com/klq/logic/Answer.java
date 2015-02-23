@@ -5,7 +5,6 @@ package com.klq.logic;
  */
 public class Answer {
     private String answer;
-
     public static final Answer YES = new Answer("Yes");
     public static final Answer NO = new Answer("No");
 

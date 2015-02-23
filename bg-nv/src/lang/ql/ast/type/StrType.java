@@ -9,4 +9,10 @@ public class StrType extends Type
     {
         super("string");
     }
+
+    @Override
+    public void accept(TypeVisitor visitor)
+    {
+        visitor.visit(this);
+    }
 }

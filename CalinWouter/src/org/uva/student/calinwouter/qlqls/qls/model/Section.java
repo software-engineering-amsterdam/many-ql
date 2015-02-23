@@ -5,9 +5,33 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFo
 import java.util.LinkedList;
 import java.util.List;
 
-public class Section extends AbstractModel<Section> {
+public class Section extends AbstractComponent<Section> {
+    private String ident;
     private List<AbstractFormField<?>> fields;
-    private List<Default> defaults; // TODO defaults...
+    private List<Default> defaultSettings;
+    private int arg;
+
+    public String getSectionName(){
+        return ident;
+    }
+
+    public List<AbstractFormField<?>> getFields() {
+        return fields;
+    }
+
+    public List<Default> getDefaultSettings() {
+        return defaultSettings;
+    }
+
+    @Override
+    public void caseString(String string) {
+        if (arg != 0) {
+            super.caseString(string);
+            return;
+        }
+        this.ident = string;
+        arg++;
+    }
 
     @Override
     public void caseQuestion(Question question) {
@@ -20,18 +44,28 @@ public class Section extends AbstractModel<Section> {
     }
 
     @Override
+    public void caseDefault(Default defaultSetting) {
+        defaultSettings.add(defaultSetting);
+    }
+
+    @Override
     public void apply(IModel iModel) {
         iModel.caseSection(this);
     }
 
     @Override
     public void updateStates(HeadlessFormInterpreter headlessFormInterpreter, List<Default> defaultList) {
+        visible = false;
         for (AbstractFormField<?> field : fields) {
             field.updateStates(headlessFormInterpreter, defaultList);
+            visible = visible || field.isVisible();
         }
+        notifyUpdate();
     }
 
     public Section() {
         fields = new LinkedList<AbstractFormField<?>>();
+        defaultSettings = new LinkedList<Default>();
+        visible = false;
     }
 }

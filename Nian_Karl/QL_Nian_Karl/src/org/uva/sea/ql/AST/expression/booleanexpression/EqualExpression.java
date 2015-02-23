@@ -18,7 +18,14 @@ public class EqualExpression extends BinaryExpression {
 	
 	@Override
 	public BooleanValue interpretExpression() {
+<<<<<<< HEAD
 //		return new BooleanValue(leftExpression.interpretExpression().equal(rightExpression.interpretExpression()));
 		return new BooleanValue(true);
+=======
+		boolean left = leftLiteral.interpretExpression().getValue();
+		boolean right = rightLiteral.interpretExpression().getValue();
+		boolean result = left == right;
+		return new BooleanValue(result);
+>>>>>>> 2ff1850cf0b0505b45f85d628e7f2ebddba5d66e
 	}
 }

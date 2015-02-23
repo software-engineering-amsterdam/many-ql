@@ -16,7 +16,7 @@ public class NodeExp extends Node {
 		super.add(node);
 	}
 	
-	public LinkedList<Node> getNodes() {
+	public LinkedList<? extends Node> getNodes() {
 		return super.getNodes();
 	}
 }
