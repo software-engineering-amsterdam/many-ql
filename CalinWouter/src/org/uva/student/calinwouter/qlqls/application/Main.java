@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application;
 
+import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.Default;
@@ -49,9 +50,15 @@ public class Main {
                     "\t), default(boolean, {widget: radio(\"Yes\", \"No\")})\n" +
                     ")";
 
+
+            // Create a static stylesheet.
             StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(input).getValue().getValue();
 
+            // Interprete the QL.
             styleSheet.updateStates(headlessFormInterpreter, new LinkedList<Default>());
+
+            // Apply QL to the stylesheet renderer.
+            styleSheet.apply(new StyleSheetRenderer());
 
         } catch(Exception e) {
             e.printStackTrace();

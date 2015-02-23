@@ -13,6 +13,6 @@ public class StringLitereal extends AbstractLiteral{
 	@Override
 	public StringValue interpretExpression() {
 		return new StringValue(stringValue);
-	}	
-	
+	}
+
 }
