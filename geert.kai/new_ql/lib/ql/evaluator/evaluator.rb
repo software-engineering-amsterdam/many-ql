@@ -1,89 +1,60 @@
 require_relative "../static_checker/visitor"
 
 class Runner < BaseVisitor
-  def initialize(form)
-    @form = form
+  def initialize(base)
+    @base = base
     @values = {}
-    @mode = :run # next, run, return
-    @lookup_question
-    
   end 
 
-  def answered(value)
-    if @lookup_question
-      @values[@lookup_question.variable_name] = value
-    end
-    @mode = :lookup
+  def update_variable(variable_name, value)
+    @values[variable_name] = value
   end
 
-  def next_question
-    self.visit(@form)
-    @lookup_question
+  def visible_questions
+    self.visit(@base)
   end
 
-  visitor_for Form do |form|
-    form.statements.each do |statement|
-      statement.accept(self)
-      if @mode == :return
-        return
-      end
-    end
+  def visit_form(form)
+    accept_statements(form.statements).flatten
   end
 
-  visitor_for Question do |question|
-    # byebug
-    case @mode
-    when :lookup
-      @mode = :run if question == @lookup_question
-    when :run
-      @mode = :return      
-      @lookup_question = question
-      question
+  def visit_conditional(condition)
+    case self.visit(condition.expression) 
+    when true
+      accept_statements(condition.statements_true)
+    when false
+      accept_statements(condition.statements_false)
+    when :undefined
+      []
     end
   end
 
-  visitor_for If do |if_statement|
-    case @mode
-    when :lookup
-      if_statement.statements.each do |statement|
-        statement.accept(self)
-      end
-    when :run
-      if Evaluator.evaluate(expression: if_statement.expression, values: @values).class == TrueClass
-        if_statement.statements.each do |statement|
-          s = statement.accept(self)
-          return if @mode == :return
-        end
-      end
-    when :return
-      nil
+  def accept_statements(statements)
+    statements.map do |statement|
+      statement.accept(self) 
     end
   end
-end
 
-class Evaluator < BaseVisitor
-  def self.evaluate(expression: , values: )
-    self.new(expression: expression, values: values).evaluate
-  end
-  
-  def initialize(expression: , values: )
-    @expression = expression
-    @values = values
+  def visit_question(question)
+    question
   end
 
-  def evaluate
-    visit(@expression)
-  end
-  
-  visitor_for BinaryExpression do |expression|
-    expression.lhs.accept(self).send(expression.operator, expression.rhs.accept(self))
+  def visit_binary_expression(expression)
+    lhs = expression.lhs.accept(self)
+    rhs = expression.rhs.accept(self)
+
+    if lhs == :undefined || rhs == :undefined
+      :undefined
+    else
+      lhs.send(expression.operator, rhs)
+    end
   end
 
-  visitor_for Variable do |variable|
-    @values[variable.name]
+  def visit_variable(variable)
+    @values[variable.name] || :undefined
   end
 
-  visitor_for Literal do |literal|
+  def visit_literal(literal)
     literal.value
   end
 

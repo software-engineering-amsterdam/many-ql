@@ -36,11 +36,11 @@ end
 
 class Conditional < Statement
   def accept(visitor)
-   visitor.visit(self)
-
-   statements.map do |statement|
+    statements.map do |statement|
       statement.accept(visitor)
     end
+
+    visitor.visit(self)
   end
 end
 
@@ -50,6 +50,14 @@ class If < Conditional
   def initialize(expression:, statements: [])
     @expression = expression
     @statements = statements
+  end
+
+  def statements_true
+    statements
+  end
+  
+  def statements_false
+    []
   end
 end
 

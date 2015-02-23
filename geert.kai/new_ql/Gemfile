@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rspec'
 gem 'byebug'
+gem 'factory_girl'
 gem 'require_all'

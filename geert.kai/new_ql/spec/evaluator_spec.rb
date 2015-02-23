@@ -1,4 +1,3 @@
-require_relative "../lib/ql"
 
 describe "Runner" do
   before(:each) do
@@ -11,12 +10,11 @@ describe "Runner" do
 
   it "gives the first question at the beginning" do
     runner = Runner.new(@form)
-    expect( runner.next_question ).to eq @question
-    runner.answered("Geert")
-    # byebug
-    expect( runner.next_question ).to eq @second_question
-    runner.answered(22)
-    # expect( runner.next_question ).to be_nil
+    expect( runner.visible_questions ).to eq [@question]
+    runner.update_variable("naam", "Geert")
+    expect( runner.visible_questions ).to eq [@question, @second_question]
+    runner.update_variable("naam", "Kai")
+    expect( runner.visible_questions ).to eq [@question]
   end  
 
   xit "knows when it's finished" do
@@ -28,8 +26,20 @@ describe "Evaluator" do
     @expression = Equal.new(Variable.new("naam"), StringLiteral.new("Geert"))
   end
 
-  it "evaluates an expression" do
-    result = Evaluator.evaluate(expression: @expression, values: { "naam" => "Geert" })
-    expect(result).to eq true
+  it "evaluates an true expression" do
+    @runner = Runner.new(@expression)
+    @runner.update_variable("naam", "Geert")
+    expect(@runner.visit(@expression)).to eq true
+  end
+
+  it "evaluates an false expression" do
+    @runner = Runner.new(@expression)
+    @runner.update_variable("naam", "Kai")
+    expect(@runner.visit(@expression)).to eq false
+  end
+
+  it "evaluates an undefined expression" do
+    @runner = Runner.new(@expression)
+    expect(@runner.visit(@expression)).to eq :undefined
   end
 end
