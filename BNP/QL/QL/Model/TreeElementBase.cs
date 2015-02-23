@@ -16,9 +16,19 @@ namespace QL.Model
             get { return Children == null || Children.Count == 0 ? ElementType.Leaf : ElementType.Node; }
         }
 
-        protected TreeElementBase()
+        public TreeElementBase()
         {
             Children = new List<ElementBase>();
         }
+        
+        internal void handleChildren(List<TreeElementBase> list)
+        {
+            Children = list;
+            
+            //here the children should be checked
+            //Console.WriteLine("");
+           // throw new NotImplementedException();
+        }
+        
     }
 }

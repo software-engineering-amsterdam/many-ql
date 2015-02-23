@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using QL;
 using QL.Model;
 
+
 namespace QL.Grammars
 {
     public class QLListener : QLBaseListener
@@ -14,34 +15,38 @@ namespace QL.Grammars
         public QLListener() {
             mapper = new NodeMapper();
         }
-        
-
-        public override void EnterEveryRule(Antlr4.Runtime.ParserRuleContext context)
-        {//first
-            Console.WriteLine("or this? Enter:" + context.GetType().Name);
-
-            base.EnterEveryRule(context);
-        }
-        public override void ExitEveryRule(Antlr4.Runtime.ParserRuleContext context)
+        public override void EnterBlock(QLParser.BlockContext context)
         {
-
-            Console.WriteLine("Exit:"+context.GetType().Name);
-            mapper.Create(context);
-
-            base.ExitEveryRule(context);
+            mapper.InitializeNewLevel();
+            base.EnterBlock(context);
         }
+        public override void ExitBlock(QLParser.BlockContext context)
+        {
+            base.ExitBlock(context);
+            mapper.HandleNode(new QL.Model.Block());
+
+        }
+        
         public override void EnterFormBlock(QLParser.FormBlockContext context)
-        {//second
-            Console.WriteLine("is this first Enter:" + context.GetType().Name);
-            mapper.Create(context);
+        {
+            mapper.InitializeNewLevel();
             base.EnterFormBlock(context);
+        }
+        public override void ExitFormBlock(QLParser.FormBlockContext context)
+        {
+            base.ExitFormBlock(context);
+            mapper.HandleNode(new QL.Model.Form());
+        }
+
+        public override void EnterControlBlock(QLParser.ControlBlockContext context)
+        {
+            mapper.InitializeNewLevel();
+            base.EnterControlBlock(context);
         }
         public override void ExitControlBlock(QLParser.ControlBlockContext context)
         {
-            Console.WriteLine("Exit:" + context.GetType().Name);
-            mapper.Create(context);
-
             base.ExitControlBlock(context);
+            mapper.HandleNode(new QL.Model.ControlBlock());
         }
     }
 }

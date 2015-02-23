@@ -6,17 +6,70 @@ using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using QL.Grammars;
 using QL.Model.Terminals;
+using System.Diagnostics;
 
 namespace QL.Model
 {
     public sealed class NodeMapper
     {
-        List<ElementBase> level;
+        TreeElementBase astRootNode;
+
+        Stack<Stack<TreeElementBase>> childrenStack;        
+
         public NodeMapper(){
+            childrenStack = new Stack<Stack<TreeElementBase>>();
+        }
+
+        public void InitializeNewLevel() {
+            childrenStack.Push(new Stack<TreeElementBase>());
+        }
+
+        List<TreeElementBase> GetChildren()
+        {
+            Debug.Assert(childrenStack.Count() > 0, "Level with children should be always initialized before appending one.");//TODO maybe throw it out
+            return childrenStack.Pop().ToList();
+        }
+        void PutIntoTree(TreeElementBase parent)
+        {
+            
+            if (childrenStack.Count() > 0)
+            {
+                Stack<TreeElementBase> parents = childrenStack.Pop();
+                parents.Push(parent);
+                childrenStack.Push(parents);
+            }
+            else
+            {
+                //this is the last one
+                astRootNode = parent;
+            }
+        }
+
+
+        public void HandleNode(Block parent)
+        {
+            List<TreeElementBase> children = GetChildren();
+            parent.handleChildren(children);
+            PutIntoTree(parent);
+        }
+        public void HandleNode(Form parent)
+        {
+            List<TreeElementBase> children = GetChildren();
+            parent.handleChildren(children);
+            PutIntoTree(parent);
+        }
+
+        public void HandleNode(ControlBlock parent)
+        {
+            List<TreeElementBase> children = GetChildren();
+            parent.handleChildren(children);
+            PutIntoTree(parent);
         }
 
         public UnitBase Create(QLParser.UnitContext context)
         {
+            throw new NotImplementedException();
+
             string id = context.GetChild(1).GetText();
             string question = context.GetChild(context.ChildCount - 2).GetText();
             string[] arguments = context.children.Skip(3).Select(child => child.GetText()).Take(context.ChildCount - 3 - 3).ToArray();
@@ -31,20 +84,6 @@ namespace QL.Model
 
             return questionUnit;
             
-        }
-        
-
-        // todo: move to own mapper
-        public Form Create(QLParser.FormBlockContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public IEnumerable<ElementBase> ExtractChilds();
-
-        internal void Create(Antlr4.Runtime.ParserRuleContext context)
-        {
-            throw new NotImplementedException();
         }
     }
 }
