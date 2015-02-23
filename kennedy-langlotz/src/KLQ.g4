@@ -13,7 +13,6 @@ BOOLEAN     : 'boolean' ;
 DATE        : 'date' ;
 STRING      : 'string' ;
 NUMERAL     : 'numeral' ;
-ANSWER      : 'answer' ;
 
 IF          : 'if' ;
 THEN        : 'then' ;
@@ -23,10 +22,12 @@ ADD : '+' ;
 SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
-G   : '>' ;
-L   : '<' ;
-GT  : '>=' ;
-LT  : '<=' ;
+GT  : '>' ;
+LT  : '<' ;
+GE  : '>=' ;
+LE  : '<=' ;
+EQ  : '==' ;
+NEQ : '!=' ;
 AND : '&&' ;
 OR  : '||' ;
 
@@ -48,7 +49,7 @@ uncondQuestion
           'id'       ':' id=QuestionId      NEWLINE
           'text'     ':' text=String        NEWLINE
           'type'     ':' type=questionType  NEWLINE
-         ('value'    ':' answerSet          NEWLINE)?
+         ('value'    ':' answerOptions      NEWLINE)?
       End
     ;
 
@@ -83,14 +84,10 @@ Date
     : Int ( '.' | '-' | '/' ) Int ( '.' | '-' | '/' ) Int
     ;
 
-Time
-    : Int ( '.' | '-' | ':' ) Int
-    ;
-
 expr
     : expr operator=( '*' | '/' ) expr #MulDiv
     | expr operator=( '+' | '-' ) expr #AddSub
-    | expr operator=( '>=' | '>' | '<=' | '<' ) expr #Comparators
+    | expr operator=( '>=' | '>' | '<=' | '<' | '==' | '!=' ) expr #Comparators
     | expr '&&'  expr #And
     | expr '||' expr #Or
     | '(' expr ')' #Parens
@@ -100,7 +97,7 @@ expr
     | QuestionId #id
     ;
 
-answerSet
+answerOptions
     : expr (', ' expr)*
     ;
 

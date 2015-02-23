@@ -28,7 +28,9 @@ public class Form extends Node {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-		
+	}
+	
+	public void visitChildren(Visitor visitor) {
 		for (Statement statement : statements) {
 			statement.accept(visitor);
 		}

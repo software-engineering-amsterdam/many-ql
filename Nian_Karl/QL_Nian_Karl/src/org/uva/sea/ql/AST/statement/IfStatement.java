@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.AST.Node;
+import org.uva.sea.ql.AST.Visitor;
 import org.uva.sea.ql.AST.expression.Expression;
+import org.uva.sea.ql.AST.value.BooleanValue;
 
 public class IfStatement extends Statement{
 
@@ -37,9 +39,12 @@ public class IfStatement extends Statement{
 		return expr;
 	}
 	
+	public BooleanValue interpretExpression(){
+		return (BooleanValue) expr.interpretExpression();
+	}
+	
 	@Override
-	public List<Node> visit() {
-		
-		return null;
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

@@ -9,4 +9,10 @@ public class DecType extends Type
     {
         super("decimal");
     }
+
+    @Override
+    public void accept(TypeVisitor visitor)
+    {
+        visitor.visit(this);
+    }
 }

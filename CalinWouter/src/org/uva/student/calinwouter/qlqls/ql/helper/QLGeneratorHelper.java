@@ -15,4 +15,6 @@ public class QLGeneratorHelper {
         return ident + ":" + " \"" + str + "\" " + type + "(" + exp + ")";
     }
 
+    private QLGeneratorHelper() {}
+
 }

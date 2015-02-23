@@ -11,7 +11,9 @@ public class Question extends Statement {
     
     protected final ID identifier;
 
-    public Question(Type _type, String _label, ID _identifier) {
+    public Question(Type _type, String _label, ID _identifier, int _lineNum) {
+        super(_lineNum);
+
         this.type = _type;
         this.label = _label;
         this.identifier = _identifier;

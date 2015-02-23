@@ -6,7 +6,7 @@ import java.util.List;
 import org.uva.sea.ql.AST.statement.QuestionStatement;
 import org.uva.sea.ql.AST.statement.Statement;
 
-public class Form implements Node{
+public class Form extends Node{
 	private List<Statement> statementList;
 
 	public Form() {
@@ -29,11 +29,7 @@ public class Form implements Node{
 	}
 
 	@Override
-	public List<Node> visit() {
-		List<Node> nodes = new ArrayList<Node>();
-		for (Statement s : statementList) {
-			nodes.addAll(s.visit());
-		}
-		return nodes;
+	public void accept(Visitor visit) {
+		visit.visit(this);
 	}
 }

@@ -11,12 +11,13 @@ using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
     /// <summary>
-    /// 
+    /// Checks ....
     /// </summary>
     /// <remarks>
     /// The type checker checks the following conditions:
     ///   - The expresison in if-statements should be of type boolean.
     ///   - Operands of invalid type to operators.
+    ///   - 
     /// </remarks>
     public class TypeCheckingVisitor : ASTVisitor
     {
@@ -47,81 +48,97 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             InvalidBinaryExpressions = new List<InvalidBinaryExpression>();
         }
 
-
-        public override void Visit(Declaration node)
+        public TypeCheckingVisitor(TypeCheckingVisitor parentVisitor)
         {
-            _declaredVariables.Add(node.Id.Name, node.DataType);
+            _declaredVariables = parentVisitor._declaredVariables;
+        }
 
-            if (node.Initialization != null)
+        public override void Visit(Declaration declaration)
+        {
+            _declaredVariables.Add(declaration.Id.Name, declaration.DataType);
+
+            if (declaration.Initialization != null)
             {
-                DataType? expressionType = GetResultType(node.Initialization);
+                DataType? expressionType = GetResultType(declaration.Initialization);
 
                 if (expressionType.HasValue)
                 {
-                    if (node.DataType != expressionType.Value)
+                    if (declaration.DataType != expressionType.Value)
                     {
-                        InvalidAssignments.Add(new InvalidAssignment(node.Id, node.Initialization, node.DataType, expressionType.Value));
+                        InvalidAssignments.Add(new InvalidAssignment(declaration.Id, declaration.Initialization, declaration.DataType, expressionType.Value));
                     }
                 }
 
-                node.Initialization.Accept(this);
+                // Validate the inner parts of the expression.
+                declaration.Initialization.Accept(this);
             }
         }
 
-        public override void Visit(Assignment node)
+        public override void Visit(Assignment assignment)
         {
-            DataType? targetType = GetResultType(node.Variable);
-            DataType? expressionType = GetResultType(node.Expression);
+            DataType? targetType = GetResultType(assignment.Variable);
+            DataType? expressionType = GetResultType(assignment.Expression);
 
             if (targetType.HasValue && expressionType.HasValue)
             {
                 if (targetType.Value != expressionType.Value)
                 {
-                    InvalidAssignments.Add(new InvalidAssignment(node.Variable, node.Expression, targetType.Value, expressionType.Value));
+                    InvalidAssignments.Add(new InvalidAssignment(assignment.Variable, assignment.Expression, targetType.Value, expressionType.Value));
                 }
             }
 
-            node.Expression.Accept(this);
+            // Validate the inner parts of the expression.
+            assignment.Expression.Accept(this);
         }
 
-        public override void Visit(Question node)
+        public override void Visit(Question question)
         {
-            _declaredVariables.Add(node.Id.Name, node.DataType);
+            _declaredVariables.Add(question.Id.Name, question.DataType);
         }
 
-        public override void Visit(IfStatement node)
+        public override void Visit(IfStatement ifStatement)
         {
             // Validate that the condition of the if statement is of type boolean
-            DataType? result = GetResultType(node.If);
+            DataType? result = GetResultType(ifStatement.If);
 
             if (result.HasValue)
             {
                 if (result.Value != DataType.Boolean)
                 {
-                    InvalidIfStatements.Add(node);
+                    InvalidIfStatements.Add(ifStatement);
                 }
             }
-            // Traverse the rest of the tree.
-            base.Visit(node);
+            // Traverse the rest of the tree with a new visitor.
+            var thenVisitor = new TypeCheckingVisitor(this);
+
+            foreach(var statement in ifStatement.Then) {
+                statement.Accept(thenVisitor);
+            }
+
+            var elseVisitor = new TypeCheckingVisitor(this);
+            foreach (var statement in ifStatement.Else)
+            {
+                statement.Accept(elseVisitor);
+            }
         }
 
-        public override void Visit(BinaryExpression node)
+        public override void Visit(BinaryExpression expression)
         {
             // Validate that the data type of the operands conform 
-            DataType? left = GetResultType(node.Left);
-            DataType? right = GetResultType(node.Right);
+            DataType? left = GetResultType(expression.Left);
+            DataType? right = GetResultType(expression.Right);
 
             if (left.HasValue && right.HasValue)
             {
-                if (!BinaryExpressionIsValid(node.Operation, left.Value, right.Value))
+                if (!BinaryExpressionIsValid(expression.Operation, left.Value, right.Value))
                 {
-                    InvalidBinaryExpressions.Add(new InvalidBinaryExpression(node, left.Value, right.Value));
+                    InvalidBinaryExpressions.Add(new InvalidBinaryExpression(expression, left.Value, right.Value));
                 }
             }
             else
             {
                 // Traverse the rest of the tree.
-                base.Visit(node);
+                base.Visit(expression);
             }
         }
 

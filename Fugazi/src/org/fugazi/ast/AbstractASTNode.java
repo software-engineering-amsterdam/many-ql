@@ -7,5 +7,13 @@ package org.fugazi.ast;
  */
 public abstract class AbstractASTNode {
 
+    protected final int lineNumber;
+    
+    public AbstractASTNode(int _lineNum) {
+        this.lineNumber = _lineNum;
+    }
 
+    public int getLineNumber() {
+        return this.lineNumber;
+    }
 }
