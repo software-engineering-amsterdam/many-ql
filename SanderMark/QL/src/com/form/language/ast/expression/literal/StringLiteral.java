@@ -15,5 +15,11 @@ public class StringLiteral implements PrimitiveExpression {
 	public StringValue evaluate() {
 		return new StringValue(value);
 	}
+
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

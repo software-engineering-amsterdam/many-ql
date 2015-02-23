@@ -16,4 +16,10 @@ public class GreaterThanOrEqual extends BinaryExpression implements PrimitiveExp
 		return ((IntLiteral)left).evaluate().GreaterThanOrEqual(((IntLiteral)right).evaluate());
 	}
 
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

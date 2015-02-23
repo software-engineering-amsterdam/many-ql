@@ -15,6 +15,12 @@ public class Division extends BinaryExpression implements PrimitiveExpression {
 	public GenericValue<Integer> evaluate() {
 		return new IntValue(((IntValue)super.left).evaluate() / ((IntValue)super.right).evaluate());
 	}
+
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
