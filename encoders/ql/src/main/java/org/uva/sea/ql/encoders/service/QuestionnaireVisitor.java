@@ -33,7 +33,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
 		Questionnaire questionnaire = new Questionnaire();
 		questionnaire.setName(ctx.formName.getText());
-		List<StatementContext> statements = ctx.stmt;
+		List<StatementContext> statements = ctx.statement();
 
 		for (StatementContext statementContext : statements) {
 			ConditionalBlockContext conditionalBlock = statementContext

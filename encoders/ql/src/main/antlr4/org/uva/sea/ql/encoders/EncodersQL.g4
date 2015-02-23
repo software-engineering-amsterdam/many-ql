@@ -3,7 +3,7 @@ import EncodersQLLexerRules;
 
 questionnaire:
     'form' formName=NAME '{'  
-    (stmt+=statement)+
+    statement+
     '}'
     EOF;
 
@@ -16,7 +16,7 @@ question:
      
 conditionalBlock:
      'if' '(' conditional ')' '{' 
-     q+=question+
+     question+
      '}' ;
     
 conditional:
