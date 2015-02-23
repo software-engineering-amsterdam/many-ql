@@ -27,12 +27,14 @@ class Checker(Visitor):
     def _questionDependencyChains(self, breadcrumbs, node):
         breadcrumbs.append(node)
 
-        if node.expr is None or node in breadcrumbs[:-1]:
+        cycleFound = node in breadcrumbs[:-1] 
+
+        if node.expr is None or cycleFound:
             return [breadcrumbs]
 
         chains = []
-
         identifiers = self._extractIdentifiers(node.expr)
+        
         for i in identifiers:
             question = questionIdentifiedBy(i, self._ast.root)
             if question is not None:
