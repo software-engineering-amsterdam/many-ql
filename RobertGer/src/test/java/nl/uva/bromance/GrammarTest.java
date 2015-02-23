@@ -1,9 +1,12 @@
 package nl.uva.bromance;
 
+import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Before;
@@ -33,12 +36,16 @@ public class GrammarTest {
 
     private QLParser.QuestionnaireContext createTree(String content) throws IOException{
         QLLexer lexer = new QLLexer(new ANTLRInputStream(new ByteArrayInputStream(content.getBytes())));
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(new GrammarErrorListener());
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(new GrammarErrorListener());
         return parser.questionnaire();
     }
 
-    @Test(expected = IOException.class)
+    @Test(expected = GrammarErrorListener.SyntaxError.class)
     public void contentContainsQuestionnaireWithoutForms() throws IOException{
         String content = "Name: \"Tax\" {}";
 
