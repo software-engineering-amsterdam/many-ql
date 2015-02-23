@@ -31,22 +31,21 @@ public class AstTest {
 	}		
 	
 	@Test
-	public void testPrimaryInt() throws RecognitionException, IOException  {
+	public void testInt() throws RecognitionException, IOException  {
 		String str="1";
 		GrammarParser parser= AstTest.getParser(str);
-		Expression result = parser.expression().result;
-		IntValue x = new IntValue(((IntValue)result.evaluate()).getValue());
-		IntValue y = new IntValue(1);
-		assertEquals(x.getValue(), y.getValue());
+		IntValue actual = ((IntValue)(parser.expression().result).evaluate());
+		IntValue exspected = new IntValue(1);
+		assertEquals(exspected.getValue(),actual.getValue());
 	}
 	
     @Test
-    public void testPrimaryString() throws RecognitionException, IOException  {
-	  String str="abc";
+    public void testString() throws RecognitionException, IOException  {
+	  String str="\"abc\"";
 	  GrammarParser parser= AstTest.getParser(str);
-	  String result = ((StringValue)(parser.expression().result).evaluate()).getValue();
-	  assertEquals(str, result);
+	  String actual = ((StringValue)(parser.expression().result).evaluate()).getValue();
+	  String exspected = new StringValue(str).getValue();
+	  assertEquals(exspected,actual);
 	 }
-	
 
 }
