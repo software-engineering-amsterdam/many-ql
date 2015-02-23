@@ -5,27 +5,28 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor"
 )
 
 // Execute implements Executer interface, and it is used by Visitor to traverse
 // AST
 type Execute struct {
-	toFrontend chan *event.Frontend
-	symbolChan chan *event.Symbol
+	toFrontend  chan *event.Frontend
+	symboltable *symboltable.SymbolTable
 }
 
 // NewExecute is the factory for Execute struct tree
-func NewExecute(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *Execute {
+func NewExecute(toFrontend chan *event.Frontend, symboltable *symboltable.SymbolTable) *Execute {
 	return &Execute{
-		toFrontend: toFrontend,
-		symbolChan: symbolChan,
+		toFrontend:  toFrontend,
+		symboltable: symboltable,
 	}
 }
 
 // New is the factory for a visitor.Visitor with Execute struct tree inside
-func New(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *visitor.Visitor {
-	return visitor.NewVisitor(NewExecute(toFrontend, symbolChan))
+func New(toFrontend chan *event.Frontend, symboltable *symboltable.SymbolTable) *visitor.Visitor {
+	return visitor.NewVisitor(NewExecute(toFrontend, symboltable))
 }
 
 // QuestionaireNode execute all actionNodes of a questionaire (form)
@@ -43,11 +44,7 @@ func (exec Execute) ActionNode(v *visitor.Visitor, a *ast.ActionNode) {
 // QuestionNode adds question to symbol table, and dispatch to frontend
 // rendering.
 func (exec Execute) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
-	exec.symbolChan <- &event.Symbol{
-		Command:    event.SymbolCreate,
-		Identifier: q.Identifier(),
-		Content:    q,
-	}
+	exec.symboltable.Create(q.Identifier(), q)
 
 	if q.Type() == ast.ComputedQuestionType {
 		expr := q.Content().(*ast.ComputedQuestion).Value()
