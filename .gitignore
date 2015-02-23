@@ -108,5 +108,4 @@ _ReSharper*/
 *.class
 */.idea
 
-StevenFati/target/
-StevenFati/gen/
+Steven/target/
