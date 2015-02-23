@@ -10,6 +10,7 @@ public class Question extends AbstractFormField<Question> {
     @Override
     public void updateStates(HeadlessFormInterpreter headlessFormInterpreter, List<Default> defaultList) {
         value = headlessFormInterpreter.getField(ident);
+        visible = value != null? true : false;
         notifyUpdate();
     }
 

@@ -13,7 +13,6 @@ import java.util.List;
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractModel<T> implements IModel {
     private List<ModelUpdateListener<T>> updateEventListeners = new LinkedList<ModelUpdateListener<T>>();
-    protected boolean visible;
 
     @Override
     public void caseHashMap(HashMap<Object, Object> hashMap) {
