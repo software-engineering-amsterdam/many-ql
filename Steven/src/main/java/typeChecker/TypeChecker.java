@@ -120,25 +120,25 @@ public class TypeChecker implements Visitor {
     }
 
     private AbstractNode visitLogicalExpression(LogicalOperator expression) {
-        if (!expression.getLeft().isConditional()) {
-            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, expression.getClass().getSimpleName(), expression.getLeft().toString()));
-        } else if (!expression.getRight().isConditional()) {
-            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, expression.getClass().getSimpleName(), expression.getRight().toString()));
-        }
+        confirmConditional(expression.getLeft(), EXPRESSION_EXPECTS_BOOLEAN);
+        confirmConditional(expression.getRight(), EXPRESSION_EXPECTS_BOOLEAN);
         visit(expression.getLeft());
         visit(expression.getRight());
         return expression;
     }
 
     private AbstractNode visitArithmeticExpression(ArithmeticOperator expression) {
-        if (expression.getLeft().isConditional()) {
-            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_NON_BOOLEAN, expression.getClass().getSimpleName(), expression.getLeft().toString()));
-        } else if (expression.getRight().isConditional()) {
-            throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_NON_BOOLEAN, expression.getClass().getSimpleName(), expression.getRight().toString()));
-        }
+        confirmConditional(expression.getLeft(), EXPRESSION_EXPECTS_NON_BOOLEAN);
+        confirmConditional(expression.getRight(), EXPRESSION_EXPECTS_NON_BOOLEAN);
         visit(expression.getLeft());
         visit(expression.getRight());
         return expression;
+    }
+
+    private void confirmConditional(Expression expression, String formattedErrorMessage) {
+        if (!expression.isConditional()) {
+            throw new TypeCheckException(String.format(formattedErrorMessage, expression.getClass().getSimpleName(), expression.toString()));
+        }
     }
 
     @Override
@@ -181,6 +181,7 @@ public class TypeChecker implements Visitor {
 
     @Override
     public AbstractNode visit(Not not) {
+        confirmConditional(not.getOperand(), EXPRESSION_EXPECTS_BOOLEAN);
         return visit(not.getOperand());
     }
 
