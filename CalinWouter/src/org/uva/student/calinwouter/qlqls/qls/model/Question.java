@@ -9,7 +9,8 @@ public class Question extends AbstractFormField<Question> {
 
     @Override
     public void updateStates(HeadlessFormInterpreter headlessFormInterpreter, List<Default> defaultList) {
-        // TODO apply state to this object.
+        value = headlessFormInterpreter.getField(ident);
+        notifyUpdate();
     }
 
     @Override
@@ -20,7 +21,6 @@ public class Question extends AbstractFormField<Question> {
     public Question(){
         arguments = new HashMap<Object, Object>();
         visible = false;
-        arg = 0;
     }
 
 }
