@@ -3,7 +3,10 @@ package org.fugazi.type_checker;
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
-import org.fugazi.ast.expression.literal.*;
+import org.fugazi.ast.expression.literal.BOOL;
+import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.INT;
+import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Logical;
 import org.fugazi.ast.expression.logical.Or;
@@ -19,7 +22,10 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TypeCheckerVisitor implements IASTVisitor {
 

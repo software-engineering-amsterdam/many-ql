@@ -1,7 +1,6 @@
 package org.fugazi.type_checker;
 
 import org.fugazi.ast.AbstractASTNode;
-import org.fugazi.ast.expression.logical.And;
 
 import java.util.ArrayList;
 

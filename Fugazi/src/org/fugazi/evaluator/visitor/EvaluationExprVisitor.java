@@ -1,10 +1,10 @@
 package org.fugazi.evaluator.visitor;
 
-import org.fugazi.ast.expression.literal.BOOL;
-import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.BOOL;
 import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.INT;
 import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Or;

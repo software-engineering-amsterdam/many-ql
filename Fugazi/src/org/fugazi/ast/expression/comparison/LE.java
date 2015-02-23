@@ -3,8 +3,6 @@ package org.fugazi.ast.expression.comparison;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.BoolType;
-import org.fugazi.ast.type.IntType;
-import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;

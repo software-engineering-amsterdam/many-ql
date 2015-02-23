@@ -5,8 +5,8 @@ import org.fugazi.ast.statement.IStatementVisitor;
 import org.fugazi.ast.statement.IfStatement;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.gui.ui_elements.IUIElement;
-import org.fugazi.gui.ui_elements.UIIfContainer;
 import org.fugazi.gui.ui_elements.UIComputedQuestion;
+import org.fugazi.gui.ui_elements.UIIfContainer;
 
 public class UIStatementVisitor implements IStatementVisitor <IUIElement> {
 

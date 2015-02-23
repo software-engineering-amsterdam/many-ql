@@ -1,7 +1,10 @@
 package org.fugazi.gui;
 
 import org.fugazi.ast.statement.Question;
-import org.fugazi.gui.ui_elements.*;
+import org.fugazi.gui.ui_elements.UIBoolQuestion;
+import org.fugazi.gui.ui_elements.UINumQuestion;
+import org.fugazi.gui.ui_elements.UIQuestion;
+import org.fugazi.gui.ui_elements.UITextQuestion;
 
 public class UIQuestionFactory {
 

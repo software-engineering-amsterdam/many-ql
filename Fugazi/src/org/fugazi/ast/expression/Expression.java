@@ -1,7 +1,6 @@
 package org.fugazi.ast.expression;
 
 import org.fugazi.ast.AbstractASTNode;
-import org.fugazi.ast.type.Type;
 
 import java.util.List;
 

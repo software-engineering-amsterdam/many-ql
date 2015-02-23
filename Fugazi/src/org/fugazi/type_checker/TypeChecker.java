@@ -1,6 +1,5 @@
 package org.fugazi.type_checker;
 
-import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.form.Form;
 //import org.fugazi.evaluator.ExpressionValue;
 //import org.fugazi.evaluator.visitor.ExpressionVisitor;
