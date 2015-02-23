@@ -1,6 +1,7 @@
 package ql.ast.expression;
 
 import ql.ast.value.Value;
+import ql.ast.visitor.Visitor;
 
 public abstract class Unary extends Expression{
 	
@@ -14,6 +15,11 @@ public abstract class Unary extends Expression{
 		return this.operand;
 	}
 	
+
 	@Override
-	public abstract Value<?> evaluate();
+	public <T> T accept(Visitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

@@ -19,7 +19,7 @@ public class EqualExpression extends BinaryExpression {
 	public BooleanValue interpretExpression() {
 		boolean left = leftLiteral.interpretExpression().getValue();
 		boolean right = rightLiteral.interpretExpression().getValue();
-		boolean result = left && right;
+		boolean result = left == right;
 		return new BooleanValue(result);
 	}
 }
