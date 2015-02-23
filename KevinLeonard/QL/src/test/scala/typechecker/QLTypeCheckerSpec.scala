@@ -10,63 +10,63 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(BooleanQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
+      check(BooleanQuestion(Variable("X"), "label", None), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(NumberQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> NumberType()))
+      check(NumberQuestion(Variable("X"), "label", None), emptyEnvironment) must beEqualTo(Map("X" -> NumberType()))
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(StringQuestion(Variable("X"), "label"), emptyEnvironment) must beEqualTo(Map("X" -> StringType()))
+      check(StringQuestion(Variable("X"), "label", None), emptyEnvironment) must beEqualTo(Map("X" -> StringType()))
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(ComputedBooleanQuestion(Variable("X"), "label", BooleanLiteral(true)), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
+      check(BooleanQuestion(Variable("X"), "label", Some(BooleanLiteral(true))), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
     }
 
     "throw exception, if statement is computed boolean question with invalid expression" in {
-      check(ComputedBooleanQuestion(Variable("X"), "label", NumberLiteral(1)), emptyEnvironment) must throwA[RuntimeException]
+      check(BooleanQuestion(Variable("X"), "label", Some(NumberLiteral(1))), emptyEnvironment) must throwA[RuntimeException]
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(ComputedNumberQuestion(Variable("X"), "label", NumberLiteral(1)), emptyEnvironment) must beEqualTo(Map("X" -> NumberType()))
+      check(NumberQuestion(Variable("X"), "label", Some(NumberLiteral(1))), emptyEnvironment) must beEqualTo(Map("X" -> NumberType()))
     }
 
     "throw exception, if statement is computed number question with invalid expression" in {
-      check(ComputedNumberQuestion(Variable("X"), "label", BooleanLiteral(false)), emptyEnvironment) must throwA[RuntimeException]
+      check(NumberQuestion(Variable("X"), "label", Some(BooleanLiteral(false))), emptyEnvironment) must throwA[RuntimeException]
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(ComputedStringQuestion(Variable("X"), "label", StringLiteral("")), emptyEnvironment) must beEqualTo(Map("X" -> StringType()))
+      check(StringQuestion(Variable("X"), "label", Some(StringLiteral(""))), emptyEnvironment) must beEqualTo(Map("X" -> StringType()))
     }
 
     "throw exception, if statement is computed string question with invalid expression" in {
-      check(ComputedStringQuestion(Variable("X"), "label", NumberLiteral(1)), emptyEnvironment) must throwA[RuntimeException]
+      check(StringQuestion(Variable("X"), "label", Some(NumberLiteral(1))), emptyEnvironment) must throwA[RuntimeException]
     }
 
     "return empty environment, if valid boolean condition" in {
-      check(IfStatement(BooleanLiteral(true), BooleanQuestion(Variable("X"), "label"), None), emptyEnvironment) must beEqualTo(emptyEnvironment)
+      check(IfStatement(BooleanLiteral(true), BooleanQuestion(Variable("X"), "label", None), None), emptyEnvironment) must beEqualTo(emptyEnvironment)
     }
 
     "throw exception, if invalid boolean condition" in {
-      check(IfStatement(NumberLiteral(0), BooleanQuestion(Variable("X"), "label"), None), emptyEnvironment) must throwA[RuntimeException]
+      check(IfStatement(NumberLiteral(0), BooleanQuestion(Variable("X"), "label", None), None), emptyEnvironment) must throwA[RuntimeException]
     }
 
     "return empty environment, if valid boolean condition" in {
-      check(IfStatement(BooleanLiteral(true), BooleanQuestion(Variable("X"), "label"), Some(BooleanQuestion(Variable("X"), "label"))), emptyEnvironment) must beEqualTo(emptyEnvironment)
+      check(IfStatement(BooleanLiteral(true), BooleanQuestion(Variable("X"), "label", None), Some(BooleanQuestion(Variable("X"), "label", None))), emptyEnvironment) must beEqualTo(emptyEnvironment)
     }
 
     "throw exception, if invalid boolean condition" in {
-      check(IfStatement(NumberLiteral(0), BooleanQuestion(Variable("X"), "label"), Some(BooleanQuestion(Variable("X"), "label"))), emptyEnvironment) must throwA[RuntimeException]
+      check(IfStatement(NumberLiteral(0), BooleanQuestion(Variable("X"), "label", None), Some(BooleanQuestion(Variable("X"), "label", None))), emptyEnvironment) must throwA[RuntimeException]
     }
 
     "add variables + types to environment" in {
-      check(Sequence(List(BooleanQuestion(Variable("X"), "label"), NumberQuestion(Variable("Y"), "label"), StringQuestion(Variable("Z"), "label"))), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()))
+      check(Sequence(List(BooleanQuestion(Variable("X"), "label", None), NumberQuestion(Variable("Y"), "label", None), StringQuestion(Variable("Z"), "label", None))), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()))
     }
     
     "add variable + type to environment " in {
-      check(Form("Form1", BooleanQuestion(Variable("X"), "label")), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
+      check(Form("Form1", BooleanQuestion(Variable("X"), "label", None)), emptyEnvironment) must beEqualTo(Map("X" -> BooleanType()))
     }
   }
 
@@ -300,7 +300,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "type checker" should {
     "detect duplicate question declarations" in {
-      check(BooleanQuestion(Variable("X"), "label"), Map("X" -> BooleanType())) must throwA[RuntimeException]
+      check(BooleanQuestion(Variable("X"), "label", None), Map("X" -> BooleanType())) must throwA[RuntimeException]
     }
   }
 }
