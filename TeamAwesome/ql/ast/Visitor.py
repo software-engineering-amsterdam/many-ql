@@ -1,6 +1,6 @@
 from GenericVisitor import GenericVisitor
 
-class ASTVisitor(GenericVisitor):
+class Visitor(GenericVisitor):
     # Below are default methods.
     # They do nothing except visit the tree.
     def _visitRoot(self, node):
