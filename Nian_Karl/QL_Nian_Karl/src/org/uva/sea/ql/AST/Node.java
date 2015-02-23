@@ -2,6 +2,6 @@ package org.uva.sea.ql.AST;
 
 import java.util.List;
 
-public interface Node {
-	public void accept(Visitor visitor);
+public abstract class Node {
+	public abstract void accept(Visitor visitor);
 }
