@@ -18,15 +18,15 @@ class QLEvaluator {
   def eval(f: Form, environment: Environment = emptyEnvironment): Environment = eval(f.e, environment)
 
   def eval(s: Statement, env: Environment): Environment = s match {
-    case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env) }
+    case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env)}
     case IfStatement(e, s1, None) => doIfStatement(e, env, eval(s1, env), env)
     case IfStatement(e, s1, Some(s2)) => doIfStatement(e, env, eval(s1, env), eval(s2, env))
-    case BooleanQuestion(Variable(name), label) => env + (name -> BoolVal())
-    case NumberQuestion(Variable(name), label) => env + (name -> NumberVal())
-    case StringQuestion(Variable(name), label) => env + (name -> StringVal())
-    case ComputedBooleanQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
-    case ComputedNumberQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
-    case ComputedStringQuestion(Variable(name), label, e) => env + (name -> eval(e, env))
+    case BooleanQuestion(Variable(name), label, None) => env + (name -> BoolVal())
+    case NumberQuestion(Variable(name), label, None) => env + (name -> NumberVal())
+    case StringQuestion(Variable(name), label, None) => env + (name -> StringVal())
+    case BooleanQuestion(Variable(name), label, Some(e)) => env + (name -> eval(e, env))
+    case NumberQuestion(Variable(name), label, Some(e)) => env + (name -> eval(e, env))
+    case StringQuestion(Variable(name), label, Some(e)) => env + (name -> eval(e, env))
   }
 
   def eval(e: Expression, env: Environment): VariableValue = e match {
