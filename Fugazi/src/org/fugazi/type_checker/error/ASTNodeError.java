@@ -1,4 +1,4 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.error;
 
 import org.fugazi.ast.AbstractASTNode;
 

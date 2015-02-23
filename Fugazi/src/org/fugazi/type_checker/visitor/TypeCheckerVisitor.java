@@ -1,4 +1,4 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.visitor;
 
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
@@ -21,6 +21,8 @@ import org.fugazi.ast.statement.IfStatement;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
+import org.fugazi.type_checker.dependency.DependencyList;
+import org.fugazi.type_checker.error.ASTErrorHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -462,21 +464,18 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return false;
     }
 
-    private boolean checkIfLiteralsDependent(ID depender, ID dependee) {
-        List<ID> dependenciesForDepender = this.questionDependencies.getIdDependencies(depender);
+    // a = b
+    // a - depender
+    // b - dependee
+    private boolean checkDependency(ID depender, ID dependee) {
+        List<String> dependenciesForDepender =
+                this.questionDependencies.getIdDependencyNames(depender);
 
-        System.out.println("Curent deps for depender " + depender.toString() + ": ");
-        System.out.println(dependenciesForDepender);
-
-        // current depender has no dependencies
-        // or the dependee is not one of them
-        if ((dependenciesForDepender == null) ||
-                !dependenciesForDepender.contains(dependee)) {
-            System.out.println("Returning false");
-            return false;
+        if ((dependenciesForDepender != null)
+                && dependenciesForDepender.contains(dependee.getName())) {
+            return true;
         }
-        System.out.println("Returning true");
-        return true;
+        return false;
     }
 
     /**
@@ -495,103 +494,61 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return;
     }
 
-    private void updateDependency(ID depender, ID dependee) {
-        // this method has to find all the nodes that depend on depender
-        // and add dependee as a dependency for them too, not only for depender
+    /* This method has to find all the nodes that depend on depender
+    *   You have to add dependee and all depender's further dependers
+        to detect cycles like this:
+        1. a = b
+        2. b = c
+        3. c = d
+        3. d = a
+        after 2. c needs to be added to a list of ids that depend on, and therefore a.
 
-        // you have to add dependee and all dependee's further dependees
-        // to detect cycles like this:
-        // 1. a = b
-        // 2. b = c
-        // 3. c = d
-        // 3. d = a
-        // after 2. c needs to be added to a list of ids that depend on, and therefore a
-
-        /*
-
-        1. A new dependeeX detected for dependantY.
-        2. Add to list of dependants of dependantY.
-        3. Look who depends on depenantY -> add to tempList newDependants.
-        4. while newDependants not empty:
-           4a. newDependant = newDependants.pop(0)
-           4b. newDependantDependants // Look who depends on newDependandt
-           for x in newDependantDependants
-            4b1. if any newDependantDependants in alreadyVisited
-               REGISTER CIRCULAR DEPENDENCY (x, newDependant)
-                else
-                add newDependantDependants to tempList newDependants.
-           4c. (ListOfIdsToAdd dependeeX to).append(newDependant)
-           4d.
-            4d1. alreadyVisited.append(newDependant)
-
-        5. For id in (ListOfIdsToAdd dependeeX to):
-           5a. addDependendcy(id, dependeeX);
-         */
-
-        // all the ids that are dependent on dependee directly or indirectly
+        In other words, the update needs to propapagte through the whole graph
+         (see transitive closure).
+    */
+    private void addDependency(ID depender, ID dependee) {
+        // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
         List<ID> idsToAddNewDependencyTo = new ArrayList<ID>();
         // temporary list used for traversing the graph.
         // pop first element, update all it's dependencies and add them
+        // used to traverse the graph until all elements indirectly affected
+        // by new dependence relation found
         List<ID> idsWithNewDependencies = new ArrayList<ID>();
-
-        idsToAddNewDependencyTo.add(depender);
-
-        // so that we avoid endless looping when circular dependencies exist
-        List<ID> alreadyAnalyzed = new ArrayList<ID>();
+        idsWithNewDependencies.add(depender);
 
         while (idsWithNewDependencies.size() > 0) {
-            ID newDependee = idsWithNewDependencies.get(0);
+            ID indirectDependee = idsWithNewDependencies.remove(0);
 
-            // check all elements that potentially depend on newDependee
-            // dependee passed as parameter added to this function needs to be added to them too
+            // check all elements that depend on newDependee and therefore indirectly on passed dependee
             for (ID key : this.questionDependencies.getIds()) {
-                List<ID> dependenciesForKey = this.questionDependencies.getIdDependencies(key);
-                if (dependenciesForKey != null &&
-                        dependenciesForKey.contains(newDependee)) {
-                    if (alreadyAnalyzed.contains((key))) {
-                        System.out.println();
-                        System.out.println("CIRCULAR DEPENDENCY");
-                        System.out.println(key + " " + newDependee);
-                        System.out.println();
-                    }
-                    idsWithNewDependencies.add(key);
+                List<String> dependenciesForKey = this.questionDependencies.getIdDependencyNames(key);
+
+                if ((dependenciesForKey != null)
+                        && dependenciesForKey.contains(indirectDependee.getName())) {
+                    idsToAddNewDependencyTo.add(key);
                 }
             }
-
-
-            // analyzed, need to be updated
             idsToAddNewDependencyTo.add(depender);
-            // fully analyzed, add to already analyzed list (so that it's not analyzed anymore)
-            alreadyAnalyzed.add(newDependee);
         }
 
         for (ID newDependant : idsToAddNewDependencyTo) {
             this.questionDependencies.addIdDependenant(newDependant, dependee);
         }
-
-        System.out.println(this.questionDependencies);
-
-
-//        System.out.println("Updated dependency " + depender.toString() + " " + dependenciesForDepender);
-//        this.questionDependencies.put(depender.getName(), dependenciesForDepender);
-//        System.out.println("Saved dependency " + depender.toString() + " " + this.questionDependencies.get(depender.getName()).toString());
         return;
     }
 
-    // TODO better words for dependent dependee
+    // a = b
+    // a - depender
+    // b - dependee
     private void addAndCheckDependency(ID depender, ID dependee) {
-        System.out.println("Adding and checking deps for " + depender.toString() + " " + dependee.toString());
-        // check if there is a reverse dependency
-        if (this.checkIfLiteralsDependent(dependee, depender)) {
-            this.astErrorHandler.registerNewError( dependee,
+        if (this.checkDependency(dependee, depender)) {
+            this.astErrorHandler.registerNewError( depender,
                     "Circular dependency between this node and " +
-                            this.assignableIdLiteral.toString() + "."
+                            dependee.toString() + "."
             );
         }
-
-        // add dependency
-        this.updateDependency(depender, dependee);
+        this.addDependency(depender, dependee);
         return;
     }
 
@@ -601,11 +558,9 @@ public class TypeCheckerVisitor implements IASTVisitor {
      * =======================
      */
 
-
     public boolean isFormCorrect() {
         return !this.astErrorHandler.hasErrors();
     }
-
 
     public void displayFormWarningsAndErrors() {
         this.astErrorHandler.displayWarningsAndErrors();

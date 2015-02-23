@@ -1,13 +1,16 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.dependency;
 
 import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.type_checker.dependency.Dependency;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lukaszharezlak on 23/02/15.
+/*
+    This is used instead of HashMap mapping IDs to List of dependencies.
+    Necessary because using ID's as keys for a HashMap is not possible out of the box.
  */
+
 public class DependencyList {
 
     private final List<Dependency> dependecies;
@@ -16,7 +19,7 @@ public class DependencyList {
         this.dependecies = new ArrayList<Dependency>();
     }
 
-    public List<ID>getIds() {
+    public List<ID> getIds() {
         List<ID> ids = new ArrayList<ID>();
         for (Dependency dependency : this.dependecies) {
             ids.add(dependency.getDependee());
@@ -24,7 +27,6 @@ public class DependencyList {
         return ids;
     }
 
-    // get the list of items ID depends on
     public List<ID> getIdDependencies(ID id) {
         int idx = this.indexOf(id);
         if (idx == -1) {
@@ -33,24 +35,34 @@ public class DependencyList {
         return this.dependecies.get(idx).getDependants();
     }
 
-    // add a new dependant for id
+    public List<String> getIdDependencyNames(ID id) {
+        int idx = this.indexOf(id);
+        if (idx == -1) {
+            return null;
+        }
+        List<String> names = new ArrayList<String>();
+        for (ID dependency : this.dependecies.get(idx).getDependants()) {
+            names.add(dependency.getName());
+        }
+        return names;
+    }
+
     public void addIdDependenant(ID id, ID dependant) {
         int idx = this.indexOf(id);
-        System.out.println(idx);
         if (idx == -1) {
             this.dependecies.add(new Dependency(id));
             idx = this.indexOf(id);
-            System.out.println(idx);
         }
-        System.out.println(idx);
         this.dependecies.get(idx).addDependant(dependant);
         return;
     }
 
+    // this needed to be overridden since AST variables are different object
+    // comparison can only be done on names
     private int indexOf(ID id) {
         int idx = 0;
         for (Dependency dependency : this.dependecies) {
-            if (id == this.dependecies.get(idx).getDependee()){
+            if (id.getName().equals(dependency.getDependee().getName())){
                 return idx;
             }
             idx++;
