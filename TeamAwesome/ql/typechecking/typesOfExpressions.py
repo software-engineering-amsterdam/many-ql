@@ -1,6 +1,7 @@
 from .Visitor import Visitor
 from . import Message
 from .common import typeOfIdentifier
+from .Cast import effectiveTypes
 
 import OperatorTypes
 import CustomTypes
@@ -133,11 +134,16 @@ class Checker(Visitor):
 
 
     def _allowExpression(self, allowedTypes, exprType, node):
-        if exprType not in allowedTypes:
+        allowedEffectiveTypeExists = any(map(
+            lambda t: t in allowedTypes,
+            effectiveTypes(exprType)
+        ))
+        if not allowedEffectiveTypeExists:
             self._result = self._result.withMessage(
                 Message.Error(
                     'got an expression of type `'+str(exprType)\
-                   +'` but only these expression types are allowed '\
+                   +'` which is not castable to any of the '\
+                   +'following types which are allowed here '\
                    +'here: '+str(allowedTypes),
                    node
                 )

@@ -29,7 +29,10 @@ class Table:
         self._rules = self._createRules()
 
     def unaryOperationType(self, op, typeRight):
-        return self._rules.get((op, typeRight), None)
+        rule = self._rules.get((op, typeRight), None)
+        if rule:
+            return rule[0]
+        return None
 
     def binaryOperationType(self, op, typeLeft, typeRight):
         rule = self._rules.get((op, typeLeft, typeRight), None)

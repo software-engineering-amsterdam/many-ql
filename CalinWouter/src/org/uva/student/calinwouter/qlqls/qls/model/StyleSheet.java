@@ -10,6 +10,10 @@ public class StyleSheet extends AbstractModel<StyleSheet> {
     private List<Page> pages;
     private List<Default> defaultSettings;
 
+    public String getStyleSheetName() {
+        return ident;
+    }
+
     public List<Page> getPages() {
         return pages;
     }

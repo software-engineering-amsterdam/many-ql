@@ -11,10 +11,6 @@ public class Page extends AbstractModel<Page> {
     private List<Section> sections;
     private List<Default> defaultSettings;
 
-    public List<Section> getSections() {
-        return sections;
-    }
-
     public List<Default> getDefaultSettings() {
         return defaultSettings;
     }
@@ -26,6 +22,10 @@ public class Page extends AbstractModel<Page> {
     @Override
     public void caseDefault(Default defaultSetting) {
         defaultSettings.add(defaultSetting);
+    }
+
+    public List<Section> getSections() {
+        return sections;
     }
 
     @Override
