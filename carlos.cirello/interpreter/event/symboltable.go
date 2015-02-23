@@ -5,8 +5,8 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 // Symbol is the message protocol used for interpreter communication with
 // SymbolTable process
 type Symbol struct {
-	Command SymbolEventType
-	Name    string
+	Command    SymbolEventType
+	Identifier string
 
 	// Writing
 	Content *ast.QuestionNode

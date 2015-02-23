@@ -15,5 +15,11 @@ public class BoolLiteral implements PrimitiveExpression {
 	public BoolValue evaluate() {
 		return new BoolValue(_value);
 	}
+
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

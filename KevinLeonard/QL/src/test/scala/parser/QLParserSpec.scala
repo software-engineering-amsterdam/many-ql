@@ -31,32 +31,32 @@ class QLParserSpec extends Specification with ParserMatchers {
   "question parser" should {
     "parse boolean questions" in {
       question must succeedOn("question var \"label\"\nanswer boolean")
-        .withResult(BooleanQuestion(Variable("var"), "\"label\""))
+        .withResult(BooleanQuestion(Variable("var"), "\"label\"", None))
     }
 
     "parse number questions" in {
       question must succeedOn("question var \"label\"\nanswer number")
-        .withResult(NumberQuestion(Variable("var"), "\"label\""))
+        .withResult(NumberQuestion(Variable("var"), "\"label\"", None))
     }
 
     "parse string questions" in {
       question must succeedOn("question var \"label\"\nanswer string")
-        .withResult(StringQuestion(Variable("var"), "\"label\""))
+        .withResult(StringQuestion(Variable("var"), "\"label\"", None))
     }
 
     "parse computed number questions" in {
       question must succeedOn("question var \"label\"\nanswer number is (fieldA + fieldB)")
-        .withResult(ComputedNumberQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
+        .withResult(NumberQuestion(Variable("var"), "\"label\"", Some(Add(Variable("fieldA"), Variable("fieldB")))))
     }
 
     "parse computed boolean questions" in {
       question must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
-        .withResult(ComputedBooleanQuestion(Variable("var"), "\"label\"", And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC")))))
+        .withResult(BooleanQuestion(Variable("var"), "\"label\"", Some(And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC"))))))
     }
 
     "parse computed string questions" in {
       question must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
-        .withResult(ComputedStringQuestion(Variable("var"), "\"label\"", Add(Variable("fieldA"), Variable("fieldB"))))
+        .withResult(StringQuestion(Variable("var"), "\"label\"", Some(Add(Variable("fieldA"), Variable("fieldB")))))
     }
   }
 
