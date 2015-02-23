@@ -4,8 +4,8 @@ import ast._
 import org.specs2.matcher.ExceptionMatchers
 import org.specs2.mutable.Specification
 
-class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
-  val checkers = new QLTypeChecker
+class TypeCheckerSpec extends Specification with ExceptionMatchers {
+  val checkers = new TypeChecker
   import checkers._
 
   "statement" should {

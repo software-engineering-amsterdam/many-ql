@@ -3,7 +3,7 @@ package typechecker
 import ast._
 import scala.util.parsing.input.Position
 
-class QLTypeChecker {
+class TypeChecker {
 
   def check(form: Form, env: Environment = new Environment()): Environment = check(form.s, env)
 

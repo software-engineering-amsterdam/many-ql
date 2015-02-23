@@ -3,7 +3,7 @@ package parser
 import ast._
 import scala.util.parsing.combinator.JavaTokenParsers
 
-class QLParser extends JavaTokenParsers {
+class Parser extends JavaTokenParsers {
 
   // general parsers
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r

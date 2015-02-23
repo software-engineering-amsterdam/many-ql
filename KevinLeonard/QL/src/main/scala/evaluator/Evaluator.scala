@@ -3,7 +3,7 @@ package evaluator
 import ast._
 import scala.collection.immutable.Map
 
-class QLEvaluator {
+class Evaluator {
 
   type VariableName = String
   type EvalEnvironment = Map[VariableName, Value]

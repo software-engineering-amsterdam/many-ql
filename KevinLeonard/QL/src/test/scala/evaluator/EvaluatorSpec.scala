@@ -3,8 +3,8 @@ package evaluator
 import ast._
 import org.specs2.mutable.Specification
 
-class QLEvaluatorSpec extends Specification {
-  val evaluators = new QLEvaluator
+class EvaluatorSpec extends Specification {
+  val evaluators = new Evaluator
 
   import evaluators._
 

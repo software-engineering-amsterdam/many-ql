@@ -4,8 +4,8 @@ import ast._
 import org.specs2.matcher.ParserMatchers
 import org.specs2.mutable.Specification
 
-class QLParserSpec extends Specification with ParserMatchers {
-  val parsers = new QLParser
+class ParserSpec extends Specification with ParserMatchers {
+  val parsers = new Parser
 
   import parsers._
 
