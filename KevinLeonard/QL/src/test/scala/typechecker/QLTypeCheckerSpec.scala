@@ -10,19 +10,19 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(BooleanQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType())))
+      check(BooleanQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(NumberQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType())))
+      check(NumberQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(StringQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType())))
+      check(StringQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(BooleanQuestion(Variable("X"), "label", Some(BooleanLiteral(true))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType())))
+      check(BooleanQuestion(Variable("X"), "label", Some(BooleanLiteral(true))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
 
     "throw exception, if statement is computed boolean question with invalid expression" in {
@@ -30,7 +30,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(NumberQuestion(Variable("X"), "label", Some(NumberLiteral(1))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType())))
+      check(NumberQuestion(Variable("X"), "label", Some(NumberLiteral(1))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
     }
 
     "throw exception, if statement is computed number question with invalid expression" in {
@@ -38,7 +38,7 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(StringQuestion(Variable("X"), "label", Some(StringLiteral(""))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType())))
+      check(StringQuestion(Variable("X"), "label", Some(StringLiteral(""))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
     }
 
     "throw exception, if statement is computed string question with invalid expression" in {
@@ -62,11 +62,11 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variables + types to environment" in {
-      check(Sequence(List(BooleanQuestion(Variable("X"), "label", None), NumberQuestion(Variable("Y"), "label", None), StringQuestion(Variable("Z"), "label", None))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType())))
+      check(Sequence(List(BooleanQuestion(Variable("X"), "label1", None), NumberQuestion(Variable("Y"), "label2", None), StringQuestion(Variable("Z"), "label3", None))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()), labels = List("label1", "label2", "label3")))
     }
     
     "add variable + type to environment " in {
-      check(Form("Form1", BooleanQuestion(Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType())))
+      check(Form("Form1", BooleanQuestion(Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
   }
 
@@ -301,6 +301,10 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
   "type checker" should {
     "detect duplicate question declarations" in {
       check(BooleanQuestion(Variable("X"), "label", None), new Environment(typeOfFields = Map("X" -> BooleanType()))) must throwA[RuntimeException]
+    }
+    
+    "detect duplicate label" in {
+      check(BooleanQuestion(Variable("X"), "label", None), new Environment(labels = List("label"))) must throwA[RuntimeException]
     }
   }
 }
