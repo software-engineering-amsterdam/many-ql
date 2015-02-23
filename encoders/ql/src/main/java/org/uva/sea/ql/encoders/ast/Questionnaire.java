@@ -36,4 +36,8 @@ public class Questionnaire extends AstNode {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public void addQuestions(List<Question> questionsToAdd) {
+		questions.addAll(questionsToAdd);
+	}
 }

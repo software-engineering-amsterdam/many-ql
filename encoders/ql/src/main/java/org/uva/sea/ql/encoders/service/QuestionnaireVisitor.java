@@ -9,6 +9,7 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StatementContext;
 import org.uva.sea.ql.encoders.ast.AstNode;
+import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.Question;
@@ -16,12 +17,11 @@ import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
-	private final Questionnaire questionnaire = new Questionnaire();
-
 	private final ExpressionVisitor expressionVisitor = new ExpressionVisitor();
 
 	@Override
-	public AstNode visitQuestionnaire(QuestionnaireContext ctx) {
+	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
+		Questionnaire questionnaire = new Questionnaire();
 		questionnaire.setName(ctx.formName.getText());
 		List<StatementContext> statements = ctx.stmt;
 
@@ -29,7 +29,8 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 			ConditionalBlockContext conditionalBlock = statementContext
 					.conditionalBlock();
 			if (conditionalBlock != null) {
-				visit(conditionalBlock);
+				ConditionalBlock cb = (ConditionalBlock) visit(conditionalBlock);
+				questionnaire.addQuestions(cb.getQuestions());
 			}
 			QuestionContext questionContext = statementContext.question();
 			if (questionContext != null) {
@@ -49,12 +50,13 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	}
 
 	@Override
-	public AstNode visitConditionalBlock(ConditionalBlockContext ctx) {
+	public ConditionalBlock visitConditionalBlock(ConditionalBlockContext ctx) {
+		ConditionalBlock cb = new ConditionalBlock();
 		for (QuestionContext questionContext : ctx.question()) {
 			Question question = (Question) visit(questionContext);
-			questionnaire.addQuestion(question);
+			cb.add(question);
 		}
-		return null;
+		return cb;
 	}
 
 	@Override
