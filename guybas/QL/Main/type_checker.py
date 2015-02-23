@@ -98,7 +98,7 @@ class TypeChecker:
         elif isinstance(cinput, Operator):
             type_class = Expressions.operator_name
         else:
-            raise QException("Undefined input " + type(cinput))
+            raise QException("Undefined input " + str(type(cinput)))
 
         if not ctype:
             return type_class

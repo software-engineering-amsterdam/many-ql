@@ -1,5 +1,5 @@
 from Main.mapper import *
-
+from AST.operators import *
 
 class Processor:
     @staticmethod
@@ -11,7 +11,6 @@ class Processor:
         :param Mapper answers_map: mapper object with the question ids and their corresponding answers
         :return: bool
         """
-
         # bind ids to values
         #simplified_c = Processor.bind_values(expression, answers_map)
 
@@ -25,11 +24,12 @@ class Processor:
 
     @staticmethod
     def extract_variables(expression):
-        print("<ShouldBeString>")
+        vars = []
         for e in expression:
-            print(e.pretty_print())
-        # print(expression)
-        print("</ShouldBeString>")
+            if not isinstance(e, Variable):
+                continue
+            vars.append(str(e))
+        return vars
 
     @staticmethod
     def bind_values(expression, answers_map):
