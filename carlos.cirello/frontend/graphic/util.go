@@ -6,6 +6,7 @@ import (
 	"text/template"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"gopkg.in/qml.v1"
 )
 
@@ -29,7 +30,7 @@ func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	g.symbolTable[newFieldName] = question
 }
 
-func (g *Gui) updateQuestion(fieldName string, content interface{}) {
+func (g *Gui) updateQuestion(fieldName, fieldType string, content interface{}) {
 	if question, ok := g.symbolTable[fieldName]; ok {
 		question.Set("visible", true)
 
@@ -40,19 +41,20 @@ func (g *Gui) updateQuestion(fieldName string, content interface{}) {
 			// user edit in the focused field.
 			return
 		}
-		switch value := content.(type) {
-		default:
-			if value.(ast.Parser).String() != fieldPtr.String("text") {
-				fieldPtr.Set("text", value.(ast.Parser).String())
-			}
-		case *ast.BoolQuestion:
-			if value.String() == "Yes" {
+
+		switch fieldType {
+		case symboltable.BoolQuestionType:
+			if content == "Yes" {
 				fieldPtr.Set("checked", true)
 			} else {
 				fieldPtr.Set("checked", false)
 			}
-		}
+		default:
+			if content != fieldPtr.String("text") {
+				fieldPtr.Set("text", content)
+			}
 
+		}
 	}
 }
 

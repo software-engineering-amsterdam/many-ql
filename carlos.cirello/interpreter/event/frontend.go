@@ -11,6 +11,7 @@ type Frontend struct {
 	Identifier string
 	Label      string
 	FieldType  string
+	Value      string
 
 	Visible Visibility
 

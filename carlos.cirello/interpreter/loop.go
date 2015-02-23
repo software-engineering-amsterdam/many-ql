@@ -4,6 +4,8 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
+	"time"
+
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
@@ -96,8 +98,8 @@ func (v *interpreter) loop() {
 						v.send <- &event.Frontend{Type: event.Flush}
 
 						q := v.symbols.Read(identifier)
-						q.(*ast.QuestionNode).Content().From(answer)
-						v.symbols.Update(identifier, q.(*ast.QuestionNode))
+						q.(symboltable.StringParser).From(answer)
+						v.symbols.Update(identifier, q)
 					}
 					fallthrough
 

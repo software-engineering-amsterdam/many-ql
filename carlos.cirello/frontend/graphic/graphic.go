@@ -5,7 +5,6 @@ package graphic
 import (
 	"sync"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"gopkg.in/qml.v1"
@@ -83,9 +82,8 @@ func (g *Gui) DrawQuestion(
 // UpdateQuestion updates an existing question in the GUI form stack
 func (g *Gui) UpdateQuestion(
 	identifier,
-	label,
-	typ string,
-	content ast.Parser,
+	fieldType string,
+	content interface{},
 ) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -93,8 +91,7 @@ func (g *Gui) UpdateQuestion(
 	m := &render{
 		action:     updateQuestion,
 		identifier: identifier,
-		label:      label,
-		fieldType:  typ,
+		fieldType:  fieldType,
 		content:    content,
 	}
 	g.renderStack = append(g.renderStack, *m)
@@ -172,7 +169,7 @@ func (g *Gui) renderLoop() {
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier, event.content)
+				g.updateQuestion(event.identifier, event.fieldType, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
