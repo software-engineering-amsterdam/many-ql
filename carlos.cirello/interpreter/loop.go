@@ -53,6 +53,8 @@ func openChannels() (toFrontend, fromFrontend chan *event.Frontend) {
 
 func typecheck(q *ast.QuestionaireNode) {
 	tc, symboltable := typechecker.New()
+	symboltable.SetWatchError(true)
+
 	tc.Visit(q)
 
 	symboltable.ShowWarn()
