@@ -40,7 +40,7 @@ public class ExampleQuestions{
         answerSet.add(new Answer("This is also an answer"));
         Text text = new Text("This is a question, that is even more long!?");
 
-        Question q = new Question(id, Type.SET, answerSet, text, null, null);
+        Question q = new Question(id, Type.SET, answerSet, text);
         return q;
     }
 
@@ -49,7 +49,7 @@ public class ExampleQuestions{
 
         Text text = new Text("Gimme all the datez?");
 
-        Question q = new Question(id, Type.DATE, null, text, null, null);
+        Question q = new Question(id, Type.DATE, null, text);
         return q;
     }
 
@@ -61,7 +61,7 @@ public class ExampleQuestions{
         answerSet.add(new Answer("No"));
         Text text = new Text("Do you like diz?");
 
-        Question q = new Question(id, Type.SET, answerSet, text, null, null);
+        Question q = new Question(id, Type.SET, answerSet, text);
         return q;
     }
 
@@ -71,7 +71,7 @@ public class ExampleQuestions{
         answerSet.add(new Answer("Example Answer"));
         Text text = new Text("This is a question, that is even more long!?");
 
-        Question q = new Question(id, Type.STRING, answerSet, text, null, null);
+        Question q = new Question(id, Type.STRING, answerSet, text);
         return q;
     }
 
@@ -82,7 +82,7 @@ public class ExampleQuestions{
         answerSet.add(new Answer("BAM"));
         Text text = new Text("New Kids?");
 
-        Question q = new Question(id, Type.SET, answerSet, text, null, null);
+        Question q = new Question(id, Type.SET, answerSet, text);
         return q;
     }
 }

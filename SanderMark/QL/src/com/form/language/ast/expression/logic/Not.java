@@ -16,4 +16,10 @@ public class Not extends UnaryExpression implements PrimitiveExpression {
 		return ((BoolLiteral)value).evaluate().Not();
 	}
 
+	@Override
+	public Boolean typeCorrect(Error e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
