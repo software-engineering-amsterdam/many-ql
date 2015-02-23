@@ -7,6 +7,10 @@ import java.util.List;
 
 public class ComputedValue extends AbstractFormField<ComputedValue> {
 
+    public void applyWidget(IComputedValueWidgetCallback<ComputedValue> widgetCallback) {
+        // TODO
+    }
+
     @Override
     public void updateStates(HeadlessFormInterpreter headlessFormInterpreter, List<Default> defaultList) {
         value = headlessFormInterpreter.getField(ident);
