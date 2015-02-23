@@ -2,6 +2,10 @@ package org.fugazi.ast.type;
 
 public class BoolType extends Type {
 
+    public BoolType(int _lineNum) {
+        super(_lineNum);
+    }
+
     @Override
     public String toString() {
         return "Bool";

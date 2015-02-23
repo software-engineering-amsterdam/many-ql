@@ -21,6 +21,7 @@ import nl.uva.se.ast.expression.logical.LessThen;
 import nl.uva.se.ast.expression.logical.Not;
 import nl.uva.se.ast.expression.logical.NotEqual;
 import nl.uva.se.ast.expression.logical.Or;
+import nl.uva.se.ast.expression.variable.Reference;
 import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
@@ -28,23 +29,34 @@ import nl.uva.se.ast.statement.Question;
 import nl.uva.se.visitor.Visitor;
 
 public class TypeChecker implements Visitor {
-
-	@Override
-	public void visit(Form form) {
-		// TODO Auto-generated method stub
+	
+	private SymbolTable symbols;
+	
+	private TypeChecker() {
+		symbols = new SymbolTable();
+	}
+	
+	public static SymbolTable run(Form form) {
+		TypeChecker typeChecker = new TypeChecker();
+		typeChecker.visit(form);
 		
+		return typeChecker.symbols;
 	}
 
 	@Override
 	public void visit(Question question) {
-		// TODO Auto-generated method stub
-		
+		symbols.addSymbol(question.getId(), question.getType());
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		// TODO Auto-generated method stub
-		
+		symbols.addSymbol(calculatedQuestion.getId(),
+				calculatedQuestion.getType());
+	}
+
+	@Override
+	public void visit(Form form) {
+		form.visitChildren(this);
 	}
 
 	@Override
@@ -56,6 +68,7 @@ public class TypeChecker implements Visitor {
 	@Override
 	public void visit(Not not) {
 		// TODO Auto-generated method stub
+		not.getSingleExpression().accept(this);
 		
 	}
 
@@ -175,6 +188,12 @@ public class TypeChecker implements Visitor {
 
 	@Override
 	public void visit(StringLiteral stringLiteral) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Reference reference) {
 		// TODO Auto-generated method stub
 		
 	}

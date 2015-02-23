@@ -5,6 +5,6 @@ form taxOfficeExample {
   
   if (hasSoldHouse) {
   	decimal income : "Your income?"
-  	decimal test : "some question?" (100 - 20)
+  	decimal test : "some question?" ((100 - 20) - 10)
   }
 }

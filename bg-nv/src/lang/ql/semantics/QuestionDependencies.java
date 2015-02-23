@@ -16,7 +16,7 @@ public class QuestionDependencies
         this.dependencies = new HashMap<String, Set<String>>();
     }
 
-    public void addDependency(Question q)
+    public void addQuestion(Question q)
     {
         String id = q.getId();
         if (!(this.dependencies.containsKey(id)))
@@ -28,10 +28,11 @@ public class QuestionDependencies
     public void addDependency(Question q, Question dep)
     {
         String id = q.getId();
-        if (!this.dependencies.containsKey(id))
-        {
-            this.addDependency(q);
-        }
+        assert this.dependencies.containsKey(id);
+//        if (!this.dependencies.containsKey(id))
+//        {
+//            this.addQuestion(q);
+//        }
 
         this.dependencies.get(id).add(dep.getId());
     }

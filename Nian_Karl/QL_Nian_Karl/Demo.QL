@@ -15,4 +15,20 @@ form SalarySurvey{
 	if(true && false){
 	
 	} 
+	
+	if(false && true){
+	
+	} 
+	
+	if(false && false){
+	
+	} 
+	
+	if(false){
+	
+	} 
+	
+	if(6 * 18){
+	
+	}
 }

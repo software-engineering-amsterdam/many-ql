@@ -7,6 +7,7 @@ import java.util.List;
 import org.uva.sea.ql.AST.Node;
 import org.uva.sea.ql.AST.Visitor;
 import org.uva.sea.ql.AST.expression.Expression;
+import org.uva.sea.ql.AST.value.BooleanValue;
 
 public class IfStatement extends Statement{
 
@@ -36,6 +37,10 @@ public class IfStatement extends Statement{
 	
 	public Expression getExpr() {
 		return expr;
+	}
+	
+	public BooleanValue interpretExpression(){
+		return (BooleanValue) expr.interpretExpression();
 	}
 	
 	@Override

@@ -54,7 +54,7 @@ public class Modeler implements Visitor, TypeVisitor
     public void visit(Form form)
     {
         this.lines = new ArrayList<Line>();
-        for (Statement s : form.getStatements())
+        for (Statement s : form.getBody())
         {
             s.accept(this);
         }
@@ -67,7 +67,7 @@ public class Modeler implements Visitor, TypeVisitor
     {
         this.currentValue = values.getValue(q.getId());
 
-        Label label = new Label(q.getText());
+        Label label = new Label(q.getLabel());
         q.getType().accept(this);
 
         this.lines.add(new Line(label, this.currentInput));
@@ -81,7 +81,7 @@ public class Modeler implements Visitor, TypeVisitor
     {
         this.currentValue = values.getValue(cq.getId());
 
-        Label label = new Label(cq.getText());
+        Label label = new Label(cq.getLabel());
         cq.getType().accept(this);
 
         this.lines.add(new Line(label, this.currentInput));
@@ -128,7 +128,7 @@ public class Modeler implements Visitor, TypeVisitor
     @Override
     public void visit(IfCondition ifCond)
     {
-        for (Statement s : ifCond.getStatements())
+        for (Statement s : ifCond.getBody())
         {
             s.accept(this);
         }

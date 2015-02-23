@@ -12,7 +12,9 @@ public class ID extends Literal {
     private final Type type;
     private final List<Class> supportedTypes;
 
-    public ID(String _name, Type _type) {
+    public ID(String _name, Type _type, int _lineNum) {
+        super(_lineNum);
+
         this.name = _name;
         this.type = _type;
         this.supportedTypes = new ArrayList<Class>();
