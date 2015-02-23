@@ -21,6 +21,7 @@ public abstract class AbstractModel<T> implements IModel {
 
     @Override
     public void caseString(String string) {
+        System.out.println(this.getClass() + "/ " + string);
         throw new UnsupportedOperationException();
     }
 

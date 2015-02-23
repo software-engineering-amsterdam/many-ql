@@ -12,7 +12,7 @@ public class NodeConditionIf extends NodeCondition {
 		super.add(node);
 	}
 	
-	public LinkedList<Node> getNodes() {
+	public LinkedList<? extends Node> getNodes() {
 		return super.getNodes();
 	}
 	
