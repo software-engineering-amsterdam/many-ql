@@ -10,7 +10,7 @@ import java.util.*;
 /**
 * Created by bore on 15/02/15.
 */
-public class Interpreter<Void> implements Visitor
+public class Interpreter implements Visitor<Void>
 {
     private Stack<Value> valueStack;
     private ValueTable variableValues;

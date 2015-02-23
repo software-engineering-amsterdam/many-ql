@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Created by bore on 13/02/15.
  */
-public class TypeChecker<Void> implements Visitor
+public class TypeChecker implements Visitor<Void>
 {
     private SymbolTable symbolTable;
     private Stack<Type> typeStack;
