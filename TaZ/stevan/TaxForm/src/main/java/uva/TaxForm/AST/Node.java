@@ -13,7 +13,7 @@ public class Node {
 		nodes.add(node);
 	}
 	
-	public LinkedList<Node> getNodes() {
+	public LinkedList<? extends Node> getNodes() {
 		return nodes;
 	}
 

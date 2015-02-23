@@ -8,6 +8,15 @@ public class NodeQuestion extends Node {
 	private String label;
 	private Expression<?> exp;
 	
+	public boolean eval() {
+		
+		//Check 
+		
+		this.exp.getNodes().size();
+		//TODO: Evaluate the question and give true/false back if question is valid/invalid
+		return false;
+	}
+	
 	public String getLabel() {
 		return label;
 	}
