@@ -3,8 +3,9 @@ package org.fugazi.gui;
 import org.fugazi.ast.form.Form;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.evaluator.Evaluator;
-import org.fugazi.gui.ui_elements.IUIElement;
+import org.fugazi.gui.ui_elements.UIElement;
 import org.fugazi.gui.ui_elements.UIForm;
+import org.fugazi.gui.visitor.UIStatementVisitor;
 
 public class GUIManager {
 
@@ -27,7 +28,7 @@ public class GUIManager {
 
     private void setUpLayout() {
         for (Statement statement : astForm.getBody()) {
-            IUIElement elem = statement.accept(this.statementVisitor);
+            UIElement elem = statement.accept(this.statementVisitor);
             uiForm.addElement(elem);
         }
     }
