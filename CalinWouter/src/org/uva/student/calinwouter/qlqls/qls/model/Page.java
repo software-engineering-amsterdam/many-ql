@@ -6,13 +6,17 @@ import org.uva.student.calinwouter.qlqls.qls.types.AbstractPushable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Page extends AbstractFormField<Page> {
+public class Page extends AbstractModel<Page> {
     private List<Section> sections;
     private List<Default> defaultSettings;
 
     @Override
     public void caseDefault(Default defaultSetting) {
         defaultSettings.add(defaultSetting);
+    }
+
+    public List<Section> getSections() {
+        return sections;
     }
 
     @Override
