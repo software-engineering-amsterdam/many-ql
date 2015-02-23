@@ -1,5 +1,6 @@
 package org.fugazi.evaluator.visitor;
 
+import org.fugazi.ValueStorage;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.BOOL;

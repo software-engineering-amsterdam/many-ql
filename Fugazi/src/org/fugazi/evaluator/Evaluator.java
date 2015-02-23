@@ -1,15 +1,16 @@
 package org.fugazi.evaluator;
 
+import org.fugazi.ValueStorage;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.evaluator.visitor.EvaluationExprVisitor;
 
 public class Evaluator {
 
-    private final ValueStorage values;
+    private ValueStorage values;
     private final EvaluationExprVisitor expressionVisitor;
     
-    public Evaluator() {
-        this.values = new ValueStorage();
+    public Evaluator(ValueStorage _values) {
+        this.values = _values;
         this.expressionVisitor = new EvaluationExprVisitor(values);
     }
 

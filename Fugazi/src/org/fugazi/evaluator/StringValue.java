@@ -8,11 +8,11 @@ public class StringValue extends ExpressionValue<String> {
 
     @Override
     public ExpressionValue add(ExpressionValue exprValue) {
-        return this.addString((StringValue)exprValue);
+        return exprValue.addString(this);
     }
 
     @Override
     public ExpressionValue addString(StringValue exprValue) {
-        return new StringValue(this.getValue() + exprValue.getValue());
+        return new StringValue(exprValue.getValue() + this.getValue());
     }
 }

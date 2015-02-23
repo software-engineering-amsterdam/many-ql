@@ -1,5 +1,6 @@
 package org.fugazi.evaluator;
 
+import org.fugazi.ValueStorage;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.*;
 import org.fugazi.ast.expression.logical.And;
@@ -34,7 +35,8 @@ public class EvaluatorTest {
 
     @Before
     public void setupEnv() {
-        evaluator = new Evaluator();
+        ValueStorage valueStorage = new ValueStorage();
+        evaluator = new Evaluator(valueStorage);
     }
 
 //    @AfterClass
