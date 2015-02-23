@@ -10,63 +10,63 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(BooleanQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+      check(Question(BooleanType(), Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(NumberQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
+      check(Question(NumberType(), Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(StringQuestion(Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
+      check(Question(StringType(), Variable("X"), "label", None), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(BooleanQuestion(Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
 
     "throw exception, if statement is computed boolean question with invalid expression" in {
-      check(BooleanQuestion(Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new Environment()) must throwA[RuntimeException]
+      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new Environment()) must throwA[RuntimeException]
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(NumberQuestion(Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
+      check(Question(NumberType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
     }
 
     "throw exception, if statement is computed number question with invalid expression" in {
-      check(NumberQuestion(Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(false)))), new Environment()) must throwA[RuntimeException]
+      check(Question(NumberType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(false)))), new Environment()) must throwA[RuntimeException]
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(StringQuestion(Variable("X"), "label", Some(Literal(StringType(), StringValue("")))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
+      check(Question(StringType(), Variable("X"), "label", Some(Literal(StringType(), StringValue("")))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
     }
 
     "throw exception, if statement is computed string question with invalid expression" in {
-      check(StringQuestion(Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new Environment()) must throwA[RuntimeException]
+      check(Question(StringType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new Environment()) must throwA[RuntimeException]
     }
 
     "return empty environment, if valid boolean condition" in {
-      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), BooleanQuestion(Variable("X"), "label", None), None), new Environment()) must beEqualTo(new Environment())
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), None), new Environment()) must beEqualTo(new Environment())
     }
 
     "throw exception, if invalid boolean condition" in {
-      check(IfStatement(Literal(NumberType(), NumberValue(0)), BooleanQuestion(Variable("X"), "label", None), None), new Environment()) must throwA[RuntimeException]
+      check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), new Environment()) must throwA[RuntimeException]
     }
 
     "return empty environment, if valid boolean condition" in {
-      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), BooleanQuestion(Variable("X"), "label", None), Some(BooleanQuestion(Variable("X"), "label", None))), new Environment()) must beEqualTo(new Environment())
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new Environment()) must beEqualTo(new Environment())
     }
 
     "throw exception, if invalid boolean condition" in {
-      check(IfStatement(Literal(NumberType(), NumberValue(0)), BooleanQuestion(Variable("X"), "label", None), Some(BooleanQuestion(Variable("X"), "label", None))), new Environment()) must throwA[RuntimeException]
+      check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new Environment()) must throwA[RuntimeException]
     }
 
     "add variables + types to environment" in {
-      check(Sequence(List(BooleanQuestion(Variable("X"), "label1", None), NumberQuestion(Variable("Y"), "label2", None), StringQuestion(Variable("Z"), "label3", None))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()), labels = List("label1", "label2", "label3")))
+      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()), labels = List("label1", "label2", "label3")))
     }
     
     "add variable + type to environment " in {
-      check(Form("Form1", BooleanQuestion(Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+      check(Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
   }
 
@@ -300,11 +300,11 @@ class QLTypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "type checker" should {
     "detect duplicate question declarations" in {
-      check(BooleanQuestion(Variable("X"), "label", None), new Environment(typeOfFields = Map("X" -> BooleanType()))) must throwA[RuntimeException]
+      check(Question(BooleanType(), Variable("X"), "label", None), new Environment(typeOfFields = Map("X" -> BooleanType()))) must throwA[RuntimeException]
     }
     
     "detect duplicate label" in {
-      check(BooleanQuestion(Variable("X"), "label", None), new Environment(labels = List("label"))) must throwA[RuntimeException]
+      check(Question(BooleanType(), Variable("X"), "label", None), new Environment(labels = List("label"))) must throwA[RuntimeException]
     }
   }
 }

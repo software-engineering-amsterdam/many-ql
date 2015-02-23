@@ -21,18 +21,18 @@ class QLTypeChecker {
         env // Return environment without the questions in s1 and s2.
       case _ => sys.error(s"Invalid boolean condition for if statement at line ${s.pos}")
     }
-    case BooleanQuestion(v: Variable, label: String, None) => env.tryAddVariable(v.name, BooleanType()).tryAddLabel(label)
-    case NumberQuestion(v: Variable, label: String, None) => env.tryAddVariable(v.name, NumberType()).tryAddLabel(label)
-    case StringQuestion(v: Variable, label: String, None) => env.tryAddVariable(v.name, StringType()).tryAddLabel(label)
-    case s @ BooleanQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
+    case Question(BooleanType(), v: Variable, label: String, None) => env.tryAddVariable(v.name, BooleanType()).tryAddLabel(label)
+    case s @ Question(BooleanType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case BooleanType() => env.tryAddVariable(v.name, BooleanType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed boolean question at line ${s.pos}")
     }
-    case s @ NumberQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
+    case Question(NumberType(), v: Variable, label: String, None) => env.tryAddVariable(v.name, NumberType()).tryAddLabel(label)
+    case s @ Question(NumberType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case NumberType() => env.tryAddVariable(v.name, NumberType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed number expression at line ${s.pos}")
     }
-    case s @ StringQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
+    case Question(StringType(), v: Variable, label: String, None) => env.tryAddVariable(v.name, StringType()).tryAddLabel(label)
+    case s @ Question(StringType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case StringType() => env.tryAddVariable(v.name, StringType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed string expression at line ${s.pos}")
     }

@@ -10,47 +10,47 @@ class QLEvaluatorSpec extends Specification {
 
   "evaluation of statements" should {
     "add default value of boolean to environment when evaluating boolean question" in {
-      eval(BooleanQuestion(Variable("a"), "label", None), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue()))
+      eval(Question(BooleanType(), Variable("a"), "label", None), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue()))
     }
 
     "add default value of number to environment when evaluating number question" in {
-      eval(NumberQuestion(Variable("a"), "label", None), emptyEnvironment) must beEqualTo(Map("a" -> NumberValue()))
+      eval(Question(NumberType(), Variable("a"), "label", None), emptyEnvironment) must beEqualTo(Map("a" -> NumberValue()))
     }
 
     "add default value of string to environment when evaluating string question" in {
-      eval(StringQuestion(Variable("a"), "label", None), emptyEnvironment) must beEqualTo(Map("a" -> StringValue()))
+      eval(Question(StringType(), Variable("a"), "label", None), emptyEnvironment) must beEqualTo(Map("a" -> StringValue()))
     }
 
     "add default value of boolean to environment when evaluating boolean question" in {
-      eval(BooleanQuestion(Variable("a"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(true)))
+      eval(Question(BooleanType(), Variable("a"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(true)))
     }
 
     "add default value of number to environment when evaluating number question" in {
-      eval(NumberQuestion(Variable("a"), "label", Some(Literal(NumberType(), NumberValue(1)))), emptyEnvironment) must beEqualTo(Map("a" -> NumberValue(1)))
+      eval(Question(NumberType(), Variable("a"), "label", Some(Literal(NumberType(), NumberValue(1)))), emptyEnvironment) must beEqualTo(Map("a" -> NumberValue(1)))
     }
 
     "add default value of string to environment when evaluating string question" in {
-      eval(StringQuestion(Variable("a"), "label", Some(Literal(StringType(), StringValue("b")))), emptyEnvironment) must beEqualTo(Map("a" -> StringValue("b")))
+      eval(Question(StringType(), Variable("a"), "label", Some(Literal(StringType(), StringValue("b")))), emptyEnvironment) must beEqualTo(Map("a" -> StringValue("b")))
     }
 
     "eval the statements in the if block, if the expression evaluates to true" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), BooleanQuestion(Variable("a"), "label", None), None), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(false)))
+      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("a"), "label", None), None), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(false)))
     }
 
     "eval no statements, if the expression evaluates to false" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), BooleanQuestion(Variable("a"), "label", None), None), emptyEnvironment) must beEqualTo(emptyEnvironment)
+      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), None), emptyEnvironment) must beEqualTo(emptyEnvironment)
     }
 
     "eval the statements in the if block, if the expression evaluates to true" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), BooleanQuestion(Variable("a"), "label", None), Some(BooleanQuestion(Variable("b"), "label", None))), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(false)))
+      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(false)))
     }
 
     "eval the statements in the else block, if the expression evaluates to false" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), BooleanQuestion(Variable("a"), "label", None), Some(BooleanQuestion(Variable("b"), "label", None))), emptyEnvironment) must beEqualTo(Map("b" -> BooleanValue(false)))
+      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), emptyEnvironment) must beEqualTo(Map("b" -> BooleanValue(false)))
     }
 
     "eval all the statements in a sequence" in {
-      eval(Sequence(List(BooleanQuestion(Variable("a"), "label", None), BooleanQuestion(Variable("b"), "label", None), BooleanQuestion(Variable("c"), "label", None))), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(false), "b" -> BooleanValue(false), "c" -> BooleanValue(false)))
+      eval(Sequence(List(Question(BooleanType(), Variable("a"), "label", None), Question(BooleanType(), Variable("b"), "label", None), Question(BooleanType(), Variable("c"), "label", None))), emptyEnvironment) must beEqualTo(Map("a" -> BooleanValue(false), "b" -> BooleanValue(false), "c" -> BooleanValue(false)))
     }
   }
 

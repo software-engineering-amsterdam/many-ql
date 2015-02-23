@@ -30,9 +30,9 @@ class QLParser extends JavaTokenParsers {
 
   // question parsers
   def question: Parser[Question] = positioned("question" ~> variable ~ label ~ questionType ~ opt("is" ~ "(" ~> expression <~ ")") ^^ {
-    case v ~ label ~ "boolean" ~ e => BooleanQuestion(v, label, e)
-    case v ~ label ~ "number" ~ e => NumberQuestion(v, label, e)
-    case v ~ label ~ "string" ~ e => StringQuestion(v, label, e)
+    case v ~ label ~ "boolean" ~ e => Question(BooleanType(), v, label, e)
+    case v ~ label ~ "number" ~ e => Question(NumberType(), v, label, e)
+    case v ~ label ~ "string" ~ e => Question(StringType(), v, label, e)
   })
   def questionType: Parser[String] = "answer" ~> ("boolean" | "number" | "string")
 
