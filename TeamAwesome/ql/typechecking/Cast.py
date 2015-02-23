@@ -1,4 +1,4 @@
-import CustomTypes
+from .. import CustomTypes
 
 def castableTo(fromType):
     castables = {

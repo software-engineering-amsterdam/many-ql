@@ -2,9 +2,11 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
-import lang.ql.gui.FxVisualizer;
+import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.Modeler;
+import lang.ql.gui.SimpleGui;
 import lang.ql.semantics.*;
-import lang.ql.syntax.QLVisitorImpl;
+import lang.ql.ast.QLVisitor;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -31,12 +33,13 @@ public class Main extends Application
             QLParser parser = new QLParser(tokens);
             ParserRuleContext tree = parser.form();
 
-            QLVisitorImpl visitor = new QLVisitorImpl();
+            QLVisitor visitor = new QLVisitor();
             ast = (Form) visitor.visit(tree);
 
-            Interpreter v = new Interpreter();
-            v.visit(ast);
-            values = v.getVariableValues();
+            TypeChecker.check(ast);
+
+            Interpreter.interpret(ast);
+            //values = v.getVariableValues();
 
             System.out.println(values);
         }
@@ -50,7 +53,8 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        FxVisualizer visualizer = new FxVisualizer(values);
-        visualizer.render(primaryStage, ast);
+        Modeler modeler = new Modeler(values);
+        modeler.visit(this.ast);
+        SimpleGui.run(modeler.getCanvas(), primaryStage);
     }
 }

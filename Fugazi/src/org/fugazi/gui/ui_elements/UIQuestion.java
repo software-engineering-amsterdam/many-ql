@@ -2,9 +2,11 @@ package org.fugazi.gui.ui_elements;
 
 import org.fugazi.ast.statement.Question;
 
-import javax.swing.*;
+public abstract class UIQuestion extends IUIElement {
 
-public interface UIQuestion {
+    protected final Question question;
 
-    public JComponent getComponent();
+    UIQuestion(Question _question) {
+        this.question = _question;
+    }
 }

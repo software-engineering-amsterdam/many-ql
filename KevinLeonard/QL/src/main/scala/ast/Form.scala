@@ -1,4 +1,19 @@
 package ast
 
-// TODO: should this be a case class? It doesn't extend anything.
-case class Form(label: String, e: Statement)
+class Form(val label: String, val s: Statement) {
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[Form]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: Form =>
+      (that canEqual this) &&
+        label == that.label &&
+        s == that.s
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(label, s)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
+}

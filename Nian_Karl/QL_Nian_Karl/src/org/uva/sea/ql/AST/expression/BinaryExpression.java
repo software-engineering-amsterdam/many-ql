@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.sea.ql.AST.Node;
-import org.uva.sea.ql.AST.Visitor;
 import org.uva.sea.ql.AST.value.AbstractValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 public abstract class BinaryExpression extends Expression{
 	protected Expression leftExpression;

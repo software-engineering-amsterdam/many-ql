@@ -54,7 +54,7 @@ public class QuestErrInfo
 
     private void addLabelQuestion(Question q)
     {
-        String label = q.getText();
+        String label = q.getLabel();
         if (this.labelToId.containsKey(label))
         {
             String id = this.labelToId.get(label);
@@ -62,7 +62,7 @@ public class QuestErrInfo
         }
         else
         {
-            this.labelToId.put(q.getText(), q.getId());
+            this.labelToId.put(q.getLabel(), q.getId());
         }
     }
 }

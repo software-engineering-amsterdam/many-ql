@@ -1,9 +1,9 @@
-import ASTNodes
+from ..ast import Nodes
 
 class Message:
     def __init__(self, message, nodeOrLine = None):
         self.__message = message
-        if isinstance(nodeOrLine, ASTNodes.Node):
+        if isinstance(nodeOrLine, Nodes.Node):
             self.__line = getattr(nodeOrLine, 'lineNumber', None)
         else:
             self.__line = nodeOrLine

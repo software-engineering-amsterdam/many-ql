@@ -2,6 +2,7 @@ package ql.ast.expression.literal;
 
 import ql.ast.expression.Literal;
 import ql.ast.value.Bool;
+import ql.ast.visitor.Visitor;
 
 public class BoolLiteral extends Literal{
 	
@@ -10,10 +11,16 @@ public class BoolLiteral extends Literal{
 	public BoolLiteral(Boolean value) {
 		this.value = value;
 	}
+
+	@Override
+	public <T> T accept(Visitor<T> visitor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	@Override
-	public Bool evaluate() {
-		return new Bool(value);
+	public String toString() {
+		return value.toString();
 	}
 	
 }

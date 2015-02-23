@@ -45,13 +45,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             set;
         }
 
-        public ICollection<Identifier> UndeclaredVariables
+        public IList<Identifier> UndeclaredVariables
         {
             get;
             private set;
         }
 
-        public ICollection<Identifier> RedeclaredVariables
+        public IList<Identifier> RedeclaredVariables
         {
             get;
             private set;
@@ -62,6 +62,16 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             DeclaredVariables = new Dictionary<string, IdentifierUsageCount>();
             UndeclaredVariables = new List<Identifier>();
             RedeclaredVariables = new List<Identifier>();
+        }
+
+        public VariableUsageCheckingVisitor(VariableUsageCheckingVisitor parentVisitor)
+            : this()
+        {
+            // Call ToList so we got a new instance
+            foreach (var keyValue in parentVisitor.DeclaredVariables)
+            {
+                DeclaredVariables.Add(keyValue);
+            }
         }
 
         public override void Visit(Question node)
@@ -86,6 +96,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             {
                 RedeclaredVariables.Add(node.Id);
             }
+
+            if (node.Initialization != null)
+            {
+                node.Initialization.Accept(this);
+            }
         }
 
         public override void Visit(Identifier node)
@@ -97,6 +112,40 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             else
             {
                 UndeclaredVariables.Add(node);
+            }
+        }
+
+        public override void Visit(IfStatement ifStatement)
+        {
+            ifStatement.If.Accept(this);
+
+            var thenVisitor = new VariableUsageCheckingVisitor(this);
+
+            foreach (var statement in ifStatement.Then)
+            {
+                statement.Accept(thenVisitor);
+            }
+
+            var elseVisitor = new VariableUsageCheckingVisitor(this);
+
+            foreach (var statement in ifStatement.Else)
+            {
+                statement.Accept(elseVisitor);
+            }
+
+            CopyMessages(thenVisitor);
+            CopyMessages(elseVisitor);
+        }
+
+        private void CopyMessages(VariableUsageCheckingVisitor visitor)
+        {
+            foreach (var undeclaredVariable in visitor.UndeclaredVariables)
+            {
+                UndeclaredVariables.Add(undeclaredVariable);
+            }
+            foreach (var redeclaredVariable in visitor.RedeclaredVariables)
+            {
+                RedeclaredVariables.Add(redeclaredVariable);
             }
         }
     }

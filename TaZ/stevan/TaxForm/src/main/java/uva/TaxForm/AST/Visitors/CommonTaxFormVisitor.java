@@ -34,16 +34,23 @@ import uva.TaxForm.antlr4.TaxFormParser.VarTypeContext;
 public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 	
 	private NodeForm form = new NodeForm();
+	
+	/*public NodeForm getAST( TaxFormParser.FormContext ctx ) {
+		
+		return this.visitForm( ctx );
+	}*/
 
-	public Integer visitForm( @NotNull TaxFormParser.FormContext ctx ) {
+	//Set the name of the form and continue visit... with VisitForm.visit(this, FormContext, NodeForm);
+	public NodeForm visitForm( @NotNull TaxFormParser.FormContext ctx ) {
 		
 		this.form.setName(ctx.varName().getText());
 		System.out.println( StringUtils.repeat("\t", form.getLevel()) + form.getName() );
 		VisitorForm.visit(this, ctx, this.form);
 		
-		return ctx.getRuleIndex();
+		return this.form;
 	}
-	
+
+	//Visit Question, check if result is computed and define the type(Boolean/Money/Integer/String) of the question
 	public void visitQuestion( @NotNull TaxFormParser.QuestionContext ctx, Node node ) {
 		
 		VarTypeContext varCTX = null;
@@ -60,7 +67,7 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 			
 			//Check for computed question
 			Boolean computed = varCTX.getParent().getClass().equals(uva.TaxForm.antlr4.TaxFormParser.ComputedContext.class);
-			Question<?> question;
+			Question<?> question = null;
 			
 			//Boolean
 			if (varCTX.BOOLEAN() != null) {
@@ -86,6 +93,7 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 		}
 	}
 	
+	//Visit Computed question, define the expression used e.g. money = (sellingPrice - privateDebt)
 	public <T> void visitComputed( @NotNull TaxFormParser.ComputedContext ctx, Question<?> question, NodeForm form ) {
 		
 		Expression<? extends Expression<String>> exp = new Expression<>();
@@ -111,6 +119,7 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 		}
 	}
 	
+	//AllMighty is recursively checking the expression(s)
 	public static void visitAllMighty( @NotNull TaxFormParser.AllMightyContext ctx, Question<?> question, NodeForm form ) {
 		
 		Class<?> expClass = ctx.expression().getClass();

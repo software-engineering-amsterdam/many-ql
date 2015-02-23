@@ -1,23 +1,18 @@
 package org.fugazi.ast.expression.unary;
 
-import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.BoolType;
-import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Not extends Unary {
+    private final Class returnedType;
 
-    private final List<Class> supportedTypes;
-
-    public Not(Expression _expr) {
-        super(_expr);
-
-        Class boolTypeClass = new BoolType().getClass();
-        this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(boolTypeClass);
+    public Not(Expression _expr, int _lineNum) {
+        super(_expr, _lineNum);
+        this.returnedType = BoolType.class;
     }
 
     @Override
@@ -26,8 +21,8 @@ public class Not extends Unary {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

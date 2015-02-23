@@ -52,6 +52,8 @@
     <Compile Include="ASTVisitor.cs" />
     <Compile Include="Extensions\ParserRuleContextExtensions.cs" />
     <Compile Include="IASTVisitor.cs" />
+    <Compile Include="IValue.cs" />
+    <Compile Include="Model\Expressions\Add.cs" />
     <Compile Include="Model\Expressions\BooleanLiteral.cs" />
     <Compile Include="Model\Expressions\DoubleLiteral.cs" />
     <Compile Include="Model\Expressions\IntegerLiteral.cs" />
