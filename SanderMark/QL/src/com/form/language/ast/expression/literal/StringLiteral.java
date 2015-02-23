@@ -1,6 +1,7 @@
 package com.form.language.ast.expression.literal;
 
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.type.StringType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.StringValue;
 
@@ -19,8 +20,7 @@ public class StringLiteral implements Expression {
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new StringType();
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.form.language.ast.expression.literal;
 
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
 
@@ -19,8 +20,7 @@ public class IntLiteral implements Expression {
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntType();
 	}
 	
 }

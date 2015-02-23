@@ -1,6 +1,7 @@
 package com.form.language.ast.expression.literal;
 
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 
@@ -19,8 +20,7 @@ public class BoolLiteral implements Expression {
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BoolType();
 	}
 	
 }
