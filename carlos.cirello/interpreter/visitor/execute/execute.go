@@ -45,13 +45,13 @@ func (exec Execute) ActionNode(v *visitor.Visitor, a *ast.ActionNode) {
 // rendering.
 func (exec Execute) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
 	exec.symboltable.Create(q.Identifier(), q)
-	questionCopy := q.Clone()
 
-	if questionCopy.Type() == ast.ComputedQuestionType {
+	if q.Type() == ast.ComputedQuestionType {
 		expr := q.Content().(*ast.ComputedQuestion).Value()
-		questionCopy.From(fmt.Sprintf("%f", exec.resolveMathNode(expr)))
+		q.From(fmt.Sprintf("%f", exec.resolveMathNode(expr)))
 	}
 
+	questionCopy := q.Clone()
 	exec.toFrontend <- &event.Frontend{
 		Type:     event.UpdateQuestion,
 		Question: questionCopy,
