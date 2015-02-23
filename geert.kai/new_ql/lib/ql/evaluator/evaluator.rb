@@ -4,14 +4,18 @@ class Runner < BaseVisitor
   def initialize(form)
     @form = form
     @values = {}
+    @mode = :lookup # next, run, return
+    @lookup_question
   end 
 
-  def next_question
-    "Pietje"
+  def set_current_question(value)
+    if @lookup_question
+      @values[@lookup_question.variable_name] = value
+    end
   end
 
-  def update(variable_name:, value:)
-    @values[variable_name] = value
+  def next_question
+    @form.visit(self)
   end
 
   visitor_for Form do |form|
@@ -19,13 +23,27 @@ class Runner < BaseVisitor
   end
 
   visitor_for Question do |question|
-    if looked_for_question.nil?
-      question 
-    elsif question == looked_for_question
-      looked_for_question = nil
-    else
+    case @mode
+    when :lookup
+      @mode = :run if question == @lookup_question
+    when :run
+      @mode = :return      
+      question
+    end
   end
 
+  visitor_for If do |if_statement|
+    case @mode
+    when :lookup
+      if_statement.visit(self)
+    when :run
+      if Evaluator.evaluate(if_statement.expression, @values).class == TrueClass
+        if_statement.statements.visit(self)
+      end
+    when :return
+      nil
+    end
+  end
 end
 
 class Evaluator < BaseVisitor
