@@ -2,16 +2,18 @@ package com.klq.gui;
 
 import com.klq.logic.AnswerSet;
 import com.klq.logic.Question;
-import com.sun.javafx.scene.EnteredExitedHandler;
+import com.klq.logic.Type;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
+import java.security.Key;
 import java.time.LocalDate;
 
 /**
@@ -20,6 +22,9 @@ import java.time.LocalDate;
 public class QuestionPane extends GridPane {
     private final static Font DEFAULT_QUESTION = new Font("Arial Bold", 14);
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
+
+    private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
+            false, true, true, false, false, true, true, false);
 
     public QuestionPane(Question question) {
         super();
@@ -32,10 +37,9 @@ public class QuestionPane extends GridPane {
             case DATE:
                 createDatePicker(question.getAnswerSet());
                 break;
-            case CURRENCY:
             case NUMERAL:
             case STRING:
-                createTextField(question.getAnswerSet());
+                createTextField(question.getAnswerSet(), question.getType());
                 break;
         }
         this.setVgap(5);
@@ -72,37 +76,37 @@ public class QuestionPane extends GridPane {
         this.getChildren().add(dateLabel);
         this.setConstraints(dateLabel, 0, 1);
 
-        final DatePicker datePicker = new DatePicker(LocalDate.now());
-        datePicker.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                LocalDate date = datePicker.getValue();
-                setAnswer(date.toString());
-            }
-        });
+        LocalDate lDate = LocalDate.now();
+        final DatePicker datePicker = new DatePicker(lDate);
+        if (answerSet != null && answerSet.size() != 0){
+            lDate = LocalDate.parse(answerSet.get(0).toString());
+            datePicker.setEditable(false);
+            datePicker.getEditor().setEditable(false);
+            //TODO disable button somehow
+        }
+        datePicker.setValue(lDate);
+
         this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
 
-    private void createTextField(AnswerSet answerSet){
+    private void createTextField(AnswerSet answerSet, Type questionType){
         final TextField input = new TextField();
 
         if (answerSet != null) {
-            input.setPromptText(answerSet.get(0).toString());
+            input.setText(answerSet.get(0).toString());
+            input.setEditable(false);
+        } else {
+            input.setOnMouseClicked(highlightHandler(input));
         }
-        input.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                input.selectAll();
-            }
-        });
+
+        if (questionType == Type.NUMERAL)
+            input.addEventFilter(KeyEvent.KEY_TYPED, numFilter());
+
         this.getChildren().add(input);
         this.setConstraints(input, 0, 1);
     }
 
-
-    final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
-            false, true, true, false, false, true, true, false);
     private Border createBorder() {
         BorderStroke stroke = new BorderStroke(Paint.valueOf("#000000"), BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT);
         return new Border(stroke);
@@ -111,6 +115,25 @@ public class QuestionPane extends GridPane {
     private Background createBackground() {
         BackgroundFill fill = new BackgroundFill(Paint.valueOf("#EEEEEE"), RADII, new Insets(1));
         return new Background(fill);
+    }
+
+    private EventHandler<KeyEvent> numFilter(){
+       return new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCharacter().matches("[0-9\\.,]"))
+                    event.consume();
+            }
+        };
+    }
+
+    private EventHandler<MouseEvent> highlightHandler(final TextField input){
+        return new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                input.selectAll();
+            }
+        };
     }
 
     private void setAnswer(String answer){
