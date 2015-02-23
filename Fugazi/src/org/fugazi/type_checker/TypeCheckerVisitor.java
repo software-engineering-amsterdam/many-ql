@@ -357,7 +357,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
         // if we are inside a computed expression
         // a dependency needs to be added and marked
-        System.out.println("VISITING ID " + idLiteral + " " + this.assignableIdLiteral);
         if (this.assignableIdLiteral != null) {
             // assignableIdLiteral is dependent on
             // the current idListeral
@@ -544,19 +543,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
             // dependee passed as parameter added to this function needs to be added to them too
             for (ID key : this.questionDependencies.getIds()) {
                 List<String> dependenciesForKey = this.questionDependencies.getIdDependencyNames(key);
-                if (dependenciesForKey != null) {
-                    if (dependenciesForKey.contains(newDependee.getName())) {
-                        if (alreadyAnalyzed.contains((key))) {
-                            System.out.println();
-                            System.out.println("CIRCULAR DEPENDENCY");
-                            System.out.println(key + " " + newDependee);
-                            System.out.println();
-                        }
-                        idsToAddNewDependencyTo.add(key);
-                    }
+                if ((dependenciesForKey != null)
+                        && dependenciesForKey.contains(newDependee.getName())) {
+                    idsToAddNewDependencyTo.add(key);
                 }
             }
-
 
             // analyzed, need to be updated
             idsToAddNewDependencyTo.add(depender);
@@ -565,7 +556,13 @@ public class TypeCheckerVisitor implements IASTVisitor {
         }
 
         for (ID newDependant : idsToAddNewDependencyTo) {
-            this.questionDependencies.addIdDependenant(newDependant, dependee);
+            List<String> dependenciesForDependee = this.questionDependencies.getIdDependencyNames(dependee);
+            if ((dependenciesForDependee != null)
+                    && dependenciesForDependee.contains(newDependant.getName())) {
+                System.out.println("CIRCULAR DEPENDENCY: " + newDependant + " trying to depend on " + dependee);
+            } else {
+                this.questionDependencies.addIdDependenant(newDependant, dependee);
+            }
         }
 
         System.out.println();System.out.println();System.out.println();System.out.println();
