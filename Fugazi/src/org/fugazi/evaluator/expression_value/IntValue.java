@@ -1,4 +1,4 @@
-package org.fugazi.evaluator;
+package org.fugazi.evaluator.expression_value;
 
 public class IntValue extends ExpressionValue<Integer> {
 
@@ -11,7 +11,7 @@ public class IntValue extends ExpressionValue<Integer> {
      */
     @Override
     public ExpressionValue add(ExpressionValue exprValue) {
-        return this.addInt((IntValue)exprValue);
+        return exprValue.addInt(this);
     }
 
     @Override
@@ -24,12 +24,12 @@ public class IntValue extends ExpressionValue<Integer> {
      */
     @Override
     public ExpressionValue sub(ExpressionValue exprValue) {
-        return this.subInt((IntValue)exprValue);
+        return exprValue.subInt(this);
     }
 
     @Override
     public ExpressionValue subInt(IntValue exprValue) {
-        return new IntValue(this.value - exprValue.getValue());
+        return new IntValue(exprValue.getValue() - this.getValue());
     }
 
     /**
@@ -37,7 +37,7 @@ public class IntValue extends ExpressionValue<Integer> {
      */
     @Override
     public ExpressionValue mul(ExpressionValue exprValue) {
-        return this.mulInt((IntValue)exprValue);
+        return exprValue.mulInt(this);
     }
 
     @Override
@@ -50,12 +50,12 @@ public class IntValue extends ExpressionValue<Integer> {
      */
     @Override
     public ExpressionValue div(ExpressionValue exprValue) {
-        return this.divInt((IntValue)exprValue);
+        return exprValue.divInt(this);
     }
 
     @Override
     public ExpressionValue divInt(IntValue exprValue) {
-        return new IntValue(this.value / exprValue.getValue());
+        return new IntValue(exprValue.getValue() / this.value);
     }
 
     @Override
@@ -70,41 +70,41 @@ public class IntValue extends ExpressionValue<Integer> {
 
     @Override
     public ExpressionValue greater(ExpressionValue exprValue) {
-        return this.greaterInt((IntValue) exprValue);
+        return exprValue.greaterInt(this);
     }
 
     @Override
     public ExpressionValue greaterInt(IntValue exprValue) {
-        return new BoolValue(this.value > exprValue.getValue());
+        return new BoolValue(exprValue.getValue() > this.value);
     }
 
     @Override
     public ExpressionValue less(ExpressionValue exprValue) {
-        return this.lessInt((IntValue) exprValue);
+        return exprValue.lessInt(this);
     }
 
     @Override
     public ExpressionValue lessInt(IntValue exprValue) {
-        return new BoolValue(this.value < exprValue.getValue());
+        return new BoolValue(exprValue.getValue() < this.value);
     }
 
     @Override
     public ExpressionValue greaterEqual(ExpressionValue exprValue) {
-        return this.greaterEqualInt((IntValue) exprValue);
+        return exprValue.greaterEqualInt(this);
     }
 
     @Override
     public ExpressionValue greaterEqualInt(IntValue exprValue) {
-        return new BoolValue(this.value >= exprValue.getValue());
+        return new BoolValue(exprValue.getValue() >= this.value);
     }
 
     @Override
     public ExpressionValue lessEqual(ExpressionValue exprValue) {
-        return this.lessEqualInt((IntValue) exprValue);
+        return exprValue.lessEqualInt(this);
     }
 
     @Override
     public ExpressionValue lessEqualInt(IntValue exprValue) {
-        return new BoolValue(this.value <= exprValue.getValue());
+        return new BoolValue(exprValue.getValue() <= this.value);
     }
 }

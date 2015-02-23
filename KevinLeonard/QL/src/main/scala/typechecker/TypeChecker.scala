@@ -22,19 +22,19 @@ class TypeChecker {
         env // Return environment without the questions in s1 and s2.
       case _ => sys.error(s"Invalid boolean condition for if statement at line ${s.pos}")
     }
-    case Question(BooleanType(), v: Variable, label: String, None) => env.tryAddVariable(v, BooleanType()).tryAddLabel(label)
+    case s @ Question(BooleanType(), v: Variable, label: String, None) => env.tryAddVariable(v, BooleanType()).tryAddLabel(s)
     case s @ Question(BooleanType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
-      case BooleanType() => env.tryAddVariable(v, BooleanType()).tryAddLabel(label)
+      case BooleanType() => env.tryAddVariable(v, BooleanType()).tryAddLabel(s)
       case _ => sys.error(s"Invalid expression for value of computed boolean question at line ${s.pos}")
     }
-    case Question(NumberType(), v: Variable, label: String, None) => env.tryAddVariable(v, NumberType()).tryAddLabel(label)
+    case s @ Question(NumberType(), v: Variable, label: String, None) => env.tryAddVariable(v, NumberType()).tryAddLabel(s)
     case s @ Question(NumberType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
-      case NumberType() => env.tryAddVariable(v, NumberType()).tryAddLabel(label)
+      case NumberType() => env.tryAddVariable(v, NumberType()).tryAddLabel(s)
       case _ => sys.error(s"Invalid expression for value of computed number expression at line ${s.pos}")
     }
-    case Question(StringType(), v: Variable, label: String, None) => env.tryAddVariable(v, StringType()).tryAddLabel(label)
+    case s @ Question(StringType(), v: Variable, label: String, None) => env.tryAddVariable(v, StringType()).tryAddLabel(s)
     case s @ Question(StringType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
-      case StringType() => env.tryAddVariable(v, StringType()).tryAddLabel(label)
+      case StringType() => env.tryAddVariable(v, StringType()).tryAddLabel(s)
       case _ => sys.error(s"Invalid expression for value of computed string expression at line ${s.pos}")
     }
   }
@@ -106,25 +106,45 @@ sealed trait Level
 case class Warning() extends Level
 case class Exception() extends Level
 
-class Error(val level: Level, val message: String, val position: Position)
+class Error(val level: Level, val message: String, val position: Position) {
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[Error]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: Error =>
+      (that canEqual this) &&
+        level == that.level &&
+        message == that.message &&
+        position == that.position
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(level, message, position)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
+
+  override def toString = s"Error($level, $message, $position)"
+}
 
 class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[String] = List(), val errors: List[Error] = List()) {
-
-  def tryGetVariable(v: Variable): Type = typeOfFields getOrElse(v.name, sys.error(s"Undefined variable ${v.name} at line ${v.pos}"))
+  
+  // TODO: Return Environment.
+  def tryGetVariable(v: Variable): Type = typeOfFields getOrElse(v.name, {this.addError(Exception(), s"Variable ${v.name} is not defined", v.pos); UndefinedType() })
 
   def tryAddVariable(v: Variable, _type: Type): Environment = {
     if (typeOfFields contains v.name) {
-      sys.error(s"Variable ${v.name} is already defined")
+      this.addError(Exception(), s"Variable ${v.name} is already defined", v.pos)
     } else {
       new Environment(typeOfFields + (v.name -> _type), labels, errors)
     }
   }
 
-  def tryAddLabel(label: String): Environment = {
-    if (labels contains label) {
-      sys.error(s"Label $label is already defined")
+  def tryAddLabel(q: Question): Environment = {
+    if (labels contains q.label) {
+      this.addError(Warning(), s"Label ${q.label} is already defined", q.pos)
     } else {
-      new Environment(typeOfFields, labels :+ label, errors)
+      new Environment(typeOfFields, labels :+ q.label, errors)
     }
   }
 
@@ -143,4 +163,10 @@ class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[
     case _ => false
   }
 
+  override def hashCode(): Int = {
+    val state = Seq(typeOfFields, labels, errors)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
+
+  override def toString = s"Environment($typeOfFields, $labels, $errors)"
 }

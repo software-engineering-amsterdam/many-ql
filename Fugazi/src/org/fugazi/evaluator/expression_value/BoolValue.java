@@ -1,4 +1,4 @@
-package org.fugazi.evaluator;
+package org.fugazi.evaluator.expression_value;
 
 public class BoolValue extends ExpressionValue<Boolean> {
 
@@ -8,18 +8,20 @@ public class BoolValue extends ExpressionValue<Boolean> {
 
     @Override
     public ExpressionValue and(ExpressionValue exprValue) {
-        return this.andBool((BoolValue)exprValue);
+        return exprValue.andBool(this);
     }
 
+    @Override
     public ExpressionValue andBool(BoolValue exprValue) {
         return new BoolValue(value && exprValue.getValue());
     }
 
     @Override
     public ExpressionValue or(ExpressionValue exprValue) {
-        return this.orBool((BoolValue) exprValue);
+        return exprValue.orBool(this);
     }
 
+    @Override
     public ExpressionValue orBool(BoolValue exprValue) {
         return new BoolValue(value || exprValue.getValue());
     }
