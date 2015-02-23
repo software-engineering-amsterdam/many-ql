@@ -13,5 +13,6 @@ public class DecimalLiteral extends AbstractLiteral {
 	@Override
 	public DoubleValue interpretExpression() {
 		return new DoubleValue(doubleValue);
-	}	
+	}
+
 }
