@@ -7,8 +7,8 @@ import java.util.HashMap;
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractFormField<T> extends AbstractModel<T> {
     private String ident;
-    private HashMap<Object, Object> arguments;
-    int arg;
+    protected HashMap<Object, Object> arguments;
+    protected int arg;
 
     @Override
     public void caseString(String string) {
