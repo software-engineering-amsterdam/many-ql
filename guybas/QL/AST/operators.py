@@ -21,6 +21,9 @@ class Variable(Element):
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return str(self.name)
+
     def return_type(self, type_dict):
         return type_dict[self.name]
 

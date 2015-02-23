@@ -3,7 +3,12 @@ package lang.ql.semantics;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.type.*;
+import lang.ql.ast.type.Type;
+import lang.ql.semantics.errors.*;
+import lang.ql.semantics.errors.Error;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bore on 13/02/15.
@@ -11,21 +16,26 @@ import lang.ql.ast.type.*;
 public class SymbolVisitor implements Visitor
 {
     private SymbolTable symbolTable;
+    private List<Message> errors;
 
-    public SymbolVisitor()
+    public static SymbolResult extract(Form f)
     {
-        this.symbolTable = new SymbolTable();
+        SymbolVisitor visitor = new SymbolVisitor();
+        f.accept(visitor);
+
+        return new SymbolResult(visitor.symbolTable, visitor.errors);
     }
 
-    public SymbolTable getSymbolTable()
+    private SymbolVisitor()
     {
-        return this.symbolTable;
+        this.symbolTable = new SymbolTable();
+        this.errors = new ArrayList<Message>();
     }
 
     @Override
     public void visit(Form form)
     {
-        for (Statement statement : form.getStatements())
+        for (Statement statement : form.getBody())
         {
             statement.accept(this);
         }
@@ -34,22 +44,45 @@ public class SymbolVisitor implements Visitor
     @Override
     public void visit(IfCondition condition)
     {
-        for (Statement statement : condition.getStatements())
+        for (Statement statement : condition.getBody())
         {
             statement.accept(this);
         }
     }
 
     @Override
-    public void visit(Question n)
+    public void visit(Question q)
     {
-        this.symbolTable.define(n, n.getType());
+        this.checkForError(q);
+        this.symbolTable.define(q);
     }
 
     @Override
-    public void visit(CalculatedQuestion n)
+    public void visit(CalculatedQuestion q)
     {
-        this.symbolTable.define(n, n.getType());
+        this.checkForError(q);
+        this.symbolTable.define(q);
+    }
+
+    private void checkForError(Question q)
+    {
+        String id = q.getId();
+        if (this.symbolTable.containsQuestionId(id))
+        {
+            Type duplicateType = this.symbolTable.resolve(id);
+            Question duplicateQuestion = this.symbolTable.getQuestion(id);
+            int duplicateLineNumber = duplicateQuestion.getLineNumber();
+            int currentLineNumber = q.getLineNumber();
+
+            Error error = Error.identifierAlreadyDeclared(id, duplicateLineNumber, currentLineNumber);
+
+            if (!(q.getType().equals(duplicateType)))
+            {
+                error = Error.identifierDeclaredOfDiffType(id, duplicateLineNumber, currentLineNumber);
+            }
+
+            this.errors.add(error);
+        }
     }
 
     @Override

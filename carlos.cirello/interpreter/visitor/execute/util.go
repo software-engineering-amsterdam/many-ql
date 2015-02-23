@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
 func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,
@@ -55,28 +54,21 @@ func (exec *Execute) resolveNumeric(n *ast.TermNode) float32 {
 func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 	identifier := t.(*ast.TermNode).IdentifierReference()
 	if identifier != "" {
-		ret := make(chan *ast.QuestionNode)
-		exec.symbolChan <- &event.Symbol{
-			Command:    event.SymbolRead,
-			Identifier: identifier,
-			Ret:        ret,
-		}
-
-		q := <-ret
+		q := exec.symboltable.Read(identifier)
 
 		if q == nil {
 			return nil
 		}
 
-		switch q.Type() {
+		switch q.(*ast.QuestionNode).Type() {
 		case ast.BoolQuestionType:
-			content := q.Content().(*ast.BoolQuestion)
+			content := q.(*ast.QuestionNode).Content().(*ast.BoolQuestion)
 			return content.Value()
 		case ast.NumericQuestionType:
-			content := q.Content().(*ast.NumericQuestion)
+			content := q.(*ast.QuestionNode).Content().(*ast.NumericQuestion)
 			return content.Value()
 		case ast.StringQuestionType:
-			content := q.Content().(*ast.StringQuestion)
+			content := q.(*ast.QuestionNode).Content().(*ast.StringQuestion)
 			return content.String()
 		}
 	}

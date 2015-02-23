@@ -38,7 +38,8 @@ type    : 'bool'        # boolType
  */
 
 // this defines what an expression looks like. (logical and numerical)
-expression  : op=('+'|'-'|'!') expression                                           # unaryExpression
+expression  : '(' expression ')'                                                    # parenthesisExpression
+            | op=('+'|'-'|'!') expression                                           # unaryExpression
             | expression op=('*' | '/') expression                                  # mulDivExpression
             | expression op=('+' | '-') expression                                  # addSubExpression
             | expression op=('>' | '>=' | '<' | '<=' | '==' | '!=') expression      # comparisonExpression
@@ -48,7 +49,6 @@ expression  : op=('+'|'-'|'!') expression                                       
             | ID                                                                    # identifierExpression
             | INT                                                                   # intExpression
             | STRING                                                                # stringExpression
-            | '(' expression ')'                                                    # parenthesisExpression
             ;
 
 /**

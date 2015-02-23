@@ -26,6 +26,7 @@ import nl.uva.se.ast.expression.logical.LessThen;
 import nl.uva.se.ast.expression.logical.Not;
 import nl.uva.se.ast.expression.logical.NotEqual;
 import nl.uva.se.ast.expression.logical.Or;
+import nl.uva.se.ast.expression.variable.Reference;
 import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
@@ -103,6 +104,10 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitExpression(ExpressionContext ctx) {
+		if (ctx.expr != null) {
+			return visitExpression(ctx.expr);
+		}
+		
 		if (ctx.op == null) {
 			return visitLiteral(ctx.singleLtr);
 		}
@@ -191,6 +196,10 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 		
 		if (ctx.Integer() != null) {
 			return new IntegerLiteral(lineNumber, offset, ctx.getText());
+		}
+		
+		if (ctx.Identifier() != null) {
+			return new Reference(lineNumber, offset, ctx.getText());
 		}
 		
 		return new StringLiteral(lineNumber, offset, ctx.getText());

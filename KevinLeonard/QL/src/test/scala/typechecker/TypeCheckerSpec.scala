@@ -4,6 +4,8 @@ import ast._
 import org.specs2.matcher.ExceptionMatchers
 import org.specs2.mutable.Specification
 
+import scala.util.parsing.input.NoPosition
+
 class TypeCheckerSpec extends Specification with ExceptionMatchers {
   val checkers = new TypeChecker
   import checkers._
@@ -66,7 +68,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
     
     "add variable + type to environment " in {
-      check(Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+      check(new Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
   }
 
@@ -294,17 +296,17 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "fail when variable is undefined" in {
-      check(Variable("X"), new Environment(typeOfFields = Map("Y" -> BooleanType()))) must throwA[RuntimeException]
+      check(Variable("X"), new Environment(typeOfFields = Map("Y" -> BooleanType()))) must beEqualTo(UndefinedType())
     }
   }
 
   "type checker" should {
     "detect duplicate question declarations" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new Environment(typeOfFields = Map("X" -> BooleanType()))) must throwA[RuntimeException]
+      check(Question(BooleanType(), Variable("X"), "label", None), new Environment(typeOfFields = Map("X" -> BooleanType()))) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label"), errors = List(new Error(Exception(), "Variable X is already defined", NoPosition))))
     }
     
     "detect duplicate label" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new Environment(labels = List("label"))) must throwA[RuntimeException]
+      check(Question(BooleanType(), Variable("X"), "label", None), new Environment(labels = List("label"))) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label"), errors = List(new Error(Warning(), "Label label is already defined", NoPosition))))
     }
   }
 }

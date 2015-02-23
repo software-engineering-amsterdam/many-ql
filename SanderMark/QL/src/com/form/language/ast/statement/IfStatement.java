@@ -7,14 +7,14 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import com.form.language.ast.expression.PrimitiveExpression;
+import com.form.language.ast.expression.Expression;
 
 public class IfStatement implements Statement {
-	public PrimitiveExpression conditions;
+	public Expression conditions;
 	public List<Statement> thenStatements;
 	
 	//BooleanExpression, get result and cast to boolean
-	public IfStatement(PrimitiveExpression conditions, List<Statement> thenStatements) {
+	public IfStatement(Expression conditions, List<Statement> thenStatements) {
 		super();
 		this.conditions = conditions;
 		this.thenStatements = thenStatements;

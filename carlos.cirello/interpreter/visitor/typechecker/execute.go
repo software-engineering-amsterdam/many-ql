@@ -3,15 +3,15 @@ package typechecker
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/execute"
 )
 
 // New is the factory for Typechecker visitor struct
-func New() (*visitor.Visitor, *SymbolTable) {
+func New() (*visitor.Visitor, *symboltable.SymbolTable) {
 	toFrontend := make(chan *event.Frontend)
-	symbolChan := make(chan *event.Symbol)
-	st := newSymbolTable(symbolChan)
+	st := symboltable.New()
 
 	go func(toFrontend chan *event.Frontend) {
 		for {
@@ -20,7 +20,7 @@ func New() (*visitor.Visitor, *SymbolTable) {
 	}(toFrontend)
 
 	tc := &Typechecker{
-		execute: execute.NewExecute(toFrontend, symbolChan),
+		execute: execute.NewExecute(toFrontend, st),
 	}
 	return visitor.NewVisitor(tc), st
 }

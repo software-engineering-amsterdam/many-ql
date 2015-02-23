@@ -66,7 +66,7 @@ class FormFactory:
         for i in range(1, len(tokens)):
             tokens[i].set_parent_id(m)
             questions.append(tokens[i])
-        return IfBlock(condition, questions)
+        return IfBlock(condition, questions, m)
 
     @staticmethod
     def make_else(tokens):
@@ -85,7 +85,7 @@ class FormFactory:
         for i in range(k + 1, len(tokens)):
             tokens[i].set_parent_id(m)
             else_questions.append(tokens[i])
-        x = IfElseBlock(condition, questions, else_questions)
+        x = IfElseBlock(condition, questions, else_questions, m)
         return x
 
     @staticmethod

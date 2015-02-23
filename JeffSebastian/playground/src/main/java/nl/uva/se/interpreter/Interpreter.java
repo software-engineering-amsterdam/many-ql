@@ -21,6 +21,7 @@ import nl.uva.se.ast.expression.logical.LessThen;
 import nl.uva.se.ast.expression.logical.Not;
 import nl.uva.se.ast.expression.logical.NotEqual;
 import nl.uva.se.ast.expression.logical.Or;
+import nl.uva.se.ast.expression.variable.Reference;
 import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
@@ -30,26 +31,21 @@ import nl.uva.se.visitor.Visitor;
 public class Interpreter implements Visitor {
 
 	private SymbolTable symbols;
-
-	public Interpreter() {
-		symbols = SymbolTable.getInstance();
-	}
 	
 	@Override
 	public void visit(Question question) {
-		symbols.addSymbol(question.getId(), question.getType());
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		symbols.addSymbol(calculatedQuestion.getId(),
-				calculatedQuestion.getType());
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void visit(Form form) {
-		// TODO Auto-generated method stub
-
+		symbols = TypeChecker.run(form);
+		System.out.println(symbols);
 	}
 
 	@Override
@@ -182,6 +178,12 @@ public class Interpreter implements Visitor {
 	public void visit(StringLiteral stringLiteral) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void visit(Reference reference) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

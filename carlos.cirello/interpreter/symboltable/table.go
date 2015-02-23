@@ -1,64 +1,118 @@
 package symboltable
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
-// SymbolTable holds a map with pairs of question identifiers and a reference to
-// it. It is the core of SymbolTable process.
+// SymbolTable is the typechecker specific symbol table which detects duplicated
+// identifiers and labels
 type SymbolTable struct {
-	Events chan *event.Symbol
+	symbols map[string]interface{}
+	labels  map[string][]string
 
-	symbols map[string]*ast.QuestionNode
+	err  []error
+	warn []error
 }
 
-// New is the factory for SymbolTable process. It spawns a background process
-// which listen for queries to its internal map.
-func New(events chan *event.Symbol) *SymbolTable {
+// New is the constructor for SymbolTable
+func New() *SymbolTable {
 	table := &SymbolTable{
-		Events:  events,
-		symbols: make(map[string]*ast.QuestionNode),
+		symbols: make(map[string]interface{}),
+		labels:  make(map[string][]string),
 	}
 
-	go table.loop()
 	return table
 }
 
-func (s *SymbolTable) loop() {
-	for r := range s.Events {
-		question, ok := s.symbolExistP(r.Identifier)
-		switch r.Command {
-		default:
-			log.Fatalf("Invalid operation at symbols table: %#v",
-				r.Command)
+// Err returns all found errors during symbolTable operation
+func (s SymbolTable) Err() []error {
+	return s.err
+}
 
-		case event.SymbolRead:
-			if !ok {
-				log.Fatalf("Identifier unknown at symbols table: %s", r.Identifier)
-			}
-			r.Ret <- question
+// Warn returns all found warnings during symbolTable operation
+func (s SymbolTable) Warn() []error {
+	return s.warn
+}
 
-		case event.SymbolCreate:
-			if !ok {
-				s.upsertSymbol(r.Identifier, r.Content)
-			}
-
-		case event.SymbolUpdate:
-			if ok {
-				s.upsertSymbol(r.Identifier, r.Content)
-			}
+// ShowWarn iterates through all warnings and prints them
+func (s *SymbolTable) ShowWarn() bool {
+	if warn := s.Warn(); warn != nil {
+		for _, e := range warn {
+			log.Printf("warning: %s", e)
 		}
+		return true
+	}
+	return false
+}
+
+// ShowWarn iterates through all errors, prints them and panic in the end
+func (s *SymbolTable) PanicErr() {
+	if err := s.Err(); err != nil {
+		for _, e := range err {
+			log.Println(e)
+		}
+		panic("typechecker errors found")
 	}
 }
 
-func (s *SymbolTable) upsertSymbol(identifier string, content *ast.QuestionNode) {
-	s.symbols[identifier] = content
+// Read looks for identifier in symboltable and returns its content
+func (s *SymbolTable) Read(identifier string) interface{} {
+	question, ok := s.symbolExistP(identifier)
+	if !ok {
+		s.appendErrf(
+			"Identifier unknown at typechecker table: %s",
+			identifier)
+		return nil
+	}
+	return question
 }
 
-func (s *SymbolTable) symbolExistP(identifier string) (question *ast.QuestionNode, ok bool) {
-	question, ok = s.symbols[identifier]
-	return question, ok
+// Create looks for identifier in symboltable and creates a pointer if missing
+func (s *SymbolTable) Create(identifier string, content *ast.QuestionNode) {
+	_, ok := s.symbolExistP(identifier)
+	if !ok {
+		s.upsert(identifier, content)
+		s.detectRepeatedLabel(content.Label(), identifier)
+	} else {
+		s.appendErrf(
+			"Duplicated identifier found at typechecker: %s",
+			identifier)
+	}
+}
+
+// Update looks for identifier in symboltable and updates a pointer if existing
+func (s *SymbolTable) Update(identifier string, content *ast.QuestionNode) {
+	_, ok := s.symbolExistP(identifier)
+	if ok {
+		s.upsert(identifier, content)
+	}
+}
+
+func (s *SymbolTable) appendErrf(err string, vars ...interface{}) {
+	s.err = append(s.err, fmt.Errorf(err, vars...))
+}
+
+func (s *SymbolTable) appendWarnf(warn string, vars ...interface{}) {
+	s.warn = append(s.warn, fmt.Errorf(warn, vars...))
+}
+
+func (s *SymbolTable) detectRepeatedLabel(label, identifier string) {
+	if _, ok := s.labels[label]; ok {
+		s.appendWarnf(
+			"Repeated question label at typechecker: %s for %s",
+			label, identifier)
+	}
+	s.labels[label] = append(s.labels[label], identifier)
+}
+
+func (s *SymbolTable) symbolExistP(identifier string) (value interface{}, ok bool) {
+	value, ok = s.symbols[identifier]
+	return value, ok
+}
+
+func (s *SymbolTable) upsert(identifier string, value interface{}) {
+	s.symbols[identifier] = value
 }

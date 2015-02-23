@@ -11,10 +11,12 @@ import java.util.List;
  */
 public class Canvas extends GuiElement
 {
+    private String name;
     private List<Line> lines;
 
-    public Canvas(List<Line> lines)
+    public Canvas(String name, List<Line> lines)
     {
+        this.name = name;
         this.lines = lines;
     }
 
@@ -24,4 +26,13 @@ public class Canvas extends GuiElement
     }
 
 
+    public String getName()
+    {
+        return name;
+    }
+
+    public List<Line> getLines()
+    {
+        return lines;
+    }
 }
