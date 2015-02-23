@@ -2,7 +2,6 @@ package ast
 
 import scala.util.parsing.input.Positional
 
-// Boolean and arithmetic expressions
 sealed trait Expression extends Positional
 
 case class Or(l: Expression, r: Expression) extends Expression

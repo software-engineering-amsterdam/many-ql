@@ -2,12 +2,10 @@ package ast
 
 import scala.util.parsing.input.Positional
 
-// Statements
 sealed trait Statement extends Positional
 case class Sequence(statements: List[Statement]) extends Statement
 case class IfStatement(e: Expression, s1: Statement, s2: Option[Statement]) extends Statement
 
-// Questions
 sealed trait Question extends Statement {
   val v: Variable
   val label: String
