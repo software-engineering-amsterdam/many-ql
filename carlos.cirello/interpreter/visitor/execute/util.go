@@ -57,9 +57,9 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 	if identifier != "" {
 		ret := make(chan *ast.QuestionNode)
 		exec.symbolChan <- &event.Symbol{
-			Command: event.SymbolRead,
-			Name:    identifier,
-			Ret:     ret,
+			Command:    event.SymbolRead,
+			Identifier: identifier,
+			Ret:        ret,
 		}
 
 		q := <-ret

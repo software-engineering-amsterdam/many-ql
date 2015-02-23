@@ -9,6 +9,14 @@ public class StyleSheet extends AbstractModel<StyleSheet> {
     private List<Page> pages;
     private List<Default> defaultSettings;
 
+    public List<Page> getPages() {
+        return this.pages;
+    }
+
+    public List<Default> getDefaultSettings() {
+        return this.defaultSettings;
+    }
+
     @Override
     public void caseDefault(Default defaultSetting) {
         defaultSettings.add(defaultSetting);
