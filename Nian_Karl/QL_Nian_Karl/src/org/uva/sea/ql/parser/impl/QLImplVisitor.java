@@ -36,6 +36,7 @@ public class QLImplVisitor extends QLBaseVisitor<List<Statement>> {
 			// "if((100 > 5) && ((5+6) < 10))"
 			// and get a boolean out of it.
 			ExpressionContext exp = ctx.ifStatement().expression();
+			
 			System.out.println(exp.children);
 			String leftString = ctx.ifStatement().expression().getChild(0).getText();
 			String rightString = ctx.ifStatement().expression().getChild(2).getText();
@@ -51,13 +52,11 @@ public class QLImplVisitor extends QLBaseVisitor<List<Statement>> {
 			Expression left = new BooleanLiteral(stringToBoolean(leftString));
 			System.out.println("??" +stringToBoolean(leftString));
 			Expression right = new BooleanLiteral(stringToBoolean(rightString));
-			Expression expr = new AndExpression(left, right);			
+			Expression expr = new AndExpression(left, right);
 			System.out.println(expr.interpretExpression().getValue());
 			System.out.println("test");
 			System.out.println((false && false));
 //			IfStatement statement = new IfStatement(expr);
-//			
-//			
 //			for (int i = 0; i < ctx.ifStatement().block().size(); i++) {
 //				List<Statement> statements2 = visitStatement(ctx.ifStatement()
 //						.block().get(i).statement(i));
@@ -65,19 +64,18 @@ public class QLImplVisitor extends QLBaseVisitor<List<Statement>> {
 //					if (statements2.get(i).getClass() == QuestionStatement.class) {
 //
 //					}
-//
 //				}
 //			}
 //			statementList.add(statement);
 			// Recursive method to get all the questions + if statements inside
 			// the ifstatement.
-
 		}
 		return statementList;
 	}
 	
 	@Override
 	public List<Statement> visitExprAnd(ExprAndContext ctx) {
+		System.out.println("Some strange behavior here.");
 		System.out.println("And" + ctx.getText());
 		return super.visitExprAnd(ctx);
 	}
@@ -88,12 +86,5 @@ public class QLImplVisitor extends QLBaseVisitor<List<Statement>> {
 		} else {
 			return false;
 		}
-//		switch(s){
-//			case "true": 
-//				return true;
-//			case "false": 
-//				return false;
-//		}
 	}
-
 }
