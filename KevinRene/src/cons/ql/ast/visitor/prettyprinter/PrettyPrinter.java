@@ -6,7 +6,6 @@ import cons.ql.ast.expression.arithmetic.*;
 import cons.ql.ast.expression.literal.*;
 import cons.ql.ast.expression.relational.*;
 import cons.ql.ast.expression.type.*;
-import cons.ql.ast.expression.unary.*;
 import cons.ql.ast.statement.*;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;

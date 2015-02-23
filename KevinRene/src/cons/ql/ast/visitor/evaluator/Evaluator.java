@@ -5,6 +5,8 @@ import cons.ql.ast.expression.Literal;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
+import cons.ql.ast.expression.arithmetic.Neg;
+import cons.ql.ast.expression.arithmetic.Pos;
 import cons.ql.ast.expression.arithmetic.Sub;
 import cons.ql.ast.expression.literal.BooleanLiteral;
 import cons.ql.ast.expression.literal.FloatLiteral;
@@ -17,6 +19,7 @@ import cons.ql.ast.expression.relational.GT;
 import cons.ql.ast.expression.relational.LEq;
 import cons.ql.ast.expression.relational.LT;
 import cons.ql.ast.expression.relational.NEq;
+import cons.ql.ast.expression.relational.Not;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLError;
@@ -24,9 +27,6 @@ import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.expression.unary.Neg;
-import cons.ql.ast.expression.unary.Not;
-import cons.ql.ast.expression.unary.Pos;
 import cons.ql.ast.statement.Block;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.Form;
@@ -206,19 +206,25 @@ public class Evaluator implements ExpressionVisitor<Literal>, StatementVisitor<L
 
 	@Override
 	public Literal visit(Div div) {
-		// TODO Auto-generated method stub
-		return null;
+		Literal leftValue = div.getLeft().accept(this);
+		Literal rightValue = div.getRight().accept(this);
+		
+		return leftValue.div(rightValue);
 	}
 
 	@Override
 	public Literal visit(Mul mul) {
-		// TODO Auto-generated method stub
-		return null;
+		Literal leftValue = mul.getLeft().accept(this);
+		Literal rightValue = mul.getRight().accept(this);
+		
+		return leftValue.mul(rightValue);
 	}
 
 	@Override
 	public Literal visit(Sub sub) {
-		// TODO Auto-generated method stub
-		return null;
+		Literal leftValue = sub.getLeft().accept(this);
+		Literal rightValue = sub.getRight().accept(this);
+		
+		return leftValue.sub(rightValue);
 	}	
 }
