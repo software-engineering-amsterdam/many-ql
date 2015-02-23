@@ -11,7 +11,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
     {
         public override IValue Add(IValue value)
         {
-            Value + ((Integer)value).Value;
+            value.AddInt(this);
         }
+
+        public IValue AddInt(Integer value)
+        {
+
+        }
+
     }
 }

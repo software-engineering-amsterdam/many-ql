@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
+namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
 {
     /// <summary>
     /// Represents a static, immutable string value.

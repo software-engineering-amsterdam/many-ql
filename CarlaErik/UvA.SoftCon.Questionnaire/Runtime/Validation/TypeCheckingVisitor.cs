@@ -55,7 +55,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         public override void Visit(Declaration declaration)
         {
-            _declaredVariables.Add(declaration.Id.Name, declaration.DataType);
 
             if (declaration.Initialization != null)
             {
@@ -72,12 +71,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                 // Validate the inner parts of the expression.
                 declaration.Initialization.Accept(this);
             }
+
+            _declaredVariables.Add(declaration.Id.Name, declaration.DataType);
         }
 
         public override void Visit(Assignment assignment)
         {
-            DataType? targetType = GetResultType(assignment.Variable);
-            DataType? expressionType = GetResultType(assignment.Expression);
+            DataType? targetType = assignment.Variable.GetType(_declaredVariables);
+            DataType? expressionType = assignment.Expression.GetType(_declaredVariables);
 
             if (targetType.HasValue && expressionType.HasValue)
             {
@@ -142,83 +143,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        private DataType? GetResultType(IExpression expression)
-        {
-            switch (expression.Type)
-            {
-                case NodeType.BinaryExpression:
-                    return GetResultType((BinaryExpression)expression);
-                case NodeType.Identifier:
-                    var identifier = (Identifier)expression;
-                    if (_declaredVariables.Keys.Contains(identifier.Name))
-                    {
-                        return _declaredVariables[identifier.Name];
-                    }
-                    else
-                    {
-                        // The identifier refers to a question or variable that
-                        // has not been properly declared.
-                        return null;
-                    }
-                case NodeType.BooleanLiteral:
-                    return DataType.Boolean;
-                case NodeType.DoubleLiteral:
-                    return DataType.Double;
-                case NodeType.IntegerLiteral:
-                    return DataType.Integer;
-                case NodeType.StringLiteral:
-                    return DataType.String;
-                default:
-                    throw new ArgumentException("Unexpected node type for expression encountered.");
-            }
-        }
-
-        private DataType? GetResultType(BinaryExpression expression)
-        {
-            DataType? leftDataType = GetResultType(expression.Left);
-            DataType? rightDataType = GetResultType(expression.Right);
-
-            switch (expression.Operation)
-            {
-                case Operation.And:
-                case Operation.Equals:
-                case Operation.GreaterThan:
-                case Operation.GreaterThanOrEqualTo:
-                case Operation.LessThan:
-                case Operation.LessThanOrEqualTo:
-                case Operation.NotEquals:
-                case Operation.Or:
-                    return DataType.Boolean;
-
-                // The result type of these expressions also depends on their operands.
-                case Operation.Divide:
-                    return DataType.Double;
-                case Operation.Add:
-                case Operation.Multiply:
-                case Operation.Substract:
-                    if (leftDataType.HasValue && rightDataType.HasValue)
-                    {
-                        if (leftDataType.Value == DataType.Integer && rightDataType.Value == DataType.Integer)
-                        {
-                            return DataType.Integer;
-                        }
-                        else if (leftDataType.Value == DataType.Double || rightDataType.Value == DataType.Double)
-                        {
-                            return DataType.Double;
-                        }
-                        else
-                        {
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                default:
-                    return null;
-            }
-        }
 
         private bool BinaryExpressionIsValid(Operation operation, DataType left, DataType right)
         {
