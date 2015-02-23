@@ -1,6 +1,5 @@
 package lang.tests.semantics;
 
-import lang.ql.semantics.QuestErrInfo;
 import lang.ql.semantics.errors.*;
 import lang.tests.TestHelper;
 import org.junit.Test;
@@ -55,7 +54,6 @@ public class TypeCheckerTest
     public void undeclaredIdError() throws FileNotFoundException
     {
         List<Message> ms = TestHelper.analyse("undeclaredIdentifier");
-        assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),"Error (Line 2): identifier \"undeclId\" is not declared");
     }

@@ -6,11 +6,12 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
+import org.antlr.v4.runtime.Token;
 
 public class Addition extends BinaryExpression implements Expression {
 	
-	public Addition(Expression left, Expression right) {
-		super(left,right);
+	public Addition(Expression left, Expression right, Token tokenInfo) {
+		super(left,right, tokenInfo);
 	}
 
 	@Override
@@ -24,5 +25,5 @@ public class Addition extends BinaryExpression implements Expression {
 		return new ErrorType();
 	}
 	
-	
+	 
 }

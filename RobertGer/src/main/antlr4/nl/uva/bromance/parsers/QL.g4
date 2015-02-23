@@ -7,13 +7,13 @@ questionnaireBody:
 form: 'Form:' name=STRING formBody;
 
 formBody:
-    '{'(question|calculation|(ifStatement (elseIfStatement)* (elseStatement)?)|label)*'}';
+    '{'(question|calculation|ifSequence|label)*'}';
 
 question: 'Question:' name=STRING questionBody;
 
-questionBody: '{'(questionText
-               | questionAnswer
-               | questionRange)*'}';
+questionBody: '{'questionText       //Question text is not optional
+                 questionAnswer     // Question should always have an answer type defined
+                 questionRange?'}'; // Typechecker will point out when a Range is necessary so it is optional
 
 questionText: 'Text:' text=STRING;
 //QuestionAnser abstractions
@@ -34,6 +34,8 @@ calculation:
 calculationBody:
    '{' ((ifStatement (elseIfStatement)* (elseStatement)?)|input)+'}';
 
+ifSequence: ifStatement (elseIfStatement)* (elseStatement)?;
+
 ifStatement:
     'If:' expression statementBody;
 
@@ -49,7 +51,7 @@ statementBody:
 label:
 'Label:'name=STRING labelBody;
 labelBody:
-'{'((ifStatement (elseIfStatement)* (elseStatement)?)| labelText)'}';
+'{'(ifSequence | labelText)'}';
 
 labelText: 'Text:' text=STRING;
 
@@ -67,12 +69,15 @@ expression
     | expression operator=AND expression
     | expression operator=OR expression;
 
+//TODO: Consider doing something about this. id suggests identifier but this is not really an identifier. Would help with the AST as well.
 id
     : '['id']'
     | STRING
     | NUMBER
     | TEXT;
 
+
+//Operators
 TIMES: '*';
 DIVISION: '/';
 ADDITION: '+';

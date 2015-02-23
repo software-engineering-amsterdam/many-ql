@@ -1,5 +1,7 @@
 package com.form.language.ast.expression.logic;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.BinaryExpression;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.BoolType;
@@ -8,8 +10,8 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 public class And extends BinaryExpression implements Expression {
 
-	public And(Expression left, Expression right) {
-		super(left, right);
+	public And(Expression left, Expression right, Token tokenInfo) {
+		super(left,right, tokenInfo);
 	}
 	
 	@Override

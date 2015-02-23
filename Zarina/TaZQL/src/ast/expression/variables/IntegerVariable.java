@@ -4,15 +4,19 @@ import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 
 public class IntegerVariable extends Expression {
-	private final Integer variable;
+	private final Integer intVariable;
 
-	public IntegerVariable (Integer variable) {
-		this.variable = variable;
+	public IntegerVariable (Integer intVariable) {
+		this.intVariable = intVariable;
 	}	
+	
+	public Integer getValue() {
+		return intVariable;
+	}
 	
 	@Override
 	public String toString() {
-		return variable.toString();
+		return intVariable.toString();
 	}
 	
 	@Override

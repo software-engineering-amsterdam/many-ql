@@ -54,17 +54,7 @@ public class Error extends Message
 
     public static Error cyclicQuestions(List<String> ids)
     {
-        StringBuilder b = new StringBuilder("Error: the following questions form a cyclic dependency: ");
-        for (int i = 0; i < ids.size(); i++)
-        {
-            b.append(ids.get(i));
-            if (i < ids.size()-1)
-            {
-                b.append(", ");
-            }
-        }
-
-        return new Error(b.toString());
+        return new Error("Error: the following questions form a cyclic dependency: " + Message.getListString(ids));
     }
 
     public Error(String message)

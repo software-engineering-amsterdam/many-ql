@@ -3,11 +3,12 @@ package lang.ql.ast.type;
 /**
  * Created by Nik on 23-2-15.
  */
-public interface TypeVisitor
+public interface TypeVisitor<T>
 {
-    public void visit(BoolType type);
-    public void visit(DateType type);
-    public void visit(DecType type);
-    public void visit(IntType type);
-    public void visit(StrType type);
+    public T visit(BoolType type);
+    public T visit(DateType type);
+    public T visit(DecType type);
+    public T visit(IntType type);
+    public T visit(StrType type);
+    public T visit(UndefinedType type);
 }
