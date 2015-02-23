@@ -7,7 +7,7 @@ class TypeChecker {
 
   def check(form: Form, env: Environment = new Environment()): Environment = check(form.s, env)
 
-  def check(statement: Statement, env: Environment): Environment = statement match {
+  def check(s: Statement, env: Environment): Environment = s match {
     case Sequence(statements: List[Statement]) => statements.foldLeft(env) { (env, statement) => check(statement, env) }
     case s @ IfStatement(e: Expression, s1: Statement, None) => check(e, env) match {
       case BooleanType() =>
@@ -127,7 +127,7 @@ class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[
       new Environment(typeOfFields, labels :+ label, errors)
     }
   }
-  
+
   def addError(level: Level, message: String, position: Position): Environment = {
     new Environment(typeOfFields, labels, errors :+ new Error(level, message, position))
   }
