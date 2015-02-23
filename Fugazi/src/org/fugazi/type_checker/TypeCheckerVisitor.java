@@ -20,7 +20,6 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 
-import java.security.Key;
 import java.util.*;
 import java.util.List;
 
@@ -358,6 +357,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
         // if we are inside a computed expression
         // a dependency needs to be added and marked
+        System.out.println("VISITING ID " + idLiteral + " " + this.assignableIdLiteral);
         if (this.assignableIdLiteral != null) {
             // assignableIdLiteral is dependent on
             // the current idListeral
@@ -567,7 +567,8 @@ public class TypeCheckerVisitor implements IASTVisitor {
             this.questionDependencies.addIdDependenant(newDependant, dependee);
         }
 
-        System.out.println(this.questionDependencies);
+        System.out.println();System.out.println();System.out.println();System.out.println();
+        System.out.println(this.questionDependencies);System.out.println();System.out.println();System.out.println();
 
 
 //        System.out.println("Updated dependency " + depender.toString() + " " + dependenciesForDepender);

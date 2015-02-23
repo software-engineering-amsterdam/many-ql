@@ -5,9 +5,6 @@ import org.fugazi.ast.expression.literal.ID;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lukaszharezlak on 23/02/15.
- */
 public class DependencyList {
 
     private final List<Dependency> dependecies;
@@ -36,13 +33,10 @@ public class DependencyList {
     // add a new dependant for id
     public void addIdDependenant(ID id, ID dependant) {
         int idx = this.indexOf(id);
-        System.out.println(idx);
         if (idx == -1) {
             this.dependecies.add(new Dependency(id));
             idx = this.indexOf(id);
-            System.out.println(idx);
         }
-        System.out.println(idx);
         this.dependecies.get(idx).addDependant(dependant);
         return;
     }
@@ -50,7 +44,7 @@ public class DependencyList {
     private int indexOf(ID id) {
         int idx = 0;
         for (Dependency dependency : this.dependecies) {
-            if (id == this.dependecies.get(idx).getDependee()){
+            if (id.getName().equals(dependency.getDependee().getName())){
                 return idx;
             }
             idx++;
