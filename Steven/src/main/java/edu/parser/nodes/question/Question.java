@@ -17,12 +17,34 @@ public class Question extends Statement {
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
+    private boolean enabled;
 
     public Question(Identifier identifier, QuestionType questionType, Label label, Optional<Expression> expression) {
         this.identifier = identifier;
         this.questionType = questionType;
         this.label = label;
         this.expression = expression;
+        enabled = false;
+    }
+
+    public Question(Optional<Expression> expression, Identifier identifier, QuestionType questionType, Label label, boolean enabled) {
+        this.expression = expression;
+        this.identifier = identifier;
+        this.questionType = questionType;
+        this.label = label;
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void enable() {
+        this.enabled = true;
+    }
+
+    public void disable() {
+        this.enabled = false;
     }
 
     public Identifier getIdentifier() {

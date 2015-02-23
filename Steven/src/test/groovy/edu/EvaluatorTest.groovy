@@ -1,6 +1,5 @@
 package edu
 
-import edu.parser.nodes.AbstractNode
 import edu.parser.nodes.Form
 import edu.parser.nodes.expression.Identifier
 import edu.parser.nodes.question.Label
@@ -43,4 +42,6 @@ class EvaluatorTest extends Specification {
         Assert.assertEquals(label, question.label)
         Assert.assertEquals(expression, question.expression)
     }
+
+
 }
