@@ -4,6 +4,11 @@ import ast._
 
 class QLTypeChecker extends {
 
+  sealed trait Type
+  case class BooleanType() extends Type
+  case class NumberType() extends Type
+  case class StringType() extends Type
+
   // Holds the defined variables and their type.
   // Note that we require variables to be declared before being used.
   type Environment = Map[String, Type]
