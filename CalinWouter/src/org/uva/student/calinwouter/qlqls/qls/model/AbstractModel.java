@@ -9,6 +9,7 @@ import java.util.List;
 
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractModel<T> implements IModel {
+    protected boolean visible;
 
     @Override
     public void caseHashMap(HashMap<Object, Object> hashMap) {

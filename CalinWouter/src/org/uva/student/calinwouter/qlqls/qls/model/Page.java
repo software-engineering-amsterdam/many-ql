@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.qls.types.AbstractPushable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Page extends AbstractFormField<Page> {
+public class Page extends AbstractModel<Page> {
     private List<Section> sections;
     private List<Default> defaultSettings;
 
@@ -35,5 +35,6 @@ public class Page extends AbstractFormField<Page> {
     public Page() {
         sections = new LinkedList<Section>();
         defaultSettings = new LinkedList<Default>();
+        visible = false;
     }
 }
