@@ -9,7 +9,7 @@ if_statement
     : 'if' '(' expression ')' '{' statement+ '}' else_clause?
     ;
 else_clause
-    : 'else' '{' statement '}'
+    : 'else' '{' statement+ '}'
     ;
 expression
     : leftParenthesis='(' expression rightParenthesis=')'

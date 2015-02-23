@@ -1,48 +1,82 @@
 package parser
 
+import junit.framework.Assert
 import parser.nodes.Form
+import parser.ast.nodes.expression.*
+import parser.nodes.expression.And
+import parser.nodes.expression.BinaryExpression
+import parser.nodes.expression.GreaterThan
+import parser.nodes.expression.Identifier
+import parser.nodes.expression.Multiplication
+import parser.nodes.expression.Not
+import parser.nodes.question.Question
+import parser.nodes.statement.ElseClause
+import parser.nodes.statement.IfStatement
+import parser.nodes.type.Boolean
+import parser.nodes.type.Number
 import spock.lang.Specification
 
 /**
- * Created by Steven Kok on 17/02/2015.
+ * Created by Steven Kok on 21/02/2015.
  */
 class ParseTreeWalkerTest extends Specification {
-    public static final String PATH_TO_INPUT_FILE = "src/main/antlr/input/QL_initial"
-    ParseTreeWalker parseTreeWalker
+
+    public static final String INPUT_PATH = "src/main/antlr/input/"
+    Main parseTreeWalker;
+    ParseTreeWalker baseVisitor;
 
     def setup() {
-        parseTreeWalker = new ParseTreeWalker()
+        parseTreeWalker = new Main();
+        baseVisitor = new ParseTreeWalker();
     }
 
-    def "Walker should throw exception when providing wrong path"() {
+    def "Nested expression should be parsed correctly"() {
         when:
-        parseTreeWalker.walk(path, new QLBaseVisitorImpl())
+        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_nestedExpression", baseVisitor, Form.class)
+        IfStatement ifStatement = (IfStatement) form.elements.get(0)
+        BinaryExpression expression = (BinaryExpression) ifStatement.expression
 
         then:
-        thrown(thrownClass)
-
-        where:
-        path                    | thrownClass
-        "src/main/antlr/input/" | IOException.class
-        "QL_initial"            | IOException.class
-        ""                      | IOException.class
-        " "                     | IOException.class
+        Assert.assertEquals(And.class, expression.class)
+        Assert.assertEquals(Identifier.class, expression.left.class)
+        Assert.assertEquals(GreaterThan.class, expression.right.class)
+        Assert.assertEquals(Multiplication.class, ((GreaterThan) expression.right).left.class)
+        Assert.assertEquals(Number.class, ((GreaterThan) expression.right).right.class)
     }
 
-    def "Walker shouldn't throw exception when provided correct path"() {
+    def "Boolean types should be identified"() {
         when:
-        parseTreeWalker.walk(PATH_TO_INPUT_FILE, new QLBaseVisitorImpl())
+        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_boolean", baseVisitor, Form.class)
+        IfStatement ifStatement = (IfStatement) form.elements.get(0)
+        And and = (And) ifStatement.expression
 
         then:
-        noExceptionThrown()
+        Assert.assertEquals(Boolean.class, and.left.class)
+        Assert.assertEquals(true, ((Boolean) and.left).isTrue())
+
+        Assert.assertEquals(Boolean.class, and.right.class)
+        Assert.assertEquals(false, ((Boolean) and.right).isTrue())
     }
 
-    def "Walker should return a populated list"() {
+    def "Negation should be recognized on identifier"() {
         when:
-        Form form = parseTreeWalker.walk(PATH_TO_INPUT_FILE, new QLBaseVisitorImpl())
+        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_negation", baseVisitor, Form.class)
+        IfStatement ifStatement = (IfStatement) form.elements.get(0)
 
         then:
-        !form.getElements().empty
+        Assert.assertEquals(And.class, ifStatement.expression.class)
+        Assert.assertEquals(Not.class, ((And) ifStatement.expression).left.class)
+    }
 
+    def "Should recognise else clause in If statement"() {
+        when:
+        Form form = parseTreeWalker.walk(INPUT_PATH + "QL_elseClause", baseVisitor, Form.class)
+        IfStatement ifStatement = (IfStatement) form.elements.get(0)
+
+        then:
+        Assert.assertEquals(true, ifStatement.elseClause.present)
+        ElseClause elseClause = ifStatement.elseClause.get()
+        Question question = (Question) elseClause.statements.get(0)
+        Assert.assertEquals("name2", question.identifier.identifier);
     }
 }

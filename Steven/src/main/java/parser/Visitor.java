@@ -6,6 +6,7 @@ import parser.nodes.expression.*;
 import parser.nodes.question.Label;
 import parser.nodes.question.Question;
 import parser.nodes.question.QuestionType;
+import parser.nodes.statement.ElseClause;
 import parser.nodes.statement.IfStatement;
 import parser.nodes.statement.Statement;
 import parser.nodes.type.Boolean;
@@ -55,4 +56,6 @@ public interface Visitor {
     AbstractNode visit(QuestionType questionType);
 
     AbstractNode visit(Label label);
+
+    AbstractNode visit(ElseClause elseClause);
 }

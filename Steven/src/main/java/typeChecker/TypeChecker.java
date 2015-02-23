@@ -8,6 +8,7 @@ import parser.nodes.expression.*;
 import parser.nodes.question.Label;
 import parser.nodes.question.Question;
 import parser.nodes.question.QuestionType;
+import parser.nodes.statement.ElseClause;
 import parser.nodes.statement.IfStatement;
 import parser.nodes.statement.Statement;
 import parser.nodes.type.Number;
@@ -76,17 +77,21 @@ public class TypeChecker implements Visitor {
     @Override
     public AbstractNode visit(Question question) {
         if (questionAlreadyFound(question)) {
-            if (foundQuestionHasSameType(question)) {
-                throw new TypeCheckException(
-                        String.format(ALREADY_DECLARED_QUESTION,
-                                question.getIdentifier().getIdentifier(), question.getQuestionType().name()));
-            } else {
-                throw new TypeCheckException(
-                        String.format(ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE,
-                                question.getIdentifier().getIdentifier(), questions.get(question.getIdentifier()).name()));
-            }
+            return throwExceptionForDuplicateQuestion(question);
         } else {
             return questions.put(question.getIdentifier(), question.getQuestionType());
+        }
+    }
+
+    private AbstractNode throwExceptionForDuplicateQuestion(Question question) {
+        if (foundQuestionHasSameType(question)) {
+            throw new TypeCheckException(
+                    String.format(ALREADY_DECLARED_QUESTION,
+                            question.getIdentifier().getIdentifier(), question.getQuestionType().name()));
+        } else {
+            throw new TypeCheckException(
+                    String.format(ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE,
+                            question.getIdentifier().getIdentifier(), questions.get(question.getIdentifier()).name()));
         }
     }
 
@@ -202,5 +207,11 @@ public class TypeChecker implements Visitor {
     @Override
     public AbstractNode visit(Label label) {
         return label;
+    }
+
+    @Override
+    public AbstractNode visit(ElseClause elseClause) {
+        visitStatement(elseClause.getStatements());
+        return elseClause;
     }
 }

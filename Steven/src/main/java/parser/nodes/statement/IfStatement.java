@@ -5,6 +5,7 @@ import parser.nodes.AbstractNode;
 import parser.nodes.expression.Expression;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Steven Kok on 17/02/2015.
@@ -12,10 +13,16 @@ import java.util.List;
 public class IfStatement extends Statement {
     private final Expression expression;
     private final List<Statement> statements;
+    private final Optional<ElseClause> elseClause;
 
-    public IfStatement(Expression expression, List<Statement> statements) {
+    public IfStatement(Expression expression, List<Statement> statements, Optional<ElseClause> elseClause) {
         this.expression = expression;
         this.statements = statements;
+        this.elseClause = elseClause;
+    }
+
+    public Optional<ElseClause> getElseClause() {
+        return elseClause;
     }
 
     public Expression getExpression() {
