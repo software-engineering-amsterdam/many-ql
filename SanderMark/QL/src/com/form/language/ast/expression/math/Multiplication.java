@@ -16,7 +16,7 @@ public class Multiplication extends BinaryExpression implements Expression {
 
 	@Override
 	public GenericValue<Integer> evaluate() {
-		return new IntValue(((IntValue)super.left).evaluate() * ((IntValue)super.right).evaluate());
+		return new IntValue(((IntValue)super.left.evaluate()).getValue() * ((IntValue)super.right.evaluate()).getValue());
 	}
 
 	@Override

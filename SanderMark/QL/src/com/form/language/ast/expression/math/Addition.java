@@ -2,7 +2,6 @@ package com.form.language.ast.expression.math;
 
 import com.form.language.ast.expression.BinaryExpression;
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.IntLiteral;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
@@ -16,7 +15,7 @@ public class Addition extends BinaryExpression implements Expression {
 
 	@Override
 	public IntValue evaluate() {
-		return ((IntLiteral)left).evaluate().Addition(((IntLiteral)right).evaluate());
+		return new IntValue(((IntValue)super.left.evaluate()).getValue() + ((IntValue)super.right.evaluate()).getValue());
 	}
 
 	@Override

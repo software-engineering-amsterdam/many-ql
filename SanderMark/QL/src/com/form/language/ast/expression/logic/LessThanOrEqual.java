@@ -2,11 +2,11 @@ package com.form.language.ast.expression.logic;
 
 import com.form.language.ast.expression.BinaryExpression;
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.IntLiteral;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.ast.values.IntValue;
 
 public class LessThanOrEqual extends BinaryExpression implements Expression {
 
@@ -16,7 +16,7 @@ public class LessThanOrEqual extends BinaryExpression implements Expression {
 	
 	@Override
 	public BoolValue evaluate() {
-		return ((IntLiteral)left).evaluate().LessThanOrEqual(((IntLiteral)right).evaluate());
+		return new BoolValue(((IntValue)super.left.evaluate()).getValue() <= ((IntValue)super.right.evaluate()).getValue());
 	}
 
 	@Override

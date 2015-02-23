@@ -6,7 +6,7 @@ public class StringValue extends GenericValue<String> {
 	public StringValue(String value) {
 		this.value = value;
 	}
-	public String evaluate() {
+	public String getValue() {
 		return value;
 	}
 
