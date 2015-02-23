@@ -30,15 +30,15 @@ public class Main {
                     "" +
                     "\tpage(Housing,\n" +
                     "\t\tsection(Buying,\n" +
-                    "\t\t\tquestion(hasBoughtHouse, {widget: checkbox})),\n" +
+                    "\t\t\tquestion(hasBoughtHouse, {widget: checkbox()})),\n" +
                     "\t\tsection(Loaning,\n" +
                     "\t\t\tquestion(hasMaintLoan))\n" +
                     "\t), page(Selling,\n" +
                     "\t\tsection(Selling,\n" +
                     "\t\t\tquestion(hasSoldHouse, {widget: radio(\"Yes\", \"No\")})), \n" +
                     "\t\tsection(\"You sold a house\",\n" +
-                    "\t\t\tquestion(sellingPrice, {widget: spinbox}),\n" +
-                    "\t\t\tquestion(privateDebt, {widget: spinbox}),\n" +
+                    "\t\t\tquestion(sellingPrice, {widget: spinbox()}),\n" +
+                    "\t\t\tquestion(privateDebt, {widget: spinbox()}),\n" +
                     "\t\t\tquestion(valueResidue)),\n" +
                     "\t\tdefault(integer, {\n" +
                     "\t\t\twidth: 400,\n" +

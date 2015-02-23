@@ -28,7 +28,7 @@ public class QuestionFrame extends JFrame {
         formPanel.add(container);
         getContentPane().add(new JScrollPane(formPanel), BorderLayout.CENTER);
 
-        container.add(form.createGUIComponent());        
+        container.add(form.createGUIComponent(container));        
         
         setVisible(true);
 	}
