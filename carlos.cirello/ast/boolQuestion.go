@@ -1,26 +1,34 @@
 package ast
 
-import "strconv"
+import (
+	"strconv"
+	"text/scanner"
+)
 
 // BoolQuestion stores the answer of question which type is integer numeric
-type BoolQuestion bool
+type BoolQuestion struct {
+	value bool
+	pos   scanner.Position
+}
 
+// BoolQuestionType constant used for type comparison internally in interpreter
+// and frontend
 const BoolQuestionType = "bool"
 
 // From takes the input from Frontend and stores locally - Boolean
 func (s *BoolQuestion) From(str string) error {
 	val, err := strconv.Atoi(str)
 	if val == 1 || str == "Yes" || str == "yes" {
-		*s = BoolQuestion(true)
+		s.value = true
 	} else {
-		*s = BoolQuestion(false)
+		s.value = false
 	}
 	return err
 }
 
 // String prints in human form the content of the question - Boolean
 func (s BoolQuestion) String() string {
-	if bool(s) {
+	if s.Value() {
 		return "Yes"
 	}
 	return "No"
@@ -33,5 +41,5 @@ func (s BoolQuestion) Type() string {
 
 // Value converts underlying boolean into primitive boolean
 func (s BoolQuestion) Value() bool {
-	return bool(s)
+	return s.value
 }

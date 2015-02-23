@@ -12,4 +12,5 @@ class ParseError(Exception):
             self.lexpos = Token.lexpos
 
     def __str__(self):
-        return "LexToken(%s,%r,%d,%d)" % (self.type,self.value,self.lineno,self.lexpos)
+        return "Syntax error at line %d: %d\nNear Token(%s,%r)" % \
+            (self.lineno, self.lexpos, self.type, self.value)

@@ -3,12 +3,16 @@ package ast
 import "testing"
 
 func testBoolQuestion(t *testing.T, input, output string) {
-	aBoolQuestion := new(BoolQuestion)
-	aBoolQuestion.From(input)
+	q := new(BoolQuestion)
+	q.From(input)
 
-	if got := aBoolQuestion.String(); output != got {
+	if got := q.String(); output != got {
 		t.Errorf("Internal error in BoolQuestion. Got %s, Expected %s",
 			got, output)
+	}
+
+	if "bool" != q.Type() {
+		t.Error("Bool questions should return a \"bool\" type")
 	}
 }
 

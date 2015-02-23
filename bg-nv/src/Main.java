@@ -1,22 +1,30 @@
-import lang.ql.ast.AstNode;
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
+import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.SymbolTable;
-import lang.ql.semantics.TypeChecker;
-import lang.ql.ast.visitor.PrintVisitor;
-import lang.ql.ast.visitor.SymbolVisitor;
-import lang.ql.syntax.QLVisitorImpl;
+import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.Modeler;
+import lang.ql.gui.SimpleGui;
+import lang.ql.semantics.*;
+import lang.ql.ast.QLVisitor;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.io.IOException;
+
 import lang.ql.gen.*;
 
-public class Main
+public class Main extends Application
 {
+    private static Form ast;
+    private static ValueTable values;
+
     public static void main(String[] args)
     {
+        new JFXPanel(); //TODO: figure out why all hell breaks loose without this statement
+
         try
         {
             CharStream stream = new ANTLRFileStream("src/lang/tests/formInput");
@@ -25,24 +33,28 @@ public class Main
             QLParser parser = new QLParser(tokens);
             ParserRuleContext tree = parser.form();
 
-            QLVisitorImpl visitor = new QLVisitorImpl();
-            AstNode root = visitor.visit(tree);
+            QLVisitor visitor = new QLVisitor();
+            ast = (Form) visitor.visit(tree);
 
-            PrintVisitor print = new PrintVisitor();
-            print.visit((Form)root);
+            TypeChecker.check(ast);
 
-            SymbolVisitor symbolVisitor = new SymbolVisitor();
-            SymbolTable table = symbolVisitor.visit(root);
+            Interpreter.interpret(ast);
+            //values = v.getVariableValues();
 
-            TypeChecker typeVisitor = new TypeChecker();
-            typeVisitor.visit(root, table);
-
-            System.out.println(root);
-            System.out.println(print.getString());
+            System.out.println(values);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage)
+    {
+        Modeler modeler = new Modeler(values);
+        modeler.visit(this.ast);
+        SimpleGui.run(modeler.getCanvas(), primaryStage);
     }
 }

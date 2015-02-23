@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 
 public class LexerTest
 {
-    @Test
     public void testLexer()
     {
         System.out.println("Entering LexerTest");

@@ -51,13 +51,6 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBoolType(@NotNull QLParser.BoolTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code moneyType}
-	 * labeled alternative in {@link QLParser#type}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMoneyType(@NotNull QLParser.MoneyTypeContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code intType}
 	 * labeled alternative in {@link QLParser#type}.
 	 * @param ctx the parse tree
@@ -121,19 +114,19 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code numberExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code comparisonExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code intExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntExpression(@NotNull QLParser.IntExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code addSubExpression}
 	 * labeled alternative in {@link QLParser#expression}.

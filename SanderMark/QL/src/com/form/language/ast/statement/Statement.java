@@ -1,5 +1,8 @@
 package com.form.language.ast.statement;
 
-public abstract class Statement {
-	
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
+public interface Statement {
+		public JComponent createGUIComponent(JPanel panel);
 }

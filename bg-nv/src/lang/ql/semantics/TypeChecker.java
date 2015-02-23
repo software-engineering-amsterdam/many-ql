@@ -2,156 +2,326 @@ package lang.ql.semantics;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
+import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.SymbolTable;
-import lang.ql.ast.visitor.VisitorAbstract;
+import lang.ql.ast.type.*;
+import lang.ql.semantics.errors.Error;
+import lang.ql.semantics.errors.Message;
 
 import java.util.*;
 
 /**
  * Created by bore on 13/02/15.
  */
-public class TypeChecker extends VisitorAbstract
+public class TypeChecker implements Visitor
 {
     private SymbolTable symbolTable;
-
-    public void visit(AstNode node, SymbolTable symbolTable)
+    private Stack<Type> typeStack;
+    private Question currentQuestion;
+    private QuestionDependencies questionDependencies;
+    private List<Message> messages;
+    
+    public static List<Message> check(Form f)
     {
-        this.symbolTable = symbolTable;
-        this.visitInternal(node);
-    }
-
-    private void visitInternal(AstNode node)
-    {
-        if (node.getChildren() != null)
+        SymbolResult symbolResult = SymbolVisitor.extract(f);
+        if (symbolResult.getMessages().isEmpty())
         {
-            for (AstNode child : node.getChildren())
-            {
-                this.visitInternal(child);
-            }
+            // TODO: symbol table has errors
         }
 
-        node.visit(this);
+        SymbolTable table = symbolResult.getSymbolTable();
+        TypeChecker typeChecker = new TypeChecker(table);
+        f.accept(typeChecker);
+
+        List<String> cyclicIds = typeChecker.questionDependencies.findCycle();
+        if (cyclicIds != null)
+        {
+            typeChecker.messages.add(Error.cyclicQuestions(cyclicIds));
+        }
+
+        return typeChecker.messages;
+    }
+
+    private TypeChecker(SymbolTable table)
+    {
+        this.symbolTable = table;
+        this.typeStack = new Stack<Type>();
+        this.questionDependencies = new QuestionDependencies();
+        this.messages = new ArrayList<Message>();
     }
 
     @Override
-    public void visit(CalculatedQuestion n)
+    public void visit(Form form)
     {
-        QuestionType defined = n.getQuestionType();
-        QuestionType calculated = n.getExpression().getType();
-
-        if (defined != calculated)
+        for (Statement statement : form.getBody())
         {
-            throw new IllegalArgumentException(String.format("%s is defined as %s, but it is assigned a %s.",
-                    n.getClass().getSimpleName(), defined, calculated));
+            statement.accept(this);
         }
     }
 
     @Override
-    public void visit(IfCondition n)
+    public void visit(IfCondition condition)
     {
-        if (n.getExpression().getType() != QuestionType.BOOLEAN)
+        condition.getCondition().accept(this);
+
+        Type type = this.popType();
+        if (!(type.equals(new BoolType())))
         {
-            throw new IllegalArgumentException("If statements should have conditions of type boolean");
+            this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
+        }
+
+        for (Statement statement : condition.getBody())
+        {
+            statement.accept(this);
         }
     }
 
     @Override
-    public void visit(IntegerExpression n)
+    public void visit(Question q)
     {
-        n.setType(QuestionType.INTEGER);
+        this.questionDependencies.addQuestion(q);
     }
 
     @Override
-    public void visit(BooleanExpression n)
+    public void visit(CalculatedQuestion q)
     {
-        n.setType(QuestionType.BOOLEAN);
+        this.setScopeForExpr(q);
+
+        this.questionDependencies.addQuestion(q);
+
+        q.getDefaultValue().accept(this);
+
+        Type defined = q.getType();
+        Type calculated = this.popType();
+
+        if (!(defined.equals(calculated)))
+        {
+            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), calculated.getTitle(),
+                    q.getLineNumber()));
+        }
+
+        this.resetScopeForExpr();
     }
 
     @Override
-    public void visit(DecimalExpression n)
+    public void visit(Indent n)
     {
-        n.setType(QuestionType.DECIMAL);
-    }
-
-    @Override
-    public void visit(StringExpression n)
-    {
-        n.setType(QuestionType.STRING);
-    }
-
-    @Override
-    public void visit(AdditionExpression n)
-    {
-        this.checkBinaryOperators(n, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL, QuestionType.STRING));
-        n.setType(n.getLeft().getType());
-    }
-
-    @Override
-    public void visit(SubtractionExpression n)
-    {
-        this.checkBinaryOperators(n, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(n.getLeft().getType());
-    }
-
-    @Override
-    public void visit(GreaterThanExpression n)
-    {
-        this.checkBinaryOperators(n, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(QuestionType.BOOLEAN);
-    }
-
-    @Override
-    public void visit(UnaryMinusExpression n)
-    {
-        QuestionType operandType = n.getOperand().getType();
-        this.checkAllowedTypes(n, operandType, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(operandType);
-    }
-
-    @Override
-    public void visit(UnaryPlusExpression n)
-    {
-        QuestionType operandType = n.getOperand().getType();
-        this.checkAllowedTypes(n, operandType, Arrays.asList(QuestionType.INTEGER, QuestionType.DECIMAL));
-        n.setType(operandType);
-    }
-
-    @Override
-    public void visit(VariableExpression n)
-    {
-        QuestionType type = this.symbolTable.resolve(n.getId());
+        Type type = this.symbolTable.resolve(n.getId());
         if (type == null)
         {
-            throw new IllegalArgumentException(String.format("Identifier \"%s\" is not defined.", n.getId()));
+            this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
+            type = this.tryToRecoverType();
         }
-        n.setType(type);
-    }
 
-    private void checkBinaryOperators(BinaryOperatorExpression n, List<QuestionType> allowedTypes)
-    {
-        QuestionType leftChildType = n.getLeft().getType();
-        QuestionType rightChildType = n.getRight().getType();
-
-        this.checkChildTypesConsistency(n, leftChildType, rightChildType);
-        this.checkAllowedTypes(n, leftChildType, allowedTypes);
-    }
-
-    private void checkChildTypesConsistency(AstNode n, QuestionType leftChildType, QuestionType rightChildType)
-    {
-        if (leftChildType != rightChildType)
+        if (this.currentQuestion != null)
         {
-            throw new IllegalArgumentException(String.format("%s has children of different types: %s and %s.",
-                    n.getClass().getSimpleName(), leftChildType, rightChildType));
+            Question q = this.symbolTable.getQuestion(n.getId());
+            this.questionDependencies.addDependency(this.currentQuestion, q);
+        }
+
+        this.pushType(type);
+    }
+
+    private Type tryToRecoverType()
+    {
+        if (this.typeStack.empty())
+        {
+            if (this.currentQuestion != null)
+            {
+                return this.currentQuestion.getType();
+            }
+
+            return new BoolType();
+        }
+
+        return this.typeStack.peek();
+    }
+
+    @Override
+    public void visit(IntExpr n)
+    {
+        this.pushType(new IntType());
+    }
+
+    @Override
+    public void visit(BoolExpr n)
+    {
+        this.pushType(new BoolType());
+    }
+
+    @Override
+    public void visit(DecExpr n)
+    {
+        this.pushType(new DecType());
+    }
+
+    @Override
+    public void visit(StrExpr n)
+    {
+        this.pushType(new StrType());
+    }
+
+    @Override
+    public void visit(Add e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Sub e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Mul e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Div e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Pos e)
+    {
+        this.visitUnaryExpr(e);
+    }
+
+    @Override
+    public void visit(Neg e)
+    {
+        this.visitUnaryExpr(e);
+    }
+
+    @Override
+    public void visit(Not e)
+    {
+        this.visitUnaryExpr(e);
+    }
+
+    @Override
+    public void visit(Gt e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Lt e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(GtEqu e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(LtEqu e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Equ e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(NotEqu e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(And e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    @Override
+    public void visit(Or e)
+    {
+        this.visitBinaryExpr(e);
+    }
+
+    private void visitBinaryExpr(BinaryExpr e)
+    {
+        e.getLeft().accept(this);
+        e.getRight().accept(this);
+
+        Type right = this.popType();
+        Type left = this.popType();
+
+        this.checkChildTypesConsistency(e, left, right);
+
+        this.checkTypeAndSetReturnType(e, left);
+    }
+
+    private void visitUnaryExpr(UnaryExpr e)
+    {
+        e.getOperand().accept(this);
+        Type operand = this.popType();
+
+        this.checkTypeAndSetReturnType(e, operand);
+    }
+
+    private void checkTypeAndSetReturnType(Expr e, Type childType)
+    {
+        String exprName = e.getClass().getSimpleName();
+        Set<Type> types = ExprTypes.exprAllowedTypes.get(exprName);
+
+        this.checkAllowedTypes(e, childType, types);
+
+        Type returnType = childType;
+        if (ExprTypes.exprReturnType.containsKey(exprName))
+        {
+            returnType = ExprTypes.exprReturnType.get(exprName);
+        }
+
+        this.pushType(returnType);
+    }
+
+    private void checkChildTypesConsistency(AstNode n, Type leftChildType, Type rightChildType)
+    {
+        if (!(leftChildType.equals(rightChildType)))
+        {
+            this.messages.add(Error.typeMismatch(
+                    n.getClass().getSimpleName(), leftChildType, rightChildType, n.getLineNumber()));
         }
     }
 
-    private void checkAllowedTypes(Expression n, QuestionType childType, List<QuestionType> allowedTypes)
+    private void checkAllowedTypes(Expr e, Type childType, Set<Type> allowedTypes)
     {
-        if (!allowedTypes.contains(childType))
+        if (!(allowedTypes.contains(childType)))
         {
-            throw new IllegalArgumentException(String.format("%s cannot have children of type %s",
-                    n.getClass().getSimpleName(), childType));
+            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
         }
+    }
+
+    private void pushType(Type type)
+    {
+        this.typeStack.push(type);
+    }
+
+    private Type popType()
+    {
+        return this.typeStack.pop();
+    }
+
+    private void setScopeForExpr(CalculatedQuestion q)
+    {
+        this.currentQuestion = q;
+    }
+
+    private void resetScopeForExpr()
+    {
+        this.currentQuestion = null;
     }
 }

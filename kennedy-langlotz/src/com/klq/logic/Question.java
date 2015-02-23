@@ -4,28 +4,23 @@ package com.klq.logic;
  * Created by Timon on 10.02.2015.
  */
 public class Question {
-    private Id id;
     private Type type;
-    private AnswerSet answerSet;
+    private OptionSet options;
     private Text text;
-    private Question requires;
-    private AnswerSet only;
+    private Answer result;
 
-    public Question (Id id, Type type, AnswerSet answerSet, Text text, Question requires, AnswerSet only){
-        this.id = id;
+    public Question (Type type, OptionSet options, Text text){
         this.type = type;
-        this.answerSet = answerSet;
+        this.options = options;
         this.text = text;
-        this.requires = requires;
-        this.only = only;
     }
 
     public Type getType() {
         return type;
     }
 
-    public AnswerSet getAnswerSet() {
-        return answerSet;
+    public OptionSet getOptions() {
+        return options;
     }
 
     public Text getText() {

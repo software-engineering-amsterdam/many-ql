@@ -1,0 +1,4 @@
+form sample {
+    string quest "label" "string"=="string"
+    decimal anotherQuest "Another label" 1>2
+}

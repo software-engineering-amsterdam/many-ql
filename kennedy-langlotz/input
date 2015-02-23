@@ -1,6 +1,35 @@
+/*if (10 > question1) then
+    if (a > b && b > c) then
+        question
+            id : question1
+            text : "What is love"
+            type : boolean
+            value : "Baby don't hurt me", "Don't hurt me", 10.3 * 42.5 + 100
+        end
+    end
+end
+
 question
+    id : question2
+    text : "Age?"
+    type : numeral
+    value : 9*(0+ 8)
+end
+question
+    id : question3
+    text : "name?"
+    type : content
+    value: 12/01/2012
+end*/question
     id : question1
-    text : "What is love"
-    type : boolean
-    value : "Baby dont hurt me", "Dont hurt me", 10.3 * 42.5 + 100
+    text : "What is your age?"
+    type : numeral
+    value : 18
+end
+
+question
+    id : question2
+    text : "When is your birthday?"
+    type : content
+    value : 21.12.1990
 end

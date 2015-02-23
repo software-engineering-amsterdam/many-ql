@@ -1,23 +1,11 @@
 grammar QL;
 
-
 @parser::header
 {
-	import org.uva.sea.ql.model.expression.*;
-	import org.uva.sea.ql.model.expression.commonexpression.*;
-	import org.uva.sea.ql.model.expression.booleanexpression.*;
-	import org.uva.sea.ql.model.expression.mathexpression.*;
-	import org.uva.sea.ql.model.literal.*;
-	import org.uva.sea.ql.model.value.*;
 }
 
 @lexer::header
-{
-//	import org.uva.sea.ql.model.expression.*;
-//	import org.uva.sea.ql.model.expression.mathexpression.*;
-//	import org.uva.sea.ql.model.expression.booleanexpression.*;
-//	import org.uva.sea.ql.model.expression.commonexpression.*;
-}
+{}
 
 // Parser rules
 form : FORM Identifier block;
@@ -26,8 +14,8 @@ block : LEFT_BRACE statement* RIGHT_BRACE;
 
 statement
 	: block
-	| question
-	| ifStatement
+	| question 
+	| ifStatement 
 	;
 	
 question : questionType questionName questionLabel SEMICOLON;
@@ -38,29 +26,33 @@ questionName : Identifier;
 
 questionLabel : StringLiteral;
 
-ifStatement : IF LEFT_PARENTHESES expr RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
+ifStatement : IF LEFT_PAREN condition=expression RIGHT_PAREN thenBranch=block
+			(ELSE elseBranch=block)?;
 
-elseIfStatement : ELIF block elseStatement;
+//ifStatement : IF LEFT_PARENTHESES expression RIGHT_PARENTHESES block elseIfStatement* elseStatement?;
+//
+//elseIfStatement : ELIF block elseStatement;
+//
+//elseStatement : ELSE block;
 
-elseStatement : ELSE block;
-
-expr: 
-	literal
-	| expr AND expr
-	| expr OR expr
-	| expr EQUAL_COND expr
-	| expr GREATER expr
-	| expr EQUAL_GREATER expr
-	| expr EQUAL expr
-	| expr EQUAL_SMALLER expr
-	| expr SMALLER expr
-	| expr PLUS expr 
-	| expr MINUS expr 
-	| expr MULTIPLY expr 
-	| expr DEVIDE expr 
+expression:
+	Literal = literal #ExprLiteral
+	| Left=expression  op = AND Right=expression #ExprAnd
+	| Left= expression op = OR Right= expression #ExprOr
+	| Left= expression op = EQUAL_COND Right= expression #ExprEq 
+	| Left= expression op = GREATER Right= expression #ExprGreater
+	| Left= expression op = GREAT_EQUAL Right= expression  #ExprGreaterEqual
+	| Left= expression op = LESS_EQUAL Right= expression #ExprLessEqual
+	| Left= expression op = LESS Right= expression #ExprLess
+	| Left= expression op = PLUS Right= expression  #ExprPlus
+	| Left= expression op = MINUS Right= expression  #ExprMinus
+	| Left= expression op = MULTIPLY Right= expression #ExprMultiply
+	| Left= expression op = DIVIDE Right= expression #ExprDivide
+	| '(' singleExpr = expression ')'  #ExprParentheses
+	| op = '!' singleExpr= expression #ExprNot
+	| op = '-' singleExpr= expression #ExprNeg
+	 
 ;
-//=========================================
-
 
 literal
  	 : Identifier
@@ -71,47 +63,43 @@ literal
  	 | DateLiteral
 	 ;
 
-
-// Lexer rules
-
-// Data Types
-INT:			'Int';
-STR:			'Str';
-CUR:			'Cur';
-BOOL:			'Bool';
-DEC:			'Dec';
-DATE:			'Date';
-
-
-// Keywords
+/* LEXER RULES */
+// Keywords		==================================================================
 FORM		:		'form';
 IF			:		'if';
 THEN		:		'then';
 ELSE		:		'else';
 ELIF		:		'else if';
 
-// Operators
-OR:				'||';
-AND:			'&&';
-EQUAL:			'=';
-GREATER: 		'>';
-EQUAL_GREATER: 	'>='; 
-EQUAL_COND:		'==';
-EQUAL_SMALLER: 	'<=';
-SMALLER: 		'<';
-PLUS:			'+';
-MINUS:			'-';
-DEVIDE:			'/';
-MULTIPLY:		'*';
+// DataTypes	==================================================================
+INT 		:		'Int';
+STR			:		'Str';
+CUR			:		'Cur';
+BOOL		:		'Bool';
+DEC			:		'Dec';
+DATE		:		'Date';
 
-// Symbols
-LEFT_BRACE:	'{';
-RIGHT_BRACE:	'}';
-LEFT_PARENTHESES:	'(';
-RIGHT_PARENTHESES:	')';
-COLON:			':';
-SEMICOLON:		';';
+// Operators	==================================================================
+OR			:		'||';
+AND			:		'&&';
+EQUAL		:		'=';
+EQUAL_COND	:		'==';
+GREATER		: 		'>';
+LESS		: 		'<';
+GREAT_EQUAL	: 		'>='; 
+LESS_EQUAL	: 		'<=';
+PLUS		:		'+';
+MINUS		:		'-';
+DIVIDE		:		'/';
+MULTIPLY	:		'*';
 
+// Symbols		==================================================================
+LEFT_BRACE	:		'{';
+RIGHT_BRACE	:		'}';
+LEFT_PAREN	:		'(';
+RIGHT_PAREN	:		')';
+COLON		:		':';
+SEMICOLON	:		';';
 
 IntegerLiteral: [1-9][0-9]*;
 
@@ -121,7 +109,7 @@ DecimalNumeral : Non_Zero_Digit Digit* | [0];
 
 BooleanLiteral: 'true' | 'false';
 
-StringLiteral: '"' .*? '"';
+StringLiteral: '"' (~[\r\n"] | '""')* '"';
 
 DateLiteral : Day '-' Month '-' Year;
 
@@ -135,8 +123,6 @@ Non_Zero_Digit: [1-9];
 	
 Digit: [0-9];
 
-//Date: ('0');
-
 WhiteSpace  :(' ' | '\t' | '\n' | '\r') -> skip;
 
 MultiComment : '/*' .*? '*/' -> skip;
@@ -144,5 +130,3 @@ MultiComment : '/*' .*? '*/' -> skip;
 SingleComment: '//' .*? '\n' -> skip;
 
 Identifier: [a-zA-Z][a-zA-Z0-9_]*;
-
-

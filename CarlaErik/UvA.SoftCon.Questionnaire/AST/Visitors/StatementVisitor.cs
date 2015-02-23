@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Expressions.Boolean;
-using UvA.SoftCon.Questionnaire.AST.Statements;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.AST.Extensions;
 using UvA.SoftCon.Questionnaire.Parsing;
+using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
 {
@@ -16,40 +18,57 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
     {
         public override IStatement VisitIfStatement(QLParser.IfStatementContext context)
         {
-            IBooleanExpression condition = context.bool_expr().Accept(new BooleanExpressionVisitor());
+            IExpression condition = context.expr().Accept(new ExpressionVisitor());
 
-            var ifTrueStatements = new List<IStatement>();
-            var ifFalseStatements = new List<IStatement>();
-
-            foreach (var child in context.stat_if())
+            var thenStatements = new List<IStatement>();
+            var elseStatements = new List<IStatement>();
+           
+            foreach (var statement in context._then) 
             {
-                ifTrueStatements.Add(child.Accept(this));
+                thenStatements.Add(statement.Accept(this));
             }
-            foreach (var child in context.stat_else())
+            foreach (var statement in context._else)
             {
-                ifFalseStatements.Add(child.Accept(this));
+                elseStatements.Add(statement.Accept(this));
             }
 
-            return new IfStatement(condition, ifTrueStatements, ifFalseStatements);
+            return new IfStatement(condition, thenStatements, elseStatements, context.GetTextPosition());
         }
 
         public override IStatement VisitQuestion(QLParser.QuestionContext context)
         {
-            string type = context.type().GetText();
-            string id = context.ID().GetText();
+            DataType type = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
+            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
             string label = context.STRING().GetText();
 
-            switch (type)
+            // Remove the leading and trailing '"' characters from the string literal.
+            label = label.Trim('"');
+
+            return new Question(type, id, label, context.GetTextPosition());
+        }
+
+        public override IStatement VisitDeclaration(QLParser.DeclarationContext context)
+        {
+            DataType dataType = StringEnum.GetEnumerationValue<DataType>(context.TYPE().GetText());
+            Identifier id = new Identifier(context.ID().GetText(), context.GetTextPosition());
+
+            if (context.expr() != null)
             {
-                case "bool":
-                    return new BooleanQuestion(id, label);
-                case "int":
-                    return new NumericQuestion(id, label);
-                case "string":
-                    return new TextQuestion(id, label);
-                default:
-                    throw new NotSupportedException("Unsupported type for question statement.");
+                IExpression initialization = context.expr().Accept(new ExpressionVisitor());
+                return new Declaration(dataType, id, initialization, context.GetTextPosition());
             }
+            else
+            {
+                return new Declaration(dataType, id, context.GetTextPosition());
+            }
+        }
+
+        public override IStatement VisitAssignment(QLParser.AssignmentContext context)
+        {
+            Identifier variable = new Identifier(context.ID().GetText(), context.GetTextPosition());
+            IExpression expression = context.expr().Accept(new ExpressionVisitor());
+
+            return new Assignment(variable, expression, context.GetTextPosition());
         }
     }
 }

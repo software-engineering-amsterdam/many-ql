@@ -1,15 +1,13 @@
-require_relative 'ql/parser'
-require_relative 'ql/tokenizer'
-require "stringio"
-require "byebug"
+require "require_all"
+
+require_all "lib/"
 
 module QL
   def self.parse(path)
-    input   = StringIO.new(File.read(path))
-    tokenizer     = QL::Tokenizer.new input
-    parser  = QL::Parser.new tokenizer
-    result = parser.parse
-    puts "result: #{result.first.questions}"
+    input     = StringIO.new(File.read(path))
+    tokenizer = QL::Tokenizer.new input
+    parser    = QL::Parser.new tokenizer
+    result    = parser.parse
     result
   end
 end

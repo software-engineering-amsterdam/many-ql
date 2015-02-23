@@ -1,11 +1,7 @@
 package lang.ql.ast.statement;
 
-import lang.ql.ast.AstNode;
-import lang.ql.ast.expression.Expression;
-import lang.ql.ast.visitor.Visitor;
-
-import java.util.ArrayList;
-import java.util.Collections;
+import lang.ql.ast.type.Type;
+import lang.ql.semantics.Visitor;
 
 /**
  * Created by bore on 09/02/15.
@@ -13,14 +9,15 @@ import java.util.Collections;
 public class Question extends Statement
 {
     private String id;
-    private QuestionType questionType;
-    private String text;
+    private Type type;
+    private String label;
 
-    public Question(String id, QuestionType questionType, String text)
+    public Question(String id, Type questionType, String label, int lineNumber)
     {
+        super(lineNumber);
         this.id = id;
-        this.questionType = questionType;
-        this.text = text;
+        this.type = questionType;
+        this.label = label;
     }
 
     public String getId()
@@ -28,17 +25,18 @@ public class Question extends Statement
         return this.id;
     }
 
-    public QuestionType getQuestionType()
+    public Type getType()
     {
-        return this.questionType;
+        return this.type;
     }
 
-    public void visit(Visitor visitor) { visitor.visit(this); }
-
-    public void print(Visitor visitor) { visitor.visit(this); }
-
-    public Iterable<? extends AstNode> getChildren()
+    public String getLabel()
     {
-        return Collections.emptyList();
+        return this.label;
+    }
+
+    public void accept(Visitor visitor)
+    {
+        visitor.visit(this);
     }
 }

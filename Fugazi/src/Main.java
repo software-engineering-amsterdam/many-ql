@@ -1,16 +1,12 @@
+import org.fugazi.ValueStorage;
 import org.fugazi.ast.ASTBuilder;
-import org.fugazi.ast.Form.Form;
-import org.fugazi.ast.Statement.QuestionStatement;
-import org.fugazi.ast.Statement.Statement;
-import org.fugazi.ast.Type.BoolType;
-import org.fugazi.ast.Type.IntType;
-import org.fugazi.ast.Type.MoneyType;
+import org.fugazi.ast.form.Form;
+import org.fugazi.evaluator.Evaluator;
+import org.fugazi.gui.GUIBuilder;
+import org.fugazi.type_checker.TypeChecker;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Main {
 
@@ -26,16 +22,29 @@ public class Main {
         if (inputFile != null)
             input = new FileInputStream(inputFile);
 
-        // Create The AST BUILDER.
+        // Create The AST Builder.
         ASTBuilder astBuilder = new ASTBuilder(input);
 
         // Build the AST.
         Form form = astBuilder.buildForm();
-        
-        // TODO: evaluation.
-        
-        // TODO: type checking.
-        
-        // TODO: Render GUI.
+
+        // Perform type checking.
+        TypeChecker typeChecker = new TypeChecker();
+        boolean isFormTypesCorrect = typeChecker.checkForm(form);
+
+        // display warnings and errors and if form is not type-correct, exit
+        typeChecker.displayFormWarningsAndErrors();
+        if (!isFormTypesCorrect) {
+            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
+            System.exit(0);
+        }
+
+        ValueStorage valueStorage = new ValueStorage();
+
+        Evaluator evaluator = new Evaluator(valueStorage);
+
+        // Render GUI.
+        GUIBuilder guiBuilder = new GUIBuilder(form, evaluator);
+        guiBuilder.renderGUI();
     }
 }

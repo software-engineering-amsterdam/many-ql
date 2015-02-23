@@ -3,13 +3,13 @@ package ast
 import "testing"
 
 func TestQuestion(t *testing.T) {
-	aStringQuestion := StringQuestion("42")
+	aStringQuestion := &StringQuestion{value: "42"}
 	aQuestion := &QuestionNode{
-		Label:   "what's the answer to life the universe and everything?",
-		Content: &aStringQuestion,
+		label:   "what's the answer to life the universe and everything?",
+		content: aStringQuestion,
 	}
 
-	content := aQuestion.Content
+	content := aQuestion.Content()
 	switch questionType := content.(type) {
 	case *StringQuestion:
 	default:

@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace UvA.SoftCon.Questionnaire.AST
+{
+    public interface IValue
+    {
+        IValue Add(IValue value);
+        IValue Substract(IValue value);
+
+        IValue Or(IValue value);
+    }
+}

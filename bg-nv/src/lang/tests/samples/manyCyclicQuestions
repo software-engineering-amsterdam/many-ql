@@ -1,0 +1,9 @@
+form sample
+{
+    integer pas "label3"
+    integer has "label" pas + mas
+    integer mas "label1" nas + tas
+    integer tas "label2" jaz + has
+    integer jaz "label4"
+    integer nas "label5"
+}

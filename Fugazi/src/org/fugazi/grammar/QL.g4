@@ -28,7 +28,6 @@ questionDeclaration : type ID '(' STRING ')' ';'                             # n
 
 // all alowed variable types.
 type    : 'bool'        # boolType
-        | 'money'       # moneyType
         | 'int'         # intType
         | 'string'      # stringType
         ;
@@ -39,7 +38,8 @@ type    : 'bool'        # boolType
  */
 
 // this defines what an expression looks like. (logical and numerical)
-expression  : op=('+'|'-'|'!') expression                                           # unaryExpression
+expression  : '(' expression ')'                                                    # parenthesisExpression
+            | op=('+'|'-'|'!') expression                                           # unaryExpression
             | expression op=('*' | '/') expression                                  # mulDivExpression
             | expression op=('+' | '-') expression                                  # addSubExpression
             | expression op=('>' | '>=' | '<' | '<=' | '==' | '!=') expression      # comparisonExpression
@@ -47,23 +47,19 @@ expression  : op=('+'|'-'|'!') expression                                       
             | expression '||' expression                                            # logicalOrExpression
             | BOOLEAN                                                               # booleanExpression
             | ID                                                                    # identifierExpression
-            | NUMBER                                                                # numberExpression
+            | INT                                                                   # intExpression
             | STRING                                                                # stringExpression
-            | '(' expression ')'                                                    # parenthesisExpression
             ;
 
 /**
  * =====================
- * LEXER RULES - Literals
+ * LEXER RULES - literals
  * =====================
  */
 
 // identifier definition
 // user to identify variable names
 ID  :   [a-zA-Z]+;
-
-// Number types, used for numerical statements.
-NUMBER : INT | MONEY;
 
 // string definition
 STRING :  '"' (ESC | ~["\\])* '"' ;
@@ -72,15 +68,8 @@ STRING :  '"' (ESC | ~["\\])* '"' ;
 BOOLEAN: ["true"|"false"];
 
 // integer definition
-// integer consists of an arbitrary number of digits
+// integer is a sequence of digits of a length that can vary
 INT : DIGIT+ ;
-
-// money definition
-// money consists of an arbitrary number of digits, a dot,
-// and of an arbitrary number of digits
-MONEY : DIGIT+ '.' DIGIT*   // match 1. 39. 3.14159 etc...
-      | '.' DIGIT+          // match .1 .14159
-      ;
 
 // comment matches anything between /* and */
 COMMENT

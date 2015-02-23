@@ -36,6 +36,11 @@
             <artifactId>assertj-core</artifactId>
             <version>1.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -79,8 +84,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -107,7 +112,7 @@
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
-                            <mainClass>nl.uva.bromance.parsers.App</mainClass>
+                            <mainClass>nl.uva.bromance.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

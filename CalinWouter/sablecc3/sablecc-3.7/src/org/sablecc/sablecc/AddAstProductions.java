@@ -18,7 +18,7 @@ import org.sablecc.sablecc.node.*;
  * This class provide a part of the support of SableCC2.x.x grammars by 
  * SableCC3.x.x.
  * Its role is to add the section Abstract Syntax Tree and its productions
- * to the Grammar based on the Production Section.
+ * to the Grammar based on the Production SectionModel.
  * It's the same result if a copy-paste of Productions section was added
  * to the SableCC2.x.x original grammar and renammed Abstract Syntax Tree.
  */
@@ -40,7 +40,7 @@ public class AddAstProductions extends DepthFirstAdapter
     listOfAstAlts = new TypedLinkedList();
 
     /*
-     * Here, we assume that if there is no Abstract Syntax Tree Section specified
+     * Here, we assume that if there is no Abstract Syntax Tree SectionModel specified
      * in the grammar, no transformations syntax is allowed in Productions section
      */
     if(node.getArrow() != null)

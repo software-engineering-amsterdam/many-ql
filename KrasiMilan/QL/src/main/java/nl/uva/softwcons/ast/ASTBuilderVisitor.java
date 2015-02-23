@@ -10,7 +10,7 @@ import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.AdditionExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.DivisionExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.SubstractionExpression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.SubtractionExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.EqualExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqualExpression;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThanExpression;
@@ -27,6 +27,7 @@ import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
 import nl.uva.softwcons.ast.form.Form;
+import nl.uva.softwcons.ast.statement.Block;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
@@ -41,11 +42,11 @@ import nl.uva.softwcons.generated.QLParser.DecimalContext;
 import nl.uva.softwcons.generated.QLParser.FormContext;
 import nl.uva.softwcons.generated.QLParser.IdContext;
 import nl.uva.softwcons.generated.QLParser.IntegerContext;
+import nl.uva.softwcons.generated.QLParser.NotExprContext;
 import nl.uva.softwcons.generated.QLParser.ParenthesisContext;
 import nl.uva.softwcons.generated.QLParser.SimpleQuestionContext;
 import nl.uva.softwcons.generated.QLParser.StringContext;
 import nl.uva.softwcons.generated.QLParser.TypeContext;
-import nl.uva.softwcons.generated.QLParser.UnaryExprContext;
 import nl.uva.softwcons.util.Utils;
 
 public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
@@ -56,7 +57,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         final List<Statement> statements = ctx.statement().stream().map(st -> (Statement) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Form(formName, statements);
+        return new Form(formName, new Block(statements));
     }
 
     @Override
@@ -103,7 +104,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         case "/":
             return new DivisionExpression(leftExpression, rightExpression);
         case "-":
-            return new SubstractionExpression(leftExpression, rightExpression);
+            return new SubtractionExpression(leftExpression, rightExpression);
         case "+":
             return new AdditionExpression(leftExpression, rightExpression);
         case "&&":
@@ -118,7 +119,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
             return new EqualExpression(leftExpression, rightExpression);
         case "!=":
             return new NotEqualExpression(leftExpression, rightExpression);
-        case "=>":
+        case ">=":
             return new GreaterOrEqualExpression(leftExpression, rightExpression);
         case ">":
             return new GreaterThanExpression(leftExpression, rightExpression);
@@ -128,15 +129,8 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public UnaryExpression visitUnaryExpr(UnaryExprContext ctx) {
-        final Expression expr = (Expression) ctx.expr().accept(this);
-
-        switch (ctx.op.getText()) {
-        case "!":
-            return new NotExpression(expr);
-        default:
-            throw new IllegalArgumentException("Unsupported operator in expression.");
-        }
+    public UnaryExpression visitNotExpr(NotExprContext ctx) {
+        return new NotExpression((Expression) ctx.expr().accept(this));
     }
 
     @Override
@@ -156,7 +150,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public StringLiteral visitString(StringContext ctx) {
-        return new StringLiteral(ctx.STRING().getText());
+        return new StringLiteral(Utils.unquote(ctx.STRING().getText()));
     }
 
     @Override

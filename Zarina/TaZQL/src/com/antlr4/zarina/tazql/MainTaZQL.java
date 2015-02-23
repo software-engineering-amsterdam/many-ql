@@ -2,81 +2,53 @@
 	 * @Zarina
 	 */
 
-	package com.antlr4.zarina.tazql;
+package com.antlr4.zarina.tazql;
 
-	import java.awt.Dimension;
+import gui.MainFrame;
+
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
-
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.tree.gui.TreeViewer;
 
-import ast.Testik;
+import ast.form.Form;
+import ast.treevisitor.MyBaseVisitor;
 
 
 	public class MainTaZQL {
 		
-		public static void main(String[] args) {
-			Scanner scan = null;
-			try {
-				// has to be fixed later
-				FileInputStream questionnaireFile = new FileInputStream("./test.ql"); 
-				scan = new Scanner(questionnaireFile, "UTF-8").useDelimiter("\\A");
-				String inputQuestions = scan.next();
-				//	System.out.println(inputQuestions);
+		public static void main(String[] args) throws FileNotFoundException, IOException  {
+						
+				ANTLRInputStream inputStream = new ANTLRInputStream(fileToString("./questionnaires/test.ql"));
 				
-				
-				ANTLRInputStream inputStream = new ANTLRInputStream(inputQuestions);
 				TaZQLLexer lexer = new TaZQLLexer(inputStream);
 				CommonTokenStream tokens = new CommonTokenStream( lexer );
-				TaZQLParser parser = new TaZQLParser(tokens);
+				TaZQLParser parser = new TaZQLParser(tokens);			
 				
-				//Walk the tree
-				ParseTree tree = parser.parse();			
-				ParseTreeWalker walker = new ParseTreeWalker();
-			//	Questions q = new Questions();
-			//	walker.walk( new MyTaZQLBaseListener(q), tree );
-			//	MainFrame mf = new MainFrame();
-			//	Testik v = new Testik();
-				//v.visit(tree);
+				//Walk my tree
+				ParseTree tree = parser.form();
+				MyBaseVisitor v = new MyBaseVisitor();
+				Form form = (Form) v.visit(tree);
+					
+				// Print my AST in console
+				System.out.println("AST: \n" + form.toString());
 				
-				//String sum = (String)visitor.visitQuestion(tree);
-				//System.out.println("sum=" + new QuestionVisitor().visitSimpleQuestion(tree));
-								
-				//parser.setBuildParseTree(true);
-				//parser.addParseListener(new MyTaZQLBaseListener(q));
+				// Build my GUI
+				MainFrame mf = new MainFrame();
+				mf.magic(form);
 				
-				// Build a tree in console
-				System.out.println("Tree: " + tree.toStringTree(parser));
-									    
-				
-				// Tree in JFrame
-				JFrame treeframe = new JFrame("Tree");
-				treeframe.setContentPane( new JScrollPane( new TreeViewer( null, tree ) ) );
-				treeframe.setPreferredSize( new Dimension( 600, 400 ) );
-				treeframe.pack();
-				treeframe.setLocationRelativeTo( null );
-				treeframe.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-				treeframe.setVisible( true );			
-				
-			}
-			catch (Exception e){
-				System.err.println(e.getMessage());
-			} 
-			finally {
-				scan.close();
-				if (scan!=null) 
-					try {scan.close();} 
-					catch (Exception e) {System.err.println(e.getMessage());}
-				
-			} 
-		}	
-	   
-	}
+		}
+	
+		public static String fileToString(String file) throws FileNotFoundException, IOException {
+		    	//to be changed later
+				FileInputStream questionnaireFile = new FileInputStream(new File(file)); 
+				String inputQuestions = new Scanner(questionnaireFile,"UTF-8").useDelimiter("\\A").next();
+				return inputQuestions;
+    	}
+}
 

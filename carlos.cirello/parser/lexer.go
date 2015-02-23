@@ -1,9 +1,8 @@
 package parser
 
 import (
+	"fmt"
 	"io"
-	"log"
-	"os"
 	"strings"
 	"text/scanner"
 )
@@ -16,22 +15,37 @@ const (
 	FormTokenText = "form"
 	// IfTokenText - Reserved Word
 	IfTokenText = "if"
-	// IfTokenText - Reserved Word
+	// ElseTokenText - Reserved Word
 	ElseTokenText = "else"
 	// StringQuestionTokenText - Reserved Word
 	StringQuestionTokenText = "string"
-	// IntQuestionTokenText - Reserved Word
-	IntQuestionTokenText = "integer"
+	// NumericQuestionTokenText - Reserved Word
+	NumericQuestionTokenText = "numeric"
 	// BoolQuestionTokenText - Reserved Word
 	BoolQuestionTokenText = "bool"
 	// ComputedQuestionTokenText - Reserved Word
 	ComputedQuestionTokenText = "computed"
+	// BoolAndTokenText - Reserved Word
+	BoolAndTokenText = "and"
+	// BoolOrTokenText - Reserved Word
+	BoolOrTokenText = "or"
+	// BoolTrueTokenText - Reserved Word
+	BoolTrueTokenText = "true"
+	// BoolFalseTokenText - Reserved Word
+	BoolFalseTokenText = "false"
 
-	LessThanTokenText         = `<`
+	// LessThanTokenText - Reserved Symbols
+	LessThanTokenText = `<`
+	// LessOrEqualsThanTokenText - Reserved Symbols
 	LessOrEqualsThanTokenText = `<=`
-	MoreThanTokenText         = `>`
+	// MoreThanTokenText - Reserved Symbols
+	MoreThanTokenText = `>`
+	// MoreOrEqualsThanTokenText - Reserved Symbols
 	MoreOrEqualsThanTokenText = `>=`
-	EqualsToTokenText         = `==`
+	// EqualsToTokenText - Reserved Symbols
+	EqualsToTokenText = `==`
+	// NotEqualsToTokenText - Reserved Symbols
+	NotEqualsToTokenText = `!=`
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
@@ -73,12 +87,20 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = FormToken
 	} else if txt == StringQuestionTokenText {
 		typ = StringQuestionToken
-	} else if txt == IntQuestionTokenText {
-		typ = IntQuestionToken
+	} else if txt == NumericQuestionTokenText {
+		typ = NumericQuestionToken
 	} else if txt == BoolQuestionTokenText {
 		typ = BoolQuestionToken
 	} else if txt == ComputedQuestionTokenText {
 		typ = ComputedQuestionToken
+	} else if txt == BoolAndTokenText {
+		typ = BoolAndToken
+	} else if txt == BoolOrTokenText {
+		typ = BoolOrToken
+	} else if txt == BoolTrueTokenText {
+		typ = BoolTrueToken
+	} else if txt == BoolFalseTokenText {
+		typ = BoolFalseToken
 	} else if txt == IfTokenText {
 		typ = IfToken
 	} else if txt == ElseTokenText {
@@ -95,12 +117,17 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		x.scanner.Scan()
 		typ = EqualsToToken
 		txt = EqualsToTokenText
+	} else if (txt + nextRune) == NotEqualsToTokenText {
+		x.scanner.Scan()
+		typ = NotEqualsToToken
+		txt = NotEqualsToTokenText
 	} else if txt == MoreThanTokenText {
 		typ = MoreThanToken
 	} else if txt == LessThanTokenText {
 		typ = LessThanToken
-	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" || txt == "+" || txt == "-" ||
-		txt == "*" || txt == "/" || txt == "=" {
+	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" ||
+		txt == "+" || txt == "-" || txt == "*" || txt == "/" ||
+		txt == "=" || txt == "!" {
 		typ = int(txt[0])
 	} else if strings.HasPrefix(txt, singleQuotedChar) ||
 		strings.HasPrefix(txt, doubleQuotedChar) ||
@@ -119,8 +146,7 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 
 // The parser calls this method on a parse error.
 func (x *lexer) Error(s string) {
-	log.Printf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s)
-	os.Exit(1)
+	panic(fmt.Sprintf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s))
 }
 
 func stripSurroundingQuotes(str string) string {

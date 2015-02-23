@@ -6,14 +6,26 @@ package frontend
 
 import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 )
 
 // Inputer describes the actions which frontend must implement
 // in order to be compliant with the VM expectations of
 // functionality.
 type Inputer interface {
-	InputQuestion(q *ast.QuestionNode)
+	DrawQuestion(
+		identifier,
+		label,
+		typ string,
+		content ast.Parser,
+		visible event.Visibility,
+	)
+	UpdateQuestion(
+		identifier,
+		label,
+		typ string,
+		content ast.Parser,
+	)
 	Loop()
 	Flush()
 	FetchAnswers() map[string]string
@@ -22,7 +34,7 @@ type Inputer interface {
 // New instantiates a frontend goroutine, looping all the
 // communications with the VM into the chosen Frontend
 // (GUI, Text, Web).
-func New(fromVM, toVM chan *interpreter.Event, driver Inputer) {
+func New(fromVM, toVM chan *event.Frontend, driver Inputer) {
 	f := &frontend{
 		receive: fromVM,
 		send:    toVM,
@@ -33,8 +45,8 @@ func New(fromVM, toVM chan *interpreter.Event, driver Inputer) {
 }
 
 type frontend struct {
-	receive chan *interpreter.Event
-	send    chan *interpreter.Event
+	receive chan *event.Frontend
+	send    chan *event.Frontend
 
 	driver Inputer
 }
@@ -44,22 +56,36 @@ func (f *frontend) loop() {
 		select {
 		case r := <-f.receive:
 			switch r.Type {
-			case interpreter.ReadyP:
-				f.send <- &interpreter.Event{
-					Type: interpreter.ReadyT,
+			case event.ReadyP:
+				f.send <- &event.Frontend{
+					Type: event.ReadyT,
 				}
 
-			case interpreter.Render:
-				f.driver.InputQuestion(&r.Question)
+			case event.DrawQuestion:
+				f.driver.DrawQuestion(
+					r.Question.Identifier(),
+					r.Question.Label(),
+					r.Question.Type(),
+					r.Question.Content(),
+					r.Visible,
+				)
 
-			case interpreter.Flush:
+			case event.UpdateQuestion:
+				f.driver.UpdateQuestion(
+					r.Question.Identifier(),
+					r.Question.Label(),
+					r.Question.Type(),
+					r.Question.Content(),
+				)
+
+			case event.Flush:
 				f.driver.Flush()
 
-			case interpreter.FetchAnswers:
+			case event.FetchAnswers:
 				fetchedAnswers := f.driver.FetchAnswers()
 				if len(fetchedAnswers) > 0 {
-					f.send <- &interpreter.Event{
-						Type:    interpreter.Answers,
+					f.send <- &event.Frontend{
+						Type:    event.Answers,
 						Answers: fetchedAnswers,
 					}
 				}

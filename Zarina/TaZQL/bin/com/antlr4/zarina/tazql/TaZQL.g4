@@ -3,39 +3,44 @@ grammar TaZQL;
 options {
 	language = Java;
 }
+questionnaire	: form;
+form			: 'FORM' ID '{' question+ '} END' EOF;
 
-questionnaire	: form EOF;
-
-form		 	: 'FORM' ID '{' question+ '} END';									
-
-question		: ID TEXT TYPE	 			 											# simpleQuestion
-				| ID TEXT TYPE '(' expression ')'										# calcQuestion
+question		: ID TEXT type	 			 											# simpleQuestion
+				| ID TEXT type '(' expression ')'										# computationQuestion
 				| 'if' '(' expression ')' '{' question+ '}'								# ifStatement
-				| 'if' '(' expression ')' '{' question+ '}' 'else' '{' question+ '}'	# ifelseStatement
+				| 'if' '(' cond=expression ')' '{' thenBranch+=question+ '}' 
+				  'else' '{' elseBranch+=question+ '}'									# ifelseStatement
 				;
 
-expression		: '!' expression														# not															
-				| expression ('*'| '/') expression										# multDiv
-				| expression ('+'| '-') expression										# addSub
-				| expression ('>'|'>='|'<'|'<=') expression								# equation
-				| expression ('=='|'!=') expression										# eqNot
-				| expression ('&&') expression											# and
-				| expression ('||') expression											# or
-				| BOOLEAN 																# boolean
+expression		: op=('!'|'+'|'-') expression											# unaryExpression															
+				| expression op=('*'| '/') expression									# multDivExpression
+				| expression op=('+'| '-') expression									# addSubExpression
+				| expression op=('>'|'>='|'<'|'<=') expression							# comparissionExpression
+				| expression op=('=='|'!=') expression									# equationExpression
+				| expression '&&' expression											# andExpression
+				| expression '||' expression											# orExpression
+				| BOOLEAN 																# booleanExpression
 				| ID 																	# id
 				| TEXT 																	# text
 				| NUMBER																# number
-				| '(' expression ')'													# prio		
+				| '(' expression ')'													# bracketsExpression		
 				;
  
-TYPE  			: 'choice' | 'digits' | 'text';				  
+type  			: 'choice' 																# booleanType
+				| 'digits' 																# integerType
+				| 'text'																# stringType
+				;
+								  
 BOOLEAN			: 'true' | 'false';  
 	  
 	  
 NUMBER			: '0'..'9'+ ('.' '0'..'9'+)*;
-TEXT			:'"'.*? '"';	
+TEXT			:'"'(ESC | .)*? '"';	
 ID 				:('a'..'z'|'A'..'Z'|'_')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*; 
 WS  			: (' ' | '\t' | '\n' | '\r')+ -> skip;
 
 NEWLINE 		:'\r'?'\n';
 COMMENTS		: '//' NEWLINE -> skip;
+fragment 
+ESC				: '\\"' | '\\\\'; 

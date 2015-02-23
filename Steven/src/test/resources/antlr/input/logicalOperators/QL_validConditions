@@ -1,0 +1,23 @@
+form formname{
+    name1 BOOLEAN "label"
+
+    if(name1){
+        name2 BOOLEAN "label"
+    }
+
+    if ( name1 && name2) {
+        name3 BOOLEAN "label"
+    }
+
+    if ( true && false) {
+        name4 BOOLEAN "label"
+    }
+
+    if ( name1 || name2) {
+        name5 BOOLEAN "label"
+    }
+
+    if (!name1) {
+        name6 BOOLEAN "label"
+    }
+}

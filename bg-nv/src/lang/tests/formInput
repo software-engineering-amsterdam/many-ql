@@ -1,8 +1,5 @@
-form Box1HouseOwning
+form sample
 {
- boolean hasSoldHouse "purely test question :)"
- if (hasSoldHouse)
- {
-    integer sellingPrice "Price the house was sold for:" 2+1
- }
+    integer a "label" b + 2
+    integer b "label1" 3
 }
