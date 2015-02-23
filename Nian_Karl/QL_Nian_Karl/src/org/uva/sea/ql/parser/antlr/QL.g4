@@ -49,6 +49,7 @@ expression:
 	| expression MULTIPLY expression #ExprMultiply
 	| expression DEVIDE expression #ExprDivide
 	| '(' expression ')' #ExprParen
+	| '!'expression #ExprNot
 ;
 
 literal
