@@ -56,6 +56,9 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     @Override
     public Object visitForm(Form form) {
+        // clean errors (if any from previous visit)
+        this.clearErrorHandler();
+
         List<Statement> statementList = form.getBody();
 
         for (Statement statement : statementList) {
@@ -63,7 +66,6 @@ public class TypeCheckerVisitor implements IASTVisitor {
         }
         return null;
     }
-
 
     @Override
     public Object visitQuestion(Question question) {
@@ -565,6 +567,9 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return;
     }
 
+    private void clearErrorHandler() {
+        this.astErrorHandler.clearErrorsAndWarnings();
+    }
     /**
      * =======================
      * Exposed general form functions

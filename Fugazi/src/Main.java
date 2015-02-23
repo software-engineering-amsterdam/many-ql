@@ -2,7 +2,7 @@ import org.fugazi.ValueStorage;
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
 import org.fugazi.evaluator.Evaluator;
-import org.fugazi.gui.GUIManager;
+import org.fugazi.gui.GUIBuilder;
 import org.fugazi.type_checker.TypeChecker;
 
 import java.io.FileInputStream;
@@ -44,7 +44,7 @@ public class Main {
         Evaluator evaluator = new Evaluator(valueStorage);
 
         // Render GUI.
-//        GUIManager guiManager = new GUIManager(form, evaluator);
-//        guiManager.renderGUI();
+        GUIBuilder guiBuilder = new GUIBuilder(form, evaluator);
+        guiBuilder.renderGUI();
     }
 }
