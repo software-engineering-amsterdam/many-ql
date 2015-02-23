@@ -75,7 +75,7 @@ func (i *Input) sendAnswers(answers map[string]string) {
 commLoop:
 	for {
 		select {
-
+		case <-i.receive:
 		case i.send <- answersEvent:
 			break commLoop
 
