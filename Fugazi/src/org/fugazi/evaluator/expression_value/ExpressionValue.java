@@ -1,4 +1,4 @@
-package org.fugazi.evaluator;
+package org.fugazi.evaluator.expression_value;
 
 public abstract class ExpressionValue<T> {
 
@@ -11,9 +11,12 @@ public abstract class ExpressionValue<T> {
     public T getValue() {
         return this.value;
     }
+    
+    public boolean isNull() {
+        return false;
+    }
 
     public ExpressionValue add(ExpressionValue exprValue) {
-        // TODO: throw UndefinedExpeption?
         return new UndefinedValue();
     }
     
@@ -53,7 +56,15 @@ public abstract class ExpressionValue<T> {
         return new UndefinedValue();
     }
 
+    public ExpressionValue andBool(BoolValue exprValue) {
+        return new UndefinedValue();
+    }
+
     public ExpressionValue or(ExpressionValue exprValue) {
+        return new UndefinedValue();
+    }
+
+    public ExpressionValue orBool(BoolValue exprValue) {
         return new UndefinedValue();
     }
 

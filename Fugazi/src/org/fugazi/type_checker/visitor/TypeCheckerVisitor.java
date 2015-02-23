@@ -1,9 +1,12 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.visitor;
 
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
-import org.fugazi.ast.expression.literal.*;
+import org.fugazi.ast.expression.literal.BOOL;
+import org.fugazi.ast.expression.literal.ID;
+import org.fugazi.ast.expression.literal.INT;
+import org.fugazi.ast.expression.literal.STRING;
 import org.fugazi.ast.expression.logical.And;
 import org.fugazi.ast.expression.logical.Logical;
 import org.fugazi.ast.expression.logical.Or;
@@ -18,12 +21,19 @@ import org.fugazi.ast.statement.IfStatement;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
+import org.fugazi.type_checker.dependency.DependencyList;
+import org.fugazi.type_checker.error.ASTErrorHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TypeCheckerVisitor implements IASTVisitor {
 
     private final ASTErrorHandler astErrorHandler;
+
+    // TODO optimize these structures
 
     // used to detect duplicate  labels
     private final List<String> questionLabels;
@@ -32,13 +42,14 @@ public class TypeCheckerVisitor implements IASTVisitor {
     private final Map<String, Type> questions;
 
     // used to detect circular dependencies
-    private final Map<ID, List<ID>> questionDependencies;
+    private final DependencyList questionDependencies;
+    private ID assignableIdLiteral;
 
     public TypeCheckerVisitor(){
         this.astErrorHandler = new ASTErrorHandler();
         this.questionLabels = new ArrayList<String>();
         this.questions = new HashMap<String, Type>();
-        this.questionDependencies = new HashMap<ID, List<ID>>();
+        this.questionDependencies = new DependencyList();
     }
 
     /**
@@ -108,17 +119,27 @@ public class TypeCheckerVisitor implements IASTVisitor {
     @Override
     public Object visitComputedQuestion(ComputedQuestion assignQuest) {
 
-        Type type = assignQuest.getType();
         ID identifier = assignQuest.getIdentifier();
         Expression computed = assignQuest.getComputedExpression();
 
-        // check if no circular reference
-//        System.out.println();System.out.println();
-//        System.out.println(computed);System.out.println();System.out.println();
+        // TODO check if assigned types correct
 
-        type.accept(this);
-        identifier.accept(this);
+        // check if no circular reference
+        // is performed while visiting idLiterals
+        // from the computed expression
+
+        // first - mark which identifier is dependent on
+        // each of the identifiers that will appear while
+        // visiting the computed expression
+        this.assignableIdLiteral = identifier;
+
+        // this is the only part of visitedQuestion
+        // that needs further visiting
         computed.accept(this);
+
+        // analyzing dependencies finished for
+        // identifier from this computed question
+        this.assignableIdLiteral = null;
         return null;
     }
 
@@ -333,11 +354,19 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public Object visitID(ID idLiteral) {
         // check if variable defined
         // if it's type equals null => it is undefined
-        boolean questionDefined = this.checkIfDefined(idLiteral);
-        if (!questionDefined) {
-            this.astErrorHandler.registerNewError( idLiteral,
-                    "Question not defined."
-            );
+//        boolean questionDefined = this.checkIfDefined(idLiteral);
+//        if (!questionDefined) {
+//            this.astErrorHandler.registerNewError( idLiteral,
+//                    "Question not defined."
+//            );
+//        }
+
+        // if we are inside a computed expression
+        // a dependency needs to be added and marked
+        if (this.assignableIdLiteral != null) {
+            // assignableIdLiteral is dependent on
+            // the current idListeral
+            this.addAndCheckDependency(this.assignableIdLiteral, idLiteral);
         }
 
         return null;
@@ -403,15 +432,15 @@ public class TypeCheckerVisitor implements IASTVisitor {
      */
 
     private boolean checkIfInt(Expression expression) {
-        return expression.getSupportedTypes().contains(new IntType().getClass());
+        return expression.getSupportedTypes().contains(IntType.class);
     }
 
     private boolean checkIfBool(Expression expression) {
-        return expression.getSupportedTypes().contains(new BoolType().getClass());
+        return expression.getSupportedTypes().contains(BoolType.class);
     }
 
     private boolean checkIfString(Expression expression) {
-        return expression.getSupportedTypes().contains(new StringType().getClass());
+        return expression.getSupportedTypes().contains(StringType.class);
     }
 
     private boolean checkIfSameType(Type type1, Type type2) {
@@ -435,6 +464,20 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return false;
     }
 
+    // a = b
+    // a - depender
+    // b - dependee
+    private boolean checkDependency(ID depender, ID dependee) {
+        List<String> dependenciesForDepender =
+                this.questionDependencies.getIdDependencyNames(depender);
+
+        if ((dependenciesForDepender != null)
+                && dependenciesForDepender.contains(dependee.getName())) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * =======================
      * Private data handling functions
@@ -451,17 +494,73 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return;
     }
 
+    /* This method has to find all the nodes that depend on depender
+    *   You have to add dependee and all depender's further dependers
+        to detect cycles like this:
+        1. a = b
+        2. b = c
+        3. c = d
+        3. d = a
+        after 2. c needs to be added to a list of ids that depend on, and therefore a.
+
+        In other words, the update needs to propapagte through the whole graph
+         (see transitive closure).
+    */
+    private void addDependency(ID depender, ID dependee) {
+        // all the ids that are dependent on depender directly or indirectly
+        // ids depending on them need to be updated too with the new dependee
+        List<ID> idsToAddNewDependencyTo = new ArrayList<ID>();
+        // temporary list used for traversing the graph.
+        // pop first element, update all it's dependencies and add them
+        // used to traverse the graph until all elements indirectly affected
+        // by new dependence relation found
+        List<ID> idsWithNewDependencies = new ArrayList<ID>();
+        idsWithNewDependencies.add(depender);
+
+        while (idsWithNewDependencies.size() > 0) {
+            ID indirectDependee = idsWithNewDependencies.remove(0);
+
+            // check all elements that depend on newDependee and therefore indirectly on passed dependee
+            for (ID key : this.questionDependencies.getIds()) {
+                List<String> dependenciesForKey = this.questionDependencies.getIdDependencyNames(key);
+
+                if ((dependenciesForKey != null)
+                        && dependenciesForKey.contains(indirectDependee.getName())) {
+                    idsToAddNewDependencyTo.add(key);
+                }
+            }
+            idsToAddNewDependencyTo.add(depender);
+        }
+
+        for (ID newDependant : idsToAddNewDependencyTo) {
+            this.questionDependencies.addIdDependenant(newDependant, dependee);
+        }
+        return;
+    }
+
+    // a = b
+    // a - depender
+    // b - dependee
+    private void addAndCheckDependency(ID depender, ID dependee) {
+        if (this.checkDependency(dependee, depender)) {
+            this.astErrorHandler.registerNewError( depender,
+                    "Circular dependency between this node and " +
+                            dependee.toString() + "."
+            );
+        }
+        this.addDependency(depender, dependee);
+        return;
+    }
+
     /**
      * =======================
      * Exposed general form functions
      * =======================
      */
 
-
     public boolean isFormCorrect() {
         return !this.astErrorHandler.hasErrors();
     }
-
 
     public void displayFormWarningsAndErrors() {
         this.astErrorHandler.displayWarningsAndErrors();

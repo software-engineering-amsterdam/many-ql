@@ -1,4 +1,4 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.error;
 
 import org.fugazi.ast.AbstractASTNode;
 
@@ -22,6 +22,10 @@ public class ASTNodeError {
 
     public AbstractASTNode getNode() {
         return this.node;
+    }
+
+    public int getLine() {
+        return this.node.getLineNumber();
     }
 
     public String getMessage() {

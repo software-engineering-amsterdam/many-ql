@@ -1,5 +1,6 @@
 package org.fugazi.evaluator;
 
+import org.fugazi.ValueStorage;
 import org.fugazi.ast.expression.comparison.*;
 import org.fugazi.ast.expression.literal.*;
 import org.fugazi.ast.expression.logical.And;
@@ -9,7 +10,10 @@ import org.fugazi.ast.expression.unary.Negative;
 import org.fugazi.ast.expression.unary.Not;
 import org.fugazi.ast.expression.unary.Positive;
 import org.fugazi.ast.type.IntType;
-import org.junit.AfterClass;
+import org.fugazi.evaluator.expression_value.BoolValue;
+import org.fugazi.evaluator.expression_value.ExpressionValue;
+import org.fugazi.evaluator.expression_value.IntValue;
+import org.fugazi.evaluator.expression_value.UndefinedValue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,43 +24,20 @@ public class EvaluatorTest {
     private Evaluator evaluator;
     
     // Test data
-    private final INT num5 = new INT(5);
-    private final INT num4 = new INT(4);
-    private final STRING stringFoo = new STRING("Foo");
-    private final STRING stringBar = new STRING("bar");
-    private final BOOL boolTrue = new BOOL(true);
-    private final BOOL boolFalse = new BOOL(false);
+    private int fakeLine = 10;
+    private ValueStorage valueStorage = new ValueStorage();
+    private final INT num5 = new INT(5, fakeLine);
+    private final INT num4 = new INT(4, fakeLine);
+    private final STRING stringFoo = new STRING("Foo", fakeLine);
+    private final STRING stringBar = new STRING("bar", fakeLine);
+    private final BOOL boolTrue = new BOOL(true, fakeLine);
+    private final BOOL boolFalse = new BOOL(false, fakeLine);
 
-    private final String testId = "testId";
     private final String testString1 = "testString1";
-    private final String testString2 = "testString2";
 
     @Before
     public void setupEnv() {
-        evaluator = new Evaluator();
-    }
-
-//    @AfterClass
-//    public void clearValue() {
-//        evaluator.clearValues();
-//    }
-
-    /**
-     * Test Value Storage
-     */
-    @Test
-    public void testSaveValue() throws Exception {
-        // test: save testId
-        evaluator.saveValue(testId, new BoolValue(true));
-        assertTrue(evaluator.isValueExists(testId));
-    }
-
-    @Test
-    public void testGetValue() throws Exception {
-        // test: get testId
-        evaluator.saveValue(testId, new BoolValue(true));
-        ExpressionValue test = evaluator.getValue(testId);
-        assertEquals(true, test.getValue());
+        evaluator = new Evaluator(valueStorage);
     }
     
     /**
@@ -65,7 +46,7 @@ public class EvaluatorTest {
     @Test
     public void testAddExpressionWithNums() throws Exception {
         // test: 5 + 4 = 9;
-        Add expression = new Add(num5, num4);
+        Add expression = new Add(num5, num4, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
         assertEquals(value.getValue(), 9);
     }
@@ -73,7 +54,7 @@ public class EvaluatorTest {
     @Test
     public void testAddExpressionWithStrings() throws Exception {
         // test: Foo + bar = Foobar;
-        Add expression = new Add(stringFoo, stringBar);
+        Add expression = new Add(stringFoo, stringBar, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
         assertEquals(value.getValue(), "Foobar");
     }
@@ -81,9 +62,9 @@ public class EvaluatorTest {
     @Test
     public void testAddExpressionWithBools() throws Exception {
         // test: Undefined
-        Add expression = new Add(boolTrue, boolFalse);
+        Add expression = new Add(boolTrue, boolFalse, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -91,7 +72,7 @@ public class EvaluatorTest {
      */
     @Test
     public void testSubExpressionWithNums() throws Exception {
-        Sub expression = new Sub(num5, num4);
+        Sub expression = new Sub(num5, num4, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
         assertEquals(value.getValue(), 1);
     }
@@ -99,17 +80,17 @@ public class EvaluatorTest {
     @Test
     public void testSubExpressionWithStrings() throws Exception {
         // test: Undefined
-        Sub expression = new Sub(stringFoo, stringBar);
+        Sub expression = new Sub(stringFoo, stringBar, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
     public void testSubExpressionWithBools() throws Exception {
         // test: Undefined
-        Add expression = new Add(boolTrue, boolFalse);
+        Add expression = new Add(boolTrue, boolFalse, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -118,7 +99,7 @@ public class EvaluatorTest {
     @Test
     public void testMulExpressionWithNums() throws Exception {
         // test: 5 * 4 = 20;
-        Mul expression = new Mul(num5, num4);
+        Mul expression = new Mul(num5, num4, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
         assertEquals(value.getValue(), 20);
     }
@@ -126,17 +107,17 @@ public class EvaluatorTest {
     @Test
     public void testMulExpressionWithStrings() throws Exception {
         // test: Undefined
-        Mul expression = new Mul(stringFoo, stringBar);
+        Mul expression = new Mul(stringFoo, stringBar, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
     public void testMulExpressionWithBools() throws Exception {
         // test: Undefined
-        Mul expression = new Mul(boolTrue, boolFalse);
+        Mul expression = new Mul(boolTrue, boolFalse, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -145,7 +126,7 @@ public class EvaluatorTest {
     @Test
     public void testDivExpressionWithNums() throws Exception {
         // test: 5 / 4 = 1;
-        Div expression = new Div(num5, num4);
+        Div expression = new Div(num5, num4, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
         assertEquals(value.getValue(), 1);
     }
@@ -153,17 +134,17 @@ public class EvaluatorTest {
     @Test
     public void testDivExpressionWithStrings() throws Exception {
         // test: Undefined
-        Div expression = new Div(stringFoo, stringBar);
+        Div expression = new Div(stringFoo, stringBar, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
     public void testDivExpressionWithBools() throws Exception {
         // test: Undefined
-        Div expression = new Div(boolTrue, boolFalse);
+        Div expression = new Div(boolTrue, boolFalse, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     /**
@@ -171,15 +152,15 @@ public class EvaluatorTest {
      */
     @Test
     public void testIDExpression() throws Exception {
-        ID id = new ID(testString1, new IntType());
-        evaluator.saveValue(testString1, new IntValue(5));
+        ID id = new ID(testString1, new IntType(fakeLine), fakeLine);
+        valueStorage.saveValue(testString1, new IntValue(5));
         ExpressionValue value = evaluator.evaluateExpression(id);
         assertEquals(value.getValue(), 5);
     }
 
     @Test
     public void testBOOLExpression() throws Exception {
-        BOOL bool = new BOOL(true);
+        BOOL bool = new BOOL(true, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(bool);
         assertEquals(value.getValue(), bool.getValue());
     }
@@ -193,7 +174,7 @@ public class EvaluatorTest {
 
     @Test
     public void testSTRINGExpression() throws Exception {
-        STRING str = new STRING(testString1);
+        STRING str = new STRING(testString1, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(str);
         assertEquals(value.getValue(), str.getValue());
     }
@@ -204,23 +185,23 @@ public class EvaluatorTest {
     @Test
     public void testAndExpressionWithNums() throws Exception {
         // test: Undefined
-        And expression = new And(num5, num4);
+        And expression = new And(num5, num4, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
     public void testAndExpressionWithStrings() throws Exception {
         // test: Undefined
-        And expression = new And(stringFoo, stringBar);
+        And expression = new And(stringFoo, stringBar, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
     public void testAndExpressionWithBools() throws Exception {
         // test: True && False = False
-        And expression = new And(boolTrue, boolFalse);
+        And expression = new And(boolTrue, boolFalse, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
         assertEquals(value.getValue(), false);
     }
@@ -231,23 +212,23 @@ public class EvaluatorTest {
     @Test
     public void testOrExpressionWithNums() throws Exception {
         // test: Undefined
-        Or expression = new Or(num5, num4);
+        Or expression = new Or(num5, num4, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
     public void testOrExpressionWithStrings() throws Exception {
         // test: Undefined
-        Or expression = new Or(stringFoo, stringBar);
+        Or expression = new Or(stringFoo, stringBar, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
-        assertEquals(value.getValue(), new UndefinedValue().getValue());
+        assertEquals(value.isNull(), true);
     }
 
     @Test
     public void testOrExpressionWithBools() throws Exception {
         // test: True || False = True
-        Or expression = new Or(boolTrue, boolFalse);
+        Or expression = new Or(boolTrue, boolFalse, fakeLine);
         ExpressionValue value = evaluator.evaluateExpression(expression);
         assertEquals(value.getValue(), true);
     }
@@ -258,12 +239,12 @@ public class EvaluatorTest {
     @Test
     public void testNotExpressionWithBools() throws Exception {
         // test: !False = True
-        Not expression1 = new Not(boolFalse);
+        Not expression1 = new Not(boolFalse, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), true);
 
         // test: !True = False
-        Not expression2 = new Not(boolTrue);
+        Not expression2 = new Not(boolTrue, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), false);
     }
@@ -274,7 +255,7 @@ public class EvaluatorTest {
     @Test
     public void testPosExpressionWithNums() throws Exception {
         // test: (+)5 = 5
-        Positive expression = new Positive(num5);
+        Positive expression = new Positive(num5, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression);
         assertEquals(value1.getValue(), num5.getValue());
     }
@@ -285,7 +266,7 @@ public class EvaluatorTest {
     @Test
     public void testNegExpressionWithNums() throws Exception {
         // test: (-)5 = -5
-        Negative expression = new Negative(num5);
+        Negative expression = new Negative(num5, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression);
         assertEquals(value1.getValue(), -num5.getValue());
     }
@@ -296,12 +277,12 @@ public class EvaluatorTest {
     @Test
     public void testEqualsExpressionWithNums() throws Exception {
         // test: 5 == 4 = false
-        EQ expression1 = new EQ(num5, num4);
+        EQ expression1 = new EQ(num5, num4, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), false);
 
         // test: 5 == 5 = true
-        EQ expression2 = new EQ(num5, num5);
+        EQ expression2 = new EQ(num5, num5, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), true);
     }
@@ -309,12 +290,12 @@ public class EvaluatorTest {
     @Test
     public void testEqualsExpressionWithStrings() throws Exception {
         // test: Foo == bar = false;
-        EQ expression1 = new EQ(stringFoo, stringBar);
+        EQ expression1 = new EQ(stringFoo, stringBar, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), false);
 
         // test: Foo == Foo = true;
-        EQ expression2 = new EQ(stringFoo, stringFoo);
+        EQ expression2 = new EQ(stringFoo, stringFoo, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), true);
     }
@@ -322,12 +303,12 @@ public class EvaluatorTest {
     @Test
     public void testEqualsExpressionWithBools() throws Exception {
         // test: true == false = false;
-        EQ expression1 = new EQ(boolTrue, boolFalse);
+        EQ expression1 = new EQ(boolTrue, boolFalse, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), false);
 
         // test: true == true = true;
-        EQ expression2 = new EQ(boolTrue, boolTrue);
+        EQ expression2 = new EQ(boolTrue, boolTrue, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), true);
     }
@@ -338,12 +319,12 @@ public class EvaluatorTest {
     @Test
     public void testNotEqualsExpressionWithNums() throws Exception {
         // test: 5 != 4 = true
-        NotEq expression1 = new NotEq(num5, num4);
+        NotEq expression1 = new NotEq(num5, num4, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), true);
 
         // test: 5 != 5 = false
-        NotEq expression2 = new NotEq(num5, num5);
+        NotEq expression2 = new NotEq(num5, num5, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), false);
     }
@@ -351,12 +332,12 @@ public class EvaluatorTest {
     @Test
     public void testNotEqualsExpressionWithStrings() throws Exception {
         // test: Foo != bar = true;
-        NotEq expression1 = new NotEq(stringFoo, stringBar);
+        NotEq expression1 = new NotEq(stringFoo, stringBar, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), true);
 
         // test: Foo != Foo = false;
-        NotEq expression2 = new NotEq(stringFoo, stringFoo);
+        NotEq expression2 = new NotEq(stringFoo, stringFoo, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), false);
     }
@@ -364,12 +345,12 @@ public class EvaluatorTest {
     @Test
     public void testNotEqualsExpressionWithBools() throws Exception {
         // test: true != false = true;
-        NotEq expression1 = new NotEq(boolTrue, boolFalse);
+        NotEq expression1 = new NotEq(boolTrue, boolFalse, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), true);
 
         // test: true != true = false;
-        NotEq expression2 = new NotEq(boolTrue, boolTrue);
+        NotEq expression2 = new NotEq(boolTrue, boolTrue, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), false);
     }
@@ -380,17 +361,17 @@ public class EvaluatorTest {
     @Test
     public void testGreaterExpressionWithNums() throws Exception {
         // test: 5 > 4 = true
-        Greater expression1 = new Greater(num5, num4);
+        Greater expression1 = new Greater(num5, num4, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), true);
 
         // test: 5 > 5 = false
-        Greater expression2 = new Greater(num5, num5);
+        Greater expression2 = new Greater(num5, num5, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), false);
 
         // test: 4 > 5 = false
-        Greater expression3 = new Greater(num4, num5);
+        Greater expression3 = new Greater(num4, num5, fakeLine);
         ExpressionValue value3 = evaluator.evaluateExpression(expression3);
         assertEquals(value3.getValue(), false);
     }
@@ -398,7 +379,7 @@ public class EvaluatorTest {
     @Test
     public void testGreaterExpressionWithStrings() throws Exception {
         // test: Undefined
-        Greater expression1 = new Greater(stringFoo, stringBar);
+        Greater expression1 = new Greater(stringFoo, stringBar, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
@@ -406,7 +387,7 @@ public class EvaluatorTest {
     @Test
     public void testGreaterExpressionWithBools() throws Exception {
         // test: Undefined
-        Greater expression1 = new Greater(boolTrue, boolFalse);
+        Greater expression1 = new Greater(boolTrue, boolFalse, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
@@ -417,17 +398,17 @@ public class EvaluatorTest {
     @Test
     public void testLesserExpressionWithNums() throws Exception {
         // test: 5 < 4 = false
-        Less expression1 = new Less(num5, num4);
+        Less expression1 = new Less(num5, num4, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), false);
 
         // test: 5 < 5 = false
-        Less expression2 = new Less(num5, num5);
+        Less expression2 = new Less(num5, num5, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), false);
 
         // test: 4 < 5 = true
-        Less expression3 = new Less(num4, num5);
+        Less expression3 = new Less(num4, num5, fakeLine);
         ExpressionValue value3 = evaluator.evaluateExpression(expression3);
         assertEquals(value3.getValue(), true);
     }
@@ -435,7 +416,7 @@ public class EvaluatorTest {
     @Test
     public void testLesserExpressionWithStrings() throws Exception {
         // test: Undefined
-        Less expression1 = new Less(stringFoo, stringBar);
+        Less expression1 = new Less(stringFoo, stringBar, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
@@ -443,7 +424,7 @@ public class EvaluatorTest {
     @Test
     public void testLesserExpressionWithBools() throws Exception {
         // test: Undefined
-        Less expression1 = new Less(boolTrue, boolFalse);
+        Less expression1 = new Less(boolTrue, boolFalse, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
@@ -454,17 +435,17 @@ public class EvaluatorTest {
     @Test
     public void testGreaterEqualExpressionWithNums() throws Exception {
         // test: 5 >= 4 = true
-        GE expression1 = new GE(num5, num4);
+        GE expression1 = new GE(num5, num4, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), true);
 
         // test: 5 >= 5 = true
-        GE expression2 = new GE(num5, num5);
+        GE expression2 = new GE(num5, num5, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), true);
 
         // test: 4 >= 5 = false
-        GE expression3 = new GE(num4, num5);
+        GE expression3 = new GE(num4, num5, fakeLine);
         ExpressionValue value3 = evaluator.evaluateExpression(expression3);
         assertEquals(value3.getValue(), false);
     }
@@ -472,7 +453,7 @@ public class EvaluatorTest {
     @Test
     public void testGreaterEqualExpressionWithStrings() throws Exception {
         // test: Undefined
-        GE expression1 = new GE(stringFoo, stringBar);
+        GE expression1 = new GE(stringFoo, stringBar, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
@@ -480,7 +461,7 @@ public class EvaluatorTest {
     @Test
     public void testGreaterEqualExpressionWithBools() throws Exception {
         // test: Undefined
-        GE expression1 = new GE(boolTrue, boolFalse);
+        GE expression1 = new GE(boolTrue, boolFalse, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
@@ -491,17 +472,17 @@ public class EvaluatorTest {
     @Test
     public void testLessEqualExpressionWithNums() throws Exception {
         // test: 5 <= 4 = false
-        LE expression1 = new LE(num5, num4);
+        LE expression1 = new LE(num5, num4, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), false);
 
         // test: 5 <= 5 = true
-        LE expression2 = new LE(num5, num5);
+        LE expression2 = new LE(num5, num5, fakeLine);
         ExpressionValue value2 = evaluator.evaluateExpression(expression2);
         assertEquals(value2.getValue(), true);
 
         // test: 4 <= 5 = true
-        LE expression3 = new LE(num4, num5);
+        LE expression3 = new LE(num4, num5, fakeLine);
         ExpressionValue value3 = evaluator.evaluateExpression(expression3);
         assertEquals(value3.getValue(), true);
     }
@@ -509,7 +490,7 @@ public class EvaluatorTest {
     @Test
     public void testLessEqualExpressionWithStrings() throws Exception {
         // test: Undefined
-        LE expression1 = new LE(stringFoo, stringBar);
+        LE expression1 = new LE(stringFoo, stringBar, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }
@@ -517,7 +498,7 @@ public class EvaluatorTest {
     @Test
     public void testLessEqualExpressionWithBools() throws Exception {
         // test: Undefined
-        LE expression1 = new LE(boolTrue, boolFalse);
+        LE expression1 = new LE(boolTrue, boolFalse, fakeLine);
         ExpressionValue value1 = evaluator.evaluateExpression(expression1);
         assertEquals(value1.getValue(), new UndefinedValue().getValue());
     }

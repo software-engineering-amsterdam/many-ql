@@ -1,7 +1,7 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.error;
 
 import org.fugazi.ast.AbstractASTNode;
-import org.fugazi.ast.expression.logical.And;
+import org.fugazi.type_checker.error.ASTNodeErrorType;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,8 @@ public class ASTErrorHandler {
 
     public void displayNodeError(ASTNodeError error) {
         System.out.print(error.getErrorType() + ": ");
-        System.out.println(" at node " + error.getNode());
+        System.out.print(" at line " + error.getLine());
+        System.out.println(", expression: " + error.getNode().toString());
 
         System.out.println(error.getMessage()+ "\n");
     }
