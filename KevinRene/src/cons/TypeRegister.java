@@ -32,5 +32,9 @@ public class TypeRegister {
 	
 	public Map<String, QLType> getBindings() {
 		return this.register;
-	}	
+	}
+	
+	public void clear() {
+		this.register.clear();
+	}
 }
