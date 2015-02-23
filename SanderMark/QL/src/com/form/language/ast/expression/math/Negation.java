@@ -1,5 +1,7 @@
 package com.form.language.ast.expression.math;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.UnaryExpression;
 import com.form.language.ast.type.ErrorType;
@@ -10,8 +12,8 @@ import com.form.language.ast.values.IntValue;
 
 public class Negation extends UnaryExpression implements Expression {
 	
-	public Negation(Expression value) {
-		super(value);
+	public Negation(Expression value, Token tokenInfo) {
+		super(value, tokenInfo);
 	}
 
 	@Override

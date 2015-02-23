@@ -1,5 +1,7 @@
 package com.form.language.ast.expression.math;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.BinaryExpression;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.ErrorType;
@@ -10,8 +12,8 @@ import com.form.language.ast.values.IntValue;
 
 public class Division extends BinaryExpression implements Expression {
 	
-	public Division(Expression left, Expression right) {
-		super(left,right);
+	public Division(Expression left, Expression right, Token tokenInfo) {
+		super(left,right, tokenInfo);
 	}
 
 	@Override
