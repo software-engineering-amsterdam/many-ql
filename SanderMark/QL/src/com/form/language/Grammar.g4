@@ -63,6 +63,7 @@ expression returns [Expression result]
 literal returns [Expression result]
 	: BOOL		{$result = new BoolLiteral(Boolean.parseBoolean($BOOL.text),$BOOL);}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),$INTEGER);}
+	| STRING	{$result = new StringLiteral($STRING.text),$STRING);}
 	;
 
 
