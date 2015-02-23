@@ -16,11 +16,12 @@ import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.gui.canvas.Canvas;
-import lang.ql.gui.input.Input;
+import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.Visitor;
+import lang.ql.semantics.values.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,14 @@ public class Modeler implements Visitor, TypeVisitor
     private Canvas canvas;
     private List<Line> lines;
 
+    private Value currentValue;
+    private Input currentInput;
+
+    public Canvas getCanvas()
+    {
+        return this.canvas;
+    }
+
     public Modeler(ValueTable values)
     {
         this.values = values;
@@ -45,66 +54,81 @@ public class Modeler implements Visitor, TypeVisitor
     public void visit(Form form)
     {
         this.lines = new ArrayList<Line>();
-        for (Statement s : form.getStatements())
+        for (Statement s : form.getBody())
         {
             s.accept(this);
         }
-        this.canvas = new Canvas(this.lines);
+        this.canvas = new Canvas(form.getId(), this.lines);
         this.lines = null;
     }
 
     @Override
     public void visit(Question q)
     {
-        Label label = new Label(q.getText());
+        this.currentValue = values.getValue(q.getId());
+
+        Label label = new Label(q.getLabel());
         q.getType().accept(this);
-//        Input input = InputFactory.createInput(q.getType(), values.getValue(q.getId()));
-//        this.lines.add(new Line(label, input));
+
+        this.lines.add(new Line(label, this.currentInput));
+
+        this.currentInput = null;
+        this.currentValue = null;
     }
 
     @Override
     public void visit(CalculatedQuestion cq)
     {
-        Label label = new Label(cq.getText());
+        this.currentValue = values.getValue(cq.getId());
+
+        Label label = new Label(cq.getLabel());
         cq.getType().accept(this);
-//        Input input = InputFactory.createInput(cq.getType(), values.getValue(cq.getId()));
-//        this.lines.add(new Line(label, input));
+
+        this.lines.add(new Line(label, this.currentInput));
+
+        this.currentValue = null;
+        this.currentInput = null;
     }
 
     @Override
-    public void visit(BoolType t)
+    public void visit(BoolType type)
     {
-
+        // TODO: remove the cast somehow
+        this.currentInput = new BoolInput((BooleanValue)this.currentValue);
     }
 
     @Override
     public void visit(DateType type)
     {
-
+        // TODO: remove the cast somehow
+        this.currentInput = new DateInput((DateValue)this.currentValue);
     }
 
     @Override
     public void visit(DecType type)
     {
-
+        // TODO: remove the cast somehow
+        this.currentInput = new DecInput((DecimalValue)this.currentValue);
     }
 
     @Override
-    public void visit(IntType t)
+    public void visit(IntType type)
     {
-
+        // TODO: remove the cast somehow
+        this.currentInput = new IntInput((IntegerValue)this.currentValue);
     }
 
     @Override
     public void visit(StrType type)
     {
-
+        // TODO: remove the cast somehow
+        this.currentInput = new StrInput((StringValue)this.currentValue);
     }
 
     @Override
     public void visit(IfCondition ifCond)
     {
-        for (Statement s : ifCond.getStatements())
+        for (Statement s : ifCond.getBody())
         {
             s.accept(this);
         }
@@ -228,50 +252,5 @@ public class Modeler implements Visitor, TypeVisitor
     public void visit(Or e)
     {
 
-    }
-
-    public static void render(final Stage primaryStage, final Form form, final ValueTable values)
-    {
-        Modeler visualizer = new Modeler(values);
-
-        GridPane grid = new GridPane();
-        grid.setAlignment(javafx.geometry.Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-
-        visualizer.visit(form);
-
-        Button btn = new Button("Make magic happen");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, grid.getChildren().size() + 1);
-
-        final Text actiontarget = new Text();
-        grid.add(actiontarget, 1, grid.getChildren().size() + 1);
-
-
-        btn.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent e)
-            {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Unicorns");
-//                updateValues();
-//                render(primaryStage, form);
-            }
-        });
-
-        Scene scene = new Scene(grid, 700, 500);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle(form.getId());
-        primaryStage.show();
-    }
-
-    private void updateValues()
-    {
-        //TODO
     }
 }

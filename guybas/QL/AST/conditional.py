@@ -5,9 +5,10 @@ from AST.statement import *
 class IfBlock(IStatement):
 
     # Override
-    def __init__(self, condition, statements):
+    def __init__(self, condition, statements, tid):
         self.condition = condition
         self.statements = statements
+        self.parent_id = tid
 
     # Override
     def pretty_print(self, level=0):
@@ -68,6 +69,9 @@ class IfBlock(IStatement):
     def set_parent_id(self, pid):
         self.parent_id = pid
 
+    def get_parent_id(self):
+        return self.parent_id
+
     def return_expressions(self):
         s = [self.condition]
         for x in self.statements:
@@ -76,12 +80,12 @@ class IfBlock(IStatement):
 
 
 class IfElseBlock(IfBlock):
-
     # Override
-    def __init__(self, condition, statements, else_statements):
+    def __init__(self, condition, statements, else_statements, tid):
         self.condition = condition
         self.statements = statements
         self.else_statements = else_statements
+        self.parent_id = tid
 
     # Override
     def pretty_print(self, level=0):
@@ -131,7 +135,9 @@ class IfElseBlock(IfBlock):
             d = dict(list(d.items()) + list(s.id_type_collection().items()))
         return d
 
+    def set_parent_id(self, pid):
+        self.parent_id = pid
 
-
-
+    def get_parent_id(self):
+        return self.parent_id
 

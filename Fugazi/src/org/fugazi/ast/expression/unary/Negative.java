@@ -3,21 +3,16 @@ package org.fugazi.ast.expression.unary;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.IntType;
-import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Negative extends Unary {
+    private final Class returnedType;
 
-    private final List<Class> supportedTypes;
-
-    public Negative(Expression _expr) {
-        super(_expr);
-
-        Class intTypeClass = new IntType().getClass();
-        this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(intTypeClass);
+    public Negative(Expression _expr, int _lineNum) {
+        super(_expr, _lineNum);
+        this.returnedType = IntType.class;
     }
 
     @Override
@@ -26,8 +21,8 @@ public class Negative extends Unary {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

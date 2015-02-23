@@ -27,7 +27,6 @@ type interpreter struct {
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
 func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
-	typecheck(q) // HL
 
 	toFrontend, fromFrontend, symbolChan := openChannels()
 	st := symboltable.New(symbolChan)
@@ -54,7 +53,7 @@ func openChannels() (toFrontend, fromFrontend chan *event.Frontend, symbolChan c
 
 func typecheck(q *ast.QuestionaireNode) {
 	tc, symboltable := typechecker.New()
-	tc.Visit(q) // typechecker is a visitor // HL
+	tc.Visit(q)
 
 	symboltable.ShowWarn()
 	symboltable.PanicErr()

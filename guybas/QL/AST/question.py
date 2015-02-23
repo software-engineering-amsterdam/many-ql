@@ -39,7 +39,7 @@ class Question(IStatement):
         return dependencies
 
     def id_type_collection(self):
-        return {self.id : self.type}
+        return {self.id: self.type}
 
     # Getters
     def get_label(self):

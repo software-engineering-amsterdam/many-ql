@@ -5,7 +5,7 @@ import org.uva.sea.ql.AST.literal.AbstractLiteral;
 import org.uva.sea.ql.AST.literal.NumberLiteral;
 import org.uva.sea.ql.AST.value.IntegerValue;
 
-public class PositiveExpression<T> extends DataTypeExpression{
+public class PositiveExpression extends DataTypeExpression{
 	
 	private NumberLiteral numberLiteral;
 	public PositiveExpression(AbstractLiteral literal) {

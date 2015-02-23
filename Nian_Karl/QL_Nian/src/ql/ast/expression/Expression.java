@@ -1,9 +1,9 @@
 package ql.ast.expression;
 
-import ql.ast.value.Value;
+import ql.ast.ASTNode;
 
-public abstract class Expression {
+public abstract class Expression implements ASTNode {
 	
-	public abstract Value<?> evaluate();
-	
+	//public abstract <T> T accept(Visitor<Value<?>> visitor);
+	public abstract String toString();
 }
