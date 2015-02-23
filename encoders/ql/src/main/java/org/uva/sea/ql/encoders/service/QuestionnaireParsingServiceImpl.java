@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.uva.sea.ql.encoders.EncodersQLLexer;
 import org.uva.sea.ql.encoders.EncodersQLParser;
+import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 
 /**
@@ -26,7 +27,9 @@ public class QuestionnaireParsingServiceImpl implements
 
 		QuestionnaireListener questionnaireListener = new QuestionnaireListener();
 		parser.addParseListener(questionnaireListener);
-		parser.questionnaire();
+		QuestionnaireContext parseTree = parser.questionnaire();
+		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
+		visitor.visit(parseTree);
 
 		Questionnaire questionnaire = questionnaireListener.getQuestionnaire();
 		return questionnaire;
