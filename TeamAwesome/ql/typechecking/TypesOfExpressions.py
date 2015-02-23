@@ -1,11 +1,12 @@
 from .Visitor import Visitor
 from . import Message
-from .common import typeOfIdentifier
+from .Common import typeOfIdentifier
 from .Cast import effectiveTypes
 
-import TypeRules
-import CustomTypes
-import ASTNodes
+from .. import TypeRules
+from .. import CustomTypes
+
+from ..ast import Nodes
 
 
 class Checker(Visitor):

@@ -1,8 +1,8 @@
-import ASTNodes
-from TypeRules import nativeQuestionType
+from ..ast import Nodes
+from ..TypeRules import nativeQuestionType
 
 def questionIdentifiedBy(identifier, node):
-    if isinstance(node, ASTNodes.QuestionStatement) and \
+    if isinstance(node, Nodes.QuestionStatement) and \
         node.identifier == identifier:
         return node
 

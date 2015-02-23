@@ -1,14 +1,14 @@
 from .Visitor import Visitor
 from . import Message
 
-import ASTNodes
+from ..ast import Nodes
 
 
 class Checker(Visitor):
     def _visitRoot(self, node):
         for n in node.getChildren():
             self._allowStatement(
-                [ASTNodes.FormStatement],
+                [Nodes.FormStatement],
                 n
             )
         return super()._visitRoot(node)
@@ -16,8 +16,8 @@ class Checker(Visitor):
     def _visitFormStatement(self, node):
         for n in node.getChildren():
             self._allowStatement(
-                [ASTNodes.IfStatement,
-                 ASTNodes.QuestionStatement],
+                [Nodes.IfStatement,
+                 Nodes.QuestionStatement],
                 n
             )
         super()._visitFormStatement(node)
@@ -25,8 +25,8 @@ class Checker(Visitor):
     def _visitIfStatement(self, node):
         for n in node.getChildren():
             self._allowStatement(
-                [ASTNodes.IfStatement,
-                 ASTNodes.QuestionStatement],
+                [Nodes.IfStatement,
+                 Nodes.QuestionStatement],
                 n
             )
         super()._visitIfStatement(node)
