@@ -2,7 +2,6 @@ package cons.ql.ast.expression;
 
 import java.util.Arrays;
 
-import cons.TypeRegister;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.type.QLError;
 import cons.ql.ast.visitor.Visitor;
