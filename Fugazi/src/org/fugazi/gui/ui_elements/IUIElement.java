@@ -1,7 +1,7 @@
 package org.fugazi.gui.ui_elements;
 
-import javax.swing.*;
+import org.fugazi.gui.widgets.IWidget;
 
 public interface IUIElement {
-    public abstract JComponent getComponent();
+    public abstract IWidget getWidget();
 }

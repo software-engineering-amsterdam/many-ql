@@ -21,8 +21,5 @@ public class UIForm extends JFrame {
     }
     
     public void addElement(IUIElement _elem) {
-        JComponent component = _elem.getComponent();
-        if (component != null)
-            this.panel.add(component);
     }
 }
