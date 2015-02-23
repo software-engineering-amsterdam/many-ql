@@ -1,16 +1,16 @@
 from antlr4 import *
-from QLLexer import QLLexer
-from QLParser import QLParser
-from QLListener import QLListener
-import CustomQLVisitor
+from ..parser.QLLexer import QLLexer
+from ..parser.QLParser import QLParser
+from ..parser.QLListener import QLListener
+from .ParseTreeVisitor import ParseTreeVisitor
 
 class AST(object):
-	def __init__(self, inputQLFile):			
+	def __init__(self, inputQLFile):
 		inputStream = FileStream(inputQLFile)
 		lexer = QLLexer(inputStream)
 		stream = CommonTokenStream(lexer)
 		parser = QLParser(stream)
-		visitor = CustomQLVisitor.CustomQLVisitor()
+		visitor = ParseTreeVisitor()
 		tree = parser.root()
 		self.root = visitor.visit(tree)
 

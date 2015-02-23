@@ -9,6 +9,7 @@ public class Section extends AbstractModel<Section> {
     private String ident;
     private List<AbstractFormField<?>> fields;
     private List<Default> defaultSettings;
+    private int arg;
 
     public String getSectionName(){
         return ident;
@@ -20,6 +21,16 @@ public class Section extends AbstractModel<Section> {
 
     public List<Default> getDefaultSettings() {
         return defaultSettings;
+    }
+
+    @Override
+    public void caseString(String string) {
+        if (arg != 0) {
+            super.caseString(string);
+            return;
+        }
+        this.ident = string;
+        arg++;
     }
 
     @Override
@@ -47,6 +58,7 @@ public class Section extends AbstractModel<Section> {
         for (AbstractFormField<?> field : fields) {
             field.updateStates(headlessFormInterpreter, defaultList);
         }
+        notifyUpdate();
     }
 
     public Section() {
