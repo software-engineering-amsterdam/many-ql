@@ -33,12 +33,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private final ASTErrorHandler astErrorHandler;
 
-    // TODO optimize these structures
-
     // used to detect duplicate  labels
     private final List<String> questionLabels;
     // used to detect duplicate question types
-    private final Map<String, Type> questions;
+    private final Map<String, Type> questionTypes;
     // used to detect circular dependencies
     private final DependencyList questionDependencies;
     private ID assignableIdLiteral;
@@ -46,7 +44,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public TypeCheckerVisitor(){
         this.astErrorHandler = new ASTErrorHandler();
         this.questionLabels = new ArrayList<String>();
-        this.questions = new HashMap<String, Type>();
+        this.questionTypes = new HashMap<String, Type>();
         this.questionDependencies = new DependencyList();
     }
 
@@ -126,7 +124,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
         if (!typesEqual) {
             this.astErrorHandler.registerNewError(assignQuest,
                     "Attempted to assign type " + computed.getReturnedType()
-                            +  " to variable of type " + type.getClass() + "."
+                            + " to variable of type " + type.getClass() + "."
             );
         }
 
@@ -361,18 +359,18 @@ public class TypeCheckerVisitor implements IASTVisitor {
     public Object visitID(ID idLiteral) {
         // check if variable defined
         // if it's type equals null => it is undefined
-//        boolean questionDefined = this.checkIfDefined(idLiteral);
-//        if (!questionDefined) {
-//            this.astErrorHandler.registerNewError( idLiteral,
-//                    "Question not defined."
-//            );
-//        }
+        boolean questionDefined = this.checkIfDefined(idLiteral);
+        if (!questionDefined) {
+            this.astErrorHandler.registerNewError( idLiteral,
+                    "Question not defined."
+            );
+        }
 
         // if we are inside a computed expression
         // a dependency needs to be added and marked
         if (this.assignableIdLiteral != null) {
             // assignableIdLiteral is dependent on
-            // the current idListeral
+            // the current idLiteral
             this.addAndCheckDependency(this.assignableIdLiteral, idLiteral);
         }
 
@@ -472,7 +470,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
 
     private boolean checkIfQuestionAlreadyDefinedWithDifferentType(
             ID questionId, Type questionType){
-        Type earlierQuestionType = this.questions.get(questionId.getName());
+        Type earlierQuestionType = this.questionTypes.get(questionId.getName());
         if (earlierQuestionType != null) {
             return !this.checkIfTypesEqual(earlierQuestionType, questionType);
         }
@@ -505,7 +503,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     private void saveQuestionType(ID questionId, Type questionType) {
-        this.questions.put(questionId.getName(), questionType);
+        this.questionTypes.put(questionId.getName(), questionType);
         return;
     }
 
