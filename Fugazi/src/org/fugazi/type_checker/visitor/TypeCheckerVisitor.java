@@ -1,4 +1,4 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.visitor;
 
 import org.fugazi.ast.IASTVisitor;
 import org.fugazi.ast.expression.Expression;
@@ -19,6 +19,7 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 import org.fugazi.type_checker.dependency.DependencyList;
+import org.fugazi.type_checker.error.ASTErrorHandler;
 
 import java.util.*;
 import java.util.List;
@@ -461,7 +462,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     // a = b
     // a - depender
     // b - dependee
-    private boolean checkIfLiteralsDependent(ID depender, ID dependee) {
+    private boolean checkDependency(ID depender, ID dependee) {
         List<String> dependenciesForDepender =
                 this.questionDependencies.getIdDependencyNames(depender);
 
@@ -500,7 +501,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
         In other words, the update needs to propapagte through the whole graph
          (see transitive closure).
     */
-    private void updateDependency(ID depender, ID dependee) {
+    private void addDependency(ID depender, ID dependee) {
         // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
         List<ID> idsToAddNewDependencyTo = new ArrayList<ID>();
@@ -536,15 +537,13 @@ public class TypeCheckerVisitor implements IASTVisitor {
     // a - depender
     // b - dependee
     private void addAndCheckDependency(ID depender, ID dependee) {
-        if (this.checkIfLiteralsDependent(dependee, depender)) {
+        if (this.checkDependency(dependee, depender)) {
             this.astErrorHandler.registerNewError( depender,
                     "Circular dependency between this node and " +
                             dependee.toString() + "."
             );
         }
-
-        // add dependency
-        this.updateDependency(depender, dependee);
+        this.addDependency(depender, dependee);
         return;
     }
 
@@ -554,11 +553,9 @@ public class TypeCheckerVisitor implements IASTVisitor {
      * =======================
      */
 
-
     public boolean isFormCorrect() {
         return !this.astErrorHandler.hasErrors();
     }
-
 
     public void displayFormWarningsAndErrors() {
         this.astErrorHandler.displayWarningsAndErrors();

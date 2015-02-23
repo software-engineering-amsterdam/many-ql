@@ -1,7 +1,7 @@
 package org.fugazi.type_checker;
 
-import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.form.Form;
+import org.fugazi.type_checker.visitor.TypeCheckerVisitor;
 //import org.fugazi.evaluator.ExpressionValue;
 //import org.fugazi.evaluator.visitor.ExpressionVisitor;
 //import org.fugazi.evaluator.UndefinedValue;
@@ -10,7 +10,7 @@ import org.fugazi.ast.form.Form;
 
 /*
 // TODO type checker must detect
-cyclic dependencies between questions
+assignment values of same type
  */
 
 public class TypeChecker {

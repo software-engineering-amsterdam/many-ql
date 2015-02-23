@@ -1,7 +1,7 @@
-package org.fugazi.type_checker;
+package org.fugazi.type_checker.error;
 
 import org.fugazi.ast.AbstractASTNode;
-import org.fugazi.ast.expression.logical.And;
+import org.fugazi.type_checker.error.ASTNodeErrorType;
 
 import java.util.ArrayList;
 
