@@ -15,14 +15,14 @@ http://cirello.org/
 
 - Interpreter, Symbol Tables and Frontends are separated - independent computations.
 
-* Symbol Table - Type Checker
-.code ../interpreter/visitor/typechecker/symboltable.go /case event.SymbolRead/,/r\.Identifier\)\n\t\t\t}\n\t\t}/
-
 * Interpreter - Type Checker
 .code ../interpreter/loop.go /func New/,/return toFrontend, fromFrontend\n}/
 
 * Interpreter - Type Checker - continued
-.code ../interpreter/loop.go /func typecheck/,/}\n}/
+.code ../interpreter/loop.go /func typecheck/,/\)\n}/
+
+* Symbol Table - Type Checker
+.code ../interpreter/visitor/typechecker/symboltable.go /for r := range s.Events/,/\t\t}\n\t}/
 
 * Type Checker - playground
-.play playground.go /func main/,/}\n}/
+.play playground.go /func main/,/\)\n}/
