@@ -20,9 +20,9 @@ public class BoolInput extends Input
         super(disabled);
     }
 
-    public void accept(GuiVisitor visitor)
+    public <T> T accept(GuiVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 
 }

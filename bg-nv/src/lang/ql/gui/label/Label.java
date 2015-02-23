@@ -14,9 +14,9 @@ public class Label extends GuiElement
         this.text = text;
     }
 
-    public void accept(GuiVisitor visitor)
+    public <T> T accept(GuiVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 
     public String getText()
