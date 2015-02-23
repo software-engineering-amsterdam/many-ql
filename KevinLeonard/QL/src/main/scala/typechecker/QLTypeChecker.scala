@@ -2,19 +2,9 @@ package typechecker
 
 import ast._
 
-class QLTypeChecker extends {
+class QLTypeChecker {
 
-  sealed trait Type
-  case class BooleanType() extends Type
-  case class NumberType() extends Type
-  case class StringType() extends Type
-
-  // Holds the defined variables and their type.
-  // Note that we require variables to be declared before being used.
-  type Environment = Map[String, Type]
-  val emptyEnvironment = Map[String, Type]()
-
-  def check(form: Form, env: Environment = emptyEnvironment): Environment = check(form.e, env)
+  def check(form: Form, env: Environment = new Environment()): Environment = check(form.e, env)
 
   def check(statement: Statement, env: Environment): Environment = statement match {
     case Sequence(statements: List[Statement]) => statements.foldLeft(env) { (env, statement) => check(statement, env) }
@@ -31,19 +21,19 @@ class QLTypeChecker extends {
         env // Return environment without the questions in s1 and s2.
       case _ => sys.error(s"Invalid boolean condition for if statement at line ${s.pos}")
     }
-    case BooleanQuestion(v: Variable, label: String) => tryAddVariable(v.name, BooleanType(), env)
-    case NumberQuestion(v: Variable, label: String) => tryAddVariable(v.name, NumberType(), env)
-    case StringQuestion(v: Variable, label: String) => tryAddVariable(v.name, StringType(), env)
+    case BooleanQuestion(v: Variable, label: String) => env.tryAddVariable(v.name, BooleanType())
+    case NumberQuestion(v: Variable, label: String) => env.tryAddVariable(v.name, NumberType())
+    case StringQuestion(v: Variable, label: String) => env.tryAddVariable(v.name, StringType())
     case s @ ComputedBooleanQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
-      case BooleanType() => tryAddVariable(v.name, BooleanType(), env)
+      case BooleanType() => env.tryAddVariable(v.name, BooleanType())
       case _ => sys.error(s"Invalid expression for value of computed boolean question at line ${s.pos}")
     }
     case s @ ComputedNumberQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
-      case NumberType() => tryAddVariable(v.name, NumberType(), env)
+      case NumberType() => env.tryAddVariable(v.name, NumberType())
       case _ => sys.error(s"Invalid expression for value of computed number expression at line ${s.pos}")
     }
     case s @ ComputedStringQuestion(v: Variable, label: String, e: Expression) => check(e, env) match {
-      case StringType() => tryAddVariable(v.name, StringType(), env)
+      case StringType() => env.tryAddVariable(v.name, StringType())
       case _ => sys.error(s"Invalid expression for value of computed string expression at line ${s.pos}")
     }
   }
@@ -105,17 +95,39 @@ class QLTypeChecker extends {
       case (NumberType(), NumberType()) => NumberType()
       case _ => sys.error(s"Invalid division expression at line ${e.pos}")
     }
-    case e @ Variable(name: String) => env getOrElse(name, sys.error(s"Undefined variable $name at line ${e.pos}"))
+    case v: Variable => env.tryGetVariable(v)
     case BooleanLiteral(_) => BooleanType()
     case NumberLiteral(_) => NumberType()
     case StringLiteral(_) => StringType()
   }
 
-  def tryAddVariable(name: String, _type: Type, env: Environment): Environment = {
-    if (env contains name) {
+}
+
+sealed trait Type
+case class BooleanType() extends Type
+case class NumberType() extends Type
+case class StringType() extends Type
+
+class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[String] = List()) {
+
+  def tryGetVariable(v: Variable): Type = typeOfFields getOrElse(v.name, sys.error(s"Undefined variable ${v.name} at line ${v.pos}"))
+
+  def tryAddVariable(name: String, _type: Type): Environment = {
+    if (typeOfFields contains name) {
       sys.error(s"Variable $name is already defined")
     } else {
-      env + (name -> _type)
+      new Environment(typeOfFields + (name -> _type), labels)
     }
   }
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[Environment]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: Environment =>
+      (that canEqual this) &&
+        typeOfFields == that.typeOfFields &&
+        labels == that.labels
+    case _ => false
+  }
+
 }
