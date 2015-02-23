@@ -10,7 +10,7 @@ import (
 // SymbolTable is the typechecker specific symbol table which detects duplicated
 // identifiers and labels
 type SymbolTable struct {
-	symbols map[string]*ast.QuestionNode
+	symbols map[string]interface{}
 	labels  map[string][]string
 
 	err  []error
@@ -20,7 +20,7 @@ type SymbolTable struct {
 // New is the constructor for SymbolTable
 func New() *SymbolTable {
 	table := &SymbolTable{
-		symbols: make(map[string]*ast.QuestionNode),
+		symbols: make(map[string]interface{}),
 		labels:  make(map[string][]string),
 	}
 
@@ -59,7 +59,7 @@ func (s *SymbolTable) PanicErr() {
 }
 
 // Read looks for identifier in symboltable and returns its content
-func (s *SymbolTable) Read(identifier string) *ast.QuestionNode {
+func (s *SymbolTable) Read(identifier string) interface{} {
 	question, ok := s.symbolExistP(identifier)
 	if !ok {
 		s.appendErrf(
@@ -108,11 +108,11 @@ func (s *SymbolTable) detectRepeatedLabel(label, identifier string) {
 	s.labels[label] = append(s.labels[label], identifier)
 }
 
-func (s *SymbolTable) symbolExistP(identifier string) (question *ast.QuestionNode, ok bool) {
-	question, ok = s.symbols[identifier]
-	return question, ok
+func (s *SymbolTable) symbolExistP(identifier string) (value interface{}, ok bool) {
+	value, ok = s.symbols[identifier]
+	return value, ok
 }
 
-func (s *SymbolTable) upsert(identifier string, content *ast.QuestionNode) {
-	s.symbols[identifier] = content
+func (s *SymbolTable) upsert(identifier string, value interface{}) {
+	s.symbols[identifier] = value
 }

@@ -27,6 +27,7 @@ type interpreter struct {
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
 func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
+	typecheck(q)
 
 	toFrontend, fromFrontend := openChannels()
 	st := symboltable.New()
@@ -97,8 +98,8 @@ func (v *interpreter) loop() {
 						v.send <- &event.Frontend{Type: event.Flush}
 
 						q := v.symbols.Read(identifier)
-						q.Content().From(answer)
-						v.symbols.Update(identifier, q)
+						q.(*ast.QuestionNode).Content().From(answer)
+						v.symbols.Update(identifier, q.(*ast.QuestionNode))
 					}
 					fallthrough
 

@@ -60,15 +60,15 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 			return nil
 		}
 
-		switch q.Type() {
+		switch q.(*ast.QuestionNode).Type() {
 		case ast.BoolQuestionType:
-			content := q.Content().(*ast.BoolQuestion)
+			content := q.(*ast.QuestionNode).Content().(*ast.BoolQuestion)
 			return content.Value()
 		case ast.NumericQuestionType:
-			content := q.Content().(*ast.NumericQuestion)
+			content := q.(*ast.QuestionNode).Content().(*ast.NumericQuestion)
 			return content.Value()
 		case ast.StringQuestionType:
-			content := q.Content().(*ast.StringQuestion)
+			content := q.(*ast.QuestionNode).Content().(*ast.StringQuestion)
 			return content.String()
 		}
 	}
