@@ -10,6 +10,7 @@ import uva.ql.ast.declarations.Declaration;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.expressions.PrimitiveType;
+import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.IntLiteral;
 import uva.ql.ast.expressions.logic.And;
@@ -76,7 +77,7 @@ public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
 			else System.err.println("Nested questions");
 		}
 		
-		return new Question(new Identifier(ctx.Identifier().getText(), codeLines), (Literal)visitPrimitiveType(ctx.primitiveType()), statement, codeLines);
+		return new Question(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), statement, codeLines);
 	}
 	
 	@Override 
@@ -99,9 +100,9 @@ public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
 		CodeLines codeLines = getCodeLines(ctx);
 		
 		if (ctx.expr() != null) 
-			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Literal)visitPrimitiveType(ctx.primitiveType()), (Expression)visitExpr(ctx.expr()), codeLines);
+			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), (Expression)visitExpr(ctx.expr()), codeLines);
 		else 
-			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Literal)visitPrimitiveType(ctx.primitiveType()), codeLines);
+			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), codeLines);
 	}
 	@Override
 	public ASTNode visitAssignExpr(QLParser.AssignExprContext ctx) { 
@@ -180,14 +181,14 @@ public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
 	
 	@Override 
 	public ASTNode visitPrimitiveType(PrimitiveTypeContext ctx) { 
-		CodeLines codeLines = getCodeLines(ctx);
 		PrimitiveType type = PrimitiveType.findOperator(ctx.getText());
+		CodeLines codeLines = getCodeLines(ctx);
 		
 		switch(type){
-			case BOOLEAN: 	return new BooleanLiteral(codeLines);
-			case INT: 		return new IntLiteral(codeLines);
-			case DECIMAL: 	return new DecimalLiteral(codeLines);
-			case STRING: 	return new StringLiteral(codeLines);
+			case BOOLEAN: 	return new Type(ctx.getText(), codeLines);
+			case INT: 		return new Type(ctx.getText(), codeLines);
+			case DECIMAL: 	return new Type(ctx.getText(), codeLines);
+			case STRING: 	return new Type(ctx.getText(), codeLines);
 		}
 		return null;
 	}

@@ -3,10 +3,10 @@ package uva.ql.ast.expressions.logic;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.ExpressionVisitor;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.value.NumberValue;
+import uva.ql.ast.visitor.VisitorInterface;
 
 public class Greater_Eq extends BinaryExpressions{
 
@@ -19,7 +19,7 @@ public class Greater_Eq extends BinaryExpressions{
 		return this.getLeftExpr() + Operator.GREATER_EQ.getName() + this.getRightExpr();
 	}
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
+	public <T> T accept(VisitorInterface<T> visitor) {
 		return visitor.visitGreaterEqual(this);
 	}
 	@Override
@@ -27,7 +27,9 @@ public class Greater_Eq extends BinaryExpressions{
 		if (!NumberValue.isNumberValue(this.getLeftExpr()) && !NumberValue.isNumberValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: >= operator requires both operands NumberValue");
 		
-		return new BooleanValue((int) this.getLeftExpr().evaluate().getValue() >=
-								(int) this.getRightExpr().evaluate().getValue());	
+		NumberValue left = new NumberValue((Number)this.getLeftExpr().evaluate().getValue());
+		NumberValue right = new NumberValue((Number)this.getRightExpr().evaluate().getValue());
+		
+		return new BooleanValue(left.toDecimal() >= right.toDecimal());
 	}
 }

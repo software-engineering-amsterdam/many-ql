@@ -3,9 +3,9 @@ package uva.ql.ast.expressions.logic;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
-import uva.ql.ast.expressions.ExpressionVisitor;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.value.BooleanValue;
+import uva.ql.ast.visitor.VisitorInterface;
 
 public class Equal extends BinaryExpressions{
 
@@ -17,7 +17,7 @@ public class Equal extends BinaryExpressions{
 		return this.getLeftExpr() + Operator.EQUAL.getName() + this.getRightExpr();
 	}
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
+	public <T> T accept(VisitorInterface<T> visitor) {
 		return visitor.visitEqual(this);
 	}
 	@Override

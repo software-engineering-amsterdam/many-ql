@@ -1,8 +1,8 @@
 package uva.ql.ast.expressions.literals;
 
 import uva.ql.ast.CodeLines;
-import uva.ql.ast.expressions.ExpressionVisitor;
 import uva.ql.ast.value.NumberValue;
+import uva.ql.ast.visitor.VisitorInterface;
 
 public class IntLiteral extends Literal{
 	
@@ -25,7 +25,7 @@ public class IntLiteral extends Literal{
 		else return "Integer(" + String.valueOf(this.value) + ")";
 	}
 	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
+	public <T> T accept(VisitorInterface<T> visitor) {
 		return visitor.visitIntLiteral(this);
 	}
 }

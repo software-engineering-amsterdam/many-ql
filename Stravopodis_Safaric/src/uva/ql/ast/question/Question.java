@@ -3,18 +3,18 @@ package uva.ql.ast.question;
 import java.util.List;
 
 import uva.ql.ast.CodeLines;
+import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.expressions.literals.Literal;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.statements.StatementVisitor;
+import uva.ql.ast.visitor.VisitorInterface;
 
 public class Question extends Statement {
 	
 	private Identifier identifier;
-	private Literal type;
+	private Type type;
 	private List<Statement> statement;
 	
-	public Question(Identifier _identifier, Literal _type, List<Statement> _statement, CodeLines _codeLines){
+	public Question(Identifier _identifier, Type _type, List<Statement> _statement, CodeLines _codeLines){
 		super(_codeLines);
 		this.identifier = _identifier;
 		this.type = _type;
@@ -24,11 +24,14 @@ public class Question extends Statement {
 	public List<Statement> getStatement(){
 		return this.statement;
 	}
-	public Literal getType(){
+	public Type getType(){
 		return this.type;
 	}
 	public Identifier getIdentifier(){
 		return this.identifier;
+	}
+	public CodeLines getCodeLines(){
+		return this.codeLines;
 	}
 	@Override
 	public String toString(){
@@ -36,7 +39,7 @@ public class Question extends Statement {
 	}
 
 	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
+	public <T> T accept(VisitorInterface<T> visitor) {
 		return visitor.visitQuestion(this);
 	}
 }

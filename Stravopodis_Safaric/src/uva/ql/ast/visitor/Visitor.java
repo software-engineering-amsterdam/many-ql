@@ -6,6 +6,7 @@ import uva.ql.ast.Prog;
 import uva.ql.ast.declarations.Declaration;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.DecimalLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
@@ -29,36 +30,38 @@ import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Statement;
 
-public class Visitor implements VisitorInterface<Void>{
+public class Visitor<T> implements VisitorInterface<T>{
 
 	@Override
-	public void visitProg(Prog prog) {
-		// TODO Auto-generated method stub
-		this.visitForm(prog.getProg());
+	public T visitProg(Prog prog) {
+		this.visitForm(prog.getForm());
+		
+		return null;
 	}
 
 	@Override
-	public void visitForm(Form form) {
+	public T visitForm(Form form) {
 		System.out.println(form);
 		for(Statement statement : form.getStatement()){
 			statement.accept(this);
 		}
+		return null;
 	}
 
 	@Override
-	public void visitASTNode(ASTNode node) {
-		// TODO Auto-generated method stub
+	public T visitASTNode(ASTNode node) {
 		
+		return null;
 	}
 	@Override
-	public Void visitStatement(Statement statement) {
+	public T visitStatement(Statement statement) {
 		statement.accept(this);
 		
 		return null;
 	}
 
 	@Override
-	public Void visitQuestion(Question question) {
+	public T visitQuestion(Question question) {
 		System.out.println(question);
 		for (Statement statement : question.getStatement()){
 			statement.accept(this);
@@ -71,7 +74,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitDeclaration(Declaration declaration) {
+	public T visitDeclaration(Declaration declaration) {
 		System.out.println(declaration);
 		if (declaration.getExpression() != null)
 			declaration.getExpression().accept(this);
@@ -83,7 +86,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitIfStatement(IfStatement ifStatement) {
+	public T visitIfStatement(IfStatement ifStatement) {
 		System.out.println(ifStatement);
 		for (Statement statement : ifStatement.getStatement()){
 			statement.accept(this);
@@ -95,8 +98,8 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitAssign(Assign assign) {
-		System.out.println(assign);
+	public T visitAssign(Assign assign) {
+		
 		assign.getIdentifier().accept(this);
 		assign.getExpression().accept(this);
 		System.out.println("Evaluate: " + assign.getExpression().evaluate().getValue());
@@ -104,7 +107,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitBinaryExpression(BinaryExpressions expression) {
+	public T visitBinaryExpression(BinaryExpressions expression) {
 		System.out.println(expression);
 		Expression left = expression.getLeftExpr();
 		Expression right = expression.getRightExpr();
@@ -116,14 +119,13 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitExpression(Expression expression) {
+	public T visitExpression(Expression expression) {
 		System.out.println("Evaluated expression: " + expression.evaluate().getValue());
-		
 		return null;
 	}
 
 	@Override
-	public Void visitExponentiation(Exponentiation exponentiation) {
+	public T visitExponentiation(Exponentiation exponentiation) {
 		System.out.println(exponentiation);
 		this.visitBinaryExpression(exponentiation);
 		
@@ -131,7 +133,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitAddition(Addition addition) {
+	public T visitAddition(Addition addition) {
 		System.out.println(addition);
 		this.visitBinaryExpression(addition);
 		
@@ -139,7 +141,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitSubstraction(Substraction substraction) {
+	public T visitSubstraction(Substraction substraction) {
 		System.out.println(substraction);
 		this.visitBinaryExpression(substraction);
 		
@@ -147,7 +149,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitMultiplication(Multiplication multipllication) {
+	public T visitMultiplication(Multiplication multipllication) {
 		System.out.println(multipllication);
 		this.visitBinaryExpression(multipllication);
 		
@@ -155,7 +157,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitDivision(Division division) {
+	public T visitDivision(Division division) {
 		System.out.println(division);
 		this.visitBinaryExpression(division);
 		
@@ -163,7 +165,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitAnd(And and) {
+	public T visitAnd(And and) {
 		System.out.println(and);
 		this.visitBinaryExpression(and);
 		
@@ -171,7 +173,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitOr(Or or) {
+	public T visitOr(Or or) {
 		System.out.println(or);
 		this.visitBinaryExpression(or);
 		
@@ -179,7 +181,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitEqual(Equal equal) {
+	public T visitEqual(Equal equal) {
 		System.out.println(equal);
 		this.visitBinaryExpression(equal);
 		
@@ -187,7 +189,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitNotEqual(NotEqual notEqual) {
+	public T visitNotEqual(NotEqual notEqual) {
 		System.out.println(notEqual);
 		this.visitBinaryExpression(notEqual);
 		
@@ -195,7 +197,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitGreaterEqual(Greater_Eq greaterEqual) {
+	public T visitGreaterEqual(Greater_Eq greaterEqual) {
 		System.out.println(greaterEqual);
 		this.visitBinaryExpression(greaterEqual);
 		
@@ -203,7 +205,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitGreater(Greater greater) {
+	public T visitGreater(Greater greater) {
 		System.out.println(greater);
 		this.visitBinaryExpression(greater);
 		
@@ -211,7 +213,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitLessEqual(Less_Eq lessEqual) {
+	public T visitLessEqual(Less_Eq lessEqual) {
 		System.out.println(lessEqual);
 		this.visitBinaryExpression(lessEqual);
 		
@@ -219,7 +221,7 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitLess(Less less) {
+	public T visitLess(Less less) {
 		System.out.println(less);
 		this.visitBinaryExpression(less);
 		
@@ -227,32 +229,38 @@ public class Visitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitIdentifier(Identifier identifier) {
+	public T visitIdentifier(Identifier identifier) {
 		System.out.println(identifier);
 		return null;
 	}
 
 	@Override
-	public Void visitBooleanLiteral(BooleanLiteral booleanLiteral) {
+	public T visitBooleanLiteral(BooleanLiteral booleanLiteral) {
 		System.out.println(booleanLiteral);
 		return null;
 	}
 
 	@Override
-	public Void visitDecimalLiteral(DecimalLiteral decimalLiteral) {
+	public T visitDecimalLiteral(DecimalLiteral decimalLiteral) {
 		System.out.println(decimalLiteral);
 		return null;
 	}
 
 	@Override
-	public Void visitIntLiteral(IntLiteral intLiteral) {
+	public T visitIntLiteral(IntLiteral intLiteral) {
 		System.out.println(intLiteral);
 		return null;
 	}
 
 	@Override
-	public Void visitStringLiteral(StringLiteral stringLiteral) {
+	public T visitStringLiteral(StringLiteral stringLiteral) {
 		System.out.println(stringLiteral);
+		return null;
+	}
+
+	@Override
+	public T visitType(Type type) {
+		System.out.println("Primitive type: " + type.getTypeName());
 		return null;
 	}
 

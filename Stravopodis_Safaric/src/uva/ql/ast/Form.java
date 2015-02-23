@@ -27,6 +27,9 @@ public class Form extends ASTNode{
 	public List<Statement> getStatement(){
 		return this.statement;
 	}
+	public CodeLines getCodeLines(){
+		return this.codeLines;
+	}
 	@Override
 	public String toString(){
 		return "Form(" + this.identifier.toString() + "," + statement.toString() + ")";
@@ -35,7 +38,7 @@ public class Form extends ASTNode{
 	public GenericValue<?> evaluate() {
 		return null;
 	}
-	public <T> void accept(VisitorInterface<T> visitor){
-		visitor.visitForm(this);
+	public <T> T accept(VisitorInterface<T> visitor){
+		return visitor.visitForm(this);
 	}
 }

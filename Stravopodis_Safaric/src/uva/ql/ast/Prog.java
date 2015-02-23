@@ -11,7 +11,7 @@ public class Prog extends ASTNode{
 		super(_codeLines);
 		this.form = _form;
 	}
-	public Form getProg(){
+	public Form getForm(){
 		return this.form;
 	}
 	
@@ -23,7 +23,7 @@ public class Prog extends ASTNode{
 	public GenericValue<?> evaluate() {
 		return null;
 	}
-	public <T> void accept(VisitorInterface<T> visitor){
-		visitor.visitProg(this);
+	public <T> T accept(VisitorInterface<T> visitor){
+		return visitor.visitProg(this);
 	}
 }

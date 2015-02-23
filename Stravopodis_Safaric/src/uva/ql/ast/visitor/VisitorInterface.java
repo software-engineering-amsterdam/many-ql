@@ -1,5 +1,10 @@
-package uva.ql.ast.expressions;
+package uva.ql.ast.visitor;
 
+import uva.ql.ast.ASTNode;
+import uva.ql.ast.Form;
+import uva.ql.ast.Prog;
+import uva.ql.ast.declarations.Declaration;
+import uva.ql.ast.expressions.*;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.DecimalLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
@@ -18,8 +23,22 @@ import uva.ql.ast.expressions.math.Division;
 import uva.ql.ast.expressions.math.Exponentiation;
 import uva.ql.ast.expressions.math.Multiplication;
 import uva.ql.ast.expressions.math.Substraction;
+import uva.ql.ast.question.Question;
+import uva.ql.ast.statements.Assign;
+import uva.ql.ast.statements.IfStatement;
+import uva.ql.ast.statements.Statement;
 
-public interface ExpressionVisitor<T> {
+public interface VisitorInterface<T>{
+	
+	public T visitProg(Prog prog);
+	public T visitForm(Form form);
+	public T visitASTNode(ASTNode node);
+	
+	public T visitStatement(Statement statement);
+	public T visitQuestion(Question question);
+	public T visitDeclaration(Declaration declaration);
+	public T visitIfStatement(IfStatement ifStatement);
+	public T visitAssign(Assign assign);
 	
 	public T visitBinaryExpression(BinaryExpressions expression);
 	public T visitExpression(Expression expression);
@@ -36,6 +55,8 @@ public interface ExpressionVisitor<T> {
 	public T visitGreater(Greater greater);
 	public T visitLessEqual(Less_Eq lessEqual);
 	public T visitLess(Less less);
+	
+	public T visitType(Type type);
 	
 	public T visitIdentifier(Identifier identifier);
 	public T visitBooleanLiteral(BooleanLiteral booleanLiteral);

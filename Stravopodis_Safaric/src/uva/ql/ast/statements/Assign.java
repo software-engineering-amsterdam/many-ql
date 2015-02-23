@@ -3,6 +3,7 @@ package uva.ql.ast.statements;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.Identifier;
+import uva.ql.ast.visitor.VisitorInterface;
 
 public class Assign extends Statement {
 	private Identifier identifier;
@@ -25,8 +26,14 @@ public class Assign extends Statement {
 	public Identifier getIdentifier(){
 		return this.identifier;
 	}
+	public CodeLines getCodeLines(){
+		return this.codeLines;
+	}
+	public String getString(){
+		return this.string;
+	}
 	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
+	public <T> T accept(VisitorInterface<T> visitor) {
 		return visitor.visitAssign(this);
 	}
 	@Override
