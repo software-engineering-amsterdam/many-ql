@@ -2,7 +2,7 @@ package org.uva.sea.ql.AST.expression.booleanexpression;
 
 import org.uva.sea.ql.AST.expression.BinaryExpression;
 import org.uva.sea.ql.AST.expression.Expression;
-import org.uva.sea.ql.AST.value.AbstractValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 public class GreaterEqualExpression extends BinaryExpression{
 
@@ -11,7 +11,7 @@ public class GreaterEqualExpression extends BinaryExpression{
 	}
 
 	@Override
-	public AbstractValue<?> interpretExpression() {
-		return null;
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 }

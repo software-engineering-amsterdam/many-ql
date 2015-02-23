@@ -1,6 +1,6 @@
 package org.uva.sea.ql.AST.literal;
 
-import org.uva.sea.ql.AST.value.DoubleValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 public class DecimalLiteral extends AbstractLiteral {
 
@@ -11,8 +11,8 @@ public class DecimalLiteral extends AbstractLiteral {
 	}
 
 	@Override
-	public DoubleValue interpretExpression() {
-		return new DoubleValue(doubleValue);
+	public void accept(Visitor visitor) {
+		visitor.visit(this);		
 	}
-
+	
 }

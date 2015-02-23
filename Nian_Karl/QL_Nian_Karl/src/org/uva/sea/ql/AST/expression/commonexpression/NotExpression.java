@@ -4,6 +4,7 @@ import org.uva.sea.ql.AST.expression.DataTypeExpression;
 import org.uva.sea.ql.AST.literal.AbstractLiteral;
 import org.uva.sea.ql.AST.literal.BooleanLiteral;
 import org.uva.sea.ql.AST.value.BooleanValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 public class NotExpression extends DataTypeExpression{
 	
@@ -14,7 +15,7 @@ public class NotExpression extends DataTypeExpression{
 	}
 
 	@Override
-	public BooleanValue interpretExpression() {
-		return booleanLiteral.interpretExpression();
+	public void accept(Visitor visitor) {
+		visitor.visit(this);		
 	}
 }

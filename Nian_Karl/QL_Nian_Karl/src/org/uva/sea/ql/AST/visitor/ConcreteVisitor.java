@@ -1,6 +1,7 @@
 package org.uva.sea.ql.AST.visitor;
 
-import org.uva.sea.ql.AST.Node;
+
+import org.uva.sea.ql.AST.Visitable;
 import org.uva.sea.ql.AST.expression.Expression;
 import org.uva.sea.ql.AST.expression.booleanexpression.AndExpression;
 import org.uva.sea.ql.AST.expression.booleanexpression.EqualExpression;
@@ -19,21 +20,22 @@ import org.uva.sea.ql.AST.expression.mathexpression.SubExpression;
 import org.uva.sea.ql.AST.value.AbstractValue;
 import org.uva.sea.ql.AST.value.IntegerValue;
 
-public class ConcreteVisitor implements Visitor<AbstractValue<?>>{
+public class ConcreteVisitor implements Visitor {
 
 	@Override
-	public void visit(Node node) {
+	public void visit(Visitable node) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public AbstractValue<AbstractValue<?>> visit(AddExpression expr) {
+	public AbstractValue<Integer> visit(AddExpression expr) {
 		Expression left = expr.getLeftExpression();
 		Expression right = expr.getRightExpression();
-		IntegerValue leftValue = (IntegerValue) left.interpretExpression();
-		IntegerValue rightValue = (IntegerValue) right.interpretExpression();
-		return leftValue.add(rightValue);
+//		IntegerValue leftValue = (IntegerValue) left.();
+//		IntegerValue rightValue = (IntegerValue) right.interpretExpression();
+//		return leftValue.add(rightValue);
+		return null;
 	}
 
 	@Override
