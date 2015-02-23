@@ -11,7 +11,7 @@ class Variable < Expression
   end
   
   def type
-    
+    "Pietje" 
   end
 end
 
@@ -56,8 +56,8 @@ class BinaryExpression < Expression
   end
 
   def accept(visitor)
-    lhs.accept(visitor)
-    rhs.accept(visitor)
+    visitor.visit(self)
+    [lhs.accept(visitor), rhs.accept(visitor)]
   end
 end
 
@@ -66,8 +66,8 @@ class BooleanExpression < BinaryExpression # || &&
     :boolean
   end
 
-  def argument_type
-    :boolean
+  def possible_argument_types
+    [:boolean]
   end
 end
 
@@ -76,7 +76,7 @@ class EqualityExpression < BinaryExpression # ==, !=
     :boolean
   end
 
-  def argument_type
+  def possible_argument_types
     [:boolean, :string, :integer]
   end
 end
@@ -86,8 +86,8 @@ class OrderingExpression < BinaryExpression # <, >, <=, >=
     :boolean
   end
 
-  def argument_type
-    :integer
+  def possible_argument_types
+    [:integer]
   end
 end
 
@@ -96,8 +96,8 @@ class IntegerExpression < BinaryExpression # * + - /
     :integer
   end
 
-  def argument_type
-    :integer
+  def possible_argument_types
+    [:integer]
   end
 end
 

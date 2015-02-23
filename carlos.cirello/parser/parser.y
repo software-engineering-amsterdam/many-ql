@@ -46,17 +46,22 @@ var finalQuestionaire *ast.QuestionaireNode
 %token QuotedStringToken
 %token TextToken
 %token StringQuestionToken
-%token IntQuestionToken
+%token NumericQuestionToken
 %token BoolQuestionToken
 %token ComputedQuestionToken
-%token '+' '-' '*' '/' '(' ')'
+%token '+' '-' '*' '/' '(' ')' '!'
 %token LessThanToken
 %token LessOrEqualsThanToken
 %token MoreThanToken
 %token MoreOrEqualsThanToken
 %token EqualsToToken
+%token NotEqualsToToken
 %token NumericToken
 %token ElseToken
+%token BoolAndToken
+%token BoolOrToken
+%token BoolTrueToken
+%token BoolFalseToken
 
 %%
 
@@ -107,9 +112,9 @@ questionType:
 	{
 		$$.questionType = new(ast.StringQuestion)
 	}
-	| IntQuestionToken
+	| NumericQuestionToken
 	{
-		$$.questionType = new(ast.IntQuestion)
+		$$.questionType = new(ast.NumericQuestion)
 	}
 	| BoolQuestionToken
 	{
@@ -117,18 +122,16 @@ questionType:
 	}
 	| ComputedQuestionToken '=' term
 	{
-		computedQuestion := new(ast.ComputedQuestion)
-		computedQuestion.Expression = $3.evaluatable
-		$$.questionType = computedQuestion
+		$$.questionType = ast.NewComputedQuestion($3.evaluatable)
 	}
 	| term
 	{
-		qllex.Error(fmt.Sprintf("Question type must be 'string', 'integer', 'bool' or 'computed'. Found: %s", $1.content))
+		qllex.Error(fmt.Sprintf("Question type must be 'string', 'numeric', 'bool' or 'computed'. Found: %s", $1.content))
 	}
 	;
 
 ifBlock:
-	IfToken '(' evaluatable ')' '{' stack '}'
+	IfToken '(' andOrBlock ')' '{' stack '}'
 	{
 		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, nil, $1.position)
 
@@ -137,7 +140,7 @@ ifBlock:
 		$3.evaluatable = new(ast.Evaluatable)
 		$6.stack = []*ast.ActionNode{}
 	}
-	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken ifBlock
+	| IfToken '(' andOrBlock ')' '{' stack '}' ElseToken ifBlock
 	{
 		$$.ifNode = ast.NewIfNode($3.evaluatable, $6.stack, $9.ifNode, $1.position)
 
@@ -147,7 +150,7 @@ ifBlock:
 		$6.stack = []*ast.ActionNode{}
 		$9.ifNode = nil
 	}
-	| IfToken '(' evaluatable ')' '{' stack '}' ElseToken '{' stack '}'
+	| IfToken '(' andOrBlock ')' '{' stack '}' ElseToken '{' stack '}'
 	{
 		elseNode := ast.NewIfNode(
 			ast.NewTermNode(ast.NumericConstantNodeType, 1, "", "", $8.position),
@@ -165,10 +168,26 @@ ifBlock:
 	}
 	;
 
+andOrBlock:
+	evaluatable BoolAndToken evaluatable
+	{
+		$$.evaluatable = ast.NewBoolAndNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| evaluatable BoolOrToken evaluatable
+	{
+		$$.evaluatable = ast.NewBoolOrNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| evaluatable
+	;
+
 evaluatable:
 	term EqualsToToken term
 	{
 		$$.evaluatable = ast.NewEqualsNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| term NotEqualsToToken term
+	{
+		$$.evaluatable = ast.NewNotEqualsNode($1.evaluatable, $3.evaluatable, $2.position)
 	}
 	| term MoreThanToken term
 	{
@@ -185,6 +204,10 @@ evaluatable:
 	| term LessOrEqualsThanToken term
 	{
 		$$.evaluatable = ast.NewLessOrEqualsThanNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| '!' evaluatable
+	{
+		$$.evaluatable = ast.NewBoolNegNode($2.evaluatable, $1.position)
 	}
 	| term
 	;
@@ -205,6 +228,10 @@ term:
 	| term '/' term
 	{
 		$$.evaluatable = ast.NewMathDivNode($1.evaluatable, $3.evaluatable, $2.position)
+	}
+	| '(' andOrBlock ')'
+	{
+		$$ = $2
 	}
 	| value
 	{
@@ -244,6 +271,28 @@ value:
 			ast.StringConstantNodeType,
 			$$.num,
 			$1.content,
+			"",
+			$1.position,
+		)
+		$$.termNode = termNode
+	}
+	| BoolTrueToken
+	{
+		termNode := ast.NewTermNode(
+			ast.NumericConstantNodeType,
+			1,
+			"",
+			"",
+			$1.position,
+		)
+		$$.termNode = termNode
+	}
+	| BoolFalseToken
+	{
+		termNode := ast.NewTermNode(
+			ast.NumericConstantNodeType,
+			0,
+			"",
 			"",
 			$1.position,
 		)

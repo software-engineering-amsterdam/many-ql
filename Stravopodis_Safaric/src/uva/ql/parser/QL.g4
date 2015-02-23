@@ -14,9 +14,17 @@ grammar QL;
 
 prog	: form EOF ;
 
-form	: 'form' ID '{' stat* '}' ;
+form	: 'form' Identifier '{' stms+=stat* '}' ;
 
+<<<<<<< Updated upstream
 quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
+=======
+<<<<<<< HEAD
+quest 	: 'question' Identifier 'typeof' primitiveType '{' stms+=stat*'}';
+=======
+quest 	: 'question' ID typeof primitiveType '{' stms+=stat* '}' ;
+>>>>>>> FETCH_HEAD
+>>>>>>> Stashed changes
 
 stat	: expr
 		| quest
@@ -25,61 +33,58 @@ stat	: expr
 	 	| assign
 	 	;
 
-decl		: primitiveType ID '='? expr? ';';
+decl		: primitiveType Identifier '='? expr? ';';
 
-assign		: ID '=' expr ';' 	# AssignExpr			
-			| ID '=' STRING ';' # AssignStr; 				
+assign		: Identifier '=' exp = expr ';' 	# AssignExpr			
+			| Identifier '=' str = STRING ';' 	# AssignStr; 				
 
-expr 		: x = expr op = EXP<assoc=right> y = expr 	
+expr 		: LP x = expr RP
+			| x = expr op = EXP<assoc=right> y = expr 	
 			| x = expr op = (MUL | DIV) y = expr
 			| x = expr op = (ADD | SUB) y = expr
 			| x = expr op = (LESS |LESS_EQUAL | GREATER | GREATER_EQUAL) y = expr
 			| x = expr op = (EQUAL | NOT_EQUAL) y = expr
 			| x = expr op = LOG_AND y = expr
-			| x = expr op = LOG_OR y = expr
-			| LP x = expr RC																		
+			| x = expr op = LOG_OR y = expr																		
 			| lit = literal																		
 			;
 	
-ifStatement		: ifThen = 'if' '(' expr ')' '{' stat '}';
+ifStatement		: 'if' '(' expr ')' '{' stms+=stat* '}';
 	
 
 literal		: BooleanLiteral
-			| (INT | ('(-'INT')')) 			
-			| (FLOAT | ('(-'FLOAT')'))		
-			| (CURRENCY | ('(-'CURRENCY')'))
-			| ID							
+			| Integer		
+			| Decimal
+			| Identifier							
 			;
 
 QuestionLiteral	: 'OrdinaryQuestion'
 				| 'ComputableQuestion'
 				;
-	
+
 BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
 primitiveType	: 'boolean'
-				| 'float'
-				| 'currency'
+				| 'decimal'
 				| 'string'
 				| 'int'
 				;
 
-WS			: (' ' | NL | '\t') -> skip;
+Identifier	: ID_LETTER (ID_LETTER | DIGIT)* ;
 
-ID			: ID_LETTER (ID_LETTER | INT)* ;
+Integer		: (DIGIT | ('(-'DIGIT')')) ;
+
+Decimal		: ('(''-')? DIGIT+ '.' DIGIT* ')'? ;
+
+WS			: (' ' | NL | '\t') -> skip;
 
 /* It gets form, if etc as an identifier and not as keywords */
 
 ID_LETTER	: 'a'..'z' | 'A'..'Z' | '_' ;
 
-INT			: '0' | [1-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
-
-FLOAT		: INT+ '.' INT*	// How to set the precision to for instance 4? That it returns a value of this precision
-			| '.' INT+;
-
-CURRENCY	: FLOAT;
+DIGIT			: '0' | [1-9] [0-9]*  ;	// We cannot use [0-9]+ because this would mean that 01 + 3 would be acceptable
 
 STRING 		: '"'	(ESC|.)*? '"';
 fragment
@@ -90,8 +95,7 @@ COMMENT		: '/*' .*? '*/' -> skip;	// Multi line comments
 
 /* KEYWORDS - TOKENS */ 
 
-typeof		: 'typeof';
-questionType: 'questionType';
+
 MUL			: '*' ;
 DIV			: '/' ;
 ADD			: '+' ;
@@ -114,7 +118,3 @@ EXP			: '^' ;
 /* semantic actions - next to the production rules, and then call the constructor */
 /* create a class that implements the visitor - because ANTLR generates only visitor interface */
 /* the listener ->  */
-
-
-
-

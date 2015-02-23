@@ -293,7 +293,7 @@ end
 # reduce 5 omitted
 
 def _reduce_6(val, _values, result)
- result = Question.new(description: val[0], variable_name: val[1], type: val[3]) 
+ result = Question.new(description: val[0], variable_name: val[1], type: val[3].to_sym) 
     result
 end
 

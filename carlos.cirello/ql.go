@@ -1,18 +1,35 @@
 package main
 
 import (
+	"log"
+	"os"
+	"runtime/pprof"
+
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/cli/iostream"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/csvinput"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/csvoutput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
 )
 
 func main() {
-	srcFn, inFn, outFn := cli.Args()
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("error:", r)
+		}
+	}()
+	srcFn, inFn, outFn, cpuProfileFn := cli.Args()
+	if cpuProfileFn != "" {
+		f, err := os.Create(cpuProfileFn)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 
 	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)

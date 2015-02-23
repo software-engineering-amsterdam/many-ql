@@ -13,8 +13,9 @@ public class IfCondition extends Statement
     private Expr expr;
     private List<Statement> statements;
 
-    public IfCondition(Expr expr, List<Statement> statements)
+    public IfCondition(Expr expr, List<Statement> statements, int lineNumber)
     {
+        super(lineNumber);
         this.expr = expr;
         this.statements = statements;
     }

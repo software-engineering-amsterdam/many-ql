@@ -1,25 +1,15 @@
 package ast.expression.logical;
 
+import ast.expression.BinaryExpression;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 
 // For &&
 
-public class AndExpression extends Expression {
-			
-	private Expression leftExp, rightExp;
-				
+public class AndExpression extends BinaryExpression {
+							
 	public AndExpression (Expression leftExp, Expression rightExp) {
-		this.leftExp = leftExp;
-		this.rightExp = rightExp;
-	}
-				
-	public Expression getLeftExp() {
-		return leftExp;
-	}
-				
-	public Expression getRightExp() {
-		return rightExp;
+		super(leftExp, rightExp);
 	}
 				
 	@Override
@@ -29,9 +19,8 @@ public class AndExpression extends Expression {
 	
 	@Override
 	public String toString() {
-		return getLeftExp() + " && " + getRightExp();
+		return this.getLeftExpression().toString() + " && " + this.getRightExpression().toString();
 	}
-
 }
 
 

@@ -8,6 +8,8 @@ type StringQuestion struct {
 	pos   scanner.Position
 }
 
+// StringQuestionType constant used for type comparison internally in
+// interpreter and frontend
 const StringQuestionType = "string"
 
 // From takes the input from Frontend and stores locally - String

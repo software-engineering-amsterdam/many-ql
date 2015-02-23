@@ -1,5 +1,6 @@
 package lang.ql.ast.statement;
 
+import lang.ql.ast.type.Type;
 import lang.ql.semantics.Visitor;
 
 /**
@@ -8,13 +9,14 @@ import lang.ql.semantics.Visitor;
 public class Question extends Statement
 {
     private String id;
-    private QuestionType questionType;
+    private Type type;
     private String text;
 
-    public Question(String id, QuestionType questionType, String text)
+    public Question(String id, Type questionType, String text, int lineNumber)
     {
+        super(lineNumber);
         this.id = id;
-        this.questionType = questionType;
+        this.type = questionType;
         this.text = text;
     }
 
@@ -23,9 +25,9 @@ public class Question extends Statement
         return this.id;
     }
 
-    public QuestionType getQuestionType()
+    public Type getType()
     {
-        return this.questionType;
+        return this.type;
     }
 
     public String getText()

@@ -1,8 +1,8 @@
 package lang.ql.semantics;
 
-import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.Question;
-import lang.ql.ast.statement.QuestionType;
+import lang.ql.ast.type.Type;
+import lang.ql.semantics.errors.Error;
 
 import java.util.*;
 
@@ -11,54 +11,43 @@ import java.util.*;
  */
 public class SymbolTable
 {
-    private Map<String, QuestionType> symbols;
-    private Set<RuntimeException> errors;
-    private Set<Question> questions;
+    private Map<String, Type> symbols;
+    private QuestErrInfo questErrInfo;
 
     public SymbolTable()
     {
-        this.symbols = new HashMap<String, QuestionType>();
-        this.errors = new HashSet<RuntimeException>();
-        this.questions = new HashSet<Question>();
+        this.symbols = new HashMap<String, Type>();
+        this.questErrInfo = new QuestErrInfo();
     }
 
-    public void define(Question q, QuestionType type)
+    public QuestErrInfo getQuestErrInfo()
+    {
+        return this.questErrInfo;
+    }
+
+    public void define(Question q, Type type)
     {
         String id = q.getId();
         if (this.symbols.containsKey(id))
         {
-            QuestionType duplicateType = this.symbols.get(id);
-            IllegalStateException ex = new IllegalStateException(ErrorMessages.identifierAlreadyDeclared(id));
+            Type duplicateType = this.symbols.get(id);
+            Question duplicateQ = this.questErrInfo.getQuestionsById(id).get(0);
+            Error error = Error.identifierAlreadyDeclared(id, duplicateQ.getLineNumber(), q.getLineNumber());
 
             if (!(type.equals(duplicateType)))
             {
-                ex = new IllegalStateException(ErrorMessages.identifierDeclaredOfDiffType(id));
+                error = Error.identifierDeclaredOfDiffType(id, duplicateQ.getLineNumber(), q.getLineNumber());
             }
 
-            this.errors.add(ex);
+            this.questErrInfo.addMessage(error);
         }
 
         this.symbols.put(id, type);
-        this.questions.add(q);
+        this.questErrInfo.addQuestion(q);
     }
 
-    public QuestionType resolve(String name)
+    public Type resolve(String name)
     {
-        assert this.symbols.containsKey(name);
-
         return this.symbols.get(name);
-    }
-
-    public List<Question> getQuestionsById(String id)
-    {
-        List<Question> result = new ArrayList<Question>();
-        for (Question q : this.questions)
-        {
-            if (q.getId().equals(id))
-            {
-                result.add(q);
-            }
-        }
-        return result;
     }
 }

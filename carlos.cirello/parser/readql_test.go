@@ -3,13 +3,15 @@ package parser
 import (
 	"strings"
 	"testing"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 )
 
 func TestBasic(t *testing.T) {
 	form := ReadQL(
 		strings.NewReader(`form SomeForm {
 			"QuestionLabel" question1 string
-			"QuestionLabel2" question2 integer
+			"QuestionLabel2" question2 numeric
 			"QuestionLabel3" question3 bool
 		}`),
 		"test.ql",
@@ -24,7 +26,7 @@ func TestComments(t *testing.T) {
 	form := ReadQL(
 		strings.NewReader(`form SomeForm {
 			"QuestionLabel" question1 string
-			//"QuestionLabel2" question2 integer
+			//"QuestionLabel2" question2 numeric
 			/*"QuestionLabel3" question3 bool*/
 		}`),
 		"test.ql",
@@ -40,12 +42,12 @@ func TestIf(t *testing.T) {
 		strings.NewReader(`
 		form SomeForm {
 			"QuestionLabel" question1 string
-			"QuestionLabel2" question2 integer
+			"QuestionLabel2" question2 numeric
 			"QuestionLabel3" question3 bool
 
 			if (question3) {
 				"Why are you happy today?" questionFour string
-				"Grade your happiness?"    questionFive integer
+				"Grade your happiness?"    questionFive numeric
 			}
 		}
 		`),
@@ -102,7 +104,7 @@ func TestMultipleIfs(t *testing.T) {
 	form := ReadQL(
 		strings.NewReader(`
 		form SomeForm {
-			"QuestionLabel2" question2 integer
+			"QuestionLabel2" question2 numeric
 			"QuestionLabel3" question3 bool
 
 			if (question3) {
@@ -110,18 +112,18 @@ func TestMultipleIfs(t *testing.T) {
 			}
 
 			if (question2 > 5) {
-				"Bigger than 5?" questionSix integer
+				"Bigger than 5?" questionSix numeric
 			}
 
 			if (question2 < 5) {
-				"Smaller than 5?" questionSeven integer
+				"Smaller than 5?" questionSeven numeric
 				if (question2 < 3) {
-					"Smaller than 3?" questionEight integer
-					"Smaller than 2?" questionNine integer
+					"Smaller than 3?" questionEight numeric
+					"Smaller than 2?" questionNine numeric
 				}
 				if (question2 < 1) {
-					"Smaller than 1?" questionTen integer
-					"Smaller than 0?" questionEleven integer
+					"Smaller than 1?" questionTen numeric
+					"Smaller than 0?" questionEleven numeric
 				}
 				"Why?" questionTwelve string
 			}
@@ -141,6 +143,9 @@ func TestIfArithAndComparisonExpressions(t *testing.T) {
 		strings.NewReader(`
 		form Math {
 			if(100 + 200 > 300){}
+			if(100 + 200 > 300 and 300 > 100){}
+			if(100 + 200 > 300 or 300 > 100){}
+			if(1 != 2){}
 		}
 		`),
 		"test.ql",
@@ -155,7 +160,7 @@ func TestCalculatedQuestion(t *testing.T) {
 	form := ReadQL(
 		strings.NewReader(`
 		form CalculatedFields {
-			"Question 1" QuestionA integer
+			"Question 1" QuestionA numeric
 
 			"Question Calculated"
 			questionThree computed = questionA * 2
@@ -203,4 +208,72 @@ func TestIfElseConditions(t *testing.T) {
 		t.Errorf("Compilation should not return nil")
 		return
 	}
+}
+
+func TestNegation(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+		form SomeForm {
+			"Question 1" questionOne string
+			"Question 2" questionTwo numeric
+
+			if (!(questionOne == "string" and questionTwo == 42)) {
+				"NegationBlock" computedQuestion computed = questionTwo * 2
+			}
+		}
+		`),
+		"test.ql",
+	)
+	rootCondition := form.Stack()[2].Action().(*ast.IfNode).Conditions()
+	if got, ok := rootCondition.(*ast.BoolNegNode); !ok {
+		t.Errorf("severe grammar error: expected BoolNegNode. got: %T", got)
+	}
+
+	firstChild := rootCondition.(*ast.BoolNegNode).SingleTermNode.Term()
+	if got, ok := firstChild.(*ast.BoolAndNode); !ok {
+		t.Errorf("severe grammar error: expected BoolAndNode. got: %T", got)
+	}
+
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+}
+
+func TestTrueFalseKeywords(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+			form SomeForm {
+				"bool question"	boolq bool
+				if (boolq == true) {
+					"sub question?" subq string
+				}
+			}
+		`),
+		"test.ql",
+	)
+
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+
+	rootCondition := form.Stack()[1].Action().(*ast.IfNode).Conditions()
+	if got, ok := rootCondition.(*ast.EqualsNode); !ok {
+		t.Errorf("severe grammar error: expected EqualsNode. got: %T", got)
+	}
+
+	firstChild := rootCondition.(*ast.EqualsNode).DoubleTermNode.RightTerm()
+	if got, ok := firstChild.(*ast.TermNode); !ok {
+		t.Errorf("severe grammar error: expected TermNode. got: %T", got)
+	}
+
+}
+
+func TestInvalidSyntax(t *testing.T) {
+	defer func() {
+		recover()
+	}()
+	ReadQL(strings.NewReader("form A"), "invalid.ql")
+	t.Errorf("Invalid syntax should panic")
 }

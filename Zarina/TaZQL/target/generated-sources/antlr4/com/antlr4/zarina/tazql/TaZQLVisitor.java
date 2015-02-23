@@ -12,6 +12,12 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link TaZQLParser#questionnaire}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionnaire(@NotNull TaZQLParser.QuestionnaireContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code booleanType}
 	 * labeled alternative in {@link TaZQLParser#type}.
 	 * @param ctx the parse tree
@@ -33,13 +39,6 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntegerType(@NotNull TaZQLParser.IntegerTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code eqNotExpression}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEqNotExpression(@NotNull TaZQLParser.EqNotExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code equationExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
@@ -47,19 +46,19 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEquationExpression(@NotNull TaZQLParser.EquationExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code bracketsExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBracketsExpression(@NotNull TaZQLParser.BracketsExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code multDivExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMultDivExpression(@NotNull TaZQLParser.MultDivExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code notExpression}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotExpression(@NotNull TaZQLParser.NotExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ifStatement}
 	 * labeled alternative in {@link TaZQLParser#question}.
@@ -96,6 +95,13 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumber(@NotNull TaZQLParser.NumberContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code comparissionExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparissionExpression(@NotNull TaZQLParser.ComparissionExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code andExpression}
 	 * labeled alternative in {@link TaZQLParser#expression}.
 	 * @param ctx the parse tree
@@ -123,13 +129,6 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAddSubExpression(@NotNull TaZQLParser.AddSubExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code nestedExpression}
-	 * labeled alternative in {@link TaZQLParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNestedExpression(@NotNull TaZQLParser.NestedExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code stringType}
 	 * labeled alternative in {@link TaZQLParser#type}.
 	 * @param ctx the parse tree
@@ -150,4 +149,11 @@ public interface TaZQLVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitText(@NotNull TaZQLParser.TextContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link TaZQLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnaryExpression(@NotNull TaZQLParser.UnaryExpressionContext ctx);
 }

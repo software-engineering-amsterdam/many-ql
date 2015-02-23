@@ -1,0 +1,34 @@
+QL
+Creating a DSL programming language by the book
+23 Feb 2015
+Tags: language, compiler, software construction
+
+Carlos Cirello
+University of Amsterdam
+carlos.cirello.nl@gmail.com
+http://cirello.org/
+@dericofilho
+
+* Architecture
+
+.image architecture.png
+
+- Interpreter, Symbol Tables and Frontends are separated - independent computations.
+
+* Symbol Table
+.code ../interpreter/symboltable/table.go /^func \(s \*SymbolTable\) loop/,/^}/
+
+* Interpreter and Symbol Table
+.code ../interpreter/loop.go /case event.Answers/,/fallthrough/
+
+* Symbol Table - Type Checker
+.code ../interpreter/visitor/typechecker/symboltable.go /case event.SymbolRead/,/r\.Name\)\)\n\t\t\t}\n\n/
+
+* Interpreter - Type Checker
+.code ../interpreter/loop.go /func New/,/return toFrontend, fromFrontend\n}/
+
+* Interpreter - Type Checker - continued
+.code ../interpreter/loop.go /func typecheck/,/}\n}/
+
+* Type Checker - playground
+.play playground.go /func main/,/}\n}/

@@ -14,5 +14,4 @@ public class Question extends Statement{
 		this.type = type;
 		this.expr = expr;
 	}
-
 }

@@ -1,8 +1,12 @@
 package lang.ql.semantics.values;
 
+import lang.ql.semantics.ValueVisitor;
+
 /**
  * Created by bore on 16/02/15.
  */
+// TODO: add handling for DateValue and the associated operations
+// TODO: add support for binary operations handling both types (integer and decimal) ?
 public abstract class Value<T>
 {
     private T value;
@@ -246,4 +250,6 @@ public abstract class Value<T>
     {
         throw new IllegalStateException();
     }
+
+    public abstract void accept(ValueVisitor visitor);
 }

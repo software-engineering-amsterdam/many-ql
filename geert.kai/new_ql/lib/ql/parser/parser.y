@@ -20,7 +20,7 @@ rule
     | conditional
     ;
   question
-    : string variable_name ':' type { result = Question.new(description: val[0], variable_name: val[1], type: val[3]) }
+    : string variable_name ':' type { result = Question.new(description: val[0], variable_name: val[1], type: val[3].to_sym) }
     ;
   variable_name
     : VARIABLE_NAME 

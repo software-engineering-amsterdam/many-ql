@@ -2,28 +2,18 @@ package lang.ql.semantics;
 
 import lang.ql.ast.statement.Question;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by bore on 17/02/15.
  */
 public class QuestionDependencies
 {
-    private Map<String, Set<Question>> dependencies;
-    private Map<String, Question> idToQuestion;
+    private Map<String, Set<String>> dependencies;
 
     public QuestionDependencies()
     {
-        this.dependencies = new HashMap<String, Set<Question>>();
-        this.idToQuestion = new HashMap<String, Question>();
-    }
-
-    public Question getQuestionById(String id)
-    {
-        return this.idToQuestion.get(id);
+        this.dependencies = new HashMap<String, Set<String>>();
     }
 
     public void addDependency(Question q)
@@ -31,20 +21,56 @@ public class QuestionDependencies
         String id = q.getId();
         if (!(this.dependencies.containsKey(id)))
         {
-            this.idToQuestion.put(id, q);
-            this.dependencies.put(id, new HashSet<Question>());
+            this.dependencies.put(id, new HashSet<String>());
         }
     }
 
     public void addDependency(Question q, Question dep)
     {
         String id = q.getId();
-        if (this.dependencies.containsKey(id))
+        if (!this.dependencies.containsKey(id))
         {
-            this.dependencies.get(id).add(dep);
+            this.addDependency(q);
         }
 
-        this.addDependency(q);
-        this.dependencies.get(id).add(dep);
+        this.dependencies.get(id).add(dep.getId());
+    }
+
+    public List<String> findCycle()
+    {
+        for (String k : this.dependencies.keySet())
+        {
+            List<String> buffer = new ArrayList<String>();
+            buffer.add(k);
+            List<String> result = this.searchNeighbours(buffer);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+        return null;
+    }
+
+    private List<String> searchNeighbours(List<String> path)
+    {
+        String firstElement = path.get(0);
+        String lastElement = path.get(path.size()-1);
+        Set<String> neighbours = this.dependencies.get(lastElement);
+
+        for (String n : neighbours)
+        {
+            if (n.equals(firstElement))
+            {
+                return path;
+            }
+            path.add(n);
+            List<String> result = searchNeighbours(path);
+            if (result != null)
+            {
+                return result;
+            }
+            path.remove(path.size() - 1);
+        }
+        return null;
     }
 }
