@@ -5,7 +5,7 @@ import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 
-public class BoolLiteral implements Expression {
+public class BoolLiteral extends Literal implements Expression {
 	private final boolean _value;
 	
 	public BoolLiteral(boolean _value) {

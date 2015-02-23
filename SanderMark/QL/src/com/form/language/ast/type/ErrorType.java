@@ -1,6 +1,6 @@
 package com.form.language.ast.type;
 
-public class IntType extends Type {
+public class ErrorType extends Type {
 
 	@Override
 	public Type getType() {
@@ -8,8 +8,9 @@ public class IntType extends Type {
 	}
 	
 	@Override
-	public Boolean isIntType(){
+	public Boolean isErrorType(){
 		return true;
 	}
+
 
 }

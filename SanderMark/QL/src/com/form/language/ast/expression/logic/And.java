@@ -3,9 +3,10 @@ package com.form.language.ast.expression.logic;
 import com.form.language.ast.expression.BinaryExpression;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.BoolLiteral;
+import com.form.language.ast.type.BoolType;
+import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
-
 public class And extends BinaryExpression implements Expression {
 
 	public And(Expression left, Expression right) {
@@ -19,8 +20,8 @@ public class And extends BinaryExpression implements Expression {
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
-		return null;
+		if(left.getType().isBoolType() && right.getType().isBoolType()) return new BoolType();
+		return new ErrorType();
 	}
 
 }
