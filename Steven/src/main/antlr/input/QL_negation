@@ -1,0 +1,5 @@
+form formname{
+    if ( !NAME && NAME) {
+        name4 BOOLEAN "false"
+    }
+}
