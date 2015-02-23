@@ -2,8 +2,8 @@
 from antlr4 import *
 from ..parser.QLVisitor import QLVisitor
 from ..parser.QLParser import QLParser
-import .Nodes as Nodes
-from CustomTypes import *
+from . import Nodes
+from ..CustomTypes import *
 
 # This class defines a complete generic visitor for a parse tree produced by QLParser.
 class ParseTreeVisitor(QLVisitor):

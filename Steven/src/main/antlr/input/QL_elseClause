@@ -1,0 +1,7 @@
+form formname{
+    if(false){
+        name BOOLEAN "label"
+    }else{
+        name2 BOOLEAN "label"
+    }
+}

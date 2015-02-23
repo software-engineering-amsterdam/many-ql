@@ -58,7 +58,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
         ArrayList<AbstractPushable<?>> values = new ArrayList<AbstractPushable<?>>();
         try {
             IModel iModel = interopComponent(node.getIdent().getText(), values);
-            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) {};
+            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) { };
             push(abstractPushable);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
             values.add(pop());
         try {
             IModel iModel = interopComponent(node.getIdent().getText(), values);
-            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) {};
+            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) { };
             push(abstractPushable);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -98,6 +98,11 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
             @Override
             public String getString() {
                 return getValue();
+            }
+
+            @Override
+            public void apply(IModel model) {
+                model.caseString(getValue());
             }
         });
     }

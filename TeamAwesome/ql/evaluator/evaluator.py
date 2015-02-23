@@ -1,10 +1,9 @@
 from .Table import *
 from .EvaluatorTypes import *
 
-from AST import AST
-import ASTNodes
-from CustomTypes import *
-from TypeRules import OperatorTable
+from ..ast import AST, Nodes
+from ..CustomTypes import *
+from ..TypeRules import OperatorTable
 
 
 class Evaluator(object):
