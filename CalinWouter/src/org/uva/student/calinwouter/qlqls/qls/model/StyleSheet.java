@@ -42,6 +42,7 @@ public class StyleSheet extends AbstractModel<StyleSheet> {
         for (Page p : pages) {
             p.updateStates(headlessFormInterpreter, defaultList);
         }
+        notifyUpdate();
     }
 
     public StyleSheet() {
