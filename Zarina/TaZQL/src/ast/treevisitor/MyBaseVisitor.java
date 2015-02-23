@@ -58,7 +58,7 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return new Form(ctx.ID().getText(), questions);
 	}
 	
-	// QUESTION   ****todo: fix double quotes...****
+	// QUESTION
 	
 	@Override 
 	public SimpleQuestion visitSimpleQuestion(@NotNull TaZQLParser.SimpleQuestionContext ctx) { 
@@ -83,22 +83,20 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return new IfStatement((Expression) ctx.expression().accept(this), questions); 
 	}
 	
-	// TODO: fix if-else... double
 	@Override 
 	public IfElseStatement visitIfelseStatement(@NotNull TaZQLParser.IfelseStatementContext ctx) { 
 		List<Question> ifQuestions = new ArrayList<Question>();
-		for ( TaZQLParser.QuestionContext q : ctx.question() ) {
+		for ( TaZQLParser.QuestionContext q : ctx.thenBranch ) {
 			ifQuestions.add((Question) q.accept(this)); 
 		}
 		
 		List<Question> elseQuestions = new ArrayList<Question>();
-		for ( TaZQLParser.QuestionContext q : ctx.question() ) {
+		for ( TaZQLParser.QuestionContext q : ctx.elseBranch ) {
 		elseQuestions.add((Question) q.accept(this)); 
 		}
-		return new IfElseStatement((Expression) ctx.expression().accept(this),
+		return new IfElseStatement((Expression) ctx.cond.accept(this),
 									ifQuestions, elseQuestions); 
 	}
-	// doesn't work either, expects list. Question elseQuestions = (Question) ctx.question().get(1).accept(this);
 	
 	
 	// EXPRESSIONS

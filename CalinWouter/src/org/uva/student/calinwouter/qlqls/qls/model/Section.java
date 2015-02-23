@@ -6,8 +6,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Section extends AbstractModel<Section> {
+    private String ident;
     private List<AbstractFormField<?>> fields;
-    private List<Default> defaults; // TODO defaults...
+    private List<Default> defaultSettings;
+
+    public String getSectionName(){
+        return ident;
+    }
+
+    public List<AbstractFormField<?>> getFields() {
+        return fields;
+    }
+
+    public List<Default> getDefaultSettings() {
+        return defaultSettings;
+    }
 
     @Override
     public void caseQuestion(Question question) {
@@ -17,6 +30,11 @@ public class Section extends AbstractModel<Section> {
     @Override
     public void caseComputedValue(ComputedValue computedValue) {
         fields.add(computedValue);
+    }
+
+    @Override
+    public void caseDefault(Default defaultSetting) {
+        defaultSettings.add(defaultSetting);
     }
 
     @Override
@@ -33,5 +51,7 @@ public class Section extends AbstractModel<Section> {
 
     public Section() {
         fields = new LinkedList<AbstractFormField<?>>();
+        defaultSettings = new LinkedList<Default>();
+        visible = false;
     }
 }

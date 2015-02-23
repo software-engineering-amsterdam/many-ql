@@ -13,6 +13,7 @@ func main() {
 	form := parser.ReadQL(strings.NewReader(`
 	form SomeForm {
 		"QuestionLabel" question1 string
+		"QuestionLabel" question4 numeric
 
 		if(question3){
 			"question2" question2 bool
@@ -24,11 +25,23 @@ func main() {
 	}`), "test.ql")
 	tc, st := typechecker.New() // HL
 	tc.Visit(form)              // HL
+	printWarns(st)
+	printError(st)
+	fmt.Println("Success!")
+}
+
+func printError(st *typechecker.SymbolTable) {
 	if err := st.Err(); err != nil {
 		for _, e := range err {
 			fmt.Println(wordwrap.WrapString(fmt.Sprintln("Error:", e), 40))
 		}
-	} else {
-		fmt.Println("Success!")
+	}
+}
+
+func printWarns(st *typechecker.SymbolTable) {
+	if err := st.Warn(); err != nil {
+		for _, e := range err {
+			fmt.Println(wordwrap.WrapString(fmt.Sprintln("Warning:", e), 40))
+		}
 	}
 }
