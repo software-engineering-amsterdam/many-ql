@@ -10,14 +10,14 @@ import lang.ql.semantics.values.BooleanValue;
  */
 public class BoolInput extends Input
 {
-    public BoolInput(BooleanValue value)
+    public BoolInput()
     {
-        super(value);
+        super();
     }
 
-    public BoolInput(BooleanValue value, Boolean disabled)
+    public BoolInput(Boolean disabled)
     {
-        super(value, disabled);
+        super(disabled);
     }
 
     public void accept(GuiVisitor visitor)

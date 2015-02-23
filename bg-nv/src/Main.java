@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
 import lang.ql.gui.Modeler;
 import lang.ql.gui.SimpleGui;
+import lang.ql.gui.canvas.Canvas;
 import lang.ql.semantics.*;
 import lang.ql.ast.AstBuilder;
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -53,7 +54,8 @@ public class Main extends Application
     public void start(Stage primaryStage)
     {
         Modeler modeler = new Modeler(values);
-        modeler.visit(this.ast);
-        SimpleGui.run(modeler.getCanvas(), primaryStage);
+
+        // TODO: To cast, or not to cast...
+        SimpleGui.run((Canvas) modeler.visit(this.ast), primaryStage);
     }
 }
