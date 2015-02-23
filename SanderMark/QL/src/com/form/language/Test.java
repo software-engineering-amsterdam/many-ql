@@ -15,14 +15,14 @@ import org.junit.runner.notification.Failure;
 public class Test {
 	public static void main(String[] args) {
 		
-//		CharStream charStream = 
-//				new ANTLRInputStream("1+1 == true");
-//		GrammarLexer lexer = new GrammarLexer(charStream);
-//		TokenStream tokenStream = new CommonTokenStream(lexer);
-//		GrammarParser parser = new GrammarParser(tokenStream);
-//		Expression evaluator = parser.expression().result;
-//		System.out.println((evaluator.getType()));
-//		System.out.println((evaluator.evaluate()));
+/*		CharStream charStream = 
+				new ANTLRInputStream("\"abc\"");
+		GrammarLexer lexer = new GrammarLexer(charStream);
+		TokenStream tokenStream = new CommonTokenStream(lexer);
+		GrammarParser parser = new GrammarParser(tokenStream);
+		Expression evaluator = parser.expression().result;
+		System.out.println((evaluator.getType()));
+		System.out.println((evaluator.evaluate()));*/
 		
 		Result result = JUnitCore.runClasses(AstTest.class);
 	    for (Failure failure : result.getFailures()) {
