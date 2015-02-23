@@ -1,14 +1,14 @@
-package cons.ql.ast.expression.unary;
+package cons.ql.ast.expression.arithmetic;
 
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
 import cons.ql.ast.expression.Unary;
-import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.visitor.Visitor;
 
-public class Not extends Unary {
-	public Not(Expression operand) {
-		super(operand, "!");
+public class Pos extends Unary {
+	public Pos(Expression operand) {
+		super(operand, "+");
 	}
 	
 	@Override
@@ -18,6 +18,6 @@ public class Not extends Unary {
 	
 	@Override
 	public QLType getType() {
-		return new QLBoolean();
+		return new QLNumeric();
 	}
 }

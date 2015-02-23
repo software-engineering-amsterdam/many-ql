@@ -6,6 +6,8 @@ import cons.ql.ast.expression.Unary;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
+import cons.ql.ast.expression.arithmetic.Neg;
+import cons.ql.ast.expression.arithmetic.Pos;
 import cons.ql.ast.expression.arithmetic.Sub;
 import cons.ql.ast.expression.literal.BooleanLiteral;
 import cons.ql.ast.expression.literal.FloatLiteral;
@@ -18,6 +20,7 @@ import cons.ql.ast.expression.relational.GT;
 import cons.ql.ast.expression.relational.LEq;
 import cons.ql.ast.expression.relational.LT;
 import cons.ql.ast.expression.relational.NEq;
+import cons.ql.ast.expression.relational.Not;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLError;
@@ -25,9 +28,6 @@ import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.expression.unary.Neg;
-import cons.ql.ast.expression.unary.Not;
-import cons.ql.ast.expression.unary.Pos;
 
 public interface ExpressionVisitor<T> extends Visitor<T> {
 	

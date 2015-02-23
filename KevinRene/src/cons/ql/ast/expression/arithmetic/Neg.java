@@ -1,4 +1,4 @@
-package cons.ql.ast.expression.unary;
+package cons.ql.ast.expression.arithmetic;
 
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.QLType;
