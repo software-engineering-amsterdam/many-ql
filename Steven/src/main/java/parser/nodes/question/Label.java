@@ -22,4 +22,20 @@ public class Label implements AbstractNode {
         return visitor.visit(this);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Label label1 = (Label) o;
+
+        if (!label.equals(label1.label)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return label.hashCode();
+    }
 }

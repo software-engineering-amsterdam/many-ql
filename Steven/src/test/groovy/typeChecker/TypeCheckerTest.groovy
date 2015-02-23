@@ -92,4 +92,5 @@ class TypeCheckerTest extends Specification {
         "src/main/antlr/input/question/QL_cyclicQuestions"             | "name1"
         "src/main/antlr/input/question/QL_cyclicQuestionAndIdentifier" | "name1"
     }
+
 }

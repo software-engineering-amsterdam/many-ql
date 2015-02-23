@@ -14,7 +14,10 @@ import parser.nodes.statement.Statement;
 import parser.nodes.type.Number;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -25,8 +28,9 @@ public class TypeChecker implements Visitor {
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";
     public static final String EXPRESSION_EXPECTS_BOOLEAN = "Expression expects boolean operands for type: [%s], but found: [%s]";
     public static final String EXPRESSION_EXPECTS_NON_BOOLEAN = "Expression does not expect boolean operands for type: [%s], but found: [%s]";
-    private final Map<Identifier, QuestionType> questions;
+    private final Map<Identifier, Question> questions;
     private final Set<Identifier> identifiers;
+    private static final Logger logger = Logger.getLogger(TypeChecker.class.getName());
 
     public TypeChecker() {
         this.questions = new HashMap<>();
@@ -36,7 +40,32 @@ public class TypeChecker implements Visitor {
     @Override
     public AbstractNode visit(Form form) {
         visitStatement(form.getElements());
+        checkDuplicatedQuestionLabels();
         return form;
+    }
+
+    private void checkDuplicatedQuestionLabels() {
+        Set<Label> duplicatedLabels = getDuplicatedLabels();
+        duplicatedLabels.forEach(
+                label -> logger.warning(
+                        String.format("Found duplicate name declaration for: [%s]", label.getLabel())));
+    }
+
+    private Set<Label> getDuplicatedLabels() {
+        List<Label> labels = getLabels();
+        return labels.
+                stream()
+                .filter(n -> labels.stream()
+                        .filter(label -> label.equals(n))
+                        .count() > 1)
+                .collect(Collectors.toSet());
+    }
+
+    private List<Label> getLabels() {
+        return questions.entrySet()
+                .stream()
+                .map(entry -> entry.getValue().getLabel())
+                .collect(Collectors.toList());
     }
 
     private void visitStatement(List<Statement> statements) {
@@ -67,7 +96,7 @@ public class TypeChecker implements Visitor {
         if (questionAlreadyFound(question)) {
             return throwExceptionForDuplicateQuestion(question);
         } else {
-            return questions.put(question.getIdentifier(), question.getQuestionType());
+            return questions.put(question.getIdentifier(), question);
         }
     }
 
@@ -79,7 +108,7 @@ public class TypeChecker implements Visitor {
         } else {
             throw new TypeCheckException(
                     String.format(ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE,
-                            question.getIdentifier().getIdentifier(), questions.get(question.getIdentifier()).name()));
+                            question.getIdentifier().getIdentifier(), questions.get(question.getIdentifier()).getQuestionType().name()));
         }
     }
 
@@ -88,7 +117,7 @@ public class TypeChecker implements Visitor {
     }
 
     private boolean foundQuestionHasSameType(Question question) {
-        QuestionType questionType = questions.get(question.getIdentifier());
+        QuestionType questionType = questions.get(question.getIdentifier()).getQuestionType();
         return questionType.equals(question.getQuestionType());
     }
 
