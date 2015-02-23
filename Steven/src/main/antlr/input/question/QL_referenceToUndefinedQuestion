@@ -1,10 +1,7 @@
 form formname{
     name BOOLEAN "label"
-    if ( name1 && name9) {
+    if ( name1 ) {
         name4 BOOLEAN "label"
     }
 
-    if( n || r){
-        name5 BOOLEAN "label"
-    }
 }

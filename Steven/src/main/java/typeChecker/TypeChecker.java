@@ -36,19 +36,7 @@ public class TypeChecker implements Visitor {
     @Override
     public AbstractNode visit(Form form) {
         visitStatement(form.getElements());
-        checkReferenceToUndefinedQuestions();
         return form;
-    }
-
-    private void checkReferenceToUndefinedQuestions() {
-        String undefinedReferences = identifiers
-                .stream()
-                .filter(identifier -> !questions.containsKey(identifier))
-                .map(Identifier::toString)
-                .collect(Collectors.joining(", "));
-        if (!undefinedReferences.isEmpty()) {
-            throw new TypeCheckException("Invalid reference to undefined question: " + undefinedReferences);
-        }
     }
 
     private void visitStatement(List<Statement> statements) {
@@ -60,8 +48,8 @@ public class TypeChecker implements Visitor {
 
     @Override
     public AbstractNode visit(IfStatement ifStatement) {
-        visitStatement(ifStatement.getStatements());
         visit(ifStatement.getExpression());
+        visitStatement(ifStatement.getStatements());
         return ifStatement;
     }
 
@@ -158,7 +146,20 @@ public class TypeChecker implements Visitor {
     @Override
     public AbstractNode visit(Identifier identifier) {
         identifiers.add(identifier); // may overwrite existing items
+        checkReferenceToUndefinedQuestions();
         return identifier;
+    }
+
+    // implicitly checks for cyclic dependencies of questions
+    private void checkReferenceToUndefinedQuestions() {
+        String undefinedReferences = identifiers
+                .stream()
+                .filter(identifier -> !questions.containsKey(identifier))
+                .map(Identifier::toString)
+                .collect(Collectors.joining(", "));
+        if (!undefinedReferences.isEmpty()) {
+            throw new TypeCheckException("Invalid reference to undefined question: " + undefinedReferences);
+        }
     }
 
     @Override
