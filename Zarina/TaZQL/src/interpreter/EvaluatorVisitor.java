@@ -162,8 +162,8 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 
 	@Override
 	public Value visit(IntegerVariable integer) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntegerValue(integer.getValue());
+	//	return null;
 	}
 
 	@Override

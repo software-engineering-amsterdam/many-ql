@@ -10,6 +10,10 @@ public class IntegerVariable extends Expression {
 		this.variable = variable;
 	}	
 	
+	public Integer getValue() {
+		return variable;
+	}
+	
 	@Override
 	public String toString() {
 		return variable.toString();
