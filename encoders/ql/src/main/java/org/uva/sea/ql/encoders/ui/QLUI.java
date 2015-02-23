@@ -40,7 +40,7 @@ public class QLUI extends Application {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		ScrollPane scrollPane = new ScrollPane(grid);
-		scrollPane.setPrefSize(500, 275);
+		scrollPane.setPrefSize(550, 275);
 
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 		try {
@@ -51,7 +51,7 @@ public class QLUI extends Application {
 			e.printStackTrace();
 		}
 
-		Scene scene = new Scene(scrollPane, 500, 275);
+		Scene scene = new Scene(scrollPane, 550, 275);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
