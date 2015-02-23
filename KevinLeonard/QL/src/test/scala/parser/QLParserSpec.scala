@@ -31,32 +31,32 @@ class QLParserSpec extends Specification with ParserMatchers {
   "question parser" should {
     "parse boolean questions" in {
       question must succeedOn("question var \"label\"\nanswer boolean")
-        .withResult(BooleanQuestion(Variable("var"), "\"label\"", None))
+        .withResult(Question(BooleanType(), Variable("var"), "\"label\"", None))
     }
 
     "parse number questions" in {
       question must succeedOn("question var \"label\"\nanswer number")
-        .withResult(NumberQuestion(Variable("var"), "\"label\"", None))
+        .withResult(Question(NumberType(), Variable("var"), "\"label\"", None))
     }
 
     "parse string questions" in {
       question must succeedOn("question var \"label\"\nanswer string")
-        .withResult(StringQuestion(Variable("var"), "\"label\"", None))
+        .withResult(Question(StringType(), Variable("var"), "\"label\"", None))
     }
 
     "parse computed number questions" in {
       question must succeedOn("question var \"label\"\nanswer number is (fieldA + fieldB)")
-        .withResult(NumberQuestion(Variable("var"), "\"label\"", Some(Add(Variable("fieldA"), Variable("fieldB")))))
+        .withResult(Question(NumberType(), Variable("var"), "\"label\"", Some(Add(Variable("fieldA"), Variable("fieldB")))))
     }
 
     "parse computed boolean questions" in {
       question must succeedOn("question var \"label\"\n    answer boolean is (fieldA and fieldB < fieldC)")
-        .withResult(BooleanQuestion(Variable("var"), "\"label\"", Some(And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC"))))))
+        .withResult(Question(BooleanType(), Variable("var"), "\"label\"", Some(And(Variable("fieldA"), LessThan(Variable("fieldB"), Variable("fieldC"))))))
     }
 
     "parse computed string questions" in {
       question must succeedOn("question var \"label\"\n    answer string is (fieldA + fieldB)")
-        .withResult(StringQuestion(Variable("var"), "\"label\"", Some(Add(Variable("fieldA"), Variable("fieldB")))))
+        .withResult(Question(StringType(), Variable("var"), "\"label\"", Some(Add(Variable("fieldA"), Variable("fieldB")))))
     }
   }
 
@@ -75,141 +75,141 @@ class QLParserSpec extends Specification with ParserMatchers {
   "and parser" should {
     "be valid with an and operator" in {
       and must succeedOn("true and false")
-        .withResult(And(BooleanLiteral(true), BooleanLiteral(false)))
+        .withResult(And(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))))
     }
 
     "be valid with multiple and operators" in {
       and must succeedOn("true and false and true")
-        .withResult(And(And(BooleanLiteral(true), BooleanLiteral(false)), BooleanLiteral(true)))
+        .withResult(And(And(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), Literal(BooleanType(), BooleanValue(true))))
     }
   }
 
   "or parser" should {
     "be valid with an or operator" in {
       or must succeedOn("true or false")
-        .withResult(Or(BooleanLiteral(true), BooleanLiteral(false)))
+        .withResult(Or(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))))
     }
 
     "be valid with multiple or operators" in {
       or must succeedOn("true or false or true")
-        .withResult(Or(Or(BooleanLiteral(true), BooleanLiteral(false)), BooleanLiteral(true)))
+        .withResult(Or(Or(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), Literal(BooleanType(), BooleanValue(true))))
     }
   }
 
   "not parser" should {
     "be valid with a not operator" in {
       parsers.not must succeedOn("not true")
-        .withResult(Not(BooleanLiteral(true)))
+        .withResult(Not(Literal(BooleanType(), BooleanValue(true))))
     }
   }
 
   "equality parser" should {
     "be valid with a == operator on booleans" in {
       equality must succeedOn("true == true")
-        .withResult(Equal(BooleanLiteral(true), BooleanLiteral(true)))
+        .withResult(Equal(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(true))))
     }
 
     "be valid with a == operator on numbers" in {
       equality must succeedOn("1 == 2")
-        .withResult(Equal(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(Equal(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with a == operator on strings" in {
       equality must succeedOn("\"a\" == \"b\"")
-        .withResult(Equal(StringLiteral("\"a\""), StringLiteral("\"b\"")))
+        .withResult(Equal(Literal(StringType(), StringValue("\"a\"")), Literal(StringType(), StringValue("\"b\""))))
     }
 
     "be valid with a != operator on booleans" in {
       equality must succeedOn("true != true")
-        .withResult(NotEqual(BooleanLiteral(true), BooleanLiteral(true)))
+        .withResult(NotEqual(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(true))))
     }
 
     "be valid with a != operator on numbers" in {
       equality must succeedOn("1 != 2")
-        .withResult(NotEqual(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(NotEqual(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with a != operator on strings" in {
       equality must succeedOn("\"a\" != \"b\"")
-        .withResult(NotEqual(StringLiteral("\"a\""), StringLiteral("\"b\"")))
+        .withResult(NotEqual(Literal(StringType(), StringValue("\"a\"")), Literal(StringType(), StringValue("\"b\""))))
     }
   }
 
   "comparison parser" should {
     "be valid with a < operator" in {
       comparison must succeedOn("1 < 2")
-        .withResult(LessThan(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(LessThan(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with a <= operator" in {
       comparison must succeedOn("1 <= 2")
-        .withResult(LessThanEqual(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(LessThanEqual(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with a > operator" in {
       comparison must succeedOn("1 > 2")
-        .withResult(GreaterThan(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(GreaterThan(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with a >= operator" in {
       comparison must succeedOn("1 >= 2")
-        .withResult(GreaterThanEqual(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(GreaterThanEqual(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
   }
 
   "sum parser" should {
     "be valid with an plus operator on numbers" in {
       sum must succeedOn("1 + 2")
-        .withResult(Add(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(Add(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with an plus operator on strings" in {
       sum must succeedOn("\"a\" + \"b\"")
-        .withResult(Add(StringLiteral("\"a\""), StringLiteral("\"b\"")))
+        .withResult(Add(Literal(StringType(), StringValue("\"a\"")), Literal(StringType(), StringValue("\"b\""))))
     }
 
     "be valid with multiple plus operators" in {
       sum must succeedOn("1 + 2 + 3")
-        .withResult(Add(Add(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+        .withResult(Add(Add(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))), Literal(NumberType(), NumberValue(3))))
     }
 
     "be valid with an minus operator" in {
       sum must succeedOn("1 - 2")
-        .withResult(Sub(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(Sub(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with multiple minus operators" in {
       sum must succeedOn("1 - 2 - 3")
-        .withResult(Sub(Sub(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+        .withResult(Sub(Sub(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))), Literal(NumberType(), NumberValue(3))))
     }
   }
 
   "product parser" should {
     "be valid with an product operator" in {
       product must succeedOn("1 * 2")
-        .withResult(Mul(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(Mul(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with multiple product operators" in {
       product must succeedOn("1 * 2 * 3")
-        .withResult(Mul(Mul(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+        .withResult(Mul(Mul(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))), Literal(NumberType(), NumberValue(3))))
     }
 
     "be valid with an divide operator" in {
       product must succeedOn("1 / 2")
-        .withResult(Div(NumberLiteral(1), NumberLiteral(2)))
+        .withResult(Div(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))))
     }
 
     "be valid with multiple divide operators" in {
       product must succeedOn("1 / 2 / 3")
-        .withResult(Div(Div(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+        .withResult(Div(Div(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))), Literal(NumberType(), NumberValue(3))))
     }
   }
 
   "expressions" should {
     "be valid with a literal" in {
       expression must succeedOn("true")
-        .withResult(BooleanLiteral(true))
+        .withResult(Literal(BooleanType(), BooleanValue(true)))
     }
 
     "be valid with a variable" in {
@@ -219,27 +219,27 @@ class QLParserSpec extends Specification with ParserMatchers {
 
     "have the correct precedence when using parenthesis" in {
       expression must succeedOn("true and (false or true)")
-        .withResult(And(BooleanLiteral(true), Or(BooleanLiteral(false), BooleanLiteral(true))))
+        .withResult(And(Literal(BooleanType(), BooleanValue(true)), Or(Literal(BooleanType(), BooleanValue(false)), Literal(BooleanType(), BooleanValue(true)))))
     }
 
     "be valid with multiple different operators" in {
       expression must succeedOn("true and true and false or true")
-        .withResult(Or(And(And(BooleanLiteral(true), BooleanLiteral(true)), BooleanLiteral(false)), BooleanLiteral(true)))
+        .withResult(Or(And(And(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(true))), Literal(BooleanType(), BooleanValue(false))), Literal(BooleanType(), BooleanValue(true))))
     }
 
     "give product precedence over sum" in {
       expression must succeedOn("1 * 2 + 3")
-        .withResult(Add(Mul(NumberLiteral(1), NumberLiteral(2)), NumberLiteral(3)))
+        .withResult(Add(Mul(Literal(NumberType(), NumberValue(1)), Literal(NumberType(), NumberValue(2))), Literal(NumberType(), NumberValue(3))))
     }
 
     "give product precedence over sum" in {
       expression must succeedOn("1 + 2 * 3")
-        .withResult(Add(NumberLiteral(1), Mul(NumberLiteral(2), NumberLiteral(3))))
+        .withResult(Add(Literal(NumberType(), NumberValue(1)), Mul(Literal(NumberType(), NumberValue(2)), Literal(NumberType(), NumberValue(3)))))
     }
 
     "have the correct precedence when using parenthesis" in {
       expression must succeedOn("1 * (2 - 3)")
-        .withResult(Mul(NumberLiteral(1), Sub(NumberLiteral(2), NumberLiteral(3))))
+        .withResult(Mul(Literal(NumberType(), NumberValue(1)), Sub(Literal(NumberType(), NumberValue(2)), Literal(NumberType(), NumberValue(3)))))
     }
   }
 }

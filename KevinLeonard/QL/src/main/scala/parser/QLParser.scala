@@ -12,14 +12,14 @@ class QLParser extends JavaTokenParsers {
 
   // literal parsers
   def literal: Parser[Literal] = boolean | number | string
-  def boolean: Parser[BooleanLiteral] = ("true" | "false") ^^ {
-    s => BooleanLiteral(s.toBoolean)
+  def boolean: Parser[Literal] = ("true" | "false") ^^ {
+    s => Literal(BooleanType(), BooleanValue(s.toBoolean))
   }
-  def number: Parser[NumberLiteral] = wholeNumber ^^ {
-    s => NumberLiteral(s.toInt)
+  def number: Parser[Literal] = wholeNumber ^^ {
+    s => Literal(NumberType(), NumberValue(s.toInt))
   }
-  def string: Parser[StringLiteral] = stringLiteral ^^ {
-    s => StringLiteral(s)
+  def string: Parser[Literal] = stringLiteral ^^ {
+    s => Literal(StringType(), StringValue(s))
   }
 
   // form parsers
@@ -30,9 +30,9 @@ class QLParser extends JavaTokenParsers {
 
   // question parsers
   def question: Parser[Question] = positioned("question" ~> variable ~ label ~ questionType ~ opt("is" ~ "(" ~> expression <~ ")") ^^ {
-    case v ~ label ~ "boolean" ~ e => BooleanQuestion(v, label, e)
-    case v ~ label ~ "number" ~ e => NumberQuestion(v, label, e)
-    case v ~ label ~ "string" ~ e => StringQuestion(v, label, e)
+    case v ~ label ~ "boolean" ~ e => Question(BooleanType(), v, label, e)
+    case v ~ label ~ "number" ~ e => Question(NumberType(), v, label, e)
+    case v ~ label ~ "string" ~ e => Question(StringType(), v, label, e)
   })
   def questionType: Parser[String] = "answer" ~> ("boolean" | "number" | "string")
 
