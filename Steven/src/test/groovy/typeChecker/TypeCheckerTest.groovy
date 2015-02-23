@@ -43,10 +43,41 @@ class TypeCheckerTest extends Specification {
         exception.message.contains(message)
 
         where:
-        input                                                         | message
+        input                                                           | message
         "src/main/antlr/input/logicalOperators/QL_invalidCondition_or"  | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
         "src/main/antlr/input/logicalOperators/QL_invalidCondition_and" | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
         "src/main/antlr/input/logicalOperators/QL_invalidCondition_not" | TypeChecker.EXPRESSION_EXPECTS_BOOLEAN.substring(0, 30)
+    }
 
+    def "Should throw exception with non-arithmetic operators"() {
+        when:
+        Form form = parseTreeWalker.walk(input, new ParseTreeWalker(), Form.class)
+
+        TypeChecker typeChecker = new TypeChecker();
+        typeChecker.visit(form)
+
+        then:
+        def exception = thrown(TypeCheckException)
+        exception.message.contains(message)
+
+        where:
+        input                                                                     | message
+        "src/main/antlr/input/arithmeticOperators/QL_invalidOperator_GreaterThan" | TypeChecker.EXPRESSION_EXPECTS_NON_BOOLEAN.substring(0, 30)
+    }
+
+    def "Check valid grammars"() {
+        when:
+        Form form = parseTreeWalker.walk(input, new ParseTreeWalker(), Form.class)
+
+        TypeChecker typeChecker = new TypeChecker();
+        typeChecker.visit(form)
+
+        then:
+        noExceptionThrown()
+
+        where:
+        input                                                        | _
+        "src/main/antlr/input/arithmeticOperators/QL_validOperators" | _
+        "src/main/antlr/input/logicalOperators/QL_validConditions"   | _
     }
 }
