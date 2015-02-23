@@ -23,8 +23,8 @@ func main() {
 			"question3" question3 bool
 		}
 	}`), "test.ql")
-	tc, st := typechecker.New() // HL
-	tc.Visit(form)              // HL
+	tc, st := typechecker.New()
+	tc.Visit(form)
 	printWarns(st)
 	printError(st)
 	fmt.Println("Success!")
