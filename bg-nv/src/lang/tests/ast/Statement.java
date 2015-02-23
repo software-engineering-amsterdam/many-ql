@@ -1,7 +1,7 @@
 package lang.tests.ast;
 
 import lang.ql.ast.expression.*;
-import lang.ql.ast.types.*;
+import lang.ql.ast.type.*;
 import lang.ql.ast.statement.*;
 import lang.tests.ParserHelper;
 import lang.tests.TestHelper;

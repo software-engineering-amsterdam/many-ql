@@ -143,6 +143,9 @@ func TestIfArithAndComparisonExpressions(t *testing.T) {
 		strings.NewReader(`
 		form Math {
 			if(100 + 200 > 300){}
+			if(100 + 200 > 300 and 300 > 100){}
+			if(100 + 200 > 300 or 300 > 100){}
+			if(1 != 2){}
 		}
 		`),
 		"test.ql",
@@ -235,4 +238,42 @@ func TestNegation(t *testing.T) {
 		t.Errorf("Compilation should not return nil")
 		return
 	}
+}
+
+func TestTrueFalseKeywords(t *testing.T) {
+	form := ReadQL(
+		strings.NewReader(`
+			form SomeForm {
+				"bool question"	boolq bool
+				if (boolq == true) {
+					"sub question?" subq string
+				}
+			}
+		`),
+		"test.ql",
+	)
+
+	if form == nil {
+		t.Errorf("Compilation should not return nil")
+		return
+	}
+
+	rootCondition := form.Stack()[1].Action().(*ast.IfNode).Conditions()
+	if got, ok := rootCondition.(*ast.EqualsNode); !ok {
+		t.Errorf("severe grammar error: expected EqualsNode. got: %T", got)
+	}
+
+	firstChild := rootCondition.(*ast.EqualsNode).DoubleTermNode.RightTerm()
+	if got, ok := firstChild.(*ast.TermNode); !ok {
+		t.Errorf("severe grammar error: expected TermNode. got: %T", got)
+	}
+
+}
+
+func TestInvalidSyntax(t *testing.T) {
+	defer func() {
+		recover()
+	}()
+	ReadQL(strings.NewReader("form A"), "invalid.ql")
+	t.Errorf("Invalid syntax should panic")
 }

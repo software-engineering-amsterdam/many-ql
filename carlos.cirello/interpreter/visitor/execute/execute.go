@@ -15,14 +15,17 @@ type Execute struct {
 	symbolChan chan *event.Symbol
 }
 
-// New is the factory for Execute struct
-func New(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *visitor.Visitor {
-	return &visitor.Visitor{
-		&Execute{
-			toFrontend: toFrontend,
-			symbolChan: symbolChan,
-		},
+// NewExecute is the factory for Execute struct tree
+func NewExecute(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *Execute {
+	return &Execute{
+		toFrontend: toFrontend,
+		symbolChan: symbolChan,
 	}
+}
+
+// New is the factory for a visitor.Visitor with Execute struct tree inside
+func New(toFrontend chan *event.Frontend, symbolChan chan *event.Symbol) *visitor.Visitor {
+	return visitor.NewVisitor(NewExecute(toFrontend, symbolChan))
 }
 
 // QuestionaireNode execute all actionNodes of a questionaire (form)
@@ -60,7 +63,7 @@ func (exec Execute) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
 
 // IfNode analyzes condition and run all children (ActionNodes)
 func (exec Execute) IfNode(v *visitor.Visitor, i *ast.IfNode) {
-	if exec.resolveComparisonNode(i.Conditions()) {
+	if exec.ResolveComparisonNode(i.Conditions()) {
 		for _, actionNode := range i.Stack() {
 			v.Visit(actionNode)
 		}

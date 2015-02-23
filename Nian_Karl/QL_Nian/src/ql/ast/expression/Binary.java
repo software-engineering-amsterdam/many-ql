@@ -1,10 +1,9 @@
 package ql.ast.expression;
 
-import ql.ast.value.Value;
-
 public abstract class Binary extends Expression {
-	private final Expression left;
-	private final Expression right;
+	
+	protected final Expression left;
+	protected final Expression right;
 	
 	public Binary(Expression left, Expression right){
 		this.left = left;
@@ -19,6 +18,4 @@ public abstract class Binary extends Expression {
 		return this.right;
 	}
 	
-	@Override
-	public abstract Value<?> evaluate();
 }

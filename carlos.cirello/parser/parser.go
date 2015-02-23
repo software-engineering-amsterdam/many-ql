@@ -56,6 +56,8 @@ const NumericToken = 57364
 const ElseToken = 57365
 const BoolAndToken = 57366
 const BoolOrToken = 57367
+const BoolTrueToken = 57368
+const BoolFalseToken = 57369
 
 var qlToknames = []string{
 	"'+'",
@@ -87,6 +89,8 @@ var qlToknames = []string{
 	"ElseToken",
 	"BoolAndToken",
 	"BoolOrToken",
+	"BoolTrueToken",
+	"BoolFalseToken",
 }
 var qlStatenames = []string{}
 
@@ -94,7 +98,7 @@ const qlEofCode = 1
 const qlErrCode = 2
 const qlMaxDepth = 200
 
-//line parser.y:278
+//line parser.y:302
 
 //line yacctab:1
 var qlExca = []int{
@@ -103,74 +107,76 @@ var qlExca = []int{
 	-2, 0,
 }
 
-const qlNprod = 35
+const qlNprod = 37
 const qlPrivate = 57344
 
 var qlTokenNames []string
 var qlStates []string
 
-const qlLast = 87
+const qlLast = 101
 
 var qlAct = []int{
 
-	6, 9, 27, 30, 31, 32, 33, 29, 11, 51,
-	26, 10, 36, 37, 11, 19, 11, 10, 5, 62,
-	21, 50, 41, 43, 40, 42, 38, 39, 35, 25,
-	13, 66, 45, 46, 47, 48, 49, 61, 64, 44,
-	12, 54, 55, 56, 57, 58, 59, 52, 53, 4,
-	34, 3, 60, 24, 23, 15, 16, 17, 18, 20,
-	11, 24, 23, 10, 63, 65, 14, 20, 22, 28,
-	8, 24, 23, 32, 33, 2, 22, 20, 30, 31,
-	32, 33, 1, 7, 0, 0, 22,
+	6, 9, 29, 24, 23, 15, 16, 17, 18, 20,
+	28, 24, 23, 31, 53, 19, 11, 20, 22, 30,
+	5, 64, 25, 26, 38, 39, 22, 52, 37, 13,
+	25, 26, 27, 12, 47, 48, 49, 50, 51, 11,
+	66, 46, 10, 56, 57, 58, 59, 60, 61, 54,
+	55, 4, 3, 36, 62, 24, 23, 11, 21, 11,
+	10, 20, 10, 14, 68, 8, 65, 67, 34, 35,
+	22, 2, 1, 0, 25, 26, 32, 33, 34, 35,
+	0, 0, 63, 0, 7, 32, 33, 34, 35, 0,
+	0, 0, 0, 0, 0, 43, 45, 42, 44, 40,
+	41,
 }
 var qlPact = []int{
 
-	41, -1000, -1000, 34, -15, -1000, 49, -1000, -1000, -1000,
-	25, 10, 39, 47, -1000, -1000, -1000, -1000, -28, 74,
-	47, -1000, -1000, -1000, -1000, 7, -19, -1, 47, 57,
-	57, 57, 57, 57, 0, -24, 47, 47, 57, 57,
-	57, 57, 57, 57, -1000, 74, 67, 67, -1000, -1000,
-	-1000, -1000, -1000, -1000, 74, 74, 74, 74, 74, 74,
-	3, -11, 5, -1000, -1000, -3, -1000,
+	42, -1000, -1000, 36, -15, -1000, 48, -1000, -1000, -1000,
+	18, 9, -11, -3, -1000, -1000, -1000, -1000, -24, 81,
+	-3, -1000, -1000, -1000, -1000, -1000, -1000, 7, -7, 72,
+	-3, 41, 41, 41, 41, 41, 6, -21, -3, -3,
+	41, 41, 41, 41, 41, 41, -1000, 81, 62, 62,
+	-1000, -1000, -1000, -1000, -1000, -1000, 81, 81, 81, 81,
+	81, 81, 46, -9, 5, -1000, -1000, 28, -1000,
 }
 var qlPgo = []int{
 
-	0, 82, 75, 0, 70, 1, 66, 2, 29, 10,
-	20,
+	0, 72, 71, 0, 65, 1, 63, 2, 32, 10,
+	58,
 }
 var qlR1 = []int{
 
 	0, 1, 2, 3, 3, 3, 4, 6, 6, 6,
 	6, 6, 5, 5, 5, 8, 8, 8, 9, 9,
 	9, 9, 9, 9, 9, 9, 7, 7, 7, 7,
-	7, 7, 10, 10, 10,
+	7, 7, 10, 10, 10, 10, 10,
 }
 var qlR2 = []int{
 
 	0, 1, 5, 0, 2, 2, 3, 1, 1, 1,
 	3, 1, 7, 9, 11, 3, 3, 1, 3, 3,
 	3, 3, 3, 3, 2, 1, 3, 3, 3, 3,
-	3, 1, 1, 1, 1,
+	3, 1, 1, 1, 1, 1, 1,
 }
 var qlChk = []int{
 
-	-1000, -1, -2, 10, 15, 33, -3, 34, -4, -5,
+	-1000, -1, -2, 10, 15, 35, -3, 36, -4, -5,
 	14, 11, 15, 20, -6, 16, 17, 18, 19, -7,
-	20, -10, 29, 15, 14, -8, -9, -7, 22, 35,
-	4, 5, 6, 7, -8, 21, 31, 32, 27, 28,
-	25, 23, 26, 24, -9, -7, -7, -7, -7, -7,
-	21, 33, -9, -9, -7, -7, -7, -7, -7, -7,
-	-3, 34, 30, -5, 33, -3, 34,
+	20, -10, 29, 15, 14, 33, 34, -8, -9, -7,
+	22, 37, 4, 5, 6, 7, -8, 21, 31, 32,
+	27, 28, 25, 23, 26, 24, -9, -7, -7, -7,
+	-7, -7, 21, 35, -9, -9, -7, -7, -7, -7,
+	-7, -7, -3, 36, 30, -5, 35, -3, 36,
 }
 var qlDef = []int{
 
 	0, -2, 1, 0, 0, 3, 0, 2, 4, 5,
 	0, 0, 0, 0, 6, 7, 8, 9, 0, 11,
-	0, 31, 32, 33, 34, 0, 17, 25, 0, 0,
+	0, 31, 32, 33, 34, 35, 36, 0, 17, 25,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 24, 10, 26, 27, 28, 29,
-	30, 3, 15, 16, 18, 19, 20, 21, 22, 23,
-	0, 12, 0, 13, 3, 0, 14,
+	0, 0, 0, 0, 0, 0, 24, 10, 26, 27,
+	28, 29, 30, 3, 15, 16, 18, 19, 20, 21,
+	22, 23, 0, 12, 0, 13, 3, 0, 14,
 }
 var qlTok1 = []int{
 
@@ -180,19 +186,19 @@ var qlTok1 = []int{
 	3, 3, 3, 22, 3, 3, 3, 3, 3, 3,
 	20, 21, 6, 4, 3, 5, 3, 7, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	3, 35, 3, 3, 3, 3, 3, 3, 3, 3,
+	3, 37, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 33, 3, 34,
+	3, 3, 3, 35, 3, 36,
 }
 var qlTok2 = []int{
 
 	2, 3, 8, 9, 10, 11, 12, 13, 14, 15,
 	16, 17, 18, 19, 23, 24, 25, 26, 27, 28,
-	29, 30, 31, 32,
+	29, 30, 31, 32, 33, 34,
 }
 var qlTok3 = []int{
 	0,
@@ -424,17 +430,17 @@ qldefault:
 	switch qlnt {
 
 	case 1:
-		//line parser.y:68
+		//line parser.y:70
 		{
 			finalQuestionaire = qlS[qlpt-0].questionaire
 		}
 	case 2:
-		//line parser.y:75
+		//line parser.y:77
 		{
 			qlVAL.questionaire = ast.NewQuestionaireNode(qlS[qlpt-3].content, qlS[qlpt-1].stack, qlS[qlpt-3].position)
 		}
 	case 4:
-		//line parser.y:82
+		//line parser.y:84
 		{
 			q := qlS[qlpt-0].question
 			qs := qlVAL.stack
@@ -443,7 +449,7 @@ qldefault:
 			qlVAL.stack = qs
 		}
 	case 5:
-		//line parser.y:90
+		//line parser.y:92
 		{
 			ifNode := qlS[qlpt-0].ifNode
 			qs := qlVAL.stack
@@ -452,37 +458,37 @@ qldefault:
 			qlVAL.stack = qs
 		}
 	case 6:
-		//line parser.y:101
+		//line parser.y:103
 		{
 			qlVAL.question = ast.NewQuestionNode(qlS[qlpt-2].content, qlS[qlpt-1].content, qlS[qlpt-0].questionType, false, qlS[qlpt-2].position)
 		}
 	case 7:
-		//line parser.y:110
+		//line parser.y:112
 		{
 			qlVAL.questionType = new(ast.StringQuestion)
 		}
 	case 8:
-		//line parser.y:114
+		//line parser.y:116
 		{
 			qlVAL.questionType = new(ast.NumericQuestion)
 		}
 	case 9:
-		//line parser.y:118
+		//line parser.y:120
 		{
 			qlVAL.questionType = new(ast.BoolQuestion)
 		}
 	case 10:
-		//line parser.y:122
+		//line parser.y:124
 		{
 			qlVAL.questionType = ast.NewComputedQuestion(qlS[qlpt-0].evaluatable)
 		}
 	case 11:
-		//line parser.y:126
+		//line parser.y:128
 		{
 			qllex.Error(fmt.Sprintf("Question type must be 'string', 'numeric', 'bool' or 'computed'. Found: %s", qlS[qlpt-0].content))
 		}
 	case 12:
-		//line parser.y:133
+		//line parser.y:135
 		{
 			qlVAL.ifNode = ast.NewIfNode(qlS[qlpt-4].evaluatable, qlS[qlpt-1].stack, nil, qlS[qlpt-6].position)
 
@@ -492,7 +498,7 @@ qldefault:
 			qlS[qlpt-1].stack = []*ast.ActionNode{}
 		}
 	case 13:
-		//line parser.y:142
+		//line parser.y:144
 		{
 			qlVAL.ifNode = ast.NewIfNode(qlS[qlpt-6].evaluatable, qlS[qlpt-3].stack, qlS[qlpt-0].ifNode, qlS[qlpt-8].position)
 
@@ -503,7 +509,7 @@ qldefault:
 			qlS[qlpt-0].ifNode = nil
 		}
 	case 14:
-		//line parser.y:152
+		//line parser.y:154
 		{
 			elseNode := ast.NewIfNode(
 				ast.NewTermNode(ast.NumericConstantNodeType, 1, "", "", qlS[qlpt-3].position),
@@ -520,83 +526,83 @@ qldefault:
 			qlS[qlpt-1].stack = []*ast.ActionNode{}
 		}
 	case 15:
-		//line parser.y:171
+		//line parser.y:173
 		{
 			qlVAL.evaluatable = ast.NewBoolAndNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 16:
-		//line parser.y:175
+		//line parser.y:177
 		{
 			qlVAL.evaluatable = ast.NewBoolOrNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 18:
-		//line parser.y:183
+		//line parser.y:185
 		{
 			qlVAL.evaluatable = ast.NewEqualsNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 19:
-		//line parser.y:187
+		//line parser.y:189
 		{
 			qlVAL.evaluatable = ast.NewNotEqualsNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 20:
-		//line parser.y:191
+		//line parser.y:193
 		{
 			qlVAL.evaluatable = ast.NewMoreThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 21:
-		//line parser.y:195
+		//line parser.y:197
 		{
 			qlVAL.evaluatable = ast.NewLessThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 22:
-		//line parser.y:199
+		//line parser.y:201
 		{
 			qlVAL.evaluatable = ast.NewMoreOrEqualsThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 23:
-		//line parser.y:203
+		//line parser.y:205
 		{
 			qlVAL.evaluatable = ast.NewLessOrEqualsThanNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 24:
-		//line parser.y:207
+		//line parser.y:209
 		{
 			qlVAL.evaluatable = ast.NewBoolNegNode(qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 26:
-		//line parser.y:215
+		//line parser.y:217
 		{
 			qlVAL.evaluatable = ast.NewMathAddNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 27:
-		//line parser.y:219
+		//line parser.y:221
 		{
 			qlVAL.evaluatable = ast.NewMathSubNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 28:
-		//line parser.y:223
+		//line parser.y:225
 		{
 			qlVAL.evaluatable = ast.NewMathMulNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 29:
-		//line parser.y:227
+		//line parser.y:229
 		{
 			qlVAL.evaluatable = ast.NewMathDivNode(qlS[qlpt-2].evaluatable, qlS[qlpt-0].evaluatable, qlS[qlpt-1].position)
 		}
 	case 30:
-		//line parser.y:231
+		//line parser.y:233
 		{
 			qlVAL = qlS[qlpt-1]
 		}
 	case 31:
-		//line parser.y:235
+		//line parser.y:237
 		{
 			qlVAL.evaluatable = qlS[qlpt-0].termNode
 			qlVAL.position = qlS[qlpt-0].position
 		}
 	case 32:
-		//line parser.y:243
+		//line parser.y:245
 		{
 			num, _ := strconv.ParseFloat(qlS[qlpt-0].content, 32)
 			qlVAL.num = float32(num)
@@ -610,7 +616,7 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 33:
-		//line parser.y:256
+		//line parser.y:258
 		{
 			termNode := ast.NewTermNode(
 				ast.IdentifierReferenceNodeType,
@@ -622,12 +628,36 @@ qldefault:
 			qlVAL.termNode = termNode
 		}
 	case 34:
-		//line parser.y:267
+		//line parser.y:269
 		{
 			termNode := ast.NewTermNode(
 				ast.StringConstantNodeType,
 				qlVAL.num,
 				qlS[qlpt-0].content,
+				"",
+				qlS[qlpt-0].position,
+			)
+			qlVAL.termNode = termNode
+		}
+	case 35:
+		//line parser.y:280
+		{
+			termNode := ast.NewTermNode(
+				ast.NumericConstantNodeType,
+				1,
+				"",
+				"",
+				qlS[qlpt-0].position,
+			)
+			qlVAL.termNode = termNode
+		}
+	case 36:
+		//line parser.y:291
+		{
+			termNode := ast.NewTermNode(
+				ast.NumericConstantNodeType,
+				0,
+				"",
 				"",
 				qlS[qlpt-0].position,
 			)

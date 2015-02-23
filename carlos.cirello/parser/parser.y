@@ -60,6 +60,8 @@ var finalQuestionaire *ast.QuestionaireNode
 %token ElseToken
 %token BoolAndToken
 %token BoolOrToken
+%token BoolTrueToken
+%token BoolFalseToken
 
 %%
 
@@ -269,6 +271,28 @@ value:
 			ast.StringConstantNodeType,
 			$$.num,
 			$1.content,
+			"",
+			$1.position,
+		)
+		$$.termNode = termNode
+	}
+	| BoolTrueToken
+	{
+		termNode := ast.NewTermNode(
+			ast.NumericConstantNodeType,
+			1,
+			"",
+			"",
+			$1.position,
+		)
+		$$.termNode = termNode
+	}
+	| BoolFalseToken
+	{
+		termNode := ast.NewTermNode(
+			ast.NumericConstantNodeType,
+			0,
+			"",
 			"",
 			$1.position,
 		)

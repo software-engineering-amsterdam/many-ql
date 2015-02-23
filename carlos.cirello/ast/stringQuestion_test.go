@@ -5,11 +5,15 @@ import "testing"
 func TestStringQuestion(t *testing.T) {
 	input := "what is the answer to life the universe and everything?"
 
-	aStringQuestion := new(StringQuestion)
-	aStringQuestion.From(input)
+	q := new(StringQuestion)
+	q.From(input)
 
-	if got := aStringQuestion.String(); input != got {
+	if got := q.String(); input != got {
 		t.Errorf("Internal error in StringQuestion. Got %s, Expected %s",
 			got, input)
+	}
+
+	if "string" != q.Type() {
+		t.Error("String questions should return a \"string\" type")
 	}
 }

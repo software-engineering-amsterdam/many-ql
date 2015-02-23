@@ -12,7 +12,8 @@ form SalarySurvey{
 		Int employeeNr4 "What is your employee number?";
 	}
 	
-	if((100 > 5) && ((5+6) < 10)){
-	
+	if(2+3){
 	} 
+	if(21+99){
+	}
 }

@@ -4,8 +4,8 @@ import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.types.Type;
-import lang.ql.ast.types.TypeFactory;
+import lang.ql.ast.type.Type;
+import lang.ql.ast.type.TypeFactory;
 import org.antlr.v4.runtime.misc.NotNull;
 
 /**

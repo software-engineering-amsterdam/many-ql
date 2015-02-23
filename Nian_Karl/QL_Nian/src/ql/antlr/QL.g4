@@ -45,12 +45,12 @@ expression
 	;
 
 literal
- 	 : Identifier
-	 | IntegerLiteral
-	 | DecimalLiteral
- 	 | BooleanLiteral
- 	 | StringLiteral
- 	 | DateLiteral
+ 	 : Identifier			#Id
+	 | IntegerLiteral		#Int
+	 | DecimalLiteral		#Dec
+ 	 | BooleanLiteral		#Bool
+ 	 | StringLiteral		#Str
+ 	 | DateLiteral			#Date
 	 ;
 
 /* LEXER RULES */

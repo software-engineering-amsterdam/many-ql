@@ -12,7 +12,7 @@ class FormFormat:
     label = BasicTypes.sentence
 
     # answerR :: "bool" | "number" | "text"
-    answerR = Literal(QuestionTypes.bool_name) | Literal(QuestionTypes.number_name) | Literal(QuestionTypes.text_name)
+    answerR = Literal(BasicTypes.bool_name) | Literal(BasicTypes.number_name) | Literal(BasicTypes.text_name)
 
     # question :: Question id ( answerR ) : label
     question = \
@@ -25,7 +25,7 @@ class FormFormat:
     statement = Forward()
 
     # condition :: condition
-    condition = Expressions.condition.setParseAction(ExpressionFactory.make_expression)
+    condition = Expressions.condition
 
     # pIf :: if ( condition ) { statement+ }
     pIf = \

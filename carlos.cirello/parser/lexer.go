@@ -1,9 +1,8 @@
 package parser
 
 import (
+	"fmt"
 	"io"
-	"log"
-	"os"
 	"strings"
 	"text/scanner"
 )
@@ -30,6 +29,10 @@ const (
 	BoolAndTokenText = "and"
 	// BoolOrTokenText - Reserved Word
 	BoolOrTokenText = "or"
+	// BoolTrueTokenText - Reserved Word
+	BoolTrueTokenText = "true"
+	// BoolFalseTokenText - Reserved Word
+	BoolFalseTokenText = "false"
 
 	// LessThanTokenText - Reserved Symbols
 	LessThanTokenText = `<`
@@ -94,6 +97,10 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 		typ = BoolAndToken
 	} else if txt == BoolOrTokenText {
 		typ = BoolOrToken
+	} else if txt == BoolTrueTokenText {
+		typ = BoolTrueToken
+	} else if txt == BoolFalseTokenText {
+		typ = BoolFalseToken
 	} else if txt == IfTokenText {
 		typ = IfToken
 	} else if txt == ElseTokenText {
@@ -139,8 +146,7 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 
 // The parser calls this method on a parse error.
 func (x *lexer) Error(s string) {
-	log.Printf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s)
-	os.Exit(1)
+	panic(fmt.Sprintf("%s:%d:%d:parse error: %s", x.pos.Filename, x.pos.Line, x.pos.Column, s))
 }
 
 func stripSurroundingQuotes(str string) string {

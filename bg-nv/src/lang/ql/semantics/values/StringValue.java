@@ -1,5 +1,7 @@
 package lang.ql.semantics.values;
 
+import lang.ql.semantics.ValueVisitor;
+
 /**
  * Created by bore on 16/02/15.
  */
@@ -50,5 +52,11 @@ public class StringValue extends Value<String>
     {
         boolean r = !(v.getValue().equals(this.getValue()));
         return new BooleanValue(r);
+    }
+
+    @Override
+    public void accept(ValueVisitor visitor)
+    {
+        visitor.visit(this);
     }
 }

@@ -2,6 +2,8 @@ package event
 
 import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 
+// Symbol is the message protocol used for interpreter communication with
+// SymbolTable process
 type Symbol struct {
 	Command SymbolEventType
 	Name    string
@@ -13,6 +15,8 @@ type Symbol struct {
 	Ret chan *ast.QuestionNode
 }
 
+// SymbolEventType is the enum with possible messages types for SymbolTable
+// process
 type SymbolEventType int
 
 const (

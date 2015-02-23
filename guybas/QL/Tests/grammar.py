@@ -23,19 +23,6 @@ class TestGrammar(unittest.TestCase):
         result = str(BasicTypes.sentences.parseString("this is a sentence. Is this another one? Can we escape \? ?"))
         self.assertEqual(result, "['this is a sentence .', 'Is this another one ?', 'Can we escape ? ?']" )
 
-    def test_number(self):
-        result = QuestionTypes.number.parseString("1").asList()
-        self.assertEqual(result, [1])
-
-    def test_boolean(self):
-        result = QuestionTypes.boolean.parseString("True").asList()
-        self.assertEqual(result, [True])
-
-    @unittest.expectedFailure
-    def test_boolean_fail(self):
-        result = QuestionTypes.boolean.parseString("False").asList()
-        self.assertEqual(result, ["False"])
-
     def test_simple_expression(self):
         result = Expressions.expr.parseString("1 + 2").asList()
         self.assertIsInstance(result[1], Operator)

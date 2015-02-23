@@ -1,5 +1,7 @@
 package lang.ql.semantics.values;
 
+import lang.ql.semantics.ValueVisitor;
+
 import java.math.BigDecimal;
 
 /**
@@ -146,5 +148,11 @@ public class DecimalValue extends Value<BigDecimal>
     public Value negDecimal()
     {
         return new DecimalValue(this.getValue().negate());
+    }
+
+    @Override
+    public void accept(ValueVisitor visitor)
+    {
+        visitor.visit(this);
     }
 }

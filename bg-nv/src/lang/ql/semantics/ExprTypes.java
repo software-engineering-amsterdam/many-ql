@@ -1,6 +1,6 @@
 package lang.ql.semantics;
 
-import lang.ql.ast.types.*;
+import lang.ql.ast.type.*;
 
 import java.util.HashMap;
 import java.util.HashSet;

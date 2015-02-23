@@ -8,6 +8,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
 {
     public interface INode
     {
+        NodeType Type { get; }
+        TextPosition Position { get; }
         void Accept(IASTVisitor visitor);
     }
 }

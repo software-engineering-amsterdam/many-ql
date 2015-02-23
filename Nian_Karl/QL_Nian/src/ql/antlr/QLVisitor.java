@@ -158,9 +158,45 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprEqual(QLParser.ExprEqualContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#literal}.
+	 * Visit a parse tree produced by the {@code Id}
+	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLiteral(QLParser.LiteralContext ctx);
+	T visitId(QLParser.IdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInt(QLParser.IntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Dec}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDec(QLParser.DecContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Bool}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBool(QLParser.BoolContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Str}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStr(QLParser.StrContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Date}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDate(QLParser.DateContext ctx);
 }

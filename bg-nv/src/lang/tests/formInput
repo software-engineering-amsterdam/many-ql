@@ -2,5 +2,6 @@ form sample
 {
     integer a "label" b
     integer b "label1" c
-    integer c "label2" a
+    integer c "label2"
+    boolean d "label3" true
 }

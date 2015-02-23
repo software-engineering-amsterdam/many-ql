@@ -10,14 +10,7 @@ import org.fugazi.ast.form.Form;
 
 /*
 // TODO type checker must detect
-
-operands of invalid type to operators
-
-reference to undefined questions
-duplicate question declarations with different types
-conditions that are not of the type boolean
 cyclic dependencies between questions
-duplicate labels (warning)
  */
 
 public class TypeChecker {

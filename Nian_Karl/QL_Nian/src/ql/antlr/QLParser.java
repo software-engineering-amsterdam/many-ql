@@ -1109,27 +1109,115 @@ public class QLParser extends Parser {
 	}
 
 	public static class LiteralContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(QLParser.Identifier, 0); }
-		public TerminalNode IntegerLiteral() { return getToken(QLParser.IntegerLiteral, 0); }
-		public TerminalNode DecimalLiteral() { return getToken(QLParser.DecimalLiteral, 0); }
-		public TerminalNode BooleanLiteral() { return getToken(QLParser.BooleanLiteral, 0); }
-		public TerminalNode StringLiteral() { return getToken(QLParser.StringLiteral, 0); }
-		public TerminalNode DateLiteral() { return getToken(QLParser.DateLiteral, 0); }
 		public LiteralContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_literal; }
+	 
+		public LiteralContext() { }
+		public void copyFrom(LiteralContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class StrContext extends LiteralContext {
+		public TerminalNode StringLiteral() { return getToken(QLParser.StringLiteral, 0); }
+		public StrContext(LiteralContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterLiteral(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterStr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitLiteral(this);
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitStr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLiteral(this);
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DecContext extends LiteralContext {
+		public TerminalNode DecimalLiteral() { return getToken(QLParser.DecimalLiteral, 0); }
+		public DecContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterDec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitDec(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitDec(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BoolContext extends LiteralContext {
+		public TerminalNode BooleanLiteral() { return getToken(QLParser.BooleanLiteral, 0); }
+		public BoolContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterBool(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitBool(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBool(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IdContext extends LiteralContext {
+		public TerminalNode Identifier() { return getToken(QLParser.Identifier, 0); }
+		public IdContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterId(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitId(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitId(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntContext extends LiteralContext {
+		public TerminalNode IntegerLiteral() { return getToken(QLParser.IntegerLiteral, 0); }
+		public IntContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterInt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitInt(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitInt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DateContext extends LiteralContext {
+		public TerminalNode DateLiteral() { return getToken(QLParser.DateLiteral, 0); }
+		public DateContext(LiteralContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).enterDate(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof QLListener ) ((QLListener)listener).exitDate(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitDate(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1137,17 +1225,59 @@ public class QLParser extends Parser {
 	public final LiteralContext literal() throws RecognitionException {
 		LiteralContext _localctx = new LiteralContext(_ctx, getState());
 		enterRule(_localctx, 18, RULE_literal);
-		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(107);
-			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << StringLiteral) | (1L << DateLiteral) | (1L << Identifier))) != 0)) ) {
-			_errHandler.recoverInline(this);
-			} else {
-				consume();
-			}
+			setState(113);
+			switch (_input.LA(1)) {
+			case Identifier:
+				_localctx = new IdContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(107);
+				match(Identifier);
+				}
+				break;
+			case IntegerLiteral:
+				_localctx = new IntContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(108);
+				match(IntegerLiteral);
+				}
+				break;
+			case DecimalLiteral:
+				_localctx = new DecContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(109);
+				match(DecimalLiteral);
+				}
+				break;
+			case BooleanLiteral:
+				_localctx = new BoolContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(110);
+				match(BooleanLiteral);
+				}
+				break;
+			case StringLiteral:
+				_localctx = new StrContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(111);
+				match(StringLiteral);
+				}
+				break;
+			case DateLiteral:
+				_localctx = new DateContext(_localctx);
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(112);
+				match(DateLiteral);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1199,34 +1329,36 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3.p\4\2\t\2\4\3\t\3"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3.v\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3\2"+
 		"\3\2\3\2\3\2\3\3\3\3\7\3\35\n\3\f\3\16\3 \13\3\3\3\3\3\3\4\3\4\3\4\5\4"+
 		"\'\n\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\3\t\3\t\3\t"+
 		"\3\t\3\t\5\t;\n\t\3\n\3\n\3\n\3\n\3\n\3\n\5\nC\n\n\3\n\3\n\3\n\3\n\3\n"+
 		"\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3"+
 		"\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\7\ni\n\n\f\n\16"+
-		"\nl\13\n\3\13\3\13\3\13\2\3\22\f\2\4\6\b\n\f\16\20\22\24\2\4\3\2\b\r\5"+
-		"\2 !#%..v\2\26\3\2\2\2\4\32\3\2\2\2\6&\3\2\2\2\b(\3\2\2\2\n-\3\2\2\2\f"+
-		"/\3\2\2\2\16\61\3\2\2\2\20\63\3\2\2\2\22B\3\2\2\2\24m\3\2\2\2\26\27\7"+
-		"\3\2\2\27\30\7.\2\2\30\31\5\4\3\2\31\3\3\2\2\2\32\36\7\32\2\2\33\35\5"+
-		"\6\4\2\34\33\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37!\3\2\2"+
-		"\2 \36\3\2\2\2!\"\7\33\2\2\"\5\3\2\2\2#\'\5\4\3\2$\'\5\b\5\2%\'\5\20\t"+
-		"\2&#\3\2\2\2&$\3\2\2\2&%\3\2\2\2\'\7\3\2\2\2()\5\n\6\2)*\5\f\7\2*+\5\16"+
-		"\b\2+,\7\37\2\2,\t\3\2\2\2-.\t\2\2\2.\13\3\2\2\2/\60\7.\2\2\60\r\3\2\2"+
-		"\2\61\62\7$\2\2\62\17\3\2\2\2\63\64\7\4\2\2\64\65\7\34\2\2\65\66\5\22"+
-		"\n\2\66\67\7\35\2\2\67:\5\4\3\289\7\6\2\29;\5\4\3\2:8\3\2\2\2:;\3\2\2"+
-		"\2;\21\3\2\2\2<=\b\n\1\2=C\5\24\13\2>?\7\34\2\2?@\5\22\n\2@A\7\35\2\2"+
-		"AC\3\2\2\2B<\3\2\2\2B>\3\2\2\2Cj\3\2\2\2DE\f\17\2\2EF\7\17\2\2Fi\5\22"+
-		"\n\20GH\f\16\2\2HI\7\16\2\2Ii\5\22\n\17JK\f\r\2\2KL\7\21\2\2Li\5\22\n"+
-		"\16MN\f\f\2\2NO\7\22\2\2Oi\5\22\n\rPQ\f\13\2\2QR\7\24\2\2Ri\5\22\n\fS"+
-		"T\f\n\2\2TU\7\20\2\2Ui\5\22\n\13VW\f\t\2\2WX\7\25\2\2Xi\5\22\n\nYZ\f\b"+
-		"\2\2Z[\7\23\2\2[i\5\22\n\t\\]\f\7\2\2]^\7\26\2\2^i\5\22\n\b_`\f\6\2\2"+
-		"`a\7\27\2\2ai\5\22\n\7bc\f\5\2\2cd\7\31\2\2di\5\22\n\6ef\f\4\2\2fg\7\30"+
-		"\2\2gi\5\22\n\5hD\3\2\2\2hG\3\2\2\2hJ\3\2\2\2hM\3\2\2\2hP\3\2\2\2hS\3"+
-		"\2\2\2hV\3\2\2\2hY\3\2\2\2h\\\3\2\2\2h_\3\2\2\2hb\3\2\2\2he\3\2\2\2il"+
-		"\3\2\2\2jh\3\2\2\2jk\3\2\2\2k\23\3\2\2\2lj\3\2\2\2mn\t\3\2\2n\25\3\2\2"+
-		"\2\b\36&:Bhj";
+		"\nl\13\n\3\13\3\13\3\13\3\13\3\13\3\13\5\13t\n\13\3\13\2\3\22\f\2\4\6"+
+		"\b\n\f\16\20\22\24\2\3\3\2\b\r\u0081\2\26\3\2\2\2\4\32\3\2\2\2\6&\3\2"+
+		"\2\2\b(\3\2\2\2\n-\3\2\2\2\f/\3\2\2\2\16\61\3\2\2\2\20\63\3\2\2\2\22B"+
+		"\3\2\2\2\24s\3\2\2\2\26\27\7\3\2\2\27\30\7.\2\2\30\31\5\4\3\2\31\3\3\2"+
+		"\2\2\32\36\7\32\2\2\33\35\5\6\4\2\34\33\3\2\2\2\35 \3\2\2\2\36\34\3\2"+
+		"\2\2\36\37\3\2\2\2\37!\3\2\2\2 \36\3\2\2\2!\"\7\33\2\2\"\5\3\2\2\2#\'"+
+		"\5\4\3\2$\'\5\b\5\2%\'\5\20\t\2&#\3\2\2\2&$\3\2\2\2&%\3\2\2\2\'\7\3\2"+
+		"\2\2()\5\n\6\2)*\5\f\7\2*+\5\16\b\2+,\7\37\2\2,\t\3\2\2\2-.\t\2\2\2.\13"+
+		"\3\2\2\2/\60\7.\2\2\60\r\3\2\2\2\61\62\7$\2\2\62\17\3\2\2\2\63\64\7\4"+
+		"\2\2\64\65\7\34\2\2\65\66\5\22\n\2\66\67\7\35\2\2\67:\5\4\3\289\7\6\2"+
+		"\29;\5\4\3\2:8\3\2\2\2:;\3\2\2\2;\21\3\2\2\2<=\b\n\1\2=C\5\24\13\2>?\7"+
+		"\34\2\2?@\5\22\n\2@A\7\35\2\2AC\3\2\2\2B<\3\2\2\2B>\3\2\2\2Cj\3\2\2\2"+
+		"DE\f\17\2\2EF\7\17\2\2Fi\5\22\n\20GH\f\16\2\2HI\7\16\2\2Ii\5\22\n\17J"+
+		"K\f\r\2\2KL\7\21\2\2Li\5\22\n\16MN\f\f\2\2NO\7\22\2\2Oi\5\22\n\rPQ\f\13"+
+		"\2\2QR\7\24\2\2Ri\5\22\n\fST\f\n\2\2TU\7\20\2\2Ui\5\22\n\13VW\f\t\2\2"+
+		"WX\7\25\2\2Xi\5\22\n\nYZ\f\b\2\2Z[\7\23\2\2[i\5\22\n\t\\]\f\7\2\2]^\7"+
+		"\26\2\2^i\5\22\n\b_`\f\6\2\2`a\7\27\2\2ai\5\22\n\7bc\f\5\2\2cd\7\31\2"+
+		"\2di\5\22\n\6ef\f\4\2\2fg\7\30\2\2gi\5\22\n\5hD\3\2\2\2hG\3\2\2\2hJ\3"+
+		"\2\2\2hM\3\2\2\2hP\3\2\2\2hS\3\2\2\2hV\3\2\2\2hY\3\2\2\2h\\\3\2\2\2h_"+
+		"\3\2\2\2hb\3\2\2\2he\3\2\2\2il\3\2\2\2jh\3\2\2\2jk\3\2\2\2k\23\3\2\2\2"+
+		"lj\3\2\2\2mt\7.\2\2nt\7 \2\2ot\7!\2\2pt\7#\2\2qt\7$\2\2rt\7%\2\2sm\3\2"+
+		"\2\2sn\3\2\2\2so\3\2\2\2sp\3\2\2\2sq\3\2\2\2sr\3\2\2\2t\25\3\2\2\2\t\36"+
+		"&:Bhjs";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

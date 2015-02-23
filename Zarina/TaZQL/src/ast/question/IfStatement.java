@@ -4,7 +4,7 @@ import java.util.List;
 
 import ast.expression.Expression;
 
-public class IfStatement extends IQuestionVisitable {
+public class IfStatement extends Question {
 
 	private final Expression ifExpression;
 	private List<Question> ifStatement;
@@ -29,7 +29,7 @@ public class IfStatement extends IQuestionVisitable {
 	
 	@Override
 	public String toString() {
-		String output = "if " + " ( " + this.ifExpression + " ) { ";
+		String output = "if " + " ( " + this.ifExpression.toString() + " ) { \n";
 		for(Question q: ifStatement)
 			output += q.toString() + "\n";
 		output += " } ";

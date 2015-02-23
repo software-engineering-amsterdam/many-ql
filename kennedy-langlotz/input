@@ -9,15 +9,27 @@
     end
 end
 
-*/question
+question
     id : question2
     text : "Age?"
     type : numeral
-    value : 24
+    value : 9*(0+ 8)
 end
-
 question
     id : question3
     text : "name?"
-    type : string
+    type : date
+    value: 12/01/2012
+end*/question
+    id : question1
+    text : "What is your age?"
+    type : numeral
+    value : 18
+end
+
+question
+    id : question2
+    text : "When is your birthday?"
+    type : date
+    value : 21.12.1990
 end

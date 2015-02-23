@@ -4,8 +4,9 @@ import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.types.*;
+import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
+
 import java.util.*;
 
 /**
@@ -295,7 +296,7 @@ public class TypeChecker implements Visitor
         if (!(leftChildType.equals(rightChildType)))
         {
             this.info.addMessage(Error.typeMismatch(
-                    n.getClass().getSimpleName(), leftChildType, rightChildType,n.getLineNumber()));
+                    n.getClass().getSimpleName(), leftChildType, rightChildType, n.getLineNumber()));
         }
     }
 

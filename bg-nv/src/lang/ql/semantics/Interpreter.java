@@ -3,6 +3,8 @@ package lang.ql.semantics;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.*;
 import lang.ql.ast.statement.*;
+import lang.ql.ast.type.*;
+import lang.ql.semantics.errors.Message;
 import lang.ql.semantics.values.*;
 
 import java.util.*;
@@ -13,16 +15,16 @@ import java.util.*;
 public class Interpreter implements Visitor
 {
     private Stack<Value> valueStack;
-    private Map<String, Value> variableValues;
+    private ValueTable variableValues;
     private QuestErrInfo info;
 
     public Interpreter()
     {
         this.valueStack = new Stack<Value>();
-        this.variableValues = new HashMap<String, Value>();
+        this.variableValues = new ValueTable();
     }
 
-    public Map<String, Value> getVariableValues()
+    public ValueTable getVariableValues()
     {
         return variableValues;
     }
@@ -44,8 +46,14 @@ public class Interpreter implements Visitor
 
         if (!(this.info.getMessages().isEmpty()))
         {
+            // TODO: remove the piece below (only used for quick debugging!)
+            String s = "";
+            for (Message m : this.info.getMessages()) {
+                s += m.getMessage() + "\n";
+            }
+
             // TODO: handle semantic errors
-            throw new IllegalStateException("Semantic errors");
+            throw new IllegalStateException("Semantic errors: " + s);
         }
 
         for(Statement s : f.getStatements())
@@ -71,7 +79,7 @@ public class Interpreter implements Visitor
     public void visit(Question n)
     {
         Value defaultValue = ValueFactory.makeValue(n.getType());
-        this.variableValues.put(n.getId(), defaultValue);
+        this.variableValues.storeValue(n.getId(), defaultValue);
     }
 
     @Override
@@ -84,7 +92,7 @@ public class Interpreter implements Visitor
 //            Set<Question> questions = this.questionDependencies.get(n);
 //            //TODO: now what?
 //        }
-        this.variableValues.put(n.getId(), this.popFromStack());
+        this.variableValues.storeValue(n.getId(), this.popFromStack());
     }
 
     @Override
@@ -115,14 +123,14 @@ public class Interpreter implements Visitor
     public void visit(Indent e)
     {
         // TODO: get the Question expression based on the identifier and compute its value and put it in the variableValues
-        if (!(this.variableValues.containsKey(e.getId())))
+        if (!(this.variableValues.valueExists(e.getId())))
         {
             List<Question> qs = this.info.getQuestionsById(e.getId());
             assert qs.size() == 1;
             Question q = qs.get(0);
             q.accept(this);
         }
-        Value v = this.variableValues.get(e.getId());
+        Value v = this.variableValues.getValue(e.getId());
         this.valueStack.push(v);
     }
 
@@ -284,6 +292,7 @@ public class Interpreter implements Visitor
         Value result = left.or(right);
         this.valueStack.push(result);
     }
+
 
     private void visitBinaryChildren(BinaryExpr e)
     {
