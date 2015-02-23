@@ -1,11 +1,10 @@
 package gui;
 
-import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
 import ast.expression.BracketsExpression;
 import ast.expression.arithmetic.AdditionExpression;
 import ast.expression.arithmetic.DivisionExpression;
@@ -49,7 +48,7 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	
 	public GUIVisitor() {
 		this.panel = new JPanel();
-		this.panel.setLayout(new GridLayout(0, 2)); // has to be solved differently...
+		this.panel.setLayout(new MigLayout("wrap 2")); 
 	}
 	
 	public JPanel getPanel() {
@@ -67,7 +66,7 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	
 	//to be changed in widget
 	public void addWidget(String id) {
-		this.panel.add(new JTextField(15));
+		this.panel.add(new JTextField(15), "wrap");
 		this.panel.setVisible(true);
 	}
 	
