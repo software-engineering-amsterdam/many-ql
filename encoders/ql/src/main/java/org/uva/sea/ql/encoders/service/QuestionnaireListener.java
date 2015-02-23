@@ -30,8 +30,8 @@ public class QuestionnaireListener extends EncodersQLBaseListener {
 		String questionString = ctx.questionString.getText();
 		questionString = questionString.replaceAll("\"", "");
 
-		Question question = new Question(questionName, condition, dataType,
-				questionString);
+		Question question = new Question(questionName, dataType, questionString);
+		question.setCondition(condition);
 		questionnaire.addQuestion(question);
 	}
 

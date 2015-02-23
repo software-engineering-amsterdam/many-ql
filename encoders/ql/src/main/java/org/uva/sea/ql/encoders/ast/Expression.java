@@ -45,4 +45,19 @@ public class Expression extends AstNode {
 	public String getOperator() {
 		return operator;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(expression);
+		builder.append(" ");
+		builder.append(leftHand);
+		builder.append(" ");
+		builder.append(operator);
+		builder.append(" ");
+		builder.append(rightHand);
+		builder.append(" ");
+		builder.append(name);
+		return builder.toString().replace("null", "").trim();
+	}
 }

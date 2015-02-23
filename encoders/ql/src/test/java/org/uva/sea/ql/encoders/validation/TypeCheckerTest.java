@@ -24,8 +24,10 @@ public class TypeCheckerTest {
 	public void testCheckTypesFindsUnreferencedQuestion() {
 		Questionnaire questionnaire = new Questionnaire();
 
-		Question question = new Question("someQuestionName",
-				"undefinedQuestionName", DataType.BOOLEAN, "Huh?");
+		String condition = "undefinedQuestionName";
+		Question question = new Question("someQuestionName", DataType.BOOLEAN,
+				"Huh?");
+		question.setCondition(condition);
 		questionnaire.addQuestion(question);
 
 		ValidationResult result = typeChecker.checkTypes(questionnaire);

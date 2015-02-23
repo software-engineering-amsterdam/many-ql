@@ -7,16 +7,16 @@ public class Question extends AstNode {
 
 	private final String name;
 
-	private final String condition;
-
 	private final DataType type;
 
 	private final String questionText;
 
-	public Question(String name, String condition, DataType dataType,
-			String questionText) {
+	private String condition = null;
+
+	private Expression expression = null;
+
+	public Question(String name, DataType dataType, String questionText) {
 		this.name = name;
-		this.condition = condition;
 		this.type = dataType;
 		this.questionText = questionText;
 	}
@@ -37,4 +37,15 @@ public class Question extends AstNode {
 		return condition;
 	}
 
+	public Expression getExpression() {
+		return expression;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public void setExpression(Expression expression) {
+		this.expression = expression;
+	}
 }

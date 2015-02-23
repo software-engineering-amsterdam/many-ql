@@ -11,11 +11,8 @@ statement: question | conditionalBlock;
         
 question:
      questionString=QUOTEDSTRING 
-     questionName=NAME ':' type=DATATYPE computation? ;
+     questionName=NAME ':' type=DATATYPE ('=' expr=expression)? ;
          
-computation:
-     '=' 
-     expr=expression;
      
 conditionalBlock:
      'if' '(' conditional ')' '{' 
