@@ -458,21 +458,18 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return false;
     }
 
+    // a = b
+    // a - depender
+    // b - dependee
     private boolean checkIfLiteralsDependent(ID depender, ID dependee) {
-        List<ID> dependenciesForDepender = this.questionDependencies.getIdDependencies(depender);
+        List<String> dependenciesForDepender =
+                this.questionDependencies.getIdDependencyNames(depender);
 
-        System.out.println("Curent deps for depender " + depender.toString() + ": ");
-        System.out.println(dependenciesForDepender);
-
-        // current depender has no dependencies
-        // or the dependee is not one of them
-        if ((dependenciesForDepender == null) ||
-                !dependenciesForDepender.contains(dependee)) {
-            System.out.println("Returning false");
-            return false;
+        if ((dependenciesForDepender != null)
+                && dependenciesForDepender.contains(dependee.getName())) {
+            return true;
         }
-        System.out.println("Returning true");
-        return true;
+        return false;
     }
 
     /**
@@ -491,9 +488,10 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return;
     }
 
+    /* This method has to find all the nodes that depend on depender
+    *  and add dependee as a dependency for them too, not only for depender
+    */
     private void updateDependency(ID depender, ID dependee) {
-        // this method has to find all the nodes that depend on depender
-        // and add dependee as a dependency for them too, not only for depender
 
         // you have to add dependee and all dependee's further dependees
         // to detect cycles like this:
@@ -503,38 +501,13 @@ public class TypeCheckerVisitor implements IASTVisitor {
         // 3. d = a
         // after 2. c needs to be added to a list of ids that depend on, and therefore a
 
-        /*
-
-        1. A new dependeeX detected for dependantY.
-        2. Add to list of dependants of dependantY.
-        3. Look who depends on depenantY -> add to tempList newDependants.
-        4. while newDependants not empty:
-           4a. newDependant = newDependants.pop(0)
-           4b. newDependantDependants // Look who depends on newDependandt
-           for x in newDependantDependants
-            4b1. if any newDependantDependants in alreadyVisited
-               REGISTER CIRCULAR DEPENDENCY (x, newDependant)
-                else
-                add newDependantDependants to tempList newDependants.
-           4c. (ListOfIdsToAdd dependeeX to).append(newDependant)
-           4d.
-            4d1. alreadyVisited.append(newDependant)
-
-        5. For id in (ListOfIdsToAdd dependeeX to):
-           5a. addDependendcy(id, dependeeX);
-         */
-
         // all the ids that are dependent on dependee directly or indirectly
         // ids depending on them need to be updated too with the new dependee
         List<ID> idsToAddNewDependencyTo = new ArrayList<ID>();
         // temporary list used for traversing the graph.
         // pop first element, update all it's dependencies and add them
         List<ID> idsWithNewDependencies = new ArrayList<ID>();
-
         idsWithNewDependencies.add(depender);
-
-        // so that we avoid endless looping when circular dependencies exist
-        List<ID> alreadyAnalyzed = new ArrayList<ID>();
 
         while (idsWithNewDependencies.size() > 0) {
             ID newDependee = idsWithNewDependencies.remove(0);
@@ -548,37 +521,20 @@ public class TypeCheckerVisitor implements IASTVisitor {
                     idsToAddNewDependencyTo.add(key);
                 }
             }
-
             // analyzed, need to be updated
             idsToAddNewDependencyTo.add(depender);
-            // fully analyzed, add to already analyzed list (so that it's not analyzed anymore)
-            alreadyAnalyzed.add(newDependee);
         }
 
         for (ID newDependant : idsToAddNewDependencyTo) {
-            List<String> dependenciesForDependee = this.questionDependencies.getIdDependencyNames(dependee);
-            if ((dependenciesForDependee != null)
-                    && dependenciesForDependee.contains(newDependant.getName())) {
-                System.out.println("CIRCULAR DEPENDENCY: " + newDependant + " trying to depend on " + dependee);
-            } else {
-                this.questionDependencies.addIdDependenant(newDependant, dependee);
-            }
+            this.questionDependencies.addIdDependenant(newDependant, dependee);
         }
-
-        System.out.println();System.out.println();System.out.println();System.out.println();
-        System.out.println(this.questionDependencies);System.out.println();System.out.println();System.out.println();
-
-
-//        System.out.println("Updated dependency " + depender.toString() + " " + dependenciesForDepender);
-//        this.questionDependencies.put(depender.getName(), dependenciesForDepender);
-//        System.out.println("Saved dependency " + depender.toString() + " " + this.questionDependencies.get(depender.getName()).toString());
         return;
     }
 
-    // TODO better words for dependent dependee
+    // a = b
+    // a - depender
+    // b - dependee
     private void addAndCheckDependency(ID depender, ID dependee) {
-        System.out.println("Adding and checking deps for " + depender.toString() + " " + dependee.toString());
-        // check if there is a reverse dependency
         if (this.checkIfLiteralsDependent(dependee, depender)) {
             this.astErrorHandler.registerNewError( dependee,
                     "Circular dependency between this node and " +
