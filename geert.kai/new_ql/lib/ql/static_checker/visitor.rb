@@ -1,10 +1,6 @@
-# The Visitor class is our base class for all visitors.  It implements the  
-# "visit" method which Object#accept will call.   
-class BaseVisitor  
-  # This method will examine the class and ancestors of +thing+. For each  
-  # class in the "ancestors" list, it will check to see if the visitor knows  
-  # how to handle that particular class. If it can't find a handler for the  
-  # +subject+ it will raise an exception.  
+
+#TODO test of het ancestor gedoe daadwerkelijk nodig is
+class BaseVisitor
   def visit(subject)
     subject.class.ancestors.each do |ancestor|  
       method_name = :"visit_#{ancestor.name.underscore}"  
