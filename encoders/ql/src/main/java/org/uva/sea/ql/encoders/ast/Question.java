@@ -11,9 +11,9 @@ public class Question extends AstNode {
 
 	private final String questionText;
 
-	private String condition = null;
+	private Expression condition = null;
 
-	private Expression expression = null;
+	private Expression computed = null;
 
 	public Question(String name, DataType dataType, String questionText) {
 		this.name = name;
@@ -33,19 +33,19 @@ public class Question extends AstNode {
 		return questionText;
 	}
 
-	public String getCondition() {
+	public Expression getCondition() {
 		return condition;
 	}
 
-	public Expression getExpression() {
-		return expression;
+	public Expression getComputed() {
+		return computed;
 	}
 
-	public void setCondition(String condition) {
+	public void setCondition(Expression condition) {
 		this.condition = condition;
 	}
 
-	public void setExpression(Expression expression) {
-		this.expression = expression;
+	public void setComputed(Expression expression) {
+		this.computed = expression;
 	}
 }

@@ -74,11 +74,11 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 			Expression condition = (Expression) visit(parent.expression());
 			question.setCondition(condition);
 		}
-		ExpressionContext expressionContext = ctx.expr;
-		if (expressionContext != null) {
-			Expression expression = (Expression) visit(expressionContext);
-			question.setExpression(expression);
-			System.out.println(expression);
+		ExpressionContext computedCtx = ctx.computed;
+		if (computedCtx != null) {
+			Expression computed = (Expression) visit(computedCtx);
+			question.setComputed(computed);
+			System.out.println(computed);
 		}
 		super.visitChildren(ctx);
 		return question;

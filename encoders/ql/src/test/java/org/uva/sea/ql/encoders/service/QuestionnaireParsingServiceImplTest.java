@@ -1,5 +1,6 @@
 package org.uva.sea.ql.encoders.service;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -7,6 +8,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 import org.uva.sea.ql.encoders.ast.DataType;
+import org.uva.sea.ql.encoders.ast.Expression;
+import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 
@@ -45,7 +48,7 @@ public class QuestionnaireParsingServiceImplTest {
 		assertThat(question, is(notNullValue()));
 		assertThat(question.getName(), is(hasSoldHouse));
 		assertThat(question.getDataType(), is(DataType.BOOLEAN));
-		assertThat(question.getCondition(), is((String) null));
+		assertThat(question.getCondition(), is((Expression) null));
 	}
 
 	// TODO create better name for test
@@ -61,6 +64,9 @@ public class QuestionnaireParsingServiceImplTest {
 		assertThat(question, is(notNullValue()));
 		assertThat(question.getName(), is(questionName));
 		assertThat(question.getDataType(), is(DataType.MONEY));
-		assertThat(question.getCondition(), is("hasSoldHouse"));
+		Expression condition = question.getCondition();
+		assertThat(condition, is(instanceOf(NameExpression.class)));
+		NameExpression nameExpression = (NameExpression) condition;
+		assertThat(nameExpression.getName(), is("hasSoldHouse"));
 	}
 }

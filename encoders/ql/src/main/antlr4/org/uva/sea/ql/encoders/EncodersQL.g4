@@ -7,20 +7,22 @@ questionnaire:
     '}'
     EOF;
 
-statement: question | conditionalBlock;
+statement:
+     question
+     | conditionalBlock
+     ;
         
 question:
      questionString=QUOTEDSTRING 
-     questionName=NAME ':' type=DATATYPE ('=' expr=expression)? ;
+     questionName=NAME ':' type=DATATYPE ('=' computed=expression)?
+     ;
          
      
 conditionalBlock:
-     'if' '(' conditional ')' '{' 
+     'if' '(' expression ')' '{' 
      question+
-     '}' ;
-    
-conditional:
-    NAME;
+     '}'
+     ;
     
 expression:
     '(' expr=expression ')'                                         #BracedExpression
