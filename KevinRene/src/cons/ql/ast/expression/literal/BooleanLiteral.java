@@ -20,4 +20,6 @@ public class BooleanLiteral extends Literal<Boolean> {
 	public <T> T accept(Visitor<T> visitor) {		
 		return visitor.visit(this);
 	}
+
+		
 }

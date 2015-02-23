@@ -1,6 +1,5 @@
 package cons.ql.ast.statement;
 
-import cons.TypeRegister;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.visitor.Visitor;

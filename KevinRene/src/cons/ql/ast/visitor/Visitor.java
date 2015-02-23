@@ -33,7 +33,6 @@ import cons.ql.ast.statement.If;
 import cons.ql.ast.statement.Question;
 
 public interface Visitor<T> {
-
 	public T visit(Pos pos);
 	public T visit(Not not);
 	public T visit(Neg neg);
