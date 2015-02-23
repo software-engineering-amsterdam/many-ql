@@ -1,5 +1,8 @@
 package org.fugazi.evaluator;
 
+/**
+ * Null Object
+ */
 public class UndefinedValue extends ExpressionValue {
 
     public UndefinedValue() {

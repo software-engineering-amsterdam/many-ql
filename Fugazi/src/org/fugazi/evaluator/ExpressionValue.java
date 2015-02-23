@@ -17,7 +17,6 @@ public abstract class ExpressionValue<T> {
     }
 
     public ExpressionValue add(ExpressionValue exprValue) {
-        // TODO: throw UndefinedExpeption?
         return new UndefinedValue();
     }
     
