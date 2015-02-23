@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ComputedValue extends AbstractFormField<ComputedValue> {
 
-    public void applyWidget(IComputedValueWidgetCallback<ComputedValue> widgetCallback) {
+    public void applyWidget(IComputedValueWidgetCallback widgetCallback) {
         // TODO
     }
 
