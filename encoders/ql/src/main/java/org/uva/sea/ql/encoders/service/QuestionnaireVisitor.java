@@ -18,9 +18,12 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StatementContext;
 import org.uva.sea.ql.encoders.ast.AstNode;
+import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
+import org.uva.sea.ql.encoders.ast.NameExpression;
+import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 
@@ -86,7 +89,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new Expression(leftHand, rightHand, operator);
+		return new OperatorExpression(leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -94,7 +97,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new Expression(leftHand, rightHand, operator);
+		return new OperatorExpression(leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -102,7 +105,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new Expression(leftHand, rightHand, operator);
+		return new OperatorExpression(leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -110,7 +113,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new Expression(leftHand, rightHand, operator);
+		return new OperatorExpression(leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -118,7 +121,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new Expression(leftHand, rightHand, operator);
+		return new OperatorExpression(leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -126,7 +129,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new Expression(leftHand, rightHand, operator);
+		return new OperatorExpression(leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -134,17 +137,17 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new Expression(leftHand, rightHand, operator);
+		return new OperatorExpression(leftHand, rightHand, operator);
 	}
 
 	@Override
 	public Expression visitBracedExpression(BracedExpressionContext ctx) {
 		Expression expression = (Expression) visit(ctx.expression());
-		return new Expression(expression);
+		return new BracedExpression(expression);
 	}
 
 	@Override
 	public Expression visitName(NameContext ctx) {
-		return new Expression(ctx.name.getText());
+		return new NameExpression(ctx.name.getText());
 	}
 }
