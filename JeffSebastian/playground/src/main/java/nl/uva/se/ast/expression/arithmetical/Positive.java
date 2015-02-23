@@ -13,7 +13,6 @@ public class Positive extends Unary {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-		getSingleExpression().accept(visitor);
 	}
 
 }
