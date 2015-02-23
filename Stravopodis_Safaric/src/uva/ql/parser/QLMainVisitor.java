@@ -10,6 +10,7 @@ import uva.ql.ast.declarations.Declaration;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.expressions.PrimitiveType;
+import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.IntLiteral;
 import uva.ql.ast.expressions.logic.And;
@@ -39,30 +40,14 @@ import uva.ql.parser.QLParser.StatContext;
 import uva.ql.ast.expressions.literals.*;
 import uva.ql.ast.question.Question;
 import uva.ql.ast.statements.Assign;
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 import uva.ql.ast.statements.IfStatement;
-=======
->>>>>>> FETCH_HEAD
->>>>>>> Stashed changes
 import uva.ql.ast.statements.Statement;
 
 import java.util.*;
 
-public class Visitor extends QLBaseVisitor<ASTNode> {
+public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
 	
 	public static List<StatContext> stats = new ArrayList<StatContext>();
-<<<<<<< Updated upstream
-			
-	
-=======
-<<<<<<< HEAD
-=======
-			
-	
->>>>>>> FETCH_HEAD
->>>>>>> Stashed changes
 	
 	@Override 
 	public ASTNode visitProg(ProgContext ctx) { 
@@ -72,44 +57,31 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	
 	@Override 
 	public ASTNode visitForm(FormContext ctx) { 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 		CodeLines codeLines = getCodeLines(ctx);
-		Statement statement = new Statement(codeLines);
 		
+		List<Statement> statement = new ArrayList<Statement>();
 		for (StatContext s : ctx.stms){
-			statement.addChild(visitStat(s));
+			statement.add((Statement)visitStat(s));
 		}
 		
 		return new Form(new Identifier(ctx.Identifier().getText(), codeLines), statement, codeLines);
-=======
->>>>>>> Stashed changes
-		//System.out.println(ctx.stms);
-		List <StatContext> stats = ctx.stms;
-		
-		return visitChildren(ctx); 
->>>>>>> FETCH_HEAD
 	}
 	
 	@Override 
 	public ASTNode visitQuest(QuestContext ctx) { 
 		CodeLines codeLines = getCodeLines(ctx);
 		
-		Statement statement = new Statement(codeLines);
+		List<Statement> statement = new ArrayList<Statement>();
 		for(StatContext s : ctx.stms){
-			if (s.quest() == null) statement.addChild(visitStat(s));
+			if (s.quest() == null) statement.add((Statement)visitStat(s));
 			else System.err.println("Nested questions");
 		}
 		
-		return new Question(new Identifier(ctx.Identifier().getText(), codeLines), visitPrimitiveType(ctx.primitiveType()), statement, codeLines);
+		return new Question(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), statement, codeLines);
 	}
 	
 	@Override 
 	public ASTNode visitStat(StatContext ctx) { 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 		
 		if (ctx.expr() != null) return visitExpr(ctx.expr());
 		else if (ctx.decl() != null) return visitDecl(ctx.decl());
@@ -120,16 +92,6 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 			else return visitAssignStr((AssignStrContext)ctx.assign());
 		}
 		
-=======
->>>>>>> Stashed changes
-		/*Tuple<Integer,Integer> codeLines = getCodeLines(ctx);*/
-		List <Statement> states = new ArrayList<Statement>();
-		for (StatContext context : stats){
-			Statement state =  (Statement)visitStat(context);
-			states.add((Statement)visitStat(context));}
-		System.out.println(ctx.getText());
-		// Statements -> quest, decl, ifStatement, quest_decl, assign
->>>>>>> FETCH_HEAD
 		return visitChildren(ctx); 
 	}
 
@@ -138,9 +100,9 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 		CodeLines codeLines = getCodeLines(ctx);
 		
 		if (ctx.expr() != null) 
-			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), visitPrimitiveType(ctx.primitiveType()), (Expression)visitExpr(ctx.expr()), codeLines);
+			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), (Expression)visitExpr(ctx.expr()), codeLines);
 		else 
-			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), visitPrimitiveType(ctx.primitiveType()), codeLines);
+			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), codeLines);
 	}
 	@Override
 	public ASTNode visitAssignExpr(QLParser.AssignExprContext ctx) { 
@@ -192,9 +154,9 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 		
 		CodeLines codeLines = getCodeLines(ctx);
 		
-		Statement statement = new Statement(codeLines);
+		List<Statement> statement = new ArrayList<Statement>();
 		for(StatContext s : ctx.stms)
-			statement.addChild(visitStat(s));
+			statement.add((Statement)visitStat(s));
 		
 		return new IfStatement((Expression)visitExpr(ctx.expr()), statement, codeLines);
 	}
@@ -206,10 +168,10 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 		
 		if (ctx.BooleanLiteral() != null) 
 			return new BooleanLiteral(Boolean.valueOf(ctx.getText()),codeLines);
-		else if (ctx.Integer() != null) 
-			return new IntLiteral(Integer.valueOf(ctx.getText()), codeLines);
+		else if (ctx.Integer() != null)
+			return new IntLiteral(Integer.valueOf(ctx.getText().replaceAll(".*\\(|\\).*", "")), codeLines);
 		else if (ctx.Decimal() != null) 
-			return new DecimalLiteral(Float.valueOf(ctx.getText()), codeLines);
+			return new DecimalLiteral(Float.valueOf(ctx.getText().replaceAll(".*\\(|\\).*", "")), codeLines);
 		else if (ctx.Identifier() != null){ 
 			return new Identifier(ctx.getText(), codeLines);
 		}
@@ -219,16 +181,16 @@ public class Visitor extends QLBaseVisitor<ASTNode> {
 	
 	@Override 
 	public ASTNode visitPrimitiveType(PrimitiveTypeContext ctx) { 
-		CodeLines codeLines = getCodeLines(ctx);
 		PrimitiveType type = PrimitiveType.findOperator(ctx.getText());
+		CodeLines codeLines = getCodeLines(ctx);
 		
 		switch(type){
-			case BOOLEAN: 	return new BooleanLiteral(codeLines);
-			case INT: 		return new IntLiteral(codeLines);
-			case DECIMAL: 	return new DecimalLiteral(codeLines);
-			case STRING: 	return new StringLiteral(codeLines);
+			case BOOLEAN: 	return new Type(ctx.getText(), codeLines);
+			case INT: 		return new Type(ctx.getText(), codeLines);
+			case DECIMAL: 	return new Type(ctx.getText(), codeLines);
+			case STRING: 	return new Type(ctx.getText(), codeLines);
 		}
-		return visitChildren(ctx); 
+		return null;
 	}
 	
 	// Visitor functions

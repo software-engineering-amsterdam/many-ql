@@ -13,7 +13,6 @@ BOOLEAN     : 'boolean' ;
 DATE        : 'date' ;
 STRING      : 'string' ;
 NUMERAL     : 'numeral' ;
-ANSWER      : 'answer' ;
 
 IF          : 'if' ;
 THEN        : 'then' ;
@@ -50,7 +49,7 @@ uncondQuestion
           'id'       ':' id=QuestionId      NEWLINE
           'text'     ':' text=String        NEWLINE
           'type'     ':' type=questionType  NEWLINE
-         ('value'    ':' answerSet          NEWLINE)?
+         ('value'    ':' options            NEWLINE)?
       End
     ;
 
@@ -98,7 +97,7 @@ expr
     | QuestionId #id
     ;
 
-answerSet
+options
     : expr (', ' expr)*
     ;
 

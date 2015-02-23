@@ -1,8 +1,7 @@
-package uva.ql.typecheck;
+package uva.ql.interpreter.typecheck;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import uva.ql.typecheck.SymbolMap;
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.Form;
@@ -26,6 +25,7 @@ import uva.ql.ast.expressions.math.Division;
 import uva.ql.ast.expressions.math.Exponentiation;
 import uva.ql.ast.expressions.math.Multiplication;
 import uva.ql.ast.expressions.math.Substraction;
+import uva.ql.interpreter.typecheck.SymbolMap;
 import uva.ql.parser.QLBaseVisitor;
 import uva.ql.parser.QLParser.AssignExprContext;
 import uva.ql.parser.QLParser.AssignStrContext;
@@ -59,7 +59,7 @@ public class TypeCheck extends QLBaseVisitor <ASTNode> {
 		System.out.println(id+":"+type);
 		smb.put(id, type);
 		return super.visitQuest(ctx);
-		}
+	}
 	
 	//System.out.println(smb.toString());
 	

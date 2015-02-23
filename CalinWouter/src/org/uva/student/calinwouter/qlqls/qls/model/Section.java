@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFo
 import java.util.LinkedList;
 import java.util.List;
 
-public class Section extends AbstractModel<Section> {
+public class Section extends AbstractComponent<Section> {
     private String ident;
     private List<AbstractFormField<?>> fields;
     private List<Default> defaultSettings;
@@ -55,8 +55,10 @@ public class Section extends AbstractModel<Section> {
 
     @Override
     public void updateStates(HeadlessFormInterpreter headlessFormInterpreter, List<Default> defaultList) {
+        visible = false;
         for (AbstractFormField<?> field : fields) {
             field.updateStates(headlessFormInterpreter, defaultList);
+            visible = visible || field.isVisible();
         }
         notifyUpdate();
     }

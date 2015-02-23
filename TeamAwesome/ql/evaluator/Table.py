@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from .EvaluatorTypes import Form, Question, ExpressionFactory, Expression
-from CustomTypes import *
-import ASTNodes
+from ..CustomTypes import *
+from ..ast import Nodes
 
 class QuestionValueTable(object):
 	def __init__(self, questionTable):
@@ -61,7 +61,7 @@ class QuestionTable(object):
 		return self._table.keys()
 
 	def _add(self, statement, expressionsTuple, form):
-		if isinstance(statement, ASTNodes.IfStatement):
+		if isinstance(statement, Nodes.IfStatement):
 			childExpressionsTuple = expressionsTuple + (ExpressionFactory.create((statement.expr)),)
 			
 			for childStatement in statement.getChildren():

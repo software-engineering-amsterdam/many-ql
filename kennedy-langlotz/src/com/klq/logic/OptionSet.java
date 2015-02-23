@@ -7,16 +7,16 @@ import java.util.List;
 /**
  * Created by Timon on 10.02.2015.
  */
-public class AnswerSet implements Iterable {
+public class OptionSet implements Iterable {
     private List<Answer> answers;
-    public static final AnswerSet BOOLEAN = createAnswerSet(Type.BOOLEAN);
+    public static final OptionSet BOOLEAN = createAnswerSet(Type.BOOLEAN);
 
-    public AnswerSet() {
+    public OptionSet() {
         answers = new ArrayList<Answer>();
     }
 
-    private static AnswerSet createAnswerSet(Type type){
-        AnswerSet result = new AnswerSet();
+    private static OptionSet createAnswerSet(Type type){
+        OptionSet result = new OptionSet();
         switch (type) {
             case BOOLEAN:
                 result.add(Answer.YES);

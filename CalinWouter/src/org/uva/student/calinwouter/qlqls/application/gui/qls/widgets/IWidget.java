@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.qls.model.IModel;
 
 import java.awt.*;
 
-public interface IWidget<T extends IModel> {
+public interface IWidget {
 
     public Component getWidget();
 

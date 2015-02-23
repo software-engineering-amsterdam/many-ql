@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
 import java.util.HashMap;
 
 // TODO check if invoking this model fails the interpreter.
-public abstract class AbstractFormField<T> extends AbstractModel<T> {
+public abstract class AbstractFormField<T> extends AbstractComponent<T> {
     protected String ident;
     protected HashMap<Object, Object> arguments;
     private int arg;

@@ -1,20 +1,14 @@
 package uva.ql.ast;
 
+import uva.ql.ast.value.GenericValue;
+
 public abstract class ASTNode {
 	
-	protected CodeLines lines;
+	protected CodeLines codeLines;
+	public abstract GenericValue<?> evaluate();
 	
-	public ASTNode(CodeLines _lines){
-		this.lines = _lines;
-	}
-	public ASTNode(){
-		super();
-	}
-	public int getStartLine(){
-		return this.lines.getCodeLines().x;
-	}
-	public int getEndLine(){
-		return this.lines.getCodeLines().y;
+	public ASTNode(CodeLines _codeLines){
+		this.codeLines = _codeLines;
 	}
 	@Override
 	public String toString(){
