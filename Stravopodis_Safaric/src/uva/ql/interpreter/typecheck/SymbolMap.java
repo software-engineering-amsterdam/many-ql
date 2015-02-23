@@ -1,5 +1,4 @@
 package uva.ql.interpreter.typecheck;
-import uva.ql.ast.expressions.Type;
 import uva.ql.interpreter.typecheck.Symbol;
 
 import java.util.*;
@@ -36,30 +35,63 @@ public class SymbolMap {
 			return symbols.get(name);
 		else return null;
 	}
+	public Symbol retrieveSymbol(List<Symbol> listSymbols, String identifier, String className){
+		
+		return null;
+	}
 	public boolean exists(String name){
-		return retrieve(name) != null;
+		return this.retrieve(name) != null;
 	}
 	public boolean existsWithClassType(String name, String className){
 		if (this.exists(name)){
 			for (Symbol s : this.retrieve(name)){
-				if (s.className.equals(className)) return true;
+				if (className.equals(s.className))
+					return true;
 			}
 		}
 		return false;
 	}
 	public boolean keyWithSymbolExists(String name, Symbol symbol){
-		if (this.exists(name))
-			return this.retrieve(name).contains(symbol);
+		if (this.exists(name)){
+			for (Symbol s : this.retrieve(name)){
+				if (symbol.equals(s)) return true;
+			}
+		}
 		return false;
+	}
+	public Symbol getSymbolForAttributes(String name, String type, String className){
+		int index = indexOfSymbol(this.retrieve(name), new Symbol(type, className, null));
+		if (index != -1) return this.retrieve(name).get(index);
+		return null;
 	}
 	public Set<String> getAllKeys(){
 		return symbols.keySet();
 	}
-	public List<Type> getTypesForKey(String name){
-		List<Type> listOfTypes = new ArrayList<Type>();
+	public List<String> getTypesForKey(String name){
+		List<String> listOfTypes = new ArrayList<String>();
 		for (Symbol s : this.retrieve(name))
 			listOfTypes.add(s.getSymbolType());
 		return listOfTypes;
+	}
+	
+	public int indexOfSymbol(List<Symbol> symbolList, Symbol symbol){
+		for (int i=0; i < symbolList.size(); i++){
+			if (symbol.equals(symbolList.get(i))) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	public boolean contentExists(Object _content){
+		for (String key : this.getAllKeys()){
+			for (Symbol s : this.retrieve(key)){
+				if (s.content != null)
+					if (_content.toString().equals(s.content.toString())){
+						return true;
+				}
+			}
+		}
+		return false;
 	}
 	@Override
 	public String toString(){

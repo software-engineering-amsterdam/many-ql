@@ -21,6 +21,7 @@ public class Main{
 		
 		ANTLRInputStream inputStream = new ANTLRInputStream(new FileInputStream("SupportingFiles/Test.ql"));
 		//inputStream = new ANTLRInputStream("(3+2+8-3+34-3+9 > 60 + 34 - 34) && (2 < 3/2)");
+		
 		QLLexer lexer = new QLLexer(inputStream);
 		
 		CommonTokenStream stream = new CommonTokenStream(lexer);
@@ -30,13 +31,14 @@ public class Main{
 		QLMainVisitor visitor = new QLMainVisitor();
 		ASTNode ast = visitor.visit(tree);
 		
-		VisitorInterface<Void> v = new TypeCheckVisitor();
+		
+		VisitorInterface<Object> v = new TypeCheckVisitor();
 		v.visitProg((Prog)ast);
 		
-		for (String s : TypeCheckVisitor.symbols.getAllKeys()){
+		/*for (String s : TypeCheckVisitor.symbols.getAllKeys()){
 			for (Symbol symbol : TypeCheckVisitor.symbols.retrieve(s)){
-				System.out.println("SYMBOLTABLE -> " + s + "-" + symbol.toString());
+				System.out.println("SYMBOLTABLE -> " + s + " - " + symbol.toString());
 			}
-		}
+		}*/
 	}
 }

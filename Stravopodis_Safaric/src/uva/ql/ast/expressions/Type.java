@@ -22,7 +22,7 @@ public class Type extends Expression{
 		if (this.name.equals("Float")) return "decimal";
 		return this.name;
 	}
-	public PrimitiveType getType(){
+	public PrimitiveType getPrimitiveType(){
 		return this.type;
 	}
 	@Override

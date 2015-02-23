@@ -22,6 +22,7 @@ public class Equal extends BinaryExpressions{
 	}
 	@Override
 	public BooleanValue evaluate() {
+
 		if (!this.getLeftExpr().evaluate().getValue().getClass().equals(this.getRightExpr().evaluate().getValue().getClass()))
 			throw new IllegalArgumentException("IllegalArgumentException: Both operands of == must be of same time");
 		
