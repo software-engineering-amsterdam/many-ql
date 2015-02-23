@@ -12,7 +12,7 @@ public class ElementsObserver implements Observer {
 
     public void update(Observable o, Object arg) {
         //TODO: beautiful
-        UIElement question = (UIElement) o;
-        System.out.println(question.getState().getValue());
+        UIElement uiQuestion = (UIElement) o;
+        System.out.println(uiQuestion.getState().getValue());
     }
 }

@@ -10,7 +10,8 @@ public class TextBox extends JPanel implements IWidget {
     public TextBox(String _label) {
         this.valueField = new JTextField();
         this.label = new JLabel(_label);
-        this.add(this.valueField);
         this.add(this.label);
+        this.valueField.setColumns(7);
+        this.add(this.valueField);
     }
 }

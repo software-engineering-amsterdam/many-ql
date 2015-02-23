@@ -21,10 +21,7 @@ public class UIForm extends JFrame {
     }
     
     public void addElement(UIElement _elem) {
-        //panel.add(_elem.getWidget());
-    }
-
-    public void addComponent(JComponent _comp) {
-        panel.add(_comp);
+        // TODO: find a way
+        panel.add((JComponent)_elem.getWidget());
     }
 }
