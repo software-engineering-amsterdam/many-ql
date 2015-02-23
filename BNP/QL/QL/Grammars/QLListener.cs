@@ -23,7 +23,7 @@ namespace QL.Grammars
         public override void ExitBlock(QLParser.BlockContext context)
         {
             base.ExitBlock(context);
-            mapper.HandleNode(new QL.Model.Block());
+            mapper.HandleNode<QL.Model.Block>();
 
         }
         
@@ -35,7 +35,7 @@ namespace QL.Grammars
         public override void ExitFormBlock(QLParser.FormBlockContext context)
         {
             base.ExitFormBlock(context);
-            mapper.HandleNode(new QL.Model.Form());
+            mapper.HandleNode<QL.Model.Form>();
         }
 
         public override void EnterControlBlock(QLParser.ControlBlockContext context)
@@ -46,7 +46,7 @@ namespace QL.Grammars
         public override void ExitControlBlock(QLParser.ControlBlockContext context)
         {
             base.ExitControlBlock(context);
-            mapper.HandleNode(new QL.Model.ControlBlock());
+            mapper.HandleNode<QL.Model.ControlBlock>();
         }
     }
 }

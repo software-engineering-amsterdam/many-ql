@@ -44,25 +44,11 @@ namespace QL.Model
                 astRootNode = parent;
             }
         }
-
-
-        public void HandleNode(Block parent)
+        public void HandleNode<T>() where T:TreeElementBase, new ()
         {
             List<TreeElementBase> children = GetChildren();
-            parent.handleChildren(children);
-            PutIntoTree(parent);
-        }
-        public void HandleNode(Form parent)
-        {
-            List<TreeElementBase> children = GetChildren();
-            parent.handleChildren(children);
-            PutIntoTree(parent);
-        }
-
-        public void HandleNode(ControlBlock parent)
-        {
-            List<TreeElementBase> children = GetChildren();
-            parent.handleChildren(children);
+            T parent= new T();
+            parent.HandleChildren(children);
             PutIntoTree(parent);
         }
 

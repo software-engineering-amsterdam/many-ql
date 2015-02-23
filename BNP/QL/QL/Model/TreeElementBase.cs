@@ -21,7 +21,7 @@ namespace QL.Model
             Children = new List<ElementBase>();
         }
         
-        internal void handleChildren(List<TreeElementBase> list)
+        internal void HandleChildren(List<TreeElementBase> list)
         {
             Children = list;
             
