@@ -17,11 +17,11 @@ end
 
 describe "Evaluator" do
   before(:each) do
-    @conditional = If.new(expression: Equal.new(Variable.new("naam"), StringLiteral.new("Geert")))
+    @expression = Equal.new(Variable.new("naam"), StringLiteral.new("Geert"))
   end
 
   it "evaluates an expression" do
-    result = Evaluator.evaluate(@conditional.expression, values = { "naam" => "Geert" })
+    result = Evaluator.evaluate(expression: @expression, values: { "naam" => "Geert" })
     expect(result).to eq true
   end
 end

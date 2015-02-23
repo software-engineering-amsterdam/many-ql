@@ -21,18 +21,3 @@ class BaseVisitor
     raise "Can't handle #{subject.class}"  
   end
 end
-
-class QuestionsVisitor < BaseVisitor
-  visitor_for Question do |question|
-    [ question ]
-  end
-
-  visitor_for Statement do |statement|
-    statement.statements
-  end
-  
-  visitor_for Node do |question|
-    []
-  end
-end
-
