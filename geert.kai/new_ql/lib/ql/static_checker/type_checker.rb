@@ -1,16 +1,20 @@
 require_relative "static_checker"
 require_relative "../ast/ast"
-require "byebug"
 
+# TODO: replace the error raising!!
 class DuplicateReferenceError < StandardError
 end
 
 class TypeChecker < StaticChecker
-  def after_initialize(form)
+  def after_initialize(base)
     @types = {}
   end
 
-  visitor_for Question do |question|
+  def check
+    visit(@base)
+  end
+
+  def visit_question(question)
     unless @types[question.variable_name]
       @types[question.variable_name] = question.type
     else
@@ -18,9 +22,9 @@ class TypeChecker < StaticChecker
     end
   end
 
-  visitor_for Conditional do |condition|
-    unless condition.expression.accept(self) == :boolean
-      raise TypeError.new("Expression in condition not a boolean: #{condition}.") 
+  def visit_conditional(conditional)
+    unless conditional.expression.accept(self) == :boolean
+      raise TypeError.new("Expression in condition not a boolean: #{conditional}.") 
     end
 
     condition.statements.map do |statement|
@@ -28,7 +32,7 @@ class TypeChecker < StaticChecker
     end
   end
 
-  visitor_for BinaryExpression do |expression|
+  def visit_binary_expression(expression)
     [expression.lhs, expression.rhs].each do |expr|
       unless expression.possible_argument_types.include?(expr.accept(self))
         raise TypeError.new "#{expr.type} doesn't match any of #{expression.possible_argument_types} in #{expression}."
@@ -42,16 +46,12 @@ class TypeChecker < StaticChecker
     expression.type
   end
 
-  visitor_for Variable do |variable|
+  def visit_variable(variable)
     raise NameError.new("Variable #{variable.name} not defined.") unless @types[variable.name]
     @types[variable.name]
   end
 
-  visitor_for Literal do |literal|
+  def visit_literal(literal)
     literal.type
-  end
-
-  def check
-    visit form
   end
 end

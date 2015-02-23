@@ -13,8 +13,19 @@ import (
 // in order to be compliant with the VM expectations of
 // functionality.
 type Inputer interface {
-	DrawQuestion(q *ast.QuestionNode, visible event.Visibility)
-	UpdateQuestion(q *ast.QuestionNode)
+	DrawQuestion(
+		identifier,
+		label,
+		typ string,
+		content ast.Parser,
+		visible event.Visibility,
+	)
+	UpdateQuestion(
+		identifier,
+		label,
+		typ string,
+		content ast.Parser,
+	)
 	Loop()
 	Flush()
 	FetchAnswers() map[string]string
@@ -51,10 +62,21 @@ func (f *frontend) loop() {
 				}
 
 			case event.DrawQuestion:
-				f.driver.DrawQuestion(&r.Question, r.Visible)
+				f.driver.DrawQuestion(
+					r.Question.Identifier(),
+					r.Question.Label(),
+					r.Question.Type(),
+					r.Question.Content(),
+					r.Visible,
+				)
 
 			case event.UpdateQuestion:
-				f.driver.UpdateQuestion(&r.Question)
+				f.driver.UpdateQuestion(
+					r.Question.Identifier(),
+					r.Question.Label(),
+					r.Question.Type(),
+					r.Question.Content(),
+				)
 
 			case event.Flush:
 				f.driver.Flush()

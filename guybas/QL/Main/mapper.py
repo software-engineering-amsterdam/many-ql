@@ -5,7 +5,7 @@ from Main.exceptions import *
 class Mapper:
     # map from id to answers
     def __init__(self):
-        self.answers  = {}
+        self.answers  = {}  # {qid: {answer: input, pointsTo: List}}
         self.inputObj = {}
 
     def update(self, question, answer):
@@ -26,3 +26,7 @@ class Mapper:
         if qid in self.answers.keys():
             return True
         return False
+
+    @staticmethod
+    def map_pointers(answers_map, pointers):
+        ...

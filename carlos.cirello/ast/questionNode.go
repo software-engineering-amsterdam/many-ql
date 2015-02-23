@@ -18,14 +18,13 @@ type QuestionNode struct {
 	label      string
 	identifier string
 	content    Parser
-	answered   bool
 	pos        scanner.Position
 }
 
 // NewQuestionNode factor for QuestionNode AST struct
-func NewQuestionNode(label, identifier string, content Parser, answered bool,
+func NewQuestionNode(label, identifier string, content Parser,
 	pos scanner.Position) *QuestionNode {
-	return &QuestionNode{label, identifier, content, answered, pos}
+	return &QuestionNode{label, identifier, content, pos}
 }
 
 // Identifier getter method for identifier property

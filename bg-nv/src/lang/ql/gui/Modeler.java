@@ -126,6 +126,13 @@ public class Modeler implements Visitor, TypeVisitor
     }
 
     @Override
+    public void visit(UndefinedType type)
+    {
+        // TODO: remove the cast somehow
+        //this.currentInput = new StrInput((StringValue)this.currentValue);
+    }
+
+    @Override
     public void visit(IfCondition ifCond)
     {
         for (Statement s : ifCond.getBody())

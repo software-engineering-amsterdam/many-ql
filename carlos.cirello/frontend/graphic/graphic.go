@@ -56,7 +56,13 @@ func GUI(appName string) frontend.Inputer {
 }
 
 // DrawQuestion adds a new question into the GUI form stack
-func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible event.Visibility) {
+func (g *Gui) DrawQuestion(
+	identifier,
+	label,
+	typ string,
+	content ast.Parser,
+	visible event.Visibility,
+) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
@@ -66,30 +72,35 @@ func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible event.Visibility) {
 	}
 	m := &render{
 		drawQuestion,
-		q.Identifier(),
-		q.Label(),
-		q.Type(),
-		q.Content(),
+		identifier,
+		label,
+		typ,
+		content,
 		invisible,
 	}
 	g.drawStack = append(g.drawStack, *m)
-	g.sweepStack[q.Identifier()] = true
+	g.sweepStack[identifier] = true
 }
 
 // UpdateQuestion updates an existing question in the GUI form stack
-func (g *Gui) UpdateQuestion(q *ast.QuestionNode) {
+func (g *Gui) UpdateQuestion(
+	identifier,
+	label,
+	typ string,
+	content ast.Parser,
+) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	m := &render{
 		action:     updateQuestion,
-		identifier: q.Identifier(),
-		label:      q.Label(),
-		fieldType:  q.Type(),
-		content:    q.Content(),
+		identifier: identifier,
+		label:      label,
+		fieldType:  typ,
+		content:    content,
 	}
 	g.renderStack = append(g.renderStack, *m)
-	g.sweepStack[q.Identifier()] = true
+	g.sweepStack[identifier] = true
 }
 
 // Flush transfers form stack into the screen.

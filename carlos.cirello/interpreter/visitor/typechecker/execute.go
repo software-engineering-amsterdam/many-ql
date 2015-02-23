@@ -11,8 +11,7 @@ import (
 // New is the factory for Typechecker visitor struct
 func New() (*visitor.Visitor, *symboltable.SymbolTable) {
 	toFrontend := make(chan *event.Frontend)
-	symbolChan := make(chan *event.Symbol)
-	st := symboltable.New(symbolChan)
+	st := symboltable.New()
 
 	go func(toFrontend chan *event.Frontend) {
 		for {
@@ -21,7 +20,7 @@ func New() (*visitor.Visitor, *symboltable.SymbolTable) {
 	}(toFrontend)
 
 	tc := &Typechecker{
-		execute: execute.NewExecute(toFrontend, symbolChan),
+		execute: execute.NewExecute(toFrontend, st),
 	}
 	return visitor.NewVisitor(tc), st
 }

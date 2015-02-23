@@ -2,11 +2,11 @@ require_relative "visitor"
 require_relative "../ast/form"
 
 class PrettyPrinter < BaseVisitor
-  visitor_for Form do |form|
+  def visit_form(form)
     "form\n  " + form.accept(self).join
   end
 
-  visitor_for Question do |question|
+  def visit_question(question)
     "question\n"
   end
 

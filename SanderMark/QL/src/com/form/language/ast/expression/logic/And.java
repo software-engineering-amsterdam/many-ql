@@ -1,21 +1,22 @@
 package com.form.language.ast.expression.logic;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.BinaryExpression;
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.BoolLiteral;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 public class And extends BinaryExpression implements Expression {
 
-	public And(Expression left, Expression right) {
-		super(left, right);
+	public And(Expression left, Expression right, Token tokenInfo) {
+		super(left,right, tokenInfo);
 	}
 	
 	@Override
 	public BoolValue evaluate() {
-		return ((BoolLiteral)left).evaluate().And(((BoolLiteral)right).evaluate());
+		return new BoolValue(((BoolValue)super.left.evaluate()).getValue() && ((BoolValue)super.right.evaluate()).getValue());
 	}
 
 	@Override

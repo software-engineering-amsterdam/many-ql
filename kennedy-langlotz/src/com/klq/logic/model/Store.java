@@ -10,4 +10,14 @@ import java.util.Map;
  */
 public class Store {
     private Map<Id, Question> store;
+
+    public Question add(Id questionId, Question question){
+        return store.put(questionId, question);
+    }
+
+    public Question get(Id questionId){
+        return store.get(questionId);
+    }
+
+
 }
