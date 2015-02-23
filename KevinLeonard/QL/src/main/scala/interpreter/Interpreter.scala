@@ -1,17 +1,17 @@
 package interpreter
 
 import ast.Form
-import evaluator.QLEvaluator
-import parser.QLParser
-import typechecker.QLTypeChecker
+import evaluator.Evaluator
+import parser.Parser
+import typechecker.TypeChecker
 
 import scala.io.Source
 
-object QLInterpreter {
+object Interpreter {
   def main(args: Array[String]) {
-    val parser = new QLParser()
-    val evaluator = new QLEvaluator()
-    val typeChecker = new QLTypeChecker()
+    val parser = new Parser()
+    val evaluator = new Evaluator()
+    val typeChecker = new TypeChecker()
     val formFile = Source.fromFile(args(0)).mkString
 
     parser.parseAll(parser.form, formFile) match {

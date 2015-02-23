@@ -3,7 +3,7 @@ package typechecker
 import ast._
 import scala.util.parsing.input.Position
 
-class QLTypeChecker {
+class TypeChecker {
 
   def check(form: Form, env: Environment = new Environment()): Environment = check(form.s, env)
 
@@ -22,18 +22,18 @@ class QLTypeChecker {
         env // Return environment without the questions in s1 and s2.
       case _ => sys.error(s"Invalid boolean condition for if statement at line ${s.pos}")
     }
-    case BooleanQuestion(v: Variable, label: String, None) => env.tryAddVariable(v, BooleanType()).tryAddLabel(label)
-    case NumberQuestion(v: Variable, label: String, None) => env.tryAddVariable(v, NumberType()).tryAddLabel(label)
-    case StringQuestion(v: Variable, label: String, None) => env.tryAddVariable(v, StringType()).tryAddLabel(label)
-    case s @ BooleanQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
+    case Question(BooleanType(), v: Variable, label: String, None) => env.tryAddVariable(v, BooleanType()).tryAddLabel(label)
+    case s @ Question(BooleanType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case BooleanType() => env.tryAddVariable(v, BooleanType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed boolean question at line ${s.pos}")
     }
-    case s @ NumberQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
+    case Question(NumberType(), v: Variable, label: String, None) => env.tryAddVariable(v, NumberType()).tryAddLabel(label)
+    case s @ Question(NumberType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case NumberType() => env.tryAddVariable(v, NumberType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed number expression at line ${s.pos}")
     }
-    case s @ StringQuestion(v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
+    case Question(StringType(), v: Variable, label: String, None) => env.tryAddVariable(v, StringType()).tryAddLabel(label)
+    case s @ Question(StringType(), v: Variable, label: String, Some(e: Expression)) => check(e, env) match {
       case StringType() => env.tryAddVariable(v, StringType()).tryAddLabel(label)
       case _ => sys.error(s"Invalid expression for value of computed string expression at line ${s.pos}")
     }
@@ -97,21 +97,15 @@ class QLTypeChecker {
       case _ => sys.error(s"Invalid division expression at line ${e.pos}")
     }
     case v: Variable => env.tryGetVariable(v)
-    case BooleanLiteral(_) => BooleanType()
-    case NumberLiteral(_) => NumberType()
-    case StringLiteral(_) => StringType()
+    case Literal(t, _) => t
   }
 
 }
 
-sealed trait Type
-case class BooleanType() extends Type
-case class NumberType() extends Type
-case class StringType() extends Type
-
 sealed trait Level
 case class Warning() extends Level
 case class Exception() extends Level
+
 class Error(val level: Level, val message: String, val position: Position)
 
 class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[String] = List(), val errors: List[Error] = List()) {

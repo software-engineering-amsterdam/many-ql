@@ -1,14 +1,15 @@
-package com.klq.ast.impl.expr;
+package com.klq.ast.impl.expr.comp;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
+import com.klq.ast.impl.expr.ABinaryExprNode;
 
 /**
- * Created by Juriaan on 21-2-2015.
+ * Created by Juriaan on 22-2-2015.
  */
-public class DivideNode extends ABinaryExprNode {
+public class GreaterThanNode extends ABinaryExprNode {
 
-    public DivideNode(ANode leftChild, ANode rightChild) {
+    public GreaterThanNode(ANode leftChild, ANode rightChild) {
         super(leftChild, rightChild);
     }
 
