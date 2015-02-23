@@ -489,39 +489,40 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     /* This method has to find all the nodes that depend on depender
-    *  and add dependee as a dependency for them too, not only for depender
+    *   You have to add dependee and all depender's further dependers
+        to detect cycles like this:
+        1. a = b
+        2. b = c
+        3. c = d
+        3. d = a
+        after 2. c needs to be added to a list of ids that depend on, and therefore a.
+
+        In other words, the update needs to propapagte through the whole graph
+         (see transitive closure).
     */
     private void updateDependency(ID depender, ID dependee) {
-
-        // you have to add dependee and all dependee's further dependees
-        // to detect cycles like this:
-        // 1. a = b
-        // 2. b = c
-        // 3. c = d
-        // 3. d = a
-        // after 2. c needs to be added to a list of ids that depend on, and therefore a
-
-        // all the ids that are dependent on dependee directly or indirectly
+        // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
         List<ID> idsToAddNewDependencyTo = new ArrayList<ID>();
         // temporary list used for traversing the graph.
         // pop first element, update all it's dependencies and add them
+        // used to traverse the graph until all elements indirectly affected
+        // by new dependence relation found
         List<ID> idsWithNewDependencies = new ArrayList<ID>();
         idsWithNewDependencies.add(depender);
 
         while (idsWithNewDependencies.size() > 0) {
-            ID newDependee = idsWithNewDependencies.remove(0);
+            ID indirectDependee = idsWithNewDependencies.remove(0);
 
-            // check all elements that potentially depend on newDependee
-            // dependee passed as parameter added to this function needs to be added to them too
+            // check all elements that depend on newDependee and therefore indirectly on passed dependee
             for (ID key : this.questionDependencies.getIds()) {
                 List<String> dependenciesForKey = this.questionDependencies.getIdDependencyNames(key);
+
                 if ((dependenciesForKey != null)
-                        && dependenciesForKey.contains(newDependee.getName())) {
+                        && dependenciesForKey.contains(indirectDependee.getName())) {
                     idsToAddNewDependencyTo.add(key);
                 }
             }
-            // analyzed, need to be updated
             idsToAddNewDependencyTo.add(depender);
         }
 
@@ -536,9 +537,9 @@ public class TypeCheckerVisitor implements IASTVisitor {
     // b - dependee
     private void addAndCheckDependency(ID depender, ID dependee) {
         if (this.checkIfLiteralsDependent(dependee, depender)) {
-            this.astErrorHandler.registerNewError( dependee,
+            this.astErrorHandler.registerNewError( depender,
                     "Circular dependency between this node and " +
-                            this.assignableIdLiteral.toString() + "."
+                            dependee.toString() + "."
             );
         }
 
