@@ -14,12 +14,8 @@ class Checker(Visitor):
         super().__init__(ast)
         self._operatorTable = TypeRules.OperatorTable()
 
-        # The type of the last WELL-TYPED expression.
-        # i.e. if the last checked expression was for some reason
-        # invalid then this variable remains what it was before
-        # that check happened.
-        # So don't rely on this after you encounter an error
-        # in a sub expression.
+        # Type of the last checked expression or None if it could
+        # not be determined.
         self._lastExprType = None
 
     def _visitIfStatement(self, node):
@@ -55,19 +51,17 @@ class Checker(Visitor):
 
     def _visitAtomicExpression(self, node):
         if isinstance(node.left, CustomTypes.Identifier):
-            identType = typeOfIdentifier(
+            self._lastExprType = typeOfIdentifier(
                 node.left,
                 self._ast.root
             )
-            if identType is None:
+            if self._lastExprType is None:
                 self._result = self._result.withMessage(
                     Message.Error(
                         'undefined identifier '+node.left,
                         node
                     )
                 )
-            else:
-                self._lastExprType = identType
         else:
             self._lastExprType = type(node.left)
 
@@ -79,13 +73,13 @@ class Checker(Visitor):
         if errorsBefore != errorsAfter:
             return
 
-        opType = \
+        self._lastExprType = \
             self._operatorTable.unaryOperationType(
                 node.op,
                 self._lastExprType
             )
 
-        if opType is None:
+        if self._lastExprType is None:
             self._result = self._result.withMessage(
                 Message.Error(
                     'invalid operands to unary operator `'+node.op\
@@ -93,8 +87,6 @@ class Checker(Visitor):
                    node
                 )
             )
-        else:
-            self._lastExprType = opType
 
     def _visitBinaryExpression(self, node):
         errorsBefore = len(self._result.errors)
@@ -115,14 +107,14 @@ class Checker(Visitor):
 
         rightType = self._lastExprType
 
-        opType = \
+        self._lastExprType = \
             self._operatorTable.binaryOperationType(
                 node.op,
                 leftType,
                 rightType
             )
 
-        if opType is None: 
+        if self._lastExprType is None: 
             self._result = self._result.withMessage(
                 Message.Error(
                     'invalid operands to binary operator `'+node.op\
@@ -130,8 +122,6 @@ class Checker(Visitor):
                     node
                 )
             )
-        else:
-            self._lastExprType = opType
 
 
     def _allowExpression(self, allowedTypes, exprType, node):
