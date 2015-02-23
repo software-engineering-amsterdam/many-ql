@@ -11,5 +11,9 @@ public class Int extends Value<Integer> {
 	public Integer getValue() {
 		return this.value;
 	}
+	
+	public Int add(Int number){
+		return new Int(value + number.getValue());
+	}
 
 }

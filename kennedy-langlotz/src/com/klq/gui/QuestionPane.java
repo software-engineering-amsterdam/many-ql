@@ -1,9 +1,8 @@
 package com.klq.gui;
 
-import com.klq.logic.AnswerSet;
+import com.klq.logic.OptionSet;
 import com.klq.logic.Question;
 import com.klq.logic.Type;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -13,7 +12,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
-import java.security.Key;
 import java.time.LocalDate;
 
 /**
@@ -32,14 +30,14 @@ public class QuestionPane extends GridPane {
         switch (question.getType()) {
             case SET:
             case BOOLEAN:
-                createAnswerSetPane(question.getAnswerSet());
+                createAnswerSetPane(question.getOptions());
                 break;
             case DATE:
-                createDatePicker(question.getAnswerSet());
+                createDatePicker(question.getOptions());
                 break;
             case NUMERAL:
             case STRING:
-                createTextField(question.getAnswerSet(), question.getType());
+                createTextField(question.getOptions(), question.getType());
                 break;
         }
         this.setVgap(5);
@@ -56,10 +54,10 @@ public class QuestionPane extends GridPane {
         this.getChildren().add(question);
     }
 
-    private void createAnswerSetPane(AnswerSet answerSet){
+    private void createAnswerSetPane(OptionSet optionSet){
         ToggleGroup group = new ToggleGroup();
-        for (int i=0; i< answerSet.size(); i++) {
-            Object a = answerSet.get(i);
+        for (int i=0; i< optionSet.size(); i++) {
+            Object a = optionSet.get(i);
             RadioButton rb = new RadioButton(a.toString());
             rb.setWrapText(true);
             rb.setFont(DEFAULT_ANSWER);
@@ -70,7 +68,7 @@ public class QuestionPane extends GridPane {
         }
     }
 
-    private void createDatePicker(AnswerSet answerSet){
+    private void createDatePicker(OptionSet optionSet){
         Label dateLabel = new Label("Please select a date:");
         dateLabel.setWrapText(true);
         this.getChildren().add(dateLabel);
@@ -78,8 +76,8 @@ public class QuestionPane extends GridPane {
 
         LocalDate lDate = LocalDate.now();
         final DatePicker datePicker = new DatePicker(lDate);
-        if (answerSet != null && answerSet.size() != 0){
-            lDate = LocalDate.parse(answerSet.get(0).toString());
+        if (optionSet != null && optionSet.size() != 0){
+            lDate = LocalDate.parse(optionSet.get(0).toString());
             datePicker.setEditable(false);
             datePicker.getEditor().setEditable(false);
             //TODO disable button somehow
@@ -90,11 +88,11 @@ public class QuestionPane extends GridPane {
         this.setConstraints(datePicker, 0, 2);
     }
 
-    private void createTextField(AnswerSet answerSet, Type questionType){
+    private void createTextField(OptionSet optionSet, Type questionType){
         final TextField input = new TextField();
 
-        if (answerSet != null) {
-            input.setText(answerSet.get(0).toString());
+        if (optionSet != null) {
+            input.setText(optionSet.get(0).toString());
             input.setEditable(false);
         } else {
             input.setOnMouseClicked(highlightHandler(input));

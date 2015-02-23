@@ -1,51 +1,50 @@
 package ql.ast;
 
-import java.util.ArrayList;
-
 import ql.antlr.QLBaseVisitor;
 import ql.antlr.QLParser.ExprParenthesesContext;
 import ql.antlr.QLParser.ExprPlusContext;
 import ql.antlr.QLParser.IntContext;
 import ql.ast.expression.Expression;
+import ql.ast.expression.Parenthese;
 import ql.ast.expression.binary.Plus;
 import ql.ast.expression.literal.IntLiteral;
+import ql.ast.visitor.Evaluator;
 
-public class ASTBuilder extends QLBaseVisitor<ArrayList<Expression>>{
-	
-	private ArrayList<Expression> exprs;
-	
-	public ASTBuilder(){
-		this.exprs = new ArrayList<Expression>();
+public class ASTBuilder extends QLBaseVisitor<ASTNode>{
 		
-	}
-	
 	@Override
-	public ArrayList<Expression> visitExprPlus(ExprPlusContext ctx) {
-		System.out.println("Plus");
+	public ASTNode visitExprPlus(ExprPlusContext ctx) {
+		System.out.println("PLUS");
 		System.out.println(ctx.getText());
+		//System.out.println(ctx.expression().size());
 		
-		Expression left = new IntLiteral(Integer.parseInt(ctx.getChild(0).getText()));
-		System.out.println(left.evaluate().getValue());
-		Expression right = new IntLiteral(Integer.parseInt(ctx.getChild(2).getText()));
-		System.out.println(right.evaluate().getValue());
+//		String left = ctx.getChild(0).getText();
+//		String right = ctx.getChild(2).getText();
+//		Expression l = new IntLiteral(Integer.parseInt(left));
+//		Expression r = new IntLiteral(Integer.parseInt(right));	
+//		Plus expr = new Plus(l,r);
+//		System.out.println("Value" + expr.accept(new Evaluator()).getValue());
 		
-		Expression plus = new Plus(left, right);
-		System.out.println("Result = " + plus.evaluate().getValue());
+		Expression l = (Expression) ctx.expression().get(0).accept(this);
+		Expression r = (Expression) ctx.expression().get(1).accept(this);
+		Plus expr = new Plus(l, r);
+		System.out.println("Left" + l.accept(new Evaluator()).getValue());
+		System.out.println("Right" + r.accept(new Evaluator()).getValue());
+		System.out.println("Value" + expr.accept(new Evaluator()).getValue());
+		System.out.println("");
 		
-		this.exprs.add(new Plus(left, right));
-		System.out.println(exprs.size());
-		return this.exprs;
+		return expr;
 	}
 	
 	@Override
-	public ArrayList<Expression> visitExprParentheses(ExprParenthesesContext ctx) {
-		System.out.println("Paren");
-		return super.visitExprParentheses(ctx);
+	public Parenthese visitExprParentheses(ExprParenthesesContext ctx) {
+		return new Parenthese((Expression) ctx.expression().accept(this));
 	}
 	
 	@Override
-	public ArrayList<Expression> visitInt(IntContext ctx) {
-		return super.visitInt(ctx);
+	public IntLiteral visitInt(IntContext ctx) {
+		// TODO Auto-generated method stub
+		return new IntLiteral(Integer.parseInt(ctx.getText()));
 	}
 	
 }

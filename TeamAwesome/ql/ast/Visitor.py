@@ -1,4 +1,4 @@
-from GenericVisitor import GenericVisitor
+from ..GenericVisitor import GenericVisitor
 
 class Visitor(GenericVisitor):
     # Below are default methods.

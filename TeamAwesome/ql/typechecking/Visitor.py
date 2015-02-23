@@ -1,8 +1,8 @@
 from .Result import Result
 
-from ASTVisitor import ASTVisitor
+from ..ast.Visitor import Visitor
 
-class Visitor(ASTVisitor):
+class Visitor(Visitor):
     def __init__(self, ast):
         # You can add any type check result
         # to this variable here. It is returned
