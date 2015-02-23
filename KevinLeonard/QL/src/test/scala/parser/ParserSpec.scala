@@ -19,12 +19,12 @@ class ParserSpec extends Specification with ParserMatchers {
   "form parser" should {
     "ignore single line comments" in {
       form must succeedOn("form form1 {\n// Single line comment\n}")
-        .withResult(Form("form1", Sequence(List())))
+        .withResult(new Form("form1", Sequence(List())))
     }
 
     "ignore multiline comments" in {
       form must succeedOn("form form1 {\n/**\n* Multiline comment\n*/}")
-        .withResult(Form("form1", Sequence(List())))
+        .withResult(new Form("form1", Sequence(List())))
     }
   }
 

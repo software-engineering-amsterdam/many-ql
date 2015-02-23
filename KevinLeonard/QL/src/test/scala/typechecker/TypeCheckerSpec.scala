@@ -68,7 +68,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
     
     "add variable + type to environment " in {
-      check(Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+      check(new Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new Environment()) must beEqualTo(new Environment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
     }
   }
 
