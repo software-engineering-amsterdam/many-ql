@@ -1,20 +1,16 @@
 grammar QL;
 
 // Definitions
-YESNO	: 'yes' | 'no';
-NUMBER	: '-'?[0-9]+; // note that this is only integer, does not include decimal maybe TODO
-IF		: 'if';
-ELSE	: 'else';
-ATTR	: 'required' | 'optional';
-UNITTYPE: 'question' | 'statement';
-IDENTIFIER		: [a-zA-Z][a-zA-Z0-9]*;
-TEXT	: '\"' .*? '\"';
+YESNO		: 'yes' | 'no';
+NUMBER		: '-'?[0-9]+; // note that this is only integer, does not include decimal maybe TODO
+TEXT		: '\"' .*? '\"';
+IDENTIFIER	: [a-zA-Z][a-zA-Z0-9]*;
 
 // Ignore rules
-WS		: [\r\n\t ]+ -> skip;
-COMMENT : '//' ~[\r\n]* -> skip;
+WS			: [\r\n\t ]+ -> skip;
+COMMENT		: '//' ~[\r\n]* -> skip;
 
-// Operators & expressions
+// Operators
 fragment NEQOPERATOR	: '=='  //should be defaultly usable by text, number, yesno
 						| '!='  //should be defaultly usable by text, number, yesno
 						;
@@ -35,44 +31,34 @@ OPERATOR				: CALCOPERATOR
 						| NEQOPERATOR
 						;
 
+// Production rules
 operator: OPERATOR;
 
-// Production rules
-typeName: 'yesno' | 'number' | 'text';
-
-typedef		: YESNO
-			| NUMBER
-			| TEXT
+type		: 'yesno'	# yesno
+			| 'number'	# number
+			| 'text'	# text
 			;
 
-typeDefExt	: typedef
+literal		: YESNO
+			| NUMBER
+			| TEXT
 			| IDENTIFIER
 			;
 
-
 unit		: questionUnit
 			| statementUnit
-			| controlBlock
+			| controlUnit
 			;
 
 block		: '{' unit* '}';
 
 formBlock	: 'form' IDENTIFIER block;
 
-//to handle some input and provide somehow altered(or not) output.
-// our expression should be basically a function. 
-//expression		: ('(' ( expression | condition) ')');
+expression	: literal
+			| '(' expression ')'
+			| '(' expression operator expression ')'
+			;
 
-
-expression	: typeDefExt
-			| (
-				'('	( typeDefExt 
-					| expression 
-					|  (expression operator expression) 
-					) 
-				')');
-
-questionUnit : UNITTYPE IDENTIFIER '(' typeName (',' ATTR)* ')' TEXT ';'				;
-statementUnit : UNITTYPE IDENTIFIER '(' typeName ',' (typedef|expression) ')' TEXT ';'	;
-
-controlBlock	: 'if' expression block ('else' controlBlock)* ('else' block)? ';';
+questionUnit  : 'question' IDENTIFIER '(' type ')' TEXT ';';
+statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;
+controlUnit	  : 'if' expression block ('else' controlUnit)* ('else' block)? ';';

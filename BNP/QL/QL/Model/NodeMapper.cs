@@ -58,7 +58,7 @@ namespace QL.Model
             Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            string typeName = context.typeName().GetText();
+            string typeName = context.type().GetText();
             string unitText = context.TEXT().GetText();
 
             TerminalTypeFactory typeFactory = new TerminalTypeFactory(typeName);
@@ -79,7 +79,7 @@ namespace QL.Model
             Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            string typeName = context.typeName().GetText();
+            string typeName = context.type().GetText();
             string unitText = context.TEXT().GetText();
 
             TerminalTypeFactory typeFactory = new TerminalTypeFactory(typeName);
@@ -94,7 +94,7 @@ namespace QL.Model
             AppendToAST(statement);
         }
 
-        public void Create(QLParser.ControlBlockContext context)
+        public void Create(QLParser.ControlUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
 

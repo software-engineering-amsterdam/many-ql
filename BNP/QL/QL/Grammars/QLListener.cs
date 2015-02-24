@@ -43,20 +43,7 @@ namespace QL.Grammars
             mapper.Create(context);
 
         }
-
         
-        public override void EnterControlBlock(QLParser.ControlBlockContext context)
-        {
-            mapper.InitializeNewLevel();
-            base.EnterControlBlock(context);
-        }
-        public override void ExitControlBlock(QLParser.ControlBlockContext context)
-        {
-            base.ExitControlBlock(context);
-            mapper.Create(context);
-
-        }
-
         public override void EnterQuestionUnit(QLParser.QuestionUnitContext context)
         {
             mapper.InitializeNewLevel();
@@ -99,40 +86,16 @@ namespace QL.Grammars
             
             //TODO
         }
-        public override void EnterTypeName(QLParser.TypeNameContext context)
+
+        public override void EnterLiteral(QLParser.LiteralContext context)
         {
             mapper.InitializeNewLevel();
 
-            base.EnterTypeName(context);
+            base.EnterLiteral(context);
         }
-        public override void ExitTypeName(QLParser.TypeNameContext context)
+        public override void ExitLiteral(QLParser.LiteralContext context)
         {
-            base.ExitTypeName(context);
-            //TODO
-
-        }
-        public override void EnterTypeDefExt(QLParser.TypeDefExtContext context)
-        {
-            mapper.InitializeNewLevel();
-
-            base.EnterTypeDefExt(context);
-        }
-        public override void ExitTypeDefExt(QLParser.TypeDefExtContext context)
-        {
-
-            base.ExitTypeDefExt(context);
-            //TODO
-
-        }
-        public override void EnterTypedef(QLParser.TypedefContext context)
-        {
-            mapper.InitializeNewLevel();
-
-            base.EnterTypedef(context);
-        }
-        public override void ExitTypedef(QLParser.TypedefContext context)
-        {
-            base.ExitTypedef(context);
+            base.ExitLiteral(context);
             //TODO
 
         }

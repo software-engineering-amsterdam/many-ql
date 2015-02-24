@@ -48,28 +48,22 @@ namespace QL.Grammars
         }
 
 
-        public override QLParser.FormBlockContext VisitTypedef(QLParser.TypedefContext context)
+        public override QLParser.FormBlockContext VisitLiteral(QLParser.LiteralContext context)
         {
-            Console.WriteLine("Typedef: {0}", context.GetText());
-            return base.VisitTypedef(context);
+            Console.WriteLine("Literal: {0}", context.GetText());
+            return base.VisitLiteral(context);
         }
 
-        public override QLParser.FormBlockContext VisitTypeDefExt(QLParser.TypeDefExtContext context)
-        {
-            Console.WriteLine("TypedefExt: {0}", context.GetText());
-            return base.VisitTypeDefExt(context);
-        }
-        
         public override QLParser.FormBlockContext VisitExpression(QLParser.ExpressionContext context)
         {
             Console.WriteLine("Expression: {0}", context.GetText());
             return base.VisitExpression(context);
         }
 
-        public override QLParser.FormBlockContext VisitControlBlock(QLParser.ControlBlockContext context)
+        public override QLParser.FormBlockContext VisitControlUnit(QLParser.ControlUnitContext context)
         {
             Console.WriteLine("IfStatement: {0}", context.GetText());
-            return base.VisitControlBlock(context);
+            return base.VisitControlUnit(context);
         }
 
         public override QLParser.FormBlockContext VisitOperator(QLParser.OperatorContext context)
