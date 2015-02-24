@@ -31,4 +31,6 @@ public interface IModel {
 
     void caseSpinbox(Spinbox radio);
 
+    void caseSlider(Slider radio);
+
 }

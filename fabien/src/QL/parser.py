@@ -100,11 +100,9 @@ def p_function(p):
     '''
     p[0] = p[1]
 
-
-def p_binary_expression(p):
+def p_bool_expression(p):
     '''expr : expr '>' expr
             | expr '<' expr
-
             | expr EQ expr
             | expr NEQ expr
             | expr LT_EQ expr
@@ -112,13 +110,17 @@ def p_binary_expression(p):
 
             | expr AND expr
             | expr OR  expr
+    '''
+    p[0] = nodes.BoolExpression(p, p[2], p[1], p[3])
 
-            | expr '+' expr
+
+def p_operand_expression(p):
+    '''expr : expr '+' expr
             | expr '-' expr
             | expr '*' expr
             | expr '/' expr
     '''
-    p[0] = nodes.Expression(p, p[2], p[1], p[3])
+    p[0] = nodes.OperandExpression(p, p[2], p[1], p[3])
 
 
 def p_unary_minus_expression(p):

@@ -8,6 +8,9 @@ class Form(Node):
 
         self.name     = self.tokens.get('ID', "")
 
+    @property
+    def children(self):
+        return self.tokens.get('block', list())
 
     def __repr__(self, nested=0):
         tree = "Form %s" % self.name

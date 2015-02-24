@@ -10,5 +10,12 @@ class Question(Node):
         self.label    = self.tokens.get('ID', None)
         self.function = self.tokens.get('function', None)
 
+    @property
+    def children(self):
+        if self.function:
+            return [self.function]
+
+        return []
+
     def __repr__(self, nested=0):
         return "Question(%s: %s)" % (self.type, self.text)

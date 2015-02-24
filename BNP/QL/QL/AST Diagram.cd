@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QL.Model.ElementBase" Collapsed="true">
+    <Position X="4" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABABAAAAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ElementBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SourceLocation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QL.Model.QuestionUnit" Collapsed="true">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\QuestionUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Model.UnitBase" Collapsed="true">
+    <Position X="1.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAIAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Model\UnitBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Model.StatementUnit" Collapsed="true">
+    <Position X="2.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\StatementUnit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Model.Terminals.Identifier" Collapsed="true">
+    <Position X="13.5" Y="5.5" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
+      <Path>
+        <Point X="12.75" Y="1.191" />
+        <Point X="12.75" Y="5.875" />
+        <Point X="13.5" Y="5.875" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Model\Terminals\Identifier.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.Model.Terminals.Number" Collapsed="true">
+    <Position X="13.5" Y="3" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
+      <Path>
+        <Point X="12.75" Y="1.191" />
+        <Point X="12.75" Y="3.375" />
+        <Point X="13.5" Y="3.375" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Model\Terminals\Number.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.Model.Terminals.Text" Collapsed="true">
+    <Position X="13.5" Y="1.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
+      <Path>
+        <Point X="12.75" Y="1.191" />
+        <Point X="12.75" Y="2.219" />
+        <Point X="13.5" Y="2.219" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Model\Terminals\Text.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.Model.Terminals.Yesno" Collapsed="true">
+    <Position X="13.5" Y="4.25" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.75" Y="1.191" />
+        <Point X="12.75" Y="4.625" />
+        <Point X="13.5" Y="4.625" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Model\Terminals\Yesno.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QL.Model.Block" Collapsed="true">
+    <Position X="6.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Block.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QL.Model.Form" Collapsed="true">
+    <Position X="4.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Model\Form.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Block" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QL.Model.ControlBlock" Collapsed="true">
+    <Position X="10.75" Y="3.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.TreeElementBase" FixedToPoint="true">
+      <Path>
+        <Point X="3.25" Y="2.191" />
+        <Point X="3.25" Y="2.45" />
+        <Point X="11.5" Y="2.45" />
+        <Point X="11.5" Y="3.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAA=</HashCode>
+      <FileName>Model\ControlBlock.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QL.Model.BinaryTreeElementBase" Collapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <AssociationLine Name="ElementType" Type="QL.Model.Enums.ElementType" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12" Y="0.938" />
+        <Point X="11.656" Y="0.938" />
+        <Point X="11.656" Y="1.562" />
+        <Point X="10.5" Y="1.562" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <FileName>Model\BinaryTreeElementBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ElementType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QL.Model.TreeElementBase" Collapsed="true">
+    <Position X="2.5" Y="1.5" Width="1.5" />
+    <InheritanceLine Type="QL.Model.ElementBase" ManuallyRouted="true">
+      <Path>
+        <Point X="5" Y="1.062" />
+        <Point X="5" Y="1.325" />
+        <Point X="3.25" Y="1.325" />
+        <Point X="3.25" Y="1.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\TreeElementBase.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ElementType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QL.Model.Operators.AndOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="2.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="15.26" Y="0.875" />
+        <Point X="15.26" Y="3.096" />
+        <Point X="15.5" Y="3.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\AndOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.DivisionOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.5" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="21.26" Y="0.875" />
+        <Point X="21.26" Y="5.096" />
+        <Point X="21.5" Y="5.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\DivisionOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.EqualsOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="1.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="15.26" Y="0.875" />
+        <Point X="15.26" Y="2.125" />
+        <Point X="15.5" Y="2.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\EqualsOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.GreaterThanEqualToOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="3.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="19.122" Y="0.875" />
+        <Point X="19.122" Y="4.125" />
+        <Point X="19.5" Y="4.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\GreaterThanEqualToOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.GreaterThanOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="3.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="15.26" Y="0.875" />
+        <Point X="15.26" Y="4.096" />
+        <Point X="15.5" Y="4.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\GreaterThanOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.LessThanEqualToOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.5" Y="3.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="21.26" Y="0.875" />
+        <Point X="21.26" Y="4.125" />
+        <Point X="21.5" Y="4.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\LessThanEqualToOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.LessThanOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="3.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="17.122" Y="0.875" />
+        <Point X="17.122" Y="4.096" />
+        <Point X="17.5" Y="4.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\LessThanOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.MinusOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="17.122" Y="0.875" />
+        <Point X="17.122" Y="5.096" />
+        <Point X="17.5" Y="5.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\MinusOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.MultiplicationOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="19.122" Y="0.875" />
+        <Point X="19.122" Y="5.125" />
+        <Point X="19.5" Y="5.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\MultiplicationOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.NotEqualsOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="1.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="17.122" Y="0.875" />
+        <Point X="17.122" Y="2.125" />
+        <Point X="17.5" Y="2.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\NotEqualsOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.OrOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="2.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="17.122" Y="0.875" />
+        <Point X="17.122" Y="3.096" />
+        <Point X="17.5" Y="3.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\OrOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Operators.PlusOperator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedFromPoint="true">
+      <Path>
+        <Point X="13.5" Y="0.875" />
+        <Point X="15.26" Y="0.875" />
+        <Point X="15.26" Y="5.096" />
+        <Point X="15.5" Y="5.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Operators\PlusOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="QL.Model.Expression" Collapsed="true">
+    <Position X="8.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Expression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="QL.Model.SourceLocation" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAABAAA=</HashCode>
+      <FileName>Model\SourceLocation.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="QL.Model.Enums.ControlBlockType">
+    <Position X="10.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Enums\ControlBlockType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="QL.Model.Enums.ElementType" Collapsed="true">
+    <Position X="9" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAA=</HashCode>
+      <FileName>Model\Enums\ElementType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -67,4 +67,9 @@ public abstract class AbstractRenderer implements IModel {
     public void caseSpinbox(Spinbox radio) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void caseSlider(Slider slider) {
+        throw new UnsupportedOperationException();
+    }
 }
