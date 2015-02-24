@@ -10,22 +10,26 @@ from AST.operators import *
 class TypeChecker:
 
     def __init__(self, form):
-        self.form = form
-        ids = TypeChecker.check_ids(self.form.statements)
-        labels = TypeChecker.check_labels(self.form.statements)
-        dependencies = TypeChecker.check_dependencies(self.form.statements)
+        ids = form.get_ids()
+        id_message = TypeChecker.check_ids(ids)
+
+        labels = form.get_labels()
+        label_message = TypeChecker.check_labels(labels)
+
+        statements = form.get_statements()
+        dependencies = form.get_dependencies()
         transitive_dependencies = TypeChecker.transitive_dependencies(dependencies)
 
         print("ids:")
-        print(ids)
+        print(id_message)
 
         print("\nlabels:")
-        print(labels)
+        print(label_message)
 
         print("\ntransitive dependencies:")
         print(transitive_dependencies)
         print("")
-        TypeChecker.is_valid_expression(self.form.statements, self.form.type_dict)
+        TypeChecker.is_valid_expression(statements, form.get_type_dict())
 
     @staticmethod
     def check_duplicates(list):
@@ -34,32 +38,20 @@ class TypeChecker:
         return duplicates
 
     @staticmethod
-    def check_ids(questions):
-        ids = []
-        for question in questions:
-            ids += (question.id_collection())
-        duplicates =  TypeChecker.check_duplicates(ids)
+    def check_ids(ids):
+        duplicates = TypeChecker.check_duplicates(ids)
         if duplicates:
-            print("There are duplicate ids: " + str(duplicates))
-        return ids
+            return "There are duplicate ids: " + str(duplicates)
+        else:
+            return ids
 
     @staticmethod
-    def check_labels(questions):
-        labels = []
-        for question in questions:
-            labels += question.label_collection()
+    def check_labels(labels):
         duplicates = TypeChecker.check_duplicates(labels)
         if duplicates:
-            print("There are duplicate labels: " + str(duplicates))
-        return labels
-
-    @staticmethod
-    def check_dependencies(statements):
-        dependencies = {}
-        for x in statements:
-            new_dependencies = x.dependency_collection({})
-            dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
-        return dependencies
+            return "There are duplicate labels: " + str(duplicates)
+        else:
+            return labels
 
     @staticmethod
     def transitive_dependencies_key(key, values, dependencies):
@@ -75,6 +67,7 @@ class TypeChecker:
             transitive_dependencies[k] = TypeChecker.transitive_dependencies_key(k, set([]), dependencies)
         return transitive_dependencies
 
+    # TODO: try to make this obsolete
     @staticmethod
     def type_checker(cinput, ctype=False):
         """
