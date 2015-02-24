@@ -1,4 +1,4 @@
-package test.typechecker;
+package test.typechecker.statement;
 
 import static org.junit.Assert.*;
 
@@ -17,23 +17,23 @@ import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
 
 @RunWith(value = Parameterized.class)
-public class TestOrAnd {
+public class TestIf {
 	 @Parameters
      public static Collection<Object[]> data() {
     	 return Arrays.asList(new Object[][] {                             
-    			 { "(true && false) || false", true }, 
-                 { "(true && false) || 123", false }, 
-                 { "(true && lol) || 123", false }
-    	 });
+				 { "if (true) { }", true }, 
+				 { "if (false || true) { }", true }, 
+				 { "if (123) { }", false}
+		 });
      }
-
+     
      private ASTNode inputNode;
      private boolean expected;
      
      private Parser formParser = new Parser();
      private TypeEnvironment register = new TypeEnvironment();
 
-     public TestOrAnd(String input, boolean expected) {
+     public TestIf(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
 
          register = new TypeEnvironment();
@@ -44,13 +44,13 @@ public class TestOrAnd {
      
      @BeforeClass
      public static void printHeader() {
-    	 System.out.println("==========================");
-    	 System.out.println("*** Testing Or and And ***");
-    	 System.out.println("==========================");
+    	 System.out.println("==================");
+    	 System.out.println("*** Testing If ***");
+    	 System.out.println("==================");
      }
      
      @Test
-     public void testOrAnd() {
+     public void testIf() {
     	 assertEquals(expected, TypeChecker.check(inputNode, register));
      }
 }

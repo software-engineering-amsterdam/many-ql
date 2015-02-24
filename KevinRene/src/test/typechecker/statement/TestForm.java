@@ -1,4 +1,4 @@
-package test.typechecker;
+package test.typechecker.statement;
 
 import static org.junit.Assert.*;
 
@@ -20,17 +20,25 @@ import cons.ql.parser.Parser;
 public class TestForm {
 	 @Parameters
      public static Collection<Object[]> data() {
-    	 return Arrays.asList(new Object[][] {                             
-    			 { "houseValue : money { \"Lol I dont care\" assign(\"Rubbish\") }", false },
+    	 return Arrays.asList(new Object[][] {
     			 { "form taxOfficeExample {"
 					+ 	"hasSoldHouse : boolean {"
 					+ 		"\"Did you sell a house in 2010?\""
 					+ 	"}"
-					+ 	"if(5 == 5) {"
+					+ 	"if((5 == 5) == true) {"
 					+ 		"houseValue : money {"
 					+ 			"\"Lol I dont care\""
 					+ 		"}"
 					+ 	"}"
+					+ "}", true },
+					// Second form
+					{ "form taxOfficeExample {"
+					+ 	"hasSoldHouse : boolean { \"Did you sell a house in 2010?\" }"
+					+ 	"if((5 == 5) == true) {"
+					+ 		"houseValue : money { \"Lol I dont care\" }"
+					+ 	"} else {"
+					+ "	 	otherQuestion : boolean { \"Did you sell a house in 2010?\" }"
+					+ "  }"
 					+ "}", true }
     	 });
      }

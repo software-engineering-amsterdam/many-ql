@@ -8,6 +8,8 @@ import cons.ql.ast.visitor.Visitor;
 public class Block extends Statement {
 	private ArrayList<Statement> statements = new ArrayList<Statement>();
 	
+	public Block() {}
+	
 	/**
 	 * Constructor for the statement case
 	 * @param statement

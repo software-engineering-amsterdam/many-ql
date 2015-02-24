@@ -36,9 +36,7 @@ public class TestTypeRegister {
 		TypeEnvironment register = new TypeEnvironment();
 		
 		Identifier myIdentifier = new Identifier("aString");
-		
-		
-		System.out.println(register.resolve(myIdentifier));
+				
 		assertEquals("Should return null when the identifier is not registered"
 				, null, register.resolve(myIdentifier));
 	}
