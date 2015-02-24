@@ -1,8 +1,5 @@
-package ast;
+package ast.value;
 
-import ast.value.Bool;
-import ast.value.Int;
-import ast.value.Undefined;
 
 public abstract class Value {
 	
