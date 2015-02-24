@@ -1,6 +1,6 @@
 from . import Dispatch
 
-class GenericVisitor:
+class Visitor:
     def visit(self, obj):
         return Dispatch.onClass(
             self,
