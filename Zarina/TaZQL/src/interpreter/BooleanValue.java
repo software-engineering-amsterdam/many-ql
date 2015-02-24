@@ -1,6 +1,6 @@
 package interpreter;
 
-public class BooleanValue {
+public class BooleanValue extends Value {
 	private final Boolean booleanValue;
 	
 	public BooleanValue(Boolean booleanValue) {
@@ -18,22 +18,33 @@ public class BooleanValue {
 	public Value or(Value value) {
 		return value.orBoolean(this);
 	} 
-	// TODO not fixed yet.
-	public Value not() 
-	{ throw new UnsupportedOperationException("Not supported in not()."); }
-
+	
+	public Value not() {
+		return new BooleanValue(!getBooleanValue());
+	}
+	
+	public Value equality(Value value) {
+		return value.equalBoolean(this);
+	}
+	
+	
+	public Value equalBoolean(BooleanValue value) {
+		return new BooleanValue(value.getBooleanValue() == getBooleanValue() );
+	}
 
 	public Value andBoolean(BooleanValue value) {
 		return new BooleanValue(value.getBooleanValue() && getBooleanValue() );
-	//	throw new UnsupportedOperationException("Not supported in not()."); 
 	}
 	
 	public Value orBoolean(BooleanValue value) {
-		throw new UnsupportedOperationException("Not supported in not()."); 
+		return new BooleanValue(value.getBooleanValue() || getBooleanValue() );
 	}
 	
-	public Value notBoolean(BooleanValue value) 
-	{ throw new UnsupportedOperationException("Not supported in notBoolean()."); }	
-	
+	public boolean equals(Object object) {
+		if (object instanceof BooleanValue) {	
+			return getBooleanValue().equals(((BooleanValue) object).getBooleanValue());
+		}
+		return false;
+	}
 	
 }

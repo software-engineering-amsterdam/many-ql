@@ -1,5 +1,6 @@
 package lang.ql.gui.label;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lang.ql.gui.GuiElement;
 import lang.ql.gui.GuiVisitor;
 
@@ -9,8 +10,16 @@ import lang.ql.gui.GuiVisitor;
 public class Label extends GuiElement
 {
     private String text;
+
     public Label(String text)
     {
+        super();
+        this.text = text;
+    }
+
+    public Label(String text, Boolean visible)
+    {
+        super(visible);
         this.text = text;
     }
 

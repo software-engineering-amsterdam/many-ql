@@ -1,7 +1,10 @@
 package org.fugazi.type_checker;
 
 import org.fugazi.ast.form.Form;
+import org.fugazi.type_checker.error.ASTNodeError;
 import org.fugazi.type_checker.visitor.TypeCheckerVisitor;
+
+import java.util.List;
 
 
 public class TypeChecker {
@@ -22,8 +25,11 @@ public class TypeChecker {
         return this.visitor.isFormCorrect();
     }
 
-    public void displayFormWarningsAndErrors() {
-        this.visitor.displayFormWarningsAndErrors();
-        return;
+    public List<ASTNodeError> getErrors() {
+        return this.visitor.getErrors();
+    }
+
+    public List<ASTNodeError> getWarnings() {
+        return this.visitor.getWarnings();
     }
 }

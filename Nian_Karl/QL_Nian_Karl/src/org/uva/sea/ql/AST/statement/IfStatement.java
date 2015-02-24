@@ -11,7 +11,7 @@ import org.uva.sea.ql.AST.visitor.Visitor;
 public class IfStatement extends Statement {
 
 	private BlockStatement block;
-
+	
 	private final Expression expr;
 
 	public IfStatement(Expression expr, BlockStatement block) {

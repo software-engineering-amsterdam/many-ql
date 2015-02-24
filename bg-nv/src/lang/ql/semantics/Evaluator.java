@@ -1,5 +1,6 @@
 package lang.ql.semantics;
 
+import lang.ql.ast.AstVisitor;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.CalculatedQuestion;
@@ -10,7 +11,7 @@ import lang.ql.semantics.values.*;
 /**
  * Created by bore on 23/02/15.
  */
-public class Evaluator implements Visitor<Value>
+public class Evaluator implements ExprVisitor<Value>
 {
     private EvalEnv env;
 
@@ -50,9 +51,9 @@ public class Evaluator implements Visitor<Value>
     }
 
     @Override
-    public Value visit(Ident e)
+    public Value visit(Ident id)
     {
-        throw new IllegalArgumentException();
+        return this.env.getValue(id.getId());
     }
 
     @Override
@@ -167,29 +168,5 @@ public class Evaluator implements Visitor<Value>
         Value left = e.getLeft().accept(this);
         Value right = e.getRight().accept(this);
         return left.or(right);
-    }
-
-    @Override
-    public Value visit(Form f)
-    {
-        return null;
-    }
-
-    @Override
-    public Value visit(Question q)
-    {
-        return null;
-    }
-
-    @Override
-    public Value visit(CalculatedQuestion q)
-    {
-        return null;
-    }
-
-    @Override
-    public Value visit(IfCondition c)
-    {
-        return null;
     }
 }
