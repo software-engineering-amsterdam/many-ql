@@ -19,7 +19,7 @@ public class UIComputedQuestion extends UIQuestion {
         // TODO: get it from a GUI Designer
         this.widget = new TextBox(_question.getLabel());
         JTextField textField = ((TextBox)this.widget).getTextField();
-        textField.addActionListener(event -> itemChanged(event)); // lambda
+       // textField.addActionListener(event -> itemChanged(event)); // lambda
     }
 
     @Override
