@@ -14,12 +14,12 @@ statement
 	;
 
 ifStatement
-	: IF LEFT_PAREN expression RIGHT_PAREN block ELSE block		#IfElse
-	| IF LEFT_PAREN expression RIGHT_PAREN block				#If
+	: IF LEFT_PAREN expression RIGHT_PAREN ifBlock=block ELSE elseBlock=block		#IfElse
+	| IF LEFT_PAREN expression RIGHT_PAREN ifBlock=block				#If
 	;
 	
 question
-	: questionName COLON questionLabel questionType LEFT_PAREN expression RIGHT_PAREN	#QuestCompute
+	: questionName COLON questionLabel questionType LEFT_PAREN expr = expression RIGHT_PAREN	#QuestionCompute
 	| questionName COLON questionLabel questionType										#QuestionNormal
 	;
 

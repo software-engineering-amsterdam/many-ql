@@ -2,7 +2,7 @@ package org.uva.ql.factory;
 
 import org.antlr.v4.runtime.atn.SemanticContext.Operator;
 import org.uva.ql.antlr.QLParser.QuestionNormalContext;
-import org.uva.ql.ast.statement.QuestionStatement;
+import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.type.QuestionType;
 
 public class QLFactory implements IQLFactory {
@@ -13,13 +13,13 @@ public class QLFactory implements IQLFactory {
 	private final String BOOL= "Bool";
 
 	@Override
-	public QuestionStatement getQuestion(QuestionNormalContext ctx) {
+	public QuestionNormal getQuestion(QuestionNormalContext ctx) {
 		QuestionType type = getQuestionType(ctx.questionType().getText());
 		String questionIdentifier = ctx.questionName().getText();
 		// Escape the "" in the beginning of the questionlabel.
 		String questionLabel = ctx.questionLabel().getText();
 		
-		return new QuestionStatement(type, questionIdentifier, questionLabel);
+		return new QuestionNormal(type, questionIdentifier, questionLabel);
 	}
 
 	@Override

@@ -13,14 +13,14 @@ import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.BlockStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionStatement;
+import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Start");
-		ANTLRFileStream input = new ANTLRFileStream("scripts/quest1.ql");
+		ANTLRFileStream input = new ANTLRFileStream("scripts/quest2.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
@@ -53,8 +53,8 @@ public class Main {
 	
 	public static void printBlock(BlockStatement block){
 		for (Statement statement: block.getStatementList()) {
-			if (statement.getClass() == QuestionStatement.class) {
-				QuestionStatement question = (QuestionStatement) statement;
+			if (statement.getClass() == QuestionNormal.class) {
+				QuestionNormal question = (QuestionNormal) statement;
 				System.out.println("Question string: " +question.toString());
 			}else if (statement.getClass() == IfStatement.class) {
 				IfStatement ifstatement = (IfStatement) statement;				

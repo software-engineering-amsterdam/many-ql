@@ -25,6 +25,7 @@ import org.uva.ql.antlr.QLParser.LiteralBoolContext;
 import org.uva.ql.antlr.QLParser.LiteralIdContext;
 import org.uva.ql.antlr.QLParser.LiteralIntContext;
 import org.uva.ql.antlr.QLParser.LiteralStrContext;
+import org.uva.ql.antlr.QLParser.QuestionComputeContext;
 import org.uva.ql.antlr.QLParser.QuestionNormalContext;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.antlr.QLParser.StatementContext;
@@ -54,19 +55,19 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.BlockStatement;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionStatement;
+import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.factory.QLFactory;
 
 public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	private QLFactory factory;
-	
+
 	public QLImplVisitor() {
 		factory = new QLFactory();
-		
+
 	}
-	
+
 	@Override
 	public Node visitExprNot(ExprNotContext ctx) {
 		Expression expr = (Expression) ctx.expression().accept(this);
@@ -201,10 +202,10 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	public Node visitExprParentheses(ExprParenthesesContext ctx) {
 		return new Parenthese((Expression) ctx.expression().accept(this));
 	}
-	
+
 	@Override
 	public Node visitIf(IfContext ctx) {
-		System.out.println("Hello?");
+		System.out.println("Visiting if");
 		Expression expr = (Expression) ctx.expression().accept(this);
 		BlockStatement block = (BlockStatement) visitBlock(ctx.block());
 		return new IfStatement(expr, block);
@@ -212,28 +213,29 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitIfElse(IfElseContext ctx) {
-		System.out.println("Hmm");
+		System.out.println("Iif else?");
 		Expression expr = (Expression) ctx.expression().accept(this);
-		BlockStatement block = (BlockStatement) visitBlock((BlockContext) ctx.block());
-		IfElseStatement ifElseStatement = new IfElseStatement(expr,block, (BlockStatement) visitBlock((BlockContext) ctx.ELSE()));
+		BlockStatement ifBlock = (BlockStatement) visitBlock(ctx.ifBlock);
+		BlockStatement elseBlock = (BlockStatement) visitBlock(ctx.elseBlock);
+		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock);
 		return ifElseStatement;
 	}
-	
-	
-	
+
 	@Override
 	public Node visitBlock(BlockContext ctx) {
 		BlockStatement block = new BlockStatement();
 		for (StatementContext statementContext : ctx.statement()) {
 			if (statementContext.question() != null) {
-				block.addStatement((QuestionStatement) visitQuestionNormal((QuestionNormalContext) statementContext.question()));
-			} else if (statementContext.ifStatement() != null) {	
+				block.addStatement((Statement) statementContext.question().accept(this));
+			} else if (statementContext.ifStatement() != null) {
+
+				System.out.println("Visiting some if statement");
 				block.addStatement((Statement) statementContext.accept(this));
 			}
 		}
 		return block;
 	}
-	
+
 	@Override
 	public Node visitQuestionnaire(QuestionnaireContext ctx) {
 		Questionnaire questionnaire = new Questionnaire();
@@ -242,18 +244,23 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		}
 		return questionnaire;
 	}
-	
+
 	@Override
 	public Node visitForm(FormContext ctx) {
 		if (ctx.block() != null) {
-			return new Form((BlockStatement) visitBlock(ctx.block()),ctx.Identifier().getText());
+			return new Form((BlockStatement) visitBlock(ctx.block()), ctx.Identifier().getText());
 		}
 		return visitChildren(ctx);
 	}
-	
+
 	@Override
 	public Node visitQuestionNormal(QuestionNormalContext ctx) {
-		QuestionStatement statement =factory.getQuestion(ctx);
+		QuestionNormal statement = factory.getQuestion(ctx);
 		return statement;
+	}
+
+	@Override
+	public Node visitQuestionCompute(QuestionComputeContext ctx) {
+		return super.visitQuestionCompute(ctx);
 	}
 }
