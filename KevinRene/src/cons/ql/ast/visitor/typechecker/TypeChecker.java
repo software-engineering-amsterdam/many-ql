@@ -60,12 +60,9 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 		
 		tree.accept(typeChecker);
 		
-		if (!typeErrors.hasErrors()) {
-			typeErrors.outputErrors();
-			return false;
-		}
+		typeErrors.outputErrors();
 		
-		return true;
+		return typeErrors.hasErrors();
 	}	
 	
 	/**
