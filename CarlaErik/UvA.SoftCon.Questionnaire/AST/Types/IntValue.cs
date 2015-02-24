@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace UvA.SoftCon.Questionnaire.AST.Types
+{
+    public class IntValue : Value<int>
+    {
+        public IntValue(int value)
+            : base(value) { }
+    }
+}

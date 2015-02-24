@@ -1,6 +1,6 @@
 from .Visitor import Visitor
 from . import Message
-from .Common import questionIdentifiedBy
+from .Identifier import questionIdentifiedBy
 
 from ..ast import Nodes
 from ..ast.Visitor import Visitor as ASTVisitor
@@ -60,6 +60,5 @@ class ExtractIdentifiersVisitor(ASTVisitor):
     def identifiers(self):
         return self.__identifiers
 
-    def _visitAtomicExpression(self, node):
-        if isinstance(node.left, CustomTypes.Identifier):
-            self.__identifiers.append(node.left) 
+    def _visitIdentifier(self, node):
+        self.__identifiers.append(node) 

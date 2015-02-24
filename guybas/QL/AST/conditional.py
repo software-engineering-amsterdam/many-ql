@@ -81,6 +81,12 @@ class IfBlock(IStatement):
             s += x.return_expressions()
         return s
 
+    def set_order(self, order_num):
+        pass
+
+    def get_order(self):
+        pass
+
 
 class IfElseBlock(IfBlock):
     # Override
@@ -144,3 +150,8 @@ class IfElseBlock(IfBlock):
     def get_parent_id(self):
         return self.parent_id
 
+    def set_order(self, order_num):
+        pass
+
+    def get_order(self):
+        pass
