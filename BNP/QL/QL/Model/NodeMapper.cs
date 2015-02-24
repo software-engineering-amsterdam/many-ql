@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using QL.Grammars;
 using QL.Model.Terminals;
@@ -12,31 +13,31 @@ namespace QL.Model
 {
     public sealed class NodeMapper
     {
-        private readonly Stack<Stack<TreeElementBase>> _childrenStack;
-        private TreeElementBase _astRootNode;
+        private readonly Stack<Stack<ElementBase>> _childrenStack;
+        private ElementBase _astRootNode;
         
         public NodeMapper()
         {
-            _childrenStack = new Stack<Stack<TreeElementBase>>();
+            _childrenStack = new Stack<Stack<ElementBase>>();
         }
 
         public void InitializeNewLevel()
         {
-            _childrenStack.Push(new Stack<TreeElementBase>());
+            _childrenStack.Push(new Stack<ElementBase>());
         }
 
-        private IList<TreeElementBase> GetChildren()
+        private IList<ElementBase> GetChildren()
         {
-            Debug.Assert(_childrenStack.Count() > 0, "Level with children should be always initialized before appending one.");//TODO maybe throw it out
+            Debug.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
             return _childrenStack.Pop().ToList();
         }
 
-        private void PutIntoTree(TreeElementBase newChild)
+        private void PutIntoTree(ElementBase newChild)
         {
 
-            if (_childrenStack.Count() > 0)
+            if (_childrenStack.Any())
             {
-                Stack<TreeElementBase> siblings = _childrenStack.Peek();
+                Stack<ElementBase> siblings = _childrenStack.Peek();
                 siblings.Push(newChild);
             }
             else
@@ -46,14 +47,15 @@ namespace QL.Model
             }
         }
 
-        public void HandleNode<T>() where T : TreeElementBase, new()
+        public void HandleNode<T>() where T : ElementBase, new()
         {
-            IList<TreeElementBase> children = GetChildren();
+            IList<ElementBase> children = GetChildren();
             T parent = new T();
             parent.HandleChildren(children);
             PutIntoTree(parent);
         }
 
+        #region Model creation methods
         public UnitBase Create(QLParser.QuestionUnitContext context)
         {
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
@@ -119,10 +121,12 @@ namespace QL.Model
 
             return retVal;
         }
-        
-        internal void Create(Antlr4.Runtime.ParserRuleContext context)
+
+        internal void Create(ParserRuleContext context)
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

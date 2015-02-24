@@ -66,6 +66,7 @@
     <Compile Include="Model\ControlBlock.cs" />
     <Compile Include="Model\Enums\ControlBlockType.cs" />
     <Compile Include="Model\Enums\ElementType.cs" />
+    <Compile Include="Model\Expression.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\NodeMapper.cs" />
     <Compile Include="Model\Operators\AndOperator.cs" />

@@ -11,6 +11,17 @@ namespace QL.Model
     {
         public ControlBlockType Type { get; set; }
 
+        internal Expression Expression
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
+
         public ControlBlock()
         {
             

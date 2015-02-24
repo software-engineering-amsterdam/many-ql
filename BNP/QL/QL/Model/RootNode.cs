@@ -11,7 +11,7 @@ namespace QL.Model
     {
 
 
-        public RootNode(IList<TreeElementBase> children)
+        public RootNode(IList<ElementBase> children)
         {
             Children = children;
         }

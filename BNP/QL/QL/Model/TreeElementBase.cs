@@ -9,26 +9,13 @@ namespace QL.Model
 {
     public abstract class TreeElementBase : ElementBase
     {
-        public IList<TreeElementBase> Children { get; protected set; }
-
         public override ElementType ElementType
         {
             get { return Children == null || Children.Count == 0 ? ElementType.Leaf : ElementType.Node; }
         }
 
-        protected TreeElementBase()
+        protected TreeElementBase() : base()
         {
-            Children = new List<TreeElementBase>();
         }
-        
-        internal void HandleChildren(IList<TreeElementBase> list)
-        {
-            Children = list;
-            
-            //here the children should be checked
-            //Console.WriteLine("");
-           // throw new NotImplementedException();
-        }
-        
     }
 }

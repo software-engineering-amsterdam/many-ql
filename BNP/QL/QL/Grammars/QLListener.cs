@@ -64,9 +64,8 @@ namespace QL.Grammars
         }
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
-            
             base.ExitQuestionUnit(context);
-            mapper.HandleNode<QL.Model.QuestionUnit>();
+            mapper.HandleNode<QuestionUnit>();
 
         }
         public override void ExitControlBlock(QLParser.ControlBlockContext context)

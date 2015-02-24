@@ -10,8 +10,22 @@ namespace QL.Model
     public abstract class ElementBase
     {
         public SourceLocation SourceLocation { get; set; }
+        public IList<ElementBase> Children { get; protected set; }
 
         public abstract ElementType ElementType { get; }
 
+        protected ElementBase()
+        {
+            Children = new List<ElementBase>(2);
+        }
+
+        internal void HandleChildren(IList<ElementBase> list)
+        {
+            Children = list;
+            
+            //here the children should be checked
+            //Console.WriteLine("");
+            // throw new NotImplementedException();
+        }
     }
 }
