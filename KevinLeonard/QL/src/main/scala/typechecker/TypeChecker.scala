@@ -50,22 +50,22 @@ class TypeChecker {
     }
   }
 
-  // TODO: None and Some in separate functions?
   def checkQuestionStatement(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
     q.optionalExpression match {
-      case None => for {
-        env1 <- env.tryAddVariable(q.variable, q._type).right
-        env2 <- env1.tryAddLabel(q.label, q.pos).right
-      } yield env2
+      case None => tryAddQuestionToEnvironment(q, env)
       case Some(e) => check(e, env) match {
-        case Right(t: Type) if t == q._type => for {
-          env1 <- env.tryAddVariable(q.variable, q._type).right
-          env2 <- env1.tryAddLabel(q.label, q.pos).right
-        } yield env2
+        case Right(t: Type) if t == q._type => tryAddQuestionToEnvironment(q, env)
         case Right(_) => Left(new Error(Exception(), "Invalid expression type for computed question at line", q.pos))
         case Left(e) => Left(e)
       }
     }
+  }
+
+  def tryAddQuestionToEnvironment(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
+    for {
+      env1 <- env.tryAddVariable(q.variable, q._type).right
+      env2 <- env1.tryAddLabel(q.label, q.pos).right
+    } yield env2
   }
 
   def checkBooleanExpression(e1: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
