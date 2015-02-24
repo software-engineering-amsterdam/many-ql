@@ -24,14 +24,11 @@ class QuestionnaireGUI:
         self.draw_statements(self.statements)
 
     def draw_statements(self, statements, recreate=False):
-        print("here:")
-        print(statements)
         for statement in statements:
             self.row_counter += 1
             parent_id = statement.get_parent_id()
             if parent_id not in self.elementsMap:
                 self.elementsMap[parent_id] = {'_statements': [], 'guiElements': []}
-            print(parent_id)
             if statement.is_conditional():  # TODO: fix statement condition drawing
                 self.elementsMap[parent_id]['_statements'] = [statement]
                 self.draw_conditional_q(statement, recreate)
@@ -44,14 +41,11 @@ class QuestionnaireGUI:
         parent_id = statement.get_parent_id()
         int_var = IntVar()
         str_var = StringVar()
-        # print the question
         l = Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
         l.grid(row=self.row_counter, column=0, sticky=W)
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
         # print the input box
         self.elementsMap[parent_id]['guiElements'] += [l]
-        print("do recreate?")
-        print(recreate)
         if statement.get_type() is BasicTypes.bool_name:
             e1 = Radiobutton(text="True", value=1, variable=self.row_counter,
                              command=lambda: self.update(statement, True))
@@ -82,9 +76,7 @@ class QuestionnaireGUI:
     def update(self, question, new_answer):
         self.answersMap.update(question, new_answer)
         # print(self.varsCondMap)
-        print(new_answer)
         pointers = self.varsCondMap[question.get_id()]
-        print(pointers)
         # self.elements_recreate(pointers[0])
         for pointer in pointers:
             # print(pointer)
@@ -93,13 +85,9 @@ class QuestionnaireGUI:
     def elements_recreate(self, parent_id):
         if parent_id not in self.elementsMap:
             raise QException("Fatal Error: no such condition id " + parent_id)
-        print(self.elementsMap[parent_id]['guiElements'])
         for e in self.elementsMap[parent_id]['guiElements']:
-            print(e)
             e.grid_forget()
 
-        print(self.elementsMap[parent_id])
-        print(self.elementsMap[parent_id]['_statements'])
         self.draw_statements(self.elementsMap[parent_id]['_statements'], True)
 
     def draw_conditional_q(self, c_question, recreate=False):
