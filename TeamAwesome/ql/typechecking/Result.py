@@ -6,21 +6,14 @@ from . import Message
 # It's the Result Object pattern.
 class Result:
     def __init__(self, messages = []):
-        self.__messages = messages
+        self._messages = messages
 
     @property
     def messages(self):
-        return self.__messages
-
-    @property
-    def errors(self):
-        return [
-            m for m in self.messages
-            if isinstance(m, Message.Error)
-        ]
+        return self._messages
 
     def withMessage(self, message):
-        return Result(self.__messages + [message])
+        return Result(self._messages + [message])
 
     @staticmethod
     def merge(results):
@@ -28,7 +21,3 @@ class Result:
         for r in results:
             result = Result(result.messages + r.messages)
         return result
-
-    @property
-    def success(self):
-        return (self.errors) == 0
