@@ -1,7 +1,5 @@
 package lang.ql.ast.expression;
 
-import lang.ql.semantics.Visitor;
-
 /**
  * Created by bore on 09/02/15.
  */
@@ -20,7 +18,7 @@ public class Ident extends Expr
         return this.id;
     }
 
-    public <T> T accept(Visitor<T> visitor)
+    public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

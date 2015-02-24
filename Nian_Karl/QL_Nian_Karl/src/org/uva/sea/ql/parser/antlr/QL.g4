@@ -40,19 +40,19 @@ ifStatement : IF LEFT_PAREN condition=expression RIGHT_PAREN thenBranch=block;
 //elseStatement : ELSE block;
 
 expression:
-	Literal = literal 
-	| Left=expression  op = AND Right=expression 
-	| Left= expression op = OR Right= expression 
-	| Left= expression op = EQUAL_COND Right= expression 
-	| Left= expression op = GREATER Right= expression 
-	| Left= expression op = GREAT_EQUAL Right= expression  
-	| Left= expression op = LESS_EQUAL Right= expression 
-	| Left= expression op = LESS Right= expression 
-	| Left= expression op = PLUS Right= expression  
-	| Left= expression op = MINUS Right= expression  
-	| Left= expression op = MULTIPLY Right= expression 
-	| Left= expression op = DIVIDE Right= expression 
-	| '(' singleExpr = expression ')'  
+	literalExpression = literal 
+	| left=expression  op = AND right=expression 
+	| left= expression op = OR right= expression 
+	| left= expression op = EQUAL_COND right= expression 
+	| left= expression op = GREATER right= expression 
+	| left= expression op = GREAT_EQUAL right= expression  
+	| left= expression op = LESS_EQUAL right= expression 
+	| left= expression op = LESS right= expression 
+	| left= expression op = PLUS right= expression  
+	| left= expression op = MINUS right= expression  
+	| left= expression op = MULTIPLY right= expression 
+	| left= expression op = DIVIDE right= expression 
+	| '(' priorityExpr = expression ')'  
 	| op = '!' singleExpr= expression 
 	| op = '-' singleExpr= expression 
 ;

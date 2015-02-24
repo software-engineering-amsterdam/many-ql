@@ -1,5 +1,6 @@
 package org.uva.sea.ql.AST.visitor;
 
+import org.uva.sea.ql.AST.Form;
 import org.uva.sea.ql.AST.Visitable;
 import org.uva.sea.ql.AST.expression.booleanexpression.AndExpression;
 import org.uva.sea.ql.AST.expression.booleanexpression.EqualExpression;
@@ -15,6 +16,9 @@ import org.uva.sea.ql.AST.expression.mathexpression.AddExpression;
 import org.uva.sea.ql.AST.expression.mathexpression.DivExpression;
 import org.uva.sea.ql.AST.expression.mathexpression.MulExpression;
 import org.uva.sea.ql.AST.expression.mathexpression.SubExpression;
+import org.uva.sea.ql.AST.statement.BlockStatement;
+import org.uva.sea.ql.AST.statement.IfStatement;
+import org.uva.sea.ql.AST.statement.QuestionStatement;
 import org.uva.sea.ql.AST.value.AbstractValue;
 
 public interface Visitor<T> {
@@ -35,6 +39,11 @@ public interface Visitor<T> {
 	public AbstractValue<?> visit(NegativeExpression expr);
 	public AbstractValue<?> visit(NotExpression expr);
 	public AbstractValue<?> visit(PositiveExpression expr);
+	
+	public T visit(Form form);
+	public T visit(QuestionStatement questionStatement);
+	public T visit(IfStatement ifStatement);
+	public T visit(BlockStatement blockStatement);
 	
 	
 }

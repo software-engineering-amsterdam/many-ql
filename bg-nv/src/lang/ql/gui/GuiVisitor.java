@@ -11,12 +11,15 @@ import lang.ql.gui.line.Line;
 public interface GuiVisitor<T>
 {
     public T visit(Canvas c);
+
     public T visit(Line line);
+
+    public T visit(Label label);
+
     public T visit(Input input);
     public T visit(BoolInput input);
     public T visit(DateInput input);
     public T visit(DecInput input);
     public T visit(IntInput input);
     public T visit(StrInput input);
-    public T visit(Label label);
 }

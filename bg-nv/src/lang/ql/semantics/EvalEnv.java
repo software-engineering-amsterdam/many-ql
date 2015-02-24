@@ -17,5 +17,14 @@ public class EvalEnv
         this.valueMap = new HashMap<String, Value>();
     }
 
+    // TODO: remove this
+    public void registerValue(String id, Value v)
+    {
+        this.valueMap.put(id, v);
+    }
 
+    public Value getValue(String id)
+    {
+        return this.valueMap.get(id);
+    }
 }

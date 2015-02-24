@@ -10,11 +10,6 @@ public class BooleanValue extends Value<Boolean>
         super(value);
     }
 
-    public static BooleanValue getDefaultValue()
-    {
-        return new BooleanValue(false);
-    }
-
     @Override
     public Value not()
     {
@@ -67,5 +62,11 @@ public class BooleanValue extends Value<Boolean>
     public Value notEquBoolean(BooleanValue v)
     {
         return new BooleanValue(!(v.getValue().equals(this.getValue())));
+    }
+
+    @Override
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

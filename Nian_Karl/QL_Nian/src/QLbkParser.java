@@ -1,4 +1,4 @@
-// Generated from QLbk.g4 by ANTLR 4.5
+// Generated from QLbk.g4 by ANTLR 4.4
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLbkParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -22,6 +22,14 @@ public class QLbkParser extends Parser {
 		BANG=28, IntegerLiteral=29, StringLiteral=30, BooleanLiteral=31, DateLiteral=32, 
 		DecimalLiteral=33, CurrencyLiteral=34, Non_Zero_Digit=35, Digit=36, Cap_Start_Identifier=37, 
 		Identifier=38, WHITE_SPACE=39;
+	public static final String[] tokenNames = {
+		"<INVALID>", "'Form'", "'if'", "'else'", "'Integer'", "'String'", "'Boolean'", 
+		"'Date'", "'Decimal'", "'Currency'", "';'", "'{'", "'}'", "'('", "')'", 
+		"'&&'", "'||'", "'=='", "'!='", "'='", "'>'", "'<'", "'>='", "'<='", "'+'", 
+		"'-'", "'*'", "'/'", "'!'", "IntegerLiteral", "StringLiteral", "BooleanLiteral", 
+		"DateLiteral", "DecimalLiteral", "CurrencyLiteral", "Non_Zero_Digit", 
+		"Digit", "Cap_Start_Identifier", "Identifier", "WHITE_SPACE"
+	};
 	public static final int
 		RULE_form = 0, RULE_block = 1, RULE_statement = 2, RULE_question = 3, 
 		RULE_questionType = 4, RULE_builtinType = 5, RULE_userType = 6, RULE_questionName = 7, 
@@ -32,55 +40,11 @@ public class QLbkParser extends Parser {
 		"literal"
 	};
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'Form'", "'if'", "'else'", "'Integer'", "'String'", "'Boolean'", 
-		"'Date'", "'Decimal'", "'Currency'", "';'", "'{'", "'}'", "'('", "')'", 
-		"'&&'", "'||'", "'=='", "'!='", "'='", "'>'", "'<'", "'>='", "'<='", "'+'", 
-		"'-'", "'*'", "'/'", "'!'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, "FORM", "IF", "ELSE", "INT", "STR", "BOOL", "DATE", "DEC", "CUR", 
-		"SEMI", "LBRACE", "RBRACE", "LPAREN", "RPAREN", "AND", "OR", "EQUAL", 
-		"NOTEQUAL", "ASSIGN", "GT", "LT", "GE", "LE", "ADD", "SUB", "MUL", "DIV", 
-		"BANG", "IntegerLiteral", "StringLiteral", "BooleanLiteral", "DateLiteral", 
-		"DecimalLiteral", "CurrencyLiteral", "Non_Zero_Digit", "Digit", "Cap_Start_Identifier", 
-		"Identifier", "WHITE_SPACE"
-	};
-	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
-
-	/**
-	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
-	@Deprecated
-	public static final String[] tokenNames;
-	static {
-		tokenNames = new String[_SYMBOLIC_NAMES.length];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = VOCABULARY.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = VOCABULARY.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-	}
-
-	@Override
-	@Deprecated
-	public String[] getTokenNames() {
-		return tokenNames;
-	}
-
-	@Override
-
-	public Vocabulary getVocabulary() {
-		return VOCABULARY;
-	}
-
 	@Override
 	public String getGrammarFileName() { return "QLbk.g4"; }
+
+	@Override
+	public String[] getTokenNames() { return tokenNames; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -96,11 +60,11 @@ public class QLbkParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class FormContext extends ParserRuleContext {
-		public TerminalNode FORM() { return getToken(QLbkParser.FORM, 0); }
 		public TerminalNode Identifier() { return getToken(QLbkParser.Identifier, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
+		public TerminalNode FORM() { return getToken(QLbkParser.FORM, 0); }
 		public FormContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -126,12 +90,9 @@ public class QLbkParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(24);
-			match(FORM);
-			setState(25);
-			match(Identifier);
-			setState(26);
-			block();
+			setState(24); match(FORM);
+			setState(25); match(Identifier);
+			setState(26); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -146,14 +107,14 @@ public class QLbkParser extends Parser {
 	}
 
 	public static class BlockContext extends ParserRuleContext {
-		public TerminalNode LBRACE() { return getToken(QLbkParser.LBRACE, 0); }
-		public TerminalNode RBRACE() { return getToken(QLbkParser.RBRACE, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
+		public TerminalNode LBRACE() { return getToken(QLbkParser.LBRACE, 0); }
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
+		public TerminalNode RBRACE() { return getToken(QLbkParser.RBRACE, 0); }
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -180,24 +141,21 @@ public class QLbkParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
-			match(LBRACE);
+			setState(28); match(LBRACE);
 			setState(32);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << INT) | (1L << STR) | (1L << BOOL) | (1L << DATE) | (1L << DEC) | (1L << CUR) | (1L << LBRACE) | (1L << Cap_Start_Identifier))) != 0)) {
 				{
 				{
-				setState(29);
-				statement();
+				setState(29); statement();
 				}
 				}
 				setState(34);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(35);
-			match(RBRACE);
+			setState(35); match(RBRACE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -212,14 +170,14 @@ public class QLbkParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
+		public IfstatementContext ifstatement() {
+			return getRuleContext(IfstatementContext.class,0);
 		}
 		public QuestionContext question() {
 			return getRuleContext(QuestionContext.class,0);
 		}
-		public IfstatementContext ifstatement() {
-			return getRuleContext(IfstatementContext.class,0);
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
 		}
 		public StatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -249,8 +207,7 @@ public class QLbkParser extends Parser {
 			case LBRACE:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(37);
-				block();
+				setState(37); block();
 				}
 				break;
 			case INT:
@@ -262,15 +219,13 @@ public class QLbkParser extends Parser {
 			case Cap_Start_Identifier:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(38);
-				question();
+				setState(38); question();
 				}
 				break;
 			case IF:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(39);
-				ifstatement();
+				setState(39); ifstatement();
 				}
 				break;
 			default:
@@ -289,16 +244,16 @@ public class QLbkParser extends Parser {
 	}
 
 	public static class QuestionContext extends ParserRuleContext {
-		public QuestionTypeContext questionType() {
-			return getRuleContext(QuestionTypeContext.class,0);
-		}
 		public QuestionNameContext questionName() {
 			return getRuleContext(QuestionNameContext.class,0);
+		}
+		public TerminalNode SEMI() { return getToken(QLbkParser.SEMI, 0); }
+		public QuestionTypeContext questionType() {
+			return getRuleContext(QuestionTypeContext.class,0);
 		}
 		public QuestionLabelContext questionLabel() {
 			return getRuleContext(QuestionLabelContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(QLbkParser.SEMI, 0); }
 		public QuestionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -324,14 +279,10 @@ public class QLbkParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(42);
-			questionType();
-			setState(43);
-			questionName();
-			setState(44);
-			questionLabel();
-			setState(45);
-			match(SEMI);
+			setState(42); questionType();
+			setState(43); questionName();
+			setState(44); questionLabel();
+			setState(45); match(SEMI);
 			}
 		}
 		catch (RecognitionException re) {
@@ -346,11 +297,11 @@ public class QLbkParser extends Parser {
 	}
 
 	public static class QuestionTypeContext extends ParserRuleContext {
-		public BuiltinTypeContext builtinType() {
-			return getRuleContext(BuiltinTypeContext.class,0);
-		}
 		public UserTypeContext userType() {
 			return getRuleContext(UserTypeContext.class,0);
+		}
+		public BuiltinTypeContext builtinType() {
+			return getRuleContext(BuiltinTypeContext.class,0);
 		}
 		public QuestionTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -385,15 +336,13 @@ public class QLbkParser extends Parser {
 			case CUR:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(47);
-				builtinType();
+				setState(47); builtinType();
 				}
 				break;
 			case Cap_Start_Identifier:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(48);
-				userType();
+				setState(48); userType();
 				}
 				break;
 			default:
@@ -412,12 +361,12 @@ public class QLbkParser extends Parser {
 	}
 
 	public static class BuiltinTypeContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(QLbkParser.INT, 0); }
-		public TerminalNode STR() { return getToken(QLbkParser.STR, 0); }
 		public TerminalNode BOOL() { return getToken(QLbkParser.BOOL, 0); }
 		public TerminalNode DATE() { return getToken(QLbkParser.DATE, 0); }
-		public TerminalNode DEC() { return getToken(QLbkParser.DEC, 0); }
 		public TerminalNode CUR() { return getToken(QLbkParser.CUR, 0); }
+		public TerminalNode INT() { return getToken(QLbkParser.INT, 0); }
+		public TerminalNode STR() { return getToken(QLbkParser.STR, 0); }
+		public TerminalNode DEC() { return getToken(QLbkParser.DEC, 0); }
 		public BuiltinTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -448,9 +397,8 @@ public class QLbkParser extends Parser {
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << STR) | (1L << BOOL) | (1L << DATE) | (1L << DEC) | (1L << CUR))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			} else {
-				consume();
 			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -491,8 +439,7 @@ public class QLbkParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53);
-			match(Cap_Start_Identifier);
+			setState(53); match(Cap_Start_Identifier);
 			}
 		}
 		catch (RecognitionException re) {
@@ -533,8 +480,7 @@ public class QLbkParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(55);
-			match(Identifier);
+			setState(55); match(Identifier);
 			}
 		}
 		catch (RecognitionException re) {
@@ -575,8 +521,7 @@ public class QLbkParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(57);
-			match(StringLiteral);
+			setState(57); match(StringLiteral);
 			}
 		}
 		catch (RecognitionException re) {
@@ -591,19 +536,19 @@ public class QLbkParser extends Parser {
 	}
 
 	public static class IfstatementContext extends ParserRuleContext {
-		public TerminalNode IF() { return getToken(QLbkParser.IF, 0); }
-		public TerminalNode LPAREN() { return getToken(QLbkParser.LPAREN, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public TerminalNode RPAREN() { return getToken(QLbkParser.RPAREN, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
+		}
+		public TerminalNode IF() { return getToken(QLbkParser.IF, 0); }
+		public TerminalNode ELSE() { return getToken(QLbkParser.ELSE, 0); }
+		public TerminalNode RPAREN() { return getToken(QLbkParser.RPAREN, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public TerminalNode ELSE() { return getToken(QLbkParser.ELSE, 0); }
+		public TerminalNode LPAREN() { return getToken(QLbkParser.LPAREN, 0); }
 		public IfstatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -629,24 +574,17 @@ public class QLbkParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(59);
-			match(IF);
-			setState(60);
-			match(LPAREN);
-			setState(61);
-			expression(0);
-			setState(62);
-			match(RPAREN);
-			setState(63);
-			statement();
+			setState(59); match(IF);
+			setState(60); match(LPAREN);
+			setState(61); expression(0);
+			setState(62); match(RPAREN);
+			setState(63); statement();
 			setState(66);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
-				setState(64);
-				match(ELSE);
-				setState(65);
-				statement();
+				setState(64); match(ELSE);
+				setState(65); statement();
 				}
 				break;
 			}
@@ -664,30 +602,30 @@ public class QLbkParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
+		public TerminalNode MUL() { return getToken(QLbkParser.MUL, 0); }
+		public TerminalNode AND() { return getToken(QLbkParser.AND, 0); }
 		public TerminalNode BANG() { return getToken(QLbkParser.BANG, 0); }
+		public TerminalNode OR() { return getToken(QLbkParser.OR, 0); }
+		public TerminalNode Identifier() { return getToken(QLbkParser.Identifier, 0); }
+		public TerminalNode LE() { return getToken(QLbkParser.LE, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
+		public TerminalNode EQUAL() { return getToken(QLbkParser.EQUAL, 0); }
+		public TerminalNode ADD() { return getToken(QLbkParser.ADD, 0); }
+		public TerminalNode GE() { return getToken(QLbkParser.GE, 0); }
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode Identifier() { return getToken(QLbkParser.Identifier, 0); }
+		public TerminalNode DIV() { return getToken(QLbkParser.DIV, 0); }
+		public TerminalNode ASSIGN() { return getToken(QLbkParser.ASSIGN, 0); }
+		public TerminalNode LT() { return getToken(QLbkParser.LT, 0); }
+		public TerminalNode GT() { return getToken(QLbkParser.GT, 0); }
 		public LiteralContext literal() {
 			return getRuleContext(LiteralContext.class,0);
 		}
-		public TerminalNode AND() { return getToken(QLbkParser.AND, 0); }
-		public TerminalNode OR() { return getToken(QLbkParser.OR, 0); }
-		public TerminalNode EQUAL() { return getToken(QLbkParser.EQUAL, 0); }
 		public TerminalNode NOTEQUAL() { return getToken(QLbkParser.NOTEQUAL, 0); }
-		public TerminalNode ASSIGN() { return getToken(QLbkParser.ASSIGN, 0); }
-		public TerminalNode GT() { return getToken(QLbkParser.GT, 0); }
-		public TerminalNode LT() { return getToken(QLbkParser.LT, 0); }
-		public TerminalNode GE() { return getToken(QLbkParser.GE, 0); }
-		public TerminalNode LE() { return getToken(QLbkParser.LE, 0); }
-		public TerminalNode ADD() { return getToken(QLbkParser.ADD, 0); }
 		public TerminalNode SUB() { return getToken(QLbkParser.SUB, 0); }
-		public TerminalNode MUL() { return getToken(QLbkParser.MUL, 0); }
-		public TerminalNode DIV() { return getToken(QLbkParser.DIV, 0); }
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -726,16 +664,13 @@ public class QLbkParser extends Parser {
 			switch (_input.LA(1)) {
 			case BANG:
 				{
-				setState(69);
-				match(BANG);
-				setState(70);
-				expression(1);
+				setState(69); match(BANG);
+				setState(70); expression(1);
 				}
 				break;
 			case Identifier:
 				{
-				setState(71);
-				match(Identifier);
+				setState(71); match(Identifier);
 				}
 				break;
 			case IntegerLiteral:
@@ -745,8 +680,7 @@ public class QLbkParser extends Parser {
 			case DecimalLiteral:
 			case CurrencyLiteral:
 				{
-				setState(72);
-				literal();
+				setState(72); literal();
 				}
 				break;
 			default:
@@ -769,10 +703,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(75);
 						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(76);
-						match(AND);
-						setState(77);
-						expression(15);
+						setState(76); match(AND);
+						setState(77); expression(15);
 						}
 						break;
 					case 2:
@@ -781,10 +713,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(78);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(79);
-						match(OR);
-						setState(80);
-						expression(14);
+						setState(79); match(OR);
+						setState(80); expression(14);
 						}
 						break;
 					case 3:
@@ -793,10 +723,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(81);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(82);
-						match(EQUAL);
-						setState(83);
-						expression(13);
+						setState(82); match(EQUAL);
+						setState(83); expression(13);
 						}
 						break;
 					case 4:
@@ -805,10 +733,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(84);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(85);
-						match(NOTEQUAL);
-						setState(86);
-						expression(12);
+						setState(85); match(NOTEQUAL);
+						setState(86); expression(12);
 						}
 						break;
 					case 5:
@@ -817,10 +743,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(87);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(88);
-						match(ASSIGN);
-						setState(89);
-						expression(11);
+						setState(88); match(ASSIGN);
+						setState(89); expression(11);
 						}
 						break;
 					case 6:
@@ -829,10 +753,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(90);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(91);
-						match(GT);
-						setState(92);
-						expression(10);
+						setState(91); match(GT);
+						setState(92); expression(10);
 						}
 						break;
 					case 7:
@@ -841,10 +763,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(93);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(94);
-						match(LT);
-						setState(95);
-						expression(9);
+						setState(94); match(LT);
+						setState(95); expression(9);
 						}
 						break;
 					case 8:
@@ -853,10 +773,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(96);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(97);
-						match(GE);
-						setState(98);
-						expression(8);
+						setState(97); match(GE);
+						setState(98); expression(8);
 						}
 						break;
 					case 9:
@@ -865,10 +783,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(99);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(100);
-						match(LE);
-						setState(101);
-						expression(7);
+						setState(100); match(LE);
+						setState(101); expression(7);
 						}
 						break;
 					case 10:
@@ -877,10 +793,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(102);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(103);
-						match(ADD);
-						setState(104);
-						expression(6);
+						setState(103); match(ADD);
+						setState(104); expression(6);
 						}
 						break;
 					case 11:
@@ -889,10 +803,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(105);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(106);
-						match(SUB);
-						setState(107);
-						expression(5);
+						setState(106); match(SUB);
+						setState(107); expression(5);
 						}
 						break;
 					case 12:
@@ -901,10 +813,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(108);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(109);
-						match(MUL);
-						setState(110);
-						expression(4);
+						setState(109); match(MUL);
+						setState(110); expression(4);
 						}
 						break;
 					case 13:
@@ -913,10 +823,8 @@ public class QLbkParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(111);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(112);
-						match(DIV);
-						setState(113);
-						expression(3);
+						setState(112); match(DIV);
+						setState(113); expression(3);
 						}
 						break;
 					}
@@ -941,10 +849,10 @@ public class QLbkParser extends Parser {
 
 	public static class LiteralContext extends ParserRuleContext {
 		public TerminalNode IntegerLiteral() { return getToken(QLbkParser.IntegerLiteral, 0); }
-		public TerminalNode StringLiteral() { return getToken(QLbkParser.StringLiteral, 0); }
-		public TerminalNode BooleanLiteral() { return getToken(QLbkParser.BooleanLiteral, 0); }
-		public TerminalNode DateLiteral() { return getToken(QLbkParser.DateLiteral, 0); }
 		public TerminalNode DecimalLiteral() { return getToken(QLbkParser.DecimalLiteral, 0); }
+		public TerminalNode StringLiteral() { return getToken(QLbkParser.StringLiteral, 0); }
+		public TerminalNode DateLiteral() { return getToken(QLbkParser.DateLiteral, 0); }
+		public TerminalNode BooleanLiteral() { return getToken(QLbkParser.BooleanLiteral, 0); }
 		public TerminalNode CurrencyLiteral() { return getToken(QLbkParser.CurrencyLiteral, 0); }
 		public LiteralContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -976,9 +884,8 @@ public class QLbkParser extends Parser {
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << StringLiteral) | (1L << BooleanLiteral) | (1L << DateLiteral) | (1L << DecimalLiteral) | (1L << CurrencyLiteral))) != 0)) ) {
 			_errHandler.recoverInline(this);
-			} else {
-				consume();
 			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -994,39 +901,25 @@ public class QLbkParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 10:
-			return expression_sempred((ExpressionContext)_localctx, predIndex);
+		case 10: return expression_sempred((ExpressionContext)_localctx, predIndex);
 		}
 		return true;
 	}
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0:
-			return precpred(_ctx, 14);
-		case 1:
-			return precpred(_ctx, 13);
-		case 2:
-			return precpred(_ctx, 12);
-		case 3:
-			return precpred(_ctx, 11);
-		case 4:
-			return precpred(_ctx, 10);
-		case 5:
-			return precpred(_ctx, 9);
-		case 6:
-			return precpred(_ctx, 8);
-		case 7:
-			return precpred(_ctx, 7);
-		case 8:
-			return precpred(_ctx, 6);
-		case 9:
-			return precpred(_ctx, 5);
-		case 10:
-			return precpred(_ctx, 4);
-		case 11:
-			return precpred(_ctx, 3);
-		case 12:
-			return precpred(_ctx, 2);
+		case 0: return precpred(_ctx, 14);
+		case 1: return precpred(_ctx, 13);
+		case 2: return precpred(_ctx, 12);
+		case 3: return precpred(_ctx, 11);
+		case 4: return precpred(_ctx, 10);
+		case 5: return precpred(_ctx, 9);
+		case 6: return precpred(_ctx, 8);
+		case 7: return precpred(_ctx, 7);
+		case 8: return precpred(_ctx, 6);
+		case 9: return precpred(_ctx, 5);
+		case 10: return precpred(_ctx, 4);
+		case 11: return precpred(_ctx, 3);
+		case 12: return precpred(_ctx, 2);
 		}
 		return true;
 	}

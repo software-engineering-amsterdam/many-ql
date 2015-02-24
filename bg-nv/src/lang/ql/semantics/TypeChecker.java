@@ -3,6 +3,7 @@ package lang.ql.semantics;
 import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
+import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.semantics.errors.Error;
@@ -15,7 +16,7 @@ import java.util.*;
  * Created by bore on 13/02/15.
  */
 
-public class TypeChecker implements Visitor<Type>
+public class TypeChecker implements StatVisitor<Type>, ExprVisitor<Type>, FormVisitor<Type>
 {
     private SymbolTable symbolTable;
     private Question currentQuestion;
@@ -242,6 +243,7 @@ public class TypeChecker implements Visitor<Type>
         return this.visitBinaryExpr(e);
     }
 
+
     private Type visitBinaryExpr(BinaryExpr e)
     {
         Type left = e.getLeft().accept(this);
@@ -262,14 +264,14 @@ public class TypeChecker implements Visitor<Type>
     private Type checkTypeAndSetReturnType(Expr e, Type childType)
     {
         String exprName = e.getClass().getSimpleName();
-        Set<Type> types = ExprTypes.exprAllowedTypes.get(exprName);
+        Set<Type> types = ExprTypeMap.exprAllowedTypes.get(exprName);
 
         this.checkAllowedTypes(e, childType, types);
 
         Type returnType = childType;
-        if (ExprTypes.exprReturnType.containsKey(exprName))
+        if (ExprTypeMap.exprReturnType.containsKey(exprName))
         {
-            returnType = ExprTypes.exprReturnType.get(exprName);
+            returnType = ExprTypeMap.exprReturnType.get(exprName);
         }
 
         return returnType;
@@ -319,5 +321,4 @@ public class TypeChecker implements Visitor<Type>
             this.messages.add(Warning.labelDuplication(d));
         }
     }
-
 }
