@@ -17,9 +17,11 @@ import cons.ql.ast.visitor.StatementVisitor;
 public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisitor<Void> {
 	
 	private Container pane;
+	private Controller controller;
 	
 	private ComponentCreator(Container pane) {
 		this.pane = pane;
+		this.controller = new Controller();
 	}
 	
 	public static Container check(Container pane, ASTNode tree) {
@@ -56,18 +58,18 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	@Override
 	public Void visit(Question questionNode) {
 		
-    	addAQuestion(questionNode.getText().toString(), this.pane);
+    	addAQuestion(questionNode, this.pane);
     	
 		return null;
 	}
 	
 	
-	private void addAQuestion(String text, Container container) {
-    	JLabel label = new JLabel(text);
+	private void addAQuestion(Question q, Container container) {
+    	JLabel label = new JLabel(q.getText().toString());
     	label.setHorizontalAlignment(0);
     	label.setFont(new Font("Serif", Font.BOLD, 20));
     	container.add(label);
 
-    	new TextComponent(container);
+    	new TextComponent(q.getIdentifier(), controller, container);
     }
 }
