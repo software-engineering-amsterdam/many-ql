@@ -9,13 +9,11 @@ namespace QL.Grammars
 {
     public class QLVisitor : QLBaseVisitor<QLParser.FormBlockContext>
     {
-        private readonly NodeMapper _mapper;
         private readonly QLParser _parser;
         private readonly IList<UnitBase> _parsedUnits;
 
         public QLVisitor(QLParser parser, IList<UnitBase> parsedUnits)
         {
-            _mapper = new NodeMapper();
             _parser = parser;
             _parsedUnits = parsedUnits;
         }
@@ -24,7 +22,6 @@ namespace QL.Grammars
         {
             Console.WriteLine("Formblock: {0}", context.GetText());
 
-            _mapper.Create(context);
 
             return base.VisitFormBlock(context);
         }
