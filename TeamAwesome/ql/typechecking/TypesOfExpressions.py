@@ -44,10 +44,12 @@ class Checker(Visitor):
 
     def _visitAtomicExpression(self, node):
         super()._visitAtomicExpression(node)
+
+        # Only in case of undeclared identifiers does this happen
         if self._typeOfLastExpression is None:
             self._result = self._result.withMessage(
                 Message.Error(
-                    'undefined identifier '+node.left,
+                    'undeclared identifier '+node.left,
                     node
                 )
             )
