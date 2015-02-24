@@ -20,8 +20,9 @@ public abstract class UIQuestion extends Colleague {
     public abstract void setState(ExpressionValue _value);
     public abstract ExpressionValue getState();
 
-    public ID getId() {
-        return question.getIdentifier();
+    @Override
+    public String getId() {
+        return question.getIdName();
     }
 
     public IWidget getWidget() {
