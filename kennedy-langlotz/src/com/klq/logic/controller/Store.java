@@ -1,7 +1,10 @@
 package com.klq.logic.controller;
 
 import com.klq.logic.IKLQItem;
-import com.klq.logic.question.Dependency;
+import com.klq.logic.expression.AExpression;
+import com.klq.logic.expression.terminal.Boolean;
+import com.klq.logic.expression.terminal.Date;
+import com.klq.logic.expression.terminal.Number;
 import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
 
@@ -24,7 +27,11 @@ public class Store implements IKLQItem{
 
     public Question add(Question question){
         order.add(question.getId());
-        question.setStore(this);
+        try {
+            question.setStore(this);
+        } catch (Exception e){
+            System.err.println("Store has already been set!");
+        }
         return store.put(question.getId(), question);
     }
 
@@ -40,12 +47,40 @@ public class Store implements IKLQItem{
         return result;
     }
 
-    public void update(){
-        for (Question q : store.values()){
-            for (Dependency d : q.getDependencies()){
-
+    public void update(Id updated){
+        Question answered = store.get(updated);
+        String answerString = answered.getResult().toString();
+        AExpression newExpr;
+        switch (answered.getType()){
+            case BOOLEAN:
+                if ("True".equals(answered.getResult()))
+                    newExpr = Boolean.getTrue();
+                else
+                    newExpr = Boolean.getFalse();
+                break;
+            case DATE:
+                newExpr = new Date(answerString);
+                break;
+            case NUMERAL:
+                newExpr = new Number(answerString);
+                break;
+            default:
+                newExpr = new com.klq.logic.expression.terminal.String(answerString);
+                break;
+        }
+        for (Question q : store.values()) {
+            List<AExpression> dList = q.getDependencies();
+            if (dList != null) {
+                for (AExpression expr : dList) {
+                    AExpression eval = expr.evaluate();
+                    System.out.println(eval);
+                    if (expr.getType() == AExpression.IDENTIFIER
+                            && updated.equals(expr.getContent())) {
+                        q.updateDependency(expr, newExpr);
+                        update(q.getId());
+                    }
+                }
             }
         }
-
     }
 }

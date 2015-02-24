@@ -6,18 +6,19 @@ class Processor:
     @staticmethod
     def update_expression(expression, answers_map):
         answers_dict = answers_map.get_answers()
-        print("!!")
-
         # to avoid annoying (not applicable) error messages
         answers_dict['__builtins__'] = None
-
         print(expression)
-        print(answers_dict)
         try:
             result = eval(expression, answers_dict)
+            print(result)
+            print("it worked")
             return result
+        except NameError:
+            print("Error")
+            return False
         except:
-            print("hello?")
+            print("Unknown error")
             return False
 
     @staticmethod

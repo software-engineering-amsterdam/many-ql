@@ -9,12 +9,16 @@ import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.ast.builder.QLImplVisitor;
+import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.BlockStatement;
+import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
+import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
+import org.uva.ql.ast.visitor.TypeCheckerVisitor;
 
 public class Main {
 
@@ -30,6 +34,7 @@ public class Main {
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
 		System.out.println("FinalTree = " + finalTree);
 		System.out.println(finalTree.getFormList().size());
+		
 		for (Form form: finalTree.getFormList()) {
 			printBlock(form.getBlock());
 		}
@@ -52,15 +57,28 @@ public class Main {
 	}
 	
 	public static void printBlock(BlockStatement block){
+		TypeCheckerVisitor typeChcker= new TypeCheckerVisitor();
+		
 		for (Statement statement: block.getStatementList()) {
 			if (statement.getClass() == QuestionNormal.class) {
 				QuestionNormal question = (QuestionNormal) statement;
+				System.out.println("Question string: " +question.toString());
+			}else if (statement.getClass() == QuestionCompute.class) {
+				QuestionCompute question = (QuestionCompute) statement;
+				Expression expr = question.getExpression();
+				System.out.println(expr.accept(typeChcker));
 				System.out.println("Question string: " +question.toString());
 			}else if (statement.getClass() == IfStatement.class) {
 				IfStatement ifstatement = (IfStatement) statement;				
 				System.out.println("expression" + ifstatement.getExpr());
 				printBlock(ifstatement.getIfBlock());		
+			}if (statement.getClass() == IfElseStatement.class) {
+				IfElseStatement ifElseStatement= (IfElseStatement) statement;				
+				System.out.println("expression" + ifElseStatement.getExpr());
+				printBlock(ifElseStatement.getIfBlock());	
+				printBlock(ifElseStatement.getElseBLock());	
 			}
+			System.out.println();
 		}
 	}
 }

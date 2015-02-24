@@ -22,5 +22,4 @@ public class Identifiers
         assertNotNull(v);
         assertTrue(v.getValue());
     }
-
 }

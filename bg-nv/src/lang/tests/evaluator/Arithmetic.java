@@ -1,5 +1,6 @@
 package lang.tests.evaluator;
 
+import lang.ql.semantics.EvalEnv;
 import lang.ql.semantics.values.*;
 import lang.tests.TestHelper;
 import org.junit.Test;
@@ -116,5 +117,59 @@ public class Arithmetic
         DecimalValue v = TestHelper.as(TestHelper.evaluate("+3.0", null), DecimalValue.class);
         assertNotNull(v);
         assertEquals(new BigDecimal("3.0"), v.getValue());
+    }
+
+    @Test
+    public void undefinedAdd()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2+hasHouse+1", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedSub()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2-hasHouse-1", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedMul()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2*hasHouse*1", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedDiv()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2/hasHouse/1", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedPos()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("+hasHouse", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedNeg()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("-hasHouse", env), UndefinedValue.class);
+        assertNotNull(v);
     }
 }

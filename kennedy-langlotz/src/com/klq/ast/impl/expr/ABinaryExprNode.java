@@ -15,10 +15,17 @@ public abstract class ABinaryExprNode extends ANode {
         this.rightChild = rightChild;
     }
 
+    public ANode getLeftChild() {
+        return leftChild;
+    }
+
+    public ANode getRightChild() {
+        return rightChild;
+    }
+
     @Override
-    public void accept(IVisitor visitor) {
-        this.leftChild.accept(visitor);
-        this.rightChild.accept(visitor);
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     //for testing purposes, maybe remove later?

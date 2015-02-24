@@ -18,7 +18,7 @@ public class Not extends UnaryExpression {
     }
 
     @Override
-    public boolean isConditional() {
+    public boolean hasBooleanOperands() {
         return true;
     }
 }
