@@ -197,6 +197,11 @@ public class TypeChecker extends VisitorImpl {
     }
 
     @Override
+    public AbstractNode visit(Division division) {
+        return visitArithmeticExpression(division);
+    }
+
+    @Override
     public AbstractNode visit(Not not) {
         if (!not.getOperand().hasBooleanOperands()) {
             throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, not.getClass().getSimpleName(), not.toString()));

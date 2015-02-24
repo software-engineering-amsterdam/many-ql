@@ -9,13 +9,13 @@ import edu.parser.Visitor;
  */
 public class Number extends Expression {
 
-    private final Integer value;
+    private final int value;
 
     public Number(Integer value) {
         this.value = value;
     }
 
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 
@@ -26,7 +26,7 @@ public class Number extends Expression {
 
     @Override
     public String toString() {
-        return value.toString();
+        return String.valueOf(value);
     }
 
     @Override

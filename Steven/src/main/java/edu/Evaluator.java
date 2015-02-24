@@ -9,6 +9,7 @@ import edu.parser.nodes.statement.ElseClause;
 import edu.parser.nodes.statement.IfStatement;
 import edu.parser.nodes.statement.Statement;
 import edu.parser.nodes.type.Boolean;
+import edu.parser.nodes.type.Number;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,9 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Addition addition) {
-        return null;
+        Number left = (Number) addition.getLeft().accept(this);
+        Number right = (Number) addition.getRight().accept(this);
+        return new Number(left.getValue() + right.getValue());
     }
 
     @Override
@@ -56,17 +59,23 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Equal equal) {
-        return null;
+        Number left = (Number) equal.getLeft().accept(this);
+        Number right = (Number) equal.getRight().accept(this);
+        return new Boolean(left.getValue() == right.getValue());
     }
 
     @Override
     public AbstractNode visit(GreaterOrEqual greaterOrEqual) {
-        return null;
+        Number left = (Number) greaterOrEqual.getLeft().accept(this);
+        Number right = (Number) greaterOrEqual.getRight().accept(this);
+        return new Boolean(left.getValue() >= right.getValue());
     }
 
     @Override
     public AbstractNode visit(GreaterThan greaterThan) {
-        return null;
+        Number left = (Number) greaterThan.getLeft().accept(this);
+        Number right = (Number) greaterThan.getRight().accept(this);
+        return new Boolean(left.getValue() > right.getValue());
     }
 
     @Override
@@ -91,12 +100,16 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(LessOrEqual lessOrEqual) {
-        return null;
+        Number left = (Number) lessOrEqual.getLeft().accept(this);
+        Number right = (Number) lessOrEqual.getRight().accept(this);
+        return new Boolean(left.getValue() <= right.getValue());
     }
 
     @Override
     public AbstractNode visit(LessThan lessThan) {
-        return null;
+        Number left = (Number) lessThan.getLeft().accept(this);
+        Number right = (Number) lessThan.getRight().accept(this);
+        return new Boolean(left.getValue() < right.getValue());
     }
 
     @Override
@@ -134,4 +147,8 @@ public class Evaluator extends VisitorImpl {
         return super.visit(question);
     }
 
+    @Override
+    public AbstractNode visit(Division division) {
+        return null;
+    }
 }

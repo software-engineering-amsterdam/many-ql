@@ -1,8 +1,13 @@
 package edu
 
 import edu.parser.nodes.Form
+import edu.parser.nodes.expression.Addition
 import edu.parser.nodes.expression.And
+import edu.parser.nodes.expression.GreaterOrEqual
+import edu.parser.nodes.expression.GreaterThan
 import edu.parser.nodes.expression.Identifier
+import edu.parser.nodes.expression.LessOrEqual
+import edu.parser.nodes.expression.LessThan
 import edu.parser.nodes.expression.Or
 import edu.parser.nodes.question.Label
 import edu.parser.nodes.question.Question
@@ -10,6 +15,7 @@ import edu.parser.nodes.question.QuestionType
 import edu.parser.nodes.statement.IfStatement
 import edu.parser.nodes.statement.Statement
 import edu.parser.nodes.type.Boolean
+import edu.parser.nodes.type.Number
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -68,14 +74,18 @@ class EvaluatorTest extends Specification {
         Assert.assertEquals(inputConditionalQuestion, outputQuestion2)
 
         where:
-        expression                                                                | _
-        new Boolean(true)                                                         | _
-        new And(new Boolean(true), new Boolean(true))                             | _
-        new And(new Identifier("unconditional"), new Boolean(true))               | _
-        new And(new And(new Boolean(true), new Boolean(true)), new Boolean(true)) | _
-        new Or(new Boolean(true), new Boolean(true))                              | _
-        new Or(new Boolean(true), new Boolean(false))                             | _
-        new Or(new Boolean(false), new Boolean(true))                             | _
+        expression                                                                 | _
+        new Boolean(true)                                                          | _
+        new And(new Boolean(true), new Boolean(true))                              | _
+        new And(new Identifier("unconditional"), new Boolean(true))                | _
+        new And(new And(new Boolean(true), new Boolean(true)), new Boolean(true))  | _
+        new Or(new Boolean(true), new Boolean(true))                               | _
+        new Or(new Boolean(true), new Boolean(false))                              | _
+        new Or(new Boolean(false), new Boolean(true))                              | _
+        new GreaterThan(new Addition(new Number(1), new Number(2)), new Number(1)) | _
+        new GreaterOrEqual(new Number(2), new Number(1))                           | _
+        new LessThan(new Number(1), new Number(2))                                 | _
+        new LessOrEqual(new Number(1), new Number(1))                              | _
     }
 
     def "Should not return question when if statements boolean condition is false"() {
