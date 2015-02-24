@@ -6,6 +6,6 @@ public interface ASTNodeErrorType {
         WARNING
     }
     enum ERROR implements  ASTNodeErrorType {
-        CYCLIC, UNDEFINED, DUPLICATE, TYPE_MISMATCH
+        CYCLIC, UNDEFINED, DUPLICATE, TYPE_MISMATCH, NON_BOOL_CONDITION
     }
 }

@@ -110,6 +110,15 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         Expression expression = ifStatement.getCondition();
         List<Statement> statementList = ifStatement.getBody();
 
+        // check if condition of type bool
+        boolean conditionIsBool = this.checkIfExpressionIsBool(expression);
+        if (!conditionIsBool) {
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.NON_BOOL_CONDITION, ifStatement,
+                    "Expression in if statement not of type bool."
+            );
+        }
+
         expression.accept(this);
         for (Statement statement : statementList) {
             statement.accept(this);

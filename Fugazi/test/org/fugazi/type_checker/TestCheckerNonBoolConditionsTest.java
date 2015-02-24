@@ -1,21 +1,23 @@
 package org.fugazi.type_checker;
 
+import com.sun.tools.javac.code.Type;
 import org.fugazi.type_checker.error.ASTNodeError;
 import org.fugazi.type_checker.error.ASTNodeErrorType;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class TestCheckerUndefinedVariablesTest extends TypeCheckerBaseTest {
+public class TestCheckerNonBoolConditionsTest extends TypeCheckerBaseTest {
 
     @Before
     public void setUp() {
-        this.fileName = "undefinedVariableForm.ql";
+        this.fileName = "nonBoolConditions.ql";
         super.setUp();
     }
 
@@ -30,8 +32,7 @@ public class TestCheckerUndefinedVariablesTest extends TypeCheckerBaseTest {
         List<ASTNodeError> errors = checker.getErrors();
 
         assertFalse(errors.isEmpty());
-        // will report also undefined question
-        assertEquals(2, errors.size());
+        assertEquals(1, errors.size());
     }
 
     @Test
@@ -40,8 +41,7 @@ public class TestCheckerUndefinedVariablesTest extends TypeCheckerBaseTest {
 
         List<ASTNodeErrorType> expectedTypes = new ArrayList<>();
         List<ASTNodeErrorType> receivedTypes = new ArrayList<>();
-        expectedTypes.add(ASTNodeErrorType.ERROR.UNDEFINED);
-        expectedTypes.add(ASTNodeErrorType.ERROR.TYPE_MISMATCH);
+        expectedTypes.add(ASTNodeErrorType.ERROR.NON_BOOL_CONDITION);
 
         for (ASTNodeError error: errors) {
             receivedTypes.add(error.getErrorType());
