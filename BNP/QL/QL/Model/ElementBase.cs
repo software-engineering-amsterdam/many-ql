@@ -30,5 +30,7 @@ namespace QL.Model
             //Console.WriteLine("");
             // throw new NotImplementedException();
         }
+        public bool CheckType() { return false; }  //TODO when we start to implement typechecking then change to abstract
+        public bool Evaluate() { return false; }       //TODO when we start to implement evaluation then change to abstract
     }
 }
