@@ -1,6 +1,5 @@
 package lang.tests.evaluator;
 
-import lang.ql.semantics.EvalEnv;
 import lang.ql.semantics.values.BooleanValue;
 import lang.ql.semantics.values.UndefinedValue;
 import lang.tests.TestHelper;
