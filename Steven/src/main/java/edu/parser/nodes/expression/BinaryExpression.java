@@ -22,7 +22,7 @@ public abstract class BinaryExpression extends Expression {
     }
 
     public String toString() {
-        return left + " " + right;
+        return "left:" + left + " right: " + right;
     }
 
 

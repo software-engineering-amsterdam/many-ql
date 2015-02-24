@@ -32,26 +32,26 @@ import org.uva.ql.ast.value.Str;
 import org.uva.ql.ast.value.Value;
 
 public class EvaluatorVisitor implements Visitor<Value> {
-
+	
 	public EvaluatorVisitor() {
-		
+
 	}
 
 	@Override
 	public Value visit(Not node) {
 		return node.getExpression().accept(this).not();
 	}
-	
+
 	@Override
 	public Value visit(Positive node) {
 		return node.getExpression().accept(this).positive();
 	}
-	
+
 	@Override
 	public Value visit(Negative node) {
 		return node.getExpression().accept(this).negative();
 	}
-	
+
 	@Override
 	public Value visit(Plus node) {
 		Value left = node.getLeftExpression().accept(this);
@@ -65,14 +65,14 @@ public class EvaluatorVisitor implements Visitor<Value> {
 		Value right = node.getRightExpression().accept(this);
 		return left.minus(right);
 	}
-	
+
 	@Override
 	public Value visit(Multiply node) {
 		Value left = node.getLeftExpression().accept(this);
 		Value right = node.getRightExpression().accept(this);
 		return left.multiply(right);
 	}
-	
+
 	@Override
 	public Value visit(Divide node) {
 		Value left = node.getLeftExpression().accept(this);
@@ -145,7 +145,7 @@ public class EvaluatorVisitor implements Visitor<Value> {
 	public Value visit(IntLiteral node) {
 		return new Int(node.getValue());
 	}
-	
+
 	@Override
 	public Value visit(BoolLiteral node) {
 		return new Bool(node.getValue());

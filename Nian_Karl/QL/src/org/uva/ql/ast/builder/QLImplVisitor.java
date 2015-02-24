@@ -59,7 +59,6 @@ import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.Operator;
 import org.uva.ql.ast.type.QuestionType;
 import org.uva.ql.factory.QLFactory;
 

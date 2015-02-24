@@ -6,10 +6,9 @@ import edu.parser.nodes.AbstractNode;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Not extends UnaryExpression {
-
-    public Not(Expression operand) {
-        super(operand);
+public class Division extends BinaryExpression {
+    public Division(Expression left, Expression right) {
+        super(left, right);
     }
 
     @Override
@@ -19,6 +18,6 @@ public class Not extends UnaryExpression {
 
     @Override
     public boolean hasBooleanOperands() {
-        return true;
+        return false;
     }
 }
