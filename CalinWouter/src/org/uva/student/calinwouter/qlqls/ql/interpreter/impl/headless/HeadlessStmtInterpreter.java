@@ -25,7 +25,13 @@ public class HeadlessStmtInterpreter extends StmtInterpreter {
     @Override
     public void caseAValueStmt(final AValueStmt node) {
         ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
-        node.getExp().apply(expInterpreter);
+        // TODO it may crash here if not all fields are correcrly set.
+        try {
+            node.getExp().apply(expInterpreter);
+        } catch(Exception e) {
+            formInterpreter.setField(node.getIdent().getText(), null);
+            return;
+        }
         formInterpreter.setField(node.getIdent().getText(),
                 expInterpreter.getValue());
 
