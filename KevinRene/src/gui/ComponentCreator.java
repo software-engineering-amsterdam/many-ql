@@ -55,7 +55,6 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 
 	@Override
 	public Void visit(Question questionNode) {
-		System.out.println("QUESTIONNODE");
 		
     	addAQuestion(questionNode.getText().toString(), this.pane);
     	
@@ -68,11 +67,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
     	label.setHorizontalAlignment(0);
     	label.setFont(new Font("Serif", Font.BOLD, 20));
     	container.add(label);
-    	
-    	JTextField textField = new JTextField(100);
-    	textField.setMaximumSize(
-    			new Dimension(Integer.MAX_VALUE, textField.getPreferredSize().height * 2));
-    	textField.setFont(new Font("Serif", Font.BOLD, 20));
-    	container.add(textField);
+
+    	new TextComponent(container);
     }
 }
