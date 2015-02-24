@@ -27,8 +27,4 @@ public class UITypeVisitor implements ITypeVisitor <UIQuestion> {
     public UIQuestion visitStringType(StringType moneyType) {
         return new UITextQuestion(this.question);
     }
-
-    public UIQuestion visitUndefinedType(UndefinedType undefinedType) {
-        return null;
-    }
 }
