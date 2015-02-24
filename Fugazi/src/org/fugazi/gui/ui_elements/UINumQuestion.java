@@ -7,7 +7,6 @@ import org.fugazi.evaluator.expression_value.StringValue;
 import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.TextBox;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class UINumQuestion extends UIQuestion {
@@ -27,7 +26,7 @@ public class UINumQuestion extends UIQuestion {
         StringValue exprValue = (StringValue) _value;
         this.textValue = exprValue.getValue();
 
-        this.send();
+        this.sendToMediator();
     }
 
     private void itemChanged(ActionEvent e) {

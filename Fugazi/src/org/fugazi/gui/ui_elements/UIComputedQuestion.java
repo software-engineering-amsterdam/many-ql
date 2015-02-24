@@ -6,7 +6,6 @@ import org.fugazi.evaluator.expression_value.IntValue;
 import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.TextBox;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class UIComputedQuestion extends UIQuestion {
@@ -28,7 +27,7 @@ public class UIComputedQuestion extends UIQuestion {
         IntValue exprValue = (IntValue) _value;
         this.textValue = Integer.toString(exprValue.getValue());
 
-        this.send();
+        this.sendToMediator();
     }
 
     private void itemChanged(ActionEvent e) {

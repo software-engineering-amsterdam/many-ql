@@ -36,7 +36,7 @@ public class UIBoolQuestion extends UIQuestion {
         BoolValue exprValue = (BoolValue) _value;
         this.isSelected = exprValue.getValue();
 
-        this.send();
+        this.sendToMediator();
     }
 
     @Override

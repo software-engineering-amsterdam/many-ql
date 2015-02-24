@@ -9,7 +9,7 @@ public abstract class Colleague {
         this.mediator = _med;
     }
 
-    protected void send() {
+    protected void sendToMediator() {
         this.mediator.notify(this);
     }
 
