@@ -1,7 +1,6 @@
 package org.uva.ql.ast.expression.literal;
 
 import org.uva.ql.ast.type.ExpressionType;
-import org.uva.ql.ast.type.QuestionType;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class IntLiteral extends Literal{
