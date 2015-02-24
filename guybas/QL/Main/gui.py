@@ -92,7 +92,7 @@ class QuestionnaireGUI:
 
     def draw_conditional_q(self, c_question):
         processor = Processor()
-        condition = processor.conditions_proc(c_question.get_condition(), self.answersMap)
+        condition = processor.conditions_proc(c_question.get_str_condition(), self.answersMap)
 
         # map variables/question id to conditions where they are used
         vars = processor.extract_variables(c_question.get_condition())
