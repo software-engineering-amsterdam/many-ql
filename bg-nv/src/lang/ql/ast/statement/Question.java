@@ -10,14 +10,14 @@ public class Question extends Statement
 {
     private String id;
     private Type type;
-    private String text;
+    private String label;
 
-    public Question(String id, Type questionType, String text, int lineNumber)
+    public Question(String id, Type questionType, String label, int lineNumber)
     {
         super(lineNumber);
         this.id = id;
         this.type = questionType;
-        this.text = text;
+        this.label = label;
     }
 
     public String getId()
@@ -30,13 +30,13 @@ public class Question extends Statement
         return this.type;
     }
 
-    public String getText()
+    public String getLabel()
     {
-        return this.text;
+        return this.label;
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(Visitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

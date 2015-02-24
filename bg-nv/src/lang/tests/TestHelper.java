@@ -1,10 +1,11 @@
 package lang.tests;
 
 import lang.ql.ast.form.Form;
-import lang.ql.semantics.QuestErrInfo;
 import lang.ql.semantics.TypeChecker;
 import lang.ql.semantics.errors.*;
 import lang.ql.semantics.errors.Error;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -19,13 +20,10 @@ public class TestHelper
         return t.isInstance(o) ? t.cast(o) : null;
     }
 
-    public static QuestErrInfo analyse(String formName)
+    public static List<Message> analyse(String formName)
     {
         Form f = TestHelper.as(ParserHelper.ParseForm(formName), Form.class);
-        TypeChecker checker = new TypeChecker();
-        f.accept(checker);
-
-        return checker.getInfo();
+        return TypeChecker.check(f);
     }
 
     public static void assertErrorMessage(Message m, String expected)

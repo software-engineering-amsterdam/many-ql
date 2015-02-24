@@ -15,6 +15,12 @@ public class ASTErrorHandler {
         this.warnings = new ArrayList<ASTNodeError>();
     }
 
+    /**
+     * =======================
+     * Error checks
+     * =======================
+     */
+
     public boolean hasErrors() {
         return !this.errors.isEmpty();
     }
@@ -23,7 +29,12 @@ public class ASTErrorHandler {
         return !this.warnings.isEmpty();
     }
 
-    // TODO merge the two below into one method?
+    /**
+     * =======================
+     * Errors registration
+     * =======================
+     */
+
     public void registerNewError(AbstractASTNode _errorNode, String _message) {
         this.errors.add(new ASTNodeError(
                 ASTNodeErrorType.ERROR, _errorNode, _message
@@ -35,6 +46,12 @@ public class ASTErrorHandler {
                 ASTNodeErrorType.WARNING, _errorNode, _message
         ));
     }
+
+    /**
+     * =======================
+     * Errors display
+     * =======================
+     */
 
     public void displayNodeError(ASTNodeError error) {
         System.out.print(error.getErrorType() + ": ");
@@ -65,5 +82,16 @@ public class ASTErrorHandler {
     public void displayWarningsAndErrors() {
         this.displayWarnings();
         this.displayErrors();
+    }
+
+    /**
+     * =======================
+     * Errors clearing
+     * =======================
+     */
+    // necessary for reusing
+    public void clearErrorsAndWarnings() {
+        this.warnings.clear();
+        this.errors.clear();
     }
 }

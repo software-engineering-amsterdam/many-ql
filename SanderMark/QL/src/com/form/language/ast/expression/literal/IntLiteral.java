@@ -1,15 +1,17 @@
 package com.form.language.ast.expression.literal;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
 
-public class IntLiteral implements Expression {
+public class IntLiteral extends Literal implements Expression {
 	private final int _value;
 	
-	public IntLiteral(int _value) {
-		super();
+	public IntLiteral(int _value, Token tokenInfo) {
+		super(tokenInfo);
 		this._value = _value;
 	}
 

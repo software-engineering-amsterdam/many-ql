@@ -4,6 +4,10 @@ import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This FormTypeChecker detects:
@@ -18,6 +22,7 @@ import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
  */
 public class FormTypeChecker extends FormInterpreter {
     private InterpretationException fatalException;
+    private HashMap<String, TypeDescriptor<?>> typeDescriptorMap;
 
     @Override
     protected StmtInterpreter createStmtInterpreter() {
@@ -28,9 +33,18 @@ public class FormTypeChecker extends FormInterpreter {
         return fatalException;
     }
 
+    public void setTypeDescriptor(String field, TypeDescriptor<?> typeDescriptor) {
+        typeDescriptorMap.put(field, typeDescriptor);
+    }
+
+    public TypeDescriptor<?> getTypeDescriptor(String field) {
+        return typeDescriptorMap.get(field);
+    }
+
     @Override
     public void caseAForm(AForm node) {
         try {
+            typeDescriptorMap = new HashMap<String, TypeDescriptor<?>>();
             super.caseAForm(node);
         } catch(InterpretationException e) {
             fatalException = e;

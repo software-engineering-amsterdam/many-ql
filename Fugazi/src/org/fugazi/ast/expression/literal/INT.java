@@ -9,15 +9,14 @@ import java.util.List;
 public class INT extends Literal {
 
     private final int value;
-    private final List<Class> supportedTypes;
+    private final Class returnedType;
 
     public INT(int _value, int _lineNum) {
         super(_lineNum);
 
         this.value = _value;
-        Class intTypeClass = IntType.class;
-        this.supportedTypes = new ArrayList<Class>();
-        this.supportedTypes.add(intTypeClass);
+        this.returnedType = IntType.class;
+
     }
 
     public int getValue() {
@@ -30,8 +29,8 @@ public class INT extends Literal {
     }
 
     @Override
-    public List<Class> getSupportedTypes() {
-        return this.supportedTypes;
+    public Class getReturnedType() {
+        return this.returnedType;
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

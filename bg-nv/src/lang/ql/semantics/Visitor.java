@@ -3,40 +3,39 @@ package lang.ql.semantics;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.*;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.type.*;
 
 /**
  * Created by bore on 13/02/15.
  */
-public interface Visitor
+public interface Visitor<T>
 {
-    void visit(Form f);
-    void visit(Question q);
-    void visit(CalculatedQuestion q);
-    void visit(IfCondition c);
-    
-    void visit(BoolExpr e);
-    void visit(IntExpr e);
-    void visit(DecExpr e);
-    void visit(StrExpr e);
-    void visit(Indent e);
+    T visit(Form f);
+    T visit(Question q);
+    T visit(CalculatedQuestion q);
+    T visit(IfCondition c);
 
-    void visit(Neg e);
-    void visit(Pos e);
-    void visit(Not e);
+    T visit(BoolExpr e);
+    T visit(IntExpr e);
+    T visit(DecExpr e);
+    T visit(StrExpr e);
+    T visit(Ident e);
 
-    void visit(Add e);
-    void visit(Sub e);
-    void visit(Mul e);
-    void visit(Div e);
+    T visit(Neg e);
+    T visit(Pos e);
+    T visit(Not e);
 
-    void visit(Gt e);
-    void visit(Lt e);
-    void visit(GtEqu e);
-    void visit(LtEqu e);
-    void visit(Equ e);
-    void visit(NotEqu e);
+    T visit(Add e);
+    T visit(Sub e);
+    T visit(Mul e);
+    T visit(Div e);
 
-    void visit(And e);
-    void visit(Or e);
+    T visit(Gt e);
+    T visit(Lt e);
+    T visit(GtEqu e);
+    T visit(LtEqu e);
+    T visit(Equ e);
+    T visit(NotEqu e);
+
+    T visit(And e);
+    T visit(Or e);
 }

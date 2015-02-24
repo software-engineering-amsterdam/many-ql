@@ -12,13 +12,13 @@ import java.util.List;
 public class Form extends AstNode
 {
     private String id;
-    private List<Statement> statements;
+    private List<Statement> body;
 
-    public Form(String id, List<Statement> statements, int lineNumber)
+    public Form(String id, List<Statement> body, int lineNumber)
     {
         super(lineNumber);
         this.id = id;
-        this.statements = statements;
+        this.body = body;
     }
 
     public String getId()
@@ -26,10 +26,13 @@ public class Form extends AstNode
         return this.id;
     }
 
-    public List<Statement> getStatements()
+    public List<Statement> getBody()
     {
-        return this.statements;
+        return this.body;
     }
 
-    public void accept(Visitor visitor) { visitor.visit(this); }
+    public <T> T accept(Visitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

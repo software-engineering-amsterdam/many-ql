@@ -2,7 +2,6 @@ package lang.ql.semantics;
 
 import lang.ql.ast.statement.Question;
 import lang.ql.ast.type.Type;
-import lang.ql.semantics.errors.Error;
 
 import java.util.*;
 
@@ -11,43 +10,35 @@ import java.util.*;
  */
 public class SymbolTable
 {
-    private Map<String, Type> symbols;
-    private QuestErrInfo questErrInfo;
+    private Map<String, Question> symbols;
 
     public SymbolTable()
     {
-        this.symbols = new HashMap<String, Type>();
-        this.questErrInfo = new QuestErrInfo();
+        this.symbols = new HashMap<String, Question>();
     }
 
-    public QuestErrInfo getQuestErrInfo()
+    public void define(Question q)
     {
-        return this.questErrInfo;
-    }
-
-    public void define(Question q, Type type)
-    {
-        String id = q.getId();
-        if (this.symbols.containsKey(id))
-        {
-            Type duplicateType = this.symbols.get(id);
-            Question duplicateQ = this.questErrInfo.getQuestionsById(id).get(0);
-            Error error = Error.identifierAlreadyDeclared(id, duplicateQ.getLineNumber(), q.getLineNumber());
-
-            if (!(type.equals(duplicateType)))
-            {
-                error = Error.identifierDeclaredOfDiffType(id, duplicateQ.getLineNumber(), q.getLineNumber());
-            }
-
-            this.questErrInfo.addMessage(error);
-        }
-
-        this.symbols.put(id, type);
-        this.questErrInfo.addQuestion(q);
+        this.symbols.put(q.getId(), q);
     }
 
     public Type resolve(String name)
     {
-        return this.symbols.get(name);
+        Question q = this.symbols.get(name);
+        if (q != null)
+        {
+            return q.getType();
+        }
+        return null;
+    }
+
+    public boolean containsQuestionId(String id)
+    {
+        return this.symbols.containsKey(id);
+    }
+
+    public Question getQuestion(String id)
+    {
+        return this.symbols.get(id);
     }
 }

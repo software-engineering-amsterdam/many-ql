@@ -4,17 +4,23 @@ The interface with the user can be either Graphic, Text or Web.
 */
 package frontend
 
-import (
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
-)
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 
 // Inputer describes the actions which frontend must implement
 // in order to be compliant with the VM expectations of
 // functionality.
 type Inputer interface {
-	DrawQuestion(q *ast.QuestionNode, visible event.Visibility)
-	UpdateQuestion(q *ast.QuestionNode)
+	DrawQuestion(
+		identifier,
+		label,
+		typ string,
+		visible event.Visibility,
+	)
+	UpdateQuestion(
+		identifier string,
+		fieldType string,
+		value interface{},
+	)
 	Loop()
 	Flush()
 	FetchAnswers() map[string]string
@@ -51,10 +57,16 @@ func (f *frontend) loop() {
 				}
 
 			case event.DrawQuestion:
-				f.driver.DrawQuestion(&r.Question, r.Visible)
+				f.driver.DrawQuestion(
+					r.Identifier,
+					r.Label,
+					r.FieldType,
+					r.Visible,
+				)
 
 			case event.UpdateQuestion:
-				f.driver.UpdateQuestion(&r.Question)
+				f.driver.UpdateQuestion(r.Identifier,
+					r.FieldType, r.Value)
 
 			case event.Flush:
 				f.driver.Flush()

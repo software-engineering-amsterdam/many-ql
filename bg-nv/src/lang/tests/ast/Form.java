@@ -21,6 +21,6 @@ public class Form
         lang.ql.ast.form.Form f = TestHelper.as(ParserHelper.ParseForm("example1"), lang.ql.ast.form.Form.class);
         assertNotNull(f);
         assertEquals("Box1HouseOwning", f.getId());
-        assertEquals(4, f.getStatements().size());
+        assertEquals(4, f.getBody().size());
     }
 }

@@ -11,17 +11,28 @@ import java.util.List;
  */
 public class Canvas extends GuiElement
 {
+    private String name;
     private List<Line> lines;
 
-    public Canvas(List<Line> lines)
+    public Canvas(String name, List<Line> lines)
     {
+        this.name = name;
         this.lines = lines;
     }
 
-    public void accept(GuiVisitor visitor)
+    public <T> T accept(GuiVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 
 
+    public String getName()
+    {
+        return name;
+    }
+
+    public List<Line> getLines()
+    {
+        return lines;
+    }
 }

@@ -1,20 +1,16 @@
 require_relative "visitor"
 
 class StaticChecker < BaseVisitor
-  def initialize(form)
-    @form = form
-    after_initialize(form)
+  def initialize(base)
+    @base = base
+    after_initialize(base)
     self
   end
 
-  def after_initialize(form)
+  def after_initialize(base)
   end
 
-  visitor_for Form do |form|
+  def visit_form(form)
     form.accept(self)
   end
-
-  private
-
-  attr_reader :form
 end

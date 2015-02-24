@@ -19,9 +19,9 @@ public class Addition extends BinaryExpressions{
 	}
 	@Override
 	public NumberValue evaluate() {
-		NumberValue left = new NumberValue((Number)this.getLeftExpr().evaluate().getValue());
-		NumberValue right = new NumberValue((Number)this.getRightExpr().evaluate().getValue());
+		if (!NumberValue.isNumberValue(getLeftExpr()) || !NumberValue.isNumberValue(getRightExpr()))
+			throw new IllegalArgumentException("Hello World");
 		
-		return new NumberValue(left.toDecimal() + right.toDecimal());
+		return NumberValue.numberValueFromExpr(getLeftExpr()).addition(NumberValue.numberValueFromExpr(getRightExpr()));
 	}
 }

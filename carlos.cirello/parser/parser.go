@@ -460,7 +460,7 @@ qldefault:
 	case 6:
 		//line parser.y:103
 		{
-			qlVAL.question = ast.NewQuestionNode(qlS[qlpt-2].content, qlS[qlpt-1].content, qlS[qlpt-0].questionType, false, qlS[qlpt-2].position)
+			qlVAL.question = ast.NewQuestionNode(qlS[qlpt-2].content, qlS[qlpt-1].content, qlS[qlpt-0].questionType, qlS[qlpt-2].position)
 		}
 	case 7:
 		//line parser.y:112

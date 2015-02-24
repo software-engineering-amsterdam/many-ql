@@ -4,8 +4,12 @@ public class StringType extends Type {
 
 	@Override
 	public Type getType() {
-		// TODO Auto-generated method stub
 		return this;
+	}
+
+	@Override
+	public Boolean isStringType(){
+		return true;
 	}
 
 }

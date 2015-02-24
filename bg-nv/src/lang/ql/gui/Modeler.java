@@ -1,22 +1,11 @@
 package lang.ql.gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.*;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
 import lang.ql.gui.canvas.Canvas;
-import lang.ql.gui.input.Input;
+import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
 import lang.ql.semantics.ValueTable;
@@ -29,12 +18,9 @@ import java.util.List;
 /**
  * Created by Nik on 17-2-15.
  */
-public class Modeler implements Visitor, TypeVisitor
+public class Modeler implements Visitor<GuiElement>, TypeVisitor<GuiElement>
 {
     private ValueTable values;
-
-    private Canvas canvas;
-    private List<Line> lines;
 
     public Modeler(ValueTable values)
     {
@@ -42,236 +28,198 @@ public class Modeler implements Visitor, TypeVisitor
     }
 
     @Override
-    public void visit(Form form)
+    public GuiElement visit(Form form)
     {
-        this.lines = new ArrayList<Line>();
-        for (Statement s : form.getStatements())
+        List<Line> lines = new ArrayList<Line>();
+        for (Statement s : form.getBody())
+        {
+            lines.add((Line) s.accept(this));
+        }
+
+        return new Canvas(form.getId(), lines);
+    }
+
+    @Override
+    public GuiElement visit(Question q)
+    {
+        Label label = new Label(q.getLabel());
+        Input input = (Input) q.getType().accept(this);
+        return new Line(label, input);
+    }
+
+    @Override
+    public GuiElement visit(CalculatedQuestion cq)
+    {
+        Label label = new Label(cq.getLabel());
+        Input input = (Input) cq.getType().accept(this);
+        return new Line(label, input);
+    }
+
+    @Override
+    public GuiElement visit(BoolType type)
+    {
+        return new BoolInput();
+    }
+
+    @Override
+    public GuiElement visit(DateType type)
+    {
+        return new DateInput();
+    }
+
+    @Override
+    public GuiElement visit(DecType type)
+    {
+        return new DecInput();
+    }
+
+    @Override
+    public GuiElement visit(IntType type)
+    {
+        return new IntInput();
+    }
+
+    @Override
+    public GuiElement visit(StrType type)
+    {
+        return new StrInput();
+    }
+
+    @Override
+    public GuiElement visit(UndefinedType type)
+    {
+        return new StrInput();
+    }
+
+    @Override
+    public GuiElement visit(IfCondition ifCond)
+    {
+        // TODO: figure out what to do with this - modify the gui model?
+        for (Statement s : ifCond.getBody())
         {
             s.accept(this);
         }
-        this.canvas = new Canvas(this.lines);
-        this.lines = null;
+
+        return null;
     }
 
     @Override
-    public void visit(Question q)
+    public GuiElement visit(BoolExpr e)
     {
-        Label label = new Label(q.getText());
-        q.getType().accept(this);
-//        Input input = InputFactory.createInput(q.getType(), values.getValue(q.getId()));
-//        this.lines.add(new Line(label, input));
+        return null;
     }
 
     @Override
-    public void visit(CalculatedQuestion cq)
+    public GuiElement visit(IntExpr e)
     {
-        Label label = new Label(cq.getText());
-        cq.getType().accept(this);
-//        Input input = InputFactory.createInput(cq.getType(), values.getValue(cq.getId()));
-//        this.lines.add(new Line(label, input));
+        return null;
     }
 
     @Override
-    public void visit(BoolType t)
+    public GuiElement visit(DecExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(DateType type)
+    public GuiElement visit(StrExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(DecType type)
+    public GuiElement visit(Ident e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(IntType t)
+    public GuiElement visit(Neg e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(StrType type)
+    public GuiElement visit(lang.ql.ast.expression.Pos e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(IfCondition ifCond)
+    public GuiElement visit(Not e)
     {
-        for (Statement s : ifCond.getStatements())
-        {
-            s.accept(this);
-        }
+        return null;
     }
 
     @Override
-    public void visit(BoolExpr e)
+    public GuiElement visit(Add e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(IntExpr e)
+    public GuiElement visit(Sub e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(DecExpr e)
+    public GuiElement visit(Mul e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(StrExpr e)
+    public GuiElement visit(Div e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Indent e)
+    public GuiElement visit(Gt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Neg e)
+    public GuiElement visit(Lt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(lang.ql.ast.expression.Pos e)
+    public GuiElement visit(GtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Not e)
+    public GuiElement visit(LtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Add e)
+    public GuiElement visit(Equ e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Sub e)
+    public GuiElement visit(NotEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Mul e)
+    public GuiElement visit(And e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Div e)
+    public GuiElement visit(Or e)
     {
-
-    }
-
-    @Override
-    public void visit(Gt e)
-    {
-
-    }
-
-    @Override
-    public void visit(Lt e)
-    {
-
-    }
-
-    @Override
-    public void visit(GtEqu e)
-    {
-
-    }
-
-    @Override
-    public void visit(LtEqu e)
-    {
-
-    }
-
-    @Override
-    public void visit(Equ e)
-    {
-
-    }
-
-    @Override
-    public void visit(NotEqu e)
-    {
-
-    }
-
-    @Override
-    public void visit(And e)
-    {
-
-    }
-
-    @Override
-    public void visit(Or e)
-    {
-
-    }
-
-    public static void render(final Stage primaryStage, final Form form, final ValueTable values)
-    {
-        Modeler visualizer = new Modeler(values);
-
-        GridPane grid = new GridPane();
-        grid.setAlignment(javafx.geometry.Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-
-        visualizer.visit(form);
-
-        Button btn = new Button("Make magic happen");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, grid.getChildren().size() + 1);
-
-        final Text actiontarget = new Text();
-        grid.add(actiontarget, 1, grid.getChildren().size() + 1);
-
-
-        btn.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent e)
-            {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Unicorns");
-//                updateValues();
-//                render(primaryStage, form);
-            }
-        });
-
-        Scene scene = new Scene(grid, 700, 500);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle(form.getId());
-        primaryStage.show();
-    }
-
-    private void updateValues()
-    {
-        //TODO
+        return null;
     }
 }

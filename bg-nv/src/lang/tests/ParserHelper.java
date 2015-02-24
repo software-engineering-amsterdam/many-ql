@@ -3,14 +3,13 @@ package lang.tests;
 import lang.ql.ast.AstNode;
 import lang.ql.gen.QLLexer;
 import lang.ql.gen.QLParser;
-import lang.ql.syntax.QLVisitorImpl;
+import lang.ql.ast.AstBuilder;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by bore on 17/02/15.
@@ -23,7 +22,7 @@ public class ParserHelper
     {
         QLParser parser = createInputStreamParser(input);
         QLParser.ExpressionContext c = parser.expression();
-        QLVisitorImpl visitor = new QLVisitorImpl();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitExpression(c);
     }
@@ -32,7 +31,7 @@ public class ParserHelper
     {
         QLParser parser = createInputStreamParser(input);
         QLParser.QuestionContext c = parser.question();
-        QLVisitorImpl visitor = new QLVisitorImpl();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitQuestion(c);
     }
@@ -41,7 +40,7 @@ public class ParserHelper
     {
         QLParser parser = createInputStreamParser(input);
         QLParser.IfConditionContext c = parser.ifCondition();
-        QLVisitorImpl visitor = new QLVisitorImpl();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitIfCondition(c);
     }
@@ -50,7 +49,7 @@ public class ParserHelper
     {
         QLParser parser = createFileStreamParser(file);
         QLParser.FormContext f = parser.form();
-        QLVisitorImpl visitor = new QLVisitorImpl();
+        AstBuilder visitor = new AstBuilder();
 
         return visitor.visitForm(f);
     }

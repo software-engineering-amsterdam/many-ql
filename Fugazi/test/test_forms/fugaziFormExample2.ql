@@ -14,5 +14,6 @@ form taxOfficeExample {
     int sellingPrice ("What was the selling price?");
     int privateDebt ("Private debts for the sold house:");
     int valueResidue ("Value residue:") = (sellingPrice * privateDebt - 77);
+
   }
 }

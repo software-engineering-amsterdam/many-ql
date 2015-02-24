@@ -1,6 +1,6 @@
 package interpreter;
 
-public class IntegerValue implements Value  {
+public class IntegerValue extends Value  {
 	private final Integer integerValue;
 	
 	public IntegerValue(Integer integerValue) {
@@ -10,6 +10,7 @@ public class IntegerValue implements Value  {
 	public Integer getIntegerValue() {
 		return integerValue;
 	}
+	
 	
 	public Value add(Value value) {
 		return value.addInt(this); 
@@ -49,21 +50,6 @@ public class IntegerValue implements Value  {
 
 	public Value notEqual(Value value) {
 		return value.notEqualInt(this);
-	}
-
-	public Value and(Value value) {
-		// ***error? **
-		return null;
-	}
-
-	public Value or(Value value) {
-		// ***error? **
-		return null;
-	}
-
-	public Value not() {
-		// ***error? **
-		return null;
 	}
 
 	public Value plus() {
@@ -122,19 +108,5 @@ public class IntegerValue implements Value  {
 		return null;
 	}
 
-	public Value andBoolean(BooleanValue value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Value orBoolean(BooleanValue value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Value notBoolean(BooleanValue value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+ // TODO hashmap stuff...
 }

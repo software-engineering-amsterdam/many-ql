@@ -4,6 +4,7 @@ import org.uva.sea.ql.AST.expression.BinaryExpression;
 import org.uva.sea.ql.AST.expression.Expression;
 import org.uva.sea.ql.AST.literal.NumberLiteral;
 import org.uva.sea.ql.AST.value.IntegerValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 public class DivExpression extends BinaryExpression {
 
@@ -12,15 +13,8 @@ public class DivExpression extends BinaryExpression {
 	}
 
 	@Override
-	public IntegerValue interpretExpression() {
-		// int leftInteger = leftLiteral.interpretExpression().getValue();
-		// int rightInteger = rightLiteral.interpretExpression().getValue();
-		// if (rightInteger > 0) {
-		// return new IntegerValue(leftInteger / rightInteger);
-		// }else{
-		//
-		// }
-		return new IntegerValue(0);
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 
 }
