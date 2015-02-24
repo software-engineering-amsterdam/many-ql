@@ -33,17 +33,14 @@ public class LabelWithWidgetWidget implements IWidget {
                 try {
                     System.out.println("State variable changed:");
                     List<FormField> fields = headlessFormInterpreter.getFields();
-                    for(FormField f: fields){
-                        System.out.println(f.getVariable() + ", " + f.getValue());
-                    }
                     System.out.println();
                     fieldLabel.setText(headlessFormInterpreter.getLabelForField(model.getFieldName()));
                     labelWithWidgetWidget.setVisible(true);
                 } catch (LabelNotAvailableException e) {
-                    fieldLabel.setText("LABEL NOT AVAILABLE: " + model.getFieldName());
+                    fieldLabel.setText("-");
                     labelWithWidgetWidget.setVisible(false);
                 }
-                labelWithWidgetWidget.repaint();
+                fieldLabel.invalidate();
                 labelWithWidgetWidget.revalidate();
             }
         });
