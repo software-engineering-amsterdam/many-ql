@@ -8,6 +8,7 @@ import com.form.language.ast.type.IdType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
+import com.form.language.error.ErrorCollector;
 import com.form.language.memory.Memory;
 
 public class IdLiteral extends Literal implements Expression {
@@ -50,4 +51,8 @@ public class IdLiteral extends Literal implements Expression {
 		return null;
 	}
 	
+	@Override
+	public ErrorCollector getErrors(ErrorCollector errs) {
+		return errs;
+	}
 }

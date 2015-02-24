@@ -23,13 +23,12 @@ public class Question implements Statement {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
-		if(questionType.equals("Boolean")
+		if(questionType.equals("Boolean"))
 				{
-					this.questionType = BoolType;
+					this.questionType = new BoolType();
 				}
 		
 		//Call ID constructor
-		new IdLiteral(id,questionType,null);
 	}
 	
 	private void createQuestion(){		

@@ -5,17 +5,24 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ErrorCollector {
-	private static List<Error> errorList;
+	private List<Error> errorList;
 	
 	public ErrorCollector(){
-		ErrorCollector.errorList = new ArrayList<Error>();
+		this.errorList = new ArrayList<Error>();
 	}
 	
-	public static void add(Error e){
+	public ErrorCollector(ErrorCollector left, ErrorCollector right){
+		ArrayList<Error> combinedList = new ArrayList<Error>(left.errorList);
+		combinedList.addAll(right.errorList);
+		
+		this.errorList = combinedList;
+	}
+	
+	public void add(Error e){
 		errorList.add(e);
 	}
 	
-	public static Iterator<Error> getErrorCollection(){
+	public Iterator<Error> getErrorCollection(){
 		return errorList.iterator();
 	}
 	
