@@ -1,13 +1,11 @@
-from .Visitor import Visitor
-from . import Message
+from . import Checker, Message
 from .Identifier import questionIdentifiedBy
 
-from ..ast import Nodes
-from ..ast.Visitor import Visitor as ASTVisitor
+from ..ast import Nodes, Visitor as ASTVisitors
 
 from .. import CustomTypes
 
-class Checker(Visitor):
+class Checker(Checker.StatementChecker):
     def _visitQuestionStatement(self, node):
         dependencyChains = self._questionDependencyChains([], node)
         for chain in dependencyChains:
@@ -52,13 +50,13 @@ class Checker(Visitor):
         return visitor.identifiers
 
 
-class ExtractIdentifiersVisitor(ASTVisitor):
+class ExtractIdentifiersVisitor(ASTVisitors.ExpressionVisitor):
     def __init__(self):
-        self.__identifiers = []
+        self._identifiers = []
 
     @property
     def identifiers(self):
-        return self.__identifiers
+        return self._identifiers
 
     def _visitIdentifier(self, node):
-        self.__identifiers.append(node) 
+        self._identifiers.append(node) 

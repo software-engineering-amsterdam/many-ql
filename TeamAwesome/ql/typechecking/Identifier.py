@@ -1,5 +1,4 @@
-from ..ast import Nodes
-from ..ast.Visitor import Visitor as ASTVisitor
+from ..ast import Nodes, Visitor as ASTVisitors
 from ..TypeRules import nativeQuestionType
 
 
@@ -16,8 +15,9 @@ def typeOfIdentifier(identifier, node):
     return nativeQuestionType(question.type)
 
 
-class QuestionIdentifiedByVisitor(ASTVisitor):
+class QuestionIdentifiedByVisitor(ASTVisitors.StatementVisitor):
     def __init__(self, identifier):
+        super().__init__()
         self._identifier = identifier
         self._question = None
 
