@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Grammars;
 using QL.Model.Terminals;
 
-namespace QL.Model
+namespace QL.Factories
 {
     public class TerminalTypeFactory
     {

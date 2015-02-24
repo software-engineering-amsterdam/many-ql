@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\TerminalTypeFactory.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
@@ -94,7 +95,6 @@
     <Compile Include="Model\Terminals\Yesno.cs" />
     <Compile Include="Model\TreeElementBase.cs" />
     <Compile Include="Model\UnitBase.cs" />
-    <Compile Include="Model\TerminalTypeFactory.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using QL.Factories;
 using QL.Grammars;
 using QL.Model.Terminals;
 using System.Diagnostics;
@@ -91,13 +92,6 @@ namespace QL.Model
             statement.SourceLocation = SourceLocation.CreateFor(context);
 
             AppendToAST(statement);
-        }
-        
-        public TreeElementBase Create(QLParser.UnitContext context)
-        {
-            // todo: not use 'is' operator, but not sure how to do that now
-           
-            throw new ArgumentOutOfRangeException("context");
         }
 
         public void Create(QLParser.ControlBlockContext context)
