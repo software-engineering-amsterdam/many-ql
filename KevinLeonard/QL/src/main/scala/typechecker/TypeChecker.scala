@@ -1,13 +1,12 @@
 package typechecker
 
 import ast._
-import scala.util.parsing.input.Position
 
 class TypeChecker {
 
-  def check(form: Form, env: Environment = new Environment()): Environment = check(form.s, env)
+  def check(form: Form, env: TypeEnvironment = new TypeEnvironment()): TypeEnvironment = check(form.s, env)
 
-  def check(s: Statement, env: Environment): Environment = s match {
+  def check(s: Statement, env: TypeEnvironment): TypeEnvironment = s match {
     case Sequence(statements: List[Statement]) => statements.foldLeft(env) { (env, statement) => check(statement, env) }
     case s @ IfStatement(e: Expression, s1: Statement, None) => check(e, env) match {
       case BooleanType() =>
@@ -39,7 +38,7 @@ class TypeChecker {
     }
   }
 
-  def check(expression: Expression, env: Environment): Type = expression match {
+  def check(expression: Expression, env: TypeEnvironment): Type = expression match {
     case e @ Or(l: Expression, r: Expression) => (check(l, env), check(r, env)) match {
       case (BooleanType(), BooleanType()) => BooleanType()
       case _ => sys.error(s"Invalid or expression at line ${e.pos}")
@@ -100,73 +99,4 @@ class TypeChecker {
     case Literal(t, _) => t
   }
 
-}
-
-sealed trait Level
-case class Warning() extends Level
-case class Exception() extends Level
-
-class Error(val level: Level, val message: String, val position: Position) {
-
-  def canEqual(other: Any): Boolean = other.isInstanceOf[Error]
-
-  override def equals(other: Any): Boolean = other match {
-    case that: Error =>
-      (that canEqual this) &&
-        level == that.level &&
-        message == that.message &&
-        position == that.position
-    case _ => false
-  }
-
-  override def hashCode(): Int = {
-    val state = Seq(level, message, position)
-    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
-  }
-
-  override def toString = s"Error($level, $message, $position)"
-}
-
-class Environment(val typeOfFields: Map[String, Type] = Map(), val labels: List[String] = List(), val errors: List[Error] = List()) {
-  
-  // TODO: Return Environment.
-  def tryGetVariable(v: Variable): Type = typeOfFields getOrElse(v.name, {this.addError(Exception(), s"Variable ${v.name} is not defined", v.pos); UndefinedType() })
-
-  def tryAddVariable(v: Variable, _type: Type): Environment = {
-    if (typeOfFields contains v.name) {
-      this.addError(Exception(), s"Variable ${v.name} is already defined", v.pos)
-    } else {
-      new Environment(typeOfFields + (v.name -> _type), labels, errors)
-    }
-  }
-
-  def tryAddLabel(q: Question): Environment = {
-    if (labels contains q.label) {
-      this.addError(Warning(), s"Label ${q.label} is already defined", q.pos)
-    } else {
-      new Environment(typeOfFields, labels :+ q.label, errors)
-    }
-  }
-
-  def addError(level: Level, message: String, position: Position): Environment = {
-    new Environment(typeOfFields, labels, errors :+ new Error(level, message, position))
-  }
-
-  def canEqual(other: Any): Boolean = other.isInstanceOf[Environment]
-
-  override def equals(other: Any): Boolean = other match {
-    case that: Environment =>
-      (that canEqual this) &&
-        typeOfFields == that.typeOfFields &&
-        labels == that.labels &&
-        errors == that.errors
-    case _ => false
-  }
-
-  override def hashCode(): Int = {
-    val state = Seq(typeOfFields, labels, errors)
-    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
-  }
-
-  override def toString = s"Environment($typeOfFields, $labels, $errors)"
 }
