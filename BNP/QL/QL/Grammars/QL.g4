@@ -1,21 +1,16 @@
 grammar QL;
 
 // Definitions
-YESNO	: 'yes' | 'no';
-NUMBER	: '-'?[0-9]+;
-IF		: 'if';
-ELSE	: 'else';
-TYPENAME: 'yesno' | 'number' | 'text';
-ATTR	: 'required' | 'optional';
-UNITTYPE: 'question' | 'statement';
-ID		: [a-zA-Z][a-zA-Z0-9]*;
-TEXT	: '\"' .*? '\"';
+YESNO		: 'yes' | 'no';
+NUMBER		: '-'?[0-9]+; // note that this is only integer, does not include decimal maybe TODO
+TEXT		: '\"' .*? '\"';
+IDENTIFIER	: [a-zA-Z][a-zA-Z0-9]*;
 
 // Ignore rules
-WS		: [\r\n\t ]+ -> skip;
-COMMENT : '//' ~[\r\n]* -> skip;
+WS			: [\r\n\t ]+ -> skip;
+COMMENT		: '//' ~[\r\n]* -> skip;
 
-// Operators & expressions
+// Operators
 fragment NEQOPERATOR	: '=='  //should be defaultly usable by text, number, yesno
 						| '!='  //should be defaultly usable by text, number, yesno
 						;
@@ -37,28 +32,33 @@ OPERATOR				: CALCOPERATOR
 						;
 
 // Production rules
-typedef		: YESNO
+operator: OPERATOR;
+
+type		: 'yesno'	# yesno
+			| 'number'	# number
+			| 'text'	# text
+			;
+
+literal		: YESNO
 			| NUMBER
 			| TEXT
+			| IDENTIFIER
 			;
 
-typedefext	: typedef
-			| ID
-			;
-
-unit		: UNITTYPE ID '(' TYPENAME (',' ATTR)* ')' TEXT ';'
-			| UNITTYPE ID '(' TYPENAME ',' (typedef|expression) ')' TEXT ';'
-			| ifStatement
+unit		: questionUnit
+			| statementUnit
+			| controlUnit
 			;
 
 block		: '{' unit* '}';
 
-formBlock	: 'form' ID block;
+formBlock	: 'form' IDENTIFIER block;
 
-//to handle some input and provide somehow altered(or not) output.
-// our expression should be basically a function. 
-//expression		: ('(' ( expression | condition) ')');
+expression	: literal
+			| '(' expression ')'
+			| '(' expression operator expression ')'
+			;
 
-expression	: '(' expression | ((typedefext OPERATOR)+ typedefext) ')';
-
-ifStatement	: 'if' expression block ('else' ifStatement)* ('else' block)? ';';
+questionUnit  : 'question' IDENTIFIER '(' type ')' TEXT ';';
+statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;
+controlUnit	  : 'if' expression block ('else' controlUnit)* ('else' block)? ';';

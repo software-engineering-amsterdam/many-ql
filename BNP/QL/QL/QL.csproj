@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>CS2002</NoWarn>
+    <NoWarn>2002</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,15 +48,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\TerminalTypeFactory.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
     <Compile Include="Grammars\QL.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
+    <Compile Include="Grammars\QLListener.cs" />
     <Compile Include="Grammars\QLVisitor.cs" />
     <Compile Include="Infrastructure\ParserErrorHandler.cs" />
     <Compile Include="Infrastructure\LexerErrorHandler.cs" />
+    <Compile Include="Model\AstHandler.cs" />
+    <Compile Include="Model\BinaryTreeElementBase.cs" />
+    <Compile Include="Model\ControlBlockUnit.cs" />
+    <Compile Include="Model\ElementBase.cs" />
+    <Compile Include="Model\Block.cs" />
+    <Compile Include="Model\ControlBlock.cs" />
+    <Compile Include="Model\Enums\ControlBlockType.cs" />
+    <Compile Include="Model\Enums\ElementType.cs" />
+    <Compile Include="Model\Expression.cs" />
+    <Compile Include="Model\Form.cs" />
+    <Compile Include="Model\Operators\AndOperator.cs" />
+    <Compile Include="Model\Operators\DivisionOperator.cs" />
+    <Compile Include="Model\Operators\GreaterThanEqualToOperator.cs" />
+    <Compile Include="Model\Operators\GreaterThanOperator.cs" />
+    <Compile Include="Model\Operators\LessThanEqualToOperator.cs" />
+    <Compile Include="Model\Operators\LessThanOperator.cs" />
+    <Compile Include="Model\Operators\MinusOperator.cs" />
+    <Compile Include="Model\Operators\MultiplicationOperator.cs" />
+    <Compile Include="Model\Operators\OrOperator.cs" />
+    <Compile Include="Model\Operators\PlusOperator.cs" />
+    <Compile Include="Model\Operators\EqualsOperator.cs" />
+    <Compile Include="Model\Operators\IOperator.cs" />
+    <Compile Include="Model\Operators\NotEqualsOperator.cs" />
+    <Compile Include="Model\QuestionUnit.cs" />
+    <Compile Include="Model\RootNode.cs" />
+    <Compile Include="Model\SourceLocation.cs" />
+    <Compile Include="Model\StatementUnit.cs" />
+    <Compile Include="Model\Terminals\Identifier.cs" />
+    <Compile Include="Model\Terminals\ITerminal.cs" />
+    <Compile Include="Model\Terminals\Number.cs" />
+    <Compile Include="Model\Terminals\ITerminalType.cs" />
+    <Compile Include="Model\Terminals\Text.cs" />
+    <Compile Include="Model\Terminals\Yesno.cs" />
+    <Compile Include="Model\TreeElementBase.cs" />
+    <Compile Include="Model\UnitBase.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />
@@ -71,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="AST Diagram.cd" />
     <None Include="Definitions\CodeFile1.ql" />
     <None Include="Definitions\Ideas v1.ql" />
     <None Include="Definitions\Ideas v2.ql" />
