@@ -34,6 +34,9 @@ public class Evaluator extends VisitorImpl {
     public AbstractNode visit(IfStatement ifStatement) {
         if (isExpressionTrue(ifStatement)) {
             visitStatements(ifStatement.getStatements());
+        } else {
+            if (ifStatement.getElseClause().isPresent())
+                visitStatements(ifStatement.getElseClause().get().getStatements());
         }
         return ifStatement;
     }
@@ -114,12 +117,15 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Multiplication multiplication) {
-        return null;
+        Number left = (Number) multiplication.getLeft().accept(this);
+        Number right = (Number) multiplication.getRight().accept(this);
+        return new Number(left.getValue() * right.getValue());
     }
 
     @Override
     public AbstractNode visit(Not not) {
-        return null;
+        Boolean result = (Boolean) not.getOperand().accept(this);
+        return new Boolean(!result.isTrue());
     }
 
     @Override
@@ -131,12 +137,13 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Statement statement) {
-        return null;
+        return statement;
     }
 
     @Override
     public AbstractNode visit(ElseClause elseClause) {
-        return null;
+        visitStatements(elseClause.getStatements());
+        return elseClause;
     }
 
     @Override
@@ -149,6 +156,18 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Division division) {
-        return null;
+        Number left = (Number) division.getLeft().accept(this);
+        Number right = (Number) division.getRight().accept(this);
+        if (left.getValue() == 0 || right.getValue() == 0) {
+            throw new ArithmeticException("Cannot divide by 0 for:" + division);
+        }
+        return new Number(left.getValue() / right.getValue());
+    }
+
+    @Override
+    public AbstractNode visit(NotEqual notEqual) {
+        Number left = (Number) notEqual.getLeft().accept(this);
+        Number right = (Number) notEqual.getRight().accept(this);
+        return new Boolean(left.getValue() != right.getValue());
     }
 }
