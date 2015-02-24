@@ -33,7 +33,7 @@ class Processor:
         #simplified_c = Processor.bind_values(expression, answers_map)
 
         # process the expression, and return true/false
-        Processor.update_expression(expression, answers_map)
+        #Processor.update_expression(expression, answers_map)
         variables = None
         result = False #eval(expression, variables)
         if result:
