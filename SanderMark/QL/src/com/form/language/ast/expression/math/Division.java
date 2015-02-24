@@ -11,7 +11,7 @@ import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
 
 public class Division extends BinaryExpression implements Expression {
-	
+
 	public Division(Expression left, Expression right, Token tokenInfo) {
 		super(left,right, tokenInfo);
 	}

@@ -7,6 +7,11 @@ public abstract class AstNode
 {
     private int lineNumber;
 
+    public AstNode()
+    {
+
+    }
+
     public AstNode(int lineNumber)
     {
         this.lineNumber = lineNumber;

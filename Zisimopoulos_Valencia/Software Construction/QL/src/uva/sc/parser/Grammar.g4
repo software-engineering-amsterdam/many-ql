@@ -58,7 +58,7 @@ expr
  | '-' expr                           		#unaryMinus
  | '!' expr                             	#not
  | expr op=(MULT | DIV | MOD) expr      	#multiplication
- | expr op=(ADD | SUB) expr          		#additive
+ | expr op=(ADD | SUB) expr					#additive
  | expr op=(LTE | GTE | LT | GT) expr 		#relational
  | expr op=(EQ | NEQ) expr              	#equality
  | expr '&&' expr                       	#and

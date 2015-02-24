@@ -1,5 +1,6 @@
 package lang.tests.evaluator;
 
+import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.*;
 import lang.tests.TestHelper;
 import org.junit.Test;
@@ -116,5 +117,59 @@ public class Arithmetic
         DecimalValue v = TestHelper.as(TestHelper.evaluate("+3.0", null), DecimalValue.class);
         assertNotNull(v);
         assertEquals(new BigDecimal("3.0"), v.getValue());
+    }
+
+    @Test
+    public void undefinedAdd()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2+hasHouse+1", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedSub()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2-hasHouse-1", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedMul()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2*hasHouse*1", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedDiv()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2/hasHouse/1", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedPos()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("+hasHouse", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedNeg()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("-hasHouse", table), UndefinedValue.class);
+        assertNotNull(v);
     }
 }

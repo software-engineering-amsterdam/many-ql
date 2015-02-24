@@ -3,6 +3,7 @@ package org.uva.ql.ast.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uva.ql.ast.Node;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class BlockStatement extends Statement {
@@ -21,7 +22,7 @@ public class BlockStatement extends Statement {
 		return statementList;
 	}
 
-	public void visitChilds(Visitor visitor) {
+	public void visitChilds(Visitor<Node> visitor) {
 		for (Statement statement : statementList) {
 			statement.accept(visitor);
 		}

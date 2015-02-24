@@ -23,8 +23,6 @@ import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
 import lang.ql.semantics.values.IntegerValue;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -120,33 +118,7 @@ public class SimpleGui implements GuiVisitor<Node>
     @Override
     public Node visit(DecInput input)
     {
-        final TextField textField = new TextField();
-        textField.textProperty().addListener(new ChangeListener<String>()
-        {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue)
-            {
-                textField.setText(newValue.substring(0, newValue.length() - 1));
-                try
-                {
-                    System.out.println("test");
-                    Integer.parseInt(newValue);
-                    System.out.println("test2");
-//                    if (newValue.endsWith("f") || newValue.endsWith("d")) {
-//                        textField.setText(newValue.substring(0, newValue.length() - 1));
-//                    }
-                }
-                catch (NumberFormatException e)
-                {
-                    System.out.println("test3");
-                    textField.setText(oldValue);
-                }
-            }
-        });
-
-        return textField;
+        return new TextField();
     }
 
     @Override

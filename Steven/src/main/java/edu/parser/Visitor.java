@@ -58,4 +58,6 @@ public interface Visitor {
     AbstractNode visit(Label label);
 
     AbstractNode visit(ElseClause elseClause);
+
+    AbstractNode visit(Division division);
 }

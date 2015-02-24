@@ -9,6 +9,11 @@ public abstract class Value<T>
 {
     private T value;
 
+    public Boolean isUndefined()
+    {
+        return false;
+    }
+
     public Value(T value)
     {
         this.value = value;
@@ -248,6 +253,6 @@ public abstract class Value<T>
     {
         throw new IllegalStateException();
     }
-
+    
     public abstract <T> T accept (ValueVisitor<T> visitor);
 }
