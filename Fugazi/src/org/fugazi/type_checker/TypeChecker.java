@@ -25,6 +25,10 @@ public class TypeChecker {
         return this.visitor.isFormCorrect();
     }
 
+    public boolean isFormCorrect() {
+        return this.visitor.isFormCorrect();
+    }
+
     public List<ASTNodeError> getErrors() {
         return this.visitor.getErrors();
     }
