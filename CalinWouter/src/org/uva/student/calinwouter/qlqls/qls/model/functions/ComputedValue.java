@@ -5,6 +5,8 @@ import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IComputedValueWidg
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ComputedValue extends AbstractFormField<ComputedValue> {
 

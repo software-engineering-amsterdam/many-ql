@@ -25,6 +25,6 @@ public class LessThan extends AExpression {
             else
                 return Boolean.getFalse();
         }
-        return null;
+        return new LessThan(left, right);
     }
 }

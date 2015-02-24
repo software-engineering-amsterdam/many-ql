@@ -7,7 +7,7 @@ namespace QL.Infrastructure
     {
         public void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
         {
-            Console.WriteLine("Error in lexer at line " + line + ":" + charPositionInLine);
+            Console.WriteLine("Error in parser at line " + line + ":" + charPositionInLine);
         }
     }
 }

@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.boolwidgets.CheckboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.boolwidgets.RadioWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.intwidgets.IntboxWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.intwidgets.SliderWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.intwidgets.SpinboxWidget;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.stringwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
@@ -25,6 +26,12 @@ public class QuestionWidgetFetcher implements IQuestionWidgetCallback, IWidget {
     public void caseRadioWidget(Question question) {
         widget = new LabelWithWidgetWidget(question,
                 new RadioWidget(question, headlessFormInterpreter), headlessFormInterpreter);
+    }
+
+    @Override
+    public void caseSliderWidget(Question question) {
+        widget = new LabelWithWidgetWidget(question,
+                new SliderWidget(question, headlessFormInterpreter), headlessFormInterpreter);
     }
 
     @Override

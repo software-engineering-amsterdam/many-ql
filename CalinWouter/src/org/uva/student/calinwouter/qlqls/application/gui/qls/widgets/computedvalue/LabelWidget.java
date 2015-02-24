@@ -21,15 +21,16 @@ public class LabelWidget implements IWidget {
     }
 
     public LabelWidget(final ComputedValue computedValue, final HeadlessFormInterpreter headlessFormInterpreter) {
-        valueLabel = new JLabel();  valueLabel.setText("Uninitialized");
+        valueLabel = new JLabel();
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 try {
+                    System.out.println("Label value: " + computedValue.getFieldName());
                     valueLabel.setText(headlessFormInterpreter
                             .getField(computedValue.getFieldName()).getValue().toString());
                 } catch (NullPointerException e) {
-                    valueLabel.setText("");
+                    valueLabel.setText("-");
                 }
             }
         });

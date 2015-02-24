@@ -1,12 +1,13 @@
 package org.uva.student.calinwouter.qlqls.qls.model.functions;
 
+import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class Radio extends AbstractWidget<Radio> {
+public class Radio extends AbstractComponent<Radio> {
 
     @Override
     public void apply(IModel iModel) {

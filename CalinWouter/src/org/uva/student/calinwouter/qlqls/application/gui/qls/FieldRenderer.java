@@ -6,6 +6,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFo
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.Slider;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,12 +1,12 @@
 package org.uva.student.calinwouter.qlqls.qls.model.functions;
 
-import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractModel;
+import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class StyleSheet extends AbstractModel<StyleSheet> {
+public class StyleSheet extends AbstractComponent<StyleSheet> {
     private String ident;
     private List<Page> pages;
     private List<Default> defaultSettings;
@@ -41,6 +41,7 @@ public class StyleSheet extends AbstractModel<StyleSheet> {
 
     @Override
     public void casePage(Page page) {
+        page.setParent(this);
         pages.add(page);
     }
 
@@ -49,13 +50,8 @@ public class StyleSheet extends AbstractModel<StyleSheet> {
         iModel.caseStyleSheet(this);
     }
 
-    private void initializeDefaultSettings() {
-        // TODO
-    }
-
     public StyleSheet() {
         pages = new LinkedList<Page>();
         defaultSettings = new LinkedList<Default>();
-        initializeDefaultSettings();
     }
 }

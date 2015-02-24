@@ -10,6 +10,7 @@ using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using QL.Grammars;
 using QL.Infrastructure;
+using QL.Model;
 
 
 namespace QL
@@ -31,9 +32,12 @@ namespace QL
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 QLParser parser = new QLParser(tokens);
                 parser.AddErrorListener(new ParserErrorHandler());
+                QLListener listener = new QLListener();
+                parser.AddParseListener(listener);
+                
 
                 // parses the input as a formBlock(cos it's on the top)
-                var result = parser.formBlock();
+                var result = parser.formBlock();    
 
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();

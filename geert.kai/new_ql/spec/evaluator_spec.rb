@@ -1,5 +1,3 @@
-require 'byebug'
-
 describe "Runner" do
   before(:each) do
     @question = Question.new("Wat is je naam?", "naam", :string)

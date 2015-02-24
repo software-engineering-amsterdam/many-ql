@@ -21,6 +21,6 @@ public class And extends AExpression {
                 return Boolean.getTrue();
             else
                 return Boolean.getFalse();
-        return null;
+        return new And(left, right);
     }
 }

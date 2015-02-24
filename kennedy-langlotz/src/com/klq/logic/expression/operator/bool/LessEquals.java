@@ -25,6 +25,6 @@ public class LessEquals extends AExpression {
             else if (comp > 0)
                 return Boolean.getFalse();
         }
-        return null;
+        return new LessEquals(left, right);
     }
 }
