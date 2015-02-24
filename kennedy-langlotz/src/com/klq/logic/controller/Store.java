@@ -1,6 +1,7 @@
 package com.klq.logic.controller;
 
 import com.klq.logic.IKLQItem;
+import com.klq.logic.question.Dependency;
 import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
 
@@ -21,9 +22,10 @@ public class Store implements IKLQItem{
         store = new HashMap<Id, Question>();
     }
 
-    public Question add(Id questionId, Question question){
-        order.add(questionId);
-        return store.put(questionId, question);
+    public Question add(Question question){
+        order.add(question.getId());
+        question.setStore(this);
+        return store.put(question.getId(), question);
     }
 
     public Question get(Id questionId){
@@ -36,5 +38,14 @@ public class Store implements IKLQItem{
             result.add(store.get(id));
         }
         return result;
+    }
+
+    public void update(){
+        for (Question q : store.values()){
+            for (Dependency d : q.getDependencies()){
+
+            }
+        }
+
     }
 }
