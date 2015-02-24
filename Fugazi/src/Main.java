@@ -39,7 +39,7 @@ public class Main {
             System.exit(0);
         }
 
-//        ValueStorage valueStorage = new ValueStorage();
+        ValueStorage valueStorage = new ValueStorage();
 //
 //        Evaluator evaluator = new Evaluator(valueStorage);
 //
