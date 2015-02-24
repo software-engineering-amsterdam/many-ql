@@ -7,6 +7,7 @@ public class Error {
 	
 	public Error(Token offendingToken, String message){
 		this.offendingToken = offendingToken;
+		this.message = message;
 	}
 	
 	@Override

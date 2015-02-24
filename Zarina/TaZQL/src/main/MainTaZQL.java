@@ -2,7 +2,7 @@
 	 * @Zarina
 	 */
 
-package com.antlr4.zarina.tazql;
+package main;
 
 import gui.MainFrame;
 

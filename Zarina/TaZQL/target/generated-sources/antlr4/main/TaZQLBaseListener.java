@@ -1,5 +1,5 @@
 // Generated from TaZQL.g4 by ANTLR 4.4
-package com.antlr4.zarina.tazql;
+package main;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
