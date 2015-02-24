@@ -274,7 +274,7 @@ Racc_debug_parser = false
 # reduce 0 omitted
 
 def _reduce_1(val, _values, result)
- result = Form.new(name: val[1], statements: val[2]) 
+ result = Form.new(val[1], val[2]) 
     result
 end
 
@@ -293,7 +293,7 @@ end
 # reduce 5 omitted
 
 def _reduce_6(val, _values, result)
- result = Question.new(description: val[0], variable_name: val[1], type: val[3].to_sym) 
+ result = Question.new(val[0], val[1], val[3].to_sym) 
     result
 end
 
@@ -310,12 +310,12 @@ end
 # reduce 12 omitted
 
 def _reduce_13(val, _values, result)
- result = If.new(expression: val[2], statements: val[4]) 
+ result = If.new(val[2], val[4]) 
     result
 end
 
 def _reduce_14(val, _values, result)
- result = IfElse.new(expression: val[2], statements_true: val[4], statements_false: val[6]) 
+ result = IfElse.new(val[2], val[4], val[6]) 
     result
 end
 

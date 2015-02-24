@@ -7,9 +7,15 @@ class Branch(Node):
 
         self.expression = self.tokens.get('expr')
 
-        self.ifChildren   = ifChildren
-        self.elseChildren = elseChildren
+        self.ifChildren   = ifChildren or list()
+        self.elseChildren = elseChildren or list()
 
+    @property
+    def children(self):
+        return [self.expression] + self.ifChildren + self.elseChildren
+
+    def isValidExpression(self):
+        return self.expression.evaluate()
 
     def __repr__(self, nested=0):
         tree = "IF %s" % self.expression

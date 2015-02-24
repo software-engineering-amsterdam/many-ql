@@ -1,5 +1,6 @@
 package lang.ql.semantics;
 
+import lang.ql.semantics.values.UndefinedValue;
 import lang.ql.semantics.values.Value;
 
 import java.util.HashMap;
@@ -23,17 +24,13 @@ public class ValueTable
         {
             return values.get(key);
         }
-        // TODO: deal with this?
-        return null;
+        // TODO: check if this is ok
+        return new UndefinedValue();
     }
 
     public void storeValue(String key, Value val)
     {
-        if (!values.containsKey(key))
-        {
-            values.put(key, val);
-        }
-        // TODO: deal with this?
+        values.put(key, val);
     }
 
     public Boolean valueExists(String key)

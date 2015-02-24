@@ -3,7 +3,6 @@ package uva.ql.ast.visitor;
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
-import uva.ql.ast.declarations.Declaration;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Type;
@@ -30,7 +29,7 @@ import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Statement;
 
-public class Visitor<T> implements VisitorInterface<T>{
+public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisitorInterface<T>{
 
 	@Override
 	public T visitProg(Prog prog) {
@@ -69,18 +68,6 @@ public class Visitor<T> implements VisitorInterface<T>{
 		
 		question.getType().accept(this);
 		question.getIdentifier().accept(this);
-		
-		return null;
-	}
-
-	@Override
-	public T visitDeclaration(Declaration declaration) {
-		System.out.println(declaration);
-		if (declaration.getExpression() != null)
-			declaration.getExpression().accept(this);
-		
-		declaration.getIdentifier().accept(this);
-		declaration.getType().accept(this);
 		
 		return null;
 	}

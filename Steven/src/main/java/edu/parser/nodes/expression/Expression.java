@@ -7,5 +7,5 @@ import edu.parser.nodes.AbstractNode;
  */
 public abstract class Expression implements AbstractNode {
 
-    public abstract boolean isConditional();
+    public abstract boolean hasBooleanOperands();
 }

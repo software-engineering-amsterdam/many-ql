@@ -1,5 +1,6 @@
 package lang.ql.semantics;
 
+import lang.ql.ast.AstVisitor;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.*;
 import lang.ql.ast.statement.*;
@@ -10,37 +11,38 @@ import java.util.*;
 /**
 * Created by bore on 15/02/15.
 */
-public class Interpreter implements Visitor
+public class Interpreter implements FormVisitor<Void>, StatVisitor<Void>, ExprVisitor<Void>
 {
     private Stack<Value> valueStack;
     private ValueTable variableValues;
-    private Map<String, Question> questions;
+    //private Map<String, Question> questions;
 
     public static void interpret(Form f)
     {
-        Map<String, Question> questions = QuestionVisitor.getQuestions(f);
-        Interpreter i = new Interpreter(questions);
-        f.accept(i);
+        Interpreter interpreter = new Interpreter();
+        f.accept(interpreter);
     }
 
-    private Interpreter(Map<String, Question> questions)
+    private Interpreter()
     {
-        this.questions = questions;
+        //this.questions = questions;
         this.valueStack = new Stack<Value>();
         this.variableValues = new ValueTable();
     }
 
     @Override
-    public void visit(Form f)
+    public Void visit(Form f)
     {
         for(Statement s : f.getBody())
         {
             s.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(IfCondition c)
+    public Void visit(IfCondition c)
     {
         Expr e = c.getCondition();
         e.accept(this);
@@ -49,62 +51,78 @@ public class Interpreter implements Visitor
         {
             s.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(Question n)
+    public Void visit(Question n)
     {
         // TODO: no default value
         this.variableValues.storeValue(n.getId(), new IntegerValue(5));
+
+        return null;
     }
 
     @Override
-    public void visit(CalculatedQuestion n)
+    public Void visit(CalculatedQuestion n)
     {
         Expr e = n.getDefaultValue();
         e.accept(this);
 
         this.variableValues.storeValue(n.getId(), this.popFromStack());
+
+        return null;
     }
 
     @Override
-    public void visit(IntExpr e)
+    public Void visit(IntExpr e)
     {
         this.pushToStack(new IntegerValue(e.getValue()));
+
+        return null;
     }
 
     @Override
-    public void visit(StrExpr e)
+    public Void visit(StrExpr e)
     {
         this.pushToStack(new StringValue(e.getValue()));
+
+        return null;
     }
 
     @Override
-    public void visit(BoolExpr e)
+    public Void visit(BoolExpr e)
     {
         this.pushToStack(new BooleanValue(e.getValue()));
+
+        return null;
     }
 
     @Override
-    public void visit(DecExpr e)
+    public Void visit(DecExpr e)
     {
         this.pushToStack(new DecimalValue(e.getValue()));
+
+        return null;
     }
 
     @Override
-    public void visit(Indent e)
+    public Void visit(Ident e)
     {
         if (!(this.variableValues.valueExists(e.getId())))
         {
-            Question q = this.questions.get(e.getId());
-            q.accept(this);
+            //Question q = this.questions.get(e.getId());
+            //q.accept(this);
         }
         Value v = this.variableValues.getValue(e.getId());
         this.pushToStack(v);
+
+        return null;
     }
 
     @Override
-    public void visit(Add e)
+    public Void visit(Add e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -112,10 +130,12 @@ public class Interpreter implements Visitor
 
         Value result = left.add(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Sub e)
+    public Void visit(Sub e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -123,10 +143,12 @@ public class Interpreter implements Visitor
 
         Value result = left.sub(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Mul e)
+    public Void visit(Mul e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -134,10 +156,12 @@ public class Interpreter implements Visitor
 
         Value result = left.mul(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Div e)
+    public Void visit(Div e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -145,37 +169,45 @@ public class Interpreter implements Visitor
 
         Value result = left.div(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Neg e)
+    public Void visit(Neg e)
     {
         e.getOperand().accept(this);
         Value operand = this.popFromStack();
         Value result = operand.neg();
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Pos e)
+    public Void visit(Pos e)
     {
         e.getOperand().accept(this);
         Value operand = this.popFromStack();
         Value result = operand.pos();
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Not e)
+    public Void visit(Not e)
     {
         e.getOperand().accept(this);
         Value operand = this.popFromStack();
         Value result = operand.not();
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Gt e)
+    public Void visit(Gt e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -183,10 +215,12 @@ public class Interpreter implements Visitor
 
         Value result = left.gt(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Lt e)
+    public Void visit(Lt e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -194,10 +228,12 @@ public class Interpreter implements Visitor
 
         Value result = left.lt(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(GtEqu e)
+    public Void visit(GtEqu e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -205,10 +241,12 @@ public class Interpreter implements Visitor
 
         Value result = left.gtEqu(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(LtEqu e)
+    public Void visit(LtEqu e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -216,10 +254,12 @@ public class Interpreter implements Visitor
 
         Value result = left.ltEqu(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Equ e)
+    public Void visit(Equ e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -227,10 +267,12 @@ public class Interpreter implements Visitor
 
         Value result = left.equ(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(NotEqu e)
+    public Void visit(NotEqu e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -238,10 +280,12 @@ public class Interpreter implements Visitor
 
         Value result = left.notEqu(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(And e)
+    public Void visit(And e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -249,10 +293,12 @@ public class Interpreter implements Visitor
 
         Value result = left.and(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     @Override
-    public void visit(Or e)
+    public Void visit(Or e)
     {
         this.visitBinaryChildren(e);
         Value right = this.popFromStack();
@@ -260,6 +306,8 @@ public class Interpreter implements Visitor
 
         Value result = left.or(right);
         this.pushToStack(result);
+
+        return null;
     }
 
     private void visitBinaryChildren(BinaryExpr e)

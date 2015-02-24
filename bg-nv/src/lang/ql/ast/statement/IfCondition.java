@@ -1,7 +1,6 @@
 package lang.ql.ast.statement;
 
 import lang.ql.ast.expression.Expr;
-import lang.ql.semantics.Visitor;
 
 import java.util.List;
 
@@ -30,8 +29,8 @@ public class IfCondition extends Statement
         return this.body;
     }
 
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(StatVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

@@ -10,9 +10,14 @@ public class UndefinedType extends Type
         super("undefined");
     }
 
-    @Override
-    public void accept(TypeVisitor visitor)
+    public boolean isUndef()
     {
-        visitor.visit(this);
+        return true;
+    }
+
+    @Override
+    public <T> T accept(TypeVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

@@ -1,7 +1,5 @@
 package lang.ql.ast.expression;
 
-import lang.ql.semantics.Visitor;
-
 import java.math.BigDecimal;
 
 /**
@@ -14,5 +12,8 @@ public class DecExpr extends ConstExpr<BigDecimal>
         super(value, lineNumber);
     }
 
-    public void accept(Visitor visitor) { visitor.visit(this); }
+    public <T> T accept(ExprVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

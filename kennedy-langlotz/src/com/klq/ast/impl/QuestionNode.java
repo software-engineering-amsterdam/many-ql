@@ -2,7 +2,7 @@ package com.klq.ast.impl;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
-import com.klq.logic.Type;
+import com.klq.logic.question.Type;
 
 /**
  * Created by juriaan on 10-2-15.
@@ -21,8 +21,8 @@ public class QuestionNode extends ANode {
     }
 
     @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
     @Override

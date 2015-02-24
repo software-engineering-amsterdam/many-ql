@@ -19,7 +19,7 @@ class FormFormat:
         (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
          ).setParseAction(FormFactory.make_question)
 
-    # statements   :: question+
+    # _statements   :: question+
     questions = OneOrMore(question)
     
     statement = Forward()
@@ -38,14 +38,14 @@ class FormFormat:
           OneOrMore(statement) + Suppress("}")) + Literal("else") + Suppress("{") + statement + Suppress("}")
          ).setParseAction(FormFactory.make_else)
 
-    # statement :: pIfElse | pIf | statements
+    # statement :: pIfElse | pIf | _statements
     statement <<= \
         pIfElse | \
         pIf | \
         questions
 
-    # introduction :: Introduction : sentences
+    # _introduction :: Introduction : sentences
     introduction = (Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences))
 
-    # form :: id introduction? statement+
+    # form :: id _introduction? statement+
     form = (id + Optional(introduction) + OneOrMore(statement))

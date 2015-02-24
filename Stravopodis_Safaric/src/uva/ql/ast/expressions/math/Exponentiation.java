@@ -3,7 +3,7 @@ package uva.ql.ast.expressions.math;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.*;
 import uva.ql.ast.value.NumberValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class Exponentiation extends BinaryExpressions{
 
@@ -16,14 +16,14 @@ public class Exponentiation extends BinaryExpressions{
 		return "Exponentiation(" + this.getLeftExpr() + "," + this.getRightExpr() + ")";
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitExponentiation(this);
 	}
 	@Override
 	public NumberValue evaluate() {
-		NumberValue left = new NumberValue((Number)this.getLeftExpr().evaluate().getValue());
-		NumberValue right = new NumberValue((Number)this.getRightExpr().evaluate().getValue());
-		
-		return new NumberValue(Math.pow(left.toDecimal(), right.toDecimal()));
+		if (!NumberValue.isNumberValue(getLeftExpr()) || !NumberValue.isNumberValue(getRightExpr())){
+			throw new IllegalArgumentException("Operands Not Of The Same Type. Exponentiation requires numbers.");
+			}
+		return NumberValue.numberValueFromExpr(getLeftExpr()).exponentiation(NumberValue.numberValueFromExpr(getRightExpr()));
 	}
 }

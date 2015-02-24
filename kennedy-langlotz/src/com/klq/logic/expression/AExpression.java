@@ -1,30 +1,32 @@
 package com.klq.logic.expression;
 
+import com.klq.logic.IKLQItem;
+
 import java.lang.*;
 
 /**
  * Created by Timon on 17.02.2015.
  */
-public abstract class AExpression implements Comparable{
-    protected static final int ADD = -4;
-    protected static final int SUB = -3;
-    protected static final int MUL = -2;
-    protected static final int DIV = -1;
-    protected static final int AND = 0;
-    protected static final int OR = 1;
-    protected static final int EQUALS = 2;
-    protected static final int NOT_EQUALS = 3;
-    protected static final int GREATER_THAN = 4;
-    protected static final int GREATER_EQUALS = 5;
-    protected static final int LESS_EQUALS = 6;
-    protected static final int LESS_THAN = 7;
-    protected static final int NUMBER = 8;
-    protected static final int DATE = 9;
-    protected static final int STRING = 10;
-    protected static final int IDENTIFIER = 11;
-    protected static final int BOOLEAN = 12;
+public abstract class AExpression implements Comparable, IKLQItem{
+    public static final int ADD = -4;
+    public static final int SUB = -3;
+    public static final int MUL = -2;
+    public static final int DIV = -1;
+    public static final int AND = 0;
+    public static final int OR = 1;
+    public static final int EQUALS = 2;
+    public static final int NOT_EQUALS = 3;
+    public static final int GREATER_THAN = 4;
+    public static final int GREATER_EQUALS = 5;
+    public static final int LESS_EQUALS = 6;
+    public static final int LESS_THAN = 7;
+    public static final int NUMBER = 8;
+    public static final int DATE = 9;
+    public static final int STRING = 10;
+    public static final int IDENTIFIER = 11;
+    public static final int BOOLEAN = 12;
 
-    protected static final int UNCOMPARABLE = 42;
+    public static final int UNCOMPARABLE = Integer.MAX_VALUE;
 
     protected final AExpression left;
     protected final AExpression right;
@@ -49,5 +51,18 @@ public abstract class AExpression implements Comparable{
     @Override
     public int compareTo(Object o) {
         return UNCOMPARABLE;
+    }
+
+    @Override
+    public String toString() {
+        return left + " - " + this.getClass().getSimpleName() + " - " + right;
+    }
+
+    public AExpression getLeft() {
+        return left;
+    }
+
+    public AExpression getRight() {
+        return right;
     }
 }

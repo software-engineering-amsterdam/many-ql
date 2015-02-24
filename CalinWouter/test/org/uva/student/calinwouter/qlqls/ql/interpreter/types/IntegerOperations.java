@@ -1,6 +1,7 @@
-package org.uva.student.calinwouter.qlqls.ql.types;
+package org.uva.student.calinwouter.qlqls.ql.interpreter.types;
 
 import org.junit.Test;
+import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
 
 import static org.junit.Assert.*;
 

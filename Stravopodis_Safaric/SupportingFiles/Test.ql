@@ -2,28 +2,28 @@
 form HouseSelling {
     
     question hasSoldHouse typeof boolean {
-    	decimal hasSoldHouse = 250000;
         hasSoldHouse = "Did you sell a house in 2015?";
         hasSoldHouse = false;
     }
-    question hasSoldHouse typeof decimal {
+    question hasRentHouse typeof decimal {
         hasRentHouse = "Did you bought a house in 2015?";
-        hasRentHouse = false;
+        hasRentHouse = 9482.23 + 2323.23 - 2323;
     }
     question hasMaintLoan typeof boolean {
-    	hasMaintLoan = true;
+    	hasMaintLoan = true;    	
+    	hasMaintLoan = "Did you sell a house in 2014 ?";
     }	
-    
-    if ( hasSoldHouse == false){
+
+    if (true == true){
     	question sellingPrice typeof decimal {
     		sellingPrice = "What was the selling price?";
     	}
     	question privateDebt typeof decimal {
-    		privateDebt = "Private debts for the sold house: ";
+    		privateDebt = "Private debt value:";
     	}
     	question valueResidue typeof decimal {
     		valueResidue = "Value residue:";
-    		valueResidue = 1000 - (282 / 100) * 23;
+    		//valueResidue = sellingPrice - privateDebt;
     	}
     }
 }

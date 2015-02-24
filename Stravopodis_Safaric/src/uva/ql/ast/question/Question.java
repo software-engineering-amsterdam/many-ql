@@ -6,7 +6,7 @@ import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.StatementVisitorInterface;
 
 public class Question extends Statement {
 	
@@ -37,9 +37,8 @@ public class Question extends Statement {
 	public String toString(){
 		return "Question(" + this.identifier.evaluate().getValue().toString() + ","  + this.type.toString() + ", Statement(" + this.statement.toString() + "))";
 	}
-
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(StatementVisitorInterface<T> visitor) {
 		return visitor.visitQuestion(this);
 	}
 }

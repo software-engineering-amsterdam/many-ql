@@ -11,4 +11,6 @@ public abstract class Statement extends AstNode
     {
         super(lineNumber);
     }
+
+    public abstract <T> T accept(StatVisitor<T> visitor);
 }

@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 )
 
 func (exec Execute) resolveBothMathNodes(n ast.DoubleTermNode) (left,
@@ -60,17 +61,7 @@ func (exec *Execute) resolveTermNode(t interface{}) interface{} {
 			return nil
 		}
 
-		switch q.(*ast.QuestionNode).Type() {
-		case ast.BoolQuestionType:
-			content := q.(*ast.QuestionNode).Content().(*ast.BoolQuestion)
-			return content.Value()
-		case ast.NumericQuestionType:
-			content := q.(*ast.QuestionNode).Content().(*ast.NumericQuestion)
-			return content.Value()
-		case ast.StringQuestionType:
-			content := q.(*ast.QuestionNode).Content().(*ast.StringQuestion)
-			return content.String()
-		}
+		return q.(symboltable.ValueLoader).Value()
 	}
 	switch t.(*ast.TermNode).Type() {
 	case ast.NumericConstantNodeType:

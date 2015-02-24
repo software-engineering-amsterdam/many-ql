@@ -3,14 +3,15 @@ package org.fugazi.ast.expression.comparison;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.BoolType;
+import org.fugazi.ast.type.Type;
 
 public class EQ extends Comparison {
 
-    private final Class returnedType;
-
+    public EQ(Expression _left, Expression _right) {
+        super(_left, _right);
+    }
     public EQ(Expression _left, Expression _right, int _lineNum) {
         super(_left, _right, _lineNum);
-        this.returnedType = BoolType.class;
     }
 
     @Override
@@ -19,8 +20,8 @@ public class EQ extends Comparison {
     }
 
     @Override
-    public Class getReturnedType() {
-        return this.returnedType;
+    public Type getReturnedType() {
+        return new BoolType();
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

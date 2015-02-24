@@ -19,11 +19,11 @@ public class Equals extends AExpression {
 
         if (left.getType() == right.getType()){
             int comp = left.compareTo(right);
-            if (comp != AExpression.UNCOMPARABLE && comp == 0)
-                return Boolean.TRUE;
-            else
-                return Boolean.FALSE;
+            if (comp == 0)
+                return Boolean.getTrue();
+            else if (comp != AExpression.UNCOMPARABLE)
+                return Boolean.getFalse();
         }
-        return null;
+        return new Equals(left, right);
     }
 }
