@@ -108,9 +108,11 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     {
         this.questionDependencies.addQuestion(q);
         this.labels.registerLabel(q);
+        Type defined = q.getType();
 
         this.setScopeForExpr(q);
         Type assigned = q.getDefaultValue().accept(this);
+        assigned = assigned.promoteTo(defined);
         this.resetScopeForExpr();
 
         if (assigned.isUndef())
@@ -118,7 +120,6 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return false;
         }
 
-        Type defined = q.getType();
         if (!(defined.equals(assigned)))
         {
             this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(),
@@ -281,12 +282,15 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return undefinedType;
         }
 
-        if (!(this.areChildTypesConsistent(e, left, right)))
+        Type leftPromoted = left.promoteTo(right);
+        Type rightPromoted = right.promoteTo(left);
+
+        if (!(this.areChildTypesConsistent(e, leftPromoted, rightPromoted)))
         {
             return undefinedType;
         }
 
-        return this.computeType(e, left);
+        return this.computeType(e, leftPromoted);
     }
 
     // 1. Check if the operand is defined
@@ -334,13 +338,13 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         return returnType;
     }
 
-    private boolean areChildTypesConsistent(AstNode n, Type leftChildType, Type rightChildType)
+    private boolean areChildTypesConsistent(AstNode n, Type left, Type right)
     {
-        boolean consistent = leftChildType.equals(rightChildType);
+        boolean consistent = left.equals(right);
         if (!(consistent))
         {
             this.messages.add(Error.typeMismatch(
-                    n.getClass().getSimpleName(), leftChildType, rightChildType, n.getLineNumber()));
+                    n.getClass().getSimpleName(), left, right, n.getLineNumber()));
         }
 
         return consistent;
