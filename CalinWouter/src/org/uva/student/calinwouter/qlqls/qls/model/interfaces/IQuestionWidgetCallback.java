@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.interfaces;
 
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 public interface IQuestionWidgetCallback {
 

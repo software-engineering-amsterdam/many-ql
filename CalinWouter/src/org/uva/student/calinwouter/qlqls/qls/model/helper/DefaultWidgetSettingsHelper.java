@@ -4,8 +4,8 @@ import org.uva.student.calinwouter.qlqls.ql.types.TBool;
 import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
 import org.uva.student.calinwouter.qlqls.ql.types.TString;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Checkbox;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Textbox;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Checkbox;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Textbox;
 
 import java.util.HashMap;
 

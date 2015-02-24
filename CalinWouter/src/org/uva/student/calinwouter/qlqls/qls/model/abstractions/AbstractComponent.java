@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
 import org.uva.student.calinwouter.qlqls.qls.model.TypeToWidgetSettingsModel;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Default;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Default;
 
 public abstract class AbstractComponent<T> extends AbstractModel<T> {
     protected TypeToWidgetSettingsModel typeToWidgetSettingsModel;
@@ -17,8 +17,6 @@ public abstract class AbstractComponent<T> extends AbstractModel<T> {
     }
 
     public AbstractComponent<?> getParent() {
-        if (parent == null)
-            System.out.println("NOOO" + this.getClass());
         return parent;
     }
 

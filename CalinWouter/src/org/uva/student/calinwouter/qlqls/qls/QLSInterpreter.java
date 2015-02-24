@@ -19,7 +19,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     /* This string is used for fetching the IModel objects. */
     private final static String COMPONENTS_PACKAGE_PREFIX =
-            QLSInterpreter.class.getPackage().getName().toString() + ".model.functions.";
+            QLSInterpreter.class.getPackage().getName().toString() + ".model.components.";
 
     private Stack<AbstractPushable<?>> argumentStack = new Stack<AbstractPushable<?>>();
 
@@ -34,7 +34,6 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     private AbstractPushable<?> pop() {
         AbstractPushable<?> a = argumentStack.pop();
-        System.out.println(a.getClass() + " , " + argumentStack.size());
         return a;
     }
 
@@ -87,11 +86,6 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void defaultOut(Node node) {
-        System.out.println("Ignoring: " + node.getClass());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Default;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Default;
 
 import java.util.HashMap;
 import java.util.LinkedList;

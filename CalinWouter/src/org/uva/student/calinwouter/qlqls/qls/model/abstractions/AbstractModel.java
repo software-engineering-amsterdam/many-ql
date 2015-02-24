@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.*;
+import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
 import java.util.HashMap;
@@ -26,7 +26,6 @@ public abstract class AbstractModel<T> implements IModel {
 
     @Override
     public void caseString(String string) {
-        System.out.println(this.getClass() + "/ " + string);
         throw new UnsupportedOperationException();
     }
 

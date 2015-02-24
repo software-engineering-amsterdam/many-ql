@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
 import org.uva.student.calinwouter.qlqls.ql.types.TString;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

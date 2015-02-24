@@ -2,8 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets;
 
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.computedvalue.LabelWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
+import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IComputedValueWidgetCallback;
 
 import java.awt.*;
