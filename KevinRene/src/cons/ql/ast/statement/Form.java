@@ -2,6 +2,8 @@ package cons.ql.ast.statement;
 
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.Identifier;
+import cons.ql.ast.expression.QLType;
+import cons.ql.ast.expression.type.QLForm;
 import cons.ql.ast.visitor.Visitor;
 
 public class Form extends Statement {
@@ -11,13 +13,14 @@ public class Form extends Statement {
 	public Form(Identifier identifier, Block block) {
 		this.identifier = identifier;
 		this.block = block;
-		
-		// TODO: Still needed?
-		// TypeRegister.getInstance().store(this.identifier, this);
 	}
 	
 	public Identifier getIdentifier() {
 		return this.identifier;
+	}
+	
+	public QLType getType() {
+		return new QLForm();
 	}
 	
 	public Block getBlock() {

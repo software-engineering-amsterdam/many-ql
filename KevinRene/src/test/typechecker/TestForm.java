@@ -40,13 +40,11 @@ public class TestForm {
      
      private Parser formParser = new Parser();
      private TypeRegister register = new TypeRegister();
-     private TypeChecker typeChecker = new TypeChecker(register);
 
      public TestForm(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
 
          register = new TypeRegister();
-         typeChecker = new TypeChecker(register);
     	 
     	 inputNode = formParser.parse(input);
     	 this.expected = expected;
@@ -61,6 +59,6 @@ public class TestForm {
      
      @Test
      public void testForm() {
-    	 assertEquals(expected, typeChecker.check(inputNode));
+    	 assertEquals(expected, TypeChecker.check(inputNode, register));
      }
 }

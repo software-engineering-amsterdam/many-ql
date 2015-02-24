@@ -25,6 +25,13 @@ public class TestIdentifier {
     			 		+ "houseValue : money { \"question text\" } "
     			 		+ "leftOver : money { \"Money left: \" assign(houseValue - 1000) }"
     			 		+ "}", true },
+		 		 { "form formname {"
+    			 		+ "if(houseValue) {"
+		 				+ "randomQuestion : money { \"question text\" } "
+    			 		+ "}"
+	    		     	+ "houseValue : money { \"question text\" } "
+	    		     	+ "leftOver : money { \"Money left: \" assign(carValue - 1000) }"
+	    		     	+ "}", false },
     			 { "form formname {"
     		     		+ "houseValue : money { \"question text\" } "
     		     		+ "leftOver : money { \"Money left: \" assign(carValue - 1000) }"
@@ -38,13 +45,11 @@ public class TestIdentifier {
      
      private Parser formParser = new Parser();
      private TypeRegister register = new TypeRegister();
-     private TypeChecker typeChecker = new TypeChecker(register);
 
      public TestIdentifier(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
 
          register = new TypeRegister();
-         typeChecker = new TypeChecker(register);
     	 
     	 this.inputNode = formParser.parse(input);
     	 this.expected = expected;
@@ -59,6 +64,6 @@ public class TestIdentifier {
      
      @Test
      public void testIdentifier() {
-    	 assertEquals(expected, typeChecker.check(this.inputNode));
+    	 assertEquals(expected, TypeChecker.check(inputNode, register));
      }
 }

@@ -36,7 +36,6 @@ public class TestRelational {
      
      private Parser formParser = new Parser();
      private TypeRegister register = new TypeRegister();
-     private TypeChecker typeChecker = new TypeChecker(register);
 
      public TestRelational(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
@@ -54,6 +53,6 @@ public class TestRelational {
      
      @Test
      public void testRelational() {
-    	 assertEquals(expected, typeChecker.check(inputNode));
+    	 assertEquals(expected, TypeChecker.check(inputNode, register));
      }
 }

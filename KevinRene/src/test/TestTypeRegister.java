@@ -37,8 +37,10 @@ public class TestTypeRegister {
 		
 		Identifier myIdentifier = new Identifier("aString");
 		
-		assertEquals("Should return the error type", "QLError",
-				register.resolve(myIdentifier).toString());
+		
+		System.out.println(register.resolve(myIdentifier));
+		assertEquals("Should return null when the identifier is not registered"
+				, null, register.resolve(myIdentifier));
 	}
 	
 	@Test

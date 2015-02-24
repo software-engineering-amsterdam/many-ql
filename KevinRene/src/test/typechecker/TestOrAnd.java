@@ -32,13 +32,11 @@ public class TestOrAnd {
      
      private Parser formParser = new Parser();
      private TypeRegister register = new TypeRegister();
-     private TypeChecker typeChecker = new TypeChecker(register);
 
      public TestOrAnd(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
 
          register = new TypeRegister();
-         typeChecker = new TypeChecker(register);
     	 
     	 inputNode = formParser.parse(input);
     	 this.expected = expected;
@@ -53,6 +51,6 @@ public class TestOrAnd {
      
      @Test
      public void testOrAnd() {
-    	 assertEquals(expected, typeChecker.check(inputNode));
+    	 assertEquals(expected, TypeChecker.check(inputNode, register));
      }
 }
