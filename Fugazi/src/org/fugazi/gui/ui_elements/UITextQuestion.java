@@ -4,6 +4,7 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.evaluator.expression_value.IntValue;
 import org.fugazi.evaluator.expression_value.StringValue;
+import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.TextBox;
 
 import javax.swing.*;
@@ -13,8 +14,8 @@ public class UITextQuestion extends UIQuestion {
 
     private String textValue;
 
-    public UITextQuestion(Question _question) {
-        super(_question);
+    public UITextQuestion(UIMediator _med, Question _question) {
+        super(_med, _question);
         this.textValue = "";
 
         // TODO: get it from a GUI Designer
@@ -28,8 +29,7 @@ public class UITextQuestion extends UIQuestion {
         StringValue exprValue = (StringValue) _value;
         this.textValue = exprValue.getValue();
 
-        this.setChanged();
-        this.notifyObservers();
+        this.mediator.send("String", this);
     }
 
     private void itemChanged(ActionEvent e) {

@@ -1,16 +1,16 @@
 package org.fugazi.gui.ui_elements;
 
 import org.fugazi.evaluator.expression_value.ExpressionValue;
+import org.fugazi.gui.UIMediator;
+import org.fugazi.gui.mediator.Colleague;
 import org.fugazi.gui.widgets.IWidget;
 
-import java.util.Observable;
-
-public abstract class UIElement extends Observable {
+public abstract class UIElement extends Colleague {
 
     protected IWidget widget;
 
-    public UIElement() {
-
+    public UIElement(UIMediator _med) {
+        super(_med);
     }
 
     public abstract void setState(ExpressionValue _value);
@@ -18,5 +18,10 @@ public abstract class UIElement extends Observable {
 
     public IWidget getWidget() {
         return this.widget;
+    }
+
+    @Override
+    public void receive(String message) {
+        // todo: YANGI?
     }
 }

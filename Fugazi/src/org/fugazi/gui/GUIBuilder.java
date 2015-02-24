@@ -14,13 +14,13 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
     private final Form astForm;
     private final UIForm uiForm;
     private final Evaluator evaluator;
-    private final ElementsObserver observer;
+    private final UIMediator mediator;
 
     public GUIBuilder(Form _astForm, Evaluator _evaluator) {
         this.astForm = _astForm;
         this.evaluator = _evaluator;
         this.uiForm = new UIForm(this.astForm.getName());
-        this.observer = new ElementsObserver();
+        this.mediator = new UIMediator();
     }
     
     public void renderGUI() {
@@ -35,7 +35,6 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
     }
 
     private void addQuestionToTheForm(UIQuestion _quest) {
-        _quest.addObserver(this.observer);
         this.uiForm.addElement(_quest);
     }
 
@@ -44,7 +43,7 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
      */
     public UIElement visitQuestion(Question _question) {
 
-        UITypeVisitor typeVisitor = new UITypeVisitor(_question);
+        UITypeVisitor typeVisitor = new UITypeVisitor(mediator, _question);
         UIQuestion uiQuestion = _question.getType().accept(typeVisitor);
 
         addQuestionToTheForm(uiQuestion);
@@ -57,7 +56,7 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
     }
 
     public UIElement visitComputedQuestion(ComputedQuestion _assignQuest) {
-        UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(_assignQuest);
+        UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(mediator, _assignQuest);
         addQuestionToTheForm(uiComputedQuestion);
         return uiComputedQuestion;
     }

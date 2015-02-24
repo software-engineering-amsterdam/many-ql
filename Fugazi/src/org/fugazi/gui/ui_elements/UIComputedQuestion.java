@@ -3,6 +3,7 @@ package org.fugazi.gui.ui_elements;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.evaluator.expression_value.IntValue;
+import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.TextBox;
 
 import javax.swing.*;
@@ -12,8 +13,8 @@ public class UIComputedQuestion extends UIQuestion {
 
     private String textValue;
 
-    public UIComputedQuestion(Question _question) {
-        super(_question);
+    public UIComputedQuestion(UIMediator _med, Question _question) {
+        super(_med, _question);
         this.textValue = "";
 
         // TODO: get it from a GUI Designer
@@ -27,8 +28,7 @@ public class UIComputedQuestion extends UIQuestion {
         IntValue exprValue = (IntValue) _value;
         this.textValue = Integer.toString(exprValue.getValue());
 
-        this.setChanged();
-        this.notifyObservers();
+        this.mediator.send("Computed", this);
     }
 
     private void itemChanged(ActionEvent e) {
