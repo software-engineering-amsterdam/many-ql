@@ -11,6 +11,14 @@ import java.util.List;
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractModel<T> implements IModel {
 
+    public List<String> getFieldUses() {
+        return new LinkedList<String>();
+    }
+
+    public List<String> getIllegalWidgetUsages() {
+        return new LinkedList<String>();
+    }
+
     @Override
     public void caseHashMap(HashMap<Object, Object> hashMap) {
         throw new UnsupportedOperationException();
@@ -69,6 +77,11 @@ public abstract class AbstractModel<T> implements IModel {
 
     @Override
     public void caseSpinbox(Spinbox radio) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void caseSlider(Slider radio) {
         throw new UnsupportedOperationException();
     }
 

@@ -24,6 +24,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
     @Override
     public void caseStyleSheet(StyleSheet styleSheet) {
         final JFrame frame = new JFrame(styleSheet.getStyleSheetName());
+        frame.setPreferredSize(new Dimension(800, 600));
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());

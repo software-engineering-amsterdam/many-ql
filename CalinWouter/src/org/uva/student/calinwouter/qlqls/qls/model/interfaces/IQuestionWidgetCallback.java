@@ -12,6 +12,8 @@ public interface IQuestionWidgetCallback {
 
     public void caseSpinboxWidget(Question question);
 
+    public void caseSliderWidget(Question question);
+
     public void caseTextboxWidget(Question question);
 
 }
