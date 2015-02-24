@@ -3,9 +3,9 @@ package ast.expression.binary;
 import ast.expression.Expression;
 import ast.visitor.Visitor;
 
-public class Plus extends Binary {
+public class Equal extends Binary {
 
-	public Plus(Expression left, Expression right) {
+	public Equal(Expression left, Expression right) {
 		super(left, right);
 	}
 
@@ -16,7 +16,7 @@ public class Plus extends Binary {
 	
 	@Override
 	public String toString() {
-		return this.left.toString() + " + " + this.right.toString();
+		return this.left.toString() + " == " + this.right.toString();
 	}
-
+	
 }

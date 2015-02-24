@@ -29,8 +29,8 @@ questionLabel: StringLiteral;
 
 expression
 	: NOT 			expression					#ExprNot
-	| MINUS 		expression					#ExprNegative
 	| PLUS			expression					#ExprPositive
+	| MINUS 		expression					#ExprNegative
 	| expression 	PLUS 			expression	#ExprPlus
 	| expression 	MINUS 			expression	#ExprMinus
 	| expression 	MULTIPLY 		expression	#ExprMultiply
@@ -48,10 +48,10 @@ expression
 	;
 
 literal
- 	 : Identifier			#Id
-	 | IntegerLiteral		#Int
- 	 | BooleanLiteral		#Bool
- 	 | StringLiteral		#Str
+ 	 : Identifier			#LiteralId
+	 | IntegerLiteral		#LiteralInt
+ 	 | BooleanLiteral		#LiteralBool
+ 	 | StringLiteral		#LiteralStr
 	 ;
 
 /* LEXER RULES */

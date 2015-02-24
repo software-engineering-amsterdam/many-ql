@@ -32,7 +32,6 @@ public class Int extends Value{
 //Negative
 	@Override
 	public Value negative() {
-		// TODO Auto-generated method stub
 		return new Int(-getValue());
 	}
 	

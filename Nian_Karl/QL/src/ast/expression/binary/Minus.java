@@ -3,10 +3,10 @@ package ast.expression.binary;
 import ast.expression.Expression;
 import ast.visitor.Visitor;
 
-public class Plus extends Binary {
+public class Minus extends Binary {
 
-	public Plus(Expression left, Expression right) {
-		super(left, right);
+	public Minus(Expression left, Expression right) {
+			super(left, right);
 	}
 
 	@Override
@@ -16,7 +16,7 @@ public class Plus extends Binary {
 	
 	@Override
 	public String toString() {
-		return this.left.toString() + " + " + this.right.toString();
+		return this.left.toString() + " - " + this.right.toString();
 	}
 
 }

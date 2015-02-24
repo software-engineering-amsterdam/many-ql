@@ -3,12 +3,12 @@ package ast.expression.binary;
 import ast.expression.Expression;
 import ast.visitor.Visitor;
 
-public class Plus extends Binary {
+public class Or extends Binary {
 
-	public Plus(Expression left, Expression right) {
+	public Or(Expression left, Expression right) {
 		super(left, right);
 	}
-
+	
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
@@ -16,7 +16,7 @@ public class Plus extends Binary {
 	
 	@Override
 	public String toString() {
-		return this.left.toString() + " + " + this.right.toString();
+		return this.left.toString() + " || " + this.right.toString();
 	}
 
 }

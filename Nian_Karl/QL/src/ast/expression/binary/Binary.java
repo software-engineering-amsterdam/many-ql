@@ -2,7 +2,7 @@ package ast.expression.binary;
 
 import ast.expression.Expression;
 
-public abstract class Binary extends Expression{
+public abstract class Binary extends Expression {
 	
 	protected final Expression left;
 	protected final Expression right;

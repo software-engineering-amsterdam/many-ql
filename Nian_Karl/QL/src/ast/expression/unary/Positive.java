@@ -1,12 +1,12 @@
-package ast.expression.binary;
+package ast.expression.unary;
 
 import ast.expression.Expression;
 import ast.visitor.Visitor;
 
-public class Plus extends Binary {
+public class Positive extends Unary {
 
-	public Plus(Expression left, Expression right) {
-		super(left, right);
+	public Positive(Expression expr) {
+		super(expr);
 	}
 
 	@Override
@@ -16,7 +16,7 @@ public class Plus extends Binary {
 	
 	@Override
 	public String toString() {
-		return this.left.toString() + " + " + this.right.toString();
+		return "+" + this.expr.toString();
 	}
-
+	
 }
