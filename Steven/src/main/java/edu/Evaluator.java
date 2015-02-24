@@ -12,6 +12,8 @@ import edu.parser.nodes.type.Boolean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 /**
  * Created by Steven Kok on 23/02/2015.
@@ -19,6 +21,7 @@ import java.util.List;
 public class Evaluator extends VisitorImpl {
 
     private final List<Statement> questions = new ArrayList<>();
+    Logger logger = Logger.getLogger(Evaluator.class.getName());
 
     @Override
     public AbstractNode visit(Form form) {
@@ -28,8 +31,6 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(IfStatement ifStatement) {
-
-
         if (isExpressionTrue(ifStatement)) {
             visitStatements(ifStatement.getStatements());
         }
@@ -47,8 +48,8 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(And and) {
-        Boolean left = (Boolean) and.getLeft();
-        Boolean right = (Boolean) and.getRight();
+        Boolean left = (Boolean) and.getLeft().accept(this);
+        Boolean right = (Boolean) and.getRight().accept(this);
         return new Boolean(left.isTrue() && right.isTrue());
     }
 
@@ -70,7 +71,18 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Identifier identifier) {
-        return null;
+        Optional<Question> foundQuestion = questions
+                .stream()
+                .map(question -> (Question) question)
+                .filter(q -> q.getIdentifier().equals(identifier))
+                .findFirst();
+
+        if (foundQuestion.isPresent()) {
+            return new Boolean(foundQuestion.get().isEnabled());
+        } else {
+            logger.warning("Reference to undefined question: " + identifier);
+            return new Boolean(false);
+        }
     }
 
     @Override
@@ -115,4 +127,5 @@ public class Evaluator extends VisitorImpl {
         }
         return super.visit(question);
     }
+
 }
