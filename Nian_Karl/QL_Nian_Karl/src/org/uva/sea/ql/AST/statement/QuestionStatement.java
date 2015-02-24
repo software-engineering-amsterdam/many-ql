@@ -1,11 +1,7 @@
 package org.uva.sea.ql.AST.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.uva.sea.ql.AST.Node;
 import org.uva.sea.ql.AST.QuestionType;
-import org.uva.sea.ql.AST.Visitor;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 
 public class QuestionStatement extends Statement {
@@ -37,6 +33,11 @@ public class QuestionStatement extends Statement {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-		// probably return questionType identifier quetionLabel
+	}
+	@Override
+	public String toString() {
+		return "questionType = " + questionType
+				+"\n identifier =  " + identifier
+				+"\n questionLabel =  " + questionLabel;
 	}
 }

@@ -20,12 +20,9 @@ quest 	: 'question' Identifier 'typeof' primitiveType '{' stms+=stat*'}';
 
 stat	: expr
 		| quest
-	 	| decl 
 	 	| ifStatement								
 	 	| assign
 	 	;
-
-decl		: primitiveType Identifier '='? expr? ';';
 
 assign		: Identifier '=' exp = expr ';' 	# AssignExpr			
 			| Identifier '=' str = STRING ';' 	# AssignStr; 				

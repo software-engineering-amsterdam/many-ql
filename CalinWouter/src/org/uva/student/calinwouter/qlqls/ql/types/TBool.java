@@ -1,5 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
+
 public class TBool extends TypeModel<Boolean> {
 
     @Override
@@ -32,6 +34,11 @@ public class TBool extends TypeModel<Boolean> {
     @Override
     public Class<Boolean> getTypeModelClass() {
         return Boolean.class;
+    }
+
+    @Override
+    public void apply(TypeCallback typeCallback) {
+        typeCallback.usesBoolean();
     }
 
     public TBool(Boolean value) {

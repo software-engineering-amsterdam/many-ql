@@ -24,9 +24,15 @@ import ast.unary.PlusExpression;
 
 public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 
+	private final ValueRepository valueRepository;
+	
+	public EvaluatorVisitor(ValueRepository valueRepository) {
+		this.valueRepository = valueRepository;
+	}
+	
 	@Override
 	public Value visit(BracketsExpression expr) {
-		// TODO Auto-generated method stub
+		// TODO Get rid of this...
 		return null;
 	}
 
@@ -151,27 +157,24 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 
 	@Override
 	public Value visit(StringVariable string) {
-		// TODO Auto-generated method stub
+		// TODO create class for string values.
 		return null;
 	}
 
 	@Override
 	public Value visit(IntegerVariable integer) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntegerValue(integer.getValue());
+	//	return null;
 	}
 
 	@Override
 	public Value visit(BooleanVariable bool) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(bool.getValue());
 	}
 
 	@Override
 	public Value visit(Id identifier) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+		return valueRepository.getVariables(identifier);
+	}	
 }

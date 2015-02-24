@@ -50,9 +50,7 @@ commLoop:
 		case r := <-o.receive:
 			switch r.Type {
 			case event.UpdateQuestion:
-				v := r.Question
-				csv.Write([]string{v.Identifier(), v.Label(),
-					v.Content().String()})
+				csv.Write([]string{r.Identifier, r.Label, r.Value})
 			case event.Flush:
 				csv.Flush()
 				break commLoop

@@ -10,18 +10,18 @@ import lang.ql.semantics.values.DecimalValue;
  */
 public class DecInput extends Input
 {
-    public DecInput(DecimalValue value)
+    public DecInput()
     {
-        super(value);
+        super();
     }
 
-    public DecInput(DecimalValue value, Boolean disabled)
+    public DecInput(Boolean disabled)
     {
-        super(value, disabled);
+        super(disabled);
     }
 
-    public void accept(GuiVisitor visitor)
+    public <T> T accept(GuiVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

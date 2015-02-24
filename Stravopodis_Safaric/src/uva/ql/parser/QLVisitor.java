@@ -43,12 +43,6 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStat(QLParser.StatContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#decl}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDecl(QLParser.DeclContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code AssignExpr}
 	 * labeled alternative in {@link QLParser#assign}.
 	 * @param ctx the parse tree

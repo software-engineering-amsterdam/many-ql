@@ -9,32 +9,36 @@ import org.uva.sea.ql.parser.antlr.QLParser.QuestionContext;
 
 public class QLFactory implements IQLFactory {
 
+	private final String INT = "Int";
+	private final String CUR = "Cur";
+	private final String STR = "Str";
+	private final String BOOL= "Bool";
+
 	@Override
 	public QuestionStatement getQuestion(QuestionContext ctx) {
-		QuestionType type = getQuestionType(ctx.getChild(0)
-				.getText());
-		String questionIdentifier = ctx.getChild(1).getText();
+		QuestionType type = getQuestionType(ctx.questionType().getText());
+		String questionIdentifier = ctx.questionName().getText();
 		// Escape the "" in the beginning of the questionlabel.
-		String questionLabel = ctx.getChild(1).getText();
+		String questionLabel = ctx.questionLabel().getText();
 		return new QuestionStatement(type, questionIdentifier, questionLabel);
 	}
 
 	@Override
 	public QuestionType getQuestionType(String s) {
 		switch (s) {
-		case "Int":
+		case INT:
 			return QuestionType.INT;
-		case "Cur":
+		case CUR:
 			return QuestionType.CUR;
-		case "Str":
+		case STR:
 			return QuestionType.STR;
-		case "Bool":
+		case BOOL:
 			return QuestionType.BOOL;
 		default:
 			return QuestionType.NO_TYPE;
 		}
 	}
-	
+
 	public boolean stringToBoolean(String s) {
 		if (s.equals("true")) {
 			return true;
@@ -44,19 +48,18 @@ public class QLFactory implements IQLFactory {
 	}
 
 	@Override
-	public Expression getExpression(ExpressionContext expr){
-		
+	public Expression getExpression(ExpressionContext ctx) {
+
 		return null;
 	}
-	
-	public Operator getOperator(String s){
+
+	public Operator getOperator(String s) {
 		for (Operator operator : Operator.values()) {
 			if (operator.getOperatorString().equals(s)) {
 				return operator;
 			}
 		}
-		return null; 
+		return null;
 	}
-	
-	
+
 }

@@ -5,7 +5,6 @@ package graphic
 import (
 	"sync"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"gopkg.in/qml.v1"
@@ -56,7 +55,12 @@ func GUI(appName string) frontend.Inputer {
 }
 
 // DrawQuestion adds a new question into the GUI form stack
-func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible event.Visibility) {
+func (g *Gui) DrawQuestion(
+	identifier,
+	label,
+	typ string,
+	visible event.Visibility,
+) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
@@ -65,31 +69,33 @@ func (g *Gui) DrawQuestion(q *ast.QuestionNode, visible event.Visibility) {
 		invisible = true
 	}
 	m := &render{
-		drawQuestion,
-		q.Identifier(),
-		q.Label(),
-		q.Type(),
-		q.Content(),
-		invisible,
+		action:     drawQuestion,
+		identifier: identifier,
+		label:      label,
+		fieldType:  typ,
+		invisible:  invisible,
 	}
 	g.drawStack = append(g.drawStack, *m)
-	g.sweepStack[q.Identifier()] = true
+	g.sweepStack[identifier] = true
 }
 
 // UpdateQuestion updates an existing question in the GUI form stack
-func (g *Gui) UpdateQuestion(q *ast.QuestionNode) {
+func (g *Gui) UpdateQuestion(
+	identifier,
+	fieldType string,
+	content interface{},
+) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
 	m := &render{
 		action:     updateQuestion,
-		identifier: q.Identifier(),
-		label:      q.Label(),
-		fieldType:  q.Type(),
-		content:    q.Content(),
+		identifier: identifier,
+		fieldType:  fieldType,
+		content:    content,
 	}
 	g.renderStack = append(g.renderStack, *m)
-	g.sweepStack[q.Identifier()] = true
+	g.sweepStack[identifier] = true
 }
 
 // Flush transfers form stack into the screen.
@@ -158,13 +164,12 @@ func (g *Gui) renderLoop() {
 					event.fieldType,
 					event.identifier,
 					event.label,
-					event.content,
 					event.invisible,
 				)
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier, event.content)
+				g.updateQuestion(event.identifier, event.fieldType, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()

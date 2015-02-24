@@ -3,9 +3,9 @@ package org.uva.sea.ql.AST.expression.commonexpression;
 import org.uva.sea.ql.AST.expression.DataTypeExpression;
 import org.uva.sea.ql.AST.literal.AbstractLiteral;
 import org.uva.sea.ql.AST.literal.NumberLiteral;
-import org.uva.sea.ql.AST.value.IntegerValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
-public class PositiveExpression<T> extends DataTypeExpression{
+public class PositiveExpression extends DataTypeExpression{
 	
 	private NumberLiteral numberLiteral;
 	public PositiveExpression(AbstractLiteral literal) {
@@ -14,8 +14,8 @@ public class PositiveExpression<T> extends DataTypeExpression{
 	}
 
 	@Override
-	public IntegerValue interpretExpression() {
-		IntegerValue intValue = numberLiteral.interpretExpression();
-		return new IntegerValue(Math.abs(intValue.getValue()));
+	public void accept(Visitor visitor) {
+		visitor.visit(this);		
 	}
+	
 }

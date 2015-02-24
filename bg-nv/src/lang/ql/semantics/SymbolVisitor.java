@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by bore on 13/02/15.
  */
-public class SymbolVisitor implements Visitor
+public class SymbolVisitor implements Visitor<Void>
 {
     private SymbolTable symbolTable;
     private List<Message> errors;
@@ -33,35 +33,43 @@ public class SymbolVisitor implements Visitor
     }
 
     @Override
-    public void visit(Form form)
+    public Void visit(Form form)
     {
         for (Statement statement : form.getBody())
         {
             statement.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(IfCondition condition)
+    public Void visit(IfCondition condition)
     {
         for (Statement statement : condition.getBody())
         {
             statement.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(Question q)
+    public Void visit(Question q)
     {
         this.checkForError(q);
         this.symbolTable.define(q);
+
+        return null;
     }
 
     @Override
-    public void visit(CalculatedQuestion q)
+    public Void visit(CalculatedQuestion q)
     {
         this.checkForError(q);
         this.symbolTable.define(q);
+
+        return null;
     }
 
     private void checkForError(Question q)
@@ -86,122 +94,122 @@ public class SymbolVisitor implements Visitor
     }
 
     @Override
-    public void visit(BoolExpr e)
+    public Void visit(BoolExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(IntExpr e)
+    public Void visit(IntExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(DecExpr e)
+    public Void visit(DecExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(StrExpr e)
+    public Void visit(StrExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Indent e)
+    public Void visit(Ident e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Neg e)
+    public Void visit(Neg e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Pos e)
+    public Void visit(Pos e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Not e)
+    public Void visit(Not e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Add e)
+    public Void visit(Add e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Sub e)
+    public Void visit(Sub e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Mul e)
+    public Void visit(Mul e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Div e)
+    public Void visit(Div e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Gt e)
+    public Void visit(Gt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Lt e)
+    public Void visit(Lt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(GtEqu e)
+    public Void visit(GtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(LtEqu e)
+    public Void visit(LtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Equ e)
+    public Void visit(Equ e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(NotEqu e)
+    public Void visit(NotEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(And e)
+    public Void visit(And e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Or e)
+    public Void visit(Or e)
     {
-
+        return null;
     }
 }

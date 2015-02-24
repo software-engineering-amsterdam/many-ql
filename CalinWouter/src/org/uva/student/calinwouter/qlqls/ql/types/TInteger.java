@@ -1,5 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
+
 public class TInteger extends TypeModel<Integer> {
 
     @Override
@@ -95,6 +97,11 @@ public class TInteger extends TypeModel<Integer> {
             return new TBool(getValue() >= (Integer) typeModel.getValue());
         }
         return super.gte(typeModel);
+    }
+
+    @Override
+    public void apply(TypeCallback typeCallback) {
+        typeCallback.usesInteger();
     }
 
     public TInteger(Integer value) {

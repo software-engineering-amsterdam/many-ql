@@ -19,9 +19,9 @@ public class Line extends GuiElement
         this.input = input;
     }
 
-    public void accept(GuiVisitor visitor)
+    public <T> T accept(GuiVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 
     public Label getLabel()

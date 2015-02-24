@@ -18,7 +18,7 @@ end
 question
     id : question3
     text : "name?"
-    type : date
+    type : content
     value: 12/01/2012
 end*/question
     id : question1
@@ -30,6 +30,6 @@ end
 question
     id : question2
     text : "When is your birthday?"
-    type : date
+    type : content
     value : 21.12.1990
 end

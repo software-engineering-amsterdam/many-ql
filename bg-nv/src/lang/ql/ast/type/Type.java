@@ -34,5 +34,5 @@ public abstract class Type
         return this.title.hashCode();
     }
 
-    public abstract void accept(TypeVisitor visitor);
+    public abstract <T> T accept(TypeVisitor<T> visitor);
 }
