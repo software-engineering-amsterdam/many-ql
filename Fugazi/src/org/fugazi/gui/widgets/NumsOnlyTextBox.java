@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ItemListener;
 
-public class TextBox implements IWidget<String> {
+public class NumsOnlyTextBox implements IWidget<String> {
 
     private final String label;
 
@@ -12,13 +12,13 @@ public class TextBox implements IWidget<String> {
     private JTextField input;
     private JPanel panel;
 
-    public TextBox(String _label) {
+    public NumsOnlyTextBox(String _label) {
         this.label = _label;
 
         this.panel = new JPanel();
         JLabel label = new JLabel(this.label);
         this.input = new JTextField();
-
+        
         // Todo: Will be taken from a Style Object in QLS.
         input.setColumns(7);
 

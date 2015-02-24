@@ -6,21 +6,17 @@ import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.CheckBox;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class UIBoolQuestion extends UIQuestion {
 
-    private boolean isSelected;
+    private BoolValue value;
 
     public UIBoolQuestion(UIMediator _med, Question _question) {
         super(_med, _question);
-        this.isSelected = false;
 
         // TODO: get it from a GUI Designer
         this.widget = new CheckBox(_question.getLabel());
-
-        // todo: change that.
-        this.widget.addEventListener((ItemListener)event -> itemChanged(event));
+        this.widget.addItemListener(event -> itemChanged(event));
     }
 
     private void itemChanged(ItemEvent e) {
@@ -31,16 +27,13 @@ public class UIBoolQuestion extends UIQuestion {
         }
     }
 
-    @Override
-    public void setState(ExpressionValue _value) {
-        BoolValue exprValue = (BoolValue) _value;
-        this.isSelected = exprValue.getValue();
-
+    public void setState(BoolValue _value) {
+        value = _value;
         this.sendToMediator();
     }
 
     @Override
     public ExpressionValue getState() {
-        return new BoolValue(isSelected);
+        return value;
     }
 }

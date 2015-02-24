@@ -17,7 +17,6 @@ public abstract class UIQuestion extends Colleague {
         this.question = _question;
     }
 
-    public abstract void setState(ExpressionValue _value);
     public abstract ExpressionValue getState();
 
     @Override

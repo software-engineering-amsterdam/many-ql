@@ -6,38 +6,40 @@ import org.fugazi.evaluator.expression_value.StringValue;
 import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.TextBox;
 
-import java.awt.event.ActionEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class UITextQuestion extends UIQuestion {
 
-    private String textValue;
-
+    private String value;
+    
     public UITextQuestion(UIMediator _med, Question _question) {
         super(_med, _question);
-        this.textValue = "";
+        value = "";
 
         // TODO: get it from a GUI Designer
         this.widget = new TextBox(_question.getLabel());
-        //JTextField textField = ((TextBox)this.widget).getTextField();
-        //textField.addActionListener(event -> itemChanged(event)); // lambda
+        
+        this.widget.addDocumentListener(new DocumentListener() {
+            
+            // todo: looks bad...
+            public void insertUpdate(DocumentEvent e) {
+                setState(widget.getValue().toString());
+            }
+            public void removeUpdate(DocumentEvent e) {
+                setState(widget.getValue().toString());
+            }
+            public void changedUpdate(DocumentEvent e) {}
+        });
     }
 
-    @Override
-    public void setState(ExpressionValue _value) {
-        StringValue exprValue = (StringValue) _value;
-        this.textValue = exprValue.getValue();
-
+    public void setState(String _value) {
+        value = _value;
         this.sendToMediator();
-    }
-
-    private void itemChanged(ActionEvent e) {
-
-        //JTextField textField = ((TextBox)this.widget).getTextField();
-        //this.setState(new StringValue(textField.getText()));
     }
 
     @Override
     public ExpressionValue getState() {
-        return new StringValue(textValue);
+        return new StringValue(value);
     }
 }

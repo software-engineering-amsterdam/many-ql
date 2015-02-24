@@ -10,7 +10,7 @@ public class UIMediator implements IMediator {
     private ArrayList<Colleague> colleagues;
 
     public UIMediator() {
-        this.colleagues = new ArrayList<Colleague>();
+        this.colleagues = new ArrayList<>();
     }
 
     public void addColleague(Colleague _colleague) {

@@ -16,7 +16,6 @@ public abstract class Colleague {
     // todo: YANGI? Do I need to send messages from mediator to colleagues?
     public abstract void receive(String message);
 
-    public abstract void setState(ExpressionValue _value);
     public abstract ExpressionValue getState();
     public abstract String getId();
 }

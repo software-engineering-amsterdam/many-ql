@@ -6,8 +6,7 @@ import org.fugazi.evaluator.expression_value.IntValue;
 import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.TextBox;
 
-import java.awt.event.ActionEvent;
-
+//TODO
 public class UIComputedQuestion extends UIQuestion {
 
     private String textValue;
@@ -17,25 +16,9 @@ public class UIComputedQuestion extends UIQuestion {
         this.textValue = "";
 
         // TODO: get it from a GUI Designer
-        this.widget = new TextBox(_question.getLabel());
-        //JTextField textField = ((TextBox)this.widget).getTextField();
-       // textField.addActionListener(event -> itemChanged(event)); // lambda
+        this.widget = new TextBox(_question.getLabel());        
     }
-
-    @Override
-    public void setState(ExpressionValue _value) {
-        IntValue exprValue = (IntValue) _value;
-        this.textValue = Integer.toString(exprValue.getValue());
-
-        this.sendToMediator();
-    }
-
-    private void itemChanged(ActionEvent e) {
-
-        //JTextField textField = ((TextBox)this.widget).getTextField();
-        //this.setState(new IntValue(Integer.parseInt(textField.getText())));
-    }
-
+    
     @Override
     public ExpressionValue getState() {
         return new IntValue(Integer.parseInt(textValue));
