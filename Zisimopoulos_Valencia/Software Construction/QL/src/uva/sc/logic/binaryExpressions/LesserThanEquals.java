@@ -7,4 +7,8 @@ public class LesserThanEquals extends BinaryExpression{
 	public LesserThanEquals(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op <=]";
+	}
 }

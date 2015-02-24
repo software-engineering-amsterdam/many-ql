@@ -7,15 +7,9 @@ end
 class Form < Node 
   attr_reader :name, :statements
 
-  def initialize(name:, statements: [])
+  def initialize(name, statements = [])
     @name = name
     @statements = statements
-  end
-
-  def accept(visitor)
-    statements.map do |statement|
-      statement.accept(visitor)
-    end
   end
 end
 
@@ -25,7 +19,7 @@ end
 class Question < Statement
   attr_reader :description, :variable_name, :type
 
-  def initialize(description:, variable_name:, type:)
+  def initialize(description, variable_name, type)
     @description = description
     @variable_name = variable_name
     @type = type
@@ -33,19 +27,12 @@ class Question < Statement
 end
 
 class Conditional < Statement
-  def accept(visitor)
-    statements.map do |statement|
-      statement.accept(visitor)
-    end
-
-    visitor.visit(self)
-  end
 end
 
 class If < Conditional
   attr_reader :expression, :statements
 
-  def initialize(expression:, statements: [])
+  def initialize(expression, statements = [])
     @expression = expression
     @statements = statements
   end
@@ -62,7 +49,7 @@ end
 class IfElse < Conditional
   attr_reader :expression, :statements_true, :statements_false
 
-  def initialize(expression:, statements_true: [], statements_false: [])
+  def initialize(expression, statements_true = [], statements_false = [])
     @expression = expression
     @statements_true = statements_true
     @statements_false = statements_false

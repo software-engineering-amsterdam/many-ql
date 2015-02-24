@@ -42,7 +42,7 @@ public class LabelWithWidgetWidget implements IWidget {
                     fieldLabel.setText(headlessFormInterpreter.getLabelForField(model.getFieldName()));
                     labelWithWidgetWidget.setVisible(true);
                 } catch (LabelNotAvailableException e) {
-                    fieldLabel.setText("");
+                    fieldLabel.setText("LABEL NOT AVAILABLE: " + model.getFieldName());
                     labelWithWidgetWidget.setVisible(false);
                 }
             }

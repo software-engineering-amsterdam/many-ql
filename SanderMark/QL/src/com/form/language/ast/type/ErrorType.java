@@ -11,6 +11,10 @@ public class ErrorType extends Type {
 	public Boolean isErrorType(){
 		return true;
 	}
-
+	
+	@Override
+	public String toString(){
+		return "Error";
+	}
 
 }

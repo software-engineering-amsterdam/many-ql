@@ -11,6 +11,12 @@ public class UndefinedValue extends Value<Void>
     }
 
     @Override
+    public Boolean isUndefined()
+    {
+        return true;
+    }
+
+    @Override
     public Value add(Value v)
     {
         return new UndefinedValue();
