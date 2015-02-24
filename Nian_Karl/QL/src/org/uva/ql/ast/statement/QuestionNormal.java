@@ -5,13 +5,13 @@ import org.uva.ql.ast.visitor.Visitor;
 
 
 
-public class QuestionStatement extends Statement {
+public class QuestionNormal extends Statement {
 	private final QuestionType questionType;
 	private final String identifier;
 	private final String questionLabel;
 
 
-	public QuestionStatement(QuestionType questionType, String identifier,
+	public QuestionNormal(QuestionType questionType, String identifier,
 			String questionLabel) {
 		super();
 		this.questionType = questionType;

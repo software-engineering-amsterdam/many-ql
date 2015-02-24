@@ -3,16 +3,17 @@ package org.fugazi.ast.expression.numerical;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.IntType;
+import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sub extends Numerical {
-    private final Class returnedType;
-
+    public Sub(Expression _left, Expression _right) {
+        super(_left, _right);
+    }
     public Sub(Expression _left, Expression _right, int _lineNum) {
         super(_left, _right, _lineNum);
-        this.returnedType = IntType.class;
     }
 
     @Override
@@ -21,10 +22,7 @@ public class Sub extends Numerical {
     }
 
     @Override
-    public Class getReturnedType() {
-        return this.returnedType;
-    }
-
+    public Type getReturnedType() { return new IntType(); }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {
         return visitor.visitSub(this);

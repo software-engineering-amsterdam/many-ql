@@ -24,13 +24,13 @@ import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.BlockStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionStatement;
+import org.uva.ql.ast.statement.QuestionNormal;
 
 public interface Visitor<T> {
 	
 	
 	public T visit(IfStatement ifStatement);
-	public T visit(QuestionStatement questionStatement);
+	public T visit(QuestionNormal questionStatement);
 	public T visit(BlockStatement blockStatement);
 	public T visit(Form form);
 	public T visit(Questionnaire questionnaire);

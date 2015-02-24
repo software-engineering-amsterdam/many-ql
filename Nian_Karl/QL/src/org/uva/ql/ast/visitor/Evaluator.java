@@ -24,7 +24,7 @@ import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.BlockStatement;
 import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionStatement;
+import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.value.Bool;
 import org.uva.ql.ast.value.Int;
 import org.uva.ql.ast.value.Str;
@@ -167,7 +167,7 @@ public class Evaluator implements Visitor<Value> {
 	}
 
 	@Override
-	public Value visit(QuestionStatement questionStatement) {
+	public Value visit(QuestionNormal questionStatement) {
 		// TODO Auto-generated method stub
 		return null;
 	}
