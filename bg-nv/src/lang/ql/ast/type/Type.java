@@ -24,6 +24,16 @@ public abstract class Type extends AstNode
         return false;
     }
 
+    public Type promoteTo(Type t)
+    {
+        return this;
+    }
+
+    protected Type promoteInt(IntType t)
+    {
+        return t;
+    }
+
     @Override
     public boolean equals(Object o)
     {

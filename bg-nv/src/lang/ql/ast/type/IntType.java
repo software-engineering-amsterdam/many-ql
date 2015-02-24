@@ -11,6 +11,12 @@ public class IntType extends Type
     }
 
     @Override
+    public Type promoteTo(Type t)
+    {
+        return t.promoteInt(this);
+    }
+
+    @Override
     public <T> T accept(TypeVisitor<T> visitor)
     {
         return visitor.visit(this);

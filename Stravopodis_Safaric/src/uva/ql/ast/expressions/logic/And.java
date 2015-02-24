@@ -5,7 +5,7 @@ import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.value.BooleanValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class And extends BinaryExpressions{
 
@@ -25,7 +25,7 @@ public class And extends BinaryExpressions{
 		return BooleanValue.booleanValueFromExpr(this.getLeftExpr()).and(BooleanValue.booleanValueFromExpr(this.getRightExpr()));
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitAnd(this);
 	}
 }

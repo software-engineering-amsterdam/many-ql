@@ -1,0 +1,43 @@
+package uva.ql.interpreter.gui.elements;
+
+import java.awt.Font;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class UILabel extends JLabel{
+	
+	static final long serialVersionUID = 42L; 
+	private String text;
+	
+	public UILabel(String _text){
+		this.text=_text;
+		this.setLabel();
+	}
+
+	public String getText(){
+		return this.text;
+	}
+	
+	public void setLabel(){
+		this.setText(getText());
+		this.setSize(getTextHeight(this.getText()), 200);	
+	}
+
+	public static int getTextHeight(String text){
+		
+		AffineTransform transform = new AffineTransform();
+		FontRenderContext frc = new FontRenderContext(transform,true,true);
+		Font font = new Font ("Helvetica", Font.PLAIN,12);
+		int textheight = (int)(font.getStringBounds(text, frc)).getHeight();
+		
+		if (textheight < 50) return 50; 
+		return textheight;
+	}	
+}
+	
+	
+	
+

@@ -30,6 +30,9 @@ public class Symbol {
 	public CodeLines getCodeLines(){
 		return this.codeLines;
 	}
+	public Object getContent(){
+		return this.content;
+	}
 	@Override
 	public String toString() {
 		if (this.content != null)

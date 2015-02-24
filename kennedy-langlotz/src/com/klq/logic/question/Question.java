@@ -4,6 +4,7 @@ import com.klq.logic.IKLQItem;
 import com.klq.logic.controller.Store;
 import com.klq.logic.expression.AExpression;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,25 +16,21 @@ public class Question implements IKLQItem {
     private final OptionSet options;
     private final Text text;
     private final List<AExpression> dependencies;
-    private Answer result;
+    private AExpression result;
 
     private Store store;
 
-    public Question (Id id, Type type, OptionSet options, Text text, List<AExpression> dependencies){
+    public Question (Id id, Type type, OptionSet options, Text text){
         this.id = id;
         this.type = type;
         this.options = options;
         this.text = text;
-        this.dependencies = dependencies;
+        dependencies = new ArrayList<AExpression>();
         this.store = null;
     }
 
-    public Question(Id id, Type type, OptionSet options, Text text, List<AExpression> dependencies, Answer result) {
-        this.id = id;
-        this.type = type;
-        this.options = options;
-        this.text = text;
-        this.dependencies = dependencies;
+    public Question(Id id, Type type, OptionSet options, Text text, AExpression result) {
+        this (id, type, options, text);
         this.result = result;
     }
 
@@ -65,12 +62,12 @@ public class Question implements IKLQItem {
         return dependencies.remove(oldExpr) && dependencies.add(newExpr);
     }
 
-    public void setResult(Answer result) {
+    public void setResult(AExpression result) {
         this.result = result;
         questionAnswered();
     }
 
-    public Answer getResult() {
+    public AExpression getResult() {
         return result;
     }
 
