@@ -42,8 +42,13 @@ class TypeChecker {
     check(i.expression, env) match {
       // Return environment without the questions in s1 and s2.
       case Right(BooleanType()) => i.optionalElseBlock match {
-        case None => check(i.ifBlock, env); Right(env)
-        case Some(elseBlock) => check(i.ifBlock, env); check(elseBlock, env); Right(env)
+        case None => for {
+          check1 <- check(i.ifBlock, env).right
+        } yield env
+        case Some(elseBlock) => for {
+          check1 <- check(i.ifBlock, env).right
+          check2 <- check(elseBlock, env).right
+        } yield env
       }
       case Right(_) => Left(new Error(Exception(), "Invalid boolean condition for if statement at line", i.pos))
       case Left(e) => Left(e)
