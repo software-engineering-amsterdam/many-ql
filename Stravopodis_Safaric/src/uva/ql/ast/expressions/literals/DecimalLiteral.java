@@ -2,7 +2,7 @@ package uva.ql.ast.expressions.literals;
 
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.value.NumberValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class DecimalLiteral extends Literal{	
 	
@@ -24,7 +24,7 @@ public class DecimalLiteral extends Literal{
 		return "DecimalLiteral(" + String.valueOf(this.value) + ")";
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitDecimalLiteral(this);
 	}
 }

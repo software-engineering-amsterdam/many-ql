@@ -32,12 +32,17 @@ import uva.ql.ast.question.Question;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
 
-public class TypeCheckVisitor implements VisitorInterface<Object>{
+public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
 
-	public SymbolMap symbols = new SymbolMap();
+	private SymbolMap symbols = new SymbolMap();
+	
+	public SymbolMap getSymbolTable(){
+		return this.symbols;
+	}
 	
 	// Check whether an e.g. assignment is within the scope a question declaration
 	private boolean withinScope(CodeLines x, CodeLines y){
@@ -171,127 +176,90 @@ public class TypeCheckVisitor implements VisitorInterface<Object>{
 
 	@Override
 	public Object visitExpression(Expression expression) {
-		// TODO Auto-generated method stub
+		expression.accept(this);
 		return null;
 	}
 
 	@Override
 	public Object visitExponentiation(Exponentiation exponentiation) {
-		// Should be NumberValue
-		
 		this.visitBinaryExpression(exponentiation);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitAddition(Addition addition) {
-		// Should be NumberValue
-		
 		this.visitBinaryExpression(addition);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitSubstraction(Substraction substraction) {
-		// Should be NumberValue
-		
 		this.visitBinaryExpression(substraction);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitMultiplication(Multiplication multipllication) {
-		// Should be NumberValue
 		this.visitBinaryExpression(multipllication);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitDivision(Division division) {
-		// Should be NumberValue
 		this.visitBinaryExpression(division);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitAnd(And and) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
+		this.visitBinaryExpression(and);
 		return null;
 	}
 
 	@Override
 	public Object visitOr(Or or) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
+		this.visitBinaryExpression(or);
 		return null;
 	}
 
 	@Override
 	public Object visitEqual(Equal equal) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		
-		
+		this.visitBinaryExpression(equal);
 		return null;
 	}
 
 	@Override
 	public Object visitNotEqual(NotEqual notEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
+		this.visitBinaryExpression(notEqual);
 		return null;
 	}
 
 	@Override
 	public Object visitGreaterEqual(Greater_Eq greaterEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
+		this.visitBinaryExpression(greaterEqual);
 		return null;
 	}
 
 	@Override
 	public Object visitGreater(Greater greater) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
+		this.visitBinaryExpression(greater);
 		return null;
 	}
 
 	@Override
 	public Object visitLessEqual(Less_Eq lessEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
+		this.visitBinaryExpression(lessEqual);
 		return null;
 	}
 
 	@Override
 	public Object visitLess(Less less) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
+		this.visitBinaryExpression(less);
 		return null;
 	}
 
 	@Override
 	public Object visitType(Type type) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -307,27 +275,21 @@ public class TypeCheckVisitor implements VisitorInterface<Object>{
 
 	@Override
 	public Object visitBooleanLiteral(BooleanLiteral booleanLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visitDecimalLiteral(DecimalLiteral decimalLiteral) {
-		System.out.println(decimalLiteral);
-		
 		return null;
 	}
 
 	@Override
 	public Object visitIntLiteral(IntLiteral intLiteral) {
-		System.out.println(intLiteral);
-		
 		return null;
 	}
 
 	@Override
 	public Object visitStringLiteral(StringLiteral stringLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

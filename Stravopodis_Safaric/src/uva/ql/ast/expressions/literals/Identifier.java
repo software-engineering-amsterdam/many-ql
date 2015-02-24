@@ -2,7 +2,7 @@ package uva.ql.ast.expressions.literals;
 
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.value.StringValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class Identifier extends Literal{
 	private String identifier;
@@ -20,7 +20,7 @@ public class Identifier extends Literal{
 		return new StringValue(this.identifier);
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitIdentifier(this);
 	}
 }
