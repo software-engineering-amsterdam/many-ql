@@ -23,6 +23,7 @@ import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLError;
 import cons.ql.ast.expression.type.QLFloat;
+import cons.ql.ast.expression.type.QLForm;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
@@ -42,6 +43,7 @@ public interface Visitor<T> {
 	public T visit(QLString qlString);
 	public T visit(QLNumeric qlNumeric);
 	public T visit(QLFloat qlFloat);
+	public T visit(QLForm qlForm);
 	public T visit(QLInteger qlInteger);
 	public T visit(QLBoolean qlBoolean);
 	public T visit(QLError qlError);

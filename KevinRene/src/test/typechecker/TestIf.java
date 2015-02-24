@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import cons.TypeRegister;
+import cons.TypeEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
@@ -23,7 +23,8 @@ public class TestIf {
     	 return Arrays.asList(new Object[][] {                             
 				 { "if (true) { houseValue : money { \"Lol I dont care\" } }", true }, 
 				 { "if (false || true) { houseValue : money { \"Lol I dont care\" } }", true }, 
-				 { "if (123) { houseValue : money { \"Lol I dont care\" } }", false}
+				 { "if (123) { houseValue : money { \"Lol I dont care\" } }", false},
+				 { "if (true) { houseValue : money { \"Lol I dont care\" assign(\"A string\") } }", false}
 		 });
      }
      
@@ -31,14 +32,12 @@ public class TestIf {
      private boolean expected;
      
      private Parser formParser = new Parser();
-     private TypeRegister register = new TypeRegister();
-     private TypeChecker typeChecker = new TypeChecker(register);
+     private TypeEnvironment register = new TypeEnvironment();
 
      public TestIf(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
 
-         register = new TypeRegister();
-         typeChecker = new TypeChecker(register);
+         register = new TypeEnvironment();
     	 
     	 inputNode = formParser.parse(input);
     	 this.expected = expected;
@@ -53,6 +52,6 @@ public class TestIf {
      
      @Test
      public void testIf() {
-    	 assertEquals(expected, typeChecker.check(inputNode));
+    	 assertEquals(expected, TypeChecker.check(inputNode, register));
      }
 }

@@ -99,6 +99,12 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		printNode(floatNode);
 		return null;
 	}
+	
+	@Override
+	public Void visit(QLForm formNode) {
+		printNode(formNode);
+		return null;
+	}
 
 	@Override
 	public Void visit(QLInteger intNode) {

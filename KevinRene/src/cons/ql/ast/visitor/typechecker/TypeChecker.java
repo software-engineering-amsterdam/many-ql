@@ -1,10 +1,9 @@
 package cons.ql.ast.visitor.typechecker;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import cons.TypeRegister;
+import cons.TypeEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Identifier;
@@ -31,20 +30,23 @@ import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.expression.type.QLBoolean;
 import cons.ql.ast.expression.type.QLError;
 import cons.ql.ast.expression.type.QLFloat;
+import cons.ql.ast.expression.type.QLForm;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLNumeric;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.statement.ComputedQuestion;
+import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
 import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
+import cons.ql.error.TypeErrors;
 
 public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<QLType> {
-	private ArrayList<String> errors = new ArrayList<String>();
-	private TypeRegister register;
+	private static TypeErrors typeErrors;
+	private TypeEnvironment register;	
 	
-	public TypeChecker(TypeRegister register) {
+	private TypeChecker(TypeEnvironment register) {
 		this.register = register;
 	}
 	
@@ -52,19 +54,15 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public boolean check(ASTNode tree) {
-		tree.accept(this);
+	public static boolean check(ASTNode tree, TypeEnvironment register) {
+		TypeChecker typeChecker = new TypeChecker(register);
+		typeErrors = new TypeErrors();
 		
-		if (!errors.isEmpty()) {
-			for (String error : errors) {
-				System.out.println("[Error]: " + error);
-			}
-			
-			errors.clear();
-			return false;
-		}
+		tree.accept(typeChecker);
 		
-		return true;
+		typeErrors.outputErrors();
+		
+		return typeErrors.hasErrors();
 	}	
 	
 	/**
@@ -74,8 +72,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	 * @param expr
 	 * @param compatibleWith The QLType the operands should be compatible with
 	 */
-	private QLType checkExpression(Expression expr, QLType compatibleWith) {
-		
+	private QLType checkExpression(Expression expr, QLType compatibleWith) {		
 		List<QLType> operandTypes = expr.getOperands()
 				.stream()
 				.map(operand -> operand.accept(this))
@@ -83,7 +80,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 				
 		// Both operands should be compatible with compatibleWith
 		if (!isCompatibleWith(operandTypes, compatibleWith)) {
-			errors.add(createIncompatibleError(expr, operandTypes, compatibleWith));
+			typeErrors.incompatibleTypes(expr, operandTypes, compatibleWith);
 		}
 		
 		return expr.getType();
@@ -95,28 +92,12 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	 * @param expr
 	 * @param compatibleWith
 	 */
-	public boolean isCompatibleWith(List<QLType> operandTypes, QLType compatibleWith) {
-		
+	public boolean isCompatibleWith(List<QLType> operandTypes, QLType compatibleWith) {		
 		return operandTypes
 				.stream()
 				.map(n -> n.compatibleWith(compatibleWith))
 				.allMatch(a -> a);
-	}
-	
-	private String createIncompatibleError(
-			Expression expr, List<QLType> operandTypes, QLType compatibleTo) {
-		
-		// create string of actual types
-		String actualTypes = operandTypes
-				.stream()
-				.map(x -> x.toString())
-				.collect(Collectors.joining(" & "));
-		
-		return "<" + expr.getClass().getSimpleName() + "> Expected type: " 
-				+ compatibleTo.compatibilities() + ", actual types: "	
-				+ actualTypes
-				+ ".";
-	}
+	}	
 	
 	/**
 	 * OPERATORS 
@@ -213,60 +194,74 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	 */
 	
 	public QLType visit(QLBoolean booleanNode) { return booleanNode.getType(); }
-	public QLType visit(QLFloat floatNode) 		{ return floatNode.getType(); }    
-	public QLType visit(QLNumeric numericNode) 	{ return numericNode.getType(); }
-	public QLType visit(QLInteger intNode) 		{ return intNode.getType(); }
-	public QLType visit(QLString stringNode) 	{ return stringNode.getType(); }
-	public QLType visit(QLError errNode)		{ return errNode.getType(); }
+	public QLType visit(QLFloat floatNode) { return floatNode.getType(); }
+	public QLType visit(QLForm formNode) { return formNode.getType(); }   
+	public QLType visit(QLNumeric numericNode) { return numericNode.getType(); }
+	public QLType visit(QLInteger intNode) { return intNode.getType(); }
+	public QLType visit(QLString stringNode) { return stringNode.getType(); }
+	public QLType visit(QLError errNode) { return errNode.getType(); }
 	
-	public QLType visit(BooleanLiteral booleanNode) {	return booleanNode.getType();}	
-	public QLType visit(FloatLiteral floatNode) {		return floatNode.getType();}
-	public QLType visit(IntegerLiteral intNode) {		return intNode.getType();}
-	public QLType visit(StringLiteral stringNode) {		return stringNode.getType();}
+	public QLType visit(BooleanLiteral booleanNode) { return booleanNode.getType(); }	
+	public QLType visit(FloatLiteral floatNode) { return floatNode.getType(); }
+	public QLType visit(IntegerLiteral intNode) { return intNode.getType(); }
+	public QLType visit(StringLiteral stringNode) {	return stringNode.getType(); }
 	
 	public QLType visit(Identifier identifier) {
-		return this.register.resolve(identifier);
+		QLType identifierType = register.resolve(identifier);
+		
+		if(identifierType == null) {
+			typeErrors.undefinedVariable(identifier);
+			return new QLError();
+		}
+		
+		return identifierType;
 	}
 
 	/**
 	 * Statements
 	 */	
 	@Override
-	public QLType visit(ComputedQuestion compQuestionNode) {
-		// StatementVisitor.super.visit(compQuestionNode);
+
+	public QLType visit(ComputedQuestion compQuestionNode) {		
+		QLType questionType = compQuestionNode.getType();
 		QLType expressionType = compQuestionNode.getExpression().accept(this);
 		
-		if(!compQuestionNode.getType().compatibleWith(expressionType)) {
-
-			errors.add("<" + compQuestionNode.getIdentifier() + ">:" 
-					+ compQuestionNode.getType() + " was assigned a "
-					+ expressionType + ".");
-			return new QLError();
+		if(!questionType.compatibleWith(expressionType)) {
+			typeErrors.illegalQuestionAssignment(compQuestionNode, questionType, expressionType);
 		}
 		
-		register.store(compQuestionNode.getIdentifier(), compQuestionNode.getType());
+		register.store(compQuestionNode.getIdentifier(), questionType);
 		
-		return compQuestionNode.getType();
+		return questionType;
+	}
+	
+	@Override
+	public QLType visit(Form formNode) {
+		register.store(formNode.getIdentifier(), formNode.getType());
+		
+		StatementVisitor.super.visit(formNode);
+		
+		return formNode.getType();
 	}
 	
 	@Override
 	public QLType visit(If ifNode) {
-		// The expression must have a boolean type		
+		// The expression must have a boolean type
 		QLType ifType = ifNode.getExpression().accept(this);
 		
 		if (!ifType.compatibleWith(new QLBoolean())) {
-			errors.add("<ifNode> Expected QLBoolean, got " + ifType);
-		}
-		return new QLError();
+			typeErrors.incompatibleType(ifNode, new QLBoolean(), ifType);
+		}		
+			
+		ifNode.getBlock().accept(this);
+		
+		return ifType;
 	}
 
 	@Override
 	public QLType visit(Question questionNode) {
-		// Do we allow redeclaration?
-		// If not, do a check here
-		
 		register.store(questionNode.getIdentifier(), questionNode.getType());
 		
-		return new QLError();
+		return questionNode.getType();
 	}
 }

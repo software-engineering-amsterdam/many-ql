@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import cons.TypeRegister;
+import cons.TypeEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
@@ -31,14 +31,12 @@ public class TestOrAnd {
      private boolean expected;
      
      private Parser formParser = new Parser();
-     private TypeRegister register = new TypeRegister();
-     private TypeChecker typeChecker = new TypeChecker(register);
+     private TypeEnvironment register = new TypeEnvironment();
 
      public TestOrAnd(String input, boolean expected) {
     	 System.out.println("Testing: " + input);
 
-         register = new TypeRegister();
-         typeChecker = new TypeChecker(register);
+         register = new TypeEnvironment();
     	 
     	 inputNode = formParser.parse(input);
     	 this.expected = expected;
@@ -53,6 +51,6 @@ public class TestOrAnd {
      
      @Test
      public void testOrAnd() {
-    	 assertEquals(expected, typeChecker.check(inputNode));
+    	 assertEquals(expected, TypeChecker.check(inputNode, register));
      }
 }

@@ -43,7 +43,6 @@
 import cons.ql.ast.*;
 import cons.ql.ast.expression.*;
 import cons.ql.ast.expression.type.*;
-import cons.ql.ast.expression.unary.*;
 import cons.ql.ast.expression.literal.*;
 import cons.ql.ast.expression.arithmetic.*;
 import cons.ql.ast.expression.relational.*;
