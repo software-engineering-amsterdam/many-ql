@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
 
 public abstract class FormField {
     private final FormInterpreter formInterpreter;
-    private String lbl, variable;
+    private String label, variable;
 
     public abstract void render(IRenderer iRenderer);
 
@@ -15,12 +15,14 @@ public abstract class FormField {
 
     public String getVariable() { return variable; }
 
+    public String getLabel() { return label; }
+
     public void setValue(TypeModel<?> typeModel) {
         formInterpreter.setField(variable, typeModel);
     }
 
-    public FormField(String lbl, String variable, FormInterpreter formInterpreter) {
-        this.lbl = lbl;
+    public FormField(String label, String variable, FormInterpreter formInterpreter) {
+        this.label = label;
         this.variable = variable;
         this.formInterpreter = formInterpreter;
     }

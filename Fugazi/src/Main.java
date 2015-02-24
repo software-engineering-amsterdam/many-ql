@@ -1,9 +1,8 @@
 import org.fugazi.ValueStorage;
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
-import org.fugazi.evaluator.Evaluator;
-import org.fugazi.gui.GUIManager;
 import org.fugazi.type_checker.TypeChecker;
+import org.fugazi.type_checker.error.ASTErrorPrinter;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -33,18 +32,22 @@ public class Main {
         boolean isFormTypesCorrect = typeChecker.checkForm(form);
 
         // display warnings and errors and if form is not type-correct, exit
-        typeChecker.displayFormWarningsAndErrors();
+        ASTErrorPrinter printer = new ASTErrorPrinter(
+                typeChecker.getErrors(), typeChecker.getWarnings()
+        );
+        printer.displayWarningsAndErrors();
+
         if (!isFormTypesCorrect) {
-            System.out.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
-            System.exit(0);
+            System.err.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
+            System.exit(-1);
         }
 
         ValueStorage valueStorage = new ValueStorage();
-
-        Evaluator evaluator = new Evaluator(valueStorage);
-
-        // Render GUI.
-//        GUIManager guiManager = new GUIManager(form, evaluator);
-//        guiManager.renderGUI();
+//
+//        Evaluator evaluator = new Evaluator(valueStorage);
+//
+//        // Render GUI.
+//        GUIBuilder guiBuilder = new GUIBuilder(form, evaluator);
+//        guiBuilder.renderGUI();
     }
 }

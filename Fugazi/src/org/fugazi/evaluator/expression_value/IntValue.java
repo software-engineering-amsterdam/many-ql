@@ -29,7 +29,7 @@ public class IntValue extends ExpressionValue<Integer> {
 
     @Override
     public ExpressionValue subInt(IntValue exprValue) {
-        return new IntValue(exprValue.getValue() - this.getValue());
+        return new IntValue(exprValue.getValue() - this.value);
     }
 
     /**

@@ -1,10 +1,13 @@
 package lang.tests;
 
+import lang.ql.ast.expression.Expr;
 import lang.ql.ast.form.Form;
-import lang.ql.semantics.QuestErrInfo;
+import lang.ql.semantics.ExprEvalEnv;
+import lang.ql.semantics.ExprEvaluator;
 import lang.ql.semantics.TypeChecker;
 import lang.ql.semantics.errors.*;
 import lang.ql.semantics.errors.Error;
+import lang.ql.semantics.values.Value;
 
 import java.util.List;
 
@@ -32,5 +35,12 @@ public class TestHelper
         Error e = TestHelper.as(m, Error.class);
         assertNotNull(e);
         assertEquals(expected, e.getMessage());
+    }
+
+    public static Value evaluate(String expr, ExprEvalEnv env)
+    {
+        Expr e = TestHelper.as(ParserHelper.ParseExpression(expr), Expr.class);
+        assertNotNull(e);
+        return ExprEvaluator.evaluate(e, env);
     }
 }

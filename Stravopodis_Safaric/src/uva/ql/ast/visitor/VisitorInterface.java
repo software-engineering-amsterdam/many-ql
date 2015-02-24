@@ -3,7 +3,6 @@ package uva.ql.ast.visitor;
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
-import uva.ql.ast.declarations.Declaration;
 import uva.ql.ast.expressions.*;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.DecimalLiteral;
@@ -36,7 +35,6 @@ public interface VisitorInterface<T>{
 	
 	public T visitStatement(Statement statement);
 	public T visitQuestion(Question question);
-	public T visitDeclaration(Declaration declaration);
 	public T visitIfStatement(IfStatement ifStatement);
 	public T visitAssign(Assign assign);
 	

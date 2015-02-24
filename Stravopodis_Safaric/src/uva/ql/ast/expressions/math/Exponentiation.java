@@ -21,9 +21,6 @@ public class Exponentiation extends BinaryExpressions{
 	}
 	@Override
 	public NumberValue evaluate() {
-		NumberValue left = new NumberValue((Number)this.getLeftExpr().evaluate().getValue());
-		NumberValue right = new NumberValue((Number)this.getRightExpr().evaluate().getValue());
-		
-		return new NumberValue(Math.pow(left.toDecimal(), right.toDecimal()));
+		return NumberValue.numberValueFromExpr(getLeftExpr()).exponentiation(NumberValue.numberValueFromExpr(getRightExpr()));
 	}
 }

@@ -2,17 +2,20 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
-import lang.ql.gui.GuiVisitor;
 import lang.ql.gui.Modeler;
 import lang.ql.gui.SimpleGui;
+import lang.ql.gui.canvas.Canvas;
 import lang.ql.semantics.*;
-import lang.ql.ast.QLVisitor;
+import lang.ql.ast.AstBuilder;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import lang.ql.gen.*;
 
@@ -33,15 +36,17 @@ public class Main extends Application
             QLParser parser = new QLParser(tokens);
             ParserRuleContext tree = parser.form();
 
-            QLVisitor visitor = new QLVisitor();
+            AstBuilder visitor = new AstBuilder();
             ast = (Form) visitor.visit(tree);
 
             TypeChecker.check(ast);
 
-            Interpreter.interpret(ast);
+            //Interpreter.interpret(ast);
             //values = v.getVariableValues();
 
             System.out.println(values);
+
+            new BigDecimal("10.0").divide(new BigDecimal("3.0"), new MathContext(2,    RoundingMode.FLOOR));
         }
         catch (IOException e)
         {
@@ -53,8 +58,8 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        Modeler modeler = new Modeler(values);
-        modeler.visit(this.ast);
-        SimpleGui.run(modeler.getCanvas(), primaryStage);
+        Modeler modeler = new Modeler();
+        // TODO: To cast, or not to cast...
+        SimpleGui.run((Canvas) modeler.visit(this.ast), primaryStage);
     }
 }

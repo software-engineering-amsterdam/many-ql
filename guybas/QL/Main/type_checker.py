@@ -1,65 +1,58 @@
 # Type Checker
 import collections
 
-from Grammar.expressions import *
 from Main.exceptions import *
-from Main.expression_validator import *
 from AST.operators import *
+from AST.expression_validator import *
+from Grammar.basic_types import *
 
 
 class TypeChecker:
 
     def __init__(self, form):
-        self.form = form
-        ids = TypeChecker.check_ids(self.form.statements)
-        labels = TypeChecker.check_labels(self.form.statements)
-        dependencies = TypeChecker.check_dependencies(self.form.statements)
+        ids = form.get_ids()
+        id_message = TypeChecker.check_ids(ids)
+
+        labels = form.get_labels()
+        label_message = TypeChecker.check_labels(labels)
+
+        statements = form.get_statements()
+        dependencies = form.get_dependencies()
         transitive_dependencies = TypeChecker.transitive_dependencies(dependencies)
+        if id_message != "":
+            print(id_message)
 
-        print("ids:")
-        print(ids)
-
-        print("\nlabels:")
-        print(labels)
+        if label_message != "":
+            print(label_message)
 
         print("\ntransitive dependencies:")
         print(transitive_dependencies)
         print("")
-        TypeChecker.is_valid_expression(self.form.statements, self.form.type_dict)
+
+        expressions = form.get_expressions()
+        TypeChecker.is_valid_expression(expressions, form.get_type_dict())
 
     @staticmethod
-    def check_duplicates(list):
+    def check_duplicates(l):
         # get_dependencies for duplicates
-        duplicates = [x for x, y in collections.Counter(list).items() if y > 1]
+        duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
         return duplicates
 
     @staticmethod
-    def check_ids(questions):
-        ids = []
-        for question in questions:
-            ids += (question.id_collection())
-        duplicates =  TypeChecker.check_duplicates(ids)
+    def check_ids(ids):
+        duplicates = TypeChecker.check_duplicates(ids)
         if duplicates:
-            print("There are duplicate ids: " + str(duplicates))
-        return ids
+            return "There are duplicate ids: " + str(duplicates)
+        else:
+            return ""
 
     @staticmethod
-    def check_labels(questions):
-        labels = []
-        for question in questions:
-            labels += question.label_collection()
+    def check_labels(labels):
         duplicates = TypeChecker.check_duplicates(labels)
         if duplicates:
-            print("There are duplicate labels: " + str(duplicates))
-        return labels
-
-    @staticmethod
-    def check_dependencies(statements):
-        dependencies = {}
-        for x in statements:
-            new_dependencies = x.dependency_collection({})
-            dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
-        return dependencies
+            return "There are duplicate labels: " + str(duplicates)
+        else:
+            return ""
 
     @staticmethod
     def transitive_dependencies_key(key, values, dependencies):
@@ -75,6 +68,17 @@ class TypeChecker:
             transitive_dependencies[k] = TypeChecker.transitive_dependencies_key(k, set([]), dependencies)
         return transitive_dependencies
 
+    @staticmethod
+    def is_valid_expression(expressions, type_dict):
+        messages = ""
+        for e in expressions:
+            if ExpressionValidator.validator(e.return_type(type_dict)):
+                continue
+            else:
+                messages += str(e) + "is malformed"
+        return messages
+
+    # TODO: try to make this obsolete
     @staticmethod
     def type_checker(cinput, ctype=False):
         """
@@ -108,13 +112,3 @@ class TypeChecker:
         elif ctype is BasicTypes.text_name and type_class is BasicTypes.number_name:  # text could be number
             return True
         return False
-
-    @staticmethod
-    def is_valid_expression(statements, type_dict):
-        expressions = []
-        s = []
-
-        for x in statements:
-            expressions += x.return_expressions()
-        for e in expressions:
-            print(ExpressionValidator.validator(e.return_type(type_dict)))

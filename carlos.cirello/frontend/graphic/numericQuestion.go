@@ -1,9 +1,6 @@
 package graphic
 
-import (
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"gopkg.in/qml.v1"
-)
+import "gopkg.in/qml.v1"
 
 const numericQuestionQMLTemplate = `
 import QtQuick 2.2
@@ -27,7 +24,7 @@ GroupBox {
 `
 
 func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
-	content interface{}) (question qml.Object) {
+	content float32) (question qml.Object) {
 
 	validator := `validator: IntValidator {}`
 	qml := renderTemplateQuestion(numericQuestionQMLTemplate, fieldName,
@@ -35,7 +32,7 @@ func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
 	question = renderAndInsertAt(qml, g.rows)
 
 	newFieldPtr := question.ObjectByName(fieldName)
-	newFieldPtr.Set("text", content.(ast.Parser).String())
+	newFieldPtr.Set("text", content)
 	newFieldPtr.On("editingFinished", func() {
 		g.mu.Lock()
 		defer g.mu.Unlock()

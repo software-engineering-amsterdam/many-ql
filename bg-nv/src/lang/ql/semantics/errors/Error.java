@@ -9,6 +9,11 @@ import java.util.List;
  */
 public class Error extends Message
 {
+    public Error(String message)
+    {
+        super(message);
+    }
+
     public static Error typeMismatch(String id, Type leftChildType, Type rightChildType, int line)
     {
         String m = String.format("Error (Line %d): expression of type %s cannot have children of different type: %s and %s",
@@ -54,21 +59,6 @@ public class Error extends Message
 
     public static Error cyclicQuestions(List<String> ids)
     {
-        StringBuilder b = new StringBuilder("Error: the following questions form a cyclic dependency: ");
-        for (int i = 0; i < ids.size(); i++)
-        {
-            b.append(ids.get(i));
-            if (i < ids.size()-1)
-            {
-                b.append(", ");
-            }
-        }
-
-        return new Error(b.toString());
-    }
-
-    public Error(String message)
-    {
-        super(message);
+        return new Error("Error: the following questions form a cyclic dependency: " + Message.getListString(ids));
     }
 }

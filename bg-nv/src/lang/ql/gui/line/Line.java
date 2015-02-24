@@ -15,13 +15,21 @@ public class Line extends GuiElement
 
     public Line(Label label, Input input)
     {
+        super();
         this.label = label;
         this.input = input;
     }
 
-    public void accept(GuiVisitor visitor)
+    public Line(Label label, Input input, Boolean visible)
     {
-        visitor.visit(this);
+        super(visible);
+        this.label = label;
+        this.input = input;
+    }
+
+    public <T> T accept(GuiVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 
     public Label getLabel()

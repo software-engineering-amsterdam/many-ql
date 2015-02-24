@@ -37,7 +37,6 @@ public class Question extends Statement {
 	public String toString(){
 		return "Question(" + this.identifier.evaluate().getValue().toString() + ","  + this.type.toString() + ", Statement(" + this.statement.toString() + "))";
 	}
-
 	@Override
 	public <T> T accept(VisitorInterface<T> visitor) {
 		return visitor.visitQuestion(this);

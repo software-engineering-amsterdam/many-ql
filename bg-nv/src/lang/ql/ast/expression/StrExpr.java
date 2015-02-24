@@ -1,7 +1,5 @@
 package lang.ql.ast.expression;
 
-import lang.ql.semantics.Visitor;
-
 /**
  * Created by bore on 09/02/15.
  */
@@ -12,8 +10,8 @@ public class StrExpr extends ConstExpr<String>
         super(value, lineNumber);
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(ExprVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }
