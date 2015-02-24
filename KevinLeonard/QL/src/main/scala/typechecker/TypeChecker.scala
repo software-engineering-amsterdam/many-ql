@@ -68,9 +68,7 @@ class TypeChecker {
 
   def checkEqualityExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Type = {
     (check(e1, env), check(e2, env)) match {
-      case (BooleanType(), BooleanType()) => BooleanType()
-      case (NumberType(), NumberType()) => BooleanType()
-      case (StringType(), StringType()) => BooleanType()
+      case (t1, t2) if t1 == t2 => BooleanType()
       case _ => sys.error(s"Invalid equality expression at line $p")
     }
   }
