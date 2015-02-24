@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="antlr-4.4-complete.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout-4.0-swing.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

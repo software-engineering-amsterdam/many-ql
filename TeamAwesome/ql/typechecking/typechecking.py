@@ -1,5 +1,4 @@
 from . import \
-    StatementNesting,\
     CyclicQuestionDependencies,\
     TypesOfExpressions,\
     DuplicateQuestionLabels,\
@@ -10,7 +9,6 @@ from .Result import Result
 
 def check(ast):
     modules = [
-        StatementNesting,
         CyclicQuestionDependencies,
         TypesOfExpressions,
         DuplicateQuestionLabels,

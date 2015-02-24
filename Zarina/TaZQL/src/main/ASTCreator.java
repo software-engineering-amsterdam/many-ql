@@ -1,4 +1,4 @@
-package com.antlr4.zarina.tazql;
+package main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
