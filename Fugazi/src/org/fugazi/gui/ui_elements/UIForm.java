@@ -2,11 +2,11 @@ package org.fugazi.gui.ui_elements;
 
 import org.fugazi.gui.widgets.IWidget;
 
-import javax.imageio.event.IIOWriteProgressListener;
 import javax.swing.*;
 
-// Todo: don't inherite but aggregate
-public class UIForm extends JFrame {
+public class UIForm {
+
+    private final JFrame formFrame;
 
     public static final int winHeight = 400;
     public static final int winWidth = 480;
@@ -14,14 +14,18 @@ public class UIForm extends JFrame {
     private final JPanel panel = new JPanel();
 
     public UIForm(String _formTitle) {
-        super(_formTitle);
+        this.formFrame = new JFrame(_formTitle);
 
-        this.setSize(winWidth, winHeight);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.formFrame.setSize(winWidth, winHeight);
+        this.formFrame.setLocationRelativeTo(null);
+        this.formFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        this.add(panel);
+        this.formFrame.add(panel);
+    }
+
+    public void showForm() {
+        this.formFrame.setVisible(true);
     }
     
     public void addElement(UIElement _elem) {

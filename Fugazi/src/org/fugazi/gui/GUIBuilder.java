@@ -25,7 +25,7 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
     
     public void renderGUI() {
         setUpUIElements();
-        this.uiForm.setVisible(true);
+        this.uiForm.showForm();
     }
 
     private void setUpUIElements() {

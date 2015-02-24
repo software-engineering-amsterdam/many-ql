@@ -5,6 +5,9 @@ import org.fugazi.gui.ui_elements.UIQuestion;
 import java.util.Observer;
 import java.util.Observable;
 
+/**
+ * Observes the UIQuestions
+ */
 public class ElementsObserver implements Observer {
 
     public ElementsObserver() {
