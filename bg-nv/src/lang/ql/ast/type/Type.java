@@ -1,9 +1,11 @@
 package lang.ql.ast.type;
 
+import lang.ql.ast.AstNode;
+
 /**
  * Created by bore on 17/02/15.
  */
-public abstract class Type
+public abstract class Type extends AstNode
 {
     private String title;
 

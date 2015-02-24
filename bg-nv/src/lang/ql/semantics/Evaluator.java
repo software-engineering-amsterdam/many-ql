@@ -1,11 +1,6 @@
 package lang.ql.semantics;
 
-import lang.ql.ast.AstVisitor;
 import lang.ql.ast.expression.*;
-import lang.ql.ast.form.Form;
-import lang.ql.ast.statement.CalculatedQuestion;
-import lang.ql.ast.statement.IfCondition;
-import lang.ql.ast.statement.Question;
 import lang.ql.semantics.values.*;
 
 /**
