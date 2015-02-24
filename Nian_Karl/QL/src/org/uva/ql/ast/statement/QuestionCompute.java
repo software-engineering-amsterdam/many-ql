@@ -8,8 +8,8 @@ public class QuestionCompute extends QuestionNormal {
 
 	private Expression expression;
 
-	public QuestionCompute(QuestionType questionType, String identifier, String questionLabel, Expression expr) {
-		super(questionType, identifier, questionLabel);
+	public QuestionCompute(QuestionType type, String identifier, String label, Expression expr) {
+		super(type, identifier, label);
 		expression = expr;
 	}
 
@@ -22,4 +22,10 @@ public class QuestionCompute extends QuestionNormal {
 		return visitor.visit(this);
 	}
 
+	
+	@Override
+	public String toString() {
+		
+		return super.toString() + "\n expression: " + expression;
+	}
 }

@@ -6,6 +6,9 @@ import com.klq.ast.impl.expr.bool.AndNode;
 import com.klq.ast.impl.expr.bool.OrNode;
 import com.klq.ast.impl.expr.comp.*;
 import com.klq.ast.impl.expr.math.*;
+import com.klq.logic.expression.operator.bool.And;
+
+import java.util.ArrayList;
 
 /**
  * Created by Juriaan on 21-2-2015.
@@ -17,6 +20,9 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.printf("children count: %s", node.getChildren().size());
         System.out.println();
         printLine();
+        for(ANode child : node.getChildren()){
+            child.accept(this);
+        }
         return null;
     }
 
@@ -33,6 +39,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Computed Question Node");
         node.printSelf();
         printLine();
+        node.getChild().accept(this);
         return null;
     }
 
@@ -41,6 +48,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Greater Than Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -49,6 +57,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Greater Than or Equals Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -57,6 +66,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Less Than Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -65,6 +75,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Less Than or Equals Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -73,6 +84,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Equals Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -81,6 +93,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Not Equals Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -89,6 +102,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("And Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -97,6 +111,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Or Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -113,6 +128,10 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Conditional Node");
         node.printSelf();
         printLine();
+        node.getCondition().accept(this);
+        for(ANode child : node.getChildren()){
+            child.accept(this);
+        }
         return null;
     }
 
@@ -148,6 +167,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Multiply Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -156,6 +176,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Add Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -164,6 +185,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Subtract Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -171,6 +193,7 @@ public class ASTPrinter implements IVisitor<Void> {
         System.out.println("Divide Node");
         node.printChildren();
         printLine();
+        visitBinaryChildren(node);
         return null;
     }
 
@@ -181,5 +204,10 @@ public class ASTPrinter implements IVisitor<Void> {
 
     private void printLine(){
         System.out.println("--------------------------------------------");
+    }
+
+    private void visitBinaryChildren(ABinaryExprNode node){
+        node.getLeftChild().accept(this);
+        node.getRightChild().accept(this);
     }
 }

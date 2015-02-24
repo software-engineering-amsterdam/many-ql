@@ -6,21 +6,21 @@ import org.uva.ql.ast.visitor.Visitor;
 
 
 public class QuestionNormal extends Statement {
-	private final QuestionType questionType;
+	private final QuestionType type;
 	private final String identifier;
-	private final String questionLabel;
+	private final String label;
 
 
-	public QuestionNormal(QuestionType questionType, String identifier,
-			String questionLabel) {
+	public QuestionNormal(QuestionType type, String identifier,
+			String label) {
 		super();
-		this.questionType = questionType;
+		this.type = type;
 		this.identifier = identifier;
-		this.questionLabel = questionLabel;
+		this.label = label;
 	}
 
 	public QuestionType getQuestionType() {
-		return questionType;
+		return type;
 	}
 
 	public String getIdentifier() {
@@ -28,7 +28,7 @@ public class QuestionNormal extends Statement {
 	}
 
 	public String getQuestionLabel() {
-		return questionLabel;
+		return label;
 	}
 	
 	@Override
@@ -38,9 +38,9 @@ public class QuestionNormal extends Statement {
 	
 	@Override
 	public String toString() {
-		return "QuestionType = " +  questionType
+		return "QuestionType = " +  type
 				+"\n QuestionIdentifier = " + identifier
-				+"\n QuestionLabel = " + questionLabel;
+				+"\n QuestionLabel = " + label;
 				
 	}
 }

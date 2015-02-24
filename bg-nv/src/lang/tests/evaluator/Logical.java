@@ -1,6 +1,8 @@
 package lang.tests.evaluator;
 
+import lang.ql.semantics.EvalEnv;
 import lang.ql.semantics.values.BooleanValue;
+import lang.ql.semantics.values.UndefinedValue;
 import lang.tests.TestHelper;
 import org.junit.Test;
 
@@ -51,4 +53,30 @@ public class Logical
         assertFalse(v.getValue());
     }
 
+    @Test
+    public void undefinedNot()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("!hasHouse", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedAnd()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("true&&hasHouse&&false", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedOr()
+    {
+        EvalEnv env = new EvalEnv();
+        env.registerValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("true||hasHouse||false", env), UndefinedValue.class);
+        assertNotNull(v);
+    }
 }

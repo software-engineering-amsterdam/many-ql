@@ -13,6 +13,10 @@ public class ComputedQuestionNode extends QuestionNode {
         this.child = child;
     }
 
+    public ANode getChild() {
+        return child;
+    }
+
     @Override
     public void printSelf() {
         super.printSelf();
@@ -21,9 +25,8 @@ public class ComputedQuestionNode extends QuestionNode {
     }
 
     @Override
-    public void accept(IVisitor visitor) {
-        child.accept(visitor);
-        visitor.visit(this);
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public abstract class ANode {
     private String loc;
 
-    public abstract void accept(IVisitor visitor);
+    public abstract <T> T  accept(IVisitor<T> visitor);
 
     public void printSelf() {
     }
