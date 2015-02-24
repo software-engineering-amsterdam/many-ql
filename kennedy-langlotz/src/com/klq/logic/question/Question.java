@@ -28,6 +28,15 @@ public class Question implements IKLQItem {
         this.store = null;
     }
 
+    public Question(Id id, Type type, OptionSet options, Text text, List<AExpression> dependencies, Answer result) {
+        this.id = id;
+        this.type = type;
+        this.options = options;
+        this.text = text;
+        this.dependencies = dependencies;
+        this.result = result;
+    }
+
     public Id getId() {
         return id;
     }
@@ -46,6 +55,10 @@ public class Question implements IKLQItem {
 
     public List<AExpression> getDependencies() {
         return dependencies;
+    }
+
+    public void addDependency(AExpression dependency){
+        dependencies.add(dependency);
     }
 
     public boolean updateDependency(AExpression oldExpr, AExpression newExpr){
