@@ -11,73 +11,69 @@ public abstract class ExpressionValue<T> {
     public T getValue() {
         return this.value;
     }
-    
-    public boolean isNull() {
-        return false;
-    }
 
     public ExpressionValue add(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
     
     public ExpressionValue addInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
     
     public ExpressionValue addString(StringValue exprValue) {
-       return new UndefinedValue();
+       throw new AssertionError();
     }
 
     public ExpressionValue sub(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue subInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue mul(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue mulInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue div(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue divInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
     
     public ExpressionValue and(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue andBool(BoolValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue or(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue orBool(BoolValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue not() {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
     
     public ExpressionValue negative() {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue positive() {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public BoolValue equal(ExpressionValue exprValue) {
@@ -89,34 +85,34 @@ public abstract class ExpressionValue<T> {
     }
 
     public ExpressionValue greater(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue greaterInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
     
     public ExpressionValue less(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue lessInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
     
     public ExpressionValue greaterEqual(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue greaterEqualInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
     
     public ExpressionValue lessEqual(ExpressionValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 
     public ExpressionValue lessEqualInt(IntValue exprValue) {
-        return new UndefinedValue();
+        throw new AssertionError();
     }
 }
