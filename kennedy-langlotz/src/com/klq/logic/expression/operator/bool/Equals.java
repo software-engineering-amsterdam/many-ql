@@ -24,6 +24,6 @@ public class Equals extends AExpression {
             else if (comp != AExpression.UNCOMPARABLE)
                 return Boolean.getFalse();
         }
-        return null;
+        return new Equals(left, right);
     }
 }

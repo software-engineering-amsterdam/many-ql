@@ -24,6 +24,6 @@ public class NotEquals extends AExpression {
             else if (comp != AExpression.UNCOMPARABLE)
                 return Boolean.getTrue();
         }
-        return null;
+        return new NotEquals(left, right);
     }
 }

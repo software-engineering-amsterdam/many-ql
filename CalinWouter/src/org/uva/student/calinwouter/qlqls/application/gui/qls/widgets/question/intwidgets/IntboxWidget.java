@@ -5,8 +5,9 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFo
 import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class IntboxWidget extends TextboxWidget {
 
@@ -14,11 +15,29 @@ public class IntboxWidget extends TextboxWidget {
     public IntboxWidget(final Question question,final HeadlessFormInterpreter headlessFormInterpreter) {
         super(question, headlessFormInterpreter);
 
-        widget.addActionListener(new ActionListener() {
+        widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!widget.getText().equals("")) {
+            public void insertUpdate(DocumentEvent e) {
+                updateField();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateField();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateField();
+            }
+
+            private void updateField() {
+                try {
+                    System.out.println("Changed all.");
                     headlessFormInterpreter.setField(question.getFieldName(), new TInteger(Integer.parseInt(widget.getText())));
+                    headlessFormInterpreter.interpret();
+                } catch(NumberFormatException e) {
+                    headlessFormInterpreter.setField(question.getFieldName(), null);
                     headlessFormInterpreter.interpret();
                 }
             }
