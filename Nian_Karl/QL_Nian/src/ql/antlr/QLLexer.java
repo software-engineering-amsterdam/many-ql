@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.4
+// Generated from QL.g4 by ANTLR 4.5
 package ql.antlr;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -28,15 +28,6 @@ public class QLLexer extends Lexer {
 		"DEFAULT_MODE"
 	};
 
-	public static final String[] tokenNames = {
-		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
-		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
-		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
-		"'\\u0013'", "'\\u0014'", "'\\u0015'", "'\\u0016'", "'\\u0017'", "'\\u0018'", 
-		"'\\u0019'", "'\\u001A'", "'\\u001B'", "'\\u001C'", "'\\u001D'", "'\\u001E'", 
-		"'\\u001F'", "' '", "'!'", "'\"'", "'#'", "'$'", "'%'", "'&'", "'''", 
-		"'('", "')'", "'*'", "'+'", "','"
-	};
 	public static final String[] ruleNames = {
 		"FORM", "IF", "THEN", "ELSE", "ELIF", "INT", "STR", "CUR", "BOOL", "DEC", 
 		"DATE", "OR", "AND", "ASSIGN", "EQUAL", "GREATER", "LESS", "GREAT_EQUAL", 
@@ -47,6 +38,54 @@ public class QLLexer extends Lexer {
 		"SingleComment", "Identifier"
 	};
 
+	private static final String[] _LITERAL_NAMES = {
+		null, "'form'", "'if'", "'then'", "'else'", "'else if'", "'Int'", "'Str'", 
+		"'Cur'", "'Bool'", "'Dec'", "'Date'", "'||'", "'&&'", "'='", "'=='", "'>'", 
+		"'<'", "'>='", "'<='", "'+'", "'-'", "'/'", "'*'", "'{'", "'}'", "'('", 
+		"')'", "':'", "';'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "FORM", "IF", "THEN", "ELSE", "ELIF", "INT", "STR", "CUR", "BOOL", 
+		"DEC", "DATE", "OR", "AND", "ASSIGN", "EQUAL", "GREATER", "LESS", "GREAT_EQUAL", 
+		"LESS_EQUAL", "PLUS", "MINUS", "DEVIDE", "MULTIPLY", "LEFT_BRACE", "RIGHT_BRACE", 
+		"LEFT_PAREN", "RIGHT_PAREN", "COLON", "SEMICOLON", "IntegerLiteral", "DecimalLiteral", 
+		"DecimalNumeral", "BooleanLiteral", "StringLiteral", "DateLiteral", "Day", 
+		"Month", "Year", "Non_Zero_Digit", "Digit", "WhiteSpace", "MultiComment", 
+		"SingleComment", "Identifier"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
 
 	public QLLexer(CharStream input) {
 		super(input);
@@ -55,9 +94,6 @@ public class QLLexer extends Lexer {
 
 	@Override
 	public String getGrammarFileName() { return "QL.g4"; }
-
-	@Override
-	public String[] getTokenNames() { return tokenNames; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

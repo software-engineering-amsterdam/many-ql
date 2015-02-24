@@ -13,8 +13,9 @@ type SymbolTable struct {
 	symbols map[string]interface{}
 	labels  map[string][]string
 
-	err  []error
-	warn []error
+	watchError bool
+	err        []error
+	warn       []error
 }
 
 // New is the constructor for SymbolTable
@@ -25,6 +26,10 @@ func New() *SymbolTable {
 	}
 
 	return table
+}
+
+func (s *SymbolTable) SetWatchError(v bool) {
+	s.watchError = v
 }
 
 // Err returns all found errors during symbolTable operation
@@ -71,11 +76,24 @@ func (s *SymbolTable) Read(identifier string) interface{} {
 }
 
 // Create looks for identifier in symboltable and creates a pointer if missing
-func (s *SymbolTable) Create(identifier string, content *ast.QuestionNode) {
+func (s *SymbolTable) Create(identifier, label string, typ interface{}) {
 	_, ok := s.symbolExistP(identifier)
 	if !ok {
-		s.upsert(identifier, content)
-		s.detectRepeatedLabel(content.Label(), identifier)
+		var symbol interface{}
+		switch typ {
+		default:
+			log.Fatalf("impossible to create symbol type %s", typ)
+		case ast.StringQuestionType:
+			symbol = new(StringQuestion)
+		case ast.NumericQuestionType:
+			symbol = new(NumericQuestion)
+		case ast.BoolQuestionType:
+			symbol = new(BoolQuestion)
+		case ast.ComputedQuestionType:
+			symbol = new(ComputedQuestion)
+		}
+		s.upsert(identifier, symbol)
+		s.detectRepeatedLabel(label, identifier)
 	} else {
 		s.appendErrf(
 			"Duplicated identifier found at typechecker: %s",
@@ -84,7 +102,7 @@ func (s *SymbolTable) Create(identifier string, content *ast.QuestionNode) {
 }
 
 // Update looks for identifier in symboltable and updates a pointer if existing
-func (s *SymbolTable) Update(identifier string, content *ast.QuestionNode) {
+func (s *SymbolTable) Update(identifier string, content interface{}) {
 	_, ok := s.symbolExistP(identifier)
 	if ok {
 		s.upsert(identifier, content)

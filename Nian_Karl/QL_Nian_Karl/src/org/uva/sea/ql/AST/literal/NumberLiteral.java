@@ -1,6 +1,6 @@
 package org.uva.sea.ql.AST.literal;
 
-import org.uva.sea.ql.AST.value.IntegerValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 public class NumberLiteral  extends AbstractLiteral{
 
@@ -11,8 +11,8 @@ public class NumberLiteral  extends AbstractLiteral{
 	}
 
 	@Override
-	public IntegerValue interpretExpression() {
-		return new IntegerValue(intValue);
+	public void accept(Visitor visitor) {
+		visitor.visit(this);		
 	}
-
+	
 }

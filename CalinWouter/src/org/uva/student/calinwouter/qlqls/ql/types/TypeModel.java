@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
 import org.uva.student.calinwouter.qlqls.ql.exceptions.CastException;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 
 /**
  * TypeModel with basic operators. Implementations should support value=null for the typechecker, which basically
@@ -71,6 +72,8 @@ public abstract class TypeModel<T> {
     }
 
     public abstract Class<T> getTypeModelClass();
+
+    public abstract void apply(TypeCallback typeCallback);
 
     public T getValue() {
         return value;

@@ -24,7 +24,7 @@ public abstract class AExpression implements Comparable{
     protected static final int IDENTIFIER = 11;
     protected static final int BOOLEAN = 12;
 
-    protected static final int UNCOMPARABLE = 42;
+    protected static final int UNCOMPARABLE = Integer.MAX_VALUE;
 
     protected final AExpression left;
     protected final AExpression right;

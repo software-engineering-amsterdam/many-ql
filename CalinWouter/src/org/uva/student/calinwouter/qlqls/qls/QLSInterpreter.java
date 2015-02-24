@@ -1,16 +1,15 @@
 package org.uva.student.calinwouter.qlqls.qls;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAdapter;
-import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
-import org.uva.student.calinwouter.qlqls.qls.model.IModel;
-import org.uva.student.calinwouter.qlqls.qls.types.AbstractPushable;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractModel;
+import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
+import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractPushable;
 
-import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -20,7 +19,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     /* This string is used for fetching the IModel objects. */
     private final static String COMPONENTS_PACKAGE_PREFIX =
-            QLSInterpreter.class.getPackage().getName().toString() + ".model.";
+            QLSInterpreter.class.getPackage().getName().toString() + ".model.functions.";
 
     private Stack<AbstractPushable<?>> argumentStack = new Stack<AbstractPushable<?>>();
 
@@ -31,7 +30,6 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     private void push(AbstractPushable<?> o) {
         argumentStack.push(o);
-        System.out.println(" , " + argumentStack.size());
     }
 
     private AbstractPushable<?> pop() {
@@ -43,11 +41,13 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     /**
      * This method creates applies the parameters to the component, returning the model.
      */
-    public IModel interopComponent(String componentName, List<AbstractPushable<?>> args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public AbstractModel<?> interopComponent(String componentName, List<AbstractPushable<?>> args)
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException,
+            InvocationTargetException {
         String className = COMPONENTS_PACKAGE_PREFIX + componentName.substring(0, 1).toUpperCase()
                 + componentName.substring(1);
-        Class<IModel> cls = (Class<IModel>) Class.forName(className);
-        IModel model = cls.newInstance();
+        Class<AbstractModel<?>> cls = (Class<AbstractModel<?>>) Class.forName(className);
+        AbstractModel<?> model = cls.newInstance();
         for (AbstractPushable arg : args)
             arg.apply(model);
         return model;
@@ -57,15 +57,16 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     public void outAEmptyIdentList(AEmptyIdentList node) {
         ArrayList<AbstractPushable<?>> values = new ArrayList<AbstractPushable<?>>();
         try {
-            IModel iModel = interopComponent(node.getIdent().getText(), values);
-            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) { };
+            final AbstractModel<?> iModel = interopComponent(node.getIdent().getText(), values);
+            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) {
+                @Override
+                public void apply(IModel model) {
+                    iModel.apply(model);
+                }
+            };
             push(abstractPushable);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -75,20 +76,21 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
         for (int i = 0; i < node.getElement().size(); i++)
             values.add(pop());
         try {
-            IModel iModel = interopComponent(node.getIdent().getText(), values);
-            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) { };
+            final AbstractModel<?> iModel = interopComponent(node.getIdent().getText(), values);
+            AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) {
+                @Override
+                public void apply(IModel model) {
+                    iModel.apply(model);
+                }
+            };
             push(abstractPushable);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void defaultOut(@SuppressWarnings("unused") Node node) {
+    public void defaultOut(Node node) {
         System.out.println("Ignoring: " + node.getClass());
     }
 

@@ -2,9 +2,7 @@ package org.uva.sea.ql.AST.expression.mathexpression;
 
 import org.uva.sea.ql.AST.expression.BinaryExpression;
 import org.uva.sea.ql.AST.expression.Expression;
-import org.uva.sea.ql.AST.literal.BooleanLiteral;
-import org.uva.sea.ql.AST.literal.NumberLiteral;
-import org.uva.sea.ql.AST.value.IntegerValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
 
 public class AddExpression extends BinaryExpression {
 
@@ -14,7 +12,8 @@ public class AddExpression extends BinaryExpression {
 	}
 	
 	@Override
-	public IntegerValue interpretExpression() {
-		return new IntegerValue(0);
-	}	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);		
+	}
+	
 }

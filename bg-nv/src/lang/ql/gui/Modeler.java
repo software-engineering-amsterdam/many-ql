@@ -4,14 +4,12 @@ import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
 import lang.ql.ast.type.*;
-import lang.ql.gui.GuiElement;
 import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.Visitor;
-import lang.ql.semantics.values.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +22,6 @@ public class Modeler implements Visitor<GuiElement>, TypeVisitor<GuiElement>
 {
     private ValueTable values;
 
-    private Canvas canvas;
-    private List<Line> lines;
-
-    private Value currentValue;
-    private Input currentInput;
-
-    public Canvas getCanvas()
-    {
-        return this.canvas;
-    }
-
     public Modeler(ValueTable values)
     {
         this.values = values;
@@ -43,104 +30,71 @@ public class Modeler implements Visitor<GuiElement>, TypeVisitor<GuiElement>
     @Override
     public GuiElement visit(Form form)
     {
-        this.lines = new ArrayList<Line>();
+        List<Line> lines = new ArrayList<Line>();
         for (Statement s : form.getBody())
         {
-            s.accept(this);
+            lines.add((Line) s.accept(this));
         }
 
-        return new Canvas(form.getId(), this.lines);
+        return new Canvas(form.getId(), lines);
     }
 
     @Override
     public GuiElement visit(Question q)
     {
-        this.currentValue = values.getValue(q.getId());
-
         Label label = new Label(q.getLabel());
-        q.getType().accept(this);
-
-        this.lines.add(new Line(label, this.currentInput));
-
-        this.currentInput = null;
-        this.currentValue = null;
-
-        return null;
+        Input input = (Input) q.getType().accept(this);
+        return new Line(label, input);
     }
 
     @Override
     public GuiElement visit(CalculatedQuestion cq)
     {
-        this.currentValue = values.getValue(cq.getId());
-
         Label label = new Label(cq.getLabel());
-        cq.getType().accept(this);
-
-        this.lines.add(new Line(label, this.currentInput));
-
-        this.currentValue = null;
-        this.currentInput = null;
-
-        return null;
+        Input input = (Input) cq.getType().accept(this);
+        return new Line(label, input);
     }
 
     @Override
     public GuiElement visit(BoolType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new BoolInput((BooleanValue)this.currentValue);
-
-        return null;
+        return new BoolInput();
     }
 
     @Override
     public GuiElement visit(DateType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new DateInput((DateValue)this.currentValue);
-
-        return null;
+        return new DateInput();
     }
 
     @Override
     public GuiElement visit(DecType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new DecInput((DecimalValue)this.currentValue);
-
-        return null;
+        return new DecInput();
     }
 
     @Override
     public GuiElement visit(IntType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new IntInput((IntegerValue)this.currentValue);
-
-        return null;
+        return new IntInput();
     }
 
     @Override
     public GuiElement visit(StrType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new StrInput((StringValue)this.currentValue);
-
-        return null;
+        return new StrInput();
     }
 
     @Override
     public GuiElement visit(UndefinedType type)
     {
-        // TODO: remove the cast somehow
-        //this.currentInput = new StrInput((StringValue)this.currentValue);
-
-        return null;
+        return new StrInput();
     }
 
     @Override
     public GuiElement visit(IfCondition ifCond)
     {
+        // TODO: figure out what to do with this - modify the gui model?
         for (Statement s : ifCond.getBody())
         {
             s.accept(this);

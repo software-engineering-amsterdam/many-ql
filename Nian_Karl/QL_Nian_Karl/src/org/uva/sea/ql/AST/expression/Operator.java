@@ -11,7 +11,7 @@ public enum Operator {
 	PLUS("+"),
 	MINUS("-"),
 	MULTIPLY("*"),
-	DEVIDE("/");
+	DIVIDE("/");
 	
 	private final String operatorString;
 	

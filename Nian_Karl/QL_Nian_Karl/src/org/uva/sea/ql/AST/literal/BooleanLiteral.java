@@ -1,6 +1,7 @@
 package org.uva.sea.ql.AST.literal;
 
-import org.uva.sea.ql.AST.value.BooleanValue;
+import org.uva.sea.ql.AST.visitor.Visitor;
+
 
 public class BooleanLiteral extends AbstractLiteral{
 	private final boolean booleanValue;
@@ -8,9 +9,10 @@ public class BooleanLiteral extends AbstractLiteral{
 	public BooleanLiteral(boolean boolValue) {
 		this.booleanValue = boolValue;
 	}
-
+	
 	@Override
-	public BooleanValue interpretExpression() {
-		return new BooleanValue(booleanValue);
-	}	
+	public void accept(Visitor visitor) {
+		visitor.visit(this);		
+	}
+	
 }

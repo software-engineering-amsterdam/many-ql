@@ -1,9 +1,6 @@
 package graphic
 
-import (
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"gopkg.in/qml.v1"
-)
+import "gopkg.in/qml.v1"
 
 const boolQuestionQMLTemplate = `
 import QtQuick 2.2
@@ -43,13 +40,13 @@ GroupBox {
 `
 
 func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
-	content interface{}) (question qml.Object) {
+	content bool) (question qml.Object) {
 	qml := renderTemplateQuestion(boolQuestionQMLTemplate, fieldName,
 		caption, "")
 	question = renderAndInsertAt(qml, g.rows)
 
 	newFieldPtr := question.ObjectByName(fieldName)
-	if content.(*ast.BoolQuestion).String() == "Yes" {
+	if content {
 		newFieldPtr.Set("checked", true)
 	}
 	newFieldPtr.On("clicked", func() {
