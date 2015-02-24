@@ -28,8 +28,8 @@ public class UIForm {
         this.formFrame.setVisible(true);
     }
     
-    public void addElement(UIElement _elem) {
-        IWidget widget = _elem.getWidget();
+    public void addQuestion(UIQuestion _quest) {
+        IWidget widget = _quest.getWidget();
         panel.add(widget.getJComponent());
     }
 }

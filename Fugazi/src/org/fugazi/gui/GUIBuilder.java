@@ -4,12 +4,11 @@ import org.fugazi.ast.form.Form;
 import org.fugazi.ast.statement.*;
 import org.fugazi.evaluator.Evaluator;
 import org.fugazi.gui.ui_elements.UIComputedQuestion;
-import org.fugazi.gui.ui_elements.UIElement;
 import org.fugazi.gui.ui_elements.UIForm;
 import org.fugazi.gui.ui_elements.UIQuestion;
 import org.fugazi.gui.visitor.UITypeVisitor;
 
-public class GUIBuilder implements IStatementVisitor<UIElement> {
+public class GUIBuilder implements IStatementVisitor<UIQuestion> {
 
     private final Form astForm;
     private final UIForm uiForm;
@@ -36,13 +35,13 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
 
     private void addQuestionToTheForm(UIQuestion _quest) {
         this.mediator.addColleague(_quest);
-        this.uiForm.addElement(_quest);
+        this.uiForm.addQuestion(_quest);
     }
 
     /**
      * Statement Visitor
      */
-    public UIElement visitQuestion(Question _question) {
+    public UIQuestion visitQuestion(Question _question) {
 
         UITypeVisitor typeVisitor = new UITypeVisitor(mediator, _question);
         UIQuestion uiQuestion = _question.getType().accept(typeVisitor);
@@ -52,11 +51,11 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
         return uiQuestion;
     }
 
-    public UIElement visitIfStatement(IfStatement _ifStatement) {
+    public UIQuestion visitIfStatement(IfStatement _ifStatement) {
         return null;
     }
 
-    public UIElement visitComputedQuestion(ComputedQuestion _assignQuest) {
+    public UIQuestion visitComputedQuestion(ComputedQuestion _assignQuest) {
         UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(mediator, _assignQuest);
         addQuestionToTheForm(uiComputedQuestion);
         return uiComputedQuestion;
