@@ -10,6 +10,11 @@ public class UndefinedType extends Type
         super("undefined");
     }
 
+    public boolean isUndef()
+    {
+        return true;
+    }
+
     @Override
     public <T> T accept(TypeVisitor<T> visitor)
     {

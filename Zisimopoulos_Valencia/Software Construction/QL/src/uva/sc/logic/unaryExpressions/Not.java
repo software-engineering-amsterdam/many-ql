@@ -7,5 +7,9 @@ public class Not extends UnaryExpression{
 	public Not(Node operand) {
 		super(operand);
 	}
+	
+	public String toString() {
+		return "[un !]";
+	}
 
 }

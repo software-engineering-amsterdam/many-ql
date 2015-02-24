@@ -23,6 +23,4 @@ class Error(val level: Level, val message: String, val position: Position) {
     val state = Seq(level, message, position)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
-
-  override def toString = s"Error($level, $message, $position)"
 }
