@@ -1,8 +1,10 @@
 package test.klq.logic.controller;
 
 import com.klq.logic.expression.AExpression;
+import com.klq.logic.expression.operator.bool.Equals;
 import com.klq.logic.expression.operator.bool.GreaterEquals;
 import com.klq.logic.expression.terminal.*;
+import com.klq.logic.expression.terminal.Boolean;
 import com.klq.logic.expression.terminal.Number;
 import com.klq.logic.question.*;
 
@@ -39,19 +41,26 @@ public class ExampleQuestions{
         GreaterEquals ge = new GreaterEquals(left, right);
         dependencies.add(ge);
         Text text = new Text("Do you have a driving license?");
-        Question q = new Question(id, Type.DATE, null, text, dependencies);
+        Question q = new Question(id, Type.BOOLEAN, null, text, dependencies);
         return q;
     }
 
     public static Question q3(){
         Id id = new Id("question3");
-        OptionSet optionSet = new OptionSet();
-        optionSet.add(new Answer("Yes"));
-        optionSet.add(new Answer("Maybe"));
-        optionSet.add(new Answer("No"));
-        Text text = new Text("Do you like diz?");
+        Text text = new Text("When did you get your license?");
 
-        Question q = new Question(id, Type.SET, optionSet, text, null);
+        List<AExpression> dependencies = new ArrayList<AExpression>();
+        AExpression left = new Identifier("question1");
+        AExpression right = new Number("18");
+        GreaterEquals ge = new GreaterEquals(left, right);
+        dependencies.add(ge);
+
+        AExpression left2 = new Identifier("question2");
+        AExpression right2 = Boolean.getTrue();
+        Equals eq = new Equals(left2, right2);
+        dependencies.add(eq);
+
+        Question q = new Question(id, Type.DATE, null, text, dependencies);
         return q;
     }
 

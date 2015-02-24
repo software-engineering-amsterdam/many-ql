@@ -8,17 +8,17 @@ import lang.ql.semantics.values.*;
  */
 public class ExprEvaluator implements ExprVisitor<Value>
 {
-    private ExprEvalEnv env;
+    private ValueTable valueTable;
 
-    public static Value evaluate(Expr e, ExprEvalEnv env)
+    public static Value evaluate(Expr e, ValueTable valueTable)
     {
-        ExprEvaluator eval = new ExprEvaluator(env);
+        ExprEvaluator eval = new ExprEvaluator(valueTable);
         return e.accept(eval);
     }
 
-    private ExprEvaluator(ExprEvalEnv env)
+    private ExprEvaluator(ValueTable valueTable)
     {
-        this.env = env;
+        this.valueTable = valueTable;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ExprEvaluator implements ExprVisitor<Value>
     @Override
     public Value visit(Ident id)
     {
-        return this.env.getValue(id.getId());
+        return this.valueTable.getValue(id.getId());
     }
 
     @Override

@@ -57,4 +57,12 @@ public abstract class AExpression implements Comparable, IKLQItem{
     public String toString() {
         return left + " - " + this.getClass().getSimpleName() + " - " + right;
     }
+
+    public AExpression getLeft() {
+        return left;
+    }
+
+    public AExpression getRight() {
+        return right;
+    }
 }

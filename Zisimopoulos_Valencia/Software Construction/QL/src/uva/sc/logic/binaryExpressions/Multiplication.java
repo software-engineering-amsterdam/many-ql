@@ -7,4 +7,8 @@ public class Multiplication extends BinaryExpression{
 	public Multiplication(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op *]";
+	}
 }

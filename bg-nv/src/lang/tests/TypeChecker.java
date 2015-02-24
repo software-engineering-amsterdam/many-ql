@@ -113,4 +113,13 @@ public class TypeChecker
 
         TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: tas, has, mas");
     }
+
+    @Test
+    public void autoTypePromError() throws FileNotFoundException
+    {
+        List<Message> ms =  TestHelper.analyse("autoTypeProm");
+        assertEquals(0, ms.size());
+
+        //TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: tas, has, mas");
+    }
 }
