@@ -7,7 +7,7 @@ questionnaireBody:
 form: 'Form:' name=STRING formBody;
 
 formBody:
-    '{'(question|calculation|ifSequence|label)*'}';
+    '{'(question|calculation|ifSequence|label)+'}';
 
 question: 'Question:' name=STRING questionBody;
 
@@ -32,7 +32,7 @@ calculation:
     'Calculation:' name=STRING calculationBody;
 
 calculationBody:
-   '{' ((ifStatement (elseIfStatement)* (elseStatement)?)|input)+'}';
+   '{' (ifSequence|input)+'}';
 
 ifSequence: ifStatement (elseIfStatement)* (elseStatement)?;
 
@@ -46,7 +46,7 @@ elseIfStatement:
     'Else If:' expression statementBody;
 
 statementBody:
-    '{'(question|calculation|input|labelText)*'}';
+    '{'(question|calculation|input|labelText)+'}';
 
 label:
 'Label:'name=STRING labelBody;

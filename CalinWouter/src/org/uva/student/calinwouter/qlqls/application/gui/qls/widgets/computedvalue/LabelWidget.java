@@ -24,8 +24,13 @@ public class LabelWidget implements IWidget {
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                valueLabel.setText(headlessFormInterpreter
-                        .getField(computedValue.getFieldName()).getValue().toString());
+                try {
+                    System.out.println("Label value: " + computedValue.getFieldName());
+                    valueLabel.setText(headlessFormInterpreter
+                            .getField(computedValue.getFieldName()).getValue().toString());
+                } catch (NullPointerException e) {
+                    valueLabel.setText("-");
+                }
             }
         });
     }

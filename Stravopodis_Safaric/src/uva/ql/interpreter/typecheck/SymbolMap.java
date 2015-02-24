@@ -36,7 +36,6 @@ public class SymbolMap {
 		else return null;
 	}
 	public Symbol retrieveSymbol(List<Symbol> listSymbols, String identifier, String className){
-		
 		return null;
 	}
 	public boolean exists(String name){
@@ -59,6 +58,7 @@ public class SymbolMap {
 		}
 		return false;
 	}
+
 	public Symbol getSymbolForAttributes(String name, String type, String className){
 		int index = indexOfSymbol(this.retrieve(name), new Symbol(type, className, null));
 		if (index != -1) return this.retrieve(name).get(index);

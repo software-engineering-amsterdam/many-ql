@@ -1,11 +1,9 @@
-﻿using System;
-using Antlr4.Runtime;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Antlr4.Runtime;
 using QL.Grammars;
 
-namespace Tests.QLTests
+namespace Tests
 {
-    public abstract class SyntaxComplianceTestBase
+    public abstract class QLTestBase
     {
         protected AntlrInputStream Inputstream;
         protected QLLexer Lexer;
@@ -18,6 +16,7 @@ namespace Tests.QLTests
             Lexer = new QLLexer(Inputstream);
             Tokenstream = new CommonTokenStream(Lexer);
             Parser = new QLParser(Tokenstream);
+
         }
     }
 }

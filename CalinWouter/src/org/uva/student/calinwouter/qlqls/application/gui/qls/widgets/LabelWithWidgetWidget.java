@@ -4,7 +4,9 @@ import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableExceptio
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
+import org.uva.student.calinwouter.qlqls.ql.model.FormField;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,7 +15,6 @@ import java.awt.*;
  */
 public class LabelWithWidgetWidget implements IWidget {
     private JPanel labelWithWidgetWidget;
-    private HeadlessFormInterpreter headlessFormInterpreter;
 
     @Override
     public Component getWidget() {
@@ -22,7 +23,6 @@ public class LabelWithWidgetWidget implements IWidget {
 
     public LabelWithWidgetWidget(final AbstractFormField model, IWidget widget,
                                  final HeadlessFormInterpreter headlessFormInterpreter) {
-        this.headlessFormInterpreter = headlessFormInterpreter;
         final Label fieldLabel = new Label();
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
@@ -31,12 +31,20 @@ public class LabelWithWidgetWidget implements IWidget {
             @Override
             public void onStateChanged() {
                 try {
+                    System.out.println("State variable changed:");
+                    List<FormField> fields = headlessFormInterpreter.getFields();
+                    for(FormField f: fields){
+                        System.out.println(f.getVariable() + ", " + f.getValue());
+                    }
+                    System.out.println();
                     fieldLabel.setText(headlessFormInterpreter.getLabelForField(model.getFieldName()));
                     labelWithWidgetWidget.setVisible(true);
                 } catch (LabelNotAvailableException e) {
-                    fieldLabel.setText("");
+                    fieldLabel.setText("LABEL NOT AVAILABLE: " + model.getFieldName());
                     labelWithWidgetWidget.setVisible(false);
                 }
+                labelWithWidgetWidget.repaint();
+                labelWithWidgetWidget.revalidate();
             }
         });
     }

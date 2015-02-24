@@ -9,6 +9,11 @@ import java.util.List;
  */
 public class Error extends Message
 {
+    public Error(String message)
+    {
+        super(message);
+    }
+
     public static Error typeMismatch(String id, Type leftChildType, Type rightChildType, int line)
     {
         String m = String.format("Error (Line %d): expression of type %s cannot have children of different type: %s and %s",
@@ -35,7 +40,7 @@ public class Error extends Message
     public static Error identifierDefEvalMismatch(String id, String defined, String evaluated, int line)
     {
         return new Error(String.format(
-                "Error (Line %d): Question \"%s\" is defined as type %s, but is calculated as type %s",
+                "Error (Line %d): Question \"%s\" is defined as type %s, but is assigned expression of type %s",
                 line, id, defined, evaluated));
     }
 
@@ -55,10 +60,5 @@ public class Error extends Message
     public static Error cyclicQuestions(List<String> ids)
     {
         return new Error("Error: the following questions form a cyclic dependency: " + Message.getListString(ids));
-    }
-
-    public Error(String message)
-    {
-        super(message);
     }
 }

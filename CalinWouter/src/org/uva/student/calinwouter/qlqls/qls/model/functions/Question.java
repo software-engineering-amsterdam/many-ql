@@ -8,6 +8,8 @@ import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCallback;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 // TODO really ugly construction!!!!
 public class Question extends AbstractFormField<Question> implements TypeCallback {

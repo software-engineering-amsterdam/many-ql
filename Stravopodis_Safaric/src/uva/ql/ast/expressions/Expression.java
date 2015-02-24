@@ -1,7 +1,7 @@
 package uva.ql.ast.expressions;
 import uva.ql.ast.*;
 import uva.ql.ast.value.GenericValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public abstract class Expression extends ASTNode {
 	
@@ -12,6 +12,6 @@ public abstract class Expression extends ASTNode {
 		return this.codeLines;
 	}
 	public abstract GenericValue<?> evaluate();
-	public abstract <T> T accept(VisitorInterface<T> visitor);
+	public abstract <T> T accept(ExpressionVisitorInterface<T> visitor);
 	
 }

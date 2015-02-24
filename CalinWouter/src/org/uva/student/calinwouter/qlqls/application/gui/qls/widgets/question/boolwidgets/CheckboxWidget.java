@@ -23,18 +23,7 @@ public class CheckboxWidget implements IWidget {
 
     public CheckboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
         this.checkbox = new JCheckBox();
-        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
-            @Override
-            public void onStateChanged() {
-                // TODO remove casting...
-                try {
-                    TypeModel<?> typeModel = headlessFormInterpreter.getField(question.getFieldName());
-                    checkbox.setSelected((Boolean) typeModel.getValue());
-                } catch(Exception e) {
-                    checkbox.setSelected(false);
-                }
-            }
-        });
+
         checkbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {

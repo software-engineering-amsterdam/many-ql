@@ -1,5 +1,6 @@
 form sample
 {
+    boolean test3 "Mwahaha" test2
     boolean test "Test question" true
     boolean test2 "Test question 2" test
     integer a "label" b + 2
