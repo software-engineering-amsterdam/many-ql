@@ -1,5 +1,6 @@
 package com.klq.logic.controller;
 
+import com.klq.logic.IKLQItem;
 import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Timon on 23.02.2015.
  */
-public class Store {
+public class Store implements IKLQItem{
     private List<Id> order;
     private Map<Id, Question> store;
 
