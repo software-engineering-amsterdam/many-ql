@@ -9,7 +9,7 @@ import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
-import com.klq.logic.*;
+import com.klq.logic.question.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
  * Created by juriaan on 17-2-15.
  */
 public class Visitor implements IVisitor {
-    List<com.klq.logic.Question> questList = new ArrayList<com.klq.logic.Question>();
+    List<Question> questList = new ArrayList<Question>();
     OptionSet currentAnswers = new OptionSet();
 
     @Override
@@ -68,7 +68,7 @@ public class Visitor implements IVisitor {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        com.klq.logic.Question question = new com.klq.logic.Question(type, null, text);
+        Question question = new Question(type, null, text);
         questList.add(question);
 
     }
@@ -79,7 +79,7 @@ public class Visitor implements IVisitor {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        com.klq.logic.Question question = new com.klq.logic.Question(type, currentAnswers, text);
+        Question question = new Question(type, currentAnswers, text);
         questList.add(question);
         currentAnswers = new OptionSet(); //reset the currentAnswers since the end of the question is reached
     }
@@ -99,7 +99,7 @@ public class Visitor implements IVisitor {
         currentAnswers.add(new Answer(String.valueOf(node.getDate())));
     }
 
-    public List<com.klq.logic.Question> getQuestList() {
+    public List<Question> getQuestList() {
         return questList;
     }
 }

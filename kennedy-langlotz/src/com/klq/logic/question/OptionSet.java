@@ -1,4 +1,6 @@
-package com.klq.logic;
+package com.klq.logic.question;
+
+import com.klq.logic.IKLQItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,7 +9,7 @@ import java.util.List;
 /**
  * Created by Timon on 10.02.2015.
  */
-public class OptionSet implements Iterable {
+public class OptionSet implements Iterable, IKLQItem {
     private List<Answer> answers;
     public static final OptionSet BOOLEAN = createAnswerSet(Type.BOOLEAN);
 

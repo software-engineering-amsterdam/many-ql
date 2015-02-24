@@ -38,7 +38,7 @@ public class Date extends AExpression {
                 return d1.compareTo(d2);
             } catch (ParseException p) {
                 p.printStackTrace();
-            };
+            }
         }
         return AExpression.UNCOMPARABLE;
     }

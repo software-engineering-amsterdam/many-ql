@@ -15,12 +15,7 @@ class Evaluator {
   def eval(s: Statement, env: EvalEnvironment): EvalEnvironment = s match {
     case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env)}
     case IfStatement(e, ifBody, elseBodyOption) => doIfStatement(e, env, ifBody, elseBodyOption)
-    case Question(BooleanType(), Variable(name), label, None) => env + (name -> BooleanValue())
-    case Question(BooleanType(), Variable(name), label, Some(e)) => env + (name -> eval(e, env))
-    case Question(NumberType(), Variable(name), label, None) => env + (name -> NumberValue())
-    case Question(NumberType(), Variable(name), label, Some(e)) => env + (name -> eval(e, env))
-    case Question(StringType(), Variable(name), label, None) => env + (name -> StringValue())
-    case Question(StringType(), Variable(name), label, Some(e)) => env + (name -> eval(e, env))
+    case Question(t, Variable(name), _, expressionOption) => doQuestionStatement(t, name, expressionOption, env)
   }
 
   def eval(e: Expression, env: EvalEnvironment): Value = e match {
@@ -37,7 +32,7 @@ class Evaluator {
     case Sub(l, r) => doArithmeticOperation(_ - _, l, r, env)
     case Mul(l, r) => doArithmeticOperation(_ * _, l, r, env)
     case Div(l, r) => doArithmeticOperation(_ / _, l, r, env)
-    case Variable(v) => env getOrElse(v, sys.error(s"Error in type checker. Undefined variable $v."))
+    case Variable(v) => env getOrElse(v, throw new AssertionError(s"Error in type checker. Undefined variable $v."))
     case Literal(_, v) => v
   }
 
@@ -48,21 +43,32 @@ class Evaluator {
         case None => env
         case Some(elseBody) => eval(elseBody, env)
       }
-      case _ => sys.error("Error in type checker. If statement expects boolean expression.")
+      case _ => throw new AssertionError("Error in type checker. If statement expects boolean expression.")
+    }
+  }
+
+  def doQuestionStatement(t: Type, name: String, computedOption: Option[Expression], env: EvalEnvironment): EvalEnvironment = {
+    computedOption match {
+      case None => t match {
+        case BooleanType() => env + (name -> BooleanValue())
+        case NumberType() => env + (name -> NumberValue())
+        case StringType() => env + (name -> StringValue())
+      }
+      case Some(e) => env + (name -> eval(e, env))
     }
   }
 
   def doBooleanOperation(op: Boolean => Boolean, e1: Expression, env: EvalEnvironment): BooleanValue = {
     eval(e1, env) match {
       case BooleanValue(b1) => BooleanValue(op(b1))
-      case _ => sys.error("Error in type checker. Boolean operator expects a boolean value.")
+      case _ => throw new AssertionError("Error in type checker. Boolean operator expects a boolean value.")
     }
   }
 
   def doBooleanOperation(op: (Boolean, Boolean) => Boolean, e1: Expression, e2: Expression, env: EvalEnvironment): BooleanValue = {
     (eval(e1, env), eval(e2, env)) match {
       case (BooleanValue(b1), BooleanValue(b2)) => BooleanValue(op(b1, b2))
-      case _ => sys.error("Error in type checker. Boolean operator expects two boolean values.")
+      case _ => throw new AssertionError("Error in type checker. Boolean operator expects two boolean values.")
     }
   }
 
@@ -71,21 +77,21 @@ class Evaluator {
       case (BooleanValue(l), BooleanValue(r)) => BooleanValue(op(l, r))
       case (NumberValue(l), NumberValue(r)) => BooleanValue(op(l, r))
       case (StringValue(l), StringValue(r)) => BooleanValue(op(l, r))
-      case _ => sys.error("Error in type checker. Equality operator expects two values of the same type.")
+      case _ => throw new AssertionError("Error in type checker. Equality operator expects two values of the same type.")
     }
   }
 
   def doOrderOperation(op: (Int, Int) => Boolean, e1: Expression, e2: Expression, env: EvalEnvironment): BooleanValue = {
     (eval(e1, env), eval(e2, env)) match {
       case (NumberValue(b1), NumberValue(b2)) => BooleanValue(op(b1, b2))
-      case _ => sys.error("Error in type checker. Order operator expects two number values.")
+      case _ => throw new AssertionError("Error in type checker. Order operator expects two number values.")
     }
   }
 
   def doArithmeticOperation(op: (Int, Int) => Int, e1: Expression, e2: Expression, env: EvalEnvironment): NumberValue = {
     (eval(e1, env), eval(e2, env)) match {
       case (NumberValue(b1), NumberValue(b2)) => NumberValue(op(b1, b2))
-      case _ => sys.error("Error in type checker. Arithmetic operator expects two number values.")
+      case _ => throw new AssertionError("Error in type checker. Arithmetic operator expects two number values.")
     }
   }
 
