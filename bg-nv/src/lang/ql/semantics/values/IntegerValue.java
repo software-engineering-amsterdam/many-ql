@@ -152,4 +152,9 @@ public class IntegerValue extends Value<Integer>
     {
         return new IntegerValue(this.getValue());
     }
+
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

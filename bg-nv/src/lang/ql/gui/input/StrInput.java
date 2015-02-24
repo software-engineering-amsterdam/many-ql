@@ -15,9 +15,9 @@ public class StrInput extends Input
         super();
     }
 
-    public StrInput(Boolean disabled)
+    public StrInput(Boolean visible, Boolean disabled)
     {
-        super(disabled);
+        super(visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)

@@ -1,11 +1,13 @@
 package com.klq.logic.expression;
 
+import com.klq.logic.IKLQItem;
+
 import java.lang.*;
 
 /**
  * Created by Timon on 17.02.2015.
  */
-public abstract class AExpression implements Comparable{
+public abstract class AExpression implements Comparable, IKLQItem{
     protected static final int ADD = -4;
     protected static final int SUB = -3;
     protected static final int MUL = -2;

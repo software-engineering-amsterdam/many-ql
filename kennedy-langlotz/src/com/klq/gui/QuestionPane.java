@@ -1,8 +1,8 @@
 package com.klq.gui;
 
-import com.klq.logic.OptionSet;
-import com.klq.logic.Question;
-import com.klq.logic.Type;
+import com.klq.logic.question.OptionSet;
+import com.klq.logic.question.Question;
+import com.klq.logic.question.Type;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;

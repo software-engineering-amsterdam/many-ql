@@ -46,4 +46,10 @@ public class StringValue extends Value<String>
         boolean r = !(v.getValue().equals(this.getValue()));
         return new BooleanValue(r);
     }
+
+    @Override
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

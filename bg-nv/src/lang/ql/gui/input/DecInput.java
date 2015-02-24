@@ -15,9 +15,9 @@ public class DecInput extends Input
         super();
     }
 
-    public DecInput(Boolean disabled)
+    public DecInput(Boolean visible, Boolean disabled)
     {
-        super(disabled);
+        super(visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)

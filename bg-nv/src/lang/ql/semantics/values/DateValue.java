@@ -12,4 +12,9 @@ public class DateValue extends Value<Date>
     {
         super(value);
     }
+
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

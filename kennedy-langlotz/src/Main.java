@@ -1,9 +1,8 @@
 import com.klq.Visitor;
 import com.klq.ast.ANode;
 import com.klq.ast.ParseTreeConverter;
-import com.klq.ast.ASTPrinter;
 import com.klq.gui.QuestionPage;
-import com.klq.logic.Question;
+import com.klq.logic.question.Question;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;

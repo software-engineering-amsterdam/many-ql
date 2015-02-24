@@ -20,16 +20,18 @@ question
     text : "name?"
     type : content
     value: 12/01/2012
-end*/question
+end
+
+question
     id : question1
     text : "What is your age?"
     type : numeral
     value : 18
 end
 
-question
+*/question
     id : question2
     text : "When is your birthday?"
-    type : content
+    type : date
     value : 21.12.1990
 end

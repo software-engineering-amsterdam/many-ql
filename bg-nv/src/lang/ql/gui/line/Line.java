@@ -15,6 +15,14 @@ public class Line extends GuiElement
 
     public Line(Label label, Input input)
     {
+        super();
+        this.label = label;
+        this.input = input;
+    }
+
+    public Line(Label label, Input input, Boolean visible)
+    {
+        super(visible);
         this.label = label;
         this.input = input;
     }

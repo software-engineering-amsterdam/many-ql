@@ -10,7 +10,7 @@ VALUE       : 'value' ;
 
 SET         : 'set' ;
 BOOLEAN     : 'boolean' ;
-DATE        : 'content' ;
+DATE        : 'date' ;
 STRING      : 'string' ;
 NUMERAL     : 'numeral' ;
 
@@ -67,7 +67,7 @@ QuestionId
 questionType
     : 'set'
     | 'boolean'
-    | 'content'
+    | 'date'
     | 'string'
     | 'numeral'
     ;

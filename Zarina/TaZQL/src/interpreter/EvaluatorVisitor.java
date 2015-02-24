@@ -31,12 +31,6 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 	
 	@Override
-	public Value visit(BracketsExpression expr) {
-		// TODO Get rid of this...
-		return null;
-	}
-
-	@Override
 	public Value visit(MultiplicationExpression expr) {
 		Value left = expr.getLeftExpression().accept(this);
 		Value right = expr.getRightExpression().accept(this);
@@ -156,25 +150,27 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
+	public Value visit(BracketsExpression expr) {
+		return expr.getUnaryExpression().accept(this);
+	}
+	
+	@Override
 	public Value visit(StringVariable string) {
-		// TODO create class for string values.
-		return null;
+		return new StringValue(string.getVariable());
 	}
 
 	@Override
 	public Value visit(IntegerVariable integer) {
-		return new IntegerValue(integer.getValue());
-	//	return null;
+		return new IntegerValue(integer.getVariable());
 	}
 
 	@Override
 	public Value visit(BooleanVariable bool) {
-		return new BooleanValue(bool.getValue());
+		return new BooleanValue(bool.getVariable());
 	}
-
+	
 	@Override
 	public Value visit(Id identifier) {
-		// TODO Auto-generated method stub
-		return valueRepository.getVariables(identifier);
+		return valueRepository.getValue(identifier);
 	}	
 }
