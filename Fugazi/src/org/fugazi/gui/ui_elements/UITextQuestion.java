@@ -15,22 +15,28 @@ public class UITextQuestion extends UIQuestion {
     
     public UITextQuestion(UIMediator _med, Question _question) {
         super(_med, _question);
-        value = "";
+        this.value = ""; // default
 
         // TODO: get it from a GUI Designer
         this.widget = new TextBox(_question.getLabel());
         
         this.widget.addDocumentListener(new DocumentListener() {
-            
-            // todo: looks bad...
+
             public void insertUpdate(DocumentEvent e) {
-                setState(widget.getValue().toString());
+                setState(
+                        widget.getValue().toString()
+                );
             }
             public void removeUpdate(DocumentEvent e) {
-                setState(widget.getValue().toString());
+                setState(
+                        widget.getValue().toString()
+                );
             }
             public void changedUpdate(DocumentEvent e) {}
         });
+
+        // Todo: get initial form state OR get undefined value when no default
+        this.sendToMediator();
     }
 
     public void setState(String _value) {

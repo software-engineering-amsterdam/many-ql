@@ -9,31 +9,35 @@ import java.awt.event.ItemEvent;
 
 public class UIBoolQuestion extends UIQuestion {
 
-    private BoolValue value;
+    private Boolean value;
 
     public UIBoolQuestion(UIMediator _med, Question _question) {
         super(_med, _question);
+        this.value = false; // default
 
         // TODO: get it from a GUI Designer
         this.widget = new CheckBox(_question.getLabel());
         this.widget.addItemListener(event -> itemChanged(event));
+
+        // Todo: get initial form state OR get undefined value when no default?
+        this.sendToMediator();
     }
 
     private void itemChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            this.setState(new BoolValue(true));
+            this.setState(true);
         } else {
-            this.setState(new BoolValue(false));
+            this.setState(false);
         }
     }
 
-    public void setState(BoolValue _value) {
+    public void setState(Boolean _value) {
         value = _value;
         this.sendToMediator();
     }
 
     @Override
     public ExpressionValue getState() {
-        return value;
+        return new BoolValue(value);
     }
 }

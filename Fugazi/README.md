@@ -26,20 +26,16 @@ of support and many active online communities.
 
 ## Unit Tests
 
-//TODO: JUnit?
+For the tests we use the JUnit4 framework.
 
 ## IDE
 
 Both contributors use the `IntelliJ IDEA` IDE for their development process, the reason is that we both have worked on *JetBrains* IDE's
 before and we feel more comfortable by using it.
 
-## Build tools
-
-//TODO: Gradle, Maven, Makefile?
-
 ## UI
 
-//TODO: JavaFX, Swing, JFrame?
+For the UI we use the Java Swing framework.
 
 ## External Tools
 
