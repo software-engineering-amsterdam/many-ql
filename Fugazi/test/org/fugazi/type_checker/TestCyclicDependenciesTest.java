@@ -31,24 +31,34 @@ public class TestCyclicDependenciesTest extends TypeCheckerBaseTest {
         List<ASTNodeError> errors = checker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(1, errors.size());
+        assertEquals(6, errors.size());
     }
 
     @Test
     public void testErrorTypes() throws Exception {
         List<ASTNodeError> errors = checker.getErrors();
 
-        ASTNodeErrorType expectedType = ASTNodeErrorType.ERROR.CYCLIC;
         List<ASTNodeErrorType> receivedTypes = new ArrayList<>();
 
         for (ASTNodeError error: errors) {
-            System.out.println(error.getMessage() + " " + error.getNode());
             receivedTypes.add(error.getErrorType());
         }
-        // no custom arrayEquals method
+        // we expect two of each kind
+        int cyclicDeps = 0, undefined = 0, wrongAssignment = 0;
         for (ASTNodeErrorType received : receivedTypes) {
-            assertTrue(received.equals(expectedType));
+            if (received.equals(ASTNodeErrorType.ERROR.CYCLIC)) {
+                cyclicDeps++;
+            }  else if (received.equals(ASTNodeErrorType.ERROR.UNDEFINED)) {
+                undefined++;
+            }  else if (received.equals(ASTNodeErrorType.ERROR.TYPE_MISMATCH)) {
+                wrongAssignment++;
+            }
         }
+
+        assertEquals(2, cyclicDeps);
+        assertEquals(2, undefined);
+        assertEquals(2, wrongAssignment);
+
     }
 
     @Test
