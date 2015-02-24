@@ -53,13 +53,12 @@ public class IntegerValue extends Value  {
 	}
 
 	public Value plus() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO to be tested (for minus too).
+		return new IntegerValue(getIntegerValue());
 	}
 
 	public Value minus() {
-		// TODO Auto-generated method stub
-		return null;
+		return new IntegerValue(-getIntegerValue());
 	}
 
 	public Value addInt(IntegerValue value) {
@@ -79,34 +78,33 @@ public class IntegerValue extends Value  {
 	}
 
 	public Value equalityInt(IntegerValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(value.getIntegerValue() == getIntegerValue());
 	}
 
 	public Value greaterEqualInt(IntegerValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(value.getIntegerValue() >= getIntegerValue());
 	}
 
 	public Value greaterInt(IntegerValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(value.getIntegerValue() > getIntegerValue());
 	}
 
 	public Value lessEqualInt(IntegerValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(value.getIntegerValue() <= getIntegerValue());
 	}
 
 	public Value lessInt(IntegerValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(value.getIntegerValue() < getIntegerValue());
 	}
 
 	public Value notEqualInt(IntegerValue value) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(value.getIntegerValue() != getIntegerValue());
 	}
 
- // TODO hashmap stuff...
+	public boolean equals(Object object) {
+		if (object instanceof IntegerValue) {	
+			return getIntegerValue().equals(((IntegerValue) object).getIntegerValue());
+		}
+		return false;
+	}	
 }
