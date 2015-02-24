@@ -1,43 +1,35 @@
-/*if (10 > question1) then
-    if (a > b && b > c) then
-        question
-            id : question1
-            text : "What is love"
-            type : boolean
-            value : "Baby don't hurt me", "Don't hurt me", 10.3 * 42.5 + 100
-        end
-    end
-end
-
-question
-    id : question2
-    text : "Age?"
-    type : numeral
-    value : 9*(0+ 8)
-end
-question
-    id : question3
-    text : "name?"
-    type : content
-    value: 12/01/2012
-end
-
 question
     id : question1
     text : "What is your age?"
     type : numeral
-    value : 18
 end
 
-*/question
-    id : question2
-    text : "When is your birthday?"
-    type : date
-    value: 20-12-2020
+if (question1  > 18) then
+    question
+        id : question2
+        text : "When is your birthday?"
+        type : date
+    end
+end
+
+if (question2 > 01.01.1111) then
+    question
+        id : question3
+        text : "What is your name"
+        type : string
+    end
+end
+
+if (question1 > 20 && question3 == "Timon") then
+    question
+        id : question4
+        text : "Why are you so awesome?"
+        type : string
+    end
 end
 
 question
-    id : question3
-    text : "What is your name"
+    id : question5
+    text : "Hi my name is Jeff!"
     type : string
 end

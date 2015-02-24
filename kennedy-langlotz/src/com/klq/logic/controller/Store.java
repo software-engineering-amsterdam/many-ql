@@ -1,5 +1,6 @@
 package com.klq.logic.controller;
 
+import com.klq.gui.IStoreListener;
 import com.klq.logic.IKLQItem;
 import com.klq.logic.expression.AExpression;
 import com.klq.logic.expression.operator.bool.*;
@@ -7,9 +8,6 @@ import com.klq.logic.expression.operator.math.Addition;
 import com.klq.logic.expression.operator.math.Division;
 import com.klq.logic.expression.operator.math.Multiplication;
 import com.klq.logic.expression.operator.math.Subtraction;
-import com.klq.logic.expression.terminal.Boolean;
-import com.klq.logic.expression.terminal.Date;
-import com.klq.logic.expression.terminal.Number;
 import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
 
@@ -24,10 +22,16 @@ import java.util.Map;
 public class Store implements IKLQItem{
     private List<Id> order;
     private Map<Id, Question> store;
+    private List<IStoreListener> listeners;
 
     public Store() {
         order = new ArrayList<Id>();
         store = new HashMap<Id, Question>();
+        listeners = new ArrayList<IStoreListener>();
+    }
+
+    public void addStoreListener(IStoreListener listener){
+        this.listeners.add(listener);
     }
 
     public Question add(Question question){
@@ -61,7 +65,9 @@ public class Store implements IKLQItem{
     }
 
     public void update(Id updated){
+        List<Id> needUpdate = new ArrayList<Id>();
         for (Question q : store.values()) {
+            boolean qNeedsUpdate = false;
             List<ReplacementTuple> replacements = new ArrayList<ReplacementTuple>();
             List<AExpression> dList = q.getDependencies();
             if (dList != null) {
@@ -82,6 +88,7 @@ public class Store implements IKLQItem{
                         }
                     }
                     if (left != null || right != null) {
+                        qNeedsUpdate = true;
                         AExpression replacement = copyExpressionFrom(expr, left, right).evaluate();
                         replacements.add(new ReplacementTuple(expr, replacement));
                     }
@@ -90,6 +97,15 @@ public class Store implements IKLQItem{
             for (ReplacementTuple rt : replacements){
                 q.updateDependency(rt.getExpression(), rt.getReplacement());
             }
+            if (qNeedsUpdate)
+                needUpdate.add(q.getId());
+        }
+        updateListeners(needUpdate);
+    }
+
+    private void updateListeners(List<Id> changed){
+        for (IStoreListener listener : listeners) {
+            listener.storeUpdated(changed);
         }
     }
 
@@ -116,25 +132,7 @@ public class Store implements IKLQItem{
     private AExpression createExpressionFromAnswer(Id source){
         Question answered = store.get(source);
         String answerString = answered.getResult().getContent();
-        AExpression newExpr;
-        switch (answered.getType()){
-            case BOOLEAN:
-                if ("True".equals(answered.getResult()))
-                    newExpr = Boolean.getTrue();
-                else
-                    newExpr = Boolean.getFalse();
-                break;
-            case DATE:
-                newExpr = new Date(answerString);
-                break;
-            case NUMERAL:
-                newExpr = new Number(answerString);
-                break;
-            default:
-                newExpr = new com.klq.logic.expression.terminal.String(answerString);
-                break;
-        }
-        return newExpr;
+        return Question.createTerminalFromString(answered, answerString);
     }
 
     private AExpression resolve(AExpression expr){
