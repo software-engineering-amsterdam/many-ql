@@ -1,6 +1,5 @@
 package ast.value;
 
-import ast.Value;
 
 public class Str extends Value{
 

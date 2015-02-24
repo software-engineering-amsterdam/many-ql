@@ -39,12 +39,12 @@ public class Main {
             System.exit(0);
         }
 
-        ValueStorage valueStorage = new ValueStorage();
-
-        Evaluator evaluator = new Evaluator(valueStorage);
-
-        // Render GUI.
-        GUIBuilder guiBuilder = new GUIBuilder(form, evaluator);
-        guiBuilder.renderGUI();
+//        ValueStorage valueStorage = new ValueStorage();
+//
+//        Evaluator evaluator = new Evaluator(valueStorage);
+//
+//        // Render GUI.
+//        GUIBuilder guiBuilder = new GUIBuilder(form, evaluator);
+//        guiBuilder.renderGUI();
     }
 }

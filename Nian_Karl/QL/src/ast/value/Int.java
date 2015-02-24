@@ -1,6 +1,5 @@
 package ast.value;
 
-import ast.Value;
 
 public class Int extends Value{
 
@@ -33,7 +32,6 @@ public class Int extends Value{
 //Negative
 	@Override
 	public Value negative() {
-		// TODO Auto-generated method stub
 		return new Int(-getValue());
 	}
 	
