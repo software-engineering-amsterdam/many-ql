@@ -14,7 +14,7 @@ form HouseSelling {
     	hasMaintLoan = "Did you sell a house in 2014 ?";
     }	
 
-    if (2+10 != 12){
+    if (true == true){
     	question sellingPrice typeof decimal {
     		sellingPrice = "What was the selling price?";
     	}
@@ -23,7 +23,7 @@ form HouseSelling {
     	}
     	question valueResidue typeof decimal {
     		valueResidue = "Value residue:";
-    		valueResidue = sellingPrice - privateDebt;
+    		//valueResidue = sellingPrice - privateDebt;
     	}
     }
 }

@@ -8,8 +8,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Prog;
-import uva.ql.ast.visitor.VisitorInterface;
-import uva.ql.interpreter.typecheck.Symbol;
+import uva.ql.interpreter.gui.GUIVisitor;
+import uva.ql.interpreter.typecheck.TypeCheck;
 import uva.ql.interpreter.typecheck.TypeCheckVisitor;
 import uva.ql.parser.QLLexer;
 import uva.ql.parser.QLMainVisitor;
@@ -20,8 +20,6 @@ public class Main{
 	public static void main(String[] args) throws IOException{
 		
 		ANTLRInputStream inputStream = new ANTLRInputStream(new FileInputStream("SupportingFiles/Test.ql"));
-		//inputStream = new ANTLRInputStream("(3+2+8-3+34-3+9 > 60 + 34 - 34) && (2 < 3/2)");
-		
 		QLLexer lexer = new QLLexer(inputStream);
 		
 		CommonTokenStream stream = new CommonTokenStream(lexer);
@@ -31,14 +29,14 @@ public class Main{
 		QLMainVisitor visitor = new QLMainVisitor();
 		ASTNode ast = visitor.visit(tree);
 		
-		
-		VisitorInterface<Object> v = new TypeCheckVisitor();
+		TypeCheckVisitor v = new TypeCheckVisitor();
 		v.visitProg((Prog)ast);
 		
-		/*for (String s : TypeCheckVisitor.symbols.getAllKeys()){
-			for (Symbol symbol : TypeCheckVisitor.symbols.retrieve(s)){
-				System.out.println("SYMBOLTABLE -> " + s + " - " + symbol.toString());
-			}
-		}*/
+		TypeCheck typeCheck = new TypeCheck(ast);
+		//typeCheck.printSymbolTable();
+		
+		GUIVisitor guiVisitor = new GUIVisitor(typeCheck.getSymbolTable());
+		guiVisitor.visitProg((Prog)ast);
+		
 	}
 }

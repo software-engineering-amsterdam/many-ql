@@ -35,11 +35,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
         QuestionNode questionNode;
 
         if(ctx.answerOptions() == null){
-            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), ctx.text.getText());
+            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()));
         }
         else {
             ANode child = visit(ctx.answerOptions());
-            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), ctx.text.getText(), child);
+            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), child);
         }
         return questionNode;
     }
@@ -87,7 +87,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitString(KLQParser.StringContext ctx) {
-        StringNode stringNode = new StringNode(ctx.String().getText());
+        StringNode stringNode = new StringNode(stripQuotes(ctx.String().getText()));
         return stringNode;
     }
 
@@ -164,5 +164,10 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
     @Override
     public ANode visitParens(KLQParser.ParensContext ctx) {
         return visit(ctx.expr());
+    }
+
+    private String stripQuotes(String s) {
+        if ( s==null || s.charAt(0)!='"' ) return s;
+        return s.substring(1, s.length() - 1);
     }
 }
