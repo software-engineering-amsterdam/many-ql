@@ -47,12 +47,6 @@ public class QLFactory implements IQLFactory {
 		}
 	}
 
-	@Override
-	public Expression getExpression(ExpressionContext ctx) {
-
-		return null;
-	}
-
 	public Operator getOperator(String s) {
 		for (Operator operator : Operator.values()) {
 			if (operator.getOperatorString().equals(s)) {

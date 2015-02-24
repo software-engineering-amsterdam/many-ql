@@ -17,6 +17,8 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.BoolLiteral;
 import com.form.language.ast.expression.literal.IntLiteral;
 import com.form.language.ast.expression.literal.StringLiteral;
+import com.form.language.ast.expression.math.Negation;
+import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.ast.values.StringValue;
 
@@ -34,9 +36,9 @@ public class AstTest {
 	public void testInt() throws RecognitionException, IOException  {
 		String str="1";
 		GrammarParser parser= AstTest.getParser(str);
-		IntValue actual = ((IntValue)(parser.expression().result).evaluate());
-		IntValue exspected = new IntValue(1);
-		assertEquals(exspected.getValue(),actual.getValue());
+		int actual = ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int exspected = new IntValue(1).getValue();
+		assertEquals(exspected,actual);
 	}
 	
     @Test
@@ -47,5 +49,157 @@ public class AstTest {
 	  String exspected = new StringValue(str).getValue();
 	  assertEquals(exspected,actual);
 	 }
+    
+    @Test
+    public void testBoolean() throws RecognitionException, IOException  {
+	  String str="true";
+	  GrammarParser parser= AstTest.getParser(str);
+	  boolean actual = ((BoolValue)(parser.expression().result).evaluate()).getValue();
+	  boolean exspected = new BoolValue(true).getValue();
+	  assertEquals(exspected,actual);
+	 }
+    
+    @Test
+   	public void testIntBrackets() throws RecognitionException, IOException  {
+   		String str="(1)";
+   		GrammarParser parser= AstTest.getParser(str);
+   		int actual= ((IntValue)(parser.expression().result).evaluate()).getValue();
+   		int exspected = new IntValue((1)).getValue();
+   		assertEquals(exspected, actual);
+   	}
+    
+    @Test
+   	public void testStringBrackets() throws RecognitionException, IOException  {
+   		String str="\"(abc)\"";
+   		GrammarParser parser= AstTest.getParser(str);
+   		String actual= ((StringValue)(parser.expression().result).evaluate()).getValue();
+   		String exspected = new StringValue(str).getValue();
+   		assertEquals(exspected, actual);
+   	}
+    
+    @Test
+   	public void testBooleanBrackets() throws RecognitionException, IOException  {
+   		String str="(true)";
+   		GrammarParser parser= AstTest.getParser(str);
+   		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+   		boolean exspected =  new BoolValue((true)).getValue();
+   		assertEquals(exspected, actual);
+   	}
+    
+    @Test
+	public void testExpressionNegative() throws RecognitionException, IOException  {
+		String str="-1";
+		GrammarParser parser= AstTest.getParser(str);
+		int actual= ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int exspected = -1;
+		assertEquals(exspected, actual);
+	}
+    @Test
+	public void testExpressionNot() throws RecognitionException, IOException  {
+		String str="!true";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = !true;
+		assertEquals(exspected, actual);
+	}
+    
+    @Test
+	public void testExpressionMultiplication() throws RecognitionException, IOException  {
+		String str="1*1";
+		GrammarParser parser= AstTest.getParser(str);
+		int actual= ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int exspected = 1*1;
+		assertEquals(exspected, actual);
+	}
+    
+    @Test
+	public void testExpressionDivision() throws RecognitionException, IOException  {
+		String str="1/1";
+		GrammarParser parser= AstTest.getParser(str);
+		int actual= ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int exspected = 1/1;
+		assertEquals(exspected, actual);
+	}  
+    
+    @Test
+	public void testExpressionAddition() throws RecognitionException, IOException  {
+		String str="1+1";
+		GrammarParser parser= AstTest.getParser(str);
+		int actual= ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int exspected = 1+1;
+		assertEquals(exspected, actual);
+	}  
+    
+    @Test
+	public void testExpressionSubstraction() throws RecognitionException, IOException  {
+		String str="1-1";
+		GrammarParser parser= AstTest.getParser(str);
+		int actual= ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int exspected = 1-1;
+		assertEquals(exspected, actual);
+	}
+    
+    @Test
+	public void testExpressionEqual() throws RecognitionException, IOException  {
+		String str="1==1";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = 1 == 1;
+		assertEquals(exspected, actual);
+	}
+    
+    @Test
+	public void testExpressionGreaterThan() throws RecognitionException, IOException  {
+		String str="1>1";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = 1 > 1;
+		assertEquals(exspected, actual);
+	}
 
+    @Test
+	public void testExpressionGreaterThanOrEqual() throws RecognitionException, IOException  {
+		String str="1>=1";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = 1 >= 1;
+		assertEquals(exspected, actual);
+	}
+
+    @Test
+	public void testExpressionLessThan() throws RecognitionException, IOException  {
+		String str="1<1";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = 1 < 1;
+		assertEquals(exspected, actual);
+	}
+
+    @Test
+	public void testExpressionLessThanOrEqual() throws RecognitionException, IOException  {
+		String str="1<=1";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = 1 <= 1;
+		assertEquals(exspected, actual);
+	}
+    
+    @Test
+	public void testExpressionAnd() throws RecognitionException, IOException  {
+		String str="true && true";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = true && true;
+		assertEquals(exspected, actual);
+	}
+    
+    @Test
+	public void testExpressionOr() throws RecognitionException, IOException  {
+		String str="true || true";
+		GrammarParser parser= AstTest.getParser(str);
+		boolean actual= ((BoolValue)(parser.expression().result).evaluate()).getValue();
+		boolean exspected = true || true;
+		assertEquals(exspected, actual);
+	}
+    
 }

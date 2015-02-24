@@ -12,6 +12,7 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.logic.IKLQItem;
+import com.klq.logic.controller.Store;
 import com.klq.logic.question.*;
 
 import java.util.ArrayList;
@@ -29,7 +30,12 @@ public class Visitor implements IVisitor<IKLQItem> {
      ==================================================================================================================*/
     @Override
     public IKLQItem visit(QuestionnaireNode node) {
-        return null;
+        Store store = new Store();
+        for(ANode child : node.getChildren()){
+            Question question = (Question) child.accept(this);
+            store.add(question);
+        }
+        return store;
     }
 
     @Override
@@ -38,9 +44,7 @@ public class Visitor implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        Question question = new Question(type, null, text, null);
-        questList.add(question);
-        return null;
+        return new Question(id, type, null, text, null);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class Visitor implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        Question question = new Question(type, currentAnswers, text, null);
+        Question question = new Question(id, type, currentAnswers, text, null);
         questList.add(question);
         currentAnswers = new OptionSet(); //reset the currentAnswers since the end of the question is reached
         return null;
@@ -57,11 +61,11 @@ public class Visitor implements IVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(ANode node) {
-        return null;
+        return visit(node);
     }
 
     /*==================================================================================================================
-    Expressions - Mathmetical
+    Expressions - Mathematical
      ==================================================================================================================*/
     @Override
     public IKLQItem visit(MultiplyNode node) {

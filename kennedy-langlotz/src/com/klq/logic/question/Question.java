@@ -2,6 +2,7 @@ package com.klq.logic.question;
 
 import com.klq.logic.IKLQItem;
 import com.klq.logic.controller.Store;
+import com.klq.logic.expression.AExpression;
 
 import java.util.List;
 
@@ -13,12 +14,12 @@ public class Question implements IKLQItem {
     private final Type type;
     private final OptionSet options;
     private final Text text;
-    private final List<Dependency> dependencies;
+    private final List<AExpression> dependencies;
     private Answer result;
 
     private Store store;
 
-    public Question (Id id, Type type, OptionSet options, Text text, List<Dependency> dependencies){
+    public Question (Id id, Type type, OptionSet options, Text text, List<AExpression> dependencies){
         this.id = id;
         this.type = type;
         this.options = options;
@@ -43,24 +44,31 @@ public class Question implements IKLQItem {
         return text;
     }
 
-    public List<Dependency> getDependencies() {
+    public List<AExpression> getDependencies() {
         return dependencies;
+    }
+
+    public boolean updateDependency(AExpression oldExpr, AExpression newExpr){
+        return dependencies.remove(oldExpr) && dependencies.add(newExpr);
     }
 
     public void setResult(Answer result) {
         this.result = result;
+        questionAnswered();
     }
 
     public Answer getResult() {
         return result;
     }
 
-    public void questionAnswered(){
-        store.update();
+    private void questionAnswered(){
+        store.update(getId());
     }
 
-    public void setStore(Store store){
+    public void setStore(Store store) throws Exception{
         if (this.store == null)
             this.store = store;
+        else
+            throw new Exception("Store already set!");
     }
 }

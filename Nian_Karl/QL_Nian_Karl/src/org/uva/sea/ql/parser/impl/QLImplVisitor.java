@@ -79,32 +79,27 @@ public class QLImplVisitor extends QLBaseVisitor<Visitable> {
 			Operator operator = factory.getOperator(ctx.op.getText());
 			switch (operator) {
 			case AND:
-				return new AndExpression((Expression) visitExpression(ctx.Left), (Expression) visitExpression(ctx.Left));
+				return new AndExpression((Expression) visitExpression(ctx.left), (Expression) visitExpression(ctx.right));
 			case OR:
-				return new OrExpression((Expression) visitExpression(ctx.Left), (Expression) visitExpression(ctx.Left));
+				return new OrExpression((Expression) visitExpression(ctx.left), (Expression) visitExpression(ctx.right));
 			case EQUAL_COND:
-				return new EqualExpression((Expression) visitExpression(ctx.Left),
-						(Expression) visitExpression(ctx.Left));
+				return new EqualExpression((Expression) visitExpression(ctx.left),(Expression) visitExpression(ctx.right));
 			case GREATER:
-				return new GreaterExpression((Expression) visitExpression(ctx.Left),
-						(Expression) visitExpression(ctx.Left));
+				return new GreaterExpression((Expression) visitExpression(ctx.left),(Expression) visitExpression(ctx.right));
 			case GREAT_EQUAL:
-				return new GreaterEqualExpression((Expression) visitExpression(ctx.Left),
-						(Expression) visitExpression(ctx.Left));
+				return new GreaterEqualExpression((Expression) visitExpression(ctx.left),(Expression) visitExpression(ctx.right));
 			case LESS_EQUAL:
-				return new LessEqualExpression((Expression) visitExpression(ctx.Left),
-						(Expression) visitExpression(ctx.Left));
+				return new LessEqualExpression((Expression) visitExpression(ctx.left),(Expression) visitExpression(ctx.right));
 			case LESS:
-				return new LessExpression((Expression) visitExpression(ctx.Left),
-						(Expression) visitExpression(ctx.Left));
+				return new LessExpression((Expression) visitExpression(ctx.left),(Expression) visitExpression(ctx.right));
 			case PLUS:
-				return new AddExpression((Expression) visitExpression(ctx.Left), (Expression) visitExpression(ctx.Left));
+				return new AddExpression((Expression) visitExpression(ctx.left), (Expression) visitExpression(ctx.right));
 			case MINUS:
-				return new SubExpression((Expression) visitExpression(ctx.Left), (Expression) visitExpression(ctx.Left));
+				return new SubExpression((Expression) visitExpression(ctx.left), (Expression) visitExpression(ctx.right));
 			case MULTIPLY:
-				return new MulExpression((Expression) visitExpression(ctx.Left), (Expression) visitExpression(ctx.Left));
+				return new MulExpression((Expression) visitExpression(ctx.left), (Expression) visitExpression(ctx.right));
 			case DIVIDE:
-				return new DivExpression((Expression) visitExpression(ctx.Left), (Expression) visitExpression(ctx.Left));
+				return new DivExpression((Expression) visitExpression(ctx.left), (Expression) visitExpression(ctx.right));
 			default:
 				break;
 			}
@@ -112,9 +107,8 @@ public class QLImplVisitor extends QLBaseVisitor<Visitable> {
 		} else if (ctx.singleExpr != null) {
 			return visitExpression(ctx.singleExpr);
 		} else {
-			return visitLiteral(ctx.Literal);
+			return visitLiteral(ctx.literalExpression);
 		}
-		System.out.println("Yolo");
 		return super.visitChildren(ctx);
 	}
 

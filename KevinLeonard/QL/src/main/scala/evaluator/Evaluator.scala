@@ -53,7 +53,6 @@ class Evaluator {
         case BooleanType() => env + (q.variable.name -> BooleanValue())
         case NumberType() => env + (q.variable.name -> NumberValue())
         case StringType() => env + (q.variable.name -> StringValue())
-        case UndefinedType() => throw new AssertionError("Error in type checker. Undefined type.")
       }
       case Some(e) => env + (q.variable.name -> eval(e, env))
     }
@@ -95,5 +94,4 @@ class Evaluator {
       case _ => throw new AssertionError("Error in type checker. Arithmetic operator expects two number values.")
     }
   }
-
 }
