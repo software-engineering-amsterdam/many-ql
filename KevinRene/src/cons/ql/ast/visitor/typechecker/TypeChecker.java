@@ -141,12 +141,12 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	
 	@Override
 	public QLType visit(Eq eqNode) {
-		return checkExpression(eqNode, eqNode.getLeft().getType());
+		return checkExpression(eqNode, eqNode.getLeft().accept(this));
 	}
 	
 	@Override
 	public QLType visit(NEq neqNode) {
-		return checkExpression(neqNode, neqNode.getLeft().getType());
+		return checkExpression(neqNode, neqNode.getLeft().accept(this));
 	}
 	
 	/**
