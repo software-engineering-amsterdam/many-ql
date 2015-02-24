@@ -10,10 +10,7 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-/**
- * Created by calin on 2/24/15.
- */
-public class ComboWidget implements IWidget {
+public class ComboboxWidget implements IWidget {
     private JComboBox comboBox;
 
     @Override
@@ -21,7 +18,7 @@ public class ComboWidget implements IWidget {
         return comboBox;
     }
 
-    public ComboWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
+    public ComboboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
         final String[] comboBoxOptions = {"Yes", "No"};
         comboBox = new JComboBox(comboBoxOptions);
 

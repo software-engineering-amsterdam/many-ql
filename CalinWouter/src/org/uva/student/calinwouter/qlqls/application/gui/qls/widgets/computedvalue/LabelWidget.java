@@ -26,7 +26,6 @@ public class LabelWidget implements IWidget {
             @Override
             public void onStateChanged() {
                 try {
-                    System.out.println("Label value: " + computedValue.getFieldName());
                     valueLabel.setText(headlessFormInterpreter
                             .getField(computedValue.getFieldName()).getValue().toString());
                 } catch (NullPointerException e) {

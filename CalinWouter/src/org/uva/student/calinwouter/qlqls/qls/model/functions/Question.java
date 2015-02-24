@@ -38,7 +38,7 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
     @Override
     public void usesInteger() {
         // TODO use default.
-        widgetCallback.caseIntboxWidget(this);
+        widgetCallback.caseTextboxWidget(this);
     }
 
     @Override
