@@ -1,6 +1,6 @@
 package com.klq.gui;
 
-import com.klq.logic.*;
+import com.klq.logic.question.*;
 
 import java.util.ArrayList;
 import java.util.List;

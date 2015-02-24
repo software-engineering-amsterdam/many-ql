@@ -51,6 +51,18 @@ public class ExpressionTest {
     }
 
     @Test
+    public void nestedMath(){
+        Number x1 = new Number("10");
+        Number x2 = new Number("15");
+
+        Number y1 = new Number("3");
+
+        Addition add = new Addition(x1, x2);
+        Multiplication mul = new Multiplication(y1, add);
+        assertEquals(mul.evaluate().getContent(), "75");
+    }
+
+    @Test
     public void testEqualNotEqualString(){
         String s1 = new String("This is a string!");
         String s2 = new String("This is a string!");

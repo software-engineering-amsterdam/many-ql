@@ -1,9 +1,11 @@
-package com.klq.logic;
+package com.klq.logic.question;
+
+import com.klq.logic.IKLQItem;
 
 /**
  * Created by Timon on 10.02.2015.
  */
-public class Question {
+public class Question implements IKLQItem {
     private Type type;
     private OptionSet options;
     private Text text;
