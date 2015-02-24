@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import uva.ql.ast.ASTNode;
@@ -22,10 +23,10 @@ import uva.ql.ast.statements.Statement;
 import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.gui.elements.UIContainer;
 import uva.ql.interpreter.gui.elements.UIFrame;
-import uva.ql.interpreter.gui.elements.UILabel;
 import uva.ql.interpreter.typecheck.Symbol;
 import uva.ql.interpreter.typecheck.SymbolMap;
 import uva.ql.supporting.Tuple;
+import uva.ql.interpreter.gui.elements.*;
 
 public class GUIVisitor implements StatementVisitorInterface<Object>{
 
@@ -43,16 +44,21 @@ public class GUIVisitor implements StatementVisitorInterface<Object>{
 		
 		this.visitForm(prog.getForm());
 		
+		
 		return null;
 	}
 
 	@Override
 	public Object visitForm(Form form) {
-
+		
 		this.frame = new UIFrame("Questions", new Tuple<Integer, Integer>(600,300));
+		this.frame.randerFrame();
+		
 		this.container = new UIContainer(this.frame.getFrameSize());
+		this.container.setLayout(new GridLayout(6,0));
 		this.frame.add(this.container);
-		this.frame.pack();
+		this.frame.revalidate();
+		
 		
 		for (Statement s : form.getStatement()){
 			s.accept(this);
@@ -87,13 +93,14 @@ public class GUIVisitor implements StatementVisitorInterface<Object>{
 			}
 		}
 		
-		
-		
+		this.container.add((new UIElement(question, questionText)).createElement());
+		this.frame.revalidate();
 		
 		for (Statement s : question.getStatement()){
 			s.accept(this);
 		}
 		
+		System.out.println("Question");
 		
 		return question;
 	}
