@@ -1,5 +1,6 @@
 package uva.ql.interpreter.gui.elements;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -22,8 +23,15 @@ public class UILabel extends JLabel{
 	}
 	
 	public void setLabel(){
+		
+		this.setMinimumSize(new Dimension(300,50));
+		this.setPreferredSize(new Dimension(300,50));
+		this.setPreferredSize(new Dimension(300,50));
+		
+		this.setHorizontalAlignment(SwingConstants.RIGHT);
+		this.setSize(getTextHeight(this.getText()), 200);
 		this.setText(getText());
-		this.setSize(getTextHeight(this.getText()), 200);	
+		
 	}
 
 	public static int getTextHeight(String text){
