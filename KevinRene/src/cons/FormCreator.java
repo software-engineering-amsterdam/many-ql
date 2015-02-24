@@ -44,7 +44,7 @@ public class FormCreator {
 				}
 				else {
 					ASTNode tree = formParser.parse(str);
-					TypeRegister register = new TypeRegister();
+					TypeEnvironment register = new TypeEnvironment();
 					
 					if(!TypeChecker.check(tree, register)) {
 						System.out.println("Type error detected in the form.");

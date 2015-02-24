@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.JFrame;
 
-import cons.TypeRegister;
+import cons.TypeEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
@@ -49,7 +49,7 @@ public class Main {
         // Load and parse the entire form and what not.
         Parser formParser = new Parser();
         ASTNode tree = formParser.parse(form);
-		TypeRegister register = new TypeRegister();
+		TypeEnvironment register = new TypeEnvironment();
 		
 		if(!TypeChecker.check(tree, register)) {
 			System.out.println("Type error detected in the form.");

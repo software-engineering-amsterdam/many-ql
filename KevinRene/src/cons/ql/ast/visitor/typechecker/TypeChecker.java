@@ -3,7 +3,7 @@ package cons.ql.ast.visitor.typechecker;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import cons.TypeRegister;
+import cons.TypeEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Identifier;
@@ -44,9 +44,9 @@ import cons.ql.error.TypeErrors;
 
 public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<QLType> {
 	private static TypeErrors typeErrors;
-	private TypeRegister register;	
+	private TypeEnvironment register;	
 	
-	private TypeChecker(TypeRegister register) {
+	private TypeChecker(TypeEnvironment register) {
 		this.register = register;
 	}
 	
@@ -54,7 +54,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(ASTNode tree, TypeRegister register) {
+	public static boolean check(ASTNode tree, TypeEnvironment register) {
 		TypeChecker typeChecker = new TypeChecker(register);
 		typeErrors = new TypeErrors();
 		

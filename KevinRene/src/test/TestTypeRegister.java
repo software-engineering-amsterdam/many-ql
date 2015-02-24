@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cons.TypeRegister;
+import cons.TypeEnvironment;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.type.QLFloat;
@@ -14,7 +14,7 @@ public class TestTypeRegister {
 		
 	@Test
 	public void testRegistration() {
-		TypeRegister register = new TypeRegister();
+		TypeEnvironment register = new TypeEnvironment();
 		
 		StringLiteral myString = new StringLiteral("My String");
 		Identifier myIdentifier = new Identifier("aString");
@@ -33,7 +33,7 @@ public class TestTypeRegister {
 	
 	@Test
 	public void throwsQLError() {
-		TypeRegister register = new TypeRegister();
+		TypeEnvironment register = new TypeEnvironment();
 		
 		Identifier myIdentifier = new Identifier("aString");
 		
@@ -45,7 +45,7 @@ public class TestTypeRegister {
 	
 	@Test
 	public void testAdvancedRegistration() {
-		TypeRegister register = new TypeRegister();
+		TypeEnvironment register = new TypeEnvironment();
 		
 		Question question = new Question(
 				new Identifier("houseValue"), 
@@ -59,7 +59,7 @@ public class TestTypeRegister {
 	}
 	@Test
 	public void testDoubleRegistration() {
-		TypeRegister register = new TypeRegister();
+		TypeEnvironment register = new TypeEnvironment();
 		
 		Question question = new Question(
 				new Identifier("houseValue"), 

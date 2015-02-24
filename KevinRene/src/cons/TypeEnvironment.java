@@ -6,24 +6,24 @@ import java.util.Map;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
 
-public class TypeRegister {
-	private Map<String, QLType> register = new HashMap<String, QLType>();
+public class TypeEnvironment {
+	private Map<String, QLType> environment = new HashMap<String, QLType>();
 	
-	public TypeRegister() {}
+	public TypeEnvironment() {}
 	
 	public void store(Identifier identifier, QLType typeInstance) {
-		register.put(identifier.toString(), typeInstance);
+		environment.put(identifier.toString(), typeInstance);
 	}
 	
 	public QLType resolve(Identifier identifier) {
-		return register.get(identifier.toString());
+		return environment.get(identifier.toString());
 	}
 	
 	public Map<String, QLType> getBindings() {
-		return this.register;
+		return this.environment;
 	}
 	
 	public void clear() {
-		this.register.clear();
+		this.environment.clear();
 	}
 }
