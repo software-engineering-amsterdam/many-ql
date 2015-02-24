@@ -59,7 +59,7 @@ class QuestionnaireGUI:
             self.elementsMap[parent_id]['guiElements'] += [e1, e2]
         elif statement.get_type() is BasicTypes.number_name:
             e = Spinbox(from_=0, to_=10000)
-            e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, e.get()))
+            e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, int(e.get())))
             e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
             self.elementsMap[parent_id]['guiElements'] += [e]
         elif statement.get_type() is BasicTypes.text_name:
@@ -72,6 +72,7 @@ class QuestionnaireGUI:
 
     def update(self, question, new_answer):
         print(new_answer)
+        print(type(new_answer))
         self.answersMap.update(question, new_answer)
         pointers = self.varsCondMap[question.get_id()]
         # self.elements_recreate(pointers[0])
