@@ -24,6 +24,7 @@ import org.fugazi.ast.type.*;
 import org.fugazi.type_checker.dependency.DependencyList;
 import org.fugazi.type_checker.error.ASTErrorHandler;
 import org.fugazi.type_checker.error.ASTNodeError;
+import org.fugazi.type_checker.error.ASTNodeErrorType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,8 +82,9 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
                     identifier, type
             );
         if (isQuestionDuplicate) {
-            this.astErrorHandler.registerNewError(question,
-                    "Question already defined with different type."
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.DUPLICATE,
+                    question, "Question already defined with different type."
             );
         } else {
             this.saveQuestionType(identifier, type);
@@ -125,7 +127,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         // check if assigned types equal
         boolean typesEqual = this.checkIfTypesEqual(type, computed.getReturnedType());
         if (!typesEqual) {
-            this.astErrorHandler.registerNewError(assignQuest,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, assignQuest,
                     "Attempted to assign type " + computed.getReturnedType()
                             + " to variable of type " + type.getClass() + "."
             );
@@ -167,12 +170,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean rightCorrect = this.checkIfExpressionIsBool(right);
 
         if (!leftCorrect) {
-            this.astErrorHandler.registerNewError( logical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, logical,
                     "Left side of the binary logical expression not of type bool."
             );
         }
         if (!rightCorrect) {
-            this.astErrorHandler.registerNewError( logical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, logical,
                     "Right side of the binary logical expression not of type bool."
             );
         }
@@ -192,7 +197,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsBool(unary);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( unary,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, unary,
                     "Unary logical expression not of type bool."
             );
         }
@@ -226,12 +232,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean rightCorrect = this.checkIfExpressionIsInt(right);
 
         if (!leftCorrect) {
-            this.astErrorHandler.registerNewError( comparison,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, comparison,
                     "Left side of the binary comparison expression not of type int."
             );
         }
         if (!rightCorrect) {
-            this.astErrorHandler.registerNewError( comparison,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, comparison,
                     "Right side of the binary comparison expression not of type int."
             );
         }
@@ -287,12 +295,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean rightCorrect = this.checkIfExpressionIsInt(right);
 
         if (!leftCorrect) {
-            this.astErrorHandler.registerNewError( numerical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, numerical,
                     "Left side of the binary expression not of type int."
             );
         }
         if (!rightCorrect) {
-            this.astErrorHandler.registerNewError( numerical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, numerical,
                     "Right side of the binary expression not of type int."
             );
         }
@@ -313,7 +323,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsInt(unary);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( unary,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, unary,
                     "Unary numerical expression not of type int."
             );
         }
@@ -363,7 +374,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         // if it's type equals null => it is undefined
         boolean questionDefined = this.checkIfDefined(idLiteral);
         if (!questionDefined) {
-            this.astErrorHandler.registerNewError( idLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.UNDEFINED, idLiteral,
                     "Question not defined."
             );
         }
@@ -385,7 +397,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsInt(intLiteral);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( intLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, intLiteral,
                     "Int Literal not of type int."
             );
         }
@@ -397,7 +410,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsString(stringLiteral);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( stringLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, stringLiteral,
                     "String Literal not of type string."
             );
         }
@@ -409,7 +423,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsBool(boolLiteral);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( boolLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, boolLiteral,
                     "Bool Literal not of type bool."
             );
         }
@@ -537,7 +552,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     private void addAndCheckDependency(ID depender, ID dependee) {
         boolean revertedDependencyExists = this.checkDependency(dependee, depender);
         if (revertedDependencyExists) {
-            this.astErrorHandler.registerNewError( depender,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.CYCLIC, depender,
                     "Circular dependency between this node and " +
                             dependee.toString() + "."
             );

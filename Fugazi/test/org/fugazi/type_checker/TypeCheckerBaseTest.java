@@ -2,18 +2,14 @@ package org.fugazi.type_checker;
 
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
-import org.fugazi.type_checker.error.ASTNodeError;
+
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
 
 @Ignore("This is a base class.")
 public abstract class TypeCheckerBaseTest {
@@ -27,7 +23,7 @@ public abstract class TypeCheckerBaseTest {
     private final String path = "/test/org/fugazi/type_checker/test_forms/";
 
     @Before
-    public void setupEnv() {
+    public void setUp() {
         // run for the passed from implementing class
         if (this.fileName == null) {
             System.err.println("Cannot run tests without a form filename passed.");
@@ -48,10 +44,11 @@ public abstract class TypeCheckerBaseTest {
         } catch (IOException  ex) {
             ex.printStackTrace();
         }
-            // Build the AST.
-            form = astBuilder.buildForm();
-            // perform type check
-            // TODO before class
-            checker.checkForm(form);
+
+        // Build the AST.
+        form = astBuilder.buildForm();
+        // perform type check
+        // TODO before class
+        checker.checkForm(form);
     }
 }
