@@ -9,11 +9,13 @@ namespace QL.Grammars
 {
     public class QLVisitor : QLBaseVisitor<QLParser.FormBlockContext>
     {
+        private readonly NodeMapper _mapper;
         private readonly QLParser _parser;
         private readonly IList<UnitBase> _parsedUnits;
 
         public QLVisitor(QLParser parser, IList<UnitBase> parsedUnits)
         {
+            _mapper = new NodeMapper();
             _parser = parser;
             _parsedUnits = parsedUnits;
         }
@@ -21,6 +23,9 @@ namespace QL.Grammars
         public override QLParser.FormBlockContext VisitFormBlock(QLParser.FormBlockContext context)
         {
             Console.WriteLine("Formblock: {0}", context.GetText());
+
+            _mapper.Create(context);
+
             return base.VisitFormBlock(context);
         }
 
@@ -30,15 +35,22 @@ namespace QL.Grammars
             return base.VisitBlock(context);
         }
 
-        public override QLParser.FormBlockContext VisitUnit(QLParser.UnitContext context)
+        public override QLParser.FormBlockContext VisitQuestionUnit(QLParser.QuestionUnitContext context)
         {
-            Console.WriteLine("Unit: {0}", context.GetText());
+            Console.WriteLine("QuestionUnit: {0}", context.GetText());
+            return base.VisitQuestionUnit(context);
+        }
 
-            //NodeFactory factory = new NodeFactory();
-            //var astNode = factory.Build(context);
-            //_parsedUnits.Add(astNode);
-            
-            return base.VisitUnit(context);
+        public override QLParser.FormBlockContext VisitStatementUnit(QLParser.StatementUnitContext context)
+        {
+            Console.WriteLine("StatementUnit: {0}", context.GetText());
+            return base.VisitStatementUnit(context);
+        }
+
+        public override QLParser.FormBlockContext VisitControlBlockUnit(QLParser.ControlBlockUnitContext context)
+        {
+            Console.WriteLine("ControlBlockUnit: {0}", context.GetText());
+            return base.VisitControlBlockUnit(context);
         }
 
         public override QLParser.FormBlockContext VisitTypedef(QLParser.TypedefContext context)

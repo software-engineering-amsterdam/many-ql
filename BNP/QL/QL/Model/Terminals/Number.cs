@@ -4,7 +4,7 @@ namespace QL.Model.Terminals
 {
     public class Number : BinaryTreeElementBase, ITerminal<int?>, ITerminalType
     {
-        public int? Value { get; private set; }
+        public int? Value { get; set; }
 
         public override string ToString()
         {

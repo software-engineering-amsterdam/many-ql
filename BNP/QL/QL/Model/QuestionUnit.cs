@@ -9,14 +9,20 @@ namespace QL.Model
 {
     public class QuestionUnit : UnitBase
     {
-        public string[] Parameters { get; private set; }
         public bool Required;
-        public QuestionUnit(Identifier id, string displayText, params string[] parameters)
+
+        public QuestionUnit()
+        { }
+
+        public QuestionUnit(Identifier id, ITerminalType dataType, string displayText, bool required, params string[] parameters)
         {
-            Parameters = parameters;
             Id = id; 
+            DataType = dataType;
             DisplayText = displayText;
+            Required = required;
+            Parameters = parameters;
         }
+
         public QuestionUnit(Identifier id, Text displayText, bool required)
         {
             Required = required;

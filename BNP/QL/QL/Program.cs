@@ -37,7 +37,7 @@ namespace QL
                 
 
                 // parses the input as a formBlock(cos it's on the top)
-                var result = parser.formBlock();
+                var result = parser.formBlock();    
 
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();

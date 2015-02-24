@@ -4,8 +4,8 @@ namespace QL.Model.Terminals
 {
     public class Yesno : BinaryTreeElementBase, ITerminal<bool?>, ITerminalType
     {
-        public bool? Value { get; private set; }
-
+        public bool? Value { get; set; }
+        
         public override string ToString()
         {
             if (!Value.HasValue)

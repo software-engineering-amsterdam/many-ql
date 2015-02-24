@@ -87,11 +87,12 @@
     <Compile Include="Model\Terminals\Identifier.cs" />
     <Compile Include="Model\Terminals\ITerminal.cs" />
     <Compile Include="Model\Terminals\Number.cs" />
-    <Compile Include="Model\Terminals\TerminalType.cs" />
+    <Compile Include="Model\Terminals\ITerminalType.cs" />
     <Compile Include="Model\Terminals\Text.cs" />
     <Compile Include="Model\Terminals\Yesno.cs" />
     <Compile Include="Model\TreeElementBase.cs" />
     <Compile Include="Model\UnitBase.cs" />
+    <Compile Include="Model\TerminalTypeFactory.cs" />
     <Compile Include="obj\Debug\QLBaseListener.cs" />
     <Compile Include="obj\Debug\QLBaseVisitor.cs" />
     <Compile Include="obj\Debug\QLLexer.cs" />

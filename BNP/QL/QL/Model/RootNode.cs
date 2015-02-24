@@ -11,7 +11,7 @@ namespace QL.Model
     {
 
 
-        public RootNode(IReadOnlyList<Form> children)
+        public RootNode(IList<TreeElementBase> children)
         {
             Children = children;
         }

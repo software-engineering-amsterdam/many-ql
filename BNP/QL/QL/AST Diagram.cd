@@ -13,14 +13,14 @@
   <Class Name="QL.Model.QuestionUnit" Collapsed="true">
     <Position X="0.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\QuestionUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="QL.Model.UnitBase" Collapsed="true">
     <Position X="1.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAADAAAAAAIAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>Model\UnitBase.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -66,8 +66,8 @@
     <InheritanceLine Type="QL.Model.BinaryTreeElementBase" FixedToPoint="true">
       <Path>
         <Point X="10.75" Y="1.191" />
-        <Point X="10.75" Y="2.125" />
-        <Point X="11.5" Y="2.125" />
+        <Point X="10.75" Y="2.219" />
+        <Point X="11.5" Y="2.219" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -357,7 +357,7 @@
   <Struct Name="QL.Model.SourceLocation" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAABAAA=</HashCode>
       <FileName>Model\SourceLocation.cs</FileName>
     </TypeIdentifier>
   </Struct>

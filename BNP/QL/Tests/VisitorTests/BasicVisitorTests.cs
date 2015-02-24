@@ -17,6 +17,10 @@ namespace Tests.VisitorTests
                                 question Q1 (yesno) ""I am not sure what to answer!"";
                                 if(Q1 == yes) {
                                     statement S2 (text, Q1) ""You've answered:"";
+                                } else if(Q1 == no) {
+                                    statement S3 (text, Q1) ""You've not answered:"";
+                                }; else {
+                                    statement S4 (text, Q1) ""You've failed to answer:"";
                                 };
                              }";
 

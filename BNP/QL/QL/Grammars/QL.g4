@@ -5,7 +5,6 @@ YESNO	: 'yes' | 'no';
 NUMBER	: '-'?[0-9]+; // note that this is only integer, does not include decimal maybe TODO
 IF		: 'if';
 ELSE	: 'else';
-TYPENAME: 'yesno' | 'number' | 'text';
 ATTR	: 'required' | 'optional';
 UNITTYPE: 'question' | 'statement';
 IDENTIFIER		: [a-zA-Z][a-zA-Z0-9]*;
@@ -39,6 +38,8 @@ OPERATOR				: CALCOPERATOR
 operator: OPERATOR;
 
 // Production rules
+typeName: 'yesno' | 'number' | 'text';
+
 typedef		: YESNO
 			| NUMBER
 			| TEXT
@@ -49,9 +50,9 @@ typeDefExt	: typedef
 			;
 
 
-unit		: UNITTYPE IDENTIFIER '(' TYPENAME (',' ATTR)* ')' TEXT ';'
-			| UNITTYPE IDENTIFIER '(' TYPENAME ',' (typedef|expression) ')' TEXT ';'
-			| controlBlock
+unit		: UNITTYPE IDENTIFIER '(' typeName (',' ATTR)* ')' TEXT ';'				 #questionUnit
+			| UNITTYPE IDENTIFIER '(' typeName ',' (typedef|expression) ')' TEXT ';' #statementUnit
+			| controlBlock															 #controlBlockUnit
 			;
 
 block		: '{' unit* '}';

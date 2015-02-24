@@ -8,6 +8,13 @@ namespace QL.Model
 {
     public class Block : TreeElementBase
     {
+        public Block()
+        { }
+
+        public Block(params TreeElementBase[] childUnits)
+        {
+            this.Children = childUnits;
+        }
 
     }
 }

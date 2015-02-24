@@ -48,5 +48,17 @@ namespace QL.Grammars
             base.ExitControlBlock(context);
             mapper.HandleNode<QL.Model.ControlBlock>();
         }
+
+        public override void EnterQuestionUnit(QLParser.QuestionUnitContext context)
+        {
+            mapper.InitializeNewLevel();
+            base.EnterQuestionUnit(context);
+        }
+
+        public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
+        {
+            mapper.HandleNode<QuestionUnit>();
+            base.ExitQuestionUnit(context);
+        }
     }
 }

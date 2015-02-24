@@ -11,5 +11,14 @@ namespace QL.Model
     {
         public Identifier Identifier { get; set; }
         public Block Block { get; set; }
+
+        public Form()
+        { }
+
+        public Form(Identifier identifier, Block block)
+        {
+            Identifier = identifier;
+            Block = block;
+        }
     }
 }

@@ -10,5 +10,10 @@ namespace QL.Model
     public class ControlBlock : TreeElementBase
     {
         public ControlBlockType Type { get; set; }
+
+        public ControlBlock()
+        {
+            
+        }
     }
 }
