@@ -17,6 +17,14 @@ public class ConditionalNode extends ANode {
         this.children = children;
     }
 
+    public ANode getCondition() {
+        return condition;
+    }
+
+    public ArrayList<ANode> getChildren() {
+        return children;
+    }
+
     @Override
     public void printSelf() {
         System.out.printf("Condition class: %s", condition.getClass());
@@ -26,11 +34,7 @@ public class ConditionalNode extends ANode {
     }
 
     @Override
-    public void accept(IVisitor visitor) {
-        condition.accept(visitor);
-        for(ANode child: children){
-            child.accept(visitor);
-        }
-        visitor.visit(this);
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

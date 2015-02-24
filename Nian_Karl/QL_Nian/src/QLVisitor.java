@@ -1,4 +1,4 @@
-// Generated from QL.g4 by ANTLR 4.5
+// Generated from QL.g4 by ANTLR 4.4
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -11,75 +11,75 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link QLParser#form}.
+	 * Visit a parse tree produced by {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForm(QLParser.FormContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBlock(QLParser.BlockContext ctx);
+	T visitExpression(@NotNull QLParser.ExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(QLParser.StatementContext ctx);
+	T visitStatement(@NotNull QLParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#question}.
+	 * Visit a parse tree produced by {@link QLParser#form}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestion(QLParser.QuestionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#questionType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestionType(QLParser.QuestionTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#builtinType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBuiltinType(QLParser.BuiltinTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#userType}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUserType(QLParser.UserTypeContext ctx);
+	T visitForm(@NotNull QLParser.FormContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#questionName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestionName(QLParser.QuestionNameContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLParser#questionLabel}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuestionLabel(QLParser.QuestionLabelContext ctx);
+	T visitQuestionName(@NotNull QLParser.QuestionNameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#ifstatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfstatement(QLParser.IfstatementContext ctx);
+	T visitIfstatement(@NotNull QLParser.IfstatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#expression}.
+	 * Visit a parse tree produced by {@link QLParser#builtinType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(QLParser.ExpressionContext ctx);
+	T visitBuiltinType(@NotNull QLParser.BuiltinTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(@NotNull QLParser.BlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#questionType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionType(@NotNull QLParser.QuestionTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#question}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestion(@NotNull QLParser.QuestionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#questionLabel}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionLabel(@NotNull QLParser.QuestionLabelContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLiteral(QLParser.LiteralContext ctx);
+	T visitLiteral(@NotNull QLParser.LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLParser#userType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUserType(@NotNull QLParser.UserTypeContext ctx);
 }

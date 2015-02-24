@@ -141,7 +141,7 @@ public class EvaluationExprVisitor implements IExpressionVisitor <ExpressionValu
      * Literals
      */
     public ExpressionValue visitID(ID id) {
-        return values.containsKey(id.getName()) ? values.get(id.getName()) : new UndefinedValue(); // TODO: throw exception?
+        return values.containsKey(id.getName()) ? values.get(id.getName()) : new UndefinedValue();
     }
     
     public ExpressionValue visitINT(INT number) {

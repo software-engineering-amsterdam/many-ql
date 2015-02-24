@@ -59,10 +59,23 @@ public class Expression extends Node {
                     }
                 }
             }
+        } else if (hasChildren() && getChildren().size() == 1) {
+            Expression kid = (Expression) getChildren().get(0);
+            System.out.println("Expression only has 1 kid :'" + kid.getOperator().get().getText() + "' @line :" + kid.getLineNumber());
+        } else {
+            System.out.println("Operator/Text :" + text);
         }
     }
 
     public Optional<Token> getId() {
         return id;
+    }
+
+    public Optional<Token> getOperator() {
+        return operator;
+    }
+
+    public String getText() {
+        return text;
     }
 }

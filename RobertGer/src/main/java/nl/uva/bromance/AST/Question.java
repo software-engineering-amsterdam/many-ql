@@ -45,7 +45,7 @@ public class Question extends Node {
     }
 
     public void setQuestionString(String qs) {
-        this.questionString = qs;
+        this.questionString = qs.substring(1, qs.length() - 1); // Remove double quotes around the question.
     }
 
     public void setQuestionType(String qt) {
@@ -82,9 +82,18 @@ public class Question extends Node {
 
     @Override
     public Optional<? extends Pane> visualize(Pane parent) {
-        parent.getChildren().add(new Label(questionString));
+        Label l = new Label(questionString);
+        l.getStyleClass().add("prettyLabel");
+        parent.getChildren().add(l);
         if (isQuestionTypeInteger()) {
-            parent.getChildren().add(new TextField());
+            TextField tf = new TextField();
+            // Disable any input other than numbers
+            tf.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("[0-9]*")) {
+                    tf.setText(oldValue);
+                }
+            });
+            parent.getChildren().add(tf);
         } else if (isQuestionTypeString()) {
             parent.getChildren().add(new TextField());
         } else if (isQuestionTypeBoolean()) {
@@ -145,9 +154,9 @@ public class Question extends Node {
 
     public void setCustomQuestionOptions(List<TerminalNode> options) {
         for (TerminalNode option : options) {
-            customQuestionOptions.add(option.getText());
+            String customOption = option.getText();
+            customQuestionOptions.add(customOption.substring(1, customOption.length() - 1)); // Remove double quotes around string.
         }
-
     }
 
 }
