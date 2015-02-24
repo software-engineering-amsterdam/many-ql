@@ -1,7 +1,11 @@
 package org.fugazi.gui.ui_elements;
 
+import org.fugazi.gui.widgets.IWidget;
+
+import javax.imageio.event.IIOWriteProgressListener;
 import javax.swing.*;
 
+// Todo: don't inherite but aggregate
 public class UIForm extends JFrame {
 
     public static final int winHeight = 400;
@@ -21,7 +25,7 @@ public class UIForm extends JFrame {
     }
     
     public void addElement(UIElement _elem) {
-        // TODO: find a way
-        panel.add((JComponent)_elem.getWidget());
+        IWidget widget = _elem.getWidget();
+        panel.add(widget.getJComponent());
     }
 }

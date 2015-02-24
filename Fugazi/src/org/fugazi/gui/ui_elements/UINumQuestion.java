@@ -19,8 +19,6 @@ public class UINumQuestion extends UIQuestion {
 
         // TODO: get it from a GUI Designer
         this.widget = new TextBox(_question.getLabel());
-        JTextField textField = ((TextBox)this.widget).getTextField();
-        //textField.addActionListener(event -> itemChanged(event)); // lambda
     }
 
     @Override
@@ -33,9 +31,6 @@ public class UINumQuestion extends UIQuestion {
     }
 
     private void itemChanged(ActionEvent e) {
-
-        JTextField textField = ((TextBox)this.widget).getTextField();
-        this.setState(new StringValue(textField.getText()));
     }
 
     @Override

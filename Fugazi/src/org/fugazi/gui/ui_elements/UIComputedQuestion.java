@@ -18,7 +18,7 @@ public class UIComputedQuestion extends UIQuestion {
 
         // TODO: get it from a GUI Designer
         this.widget = new TextBox(_question.getLabel());
-        JTextField textField = ((TextBox)this.widget).getTextField();
+        //JTextField textField = ((TextBox)this.widget).getTextField();
        // textField.addActionListener(event -> itemChanged(event)); // lambda
     }
 
@@ -33,8 +33,8 @@ public class UIComputedQuestion extends UIQuestion {
 
     private void itemChanged(ActionEvent e) {
 
-        JTextField textField = ((TextBox)this.widget).getTextField();
-        this.setState(new IntValue(Integer.parseInt(textField.getText())));
+        //JTextField textField = ((TextBox)this.widget).getTextField();
+        //this.setState(new IntValue(Integer.parseInt(textField.getText())));
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.fugazi.evaluator.expression_value.BoolValue;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.gui.widgets.CheckBox;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class UIBoolQuestion extends UIQuestion {
 
@@ -16,7 +17,9 @@ public class UIBoolQuestion extends UIQuestion {
 
         // TODO: get it from a GUI Designer
         this.widget = new CheckBox(_question.getLabel());
-       // ((CheckBox)this.widget).addItemListener(event -> itemChanged(event)); // lambda
+
+        // todo: change that.
+        this.widget.addEventListener((ItemListener)event -> itemChanged(event));
     }
 
     private void itemChanged(ItemEvent e) {
