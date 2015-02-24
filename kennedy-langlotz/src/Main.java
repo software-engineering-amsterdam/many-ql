@@ -1,5 +1,6 @@
 import com.klq.AST2GUIConverter;
 import com.klq.ast.ANode;
+import com.klq.ast.ASTPrinter;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
@@ -64,8 +65,8 @@ public class Main extends Application {
         //questionList = visitor.getQuestList();
 
         //print AST for test purposes
-//        ASTPrinter printer = new ASTPrinter();
-//        ast.accept(printer);
+        ASTPrinter printer = new ASTPrinter();
+        ast.accept(printer);
     }
 
     @Override
@@ -76,5 +77,6 @@ public class Main extends Application {
 //        QuestionPage page = new QuestionPage(questionList);
 //        root.getChildren().add(page);
 //        primaryStage.show();
+        System.exit(1);
     }
 }
