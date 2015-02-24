@@ -40,6 +40,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
         final JPanel pagePanel = new JPanel();
         for (Section s : page.getSections()) {
             JPanel sectionPanel = new JPanel();
+
             sectionPanel.setBorder(BorderFactory.createTitledBorder(s.getSectionName()));
             s.apply(this);
             sectionPanel.add(lastCreatedComponent);

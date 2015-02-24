@@ -37,7 +37,7 @@ class TypeChecker {
       case s :: ss => check(s, env).fold({ e: Error => Left(e) }, { newEnv => checkSequence(ss, newEnv) })
     }
   }
-  
+
   def checkIfStatement(i: IfStatement, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
     check(i.expression, env) match {
       // Return environment without the questions in s1 and s2.
