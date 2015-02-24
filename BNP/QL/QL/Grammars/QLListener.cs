@@ -12,7 +12,8 @@ namespace QL.Grammars
     public class QLListener : QLBaseListener
     {
         NodeMapper mapper;
-        public QLListener() {
+        public QLListener()
+        {
             mapper = new NodeMapper();
         }
         public override void EnterBlock(QLParser.BlockContext context)
@@ -26,7 +27,7 @@ namespace QL.Grammars
             mapper.HandleNode<QL.Model.Block>();
 
         }
-        
+
         public override void EnterFormBlock(QLParser.FormBlockContext context)
         {
             mapper.InitializeNewLevel();
@@ -38,27 +39,56 @@ namespace QL.Grammars
             mapper.HandleNode<QL.Model.Form>();
         }
 
+        public override void EnterControlBlockUnit(QLParser.ControlBlockUnitContext context)
+        {
+            mapper.InitializeNewLevel();
+            base.EnterControlBlockUnit(context);
+        }
         public override void EnterControlBlock(QLParser.ControlBlockContext context)
         {
             mapper.InitializeNewLevel();
             base.EnterControlBlock(context);
         }
+        public override void EnterQuestionUnit(QLParser.QuestionUnitContext context)
+        {
+            mapper.InitializeNewLevel();
+
+            base.EnterQuestionUnit(context);
+        }
+        public override void EnterStatementUnit(QLParser.StatementUnitContext context)
+        {
+
+            mapper.InitializeNewLevel();
+
+            base.EnterStatementUnit(context);
+        }
+        public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
+        {
+            
+            base.ExitQuestionUnit(context);
+            mapper.HandleNode<QL.Model.QuestionUnit>();
+
+        }
         public override void ExitControlBlock(QLParser.ControlBlockContext context)
         {
             base.ExitControlBlock(context);
             mapper.HandleNode<QL.Model.ControlBlock>();
+
+        }
+        public override void ExitControlBlockUnit(QLParser.ControlBlockUnitContext context)
+        {
+            base.ExitControlBlockUnit(context);
+            mapper.HandleNode<QL.Model.ControlBlockUnit>();
+
+        }
+        public override void ExitStatementUnit(QLParser.StatementUnitContext context)
+        {
+            base.ExitStatementUnit(context);
+            mapper.HandleNode<QL.Model.StatementUnit>();
+
         }
 
-        public override void EnterQuestionUnit(QLParser.QuestionUnitContext context)
-        {
-            mapper.InitializeNewLevel();
-            base.EnterQuestionUnit(context);
-        }
-
-        public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
-        {
-            mapper.HandleNode<QuestionUnit>();
-            base.ExitQuestionUnit(context);
-        }
     }
+
+    
 }

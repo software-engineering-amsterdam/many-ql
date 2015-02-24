@@ -90,12 +90,7 @@ namespace QL.Model
         public TreeElementBase Create(QLParser.UnitContext context)
         {
             // todo: not use 'is' operator, but not sure how to do that now
-            if (context is QLParser.QuestionUnitContext) return Create(context as QLParser.QuestionUnitContext);
-
-            if (context is QLParser.StatementUnitContext) return Create(context as QLParser.StatementUnitContext);
-
-            if (context is QLParser.ControlBlockUnitContext) return Create(context as QLParser.ControlBlockUnitContext);
-
+           
             throw new ArgumentOutOfRangeException("context");
         }
 

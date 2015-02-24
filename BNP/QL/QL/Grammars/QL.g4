@@ -50,9 +50,9 @@ typeDefExt	: typedef
 			;
 
 
-unit		: UNITTYPE IDENTIFIER '(' typeName (',' ATTR)* ')' TEXT ';'				 #questionUnit
-			| UNITTYPE IDENTIFIER '(' typeName ',' (typedef|expression) ')' TEXT ';' #statementUnit
-			| controlBlock															 #controlBlockUnit
+unit		: questionUnit
+			| statementUnit
+			| controlBlockUnit
 			;
 
 block		: '{' unit* '}';
@@ -72,5 +72,8 @@ expression	: typeDefExt
 					) 
 				')');
 
+questionUnit : UNITTYPE IDENTIFIER '(' typeName (',' ATTR)* ')' TEXT ';'				;
+statementUnit : UNITTYPE IDENTIFIER '(' typeName ',' (typedef|expression) ')' TEXT ';'	;
 
+controlBlockUnit	: controlBlock;
 controlBlock	: 'if' expression block ('else' controlBlock)* ('else' block)? ';';
