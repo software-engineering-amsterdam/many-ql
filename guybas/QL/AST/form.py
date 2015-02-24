@@ -1,6 +1,5 @@
 # AST format of the Form
 
-
 class Form:
     def __init__(self, name, introduction, statements):
         self._name = name
@@ -53,6 +52,12 @@ class Form:
             new_dependencies = s.dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
         return dependencies
+
+    def get_expressions(self):
+        expressions = []
+        for x in self._statements:
+            expressions += x.return_expressions()
+        return expressions
 
     # Getters
     def get_statements(self):
