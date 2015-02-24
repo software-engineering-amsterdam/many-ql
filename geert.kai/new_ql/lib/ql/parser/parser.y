@@ -9,7 +9,7 @@ preclow
 token STRING VARIABLE_NAME INTEGER
 rule
   form
-    : 'form' variable_name statements 'end' { result = Form.new(name: val[1], statements: val[2]) }
+    : 'form' variable_name statements 'end' { result = Form.new(val[1], val[2]) }
     ;
   statements
     : statements statement { result = val[0].push(val[1]) }
@@ -20,7 +20,7 @@ rule
     | conditional
     ;
   question
-    : string variable_name ':' type { result = Question.new(description: val[0], variable_name: val[1], type: val[3].to_sym) }
+    : string variable_name ':' type { result = Question.new(val[0], val[1], val[3].to_sym) }
     ;
   variable_name
     : VARIABLE_NAME 
@@ -36,10 +36,10 @@ rule
     | if_else
     ;
   if
-    : 'if' '(' expression ')' statements 'end' { result = If.new(expression: val[2], statements: val[4]) }
+    : 'if' '(' expression ')' statements 'end' { result = If.new(val[2], val[4]) }
     ;
   if_else
-    : 'if' '(' expression ')' statements 'else' statements 'end' { result = IfElse.new(expression: val[2], statements_true: val[4], statements_false: val[6]) }
+    : 'if' '(' expression ')' statements 'else' statements 'end' { result = IfElse.new(val[2], val[4], val[6]) }
     ;
 
   expression

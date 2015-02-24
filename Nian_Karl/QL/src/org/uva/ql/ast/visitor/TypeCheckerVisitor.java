@@ -25,9 +25,7 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.BlockStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionNormal;
-import org.uva.ql.ast.type.ExpressionType;
 import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.QuestionType;
 
 public class TypeCheckerVisitor implements Visitor<Boolean> {
 

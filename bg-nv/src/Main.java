@@ -41,12 +41,15 @@ public class Main extends Application
 
             TypeChecker.check(ast);
 
+            ValueTable table = Evaluator.evaluate(ast);
+            Evaluator.reevaluate(ast, table);
+
             //Interpreter.interpret(ast);
             //values = v.getVariableValues();
 
             System.out.println(values);
 
-            new BigDecimal("10.0").divide(new BigDecimal("3.0"), new MathContext(2,    RoundingMode.FLOOR));
+            new BigDecimal("10.0").divide(new BigDecimal("3.0"), new MathContext(2, RoundingMode.FLOOR));
         }
         catch (IOException e)
         {

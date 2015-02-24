@@ -2,8 +2,9 @@ package lang.tests;
 
 import lang.ql.ast.expression.Expr;
 import lang.ql.ast.form.Form;
-import lang.ql.semantics.EvalEnv;
+import lang.ql.semantics.ExprEvaluator;
 import lang.ql.semantics.TypeChecker;
+import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.errors.*;
 import lang.ql.semantics.errors.Error;
 import lang.ql.semantics.values.Value;
@@ -36,10 +37,10 @@ public class TestHelper
         assertEquals(expected, e.getMessage());
     }
 
-    public static Value evaluate(String expr, EvalEnv env)
+    public static Value evaluate(String expr, ValueTable valueTable)
     {
         Expr e = TestHelper.as(ParserHelper.ParseExpression(expr), Expr.class);
         assertNotNull(e);
-        return lang.ql.semantics.Evaluator.evaluate(e, env);
+        return ExprEvaluator.evaluate(e, valueTable);
     }
 }

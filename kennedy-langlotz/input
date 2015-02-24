@@ -33,5 +33,11 @@ end
     id : question2
     text : "When is your birthday?"
     type : date
-    value : 21.12.1990
+    value: 20-12-2020
+end
+
+question
+    id : question3
+    text : "What is your name"
+    type : string
 end

@@ -1,37 +1,31 @@
 require_relative "../static_checker/visitor"
 
 class Runner < BaseVisitor
-  def initialize(base)
-    @base = base
+
+  def after_initialize(base)
     @values = {}
-  end 
+  end
 
   def update_variable(variable_name, value)
     @values[variable_name] = value
   end
 
-  def visible_questions
-    self.visit(@base)
+  def applicable_questions
+    run
   end
 
   def visit_form(form)
-    accept_statements(form.statements).flatten
+    map_accept(form.statements).flatten
   end
 
   def visit_conditional(condition)
-    case self.visit(condition.expression) 
+    case condition.expression.accept(self)
     when true
-      accept_statements(condition.statements_true)
+      map_accept(condition.statements_true)
     when false
-      accept_statements(condition.statements_false)
+      map_accept(condition.statements_false)
     when :undefined
       []
-    end
-  end
-
-  def accept_statements(statements)
-    statements.map do |statement|
-      statement.accept(self) 
     end
   end
 
@@ -57,5 +51,4 @@ class Runner < BaseVisitor
   def visit_literal(literal)
     literal.value
   end
-
 end
