@@ -14,8 +14,7 @@ public class SubtractNode extends ABinaryExprNode {
     }
 
     @Override
-    public void accept(IVisitor visitor) {
-        super.accept(visitor);
-        visitor.visit(this);
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
     }
 }

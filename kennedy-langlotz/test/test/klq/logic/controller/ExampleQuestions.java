@@ -1,5 +1,9 @@
-package com.klq.gui;
+package test.klq.logic.controller;
 
+import com.klq.logic.expression.AExpression;
+import com.klq.logic.expression.operator.bool.GreaterEquals;
+import com.klq.logic.expression.terminal.*;
+import com.klq.logic.expression.terminal.Number;
 import com.klq.logic.question.*;
 
 import java.util.ArrayList;
@@ -22,21 +26,20 @@ public class ExampleQuestions{
 
     public static Question q1(){
         Id id = new Id("question1");
-        OptionSet optionSet = new OptionSet();
-        optionSet.add(new Answer("This is an answer"));
-        optionSet.add(new Answer("This is also an answer"));
-        Text text = new Text("This is a question, that is even more long!?");
-
-        Question q = new Question(id, Type.SET, optionSet, text, null);
+        Text text = new Text("How old are you?");
+        Question q = new Question(id, Type.NUMERAL, null, text, null);
         return q;
     }
 
     public static Question q2(){
         Id id = new Id("question2");
-
-        Text text = new Text("Gimme all the datez?");
-
-        Question q = new Question(id, Type.DATE, null, text, null);
+        List<AExpression> dependencies = new ArrayList<AExpression>();
+        AExpression left = new Identifier("question1");
+        AExpression right = new Number("18");
+        GreaterEquals ge = new GreaterEquals(left, right);
+        dependencies.add(ge);
+        Text text = new Text("Do you have a driving license?");
+        Question q = new Question(id, Type.DATE, null, text, dependencies);
         return q;
     }
 
