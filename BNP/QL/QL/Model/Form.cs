@@ -10,7 +10,10 @@ namespace QL.Model
     public class Form : TreeElementBase
     {
         public Identifier Identifier { get; set; }
-        public Block Block { get; set; }
+        public Block Block {
+                            get { return Block; }
+                            set{ Children[0]=value;Block = value; }
+                            }
 
         public Form()
         { }
@@ -19,6 +22,11 @@ namespace QL.Model
         {
             Identifier = identifier;
             Block = block;
+        }
+        public Form(Identifier identifier, ElementBase block)
+        {
+            throw new Exception(identifier+": "+block.ToString()+" is not a block");
+            
         }
     }
 }

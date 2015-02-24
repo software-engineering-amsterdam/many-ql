@@ -47,12 +47,13 @@ namespace QL.Model
             }
         }
 
-        public void HandleNode<T>() where T : ElementBase, new()
-        {
+        
+        public void Create(QLParser.FormBlockContext context){
             IList<ElementBase> children = GetChildren();
-            T parent = new T();
-            parent.HandleChildren(children);
-            PutIntoTree(parent);
+
+            Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
+            Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
+            PutIntoTree(new Form(identifier, children[0]));
         }
 
         #region Model creation methods
@@ -84,11 +85,7 @@ namespace QL.Model
             return statement;
         }
 
-        public TreeElementBase Create(QLParser.ControlBlockUnitContext context)
-        {
-            return Create(context.controlBlock());
-        }
-
+       
         public TreeElementBase Create(QLParser.UnitContext context)
         {
             // todo: not use 'is' operator, but not sure how to do that now
