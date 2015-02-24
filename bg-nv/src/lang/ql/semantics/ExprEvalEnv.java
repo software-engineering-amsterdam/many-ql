@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * Created by bore on 23/02/15.
  */
-public class EvalEnv
+public class ExprEvalEnv
 {
     private Map<String, Value> valueMap;
 
-    public EvalEnv()
+    public ExprEvalEnv()
     {
         this.valueMap = new HashMap<String, Value>();
     }

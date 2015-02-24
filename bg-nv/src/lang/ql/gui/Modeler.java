@@ -43,6 +43,8 @@ public class Modeler implements AstVisitor<GuiElement>
     @Override
     public GuiElement visit(CalculatedQuestion cq)
     {
+//        Expr expression = cq.getDefaultValue();
+
         Label label = new Label(cq.getLabel());
         Input input = (Input) cq.getType().accept(this);
         return new Line(label, input);
