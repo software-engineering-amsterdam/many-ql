@@ -1,19 +1,16 @@
 package gui
 
-import javafx.collections.{FXCollections, ObservableList}
+import javafx.beans.value.ObservableValue
 
 import ast._
 import scalafx.Includes._
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
-import scalafx.geometry.{Insets, Pos}
-import scalafx.scene.{Node, Scene}
-import scalafx.scene.control.{Label, CheckBox, TextField}
-import scalafx.scene.layout.{HBox, GridPane}
-import scalafx.scene.paint.Color
-import scalafx.scene.shape.Rectangle
-import scalafx.stage.Stage
-
+import scalafx.scene._
+import scalafx.scene.control._
+import scalafx.scene.layout._
+import scalafx.scene.paint._
+import javafx.beans.Observable
 
 object FormGUI extends JFXApp {
 
@@ -26,7 +23,7 @@ object FormGUI extends JFXApp {
   var grid = new GridPane()
   
   var formBuilder = new GUIBuilder();
-  var elements = formBuilder.build(Sequence(List(Question(StringType(), Variable("X"), "label", None),Question(BooleanType(), Variable("X"), "label", None),Question(NumberType(), Variable("X"), "label", None))))
+  var elements = formBuilder.build(Sequence(List(Question(StringType(), Variable("X"), "Question X (String)", None), Question(BooleanType(), Variable("Y"), "Question Y (Boolean)", None), Question(NumberType(), Variable("Z"), "Question X (Number)", None))))
   for ((element, index) <- elements.zipWithIndex) {
     grid.add(element, 1, index + 10)
   }
@@ -45,10 +42,32 @@ class GUIBuilder {
     case Sequence(statements: List[Statement]) => statements.flatMap(s => build(s))
     //case i: IfStatement => Evaluation stuff + build the rights sequence body.
     case q: Question => q._type match {
-      case StringType() => var hbox = new HBox(); hbox.getChildren().addAll(new Label(q.label), new TextField()); List(hbox)
-
-      case BooleanType() => var hbox = new HBox(); hbox.getChildren().addAll(new Label(q.label), new CheckBox()); List(hbox)
-      case NumberType() => var hbox = new HBox(); hbox.getChildren().addAll(new Label(q.label), new CheckBox()); List(hbox)
+      case StringType() => {
+        val box = new VBox()
+        box.fillWidth()
+        val label = new Label(q.label)
+        val field = new TextField()
+        field.text.addListener(
+          //(obs: Observable) => println("addListener worked on invalidate")
+          (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
+        )
+        box.getChildren().addAll(label, field)
+        List(box)
+      }
+      case BooleanType() => {
+        val box = new VBox()
+        val label = new Label(q.label)
+        val field = new CheckBox()
+        box.getChildren().addAll(label, field)
+        List(box)
+      }
+      case NumberType() => {
+        val box = new VBox()
+        val label = new Label(q.label)
+        val field = new TextField()
+        box.getChildren().addAll(label, field)
+        List(box)
+      }
       case _ => throw new AssertionError(s"Unsupported question type. ${q.pos}")
     }
   }
