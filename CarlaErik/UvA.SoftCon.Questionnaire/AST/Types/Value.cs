@@ -3,87 +3,173 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.AST.Types
 {
-    public interface IValue
+    public abstract class Value : IValue
     {
-        Integer Add(IValue value);
-        Integer AddInt(Integer value);
-        Integer Substract(IValue value);
-        Integer Multiply(IValue value);
-        Integer Divide(IValue value);
+        public virtual IInteger Plus(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
 
-        Boolean EqualTo(IValue value);
-        Boolean NotEqualTo(IValue value);
-        Boolean LessThan(IValue value);
-        Boolean LessThanOrEqualTo(IValue value);
-        Boolean GreaterThan(IValue value);
-        Boolean GreaterThanOrEqualTo(IValue value);
+        public virtual IInteger PlusInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IInteger Minus(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IInteger MinusInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IInteger MultipliedBy(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IInteger MultipliedByInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IInteger DividedBy(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IInteger DividedByInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IInteger Increment()
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsEqualTo(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsEqualToInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsEqualToString(IString value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsEqualToBool(IBoolean value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsNotEqualTo(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsNotEqualToInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsNotEqualToString(IString value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsNotEqualToBool(IBoolean value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsLessThan(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsLessThanInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsLessThanOrEqualTo(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsLessThanOrEqualToInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsGreaterThan(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsGreaterThanInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsGreaterThanOrEqualTo(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean IsGreaterThanOrEqualToInt(IInteger value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean And(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean AndBool(IBoolean value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean Or(IValue value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean OrBool(IBoolean value)
+        {
+            throw new InvalidOperationException();
+        }
+
+        public virtual IBoolean Negate()
+        {
+            throw new InvalidOperationException();
+        }
     }
 
-
-    public abstract class Value<T> : IValue
+    public abstract class Value<T> : Value, IValue<T>
     {
-        public T Value { get; private set; }
-
-        protected Value(DataType dataType, T value)
-            : base(dataType)
+        public new T Val
         {
-            Value = value;
+            get;
+            private set;
         }
 
-        public virtual Integer Add(IValue value)
+        public Value(T value)
         {
-            throw new InvalidOperationException();
-        }
-
-        internal virtual Integer AddInteger(Integer value);
-
-        public virtual Integer Substract(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Integer Multiply(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Integer Divide(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Boolean EqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Boolean NotEqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Boolean LessThan(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Boolean LessThanOrEqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Boolean GreaterThan(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual Boolean GreaterThanOrEqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
+            Val = value;
         }
     }
 }

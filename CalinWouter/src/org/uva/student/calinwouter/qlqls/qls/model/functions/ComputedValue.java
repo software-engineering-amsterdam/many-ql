@@ -21,6 +21,6 @@ public class ComputedValue extends AbstractFormField<ComputedValue> {
     }
 
     public ComputedValue() {
-        arguments = new HashMap<Object, Object>();
+        stylingArguments = new HashMap<String, Object>();
     }
 }

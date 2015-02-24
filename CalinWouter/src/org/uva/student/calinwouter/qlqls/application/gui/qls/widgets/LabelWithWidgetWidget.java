@@ -34,10 +34,10 @@ public class LabelWithWidgetWidget implements IWidget {
                     fieldLabel.setText(headlessFormInterpreter.getLabelForField(model.getFieldName()));
                     labelWithWidgetWidget.setVisible(true);
                 } catch (LabelNotAvailableException e) {
-                    fieldLabel.setText("LABEL NOT AVAILABLE: " + model.getFieldName());
+                    fieldLabel.setText("-");
                     labelWithWidgetWidget.setVisible(false);
                 }
-                labelWithWidgetWidget.repaint();
+                fieldLabel.invalidate();
                 labelWithWidgetWidget.revalidate();
             }
         });

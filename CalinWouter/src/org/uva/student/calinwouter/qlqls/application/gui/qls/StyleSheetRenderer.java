@@ -41,8 +41,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                frame.repaint();
-                frame.revalidate();
+                frame.invalidate();
             }
         });
         frame.getContentPane().add(jTabbedPane);

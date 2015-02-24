@@ -1,6 +1,8 @@
 package org.uva.student.calinwouter.qlqls.qls.model.functions;
 
+import org.uva.student.calinwouter.qlqls.qls.model.TypeToWidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
+import org.uva.student.calinwouter.qlqls.qls.model.helper.DefaultWidgetSettingsHelper;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
 import java.util.LinkedList;
@@ -9,7 +11,6 @@ import java.util.List;
 public class StyleSheet extends AbstractComponent<StyleSheet> {
     private String ident;
     private List<Page> pages;
-    private List<Default> defaultSettings;
     private int arg;
 
     public String getStyleSheetName() {
@@ -18,10 +19,6 @@ public class StyleSheet extends AbstractComponent<StyleSheet> {
 
     public List<Page> getPages() {
         return pages;
-    }
-
-    public List<Default> getDefaultSettings() {
-        return defaultSettings;
     }
 
     @Override
@@ -35,8 +32,8 @@ public class StyleSheet extends AbstractComponent<StyleSheet> {
     }
 
     @Override
-    public void caseDefault(Default defaultSetting) {
-        defaultSettings.add(defaultSetting);
+    public TypeToWidgetSettingsModel getTypeToWidgetSettingsModel() {
+        return typeToWidgetSettingsModel;
     }
 
     @Override
@@ -52,6 +49,10 @@ public class StyleSheet extends AbstractComponent<StyleSheet> {
 
     public StyleSheet() {
         pages = new LinkedList<Page>();
-        defaultSettings = new LinkedList<Default>();
+        try {
+            typeToWidgetSettingsModel = new TypeToWidgetSettingsModel(DefaultWidgetSettingsHelper.createDefaultTypeToWidgetSettingsModel());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
+namespace UvA.SoftCon.Questionnaire.AST.Types
 {
-    public class NotEquals
+    public interface IInteger : IValue<int>
     {
     }
 }

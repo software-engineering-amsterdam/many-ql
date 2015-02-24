@@ -175,14 +175,14 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
 
     @Override
     public void outAObjectElement(AObjectElement node) {
-        HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
         for (int i = 0; i < node.getObjectEl().size(); i++) {
             AbstractMap.SimpleEntry<Object, Object> entry = pop().getSimpleEntry();
-            hashMap.put(entry.getKey(), entry.getValue());
+            hashMap.put(entry.getKey().toString(), entry.getValue());
         }
-        push(new AbstractPushable<HashMap<Object, Object>>(hashMap) {
+        push(new AbstractPushable<HashMap<String, Object>>(hashMap) {
             @Override
-            public HashMap<Object, Object> getHashMap() {
+            public HashMap<String, Object> getHashMap() {
                 return getValue();
             }
 
