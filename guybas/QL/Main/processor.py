@@ -24,12 +24,12 @@ class Processor:
 
     @staticmethod
     def extract_variables(expression):
-        vars = []
+        v = []
         for e in expression:
             if not isinstance(e, Variable):
                 continue
-            vars.append(str(e))
-        return vars
+            v.append(str(e))
+        return v
 
     @staticmethod
     def bind_values(expression, answers_map):
