@@ -43,20 +43,32 @@ class Checker(Visitor):
                 ) 
 
     def _visitAtomicExpression(self, node):
-        if isinstance(node.left, CustomTypes.Identifier):
-            self._typeOfLastExpression = typeOfIdentifier(
-                node.left,
-                self._ast.root
-            )
-            if self._typeOfLastExpression is None:
-                self._result = self._result.withMessage(
-                    Message.Error(
-                        'undefined identifier '+node.left,
-                        node
-                    )
+        super()._visitAtomicExpression(node)
+        if self._typeOfLastExpression is None:
+            self._result = self._result.withMessage(
+                Message.Error(
+                    'undefined identifier '+node.left,
+                    node
                 )
-        else:
-            self._typeOfLastExpression = type(node.left)
+            )
+
+    def _visitIdentifier(self, node):
+        self._typeOfLastExpression = typeOfIdentifier(
+            node,
+            self._ast.root
+        )
+        
+    def _visitStr(self, node):
+        self._typeOfLastExpression = str
+
+    def _visitInt(self, node):
+        self._typeOfLastExpression = int
+
+    def _visitMoney(self, node):
+        self._typeOfLastExpression = CustomTypes.Money
+
+    def _visitBool(self, node):
+        self._typeOfLastExpression = bool
 
     def _visitUnaryExpression(self, node):
         self.visit(node.right)
