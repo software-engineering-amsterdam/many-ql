@@ -552,6 +552,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         for (ID newDependant : idsToAddNewDependencyTo) {
             this.questionDependencies.addIdDependenant(newDependant, dependee);
         }
+
+        // for a new depender add also all dependencies of dependee
+        List<ID> indirectDependersDependees = this.questionDependencies.getIdDependencies(dependee);
+        if (indirectDependersDependees != null) {
+            for (ID newIndirectDependee : indirectDependersDependees) {
+                this.questionDependencies.addIdDependenant(depender, newIndirectDependee);
+            }
+        }
         return;
     }
 
