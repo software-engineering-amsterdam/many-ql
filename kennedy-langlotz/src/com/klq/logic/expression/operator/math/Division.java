@@ -4,14 +4,16 @@ import com.klq.logic.expression.AExpression;
 import com.klq.logic.expression.terminal.Number;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 /**
  * Created by Timon on 23.02.2015.
  */
-public class Add extends AExpression {
+public class Division extends AExpression {
+    private final int PRECISION = 100;
 
-    public Add(AExpression left, AExpression right) {
-        super(left, right, AExpression.ADD);
+    public Division(AExpression left, AExpression right) {
+        super(left, right, AExpression.DIV);
     }
 
     @Override
@@ -21,7 +23,7 @@ public class Add extends AExpression {
         if (left.getType() == AExpression.NUMBER && right.getType() == AExpression.NUMBER){
             BigDecimal l = new BigDecimal(left.getContent());
             BigDecimal r = new BigDecimal(right.getContent());
-            return new Number(l.add(r).toString());
+            return new Number(l.divide(r, new MathContext(PRECISION)).toString());
         }
         return null;
     }

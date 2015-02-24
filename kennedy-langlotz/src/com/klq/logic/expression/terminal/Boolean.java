@@ -9,8 +9,8 @@ import java.lang.String;
  * Created by Timon on 23.02.2015.
  */
 public class Boolean extends AExpression {
-    public final static Boolean TRUE = new Boolean(true);
-    public final static Boolean FALSE = new Boolean(false);
+    private static Boolean TRUE;
+    private static Boolean FALSE;
 
     private final String content;
 
@@ -38,5 +38,22 @@ public class Boolean extends AExpression {
             return content.compareTo(((Boolean)o).getContent());
         }
         return AExpression.UNCOMPARABLE;
+    }
+
+    @Override
+    public String toString() {
+        return content;
+    }
+
+    public static Boolean getTrue(){
+        if (TRUE == null)
+            TRUE = new Boolean(true);
+        return TRUE;
+    }
+
+    public static Boolean getFalse(){
+        if (FALSE == null)
+            FALSE = new Boolean(false);
+        return FALSE;
     }
 }

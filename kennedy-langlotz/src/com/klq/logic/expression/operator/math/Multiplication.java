@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 /**
  * Created by Timon on 23.02.2015.
  */
-public class Sub extends AExpression {
+public class Multiplication extends AExpression {
 
-    public Sub(AExpression left, AExpression right) {
-        super(left, right, AExpression.SUB);
+    public Multiplication(AExpression left, AExpression right) {
+        super(left, right, AExpression.MUL);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Sub extends AExpression {
         if (left.getType() == AExpression.NUMBER && right.getType() == AExpression.NUMBER){
             BigDecimal l = new BigDecimal(left.getContent());
             BigDecimal r = new BigDecimal(right.getContent());
-            return new Number(l.subtract(r).toString());
+            return new Number(l.multiply(r).toString());
         }
         return null;
     }
