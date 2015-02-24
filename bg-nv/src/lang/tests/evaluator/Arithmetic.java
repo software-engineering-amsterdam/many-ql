@@ -1,6 +1,6 @@
 package lang.tests.evaluator;
 
-import lang.ql.semantics.EvalEnv;
+import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.*;
 import lang.tests.TestHelper;
 import org.junit.Test;
@@ -122,54 +122,54 @@ public class Arithmetic
     @Test
     public void undefinedAdd()
     {
-        EvalEnv env = new EvalEnv();
-        env.registerValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2+hasHouse+1", env), UndefinedValue.class);
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2+hasHouse+1", table), UndefinedValue.class);
         assertNotNull(v);
     }
 
     @Test
     public void undefinedSub()
     {
-        EvalEnv env = new EvalEnv();
-        env.registerValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2-hasHouse-1", env), UndefinedValue.class);
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2-hasHouse-1", table), UndefinedValue.class);
         assertNotNull(v);
     }
 
     @Test
     public void undefinedMul()
     {
-        EvalEnv env = new EvalEnv();
-        env.registerValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2*hasHouse*1", env), UndefinedValue.class);
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2*hasHouse*1", table), UndefinedValue.class);
         assertNotNull(v);
     }
 
     @Test
     public void undefinedDiv()
     {
-        EvalEnv env = new EvalEnv();
-        env.registerValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2/hasHouse/1", env), UndefinedValue.class);
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("2/hasHouse/1", table), UndefinedValue.class);
         assertNotNull(v);
     }
 
     @Test
     public void undefinedPos()
     {
-        EvalEnv env = new EvalEnv();
-        env.registerValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("+hasHouse", env), UndefinedValue.class);
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("+hasHouse", table), UndefinedValue.class);
         assertNotNull(v);
     }
 
     @Test
     public void undefinedNeg()
     {
-        EvalEnv env = new EvalEnv();
-        env.registerValue("hasHouse", new UndefinedValue());
-        UndefinedValue v = TestHelper.as(TestHelper.evaluate("-hasHouse", env), UndefinedValue.class);
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("-hasHouse", table), UndefinedValue.class);
         assertNotNull(v);
     }
 }

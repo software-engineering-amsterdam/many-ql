@@ -7,5 +7,9 @@ public class Modulus extends BinaryExpression{
 	public Modulus(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op %]";
+	}
 
 }

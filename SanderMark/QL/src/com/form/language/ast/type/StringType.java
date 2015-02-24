@@ -11,5 +11,10 @@ public class StringType extends Type {
 	public Boolean isStringType(){
 		return true;
 	}
+	
+	@Override
+	public String toString(){
+		return "String";
+	}
 
 }
