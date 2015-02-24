@@ -14,8 +14,8 @@ class Evaluator {
 
   def eval(s: Statement, env: EvalEnvironment): EvalEnvironment = s match {
     case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env)}
-    case IfStatement(e, ifBody, elseBodyOption) => doIfStatement(e, env, ifBody, elseBodyOption)
-    case Question(t, Variable(name), _, expressionOption) => doQuestionStatement(t, name, expressionOption, env)
+    case i: IfStatement => doIfStatement(i, env)
+    case q: Question => doQuestionStatement(q, env)
   }
 
   def eval(e: Expression, env: EvalEnvironment): Value = e match {
@@ -36,25 +36,26 @@ class Evaluator {
     case Literal(_, v) => v
   }
 
-  def doIfStatement(e: Expression, env: EvalEnvironment, ifBody: Statement, elseBodyOption: Option[Statement]): EvalEnvironment = {
-     eval(e, env) match {
-      case BooleanValue(true) => eval(ifBody, env)
-      case BooleanValue(false) => elseBodyOption match {
+  def doIfStatement(i: IfStatement, env: EvalEnvironment): EvalEnvironment = {
+     eval(i.expression, env) match {
+      case BooleanValue(true) => eval(i.ifBlock, env)
+      case BooleanValue(false) => i.optionalElseBlock match {
         case None => env
-        case Some(elseBody) => eval(elseBody, env)
+        case Some(elseBlock) => eval(elseBlock, env)
       }
       case _ => throw new AssertionError("Error in type checker. If statement expects boolean expression.")
     }
   }
 
-  def doQuestionStatement(t: Type, name: String, computedOption: Option[Expression], env: EvalEnvironment): EvalEnvironment = {
-    computedOption match {
-      case None => t match {
-        case BooleanType() => env + (name -> BooleanValue())
-        case NumberType() => env + (name -> NumberValue())
-        case StringType() => env + (name -> StringValue())
+  def doQuestionStatement(q: Question, env: EvalEnvironment): EvalEnvironment = {
+    q.optionalExpression match {
+      case None => q._type match {
+        case BooleanType() => env + (q.variable.name -> BooleanValue())
+        case NumberType() => env + (q.variable.name -> NumberValue())
+        case StringType() => env + (q.variable.name -> StringValue())
+        case UndefinedType() => throw new AssertionError("Error in type checker. Undefined type.")
       }
-      case Some(e) => env + (name -> eval(e, env))
+      case Some(e) => env + (q.variable.name -> eval(e, env))
     }
   }
 

@@ -27,11 +27,11 @@ class TypeEnvironment(val typeOfFields: Map[String, Type] = Map(), val labels: L
     }
   }
 
-  def tryAddLabel(q: Question): TypeEnvironment = {
-    if (labels contains q.label) {
-      this.addError(Warning(), s"Label ${q.label} is already defined", q.pos)
+  def tryAddLabel(label: String, p: Position): TypeEnvironment = {
+    if (labels contains label) {
+      this.addError(Warning(), s"Label ${label} is already defined", p)
     } else {
-      new TypeEnvironment(typeOfFields, labels :+ q.label, errors)
+      new TypeEnvironment(typeOfFields, labels :+ label, errors)
     }
   }
 
