@@ -50,7 +50,7 @@ namespace QL.Model
         #region Model creation methods
         public void Create(QLParser.QuestionUnitContext context)
         {
-            Debug.Assert(context.ChildCount == 0, "A unit should syntactically not have any children.");
+            Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             string typeName = context.typeName().GetText();
@@ -71,10 +71,10 @@ namespace QL.Model
 
         public void Create(QLParser.StatementUnitContext context)
         {
-            Debug.Assert(context.ChildCount == 0, "A unit should syntactically not have any children.");
+            Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            string typeName = context.typeName().ToString();
+            string typeName = context.typeName().GetText();
             string unitText = context.TEXT().GetText();
 
             TerminalTypeFactory typeFactory = new TerminalTypeFactory(typeName);
