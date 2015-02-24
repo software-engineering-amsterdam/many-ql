@@ -1,11 +1,9 @@
 # Type Checker
 import collections
 
-from Grammar.expressions import *
 from Main.exceptions import *
-from Main.expression_validator import *
 from AST.operators import *
-
+from AST.expression_validator import *
 
 class TypeChecker:
 
@@ -19,22 +17,23 @@ class TypeChecker:
         statements = form.get_statements()
         dependencies = form.get_dependencies()
         transitive_dependencies = TypeChecker.transitive_dependencies(dependencies)
+        if id_message != "":
+            print(id_message)
 
-        print("ids:")
-        print(id_message)
-
-        print("\nlabels:")
-        print(label_message)
+        if label_message != "":
+            print(label_message)
 
         print("\ntransitive dependencies:")
         print(transitive_dependencies)
         print("")
-        TypeChecker.is_valid_expression(statements, form.get_type_dict())
+
+        expressions = form.get_expressions()
+        TypeChecker.is_valid_expression(expressions, form.get_type_dict())
 
     @staticmethod
-    def check_duplicates(list):
+    def check_duplicates(l):
         # get_dependencies for duplicates
-        duplicates = [x for x, y in collections.Counter(list).items() if y > 1]
+        duplicates = [x for x, y in collections.Counter(l).items() if y > 1]
         return duplicates
 
     @staticmethod
@@ -43,7 +42,7 @@ class TypeChecker:
         if duplicates:
             return "There are duplicate ids: " + str(duplicates)
         else:
-            return ids
+            return ""
 
     @staticmethod
     def check_labels(labels):
@@ -51,7 +50,7 @@ class TypeChecker:
         if duplicates:
             return "There are duplicate labels: " + str(duplicates)
         else:
-            return labels
+            return ""
 
     @staticmethod
     def transitive_dependencies_key(key, values, dependencies):
@@ -66,6 +65,16 @@ class TypeChecker:
         for k in dependencies:
             transitive_dependencies[k] = TypeChecker.transitive_dependencies_key(k, set([]), dependencies)
         return transitive_dependencies
+
+    @staticmethod
+    def is_valid_expression(expressions, type_dict):
+        messages = ""
+        for e in expressions:
+            if ExpressionValidator.validator(e.return_type(type_dict)):
+                continue
+            else:
+                messages += str(e) + "is malformed"
+        return messages
 
     # TODO: try to make this obsolete
     @staticmethod
@@ -101,13 +110,3 @@ class TypeChecker:
         elif ctype is BasicTypes.text_name and type_class is BasicTypes.number_name:  # text could be number
             return True
         return False
-
-    @staticmethod
-    def is_valid_expression(statements, type_dict):
-        expressions = []
-        s = []
-
-        for x in statements:
-            expressions += x.return_expressions()
-        for e in expressions:
-            print(ExpressionValidator.validator(e.return_type(type_dict)))
