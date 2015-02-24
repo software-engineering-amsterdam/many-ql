@@ -47,11 +47,6 @@ namespace QL.Grammars
             return base.VisitStatementUnit(context);
         }
 
-        public override QLParser.FormBlockContext VisitControlBlockUnit(QLParser.ControlBlockUnitContext context)
-        {
-            Console.WriteLine("ControlBlockUnit: {0}", context.GetText());
-            return base.VisitControlBlockUnit(context);
-        }
 
         public override QLParser.FormBlockContext VisitTypedef(QLParser.TypedefContext context)
         {

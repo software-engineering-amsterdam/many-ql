@@ -52,7 +52,7 @@ typeDefExt	: typedef
 
 unit		: questionUnit
 			| statementUnit
-			| controlBlockUnit
+			| controlBlock
 			;
 
 block		: '{' unit* '}';
@@ -75,5 +75,4 @@ expression	: typeDefExt
 questionUnit : UNITTYPE IDENTIFIER '(' typeName (',' ATTR)* ')' TEXT ';'				;
 statementUnit : UNITTYPE IDENTIFIER '(' typeName ',' (typedef|expression) ')' TEXT ';'	;
 
-controlBlockUnit	: controlBlock;
 controlBlock	: 'if' expression block ('else' controlBlock)* ('else' block)? ';';
