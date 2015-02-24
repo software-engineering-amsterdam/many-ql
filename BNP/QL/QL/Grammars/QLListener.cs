@@ -17,8 +17,12 @@ namespace QL.Grammars
     {
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private ElementBase _astRootNode;
-        
-  
+
+        public QLListener()
+        {
+            _childrenStack = new Stack<Stack<ElementBase>>();
+        }
+
         public void InitializeNewLevel()
         {
             _childrenStack.Push(new Stack<ElementBase>());
@@ -27,6 +31,7 @@ namespace QL.Grammars
         {
             return _astRootNode != null; 
         }
+        
 
         private IList<ElementBase> GetChildren()
         {
@@ -48,94 +53,58 @@ namespace QL.Grammars
                 _astRootNode = newChild;
             }
         }
-        public QLListener()
-        {
-            _childrenStack = new Stack<Stack<ElementBase>>();
-        }
 
-
+        # region  Overriden listener methods
         public override void EnterFormBlock(QLParser.FormBlockContext context)
         {
             InitializeNewLevel();
-            base.EnterFormBlock(context);
+            
         }
         public override void ExitFormBlock(QLParser.FormBlockContext context)
         {
-            base.ExitFormBlock(context);
-            Create(context);
+            
+            
+            IList<ElementBase> children = GetChildren();
+            Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
+            
+            Form form = new Form();
+            
+            Identifier formBlockId = new Identifier(context.IDENTIFIER().GetText());
+            form.Identifier = formBlockId;
+            form.SourceLocation = SourceLocation.CreateFor(context);
+
+            AppendToAST(form);
         }
+
 
         public override void EnterBlock(QLParser.BlockContext context)
         {
             InitializeNewLevel();
-            base.EnterBlock(context);
+            
         }
         public override void ExitBlock(QLParser.BlockContext context)
         {
-            base.ExitBlock(context);
-            Create(context);
+            
+       
+            Block block = new Block();
+            block.SourceLocation = SourceLocation.CreateFor(context);
+            block.Children = GetChildren();
 
+            AppendToAST(block);
         }
+
+
         
         public override void EnterQuestionUnit(QLParser.QuestionUnitContext context)
         {
             InitializeNewLevel();
 
-            base.EnterQuestionUnit(context);
+            
         }
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
-            base.ExitQuestionUnit(context);
-            Create(context);
-
-        }
-        
-        public override void EnterStatementUnit(QLParser.StatementUnitContext context)
-        {
-
-            InitializeNewLevel();
-
-            base.EnterStatementUnit(context);
-        }
-        public override void ExitStatementUnit(QLParser.StatementUnitContext context)
-        {
-            base.ExitStatementUnit(context);
-            Create(context);
-
-        }
-
-        # region Terminals?
-        public override void EnterOperator(QLParser.OperatorContext context)
-        {
-            InitializeNewLevel();
-
-            base.EnterOperator(context);
-        }
-        public override void ExitOperator(QLParser.OperatorContext context)
-        {
-            //Create(context);
-            base.ExitOperator(context);
-     
             
-            //TODO
-        }
-
-        public override void EnterLiteral(QLParser.LiteralContext context)
-        {
-            InitializeNewLevel();
-
-            base.EnterLiteral(context);
-        }
-        public override void ExitLiteral(QLParser.LiteralContext context)
-        {
-            base.ExitLiteral(context);
-            //TODO
-
-        }
-        #endregion
-         #region Model creation methods
-        public void Create(QLParser.QuestionUnitContext context)
-        {
+        
             Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
@@ -153,10 +122,19 @@ namespace QL.Grammars
             question.SourceLocation = SourceLocation.CreateFor(context);
 
             AppendToAST(question);
-        }
+        
 
-        public void Create(QLParser.StatementUnitContext context)
+        }
+        
+        public override void EnterStatementUnit(QLParser.StatementUnitContext context)
         {
+
+            InitializeNewLevel();
+            
+        }
+        public override void ExitStatementUnit(QLParser.StatementUnitContext context)
+        {
+            
             Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
@@ -175,46 +153,59 @@ namespace QL.Grammars
             AppendToAST(statement);
         }
 
-        public void Create(QLParser.ControlUnitContext context)
+        public override void EnterControlUnit(QLParser.ControlUnitContext context)
         {
-            IList<ElementBase> children = GetChildren();
+                        InitializeNewLevel();
 
-            ControlBlock controlBlock = new ControlBlock();
-
-            controlBlock.HandleChildren(children);
-
-
-            AppendToAST(controlBlock);
+ 	         
         }
-
-        public void Create(QLParser.BlockContext context)
+        public override void ExitControlUnit(QLParser.ControlUnitContext context)
         {
-            Block block = new Block();
-            block.SourceLocation = SourceLocation.CreateFor(context);
-            block.Children = GetChildren();
-
-            AppendToAST(block);
+ 	
+        
+        IList<ElementBase> children = GetChildren();
+        ControlBlock controlBlock = new ControlBlock();//rename
+        controlBlock.HandleChildren(children);
+        AppendToAST(controlBlock);
         }
-
-        public void Create(QLParser.FormBlockContext context)
+       
+        public override void EnterOperator(QLParser.OperatorContext context)
         {
-            IList<ElementBase> children = GetChildren();
-            Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
+            InitializeNewLevel();
             
-            Form form = new Form();
+        }
+        public override void ExitOperator(QLParser.OperatorContext context)
+        {
             
-            Identifier formBlockId = new Identifier(context.IDENTIFIER().GetText());
-            form.Identifier = formBlockId;
-            form.SourceLocation = SourceLocation.CreateFor(context);
-
-            AppendToAST(form);
+            //TODO
         }
 
-        internal void Create(ParserRuleContext context)
+        public override void EnterLiteral(QLParser.LiteralContext context)
+        {
+            InitializeNewLevel();
+            
+        }
+        public override void ExitLiteral(QLParser.LiteralContext context)
+        {
+            
+            //TODO
+        }
+
+        public override void EnterExpression(QLParser.ExpressionContext context)
+        {
+            InitializeNewLevel();
+
+ 	         
+        }
+        public override void ExitExpression(QLParser.ExpressionContext context)
         {
 
-            throw new NotImplementedException();
+ 	         
+            //TODO
         }
+        
+        
+        
 
         #endregion
     }

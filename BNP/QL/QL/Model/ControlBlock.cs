@@ -21,7 +21,7 @@ namespace QL.Model
             
         }
 
-        public void HandleChildren(Expression expression , Block trueBlock, IList<ControlBlock> elseifs=null, Block falseBlock=null)
+        public override void HandleChildren(Expression expression, Block trueBlock, IList<ControlBlock> elseifs = null, Block falseBlock = null)
         {
             IList<ElementBase> childrenTemporary = new List<ElementBase>();
             childrenTemporary.Add(expression);

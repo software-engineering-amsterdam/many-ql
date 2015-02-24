@@ -1,23 +1,25 @@
 package cons.ql.ast.expression;
 
-import cons.ql.ast.ASTNode;
+import java.util.Arrays;
+
 import cons.ql.ast.Expression;
 
 public abstract class Binary extends Expression {
-	protected Expression left, right;
-	protected String operator;
+	private Expression left, right;
+	private String operator;
 	
 	public Binary(Expression left, Expression right, String operator) {
+		super(Arrays.asList(left, right));
 		this.left = left;
 		this.right = right;
 		this.operator = operator;
 	}
 	
-	public ASTNode getLeft() {
+	public Expression getLeft() {
 		return this.left;
 	}
 	
-	public ASTNode getRight() {
+	public Expression getRight() {
 		return this.right;
 	}
 	
@@ -25,5 +27,4 @@ public abstract class Binary extends Expression {
 	public String toString() {
 		return left.toString() + " " + operator + " " + right.toString();
 	}
-	
 }

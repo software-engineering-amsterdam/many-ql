@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Prog;
+import uva.ql.ast.expressions.Expression;
 import uva.ql.interpreter.gui.GUIVisitor;
 import uva.ql.interpreter.typecheck.TypeCheck;
 import uva.ql.interpreter.typecheck.TypeCheckVisitor;
@@ -20,6 +21,7 @@ public class Main{
 	public static void main(String[] args) throws IOException{
 		
 		ANTLRInputStream inputStream = new ANTLRInputStream(new FileInputStream("SupportingFiles/Test.ql"));
+		//inputStream = new ANTLRInputStream("hasSoldHouse+2");
 		QLLexer lexer = new QLLexer(inputStream);
 		
 		CommonTokenStream stream = new CommonTokenStream(lexer);
@@ -33,7 +35,7 @@ public class Main{
 		v.visitProg((Prog)ast);
 		
 		TypeCheck typeCheck = new TypeCheck(ast);
-		//typeCheck.printSymbolTable();
+		typeCheck.printSymbolTable();
 		
 		GUIVisitor guiVisitor = new GUIVisitor(typeCheck.getSymbolTable());
 		guiVisitor.visitProg((Prog)ast);

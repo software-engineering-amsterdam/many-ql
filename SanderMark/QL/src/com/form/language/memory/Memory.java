@@ -9,36 +9,37 @@ import com.form.language.ast.values.GenericValue;
 
 public class Memory {
 	
-	private static HashMap<String,Type> ids;
+	private HashMap<String,String> ids;
 	//private HashMap<String,GenericValue> values;
 	//private List<String> labels;
 			
 	public Memory()
 	{
-		ids = new HashMap<String, Type>();
+		ids = new HashMap<String, String>();
 		//values = new HashMap();
 		//labels = new List();
 	}
 	
-	public static boolean Exists(String id)
+	public boolean Exists(String id)
 	{
-		return ids.containsKey(id);		
+		return this.ids.containsKey(id);		
 	}
-	public static void addId(String id,Type type)
+	public void addId(String id,String type)
 	{
-		System.out.println(ids.size());
+		System.out.println(this.ids.size());
 		if(!Exists(id))
 		{
-			ids.put(id, type);
+			this.ids.put(id, type);
 		}
 		else
 		{			
 			//Add error		
 		}
+		System.out.println(this.ids.size());
 	}
-	public Type getType(String id)
+	public String getType(String id)
 	{
-		return ids.get(id).getType();
+		return ids.get(id);
 	}
 
 }

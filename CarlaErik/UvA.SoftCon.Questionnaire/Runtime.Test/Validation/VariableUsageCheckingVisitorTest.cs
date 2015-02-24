@@ -4,6 +4,7 @@ using System.Text;
 using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime.Validation;
 using UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting;

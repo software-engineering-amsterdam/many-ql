@@ -7,5 +7,16 @@ class Leaf(Node):
 
         self.leafValue = value
 
+    def execute(self):
+        return self.leafValue
+
+    @property
+    def children(self):
+        return []
+
     def Label(self):
         return self.tokens.get('ID', None)
+
+    @property
+    def type(self):
+        return self.tokens.keys()[0]

@@ -1,11 +1,54 @@
-from ..GenericVisitor import GenericVisitor
+from ..Visitor import Visitor as GenericVisitor
 
-class Visitor(GenericVisitor):
-    # Below are default methods.
-    # They do nothing except visit the tree.
+
+class ExpressionVisitor(GenericVisitor):
+    def _visitAtomicExpression(self, node):
+        self.visit(node.left)
+
+    def _visitUnaryExpression(self, node):
+        self.visit(node.right)
+
+    def _visitBinaryExpression(self, node):
+        self.visit(node.left)
+        self.visit(node.right)
+
+    def _visitIdentifier(self, node):
+        pass
+
+    def _visitStr(self, node):
+        pass
+
+    def _visitMoney(self, node):
+        pass
+
+    def _visitInt(self, node):
+        pass
+
+    def _visitBool(self, node):
+        pass
+
+
+class StatementVisitor(GenericVisitor):
     def _visitRoot(self, node):
         for n in node.getChildren():
-            self.visit(n) 
+            self.visit(n)
+
+    def _visitFormStatement(self, node):
+        for n in node.getChildren():
+            self.visit(n)
+
+    def _visitQuestionStatement(self, node):
+        pass
+
+    def _visitIfStatement(self, node):
+        for n in node.getChildren():
+            self.visit(n)
+
+
+class FullVisitor(GenericVisitor):
+    def _visitRoot(self, node):
+        for n in node.getChildren():
+            self.visit(n)
 
     def _visitFormStatement(self, node):
         for n in node.getChildren():
@@ -21,7 +64,7 @@ class Visitor(GenericVisitor):
             self.visit(n)
 
     def _visitAtomicExpression(self, node):
-        pass
+        self.visit(node.left)
 
     def _visitUnaryExpression(self, node):
         self.visit(node.right)
@@ -29,3 +72,22 @@ class Visitor(GenericVisitor):
     def _visitBinaryExpression(self, node):
         self.visit(node.left)
         self.visit(node.right)
+
+    def _visitIdentifier(self, node):
+        pass
+
+    def _visitStr(self, node):
+        pass
+
+    def _visitMoney(self, node):
+        pass
+
+    def _visitInt(self, node):
+        pass
+
+    def _visitBool(self, node):
+        pass
+
+
+class Visitor(FullVisitor):
+    pass

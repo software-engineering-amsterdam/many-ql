@@ -1,29 +1,31 @@
 package gui
 
-import java.awt.Checkbox
 import javafx.beans.value.ObservableValue
 
 import ast._
-import evaluator.Evaluator
 
+import scala.collection.immutable.Map
 import scalafx.Includes._
 import scalafx.scene.Node
-import scalafx.scene.control._
+import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
 
-class FormBuilder extends Evaluator {
+class FormBuilder {
 
-  def build(form: Form): FormGUI = {
-    new FormGUI(form.label, build(form.s))
+  type VariableName = String
+  type EvalEnvironment = Map[VariableName, Value]
+
+  def build(form: Form, env: EvalEnvironment): FormGUI = {
+    new FormGUI(form.label, build(form.s, env))
   }
 
-  def build(s: Statement): List[Node] = s match {
-    case Sequence(statements: List[Statement]) => statements.flatMap(s => build(s))
-    case i: IfStatement => /* TODO: Add evaluator! */ build(i.ifBlock)
-    case q: Question => q._type match {
-      case StringType() => List(addBox(getStringFieldElement(new Label(q.label))))
-      case BooleanType() => List(addBox(getBooleanFieldElement(new Label(q.label))))
-      case NumberType() => List(addBox(getNumberFieldElement(new Label(q.label))))
+  def build(s: Statement, env: EvalEnvironment): List[Node] = s match {
+    case Sequence(statements: List[Statement]) => statements.flatMap(s => build(s, env))
+    case i: IfStatement => /* TODO: Add evaluator! */ build(i.ifBlock, env)
+    case q: Question => q._type match { // TODO: Check if computed
+      case BooleanType() => List(addBox(getBooleanFieldElement(q.label, q.variable.name, env)))
+      case NumberType() => List(addBox(getNumberFieldElement(q.label, q.variable.name, env)))
+      case StringType() => List(addBox(getStringFieldElement(q.label, q.variable.name, env)))
     }
     case _ => List()
   }
@@ -34,16 +36,30 @@ class FormBuilder extends Evaluator {
     box
   }
   
-  def getStringFieldElement(label: Label): List[Node] = {
-    val field = new TextField()
+  def getStringFieldElement(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
+    val label = new Label(l)
+    val field = new TextField {
+      text = env get name match {
+        case Some(StringValue(v)) => v
+        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type String.")
+        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
+      }
+    }
     field.text.addListener(
       (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
     )
     List(label, field)
   } 
   
-  def getNumberFieldElement(label: Label): List[Node] = {
-    val field = new TextField()
+  def getNumberFieldElement(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
+    val label = new Label(l)
+    val field = new TextField {
+      text = env get name match {
+        case Some(NumberValue(v)) => v.toString
+        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type Number.")
+        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
+      }
+    }
     
     // TODO: Add number input validation.
     field.text.addListener(
@@ -52,8 +68,15 @@ class FormBuilder extends Evaluator {
     List(label, field)
   }
   
-  def getBooleanFieldElement(label: Label): List[Node] = {
-    val field = new CheckBox()
+  def getBooleanFieldElement(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
+    val label = new Label(l)
+    val field = new CheckBox {
+      selected = env get name match {
+        case Some(BooleanValue(v)) => v
+        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
+        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
+      }
+    }
     field.selectedProperty().addListener(
       (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
     )

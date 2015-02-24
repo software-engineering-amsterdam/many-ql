@@ -16,7 +16,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
         [StringValue("/")]
         Divide,
         [StringValue("==")]
-        Equals,
+        EqualTo,
         [StringValue(">")]
         GreaterThan,
         [StringValue(">=")]
@@ -28,10 +28,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
         [StringValue("*")]
         Multiply,
         [StringValue("!=")]
-        NotEquals,
+        NotEqualTo,
         [StringValue("||")]
         Or,
         [StringValue("-")]
         Substract,
+        [StringValue("!")]
+        Negation,
+        [StringValue("++")]
+        Increment
     }
 }
