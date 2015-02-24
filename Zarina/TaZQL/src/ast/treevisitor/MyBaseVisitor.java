@@ -3,6 +3,9 @@ package ast.treevisitor;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.TaZQLBaseVisitor;
+import main.TaZQLParser;
+
 import org.antlr.v4.runtime.misc.NotNull;
 
 import ast.AST;
@@ -39,9 +42,6 @@ import ast.unary.MinusExpression;
 import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
 import ast.unary.UnaryExpression;
-
-import com.antlr4.zarina.tazql.TaZQLBaseVisitor;
-import com.antlr4.zarina.tazql.TaZQLParser;
 
 public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 	
@@ -210,6 +210,8 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return null; 
 	}
 	
+	
+	
 	// *** expression variables ***
 	
 	@Override 
@@ -227,10 +229,11 @@ public class MyBaseVisitor extends TaZQLBaseVisitor<AST> {
 		return new IntegerVariable(Integer.valueOf(ctx.NUMBER().getText()));
 	}
 	
-	@Override public BooleanVariable visitBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx) { 
+	@Override 
+	public BooleanVariable visitBooleanExpression(@NotNull TaZQLParser.BooleanExpressionContext ctx) { 
 		return new BooleanVariable(Boolean.valueOf(ctx.BOOLEAN().getText()));
 	}
-	
+		
 	
 	//  *** Question types ***
 	
