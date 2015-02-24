@@ -7,7 +7,9 @@ class Parser extends JavaTokenParsers {
 
   // general parsers
   override val whiteSpace = """(\s|//.*|(?m)/\*(\*(?!/)|[^*])*\*/)+""".r
-  def label: Parser[String] = stringLiteral
+  def label: Parser[String] = stringLiteral ^^ {
+    s => s.substring(1, s.length - 1)
+  }
   def variable: Parser[Variable] = ident ^^ Variable
 
   // literal parsers
