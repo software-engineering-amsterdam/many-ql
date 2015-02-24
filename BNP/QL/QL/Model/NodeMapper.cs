@@ -32,7 +32,7 @@ namespace QL.Model
             return _childrenStack.Pop().ToList();
         }
 
-        private void PutIntoTree(ElementBase newChild)
+        private void AppendToAST(ElementBase newChild)
         {
 
             if (_childrenStack.Any())
@@ -47,45 +47,48 @@ namespace QL.Model
             }
         }
 
-        
-        public void Create(QLParser.FormBlockContext context){
-            IList<ElementBase> children = GetChildren();
-
-            Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
-            PutIntoTree(new Form(identifier, children[0]));
-        }
-
         #region Model creation methods
-        public UnitBase Create(QLParser.QuestionUnitContext context)
+        public void Create(QLParser.QuestionUnitContext context)
         {
+            Debug.Assert(context.ChildCount == 0, "A unit should syntactically not have any children.");
+
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             string typeName = context.typeName().GetText();
             string unitText = context.TEXT().GetText();
 
             TerminalTypeFactory typeFactory = new TerminalTypeFactory(typeName);
-            ITerminalType answerType = typeFactory.Create();
+            ITerminalType dataType = typeFactory.Create();
 
-            QuestionUnit question = new QuestionUnit(identifier, answerType, unitText, true); //true == todo
+            QuestionUnit question = new QuestionUnit();
+            question.Identifier = identifier;
+            question.DataType = dataType;
+            question.DisplayText = unitText;
+            // todo: extract required attribute from unit
+            question.SourceLocation = SourceLocation.CreateFor(context);
 
-            return question;
+            AppendToAST(question);
         }
 
-        public UnitBase Create(QLParser.StatementUnitContext context)
+        public void Create(QLParser.StatementUnitContext context)
         {
+            Debug.Assert(context.ChildCount == 0, "A unit should syntactically not have any children.");
+
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             string typeName = context.typeName().ToString();
             string unitText = context.TEXT().GetText();
 
             TerminalTypeFactory typeFactory = new TerminalTypeFactory(typeName);
-            ITerminalType answerType = typeFactory.Create();
+            ITerminalType dataType = typeFactory.Create();
 
-            StatementUnit statement = new StatementUnit(identifier, answerType, unitText);
+            StatementUnit statement = new StatementUnit();
+            statement.Identifier = identifier;
+            statement.DataType = dataType;
+            statement.DisplayText = unitText;
+            statement.SourceLocation = SourceLocation.CreateFor(context);
 
-            return statement;
+            AppendToAST(statement);
         }
-
-       
+        
         public TreeElementBase Create(QLParser.UnitContext context)
         {
             // todo: not use 'is' operator, but not sure how to do that now
@@ -102,28 +105,28 @@ namespace QL.Model
             return controlBlock;
         }
 
-        public Block Create(QLParser.BlockContext context)
+        public void Create(QLParser.BlockContext context)
         {
-            TreeElementBase[] childUnits = context.unit().Select(Create) as TreeElementBase[];
-            return new Block(childUnits);
+            Block block = new Block();
+            block.SourceLocation = SourceLocation.CreateFor(context);
+            block.Children = GetChildren();
+
+            AppendToAST(block);
         }
 
-        // todo: move to own mapper
-        public Form Create(QLParser.FormBlockContext context)
+        public void Create(QLParser.FormBlockContext context)
         {
+            IList<ElementBase> children = GetChildren();
+            Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
+            
+            Form form = new Form();
+            
             Identifier formBlockId = new Identifier(context.IDENTIFIER().GetText());
-            Block formBody = Create(context.block());
-            Form retVal = new Form(formBlockId, formBody);
-            retVal.SourceLocation = SourceLocation.Create(context);
+            form.Identifier = formBlockId;
+            form.SourceLocation = SourceLocation.CreateFor(context);
 
-            return retVal;
+            AppendToAST(form);
         }
-
-        internal void Create(ParserRuleContext context)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
 }

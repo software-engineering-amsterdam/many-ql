@@ -14,19 +14,19 @@ namespace QL.Model
         public QuestionUnit()
         { }
 
-        public QuestionUnit(Identifier id, ITerminalType dataType, string displayText, bool required, params string[] parameters)
+        public QuestionUnit(Identifier identifier, ITerminalType dataType, string displayText, bool required, params string[] parameters)
         {
-            Id = id; 
+            Identifier = identifier; 
             DataType = dataType;
             DisplayText = displayText;
             Required = required;
             Parameters = parameters;
         }
 
-        public QuestionUnit(Identifier id, Text displayText, bool required)
+        public QuestionUnit(Identifier identifier, Text displayText, bool required)
         {
             Required = required;
-            Id = id;
+            Identifier = identifier;
             DisplayText = displayText.ToString();
         }
     }

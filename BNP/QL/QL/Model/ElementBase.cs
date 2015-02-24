@@ -10,8 +10,11 @@ namespace QL.Model
     public abstract class ElementBase
     {
         public SourceLocation SourceLocation { get; set; }
-        public IList<ElementBase> Children { get; protected set; }
+        public IList<ElementBase> Children { get; set; }
 
+        /// <summary>
+        /// Gets an ElementType indicating if this element is a leaf or a node.
+        /// </summary>
         public abstract ElementType ElementType { get; }
 
         protected ElementBase()
