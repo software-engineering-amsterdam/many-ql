@@ -13,7 +13,7 @@ class QuestionnaireGUI:
         self.column_span = 1
         self.row_counter = 0
         self.answersMap  = Mapper()
-        self.elementsMap = {}  # structure: {parent_id: {statements:List, guiElements:List} .. }
+        self.elementsMap = {}  # structure: {parent_id: {_statements:List, guiElements:List} .. }
         self.varsCondMap = {}
 
     def generate_gui(self):
@@ -30,10 +30,10 @@ class QuestionnaireGUI:
             self.row_counter += 1
             parent_id = statement.get_parent_id()
             if parent_id not in self.elementsMap:
-                self.elementsMap[parent_id] = {'statements': [], 'guiElements': []}
+                self.elementsMap[parent_id] = {'_statements': [], 'guiElements': []}
             print(parent_id)
             if statement.is_conditional():  # TODO: fix statement condition drawing
-                self.elementsMap[parent_id]['statements'] = [statement]
+                self.elementsMap[parent_id]['_statements'] = [statement]
                 self.draw_conditional_q(statement, recreate)
             else:
                 if statement.get_id() not in self.varsCondMap:
@@ -99,8 +99,8 @@ class QuestionnaireGUI:
             e.grid_forget()
 
         print(self.elementsMap[parent_id])
-        print(self.elementsMap[parent_id]['statements'])
-        self.draw_statements(self.elementsMap[parent_id]['statements'], True)
+        print(self.elementsMap[parent_id]['_statements'])
+        self.draw_statements(self.elementsMap[parent_id]['_statements'], True)
 
     def draw_conditional_q(self, c_question, recreate=False):
         processor = Processor()
@@ -116,7 +116,7 @@ class QuestionnaireGUI:
 
         # get_dependencies if condition holds
         if condition:
-            # print condition's - depended statements
+            # print condition's - depended _statements
             self.draw_statements(c_question.get_c_statements(), recreate)
         else:
             self.draw_statements(c_question.get_e_statements(), recreate)
