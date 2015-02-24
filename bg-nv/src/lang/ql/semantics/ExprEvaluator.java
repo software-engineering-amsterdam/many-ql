@@ -1,27 +1,22 @@
 package lang.ql.semantics;
 
-import lang.ql.ast.AstVisitor;
 import lang.ql.ast.expression.*;
-import lang.ql.ast.form.Form;
-import lang.ql.ast.statement.CalculatedQuestion;
-import lang.ql.ast.statement.IfCondition;
-import lang.ql.ast.statement.Question;
 import lang.ql.semantics.values.*;
 
 /**
  * Created by bore on 23/02/15.
  */
-public class Evaluator implements ExprVisitor<Value>
+public class ExprEvaluator implements ExprVisitor<Value>
 {
-    private EvalEnv env;
+    private ExprEvalEnv env;
 
-    public static Value evaluate(Expr e, EvalEnv env)
+    public static Value evaluate(Expr e, ExprEvalEnv env)
     {
-        Evaluator eval = new Evaluator(env);
+        ExprEvaluator eval = new ExprEvaluator(env);
         return e.accept(eval);
     }
 
-    private Evaluator(EvalEnv env)
+    private ExprEvaluator(ExprEvalEnv env)
     {
         this.env = env;
     }
