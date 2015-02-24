@@ -39,7 +39,18 @@ public class TestForm {
 					+ 	"} else {"
 					+ "	 	otherQuestion : boolean { \"Did you sell a house in 2010?\" }"
 					+ "  }"
-					+ "}", true }
+					+ "}", true },
+					// Third form
+					{ "form nothingInIt { }", true },
+					// Double declaration. Not allowed.
+					{ "form taxOfficeExample {"
+					+ "	hasSoldHouse : boolean { \"Did you sell a house in 2010?\" }"
+					+ "	hasSoldHouse : integer { \"Did you sell a house in 2010?\" }"
+					+ "}", false },
+					// Reusing form identifier. Not allowed.
+					{ "form taxOfficeExample {"
+					+ "	taxOfficeExample : boolean { \"Did you sell a house in 2010?\" }"
+					+ "}", false },
     	 });
      }
 

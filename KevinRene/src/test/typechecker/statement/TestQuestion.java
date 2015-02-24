@@ -17,28 +17,20 @@ import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
 
 @RunWith(value = Parameterized.class)
-public class TestIf {
-	public static String createTestForm(String questionType) {
-		return "form myForm { "
-				+ "newQuestion : " + questionType + " { \"Something\" }"
-				+ "if(newQuestion) {}"
-				+ "}";
+public class TestQuestion {
+	public static String createComputedQuestion(String questionType) {
+		return "aQuestion : " + questionType + " { \"Question text\" }";
 	}
-	
 	@Parameters
-	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] { 
-				{ "if (true) { }", true },
-				{ "if (42) { }", false },
-				{ "if (4.2) { }", false },
-				{ "if (\"String\") { }", false },
-				
-				{ createTestForm("boolean"), true },
-				{ createTestForm("integer"), false },
-				{ createTestForm("float"), false },
-				{ createTestForm("string"), false },
-		});
-	}
+    public static Collection<Object[]> data() {
+    	 return Arrays.asList(new Object[][] {
+    			 	{ createComputedQuestion("boolean"), true },
+					{ createComputedQuestion("integer"), true },
+					{ createComputedQuestion("float"), true },
+					{ createComputedQuestion("money"), true },
+					{ createComputedQuestion("string"), true }
+    	 });
+     }
 
 	private ASTNode inputNode;
 	private boolean expected;
@@ -46,7 +38,7 @@ public class TestIf {
 	private Parser formParser = new Parser();
 	private TypeEnvironment register = new TypeEnvironment();
 
-	public TestIf(String input, boolean expected) {
+	public TestQuestion(String input, boolean expected) {
 		System.out.println("Testing: " + input);
 
 		register = new TypeEnvironment();
@@ -57,13 +49,13 @@ public class TestIf {
 
 	@BeforeClass
 	public static void printHeader() {
-		System.out.println("==================");
-		System.out.println("*** Testing If ***");
-		System.out.println("==================");
+		System.out.println("========================");
+		System.out.println("*** Testing Question ***");
+		System.out.println("========================");
 	}
 
 	@Test
-	public void testIf() {
+	public void test() {
 		assertEquals(expected, TypeChecker.check(inputNode, register));
 	}
 }

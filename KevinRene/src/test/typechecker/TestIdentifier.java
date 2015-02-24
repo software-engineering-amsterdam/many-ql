@@ -27,9 +27,10 @@ public class TestIdentifier {
 				+ "}", true },
 				
 				{ "form formname {"
-				+ "	hasSoldHouse : money { \"question text\" } "
-				+ ""
-				+ "	leftOver : money { \"Money left: \" assign(500 - 1000) }"
+				+ "	hasSoldHouse : boolean { \"question text\" } "
+				+ " if(hasSoldHouse) {"
+				+ "		leftOver : money { \"Money left: \" assign(500 - 1000) }"
+				+ " }"
 				+ "}", true },
 				
 				{ "form formname {"

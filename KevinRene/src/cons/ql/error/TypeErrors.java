@@ -25,6 +25,10 @@ public class TypeErrors {
 		errors.add(new Error(identifier, identifier + " was used before being defined."));
 	}
 	
+	public void doubleDefinedVariable(Identifier identifier) {
+		errors.add(new Error(identifier, identifier + " is defined multiple times."));
+	}
+	
 	public void incompatibleType(ASTNode node,
 			QLType expectedType, QLType actualType) {
 		errors.add(new Error(node, "Expected " + expectedType + ", got " 

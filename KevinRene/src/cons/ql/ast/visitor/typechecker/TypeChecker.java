@@ -230,14 +230,26 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 			typeErrors.illegalQuestionAssignment(compQuestionNode, questionType, expressionType);
 		}
 		
-		register.store(compQuestionNode.getIdentifier(), questionType);
+		Identifier questionIdentifier = compQuestionNode.getIdentifier();
+		
+		if(register.resolve(questionIdentifier) == null) {
+			register.store(questionIdentifier, questionType);
+		} else {
+			typeErrors.doubleDefinedVariable(questionIdentifier);
+		}
 		
 		return questionType;
 	}
 	
 	@Override
 	public QLType visit(Form formNode) {
-		register.store(formNode.getIdentifier(), formNode.getType());
+		Identifier formIdentifier = formNode.getIdentifier();
+		
+		if(register.resolve(formIdentifier) == null) {
+			register.store(formNode.getIdentifier(), formNode.getType());
+		} else {
+			typeErrors.doubleDefinedVariable(formIdentifier);
+		}
 		
 		StatementVisitor.super.visit(formNode);
 		
@@ -260,7 +272,13 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 
 	@Override
 	public QLType visit(Question questionNode) {
-		register.store(questionNode.getIdentifier(), questionNode.getType());
+		Identifier questionIdentifier = questionNode.getIdentifier();
+		
+		if(register.resolve(questionIdentifier) == null) {
+			register.store(questionIdentifier, questionNode.getType());
+		} else {
+			typeErrors.doubleDefinedVariable(questionIdentifier);
+		}
 		
 		return questionNode.getType();
 	}

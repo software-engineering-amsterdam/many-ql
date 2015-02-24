@@ -62,6 +62,7 @@ import cons.ql.ast.statement.*;
  		;
 
  form : FORM IDENTIFIER '{' statements '}' { $$ = new Form($2, $4); }
+ 	  | FORM IDENTIFIER '{' '}' { $$ = new Form($2, new Block()); }
  	  ;
 
  statements : statement statements  { $$ = new Block($1, $2); }
