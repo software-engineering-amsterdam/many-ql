@@ -6,7 +6,6 @@ import uva.ql.ast.ASTNode;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
-import uva.ql.ast.declarations.Declaration;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.expressions.PrimitiveType;
@@ -28,7 +27,6 @@ import uva.ql.ast.expressions.math.Multiplication;
 import uva.ql.ast.expressions.math.Substraction;
 import uva.ql.parser.QLParser.AssignExprContext;
 import uva.ql.parser.QLParser.AssignStrContext;
-import uva.ql.parser.QLParser.DeclContext;
 import uva.ql.parser.QLParser.ExprContext;
 import uva.ql.parser.QLParser.FormContext;
 import uva.ql.parser.QLParser.IfStatementContext;
@@ -84,7 +82,6 @@ public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
 	public ASTNode visitStat(StatContext ctx) { 
 		
 		if (ctx.expr() != null) return visitExpr(ctx.expr());
-		else if (ctx.decl() != null) return visitDecl(ctx.decl());
 		else if (ctx.quest() != null) return visitQuest(ctx.quest());
 		else if (ctx.ifStatement() != null) return visitIfStatement(ctx.ifStatement());
 		else if (ctx.assign() != null){
@@ -95,15 +92,6 @@ public class QLMainVisitor extends QLBaseVisitor<ASTNode> {
 		return visitChildren(ctx); 
 	}
 
-	@Override 
-	public ASTNode visitDecl(DeclContext ctx) { 
-		CodeLines codeLines = getCodeLines(ctx);
-		
-		if (ctx.expr() != null) 
-			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), (Expression)visitExpr(ctx.expr()), codeLines);
-		else 
-			return new Declaration(new Identifier(ctx.Identifier().getText(), codeLines), (Type)visitPrimitiveType(ctx.primitiveType()), codeLines);
-	}
 	@Override
 	public ASTNode visitAssignExpr(QLParser.AssignExprContext ctx) { 
 		CodeLines codeLines = getCodeLines(ctx);

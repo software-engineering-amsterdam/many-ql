@@ -50,8 +50,8 @@ public class HeadlessStmtInterpreter extends StmtInterpreter {
         node.getExp().apply(expInterpreter);
         if (expInterpreter.getValue().getValue() == Boolean.TRUE) {
             executeStmtList(node.getThenStmtList());
+            return;
         }
-        executeStmtList(node.getThenStmtList());
     }
 
     public HeadlessStmtInterpreter(FormInterpreter formInterpreter) {

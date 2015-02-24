@@ -20,7 +20,6 @@ public class IdentifierNode extends ANode {
     }
 
     @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
-    }
-}
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
+    }}

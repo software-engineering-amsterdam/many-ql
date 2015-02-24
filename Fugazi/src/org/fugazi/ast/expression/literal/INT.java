@@ -2,6 +2,7 @@ package org.fugazi.ast.expression.literal;
 
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.IntType;
+import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +10,16 @@ import java.util.List;
 public class INT extends Literal {
 
     private final int value;
-    private final Class returnedType;
 
+    public INT(int _value) {
+        super();
+
+        this.value = _value;
+    }
     public INT(int _value, int _lineNum) {
         super(_lineNum);
 
         this.value = _value;
-        this.returnedType = IntType.class;
-
     }
 
     public int getValue() {
@@ -29,8 +32,8 @@ public class INT extends Literal {
     }
 
     @Override
-    public Class getReturnedType() {
-        return this.returnedType;
+    public Type getReturnedType() {
+        return new IntType();
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

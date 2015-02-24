@@ -1,8 +1,5 @@
 package interpreter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ast.expression.BracketsExpression;
 import ast.expression.IExpressionVisitor;
 import ast.expression.arithmetic.AdditionExpression;
@@ -27,14 +24,12 @@ import ast.unary.PlusExpression;
 
 public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 
-	private final Map<Id, Value> valueStorage = new HashMap<Id, Value>(); 
+	private final ValueRepository valueRepository;
 	
-	@Override
-	public Value visit(BracketsExpression expr) {
-		// TODO Get rid of this...
-		return null;
+	public EvaluatorVisitor(ValueRepository valueRepository) {
+		this.valueRepository = valueRepository;
 	}
-
+	
 	@Override
 	public Value visit(MultiplicationExpression expr) {
 		Value left = expr.getLeftExpression().accept(this);
@@ -155,28 +150,27 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	}
 
 	@Override
+	public Value visit(BracketsExpression expr) {
+		return expr.getUnaryExpression().accept(this);
+	}
+	
+	@Override
 	public Value visit(StringVariable string) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StringValue(string.getVariable());
 	}
 
 	@Override
 	public Value visit(IntegerVariable integer) {
-		return new IntegerValue(integer.getValue());
-	//	return null;
+		return new IntegerValue(integer.getVariable());
 	}
 
 	@Override
 	public Value visit(BooleanVariable bool) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanValue(bool.getVariable());
 	}
-
+	
 	@Override
 	public Value visit(Id identifier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+		return valueRepository.getValue(identifier);
+	}	
 }

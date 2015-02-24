@@ -31,7 +31,7 @@ else {
     Question check2 (bool) : Another one?
 }
 
-if (5 * (3 + 4) - 3 + (2 / 1) == 7) {
+if (5 - 3 + (2 / 1) == 4) {
     Question dunno (bool) : Do you know what to write?
 }
 

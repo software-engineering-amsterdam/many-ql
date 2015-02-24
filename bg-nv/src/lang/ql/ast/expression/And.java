@@ -1,7 +1,5 @@
 package lang.ql.ast.expression;
 
-import lang.ql.semantics.Visitor;
-
 /**
  * Created by bore on 16/02/15.
  */
@@ -12,8 +10,8 @@ public class And extends BinaryExpr
         super(left, right, lineNumber);
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(ExprVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

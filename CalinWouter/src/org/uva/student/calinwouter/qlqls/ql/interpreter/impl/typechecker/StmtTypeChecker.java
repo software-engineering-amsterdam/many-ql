@@ -7,7 +7,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.IfNotBoolOrNullException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InvalidComputedValueTypeException;
 
-public class StmtTypeChecker extends StmtInterpreter {
+public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
 
     // TODO apply most to the actual ql as well.
     @Override
@@ -17,6 +17,7 @@ public class StmtTypeChecker extends StmtInterpreter {
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
         node.getType().apply(typeInterpreter);
+        formInterpreter.setTypeDescriptor(node.getIdent().getText(), typeInterpreter.getValue());
         formInterpreter.setField(node.getIdent().getText(),
                 typeInterpreter.getValue().getDefaultValue());
     }
@@ -34,6 +35,8 @@ public class StmtTypeChecker extends StmtInterpreter {
 
         ExpTypeChecker expTypeChecker = new ExpTypeChecker(formInterpreter);
         node.getExp().apply(expTypeChecker);
+
+        formInterpreter.setTypeDescriptor(node.getIdent().getText(), typeInterpreter.getValue());
 
         if (typeInterpreter.getValue().getDefaultValue().getTypeModelClass()
                 != expTypeChecker.getValue().getTypeModelClass()) {
@@ -70,8 +73,8 @@ public class StmtTypeChecker extends StmtInterpreter {
         executeStmtList(node.getThenStmtList());
     }
 
-    public StmtTypeChecker(FormInterpreter formInterpreter) {
-        super(formInterpreter);
+    public StmtTypeChecker(FormTypeChecker formTypeChecker) {
+        super(formTypeChecker);
     }
 
 }

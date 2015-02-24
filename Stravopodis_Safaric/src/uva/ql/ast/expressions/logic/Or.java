@@ -27,7 +27,6 @@ public class Or extends BinaryExpressions{
 		if (!BooleanValue.isBooleanValue(this.getLeftExpr()) || !BooleanValue.isBooleanValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: || operator requires both operands BooleanValue");
 		
-		return new BooleanValue(	(boolean)this.getLeftExpr().evaluate().getValue() || 
-									(boolean)this.getRightExpr().evaluate().getValue());
+		return BooleanValue.booleanValueFromExpr(this.getLeftExpr()).or(BooleanValue.booleanValueFromExpr(this.getRightExpr()));
 	}
 }

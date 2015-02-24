@@ -7,7 +7,13 @@ type Frontend struct {
 	Type FrontendEventType
 
 	Question ast.QuestionNode
-	Visible  Visibility
+
+	Identifier string
+	Label      string
+	FieldType  string
+	Value      string
+
+	Visible Visibility
 
 	Answers map[string]string
 }

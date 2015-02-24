@@ -63,6 +63,7 @@ expression returns [Expression result]
 literal returns [Expression result]
 	: BOOL		{$result = new BoolLiteral(Boolean.parseBoolean($BOOL.text),$BOOL);}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),$INTEGER);}
+	| STRING	{$result = new StringLiteral($STRING.text,$STRING);}
 	;
 
 
@@ -70,10 +71,10 @@ MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
 BOOL : 'true' | 'false';
 TYPE: 'Boolean' | 'String' | 'Number';
+STRING: '"'.*?'"';
 
 INTEGER : [0-9]+;
 ID : ([a-z][A-Za-z0-9]+);
-STRING: '"'.*?'"';
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;
 

@@ -8,18 +8,18 @@ import lang.ql.semantics.values.DateValue;
  */
 public class DateInput extends Input
 {
-    public DateInput(DateValue value)
+    public DateInput()
     {
-        super(value);
+        super();
     }
 
-    public DateInput(DateValue value, Boolean disabled)
+    public DateInput(Boolean visible, Boolean disabled)
     {
-        super(value, disabled);
+        super(visible, disabled);
     }
 
-    public void accept(GuiVisitor visitor)
+    public <T> T accept(GuiVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

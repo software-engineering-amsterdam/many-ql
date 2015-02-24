@@ -27,9 +27,6 @@ public class Greater_Eq extends BinaryExpressions{
 		if (!NumberValue.isNumberValue(this.getLeftExpr()) && !NumberValue.isNumberValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: >= operator requires both operands NumberValue");
 		
-		NumberValue left = new NumberValue((Number)this.getLeftExpr().evaluate().getValue());
-		NumberValue right = new NumberValue((Number)this.getRightExpr().evaluate().getValue());
-		
-		return new BooleanValue(left.toDecimal() >= right.toDecimal());
+		return NumberValue.numberValueFromExpr(this.getLeftExpr()).greaterEqual(NumberValue.numberValueFromExpr(this.getRightExpr()));
 	}
 }

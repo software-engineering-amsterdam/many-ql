@@ -7,7 +7,7 @@ from AST.operators import *
 class TestAST(unittest.TestCase):
 
     def generate_statements(self):
-        q1 = Question("1a", "bool", "Is this a statements?")
+        q1 = Question("1a", "bool", "Is this a _statements?")
         q2 = Question("2a", "text", "What?")
         q3 = Question("3a", "number", "Why!")
         q4 = Question("4a", "bool", "when")
@@ -40,7 +40,7 @@ class TestAST(unittest.TestCase):
         self.assertIsInstance(result[0], IfBlock)
 
     def test_else_questions(self):
-        result = (FormFormat.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? } else { Question iselse (bool) : Is this an else statements? }")).asList()
+        result = (FormFormat.pIfElse.parseString("if (con == True) {  Question trans (bool) : Will transitive closure work? } else { Question iselse (bool) : Is this an else _statements? }")).asList()
         self.assertIsInstance(result[0], IfElseBlock)
 
     def test_form(self):
@@ -48,12 +48,12 @@ class TestAST(unittest.TestCase):
         result = FormFactory.make_form(form_as_parse_results)
         self.assertIsInstance(result, Form)
 
-        self.assertEqual(result.introduction,"Welcome to my questionnaire .")
-        self.assertEqual(result.name, "Name_of_Questionnaire")
+        self.assertEqual(result._introduction,"Welcome to my questionnaire .")
+        self.assertEqual(result._name, "Name_of_Questionnaire")
         self.assertTrue(len(result.questions) == 5)
 
     def test_dependency_collection(self):
-        pass
+        form = self.generate_statements()
 
     def test_id_collection(self):
         pass

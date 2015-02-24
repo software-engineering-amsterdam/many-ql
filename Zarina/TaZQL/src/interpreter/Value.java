@@ -88,6 +88,6 @@ public abstract class Value {
 	public Value orBoolean(BooleanValue value) 
 		{ throw new UnsupportedOperationException("Not supported in orBoolean()."); }
 	
-	public Value notBoolean(BooleanValue value) 
-		{ throw new UnsupportedOperationException("Not supported in notBoolean()."); }	
+	public Value equalBoolean(BooleanValue value) 
+		{ throw new UnsupportedOperationException("Not supported in equalBoolean()."); }	
 }
