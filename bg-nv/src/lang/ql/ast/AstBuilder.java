@@ -14,6 +14,7 @@ import lang.ql.gen.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AstBuilder extends QLBaseVisitor<AstNode>
@@ -171,13 +172,6 @@ public class AstBuilder extends QLBaseVisitor<AstNode>
     private String unescapedString(String s)
     {
         String result = s.substring(1, s.length()-1);
-        String[] quotes = new String[] {"\"", "“", "”", "'"};
-
-        for (String q : quotes)
-        {
-            result = result.replace("\\" + q, q);
-        }
-
-        return result;
+        return result.replace("\\\"", "\"");
     }
 }
