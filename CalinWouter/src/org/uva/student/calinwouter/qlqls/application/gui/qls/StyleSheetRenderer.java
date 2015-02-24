@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
@@ -22,7 +23,13 @@ public class StyleSheetRenderer extends AbstractRenderer {
 
     @Override
     public void caseStyleSheet(StyleSheet styleSheet) {
-        JFrame frame = new JFrame(styleSheet.getStyleSheetName());
+        final JFrame frame = new JFrame(styleSheet.getStyleSheetName());
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTabbedPane jTabbedPane = new JTabbedPane();
         for (Page p : styleSheet.getPages()) {
@@ -30,6 +37,13 @@ public class StyleSheetRenderer extends AbstractRenderer {
             System.out.println(p.getPageName());
             jTabbedPane.addTab(p.getPageName(), new JScrollPane(lastCreatedComponent));
         }
+        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+            @Override
+            public void onStateChanged() {
+                frame.repaint();
+                frame.revalidate();
+            }
+        });
         frame.getContentPane().add(jTabbedPane);
         frame.pack();
         frame.setVisible(true);
@@ -47,6 +61,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
             sectionPanel.add(lastCreatedComponent);
             pagePanel.add(sectionPanel);
         }
+        pagePanel.add(Box.createVerticalGlue());
         lastCreatedComponent = pagePanel;
     }
 
@@ -57,6 +72,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
         for (AbstractFormField<?> f : section.getFields()) {
             FieldRenderer fieldRenderer = new FieldRenderer(headlessFormInterpreter, formTypeChecker);
             f.apply(fieldRenderer);
+//            fieldRenderer.getFieldComponent().setPreferredSize(new Dimension(100, 100));
             sectionPanel.add(fieldRenderer.getFieldComponent());
         }
         lastCreatedComponent = sectionPanel;

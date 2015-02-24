@@ -43,6 +43,8 @@ public class LabelWithWidgetWidget implements IWidget {
                     fieldLabel.setText("LABEL NOT AVAILABLE: " + model.getFieldName());
                     labelWithWidgetWidget.setVisible(false);
                 }
+                labelWithWidgetWidget.repaint();
+                labelWithWidgetWidget.revalidate();
             }
         });
     }
