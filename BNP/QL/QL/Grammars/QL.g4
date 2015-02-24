@@ -61,4 +61,4 @@ expression	: literal
 
 questionUnit  : 'question' IDENTIFIER '(' type ')' TEXT ';';
 statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;
-controlUnit	  : 'if' expression block ('else' controlUnit)* ('else' block)? ';';
+controlUnit	  : 'if' expression block ('else' block)? ';';

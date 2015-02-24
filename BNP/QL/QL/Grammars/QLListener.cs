@@ -15,6 +15,7 @@ namespace QL.Grammars
 {
     public class QLListener : QLBaseListener
     {
+        #region Common 
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private ElementBase _astRootNode;
 
@@ -54,6 +55,7 @@ namespace QL.Grammars
             }
         }
 
+        #endregion
         # region  Overriden listener methods
         public override void EnterFormBlock(QLParser.FormBlockContext context)
         {
@@ -61,18 +63,16 @@ namespace QL.Grammars
             
         }
         public override void ExitFormBlock(QLParser.FormBlockContext context)
-        {
-            
-            
+        {                       
             IList<ElementBase> children = GetChildren();
+
             Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
             
-            Form form = new Form();
             
             Identifier formBlockId = new Identifier(context.IDENTIFIER().GetText());
-            form.Identifier = formBlockId;
-            form.SourceLocation = SourceLocation.CreateFor(context);
-
+            Block block = (Block) children[0];
+            Form form = new Form(formBlockId, block);
+            form.SourceLocation = SourceLocation.CreateFor(context);           
             AppendToAST(form);
         }
 
@@ -104,8 +104,8 @@ namespace QL.Grammars
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
             
-        
-            Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
+            IList<ElementBase> children = GetChildren();//either call this or remove the InitializeNewLevel  above
+            Debug.Assert(!children.Any(), "A unit should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             string typeName = context.type().GetText();
@@ -128,14 +128,12 @@ namespace QL.Grammars
         
         public override void EnterStatementUnit(QLParser.StatementUnitContext context)
         {
-
-            InitializeNewLevel();
-            
+            InitializeNewLevel();            
         }
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
-            
-            Debug.Assert(!GetChildren().Any(), "A unit should syntactically not have any children.");
+            IList<ElementBase> children = GetChildren();
+            Debug.Assert((children.Count() == 1), "Form block could have one and only one child - expression.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             string typeName = context.type().GetText();
@@ -145,6 +143,8 @@ namespace QL.Grammars
             ITerminalType dataType = typeFactory.Create();
 
             StatementUnit statement = new StatementUnit();
+
+            statement.Expression = (Expression)children[0];
             statement.Identifier = identifier;
             statement.DataType = dataType;
             statement.DisplayText = unitText;
@@ -155,18 +155,24 @@ namespace QL.Grammars
 
         public override void EnterControlUnit(QLParser.ControlUnitContext context)
         {
-                        InitializeNewLevel();
-
- 	         
+            InitializeNewLevel();       
         }
         public override void ExitControlUnit(QLParser.ControlUnitContext context)
         {
- 	
-        
+ 	        
         IList<ElementBase> children = GetChildren();
-        ControlBlock controlBlock = new ControlBlock();//rename
-        controlBlock.HandleChildren(children);
-        AppendToAST(controlBlock);
+
+        ControlUnit controlUnit = new ControlUnit();
+        
+
+        controlUnit.Expression = (Expression) children[0];
+        controlUnit.ConditionTrueBlock = (Block) children[1];
+            if (children.Count()==3)
+            {
+                controlUnit.ConditionFalseBlock = (Block)children[2];
+            }
+        
+        AppendToAST(controlUnit);
         }
        
         public override void EnterOperator(QLParser.OperatorContext context)
@@ -200,7 +206,8 @@ namespace QL.Grammars
         public override void ExitExpression(QLParser.ExpressionContext context)
         {
 
- 	         
+            AppendToAST(new Expression());
+
             //TODO
         }
         

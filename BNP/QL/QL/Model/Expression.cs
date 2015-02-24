@@ -8,5 +8,6 @@ namespace QL.Model
 {
     public class Expression : TreeElementBase
     {
+        public Expression() { }
     }
 }

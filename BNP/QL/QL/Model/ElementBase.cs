@@ -16,19 +16,15 @@ namespace QL.Model
         /// Gets an ElementType indicating if this element is a leaf or a node.
         /// </summary>
         public abstract ElementType ElementType { get; }
-
-        protected ElementBase()
+        protected ElementBase ()
         {
-            Children = new List<ElementBase>(2);
+            Children = new List<ElementBase>();
         }
 
         internal void HandleChildren(IList<ElementBase> list)
         {
             Children = list;
             
-            //here the children should be checked
-            //Console.WriteLine("");
-            // throw new NotImplementedException();
         }
         public bool CheckType() { return false; }  //TODO when we start to implement typechecking then change to abstract
         public bool Evaluate() { return false; }       //TODO when we start to implement evaluation then change to abstract

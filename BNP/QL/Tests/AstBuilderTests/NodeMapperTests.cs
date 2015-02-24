@@ -17,9 +17,11 @@ namespace Tests.AstBuilderTests
         {
             string input = @"form ExampleBlock {
                 if (3==-11){}
-                else if (yes!=no){}
-	                 else {};
-                else {};
+	            else {
+                     if (3==12)
+                        {}
+                     else {};
+                     };
                 }
             ";
             Build(input);

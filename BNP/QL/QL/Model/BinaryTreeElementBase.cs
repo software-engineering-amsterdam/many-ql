@@ -20,6 +20,7 @@ namespace QL.Model
             get { return Children[1]; }
             set { Children[1] = value; }
         }
+           
 
         public override ElementType ElementType
         {
@@ -28,7 +29,8 @@ namespace QL.Model
 
         protected BinaryTreeElementBase() : base()
         {
-            
+            Children = new List<ElementBase>(2);
+
         }
     }
 }

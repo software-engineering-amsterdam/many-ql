@@ -4,6 +4,16 @@ namespace QL.Model
 {
     public class StatementUnit : UnitBase
     {
+        public Expression Expression
+        {
+            get {
+            return (Expression)Children[0];
+            }
+            set{
+            Children.Clear();
+            Children.Add(value);
+            }
+        }
         public StatementUnit() { }
         public StatementUnit(Identifier identifier, ITerminalType dataType, string displayText, params string[] parameters)
         {
@@ -12,5 +22,6 @@ namespace QL.Model
             DisplayText = displayText;
             Parameters = parameters;
         }
+
     }
 }
