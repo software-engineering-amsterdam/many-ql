@@ -68,4 +68,10 @@ public class BooleanValue extends Value<Boolean>
     {
         return new BooleanValue(!(v.getValue().equals(this.getValue())));
     }
+
+    @Override
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

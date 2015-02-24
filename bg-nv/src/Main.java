@@ -53,8 +53,7 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        Modeler modeler = new Modeler(values);
-
+        Modeler modeler = new Modeler();
         // TODO: To cast, or not to cast...
         SimpleGui.run((Canvas) modeler.visit(this.ast), primaryStage);
     }

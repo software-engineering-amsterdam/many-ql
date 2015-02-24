@@ -20,13 +20,6 @@ import java.util.List;
  */
 public class Modeler implements Visitor<GuiElement>, TypeVisitor<GuiElement>
 {
-    private ValueTable values;
-
-    public Modeler(ValueTable values)
-    {
-        this.values = values;
-    }
-
     @Override
     public GuiElement visit(Form form)
     {

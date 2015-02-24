@@ -147,4 +147,10 @@ public class DecimalValue extends Value<BigDecimal>
     {
         return new DecimalValue(this.getValue().negate());
     }
+
+    @Override
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

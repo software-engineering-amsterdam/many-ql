@@ -16,6 +16,14 @@ public class Canvas extends GuiElement
 
     public Canvas(String name, List<Line> lines)
     {
+        super();
+        this.name = name;
+        this.lines = lines;
+    }
+
+    public Canvas(String name, List<Line> lines, Boolean visible)
+    {
+        super(visible);
         this.name = name;
         this.lines = lines;
     }

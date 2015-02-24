@@ -248,4 +248,6 @@ public abstract class Value<T>
     {
         throw new IllegalStateException();
     }
+
+    public abstract <T> T accept (ValueVisitor<T> visitor);
 }

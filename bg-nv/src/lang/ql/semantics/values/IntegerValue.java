@@ -145,4 +145,10 @@ public class IntegerValue extends Value<Integer>
     {
         return new IntegerValue(this.getValue() * -1);
     }
+
+    @Override
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

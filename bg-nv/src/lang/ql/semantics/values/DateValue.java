@@ -17,4 +17,10 @@ public class DateValue extends Value<Date>
     {
         return new DateValue(new Date());
     }
+
+    @Override
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

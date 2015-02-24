@@ -15,13 +15,18 @@ public class IntInput extends Input
         super();
     }
 
-    public IntInput(Boolean disabled)
+    public IntInput(Boolean visible, Boolean disabled)
     {
-        super(disabled);
+        super(visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)
     {
         return visitor.visit(this);
+    }
+
+    public void setValue(IntegerValue value)
+    {
+        this.value = value;
     }
 }
