@@ -28,4 +28,12 @@ public class Store {
     public Question get(Id questionId){
         return store.get(questionId);
     }
+
+    public List<Question> getOrderedQuestions(){
+        List<Question> result = new ArrayList<Question>();
+        for (Id id : order) {
+            result.add(store.get(id));
+        }
+        return result;
+    }
 }
