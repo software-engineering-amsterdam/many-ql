@@ -3,8 +3,8 @@ package org.uva.student.calinwouter.qlqls.application;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.qls.model.Default;
-import org.uva.student.calinwouter.qlqls.qls.model.StyleSheet;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.Default;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.StyleSheet;
 
 import java.util.LinkedList;
 
@@ -15,7 +15,6 @@ public class Main {
     public static void main(String[] args) {
         String input = "form Box1HouseOwning {\n" +
                 " hasSoldHouse: \"Did you by a house in 2010?\" boolean\n" +
-                " hasSoldHouse3: \"Did you by a house in 2010?\" boolean\n" +
                 " hasMaintLoan: \"Did you enter a loan for maintenance/reconstruction?\" boolean\n" +
                 " if (hasSoldHouse) {\n" +
                 " sellingPrice: \"Price the house was sold for:\" int\n" +
@@ -24,7 +23,7 @@ public class Main {
                 " }\n" +
                 "}";
         try {
-            HeadlessFormInterpreter headlessFormInterpreter = InterpreterHelper.interpetStringHeadless(input);
+            HeadlessFormInterpreter headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(input);
 
             input = "styleSheet(taxOfficeExample," +
                     "" +
@@ -54,11 +53,10 @@ public class Main {
             // Create a static stylesheet.
             StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(input).getValue().getValue();
 
-            // Interprete the QL.
-            styleSheet.updateStates(headlessFormInterpreter, new LinkedList<Default>());
-
             // Apply QL to the stylesheet renderer.
-            styleSheet.apply(new StyleSheetRenderer());
+            styleSheet.apply(new StyleSheetRenderer(headlessFormInterpreter));
+
+            headlessFormInterpreter.interpret();
 
         } catch(Exception e) {
             e.printStackTrace();
