@@ -29,7 +29,11 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
     }
 
     private void setUpUIElements() {
-        astForm.getBody().forEach(statement -> statement.accept(this)); // lambda
+        //astForm.getBody().forEach(statement -> statement.accept(this)); // lambda
+
+        for (Statement statement : astForm.getBody()) {
+            statement.accept(this);
+        }
     }
 
     private void addQuestionToTheForm(UIQuestion _quest) {

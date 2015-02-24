@@ -23,13 +23,14 @@ import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 import org.fugazi.type_checker.dependency.DependencyList;
 import org.fugazi.type_checker.error.ASTErrorHandler;
+import org.fugazi.type_checker.error.ASTNodeError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TypeCheckerVisitor implements IASTVisitor {
+public class TypeCheckerVisitor implements IASTVisitor<Void> {
 
     private final ASTErrorHandler astErrorHandler;
 
@@ -55,7 +56,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
      */
 
     @Override
-    public Object visitForm(Form form) {
+    public Void visitForm(Form form) {
         // clean errors (if any from previous visit)
         this.clearErrorHandler();
 
@@ -68,7 +69,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitQuestion(Question question) {
+    public Void visitQuestion(Question question) {
 
         Type type = question.getType();
         ID identifier = question.getIdentifier();
@@ -103,7 +104,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitIfStatement(IfStatement ifStatement) {
+    public Void visitIfStatement(IfStatement ifStatement) {
         Expression expression = ifStatement.getCondition();
         List<Statement> statementList = ifStatement.getBody();
 
@@ -115,7 +116,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitComputedQuestion(ComputedQuestion assignQuest) {
+    public Void visitComputedQuestion(ComputedQuestion assignQuest) {
 
         ID identifier = assignQuest.getIdentifier();
         Type type = assignQuest.getType();
@@ -159,7 +160,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     /*
        This checks if both sides of the binary logical expression are of required type bool.
     */
-    private Object visitBinaryLogical(Logical logical) {
+    private Void visitBinaryLogical(Logical logical) {
         Expression left = logical.getLeft();
         Expression right = logical.getRight();
 
@@ -186,7 +187,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     /*
        This checks if the unary logical expression is of required type bool.
     */
-    private Object visitUnaryLogical(Unary unary) {
+    private Void visitUnaryLogical(Unary unary) {
         Expression expr = unary.getExpr();
 
         boolean exprCorrect = this.checkIfExpressionIsBool(unary);
@@ -201,24 +202,24 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitAnd(And and) {
+    public Void visitAnd(And and) {
         return this.visitBinaryLogical(and);
     }
 
     @Override
-    public Object visitOr(Or or) {
+    public Void visitOr(Or or) {
         return this.visitBinaryLogical(or);
     }
 
     @Override
-    public Object visitNot(Not not) {
+    public Void visitNot(Not not) {
         return this.visitUnaryLogical(not);
     }
 
     /*
        This checks if both sides of the binary logical comparison are of required type bool.
     */
-    private Object visitBinaryComparison(Comparison comparison) {
+    private Void visitBinaryComparison(Comparison comparison) {
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
 
@@ -242,32 +243,32 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitEQ(EQ eq) {
+    public Void visitEQ(EQ eq) {
         return this.visitBinaryComparison(eq);
     }
 
     @Override
-    public Object visitGE(GE ge) {
+    public Void visitGE(GE ge) {
         return this.visitBinaryComparison(ge);
     }
 
     @Override
-    public Object visitGreater(Greater greater) {
+    public Void visitGreater(Greater greater) {
         return this.visitBinaryComparison(greater);
     }
 
     @Override
-    public Object visitLE(LE le) {
+    public Void visitLE(LE le) {
         return this.visitBinaryComparison(le);
     }
 
     @Override
-    public Object visitLesser(Less less) {
+    public Void visitLesser(Less less) {
         return this.visitBinaryComparison(less);
     }
 
     @Override
-    public Object visitNotEq(NotEq notEq) {
+    public Void visitNotEq(NotEq notEq) {
         return this.visitBinaryComparison(notEq);
     }
 
@@ -279,7 +280,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     /*
        This checks if both sides of the binary numerical comparison are of required type int.
     */
-    private Object visitBinaryNumerical(Numerical numerical) {
+    private Void visitBinaryNumerical(Numerical numerical) {
         Expression left = numerical.getLeft();
         Expression right = numerical.getRight();
 
@@ -306,7 +307,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     /*
        This checks if the unary numerical expression is of required type int.
     */
-    private Object visitUnaryNumerical(Unary unary) {
+    private Void visitUnaryNumerical(Unary unary) {
         // Both sides of the expressions need to be of type boolean.
         Expression expr = unary.getExpr();
 
@@ -322,32 +323,32 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitNegative(Negative negative) {
+    public Void visitNegative(Negative negative) {
         return this.visitUnaryNumerical(negative);
     }
 
     @Override
-    public Object visitPositive(Positive positive) {
+    public Void visitPositive(Positive positive) {
         return this.visitUnaryNumerical(positive);
     }
 
     @Override
-    public Object visitAdd(Add add) {
+    public Void visitAdd(Add add) {
         return this.visitBinaryNumerical(add);
     }
 
     @Override
-    public Object visitSub(Sub sub) {
+    public Void visitSub(Sub sub) {
         return this.visitBinaryNumerical(sub);
     }
 
     @Override
-    public Object visitMul(Mul mul) {
+    public Void visitMul(Mul mul) {
         return this.visitBinaryNumerical(mul);
     }
 
     @Override
-    public Object visitDiv(Div div) {
+    public Void visitDiv(Div div) {
         return this.visitBinaryNumerical(div);
     }
 
@@ -358,7 +359,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
      */
 
     @Override
-    public Object visitID(ID idLiteral) {
+    public Void visitID(ID idLiteral) {
         // check if variable defined
         // if it's type equals null => it is undefined
         boolean questionDefined = this.checkIfDefined(idLiteral);
@@ -380,7 +381,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitINT(INT intLiteral) {
+    public Void visitINT(INT intLiteral) {
 
         boolean exprCorrect = this.checkIfExpressionIsInt(intLiteral);
 
@@ -393,7 +394,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitSTRING(STRING stringLiteral) {
+    public Void visitSTRING(STRING stringLiteral) {
         boolean exprCorrect = this.checkIfExpressionIsString(stringLiteral);
 
         if (!exprCorrect) {
@@ -405,7 +406,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     }
 
     @Override
-    public Object visitBOOL(BOOL boolLiteral) {
+    public Void visitBOOL(BOOL boolLiteral) {
         boolean exprCorrect = this.checkIfExpressionIsBool(boolLiteral);
 
         if (!exprCorrect) {
@@ -557,7 +558,8 @@ public class TypeCheckerVisitor implements IASTVisitor {
     // a - depender
     // b - dependee
     private void addAndCheckDependency(ID depender, ID dependee) {
-        if (this.checkDependency(dependee, depender)) {
+        boolean revertedDependencyExists = this.checkDependency(dependee, depender);
+        if (revertedDependencyExists) {
             this.astErrorHandler.registerNewError( depender,
                     "Circular dependency between this node and " +
                             dependee.toString() + "."
@@ -570,6 +572,7 @@ public class TypeCheckerVisitor implements IASTVisitor {
     private void clearErrorHandler() {
         this.astErrorHandler.clearErrorsAndWarnings();
     }
+
     /**
      * =======================
      * Exposed general form functions
@@ -580,8 +583,11 @@ public class TypeCheckerVisitor implements IASTVisitor {
         return !this.astErrorHandler.hasErrors();
     }
 
-    public void displayFormWarningsAndErrors() {
-        this.astErrorHandler.displayWarningsAndErrors();
-        return;
+    public List<ASTNodeError> getErrors() {
+        return this.astErrorHandler.getErrors();
+    }
+
+    public List<ASTNodeError> getWarnings() {
+        return this.astErrorHandler.getWarnings();
     }
 }
