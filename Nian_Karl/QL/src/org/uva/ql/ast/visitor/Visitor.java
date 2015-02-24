@@ -25,6 +25,7 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.BlockStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionNormal;
+import org.uva.ql.ast.type.IntType;
 
 public interface Visitor<T> {
 	
@@ -56,6 +57,9 @@ public interface Visitor<T> {
 	public T visit(BoolLiteral node);
 	public T visit(StrLiteral node);
 	public T visit(Parenthese node);
+	
+	//Type
+	public T visit(IntType node);
 	
 	
 	
