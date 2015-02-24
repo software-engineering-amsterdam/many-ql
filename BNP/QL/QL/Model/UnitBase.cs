@@ -10,7 +10,7 @@ namespace QL.Model
     public abstract class UnitBase : TreeElementBase
     {
         public ITerminalType DataType;
-        public Identifier Id { get; set; }
+        public Identifier Identifier { get; set; }
         public string DisplayText { get; set; }
         public string[] Parameters { get; set; }
 

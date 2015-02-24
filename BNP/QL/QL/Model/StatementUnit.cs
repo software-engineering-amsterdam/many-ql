@@ -7,7 +7,7 @@ namespace QL.Model
         public StatementUnit() { }
         public StatementUnit(Identifier identifier, ITerminalType dataType, string displayText, params string[] parameters)
         {
-            Id = identifier;
+            Identifier = identifier;
             DataType = dataType;
             DisplayText = displayText;
             Parameters = parameters;

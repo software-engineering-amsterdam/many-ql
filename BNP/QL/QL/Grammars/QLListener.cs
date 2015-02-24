@@ -93,7 +93,7 @@ namespace QL.Grammars
         }
         public override void ExitOperator(QLParser.OperatorContext context)
         {
-            mapper.Create(context);
+            //mapper.Create(context);
             base.ExitOperator(context);
      
             
