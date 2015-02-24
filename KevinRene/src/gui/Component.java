@@ -6,8 +6,6 @@ import cons.ql.ast.expression.Identifier;
 
 public class Component extends Observable {
 
-	// The identifier is required to find the value of
-	// this component (for the evaluator)
 	private final Identifier identifier;
 	private final Controller controller;
 	

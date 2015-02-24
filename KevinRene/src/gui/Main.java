@@ -10,7 +10,7 @@ import cons.ql.parser.Parser;
 public class Main {
 	
 	public static final String form = "form taxOfficeExample { "
-			+ "   hasSoldHouse: boolean {"
+			+ "   hasSoldHouse: string {"
 			+ "        \"Did you sell a house in 2010?\""
 			+ "    }"
 			+ "    hasBoughtHouse: boolean {"
@@ -19,9 +19,13 @@ public class Main {
 			+ "    hasMaintLoan: boolean {"
 			+ "        \"Did you enter a loan?\""
 			+ "    }"
+			+ "    assignedValue: string {"
+			+ "        \"is the IF visible?\""
+			+ "			assign(hasSoldHouse)"
+			+ "    }"
 			+ ""
 			+ ""
-			+ "    if (hasSoldHouse) {"
+			+ "    if (hasSoldHouse == \"yes\") {"
 			+ "        sellingPrice: money {"
 			+ "            \"What was the selling price?\""
 			+ "        }"

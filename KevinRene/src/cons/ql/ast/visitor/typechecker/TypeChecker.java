@@ -233,16 +233,20 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	 */	
 	@Override
 	public QLType visit(ComputedQuestion compQuestionNode) {
-		StatementVisitor.super.visit(compQuestionNode);
+		// StatementVisitor.super.visit(compQuestionNode);
+		QLType expressionType = compQuestionNode.getExpression().accept(this);
 		
-		if(!compQuestionNode.getType().compatibleWith(
-				compQuestionNode.getExpression().getType())) {
+		if(!compQuestionNode.getType().compatibleWith(expressionType)) {
 
 			errors.add("<" + compQuestionNode.getIdentifier() + ">:" 
 					+ compQuestionNode.getType() + " was assigned a "
-					+ compQuestionNode.getExpression().getType() + ".");
+					+ expressionType + ".");
+			return new QLError();
 		}
-		return new QLError();
+		
+		register.store(compQuestionNode.getIdentifier(), compQuestionNode.getType());
+		
+		return compQuestionNode.getType();
 	}
 	
 	@Override

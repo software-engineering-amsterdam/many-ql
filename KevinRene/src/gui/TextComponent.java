@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -14,7 +13,7 @@ public class TextComponent extends Component {
 	
 	private JTextField textField;
 	
-	public TextComponent (Identifier identifier, Controller controller, Container pane) {
+	public TextComponent (Identifier identifier, Controller controller) {
 		super(identifier, controller);
 		
 		textField = new JTextField(100);
@@ -22,10 +21,21 @@ public class TextComponent extends Component {
     	textField.setFont(new Font("Serif", Font.BOLD, 20));
     	textField.addKeyListener(new MyKeyListener());
     	textField.setFocusable(true);
-    	pane.add(textField);
 	}
 	
+	public TextComponent (Identifier identifier, Controller controller, boolean enabled) {
+		super(identifier, controller);
+		
+		textField = new JTextField(100);
+    	textField.setMaximumSize(new Dimension(Integer.MAX_VALUE, textField.getPreferredSize().height * 2));
+    	textField.setFont(new Font("Serif", Font.BOLD, 20));
+    	textField.setFocusable(true);
+    	textField.setEnabled(false);
+	}
 	
+	public JTextField getComponent() {
+		return this.textField;
+	}
 	
 	
 	public class MyKeyListener implements KeyListener {
