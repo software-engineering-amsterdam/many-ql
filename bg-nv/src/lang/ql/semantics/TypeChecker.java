@@ -18,7 +18,6 @@ import java.util.*;
 
 public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, ExprVisitor<Type>
 {
-    private static final UndefinedType undefinedType = new UndefinedType();
     private SymbolTable symbolTable;
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
@@ -49,6 +48,11 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         this.questionDependencies = new QuestionDependencies();
         this.labels = new LabelMap();
         this.messages = new ArrayList<Message>();
+    }
+
+    private UndefinedType undefinedType()
+    {
+        return new UndefinedType();
     }
 
     @Override
@@ -274,12 +278,12 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
         if (left.isUndef() || right.isUndef())
         {
-            return undefinedType;
+            return undefinedType();
         }
 
         if (!(this.isChildOfAllowedType(e, left)) || !(this.isChildOfAllowedType(e, right)))
         {
-            return undefinedType;
+            return undefinedType();
         }
 
         Type leftPromoted = left.promoteTo(right);
@@ -287,7 +291,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
         if (!(this.areChildTypesConsistent(e, leftPromoted, rightPromoted)))
         {
-            return undefinedType;
+            return undefinedType();
         }
 
         return this.computeType(e, leftPromoted);
@@ -301,12 +305,12 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
 
         if (operand.isUndef())
         {
-            return undefinedType;
+            return undefinedType();
         }
 
         if (!(this.isChildOfAllowedType(e, operand)))
         {
-            return undefinedType;
+            return undefinedType();
         }
 
         return this.computeType(e, operand);
