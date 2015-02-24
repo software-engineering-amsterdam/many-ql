@@ -18,6 +18,7 @@ public class TypeChecker
     public void duplicateLabelsWarning() throws FileNotFoundException
     {
         List<Message> ms = TestHelper.analyse("duplicateLabels");
+        assertEquals(1, ms.size());
         Warning w = TestHelper.as(ms.get(0), Warning.class);
         assertNotNull(w);
     }
@@ -43,17 +44,16 @@ public class TypeChecker
     public void incorrectTypesError() throws FileNotFoundException
     {
         List<Message> ms = TestHelper.analyse("incorrectTypes");
-        assertEquals(2, ms.size());
+        assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),"Error (Line 2): expression of type Or cannot children of type string");
-        TestHelper.assertErrorMessage(ms.get(1),"Error (Line 3): expression of type Mul cannot children of type boolean");
     }
 
     @Test
     public void undeclaredIdError() throws FileNotFoundException
     {
         List<Message> ms = TestHelper.analyse("undeclaredIdentifier");
-
+        assertEquals(1, ms.size());
         TestHelper.assertErrorMessage(ms.get(0),"Error (Line 2): identifier \"undeclId\" is not declared");
     }
 
@@ -61,12 +61,10 @@ public class TypeChecker
     public void defEvalMismatchError() throws FileNotFoundException
     {
         List<Message> ms = TestHelper.analyse("defEvalMismatch");
-        assertEquals(2, ms.size());
+        assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),
-                "Error (Line 2): Question \"quest\" is defined as type string, but is calculated as type boolean");
-        TestHelper.assertErrorMessage(ms.get(1),
-                "Error (Line 3): Question \"anotherQuest\" is defined as type decimal, but is calculated as type boolean");
+                "Error (Line 2): Question \"quest\" is defined as type string, but is calculated as type boolean");;
     }
 
     @Test
