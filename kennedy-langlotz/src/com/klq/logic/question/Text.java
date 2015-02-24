@@ -1,9 +1,11 @@
-package com.klq.logic;
+package com.klq.logic.question;
+
+import com.klq.logic.IKLQItem;
 
 /**
  * Created by Timon on 16.02.2015.
  */
-public class Text {
+public class Text implements IKLQItem{
     private String text;
 
     public Text(String text) {
