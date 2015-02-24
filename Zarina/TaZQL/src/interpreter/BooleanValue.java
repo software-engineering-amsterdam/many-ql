@@ -40,6 +40,11 @@ public class BooleanValue extends Value {
 		return new BooleanValue(value.getBooleanValue() || getBooleanValue() );
 	}
 	
-	// TODO: hashmap / equals stuff
+	public boolean equals(Object object) {
+		if (object instanceof BooleanValue) {	
+			return getBooleanValue().equals(((BooleanValue) object).getBooleanValue());
+		}
+		return false;
+	}
 	
 }
