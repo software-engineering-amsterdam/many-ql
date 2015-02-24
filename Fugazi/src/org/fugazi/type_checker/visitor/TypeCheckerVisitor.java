@@ -123,7 +123,7 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         Expression computed = assignQuest.getComputedExpression();
 
         // check if assigned types equal
-        boolean typesEqual = this.checkIfTypesEqual(type.getClass(), computed.getReturnedType());
+        boolean typesEqual = this.checkIfTypesEqual(type, computed.getReturnedType());
         if (!typesEqual) {
             this.astErrorHandler.registerNewError(assignQuest,
                     "Attempted to assign type " + computed.getReturnedType()
@@ -430,8 +430,6 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     public Void visitIntType(IntType intType){return null;}
     @Override
     public Void visitStringType(StringType moneyType){return null;}
-    @Override
-    public Void visitUndefinedType(UndefinedType undefinedType){return null;}
 
     /**
      * =======================
@@ -440,27 +438,19 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
      */
 
     private boolean checkIfExpressionIsInt(Expression expression) {
-        return expression.getReturnedType() == IntType.class;
+        return expression.getReturnedType().equals(new IntType());
     }
 
     private boolean checkIfExpressionIsBool(Expression expression) {
-        return expression.getReturnedType() == BoolType.class;
+        return expression.getReturnedType().equals(new BoolType());
     }
 
     private boolean checkIfExpressionIsString(Expression expression) {
-        return expression.getReturnedType() == StringType.class;
+        return expression.getReturnedType().equals(new StringType());
     }
 
-    private boolean checkIfExpressionOfEqualType(Expression ex1, Expression ex2) {
-        return ex1.getReturnedType() == ex2.getReturnedType();
-    }
-
-    // TODO make it more consistent
     private boolean checkIfTypesEqual(Type type1, Type type2) {
-        return (type1.getClass() == type2.getClass());
-    }
-    private boolean checkIfTypesEqual(Class class1, Class class2) {
-        return (class1 == class2);
+        return type1.equals(type2);
     }
 
     private boolean checkIfDefined(ID idLiteral) {

@@ -8,7 +8,12 @@ package org.fugazi.ast;
 public abstract class AbstractASTNode {
 
     protected final int lineNumber;
-    
+
+    public AbstractASTNode() {
+        // this is used for temporary objects
+        this.lineNumber = -1;
+    }
+
     public AbstractASTNode(int _lineNum) {
         this.lineNumber = _lineNum;
     }
