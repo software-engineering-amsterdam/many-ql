@@ -33,9 +33,9 @@ class BaseVisitor
   end
 end
 
-class String # kan nog korter
+class String # kan nog mooier
   def snake_case
-    gsub(/::/, '/').
+    gsub(/AST::/, '').
     gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
     gsub(/([a-z\d])([A-Z])/,'\1_\2').
     tr("-", "_").

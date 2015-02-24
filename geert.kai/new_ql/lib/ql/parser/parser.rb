@@ -10,6 +10,7 @@ module QL
 
 
   require_relative '../../ql'
+  
 
   def initialize(tokenizer)
     @tokenizer = tokenizer
@@ -274,7 +275,7 @@ Racc_debug_parser = false
 # reduce 0 omitted
 
 def _reduce_1(val, _values, result)
- result = Form.new(val[1], val[2]) 
+ result = AST::Form.new(val[1], val[2]) 
     result
 end
 
@@ -293,7 +294,7 @@ end
 # reduce 5 omitted
 
 def _reduce_6(val, _values, result)
- result = Question.new(val[0], val[1], val[3].to_sym) 
+ result = AST::Question.new(val[0], val[1], val[3].to_sym) 
     result
 end
 
@@ -310,72 +311,72 @@ end
 # reduce 12 omitted
 
 def _reduce_13(val, _values, result)
- result = If.new(val[2], val[4]) 
+ result = AST::If.new(val[2], val[4]) 
     result
 end
 
 def _reduce_14(val, _values, result)
- result = IfElse.new(val[2], val[4], val[6]) 
+ result = AST::IfElse.new(val[2], val[4], val[6]) 
     result
 end
 
 def _reduce_15(val, _values, result)
- result = Equal.new(val[0], val[2]) 
+ result = AST::Equal.new(val[0], val[2]) 
     result
 end
 
 def _reduce_16(val, _values, result)
- result = LessThanOrEqualTo.new(val[0], val[2]) 
+ result = AST::LessThanOrEqualTo.new(val[0], val[2]) 
     result
 end
 
 def _reduce_17(val, _values, result)
- result = LessThan.new(val[0], val[2]) 
+ result = AST::LessThan.new(val[0], val[2]) 
     result
 end
 
 def _reduce_18(val, _values, result)
- result = GreaterThanOrEqualTo.new(val[0], val[2]) 
+ result = AST::GreaterThanOrEqualTo.new(val[0], val[2]) 
     result
 end
 
 def _reduce_19(val, _values, result)
- result = GreaterThan.new(val[0], val[2]) 
+ result = AST::GreaterThan.new(val[0], val[2]) 
     result
 end
 
 def _reduce_20(val, _values, result)
- result = Inequal.new(val[0], val[2]) 
+ result = AST::Inequal.new(val[0], val[2]) 
     result
 end
 
 def _reduce_21(val, _values, result)
- result = And.new(val[0], val[2]) 
+ result = AST::And.new(val[0], val[2]) 
     result
 end
 
 def _reduce_22(val, _values, result)
- result = Or.new(val[0], val[2]) 
+ result = AST::Or.new(val[0], val[2]) 
     result
 end
 
 def _reduce_23(val, _values, result)
- result = Multiplication.new(val[0], val[2]) 
+ result = AST::Multiplication.new(val[0], val[2]) 
     result
 end
 
 def _reduce_24(val, _values, result)
- result = Division.new(val[0], val[2]) 
+ result = AST::Division.new(val[0], val[2]) 
     result
 end
 
 def _reduce_25(val, _values, result)
- result = Plus.new(val[0], val[2]) 
+ result = AST::Plus.new(val[0], val[2]) 
     result
 end
 
 def _reduce_26(val, _values, result)
- result = Minus.new(val[0], val[2]) 
+ result = AST::Minus.new(val[0], val[2]) 
     result
 end
 
@@ -384,7 +385,7 @@ end
 # reduce 28 omitted
 
 def _reduce_29(val, _values, result)
- result = Variable.new(val[0]) 
+ result = AST::Variable.new(val[0]) 
     result
 end
 
@@ -395,22 +396,22 @@ end
 # reduce 32 omitted
 
 def _reduce_33(val, _values, result)
- result = IntegerLiteral.new(val[0].to_i) 
+ result = AST::IntegerLiteral.new(val[0].to_i) 
     result
 end
 
 def _reduce_34(val, _values, result)
- result = StringLiteral.new(val[0][1..-2]) 
+ result = AST::StringLiteral.new(val[0][1..-2]) 
     result
 end
 
 def _reduce_35(val, _values, result)
- result = BooleanLiteral.new(true) 
+ result = AST::BooleanLiteral.new(true) 
     result
 end
 
 def _reduce_36(val, _values, result)
- result = BooleanLiteral.new(false) 
+ result = AST::BooleanLiteral.new(false) 
     result
 end
 

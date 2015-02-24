@@ -1,5 +1,5 @@
 require "require_all"
-
+require "jrubyfx"
 require_all "lib/"
 
 module QL

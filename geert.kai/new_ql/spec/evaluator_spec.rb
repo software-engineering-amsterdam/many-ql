@@ -1,4 +1,4 @@
-require 'byebug'
+require_relative "spec_helper"
 
 describe "Runner" do
   before(:each) do
@@ -11,7 +11,7 @@ describe "Runner" do
 
   it "gives the first question at the beginning" do
     runner = Runner.new(@form)
-    byebug
+    
     expect( runner.applicable_questions ).to eq [@question]
     runner.update_variable("naam", "Geert")
     expect( runner.applicable_questions ).to eq [@question, @second_question]
