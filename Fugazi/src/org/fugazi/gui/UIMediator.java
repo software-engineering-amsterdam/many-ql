@@ -17,15 +17,7 @@ public class UIMediator implements IMediator {
         this.colleagues.add(_colleague);
     }
 
-    public void send(String _message, Colleague _origin) {
-
-        System.out.println(_message);
-
-        // stuff...
-
-        // Todo: YANGI?
-        for (Colleague colleague: colleagues)
-            if (colleague != _origin)
-                colleague.receive(_message);
+    public void notify(Colleague _origin) {
+        System.out.println(_origin);
     }
 }

@@ -28,7 +28,7 @@ public class UIComputedQuestion extends UIQuestion {
         IntValue exprValue = (IntValue) _value;
         this.textValue = Integer.toString(exprValue.getValue());
 
-        this.mediator.send("Computed", this);
+        this.send();
     }
 
     private void itemChanged(ActionEvent e) {

@@ -1,19 +1,16 @@
 package org.fugazi.gui.mediator;
 
 public abstract class Colleague {
-    protected final IMediator mediator;
+    private final IMediator mediator;
 
     public Colleague(IMediator _med) {
         this.mediator = _med;
     }
 
-    public void send(String message) {
-        this.mediator.send(message, this);
+    protected void send() {
+        this.mediator.notify(this);
     }
 
-    public IMediator getMediator() {
-        return this.mediator;
-    }
-
+    // todo: YANGI?
     public abstract void receive(String message);
 }

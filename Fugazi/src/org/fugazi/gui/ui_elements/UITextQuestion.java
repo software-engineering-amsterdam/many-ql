@@ -29,7 +29,7 @@ public class UITextQuestion extends UIQuestion {
         StringValue exprValue = (StringValue) _value;
         this.textValue = exprValue.getValue();
 
-        this.mediator.send("String", this);
+        this.send();
     }
 
     private void itemChanged(ActionEvent e) {

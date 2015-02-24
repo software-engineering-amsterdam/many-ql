@@ -27,7 +27,7 @@ public class UINumQuestion extends UIQuestion {
         StringValue exprValue = (StringValue) _value;
         this.textValue = exprValue.getValue();
 
-        this.mediator.send("NUmber", this);
+        this.send();
     }
 
     private void itemChanged(ActionEvent e) {

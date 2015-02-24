@@ -35,6 +35,7 @@ public class GUIBuilder implements IStatementVisitor<UIElement> {
     }
 
     private void addQuestionToTheForm(UIQuestion _quest) {
+        this.mediator.addColleague(_quest);
         this.uiForm.addElement(_quest);
     }
 
