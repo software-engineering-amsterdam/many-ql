@@ -18,7 +18,6 @@ import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
-import org.uva.ql.ast.visitor.EvaluatorVisitor;
 import org.uva.ql.ast.visitor.TypeCheckerVisitor;
 
 public class Main {

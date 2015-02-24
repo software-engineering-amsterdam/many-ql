@@ -6,17 +6,17 @@ import lang.ql.semantics.values.*;
 /**
  * Created by bore on 23/02/15.
  */
-public class Evaluator implements ExprVisitor<Value>
+public class ExprEvaluator implements ExprVisitor<Value>
 {
-    private EvalEnv env;
+    private ExprEvalEnv env;
 
-    public static Value evaluate(Expr e, EvalEnv env)
+    public static Value evaluate(Expr e, ExprEvalEnv env)
     {
-        Evaluator eval = new Evaluator(env);
+        ExprEvaluator eval = new ExprEvaluator(env);
         return e.accept(eval);
     }
 
-    private Evaluator(EvalEnv env)
+    private ExprEvaluator(ExprEvalEnv env)
     {
         this.env = env;
     }

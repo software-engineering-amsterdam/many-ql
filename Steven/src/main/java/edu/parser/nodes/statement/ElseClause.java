@@ -22,7 +22,7 @@ public class ElseClause extends Expression {
     }
 
     @Override
-    public boolean isConditional() {
+    public boolean hasBooleanOperands() {
         return false;
     }
 

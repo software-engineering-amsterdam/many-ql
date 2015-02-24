@@ -17,7 +17,7 @@ public class Or extends BinaryExpression {
     }
 
     @Override
-    public boolean isConditional() {
+    public boolean hasBooleanOperands() {
         return true;
     }
 }

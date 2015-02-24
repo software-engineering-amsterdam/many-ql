@@ -22,6 +22,7 @@ public class FieldRenderer extends AbstractRenderer {
             question.applyWidget(w, formTypeChecker.getTypeDescriptor(question.getFieldName()));
         } catch(NullPointerException e) {
             // This should only occur when the field is used in QLS and not in QL.
+            // Checking that there are no references to questions that are not in QL should be part of the TypeChecker for QLS
             System.out.println("Not defined: " + question.getFieldName() + ", " + headlessFormInterpreter.getField(question.getFieldName()));
             this.fieldComponent = new JPanel();
             return;
