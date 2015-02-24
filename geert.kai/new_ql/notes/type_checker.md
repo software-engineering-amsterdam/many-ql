@@ -11,3 +11,7 @@ conditions that are not of the type boolean
 operands of invalid type to operators
 cyclic dependencies between questions
 duplicate labels (warning)
+
+
+Form flattern weg?
+factories weg?

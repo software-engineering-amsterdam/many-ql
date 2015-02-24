@@ -1,6 +1,9 @@
 require_relative "form"
 
 class Expression < Node
+  def accept(visitor)
+    visitor.visit(self)
+  end
 end
 
 class Variable < Expression
@@ -49,11 +52,6 @@ class BinaryExpression < Expression
   def initialize(lhs, rhs)
     @lhs = lhs
     @rhs = rhs
-  end
-
-  def accept(visitor)
-    visitor.visit(self)
-    [lhs.accept(visitor), rhs.accept(visitor)]
   end
 end
 
