@@ -22,5 +22,4 @@ class FormGUI(label: String, nodes: List[Node]) extends JFXApp {
   val scene = new Scene(grid, 600, 450)
   scene.fill = Color.LIGHTGRAY
   stage.setScene(scene)
-  stage
 }
