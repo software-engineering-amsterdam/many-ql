@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.computedva
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
 
 import javax.swing.*;
