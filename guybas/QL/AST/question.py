@@ -11,6 +11,7 @@ class Question(IStatement):
         self.type = qtype
         self.answer = []
         self.parent_id = None
+        self.order = None
 
     # Override
     def pretty_print(self, level=0):
@@ -62,4 +63,10 @@ class Question(IStatement):
 
     def set_parent_id(self, pid):
         self.parent_id = pid
+
+    def set_order(self, order_num):
+        self.order = order_num
+
+    def get_order(self):
+        return self.order
 

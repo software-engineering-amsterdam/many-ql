@@ -1,13 +1,32 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.intwidgets;
 
-import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.stringwidgets.TextboxWidget;
+import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
+import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
-public class SpinboxWidget extends TextboxWidget {
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 
-    // TODO add intbox specific implementation.
-    public SpinboxWidget(Question question, HeadlessFormInterpreter headlessFormInterpreter) {
-        super(question, headlessFormInterpreter);
+public class SpinboxWidget implements IWidget{
+    private JSpinner spinner;
+
+    public SpinboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
+       spinner = new JSpinner(new SpinnerNumberModel());
+
+       spinner.addChangeListener(new ChangeListener() {
+           @Override
+           public void stateChanged(ChangeEvent e) {
+               headlessFormInterpreter.setField(question.getFieldName(), new TInteger(Integer.parseInt(spinner.getValue().toString())));
+               headlessFormInterpreter.interpret();
+           }
+       });
+    }
+
+    @Override
+    public Component getWidget() {
+        return spinner;
     }
 }

@@ -13,11 +13,24 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
         Declaration,
         IfStatement,
         Assignment,
-        BinaryExpression,
         Identifier,
         BooleanLiteral,
         DoubleLiteral,
         IntegerLiteral,
-        StringLiteral
+        StringLiteral,
+        Add,
+        And,
+        Divide,
+        EqualTo,
+        GreaterThan,
+        GreaterThanOrEqualTo,
+        LessThan,
+        LessThanOrEqualTo,
+        Multiply,
+        NotEqualTo,
+        Or,
+        Substract,
+        Increment,
+        Negation
     }
 }

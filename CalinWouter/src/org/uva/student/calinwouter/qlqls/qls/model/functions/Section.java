@@ -21,10 +21,6 @@ public class Section extends AbstractComponent<Section> {
         return fields;
     }
 
-    public List<Default> getDefaultSettings() {
-        return defaultSettings;
-    }
-
     @Override
     public void caseString(String string) {
         if (arg != 0) {
@@ -37,17 +33,14 @@ public class Section extends AbstractComponent<Section> {
 
     @Override
     public void caseQuestion(Question question) {
+        question.setParent(this);
         fields.add(question);
     }
 
     @Override
     public void caseComputedValue(ComputedValue computedValue) {
+        computedValue.setParent(this);
         fields.add(computedValue);
-    }
-
-    @Override
-    public void caseDefault(Default defaultSetting) {
-        defaultSettings.add(defaultSetting);
     }
 
     @Override

@@ -40,7 +40,6 @@ public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisit
 
 	@Override
 	public T visitForm(Form form) {
-		System.out.println(form);
 		for(Statement statement : form.getStatement()){
 			statement.accept(this);
 		}
@@ -49,13 +48,11 @@ public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisit
 
 	@Override
 	public T visitASTNode(ASTNode node) {
-		
 		return null;
 	}
 	@Override
 	public T visitStatement(Statement statement) {
 		statement.accept(this);
-		
 		return null;
 	}
 

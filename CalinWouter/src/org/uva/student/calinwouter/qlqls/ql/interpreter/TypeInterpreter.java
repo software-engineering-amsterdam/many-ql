@@ -16,7 +16,7 @@ public class TypeInterpreter extends AnalysisAdapter {
     private TypeDescriptor value;
 
     @Override
-    public void caseABoolType(ABoolType node) {
+    public void caseABoolType(final ABoolType node) {
         setValue(new TypeDescriptor<TBool>() {
             @Override
             public void callTypeMethod(TypeCallback typeCallback) {
@@ -27,11 +27,16 @@ public class TypeInterpreter extends AnalysisAdapter {
             public TBool getDefaultValue() {
                 return new TBool(false);
             }
+
+            @Override
+            public String toString() {
+                return TBool.TYPE_REFERENCE;
+            }
         });
     }
 
     @Override
-    public void caseAIntType(AIntType node) {
+    public void caseAIntType(final AIntType node) {
         setValue(new TypeDescriptor<TInteger>() {
             @Override
             public void callTypeMethod(TypeCallback typeCallback) {
@@ -42,11 +47,16 @@ public class TypeInterpreter extends AnalysisAdapter {
             public TInteger getDefaultValue() {
                 return new TInteger(null);
             }
+
+            @Override
+            public String toString() {
+                return TInteger.TYPE_REFERENCE;
+            }
         });
     }
 
     @Override
-    public void caseAStringType(AStringType node) {
+    public void caseAStringType(final AStringType node) {
         setValue(new TypeDescriptor() {
             @Override
             public void callTypeMethod(TypeCallback typeCallback) {
@@ -56,6 +66,11 @@ public class TypeInterpreter extends AnalysisAdapter {
             @Override
             public TString getDefaultValue() {
                 return new TString("");
+            }
+
+            @Override
+            public String toString() {
+                return TString.TYPE_REFERENCE;
             }
         });
     }

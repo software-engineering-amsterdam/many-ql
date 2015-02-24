@@ -1,6 +1,7 @@
 package interpreter;
 
 import ast.expression.BracketsExpression;
+import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 import ast.expression.arithmetic.AdditionExpression;
 import ast.expression.arithmetic.DivisionExpression;
@@ -173,4 +174,9 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	public Value visit(Id identifier) {
 		return valueRepository.getValue(identifier);
 	}	
+	
+	//temporary, I think. For my unit tests.
+	public Value testExpression(Expression expression) {
+		return expression.accept(this);
+	}
 }

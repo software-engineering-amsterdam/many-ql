@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
@@ -58,7 +59,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
             if (declaration.Initialization != null)
             {
-                DataType? expressionType = GetResultType(declaration.Initialization);
+                DataType? expressionType = declaration.Initialization.GetType(_declaredVariables);
 
                 if (expressionType.HasValue)
                 {
@@ -100,7 +101,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         public override void Visit(IfStatement ifStatement)
         {
             // Validate that the condition of the if statement is of type boolean
-            DataType? result = GetResultType(ifStatement.If);
+            DataType? result = ifStatement.If.GetType(_declaredVariables);
 
             if (result.HasValue)
             {
@@ -123,25 +124,25 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        public override void Visit(BinaryExpression expression)
-        {
-            // Validate that the data type of the operands conform 
-            DataType? left = GetResultType(expression.Left);
-            DataType? right = GetResultType(expression.Right);
+        //public override void Visit(BinaryExpression expression)
+        //{
+        //    // Validate that the data type of the operands conform 
+        //    DataType? left = expression.Left.GetType(_declaredVariables);
+        //    DataType? right = GetResultType(expression.Right);
 
-            if (left.HasValue && right.HasValue)
-            {
-                if (!BinaryExpressionIsValid(expression.Operation, left.Value, right.Value))
-                {
-                    InvalidBinaryExpressions.Add(new InvalidBinaryExpression(expression, left.Value, right.Value));
-                }
-            }
-            else
-            {
-                // Traverse the rest of the tree.
-                base.Visit(expression);
-            }
-        }
+        //    if (left.HasValue && right.HasValue)
+        //    {
+        //        if (!BinaryExpressionIsValid(expression.Operation, left.Value, right.Value))
+        //        {
+        //            InvalidBinaryExpressions.Add(new InvalidBinaryExpression(expression, left.Value, right.Value));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Traverse the rest of the tree.
+        //        base.Visit(expression);
+        //    }
+        //}
 
 
         private bool BinaryExpressionIsValid(Operation operation, DataType left, DataType right)
@@ -151,8 +152,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                 case Operation.And:
                 case Operation.Or:
                     return left == DataType.Boolean && right == DataType.Boolean;
-                case Operation.NotEquals:
-                case Operation.Equals:
+                case Operation.NotEqualTo:
+                case Operation.EqualTo:
                     return left == right;
                 case Operation.Add:
                 case Operation.Divide:

@@ -2,8 +2,6 @@ package org.fugazi.type_checker.error;
 
 import org.fugazi.ast.AbstractASTNode;
 
-enum ASTNodeErrorType {ERROR, WARNING};
-
 public class ASTNodeError {
 
     private final ASTNodeErrorType errorType;

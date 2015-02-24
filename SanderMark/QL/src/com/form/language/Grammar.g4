@@ -9,6 +9,8 @@ grammar Grammar;
 	import com.form.language.ast.expression.logic.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
+	
+	import com.form.language.memory.*;
 }
 
 form returns [Form result]
@@ -28,7 +30,7 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID TYPE {$result = new Question($STRING.text, $ID.text, $TYPE.text);}
+	: 'question' STRING ID TYPE {$result = new Question($STRING.text, $ID.text, $TYPE.text,new Memory());}
 	;
 	
 assignmentStatement returns [Statement result]

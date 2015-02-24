@@ -31,15 +31,27 @@ public class And extends BinaryExpression implements Expression {
 			return new BoolType();
 		}
 		else{
-			if(!leftType.isErrorType() || !rightType.isErrorType()){
-				ErrorCollector.add(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
-				int count = 0;
-				while(ErrorCollector.getErrorCollection().hasNext()){
-					count += 1;
-				}
-				System.out.println(count);
-			}
 			return new ErrorType();
+		}
+	}
+	
+	@Override
+	public ErrorCollector getErrors(ErrorCollector errors) {
+		Type leftType = left.getType();
+		Type rightType = right.getType();
+		
+		ErrorCollector newErrors = new ErrorCollector(left.getErrors(errors), right.getErrors(errors));
+
+		if(leftType.isBoolType() && rightType.isBoolType()) {
+			return newErrors;
+		}
+		else{
+			if(!(leftType.isErrorType() || rightType.isErrorType())){
+				Error newError = new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType);
+				newErrors.add(newError);
+				return newErrors;
+			}
+			return newErrors;
 		}
 	}
 }
