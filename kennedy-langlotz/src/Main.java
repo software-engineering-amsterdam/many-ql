@@ -1,7 +1,9 @@
 import com.klq.Visitor;
 import com.klq.ast.ANode;
+import com.klq.ast.ASTPrinter;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.gui.QuestionPage;
+import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -61,23 +63,22 @@ public class Main extends Application {
         ANode ast = eval.visit(tree);
 
         Visitor visitor = new Visitor();
-        ast.accept(visitor);
+        Store store = (Store) ast.accept(visitor);
 
-        questionList = visitor.getQuestList();
+        //questionList = visitor.getQuestList();
 
-        /*print AST for test purposes
-        ASTPrinter printer = new ASTPrinter();
-        ast.accept(printer);
-        */
+        //print AST for test purposes
+//        ASTPrinter printer = new ASTPrinter();
+//        ast.accept(printer);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        VBox root = new VBox();
-        Scene scene = new Scene(root, 500, 200);
-        primaryStage.setScene(scene);
-        QuestionPage page = new QuestionPage(questionList);
-        root.getChildren().add(page);
-        primaryStage.show();
+//        VBox root = new VBox();
+//        Scene scene = new Scene(root, 500, 200);
+//        primaryStage.setScene(scene);
+//        QuestionPage page = new QuestionPage(questionList);
+//        root.getChildren().add(page);
+//        primaryStage.show();
     }
 }

@@ -1,7 +1,25 @@
 from Main.mapper import *
 from AST.operators import *
 
+
 class Processor:
+    @staticmethod
+    def update_expression(expression, answers_map):
+        answers_dict = answers_map.get_answers()
+        print("!!")
+
+        # to avoid annoying (not applicable) error messages
+        answers_dict['__builtins__'] = None
+
+        print(expression)
+        print(answers_dict)
+        try:
+            result = eval(expression, answers_dict)
+            return result
+        except:
+            print("hello?")
+            return False
+
     @staticmethod
     def conditions_proc(expression, answers_map):
         """
@@ -15,6 +33,7 @@ class Processor:
         #simplified_c = Processor.bind_values(expression, answers_map)
 
         # process the expression, and return true/false
+        Processor.update_expression(expression, answers_map)
         variables = None
         result = False #eval(expression, variables)
         if result:

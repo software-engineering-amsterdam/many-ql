@@ -16,7 +16,7 @@ public class UIBoolQuestion extends UIQuestion {
 
         // TODO: get it from a GUI Designer
         this.widget = new CheckBox(_question.getLabel());
-        ((CheckBox)this.widget).addItemListener(event -> itemChanged(event)); // lambda
+       // ((CheckBox)this.widget).addItemListener(event -> itemChanged(event)); // lambda
     }
 
     private void itemChanged(ItemEvent e) {

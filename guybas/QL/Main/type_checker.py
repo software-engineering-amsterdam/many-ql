@@ -6,6 +6,7 @@ from AST.operators import *
 from AST.expression_validator import *
 from Grammar.basic_types import *
 
+
 class TypeChecker:
 
     def __init__(self, form):

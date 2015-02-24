@@ -2,6 +2,7 @@ package org.fugazi.ast.expression.literal;
 
 import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.BoolType;
+import org.fugazi.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +10,16 @@ import java.util.List;
 public class BOOL extends Literal {
 
     private final Boolean value;
-    private final Class returnedType;
 
+    public BOOL(Boolean _value) {
+        super();
+
+        this.value = _value;
+    }
     public BOOL(Boolean _value, int _lineNum) {
         super(_lineNum);
 
         this.value = _value;
-        this.returnedType = BoolType.class;
     }
 
     public Boolean getValue() {
@@ -28,8 +32,8 @@ public class BOOL extends Literal {
     }
 
     @Override
-    public Class getReturnedType() {
-        return this.returnedType;
+    public Type getReturnedType() {
+        return new BoolType();
     }
 
     public <T> T accept(IExpressionVisitor<T> visitor) {

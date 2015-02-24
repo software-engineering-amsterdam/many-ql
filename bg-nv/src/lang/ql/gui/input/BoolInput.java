@@ -15,14 +15,19 @@ public class BoolInput extends Input
         super();
     }
 
-    public BoolInput(Boolean disabled)
+    public BoolInput(Boolean visible, Boolean disabled)
     {
-        super(disabled);
+        super(visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)
     {
         return visitor.visit(this);
+    }
+
+    public void setValue(BooleanValue value)
+    {
+        this.value = value;
     }
 
 }

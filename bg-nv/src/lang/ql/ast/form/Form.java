@@ -2,7 +2,6 @@ package lang.ql.ast.form;
 
 import lang.ql.ast.AstNode;
 import lang.ql.ast.statement.Statement;
-import lang.ql.semantics.Visitor;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class Form extends AstNode
         return this.body;
     }
 
-    public <T> T accept(Visitor<T> visitor)
+    public <T> T accept(FormVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

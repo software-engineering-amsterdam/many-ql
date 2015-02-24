@@ -13,9 +13,9 @@ public class DateInput extends Input
         super();
     }
 
-    public DateInput(Boolean disabled)
+    public DateInput(Boolean visible, Boolean disabled)
     {
-        super(disabled);
+        super(visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)

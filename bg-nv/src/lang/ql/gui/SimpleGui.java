@@ -1,5 +1,7 @@
 package lang.ql.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -8,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
+//import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -19,7 +21,9 @@ import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
+import lang.ql.semantics.values.IntegerValue;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,19 +114,65 @@ public class SimpleGui implements GuiVisitor<Node>
     @Override
     public Node visit(DateInput input)
     {
-        return new DatePicker();
+        return null;//new DatePicker();
     }
 
     @Override
     public Node visit(DecInput input)
     {
-        return new TextField();
+        final TextField textField = new TextField();
+        textField.textProperty().addListener(new ChangeListener<String>()
+        {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue)
+            {
+                textField.setText(newValue.substring(0, newValue.length() - 1));
+                try
+                {
+                    System.out.println("test");
+                    Integer.parseInt(newValue);
+                    System.out.println("test2");
+//                    if (newValue.endsWith("f") || newValue.endsWith("d")) {
+//                        textField.setText(newValue.substring(0, newValue.length() - 1));
+//                    }
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("test3");
+                    textField.setText(oldValue);
+                }
+            }
+        });
+
+        return textField;
     }
 
     @Override
-    public Node visit(IntInput input)
+    public Node visit(final IntInput input)
     {
-        return new TextField();
+        final TextField textField = new TextField();
+        textField.textProperty().addListener(new ChangeListener<String>()
+        {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue)
+            {
+                newValue = newValue.trim();
+                try
+                {
+                    input.setValue(new IntegerValue(Integer.parseInt(newValue)));
+                }
+                catch (NumberFormatException e)
+                {
+                    // TODO: display some validation error
+                }
+            }
+        });
+
+        return textField;
     }
 
     @Override
