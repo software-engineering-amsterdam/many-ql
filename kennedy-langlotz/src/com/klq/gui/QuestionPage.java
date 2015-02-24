@@ -1,6 +1,6 @@
 package com.klq.gui;
 
-import com.klq.logic.Question;
+import com.klq.logic.question.Question;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;

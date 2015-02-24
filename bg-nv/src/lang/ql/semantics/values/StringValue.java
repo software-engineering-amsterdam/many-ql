@@ -10,11 +10,6 @@ public class StringValue extends Value<String>
         super(value);
     }
 
-    public static StringValue getDefaultValue()
-    {
-        return new StringValue("");
-    }
-
     @Override
     public Value add(Value v)
     {
@@ -50,5 +45,11 @@ public class StringValue extends Value<String>
     {
         boolean r = !(v.getValue().equals(this.getValue()));
         return new BooleanValue(r);
+    }
+
+    @Override
+    public <T> T accept (ValueVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

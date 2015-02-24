@@ -1,7 +1,5 @@
 package lang.ql.ast.expression;
 
-import lang.ql.semantics.Visitor;
-
 /**
  * Created by bore on 17/02/15.
  */
@@ -12,7 +10,7 @@ public class NotEqu extends BinaryExpr
         super(left, right, lineNumber);
     }
 
-    public <T> T accept(Visitor<T> visitor)
+    public <T> T accept(ExprVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

@@ -5,22 +5,24 @@ import java.util.HashMap;
 import ast.expression.variables.Id;
 
 public class ValueRepository {
-	private final HashMap<Id, Value> valueStorage = new HashMap<Id, Value>(); 
+	private final HashMap<Id, Value> valueRepository = new HashMap<Id, Value>(); 
 	
-	public void putVariables(Id id, Value value) {
-		valueStorage.put(id, value);
+	public void putID(Id id, Value value) {
+		valueRepository.put(id, value);
 	}
 	
-	public HashMap<Id, Value> getValueStorage() {
-		return valueStorage;
+	public HashMap<Id, Value> getValueRepository() {
+		return valueRepository;
 	}
 	
-	// Returns true if this map maps one or more keys to the specified value.
-	public Boolean declared(Id id) {
-		return valueStorage.containsKey(id);
+	public boolean isDeclared(Id id) {
+		return valueRepository.containsKey(id);
 	}
 	
-	public Value getVariables(Id id) {
-		return valueStorage.get(id);
+	public Value getValue(Id id) {
+		if(isDeclared(id)) {
+			return valueRepository.get(id);
+		}
+		return null;
 	}
 }

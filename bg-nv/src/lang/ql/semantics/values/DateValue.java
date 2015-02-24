@@ -13,8 +13,8 @@ public class DateValue extends Value<Date>
         super(value);
     }
 
-    public static DateValue getDefaultValue()
+    public <T> T accept (ValueVisitor<T> visitor)
     {
-        return new DateValue(new Date());
+        return visitor.visit(this);
     }
 }

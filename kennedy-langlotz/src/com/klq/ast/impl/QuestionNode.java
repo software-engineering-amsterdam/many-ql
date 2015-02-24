@@ -2,7 +2,7 @@ package com.klq.ast.impl;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
-import com.klq.logic.Type;
+import com.klq.logic.question.Type;
 
 /**
  * Created by juriaan on 10-2-15.

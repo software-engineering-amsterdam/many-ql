@@ -1,7 +1,6 @@
 package lang.ql.semantics;
 
 import lang.ql.ast.statement.Question;
-import lang.ql.gui.label.Label;
 
 import java.util.*;
 
