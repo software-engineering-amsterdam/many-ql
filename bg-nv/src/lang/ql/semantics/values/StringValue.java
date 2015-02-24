@@ -10,11 +10,6 @@ public class StringValue extends Value<String>
         super(value);
     }
 
-    public static StringValue getDefaultValue()
-    {
-        return new StringValue("");
-    }
-
     @Override
     public Value add(Value v)
     {

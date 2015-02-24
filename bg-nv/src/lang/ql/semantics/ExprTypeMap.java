@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by bore on 20/02/15.
  */
-public class ExprTypes
+public class ExprTypeMap
 {
     public static final Map<String, Set<Type>> exprAllowedTypes;
     public static final Map<String, Type> exprReturnType;

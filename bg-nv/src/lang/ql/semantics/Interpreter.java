@@ -1,5 +1,6 @@
 package lang.ql.semantics;
 
+import lang.ql.ast.AstVisitor;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.*;
 import lang.ql.ast.statement.*;
@@ -10,22 +11,21 @@ import java.util.*;
 /**
 * Created by bore on 15/02/15.
 */
-public class Interpreter implements Visitor<Void>
+public class Interpreter implements FormVisitor<Void>, StatVisitor<Void>, ExprVisitor<Void>
 {
     private Stack<Value> valueStack;
     private ValueTable variableValues;
-    private Map<String, Question> questions;
+    //private Map<String, Question> questions;
 
     public static void interpret(Form f)
     {
-        Map<String, Question> questions = QuestionVisitor.getQuestions(f);
-        Interpreter i = new Interpreter(questions);
-        f.accept(i);
+        Interpreter interpreter = new Interpreter();
+        f.accept(interpreter);
     }
 
-    private Interpreter(Map<String, Question> questions)
+    private Interpreter()
     {
-        this.questions = questions;
+        //this.questions = questions;
         this.valueStack = new Stack<Value>();
         this.variableValues = new ValueTable();
     }
@@ -112,8 +112,8 @@ public class Interpreter implements Visitor<Void>
     {
         if (!(this.variableValues.valueExists(e.getId())))
         {
-            Question q = this.questions.get(e.getId());
-            q.accept(this);
+            //Question q = this.questions.get(e.getId());
+            //q.accept(this);
         }
         Value v = this.variableValues.getValue(e.getId());
         this.pushToStack(v);

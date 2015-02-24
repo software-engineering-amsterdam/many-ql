@@ -10,11 +10,6 @@ public class IntegerValue extends Value<Integer>
         super(value);
     }
 
-    public static IntegerValue getDefaultValue()
-    {
-        return new IntegerValue(0);
-    }
-
     public Value add(Value v)
     {
         return v.addInteger(this);
@@ -144,5 +139,17 @@ public class IntegerValue extends Value<Integer>
     public Value negInteger()
     {
         return new IntegerValue(this.getValue() * -1);
+    }
+
+    @Override
+    public Value pos()
+    {
+        return this.posInteger();
+    }
+
+    @Override
+    public Value posInteger()
+    {
+        return new IntegerValue(this.getValue());
     }
 }

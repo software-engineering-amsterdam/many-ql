@@ -10,11 +10,6 @@ public class BooleanValue extends Value<Boolean>
         super(value);
     }
 
-    public static BooleanValue getDefaultValue()
-    {
-        return new BooleanValue(false);
-    }
-
     @Override
     public Value not()
     {

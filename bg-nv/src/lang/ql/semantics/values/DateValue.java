@@ -12,9 +12,4 @@ public class DateValue extends Value<Date>
     {
         super(value);
     }
-
-    public static DateValue getDefaultValue()
-    {
-        return new DateValue(new Date());
-    }
 }

@@ -1,7 +1,6 @@
-package lang.tests.semantics;
+package lang.tests;
 
 import lang.ql.semantics.errors.*;
-import lang.tests.TestHelper;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -13,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by bore on 21/02/15.
  */
-public class TypeCheckerTest
+public class TypeChecker
 {
     @Test
     public void duplicateLabelsWarning() throws FileNotFoundException

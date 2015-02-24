@@ -1,19 +1,10 @@
-package lang.ql.semantics;
-
-import lang.ql.ast.expression.*;
-import lang.ql.ast.form.*;
-import lang.ql.ast.statement.*;
+package lang.ql.ast.expression;
 
 /**
- * Created by bore on 13/02/15.
+ * Created by bore on 24/02/15.
  */
-public interface Visitor<T>
+public interface ExprVisitor<T>
 {
-    T visit(Form f);
-    T visit(Question q);
-    T visit(CalculatedQuestion q);
-    T visit(IfCondition c);
-
     T visit(BoolExpr e);
     T visit(IntExpr e);
     T visit(DecExpr e);

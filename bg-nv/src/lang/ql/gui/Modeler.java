@@ -9,7 +9,7 @@ import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
 import lang.ql.semantics.ValueTable;
-import lang.ql.semantics.Visitor;
+import lang.ql.ast.AstVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Nik on 17-2-15.
  */
-public class Modeler implements Visitor<GuiElement>, TypeVisitor<GuiElement>
+public class Modeler implements AstVisitor<GuiElement>
 {
     private ValueTable values;
 

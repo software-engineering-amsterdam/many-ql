@@ -1,6 +1,8 @@
 package lang.ql.semantics.values;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * Created by bore on 16/02/15.
@@ -10,11 +12,6 @@ public class DecimalValue extends Value<BigDecimal>
     public DecimalValue(BigDecimal value)
     {
         super(value);
-    }
-
-    public static DecimalValue getDefaultValue()
-    {
-        return new DecimalValue(new BigDecimal("0"));
     }
 
     public Value add(Value v)
@@ -61,7 +58,7 @@ public class DecimalValue extends Value<BigDecimal>
     @Override
     public Value divDecimal(DecimalValue v)
     {
-        return new DecimalValue(v.getValue().divide(this.getValue()));
+        return new DecimalValue(v.getValue().divide(this.getValue(), new MathContext(6, RoundingMode.FLOOR)));
     }
 
     @Override
@@ -146,5 +143,17 @@ public class DecimalValue extends Value<BigDecimal>
     public Value negDecimal()
     {
         return new DecimalValue(this.getValue().negate());
+    }
+
+    @Override
+    public Value pos()
+    {
+        return this.posDecimal();
+    }
+
+    @Override
+    public Value posDecimal()
+    {
+        return new DecimalValue(this.getValue());
     }
 }

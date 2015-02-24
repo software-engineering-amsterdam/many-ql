@@ -13,6 +13,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import lang.ql.gen.*;
 
@@ -38,10 +41,12 @@ public class Main extends Application
 
             TypeChecker.check(ast);
 
-            Interpreter.interpret(ast);
+            //Interpreter.interpret(ast);
             //values = v.getVariableValues();
 
             System.out.println(values);
+
+            new BigDecimal("10.0").divide(new BigDecimal("3.0"), new MathContext(2,    RoundingMode.FLOOR));
         }
         catch (IOException e)
         {

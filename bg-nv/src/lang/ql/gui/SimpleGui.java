@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
+//import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -110,7 +110,7 @@ public class SimpleGui implements GuiVisitor<Node>
     @Override
     public Node visit(DateInput input)
     {
-        return new DatePicker();
+        return null;//new DatePicker();
     }
 
     @Override
