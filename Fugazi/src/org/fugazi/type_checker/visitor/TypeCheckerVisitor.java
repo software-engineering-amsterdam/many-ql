@@ -558,7 +558,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     // a - depender
     // b - dependee
     private void addAndCheckDependency(ID depender, ID dependee) {
-        if (this.checkDependency(dependee, depender)) {
+        boolean revertedDependencyExists = this.checkDependency(dependee, depender);
+        if (revertedDependencyExists) {
             this.astErrorHandler.registerNewError( depender,
                     "Circular dependency between this node and " +
                             dependee.toString() + "."
@@ -571,6 +572,7 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     private void clearErrorHandler() {
         this.astErrorHandler.clearErrorsAndWarnings();
     }
+
     /**
      * =======================
      * Exposed general form functions

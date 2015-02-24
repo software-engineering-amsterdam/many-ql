@@ -39,7 +39,7 @@ public class Main {
 
         if (!isFormTypesCorrect) {
             System.err.println("Form is not type correct. Cannot evaluate and render. Please fix the errors.");
-            System.exit(0);
+            System.exit(-1);
         }
 
         ValueStorage valueStorage = new ValueStorage();
