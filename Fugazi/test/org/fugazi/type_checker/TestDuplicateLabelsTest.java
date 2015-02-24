@@ -12,47 +12,51 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
+/**
+ * Created by lukaszharezlak on 24/02/15.
+ */
+public class TestDuplicateLabelsTest extends TypeCheckerBaseTest {
 
     @Before
     public void setUp() {
-        this.fileName = "invalidOperandTypes.ql";
+        this.fileName = "duplicateLabels.ql";
         super.setUp();
     }
 
     @Test
     public void testFormCorrect() throws Exception {
         boolean formCorrect = checker.isFormCorrect();
-        assertFalse(formCorrect);
+        assertTrue(formCorrect);
     }
 
     @Test
     public void testErrorCount() throws Exception {
         List<ASTNodeError> errors = checker.getErrors();
 
-        assertFalse(errors.isEmpty());
-        assertEquals(17, errors.size());
+        assertTrue(errors.isEmpty());
     }
 
     @Test
-    public void testErrorTypes() throws Exception {
-        List<ASTNodeError> errors = checker.getErrors();
+    public void testWarningsCount() throws Exception {
+        List<ASTNodeError> warnings = checker.getWarnings();
+        assertFalse(warnings.isEmpty());
+        assertEquals(1, warnings.size());
+    }
 
-        ASTNodeErrorType expectedType = ASTNodeErrorType.ERROR.TYPE_MISMATCH;
+    @Test
+    public void testWarningTypes() throws Exception {
+        List<ASTNodeError> warnings = checker.getWarnings();
+        assertFalse(warnings.isEmpty());
+
+        ASTNodeErrorType expectedType = ASTNodeErrorType.WARNING.DUPLICATE_LABEL;
         List<ASTNodeErrorType> receivedTypes = new ArrayList<>();
 
-        for (ASTNodeError error: errors) {
-            receivedTypes.add(error.getErrorType());
+        for (ASTNodeError warning: warnings) {
+            receivedTypes.add(warning.getErrorType());
         }
         // no custom arrayEquals method
         for (ASTNodeErrorType received : receivedTypes) {
             assertTrue(received.equals(expectedType));
         }
-    }
-
-    @Test
-    public void testNoWarnings() throws Exception {
-        List<ASTNodeError> warnings = checker.getWarnings();
-        assertTrue(warnings.isEmpty());
     }
 }
