@@ -24,7 +24,7 @@ namespace QL.Grammars
         public override void ExitFormBlock(QLParser.FormBlockContext context)
         {
             base.ExitFormBlock(context);
-            mapper.HandleNode<QL.Model.Form>();
+            mapper.Create(context);
         }
 
         public override void EnterBlock(QLParser.BlockContext context)
@@ -35,7 +35,7 @@ namespace QL.Grammars
         public override void ExitBlock(QLParser.BlockContext context)
         {
             base.ExitBlock(context);
-            mapper.HandleNode<QL.Model.Block>();
+            mapper.Create(context);
 
         }
 
@@ -48,7 +48,7 @@ namespace QL.Grammars
         public override void ExitControlBlock(QLParser.ControlBlockContext context)
         {
             base.ExitControlBlock(context);
-            mapper.HandleNode<QL.Model.ControlBlock>();
+            mapper.Create(context);
 
         }
 
@@ -61,7 +61,7 @@ namespace QL.Grammars
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
             base.ExitQuestionUnit(context);
-            mapper.HandleNode<QuestionUnit>();
+            mapper.Create(context);
 
         }
         
@@ -75,7 +75,7 @@ namespace QL.Grammars
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
             base.ExitStatementUnit(context);
-            mapper.HandleNode<QL.Model.StatementUnit>();
+            mapper.Create(context);
 
         }
 
@@ -90,31 +90,8 @@ namespace QL.Grammars
         {
             mapper.Create(context);
             base.ExitOperator(context);
-            switch (context.OPERATOR().Symbol.Text)
-            {
-                case "==": mapper.HandleNode<QL.Model.Operators.EqualsOperator>();
-                            break;
-                case "!=": mapper.HandleNode<QL.Model.Operators.NotEqualsOperator>();
-                            break;
-                case "<": mapper.HandleNode<QL.Model.Operators.LessThanOperator>();
-                            break;
-                case "<=": mapper.HandleNode<QL.Model.Operators.LessThanEqualToOperator>();
-                            break;
-                case ">": mapper.HandleNode<QL.Model.Operators.GreaterThanOperator>();
-                            break;
-                case "=>": mapper.HandleNode<QL.Model.Operators.GreaterThanEqualToOperator>();
-                            break;
-                case "+": mapper.HandleNode<QL.Model.Operators.PlusOperator>();
-                            break;
-                case "-": mapper.HandleNode<QL.Model.Operators.MinusOperator>();
-                            break;
-                case "/": mapper.HandleNode<QL.Model.Operators.DivisionOperator>();
-                            break;
-                case "*": mapper.HandleNode<QL.Model.Operators.MultiplicationOperator>();
-                            break;
-                default: throw new NotImplementedException("this operator is not implemented");
-
-            }
+     
+            
             //TODO
         }
         public override void EnterTypeName(QLParser.TypeNameContext context)
