@@ -1,6 +1,6 @@
 from .Visitor import Visitor
 from . import Message
-from .Common import questionIdentifiedBy
+from .Identifier import questionIdentifiedBy
 
 from ..ast import Nodes
 from ..ast.Visitor import Visitor as ASTVisitor

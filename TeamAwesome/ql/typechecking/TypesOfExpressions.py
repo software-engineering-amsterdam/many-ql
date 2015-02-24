@@ -1,6 +1,6 @@
 from .Visitor import Visitor
 from . import Message
-from .Common import typeOfIdentifier
+from .Identifier import typeOfIdentifier
 from .Cast import effectiveTypes
 
 from .. import TypeRules
