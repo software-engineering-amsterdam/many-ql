@@ -151,7 +151,7 @@ public class ConstantExpr
     @Test
     public void identifierExpr()
     {
-        Indent e = TestHelper.as(ParserHelper.ParseExpression("any"), Indent.class);
+        Ident e = TestHelper.as(ParserHelper.ParseExpression("any"), Ident.class);
         assertNotNull(e);
     }
 }

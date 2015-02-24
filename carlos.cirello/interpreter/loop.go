@@ -27,15 +27,16 @@ type interpreter struct {
 // New starts interpreter with an AST (*ast.Questionaire) and with
 // channels to communicate with Frontend process
 func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
+	typecheck(q)
 
-	toFrontend, fromFrontend, symbolChan := openChannels()
-	st := symboltable.New(symbolChan)
+	toFrontend, fromFrontend := openChannels()
+	st := symboltable.New()
 
 	v := &interpreter{
 		questionaire: q,
 		send:         toFrontend,
 		receive:      fromFrontend,
-		execute:      execute.New(toFrontend, symbolChan),
+		execute:      execute.New(toFrontend, st),
 		draw:         draw.New(toFrontend),
 		symbols:      st,
 	}
@@ -44,15 +45,16 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 	return toFrontend, fromFrontend
 }
 
-func openChannels() (toFrontend, fromFrontend chan *event.Frontend, symbolChan chan *event.Symbol) {
+func openChannels() (toFrontend, fromFrontend chan *event.Frontend) {
 	toFrontend = make(chan *event.Frontend)
 	fromFrontend = make(chan *event.Frontend)
-	symbolChan = make(chan *event.Symbol)
-	return toFrontend, fromFrontend, symbolChan
+	return toFrontend, fromFrontend
 }
 
 func typecheck(q *ast.QuestionaireNode) {
 	tc, symboltable := typechecker.New()
+	symboltable.SetWatchError(true)
+
 	tc.Visit(q)
 
 	symboltable.ShowWarn()
@@ -86,6 +88,8 @@ func (v *interpreter) loop() {
 				receive <- &event.Frontend{Type: event.ReadyT}
 			}(v.receive)
 		}
+		v.execute.Visit(v.questionaire)
+		v.send <- &event.Frontend{Type: event.Flush}
 	mainLoop:
 		for {
 			select {
@@ -94,25 +98,12 @@ func (v *interpreter) loop() {
 
 				case event.Answers:
 					for identifier, answer := range r.Answers {
+						q := v.symbols.Read(identifier)
+						q.(symboltable.StringParser).From(answer)
+						v.symbols.Update(identifier, q)
 						v.execute.Visit(v.questionaire)
 						v.send <- &event.Frontend{Type: event.Flush}
-
-						ret := make(chan *ast.QuestionNode)
-						v.symbols.Events <- &event.Symbol{
-							Command:    event.SymbolRead,
-							Identifier: identifier,
-							Ret:        ret,
-						}
-
-						q := <-ret
-						q.Content().From(answer)
-						v.symbols.Events <- &event.Symbol{
-							Command:    event.SymbolUpdate,
-							Identifier: q.Identifier(),
-							Content:    q,
-						}
 					}
-					fallthrough
 
 				case event.ReadyT:
 					v.execute.Visit(v.questionaire)

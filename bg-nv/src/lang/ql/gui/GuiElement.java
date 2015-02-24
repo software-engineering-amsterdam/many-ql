@@ -5,5 +5,5 @@ package lang.ql.gui;
  */
 public abstract class GuiElement
 {
-    public abstract void accept(GuiVisitor visitor);
+    public abstract <T> T accept(GuiVisitor<T> visitor);
 }

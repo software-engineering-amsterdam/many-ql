@@ -9,13 +9,13 @@ from .. import CustomTypes
 
 class Checker(Visitor):
     def _visitQuestionStatement(self, node):
-        paths = self._dependencyPaths([], node)
-        for p in paths:
-            if p[-1] in p[:-1]:
+        dependencyChains = self._questionDependencyChains([], node)
+        for chain in dependencyChains:
+            if chain[-1] in chain[:-1]:
                 self._result = self._result.withMessage(
                     Message.Error(
                         'there is a question dependency cycle: '\
-                       +' <- '.join([q.identifier for q in p])\
+                       +' <- '.join([q.identifier for q in chain])\
                        +'. It means the calculation of the answer '\
                        +'requires its own result as input. This is '\
                        +'incalculable. Please double check the '\
@@ -24,21 +24,27 @@ class Checker(Visitor):
                     )
                 )
 
-    def _dependencyPaths(self, path, node):
-        path.append(node)
+    def _questionDependencyChains(self, breadcrumbs, node):
+        breadcrumbs.append(node)
 
-        if node.expr is None or node in path[:-1]:
-            return [path]
+        cycleFound = node in breadcrumbs[:-1] 
 
-        paths = []
+        if node.expr is None or cycleFound:
+            return [breadcrumbs]
 
+        chains = []
         identifiers = self._extractIdentifiers(node.expr)
+        
         for i in identifiers:
             question = questionIdentifiedBy(i, self._ast.root)
             if question is not None:
-                paths.extend(self._dependencyPaths(path, question))
+                chains.extend(
+                    self._questionDependencyChains(
+                        breadcrumbs, question
+                    )
+                )
 
-        return paths
+        return chains
 
     def _extractIdentifiers(self, node):
         visitor = ExtractIdentifiersVisitor()

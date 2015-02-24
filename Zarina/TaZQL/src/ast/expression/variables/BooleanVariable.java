@@ -4,15 +4,19 @@ import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 
 public class BooleanVariable extends Expression {
-	private final Boolean variable;
+	private final Boolean booleanVariable;
 
-	public BooleanVariable (boolean variable) {
-		this.variable = variable;
-	}	
+	public BooleanVariable (Boolean booleanVariable) {
+		this.booleanVariable = booleanVariable;
+	}
+	
+	public Boolean getValue(){
+		return booleanVariable;
+	}
 	
 	@Override
 	public String toString() {
-		return variable.toString();
+		return booleanVariable.toString();
 	}
 	
 	@Override

@@ -1,13 +1,13 @@
 from .. import CustomTypes
 
 def castableTo(fromType):
-    castables = {
+    castingSpec = {
         # int: [CustomTypes.Money],
         # CustomTypes.Money: [int]
     }
 
-    if fromType in castables:
-        return castables[fromType]
+    if fromType in castingSpec:
+        return castingSpec[fromType]
 
     return []
 

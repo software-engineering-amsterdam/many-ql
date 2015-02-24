@@ -13,4 +13,5 @@ public interface IQLFactory {
 	public boolean stringToBoolean(String s);
 	public Expression getExpression(ExpressionContext expr);
 	public Operator getOperator(String s);
+	
 }

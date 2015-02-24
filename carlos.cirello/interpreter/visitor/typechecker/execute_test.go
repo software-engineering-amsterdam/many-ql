@@ -22,7 +22,6 @@ func TestDuplicatedIdentifier(t *testing.T) {
 	}
 }
 
-// todo(carlos) TestDuplicatedIdentifierInIfBlocks
 func TestDuplicatedIdentifierInIfBlocks(t *testing.T) {
 	form := parser.ReadQL(
 		strings.NewReader(`form SomeForm {
