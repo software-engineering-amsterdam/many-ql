@@ -1,8 +1,14 @@
 package com.klq.gui;
 
+import com.klq.logic.expression.AExpression;
 import com.klq.logic.question.OptionSet;
 import com.klq.logic.question.Question;
 import com.klq.logic.question.Type;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -11,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.time.LocalDate;
 
@@ -20,12 +27,16 @@ import java.time.LocalDate;
 public class QuestionPane extends GridPane {
     private final static Font DEFAULT_QUESTION = new Font("Arial Bold", 14);
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
+    private final double MIN_HEIGHT = 50;
 
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
 
+    private Question question;
+
     public QuestionPane(Question question) {
         super();
+        this.question = question;
         createQuestionLabel(question.getText().toString());
         switch (question.getType()) {
             case SET:
@@ -44,6 +55,29 @@ public class QuestionPane extends GridPane {
         this.setPadding(new Insets(5));
         this.setBorder(createBorder());
         this.setBackground(createBackground());
+        this.setMinHeight(MIN_HEIGHT);
+    }
+
+    public void show(){
+        if (isVisible())
+            return;
+        this.managedProperty().bind(this.visibleProperty());
+        this.setVisible(true);
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO,
+                        new KeyValue(this.translateYProperty(), Math.random() * -getMinHeight())
+                ),
+                new KeyFrame(new Duration(750),
+                        new KeyValue(this.translateYProperty(), Math.random() * 0)
+                )
+        );
+        timeline.play();
+    }
+
+    public void hide(){
+        this.managedProperty().bind(this.visibleProperty());
+        this.setVisible(false);
     }
 
     private void createQuestionLabel(String text) {
@@ -66,6 +100,7 @@ public class QuestionPane extends GridPane {
             this.getChildren().add(rb);
             this.setConstraints(rb, 0, i+1);
         }
+        group.selectedToggleProperty().addListener(onToggleChanged());
     }
 
     private void createDatePicker(OptionSet optionSet){
@@ -84,6 +119,8 @@ public class QuestionPane extends GridPane {
         }
         datePicker.setValue(lDate);
 
+        datePicker.focusedProperty().addListener(onFocusChanged(datePicker.getEditor()));
+
         this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
@@ -101,6 +138,7 @@ public class QuestionPane extends GridPane {
         if (questionType == Type.NUMERAL)
             input.addEventFilter(KeyEvent.KEY_TYPED, numFilter());
 
+        input.focusedProperty().addListener(onFocusChanged(input));
         this.getChildren().add(input);
         this.setConstraints(input, 0, 1);
     }
@@ -119,7 +157,7 @@ public class QuestionPane extends GridPane {
        return new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCharacter().matches("[0-9\\.,]"))
+                if (!event.getCharacter().matches("[0-9\\.]"))
                     event.consume();
             }
         };
@@ -134,7 +172,32 @@ public class QuestionPane extends GridPane {
         };
     }
 
-    private void setAnswer(String answer){
-        //TODO
+    private ChangeListener<Boolean> onFocusChanged(final TextField textField){
+        return new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue)
+                    onQuestionAnswered(textField.getText());
+
+            }
+        };
+    }
+
+    private ChangeListener<Toggle> onToggleChanged(){
+        return new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                onQuestionAnswered(newValue.getUserData().toString());
+            }
+        };
+    }
+
+    public void onQuestionAnswered(String result) {
+        AExpression expr = Question.createTerminalFromString(question, result);
+        question.setResult(expr);
+        if (question.dependenciesResolved())
+            show();
+        else
+            hide();
     }
 }

@@ -21,7 +21,7 @@ import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.*;
  */
 public class TestTypeChecker {
 
-    // TODO change type check strings to helper functions.
+    // TODO change type check strings to helper components.
 
     @Test
     public void testUndefinedQuestions() throws ParserException, IOException, LexerException {

@@ -4,7 +4,7 @@ import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.StyleSheet;
+import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

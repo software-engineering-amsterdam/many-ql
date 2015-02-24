@@ -22,9 +22,9 @@ public class UICheckBox extends JCheckBox {
 		    public void actionPerformed(ActionEvent event) {
 		        
 		        if (isSelected()) {
-		            // check box selected
+		            System.err.println("Check box selected");
 		        } else {
-		            // check box is unselected
+		        	System.err.println("Check box de-selected");
 		        }
 		    }
 		});

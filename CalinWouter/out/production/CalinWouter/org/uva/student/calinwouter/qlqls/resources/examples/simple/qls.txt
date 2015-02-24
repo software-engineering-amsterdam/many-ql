@@ -18,5 +18,5 @@ styleSheet(taxOfficeExample,
 			color: #999999,
 			widget: spinbox()
 		})
-	), default(boolean, {widget: checkbox()})
+	), default(boolean, {widget: radio("Yes", "No"), fontSize:18, color: #FF0000})
 )
