@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.type.BoolType;
+import com.form.language.memory.Memory;
 
 public class Question implements Statement {
 	private String id;
@@ -19,7 +20,7 @@ public class Question implements Statement {
 	private JPanel qPanel;
 	private JPanel labelContainer;
 	
-	public Question(String questionLabel, String id, String questionType) {
+	public Question(String questionLabel, String id, String questionType, Memory memory) {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
@@ -29,6 +30,7 @@ public class Question implements Statement {
 				}
 		
 		//Call ID constructor
+		new IdLiteral(id,questionType,memory,null);
 	}
 	
 	private void createQuestion(){		

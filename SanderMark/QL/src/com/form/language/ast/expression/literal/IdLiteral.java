@@ -13,7 +13,7 @@ import com.form.language.memory.Memory;
 
 public class IdLiteral extends Literal implements Expression {
 	private final String _value;
-	private Type _type;
+	private String _type;
 	
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
@@ -21,14 +21,16 @@ public class IdLiteral extends Literal implements Expression {
 		
 		//Throw in memory
 	}
-	public IdLiteral(String value, Type type, Token tokenInfo)
+	public IdLiteral(String value, String type,Memory memory,Token tokenInfo)
 	{
 		super(tokenInfo);
 		this._value = value;
 		this._type = type;	
 		
+		System.out.println(memory);
+		
 		//Throw in memory
-		Memory.addId(_value,_type);
+		memory.addId(value,_type);
 	}
 
 	@Override
