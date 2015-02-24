@@ -22,7 +22,7 @@ Name: "Tax" {
     		Answer: integer
     		Range: >0
     	}
-    	If: partner == "Married" || partner == "Cohabitation" && (iets == iets || iets >= iets ) {
+    	If: partner == "Married" || partner == "Cohabitation" {
         	Question: "income_partner" {
         		Text: "How much money did your partner earn through employer paid wages during 2014?"
         		Answer: integer
