@@ -1,6 +1,7 @@
 package edu
 
 import edu.parser.nodes.Form
+import edu.parser.nodes.expression.And
 import edu.parser.nodes.expression.Identifier
 import edu.parser.nodes.question.Label
 import edu.parser.nodes.question.Question
@@ -18,7 +19,7 @@ class EvaluatorTest extends Specification {
 
     Evaluator evaluator;
     Question question;
-    Question enabledQuestion = new Question(Optional.empty(), new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true);
+    Question enabledQuestion = new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty());
 
     def setup() {
         evaluator = new Evaluator();
@@ -44,7 +45,7 @@ class EvaluatorTest extends Specification {
         List<Statement> questions = new ArrayList<>()
         questions.add(enabledQuestion)
 
-        IfStatement ifStatement = new IfStatement(new Boolean(true), questions, Optional.empty())
+        IfStatement ifStatement = new IfStatement(expression, questions, Optional.empty())
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
 
@@ -53,15 +54,20 @@ class EvaluatorTest extends Specification {
 
         then:
         Assert.assertEquals(enabledQuestion, question)
+
+        where:
+        expression                                    | _
+        new Boolean(true)                             | _
+        new And(new Boolean(true), new Boolean(true)) | _
     }
 
-    def "Should not return question when if statements condition is false"() {
+    def "Should not return question when if statements boolean condition is false"() {
         when:
         List<Statement> formStatements = new ArrayList<>()
         List<Statement> questions = new ArrayList<>()
         questions.add(enabledQuestion)
 
-        IfStatement ifStatement = new IfStatement(new Boolean(false), questions, Optional.empty())
+        IfStatement ifStatement = new IfStatement(expression, questions, Optional.empty())
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
 
@@ -69,6 +75,14 @@ class EvaluatorTest extends Specification {
 
         then:
         Assert.assertEquals(true, outputForm.elements.isEmpty())
+
+        where:
+        expression                                      | _
+        new Boolean(false)                              | _
+        new And(new Boolean(false), new Boolean(true))  | _
+        new And(new Boolean(true), new Boolean(false))  | _
+        new And(new Boolean(false), new Boolean(false)) | _
     }
+
 
 }

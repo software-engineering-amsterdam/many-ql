@@ -19,7 +19,7 @@ public class Question extends Statement {
     private final Optional<Expression> expression;
     private boolean enabled;
 
-    public Question(Optional<Expression> expression, Identifier identifier, QuestionType questionType, Label label, boolean enabled) {
+    public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
         this.identifier = identifier;
         this.questionType = questionType;

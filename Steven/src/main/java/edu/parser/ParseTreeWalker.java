@@ -64,7 +64,7 @@ public class ParseTreeWalker extends QLBaseVisitor<AbstractNode> {
         Label label = (Label) visit(ctx.question_label());
         Optional<Expression> questionExpression = getQuestionExpression(ctx);
         boolean isQuestionEnabled = isQuestionEnabled(questionType);
-        return new Question(questionExpression, identifier, questionType, label, isQuestionEnabled);
+        return new Question(identifier, questionType, label, isQuestionEnabled, questionExpression);
     }
 
     private boolean isQuestionEnabled(QuestionType questionType) {

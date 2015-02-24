@@ -28,6 +28,8 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(IfStatement ifStatement) {
+
+
         if (isExpressionTrue(ifStatement)) {
             visitStatements(ifStatement.getStatements());
         }
@@ -35,7 +37,7 @@ public class Evaluator extends VisitorImpl {
     }
 
     private boolean isExpressionTrue(IfStatement ifStatement) {
-        return ((Boolean) ifStatement.getExpression()).isTrue();
+        return ((Boolean) ifStatement.getExpression().accept(this)).isTrue();
     }
 
     @Override
@@ -45,8 +47,11 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(And and) {
-        return null;
+        Boolean left = (Boolean) and.getLeft();
+        Boolean right = (Boolean) and.getRight();
+        return new Boolean(left.isTrue() && right.isTrue());
     }
+
 
     @Override
     public AbstractNode visit(Equal equal) {

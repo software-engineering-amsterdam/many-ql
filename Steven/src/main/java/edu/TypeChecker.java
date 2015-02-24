@@ -50,8 +50,8 @@ public class TypeChecker extends VisitorImpl {
 
     private Set<Label> getDuplicatedLabels() {
         List<Label> labels = getLabels();
-        return labels.
-                stream()
+        return labels
+                .stream()
                 .filter(n -> labels.stream()
                         .filter(label -> label.equals(n))
                         .count() > 1)
