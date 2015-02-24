@@ -23,7 +23,8 @@ public class TestIf {
     	 return Arrays.asList(new Object[][] {                             
 				 { "if (true) { houseValue : money { \"Lol I dont care\" } }", true }, 
 				 { "if (false || true) { houseValue : money { \"Lol I dont care\" } }", true }, 
-				 { "if (123) { houseValue : money { \"Lol I dont care\" } }", false}
+				 { "if (123) { houseValue : money { \"Lol I dont care\" } }", false},
+				 { "if (true) { houseValue : money { \"Lol I dont care\" assign(\"A string\") } }", false}
 		 });
      }
      
