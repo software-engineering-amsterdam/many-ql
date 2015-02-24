@@ -73,5 +73,4 @@ public abstract class AbstractModel<T> implements IModel {
     }
 
     public abstract void apply(IModel iModel);
-
 }
