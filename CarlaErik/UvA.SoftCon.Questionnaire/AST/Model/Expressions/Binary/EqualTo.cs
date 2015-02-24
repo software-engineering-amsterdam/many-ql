@@ -8,17 +8,17 @@ using UvA.SoftCon.Questionnaire.AST.Types;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
-    public class GreaterThanOrEqualTo : BinaryExpression
+    public class EqualTo : BinaryExpression
     {
         public override NodeType Type
         {
             get
             {
-                return NodeType.GreaterThanOrEqualTo;
+                return NodeType.EqualTo;
             }
         }
 
-        public GreaterThanOrEqualTo(Operation operation, IExpression left, IExpression right, TextPosition position)
+        public EqualTo(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(operation, left, right, position) {}
 
         public override void Accept(IASTVisitor visitor)
@@ -36,7 +36,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
             IValue left = Left.Evaluate(environment);
             IValue right = Right.Evaluate(environment);
 
-            return left.IsGreaterThanOrEqualTo(right);
+            return left.IsEqualTo(right);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
     {
         public Panel CreateQuestion(Question question)
         {
+            throw new NotImplementedException();
         }
     }
 }
