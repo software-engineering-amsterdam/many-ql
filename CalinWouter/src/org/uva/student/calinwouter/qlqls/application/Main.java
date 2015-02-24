@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.Default;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.StyleSheet;
 
@@ -24,6 +25,8 @@ public class Main {
                 "}";
         try {
             HeadlessFormInterpreter headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(input);
+
+            FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(input);
 
             input = "styleSheet(taxOfficeExample," +
                     "" +
@@ -54,7 +57,7 @@ public class Main {
             StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(input).getValue().getValue();
 
             // Apply QL to the stylesheet renderer.
-            styleSheet.apply(new StyleSheetRenderer(headlessFormInterpreter));
+            styleSheet.apply(new StyleSheetRenderer(headlessFormInterpreter, formTypeChecker));
 
             headlessFormInterpreter.interpret();
 

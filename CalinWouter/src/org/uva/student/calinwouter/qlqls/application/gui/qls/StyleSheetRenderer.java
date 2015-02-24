@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.Page;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.Section;
@@ -12,9 +13,11 @@ import java.awt.*;
 public class StyleSheetRenderer extends AbstractRenderer {
     private Component lastCreatedComponent;
     private HeadlessFormInterpreter headlessFormInterpreter;
+    private FormTypeChecker formTypeChecker;
 
-    public StyleSheetRenderer(HeadlessFormInterpreter headlessFormInterpreter) {
+    public StyleSheetRenderer(HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker) {
         this.headlessFormInterpreter = headlessFormInterpreter;
+        this.formTypeChecker = formTypeChecker;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
     public void caseSection(Section section) {
         JPanel sectionPanel = new JPanel();
         for (AbstractFormField<?> f : section.getFields()) {
-            FieldRenderer fieldRenderer = new FieldRenderer(headlessFormInterpreter);
+            FieldRenderer fieldRenderer = new FieldRenderer(headlessFormInterpreter, formTypeChecker);
             f.apply(fieldRenderer);
             sectionPanel.add(fieldRenderer.getFieldComponent());
         }

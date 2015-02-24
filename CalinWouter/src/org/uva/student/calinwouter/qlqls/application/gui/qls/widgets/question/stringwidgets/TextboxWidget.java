@@ -12,7 +12,7 @@ public class TextboxWidget implements IWidget {
 
     // TODO add intbox specific implementation.
     public TextboxWidget(Question question, HeadlessFormInterpreter headlessFormInterpreter) {
-        this.widget = new JTextField();
+        this.widget = new JTextField(20);
     }
 
     @Override
