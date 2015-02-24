@@ -25,6 +25,10 @@ namespace QL.Model
         {
             _childrenStack.Push(new Stack<ElementBase>());
         }
+        public bool AstExists()
+        {
+            return _astRootNode != null; 
+        }
 
         private IList<ElementBase> GetChildren()
         {
@@ -48,14 +52,7 @@ namespace QL.Model
         }
 
         
-        public void Create(QLParser.FormBlockContext context){
-            IList<ElementBase> children = GetChildren();
-
-            Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            Debug.Assert((children.Count() == 1), "Form block could have only one child - block. Maybe you changed IDENTIFIER as a parser rule?");
-            PutIntoTree(new Form(identifier, children[0]));
-        }
-
+        
         #region Model creation methods
         public UnitBase Create(QLParser.QuestionUnitContext context)
         {
@@ -93,13 +90,16 @@ namespace QL.Model
             throw new ArgumentOutOfRangeException("context");
         }
 
-        public ControlBlock Create(QLParser.ControlBlockContext context)
+        public void Create(QLParser.ControlBlockContext context)
         {
-            ControlBlock controlBlock = new ControlBlock();
-            context.expression();
-            context.block();
+            IList<ElementBase> children = GetChildren();
 
-            return controlBlock;
+            ControlBlock controlBlock = new ControlBlock();
+
+            controlBlock.HandleChildren(children);
+
+
+            PutIntoTree(controlBlock);
         }
 
         public Block Create(QLParser.BlockContext context)
@@ -121,7 +121,8 @@ namespace QL.Model
 
         internal void Create(ParserRuleContext context)
         {
-            throw new NotImplementedException();
+
+            throw new NotImplementedException()
         }
 
         #endregion

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QL.Model
 {
-    class Expression : TreeElementBase
+    public class Expression : TreeElementBase
     {
     }
 }

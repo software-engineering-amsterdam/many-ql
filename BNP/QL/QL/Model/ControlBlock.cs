@@ -9,22 +9,43 @@ namespace QL.Model
 {
     public class ControlBlock : TreeElementBase
     {
+        public Block TrueBlock;
+        public IList<ControlBlock> Elseifs;
+        public Block FalseBlock;
         public ControlBlockType Type { get; set; }
 
-        internal Expression Expression
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
+        public Expression Expression;
 
         public ControlBlock()
         {
             
         }
+
+        public void HandleChildren(Expression expression , Block trueBlock, IList<ControlBlock> elseifs=null, Block falseBlock=null)
+        {
+            IList<ElementBase> childrenTemporary = new List<ElementBase>();
+            childrenTemporary.Add(expression);
+            Expression = expression;
+            childrenTemporary.Add(trueBlock);
+
+            TrueBlock = trueBlock;
+            if (elseifs!=null && elseifs.Count()>0)
+            {
+                ((List<ElementBase>)childrenTemporary).AddRange(elseifs);
+
+                Elseifs = elseifs;
+            }
+            if (falseBlock!=null)
+            {
+                childrenTemporary.Add(falseBlock);
+
+                FalseBlock = falseBlock;
+
+            }
+
+            ((List<ElementBase>) Children).AddRange(childrenTemporary);
+
+        }
     }
+
 }

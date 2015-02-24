@@ -16,6 +16,7 @@ namespace Tests
             Lexer = new QLLexer(Inputstream);
             Tokenstream = new CommonTokenStream(Lexer);
             Parser = new QLParser(Tokenstream);
+
         }
     }
 }

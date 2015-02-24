@@ -11,10 +11,15 @@ namespace QL.Grammars
 {
     public class QLListener : QLBaseListener
     {
-        NodeMapper mapper;
+        protected NodeMapper mapper;
         public QLListener()
         {
             mapper = new NodeMapper();
+        }
+
+        public bool AstExists()
+        {
+            return mapper.AstExists();
         }
         public override void EnterFormBlock(QLParser.FormBlockContext context)
         {
