@@ -71,18 +71,22 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Identifier identifier) {
-        Optional<Question> foundQuestion = questions
-                .stream()
-                .map(question -> (Question) question)
-                .filter(q -> q.getIdentifier().equals(identifier))
-                .findFirst();
+        Optional<Question> foundQuestion = getQuestion(identifier);
 
         if (foundQuestion.isPresent()) {
             return new Boolean(foundQuestion.get().isEnabled());
         } else {
             logger.warning("Reference to undefined question: " + identifier);
-            return new Boolean(false);
+            return new Boolean(false); // if question does not exist, expression cannot be true.
         }
+    }
+
+    private Optional<Question> getQuestion(Identifier identifier) {
+        return questions
+                .stream()
+                .map(question -> (Question) question)
+                .filter(q -> q.getIdentifier().equals(identifier))
+                .findFirst();
     }
 
     @Override
@@ -107,7 +111,9 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Or or) {
-        return null;
+        Boolean left = (Boolean) or.getLeft().accept(this);
+        Boolean right = (Boolean) or.getRight().accept(this);
+        return new Boolean(left.isTrue() || right.isTrue());
     }
 
     @Override
