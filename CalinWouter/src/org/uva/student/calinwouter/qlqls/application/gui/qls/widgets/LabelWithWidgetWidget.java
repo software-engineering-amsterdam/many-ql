@@ -31,9 +31,6 @@ public class LabelWithWidgetWidget implements IWidget {
             @Override
             public void onStateChanged() {
                 try {
-                    System.out.println("State variable changed:");
-                    List<FormField> fields = headlessFormInterpreter.getFields();
-                    System.out.println();
                     fieldLabel.setText(headlessFormInterpreter.getLabelForField(model.getFieldName()));
                     labelWithWidgetWidget.setVisible(true);
                 } catch (LabelNotAvailableException e) {

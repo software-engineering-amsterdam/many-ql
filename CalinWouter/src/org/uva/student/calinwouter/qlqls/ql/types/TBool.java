@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.ql.types;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 
 public class TBool extends TypeModel<Boolean> {
+    public static final String TYPE_REFERENCE = "boolean";
 
     @Override
     public TypeModel<?> or(TypeModel<?> typeModel) {

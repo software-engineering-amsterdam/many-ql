@@ -1,4 +1,6 @@
 
+from itertools import chain, imap
+
 class Node(object):
     def __init__(self, LexNode=None):
 
@@ -16,15 +18,21 @@ class Node(object):
             if hasattr(tok, 'lineno'):
                 self.linenumbers.append(tok.lineno)
 
-    def hasChildren(self):
-        return "block" in self.tokens
+
+    def __iter__(self):
+        yield self
+
+        for child in chain(*imap(iter, self.children)):
+            yield child
 
     @property
     def children(self):
-        return self.tokens.get("block", list())
+        # Exception, as python does not provide abstract/interface
+        raise Exception("Implement children attribute in %s" % self.NodeType)
 
-    def isClass(self, Name):
-        return self.__class__.__name__ == Name
+    @property
+    def NodeType(self):
+        return self.__class__.__name__
 
     @property
     def lineNr(self):

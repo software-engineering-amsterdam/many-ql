@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public interface IModel {
 
-    void caseHashMap(HashMap<Object, Object> hashMap);
+    void caseHashMap(HashMap<String, Object> hashMap);
 
     void caseString(String string);
 
@@ -32,5 +32,9 @@ public interface IModel {
     void caseSpinbox(Spinbox radio);
 
     void caseSlider(Slider radio);
+
+    void caseCheckbox(Checkbox checkbox);
+
+    void caseTextbox(Textbox checkbox);
 
 }

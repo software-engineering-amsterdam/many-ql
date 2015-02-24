@@ -6,9 +6,9 @@ public interface IQuestionWidgetCallback {
 
     public void caseCheckboxWidget(Question question);
 
-    public void caseRadioWidget(Question question);
+    public void caseComboboxWidget(Question question);
 
-    public void caseIntboxWidget(Question question);
+    public void caseRadioWidget(Question question);
 
     public void caseSpinboxWidget(Question question);
 

@@ -9,7 +9,7 @@ import java.util.HashMap;
 // TODO THIS IS A DUPLICATE OF ABSTRACTMODEL!!!!
 public abstract class AbstractRenderer implements IModel {
     @Override
-    public void caseHashMap(HashMap<Object, Object> hashMap) {
+    public void caseHashMap(HashMap<String, Object> hashMap) {
         throw new UnsupportedOperationException();
     }
 
@@ -70,6 +70,16 @@ public abstract class AbstractRenderer implements IModel {
 
     @Override
     public void caseSlider(Slider slider) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void caseCheckbox(Checkbox checkbox) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void caseTextbox(Textbox checkbox) {
         throw new UnsupportedOperationException();
     }
 }

@@ -18,7 +18,7 @@ public class FieldRenderer extends AbstractRenderer {
 
     @Override
     public void caseQuestion(Question question) {
-        QuestionWidgetFetcher w = new QuestionWidgetFetcher(headlessFormInterpreter);
+        QuestionWidgetFetcher w = new QuestionWidgetFetcher(headlessFormInterpreter, formTypeChecker);
         try {
             question.applyWidget(w, formTypeChecker.getTypeDescriptor(question.getFieldName()));
         } catch(NullPointerException e) {

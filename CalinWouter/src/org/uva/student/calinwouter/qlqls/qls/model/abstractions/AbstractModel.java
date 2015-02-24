@@ -20,7 +20,7 @@ public abstract class AbstractModel<T> implements IModel {
     }
 
     @Override
-    public void caseHashMap(HashMap<Object, Object> hashMap) {
+    public void caseHashMap(HashMap<String, Object> hashMap) {
         throw new UnsupportedOperationException();
     }
 
@@ -82,6 +82,16 @@ public abstract class AbstractModel<T> implements IModel {
 
     @Override
     public void caseSlider(Slider radio) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void caseCheckbox(Checkbox radio) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void caseTextbox(Textbox radio) {
         throw new UnsupportedOperationException();
     }
 

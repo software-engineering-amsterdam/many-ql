@@ -1,20 +1,17 @@
 package org.uva.student.calinwouter.qlqls.qls.model.functions;
 
-import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCallback;
 
-public class Slider extends AbstractWidget<Slider> {
-
+public class Textbox extends AbstractWidget<Textbox> {
     @Override
     public void apply(IModel iModel) {
-        iModel.caseSlider(this);
+        iModel.caseTextbox(this);
     }
 
     @Override
     public void applyWidget(Question question, IQuestionWidgetCallback widgetCallback) {
-        widgetCallback.caseSliderWidget(question);
+        widgetCallback.caseTextboxWidget(question);
     }
-
 }

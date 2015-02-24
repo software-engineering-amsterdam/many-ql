@@ -7,7 +7,7 @@ import java.util.List;
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractFormField<T> extends AbstractComponent<T> {
     protected String ident;
-    protected HashMap<Object, Object> arguments;
+    protected HashMap<String, Object> stylingArguments;
     private int arg;
 
     public String getFieldName() {
@@ -32,12 +32,12 @@ public abstract class AbstractFormField<T> extends AbstractComponent<T> {
     }
 
     @Override
-    public void caseHashMap(HashMap<Object, Object> hashMap) {
+    public void caseHashMap(HashMap<String, Object> hashMap) {
         if (arg != 1) {
             super.caseHashMap(hashMap);
             return;
         }
-        this.arguments = hashMap;
+        this.stylingArguments = hashMap;
         arg++;
     }
 }
