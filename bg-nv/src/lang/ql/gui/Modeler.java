@@ -1,16 +1,5 @@
 package lang.ql.gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.*;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
@@ -21,7 +10,6 @@ import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
 import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.Visitor;
-import lang.ql.semantics.values.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +18,9 @@ import java.util.List;
 /**
  * Created by Nik on 17-2-15.
  */
-public class Modeler implements Visitor, TypeVisitor
+public class Modeler implements Visitor<GuiElement>, TypeVisitor<GuiElement>
 {
     private ValueTable values;
-
-    private Canvas canvas;
-    private List<Line> lines;
-
-    private Value currentValue;
-    private Input currentInput;
-
-    public Canvas getCanvas()
-    {
-        return this.canvas;
-    }
 
     public Modeler(ValueTable values)
     {
@@ -51,213 +28,198 @@ public class Modeler implements Visitor, TypeVisitor
     }
 
     @Override
-    public void visit(Form form)
+    public GuiElement visit(Form form)
     {
-        this.lines = new ArrayList<Line>();
+        List<Line> lines = new ArrayList<Line>();
         for (Statement s : form.getBody())
         {
-            s.accept(this);
+            lines.add((Line) s.accept(this));
         }
-        this.canvas = new Canvas(form.getId(), this.lines);
-        this.lines = null;
+
+        return new Canvas(form.getId(), lines);
     }
 
     @Override
-    public void visit(Question q)
+    public GuiElement visit(Question q)
     {
-        this.currentValue = values.getValue(q.getId());
-
         Label label = new Label(q.getLabel());
-        q.getType().accept(this);
-
-        this.lines.add(new Line(label, this.currentInput));
-
-        this.currentInput = null;
-        this.currentValue = null;
+        Input input = (Input) q.getType().accept(this);
+        return new Line(label, input);
     }
 
     @Override
-    public void visit(CalculatedQuestion cq)
+    public GuiElement visit(CalculatedQuestion cq)
     {
-        this.currentValue = values.getValue(cq.getId());
-
         Label label = new Label(cq.getLabel());
-        cq.getType().accept(this);
-
-        this.lines.add(new Line(label, this.currentInput));
-
-        this.currentValue = null;
-        this.currentInput = null;
+        Input input = (Input) cq.getType().accept(this);
+        return new Line(label, input);
     }
 
     @Override
-    public void visit(BoolType type)
+    public GuiElement visit(BoolType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new BoolInput((BooleanValue)this.currentValue);
+        return new BoolInput();
     }
 
     @Override
-    public void visit(DateType type)
+    public GuiElement visit(DateType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new DateInput((DateValue)this.currentValue);
+        return new DateInput();
     }
 
     @Override
-    public void visit(DecType type)
+    public GuiElement visit(DecType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new DecInput((DecimalValue)this.currentValue);
+        return new DecInput();
     }
 
     @Override
-    public void visit(IntType type)
+    public GuiElement visit(IntType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new IntInput((IntegerValue)this.currentValue);
+        return new IntInput();
     }
 
     @Override
-    public void visit(StrType type)
+    public GuiElement visit(StrType type)
     {
-        // TODO: remove the cast somehow
-        this.currentInput = new StrInput((StringValue)this.currentValue);
+        return new StrInput();
     }
 
     @Override
-    public void visit(UndefinedType type)
+    public GuiElement visit(UndefinedType type)
     {
-        // TODO: remove the cast somehow
-        //this.currentInput = new StrInput((StringValue)this.currentValue);
+        return new StrInput();
     }
 
     @Override
-    public void visit(IfCondition ifCond)
+    public GuiElement visit(IfCondition ifCond)
     {
+        // TODO: figure out what to do with this - modify the gui model?
         for (Statement s : ifCond.getBody())
         {
             s.accept(this);
         }
+
+        return null;
     }
 
     @Override
-    public void visit(BoolExpr e)
+    public GuiElement visit(BoolExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(IntExpr e)
+    public GuiElement visit(IntExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(DecExpr e)
+    public GuiElement visit(DecExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(StrExpr e)
+    public GuiElement visit(StrExpr e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Indent e)
+    public GuiElement visit(Ident e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Neg e)
+    public GuiElement visit(Neg e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(lang.ql.ast.expression.Pos e)
+    public GuiElement visit(lang.ql.ast.expression.Pos e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Not e)
+    public GuiElement visit(Not e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Add e)
+    public GuiElement visit(Add e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Sub e)
+    public GuiElement visit(Sub e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Mul e)
+    public GuiElement visit(Mul e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Div e)
+    public GuiElement visit(Div e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Gt e)
+    public GuiElement visit(Gt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Lt e)
+    public GuiElement visit(Lt e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(GtEqu e)
+    public GuiElement visit(GtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(LtEqu e)
+    public GuiElement visit(LtEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Equ e)
+    public GuiElement visit(Equ e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(NotEqu e)
+    public GuiElement visit(NotEqu e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(And e)
+    public GuiElement visit(And e)
     {
-
+        return null;
     }
 
     @Override
-    public void visit(Or e)
+    public GuiElement visit(Or e)
     {
-
+        return null;
     }
 }

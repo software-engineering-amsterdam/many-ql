@@ -10,18 +10,18 @@ import lang.ql.semantics.values.IntegerValue;
  */
 public class IntInput extends Input
 {
-    public IntInput(IntegerValue value)
+    public IntInput()
     {
-        super(value);
+        super();
     }
 
-    public IntInput(IntegerValue value, Boolean disabled)
+    public IntInput(Boolean disabled)
     {
-        super(value, disabled);
+        super(disabled);
     }
 
-    public void accept(GuiVisitor visitor)
+    public <T> T accept(GuiVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

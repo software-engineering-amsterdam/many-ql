@@ -17,6 +17,8 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.BoolLiteral;
 import com.form.language.ast.expression.literal.IntLiteral;
 import com.form.language.ast.expression.literal.StringLiteral;
+import com.form.language.ast.values.IntValue;
+import com.form.language.ast.values.StringValue;
 
 public class AstTest {
 
@@ -29,29 +31,21 @@ public class AstTest {
 	}		
 	
 	@Test
-	public void testPrimaryInt() throws RecognitionException, IOException  {
+	public void testInt() throws RecognitionException, IOException  {
 		String str="1";
 		GrammarParser parser= AstTest.getParser(str);
-		Expression result = parser.expression().result;
-		Expression expected = new IntLiteral(1);
-		assertEquals(result, expected);
+		IntValue actual = ((IntValue)(parser.expression().result).evaluate());
+		IntValue exspected = new IntValue(1);
+		assertEquals(exspected.getValue(),actual.getValue());
 	}
 	
-	@Test
-	public void testPrimaryString() throws RecognitionException, IOException  {
-		String str="abc";
-		GrammarParser parser= AstTest.getParser(str);
-		Expression result = parser.expression().result;
-		Expression expected = new StringLiteral("abc");
-		assertEquals(result, expected);
-	}
-	
-	@Test
-	public void testPrimaryBoolean() throws RecognitionException, IOException  {
-		String str="true";
-		GrammarParser parser= AstTest.getParser(str);
-		Expression result = parser.expression().result;
-		Expression expected = new BoolLiteral(true);
-		assertEquals(result, expected);
-	}
+    @Test
+    public void testString() throws RecognitionException, IOException  {
+	  String str="\"abc\"";
+	  GrammarParser parser= AstTest.getParser(str);
+	  String actual = ((StringValue)(parser.expression().result).evaluate()).getValue();
+	  String exspected = new StringValue(str).getValue();
+	  assertEquals(exspected,actual);
+	 }
+
 }

@@ -11,15 +11,13 @@ public abstract class Input extends GuiElement
     private Value value;
     private Boolean disabled;
 
-    public Input(Value value)
+    public Input()
     {
-        this.value = value;
         this.disabled = false;
     }
 
-    public Input(Value value, Boolean disabled)
+    public Input(Boolean disabled)
     {
-        this.value = value;
         this.disabled = disabled;
     }
 }

@@ -1,6 +1,5 @@
 package lang.ql.ast;
 
-import lang.ql.ast.AstNode;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.statement.*;
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QLVisitor extends QLBaseVisitor<AstNode>
+public class AstBuilder extends QLBaseVisitor<AstNode>
 {
     @Override
     public AstNode visitForm(@NotNull QLParser.FormContext context)
@@ -151,7 +150,7 @@ public class QLVisitor extends QLBaseVisitor<AstNode>
 
         if (operandContext.Identifier() != null)
         {
-            return new Indent(operandContext.Identifier().getText(), lineNumber);
+            return new Ident(operandContext.Identifier().getText(), lineNumber);
         }
 
         if (operandContext.Boolean() != null)

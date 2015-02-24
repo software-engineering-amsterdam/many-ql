@@ -3,10 +3,7 @@ package lang.ql.semantics;
 import lang.ql.ast.statement.Question;
 import lang.ql.gui.label.Label;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by bore on 23/02/15.
@@ -36,12 +33,17 @@ public class LabelMap
         }
     }
 
-    public Set<Set<String>> getDuplicateLabels()
+    public Set<List<String>> getDuplicateLabels()
     {
-        Set<Set<String>> result = new HashSet<Set<String>>();
+        Set<List<String>> result = new HashSet<List<String>>();
         for (Set<String> s : this.labelToId.values())
         {
-            result.add(s);
+            if (s.size() > 1)
+            {
+                List l = new ArrayList();
+                l.addAll(s);
+                result.add(l);
+            }
         }
         return result;
     }

@@ -12,8 +12,8 @@ public class Neg extends UnaryExpr
         super(operand, lineNumber);
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(Visitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

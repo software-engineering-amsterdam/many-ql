@@ -1,9 +1,6 @@
 package graphic
 
-import (
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"gopkg.in/qml.v1"
-)
+import "gopkg.in/qml.v1"
 
 const stringQuestionQMLTemplate = `
 import QtQuick 2.2
@@ -27,14 +24,14 @@ GroupBox {
 `
 
 func (g *Gui) renderNewStringQuestion(fieldName, caption string,
-	content interface{}) (question qml.Object) {
+	content string) (question qml.Object) {
 
 	qml := renderTemplateQuestion(stringQuestionQMLTemplate, fieldName,
 		caption, "")
 	question = renderAndInsertAt(qml, g.rows)
 
 	newFieldPtr := question.ObjectByName(fieldName)
-	newFieldPtr.Set("text", content.(ast.Parser).String())
+	newFieldPtr.Set("text", content)
 	newFieldPtr.On("editingFinished", func() {
 		g.mu.Lock()
 		defer g.mu.Unlock()

@@ -5,7 +5,6 @@ package graphic
 import (
 	"sync"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"gopkg.in/qml.v1"
@@ -60,7 +59,6 @@ func (g *Gui) DrawQuestion(
 	identifier,
 	label,
 	typ string,
-	content ast.Parser,
 	visible event.Visibility,
 ) {
 	g.mu.Lock()
@@ -71,12 +69,11 @@ func (g *Gui) DrawQuestion(
 		invisible = true
 	}
 	m := &render{
-		drawQuestion,
-		identifier,
-		label,
-		typ,
-		content,
-		invisible,
+		action:     drawQuestion,
+		identifier: identifier,
+		label:      label,
+		fieldType:  typ,
+		invisible:  invisible,
 	}
 	g.drawStack = append(g.drawStack, *m)
 	g.sweepStack[identifier] = true
@@ -85,9 +82,8 @@ func (g *Gui) DrawQuestion(
 // UpdateQuestion updates an existing question in the GUI form stack
 func (g *Gui) UpdateQuestion(
 	identifier,
-	label,
-	typ string,
-	content ast.Parser,
+	fieldType string,
+	content interface{},
 ) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
@@ -95,8 +91,7 @@ func (g *Gui) UpdateQuestion(
 	m := &render{
 		action:     updateQuestion,
 		identifier: identifier,
-		label:      label,
-		fieldType:  typ,
+		fieldType:  fieldType,
 		content:    content,
 	}
 	g.renderStack = append(g.renderStack, *m)
@@ -169,13 +164,12 @@ func (g *Gui) renderLoop() {
 					event.fieldType,
 					event.identifier,
 					event.label,
-					event.content,
 					event.invisible,
 				)
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier, event.content)
+				g.updateQuestion(event.identifier, event.fieldType, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()

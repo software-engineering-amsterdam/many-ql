@@ -12,8 +12,8 @@ public class Sub extends BinaryExpr
         super(left, right, lineNumber);
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(Visitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }
