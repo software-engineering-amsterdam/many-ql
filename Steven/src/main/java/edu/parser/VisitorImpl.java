@@ -54,4 +54,9 @@ public abstract class VisitorImpl implements Visitor {
     public AbstractNode visit(Question question) {
         return question;
     }
+
+    @Override
+    public AbstractNode visit(Statement statement) {
+        return statement;
+    }
 }
