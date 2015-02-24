@@ -23,6 +23,7 @@ import org.fugazi.ast.statement.Statement;
 import org.fugazi.ast.type.*;
 import org.fugazi.type_checker.dependency.DependencyList;
 import org.fugazi.type_checker.error.ASTErrorHandler;
+import org.fugazi.type_checker.error.ASTNodeError;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -580,8 +581,11 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         return !this.astErrorHandler.hasErrors();
     }
 
-    public void displayFormWarningsAndErrors() {
-        this.astErrorHandler.displayWarningsAndErrors();
-        return;
+    public List<ASTNodeError> getErrors() {
+        return this.astErrorHandler.getErrors();
+    }
+
+    public List<ASTNodeError> getWarnings() {
+        return this.astErrorHandler.getWarnings();
     }
 }
