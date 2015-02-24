@@ -20,7 +20,7 @@ public class LabelWidget implements IWidget {
     }
 
     public LabelWidget(final ComputedValue computedValue, final HeadlessFormInterpreter headlessFormInterpreter) {
-        valueLabel = new JLabel();
+        valueLabel = new JLabel();  valueLabel.setText("Uninitialized");
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
