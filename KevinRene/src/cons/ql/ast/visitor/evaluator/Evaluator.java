@@ -1,7 +1,6 @@
 package cons.ql.ast.visitor.evaluator;
 
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.expression.Literal;
+import cons.Value;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
@@ -21,210 +20,149 @@ import cons.ql.ast.expression.relational.LT;
 import cons.ql.ast.expression.relational.NEq;
 import cons.ql.ast.expression.relational.Not;
 import cons.ql.ast.expression.relational.Or;
-import cons.ql.ast.expression.type.QLBoolean;
-import cons.ql.ast.expression.type.QLError;
-import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLInteger;
-import cons.ql.ast.expression.type.QLNumeric;
-import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.statement.Block;
-import cons.ql.ast.statement.ComputedQuestion;
-import cons.ql.ast.statement.Form;
-import cons.ql.ast.statement.If;
-import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
+import cons.value.BooleanValue;
+import cons.value.FloatValue;
+import cons.value.IntegerValue;
+import cons.value.StringValue;
 
 @SuppressWarnings("rawtypes")
-public class Evaluator implements ExpressionVisitor<Literal>, StatementVisitor<Literal> {
-
+public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Value> {
 	@Override
-	public Literal visit(Block block) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(Pos pos) {
+		Value expressionValue = pos.getExpression().accept(this);
+		
+		return expressionValue.positive();
 	}
 
 	@Override
-	public Literal visit(ComputedQuestion computedQuestion) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(Not not) {
+		Value expressionValue = not.getExpression().accept(this);
+		
+		return expressionValue.not();
 	}
 
 	@Override
-	public Literal visit(Question question) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(Neg neg) {
+		Value expressionValue = neg.getExpression().accept(this);
+		
+		return expressionValue.negative();
 	}
 
 	@Override
-	public Literal visit(If if1) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(Or or) {
+		Value leftValue = or.getLeft().accept(this);
+		Value rightValue = or.getRight().accept(this);
+		
+		return leftValue.or(rightValue);
 	}
 
 	@Override
-	public Literal visit(Form form) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(NEq nEq) {
+		Value leftValue = nEq.getLeft().accept(this);
+		Value rightValue = nEq.getRight().accept(this);
+		
+		return leftValue.notEqualTo(rightValue);
 	}
 
 	@Override
-	public Literal visit(Pos pos) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(LT lt) {
+		Value leftValue = lt.getLeft().accept(this);
+		Value rightValue = lt.getRight().accept(this);
+		
+		return leftValue.lowerThan(rightValue);
 	}
 
 	@Override
-	public Literal visit(Not not) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(LEq lEq) {
+		Value leftValue = lEq.getLeft().accept(this);
+		Value rightValue = lEq.getRight().accept(this);
+		
+		return leftValue.lowerOrEqual(rightValue);
 	}
 
 	@Override
-	public Literal visit(Neg neg) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(GT gt) {
+		Value leftValue = gt.getLeft().accept(this);
+		Value rightValue = gt.getRight().accept(this);
+		
+		return leftValue.greaterThan(rightValue);
 	}
 
 	@Override
-	public Literal visit(Identifier identifier) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(GEq gEq) {
+		Value leftValue = gEq.getLeft().accept(this);
+		Value rightValue = gEq.getRight().accept(this);
+		
+		return leftValue.greaterOrEqual(rightValue);
 	}
 
 	@Override
-	public Literal visit(QLString qlString) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(Eq eq) {
+		Value leftValue = eq.getLeft().accept(this);
+		Value rightValue = eq.getRight().accept(this);
+		
+		return leftValue.equalTo(rightValue);
 	}
 
 	@Override
-	public Literal visit(QLNumeric qlNumeric) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(And and) {
+		Value leftValue = and.getLeft().accept(this);
+		Value rightValue = and.getRight().accept(this);
+		
+		return leftValue.and(rightValue);
 	}
 
 	@Override
-	public Literal visit(QLFloat qlFloat) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(StringLiteral stringLiteral) {
+		return new StringValue(stringLiteral.getValue());
 	}
 
 	@Override
-	public Literal visit(QLInteger qlInteger) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(IntegerLiteral integerLiteral) {
+		return new IntegerValue(integerLiteral.getValue());
 	}
 
 	@Override
-	public Literal visit(QLBoolean qlBoolean) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(FloatLiteral floatLiteral) {
+		return new FloatValue(floatLiteral.getValue());
 	}
 
 	@Override
-	public Literal visit(QLError qlError) {
-		// TODO Auto-generated method stub
-		return null;
+	public Value visit(BooleanLiteral booleanLiteral) {
+		return new BooleanValue(booleanLiteral.getValue());
 	}
 
 	@Override
-	public Literal visit(Or or) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(NEq nEq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(LT lt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(LEq lEq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(GT gt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(GEq gEq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(Eq eq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(And and) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Literal visit(StringLiteral stringLiteral) {
-		return stringLiteral;
-	}
-
-	@Override
-	public Literal visit(IntegerLiteral integerLiteral) {
-		return integerLiteral;
-	}
-
-	@Override
-	public Literal visit(FloatLiteral floatLiteral) {
-		return floatLiteral;
-	}
-
-	@Override
-	public Literal visit(BooleanLiteral booleanLiteral) {
-		return booleanLiteral;
-	}
-
-	@Override
-	public Literal visit(Add add) {
-		Literal leftValue = add.getLeft().accept(this);
-		Literal rightValue = add.getRight().accept(this);
+	public Value visit(Add add) {
+		Value leftValue = add.getLeft().accept(this);
+		Value rightValue = add.getRight().accept(this);
 		
 		return leftValue.add(rightValue);
 	}
 
 	@Override
-	public Literal visit(Div div) {
-		Literal leftValue = div.getLeft().accept(this);
-		Literal rightValue = div.getRight().accept(this);
+	public Value visit(Div div) {
+		Value leftValue = div.getLeft().accept(this);
+		Value rightValue = div.getRight().accept(this);
 		
-		return leftValue.div(rightValue);
+		return leftValue.divide(rightValue);
 	}
 
 	@Override
-	public Literal visit(Mul mul) {
-		Literal leftValue = mul.getLeft().accept(this);
-		Literal rightValue = mul.getRight().accept(this);
+	public Value visit(Mul mul) {
+		Value leftValue = mul.getLeft().accept(this);
+		Value rightValue = mul.getRight().accept(this);
 		
-		return leftValue.mul(rightValue);
+		return leftValue.multiply(rightValue);
 	}
 
 	@Override
-	public Literal visit(Sub sub) {
-		Literal leftValue = sub.getLeft().accept(this);
-		Literal rightValue = sub.getRight().accept(this);
+	public Value visit(Sub sub) {
+		Value leftValue = sub.getLeft().accept(this);
+		Value rightValue = sub.getRight().accept(this);
 		
-		return leftValue.sub(rightValue);
+		return leftValue.subtract(rightValue);
 	}	
 }
