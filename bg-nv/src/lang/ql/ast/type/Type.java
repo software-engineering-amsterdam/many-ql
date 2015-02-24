@@ -19,6 +19,11 @@ public abstract class Type extends AstNode
         return this.title;
     }
 
+    public boolean isUndef()
+    {
+        return false;
+    }
+
     @Override
     public boolean equals(Object o)
     {
