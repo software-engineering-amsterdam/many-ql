@@ -1,6 +1,6 @@
 package uva.TaxForm.Trash;
 
-import uva.TaxForm.AST.NodeQuestion.NodeQuestion;
+import uva.TaxForm.AST.Nodes.NodeQuestion.NodeQuestion;
 
 public class NodeQuestionInteger extends NodeQuestion {
 

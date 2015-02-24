@@ -1,4 +1,4 @@
-package uva.TaxForm.AST.NodeVar;
+package uva.TaxForm.AST.Nodes.NodeVar;
 
 public class Var<T> extends NodeVar {
 

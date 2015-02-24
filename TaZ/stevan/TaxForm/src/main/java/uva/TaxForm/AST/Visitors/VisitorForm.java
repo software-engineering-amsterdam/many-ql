@@ -1,6 +1,6 @@
 package uva.TaxForm.AST.Visitors;
 
-import uva.TaxForm.AST.NodeForm;
+import uva.TaxForm.AST.Nodes.NodeForm;
 import uva.TaxForm.antlr4.TaxFormParser.FormContext;
 import uva.TaxForm.antlr4.TaxFormParser.IfConditionContext;
 import uva.TaxForm.antlr4.TaxFormParser.QuestionContext;

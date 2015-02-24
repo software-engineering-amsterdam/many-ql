@@ -1,6 +1,6 @@
-package uva.TaxForm.AST.NodeExp;
+package uva.TaxForm.AST.Nodes.NodeExp;
 
-import uva.TaxForm.AST.Node;
+import uva.TaxForm.AST.Nodes.Node;
 
 public class Expression<T> extends NodeExp  {
 

@@ -2,13 +2,13 @@ package uva.TaxForm.AST.Visitors;
 
 import org.antlr.v4.runtime.misc.NotNull;
 
-import uva.TaxForm.AST.Node;
-import uva.TaxForm.AST.NodeForm;
-import uva.TaxForm.AST.NodeCondition.NodeConditionIf;
-import uva.TaxForm.AST.NodeExp.Expression;
-import uva.TaxForm.AST.NodeExp.Operations.OpAssign;
-import uva.TaxForm.AST.NodeQuestion.Question;
-import uva.TaxForm.AST.NodeVar.Var;
+import uva.TaxForm.AST.Nodes.Node;
+import uva.TaxForm.AST.Nodes.NodeForm;
+import uva.TaxForm.AST.Nodes.NodeCondition.NodeConditionIf;
+import uva.TaxForm.AST.Nodes.NodeExp.Expression;
+import uva.TaxForm.AST.Nodes.NodeExp.Operations.OpAssign;
+import uva.TaxForm.AST.Nodes.NodeQuestion.Question;
+import uva.TaxForm.AST.Nodes.NodeVar.Var;
 import uva.TaxForm.AST.Utils.UtilsNode;
 import uva.TaxForm.Utils.StringUtils;
 import uva.TaxForm.antlr4.TaxFormBaseVisitor;
@@ -122,7 +122,10 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 	//AllMighty is recursively checking the expression(s)
 	public static void visitAllMighty( @NotNull TaxFormParser.AllMightyContext ctx, Question<?> question, NodeForm form ) {
 		
-		Class<?> expClass = ctx.expression().getClass();
+		Class<?> expClass 				= ctx.expression().getClass();
+		VisitorArithmetic arithmetic 	= new VisitorArithmetic(question);
+		VisitorBoolean bool 			= new VisitorBoolean(question);
+		VisitorComparison comparison 	= new VisitorComparison(question);
 		
 		//Single
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.SingleExpressionContext.class))
@@ -131,47 +134,47 @@ public class CommonTaxFormVisitor extends TaxFormBaseVisitor<Object> {
 		/* Arithmetic */
 		//Minus
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.MinusExpressionContext.class))
-			VisitorArithmetic.visitMinus((MinusExpressionContext) ctx.expression(), question, form);
+			arithmetic.visitMinus((MinusExpressionContext) ctx.expression(), question, form);
 		//Add
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.AddExpressionContext.class))
-			VisitorArithmetic.visitAdd((AddExpressionContext) ctx.expression(), question, form);
+			arithmetic.visitAdd((AddExpressionContext) ctx.expression(), question, form);
 		//Multiply
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.MultiplyExpressionContext.class))
-			VisitorArithmetic.visitMultiply((MultiplyExpressionContext) ctx.expression(), question, form);
+			arithmetic.visitMultiply((MultiplyExpressionContext) ctx.expression(), question, form);
 		//Divide
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.DivideExpressionContext.class))	
-			VisitorArithmetic.visitDivide((DivideExpressionContext) ctx.expression(), question, form);
+			arithmetic.visitDivide((DivideExpressionContext) ctx.expression(), question, form);
 		
 		/* Boolean */
 		//And
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.AndExpressionContext.class))
-			VisitorBoolean.visitAnd((AndExpressionContext) ctx.expression(), question, form);
+			bool.visitAnd((AndExpressionContext) ctx.expression(), question, form);
 		//Or
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.OrExpressionContext.class))
-			VisitorBoolean.visitOr((OrExpressionContext) ctx.expression(), question, form);
+			bool.visitOr((OrExpressionContext) ctx.expression(), question, form);
 		//Not
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.NotExpressionContext.class))
-			VisitorBoolean.visitNot((NotExpressionContext) ctx.expression(), question, form);
+			bool.visitNot((NotExpressionContext) ctx.expression(), question, form);
 		
 		/* Comparison */
 		//Lower
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.LowerExpressionContext.class))
-			VisitorComparison.visitLower((LowerExpressionContext) ctx.expression(), question, form);
+			comparison.visitLower((LowerExpressionContext) ctx.expression(), question, form);
 		//Upper
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.UpperExpressionContext.class))
-			VisitorComparison.visitUpper((UpperExpressionContext) ctx.expression(), question, form);
+			comparison.visitUpper((UpperExpressionContext) ctx.expression(), question, form);
 		//LowerEqual
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.LowerEqualExpressionContext.class))
-			VisitorComparison.visitLowerEqual((LowerEqualExpressionContext) ctx.expression(), question, form);
+			comparison.visitLowerEqual((LowerEqualExpressionContext) ctx.expression(), question, form);
 		//UpperEqual
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.UpperEqualExpressionContext.class))
-			VisitorComparison.visitUpperEqual((UpperEqualExpressionContext) ctx.expression(), question, form);
+			comparison.visitUpperEqual((UpperEqualExpressionContext) ctx.expression(), question, form);
 		//Equal
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.EqualExpressionContext.class))
-			VisitorComparison.visitEqual((EqualExpressionContext) ctx.expression(), question, form);
+			comparison.visitEqual((EqualExpressionContext) ctx.expression(), question, form);
 		//NotEqual
 		if (expClass.equals(uva.TaxForm.antlr4.TaxFormParser.NotEqualExpressionContext.class))
-			VisitorComparison.visitNotEqual((NotEqualExpressionContext) ctx.expression(), question, form);
+			comparison.visitNotEqual((NotEqualExpressionContext) ctx.expression(), question, form);
 	}
 	
 	public static void visitSingleExpression( @NotNull TaxFormParser.SingleExpressionContext ctx, Question<?> question, NodeForm form ) {

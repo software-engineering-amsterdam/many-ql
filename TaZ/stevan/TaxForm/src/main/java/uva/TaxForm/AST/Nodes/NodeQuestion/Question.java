@@ -1,6 +1,6 @@
-package uva.TaxForm.AST.NodeQuestion;
+package uva.TaxForm.AST.Nodes.NodeQuestion;
 
-import uva.TaxForm.AST.NodeVar.Var;
+import uva.TaxForm.AST.Nodes.NodeVar.Var;
 
 public class Question<T> extends NodeQuestion {
 

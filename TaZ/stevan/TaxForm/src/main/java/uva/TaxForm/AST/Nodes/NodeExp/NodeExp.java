@@ -1,8 +1,8 @@
-package uva.TaxForm.AST.NodeExp;
+package uva.TaxForm.AST.Nodes.NodeExp;
 
 import java.util.LinkedList;
 
-import uva.TaxForm.AST.Node;
+import uva.TaxForm.AST.Nodes.Node;
 
 public class NodeExp extends Node {
 

@@ -1,6 +1,6 @@
 package uva.TaxForm.Trash;
 
-import uva.TaxForm.AST.NodeVar.NodeVar;
+import uva.TaxForm.AST.Nodes.NodeVar.NodeVar;
 
 public class VarInteger extends NodeVar {
 	

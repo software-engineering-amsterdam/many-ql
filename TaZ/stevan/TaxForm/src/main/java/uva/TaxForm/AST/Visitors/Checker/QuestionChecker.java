@@ -2,8 +2,8 @@ package uva.TaxForm.AST.Visitors.Checker;
 
 import java.util.LinkedList;
 
-import uva.TaxForm.AST.Node;
-import uva.TaxForm.AST.NodeQuestion.Question;
+import uva.TaxForm.AST.Nodes.Node;
+import uva.TaxForm.AST.Nodes.NodeQuestion.Question;
 
 public class QuestionChecker {
 	
@@ -13,13 +13,13 @@ public class QuestionChecker {
 	public boolean duplicates( Node node ) {
 		
 		LinkedList<? extends Node> nodes = node.getNodes();
-		System.out.println(nodes.size());
+		//System.out.println(nodes.size());
 		
 		for ( int i=0; i<nodes.size(); i++ ) {
 			
-			if (nodes.get(i).getClass().equals(uva.TaxForm.AST.NodeQuestion.Question.class) ) {
+			if (nodes.get(i).getClass().equals(uva.TaxForm.AST.Nodes.NodeQuestion.Question.class) ) {
 				
-				System.out.println( nodes.get(i).toString() );
+				//System.out.println( nodes.get(i).toString() );
 				questions.add( (Question<?>) nodes.get(i) );
 			} else {
 				

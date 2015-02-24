@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import uva.TaxForm.AST.NodeForm;
+import uva.TaxForm.AST.Nodes.NodeForm;
 import uva.TaxForm.AST.Visitors.CommonTaxFormVisitor;
 import uva.TaxForm.AST.Visitors.Checker.QuestionChecker;
 import uva.TaxForm.antlr4.TaxFormLexer;

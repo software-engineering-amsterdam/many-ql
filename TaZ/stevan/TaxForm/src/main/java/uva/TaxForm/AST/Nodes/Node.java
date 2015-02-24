@@ -1,4 +1,4 @@
-package uva.TaxForm.AST;
+package uva.TaxForm.AST.Nodes;
 
 import java.util.LinkedList;
 

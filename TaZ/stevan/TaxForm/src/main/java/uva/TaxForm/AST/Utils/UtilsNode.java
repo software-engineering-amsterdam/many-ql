@@ -1,8 +1,8 @@
 package uva.TaxForm.AST.Utils;
 
-import uva.TaxForm.AST.Node;
-import uva.TaxForm.AST.NodeQuestion.Question;
-import uva.TaxForm.AST.NodeVar.Var;
+import uva.TaxForm.AST.Nodes.Node;
+import uva.TaxForm.AST.Nodes.NodeQuestion.Question;
+import uva.TaxForm.AST.Nodes.NodeVar.Var;
 import uva.TaxForm.antlr4.TaxFormParser.QuestionContext;
 
 public class UtilsNode {
@@ -28,11 +28,9 @@ public class UtilsNode {
 		if (tree.getNodes().size() > 0) {
 			
 			for (int i=0; i<tree.getNodes().size(); i++) {
-				
-				if (tree.getNodes().get(i).getClass().equals(uva.TaxForm.AST.NodeQuestion.Question.class)) {
+				if (tree.getNodes().get(i).getClass().equals(uva.TaxForm.AST.Nodes.NodeQuestion.Question.class)) {
 					
 					Question<?> q = (Question<?>) tree.getNodes().get(i);
-					
 					if (q.getVar().getName().equals(name)) {
 						
 						var = (Var<?>) q.getVar();

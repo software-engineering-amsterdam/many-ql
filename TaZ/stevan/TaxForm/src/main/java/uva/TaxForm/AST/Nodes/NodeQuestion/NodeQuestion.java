@@ -1,7 +1,7 @@
-package uva.TaxForm.AST.NodeQuestion;
+package uva.TaxForm.AST.Nodes.NodeQuestion;
 
-import uva.TaxForm.AST.Node;
-import uva.TaxForm.AST.NodeExp.Expression;
+import uva.TaxForm.AST.Nodes.Node;
+import uva.TaxForm.AST.Nodes.NodeExp.Expression;
 
 public class NodeQuestion extends Node {
 	
