@@ -136,11 +136,6 @@ public class Evaluator extends VisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(Statement statement) {
-        return statement;
-    }
-
-    @Override
     public AbstractNode visit(ElseClause elseClause) {
         visitStatements(elseClause.getStatements());
         return elseClause;
