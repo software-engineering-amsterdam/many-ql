@@ -6,7 +6,7 @@ import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.value.NumberValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class Less extends BinaryExpressions{
 
@@ -18,15 +18,14 @@ public class Less extends BinaryExpressions{
 		return this.getLeftExpr() + Operator.LESS.getName() + this.getLeftExpr();
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitLess(this);
 	}
 	@Override
 	public BooleanValue evaluate() {
-		if (!NumberValue.isNumberValue(this.getLeftExpr()) && !NumberValue.isNumberValue(this.getRightExpr()))
+		if (!NumberValue.isNumberValue(this.getLeftExpr()) || !NumberValue.isNumberValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: < operator requires both operands NumberValue");
 		
-		return new BooleanValue((int) this.getLeftExpr().evaluate().getValue() <
-								(int) this.getRightExpr().evaluate().getValue());	
+		return NumberValue.numberValueFromExpr(this.getLeftExpr()).less(NumberValue.numberValueFromExpr(this.getRightExpr()));	
 	}
 }

@@ -23,7 +23,7 @@ class IStatement:
     def is_conditional(self):
         pass
 
-    # return all the dependencies in the statement of other statements
+    # return all the dependencies in the statement of other _statements
     def dependency_collection(self, dependencies):
         pass
 

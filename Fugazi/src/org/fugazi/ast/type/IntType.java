@@ -2,6 +2,9 @@ package org.fugazi.ast.type;
 
 public class IntType extends Type {
 
+    public IntType() {
+        super();
+    }
     public IntType(int _lineNum) {
         super(_lineNum);
     }

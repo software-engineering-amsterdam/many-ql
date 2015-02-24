@@ -1,7 +1,6 @@
 package lang.ql.ast.statement;
 
 import lang.ql.ast.type.Type;
-import lang.ql.semantics.Visitor;
 
 /**
  * Created by bore on 09/02/15.
@@ -35,8 +34,8 @@ public class Question extends Statement
         return this.label;
     }
 
-    public void accept(Visitor visitor)
+    public <T> T accept(StatVisitor<T> visitor)
     {
-        visitor.visit(this);
+        return visitor.visit(this);
     }
 }

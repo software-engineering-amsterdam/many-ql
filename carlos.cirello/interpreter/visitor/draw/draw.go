@@ -33,15 +33,20 @@ func (Draw Draw) ActionNode(v *visitor.Visitor, a *ast.ActionNode) {
 // QuestionNode adds question to symbol table, and dispatch to frontend
 // rendering.
 func (Draw Draw) QuestionNode(v *visitor.Visitor, q *ast.QuestionNode) {
-	questionCopy := q.Clone()
+
+	qcpy := q.Clone()
 	visible := event.Hidden
 	if 0 == Draw.nest {
 		visible = event.Visible
 	}
 	Draw.toFrontend <- &event.Frontend{
-		Type:     event.DrawQuestion,
-		Question: questionCopy,
-		Visible:  visible,
+		Type: event.DrawQuestion,
+
+		Identifier: qcpy.Identifier(),
+		Label:      qcpy.Label(),
+		FieldType:  qcpy.Type(),
+
+		Visible: visible,
 	}
 }
 

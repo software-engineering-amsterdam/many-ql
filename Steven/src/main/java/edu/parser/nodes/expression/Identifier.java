@@ -44,7 +44,7 @@ public class Identifier extends Expression {
     }
 
     @Override
-    public boolean isConditional() {
+    public boolean hasBooleanOperands() {
         return true;
     }
 }

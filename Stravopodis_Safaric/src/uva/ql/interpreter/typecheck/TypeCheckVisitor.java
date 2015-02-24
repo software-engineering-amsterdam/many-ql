@@ -1,11 +1,12 @@
 package uva.ql.interpreter.typecheck;
 
 
+import java.util.List;
+
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
-import uva.ql.ast.declarations.Declaration;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Type;
@@ -31,111 +32,90 @@ import uva.ql.ast.question.Question;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
 
-public class TypeCheckVisitor implements VisitorInterface<Void>{
+public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
 
-	public SymbolMap symbols = new SymbolMap();
+	private SymbolMap symbols = new SymbolMap();
 	
+	public SymbolMap getSymbolTable(){
+		return this.symbols;
+	}
+	
+	// Check whether an e.g. assignment is within the scope a question declaration
+	private boolean withinScope(CodeLines x, CodeLines y){
+		if (x == null || y == null) return false;
+		return 		x.getSourceCodeLocation().x > y.getSourceCodeLocation().x 
+				&& 	x.getSourceCodeLocation().y <= y.getSourceCodeLocation().y;
+	}
+	
+	private boolean questionReferenceUndefined(Identifier identifier){
+		return this.symbols.existsWithClassType(identifier.evaluate().getValue(), Question.class.getName());
+	}
 	
 	@Override
-	public Void visitProg(Prog prog) {
+	public Object visitProg(Prog prog) {
 		this.visitForm(prog.getForm());
 		return null;
 	}
 
 	@Override
-	public Void visitForm(Form form) {
+	public Object visitForm(Form form) {
 		
-		CodeLines codeLines = form.getCodeLines();
-		Symbol symbol = new Symbol(new Type("form", codeLines), form.getClass().getName());
-		
+		Symbol symbol = new Symbol("form", form.getClass().getName(), form.getCodeLines());
 		symbols.putValue(form.getIdentifier().evaluate().getValue(), symbol);
 		
-		for (Statement statement : form.getStatement()){
-			this.visitStatement(statement);
-		}
+		this.visitStatements(form.getStatement());
 		return null;
 	}
 
 	@Override
-	public Void visitASTNode(ASTNode node) {
+	public Object visitASTNode(ASTNode node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Void visitStatement(Statement statement) {
+	public Object visitStatement(Statement statement) {
 		statement.accept(this);
 		return null;
 	}
 
+	private Object visitStatements(List<Statement> statements){
+		for (Statement s : statements)
+			s.accept(this);
+		return null;
+	}
+	
 	@Override
-	public Void visitQuestion(Question question) {
+	public Object visitQuestion(Question question) {
+		
+		Symbol symbol = new Symbol(question.getType().getTypeName(), question.getClass().getName(), question.getCodeLines());
 		
 		Identifier identifier = question.getIdentifier();
 		String identifierValue = identifier.evaluate().getValue();
-		CodeLines codeLines = question.getCodeLines();
 		
-		if (symbols.exists(identifierValue)){
-			Symbol _symbol = symbols.retrieve(identifierValue);
-			String message;
-			System.out.println(symbols.toString());
+		if (symbols.existsWithClassType(identifierValue, question.getClass().getName())){
 			
-			for (String s : symbols.getAllKeys()){
-				System.out.println(symbols.retrieve(s) + " " + s);
-			}
-			
-			System.out.println(symbols.retrieve(identifierValue));
-			
-			if (_symbol.getClassName().equals(question.getClass().getName())){
-				if (_symbol.getSymbolType().getTypeName().equals(question.getType().getTypeName()))
-					message = "IllegalTypeException - duplicate questions, same type:";
-				else 
-					message = "IllegalTypeException - duplicate questions, different type:";
-				
-				throw new IllegalTypeException(message + identifierValue + " " + question.getType() + " - " + identifierValue + "," + _symbol.getSymbolType());
-			}
+			if (symbols.keyWithSymbolExists(identifierValue, symbol))
+				throw new IllegalTypeException("IllegalTypeException: duplicate question with same type" + identifierValue);
+			else 
+				throw new IllegalTypeException("IllegalTypeException: duplicate question with different type" + identifierValue);	
 		}
 		
-		Symbol symbol = new Symbol(question.getType(), question.getClass().getName(), codeLines);
 		symbols.putValue(identifierValue, symbol);
-		
-		for (Statement statement : question.getStatement()){
-			statement.accept(this);
-		}
 		
 		identifier.accept(this);
 		question.getType().accept(this);
 		
+		this.visitStatements(question.getStatement());
 		return null;
 	}
 
 	@Override
-	public Void visitDeclaration(Declaration declaration) {
-		// public Declaration(Identifier _identifier, Type _type, Expression _expressions, CodeLines _codeLines){
-		
-		Identifier identifier = declaration.getIdentifier();
-		Type type = declaration.getType();
-		Expression expression;
-		
-		if (declaration.getExpression() != null){
-			expression = declaration.getExpression();
-			expression.accept(this);
-		}
-		
-		Symbol symbol = new Symbol(declaration.getType(), declaration.getClass().getName(), declaration.getCodeLines());
-		symbols.putValue(identifier.evaluate().getValue(), symbol);
-		
-		identifier.accept(this);
-		type.accept(this);
-		
-		return null;
-	}
-
-	@Override
-	public Void visitIfStatement(IfStatement ifStatement) {
+	public Object visitIfStatement(IfStatement ifStatement) {
 		
 		Expression expression = ifStatement.getExpression();
 		
@@ -143,24 +123,39 @@ public class TypeCheckVisitor implements VisitorInterface<Void>{
 			throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
 											+ expression.getCodeLines().toString());
 		
-		for (Statement statement : ifStatement.getStatement()){
-			statement.accept(this);
-		}
-		
+
 		expression.accept(this);
+		this.visitStatements(ifStatement.getStatement());
 		
 		return null;
 	}
 
 	@Override
-	public Void visitAssign(Assign assign) {
-		// public Assign(Identifier _identifier, String ? Expression _expression, CodeLines _codeLines){
-		// public Symbol (Type _type, String _className, CodeLines _address){
-		Type type = new Type(assign.getExpression().evaluate().getValue().getClass().getSimpleName(), assign.getCodeLines());
+	public Object visitAssign(Assign assign) {
+		
+		Type type = new Type(assign.getExpression().evaluate().getValue().getClass().getSimpleName().toLowerCase(), assign.getCodeLines());
 		String identifier = assign.getIdentifier().evaluate().getValue();
+		Expression expression = assign.getExpression();
 		
-		symbols.putValue(identifier, new Symbol(type, assign.getClass().getName(), assign.getCodeLines()));
+		// Check whether this identifier is defined as an question, but it has to be within scope of the question
+		if (this.symbols.exists(identifier)){			
+			Symbol symbol = symbols.getSymbolForAttributes(identifier, null , Question.class.getName());
+			
+			if (!this.withinScope(assign.getCodeLines(), symbol.getCodeLines()))
+				throw new IllegalArgumentException("IllegalArgumentException: question assignment not in scope of question -> " 
+													+ assign.getCodeLines().toString());
+			
+		}
 		
+		// Check for duplicate labels
+		if (expression.getClass().equals(StringLiteral.class) && symbols.contentExists(expression))
+			throw new IllegalArgumentException("IllegalArgumentException: multiple question instances have same question: " 
+											+ expression.evaluate().getValue().toString());
+		
+		symbols.putValue(identifier, 
+				new Symbol(type.getTypeName(), assign.getClass().getName(), assign.getCodeLines(), expression));
+		
+		this.visitExpression(expression);
 		assign.getExpression().accept(this);
 		assign.getIdentifier().accept(this);
 		
@@ -168,7 +163,7 @@ public class TypeCheckVisitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitBinaryExpression(BinaryExpressions expression) {
+	public Object visitBinaryExpression(BinaryExpressions expression) {
 		
 		Expression left = expression.getLeftExpr();
 		Expression right = expression.getRightExpr();
@@ -180,156 +175,121 @@ public class TypeCheckVisitor implements VisitorInterface<Void>{
 	}
 
 	@Override
-	public Void visitExpression(Expression expression) {
-		// TODO Auto-generated method stub
+	public Object visitExpression(Expression expression) {
+		expression.accept(this);
 		return null;
 	}
 
 	@Override
-	public Void visitExponentiation(Exponentiation exponentiation) {
-		// Should be NumberValue
-		
-		// TODO Auto-generated method stub
+	public Object visitExponentiation(Exponentiation exponentiation) {
+		this.visitBinaryExpression(exponentiation);
 		return null;
 	}
 
 	@Override
-	public Void visitAddition(Addition addition) {
-		// Should be NumberValue
-		//System.out.println(this.visitExpression(addition.getLeftExpr()).getClass().getName());
-		
+	public Object visitAddition(Addition addition) {
 		this.visitBinaryExpression(addition);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Void visitSubstraction(Substraction substraction) {
-		// Should be NumberValue
+	public Object visitSubstraction(Substraction substraction) {
 		this.visitBinaryExpression(substraction);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Void visitMultiplication(Multiplication multipllication) {
-		// Should be NumberValue
+	public Object visitMultiplication(Multiplication multipllication) {
 		this.visitBinaryExpression(multipllication);
-		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Void visitDivision(Division division) {
-		// Should be NumberValue
+	public Object visitDivision(Division division) {
 		this.visitBinaryExpression(division);
+		return null;
+	}
+
+	@Override
+	public Object visitAnd(And and) {
+		this.visitBinaryExpression(and);
+		return null;
+	}
+
+	@Override
+	public Object visitOr(Or or) {
+		this.visitBinaryExpression(or);
+		return null;
+	}
+
+	@Override
+	public Object visitEqual(Equal equal) {
+		this.visitBinaryExpression(equal);
+		return null;
+	}
+
+	@Override
+	public Object visitNotEqual(NotEqual notEqual) {
+		this.visitBinaryExpression(notEqual);
+		return null;
+	}
+
+	@Override
+	public Object visitGreaterEqual(Greater_Eq greaterEqual) {
+		this.visitBinaryExpression(greaterEqual);
+		return null;
+	}
+
+	@Override
+	public Object visitGreater(Greater greater) {
+		this.visitBinaryExpression(greater);
+		return null;
+	}
+
+	@Override
+	public Object visitLessEqual(Less_Eq lessEqual) {
+		this.visitBinaryExpression(lessEqual);
+		return null;
+	}
+
+	@Override
+	public Object visitLess(Less less) {
+		this.visitBinaryExpression(less);
+		return null;
+	}
+
+	@Override
+	public Object visitType(Type type) {
+		return null;
+	}
+
+	@Override
+	public Object visitIdentifier(Identifier identifier) {
 		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitAnd(And and) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitOr(Or or) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitEqual(Equal equal) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitNotEqual(NotEqual notEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitGreaterEqual(Greater_Eq greaterEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitGreater(Greater greater) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitLessEqual(Less_Eq lessEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitLess(Less less) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitType(Type type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Void visitIdentifier(Identifier identifier) {
+		if (!questionReferenceUndefined(identifier))
+			throw new IllegalArgumentException("IllegalArgumentException: reference to an undefined question -> " 
+												+ identifier.toString());
 		
 		return null;
 	}
 
 	@Override
-	public Void visitBooleanLiteral(BooleanLiteral booleanLiteral) {
-		// TODO Auto-generated method stub
+	public Object visitBooleanLiteral(BooleanLiteral booleanLiteral) {
 		return null;
 	}
 
 	@Override
-	public Void visitDecimalLiteral(DecimalLiteral decimalLiteral) {
-		System.out.println(decimalLiteral);
-		
+	public Object visitDecimalLiteral(DecimalLiteral decimalLiteral) {
 		return null;
 	}
 
 	@Override
-	public Void visitIntLiteral(IntLiteral intLiteral) {
-		System.out.println(intLiteral);
-		
+	public Object visitIntLiteral(IntLiteral intLiteral) {
 		return null;
 	}
 
 	@Override
-	public Void visitStringLiteral(StringLiteral stringLiteral) {
-		// TODO Auto-generated method stub
+	public Object visitStringLiteral(StringLiteral stringLiteral) {
 		return null;
 	}
 }

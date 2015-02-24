@@ -9,6 +9,8 @@ grammar Grammar;
 	import com.form.language.ast.expression.logic.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
+	
+	import com.form.language.memory.*;
 }
 
 form returns [Form result]
@@ -28,7 +30,7 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID TYPE {$result = new Question($STRING.text, $ID.text, $TYPE.text);}
+	: 'question' STRING ID TYPE {$result = new Question($STRING.text, $ID.text, $TYPE.text,new Memory());}
 	;
 	
 assignmentStatement returns [Statement result]
@@ -61,19 +63,20 @@ expression returns [Expression result]
 
 
 literal returns [Expression result]
-	: BOOL		{$result = new BoolLiteral(Boolean.parseBoolean($BOOL.text),$BOOL);}
+	: BOOLEAN	{$result = new BoolLiteral(Boolean.parseBoolean($BOOLEAN.text),$BOOLEAN);}
 	| INTEGER	{$result = new IntLiteral(Integer.parseInt($INTEGER.text),$INTEGER);}
+	| STRING	{$result = new StringLiteral($STRING.text,$STRING);}
+	| ID	    {$result = new IdLiteral($ID.text,$ID);}
 	;
-
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
-BOOL : 'true' | 'false';
+BOOLEAN : 'true' | 'false';
 TYPE: 'Boolean' | 'String' | 'Number';
-
-INTEGER : [0-9]+;
-ID : ([a-z][A-Za-z0-9]+);
 STRING: '"'.*?'"';
+INTEGER : [0-9]+;
+
+ID : ([a-z][A-Za-z0-9]+);
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;
 

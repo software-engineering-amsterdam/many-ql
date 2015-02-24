@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.AST.Types;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
@@ -36,9 +38,26 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             visitor.Visit(this);
         }
 
+        public DataType? GetType(IDictionary<string, DataType> symbolTable)
+        {
+            if (symbolTable.Keys.Contains(Name))
+            {
+                return symbolTable[Name];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public override string ToString()
         {
             return Name;
+        }
+
+        public Value Evaluate(IDictionary<string, Value> environment)
+        {
+            throw new NotImplementedException();
         }
     }
 }

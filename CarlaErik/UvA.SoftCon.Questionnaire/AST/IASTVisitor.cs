@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.AST

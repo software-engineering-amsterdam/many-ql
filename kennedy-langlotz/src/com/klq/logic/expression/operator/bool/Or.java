@@ -17,10 +17,10 @@ public class Or extends AExpression {
         AExpression left = this.left.evaluate();
         AExpression right = this.right.evaluate();
         if (left.getType() == right.getType() && left.getType() == AExpression.BOOLEAN)
-            if (left == Boolean.TRUE || right == Boolean.TRUE)
-                return Boolean.TRUE;
+            if (left == Boolean.getTrue() || right == Boolean.getTrue())
+                return Boolean.getTrue();
             else
-                return Boolean.FALSE;
-        return null;
+                return Boolean.getFalse();
+        return new Or(left, right);
     }
 }

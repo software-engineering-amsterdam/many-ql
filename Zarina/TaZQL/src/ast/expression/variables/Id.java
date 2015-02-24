@@ -25,5 +25,18 @@ public class Id extends Expression {
 	 public <T> T accept(IExpressionVisitor<T> visitor) {
 		 return visitor.visit(this);
 	 }
+	 
+	 @Override
+	 public int hashCode(){
+		 return id.hashCode();
+	 }
+	 
+	 @Override
+	 public boolean equals(Object object) {
+		 if (object instanceof Id) {
+			 return id.equals(((Id) object).getID());
+		 }
+		 return false;
+	 }
 }
 

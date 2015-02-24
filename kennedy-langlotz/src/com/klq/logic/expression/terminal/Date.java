@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
  * Created by Timon on 23.02.2015.
  */
 public class Date extends AExpression {
-    private final DateFormat sdf = new SimpleDateFormat("yyyy-MMM-dd");
+    private final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private final String content;
 
     public Date(String content) {
@@ -36,7 +36,9 @@ public class Date extends AExpression {
                 java.util.Date d1 = sdf.parse(content);
                 java.util.Date d2 = sdf.parse(((Date) o).getContent());
                 return d1.compareTo(d2);
-            } catch (ParseException p) {};
+            } catch (ParseException p) {
+                p.printStackTrace();
+            }
         }
         return AExpression.UNCOMPARABLE;
     }

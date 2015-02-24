@@ -14,8 +14,10 @@ class Expression(Node):
     def children(self):
         return [self.left, self.right]
 
-    def hasChildren(self):
-        return self.left or self.right
+    def evaluate(self):
+        if self.left.NodeType == self.right.NodeType and \
+           self.left.type == self.right.type:
+            return True
 
     def __repr__(self):
         return "Expression(%s %s %s)" % (self.left, self.operator, self.right)

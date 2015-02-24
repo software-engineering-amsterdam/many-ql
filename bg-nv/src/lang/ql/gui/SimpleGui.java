@@ -1,5 +1,7 @@
 package lang.ql.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -8,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+//import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -18,49 +21,39 @@ import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
+import lang.ql.semantics.values.IntegerValue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Nik on 23-2-15.
  */
-public class SimpleGui implements GuiVisitor
+public class SimpleGui implements GuiVisitor<Node>
 {
-    private GridPane grid;
-    private List<HBox> rows;
-    private List<Node> rowColumns;
 
     public static void run(Canvas canvas, Stage primaryStage)
     {
-        SimpleGui gui = new SimpleGui(canvas);
-        gui.start(primaryStage);
+        SimpleGui gui = new SimpleGui();
+        gui.start(canvas, primaryStage);
     }
 
-    private SimpleGui(Canvas canvas)
+    private void start(Canvas canvas, Stage primaryStage)
     {
-        this.grid = null;
-        this.rows = null;
-        this.rowColumns = null;
+        GridPane grid = (GridPane) visit(canvas);
 
-        visit(canvas);
-    }
-
-    private void start(Stage primaryStage)
-    {
         primaryStage.setTitle("Questionnaire");
 
-        Scene scene = new Scene(this.grid, 700, 500);
+        Scene scene = new Scene(grid, 700, 500);
         primaryStage.setScene(scene);
 
         Button btn = new Button("Make magic happen");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        this.grid.add(hbBtn, 1, this.grid.getChildren().size()+1);
+        grid.add(hbBtn, 1, grid.getChildren().size() + 1);
 
         final Text actiontarget = new Text();
-        this.grid.add(actiontarget, 1, 6);
+        grid.add(actiontarget, 1, 6);
 
         btn.setOnAction(new EventHandler<ActionEvent>()
         {
@@ -76,84 +69,93 @@ public class SimpleGui implements GuiVisitor
     }
 
     @Override
-    public void visit(Canvas c)
+    public Node visit(Canvas c)
     {
-        this.grid = new GridPane();
-        this.grid.setAlignment(Pos.CENTER);
-        this.grid.setHgap(10);
-        this.grid.setVgap(10);
-        this.grid.setPadding(new Insets(25, 25, 25, 25));
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-        this.rows = new ArrayList<HBox>();
         for (Line l : c.getLines())
         {
-            l.accept(this);
+            Node node = l.accept(this);
+            grid.add(node, 0, grid.getChildren().size() + 1);
         }
 
-        for (HBox box : this.rows)
-        {
-            this.grid.add(box, 0, this.grid.getChildren().size()+1);
-        }
-        this.rows = null;
+        return grid;
     }
 
     @Override
-    public void visit(Line line)
+    public Node visit(Line line)
     {
-        this.rowColumns = new ArrayList<Node>();
-
-        line.getLabel().accept(this);
-        line.getInput().accept(this);
-
         HBox box = new HBox();
-        for (Node n : this.rowColumns)
+        List<Node> boxChildren = box.getChildren();
+        boxChildren.add(line.getLabel().accept(this));
+        boxChildren.add(line.getInput().accept(this));
+
+        return box;
+    }
+
+    @Override
+    public Node visit(Input input)
+    {
+        return input.accept(this);
+    }
+
+    @Override
+    public Node visit(BoolInput input)
+    {
+        return new CheckBox();
+    }
+
+    @Override
+    public Node visit(DateInput input)
+    {
+        return null;//new DatePicker();
+    }
+
+    @Override
+    public Node visit(DecInput input)
+    {
+        return new TextField();
+    }
+
+    @Override
+    public Node visit(final IntInput input)
+    {
+        final TextField textField = new TextField();
+        textField.textProperty().addListener(new ChangeListener<String>()
         {
-            box.getChildren().add(n);
-        }
-        this.rows.add(box);
 
-        this.rowColumns = null;
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue)
+            {
+                newValue = newValue.trim();
+                try
+                {
+                    input.setValue(new IntegerValue(Integer.parseInt(newValue)));
+                }
+                catch (NumberFormatException e)
+                {
+                    // TODO: display some validation error
+                }
+            }
+        });
+
+        return textField;
     }
 
     @Override
-    public void visit(Input input)
+    public Node visit(StrInput input)
     {
-        input.accept(this);
+        return new TextField();
     }
 
     @Override
-    public void visit(BoolInput input)
+    public Node visit(Label label)
     {
-        this.rowColumns.add(new CheckBox());
-    }
-//
-//    @Override
-//    public void visit(DateInput input)
-//    {
-//        this.rowColumns.add(new DatePicker());
-//    }
-
-    @Override
-    public void visit(DecInput input)
-    {
-        this.rowColumns.add(new TextField());
-    }
-
-    @Override
-    public void visit(IntInput input)
-    {
-        this.rowColumns.add(new TextField());
-    }
-
-    @Override
-    public void visit(StrInput input)
-    {
-        this.rowColumns.add(new TextField());
-    }
-
-    @Override
-    public void visit(Label label)
-    {
-        this.rowColumns.add(new Text(label.getText()));
+        return new Text(label.getText());
     }
 }

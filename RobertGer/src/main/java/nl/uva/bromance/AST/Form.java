@@ -27,7 +27,8 @@ public class Form extends Node implements CanContainConditionals {
         super(lineNumber, Form.class);
         this.setAcceptedParents(parentsAllowed);
         if (id != null) {
-            this.identifier = id;
+            // Remove double quotes around the identifier
+            this.identifier = id.substring(1,id.length()-1);
         } else {
             //TODO: Consider putting this in the type checker.
             System.err.println("Form Error: No identifier specified");
@@ -50,10 +51,12 @@ public class Form extends Node implements CanContainConditionals {
     public Optional<? extends Pane> visualize(Pane parent) {
 
         Optional<? extends Pane> newParent = Optional.of(new VBox());
-        Label label = new Label("Form: " + this.identifier);
-        label.setStyle("-fx-font-weight: bold;");
+        Label label = new Label(this.identifier);
+        label.getStyleClass().add("formHeader");
         newParent.get().getChildren().add(label);
-        newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
+        // Commented out for future usage when generating CSS
+        //newParent.get().setStyle("-fx-border-color: #000000; -fx-border-style: solid;");
+        newParent.get().getStyleClass().add("form");
         parent.getChildren().add(newParent.get());
 
         return newParent;

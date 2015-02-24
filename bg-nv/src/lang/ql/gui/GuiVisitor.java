@@ -8,15 +8,18 @@ import lang.ql.gui.line.Line;
 /**
  * Created by Nik on 23-2-15.
  */
-public interface GuiVisitor
+public interface GuiVisitor<T>
 {
-    public void visit(Canvas c);
-    public void visit(Line line);
-    public void visit(Input input);
-    public void visit(BoolInput input);
-//    public void visit(DateInput input);
-    public void visit(DecInput input);
-    public void visit(IntInput input);
-    public void visit(StrInput input);
-    public void visit(Label label);
+    public T visit(Canvas c);
+
+    public T visit(Line line);
+
+    public T visit(Label label);
+
+    public T visit(Input input);
+    public T visit(BoolInput input);
+    public T visit(DateInput input);
+    public T visit(DecInput input);
+    public T visit(IntInput input);
+    public T visit(StrInput input);
 }

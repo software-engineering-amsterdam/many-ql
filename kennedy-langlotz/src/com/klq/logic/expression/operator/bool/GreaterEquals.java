@@ -18,11 +18,13 @@ public class GreaterEquals extends AExpression {
         AExpression right = this.right.evaluate();
         if (left.getType() == right.getType()) {
             int comp = left.compareTo(right);
-            if (comp == 0 || comp == 1)
-                return Boolean.TRUE;
-            else if (comp == -1)
-                return Boolean.FALSE;
+            if (comp == AExpression.UNCOMPARABLE)
+                return null;
+            if (comp >= 0)
+                return Boolean.getTrue();
+            else if (comp < 0)
+                return Boolean.getFalse();
         }
-        return null;
+        return new GreaterEquals(left, right);
     }
 }

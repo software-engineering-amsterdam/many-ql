@@ -1,7 +1,9 @@
 package com.klq.ast;
 import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.*;
-import com.klq.ast.impl.expr.comp.GreaterThanNode;
+import com.klq.ast.impl.expr.bool.AndNode;
+import com.klq.ast.impl.expr.bool.OrNode;
+import com.klq.ast.impl.expr.comp.*;
 import com.klq.ast.impl.expr.math.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
@@ -17,8 +19,7 @@ import java.util.Locale;
 public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
     /*==================================================================================================================
     Statements
-     ==================================================================================================================*/
-
+    ==================================================================================================================*/
     @Override
     public ANode visitQuestionnaire(KLQParser.QuestionnaireContext ctx) {
         QuestionnaireNode ast = new QuestionnaireNode();
@@ -34,11 +35,11 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
         QuestionNode questionNode;
 
         if(ctx.answerOptions() == null){
-            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), ctx.text.getText());
+            questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()));
         }
         else {
             ANode child = visit(ctx.answerOptions());
-            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), ctx.text.getText(), child);
+            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), child);
         }
         return questionNode;
     }
@@ -57,7 +58,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     /*==================================================================================================================
         Primitives
-         ==================================================================================================================*/
+    ==================================================================================================================*/
     @Override
     public ANode visitDate(KLQParser.DateContext ctx) {
         String dateString = ctx.Date().getText();
@@ -86,13 +87,18 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitString(KLQParser.StringContext ctx) {
-        StringNode stringNode = new StringNode(ctx.String().getText());
+        StringNode stringNode = new StringNode(stripQuotes(ctx.String().getText()));
         return stringNode;
     }
 
     /*==================================================================================================================
     Expressions
-     ==================================================================================================================*/
+    ==================================================================================================================*/
+    @Override
+    public ANode visitId(@NotNull KLQParser.IdContext ctx) {
+        return new IdentifierNode(ctx.QuestionId().getText());
+    }
+
     @Override
     public ANode visitAddSub(KLQParser.AddSubContext ctx) {
         ANode leftChild = visit(ctx.expr(0));
@@ -124,22 +130,44 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
     }
 
     @Override
-    public ANode visitComparators(@NotNull KLQParser.ComparatorsContext ctx) {
+    public ANode visitComparators(KLQParser.ComparatorsContext ctx) {
         ANode leftChild = visit(ctx.expr(0));
         ANode rightChild = visit(ctx.expr(1));
-        ANode node;
 
-        if(ctx.operator.getType() == KLQParser.GT) {
-            node = new GreaterThanNode(leftChild, rightChild);
+        switch(ctx.operator.getType()){
+            case KLQParser.GT: return new GreaterThanNode(leftChild, rightChild);
+            case KLQParser.GE: return new GreaterEqualsNode(leftChild, rightChild);
+            case KLQParser.LT: return new LessThanNode(leftChild, rightChild);
+            case KLQParser.LE: return new LessEqualsNode(leftChild, rightChild);
+            case KLQParser.EQ: return new EqualsNode(leftChild, rightChild);
+            case KLQParser.NEQ: return new NotEqualsNode(leftChild, rightChild);
+            default: return null;
         }
-        else{
-            node = new GreaterThanNode(leftChild, rightChild);
-        }
-        return node;
+    }
+
+    @Override
+    public ANode visitOr(KLQParser.OrContext ctx) {
+        ANode leftChild = visit(ctx.expr(0));
+        ANode rightChild = visit(ctx.expr(1));
+
+        return new OrNode(leftChild, rightChild);
+    }
+
+    @Override
+    public ANode visitAnd(KLQParser.AndContext ctx) {
+        ANode leftChild = visit(ctx.expr(0));
+        ANode rightChild = visit(ctx.expr(1));
+
+        return new AndNode(leftChild, rightChild);
     }
 
     @Override
     public ANode visitParens(KLQParser.ParensContext ctx) {
         return visit(ctx.expr());
+    }
+
+    private String stripQuotes(String s) {
+        if ( s==null || s.charAt(0)!='"' ) return s;
+        return s.substring(1, s.length() - 1);
     }
 }

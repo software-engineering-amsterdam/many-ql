@@ -16,7 +16,7 @@ import java.io.StringReader;
 
 public class InterpreterHelper {
 
-    private static void interpretStringUsing(String input, FormInterpreter formInterpreter) throws ParserException, IOException, LexerException {
+    private static void applyInterpreterUsing(String input, FormInterpreter formInterpreter) throws ParserException, IOException, LexerException {
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();
@@ -26,7 +26,7 @@ public class InterpreterHelper {
 
     public static FormTypeChecker typeCheckString(String input) throws ParserException, IOException, LexerException {
         FormTypeChecker formInterpreter = new FormTypeChecker();
-        interpretStringUsing(input, formInterpreter);
+        applyInterpreterUsing(input, formInterpreter);
         return formInterpreter;
     }
 
@@ -40,10 +40,16 @@ public class InterpreterHelper {
         return qlsInterpreter;
     }
 
-    public static HeadlessFormInterpreter interpetStringHeadless(String input) throws ParserException, IOException, LexerException {
+    public static HeadlessFormInterpreter initializeHeadlessInterpreter(String input) throws ParserException, IOException, LexerException {
         HeadlessFormInterpreter formInterpreter = new HeadlessFormInterpreter();
-        interpretStringUsing(input, formInterpreter);
+        applyInterpreterUsing(input, formInterpreter);
         return formInterpreter;
+    }
+
+    public static HeadlessFormInterpreter interpetStringHeadless(String input) throws ParserException, IOException, LexerException {
+        HeadlessFormInterpreter headlessFormInterpreter = initializeHeadlessInterpreter(input);
+        headlessFormInterpreter.interpret();
+        return headlessFormInterpreter;
     }
 
     private InterpreterHelper() {}

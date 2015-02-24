@@ -18,4 +18,5 @@ public abstract class Type {
 	public Boolean isIntType(){
 		return false;
 	}
+	
 }

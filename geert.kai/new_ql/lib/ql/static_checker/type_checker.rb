@@ -1,54 +1,61 @@
 require_relative "static_checker"
 require_relative "../ast/ast"
 
-# TODO: replace the error raising!!
-class DuplicateReferenceError < StandardError
-end
-
 class TypeChecker < StaticChecker
   def after_initialize(base)
     @types = {}
+    @errors = []
   end
 
   def check
-    visit(@base)
+    run
+    @errors
   end
 
   def visit_question(question)
-    unless @types[question.variable_name]
-      @types[question.variable_name] = question.type
+    if @types[question.variable_name]
+      @errors << Exception.new("Variable #{question.variable_name} already defined")
     else
-      raise DuplicateReferenceError.new("Variable #{question.variable_name} already defined")
+      @types[question.variable_name] = question.type
     end
   end
 
   def visit_conditional(conditional)
-    unless conditional.expression.accept(self) == :boolean
-      raise TypeError.new("Expression in condition not a boolean: #{conditional}.") 
+    unless [:boolean].include?(conditional.expression.accept(self))
+      @errors << Exception.new("Expression in condition not a boolean: #{conditional}.")
     end
 
-    condition.statements.map do |statement|
-      statement.accept(self)
-    end
+    map_accept(conditional.statements)
   end
 
-  def visit_binary_expression(expression)
-    [expression.lhs, expression.rhs].each do |expr|
-      unless expression.possible_argument_types.include?(expr.accept(self))
-        raise TypeError.new "#{expr.type} doesn't match any of #{expression.possible_argument_types} in #{expression}."
-      end
+  def visit_binary_expression(expression) #ZOOI
+    lhs_type = expression.lhs.accept(self)
+    rhs_type = expression.rhs.accept(self)
+
+    # return :undefined if lhs_type == :undefined || rhs_type == :undefined
+
+    unless expression.possible_argument_types.include?(lhs_type)
+      @errors << Exception.new("#{lhs_type} doesn't match any of #{expression.possible_argument_types} in #{expression}.")
     end
 
-    unless expression.lhs.type == expression.rhs.type
-      raise TypeError.new "#{expression.lhs} doesn't match type of #{expression.rhs}"
+    unless expression.possible_argument_types.include?(rhs_type)
+      @errors << Exception.new("#{rhs_type} doesn't match any of #{expression.possible_argument_types} in #{expression}.")
+    end
+
+    unless lhs_type == rhs_type
+      @errors << Exception.new("#{expression.lhs} doesn't match type of #{expression.rhs}")
     end
 
     expression.type
   end
 
   def visit_variable(variable)
-    raise NameError.new("Variable #{variable.name} not defined.") unless @types[variable.name]
-    @types[variable.name]
+    if @types[variable.name]
+      @types[variable.name]
+    else
+      @errors << Exception.new("Variable #{variable.name} not defined.")
+      :undefined
+    end
   end
 
   def visit_literal(literal)

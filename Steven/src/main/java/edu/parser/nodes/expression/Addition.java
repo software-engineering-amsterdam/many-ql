@@ -17,7 +17,7 @@ public class Addition extends BinaryExpression {
     }
 
     @Override
-    public boolean isConditional() {
+    public boolean hasBooleanOperands() {
         return false;
     }
 }

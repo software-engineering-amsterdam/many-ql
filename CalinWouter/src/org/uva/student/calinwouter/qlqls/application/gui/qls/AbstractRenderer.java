@@ -1,7 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.qls.model.*;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.*;
+import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
 import java.util.HashMap;
 
@@ -64,6 +65,11 @@ public abstract class AbstractRenderer implements IModel {
 
     @Override
     public void caseSpinbox(Spinbox radio) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void caseSlider(Slider slider) {
         throw new UnsupportedOperationException();
     }
 }
