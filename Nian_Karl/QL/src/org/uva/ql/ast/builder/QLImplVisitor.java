@@ -27,6 +27,7 @@ import org.uva.ql.antlr.QLParser.LiteralIntContext;
 import org.uva.ql.antlr.QLParser.LiteralStrContext;
 import org.uva.ql.antlr.QLParser.QuestionComputeContext;
 import org.uva.ql.antlr.QLParser.QuestionNormalContext;
+import org.uva.ql.antlr.QLParser.QuestionTypeContext;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.antlr.QLParser.StatementContext;
 import org.uva.ql.ast.Node;
@@ -57,6 +58,9 @@ import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
+import org.uva.ql.ast.type.IntType;
+import org.uva.ql.ast.type.Operator;
+import org.uva.ql.ast.type.QuestionType;
 import org.uva.ql.factory.QLFactory;
 
 public class QLImplVisitor extends QLBaseVisitor<Node> {
@@ -226,9 +230,8 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		BlockStatement block = new BlockStatement();
 		for (StatementContext statementContext : ctx.statement()) {
 			if (statementContext.question() != null) {
-				block.addStatement((Statement) statementContext.question().accept(this));
+				block.addStatement((Statement) statementContext.accept(this));
 			} else if (statementContext.ifStatement() != null) {
-
 				System.out.println("Visiting some if statement");
 				block.addStatement((Statement) statementContext.accept(this));
 			}
@@ -255,12 +258,37 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitQuestionNormal(QuestionNormalContext ctx) {
-		QuestionNormal statement = factory.getQuestion(ctx);
+		QuestionNormal statement = factory.getQuestionNormal(ctx);
 		return statement;
 	}
 
 	@Override
 	public Node visitQuestionCompute(QuestionComputeContext ctx) {
-		return super.visitQuestionCompute(ctx);
+		return factory.getQuestionCompute(ctx);
+	}
+	
+	@Override
+	public Node visitQuestionType(QuestionTypeContext ctx) {
+		QuestionType questionType = factory.getQuestionType(ctx.getText());
+		switch (questionType) {
+		case BOOL:
+			
+			break;
+		case STR:
+			
+			break;
+		case INT:
+			return new IntType();
+		case CUR:
+			
+			break;
+		case NO_TYPE:
+			
+			break;
+
+		default:
+			break;
+		}
+		return super.visitQuestionType(ctx);
 	}
 }

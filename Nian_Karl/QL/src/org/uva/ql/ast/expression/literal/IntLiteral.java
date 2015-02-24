@@ -1,5 +1,7 @@
 package org.uva.ql.ast.expression.literal;
 
+import org.uva.ql.ast.type.ExpressionType;
+import org.uva.ql.ast.type.QuestionType;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class IntLiteral extends Literal{
@@ -24,5 +26,9 @@ public class IntLiteral extends Literal{
 	public String toString() {
 		return value.toString();
 	}
-
+	
+	@Override
+	public ExpressionType getExpressionType() {
+		return ExpressionType.INT;
+	}
 }
