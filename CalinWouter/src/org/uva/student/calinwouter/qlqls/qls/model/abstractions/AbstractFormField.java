@@ -1,6 +1,8 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractFormField<T> extends AbstractComponent<T> {
@@ -10,6 +12,13 @@ public abstract class AbstractFormField<T> extends AbstractComponent<T> {
 
     public String getFieldName() {
         return ident;
+    }
+
+    @Override
+    public List<String> getFieldUses() {
+        LinkedList<String> uses = new LinkedList<String>();
+        uses.add(ident);
+        return uses;
     }
 
     @Override

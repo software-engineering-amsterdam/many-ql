@@ -9,6 +9,8 @@ import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
+import com.form.language.error.Error;
+import com.form.language.error.ErrorCollector;
 
 public class Negation extends UnaryExpression implements Expression {
 	
@@ -27,5 +29,22 @@ public class Negation extends UnaryExpression implements Expression {
 		return new ErrorType();
 	}
 	
-	
+	@Override
+	public ErrorCollector getErrors(ErrorCollector errors) {
+		Type childType = value.getType();
+		
+		ErrorCollector newErrors = value.getErrors(errors);
+
+		if(childType.isIntType()) {
+			return newErrors;
+		}
+		else{
+			if(!childType.isErrorType()){
+				Error newError = new Error(tokenInfo, "Expected -Int, but found -"  + childType);
+				newErrors.add(newError);
+				return newErrors;
+			}
+			return newErrors;
+		}
+	}
 }

@@ -6,6 +6,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFo
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
+import org.uva.student.calinwouter.qlqls.qls.model.functions.Slider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,12 +18,12 @@ public class FieldRenderer extends AbstractRenderer {
 
     @Override
     public void caseQuestion(Question question) {
-        QuestionWidgetFetcher w = new QuestionWidgetFetcher(headlessFormInterpreter);
+        QuestionWidgetFetcher w = new QuestionWidgetFetcher(headlessFormInterpreter, formTypeChecker);
         try {
             question.applyWidget(w, formTypeChecker.getTypeDescriptor(question.getFieldName()));
         } catch(NullPointerException e) {
             // This should only occur when the field is used in QLS and not in QL.
-            // Checking that there are no references to questions that are not in QL should be part of the TypeChecker for QLS
+            // Checking that there are no references to question
             System.out.println("Not defined: " + question.getFieldName() + ", " + headlessFormInterpreter.getField(question.getFieldName()));
             this.fieldComponent = new JPanel();
             return;

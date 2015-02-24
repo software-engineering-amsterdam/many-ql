@@ -21,7 +21,7 @@ class Visitor(GenericVisitor):
             self.visit(n)
 
     def _visitAtomicExpression(self, node):
-        pass
+        self.visit(node.left)
 
     def _visitUnaryExpression(self, node):
         self.visit(node.right)
@@ -29,3 +29,18 @@ class Visitor(GenericVisitor):
     def _visitBinaryExpression(self, node):
         self.visit(node.left)
         self.visit(node.right)
+
+    def _visitIdentifier(self, node):
+        pass
+
+    def _visitStr(self, node):
+        pass
+
+    def _visitMoney(self, node):
+        pass
+
+    def _visitInt(self, node):
+        pass
+
+    def _visitBool(self, node):
+        pass

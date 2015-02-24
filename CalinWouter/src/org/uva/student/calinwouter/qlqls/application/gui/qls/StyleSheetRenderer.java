@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
@@ -22,14 +23,28 @@ public class StyleSheetRenderer extends AbstractRenderer {
 
     @Override
     public void caseStyleSheet(StyleSheet styleSheet) {
-        JFrame frame = new JFrame(styleSheet.getStyleSheetName());
+        final JFrame frame = new JFrame(styleSheet.getStyleSheetName());
+        frame.setPreferredSize(new Dimension(800, 600));
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTabbedPane jTabbedPane = new JTabbedPane();
         for (Page p : styleSheet.getPages()) {
             p.apply(this);
             System.out.println(p.getPageName());
-            jTabbedPane.addTab(p.getPageName(), lastCreatedComponent);
+            jTabbedPane.addTab(p.getPageName(), new JScrollPane(lastCreatedComponent));
         }
+        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+            @Override
+            public void onStateChanged() {
+                frame.repaint();
+                frame.revalidate();
+            }
+        });
         frame.getContentPane().add(jTabbedPane);
         frame.pack();
         frame.setVisible(true);
@@ -38,6 +53,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
     @Override
     public void casePage(Page page) {
         final JPanel pagePanel = new JPanel();
+        pagePanel.setLayout(new BoxLayout(pagePanel, BoxLayout.Y_AXIS));
         for (Section s : page.getSections()) {
             JPanel sectionPanel = new JPanel();
 
@@ -46,15 +62,18 @@ public class StyleSheetRenderer extends AbstractRenderer {
             sectionPanel.add(lastCreatedComponent);
             pagePanel.add(sectionPanel);
         }
+        pagePanel.add(Box.createVerticalGlue());
         lastCreatedComponent = pagePanel;
     }
 
     @Override
     public void caseSection(Section section) {
         JPanel sectionPanel = new JPanel();
+        sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
         for (AbstractFormField<?> f : section.getFields()) {
             FieldRenderer fieldRenderer = new FieldRenderer(headlessFormInterpreter, formTypeChecker);
             f.apply(fieldRenderer);
+//            fieldRenderer.getFieldComponent().setPreferredSize(new Dimension(100, 100));
             sectionPanel.add(fieldRenderer.getFieldComponent());
         }
         lastCreatedComponent = sectionPanel;

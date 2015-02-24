@@ -61,33 +61,34 @@ public class Store implements IKLQItem{
     }
 
     public void update(Id updated){
-       for (Question q : store.values()) {
+        for (Question q : store.values()) {
+            List<ReplacementTuple> replacements = new ArrayList<ReplacementTuple>();
             List<AExpression> dList = q.getDependencies();
             if (dList != null) {
                 for (AExpression expr : dList) {
                     AExpression eval = expr.evaluate();
                     Id toCheck;
+                    AExpression left = null, right = null;
                     if (eval.getLeft() != null && eval.getLeft().getType() == AExpression.IDENTIFIER){
                         toCheck = getIdFor(eval.getLeft().getContent());
                         if (updated.equals(toCheck)) {
-                            AExpression replacement = copyExpressionFrom(expr, createExpressionFromAnswer(toCheck), null);
-                            q.updateDependency(expr, replacement.evaluate());
-                            update(q.getId());
+                            left = createExpressionFromAnswer(toCheck);
                         }
                     }
                     if (eval.getRight() != null && eval.getRight().getType() == AExpression.IDENTIFIER){
                         toCheck = getIdFor(eval.getRight().getContent());
                         if (updated.equals(toCheck)) {
-                            AExpression replacement = copyExpressionFrom(expr, null, createExpressionFromAnswer(toCheck));
-                            q.updateDependency(expr, replacement.evaluate());
-                            update(q.getId());
+                            right = createExpressionFromAnswer(toCheck);
                         }
                     }
-                    if (eval.getType() == AExpression.IDENTIFIER){
-                        System.err.println("ERROR!");
-                        System.exit(-1);
+                    if (left != null || right != null) {
+                        AExpression replacement = copyExpressionFrom(expr, left, right).evaluate();
+                        replacements.add(new ReplacementTuple(expr, replacement));
                     }
                 }
+            }
+            for (ReplacementTuple rt : replacements){
+                q.updateDependency(rt.getExpression(), rt.getReplacement());
             }
         }
     }
@@ -114,7 +115,7 @@ public class Store implements IKLQItem{
 
     private AExpression createExpressionFromAnswer(Id source){
         Question answered = store.get(source);
-        String answerString = answered.getResult().toString();
+        String answerString = answered.getResult().getContent();
         AExpression newExpr;
         switch (answered.getType()){
             case BOOLEAN:
@@ -143,5 +144,23 @@ public class Store implements IKLQItem{
 
         }
         return null;
+    }
+
+    class ReplacementTuple {
+        private AExpression expression;
+        private AExpression replacement;
+
+        public ReplacementTuple(AExpression expression, AExpression replacement) {
+            this.expression = expression;
+            this.replacement = replacement;
+        }
+
+        public AExpression getExpression() {
+            return expression;
+        }
+
+        public AExpression getReplacement() {
+            return replacement;
+        }
     }
 }

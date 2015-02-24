@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.computedva
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
 
 import javax.swing.*;
@@ -25,7 +26,6 @@ public class LabelWidget implements IWidget {
             @Override
             public void onStateChanged() {
                 try {
-                    System.out.println("Label value: " + computedValue.getFieldName());
                     valueLabel.setText(headlessFormInterpreter
                             .getField(computedValue.getFieldName()).getValue().toString());
                 } catch (NullPointerException e) {

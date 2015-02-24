@@ -2,3 +2,4 @@
 from TypeChecker import TypeChecker
 from UndefinedQuestions import UndefinedQuestions
 from DuplicateQuestions import DuplicateQuestions
+from NonBooleanExpressions import NonBooleanExpressions

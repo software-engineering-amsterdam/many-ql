@@ -60,6 +60,5 @@ class ExtractIdentifiersVisitor(ASTVisitor):
     def identifiers(self):
         return self.__identifiers
 
-    def _visitAtomicExpression(self, node):
-        if isinstance(node.left, CustomTypes.Identifier):
-            self.__identifiers.append(node.left) 
+    def _visitIdentifier(self, node):
+        self.__identifiers.append(node) 
