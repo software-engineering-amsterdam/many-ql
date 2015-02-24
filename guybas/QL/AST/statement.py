@@ -32,3 +32,6 @@ class IStatement:
 
     def set_parent_id(self, pid):
         pass
+
+    def set_order(self, order_num):
+        pass
