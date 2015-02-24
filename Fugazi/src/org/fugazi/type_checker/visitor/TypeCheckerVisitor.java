@@ -131,7 +131,6 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
             );
         }
 
-
         // check if no circular reference
         // is performed while visiting idLiterals
         // from the computed expression
@@ -500,18 +499,6 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         return;
     }
 
-    /* This method has to find all the nodes that depend on depender
-    *   You have to add dependee and all depender's further dependers
-        to detect cycles like this:
-        1. a = b
-        2. b = c
-        3. c = d
-        3. d = a
-        after 2. c needs to be added to a list of ids that depend on, and therefore a.
-
-        In other words, the update needs to propapagte through the whole graph
-         (see transitive closure).
-    */
     private void addDependency(ID depender, ID dependee) {
         // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
