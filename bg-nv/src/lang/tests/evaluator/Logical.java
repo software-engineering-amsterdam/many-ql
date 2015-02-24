@@ -1,6 +1,8 @@
 package lang.tests.evaluator;
 
+import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.BooleanValue;
+import lang.ql.semantics.values.UndefinedValue;
 import lang.tests.TestHelper;
 import org.junit.Test;
 
@@ -51,4 +53,30 @@ public class Logical
         assertFalse(v.getValue());
     }
 
+    @Test
+    public void undefinedNot()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("!hasHouse", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedAnd()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("true&&hasHouse&&false", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
+
+    @Test
+    public void undefinedOr()
+    {
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new UndefinedValue());
+        UndefinedValue v = TestHelper.as(TestHelper.evaluate("true||hasHouse||false", table), UndefinedValue.class);
+        assertNotNull(v);
+    }
 }

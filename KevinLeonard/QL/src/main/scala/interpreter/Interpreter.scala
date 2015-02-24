@@ -2,6 +2,7 @@ package interpreter
 
 import ast.Form
 import evaluator.Evaluator
+import gui.FormBuilder
 import parser.Parser
 import typechecker.TypeChecker
 
@@ -12,16 +13,19 @@ object Interpreter {
     val parser = new Parser()
     val evaluator = new Evaluator()
     val typeChecker = new TypeChecker()
+    val formBuilder = new FormBuilder()
+
     val formFile = Source.fromFile(args(0)).mkString
 
-    parser.parseAll(parser.form, formFile) match {
-      case parser.Success(ast, _) => ast match {
-        case f: Form =>
-          typeChecker.check(f) match {
-            case Left(e) => println(e);
-            case Right(_) => evaluator.eval(f)
-          }
-      }
+    parser.parseAll[Form](parser.form, formFile) match {
+      case parser.Success(ast: Form, _) =>
+        typeChecker.check(ast) match {
+          case Right(_) =>
+            evaluator.eval(ast)
+            formBuilder.build(ast).main(Array())
+          // TODO: warnings stop execution
+          case Left(e) => println(e)
+        }
       case parser.Failure(msg, next) => println("Parse failure at line " + next.pos + ": " + msg)
       case parser.Error(msg, next) => println("Parse error at line " + next.pos + ": " + msg)
     }

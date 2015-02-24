@@ -19,15 +19,7 @@ public class Question extends Statement {
     private final Optional<Expression> expression;
     private boolean enabled;
 
-    public Question(Identifier identifier, QuestionType questionType, Label label, Optional<Expression> expression) {
-        this.identifier = identifier;
-        this.questionType = questionType;
-        this.label = label;
-        this.expression = expression;
-        enabled = false;
-    }
-
-    public Question(Optional<Expression> expression, Identifier identifier, QuestionType questionType, Label label, boolean enabled) {
+    public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
         this.identifier = identifier;
         this.questionType = questionType;
@@ -66,5 +58,31 @@ public class Question extends Statement {
     @Override
     public AbstractNode accept(Visitor visitor) {
         return visitor.visit(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Question question = (Question) o;
+
+        if (enabled != question.enabled) return false;
+        if (expression != null ? !expression.equals(question.expression) : question.expression != null) return false;
+        if (!identifier.equals(question.identifier)) return false;
+        if (!label.equals(question.label)) return false;
+        if (questionType != question.questionType) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = identifier.hashCode();
+        result = 31 * result + questionType.hashCode();
+        result = 31 * result + label.hashCode();
+        result = 31 * result + (expression != null ? expression.hashCode() : 0);
+        result = 31 * result + (enabled ? 1 : 0);
+        return result;
     }
 }

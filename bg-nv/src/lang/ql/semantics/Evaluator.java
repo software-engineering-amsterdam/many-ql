@@ -1,172 +1,85 @@
 package lang.ql.semantics;
 
-import lang.ql.ast.AstVisitor;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.statement.CalculatedQuestion;
-import lang.ql.ast.statement.IfCondition;
-import lang.ql.ast.statement.Question;
-import lang.ql.semantics.values.*;
+import lang.ql.ast.form.FormVisitor;
+import lang.ql.ast.statement.*;
+import lang.ql.semantics.values.UndefinedValue;
+import lang.ql.semantics.values.Value;
 
 /**
- * Created by bore on 23/02/15.
+ * Created by Nik on 24-2-15.
  */
-public class Evaluator implements ExprVisitor<Value>
+public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>
 {
-    private EvalEnv env;
 
-    public static Value evaluate(Expr e, EvalEnv env)
+    private ValueTable valueTable;
+
+    public static ValueTable evaluate(Form f)
     {
-        Evaluator eval = new Evaluator(env);
-        return e.accept(eval);
+        Evaluator evaluator = new Evaluator();
+        return evaluator.visit(f);
     }
 
-    private Evaluator(EvalEnv env)
+    public static ValueTable reevaluate(Form f, ValueTable valueTable)
     {
-        this.env = env;
+        Evaluator evaluator = new Evaluator(valueTable);
+        return  evaluator.visit(f);
     }
 
-    @Override
-    public Value visit(BoolExpr e)
+    private Evaluator()
     {
-        return new BooleanValue(e.getValue());
+        this(new ValueTable());
     }
 
-    @Override
-    public Value visit(IntExpr e)
+    private Evaluator(ValueTable valueTable)
     {
-        return new IntegerValue(e.getValue());
-    }
-
-    @Override
-    public Value visit(DecExpr e)
-    {
-        return new DecimalValue(e.getValue());
+        this.valueTable = valueTable;
     }
 
     @Override
-    public Value visit(StrExpr e)
+    public ValueTable visit(Form f)
     {
-        return new StringValue(e.getValue());
+        for (Statement s : f.getBody())
+        {
+            s.accept(this);
+        }
+
+        return this.valueTable;
     }
 
     @Override
-    public Value visit(Ident id)
+    public Void visit(Question q)
     {
-        return this.env.getValue(id.getId());
+        this.valueTable.storeValue(q.getId(), new UndefinedValue());
+
+        return null;
     }
 
     @Override
-    public Value visit(Neg e)
+    public Void visit(CalculatedQuestion q)
     {
-        return e.getOperand().accept(this).neg();
+        Expr expr = q.getDefaultValue();
+        Value value = ExprEvaluator.evaluate(expr, this.valueTable);
+        this.valueTable.storeValue(q.getId(), value);
+
+        return null;
     }
 
     @Override
-    public Value visit(Pos e)
+    public Void visit(IfCondition c)
     {
-        return e.getOperand().accept(this).pos();
-    }
+        Expr expr = c.getCondition();
+        Value condition = ExprEvaluator.evaluate(expr, this.valueTable);
 
-    @Override
-    public Value visit(Not e)
-    {
-        return e.getOperand().accept(this).not();
-    }
+        if (!condition.isUndefined() && !false) // TODO check if it is true
+        {
+            for (Statement s : c.getBody())
+            {
+                s.accept(this);
+            }
+        }
 
-    @Override
-    public Value visit(Add e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.add(right);
-    }
-
-    @Override
-    public Value visit(Sub e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.sub(right);
-    }
-
-    @Override
-    public Value visit(Mul e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.mul(right);
-    }
-
-    @Override
-    public Value visit(Div e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.div(right);
-    }
-
-    @Override
-    public Value visit(Gt e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.gt(right);
-    }
-
-    @Override
-    public Value visit(Lt e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.lt(right);
-    }
-
-    @Override
-    public Value visit(GtEqu e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.gtEqu(right);
-    }
-
-    @Override
-    public Value visit(LtEqu e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.ltEqu(right);
-    }
-
-    @Override
-    public Value visit(Equ e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.equ(right);
-    }
-
-    @Override
-    public Value visit(NotEqu e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.notEqu(right);
-    }
-
-    @Override
-    public Value visit(And e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.and(right);
-    }
-
-    @Override
-    public Value visit(Or e)
-    {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.or(right);
+        return null;
     }
 }

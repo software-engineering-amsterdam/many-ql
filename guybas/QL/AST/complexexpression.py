@@ -27,7 +27,7 @@ class Expression:
 # Expression without parenthesis
 class SimpleExpression(Expression):
     def __init__(self, expression):
-        self.expression = expression
+        self.expression = expression.asList()
 
     def pretty_print(self, level = 0):
         s = ""
@@ -45,7 +45,7 @@ class SimpleExpression(Expression):
 # Expressions with sub-expressions
 class ComplexExpression(Expression):
     def __init__(self, expression):
-        self.expression = expression
+        self.expression = expression.asList()
         self.is_else = False
 
     def get_dependencies(self):

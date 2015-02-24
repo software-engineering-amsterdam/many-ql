@@ -41,7 +41,7 @@ public class Main {
                     "\t\tsection(\"You sold a house\",\n" +
                     "\t\t\tquestion(sellingPrice, {widget: spinbox}),\n" +
                     "\t\t\tquestion(privateDebt, {widget: spinbox}),\n" +
-                    "\t\t\tquestion(valueResidue)),\n" +
+                    "\t\t\tcomputedValue(valueResidue)),\n" +
                     "\t\tdefault(int, {\n" +
                     "\t\t\twidth: 400,\n" +
                     "\t\t\tfont: \"Arial\",\n" +

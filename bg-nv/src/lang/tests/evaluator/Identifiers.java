@@ -1,6 +1,6 @@
 package lang.tests.evaluator;
 
-import lang.ql.semantics.EvalEnv;
+import lang.ql.semantics.ValueTable;
 import lang.ql.semantics.values.BooleanValue;
 import lang.tests.TestHelper;
 import org.junit.Test;
@@ -16,11 +16,10 @@ public class Identifiers
     @Test
     public void idInt()
     {
-        EvalEnv env = new EvalEnv();
-        env.registerValue("hasHouse", new BooleanValue(true));
-        BooleanValue v = TestHelper.as(TestHelper.evaluate("hasHouse", env), BooleanValue.class);
+        ValueTable table = new ValueTable();
+        table.storeValue("hasHouse", new BooleanValue(true));
+        BooleanValue v = TestHelper.as(TestHelper.evaluate("hasHouse", table), BooleanValue.class);
         assertNotNull(v);
         assertTrue(v.getValue());
     }
-
 }
