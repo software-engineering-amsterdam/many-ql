@@ -248,10 +248,10 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	@Override
 	public QLType visit(If ifNode) {
 		// The expression must have a boolean type		
-		ifNode.getExpression().accept(this);
+		QLType ifType = ifNode.getExpression().accept(this);
 		
-		if (ifNode.getExpression().getType().getClass() != QLBoolean.class) {
-			errors.add("Expected QLBoolean, got " + ifNode.getExpression().getType());
+		if (!ifType.compatibleWith(new QLBoolean())) {
+			errors.add("<ifNode> Expected QLBoolean, got " + ifType);
 		}
 		return new QLError();
 	}
