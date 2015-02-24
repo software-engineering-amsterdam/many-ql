@@ -14,7 +14,7 @@ public class ComputedValueWidgetFetcher implements IComputedValueWidgetCallback,
 
     @Override
     public void caseLabelWidget(ComputedValue computedValue) {
-         widget = new LabelWithWidgetWidget(computedValue,
+         widget = new LabelWithWidgetWidget(computedValue, null,
                 new LabelWidget(computedValue, headlessFormInterpreter), headlessFormInterpreter);
     }
 

@@ -8,6 +8,7 @@ import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.in
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.textwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCallback;
 import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
 
@@ -19,38 +20,38 @@ public class QuestionWidgetFetcher implements IQuestionWidgetCallback, IWidget {
     private FormTypeChecker formTypeChecker;
 
     @Override
-    public void caseCheckboxWidget(Question question) {
-        widget = new LabelWithWidgetWidget(question,
+    public void caseCheckboxWidget(Question question, WidgetSettingsModel widgetSettingsModel) {
+        widget = new LabelWithWidgetWidget(question, widgetSettingsModel,
                 new CheckboxWidget(question, headlessFormInterpreter), headlessFormInterpreter);
     }
 
     @Override
-    public void caseComboboxWidget(Question question) {
-        widget = new LabelWithWidgetWidget(question,
+    public void caseComboboxWidget(Question question, WidgetSettingsModel widgetSettingsModel) {
+        widget = new LabelWithWidgetWidget(question, widgetSettingsModel,
                 new ComboboxWidget(question,headlessFormInterpreter), headlessFormInterpreter);
     }
 
     @Override
-    public void caseRadioWidget(Question question) {
-        widget = new LabelWithWidgetWidget(question,
+    public void caseRadioWidget(Question question, WidgetSettingsModel widgetSettingsModel) {
+        widget = new LabelWithWidgetWidget(question, widgetSettingsModel,
                 new RadioWidget(question, headlessFormInterpreter), headlessFormInterpreter);
     }
 
     @Override
-    public void caseSliderWidget(Question question) {
-        widget = new LabelWithWidgetWidget(question,
+    public void caseSliderWidget(Question question, WidgetSettingsModel widgetSettingsModel) {
+        widget = new LabelWithWidgetWidget(question, widgetSettingsModel,
                 new SliderWidget(question, headlessFormInterpreter), headlessFormInterpreter);
     }
 
     @Override
-    public void caseSpinboxWidget(Question question) {
-        widget = new LabelWithWidgetWidget(question,
+    public void caseSpinboxWidget(Question question, WidgetSettingsModel widgetSettingsModel) {
+        widget = new LabelWithWidgetWidget(question, widgetSettingsModel,
                 new SpinboxWidget(question, headlessFormInterpreter), headlessFormInterpreter);
     }
 
     @Override
-    public void caseTextboxWidget(Question question) {
-        widget = new LabelWithWidgetWidget(question,
+    public void caseTextboxWidget(Question question, WidgetSettingsModel widgetSettingsModel) {
+        widget = new LabelWithWidgetWidget(question, widgetSettingsModel,
                 new TextboxWidget(question, headlessFormInterpreter, formTypeChecker.getTypeDescriptor(question.getFieldName())),
                 headlessFormInterpreter);
     }
