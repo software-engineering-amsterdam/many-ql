@@ -28,7 +28,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
         for (Page p : styleSheet.getPages()) {
             p.apply(this);
             System.out.println(p.getPageName());
-            jTabbedPane.addTab(p.getPageName(), lastCreatedComponent);
+            jTabbedPane.addTab(p.getPageName(), new JScrollPane(lastCreatedComponent));
         }
         frame.getContentPane().add(jTabbedPane);
         frame.pack();
@@ -38,6 +38,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
     @Override
     public void casePage(Page page) {
         final JPanel pagePanel = new JPanel();
+        pagePanel.setLayout(new BoxLayout(pagePanel, BoxLayout.Y_AXIS));
         for (Section s : page.getSections()) {
             JPanel sectionPanel = new JPanel();
 
@@ -52,6 +53,7 @@ public class StyleSheetRenderer extends AbstractRenderer {
     @Override
     public void caseSection(Section section) {
         JPanel sectionPanel = new JPanel();
+        sectionPanel.setLayout(new BoxLayout(sectionPanel, BoxLayout.Y_AXIS));
         for (AbstractFormField<?> f : section.getFields()) {
             FieldRenderer fieldRenderer = new FieldRenderer(headlessFormInterpreter, formTypeChecker);
             f.apply(fieldRenderer);

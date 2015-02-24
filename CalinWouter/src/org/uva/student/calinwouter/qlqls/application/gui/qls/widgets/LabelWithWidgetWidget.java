@@ -15,7 +15,6 @@ import java.awt.*;
  */
 public class LabelWithWidgetWidget implements IWidget {
     private JPanel labelWithWidgetWidget;
-    private HeadlessFormInterpreter headlessFormInterpreter;
 
     @Override
     public Component getWidget() {
@@ -24,7 +23,6 @@ public class LabelWithWidgetWidget implements IWidget {
 
     public LabelWithWidgetWidget(final AbstractFormField model, IWidget widget,
                                  final HeadlessFormInterpreter headlessFormInterpreter) {
-        this.headlessFormInterpreter = headlessFormInterpreter;
         final Label fieldLabel = new Label();
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
