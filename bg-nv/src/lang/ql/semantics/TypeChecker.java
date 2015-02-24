@@ -242,6 +242,7 @@ public class TypeChecker implements Visitor<Type>
         return this.visitBinaryExpr(e);
     }
 
+
     private Type visitBinaryExpr(BinaryExpr e)
     {
         Type left = e.getLeft().accept(this);
