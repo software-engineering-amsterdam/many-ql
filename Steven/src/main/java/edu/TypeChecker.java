@@ -127,7 +127,7 @@ public class TypeChecker extends VisitorImpl {
     }
 
     private AbstractNode visitLogicalExpression(BinaryExpression expression) {
-        if (expression.getLeft().isConditional() && expression.getRight().isConditional()) {
+        if (expression.getLeft().hasBooleanOperands() && expression.getRight().hasBooleanOperands()) {
             visit(expression.getLeft());
             visit(expression.getRight());
             return expression;
@@ -137,7 +137,7 @@ public class TypeChecker extends VisitorImpl {
     }
 
     private AbstractNode visitArithmeticExpression(BinaryExpression expression) {
-        if (expression.getLeft().isConditional() || expression.getRight().isConditional()) {
+        if (expression.getLeft().hasBooleanOperands() || expression.getRight().hasBooleanOperands()) {
             throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_NON_BOOLEAN, expression.getClass().getSimpleName(), expression.toString()));
         }
         visit(expression.getLeft());
@@ -198,7 +198,7 @@ public class TypeChecker extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Not not) {
-        if (!not.getOperand().isConditional()) {
+        if (!not.getOperand().hasBooleanOperands()) {
             throw new TypeCheckException(String.format(EXPRESSION_EXPECTS_BOOLEAN, not.getClass().getSimpleName(), not.toString()));
         }
         return visit(not.getOperand());

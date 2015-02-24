@@ -4,28 +4,38 @@ import edu.parser.VisitorImpl;
 import edu.parser.nodes.AbstractNode;
 import edu.parser.nodes.Form;
 import edu.parser.nodes.expression.*;
-import edu.parser.nodes.question.Label;
-import edu.parser.nodes.question.QuestionType;
+import edu.parser.nodes.question.Question;
 import edu.parser.nodes.statement.ElseClause;
 import edu.parser.nodes.statement.IfStatement;
 import edu.parser.nodes.statement.Statement;
-import edu.parser.nodes.type.Number;
+import edu.parser.nodes.type.Boolean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Steven Kok on 23/02/2015.
  */
 public class Evaluator extends VisitorImpl {
+
+    private final List<Statement> questions = new ArrayList<>();
+
     @Override
     public AbstractNode visit(Form form) {
-        List<Statement> questions = visitStatements(form.getElements());
+        visitStatements(form.getElements());
         return new Form(questions);
     }
 
     @Override
     public AbstractNode visit(IfStatement ifStatement) {
-        return null;
+        if (isExpressionTrue(ifStatement)) {
+            visitStatements(ifStatement.getStatements());
+        }
+        return ifStatement;
+    }
+
+    private boolean isExpressionTrue(IfStatement ifStatement) {
+        return ((Boolean) ifStatement.getExpression()).isTrue();
     }
 
     @Override
@@ -79,11 +89,6 @@ public class Evaluator extends VisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(NotEqual notEqual) {
-        return null;
-    }
-
-    @Override
     public AbstractNode visit(Or or) {
         return null;
     }
@@ -94,27 +99,15 @@ public class Evaluator extends VisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(edu.parser.nodes.type.Boolean aBoolean) {
-        return null;
-    }
-
-    @Override
-    public AbstractNode visit(Number number) {
-        return null;
-    }
-
-    @Override
-    public AbstractNode visit(QuestionType questionType) {
-        return null;
-    }
-
-    @Override
-    public AbstractNode visit(Label label) {
-        return null;
-    }
-
-    @Override
     public AbstractNode visit(ElseClause elseClause) {
         return null;
+    }
+
+    @Override
+    public AbstractNode visit(Question question) {
+        if (question.isEnabled()) {
+            questions.add(question);
+        }
+        return super.visit(question);
     }
 }
