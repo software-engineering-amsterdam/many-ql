@@ -19,6 +19,7 @@ import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.visitor.TypeCheckerVisitor;
+import org.uva.ql.view.FormView;
 
 public class Main {
 
@@ -35,9 +36,11 @@ public class Main {
 		System.out.println("FinalTree = " + finalTree);
 		System.out.println(finalTree.getFormList().size());
 		
-		for (Form form: finalTree.getFormList()) {
-			printBlock(form.getBlock());
-		}
+		FormView form = new FormView();
+		
+//		for (Form form: finalTree.getFormList()) {
+//			printBlock(form.getBlock());
+//		}
 		
 		
 //		Node result = tree.accept(visitor);
