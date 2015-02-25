@@ -39,7 +39,15 @@ public class TextComponent extends Component {
 		public void caretUpdate(CaretEvent e) {
 			Value value = new StringValue(textField.getText());			
 			
-			setValue(value);
+			System.out.println("Set value for " + getIdentifier() + " to " + value);
+			
+			setChanged();
+			
+			// Store the new value in the TypeEnvironment
+			controller.storeValue(getIdentifier(), value);
+			
+			// Notify this value has changed
+			controller.notify(getIdentifier());
 		}
 	}
 

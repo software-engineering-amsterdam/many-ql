@@ -22,28 +22,22 @@ public class ComputedQuestionObserver implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 
-		//TODO get rid of the nullpointers
-		// Recalculate the value for this computedQuestion
 		try {
-			Value value = expression.getExpression().accept(new Evaluator(controller.getValueEnvironment()));
-			
-			if (value == null) {
-				return;
-			}
-			
-
+			// Recalculate the value for this computedQuestion
+			Value value = expression.getExpression().accept(new Evaluator(controller.getValueEnvironment()));	
+	
 			System.out.println("new value for " + expression.getIdentifier() + ": " + value);
-			
+				
 			// Update the type environment
 			controller.storeValue(expression.getIdentifier(), value);
-			
+				
 			// Now update all the Components that watch the computedQuestion
 			controller.notify(expression.getIdentifier());
-			
+				
 			// Now also update the component
 			component.setValue(value);
 		}
-		catch (NullPointerException e) {
+		catch (UnsupportedOperationException e) {
 			
 		}
 	}

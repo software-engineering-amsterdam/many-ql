@@ -28,6 +28,7 @@ import cons.value.BooleanValue;
 import cons.value.FloatValue;
 import cons.value.IntegerValue;
 import cons.value.StringValue;
+import cons.value.UndefinedValue;
 
 @SuppressWarnings("rawtypes")
 public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Value> {
@@ -177,6 +178,12 @@ public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Val
 	
 	@Override
 	public Value visit (Identifier identifier) {
-		return valueEnv.resolve(identifier);
+		Value val = valueEnv.resolve(identifier);
+		
+		if (val == null) {
+			return new UndefinedValue();
+		}
+		
+		return val;
 	}
 }
