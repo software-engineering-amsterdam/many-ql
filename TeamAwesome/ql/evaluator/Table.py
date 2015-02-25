@@ -1,18 +1,12 @@
 from collections import OrderedDict
-from .EvaluatorTypes import Form, Question, ExpressionFactory, Expression
+from .EvaluatorTypes import Form, Question
 from ..CustomTypes import *
 from ..ast import Nodes
 
 class QuestionValueTable(object):
-	def __init__(self, questionTable):
+	def __init__(self):
 		self._valueTable = OrderedDict()
 		self._expressionTable = OrderedDict()
-
-		for question in questionTable.questions():
-			if question.valueExpression:
-				self._expressionTable[question] = question.valueExpression
-			else:
-				self._valueTable[question] = None
 
 	def __iter__(self):
 		tempTable = {}
@@ -23,25 +17,25 @@ class QuestionValueTable(object):
 	def questions(self):
 		return self._valueTable.keys() + self._expressionTable.keys()
 
+	def add(self, question):
+		if question.valueExpression:
+			self._expressionTable[question] = question.valueExpression
+		else:
+			self._valueTable[question] = None
+
 	def update(self, question, value):
 		if question in self._valueTable:
 			self._valueTable[question] = value
 
-	def get(self, question, evaluator):
+	def get(self, question):
 		if question in self._expressionTable:
-			return self._expressionTable[question].evaluate(evaluator)
+			return self._expressionTable[question].value()
 
 		return self._valueTable.get(question, None)
 
 class QuestionTable(object):
-	def __init__(self, ast):
+	def __init__(self):
 		self._table = OrderedDict()
-
-		for formStatement in ast.root.statements:
-			form = Form(formStatement)
-
-			for statement in formStatement.getChildren():
-				self._add(statement, ExpressionsTuple(), form)
 
 	def __iter__(self):
 		return self._table.__iter__()
@@ -52,23 +46,16 @@ class QuestionTable(object):
 	def identifiers(self):
 		return self._table.keys()
 
-	def _add(self, statement, expressionsTuple, form):
-		if isinstance(statement, Nodes.IfStatement):
-			childExpressionsTuple = expressionsTuple + (ExpressionFactory.create((statement.expr)),)
-			
-			for childStatement in statement.getChildren():
-				self._add(childStatement, childExpressionsTuple, form)
-		else:
-			question = Question(statement, expressionsTuple, form)
-			questionList = self._table.get(question.identifier, QuestionList())
-			questionList.append(question)
-			self._table[question.identifier] = questionList
+	def add(self, question):
+		questionList = self._table.get(question.identifier, QuestionList())
+		questionList.append(question)
+		self._table[question.identifier] = questionList
 
-	def get(self, identifier, evaluator):
+	def get(self, identifier):
 		questions = self._table.get(identifier, None)
 		
 		if questions:
-			return questions.getVisibleQuestion(evaluator)
+			return questions.getVisibleQuestion()
 		return questions
 
 	def getQuestionList(self, identifier):
@@ -78,12 +65,23 @@ class ExpressionsTuple(tuple):
 	def __add__(self, value):
 		return ExpressionsTuple(tuple.__add__(self, value))
 
-	def evaluate(self, evaluator):
-		return all(expr.evaluate(evaluator) for expr in self)
+	def value(self):
+		return all(expr.value() for expr in self)
+
+class ExpressionsList(list):
+	def __add__(self, value):
+		return ExpressionsList(tuple.__add__(self, value))
+
+	def value(self):
+		return all(expr.value() for expr in self)
+
+	def copy(self):
+		return ExpressionsList(self)
+
 
 class QuestionList(list):
-	def getVisibleQuestion(self, evaluator):
+	def getVisibleQuestion(self):
 		for question in self:
-			if question.isVisible(evaluator):
+			if question.isVisible():
 				return question
 		return None
