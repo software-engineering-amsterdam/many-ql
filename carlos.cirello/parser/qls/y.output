@@ -15,41 +15,78 @@ state 1
 
 
 state 2
-	top:  StylesheetToken.TextToken '{' '}' 
+	top:  StylesheetToken.TextToken '{' stack '}' 
 
 	TextToken  shift 3
 	.  error
 
 
 state 3
-	top:  StylesheetToken TextToken.'{' '}' 
+	top:  StylesheetToken TextToken.'{' stack '}' 
 
 	'{'  shift 4
 	.  error
 
 
 state 4
-	top:  StylesheetToken TextToken '{'.'}' 
+	top:  StylesheetToken TextToken '{'.stack '}' 
+	stack: .    (2)
 
-	'}'  shift 5
+	.  reduce 2 (src line 38)
+
+	stack  goto 5
+
+state 5
+	top:  StylesheetToken TextToken '{' stack.'}' 
+	stack:  stack.defaultSetting 
+
+	DefaultToken  shift 8
+	'}'  shift 6
+	.  error
+
+	defaultSetting  goto 7
+
+state 6
+	top:  StylesheetToken TextToken '{' stack '}'.    (1)
+
+	.  reduce 1 (src line 32)
+
+
+state 7
+	stack:  stack defaultSetting.    (3)
+
+	.  reduce 3 (src line 39)
+
+
+state 8
+	defaultSetting:  DefaultToken.TextToken TextToken 
+
+	TextToken  shift 9
 	.  error
 
 
-state 5
-	top:  StylesheetToken TextToken '{' '}'.    (1)
+state 9
+	defaultSetting:  DefaultToken TextToken.TextToken 
 
-	.  reduce 1 (src line 31)
+	TextToken  shift 10
+	.  error
 
 
-9 terminals, 2 nonterminals
-2 grammar rules, 6/2000 states
+state 10
+	defaultSetting:  DefaultToken TextToken TextToken.    (4)
+
+	.  reduce 4 (src line 45)
+
+
+10 terminals, 4 nonterminals
+5 grammar rules, 11/2000 states
 0 shift/reduce, 0 reduce/reduce conflicts reported
-51 working sets used
-memory: parser 0/30000
+53 working sets used
+memory: parser 2/30000
 0 extra closures
-4 shift entries, 1 exceptions
-1 goto entries
+7 shift entries, 1 exceptions
+3 goto entries
 0 entries saved by goto default
-Optimizer space used: output 5/30000
-5 table entries, 0 zero
-maximum spread: 9, maximum offset: 9
+Optimizer space used: output 10/30000
+10 table entries, 0 zero
+maximum spread: 10, maximum offset: 9

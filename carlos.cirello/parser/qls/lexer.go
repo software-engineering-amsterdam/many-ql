@@ -13,6 +13,8 @@ const eof = 0
 const (
 	// StylesheetTokenText - Reserved Word
 	StylesheetTokenText = "stylesheet"
+	// DefaultTokenText - Reserved Word
+	DefaultTokenText = "default"
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
@@ -52,6 +54,8 @@ func (x *lexer) Lex(yylval *qlsSymType) int {
 		typ = NumericToken
 	} else if txt == StylesheetTokenText {
 		typ = StylesheetToken
+	} else if txt == DefaultTokenText {
+		typ = DefaultToken
 
 	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" ||
 		txt == "+" || txt == "-" || txt == "*" || txt == "/" ||

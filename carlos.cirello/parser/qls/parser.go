@@ -24,12 +24,14 @@ const StylesheetToken = 57346
 const TextToken = 57347
 const NumericToken = 57348
 const QuotedStringToken = 57349
+const DefaultToken = 57350
 
 var qlsToknames = []string{
 	"StylesheetToken",
 	"TextToken",
 	"NumericToken",
 	"QuotedStringToken",
+	"DefaultToken",
 }
 var qlsStatenames = []string{}
 
@@ -44,41 +46,44 @@ var qlsExca = []int{
 	-2, 0,
 }
 
-const qlsNprod = 2
+const qlsNprod = 5
 const qlsPrivate = 57344
 
 var qlsTokenNames []string
 var qlsStates []string
 
-const qlsLast = 5
+const qlsLast = 10
 
 var qlsAct = []int{
 
-	5, 4, 3, 2, 1,
+	8, 10, 6, 4, 9, 3, 2, 7, 5, 1,
 }
 var qlsPact = []int{
 
-	-1, -1000, -3, -7, -9, -1000,
+	2, -1000, 0, -6, -1000, -8, -1000, -1000, -1, -4,
+	-1000,
 }
 var qlsPgo = []int{
 
-	0, 4,
+	0, 9, 8, 7,
 }
 var qlsR1 = []int{
 
-	0, 1,
+	0, 1, 2, 2, 3,
 }
 var qlsR2 = []int{
 
-	0, 4,
+	0, 5, 0, 2, 3,
 }
 var qlsChk = []int{
 
-	-1000, -1, 4, 5, 8, 9,
+	-1000, -1, 4, 5, 9, -2, 10, -3, 8, 5,
+	5,
 }
 var qlsDef = []int{
 
-	0, -2, 0, 0, 0, 1,
+	0, -2, 0, 0, 2, 0, 1, 3, 0, 0,
+	4,
 }
 var qlsTok1 = []int{
 
@@ -94,11 +99,11 @@ var qlsTok1 = []int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 8, 3, 9,
+	3, 3, 3, 9, 3, 10,
 }
 var qlsTok2 = []int{
 
-	2, 3, 4, 5, 6, 7,
+	2, 3, 4, 5, 6, 7, 8,
 }
 var qlsTok3 = []int{
 	0,
@@ -330,9 +335,19 @@ qlsdefault:
 	switch qlsnt {
 
 	case 1:
-		//line parser.y:33
+		//line parser.y:34
 		{
-			spew.Dump(qlsVAL, qlsS[qlspt-3], qlsS[qlspt-2], qlsS[qlspt-0])
+			spew.Dump("top", qlsVAL, qlsS[qlspt-4], qlsS[qlspt-3], qlsS[qlspt-1])
+		}
+	case 3:
+		//line parser.y:40
+		{
+			spew.Dump("stack", qlsVAL, qlsS[qlspt-1], qlsS[qlspt-0])
+		}
+	case 4:
+		//line parser.y:47
+		{
+			spew.Dump("defaultSetting", qlsVAL, qlsS[qlspt-2], qlsS[qlspt-1])
 		}
 	}
 	goto qlsstack /* stack new state and value */

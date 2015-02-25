@@ -24,13 +24,27 @@ var finalStyle interface{}
 %token TextToken
 %token NumericToken
 %token QuotedStringToken
+%token DefaultToken
 
 
 %%
 
 top:
-	StylesheetToken TextToken '{' '}'
+	StylesheetToken TextToken '{' stack '}'
 	{
-		spew.Dump($$, $1, $2, $4)
+		spew.Dump("top", $$, $1, $2, $4)
+	}
+
+stack:
+	| stack defaultSetting
+	{
+		spew.Dump("stack", $$, $1, $2)
+	}
+	;
+
+defaultSetting:
+	DefaultToken TextToken TextToken
+	{
+		spew.Dump("defaultSetting", $$, $1, $2)
 	}
 	;
