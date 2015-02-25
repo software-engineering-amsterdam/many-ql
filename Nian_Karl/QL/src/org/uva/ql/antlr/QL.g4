@@ -4,88 +4,93 @@ grammar QL;
 
 questionnaire: form*;
 
-form : FORM Identifier block;
+form: FORM Identifier block;
 
-block : LEFT_BRACE statement* RIGHT_BRACE;
+block: LEFT_BRACE statement* RIGHT_BRACE;
 
 statement
-	: ifStatement		
-	| question			
-	;
+  : ifStatement
+  | question
+  ;
 
 ifStatement
-	: IF LEFT_PAREN expression RIGHT_PAREN ifBlock=block ELSE elseBlock=block		#IfElse
-	| IF LEFT_PAREN expression RIGHT_PAREN ifBlock=block				#If
-	;
-	
-question
-	: questionName COLON questionLabel questionType LEFT_PAREN expr = expression RIGHT_PAREN	#QuestionCompute
-	| questionName COLON questionLabel questionType										#QuestionNormal
-	;
+  : IF LEFT_PAREN expression RIGHT_PAREN block ELSE block    #IfElse
+  | IF LEFT_PAREN expression RIGHT_PAREN block               #If
+  ;
 
-questionType: INT | STR | BOOL;
+question
+  : questionName COLON questionLabel questionType LEFT_PAREN expr = expression RIGHT_PAREN #QuestionCompute
+  | questionName COLON questionLabel questionType                                          #QuestionNormal
+  ;
+
 questionName: Identifier;
 questionLabel: StringLiteral;
+questionType
+  : INT       #TypeInt 
+  | STR       #TypeStr 
+  | BOOL      #TypeBool
+  ;
 
 expression
-	: NOT 			expression					#ExprNot
-	| PLUS			expression					#ExprPositive
-	| MINUS 		expression					#ExprNegative
-	| expression 	PLUS 			expression	#ExprPlus
-	| expression 	MINUS 			expression	#ExprMinus
-	| expression 	MULTIPLY 		expression	#ExprMultiply
-	| expression 	DIVIDE 			expression	#ExprDivide
-	| expression 	AND 			expression	#ExprAnd
-	| expression 	OR 				expression	#ExprOr
-	| expression 	EQUAL 			expression	#ExprEqual
-	| expression 	NOTEQUAL		expression	#ExprNotEqual
-	| expression 	GREATER 		expression	#ExprGreater
-	| expression 	GREATER_EQUAL	expression	#ExprGreaterEqual
-	| expression 	LESS 			expression	#ExprLess
-	| expression 	LESS_EQUAL 		expression	#ExprLessEqual
-	| LEFT_PAREN 	expression 		RIGHT_PAREN	#ExprParentheses
-	| literal									#ExprLiteral
-	;
+  : NOT        expression                #ExprNot
+  | PLUS       expression                #ExprPositive
+  | MINUS      expression                #ExprNegative
+  | expression PLUS          expression  #ExprPlus
+  | expression MINUS         expression  #ExprMinus
+  | expression MULTIPLY      expression  #ExprMultiply
+  | expression DIVIDE        expression  #ExprDivide
+  | expression AND           expression  #ExprAnd
+  | expression OR            expression  #ExprOr
+  | expression EQUAL         expression  #ExprEqual
+  | expression NOTEQUAL      expression  #ExprNotEqual
+  | expression GREATER       expression  #ExprGreater
+  | expression GREATER_EQUAL expression  #ExprGreaterEqual
+  | expression LESS          expression  #ExprLess
+  | expression LESS_EQUAL    expression  #ExprLessEqual
+  | LEFT_PAREN expression    RIGHT_PAREN #ExprParentheses
+  | literal                              #ExprLiteral
+  ;
 
 literal
- 	 : Identifier			#LiteralId
-	 | IntegerLiteral		#LiteralInt
- 	 | BooleanLiteral		#LiteralBool
- 	 | StringLiteral		#LiteralStr
-	 ;
+  : Identifier       #LiteralId
+  | IntegerLiteral   #LiteralInt
+  | BooleanLiteral   #LiteralBool
+  | StringLiteral    #LiteralStr
+  ;
+
 
 /* LEXER RULES */
-// Keywords		==================================================================
-FORM: 			'form';
-IF: 			'if';
-ELSE: 			'else';
+// Keywords	
+FORM:          'form';
+IF:            'if';
+ELSE:          'else';
 
-// DataTypes	==================================================================
-INT: 			'Int';
-STR: 			'Str';
-BOOL: 			'Bool';
+// DataTypes
+INT:           'Int';
+STR:           'Str';
+BOOL:          'Bool';
 
-// Operators	==================================================================
-NOT: 			'!';
-PLUS: 			'+';
-MINUS: 			'-';
-MULTIPLY: 		'*';
-DIVIDE: 		'/';
-AND: 			'&&';
-OR: 			'||';
-EQUAL: 			'==';
-NOTEQUAL:		'!=';
-GREATER: 		'>';
-GREATER_EQUAL:	'>='; 
-LESS:			'<';
-LESS_EQUAL: 	'<=';
+// Operators
+NOT:           '!';
+PLUS:          '+';
+MINUS:         '-';
+MULTIPLY:      '*';
+DIVIDE:        '/';
+AND:           '&&';
+OR:            '||';
+EQUAL:         '==';
+NOTEQUAL:      '!=';
+GREATER:       '>';
+GREATER_EQUAL: '>='; 
+LESS:          '<';
+LESS_EQUAL:    '<=';
 
-// Symbols		==================================================================
-LEFT_BRACE: 	'{';
-RIGHT_BRACE: 	'}';
-LEFT_PAREN: 	'(';
-RIGHT_PAREN: 	')';
-COLON: 			':';
+// Symbols
+LEFT_BRACE:    '{';
+RIGHT_BRACE:   '}';
+LEFT_PAREN:    '(';
+RIGHT_PAREN:   ')';
+COLON:         ':';
 
 IntegerLiteral: [1-9][0-9]*;
 

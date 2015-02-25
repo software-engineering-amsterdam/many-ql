@@ -22,17 +22,20 @@ import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.statement.BlockStatement;
+import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionNormal;
+import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
+import org.uva.ql.ast.type.StrType;
 
 public interface Visitor<T> {
 	
 	
+	// Statements
 	public T visit(IfStatement ifStatement);
 	public T visit(QuestionNormal questionStatement);
-	public T visit(BlockStatement blockStatement);
+	public T visit(Block blockStatement);
 	public T visit(Form form);
 	public T visit(Questionnaire questionnaire);
 	
@@ -58,11 +61,9 @@ public interface Visitor<T> {
 	public T visit(StrLiteral node);
 	public T visit(Parenthese node);
 	
-	//Type
+	// Types
 	public T visit(IntType node);
+	public T visit(BoolType node);
+	public T visit(StrType node);
 	
-	
-	
-
-
 }

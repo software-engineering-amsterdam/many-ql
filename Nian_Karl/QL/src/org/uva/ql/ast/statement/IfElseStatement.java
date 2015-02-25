@@ -6,16 +6,16 @@ import org.uva.ql.ast.visitor.Visitor;
 
 public class IfElseStatement extends IfStatement {
 
-	private BlockStatement elseBlock;
+	//private Block elseBlock;
+	private final Block elseBlock;
 
-	public IfElseStatement(Expression expr, BlockStatement ifBlock, BlockStatement elseBlock) {
+	public IfElseStatement(Expression expr, Block ifBlock, Block elseBlock) {
 		super(expr, ifBlock);
 		this.elseBlock = elseBlock;
 	}
 
-	public BlockStatement getElseBLock() {
+	public Block getElseBLock() {
 		return elseBlock;
-
 	}
 	
 	@Override
@@ -23,4 +23,8 @@ public class IfElseStatement extends IfStatement {
 		return visitor.visit(this);
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + "\n\tElse Block = " + elseBlock.toString();
+	}
 }
