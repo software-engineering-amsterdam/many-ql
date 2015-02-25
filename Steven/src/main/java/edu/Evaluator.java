@@ -143,10 +143,6 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Question question) {
-        //by default disable boolean questions
-        if (question.getQuestionType().equals(QuestionType.BOOLEAN)) {
-            question.disable();
-        }
         questions.add(question);
         return super.visit(question);
     }
