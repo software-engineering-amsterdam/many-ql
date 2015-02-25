@@ -24,14 +24,10 @@ import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
-<<<<<<< HEAD
-import org.uva.ql.ast.visitor.TypeCheckerVisitor;
-import org.uva.ql.view.FormView;
-=======
 import org.uva.ql.ast.value.Int;
 import org.uva.ql.ast.visitor.Evaluator;
 import org.uva.ql.ast.visitor.TypeChecker;
->>>>>>> 39721528713c4bb5cbd6f6d5c487fd869e5ea632
+import org.uva.ql.view.FormView;
 
 public class Main {
 
@@ -46,26 +42,18 @@ public class Main {
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
 		System.out.println("FinalTree = " + finalTree);
-		
-<<<<<<< HEAD
 		FormView form = new FormView();
 		
 //		for (Form form: finalTree.getFormList()) {
 //			printBlock(form.getBlock());
 //		}
-=======
+
 //		for (Form form: finalTree.getForms()) {
 //			printBlock(form.getBlock());
 //		}
 //		
->>>>>>> 39721528713c4bb5cbd6f6d5c487fd869e5ea632
-		
-		
-		
 		Node result = tree.accept(visitor);
 		System.out.println(result);
-		
-		
 		Evaluator e = new Evaluator();
 		Identifier id1 = new Identifier("ID1");
 		Identifier id2 = new Identifier("ID2");
