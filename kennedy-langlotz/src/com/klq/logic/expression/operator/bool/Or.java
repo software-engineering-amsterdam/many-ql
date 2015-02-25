@@ -21,6 +21,6 @@ public class Or extends AExpression {
                 return Boolean.getTrue();
             else
                 return Boolean.getFalse();
-        return null;
+        return new Or(left, right);
     }
 }

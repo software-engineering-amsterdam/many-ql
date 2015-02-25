@@ -2,7 +2,10 @@ package org.uva.student.calinwouter.qlqls.qls.model.functions;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
+import org.uva.student.calinwouter.qlqls.ql.types.TBool;
+import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
+import org.uva.student.calinwouter.qlqls.ql.types.TString;
+import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCallback;
@@ -24,24 +27,36 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
     }
 
     public Question() {
-        arguments = new HashMap<Object, Object>();
+        super();
     }
 
     @Override
     public void usesBoolean() {
-        // TODO use default.
-        widgetCallback.caseCheckboxWidget(this);
+        try {
+            getTypeToWidgetSettingsModel().getWidgetSettingsModel(TBool.TYPE_REFERENCE).getWidget()
+                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(TBool.TYPE_REFERENCE));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void usesInteger() {
-        // TODO use default.
-        widgetCallback.caseIntboxWidget(this);
+        try {
+            getTypeToWidgetSettingsModel().getWidgetSettingsModel(TInteger.TYPE_REFERENCE).getWidget()
+                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(TInteger.TYPE_REFERENCE));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void usesString() {
-        // TODO use default.
-        widgetCallback.caseTextboxWidget(this);
+        try {
+            getTypeToWidgetSettingsModel().getWidgetSettingsModel(TString.TYPE_REFERENCE).getWidget()
+                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(TString.TYPE_REFERENCE));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }

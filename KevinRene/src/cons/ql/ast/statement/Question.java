@@ -1,50 +1,48 @@
 package cons.ql.ast.statement;
 
 import cons.ql.ast.Statement;
-import cons.ql.ast.Visitor;
+import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.literal.QLIdent;
-import cons.ql.ast.expression.literal.QLString;
+import cons.ql.ast.expression.literal.StringLiteral;
+import cons.ql.ast.visitor.Visitor;
 
-@SuppressWarnings("rawtypes")
-public class Question extends Statement {
-	protected QLIdent identifier;
-	protected QLType type;
-	protected QLString questionText;
+public class Question extends Statement {	
+	private final Identifier identifier;
+	private final QLType type;
+	private final StringLiteral questionText;
 	
-	public Question(QLIdent identifier, QLType type, QLString questionText) {
+	public Question(Identifier identifier, QLType type, StringLiteral questionText) {
 		this.identifier = identifier;
 		this.type = type;
 		this.questionText = questionText;
 	}
 	
-	public QLIdent getIdent() {
+	public Identifier getIdentifier() {
 		return this.identifier;
 	}
 	
-	public QLType  getType() {
+	public QLType getType() {
 		return this.type;
 	}
 	
-	public QLString getText() {
-		return questionText;
+	public StringLiteral getText() {
+		return this.questionText;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Question(");
 		
-		sb.append(identifier.toString() + ", ");
-		sb.append(type.toString() + ", ");
-		sb.append(questionText.toString());
+		sb.append(getIdentifier().toString() + ", ");
+		sb.append(getType().toString() + ", ");
+		sb.append(getText().toString());
 		sb.append(")");
 		
 		return sb.toString();
 	}
-	
+
 	@Override
-	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
-		
+	public <T> T accept(Visitor<T> visitor) {		
+		return visitor.visit(this);
 	}
 }

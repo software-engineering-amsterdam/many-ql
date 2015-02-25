@@ -1,7 +1,0 @@
-form taxOfficeExample {
-
-    form illegal {
-    
-    }
-    
-}

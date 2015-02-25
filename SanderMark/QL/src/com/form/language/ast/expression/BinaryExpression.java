@@ -11,6 +11,7 @@ public abstract class BinaryExpression implements Expression {
 	public BinaryExpression(Expression left, Expression right, Token tokenInfo) {
 		this.left = left;
 		this.right = right;
+		this.tokenInfo = tokenInfo;
 	}
 	@Override
 	public Boolean isCorrectlyTyped() {

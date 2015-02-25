@@ -8,6 +8,9 @@ import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.error.Error;
+import com.form.language.error.ErrorCollector;
+
 public class And extends BinaryExpression implements Expression {
 
 	public And(Expression left, Expression right, Token tokenInfo) {
@@ -21,8 +24,34 @@ public class And extends BinaryExpression implements Expression {
 
 	@Override
 	public Type getType() {
-		if(left.getType().isBoolType() && right.getType().isBoolType()) return new BoolType();
-		return new ErrorType();
+		Type leftType = left.getType();
+		Type rightType = right.getType();
+		
+		if(leftType.isBoolType() && rightType.isBoolType()) {
+			return new BoolType();
+		}
+		else{
+			return new ErrorType();
+		}
 	}
+	
+	@Override
+	public ErrorCollector getErrors(ErrorCollector errors) {
+		Type leftType = left.getType();
+		Type rightType = right.getType();
+		
+		ErrorCollector newErrors = new ErrorCollector(left.getErrors(errors), right.getErrors(errors));
 
+		if(leftType.isBoolType() && rightType.isBoolType()) {
+			return newErrors;
+		}
+		else{
+			if(!(leftType.isErrorType() || rightType.isErrorType())){
+				Error newError = new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType);
+				newErrors.add(newError);
+				return newErrors;
+			}
+			return newErrors;
+		}
+	}
 }

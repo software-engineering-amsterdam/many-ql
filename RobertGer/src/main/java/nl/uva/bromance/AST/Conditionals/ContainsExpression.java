@@ -2,7 +2,7 @@ package nl.uva.bromance.AST.Conditionals;
 
 /**
  * Created by Robert on 2/22/2015.
- * <p/>
+ * <p>
  * Stub class.
  */
 public interface ContainsExpression {

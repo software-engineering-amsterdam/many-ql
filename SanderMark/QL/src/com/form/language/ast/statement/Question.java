@@ -7,19 +7,30 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.type.Type;
+import com.form.language.ast.type.BoolType;
+import com.form.language.memory.Memory;
+
 public class Question implements Statement {
 	private String id;
 	private String questionLabel;
-	private String questionType;
+	private Type questionType;
 	
 	private JPanel qPanel;
 	private JPanel labelContainer;
 	
-	public Question(String questionLabel, String id, String questionType) {
+	public Question(String questionLabel, String id, String questionType, Memory memory) {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
-		this.questionType = questionType;
+		if(questionType.equals("Boolean"))
+				{
+					this.questionType = new BoolType();
+				}
+		
+		//Call ID constructor
+		new IdLiteral(id,questionType,memory,null);
 	}
 	
 	private void createQuestion(){		

@@ -1,6 +1,7 @@
 package uva.ql.interpreter.typecheck;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uva.ql.ast.ASTNode;
@@ -9,6 +10,7 @@ import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.expressions.PrimitiveType;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.DecimalLiteral;
@@ -32,12 +34,18 @@ import uva.ql.ast.question.Question;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.value.GenericValue;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
+import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
 
-public class TypeCheckVisitor implements VisitorInterface<Object>{
+public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
 
-	public SymbolMap symbols = new SymbolMap();
+	private SymbolMap symbols = new SymbolMap();
+	
+	public SymbolMap getSymbolTable(){
+		return this.symbols;
+	}
 	
 	// Check whether an e.g. assignment is within the scope a question declaration
 	private boolean withinScope(CodeLines x, CodeLines y){
@@ -112,14 +120,21 @@ public class TypeCheckVisitor implements VisitorInterface<Object>{
 	@Override
 	public Object visitIfStatement(IfStatement ifStatement) {
 		
-		Expression expression = ifStatement.getExpression();
 		
-		if (expression.evaluate().getValue().getClass() != Boolean.class)
-			throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
-											+ expression.getCodeLines().toString());
+		System.err.println(ifStatement.getExpression().accept(this));
+		
+		/*Object evaluatedExpression = ifStatement.evaluate().getValue();
+		
+		if (evaluatedExpression.getClass().equals(Identifier.class)){
+			System.out.println("Found some identifier");
+		}*/
+		
+		//if (expression.evaluate().getValue().getClass() != Boolean.class)
+			//throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
+				//							+ expression.getCodeLines().toString());
 		
 
-		expression.accept(this);
+		ifStatement.getExpression().accept(this);
 		this.visitStatements(ifStatement.getStatement());
 		
 		return null;
@@ -158,7 +173,7 @@ public class TypeCheckVisitor implements VisitorInterface<Object>{
 	}
 
 	@Override
-	public Object visitBinaryExpression(BinaryExpressions expression) {
+	public List<Object> visitBinaryExpression(BinaryExpressions expression) {
 		
 		Expression left = expression.getLeftExpr();
 		Expression right = expression.getRightExpr();
@@ -166,132 +181,112 @@ public class TypeCheckVisitor implements VisitorInterface<Object>{
 		left.accept(this);
 		right.accept(this);
 		
-		return null;
+		// Identifiers evaluated in accordance to their type
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(left.accept(this));
+		objects.add(right.accept(this));
+		
+		
+		System.err.println(findSomeValue(objects, "boolean"));
+		
+		return objects;
+	}
+	private List<GenericValue<?>> findSomeValue(List<Object> objects, String type){
+		// create a map that stores all of these values!
+		
+		
+		List<GenericValue<?>> genericValue = new ArrayList<GenericValue<?>>();
+		
+		for (Object _expression : objects){
+			if (_expression.getClass().equals(Identifier.class)){
+				String identifier = ((Expression)_expression).evaluate().getValue().toString();
+				
+				for (Symbol symbol : this.symbols.retrieve(identifier)){
+					if (symbol.getClassName().equals(Assign.class.getName()) && symbol.getContent() != null){
+						if (symbol.getSymbolType().equals(type)){
+							Object obj = PrimitiveType.identifierFromPrimitiveType(symbol.getSymbolType(), symbol.getContent());
+							
+							genericValue.add((GenericValue<?>)obj);
+						}
+					}
+				}
+			}
+		}
+		return genericValue;
 	}
 
 	@Override
 	public Object visitExpression(Expression expression) {
-		// TODO Auto-generated method stub
-		return null;
+		return expression.accept(this);
 	}
 
 	@Override
 	public Object visitExponentiation(Exponentiation exponentiation) {
-		// Should be NumberValue
-		
-		this.visitBinaryExpression(exponentiation);
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(exponentiation);
 	}
 
 	@Override
 	public Object visitAddition(Addition addition) {
-		// Should be NumberValue
-		
-		this.visitBinaryExpression(addition);
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(addition);
 	}
 
 	@Override
 	public Object visitSubstraction(Substraction substraction) {
-		// Should be NumberValue
-		
-		this.visitBinaryExpression(substraction);
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(substraction);
 	}
 
 	@Override
 	public Object visitMultiplication(Multiplication multipllication) {
-		// Should be NumberValue
-		this.visitBinaryExpression(multipllication);
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(multipllication);
 	}
 
 	@Override
 	public Object visitDivision(Division division) {
-		// Should be NumberValue
-		this.visitBinaryExpression(division);
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(division);
 	}
 
 	@Override
 	public Object visitAnd(And and) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(and);
 	}
 
 	@Override
 	public Object visitOr(Or or) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(or);
 	}
 
 	@Override
 	public Object visitEqual(Equal equal) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		
-		
-		return null;
+		return this.visitBinaryExpression(equal);
 	}
 
 	@Override
 	public Object visitNotEqual(NotEqual notEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(notEqual);
 	}
 
 	@Override
 	public Object visitGreaterEqual(Greater_Eq greaterEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(greaterEqual);
 	}
 
 	@Override
 	public Object visitGreater(Greater greater) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(greater);
 	}
 
 	@Override
 	public Object visitLessEqual(Less_Eq lessEqual) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(lessEqual);
 	}
 
 	@Override
 	public Object visitLess(Less less) {
-		// Should be of equal class
-		
-		// TODO Auto-generated method stub
-		return null;
+		return this.visitBinaryExpression(less);
 	}
 
 	@Override
 	public Object visitType(Type type) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -302,32 +297,26 @@ public class TypeCheckVisitor implements VisitorInterface<Object>{
 			throw new IllegalArgumentException("IllegalArgumentException: reference to an undefined question -> " 
 												+ identifier.toString());
 		
-		return null;
+		return identifier;
 	}
 
 	@Override
 	public Object visitBooleanLiteral(BooleanLiteral booleanLiteral) {
-		// TODO Auto-generated method stub
-		return null;
+		return booleanLiteral;
 	}
 
 	@Override
 	public Object visitDecimalLiteral(DecimalLiteral decimalLiteral) {
-		System.out.println(decimalLiteral);
-		
-		return null;
+		return decimalLiteral;
 	}
 
 	@Override
 	public Object visitIntLiteral(IntLiteral intLiteral) {
-		System.out.println(intLiteral);
-		
-		return null;
+		return intLiteral;
 	}
 
 	@Override
 	public Object visitStringLiteral(StringLiteral stringLiteral) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

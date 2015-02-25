@@ -10,17 +10,33 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
     public class Add : BinaryExpression
     {
-        public Value Evaluate(IDictionary<string, Value> environment)
+        public override NodeType Type
         {
-            Integer left = (Integer)Left.Evaluate(environment);
-            Integer right = (Integer)Right.Evaluate(environment);
+            get
+            {
+                return NodeType.Add;
+            }
+        }
 
-            return new Integer(left.Value + right.Value);
+        public Add(Operation operation, IExpression left, IExpression right, TextPosition position)
+            : base(operation, left, right, position) {}
+
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
         }
 
         public override DataType? GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Integer;
+        }
+
+        public override IValue Evaluate(IDictionary<string, IValue> environment)
+        {
+            IValue left = Left.Evaluate(environment);
+            IValue right = Right.Evaluate(environment);
+
+            return left.Plus(right);
         }
     }
 }

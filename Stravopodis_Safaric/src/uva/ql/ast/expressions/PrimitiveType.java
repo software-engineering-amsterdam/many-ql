@@ -1,5 +1,8 @@
 package uva.ql.ast.expressions;
 
+import uva.ql.ast.value.*;
+import uva.ql.ast.expressions.literals.*;
+
 public enum PrimitiveType {
 	BOOLEAN("boolean","Boolean"),
 	INT("int","Int"),
@@ -26,6 +29,17 @@ public enum PrimitiveType {
 		for(PrimitiveType type : PrimitiveType.values())
 			if (type.getName().equals(operator))
 				return type;
+		return null;
+	}
+	public static GenericValue<?> identifierFromPrimitiveType(String primitiveType, Object value){
+		PrimitiveType type = PrimitiveType.findOperator(primitiveType);
+
+		switch(type){
+			case BOOLEAN: 	return new BooleanValue(((BooleanLiteral)value).evaluate().getValue());
+			case INT: 		return new NumberValue((int)value);
+			case DECIMAL:	return new NumberValue((float)value);
+			case STRING: 	return new StringValue(String.valueOf(value));
+		}
 		return null;
 	}
 }

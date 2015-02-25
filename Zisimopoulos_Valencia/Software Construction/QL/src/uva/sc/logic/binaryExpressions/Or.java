@@ -7,4 +7,8 @@ public class Or extends BinaryExpression{
 	public Or(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op ||]";
+	}
 }

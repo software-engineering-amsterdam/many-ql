@@ -16,14 +16,14 @@ import java.util.*;
  * Created by bore on 13/02/15.
  */
 
-public class TypeChecker implements StatVisitor<Type>, ExprVisitor<Type>, FormVisitor<Type>
+public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, ExprVisitor<Type>
 {
     private SymbolTable symbolTable;
     private Question currentQuestion;
     private QuestionDependencies questionDependencies;
     private LabelMap labels;
     private List<Message> messages;
-    
+
     public static List<Message> check(Form f)
     {
         SymbolResult symbolResult = SymbolVisitor.extract(f);
@@ -50,64 +50,89 @@ public class TypeChecker implements StatVisitor<Type>, ExprVisitor<Type>, FormVi
         this.messages = new ArrayList<Message>();
     }
 
-    @Override
-    public Type visit(Form form)
+    private UndefinedType undefinedType()
     {
-        for (Statement statement : form.getBody())
-        {
-            statement.accept(this);
-        }
-
-        return null;
+        return new UndefinedType();
     }
 
     @Override
-    public Type visit(IfCondition condition)
+    public Boolean visit(Form form)
+    {
+        for (Statement statement : form.getBody())
+        {
+            boolean r = statement.accept(this);
+            if (!r)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public Boolean visit(IfCondition condition)
     {
         Type condType = condition.getCondition().accept(this);
+
+        if (condType.isUndef())
+        {
+            return false;
+        }
 
         if (!(condType.equals(new BoolType())))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
+            return false;
         }
 
         for (Statement statement : condition.getBody())
         {
-            statement.accept(this);
+            boolean r = statement.accept(this);
+            if (!r)
+            {
+                return false;
+            }
         }
 
-        return null;
+        return true;
     }
 
     @Override
-    public Type visit(Question q)
+    public Boolean visit(Question q)
     {
         this.questionDependencies.addQuestion(q);
         this.labels.registerLabel(q);
 
-        return null;
+        return true;
     }
 
     @Override
-    public Type visit(CalculatedQuestion q)
+    public Boolean visit(CalculatedQuestion q)
     {
-        this.setScopeForExpr(q);
-
         this.questionDependencies.addQuestion(q);
         this.labels.registerLabel(q);
-
         Type defined = q.getType();
+
+        this.setScopeForExpr(q);
         Type assigned = q.getDefaultValue().accept(this);
+        assigned = assigned.promoteTo(defined);
+        this.resetScopeForExpr();
+
+        if (assigned.isUndef())
+        {
+            return false;
+        }
 
         if (!(defined.equals(assigned)))
         {
-            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(), assigned.getTitle(),
-                    q.getLineNumber()));
+            this.messages.add(Error.identifierDefEvalMismatch(q.getId(), defined.getTitle(),
+                    assigned.getTitle(), q.getLineNumber()));
+
+            return false;
         }
 
-        this.resetScopeForExpr();
-
-        return null;
+        return true;
     }
 
     @Override
@@ -243,32 +268,72 @@ public class TypeChecker implements StatVisitor<Type>, ExprVisitor<Type>, FormVi
         return this.visitBinaryExpr(e);
     }
 
-
+    // 1. Check if the operands are defined
+    // 2. Check if the operands are of the allowed types
+    // 3. Check if the operands are of the same type, e.g. no 1=="string"
     private Type visitBinaryExpr(BinaryExpr e)
     {
         Type left = e.getLeft().accept(this);
         Type right = e.getRight().accept(this);
 
-        this.checkChildTypesConsistency(e, left, right);
+        if (left.isUndef() || right.isUndef())
+        {
+            return undefinedType();
+        }
 
-        return this.checkTypeAndSetReturnType(e, left);
+        if (!(this.isChildOfAllowedType(e, left)) || !(this.isChildOfAllowedType(e, right)))
+        {
+            return undefinedType();
+        }
+
+        Type leftPromoted = left.promoteTo(right);
+        Type rightPromoted = right.promoteTo(left);
+
+        if (!(this.areChildTypesConsistent(e, leftPromoted, rightPromoted)))
+        {
+            return undefinedType();
+        }
+
+        return this.computeType(e, leftPromoted);
     }
 
+    // 1. Check if the operand is defined
+    // 2. Check if the operand is of the correct type
     private Type visitUnaryExpr(UnaryExpr e)
     {
         Type operand = e.getOperand().accept(this);
 
-        return this.checkTypeAndSetReturnType(e, operand);
+        if (operand.isUndef())
+        {
+            return undefinedType();
+        }
+
+        if (!(this.isChildOfAllowedType(e, operand)))
+        {
+            return undefinedType();
+        }
+
+        return this.computeType(e, operand);
     }
 
-    private Type checkTypeAndSetReturnType(Expr e, Type childType)
+    private boolean isChildOfAllowedType(Expr e, Type childType)
     {
         String exprName = e.getClass().getSimpleName();
-        Set<Type> types = ExprTypeMap.exprAllowedTypes.get(exprName);
+        Set<Type> allowedTypes = ExprTypeMap.exprAllowedTypes.get(exprName);
 
-        this.checkAllowedTypes(e, childType, types);
+        if (!(allowedTypes.contains(childType)))
+        {
+            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
+        }
 
+        return allowedTypes.contains(childType);
+    }
+
+    private Type computeType(Expr e, Type childType)
+    {
+        String exprName = e.getClass().getSimpleName();
         Type returnType = childType;
+
         if (ExprTypeMap.exprReturnType.containsKey(exprName))
         {
             returnType = ExprTypeMap.exprReturnType.get(exprName);
@@ -277,21 +342,16 @@ public class TypeChecker implements StatVisitor<Type>, ExprVisitor<Type>, FormVi
         return returnType;
     }
 
-    private void checkChildTypesConsistency(AstNode n, Type leftChildType, Type rightChildType)
+    private boolean areChildTypesConsistent(AstNode n, Type left, Type right)
     {
-        if (!(leftChildType.equals(rightChildType)))
+        boolean consistent = left.equals(right);
+        if (!(consistent))
         {
             this.messages.add(Error.typeMismatch(
-                    n.getClass().getSimpleName(), leftChildType, rightChildType, n.getLineNumber()));
+                    n.getClass().getSimpleName(), left, right, n.getLineNumber()));
         }
-    }
 
-    private void checkAllowedTypes(Expr e, Type childType, Set<Type> allowedTypes)
-    {
-        if (!(allowedTypes.contains(childType)))
-        {
-            this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
-        }
+        return consistent;
     }
 
     private void setScopeForExpr(CalculatedQuestion q)

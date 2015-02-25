@@ -9,6 +9,11 @@ public abstract class Value<T>
 {
     private T value;
 
+    public Boolean isUndefined()
+    {
+        return false;
+    }
+
     public Value(T value)
     {
         this.value = value;

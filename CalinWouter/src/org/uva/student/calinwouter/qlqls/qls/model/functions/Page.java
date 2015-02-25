@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls.model.functions;
 
+import org.uva.student.calinwouter.qlqls.qls.model.TypeToWidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
@@ -9,12 +10,7 @@ import java.util.List;
 public class Page extends AbstractComponent<Page> {
     private String ident;
     private List<Section> sections;
-    private List<Default> defaultSettings;
     private int arg;
-
-    public List<Default> getDefaultSettings() {
-        return defaultSettings;
-    }
 
     public String getPageName() {
         return ident;
@@ -30,17 +26,13 @@ public class Page extends AbstractComponent<Page> {
         arg++;
     }
 
-    @Override
-    public void caseDefault(Default defaultSetting) {
-        defaultSettings.add(defaultSetting);
-    }
-
     public List<Section> getSections() {
         return sections;
     }
 
     @Override
     public void caseSection(Section section) {
+        section.setParent(this);
         sections.add(section);
     }
 
@@ -51,6 +43,5 @@ public class Page extends AbstractComponent<Page> {
 
     public Page() {
         sections = new LinkedList<Section>();
-        defaultSettings = new LinkedList<Default>();
     }
 }

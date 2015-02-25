@@ -5,11 +5,11 @@ import org.uva.ql.ast.visitor.Visitor;
 
 public class IfStatement extends Statement {
 
-	private BlockStatement ifBlock;
-
+	//private Block ifBlock;
+	private final Block ifBlock;
 	private final Expression expr;
 
-	public IfStatement(Expression expr, BlockStatement ifBlock) {
+	public IfStatement(Expression expr, Block ifBlock) {
 		this.expr = expr;
 		this.ifBlock = ifBlock;
 	}
@@ -18,13 +18,20 @@ public class IfStatement extends Statement {
 		return expr;
 	}
 
-	public BlockStatement getIfBlock() {
+	public Block getIfBlock() {
 		return ifBlock;
 	}
 	
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
+	}
+	
+	@Override
+	public String toString() {
+		return "[If] "
+				+ "\n\tExpression = " + expr.toString()
+				+ "\n\tIf Block = " + ifBlock.toString();
 	}
 
 }

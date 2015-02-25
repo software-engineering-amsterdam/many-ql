@@ -3,7 +3,7 @@ package uva.ql.ast.statements;
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.Identifier;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.StatementVisitorInterface;
 
 public class Assign extends Statement {
 	private Identifier identifier;
@@ -33,7 +33,7 @@ public class Assign extends Statement {
 		return this.string;
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(StatementVisitorInterface<T> visitor) {
 		return visitor.visitAssign(this);
 	}
 	@Override

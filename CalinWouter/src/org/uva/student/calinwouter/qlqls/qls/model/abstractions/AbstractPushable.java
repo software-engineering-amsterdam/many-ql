@@ -11,7 +11,7 @@ public abstract class AbstractPushable<T> {
 
     public T getValue() { return value; }
 
-    public HashMap<Object, Object> getHashMap() {
+    public HashMap<String, Object> getHashMap() {
         throw new RuntimeException("Value is not of type HashMap, but of type: " + value.getClass() + ".");
     }
 

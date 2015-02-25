@@ -1,7 +1,6 @@
 package org.fugazi.type_checker.error;
 
 import org.fugazi.ast.AbstractASTNode;
-import org.fugazi.type_checker.error.ASTNodeErrorType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,15 +44,15 @@ public class ASTErrorHandler {
      * =======================
      */
 
-    public void registerNewError(AbstractASTNode _errorNode, String _message) {
+    public void registerNewError(ASTNodeErrorType _type, AbstractASTNode _errorNode, String _message) {
         this.errors.add(new ASTNodeError(
-                ASTNodeErrorType.ERROR, _errorNode, _message
+                _type, _errorNode, _message
         ));
     }
 
     public void registerNewWarning(AbstractASTNode _errorNode, String _message) {
         this.warnings.add(new ASTNodeError(
-                ASTNodeErrorType.WARNING, _errorNode, _message
+                ASTNodeErrorType.WARNING.DUPLICATE_LABEL, _errorNode, _message
         ));
     }
 

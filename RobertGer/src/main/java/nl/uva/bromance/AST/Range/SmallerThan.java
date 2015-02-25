@@ -6,6 +6,7 @@ package nl.uva.bromance.AST.Range;
 public class SmallerThan implements Range {
 
     int val;
+
     public SmallerThan(int value) {
         this.val = value;
     }
