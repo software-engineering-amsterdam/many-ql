@@ -8,17 +8,30 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
+import org.uva.ql.ast.Node;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.questionnaire.Form;
+import org.uva.ql.ast.expression.binary.Divide;
+import org.uva.ql.ast.expression.binary.Minus;
+import org.uva.ql.ast.expression.binary.Multiply;
+import org.uva.ql.ast.expression.binary.Plus;
+import org.uva.ql.ast.expression.literal.Identifier;
+import org.uva.ql.ast.expression.literal.IntLiteral;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.statement.BlockStatement;
+import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
+<<<<<<< HEAD
 import org.uva.ql.ast.visitor.TypeCheckerVisitor;
+import org.uva.ql.view.FormView;
+=======
+import org.uva.ql.ast.value.Int;
+import org.uva.ql.ast.visitor.Evaluator;
+import org.uva.ql.ast.visitor.TypeChecker;
+>>>>>>> 39721528713c4bb5cbd6f6d5c487fd869e5ea632
 
 public class Main {
 
@@ -33,22 +46,44 @@ public class Main {
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
 		System.out.println("FinalTree = " + finalTree);
-		System.out.println(finalTree.getFormList().size());
 		
-		for (Form form: finalTree.getFormList()) {
-			printBlock(form.getBlock());
-		}
+<<<<<<< HEAD
+		FormView form = new FormView();
 		
-		
-//		Node result = tree.accept(visitor);
-//		System.out.println(result);
+//		for (Form form: finalTree.getFormList()) {
+//			printBlock(form.getBlock());
+//		}
+=======
+//		for (Form form: finalTree.getForms()) {
+//			printBlock(form.getBlock());
+//		}
 //		
-//		IntLiteral i1 = new IntLiteral(5);
-//		IntLiteral i2 = new IntLiteral(9);
+>>>>>>> 39721528713c4bb5cbd6f6d5c487fd869e5ea632
+		
+		
+		
+		Node result = tree.accept(visitor);
+		System.out.println(result);
+		
+		
+		Evaluator e = new Evaluator();
+		Identifier id1 = new Identifier("ID1");
+		Identifier id2 = new Identifier("ID2");
+		IntLiteral i1 = new IntLiteral(5);
+		IntLiteral i2 = new IntLiteral(9);
+		Int v1 = new Int(11);
+		Int v2 = new Int(7);
+		
+		e.putValue(id1, v1);
+		e.putValue(id2, v2);
+		System.out.println("Test Evaluator ID1 + ID2 = " + e.evaluate(new Plus(id1, id2)));
+		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2)));
+		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2)));
+		System.out.println("Test Evaluator ID1 / ID2 = " + e.evaluate(new Divide(id1, id2)));
+		
 //		Plus p1 = new Plus(i1, i2);
 //		Minus p2 = new Minus(p1,i2);
 //		Multiply p3 = new Multiply(p1, p2);
-//		Evaluator e = new Evaluator();
 //		System.out.println("TEST VALUE1 " + p3.accept(e).getValue());
 //		
 //		Greater p4 = new Greater(p2, p3);
@@ -56,25 +91,25 @@ public class Main {
 		
 	}
 	
-	public static void printBlock(BlockStatement block){
-		TypeCheckerVisitor typeChcker= new TypeCheckerVisitor();
+	public static void printBlock(Block block){
+		TypeChecker typeChcker= new TypeChecker();
 		
-		for (Statement statement: block.getStatementList()) {
+		for (Statement statement: block.getStatements()) {
 			if (statement.getClass() == QuestionNormal.class) {
 				QuestionNormal question = (QuestionNormal) statement;
-				System.out.println("Question string: " +question.toString());
+				System.out.println(question.toString());
 			}else if (statement.getClass() == QuestionCompute.class) {
 				QuestionCompute question = (QuestionCompute) statement;
 				Expression expr = question.getExpression();
 				System.out.println(expr.accept(typeChcker));
-				System.out.println("Question string: " +question.toString());
+				System.out.println(question.toString());
 			}else if (statement.getClass() == IfStatement.class) {
 				IfStatement ifstatement = (IfStatement) statement;				
-				System.out.println("expression" + ifstatement.getExpr());
+				System.out.println(ifstatement.getExpr());
 				printBlock(ifstatement.getIfBlock());		
 			}if (statement.getClass() == IfElseStatement.class) {
 				IfElseStatement ifElseStatement= (IfElseStatement) statement;				
-				System.out.println("expression" + ifElseStatement.getExpr());
+				System.out.println(ifElseStatement.getExpr());
 				printBlock(ifElseStatement.getIfBlock());	
 				printBlock(ifElseStatement.getElseBLock());	
 			}

@@ -2,21 +2,21 @@ package org.uva.ql.ast.type;
 
 import org.uva.ql.ast.visitor.Visitor;
 
-public class IntType extends Type {
-	
+public class StrType extends Type {
+
 	@Override
-	public boolean isInt() {
+	public boolean isStr() {
 		return true;
 	}
 	
 	@Override
 	public boolean isEqual(Type type) {
-		return type.isInt();
+		return type.isStr();
 	}
 	
 	@Override
 	public String toString() {
-		return "Int";
+		return "Str";
 	}
 	
 	@Override

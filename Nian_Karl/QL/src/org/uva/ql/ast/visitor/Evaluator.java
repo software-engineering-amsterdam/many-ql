@@ -1,5 +1,9 @@
 package org.uva.ql.ast.visitor;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Divide;
@@ -22,19 +26,44 @@ import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.statement.BlockStatement;
+import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionNormal;
+import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
+import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.value.Bool;
 import org.uva.ql.ast.value.Int;
 import org.uva.ql.ast.value.Str;
+import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.ast.value.Value;
 
-public class EvaluatorVisitor implements Visitor<Value> {
+public class Evaluator implements Visitor<Value> {
 	
-	public EvaluatorVisitor() {
-
+	private final Map<Identifier, Value> values;
+	
+	public Evaluator() {
+		this.values = new HashMap<Identifier, Value>();
+	}
+	
+	public void putValue(Identifier identifier, Value value) {
+		values.put(identifier, value);
+	}
+	
+	/**
+	 * Get the value of specified identifier 
+	 * (if the value is not set yet, return undefined value)
+	 */
+	public Value getValue(Identifier identifier) {
+		if (values.containsKey(identifier)) {
+			return values.get(identifier);
+		} else {
+			return new Undefined();
+		}
+	}
+	
+	public Value evaluate(Expression expr) {
+		return expr.accept(this); 
 	}
 
 	@Override
@@ -138,7 +167,7 @@ public class EvaluatorVisitor implements Visitor<Value> {
 
 	@Override
 	public Value visit(Identifier node) {
-		return null;
+		return getValue(node);
 	}
 
 	@Override
@@ -174,7 +203,7 @@ public class EvaluatorVisitor implements Visitor<Value> {
 	}
 
 	@Override
-	public Value visit(BlockStatement blockStatement) {
+	public Value visit(Block blockStatement) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -193,6 +222,18 @@ public class EvaluatorVisitor implements Visitor<Value> {
 
 	@Override
 	public Value visit(IntType node) {
+		return null;
+	}
+
+	@Override
+	public Value visit(BoolType node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Value visit(StrType node) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

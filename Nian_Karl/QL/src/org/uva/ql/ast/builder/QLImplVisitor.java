@@ -27,9 +27,11 @@ import org.uva.ql.antlr.QLParser.LiteralIntContext;
 import org.uva.ql.antlr.QLParser.LiteralStrContext;
 import org.uva.ql.antlr.QLParser.QuestionComputeContext;
 import org.uva.ql.antlr.QLParser.QuestionNormalContext;
-import org.uva.ql.antlr.QLParser.QuestionTypeContext;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.antlr.QLParser.StatementContext;
+import org.uva.ql.antlr.QLParser.TypeBoolContext;
+import org.uva.ql.antlr.QLParser.TypeIntContext;
+import org.uva.ql.antlr.QLParser.TypeStrContext;
 import org.uva.ql.ast.Node;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
@@ -53,23 +55,108 @@ import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.statement.BlockStatement;
+import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
+import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
+import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.QuestionType;
-import org.uva.ql.factory.QLFactory;
+import org.uva.ql.ast.type.StrType;
+import org.uva.ql.ast.type.Type;
 
 public class QLImplVisitor extends QLBaseVisitor<Node> {
 
-	private QLFactory factory;
-
-	public QLImplVisitor() {
-		factory = new QLFactory();
-
+	@Override
+	public Node visitQuestionnaire(QuestionnaireContext ctx) {
+		System.out.println("Visiting Questionnaire...");
+		Questionnaire questionnaire = new Questionnaire();
+		for (FormContext formContext : ctx.form()) {
+			//questionnaire.addForm((Form) visitForm(formContext));
+			questionnaire.addForm((Form) formContext.accept(this));
+		}
+		return questionnaire;
 	}
+
+	@Override
+	public Node visitForm(FormContext ctx) {
+		System.out.println("Visiting Form...");
+		Identifier id = new Identifier(ctx.Identifier().getText());
+		Block block = (Block) ctx.block().accept(this);
+		return new Form(id, block);
+	}
+	
+	@Override
+	public Node visitBlock(BlockContext ctx) {
+		System.out.println("Visiting Block...");
+		Block block = new Block();
+		for (StatementContext statementContext : ctx.statement()) {
+			block.addStatement((Statement) statementContext.accept(this));
+		}
+		return block;
+	}
+
+	@Override
+	public Node visitIf(IfContext ctx) {
+		System.out.println("Visiting If...");
+		Expression expr = (Expression) ctx.expression().accept(this);
+		Block block = (Block) ctx.block().accept(this);
+		return new IfStatement(expr, block);
+	}
+
+	@Override
+	public Node visitIfElse(IfElseContext ctx) {
+		System.out.println("Visiting If-Else...");
+		Expression expr = (Expression) ctx.expression().accept(this);
+		Block ifBlock = (Block) ctx.block(0).accept(this);
+		Block elseBlock = (Block) ctx.block(1).accept(this);
+		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock);
+		return ifElseStatement;
+	}
+
+	@Override
+	public Node visitQuestionNormal(QuestionNormalContext ctx) {
+		System.out.println("Visiting Normal Question...");
+		Identifier id = new Identifier(ctx.questionName().getText());
+		// Remove the First and Last Quotes
+		StrLiteral label = new StrLiteral(ctx.questionLabel().getText().replaceAll("^\"|\"$", ""));
+		Type type = (Type) ctx.questionType().accept(this);
+		return new QuestionNormal(id, label, type);
+	}
+
+	@Override
+	public Node visitQuestionCompute(QuestionComputeContext ctx) {
+		System.out.println("Visiting Compute Question...");
+		Identifier id = new Identifier(ctx.questionName().Identifier().getText());
+		// Remove the First and Last Quotes
+		StrLiteral label = new StrLiteral(ctx.questionLabel().getText().replaceAll("^\"|\"$", ""));
+		Type type = (Type) ctx.questionType().accept(this);
+		Expression expr = (Expression) ctx.expression().accept(this);
+		return new QuestionCompute(id, label, type, expr);
+	}
+
+	@Override
+	public Node visitTypeInt(TypeIntContext ctx) {
+		System.out.println("Visiting Type Int");
+		return new IntType();
+	}
+	
+	@Override
+	public Node visitTypeBool(TypeBoolContext ctx) {
+		System.out.println("Visiting Type Bool");
+		return new BoolType();
+	}
+	
+	@Override
+	public Node visitTypeStr(TypeStrContext ctx) {
+		System.out.println("Visiting Type Str");
+		return new StrType();
+	}
+	
+	//=================================================================
+	//	Expression
+	//=================================================================
 
 	@Override
 	public Node visitExprNot(ExprNotContext ctx) {
@@ -205,89 +292,22 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	public Node visitExprParentheses(ExprParenthesesContext ctx) {
 		return new Parenthese((Expression) ctx.expression().accept(this));
 	}
-
-	@Override
-	public Node visitIf(IfContext ctx) {
-		System.out.println("Visiting if");
-		Expression expr = (Expression) ctx.expression().accept(this);
-		BlockStatement block = (BlockStatement) visitBlock(ctx.block());
-		return new IfStatement(expr, block);
-	}
-
-	@Override
-	public Node visitIfElse(IfElseContext ctx) {
-		System.out.println("Iif else?");
-		Expression expr = (Expression) ctx.expression().accept(this);
-		BlockStatement ifBlock = (BlockStatement) visitBlock(ctx.ifBlock);
-		BlockStatement elseBlock = (BlockStatement) visitBlock(ctx.elseBlock);
-		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock);
-		return ifElseStatement;
-	}
-
-	@Override
-	public Node visitBlock(BlockContext ctx) {
-		BlockStatement block = new BlockStatement();
-		for (StatementContext statementContext : ctx.statement()) {
-			if (statementContext.question() != null) {
-				block.addStatement((Statement) statementContext.accept(this));
-			} else if (statementContext.ifStatement() != null) {
-				System.out.println("Visiting some if statement");
-				block.addStatement((Statement) statementContext.accept(this));
-			}
-		}
-		return block;
-	}
-
-	@Override
-	public Node visitQuestionnaire(QuestionnaireContext ctx) {
-		Questionnaire questionnaire = new Questionnaire();
-		for (FormContext formContext : ctx.form()) {
-			questionnaire.addForm((Form) visitForm(formContext));
-		}
-		return questionnaire;
-	}
-
-	@Override
-	public Node visitForm(FormContext ctx) {
-		if (ctx.block() != null) {
-			return new Form((BlockStatement) visitBlock(ctx.block()), ctx.Identifier().getText());
-		}
-		return visitChildren(ctx);
-	}
-
-	@Override
-	public Node visitQuestionNormal(QuestionNormalContext ctx) {
-		QuestionNormal statement = factory.getQuestionNormal(ctx);
-		return statement;
-	}
-
-	@Override
-	public Node visitQuestionCompute(QuestionComputeContext ctx) {
-		return factory.getQuestionCompute(ctx);
-	}
 	
-	@Override
-	public Node visitQuestionType(QuestionTypeContext ctx) {
-		QuestionType questionType = factory.getQuestionType(ctx.getText());
-		switch (questionType) {
-		case BOOL:
-			
-			break;
-		case STR:
-			
-			break;
-		case INT:
-			return new IntType();
-		case CUR:
-			
-			break;
-		case NO_TYPE:
-			
-			break;
+	
 
-		default:
-			break;
-		}
-		return super.visitQuestionType(ctx);
-	}
+	
+//	@Override
+//	public Node visitTypeInt(TypeIntContext ctx) {
+//		System.out.println("IIIIIIIIIIIIINNNNNNNNNNNNNNNTTTTTTTTTTTTTTT");
+//		System.out.println("TYPE INT!!!!!!!!!!!"+ctx.getText());
+//		
+//		return super.visitTypeInt(ctx);
+//	}
+//	@Override
+//	public Node visitTypeBool(TypeBoolContext ctx) {
+//		System.out.println("TYPE BOOOOOL!!!!!!!!!!!"+ctx.getText());
+//		return super.visitTypeBool(ctx);
+//	}
+	
+	
 }
