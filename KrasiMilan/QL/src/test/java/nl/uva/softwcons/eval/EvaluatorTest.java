@@ -1,10 +1,12 @@
 package nl.uva.softwcons.eval;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import helper.TestHelper;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import nl.uva.softwcons.Questionnaire;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
@@ -17,6 +19,7 @@ import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
+import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.eval.value.BooleanValue;
 import nl.uva.softwcons.eval.value.DecimalValue;
 import nl.uva.softwcons.eval.value.IntegerValue;
@@ -41,7 +44,7 @@ public class EvaluatorTest {
 
     @Before
     public void beforeEachSetRating() {
-        evaluator = new Evaluator();
+        evaluator = new Evaluator(null);
         intLiteral1 = new IntegerLiteral(1);
         intLiteral2 = new IntegerLiteral(2);
 
@@ -202,4 +205,21 @@ public class EvaluatorTest {
         assertThat(evaluator.visit(exprNotFalse).getValue()).isEqualTo(false);
     }
 
+    @Test
+    public void testAnswersValuesStorage() {
+        String questionText1 = "id1: \"Label\" integer";
+        String questionText2 = "id2: \"Label\" integer";
+        String questionText3 = "id3: \"Label\" integer(id1 + id2)";
+
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText1, questionText2, questionText3));
+        FormAnswers answers = new FormAnswers();
+
+        answers.setValue("id1", new IntegerValue(1));
+        answers.setValue("id2", new IntegerValue(2));
+        Evaluator evaluator = new Evaluator(answers);
+
+        evaluator.visit(form.getBody());
+        assertThat(answers.getValue("id3")).isExactlyInstanceOf(IntegerValue.class);
+        assertThat(answers.getValue("id3").getValue()).isEqualTo(new IntegerLiteral(3).getValue());
+    }
 }

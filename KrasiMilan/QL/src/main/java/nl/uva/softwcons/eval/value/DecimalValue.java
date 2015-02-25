@@ -24,6 +24,10 @@ public class DecimalValue extends Value<Number> {
         this.value = new BigDecimal(value);
     }
 
+    public DecimalValue(int value) {
+        this.value = new BigDecimal(value);
+    }
+
     @Override
     public DecimalValue add(Value otherValue) {
         return new DecimalValue(this.value.add(((DecimalValue) otherValue).getDecimalValue()));

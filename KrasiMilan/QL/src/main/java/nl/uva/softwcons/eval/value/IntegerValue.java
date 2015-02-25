@@ -11,6 +11,13 @@ public class IntegerValue extends DecimalValue {
         this.value = value;
     }
 
+    public IntegerValue(int value) {
+        super(value);
+        BigInteger bigValue = BigInteger.valueOf(value);
+        this.value = bigValue;
+
+    }
+
     @Override
     public Number getValue() {
         return value;

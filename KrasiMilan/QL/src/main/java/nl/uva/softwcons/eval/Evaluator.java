@@ -21,13 +21,52 @@ import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
+import nl.uva.softwcons.ast.statement.Block;
+import nl.uva.softwcons.ast.statement.ComputedQuestion;
+import nl.uva.softwcons.ast.statement.Conditional;
+import nl.uva.softwcons.ast.statement.Question;
+import nl.uva.softwcons.ast.statement.Statement;
+import nl.uva.softwcons.ast.statement.StatementVisitor;
 import nl.uva.softwcons.eval.value.BooleanValue;
 import nl.uva.softwcons.eval.value.DecimalValue;
 import nl.uva.softwcons.eval.value.IntegerValue;
 import nl.uva.softwcons.eval.value.StringValue;
 import nl.uva.softwcons.eval.value.Value;
 
-public class Evaluator implements ExpressionVisitor<Value> {
+public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Void> {
+
+    private FormAnswers answers;
+
+    public Evaluator(FormAnswers answers) {
+        this.answers = answers;
+    }
+
+    @Override
+    public Void visit(Block block) {
+        for (Statement stat : block.getStatements()) {
+            stat.accept(this);
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(ComputedQuestion question) {
+        Value resultValue = question.getExpression().accept(this);
+        this.answers.setValue(question.getId(), resultValue);
+        return null;
+    }
+
+    @Override
+    public Void visit(Question question) {
+        return null;
+    }
+
+    @Override
+    public Void visit(Conditional question) {
+        Value resultValue = question.getCondition().accept(this);
+        this.answers.setValue(question.getId(), resultValue);
+        return null;
+    }
 
     private Value leftValue(BinaryExpression expr) {
         return expr.getLeftExpression().accept(this);
@@ -108,8 +147,7 @@ public class Evaluator implements ExpressionVisitor<Value> {
 
     @Override
     public Value visit(Identifier expr) {
-        // TODO Auto-generated method stub
-        return null;
+        return answers.getValue(expr.getName());
     }
 
     @Override
@@ -131,5 +169,4 @@ public class Evaluator implements ExpressionVisitor<Value> {
     public DecimalValue visit(DecimalLiteral expr) {
         return new DecimalValue(expr.getValue());
     }
-
 }
