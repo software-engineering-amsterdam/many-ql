@@ -4,10 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.AST.Types
+namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
 {
     public abstract class Value : IValue
     {
+        public virtual bool IsUndefined
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public virtual IInteger Plus(IValue value)
         {
             throw new InvalidOperationException();

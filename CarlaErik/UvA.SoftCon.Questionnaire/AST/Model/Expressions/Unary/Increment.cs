@@ -24,9 +24,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
         {
         }
 
-        public override void Accept(IASTVisitor visitor)
+        public override T Accept<T>(IASTVisitor<T> visitor)
         {
-            throw new NotImplementedException();
+            return visitor.Visit(this);
         }
 
         public override DataType? GetType(IDictionary<string, DataType> symbolTable)

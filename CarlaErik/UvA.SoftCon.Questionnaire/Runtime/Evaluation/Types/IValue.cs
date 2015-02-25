@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.AST.Types
+namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
 {
     public interface IValue
     {
+        bool IsUndefined { get; }
+
         IInteger Plus(IValue value);
         IInteger PlusInt(IInteger value);
         IInteger Minus(IValue value);

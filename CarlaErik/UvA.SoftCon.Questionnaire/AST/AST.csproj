@@ -81,14 +81,6 @@
     <Compile Include="Model\Expressions\Operation.cs" />
     <Compile Include="Model\Statements\Declaration.cs" />
     <Compile Include="Model\TextPosition.cs" />
-    <Compile Include="Types\BoolValue.cs" />
-    <Compile Include="Types\IBoolean.cs" />
-    <Compile Include="Types\IInteger.cs" />
-    <Compile Include="Types\IntValue.cs" />
-    <Compile Include="Types\IString.cs" />
-    <Compile Include="Types\IValue.cs" />
-    <Compile Include="Types\StringValue.cs" />
-    <Compile Include="Types\Value.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\Expressions\IExpression.cs" />
@@ -99,7 +91,9 @@
     <Compile Include="Visitors\ExpressionVisitor.cs" />
     <Compile Include="Visitors\StatementVisitor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Types\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="S:\StrongName\Questionnaire.snk">
       <Link>Properties\Questionnaire.snk</Link>
