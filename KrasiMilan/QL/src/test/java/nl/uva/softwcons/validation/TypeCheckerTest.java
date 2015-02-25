@@ -319,6 +319,9 @@ public class TypeCheckerTest {
     }
 
     /**
+     * TODO extract me into a common method when we create the checker
+     * interface.
+     * 
      * Builds a Form called always "form1" with the given statements (separating
      * them by spaces), runs the {@link TypeChecker} checker and returns the
      * list of found errors.
