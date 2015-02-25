@@ -3,10 +3,10 @@ package execute
 import (
 	"fmt"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
 )
 
 // Execute implements Executer interface, and it is used by Visitor to traverse

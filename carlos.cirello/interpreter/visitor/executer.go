@@ -1,6 +1,6 @@
 package visitor
 
-import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
 
 // Executer interface describe all functions necessary to iterate through AST
 type Executer interface {

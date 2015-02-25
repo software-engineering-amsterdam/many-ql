@@ -3,7 +3,7 @@ package visitor
 import (
 	"log"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
 )
 
 // Visitor is the base visitor struct which all other Executer AST tree are
