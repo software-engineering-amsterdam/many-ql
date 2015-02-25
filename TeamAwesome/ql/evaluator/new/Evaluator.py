@@ -1,11 +1,16 @@
-from ..GenericVisitor import GenericVisitor
+from ..ast.Visitor import Visitor as ASTVisitor
 
-class Visitor(GenericVisitor):
-    # Below are default methods.
-    # They do nothing except visit the tree.
+class Evaluator(object):
+	pass
+
+class Checker(ASTVisitor):
+    def __init__(self, ast):
+        self._evaluator = Evaluator()
+        self._ast = ast
+
     def _visitRoot(self, node):
-        for n in node.getChildren():
-            self.visit(n)
+        super()._visitRoot(node)
+        return self._evaluator
 
     def _visitFormStatement(self, node):
         for n in node.getChildren():

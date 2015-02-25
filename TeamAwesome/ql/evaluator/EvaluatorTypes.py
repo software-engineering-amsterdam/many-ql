@@ -53,9 +53,17 @@ class AtomicExpression(Expression):
 		self.left = atomicExpressionNode.left
 
 	def evaluate(self, evaluator):
-		if isinstance(self.left, Identifier):
-			return evaluator.getValue(self.left)
+		attribute = '_evaluate' + self.left.__class__.__name__.capitalize()
+		
+		if hasattr(self, attribute):
+			return getattr(self, attribute)(self.left, evaluator)
+
 		return self.left
+
+	@staticmethod
+	def _evaluateIdentifier(id, evaluator):
+		return evaluator.getValue(id)
+
 
 class Form(object):
 	def __init__(self, formStatementNode):

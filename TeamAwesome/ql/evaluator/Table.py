@@ -5,38 +5,33 @@ from ..ast import Nodes
 
 class QuestionValueTable(object):
 	def __init__(self, questionTable):
-		self._table = OrderedDict()
+		self._valueTable = OrderedDict()
+		self._expressionTable = OrderedDict()
 
-		for questions in questionTable.values():
-			for question in questions:
-				if question.valueExpression:
-					self.add(question, question.valueExpression)
-				else:
-					self.add(question, None)
+		for question in questionTable.questions():
+			if question.valueExpression:
+				self._expressionTable[question] = question.valueExpression
+			else:
+				self._valueTable[question] = None
 
 	def __iter__(self):
-		return self._table.__iter__()
+		tempTable = {}
+		tempTable.update(self._valueTable)
+		tempTable.update(self._expressionTable)
+		return tempTable.__iter__()
 
-	def items(self):
-		return self._table.items()
+	def questions(self):
+		return self._valueTable.keys() + self._expressionTable.keys()
 
-	def values(self):
-		return self._table.values()
-
-	def keys(self):
-		return self._table.keys()
-
-	def add(self, question, value):
-		oldValue = self._table.get(question, None)
-		if not (oldValue and isinstance(oldValue, Expression)):
-			self._table[question] = value
+	def update(self, question, value):
+		if question in self._valueTable:
+			self._valueTable[question] = value
 
 	def get(self, question, evaluator):
-		val = self._table[question]
-		
-		if isinstance(val, Expression):
-			return val.evaluate(evaluator)
-		return val
+		if question in self._expressionTable:
+			return self._expressionTable[question].evaluate(evaluator)
+
+		return self._valueTable.get(question, None)
 
 class QuestionTable(object):
 	def __init__(self, ast):
@@ -51,13 +46,10 @@ class QuestionTable(object):
 	def __iter__(self):
 		return self._table.__iter__()
 
-	def items(self):
-		return self._table.items()
+	def questions(self):
+		return [q for qList in self._table.values() for q in qList]
 
-	def values(self):
-		return self._table.values()
-
-	def keys(self):
+	def identifiers(self):
 		return self._table.keys()
 
 	def _add(self, statement, expressionsTuple, form):

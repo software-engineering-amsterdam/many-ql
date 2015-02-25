@@ -28,7 +28,7 @@ class Evaluator(object):
 		questions = self._questionTable.getQuestionList(identifier)
 
 		for question in questions:
-			self._questionValueTable.add(question, value)
+			self._questionValueTable.update(question, value)
 
 	def getValue(self, identifier):
 		question = self._questionTable.get(identifier, self)
@@ -37,8 +37,8 @@ class Evaluator(object):
 	def getQuestion(self, identifier):
 		return self._questionTable.get(identifier, self)	
 
-	def getAllIdentifiers(self):
-		return self._questionTable.keys()
+	def identifiers(self):
+		return self._questionTable.identifiers()
 
 # TODO rename to something else?
 class PageStructure(object):
@@ -47,7 +47,7 @@ class PageStructure(object):
 		self.pages = []
 
 	def createDefaultPages(self):
-		self.pages = [Page(self.evaluator.getAllIdentifiers())]
+		self.pages = [Page(self.evaluator.identifiers())]
 
 	def getVisibleQuestions(self, pageNumber):
 		return self.pages[pageNumber].getQuestions(self.evaluator)
