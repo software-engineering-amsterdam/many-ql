@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 
 import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
+import cons.ql.ast.expression.type.QLInteger;
+import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.If;
 import cons.ql.ast.statement.Question;
@@ -68,9 +70,16 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	public Void visit(Question questionNode) {
 		addLabel(questionNode.getText().toString(), pane);
 		
-		TextComponent comp = new TextComponent(questionNode.getIdentifier(), controller);
-		controller.putComponent(questionNode.getIdentifier(), comp);
-    	pane.add(comp.getComponent());
+		if (questionNode.getType() instanceof QLString) {
+			TextComponent comp = new TextComponent(questionNode.getIdentifier(), controller);
+			controller.putComponent(questionNode.getIdentifier(), comp);
+	    	pane.add(comp.getComponent());
+		}
+		else if (questionNode.getType() instanceof QLInteger) {
+			IntegerComponent comp = new IntegerComponent(questionNode.getIdentifier(), controller);
+			controller.putComponent(questionNode.getIdentifier(), comp);
+	    	pane.add(comp.getComponent());
+		}
     	
 		return null;
 	}

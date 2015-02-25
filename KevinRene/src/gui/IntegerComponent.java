@@ -2,10 +2,11 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.math.BigInteger;
 
 import javax.swing.JTextField;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import cons.Value;
 import cons.ql.ast.expression.Identifier;
@@ -21,7 +22,7 @@ public class IntegerComponent extends Component {
 		textField = new JTextField(100);
     	textField.setMaximumSize(new Dimension(Integer.MAX_VALUE, textField.getPreferredSize().height * 2));
     	textField.setFont(new Font("Serif", Font.BOLD, 20));
-    	textField.addKeyListener(new MyKeyListener());
+    	textField.addCaretListener(new MyCaretListener());
     	textField.setFocusable(true);
 	}
 	
@@ -34,32 +35,34 @@ public class IntegerComponent extends Component {
 		return this.textField;
 	}
 	
-	public class MyKeyListener implements KeyListener {
+	public class MyCaretListener implements CaretListener {
 
 		@Override
-		public void keyTyped(KeyEvent e) {}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
+		public void caretUpdate(CaretEvent e) {
 			try {
 				Value value = new IntegerValue(Integer.parseInt(textField.getText()));			
 				
-				setValue(value);
+				System.out.println("Set value for " + getIdentifier() + " to " + value);
+				
+				setChanged();
+				
+				// Store the new value in the TypeEnvironment
+				controller.storeValue(getIdentifier(), value);
+				
+				// Notify this value has changed
+				controller.notify(getIdentifier());
 			}
 			catch (NumberFormatException nfe) {
-				
+				System.err.println(nfe);
 			}
 		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {}
 	}
 
 
 	@Override
 	public void setValue(Value value) {
 		
-		System.out.println("new value for " + getIdentifier() + ": " + value);
+		System.out.println("Set value for " + getIdentifier() + " to " + value);
 		
 		// Update value of the JComponent
 		textField.setText(value.toString());
