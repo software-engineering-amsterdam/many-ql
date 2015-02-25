@@ -16,24 +16,16 @@ class Evaluator(object):
 		self._questionValueTable = QuestionValueTable()
 		self._operatorTable = OperatorTable()
 
-	@staticmethod
-	def _typeof(value):
-		return value.getType() if  hasattr(value, "getType") else type(value)
-
-	@staticmethod
-	def _valueof(value):
-		return value.value() if  hasattr(value, "value") else value
-
 	def evaluateBinaryExpression(self, operator, leftValue, rightValue):
-		pythonOp = self._operatorTable.getBinaryOperator(operator, Evaluator._typeof(leftValue), Evaluator._typeof(rightValue))
+		pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
 		if pythonOp:
-			return pythonOp(Evaluator._valueof(leftValue), Evaluator._valueof(rightValue))
+			return pythonOp(leftValue, rightValue)
 		return None
 
 	def evaluateUnaryExpression(self, operator, value):
-		pythonOp = self._operatorTable.getUnaryOperator(operator, Evaluator._typeof(value))
+		pythonOp = self._operatorTable.getUnaryOperator(operator, type(value))
 		if pythonOp:
-			return pythonOp(Evaluator._valueof(value))
+			return pythonOp(value)
 		return None
 
 	def addValue(self, identifier, value):
