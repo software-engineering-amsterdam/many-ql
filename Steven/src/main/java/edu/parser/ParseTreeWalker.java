@@ -87,7 +87,11 @@ public class ParseTreeWalker extends QLBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitQuestion_label(@NotNull QLParser.Question_labelContext ctx) {
-        return new Label(ctx.getText());
+        return new Label(removeQuotesFromString(ctx.getText()));
+    }
+
+    private String removeQuotesFromString(String text) {
+        return text.substring(1, text.length() - 1);
     }
 
     @Override
