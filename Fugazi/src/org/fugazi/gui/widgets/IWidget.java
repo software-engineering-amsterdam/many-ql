@@ -13,7 +13,7 @@ public interface IWidget <T> {
     
     public T getValue();
     
-    // Todo: think of that.
+    // Todo: think of that. (Smells)
     public void addItemListener(ItemListener _listener); // Use it on bool
     public void addDocumentListener(DocumentListener _listener); // Use it on text
 }

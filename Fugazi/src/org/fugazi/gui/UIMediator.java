@@ -22,7 +22,7 @@ public class UIMediator implements IMediator {
 
     public void notify(Colleague _origin) {
         // log change
-        System.out.println(_origin.getId() + " : " + _origin.getState().getValue());
+        System.out.println("UI: " + _origin.getId() + " : " + _origin.getState().getValue());
         
         // Save value to storage.
         this.storage.saveValue(_origin.getId(), _origin.getState());
