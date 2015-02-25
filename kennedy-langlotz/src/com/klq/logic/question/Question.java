@@ -76,7 +76,7 @@ public class Question implements IKLQItem{
 
     public void setResult(AExpression result) {
         this.result = result;
-        store.update(getId());
+        store.update();
     }
 
     public AExpression getResult() {
