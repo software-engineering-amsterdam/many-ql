@@ -7,15 +7,20 @@ import __yyfmt__ "fmt"
 import (
 	"text/scanner"
 
-	"github.com/davecgh/go-spew/spew"
+	//"github.com/davecgh/go-spew/spew"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
 )
 
-var finalStyle interface{}
+var finalStyle *ast.StyleNode
 
-//line parser.y:16
+//line parser.y:17
 type qlsSymType struct {
 	yys     int
 	content string
+
+	defaultNode *ast.DefaultNode
+	stack       []*ast.ActionNode
+	styleNode   *ast.StyleNode
 
 	position scanner.Position
 }
@@ -335,19 +340,23 @@ qlsdefault:
 	switch qlsnt {
 
 	case 1:
-		//line parser.y:34
+		//line parser.y:38
 		{
-			spew.Dump("top", qlsVAL, qlsS[qlspt-4], qlsS[qlspt-3], qlsS[qlspt-1])
+			finalStyle = ast.NewStyleNode(qlsS[qlspt-3].content, qlsS[qlspt-1].stack)
 		}
 	case 3:
-		//line parser.y:40
+		//line parser.y:44
 		{
-			spew.Dump("stack", qlsVAL, qlsS[qlspt-1], qlsS[qlspt-0])
+			d := qlsS[qlspt-0].defaultNode
+			qs := qlsVAL.stack
+			action := ast.NewActionNode(d, qlsS[qlspt-0].position)
+			qs = append(qs, action)
+			qlsVAL.stack = qs
 		}
 	case 4:
-		//line parser.y:47
+		//line parser.y:55
 		{
-			spew.Dump("defaultSetting", qlsVAL, qlsS[qlspt-2], qlsS[qlspt-1])
+			qlsVAL.defaultNode = ast.NewDefaultNode(qlsS[qlspt-2].content, qlsS[qlspt-1].content)
 		}
 	}
 	goto qlsstack /* stack new state and value */

@@ -5,16 +5,21 @@ package parser
 import (
 	"text/scanner"
 
-	"github.com/davecgh/go-spew/spew"
+	//"github.com/davecgh/go-spew/spew"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
 )
 
-var finalStyle interface{}
+var finalStyle *ast.StyleNode
 %}
 
 %start top
 
 %union {
 	content string
+
+	defaultNode *ast.DefaultNode
+	stack []*ast.ActionNode
+	styleNode *ast.StyleNode
 
 	position scanner.Position
 }
@@ -26,25 +31,28 @@ var finalStyle interface{}
 %token QuotedStringToken
 %token DefaultToken
 
-
 %%
 
 top:
 	StylesheetToken TextToken '{' stack '}'
 	{
-		spew.Dump("top", $$, $1, $2, $4)
+		finalStyle = ast.NewStyleNode($2.content, $4.stack)
 	}
 
 stack:
-	| stack defaultSetting
+	| stack defaultNode
 	{
-		spew.Dump("stack", $$, $1, $2)
+		d := $2.defaultNode
+		qs := $$.stack
+		action := ast.NewActionNode(d, $2.position)
+		qs = append(qs, action)
+		$$.stack = qs
 	}
 	;
 
-defaultSetting:
+defaultNode:
 	DefaultToken TextToken TextToken
 	{
-		spew.Dump("defaultSetting", $$, $1, $2)
+		$$.defaultNode = ast.NewDefaultNode($1.content, $2.content)
 	}
 	;

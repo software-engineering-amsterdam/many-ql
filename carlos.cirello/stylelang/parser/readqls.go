@@ -8,10 +8,14 @@ of the source code.
 */
 package parser
 
-import "io"
+import (
+	"io"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
+)
 
 // ReadQLS generates an AST out of source code.
-func ReadQLS(stream io.Reader, fn string) interface{} {
+func ReadQLS(stream io.Reader, fn string) *ast.StyleNode {
 	finalStyle = nil
 	qlsParse(newLexer(stream, fn))
 	return finalStyle

@@ -3,9 +3,11 @@ package parser
 import (
 	"strings"
 	"testing"
+
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
 )
 
-func TestBasic(t *testing.T) {
+func TestParser(t *testing.T) {
 	form := ReadQLS(
 		strings.NewReader(`
 		stylesheet SomeForm {}
@@ -16,9 +18,13 @@ func TestBasic(t *testing.T) {
 		t.Errorf("Compilation should not return nil")
 		return
 	}
+	if form.Label() != "SomeForm" {
+		t.Errorf("Form Name was not properly parsed")
+		return
+	}
 }
 
-func TestDefault(t *testing.T) {
+func TestDefaults(t *testing.T) {
 	form := ReadQLS(
 		strings.NewReader(`
 		stylesheet SomeForm {
@@ -28,8 +34,15 @@ func TestDefault(t *testing.T) {
 		`),
 		"test.ql",
 	)
+
 	if form == nil {
 		t.Errorf("Compilation should not return nil")
+		return
+	}
+	stack := form.Stack()
+	actionNode := stack[0].Action()
+	if typ, ok := actionNode.(*ast.DefaultNode); !ok {
+		t.Errorf("Expected a defaultNode. Got %T", typ)
 		return
 	}
 }

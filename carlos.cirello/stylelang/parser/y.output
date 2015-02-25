@@ -32,50 +32,50 @@ state 4
 	top:  StylesheetToken TextToken '{'.stack '}' 
 	stack: .    (2)
 
-	.  reduce 2 (src line 38)
+	.  reduce 2 (src line 42)
 
 	stack  goto 5
 
 state 5
 	top:  StylesheetToken TextToken '{' stack.'}' 
-	stack:  stack.defaultSetting 
+	stack:  stack.defaultNode 
 
 	DefaultToken  shift 8
 	'}'  shift 6
 	.  error
 
-	defaultSetting  goto 7
+	defaultNode  goto 7
 
 state 6
 	top:  StylesheetToken TextToken '{' stack '}'.    (1)
 
-	.  reduce 1 (src line 32)
+	.  reduce 1 (src line 36)
 
 
 state 7
-	stack:  stack defaultSetting.    (3)
+	stack:  stack defaultNode.    (3)
 
-	.  reduce 3 (src line 39)
+	.  reduce 3 (src line 43)
 
 
 state 8
-	defaultSetting:  DefaultToken.TextToken TextToken 
+	defaultNode:  DefaultToken.TextToken TextToken 
 
 	TextToken  shift 9
 	.  error
 
 
 state 9
-	defaultSetting:  DefaultToken TextToken.TextToken 
+	defaultNode:  DefaultToken TextToken.TextToken 
 
 	TextToken  shift 10
 	.  error
 
 
 state 10
-	defaultSetting:  DefaultToken TextToken TextToken.    (4)
+	defaultNode:  DefaultToken TextToken TextToken.    (4)
 
-	.  reduce 4 (src line 45)
+	.  reduce 4 (src line 53)
 
 
 10 terminals, 4 nonterminals
