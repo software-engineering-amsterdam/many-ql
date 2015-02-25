@@ -12,7 +12,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/parser/ql"
 )
 
 func main() {
