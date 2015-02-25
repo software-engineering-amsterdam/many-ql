@@ -31,5 +31,6 @@ public class UIForm {
     public void addQuestion(UIQuestion _quest) {
         IWidget widget = _quest.getWidget();
         panel.add(widget.getJComponent());
+        this.formFrame.revalidate();
     }
 }

@@ -3,7 +3,7 @@ package org.fugazi.gui.ui_elements;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.expression_value.BoolValue;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
-import org.fugazi.gui.UIMediator;
+import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.widgets.CheckBox;
 import java.awt.event.ItemEvent;
 
@@ -11,16 +11,13 @@ public class UIBoolQuestion extends UIQuestion {
 
     private Boolean value;
 
-    public UIBoolQuestion(UIMediator _med, Question _question) {
+    public UIBoolQuestion(IMediator _med, Question _question) {
         super(_med, _question);
         this.value = false; // default
 
         // TODO: get it from a GUI Designer
         this.widget = new CheckBox(_question.getLabel());
         this.widget.addItemListener(event -> itemChanged(event));
-
-        // Todo: get initial form state OR get undefined value when no default?
-        this.sendToMediator();
     }
 
     private void itemChanged(ItemEvent e) {

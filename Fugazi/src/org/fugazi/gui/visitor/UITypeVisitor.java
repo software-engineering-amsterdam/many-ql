@@ -2,7 +2,7 @@ package org.fugazi.gui.visitor;
 
 import org.fugazi.ast.statement.Question;
 import org.fugazi.ast.type.*;
-import org.fugazi.gui.UIMediator;
+import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.ui_elements.UIBoolQuestion;
 import org.fugazi.gui.ui_elements.UINumQuestion;
 import org.fugazi.gui.ui_elements.UIQuestion;
@@ -11,9 +11,9 @@ import org.fugazi.gui.ui_elements.UITextQuestion;
 public class UITypeVisitor implements ITypeVisitor <UIQuestion> {
 
     private final Question question;
-    private final UIMediator mediator;
+    private final IMediator mediator;
 
-    public UITypeVisitor(UIMediator _med, Question _question) {
+    public UITypeVisitor(IMediator _med, Question _question) {
         this.question = _question;
         this.mediator = _med;
     }
