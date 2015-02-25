@@ -5,6 +5,7 @@ import edu.parser.nodes.AbstractNode;
 import edu.parser.nodes.Form;
 import edu.parser.nodes.expression.*;
 import edu.parser.nodes.question.Question;
+import edu.parser.nodes.question.QuestionType;
 import edu.parser.nodes.statement.ElseClause;
 import edu.parser.nodes.statement.IfStatement;
 import edu.parser.nodes.statement.Statement;
@@ -142,9 +143,11 @@ public class Evaluator extends VisitorImpl {
 
     @Override
     public AbstractNode visit(Question question) {
-        if (question.isEnabled()) {
-            questions.add(question);
+        //by default disable boolean questions
+        if (question.getQuestionType().equals(QuestionType.BOOLEAN)) {
+            question.disable();
         }
+        questions.add(question);
         return super.visit(question);
     }
 
