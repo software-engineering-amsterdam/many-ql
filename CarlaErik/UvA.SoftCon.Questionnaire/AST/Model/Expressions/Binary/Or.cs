@@ -21,22 +21,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
         public Or(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(operation, left, right, position) { }
 
-        public override void Accept(IASTVisitor visitor)
+        public override T Accept<T>(IASTVisitor<T> visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
 
         public override DataType? GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Boolean;
-        }
-
-        public override IValue Evaluate(IDictionary<string, IValue> environment)
-        {
-            IValue left = Left.Evaluate(environment);
-            IValue right = Right.Evaluate(environment);
-
-            return left.Or(right);
         }
     }
 }
