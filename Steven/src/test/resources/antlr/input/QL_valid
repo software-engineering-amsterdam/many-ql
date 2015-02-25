@@ -1,0 +1,13 @@
+//form test
+form FORMNAME {
+
+    NAME STRING "What is your name?"
+
+    NAME1 BOOLEAN "Are you a programmer?"
+    if(!NAME1){
+        NAME2 BOOLEAN "You should be!"
+    }else{
+        NAME3 BOOLEAN "Great!"
+    }
+}
+// sdfsf
