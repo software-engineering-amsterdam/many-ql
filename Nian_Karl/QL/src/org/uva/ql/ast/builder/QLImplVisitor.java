@@ -101,7 +101,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	public Node visitIf(IfContext ctx) {
 		System.out.println("Visiting If...");
 		Expression expr = (Expression) ctx.expression().accept(this);
-		Block block = (Block) ctx.block().accept(this);
+		Block block = (Block) ctx.ifBody.accept(this);
 		return new IfStatement(expr, block);
 	}
 
@@ -109,8 +109,8 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	public Node visitIfElse(IfElseContext ctx) {
 		System.out.println("Visiting If-Else...");
 		Expression expr = (Expression) ctx.expression().accept(this);
-		Block ifBlock = (Block) ctx.block(0).accept(this);
-		Block elseBlock = (Block) ctx.block(1).accept(this);
+		Block ifBlock = (Block) ctx.ifBody.accept(this);
+		Block elseBlock = (Block) ctx.elseBody.accept(this);
 		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock);
 		return ifElseStatement;
 	}
@@ -178,93 +178,85 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitExprPlus(ExprPlusContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
-
-		// Expression result = new Plus(left, right);
-		// System.out.println(result.toString());
-		// System.out.println(left.accept(new Evaluator()).getValue());
-		// System.out.println(right.accept(new Evaluator()).getValue());
-		// System.out.println("Result = " + result.accept(new
-		// Evaluator()).getValue());
-
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Plus(left, right);
 	}
 
 	@Override
 	public Node visitExprMinus(ExprMinusContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Minus(left, right);
 	}
 
 	@Override
 	public Node visitExprMultiply(ExprMultiplyContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Multiply(left, right);
 	}
 
 	@Override
 	public Node visitExprDivide(ExprDivideContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Divide(left, right);
 	}
 
 	@Override
 	public Node visitExprAnd(ExprAndContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new And(left, right);
 	}
 
 	@Override
 	public Node visitExprOr(ExprOrContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Or(left, right);
 	}
 
 	@Override
 	public Node visitExprEqual(ExprEqualContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Equal(left, right);
 	}
 
 	@Override
 	public Node visitExprNotEqual(ExprNotEqualContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new NotEqual(left, right);
 	}
 
 	@Override
 	public Node visitExprGreater(ExprGreaterContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Greater(left, right);
 	}
 
 	@Override
 	public Node visitExprGreaterEqual(ExprGreaterEqualContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new GreaterEqual(left, right);
 	}
 
 	@Override
 	public Node visitExprLess(ExprLessContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new Less(left, right);
 	}
 
 	@Override
 	public Node visitExprLessEqual(ExprLessEqualContext ctx) {
-		Expression left = (Expression) ctx.expression(0).accept(this);
-		Expression right = (Expression) ctx.expression(1).accept(this);
+		Expression left = (Expression) ctx.left.accept(this);
+		Expression right = (Expression) ctx.right.accept(this);
 		return new LessEqual(left, right);
 	}
 
@@ -292,22 +284,5 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	public Node visitExprParentheses(ExprParenthesesContext ctx) {
 		return new Parenthese((Expression) ctx.expression().accept(this));
 	}
-	
-	
-
-	
-//	@Override
-//	public Node visitTypeInt(TypeIntContext ctx) {
-//		System.out.println("IIIIIIIIIIIIINNNNNNNNNNNNNNNTTTTTTTTTTTTTTT");
-//		System.out.println("TYPE INT!!!!!!!!!!!"+ctx.getText());
-//		
-//		return super.visitTypeInt(ctx);
-//	}
-//	@Override
-//	public Node visitTypeBool(TypeBoolContext ctx) {
-//		System.out.println("TYPE BOOOOOL!!!!!!!!!!!"+ctx.getText());
-//		return super.visitTypeBool(ctx);
-//	}
-	
 	
 }

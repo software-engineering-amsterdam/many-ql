@@ -1,6 +1,5 @@
 package org.uva.ql.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JComponent;
@@ -15,7 +14,7 @@ public class QuestionView extends JComponent{
 	public QuestionView(QuestionNormal statement){
 		super();
 		this.setSize(200, 200);
-		questionLabel = new JLabel(statement.getQuestionLabel());
+//		questionLabel = new JLabel(statement.getQuestionLabel());
 		questionLabel.setSize(50,50);
 		questionLabel.setLocation(100,100);
 		questionLabel.setVisible(true);

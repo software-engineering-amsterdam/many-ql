@@ -14,8 +14,8 @@ statement
   ;
 
 ifStatement
-  : IF LEFT_PAREN expression RIGHT_PAREN block ELSE block    #IfElse
-  | IF LEFT_PAREN expression RIGHT_PAREN block               #If
+  : IF LEFT_PAREN expression RIGHT_PAREN ifBody = block ELSE elseBody = block   #IfElse
+  | IF LEFT_PAREN expression RIGHT_PAREN ifBody = block #If
   ;
 
 question
@@ -35,18 +35,18 @@ expression
   : NOT        expression                #ExprNot
   | PLUS       expression                #ExprPositive
   | MINUS      expression                #ExprNegative
-  | expression PLUS          expression  #ExprPlus
-  | expression MINUS         expression  #ExprMinus
-  | expression MULTIPLY      expression  #ExprMultiply
-  | expression DIVIDE        expression  #ExprDivide
-  | expression AND           expression  #ExprAnd
-  | expression OR            expression  #ExprOr
-  | expression EQUAL         expression  #ExprEqual
-  | expression NOTEQUAL      expression  #ExprNotEqual
-  | expression GREATER       expression  #ExprGreater
-  | expression GREATER_EQUAL expression  #ExprGreaterEqual
-  | expression LESS          expression  #ExprLess
-  | expression LESS_EQUAL    expression  #ExprLessEqual
+  | left = expression PLUS          right = expression  #ExprPlus
+  | left = expression MINUS         right = expression  #ExprMinus
+  | left = expression MULTIPLY      right = expression  #ExprMultiply
+  | left = expression DIVIDE        right = expression  #ExprDivide
+  | left = expression AND           right = expression  #ExprAnd
+  | left = expression OR            right = expression  #ExprOr
+  | left = expression EQUAL         right = expression  #ExprEqual
+  | left = expression NOTEQUAL      right = expression  #ExprNotEqual
+  | left = expression GREATER       right = expression  #ExprGreater
+  | left = expression GREATER_EQUAL right = expression  #ExprGreaterEqual
+  | left = expression LESS          right = expression  #ExprLess
+  | left = expression LESS_EQUAL    right = expression  #ExprLessEqual
   | LEFT_PAREN expression    RIGHT_PAREN #ExprParentheses
   | literal                              #ExprLiteral
   ;
