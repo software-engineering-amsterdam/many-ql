@@ -24,7 +24,7 @@ public class MainWindow extends JFrame {
         add(new QuestionsPane(questions));
 
         pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
 
@@ -35,41 +35,4 @@ public class MainWindow extends JFrame {
                 .map(question -> (Question) question)
                 .collect(Collectors.toList());
     }
-}
-
-class QuestionsPane extends JPanel {
-
-
-    public QuestionsPane(List<Question> questions) {
-        GridBagConstraints gbc = initializeGridBagLayout();
-        addQuestionsToGridBagLayout(questions, gbc);
-    }
-
-    private void addQuestionsToGridBagLayout(List<Question> questions, GridBagConstraints gbc) {
-        questions
-                .stream()
-                .forEachOrdered(question -> addQuestionToGridBagLayout(question, gbc));
-    }
-
-    private void addQuestionToGridBagLayout(Question question, GridBagConstraints gbc) {
-        gbc.gridx = 0;
-
-        String label = question.getLabel().getLabel();
-        add(new JLabel(label), gbc);
-        gbc.gridx++;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(new JTextField(10), gbc);
-
-        gbc.gridy++;
-    }
-
-    private GridBagConstraints initializeGridBagLayout() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        setLayout(new GridBagLayout());
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.insets = new Insets(2, 2, 2, 2);
-        return gbc;
-    }
-
 }
