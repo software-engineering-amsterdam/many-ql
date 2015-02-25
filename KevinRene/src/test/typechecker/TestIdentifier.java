@@ -25,6 +25,14 @@ public class TestIdentifier {
 				+ "	houseValue : money { \"question text\" } "
 				+ "	leftOver : money { \"Money left: \" assign(houseValue - 1000) }"
 				+ "}", true },
+				
+				{ "form formname {"
+				+ "	hasSoldHouse : boolean { \"question text\" } "
+				+ " if(hasSoldHouse) {"
+				+ "		leftOver : money { \"Money left: \" assign(500 - 1000) }"
+				+ " }"
+				+ "}", true },
+				
 				{ "form formname {"
 				+ "	if(houseValue) {"
 				+ "		randomQuestion : money { \"question text\" } "
@@ -32,6 +40,7 @@ public class TestIdentifier {
 				+ "	houseValue : money { \"question text\" } "
 				+ "	leftOver : money { \"Money left: \" assign(carValue - 1000) }"
 				+ "}", false },
+
 				{ "leftOver : money { \"Money left: \" assign(carValue - 1000) }", false },
 				{ "leftOver : money { \"Money left: \" assign(leftOver - 1000) }", false }
     			 

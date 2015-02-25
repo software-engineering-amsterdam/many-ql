@@ -1,54 +1,22 @@
 package test.typechecker;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-import java.util.Collection;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.runners.Suite;
 
-import cons.TypeEnvironment;
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.visitor.typechecker.TypeChecker;
-import cons.ql.parser.Parser;
+import test.typechecker.arithmetic.TestAddition;
+import test.typechecker.arithmetic.TestDivision;
+import test.typechecker.arithmetic.TestMultiplication;
+import test.typechecker.arithmetic.TestNegation;
+import test.typechecker.arithmetic.TestPositive;
+import test.typechecker.arithmetic.TestSubtraction;
 
-@RunWith(value = Parameterized.class)
-public class TestArithmetic {
-	 @Parameters
-     public static Collection<Object[]> data() {
-    	 return Arrays.asList(new Object[][] {                             
-    			 { "(59 + 295) / 1.1 * 194.235 - 104", true }
-    	 });
-     }
-
-     private ASTNode inputNode;
-     private boolean expected;
-     
-     private Parser formParser = new Parser();
-     private TypeEnvironment register = new TypeEnvironment();
-
-     public TestArithmetic(String input, boolean expected) {
-    	 System.out.println("Testing: " + input);
-    	 
-         register = new TypeEnvironment();
-         
-    	 inputNode = formParser.parse(input);
-    	 this.expected = expected;
-     }
-     
-     @BeforeClass
-     public static void printHeader() {
-    	 System.out.println("==========================");
-    	 System.out.println("*** Testing Arithmetic ***");
-    	 System.out.println("==========================");
-     }
-     
-     @Test
-     public void testArithmetic() {
-    	 assertEquals(expected, TypeChecker.check(inputNode, register));
-     }
-}
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+   TestAddition.class,
+   TestDivision.class,
+   TestMultiplication.class,
+   TestNegation.class,
+   TestPositive.class,
+   TestSubtraction.class
+})
+public class TestArithmetic {}

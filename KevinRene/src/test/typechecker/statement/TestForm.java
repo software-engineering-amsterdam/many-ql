@@ -1,4 +1,4 @@
-package test.typechecker;
+package test.typechecker.statement;
 
 import static org.junit.Assert.*;
 
@@ -20,18 +20,37 @@ import cons.ql.parser.Parser;
 public class TestForm {
 	 @Parameters
      public static Collection<Object[]> data() {
-    	 return Arrays.asList(new Object[][] {                             
-    			 { "houseValue : money { \"Lol I dont care\" assign(\"Rubbish\") }", false },
+    	 return Arrays.asList(new Object[][] {
     			 { "form taxOfficeExample {"
 					+ 	"hasSoldHouse : boolean {"
 					+ 		"\"Did you sell a house in 2010?\""
 					+ 	"}"
-					+ 	"if(5 == 5) {"
+					+ 	"if((5 == 5) == true) {"
 					+ 		"houseValue : money {"
 					+ 			"\"Lol I dont care\""
 					+ 		"}"
 					+ 	"}"
-					+ "}", true }
+					+ "}", true },
+					// Second form
+					{ "form taxOfficeExample {"
+					+ 	"hasSoldHouse : boolean { \"Did you sell a house in 2010?\" }"
+					+ 	"if((5 == 5) == true) {"
+					+ 		"houseValue : money { \"Lol I dont care\" }"
+					+ 	"} else {"
+					+ "	 	otherQuestion : boolean { \"Did you sell a house in 2010?\" }"
+					+ "  }"
+					+ "}", true },
+					// Third form
+					{ "form nothingInIt { }", true },
+					// Double declaration. Not allowed.
+					{ "form taxOfficeExample {"
+					+ "	hasSoldHouse : boolean { \"Did you sell a house in 2010?\" }"
+					+ "	hasSoldHouse : integer { \"Did you sell a house in 2010?\" }"
+					+ "}", false },
+					// Reusing form identifier. Not allowed.
+					{ "form taxOfficeExample {"
+					+ "	taxOfficeExample : boolean { \"Did you sell a house in 2010?\" }"
+					+ "}", false },
     	 });
      }
 
