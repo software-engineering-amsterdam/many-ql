@@ -14,7 +14,7 @@ import spock.lang.Specification
 class TypeCheckerTest extends Specification {
 
     AntlrParser parseTreeWalker = new AntlrParser();
-    public static final String INPUT_PATH = AntlrParserTest.PATH_TO_INPUT_FILE
+    public static final String INPUT_PATH = Main.PATH_TO_INPUT_FILES
 
     def "Should throw exception with duplicate and unreferenced questions"() {
         when:
