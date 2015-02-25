@@ -1,82 +1,61 @@
 from collections import OrderedDict
-from .EvaluatorTypes import Form, Question, ExpressionFactory, Expression
+from .EvaluatorTypes import Form, Question
 from ..CustomTypes import *
 from ..ast import Nodes
 
 class QuestionValueTable(object):
-	def __init__(self, questionTable):
-		self._table = OrderedDict()
-
-		for questions in questionTable.values():
-			for question in questions:
-				if question.valueExpression:
-					self.add(question, question.valueExpression)
-				else:
-					self.add(question, None)
+	def __init__(self):
+		self._valueTable = OrderedDict()
+		self._expressionTable = OrderedDict()
 
 	def __iter__(self):
-		return self._table.__iter__()
+		tempTable = {}
+		tempTable.update(self._valueTable)
+		tempTable.update(self._expressionTable)
+		return tempTable.__iter__()
 
-	def items(self):
-		return self._table.items()
+	def questions(self):
+		return self._valueTable.keys() + self._expressionTable.keys()
 
-	def values(self):
-		return self._table.values()
+	def add(self, question):
+		if question.valueExpression:
+			self._expressionTable[question] = question.valueExpression
+		else:
+			self._valueTable[question] = None
 
-	def keys(self):
-		return self._table.keys()
+	def update(self, question, value):
+		if question in self._valueTable:
+			self._valueTable[question] = value
 
-	def add(self, question, value):
-		oldValue = self._table.get(question, None)
-		if not (oldValue and isinstance(oldValue, Expression)):
-			self._table[question] = value
+	def get(self, question):
+		if question in self._expressionTable:
+			return self._expressionTable[question].value()
 
-	def get(self, question, evaluator):
-		val = self._table[question]
-		
-		if isinstance(val, Expression):
-			return val.evaluate(evaluator)
-		return val
+		return self._valueTable.get(question, None)
 
 class QuestionTable(object):
-	def __init__(self, ast):
+	def __init__(self):
 		self._table = OrderedDict()
-
-		for formStatement in ast.root.statements:
-			form = Form(formStatement)
-
-			for statement in formStatement.getChildren():
-				self._add(statement, ExpressionsTuple(), form)
 
 	def __iter__(self):
 		return self._table.__iter__()
 
-	def items(self):
-		return self._table.items()
+	def questions(self):
+		return [q for qList in self._table.values() for q in qList]
 
-	def values(self):
-		return self._table.values()
-
-	def keys(self):
+	def identifiers(self):
 		return self._table.keys()
 
-	def _add(self, statement, expressionsTuple, form):
-		if isinstance(statement, Nodes.IfStatement):
-			childExpressionsTuple = expressionsTuple + (ExpressionFactory.create((statement.expr)),)
-			
-			for childStatement in statement.getChildren():
-				self._add(childStatement, childExpressionsTuple, form)
-		else:
-			question = Question(statement, expressionsTuple, form)
-			questionList = self._table.get(question.identifier, QuestionList())
-			questionList.append(question)
-			self._table[question.identifier] = questionList
+	def add(self, question):
+		questionList = self._table.get(question.identifier, QuestionList())
+		questionList.append(question)
+		self._table[question.identifier] = questionList
 
-	def get(self, identifier, evaluator):
+	def get(self, identifier):
 		questions = self._table.get(identifier, None)
 		
 		if questions:
-			return questions.getVisibleQuestion(evaluator)
+			return questions.getVisibleQuestion()
 		return questions
 
 	def getQuestionList(self, identifier):
@@ -86,12 +65,23 @@ class ExpressionsTuple(tuple):
 	def __add__(self, value):
 		return ExpressionsTuple(tuple.__add__(self, value))
 
-	def evaluate(self, evaluator):
-		return all(expr.evaluate(evaluator) for expr in self)
+	def value(self):
+		return all(expr.value() for expr in self)
+
+class ExpressionsList(list):
+	def __add__(self, value):
+		return ExpressionsList(tuple.__add__(self, value))
+
+	def value(self):
+		return all(expr.value() for expr in self)
+
+	def copy(self):
+		return ExpressionsList(self)
+
 
 class QuestionList(list):
-	def getVisibleQuestion(self, evaluator):
+	def getVisibleQuestion(self):
 		for question in self:
-			if question.isVisible(evaluator):
+			if question.isVisible():
 				return question
 		return None
