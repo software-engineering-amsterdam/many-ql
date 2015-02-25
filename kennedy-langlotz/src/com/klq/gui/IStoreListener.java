@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface IStoreListener {
 
-    void storeUpdated(List<Id> changed);
+    void storeUpdated();
 }

@@ -62,13 +62,9 @@ public class Question implements IKLQItem{
         dependencies.add(dependency);
     }
 
-    public boolean updateDependency(AExpression oldExpr, AExpression newExpr){
-        return dependencies.remove(oldExpr) && dependencies.add(newExpr);
-    }
-
     public boolean dependenciesResolved(){
         for (AExpression dependency : dependencies) {
-            if (dependency != Boolean.getTrue())
+            if (dependency.evaluate() != Boolean.getTrue())
                 return false;
         }
         return true;
@@ -90,36 +86,33 @@ public class Question implements IKLQItem{
             throw new Exception("Store already set!");
     }
 
+    //TODO check if this works
     public static AExpression createTerminalFromString(Question question, String result){
-        AExpression newExpr = null;
         switch (question.getType()){
             case BOOLEAN:
                 if ("True".equals(question.getResult()))
-                    newExpr = Boolean.getTrue();
-                else
-                    newExpr = Boolean.getFalse();
-                break;
+                    return Boolean.getTrue();
+                else if ("False".equals(question.getResult()))
+                    return Boolean.getFalse();
+                return null;
             case DATE:
                 String[] split = result.split("[\\./-]");
-                String year, month, day;
-                if (split[0].length() == 4){
+                String year = "0000", month = "01", day = "01";
+                if (split[0].length() == 4 && split[1].length() == 2 && split[2].length() == 2){
                     year = split[0];
                     month = split[1];
                     day = split[2];
-                } else {
+                } else if (split[2].length() == 4 && split[1].length() == 2 && split[0].length() == 2){
                     day = split[0];
                     month = split[1];
                     year = split[2];
                 }
-                newExpr = new Date(year + "-" + month + "-" + day);
-                break;
+                return new Date(year + "-" + month + "-" + day);
             case NUMERAL:
-                newExpr = new Number(result);
-                break;
+                return new Number(!result.isEmpty() ? result : "0");
             case STRING:
-                newExpr = new com.klq.logic.expression.terminal.String(result);
-                break;
+                return new com.klq.logic.expression.terminal.String(result);
         }
-        return newExpr;
+        return null;
     }
 }

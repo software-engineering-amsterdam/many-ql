@@ -79,10 +79,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        VBox root = new VBox();
-        Scene scene = new Scene(root, 500, 200);
+        Scene scene = new Scene(page);
         primaryStage.setScene(scene);
-        root.getChildren().add(page);
         primaryStage.show();
     }
 }

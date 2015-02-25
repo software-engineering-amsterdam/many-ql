@@ -12,14 +12,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.security.Key;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Timon on 10.02.2015.
@@ -28,6 +31,7 @@ public class QuestionPane extends GridPane {
     private final static Font DEFAULT_QUESTION = new Font("Arial Bold", 14);
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
     private final double MIN_HEIGHT = 50;
+    private final double EFFECT_DURATION = 500;
 
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
@@ -63,19 +67,16 @@ public class QuestionPane extends GridPane {
             return;
         this.managedProperty().bind(this.visibleProperty());
         this.setVisible(true);
+
         Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO,
-                        new KeyValue(this.translateYProperty(), Math.random() * -getMinHeight())
-                ),
-                new KeyFrame(new Duration(750),
-                        new KeyValue(this.translateYProperty(), Math.random() * 0)
-                )
-        );
+        timeline.getKeyFrames().addAll(createPositionTranslationFrames());
+        timeline.getKeyFrames().addAll(createBlurEffectFrames(10));
         timeline.play();
     }
 
     public void hide(){
+        if (!isVisible())
+            return;
         this.managedProperty().bind(this.visibleProperty());
         this.setVisible(false);
     }
@@ -118,9 +119,7 @@ public class QuestionPane extends GridPane {
             //TODO disable button somehow
         }
         datePicker.setValue(lDate);
-
-        datePicker.focusedProperty().addListener(onFocusChanged(datePicker.getEditor()));
-
+        datePicker.getEditor().textProperty().addListener(createInputListener(Type.DATE, datePicker));
         this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
@@ -135,16 +134,14 @@ public class QuestionPane extends GridPane {
             input.setOnMouseClicked(highlightHandler(input));
         }
 
-        if (questionType == Type.NUMERAL)
-            input.addEventFilter(KeyEvent.KEY_TYPED, numFilter());
-
-        input.focusedProperty().addListener(onFocusChanged(input));
+        input.textProperty().addListener(createInputListener(questionType, input));
         this.getChildren().add(input);
         this.setConstraints(input, 0, 1);
     }
 
     private Border createBorder() {
-        BorderStroke stroke = new BorderStroke(Paint.valueOf("#000000"), BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT);
+        BorderStroke stroke = new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT);
         return new Border(stroke);
     }
 
@@ -153,14 +150,34 @@ public class QuestionPane extends GridPane {
         return new Background(fill);
     }
 
-    private EventHandler<KeyEvent> numFilter(){
-       return new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (!event.getCharacter().matches("[0-9\\.]"))
-                    event.consume();
-            }
-        };
+    private List<KeyFrame> createPositionTranslationFrames(){
+        List<KeyFrame> result = new ArrayList<KeyFrame>();
+        result.add(new KeyFrame(Duration.ZERO,
+                new KeyValue(this.translateYProperty(), -getMinHeight())));
+        result.add(new KeyFrame(new Duration(EFFECT_DURATION),
+                        new KeyValue(this.translateYProperty(), 0)));
+        return result;
+    }
+
+    private List<KeyFrame> createBlurEffectFrames(double steps){
+        List<KeyFrame> frames = new ArrayList<KeyFrame>();
+        for(double i=0; i<=steps; i++){
+            frames.add(
+                    new KeyFrame(new Duration(i/steps*EFFECT_DURATION),
+                            new KeyValue(this.effectProperty(), new BoxBlur(steps-i, steps-i, 3))
+                    )
+            );
+        }
+        return frames;
+    }
+
+    private void questionAnswered(String result) {
+        AExpression expr = Question.createTerminalFromString(question, result);
+        question.setResult(expr);
+        if (question.dependenciesResolved())
+            show();
+        else
+            hide();
     }
 
     private EventHandler<MouseEvent> highlightHandler(final TextField input){
@@ -172,13 +189,19 @@ public class QuestionPane extends GridPane {
         };
     }
 
-    private ChangeListener<Boolean> onFocusChanged(final TextField textField){
-        return new ChangeListener<Boolean>() {
+    private ChangeListener<String> createInputListener(final Type type, final Control control){
+        return new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!newValue)
-                    onQuestionAnswered(textField.getText());
-
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (InputValidator.matches(type, newValue)){
+                    control.setStyle("-fx-border-color: white;");
+                    control.setStyle("-fx-focus-color: #0950ff;");
+                    questionAnswered(newValue);
+                }
+                else {
+                    control.setStyle("-fx-border-color: red;");
+                    control.setStyle("-fx-focus-color: red;");
+                }
             }
         };
     }
@@ -187,17 +210,9 @@ public class QuestionPane extends GridPane {
         return new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                onQuestionAnswered(newValue.getUserData().toString());
+                String userInput = newValue.getUserData().toString();
+                questionAnswered(userInput);
             }
         };
-    }
-
-    public void onQuestionAnswered(String result) {
-        AExpression expr = Question.createTerminalFromString(question, result);
-        question.setResult(expr);
-        if (question.dependenciesResolved())
-            show();
-        else
-            hide();
     }
 }

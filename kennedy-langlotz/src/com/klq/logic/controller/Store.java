@@ -49,39 +49,24 @@ public class Store implements IKLQItem {
         return result;
     }
 
-    public void update() {
-        List<Id> needUpdate = new ArrayList<Id>();
+    public void update() {  //gets called when age is set to 5, and is then already replaced.
+                            // when another 5 is typed, the expr is already evaluated.
         for (Question question : store.values()) {
             List<AExpression> dependencies = question.getDependencies();
-            List<Pair<AExpression>> replacements = findReplacements(dependencies);
-            updateDependencies(question, replacements);
-
-            if (!replacements.isEmpty())
-                needUpdate.add(question.getId());
+            for (AExpression dependency : dependencies) {
+                iterate(dependency);
+            }
         }
-        updateListeners(needUpdate);
-    }
-
-    private List<Pair<AExpression>> findReplacements(List<AExpression> dependencies) {
-        List<Pair<AExpression>> result = new ArrayList<Pair<AExpression>>();
-        if (dependencies == null && dependencies.isEmpty())
-            return result;
-        for (AExpression expr : dependencies) {
-            if (expr.isTerminal(false))
-                continue;
-            AExpression iterated = iterate(expr);
-            if (iterated == null)
-                System.err.println("Expression is null!");
-            result.add(new Pair(expr, iterated.evaluate()));
-        }
-        return result;
+        updateListeners();
     }
 
     private AExpression iterate(AExpression expr){
         if (expr != null) {
             switch (expr.getType()) {
                 case AExpression.IDENTIFIER:
-                    return resolveIdentifier(expr);
+                    AExpression variable = resolveIdentifier(expr);
+                    ((Identifier)expr).assignVariable(variable);
+                    return expr;
                 case AExpression.DATE:
                 case AExpression.NUMBER:
                 case AExpression.STRING:
@@ -89,13 +74,11 @@ public class Store implements IKLQItem {
                     return expr;
             }
         }
-        if (expr.getLeft() != null && expr.getRight() != null)
-            return AExpression.copyExpressionFrom(expr, iterate(expr.getLeft()), iterate(expr.getRight()));
-        else if (expr.getLeft() == null && expr.getRight() != null)
-            return AExpression.copyExpressionFrom(expr, expr.getLeft(), iterate(expr.getRight()));
-        else if (expr.getLeft() != null && expr.getRight() == null)
-            return AExpression.copyExpressionFrom(expr, iterate(expr.getLeft()), expr.getRight());
-        return null; //We should not get to this point
+        if (expr.getLeft() != null)
+            iterate(expr.getLeft());
+        if (expr.getRight() != null)
+            iterate(expr.getRight());
+         return expr;
     }
 
     private AExpression resolveIdentifier(AExpression id){
@@ -117,15 +100,9 @@ public class Store implements IKLQItem {
         return null;
     }
 
-    private void updateDependencies(Question question, List<Pair<AExpression>> replacements) {
-        for(Pair<AExpression> replacement : replacements){
-            question.updateDependency(replacement.getLeft(), replacement.getRight());
-        }
-    }
-
-    private void updateListeners(List<Id> changed){
+    private void updateListeners(){
         for (IStoreListener listener : listeners) {
-            listener.storeUpdated(changed);
+            listener.storeUpdated();
         }
     }
 }
