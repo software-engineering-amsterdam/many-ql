@@ -12,6 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
     {
         DataType? GetType(IDictionary<string, DataType> symbolTable);
 
-        Value Evaluate(IDictionary<string, Value> environment);
+        IValue Evaluate(IDictionary<string, IValue> environment);
     }
 }

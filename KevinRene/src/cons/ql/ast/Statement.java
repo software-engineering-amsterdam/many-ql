@@ -1,5 +1,6 @@
 package cons.ql.ast;
 
+import cons.ql.ast.visitor.Visitor;
 
 public abstract class Statement implements ASTNode {
 	/**
@@ -8,4 +9,6 @@ public abstract class Statement implements ASTNode {
 	 */
 	@Override
 	public abstract String toString();
+	
+	public abstract <T> T accept(Visitor<T> visitor);
 }

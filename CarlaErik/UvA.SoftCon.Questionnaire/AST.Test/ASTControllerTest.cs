@@ -7,6 +7,7 @@ using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.AST.Model;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals;
 
 namespace UvA.SoftCon.Questionnaire.AST.Test
 {
@@ -87,8 +88,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
 
             Assert.AreEqual<DataType>(DataType.String, declaration.DataType);
             Assert.AreEqual<string>("surname", declaration.Id.Name);
-            Assert.IsInstanceOfType(declaration.Initialization, typeof(Literal<string>));
-            var initialization = declaration.Initialization as Literal<string>;
+            Assert.IsInstanceOfType(declaration.Initialization, typeof(StringLiteral));
+            var initialization = declaration.Initialization as StringLiteral;
             Assert.AreEqual<string>("Verhoofstad", initialization.Value);
         }
 

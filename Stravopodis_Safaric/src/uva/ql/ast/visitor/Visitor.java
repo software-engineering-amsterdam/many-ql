@@ -29,7 +29,7 @@ import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Statement;
 
-public class Visitor<T> implements VisitorInterface<T>{
+public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisitorInterface<T>{
 
 	@Override
 	public T visitProg(Prog prog) {
@@ -40,7 +40,6 @@ public class Visitor<T> implements VisitorInterface<T>{
 
 	@Override
 	public T visitForm(Form form) {
-		System.out.println(form);
 		for(Statement statement : form.getStatement()){
 			statement.accept(this);
 		}
@@ -49,13 +48,11 @@ public class Visitor<T> implements VisitorInterface<T>{
 
 	@Override
 	public T visitASTNode(ASTNode node) {
-		
 		return null;
 	}
 	@Override
 	public T visitStatement(Statement statement) {
 		statement.accept(this);
-		
 		return null;
 	}
 

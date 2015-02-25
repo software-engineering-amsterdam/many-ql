@@ -38,7 +38,7 @@ public class Form extends ASTNode{
 	public GenericValue<?> evaluate() {
 		return null;
 	}
-	public <T> T accept(VisitorInterface<T> visitor){
+	public <T> T accept(StatementVisitorInterface<T> visitor){
 		return visitor.visitForm(this);
 	}
 }

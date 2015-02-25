@@ -50,14 +50,21 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             }
         }
 
+        public IValue Evaluate(IDictionary<string, IValue> environment)
+        {
+            if (environment.Keys.Contains(Name))
+            {
+                return environment[Name];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public override string ToString()
         {
             return Name;
-        }
-
-        public Value Evaluate(IDictionary<string, Value> environment)
-        {
-            throw new NotImplementedException();
         }
     }
 }

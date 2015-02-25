@@ -6,6 +6,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.error.ErrorCollector;
 
 public class BoolLiteral extends Literal implements Expression {
 	private final boolean _value;
@@ -23,6 +24,11 @@ public class BoolLiteral extends Literal implements Expression {
 	@Override
 	public Type getType() {
 		return new BoolType();
+	}
+
+	@Override
+	public ErrorCollector getErrors(ErrorCollector errs) {
+		return errs;
 	}
 	
 }

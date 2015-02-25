@@ -36,13 +36,12 @@ public class ExampleQuestions{
 
     public static Question q2(){
         Id id = new Id("question2");
-        List<AExpression> dependencies = new ArrayList<AExpression>();
         AExpression left = new Identifier("question1");
         AExpression right = new Number("18");
         GreaterEquals ge = new GreaterEquals(left, right);
-        dependencies.add(ge);
         Text text = new Text("Do you have a driving license?");
         Question q = new Question(id, Type.BOOLEAN, null, text);
+        q.addDependency(ge);
         return q;
     }
 
@@ -50,18 +49,17 @@ public class ExampleQuestions{
         Id id = new Id("question3");
         Text text = new Text("When did you get your license?");
 
-        List<AExpression> dependencies = new ArrayList<AExpression>();
         AExpression left = new Identifier("question1");
         AExpression right = new Number("18");
         GreaterEquals ge = new GreaterEquals(left, right);
-        dependencies.add(ge);
 
         AExpression left2 = new Identifier("question2");
         AExpression right2 = Boolean.getTrue();
         Equals eq = new Equals(left2, right2);
-        dependencies.add(eq);
 
         Question q = new Question(id, Type.DATE, null, text);
+        q.addDependency(ge);
+        q.addDependency(eq);
         return q;
     }
 
