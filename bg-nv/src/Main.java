@@ -2,6 +2,9 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
+import lang.ql.ast.type.DecType;
+import lang.ql.ast.type.IntType;
+import lang.ql.ast.type.Type;
 import lang.ql.gui.Modeler;
 import lang.ql.gui.SimpleGui;
 import lang.ql.gui.canvas.Canvas;
@@ -41,12 +44,20 @@ public class Main extends Application
 
             TypeChecker.check(ast);
 
+            ValueTable table = Evaluator.evaluate(ast);
+            Evaluator.reevaluate(ast, table);
+
             //Interpreter.interpret(ast);
             //values = v.getVariableValues();
 
             System.out.println(values);
 
-            new BigDecimal("10.0").divide(new BigDecimal("3.0"), new MathContext(2,    RoundingMode.FLOOR));
+            IntType i = new IntType();
+            DecType d = new DecType();
+
+            Type r = i.promoteTo(d);
+            Type r2 = d.promoteInt(i);
+            System.out.print(r2);
         }
         catch (IOException e)
         {

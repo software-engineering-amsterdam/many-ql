@@ -1,6 +1,5 @@
 package org.uva.ql.ast.expression.literal;
 
-import org.uva.ql.ast.type.ExpressionType;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class BoolLiteral extends Literal {
@@ -26,9 +25,4 @@ public class BoolLiteral extends Literal {
 		return value.toString();
 	}
 
-	
-	@Override
-	public ExpressionType getExpressionType() {
-		return ExpressionType.BOOL;
-	}
 }

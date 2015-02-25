@@ -6,7 +6,7 @@ import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Operator;
 import uva.ql.ast.value.BooleanValue;
 import uva.ql.ast.value.GenericValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class Or extends BinaryExpressions{
 
@@ -19,7 +19,7 @@ public class Or extends BinaryExpressions{
 		return this.getLeftExpr() + Operator.OR.getName() + this.getRightExpr();
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitOr(this);
 	}
 	@Override

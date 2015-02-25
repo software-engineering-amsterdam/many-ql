@@ -1,7 +1,7 @@
 package uva.sc.logic;
 
-
 public class Literal extends Node{
+	
 	String str;
 	Double d;
 	int i;
@@ -23,5 +23,9 @@ public class Literal extends Node{
 		this.bool = bool;
 	}
 	
+	public String toString() {
+		return "[String]: " + this.str + "[Double]: " + this.d + 
+			   "[Integer]: " + this.i + "[Boolean]: " + this.bool;
+	}
 	
 }

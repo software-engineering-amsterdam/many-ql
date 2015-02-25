@@ -55,12 +55,24 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
       check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
     }
 
-    "return empty environment, if valid boolean condition" in {
+    "throw exception, if error in if block" in {
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), None), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+    }
+
+    "return empty environment, if valid boolean condition (with else block)" in {
       check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beRight(new TypeEnvironment())
     }
 
-    "throw exception, if invalid boolean condition" in {
+    "throw exception, if invalid boolean condition (with else block)" in {
       check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+    }
+
+    "throw exception, if error in if block (with else block)" in {
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+    }
+
+    "throw exception, if error in else block" in {
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
     }
 
     "add variable + type and label to environment " in {

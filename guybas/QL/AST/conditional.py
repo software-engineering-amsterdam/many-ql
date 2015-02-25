@@ -63,6 +63,9 @@ class IfBlock(IStatement):
     def get_condition(self):
         return self.condition.as_list()
 
+    def get_str_condition(self):
+        return self.condition.pretty_print()
+
     def get_e_statements(self):
         return []
 
@@ -77,6 +80,12 @@ class IfBlock(IStatement):
         for x in self.statements:
             s += x.return_expressions()
         return s
+
+    def set_order(self, order_num):
+        pass
+
+    def get_order(self):
+        pass
 
 
 class IfElseBlock(IfBlock):
@@ -141,3 +150,8 @@ class IfElseBlock(IfBlock):
     def get_parent_id(self):
         return self.parent_id
 
+    def set_order(self, order_num):
+        pass
+
+    def get_order(self):
+        pass

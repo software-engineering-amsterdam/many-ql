@@ -21,7 +21,7 @@ public class ConstantExpr
     {
         IntExpr e = TestHelper.as(ParserHelper.ParseExpression("1"), IntExpr.class);
         assertNotNull(e);
-        assertEquals(1, (long)e.getValue());
+        assertEquals(1, (long) e.getValue());
     }
 
     @Test
@@ -65,33 +65,9 @@ public class ConstantExpr
     }
 
     @Test
-    public void stringExprQuotes2()
-    {
-        StrExpr e = TestHelper.as(ParserHelper.ParseExpression("“string“"), StrExpr.class);
-        assertNotNull(e);
-        assertEquals("string", e.getValue());
-    }
-
-    @Test
-    public void stringExprQuotes3()
-    {
-        StrExpr e = TestHelper.as(ParserHelper.ParseExpression("”string”"), StrExpr.class);
-        assertNotNull(e);
-        assertEquals("string", e.getValue());
-    }
-
-    @Test
-    public void stringExprSingleQuotes()
-    {
-        StrExpr e = TestHelper.as(ParserHelper.ParseExpression("'string'"), StrExpr.class);
-        assertNotNull(e);
-        assertEquals("string", e.getValue());
-    }
-
-    @Test
     public void stringExprDiffQuotes()
     {
-        StrExpr e = TestHelper.as(ParserHelper.ParseExpression("\"string”"), StrExpr.class);
+        StrExpr e = TestHelper.as(ParserHelper.ParseExpression("\"string\""), StrExpr.class);
         assertNotNull(e);
         assertEquals("string", e.getValue());
     }
@@ -126,10 +102,10 @@ public class ConstantExpr
     public void stringExprMultipleDifferentNestedQuotes()
     {
         StrExpr e = TestHelper.as(ParserHelper.ParseExpression(
-                "\"This string contains \\”multiple\\\" \\\"quotes\\”\""), StrExpr.class);
+                "\"This string contains \\\"multiple\\\" \\\"quotes\\\"\""), StrExpr.class);
 
         assertNotNull(e);
-        assertEquals("This string contains ”multiple\" \"quotes”", e.getValue());
+        assertEquals("This string contains \"multiple\" \"quotes\"", e.getValue());
     }
 
     @Test

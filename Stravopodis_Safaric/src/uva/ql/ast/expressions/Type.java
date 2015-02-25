@@ -2,7 +2,7 @@ package uva.ql.ast.expressions;
 
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.value.GenericValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class Type extends Expression{
 	
@@ -34,7 +34,7 @@ public class Type extends Expression{
 		return null;
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitType(this);
 	}
 }

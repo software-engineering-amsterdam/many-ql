@@ -31,8 +31,6 @@ class TypeEnvironment(val typeOfFields: Map[String, Type] = Map(), val labels: L
     }
   }
 
-  override def toString = s"Environment($typeOfFields, $labels)"
-
   def canEqual(other: Any): Boolean = other.isInstanceOf[TypeEnvironment]
 
   override def equals(other: Any): Boolean = other match {

@@ -1,167 +1,265 @@
 package lang.ql.semantics;
 
 import lang.ql.ast.expression.*;
+import lang.ql.ast.form.Form;
+import lang.ql.ast.form.FormVisitor;
+import lang.ql.ast.statement.*;
 import lang.ql.semantics.values.*;
 
+import java.util.*;
+
 /**
- * Created by bore on 23/02/15.
+ * Created by Nik on 24-2-15.
  */
-public class Evaluator implements ExprVisitor<Value>
+public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>, ExprVisitor<List<String>>
 {
-    private EvalEnv env;
+    // TODO: solve double IDs? dunno what to do with that
+    private ValueTable valueTable;
+    private Map<String, Statement> questions;
+    private DependencyTable dependencies;
+    private Map<String, List<String>> intermediateDependencies;
 
-    public static Value evaluate(Expr e, EvalEnv env)
+    public static ValueTable evaluate(Form f)
     {
-        Evaluator eval = new Evaluator(env);
-        return e.accept(eval);
+        Evaluator evaluator = new Evaluator();
+        return evaluator.visit(f);
     }
 
-    private Evaluator(EvalEnv env)
+    public static ValueTable reevaluate(Form f, ValueTable valueTable)
     {
-        this.env = env;
+        Evaluator evaluator = new Evaluator(valueTable);
+        return  evaluator.visit(f);
     }
 
-    @Override
-    public Value visit(BoolExpr e)
+    private Evaluator()
     {
-        return new BooleanValue(e.getValue());
+        this(new ValueTable());
     }
 
-    @Override
-    public Value visit(IntExpr e)
+    private Evaluator(ValueTable valueTable)
     {
-        return new IntegerValue(e.getValue());
-    }
-
-    @Override
-    public Value visit(DecExpr e)
-    {
-        return new DecimalValue(e.getValue());
-    }
-
-    @Override
-    public Value visit(StrExpr e)
-    {
-        return new StringValue(e.getValue());
+        this.valueTable = valueTable;
+        this.dependencies = new DependencyTable();
+        this.questions = new HashMap<String, Statement>();
+        this.intermediateDependencies = new HashMap<String, List<String>>();
     }
 
     @Override
-    public Value visit(Ident id)
+    public ValueTable visit(Form f)
     {
-        return this.env.getValue(id.getId());
+        for (Statement s : f.getBody())
+        {
+            s.accept(this);
+        }
+
+        // build a dependency table
+        // TODO: Just... something. This can't stay the way it is now.
+        for (String dependantId : this.intermediateDependencies.keySet())
+        {
+            List<String> subjectIds = this.intermediateDependencies.get(dependantId);
+
+            if (this.questions.containsKey(dependantId))
+            {
+                Statement dependant = this.questions.get(dependantId);
+                for (String subjectId : subjectIds)
+                {
+                    if (this.questions.containsKey(subjectId))
+                    {
+                        Statement subject = this.questions.get(subjectId);
+                        this.dependencies.addDependant(subject, dependant);
+                    }
+                }
+            }
+        }
+
+        return this.valueTable;
     }
 
     @Override
-    public Value visit(Neg e)
+    public Void visit(Question q)
     {
-        return e.getOperand().accept(this).neg();
+        this.questions.put(q.getId(), q);
+
+        this.valueTable.storeValue(q.getId(), new UndefinedValue());
+
+        return null;
     }
 
     @Override
-    public Value visit(Pos e)
+    public Void visit(CalculatedQuestion q)
     {
-        return e.getOperand().accept(this).pos();
+        this.questions.put(q.getId(), q);
+
+        Expr expr = q.getDefaultValue();
+
+        this.intermediateDependencies.put(q.getId(), expr.accept(this));
+
+        Value value = ExprEvaluator.evaluate(expr, this.valueTable);
+        this.valueTable.storeValue(q.getId(), value);
+
+        return null;
     }
 
     @Override
-    public Value visit(Not e)
+    public Void visit(IfCondition c)
     {
-        return e.getOperand().accept(this).not();
+        Expr expr = c.getCondition();
+        Value condValue = ExprEvaluator.evaluate(expr, this.valueTable);
+
+        if (!condValue.isUndefined() && !false) // TODO check if the value is Boolean and true
+        {
+            for (Statement s : c.getBody())
+            {
+                s.accept(this);
+            }
+        }
+
+        return null;
     }
 
     @Override
-    public Value visit(Add e)
+    public List<String> visit(BoolExpr e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.add(right);
+        return Collections.emptyList();
     }
 
     @Override
-    public Value visit(Sub e)
+    public List<String> visit(IntExpr e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.sub(right);
+        return Collections.emptyList();
     }
 
     @Override
-    public Value visit(Mul e)
+    public List<String> visit(DecExpr e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.mul(right);
+        return Collections.emptyList();
     }
 
     @Override
-    public Value visit(Div e)
+    public List<String> visit(StrExpr e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.div(right);
+        return Collections.emptyList();
     }
 
     @Override
-    public Value visit(Gt e)
+    public List<String> visit(Ident id)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.gt(right);
+        List<String> ids = new ArrayList<String>();
+        ids.add(id.getId());
+        return ids;
     }
 
     @Override
-    public Value visit(Lt e)
+    public List<String> visit(Neg e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.lt(right);
+        return e.getOperand().accept(this);
     }
 
     @Override
-    public Value visit(GtEqu e)
+    public List<String> visit(Pos e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.gtEqu(right);
+        return e.getOperand().accept(this);
     }
 
     @Override
-    public Value visit(LtEqu e)
+    public List<String> visit(Not e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.ltEqu(right);
+        return e.getOperand().accept(this);
     }
 
     @Override
-    public Value visit(Equ e)
+    public List<String> visit(Add e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.equ(right);
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
     }
 
     @Override
-    public Value visit(NotEqu e)
+    public List<String> visit(Sub e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.notEqu(right);
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
     }
 
     @Override
-    public Value visit(And e)
+    public List<String> visit(Mul e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.and(right);
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
     }
 
     @Override
-    public Value visit(Or e)
+    public List<String> visit(Div e)
     {
-        Value left = e.getLeft().accept(this);
-        Value right = e.getRight().accept(this);
-        return left.or(right);
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(Gt e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(Lt e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(GtEqu e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(LtEqu e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(Equ e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(NotEqu e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(And e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
+    }
+
+    @Override
+    public List<String> visit(Or e)
+    {
+        List<String> ids = e.getLeft().accept(this);
+        ids.addAll(e.getRight().accept(this));
+        return ids;
     }
 }

@@ -1,7 +1,7 @@
 package uva.ql.ast;
 
 import uva.ql.ast.value.GenericValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.StatementVisitorInterface;
 
 public class Prog extends ASTNode{
 	
@@ -23,7 +23,7 @@ public class Prog extends ASTNode{
 	public GenericValue<?> evaluate() {
 		return null;
 	}
-	public <T> T accept(VisitorInterface<T> visitor){
+	public <T> T accept(StatementVisitorInterface<T> visitor){
 		return visitor.visitProg(this);
 	}
 }

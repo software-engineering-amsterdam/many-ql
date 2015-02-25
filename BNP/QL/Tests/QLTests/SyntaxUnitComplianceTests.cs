@@ -3,7 +3,7 @@
 namespace Tests.QLTests
 {
     [TestClass]
-    public class SyntaxUnitComplianceTests : SyntaxComplianceTestBase
+    public class SyntaxUnitComplianceTests : QLTestBase
     {
         #region Questions of different types
         [TestMethod]
@@ -32,78 +32,6 @@ namespace Tests.QLTests
         public void QuestionOfTypeNumber()
         {
             string input = "question My1stQuestion2345 (number) \"Hello world\";";
-            Build(input);
-            var unit = Parser.unit();
-
-            Assert.IsNull(unit.exception);
-            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
-        }
-
-        #endregion
-
-        #region Optional questions of different types
-        [TestMethod]
-        public void OptionalQuestionOfTypeText()
-        {
-            string input = "question My1stQuestion2345 (text, optional) \"Hello world\";";
-            Build(input);
-            var unit = Parser.unit();
-
-            Assert.IsNull(unit.exception);
-            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
-        }
-
-        [TestMethod]
-        public void OptionalQuestionOfTypeYesNo()
-        {
-            string input = "question My1stQuestion2345 (yesno, optional) \"Hello world\";";
-            Build(input);
-            var unit = Parser.unit();
-
-            Assert.IsNull(unit.exception);
-            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
-        }
-
-        [TestMethod]
-        public void OptionalQuestionOfTypeNumber()
-        {
-            string input = "question My1stQuestion2345 (number, optional) \"Hello world\";";
-            Build(input);
-            var unit = Parser.unit();
-
-            Assert.IsNull(unit.exception);
-            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
-        }
-
-        #endregion
-
-        #region Required questions of different types
-        [TestMethod]
-        public void RequiredQuestionOfTypeText()
-        {
-            string input = "question My1stQuestion2345 (text, required) \"Hello world\";";
-            Build(input);
-            var unit = Parser.unit();
-
-            Assert.IsNull(unit.exception);
-            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
-        }
-
-        [TestMethod]
-        public void RequiredQuestionOfTypeYesNo()
-        {
-            string input = "question My1stQuestion2345 (yesno, required) \"Hello world\";";
-            Build(input);
-            var unit = Parser.unit();
-
-            Assert.IsNull(unit.exception);
-            Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
-        }
-
-        [TestMethod]
-        public void RequiredQuestionOfTypeNumber()
-        {
-            string input = "question My1stQuestion2345 (number, required) \"Hello world\";";
             Build(input);
             var unit = Parser.unit();
 

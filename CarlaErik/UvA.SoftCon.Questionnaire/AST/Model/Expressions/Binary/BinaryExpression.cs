@@ -9,14 +9,12 @@ using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
-    public class BinaryExpression : Node, IExpression
+    public abstract class BinaryExpression : Node, IExpression
     {
-        public override NodeType Type
+        public Operation Operation
         {
-            get
-            {
-                return NodeType.BinaryExpression;
-            }
+            get;
+            private set;
         }
 
         public IExpression Left
@@ -34,22 +32,18 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
         public BinaryExpression(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(position)
         {
+            Operation = operation;
             Left = left;
             Right = right;
         }
 
-        public override void Accept(IASTVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+        public abstract DataType? GetType(IDictionary<string, DataType> symbolTable);
+
+        public abstract IValue Evaluate(IDictionary<string, IValue> environment);
 
         public override string ToString()
         {
             return String.Format("{0} {1} {2}", Left.ToString(), StringEnum.GetStringValue(Operation), Right.ToString());
         }
-
-        public abstract DataType? GetType(IDictionary<string, DataType> symbolTable);
-
-        public abstract Value Evaluate(IDictionary<string, Value> environment);
     }
 }

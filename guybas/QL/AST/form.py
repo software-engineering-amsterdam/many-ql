@@ -1,5 +1,6 @@
 # AST format of the Form
 
+
 class Form:
     def __init__(self, name, introduction, statements):
         self._name = name

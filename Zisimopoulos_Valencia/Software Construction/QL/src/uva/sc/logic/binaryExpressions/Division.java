@@ -7,5 +7,9 @@ public class Division extends BinaryExpression{
 	public Division(Node firstOperand, Node secondOperand) {
 		super(firstOperand, secondOperand);
 	}
+	
+	public String toString() {
+		return "[op /]";
+	}
 
 }
