@@ -82,7 +82,10 @@ class IfBlock(IStatement):
         return s
 
     def set_order(self, order_num):
-        pass
+        c = order_num
+        for s in self.statements:
+            c = s.set_order(c)
+        return c
 
     def get_order(self):
         pass
@@ -151,7 +154,12 @@ class IfElseBlock(IfBlock):
         return self.parent_id
 
     def set_order(self, order_num):
-        pass
+        c = order_num
+        for s in self.statements:
+            c = s.set_order(c)
+        for s in self.else_statements:
+            c = s.set_order(c)
+        return c
 
     def get_order(self):
         pass
