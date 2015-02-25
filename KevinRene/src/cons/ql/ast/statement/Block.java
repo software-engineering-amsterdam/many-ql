@@ -2,11 +2,13 @@ package cons.ql.ast.statement;
 
 import java.util.ArrayList;
 
-import cons.ql.ast.Visitor;
 import cons.ql.ast.Statement;
+import cons.ql.ast.visitor.Visitor;
 
 public class Block extends Statement {
 	private ArrayList<Statement> statements = new ArrayList<Statement>();
+	
+	public Block() {}
 	
 	/**
 	 * Constructor for the statement case
@@ -29,8 +31,9 @@ public class Block extends Statement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Block(");
 		
-		for(Statement s : statements)
-			sb.append(s.toString() + ", ");
+		for(Statement statement : statements) {
+			sb.append(statement.toString() + ", ");
+		}
 		
 		sb.setLength(sb.length() - 2);
 		sb.append(")");
@@ -39,7 +42,7 @@ public class Block extends Statement {
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub		
+	public <T> T accept(Visitor<T> visitor) {		
+		return visitor.visit(this);
 	}
 }

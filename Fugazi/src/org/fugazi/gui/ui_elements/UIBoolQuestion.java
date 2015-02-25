@@ -6,41 +6,38 @@ import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.gui.UIMediator;
 import org.fugazi.gui.widgets.CheckBox;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 public class UIBoolQuestion extends UIQuestion {
 
-    private boolean isSelected;
+    private Boolean value;
 
     public UIBoolQuestion(UIMediator _med, Question _question) {
         super(_med, _question);
-        this.isSelected = false;
+        this.value = false; // default
 
         // TODO: get it from a GUI Designer
         this.widget = new CheckBox(_question.getLabel());
+        this.widget.addItemListener(event -> itemChanged(event));
 
-        // todo: change that.
-        this.widget.addEventListener((ItemListener)event -> itemChanged(event));
+        // Todo: get initial form state OR get undefined value when no default?
+        this.sendToMediator();
     }
 
     private void itemChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            this.setState(new BoolValue(true));
+            this.setState(true);
         } else {
-            this.setState(new BoolValue(false));
+            this.setState(false);
         }
     }
 
-    @Override
-    public void setState(ExpressionValue _value) {
-        BoolValue exprValue = (BoolValue) _value;
-        this.isSelected = exprValue.getValue();
-
-        this.send();
+    public void setState(Boolean _value) {
+        value = _value;
+        this.sendToMediator();
     }
 
     @Override
     public ExpressionValue getState() {
-        return new BoolValue(isSelected);
+        return new BoolValue(value);
     }
 }

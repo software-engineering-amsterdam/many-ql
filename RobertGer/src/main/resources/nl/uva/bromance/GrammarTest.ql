@@ -39,9 +39,9 @@ Name: "Tax" {
         	}
             Calculation: "ttl_income_tax" {
                 		If: partner == "Married" || partner == "Cohabitation" {
-                			Input: (income1 + income_partner) * 0.43
+                			Input: (income1 + income_partner) * 2
                 		} Else: {
-                			Input: income1 * 0.43
+                			Input: income1 * 2
                 		}
                 	}
         }
@@ -52,7 +52,7 @@ Name: "Tax" {
         		Answer: integer
         		Range: >0
         	}
-        	If: generic.partner == "Married" || generic.partner == "Cohabitation" && (iets == iets || iets >= iets ) {
+        	If: generic.partner == "Married" || generic.partner == "Cohabitation" {
             	Question: "income_partner" {
             		Text: "How much money did your partner earn through employer paid wages during 2014?"
             		Answer: integer
@@ -61,9 +61,9 @@ Name: "Tax" {
             }
             Calculation: "ttl_income_tax" {
                 		If: generic.partner == "Married" || generic.partner == "Cohabitation" {
-                			Input: (income1 + income_partner) * 0.43
+                			Input: (income1 + income_partner) * 20
                 		} Else: {
-                			Input: income1 * 0.43
+                			Input: income1 * 15
                 		}
                 	}
         }

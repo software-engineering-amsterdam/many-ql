@@ -23,7 +23,7 @@ public class Label extends Node implements CanContainConditionals {
         super(lineNumber, Label.class);
         this.setAcceptedParents(parentsAllowed);
         if (id != null) {
-            this.identifier = id.substring(1,id.length()-1); // Remove double brackets around id
+            this.identifier = id.substring(1, id.length() - 1); // Remove double brackets around id
         } else {
             //TODO: Consider putting this in the typechecker.
             System.err.println("Label Error: No identifier specified");

@@ -1,7 +1,6 @@
-from .Visitor import Visitor
-from . import Message
+from . import Checker, Message
 
-class Checker(Visitor):
+class Checker(Checker.StatementChecker):
     def __init__(self, ast):
         super().__init__(ast)
         self._labels = {}

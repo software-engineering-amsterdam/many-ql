@@ -1,34 +1,34 @@
 package cons.ql.ast.expression;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import cons.ql.ast.Expression;
-import cons.ql.ast.Visitor;
- 
-public abstract class QLType<T> extends Expression {
-	protected T value;
-	protected boolean defined;
+
+public abstract class QLType extends Expression {
+	protected List<Class<? extends QLType>> compatibleTypes;
 	
-	public QLType() {
-		defined = false;
+	public QLType(List<Class<? extends QLType>> compatibleTypes) {
+		super(Arrays.asList());
+		this.compatibleTypes = compatibleTypes;
 	}
 	
-	public QLType(T value) {
-		this.value = value;
-		defined = true;
-	}
-	
-	public void setValue(T value) { 
-		this.value = value;
-		defined = true;
-	}
-	
-	public T getValue() throws NullPointerException {
-		if(!defined) {
-			throw new NullPointerException("Variable not defined.");
-		}
-		return value;
-	}
-	
-	public String getName() {
+	@Override
+	public String toString() {
 		return this.getClass().getSimpleName();
+	}
+	
+	public boolean compatibleWith(QLType type) {
+		return this.compatibleTypes.contains(type.getClass());
+	}
+	
+	/**
+	 * @return the list of compatibilities
+	 */
+	public List<String> compatibilities() {
+		return compatibleTypes.stream()
+				.map(ct -> ct.getSimpleName())
+				.collect(Collectors.toList());
 	}
 }

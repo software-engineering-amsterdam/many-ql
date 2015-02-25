@@ -46,10 +46,8 @@ public class Main {
 
         ValueStorage valueStorage = new ValueStorage();
 
-        Evaluator evaluator = new Evaluator(valueStorage);
-
         // Render GUI.
-        GUIBuilder guiBuilder = new GUIBuilder(form, evaluator);
+        GUIBuilder guiBuilder = new GUIBuilder(form, valueStorage);
         guiBuilder.renderGUI();
     }
 }

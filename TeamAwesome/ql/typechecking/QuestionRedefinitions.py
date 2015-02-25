@@ -1,9 +1,8 @@
-from .Visitor import Visitor
 from .Identifier import typeOfIdentifier
 from ..TypeRules import nativeQuestionType
-from . import Message
+from . import Checker, Message
 
-class Checker(Visitor):
+class Checker(Checker.StatementChecker):
     def _visitQuestionStatement(self, node):
         myType = nativeQuestionType(node.type)
         expectedType = typeOfIdentifier(

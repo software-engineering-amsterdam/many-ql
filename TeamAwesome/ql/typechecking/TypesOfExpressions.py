@@ -1,15 +1,13 @@
-from .Visitor import Visitor
-from . import Message
+from . import Checker, Message
 from .Identifier import typeOfIdentifier
 from .Cast import effectiveTypes
 
-from .. import TypeRules
-from .. import CustomTypes
+from .. import TypeRules, CustomTypes
 
 from ..ast import Nodes
 
 
-class Checker(Visitor):
+class Checker(Checker.FullChecker):
     def __init__(self, ast):
         super().__init__(ast)
         self._operatorTable = TypeRules.OperatorTable()

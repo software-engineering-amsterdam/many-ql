@@ -51,7 +51,6 @@ public class TestCheckerUndefinedVariablesTest extends TypeCheckerBaseTest {
         for (ASTNodeErrorType expected : expectedTypes) {
             assertTrue(receivedTypes.contains(expected));
         }
-
     }
 
     @Test
