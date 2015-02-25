@@ -48,9 +48,7 @@ public class GUIBuilder implements IMediator, IStatementVisitor<UIQuestion> {
      * Mediator
      */
     public void notify(Colleague _origin) {
-        // Save value to storage.
         this.storage.saveValue(_origin.getId(), _origin.getState());
-        // Evaluate if statements
         ifStatements.forEach(ifStatement -> evaluateIfStatement(ifStatement));
     }
 
@@ -59,6 +57,7 @@ public class GUIBuilder implements IMediator, IStatementVisitor<UIQuestion> {
      */
     private void evaluateIfStatement(IfStatement _ifStatement) {
         Expression condition = _ifStatement.getCondition();
+
         // todo: no casting?
         BoolValue result = (BoolValue) this.evaluator.evaluateExpression(condition);
         if (result.getValue()) {
@@ -68,12 +67,9 @@ public class GUIBuilder implements IMediator, IStatementVisitor<UIQuestion> {
     }
 
     private void evaluateComputedQuestion(ComputedQuestion _computedQuest) {
-
         Expression expression = _computedQuest.getComputedExpression();
         ExpressionValue result = evaluator.evaluateExpression(expression);
-
-        System.out.println("Computed Expression : " + expression.toString());
-        System.out.println("Computed Expression - Result: " + result.getValue());
+        this.storage.saveValue(_computedQuest.getIdName(), result);
     }
 
     public UIQuestion visitQuestion(Question _question) {
@@ -81,7 +77,6 @@ public class GUIBuilder implements IMediator, IStatementVisitor<UIQuestion> {
         UIQuestion uiQuestion = _question.getType().accept(typeVisitor);
         this.addQuestionToTheForm(uiQuestion);
 
-        // Save default value to storage.
         this.storage.saveValue(uiQuestion.getId(), uiQuestion.getState());
 
         return uiQuestion;
@@ -94,9 +89,12 @@ public class GUIBuilder implements IMediator, IStatementVisitor<UIQuestion> {
     }
 
     public UIQuestion visitComputedQuestion(ComputedQuestion _computedQuest) {
-
-        UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest);
         this.evaluateComputedQuestion(_computedQuest);
+        UIComputedQuestion uiComputedQuestion =
+                new UIComputedQuestion(this,
+                        _computedQuest,
+                        storage.getRealValue(_computedQuest.getIdName()).toString()
+                );
         this.addQuestionToTheForm(uiComputedQuestion);
 
         return uiComputedQuestion;

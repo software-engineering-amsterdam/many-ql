@@ -1,0 +1,42 @@
+package org.fugazi.gui.widgets;
+
+import javax.swing.*;
+import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
+
+public class Label implements IWidget<String> {
+
+    private final JLabel value;
+
+    // todo: generalize the component
+    private JPanel panel;
+
+    public Label(String _label, String _value) {
+
+        this.panel = new JPanel();
+        JLabel label = new JLabel(_label);
+        this.value = new JLabel(_value);
+
+        panel.add(label);
+        panel.add(this.value);
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        return this.panel;
+    }
+
+    @Override
+    public void addItemListener(ItemListener _listener) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void addDocumentListener(DocumentListener _listener) {
+    }
+
+    @Override
+    public String getValue() {
+        return this.value.getText();
+    }
+}
