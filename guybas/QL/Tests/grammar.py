@@ -81,11 +81,6 @@ class TestGrammar(unittest.TestCase):
         result = FormFormat.answerR.parseString("set").asList()
         self.assertEqual(result, ["set"])
 
-
-
-
-
 # Execute tests
 suite = unittest.TestLoader().loadTestsFromTestCase(TestGrammar)
-suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestAST))
 unittest.TextTestRunner(verbosity=2).run(suite)
