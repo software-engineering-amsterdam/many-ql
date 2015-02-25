@@ -11,41 +11,8 @@ import (
 const eof = 0
 
 const (
-	// FormTokenText - Reserved Word
-	FormTokenText = "form"
-	// IfTokenText - Reserved Word
-	IfTokenText = "if"
-	// ElseTokenText - Reserved Word
-	ElseTokenText = "else"
-	// StringQuestionTokenText - Reserved Word
-	StringQuestionTokenText = "string"
-	// NumericQuestionTokenText - Reserved Word
-	NumericQuestionTokenText = "numeric"
-	// BoolQuestionTokenText - Reserved Word
-	BoolQuestionTokenText = "bool"
-	// ComputedQuestionTokenText - Reserved Word
-	ComputedQuestionTokenText = "computed"
-	// BoolAndTokenText - Reserved Word
-	BoolAndTokenText = "and"
-	// BoolOrTokenText - Reserved Word
-	BoolOrTokenText = "or"
-	// BoolTrueTokenText - Reserved Word
-	BoolTrueTokenText = "true"
-	// BoolFalseTokenText - Reserved Word
-	BoolFalseTokenText = "false"
-
-	// LessThanTokenText - Reserved Symbols
-	LessThanTokenText = `<`
-	// LessOrEqualsThanTokenText - Reserved Symbols
-	LessOrEqualsThanTokenText = `<=`
-	// MoreThanTokenText - Reserved Symbols
-	MoreThanTokenText = `>`
-	// MoreOrEqualsThanTokenText - Reserved Symbols
-	MoreOrEqualsThanTokenText = `>=`
-	// EqualsToTokenText - Reserved Symbols
-	EqualsToTokenText = `==`
-	// NotEqualsToTokenText - Reserved Symbols
-	NotEqualsToTokenText = `!=`
+	// StylesheetTokenText - Reserved Word
+	StylesheetTokenText = "stylesheet"
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
@@ -70,7 +37,7 @@ func newLexer(stream io.Reader, fn string) *lexer {
 }
 
 // The parser calls this method to get each new token.
-func (x *lexer) Lex(yylval *qlSymType) int {
+func (x *lexer) Lex(yylval *qlsSymType) int {
 	tok := x.scanner.Scan()
 
 	if tok == scanner.EOF {
@@ -78,53 +45,14 @@ func (x *lexer) Lex(yylval *qlSymType) int {
 	}
 
 	txt := x.scanner.TokenText()
-	nextRune := string(x.scanner.Peek())
+	// nextRune := string(x.scanner.Peek())
 	typ := TextToken
 
 	if tok == scanner.Float || tok == scanner.Int {
 		typ = NumericToken
-	} else if txt == FormTokenText {
-		typ = FormToken
-	} else if txt == StringQuestionTokenText {
-		typ = StringQuestionToken
-	} else if txt == NumericQuestionTokenText {
-		typ = NumericQuestionToken
-	} else if txt == BoolQuestionTokenText {
-		typ = BoolQuestionToken
-	} else if txt == ComputedQuestionTokenText {
-		typ = ComputedQuestionToken
-	} else if txt == BoolAndTokenText {
-		typ = BoolAndToken
-	} else if txt == BoolOrTokenText {
-		typ = BoolOrToken
-	} else if txt == BoolTrueTokenText {
-		typ = BoolTrueToken
-	} else if txt == BoolFalseTokenText {
-		typ = BoolFalseToken
-	} else if txt == IfTokenText {
-		typ = IfToken
-	} else if txt == ElseTokenText {
-		typ = ElseToken
-	} else if (txt + nextRune) == LessOrEqualsThanTokenText {
-		x.scanner.Scan()
-		typ = LessOrEqualsThanToken
-		txt = LessOrEqualsThanTokenText
-	} else if (txt + nextRune) == MoreOrEqualsThanTokenText {
-		x.scanner.Scan()
-		typ = MoreOrEqualsThanToken
-		txt = MoreOrEqualsThanTokenText
-	} else if (txt + nextRune) == EqualsToTokenText {
-		x.scanner.Scan()
-		typ = EqualsToToken
-		txt = EqualsToTokenText
-	} else if (txt + nextRune) == NotEqualsToTokenText {
-		x.scanner.Scan()
-		typ = NotEqualsToToken
-		txt = NotEqualsToTokenText
-	} else if txt == MoreThanTokenText {
-		typ = MoreThanToken
-	} else if txt == LessThanTokenText {
-		typ = LessThanToken
+	} else if txt == StylesheetTokenText {
+		typ = StylesheetToken
+
 	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" ||
 		txt == "+" || txt == "-" || txt == "*" || txt == "/" ||
 		txt == "=" || txt == "!" {
