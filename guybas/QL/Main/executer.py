@@ -12,9 +12,9 @@ try:
 
     #print(form._type_dict)
     #typeChecker = TypeChecker(form)
-    #gui = QuestionnaireGUI(form)
-    #gui.generate_gui()
-    #gui.show()
+    gui = QuestionnaireGUI(form)
+    gui.generate_gui()
+    gui.show()
 
 except Exception as e:
     exceptions_handling(e)

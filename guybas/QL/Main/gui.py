@@ -42,11 +42,7 @@ class QuestionnaireGUI:
         parent_id = statement.get_parent_id()
         int_var = IntVar()
         str_var = StringVar()
-        print("<>")
-        print(statement.pretty_print())
         row = statement.get_order()
-        print(row)
-        print("</>")
         l = Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
         l.grid(row=row, column=0, sticky=W)
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
@@ -89,7 +85,7 @@ class QuestionnaireGUI:
             raise QException("Fatal Error: no such condition id " + parent_id)
         # idx = len(self.elementsMap[parent_id]['guiElements'])
         for e in self.elementsMap[parent_id]['guiElements']:
-            print(e.grid_info())
+            # print(e.grid_info())
             e.destroy()
         # self.elementsMap[parent_id]['guiElements'] = []
         statements_to_recreate = list(self.elementsMap[parent_id]['statements'])
