@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JFrame;
 
 import cons.TypeEnvironment;
+import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
@@ -33,10 +34,10 @@ public class Main {
 			+ "            \"Private debts for the sold house:\" "
 			+ "        }"
 			+ ""
-			+ "        valueResidue: money {"
-			+ "            \"Value residue:\""
-			+ "            assign(sellingPrice - privateDebt)"
-			+ "        }"
+//			+ "        valueResidue: money {"
+//			+ "            \"Value residue:\""
+//			+ "            assign(sellingPrice - privateDebt)"
+//			+ "        }"
 			+ "    }"
 			+ "}";
 	
@@ -54,13 +55,14 @@ public class Main {
         Parser formParser = new Parser();
         ASTNode tree = formParser.parse(form);
 		TypeEnvironment register = new TypeEnvironment();
+		ValueEnvironment valueEnv = new ValueEnvironment();
 		
 		if(!TypeChecker.check(tree, register)) {
 			System.out.println("Type error detected in the form.");
 			System.exit(0);
 		}
 		
-		ComponentCreator.check(frame.getContentPane(), tree);
+		ComponentCreator.check(frame.getContentPane(), tree, valueEnv);
  
         //Display the window.
         frame.pack();

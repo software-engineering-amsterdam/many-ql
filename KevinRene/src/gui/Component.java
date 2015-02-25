@@ -2,12 +2,13 @@ package gui;
 
 import java.util.Observable;
 
+import cons.Value;
 import cons.ql.ast.expression.Identifier;
 
-public class Component extends Observable {
+public abstract class Component extends Observable {
 
-	private final Identifier identifier;
-	private final Controller controller;
+	protected final Identifier identifier;
+	protected final Controller controller;
 	
 	public Component(Identifier identifier, Controller controller) {
 		this.identifier = identifier;
@@ -18,8 +19,14 @@ public class Component extends Observable {
 		return this.identifier;
 	}
 	
+	public Value getValue() {
+		return controller.resolveValue(identifier);
+	}
+	
 	public Controller getController() {
 		return this.controller;
 	}
+	
+	public abstract void setValue(Value value);
 	
 }

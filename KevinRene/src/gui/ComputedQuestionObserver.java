@@ -3,7 +3,9 @@ package gui;
 import java.util.Observable;
 import java.util.Observer;
 
+import cons.Value;
 import cons.ql.ast.statement.ComputedQuestion;
+import cons.ql.ast.visitor.evaluator.Evaluator;
 
 public class ComputedQuestionObserver implements Observer {
 	
@@ -19,8 +21,23 @@ public class ComputedQuestionObserver implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("update");
-		// Do something, dance or so.
-	}
 
+		// Recalculate the value for this computedQuestion
+		Value value = expression.getExpression().accept(new Evaluator(controller.getValueEnvironment()));
+		
+		if (value == null) {
+			return;
+		}
+		
+		System.out.println("new value for " + expression.getIdentifier() + ": " + value);
+		
+		// Update the type environment
+		controller.storeValue(expression.getIdentifier(), value);
+		
+		// Now update all the Components that watch the computedQuestion
+		controller.notify(expression.getIdentifier());
+		
+		// Now also update the component
+		component.setValue(value);
+	}
 }

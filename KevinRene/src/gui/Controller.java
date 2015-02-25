@@ -2,39 +2,62 @@ package gui;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Observer;
 
+import cons.Value;
+import cons.ValueEnvironment;
 import cons.ql.ast.expression.Identifier;
 
 public class Controller {
 	
-	private final Map<Identifier, Observable> observables;
+	private final Map<Identifier, Component> components;
+	private final ValueEnvironment valueEnv;
 	
-	public Controller() {
-		this.observables = new HashMap<Identifier, Observable>();
+	public Controller(ValueEnvironment valueEnv) {
+		this.components = new HashMap<Identifier, Component>();
+		this.valueEnv = valueEnv;
 	}
 	
+	/**
+	 * Call this method when the input of a question has changed.
+	 * The supplied identifier is used to retrieve the Component
+	 * that supplies the identifier for this value. The method
+	 * then notifies the observers of this Component.
+	 */
 	public void notify(Identifier identifier) {
-		System.out.println(identifier + " has changed");
-		Observable obs = observables.get(identifier);
+		Component comp = components.get(identifier);
 		
-		if (obs != null) {
-			obs.notifyObservers();
+		if (comp != null) {
+			comp.notifyObservers();
 		}
 	}
 	
-	public void addObserver(Identifier x, Observer obs) {
-		observables.get(x).addObserver(obs);
+	public void addComponent(Identifier x, Observer obs) {
+		components.get(x).addObserver(obs);
 	}
 	
+	// Listens to every identifier
 	public void addGlobalObserver(Observer obs) {
-		for(Identifier id : observables.keySet()) {
-			addObserver(id, obs);
+		for(Identifier id : components.keySet()) {
+			addComponent(id, obs);
 		}
 	}
 	
-	public void putObservable(Identifier x, Observable obs) {
-		observables.put(x, obs);
+	public void putComponent(Identifier x, Component obs) {
+		components.put(x, obs);
+	}
+	
+	// Access point for the TypeEnvironment
+	public void storeValue(Identifier x, Value value) {
+		valueEnv.store(x, value);
+	}
+	
+	public Value resolveValue(Identifier identifier) {
+		return valueEnv.resolve(identifier);
+	}
+	
+	
+	public ValueEnvironment getValueEnvironment() {
+		return this.valueEnv;
 	}
 }

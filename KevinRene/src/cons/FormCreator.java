@@ -45,6 +45,7 @@ public class FormCreator {
 				else {
 					ASTNode tree = formParser.parse(str);
 					TypeEnvironment register = new TypeEnvironment();
+					ValueEnvironment valueEnv = new ValueEnvironment();
 					
 					if(!TypeChecker.check(tree, register)) {
 						System.out.println("Type error detected in the form.");
@@ -53,7 +54,7 @@ public class FormCreator {
 					
 					tree.accept(prettyPrinter);
 					
-					Evaluator evaluator = new Evaluator();
+					Evaluator evaluator = new Evaluator(valueEnv);
 					
 					System.out.println(tree.accept(evaluator));
 				}

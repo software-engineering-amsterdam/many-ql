@@ -1,6 +1,8 @@
 package cons.ql.ast.visitor.evaluator;
 
 import cons.Value;
+import cons.ValueEnvironment;
+import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
 import cons.ql.ast.expression.arithmetic.Mul;
@@ -29,6 +31,13 @@ import cons.value.StringValue;
 
 @SuppressWarnings("rawtypes")
 public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Value> {
+	private ValueEnvironment valueEnv;
+	
+	public Evaluator(ValueEnvironment valueEnv) {
+		this.valueEnv = valueEnv;
+	}
+	
+	
 	@Override
 	public Value visit(Pos pos) {
 		Value expressionValue = pos.getExpression().accept(this);
@@ -164,5 +173,10 @@ public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Val
 		Value rightValue = sub.getRight().accept(this);
 		
 		return leftValue.subtract(rightValue);
-	}	
+	}
+	
+	@Override
+	public Value visit (Identifier identifier) {
+		return valueEnv.resolve(identifier);
+	}
 }

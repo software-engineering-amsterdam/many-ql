@@ -1,21 +1,12 @@
 package gui;
 
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
 
+import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.If;
@@ -28,14 +19,14 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	private Container pane;
 	private Controller controller;
 	
-	private ComponentCreator(Container pane) {
+	private ComponentCreator(Container pane, ValueEnvironment valueEnv) {
 		this.pane = pane;
-		this.controller = new Controller();
+		this.controller = new Controller(valueEnv);
 	}
 	
-	public static Container check(Container pane, ASTNode tree) {
+	public static Container check(Container pane, ASTNode tree, ValueEnvironment valueEnv) {
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		ComponentCreator creator = new ComponentCreator(pane);
+		ComponentCreator creator = new ComponentCreator(pane, valueEnv);
 		
 		tree.accept(creator);
 		
@@ -47,20 +38,16 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	 */		
 	@Override
 	public Void visit(ComputedQuestion compQuestionNode) {
-		JLabel label = new JLabel(compQuestionNode.getText().toString());
-    	label.setHorizontalAlignment(0);
-    	label.setFont(new Font("Serif", Font.BOLD, 20));
-    	this.pane.add(label);
+    	addLabel(compQuestionNode.getText().toString(), pane);
     	
     	TextComponent comp = new TextComponent(compQuestionNode.getIdentifier(), 
     			controller, false);
-    	this.pane.add(comp.getComponent());
+    	pane.add(comp.getComponent());
     	
     	ComputedQuestionObserver observer = 
     			new ComputedQuestionObserver(compQuestionNode, controller, comp);
     	controller.addGlobalObserver(observer);
-    	controller.putObservable(comp.getIdentifier(), comp);
-    	
+    	controller.putComponent(comp.getIdentifier(), comp);
     	
 		return null;
 	}
@@ -82,7 +69,8 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		addLabel(questionNode.getText().toString(), pane);
 		
 		TextComponent comp = new TextComponent(questionNode.getIdentifier(), controller);
-    	this.pane.add(comp.getComponent());
+		controller.putComponent(questionNode.getIdentifier(), comp);
+    	pane.add(comp.getComponent());
     	
 		return null;
 	}
