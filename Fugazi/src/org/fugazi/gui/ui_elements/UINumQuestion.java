@@ -3,8 +3,7 @@ package org.fugazi.gui.ui_elements;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.evaluator.expression_value.IntValue;
-import org.fugazi.evaluator.expression_value.StringValue;
-import org.fugazi.gui.UIMediator;
+import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.widgets.NumsOnlyTextBox;
 
 import javax.swing.event.DocumentEvent;
@@ -14,7 +13,7 @@ public class UINumQuestion extends UIQuestion {
 
     private Integer value;
 
-    public UINumQuestion(UIMediator _med, Question _question) {
+    public UINumQuestion(IMediator _med, Question _question) {
         super(_med, _question);
         this.value = 0; // default
 
@@ -42,9 +41,6 @@ public class UINumQuestion extends UIQuestion {
             public void changedUpdate(DocumentEvent e) {
             }
         });
-
-        // Todo: get initial form state OR get undefined value when no default
-        this.sendToMediator();
     }
 
     public void setState(Integer _value) {
