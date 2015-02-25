@@ -5,8 +5,8 @@ import (
 	"log"
 	"text/template"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
 	"gopkg.in/qml.v1"
 )
 

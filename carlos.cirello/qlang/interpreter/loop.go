@@ -6,13 +6,13 @@ package interpreter
 import (
 	"time"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/draw"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/visitor/typechecker"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/visitor"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/visitor/draw"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/visitor/execute"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/visitor/typechecker"
 )
 
 type interpreter struct {

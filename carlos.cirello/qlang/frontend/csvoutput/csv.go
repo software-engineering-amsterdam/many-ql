@@ -4,7 +4,7 @@ import (
 	"encoding/csv"
 	"io"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 )
 
 // Output holds an io.Writer which is used to store the responses of the form

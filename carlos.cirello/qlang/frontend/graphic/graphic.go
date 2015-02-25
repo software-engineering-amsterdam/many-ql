@@ -5,8 +5,8 @@ package graphic
 import (
 	"sync"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 	"gopkg.in/qml.v1"
 )
 
