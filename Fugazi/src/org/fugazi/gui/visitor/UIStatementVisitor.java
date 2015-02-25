@@ -8,16 +8,16 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.Evaluator;
 import org.fugazi.evaluator.expression_value.BoolValue;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
-import org.fugazi.gui.UIMediator;
+import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.ui_elements.UIComputedQuestion;
 import org.fugazi.gui.ui_elements.UIQuestion;
 
 public class UIStatementVisitor implements IStatementVisitor<UIQuestion> {
     
     private final Evaluator evaluator;
-    private final UIMediator mediator;
+    private final IMediator mediator;
     
-    public UIStatementVisitor(Evaluator _evaluator, UIMediator _mediator) {
+    public UIStatementVisitor(Evaluator _evaluator, IMediator _mediator) {
         this.evaluator = _evaluator;
         this.mediator = _mediator;
     }
@@ -45,11 +45,9 @@ public class UIStatementVisitor implements IStatementVisitor<UIQuestion> {
 
         System.out.println("Computed Expression : " + expression.toString());
         System.out.println("Computed Expression - Result: " + result.getValue());
-        // todo: set the result.
     }
 
     public UIQuestion visitQuestion(Question _question) {
-
         return _question.getType().accept(new UITypeVisitor(mediator, _question));
     }
 
