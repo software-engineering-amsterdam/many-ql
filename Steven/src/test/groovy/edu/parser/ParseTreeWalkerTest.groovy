@@ -1,5 +1,6 @@
 package edu.parser
 
+import edu.Main
 import junit.framework.Assert
 import edu.parser.nodes.Form
 import edu.parser.ast.nodes.expression.*
@@ -21,7 +22,7 @@ import spock.lang.Specification
  */
 class ParseTreeWalkerTest extends Specification {
 
-    public static final String INPUT_PATH = AntlrParserTest.PATH_TO_INPUT_FILE
+    public static final String INPUT_PATH = Main.PATH_TO_INPUT_FILES
     AntlrParser antlrParser;
     ParseTreeWalker parseTreeWalker;
 

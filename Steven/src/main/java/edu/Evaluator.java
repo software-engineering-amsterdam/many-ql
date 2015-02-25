@@ -88,7 +88,6 @@ public class Evaluator extends VisitorImpl {
         if (foundQuestion.isPresent()) {
             return new Boolean(foundQuestion.get().isEnabled());
         } else {
-            logger.warning("Reference to undefined question: " + identifier);
             return new Boolean(false); // if question does not exist, expression cannot be true.
         }
     }
