@@ -21,7 +21,7 @@ public class MainWindow extends JFrame {
 
         List<Question> questions = getQuestions(form.getElements());
 
-        add(new QuestionsPane(questions));
+        add(new QuestionsPanel(questions));
 
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

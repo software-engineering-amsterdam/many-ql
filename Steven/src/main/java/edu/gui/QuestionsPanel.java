@@ -10,11 +10,11 @@ import java.util.List;
 /**
  * Created by Steven Kok on 25/02/2015.
  */
-class QuestionsPane extends JPanel {
+class QuestionsPanel extends JPanel {
 
     private final GridBagConstraints gbc;
 
-    public QuestionsPane(List<Question> questions) {
+    public QuestionsPanel(List<Question> questions) {
         gbc = new GridBagConstraints();
         initializeGridBagLayout();
         addQuestionsToGridBagLayout(questions);
@@ -28,8 +28,7 @@ class QuestionsPane extends JPanel {
     }
 
     private void addQuestionsToGridBagLayout(List<Question> questions) {
-        questions
-                .stream()
+        questions.stream()
                 .forEachOrdered(this::addQuestionToGridBagLayout);
     }
 
@@ -46,7 +45,6 @@ class QuestionsPane extends JPanel {
         String label = question.getLabel().getLabel();
         add(new JLabel(label), gbc);
     }
-
 
     private void addInputField(Question question) {
         try {
