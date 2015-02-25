@@ -24,9 +24,9 @@ public abstract class ComparisonExpression extends BinaryExpression {
     /**
      * {@inheritDoc}
      *
-     * Resolves types for comparison expressions - {@link LowerThanExpression},
-     * {@link LowerOrEqualExpression}, {@link GreaterThanExpression},
-     * {@link GreaterOrEqualExpression}.
+     * Resolves types for comparison expressions - {@link LowerThan},
+     * {@link LowerOrEqual}, {@link GreaterThan},
+     * {@link GreaterOrEqual}.
      */
     public static Type resolveType(final Type type, final Type otherType) {
         final Type resolvedType = COMPARISON_OPERATORS_TABLE.get(type, otherType);

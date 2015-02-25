@@ -3,62 +3,85 @@ package nl.uva.softwcons.eval.value;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class DecimalValue extends Value {
+public class DecimalValue extends Value<Number> {
 
-    private final BigDecimal decimalValue;
+    private final BigDecimal value;
 
-    public DecimalValue(BigDecimal value) {
-        this.decimalValue = value;
-    }
-
-    public DecimalValue(BigInteger value) {
-        this.decimalValue = new BigDecimal(value);
+    @Override
+    public Number getValue() {
+        return this.value;
     }
 
     public BigDecimal getDecimalValue() {
-        return this.decimalValue;
+        return this.value;
+    }
+
+    public DecimalValue(BigDecimal value) {
+        this.value = value;
+    }
+
+    public DecimalValue(BigInteger value) {
+        this.value = new BigDecimal(value);
     }
 
     @Override
-    public BigDecimal getValue() {
-        return getDecimalValue();
+    public DecimalValue add(Value otherValue) {
+        return new DecimalValue(this.value.add(((DecimalValue) otherValue).getDecimalValue()));
     }
 
-    public DecimalValue add(DecimalValue otherValue) {
-        return new DecimalValue(this.decimalValue.add(otherValue.getDecimalValue()));
+    @Override
+    public DecimalValue subtract(Value otherValue) {
+        return new DecimalValue(this.value.subtract(((DecimalValue) otherValue).getDecimalValue()));
     }
 
-    public DecimalValue subtract(DecimalValue otherValue) {
-        return new DecimalValue(this.decimalValue.subtract(otherValue.getDecimalValue()));
+    @Override
+    public DecimalValue multiply(Value otherValue) {
+        return new DecimalValue(this.value.multiply(((DecimalValue) otherValue).getDecimalValue()));
     }
 
-    public DecimalValue multiply(DecimalValue otherValue) {
-        return new DecimalValue(this.decimalValue.multiply(otherValue.getDecimalValue()));
-    }
-
-    public DecimalValue divide(DecimalValue otherValue) {
-        return new DecimalValue(this.decimalValue.divide(otherValue.getDecimalValue()));
-    }
-
-    public BooleanValue isGreater(DecimalValue otherValue) {
-        return new BooleanValue(this.decimalValue.compareTo(otherValue.getDecimalValue()) == 1);
-    }
-
-    public BooleanValue isGreaterOrEqual(DecimalValue otherValue) {
-        return new BooleanValue(this.decimalValue.compareTo(otherValue.getDecimalValue()) >= 0);
-    }
-
-    public BooleanValue isLowerOrEqual(DecimalValue otherValue) {
-        return new BooleanValue(this.decimalValue.compareTo(otherValue.getDecimalValue()) <= 0);
-    }
-
-    public BooleanValue isLower(DecimalValue otherValue) {
-        return new BooleanValue(this.decimalValue.compareTo(otherValue.getDecimalValue()) < 0);
-
+    @Override
+    public DecimalValue divide(Value otherValue) {
+        return new DecimalValue(this.value.divide(((DecimalValue) otherValue).getDecimalValue()));
     }
 
     @Override
     public BooleanValue isEqual(Value otherValue) {
-        return new BooleanValue(this.decimalValue.compareTo(((DecimalValue) otherValue).getDecimalValue()) == 0);
+        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) == 0);
+    }
+
+    @Override
+    public BooleanValue isGreater(Value otherValue) {
+        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) > 0);
+    }
+
+    @Override
+    public BooleanValue isLower(Value otherValue) {
+        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) < 0);
+    }
+
+    @Override
+    public BooleanValue isGreaterOrEqual(Value otherValue) {
+        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) >= 0);
+    }
+
+    @Override
+    public BooleanValue isLowerOrEqual(Value otherValue) {
+        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) <= 0);
+    }
+
+    protected DecimalValue addInt(IntegerValue value) {
+        return this.add(value);
+    }
+
+    protected DecimalValue subInt(IntegerValue value) {
+        return new DecimalValue(value.getDecimalValue().subtract(this.value));
+    }
+
+    protected DecimalValue mulInt(IntegerValue value) {
+        return this.multiply(value);
+    }
+
+    protected DecimalValue divInt(IntegerValue value) {
+        return new DecimalValue(value.getDecimalValue().divide(this.value));
     }
 }
