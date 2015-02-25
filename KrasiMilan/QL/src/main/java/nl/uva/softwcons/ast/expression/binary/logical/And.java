@@ -3,9 +3,9 @@ package nl.uva.softwcons.ast.expression.binary.logical;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class AndExpression extends LogicalExpression {
+public class And extends LogicalExpression {
 
-    public AndExpression(Expression left, Expression right) {
+    public And(Expression left, Expression right) {
         super(left, right);
     }
 

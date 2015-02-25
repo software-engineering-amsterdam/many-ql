@@ -1,11 +1,11 @@
-package nl.uva.softwcons.ast.expression.binary.logical;
+package nl.uva.softwcons.ast.expression.binary.arithmetic;
 
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class OrExpression extends LogicalExpression {
+public class Division extends ArithmeticExpression {
 
-    public OrExpression(Expression left, Expression right) {
+    public Division(Expression left, Expression right) {
         super(left, right);
     }
 
@@ -13,4 +13,5 @@ public class OrExpression extends LogicalExpression {
     public <T> T accept(ExpressionVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
 }

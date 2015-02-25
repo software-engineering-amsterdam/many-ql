@@ -3,9 +3,9 @@ package nl.uva.softwcons.ast.expression.binary.comparison;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class NotEqualExpression extends EqualityExpression {
+public class Equal extends EqualityExpression {
 
-    public NotEqualExpression(final Expression left, final Expression right) {
+    public Equal(final Expression left, final Expression right) {
         super(left, right);
     }
 

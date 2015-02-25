@@ -1,24 +1,26 @@
 package nl.uva.softwcons.eval;
 
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.AdditionExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.DivisionExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.SubtractionExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.EqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThanExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.LowerOrEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.LowerThanExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.NotEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.logical.AndExpression;
-import nl.uva.softwcons.ast.expression.binary.logical.OrExpression;
-import nl.uva.softwcons.ast.expression.identifier.IdentifierExpression;
+import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Subtraction;
+import nl.uva.softwcons.ast.expression.binary.comparison.Equal;
+import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqual;
+import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThan;
+import nl.uva.softwcons.ast.expression.binary.comparison.LowerOrEqual;
+import nl.uva.softwcons.ast.expression.binary.comparison.LowerThan;
+import nl.uva.softwcons.ast.expression.binary.comparison.NotEqual;
+import nl.uva.softwcons.ast.expression.binary.logical.And;
+import nl.uva.softwcons.ast.expression.binary.logical.Or;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
+import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
+import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.eval.value.BooleanValue;
 import nl.uva.softwcons.eval.value.DecimalValue;
 import nl.uva.softwcons.eval.value.IntegerValue;
@@ -27,110 +29,85 @@ import nl.uva.softwcons.eval.value.Value;
 
 public class Evaluator implements ExpressionVisitor<Value> {
 
-    @Override
-    public DecimalValue visit(AdditionExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
+    private Value leftValue(BinaryExpression expr) {
+        return expr.getLeftExpression().accept(this);
+    }
 
-        return leftValue.add(rightValue);
+    private Value rightValue(BinaryExpression expr) {
+        return expr.getRightExpression().accept(this);
+    }
+
+    private Value unaryValue(UnaryExpression expr) {
+        return expr.getExpression().accept(this);
     }
 
     @Override
-    public DecimalValue visit(DivisionExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
-
-        return leftValue.divide(rightValue);
+    public Value visit(Addition expr) {
+        return (Value) leftValue(expr).add(rightValue(expr));
     }
 
     @Override
-    public DecimalValue visit(MultiplicationExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
-
-        return leftValue.multiply(rightValue);
+    public Value visit(Division expr) {
+        return (Value) leftValue(expr).divide(rightValue(expr));
     }
 
     @Override
-    public DecimalValue visit(SubtractionExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
-
-        return leftValue.subtract(rightValue);
+    public Value visit(Multiplication expr) {
+        return (Value) leftValue(expr).multiply(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(EqualExpression expr) {
-        Value leftValue = expr.getLeftExpression().accept(this);
-        Value rightValue = expr.getRightExpression().accept(this);
-
-        return leftValue.isEqual(rightValue);
+    public Value visit(Subtraction expr) {
+        return (Value) leftValue(expr).subtract(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(GreaterOrEqualExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
-
-        return leftValue.isGreaterOrEqual(rightValue);
+    public Value visit(Equal expr) {
+        return leftValue(expr).isEqual(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(GreaterThanExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
-
-        return leftValue.isGreater(rightValue);
+    public Value visit(GreaterOrEqual expr) {
+        return leftValue(expr).isGreaterOrEqual(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(LowerOrEqualExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
-
-        return leftValue.isLowerOrEqual(rightValue);
+    public Value visit(GreaterThan expr) {
+        return leftValue(expr).isGreater(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(LowerThanExpression expr) {
-        DecimalValue leftValue = (DecimalValue) expr.getLeftExpression().accept(this);
-        DecimalValue rightValue = (DecimalValue) expr.getRightExpression().accept(this);
-
-        return leftValue.isLower(rightValue);
+    public Value visit(LowerOrEqual expr) {
+        return leftValue(expr).isLowerOrEqual(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(NotEqualExpression expr) {
-        Value leftValue = expr.getLeftExpression().accept(this);
-        Value rightValue = expr.getRightExpression().accept(this);
-
-        return leftValue.isEqual(rightValue).not();
+    public Value visit(LowerThan expr) {
+        return leftValue(expr).isLower(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(AndExpression expr) {
-        BooleanValue leftValue = (BooleanValue) expr.getLeftExpression().accept(this);
-        BooleanValue rightValue = (BooleanValue) expr.getRightExpression().accept(this);
-
-        return leftValue.and(rightValue);
+    public Value visit(NotEqual expr) {
+        return leftValue(expr).isEqual(rightValue(expr)).not();
     }
 
     @Override
-    public BooleanValue visit(OrExpression expr) {
-        BooleanValue leftValue = (BooleanValue) expr.getLeftExpression().accept(this);
-        BooleanValue rightValue = (BooleanValue) expr.getRightExpression().accept(this);
-
-        return leftValue.or(rightValue);
+    public Value visit(And expr) {
+        return leftValue(expr).and(rightValue(expr));
     }
 
     @Override
-    public BooleanValue visit(NotExpression expr) {
-        BooleanValue value = (BooleanValue) expr.getExpression().accept(this);
-        return value.not();
+    public Value visit(Or expr) {
+        return leftValue(expr).or(rightValue(expr));
     }
 
     @Override
-    public Value visit(IdentifierExpression expr) {
+    public Value visit(Not expr) {
+        return unaryValue(expr).not();
+    }
+
+    @Override
+    public Value visit(Identifier expr) {
         // TODO Auto-generated method stub
         return null;
     }

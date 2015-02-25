@@ -3,10 +3,10 @@ package nl.uva.softwcons.ast.expression.identifier;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class IdentifierExpression extends Expression {
+public class Identifier extends Expression {
     private String name;
 
-    public IdentifierExpression(String name) {
+    public Identifier(String name) {
         this.name = name;
     }
 

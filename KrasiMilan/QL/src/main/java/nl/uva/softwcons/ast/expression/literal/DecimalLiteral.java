@@ -13,6 +13,10 @@ public class DecimalLiteral extends Expression {
         this.value = value;
     }
 
+    public DecimalLiteral(final double value) {
+        this.value = new BigDecimal(value);
+    }
+
     @Override
     public <T> T accept(ExpressionVisitor<T> visitor) {
         return visitor.visit(this);

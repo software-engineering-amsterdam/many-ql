@@ -4,35 +4,52 @@ import java.math.BigInteger;
 
 public class IntegerValue extends DecimalValue {
 
-    private final BigInteger integerValue;
+    private final BigInteger value;
 
     public IntegerValue(BigInteger value) {
         super(value);
-        this.integerValue = value;
+        this.value = value;
     }
 
-    public BigInteger getIntegerValue() {
-        return this.integerValue;
+    @Override
+    public Number getValue() {
+        return value;
     }
 
-    // @Override
-    // public BigInteger getValue() {
-    // return getIntegerValue();
-    // }
-
-    public IntegerValue add(IntegerValue otherValue) {
-        return new IntegerValue(this.integerValue.add(otherValue.getIntegerValue()));
+    @Override
+    public DecimalValue add(Value otherValue) {
+        return ((DecimalValue) otherValue).addInt(this);
     }
 
-    public IntegerValue subtract(IntegerValue otherValue) {
-        return new IntegerValue(this.integerValue.subtract(otherValue.getIntegerValue()));
+    @Override
+    public DecimalValue subtract(Value otherValue) {
+        return ((DecimalValue) otherValue).subInt(this);
     }
 
-    public IntegerValue multiply(IntegerValue otherValue) {
-        return new IntegerValue(this.integerValue.multiply(otherValue.getIntegerValue()));
+    @Override
+    public DecimalValue multiply(Value otherValue) {
+        return ((DecimalValue) otherValue).mulInt(this);
     }
 
-    public IntegerValue divide(IntegerValue otherValue) {
-        return new IntegerValue(this.integerValue.divide(otherValue.getIntegerValue()));
+    @Override
+    public DecimalValue divide(Value otherValue) {
+        return ((IntegerValue) otherValue).divInt(this);
     }
+
+    protected IntegerValue addInt(IntegerValue otherValue) {
+        return new IntegerValue(this.value.add((BigInteger) otherValue.getValue()));
+    }
+
+    protected IntegerValue subInt(IntegerValue otherValue) {
+        return new IntegerValue(((BigInteger) otherValue.getValue()).subtract(this.value));
+    }
+
+    protected IntegerValue mulInt(IntegerValue otherValue) {
+        return new IntegerValue(((BigInteger) otherValue.getValue()).multiply(this.value));
+    }
+
+    protected IntegerValue divInt(IntegerValue otherValue) {
+        return new IntegerValue(((BigInteger) otherValue.getValue()).divide(this.value));
+    }
+
 }

@@ -1,11 +1,11 @@
-package nl.uva.softwcons.ast.expression.binary.comparison;
+package nl.uva.softwcons.ast.expression.binary.arithmetic;
 
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class LowerOrEqualExpression extends ComparisonExpression {
+public class Addition extends ArithmeticExpression {
 
-    public LowerOrEqualExpression(final Expression left, final Expression right) {
+    public Addition(Expression left, Expression right) {
         super(left, right);
     }
 
@@ -13,4 +13,5 @@ public class LowerOrEqualExpression extends ComparisonExpression {
     public <T> T accept(ExpressionVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
 }

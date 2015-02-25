@@ -3,9 +3,9 @@ package nl.uva.softwcons.ast.expression.binary.comparison;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class LowerThanExpression extends ComparisonExpression {
+public class GreaterThan extends ComparisonExpression {
 
-    public LowerThanExpression(final Expression left, final Expression right) {
+    public GreaterThan(final Expression left, final Expression right) {
         super(left, right);
     }
 

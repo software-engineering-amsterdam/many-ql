@@ -1,11 +1,11 @@
-package nl.uva.softwcons.ast.expression.binary.comparison;
+package nl.uva.softwcons.ast.expression.binary.arithmetic;
 
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class GreaterThanExpression extends ComparisonExpression {
+public class Subtraction extends ArithmeticExpression {
 
-    public GreaterThanExpression(final Expression left, final Expression right) {
+    public Subtraction(Expression left, Expression right) {
         super(left, right);
     }
 

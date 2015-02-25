@@ -4,9 +4,9 @@ import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 
-public class NotExpression extends UnaryExpression {
+public class Not extends UnaryExpression {
 
-    public NotExpression(Expression expr) {
+    public Not(Expression expr) {
         super(expr);
     }
 
