@@ -22,12 +22,14 @@ import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.statement.BlockStatement;
+import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionNormal;
+import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
+import org.uva.ql.ast.type.StrType;
 
-public class TypeCheckerVisitor implements Visitor<Boolean> {
+public class TypeChecker implements Visitor<Boolean> {
 
 	@Override
 	public Boolean visit(IfStatement ifStatement) {
@@ -40,7 +42,7 @@ public class TypeCheckerVisitor implements Visitor<Boolean> {
 	}
 
 	@Override
-	public Boolean visit(BlockStatement blockStatement) {
+	public Boolean visit(Block blockStatement) {
 		return null;
 	}
 
@@ -159,6 +161,18 @@ public class TypeCheckerVisitor implements Visitor<Boolean> {
 	@Override
 	public Boolean visit(IntType node) {
 		
+		return null;
+	}
+
+	@Override
+	public Boolean visit(BoolType node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean visit(StrType node) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

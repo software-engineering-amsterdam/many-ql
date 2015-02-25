@@ -8,18 +8,18 @@ import org.uva.ql.ast.visitor.Visitor;
 
 public class Questionnaire implements Node {
 
-	private List<Form> formList;
+	private List<Form> forms;
 	
 	public Questionnaire() {
-		formList = new ArrayList<Form>();
+		forms = new ArrayList<Form>();
 	}
 	
 	public void addForm(Form form){
-		formList.add(form);
+		forms.add(form);
 	}
 	
-	public List<Form> getFormList() {
-		return formList;
+	public List<Form> getForms() {
+		return forms;
 	}
 	
 	@Override

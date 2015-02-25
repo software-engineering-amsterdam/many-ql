@@ -1,23 +1,25 @@
 package org.uva.ql.ast.questionnaire;
 
 import org.uva.ql.ast.Node;
-import org.uva.ql.ast.statement.BlockStatement;
+import org.uva.ql.ast.expression.literal.Identifier;
+import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class Form implements Node{
-	private BlockStatement block;
-	private String identifier;
 	
-	public Form(BlockStatement block, String identifier) {
-		this.block = block;
+	private Block block;
+	private Identifier identifier;
+	
+	public Form(Identifier identifier, Block block) {
 		this.identifier = identifier;
+		this.block = block;
 	}
 
-	public BlockStatement getBlock() {
+	public Block getBlock() {
 		return block;
 	}
 	
-	public String getIdentifier() {
+	public Identifier getIdentifier() {
 		return identifier;
 	}
 

@@ -95,17 +95,5 @@ class FormFactory:
         questions = []
         for i in range(2, len(tokens)):
             questions.append(tokens[i])
-        FormFactory.order_questions(questions, 1)
         x = Form(name, introduction, questions)
         return x
-
-    # TODO : think of a better solution
-    @staticmethod
-    def order_questions(questions, idx):
-        for question in questions:
-            if isinstance(question, list):
-                FormFactory.order_questions(question, idx)
-            elif isinstance(question, (IfBlock, IfElseBlock)):
-                FormFactory.order_questions(question.get_c_statements(), idx)
-            else:
-                question.set_order(1)

@@ -5,8 +5,8 @@ from antlr4 import *
 
 class QLVisitor(ParseTreeVisitor):
 
-    # Visit a parse tree produced by QLParser#statement.
-    def visitStatement(self, ctx):
+    # Visit a parse tree produced by QLParser#nested_statement.
+    def visitNested_statement(self, ctx):
         return self.visitChildren(ctx)
 
 
