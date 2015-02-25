@@ -9,13 +9,13 @@ import javax.swing.JTextField;
 
 import cons.Value;
 import cons.ql.ast.expression.Identifier;
-import cons.value.StringValue;
+import cons.value.IntegerValue;
 
-public class TextComponent extends Component {
-	
+public class IntegerComponent extends Component {
+
 	private JTextField textField;
 	
-	public TextComponent (Identifier identifier, Controller controller) {
+	public IntegerComponent (Identifier identifier, Controller controller) {
 		super(identifier, controller);
 		
 		textField = new JTextField(100);
@@ -25,7 +25,7 @@ public class TextComponent extends Component {
     	textField.setFocusable(true);
 	}
 	
-	public TextComponent (Identifier identifier, Controller controller, boolean enabled) {
+	public IntegerComponent (Identifier identifier, Controller controller, boolean enabled) {
 		this(identifier, controller);
     	textField.setEnabled(false);
 	}
@@ -41,9 +41,14 @@ public class TextComponent extends Component {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			Value value = new StringValue(textField.getText());			
-			
-			setValue(value);
+			try {
+				Value value = new IntegerValue(Integer.parseInt(textField.getText()));			
+				
+				setValue(value);
+			}
+			catch (NumberFormatException nfe) {
+				
+			}
 		}
 
 		@Override
