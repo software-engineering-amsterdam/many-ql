@@ -12,7 +12,8 @@ public interface IWidget <T> {
     public JComponent getJComponent();
     
     public T getValue();
-    
+    public void setValue(T _value);
+
     // Todo: think of that. (Smells)
     public void addItemListener(ItemListener _listener); // Use it on bool
     public void addDocumentListener(DocumentListener _listener); // Use it on text

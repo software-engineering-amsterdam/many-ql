@@ -39,4 +39,9 @@ public class Label implements IWidget<String> {
     public String getValue() {
         return this.value.getText();
     }
+
+    @Override
+    public void setValue(String _value) {
+        value.setText(_value);
+    }
 }

@@ -45,4 +45,9 @@ public class NumsOnlyTextBox implements IWidget<String> {
     public String getValue() {
         return this.input.getText();
     }
+
+    @Override
+    public void setValue(String _value) {
+        input.setText(_value);
+    }
 }

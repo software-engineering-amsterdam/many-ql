@@ -36,4 +36,9 @@ public class CheckBox implements IWidget<Boolean> {
     public Boolean getValue() {
         return this.component.isSelected();
     }
+
+    @Override
+    public void setValue(Boolean _value) {
+        this.component.setSelected(_value);
+    }
 }

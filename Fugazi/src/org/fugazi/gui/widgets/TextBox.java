@@ -45,4 +45,9 @@ public class TextBox implements IWidget<String> {
     public String getValue() {
         return this.input.getText();
     }
+
+    @Override
+    public void setValue(String _value) {
+        this.input.setText(_value);
+    }
 }

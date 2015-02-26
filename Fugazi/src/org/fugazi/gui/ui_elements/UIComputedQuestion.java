@@ -8,15 +8,19 @@ import org.fugazi.gui.widgets.Label;
 //TODO
 public class UIComputedQuestion extends UIQuestion {
 
-    public UIComputedQuestion(IMediator _med, ComputedQuestion _question, String _value) {
+    public UIComputedQuestion(IMediator _med, ComputedQuestion _question, ExpressionValue _value) {
         super(_med, _question);
 
         // TODO: get it from a GUI Designer
-        this.widget = new Label(_question.getLabel(), _value);
+        this.widget = new Label(_question.getLabel(), _value.getValue().toString());
     }
     
     @Override
     public ExpressionValue getState() {
         return null;
+    }
+    
+    public void setComputedValue(ExpressionValue _value) {
+        this.widget.setValue(_value);
     }
 }
