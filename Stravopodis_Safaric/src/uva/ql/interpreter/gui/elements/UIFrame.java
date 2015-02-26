@@ -22,15 +22,16 @@ public class UIFrame extends JFrame{
 	
 	private String frameTitle;
 	private Tuple<Integer, Integer> frameSize;
-	private JScrollPane scrollPane;
+	
+	private int count_quest;
 	
 	
-	public UIFrame(String _frameTitle, Tuple<Integer, Integer> _frameSize){
+	public UIFrame(String _frameTitle, Tuple<Integer, Integer> _frameSize, int quest){
 		this.frameTitle = _frameTitle;
 		this.frameSize = _frameSize;
+		this.count_quest=quest;
 		
-		scrollPane = new JScrollPane();
-    
+		
 		
 	}
 	public Tuple<Integer, Integer> getFrameSize(){
@@ -46,17 +47,18 @@ public class UIFrame extends JFrame{
         //this.scrollPane.setBounds(50, 30, 300, 50);
 		
 		this.setLocation(dimensions.width/2-this.frameSize.x/2, dimensions.height/2-this.frameSize.y/2);
-		this.setSize(this.frameSize.x, this.frameSize.y);
+		//this.setLocation(dimensions.width/2-this.frameSize.x/2, dimensions.height/2-this.frameSize.y/2);
+		this.setSize(this.frameSize.x, this.count_quest*60);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setPreferredSize(new Dimension(this.frameSize.x,this.frameSize.y));
-		scrollPane.getVerticalScrollBar().setUnitIncrement(dimensions.height);
-		scrollPane.getViewport().setPreferredSize(new Dimension(this.frameSize.x,this.frameSize.y));
-		this.add(scrollPane);
+		this.setPreferredSize(new Dimension(this.frameSize.x,this.count_quest*60));
+		//scrollPane.getVerticalScrollBar().setUnitIncrement(dimensions.height);
+		//scrollPane.getViewport().setPreferredSize(new Dimension(this.frameSize.x,this.frameSize.y));
+		//this.add(scrollPane);
 		
 		
 		this.pack();
 		this.setVisible(true);
-		this.setLocationRelativeTo(null);
+		
         
 	}
 	public String getFrameTitle(){

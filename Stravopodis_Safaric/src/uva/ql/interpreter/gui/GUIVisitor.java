@@ -34,6 +34,7 @@ public class GUIVisitor implements StatementVisitorInterface<Object>{
 	private UIContainer container;
 	private UIFrame frame;
 	private int x;
+	public int questcount;
 	
 	public GUIVisitor(SymbolMap _symbolTable){
 		this.symbolTable = _symbolTable;
@@ -51,16 +52,26 @@ public class GUIVisitor implements StatementVisitorInterface<Object>{
 	@Override
 	public Object visitForm(Form form) {
 		
-		this.frame = new UIFrame("Questions", new Tuple<Integer, Integer>(600,300));
+		for (Statement k : form.getStatement()){
+			if (k.getClass().getName().equals(Question.class.getName())){
+					questcount++;
+			}
+		}
+		
+		System.err.println("Question count:"+questcount);
+		this.frame = new UIFrame("Questions", new Tuple<Integer, Integer>(600,300),questcount);
+		//this.frame.setSize(300, questcount*60);
 		this.frame.randerFrame();
 		
 		this.container = new UIContainer(this.frame.getFrameSize());
+		//this.container = new UIContainer(new Tuple<Integer, Integer>(questcount*60,questcount*60));
+		this.container.setSize(200, questcount*60);
 		this.container.setLayout(new GridLayout(6,0));
 		this.frame.add(this.container);
 		this.frame.revalidate();
 		
-		
 		for (Statement s : form.getStatement()){
+			questcount++;
 			s.accept(this);
 		}
 		
