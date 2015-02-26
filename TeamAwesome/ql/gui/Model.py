@@ -1,15 +1,21 @@
 from .Observable import Observable
 
-class Question:
-    def __init__(
-        self,
-        question,
-        visible = True,
-        answer = None
-    ):
+
+class ObservableQuestionProperty(Observable):
+    def __init__(self, question, value = None):
+        super().__init__(value)
         self._question = question
-        self._visible = Observable(visible)
-        self._answer = Observable(answer)
+
+    @property
+    def question(self):
+        return self._question
+
+
+class Question:
+    def __init__(self, question, visible = True, answer = None):
+        self._question = question
+        self._visible = ObservableQuestionProperty(self, visible)
+        self._answer = ObservableQuestionProperty(self, answer)
 
     @property
     def question(self):
