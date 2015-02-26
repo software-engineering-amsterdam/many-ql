@@ -1,57 +1,47 @@
-class Question:
-    def __init__(
-        self,
-        question,
-        visible = True,
-        answer = None
-    ):
-        self._question = question
-        self._visible = visible
-        self._answer = answer
-        self._observers = []
+from .Observable import Observable
 
-    def registerObserver(self, observer):
-        self._observers.append(observer)
+
+class ObservableQuestionProperty(Observable):
+    def __init__(self, question, value = None):
+        super().__init__(value)
+        self._question = question
 
     @property
     def question(self):
         return self._question
 
+
+class Question:
+    def __init__(self, text, visible = True, answer = None):
+        self._text = text
+        self._visible = ObservableQuestionProperty(self, visible)
+        self._answer = ObservableQuestionProperty(self, answer)
+
+    @property
+    def text(self):
+        return self._text
+
     @property:
     def answer(self):
-        return self._answer
+        return self._answer.value
 
     @answer.setter:
     def answer(self, newAnswer):
-        oldAnswer = self.answer
-        self._answer = newAnswer
+        self._answer.value = newAnswer
 
-        if oldAnswer != newAnswer:
-            for observer in self._observers:
-                observer.answerChanged(self, oldAnswer, newAnswer)
+    def observeAnswerWith(self, callback):
+        self._answer.registerObserver(callback)
 
     @property
     def visible(self):
-        return self._visible
+        return self._visible.value
 
     @visible.setter:
     def visible(self, newVisibility):
-        oldVisibility = self.visible
-        self._visible = newVisibility
+        self._visible.value = newVisibility
 
-        if oldAnswer != newAnswer:
-            for observer in self._observers:
-                observer.visibilityChanged(
-                    self, oldVisibility, newVisibility
-                )
-
-
-class QuestionObserver:
-    def answerChanged(question, oldAnswer, newAnswer):
-        pass
-
-    def visibilityChanged(question, oldVisibility, newVisibility):
-        pass
+    def observeVisibilityWith(self, callback):
+        self._visible.registerObserver(callback)
 
 
 class ComputedQuestion(Question):

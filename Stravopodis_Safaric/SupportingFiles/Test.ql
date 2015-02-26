@@ -14,7 +14,7 @@ form HouseSelling {
     	hasMaintLoan = true;
     }	
 
-    if (true == false){
+    if (true == true){
     	question sellingPrice typeof decimal {
     		sellingPrice = "What was the selling price?";
     	}

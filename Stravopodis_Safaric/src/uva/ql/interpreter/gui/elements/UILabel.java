@@ -29,6 +29,7 @@ public class UILabel extends JLabel{
 		this.setPreferredSize(new Dimension(300,50));
 		
 		this.setHorizontalAlignment(SwingConstants.RIGHT);
+		//this.setSize(getTextHeight(this.getText()), 200);
 		this.setSize(getTextHeight(this.getText()), 200);
 		this.setText(getText());
 		
