@@ -11,7 +11,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
     /// <summary>
     /// Checks for duplicate labels in questions.
     /// </summary>
-    public class DuplicateLabelCheckingVisitor : ASTVisitor
+    public class DuplicateLabelCheckingVisitor : ASTVisitor<int>
     {
         private ICollection<Question> _questions;
         
@@ -27,13 +27,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             DuplicateLabels = new List<Question>();
         }
 
-        public override void Visit(Question node)
+        public override int Visit(Question node)
         {
             if (LabelExists(node))
             {
                 DuplicateLabels.Add(node);
             }
             _questions.Add(node);
+            return 0;
         }
 
         private bool LabelExists(Question question)

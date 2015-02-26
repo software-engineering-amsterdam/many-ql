@@ -1,15 +1,22 @@
 import com.klq.AST2GUIConverter;
 import com.klq.ast.ANode;
+import com.klq.ast.ASTPrinter;
 import com.klq.ast.ParseTreeConverter;
+import com.klq.gui.QuestionPage;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.antlr.v4.runtime.tree.*;
-import org.antlr.v4.runtime.*;
-import parser.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import parser.KLQLexer;
+import parser.KLQParser;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +24,7 @@ import java.util.Map;
  * Created by Timon on 09.02.2015.
  */
 public class Main extends Application {
-    private List<Question> questionList;
+    private QuestionPage page;
 
     public static void main(String[] args) throws Exception {
         if (args == null || args.length == 0) {
@@ -61,20 +68,19 @@ public class Main extends Application {
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         Store store = (Store) ast.accept(AST2GUIConverter);
 
-        //questionList = visitor.getQuestList();
+        page = new QuestionPage();
+        store.addStoreListener(page);
+        page.addQuestions(store.getOrderedQuestions());
 
         //print AST for test purposes
-//        ASTPrinter printer = new ASTPrinter();
-//        ast.accept(printer);
+        //ASTPrinter printer = new ASTPrinter();
+        //ast.accept(printer);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        VBox root = new VBox();
-//        Scene scene = new Scene(root, 500, 200);
-//        primaryStage.setScene(scene);
-//        QuestionPage page = new QuestionPage(questionList);
-//        root.getChildren().add(page);
-//        primaryStage.show();
+        Scene scene = new Scene(page);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

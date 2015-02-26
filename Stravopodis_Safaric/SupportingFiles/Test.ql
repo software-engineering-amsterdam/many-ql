@@ -5,16 +5,16 @@ form HouseSelling {
         hasSoldHouse = "Did you sell a house in 2015?";
         hasSoldHouse = false;
     }
-    question hasRentHouse typeof decimal {
+    question hasRentHouse typeof boolean {
         hasRentHouse = "Did you bought a house in 2015?";
         hasRentHouse = 9482.23 + 2323.23 - 2323;
     }
     question hasMaintLoan typeof boolean {
-    	hasMaintLoan = true;    	
     	hasMaintLoan = "Did you sell a house in 2014 ?";
+    	hasMaintLoan = true;
     }	
 
-    if (2+10 != 12){
+    if (true == true){
     	question sellingPrice typeof decimal {
     		sellingPrice = "What was the selling price?";
     	}
@@ -23,7 +23,7 @@ form HouseSelling {
     	}
     	question valueResidue typeof decimal {
     		valueResidue = "Value residue:";
-    		valueResidue = sellingPrice - privateDebt;
+    		//valueResidue = sellingPrice - privateDebt;
     	}
     }
 }

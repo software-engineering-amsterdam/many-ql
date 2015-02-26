@@ -1,11 +1,13 @@
 # AST format of the Form
 
+
 class Form:
     def __init__(self, name, introduction, statements):
         self._name = name
         self._introduction = introduction
         self._statements = statements
         self._type_dict = self.create_statement_dict()
+        self.set_question_ordering()
 
     def create_statement_dict(self):
         d = {}
@@ -65,3 +67,8 @@ class Form:
 
     def get_type_dict(self):
         return self._type_dict
+
+    def set_question_ordering(self):
+        c = 0
+        for s in self._statements:
+            c = s.set_order(c)

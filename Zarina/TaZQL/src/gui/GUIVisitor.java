@@ -61,13 +61,17 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	
 	public void getLabel(String text) {
 		this.panel.add(new JLabel(text));
-		this.panel.setVisible(true);
+	//	this.panel.setVisible(true);
 	}
 	
 	//to be changed in widget
 	public void addWidget(String id) {
 		this.panel.add(new JTextField(15), "wrap");
-		this.panel.setVisible(true);
+	//	this.panel.setVisible(true);
+	}
+	
+	public void visibility(Boolean visibilityValue) {
+		this.panel.setVisible(visibilityValue);
 	}
 	
 	// ***** visitor's part *****
@@ -89,6 +93,8 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	public Void visit(SimpleQuestion simpleQuestion) {
 		getLabel(simpleQuestion.getQuestionText());
 		addWidget(simpleQuestion.getQuestionId());
+	//	visibility(true);
+	//	attachEvent('onUnfocus', call_update_symboltable_with_its_data());
 		return null;
 	}
 
@@ -96,12 +102,12 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	public Void visit(ComputationQuestion calQuestion) {
 		getLabel(calQuestion.getQuestionText());
 		addWidget(calQuestion.getQuestionId());
+	//	visibility(false);
 		return null;
 	}
 
 	@Override
 	public Void visit(IfStatement ifStatement) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

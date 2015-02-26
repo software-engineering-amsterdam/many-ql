@@ -9,6 +9,8 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
+import com.form.language.error.Error;
+import com.form.language.error.ErrorCollector;
 
 public class GreaterThanOrEqual extends BinaryExpression implements Expression {
 
@@ -28,4 +30,23 @@ public class GreaterThanOrEqual extends BinaryExpression implements Expression {
 		return new ErrorType();
 	}
 
+	@Override
+	public ErrorCollector getErrors(ErrorCollector errors) {
+		Type leftType = left.getType();
+		Type rightType = right.getType();
+		
+		ErrorCollector newErrors = new ErrorCollector(left.getErrors(errors), right.getErrors(errors));
+
+		if(leftType.isIntType() && rightType.isIntType()) {
+			return newErrors;
+		}
+		else{
+			if(!(leftType.isErrorType() || rightType.isErrorType())){
+				Error newError = new Error(tokenInfo, "Expected Int >= Int, but found " + leftType + " >= " + rightType);
+				newErrors.add(newError);
+				return newErrors;
+			}
+			return newErrors;
+		}
+	}
 }

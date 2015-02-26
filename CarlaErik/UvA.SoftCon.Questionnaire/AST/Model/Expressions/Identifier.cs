@@ -33,9 +33,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             Name = name;
         }
 
-        public override void Accept(IASTVisitor visitor)
+        public override T Accept<T>(IASTVisitor<T> visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
 
         public DataType? GetType(IDictionary<string, DataType> symbolTable)
@@ -50,14 +50,21 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             }
         }
 
+        public IValue Evaluate(IDictionary<string, IValue> environment)
+        {
+            if (environment.Keys.Contains(Name))
+            {
+                return environment[Name];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public override string ToString()
         {
             return Name;
-        }
-
-        public Value Evaluate(IDictionary<string, Value> environment)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -21,8 +21,8 @@ object Interpreter {
       case parser.Success(ast: Form, _) =>
         typeChecker.check(ast) match {
           case Right(_) =>
-            evaluator.eval(ast)
-            formBuilder.build(ast).main(Array())
+            val env: evaluator.EvalEnvironment = evaluator.eval(ast)
+            formBuilder.build(ast, env).main(Array())
           // TODO: warnings stop execution
           case Left(e) => println(e)
         }

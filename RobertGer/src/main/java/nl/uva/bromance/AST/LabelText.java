@@ -21,7 +21,7 @@ public class LabelText extends Node {
         super(lineNumber, LabelText.class);
         this.setAcceptedParents(parentsAllowed);
         if (text != null) {
-            this.text = text.substring(1,text.length()-1); // Remove double brackets around text;
+            this.text = text.substring(1, text.length() - 1); // Remove double brackets around text;
             variables = extractVariablesFromText(text);
         } else {
             System.err.println("Form Error: No text specified");

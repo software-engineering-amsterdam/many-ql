@@ -10,6 +10,7 @@ import java.lang.String;
  */
 public class Identifier extends AExpression {
     private final String content;
+    private AExpression assignedVariable;
 
     public Identifier(String content) {
         super(null, null, AExpression.IDENTIFIER);
@@ -18,12 +19,20 @@ public class Identifier extends AExpression {
 
     @Override
     public AExpression evaluate() {
-        //TODO resolve in Store
+        if (assignedVariable != null)
+            return assignedVariable;
         return this;
     }
 
     @Override
     public String getContent() {
         return content;
+    }
+
+    public void assignVariable(AExpression variable){
+        if (variable != null) {
+            this.assignedVariable = variable;
+            fireValueChangedEvent();
+        }
     }
 }

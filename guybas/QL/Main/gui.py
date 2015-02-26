@@ -42,8 +42,9 @@ class QuestionnaireGUI:
         parent_id = statement.get_parent_id()
         int_var = IntVar()
         str_var = StringVar()
+        row = statement.get_order()
         l = Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
-        l.grid(row=self.row_counter, column=0, sticky=W)
+        l.grid(row=row, column=0, sticky=W)
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
         self.elementsMap[parent_id]['guiElements'] += [l]
         if statement.get_type() is BasicTypes.bool_name:
@@ -53,19 +54,19 @@ class QuestionnaireGUI:
                              command=lambda: self.update(statement, False))
             # e2.select()  # set default as False
             # e2.deselect()  # clean selection
-            e1.grid(row=self.row_counter, column=1, sticky=W)
-            e2.grid(row=self.row_counter, column=2, sticky=W)
+            e1.grid(row=row, column=1, sticky=W)
+            e2.grid(row=row, column=2, sticky=W)
             self.column_span = 2
             self.elementsMap[parent_id]['guiElements'] += [e1, e2]
         elif statement.get_type() is BasicTypes.number_name:
             e = Spinbox(from_=0, to_=10000)
             e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, e.get()))
-            e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W)
+            e.grid(row=row, column=1, columnspan=self.column_span, sticky=W)
             self.elementsMap[parent_id]['guiElements'] += [e]
         elif statement.get_type() is BasicTypes.text_name:
             e = Entry(textvariable=str_var)
             e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, e.get()))
-            e.grid(row=self.row_counter, column=1, columnspan=self.column_span, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
+            e.grid(row=row, column=1, columnspan=self.column_span, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
             self.elementsMap[parent_id]['guiElements'] += [e]
         # str_var.set("a default value")
         # s = str_var.get()
@@ -84,6 +85,7 @@ class QuestionnaireGUI:
             raise QException("Fatal Error: no such condition id " + parent_id)
         # idx = len(self.elementsMap[parent_id]['guiElements'])
         for e in self.elementsMap[parent_id]['guiElements']:
+            # print(e.grid_info())
             e.destroy()
         # self.elementsMap[parent_id]['guiElements'] = []
         statements_to_recreate = list(self.elementsMap[parent_id]['statements'])

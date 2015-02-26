@@ -2,11 +2,11 @@ import argparse
 import glob
 
 from ql.ast.AST import AST
-from ql.evaluator.evaluator import Evaluator, PageStructure
+from ql.evaluator.evaluator import createEvaluator, PageStructure
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
-    evaluator = Evaluator(ast)
+    evaluator = createEvaluator(ast)
     pageStructure = PageStructure(evaluator)
     pageStructure.createDefaultPages()
 

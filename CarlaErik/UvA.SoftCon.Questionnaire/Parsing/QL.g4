@@ -15,7 +15,7 @@ stat : TYPE ID STRING                                                       # Qu
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride
-     : expr '++'                      # Increment
+     | expr '++'                      # Increment
 	 | '!' expr                       # Negation
 	 | expr ('*'|'/') expr            # MultiplyDivide
 	 | expr ('+'|'-') expr            # AddSubstract
@@ -36,7 +36,6 @@ expr : '(' expr ')'                   # PrecedenceOverride
 INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
 STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
-	   ;
 
 TYPE : 'int' | 'string' | 'bool' ;
 

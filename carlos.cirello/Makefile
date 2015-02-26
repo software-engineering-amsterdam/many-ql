@@ -1,8 +1,8 @@
 all:
 	go generate ./...
-	go build
+	go build ./cmd/...
 	echo "Build successful"
-	./carlos.cirello -h || echo
+	./ql -h || echo
 
 test:
 	go generate ./...

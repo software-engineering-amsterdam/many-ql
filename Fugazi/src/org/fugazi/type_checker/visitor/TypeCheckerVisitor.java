@@ -24,6 +24,7 @@ import org.fugazi.ast.type.*;
 import org.fugazi.type_checker.dependency.DependencyList;
 import org.fugazi.type_checker.error.ASTErrorHandler;
 import org.fugazi.type_checker.error.ASTNodeError;
+import org.fugazi.type_checker.error.ASTNodeErrorType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,8 +82,9 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
                     identifier, type
             );
         if (isQuestionDuplicate) {
-            this.astErrorHandler.registerNewError(question,
-                    "Question already defined with different type."
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.DUPLICATE,
+                    question, "Question already defined with different type."
             );
         } else {
             this.saveQuestionType(identifier, type);
@@ -108,6 +110,15 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         Expression expression = ifStatement.getCondition();
         List<Statement> statementList = ifStatement.getBody();
 
+        // check if condition of type bool
+        boolean conditionIsBool = this.checkIfExpressionIsBool(expression);
+        if (!conditionIsBool) {
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.NON_BOOL_CONDITION, ifStatement,
+                    "Expression in if statement not of type bool."
+            );
+        }
+
         expression.accept(this);
         for (Statement statement : statementList) {
             statement.accept(this);
@@ -125,12 +136,12 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         // check if assigned types equal
         boolean typesEqual = this.checkIfTypesEqual(type, computed.getReturnedType());
         if (!typesEqual) {
-            this.astErrorHandler.registerNewError(assignQuest,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, assignQuest,
                     "Attempted to assign type " + computed.getReturnedType()
                             + " to variable of type " + type.getClass() + "."
             );
         }
-
 
         // check if no circular reference
         // is performed while visiting idLiterals
@@ -168,12 +179,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean rightCorrect = this.checkIfExpressionIsBool(right);
 
         if (!leftCorrect) {
-            this.astErrorHandler.registerNewError( logical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, logical,
                     "Left side of the binary logical expression not of type bool."
             );
         }
         if (!rightCorrect) {
-            this.astErrorHandler.registerNewError( logical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, logical,
                     "Right side of the binary logical expression not of type bool."
             );
         }
@@ -193,7 +206,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsBool(unary);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( unary,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, unary,
                     "Unary logical expression not of type bool."
             );
         }
@@ -227,12 +241,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean rightCorrect = this.checkIfExpressionIsInt(right);
 
         if (!leftCorrect) {
-            this.astErrorHandler.registerNewError( comparison,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, comparison,
                     "Left side of the binary comparison expression not of type int."
             );
         }
         if (!rightCorrect) {
-            this.astErrorHandler.registerNewError( comparison,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, comparison,
                     "Right side of the binary comparison expression not of type int."
             );
         }
@@ -288,12 +304,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean rightCorrect = this.checkIfExpressionIsInt(right);
 
         if (!leftCorrect) {
-            this.astErrorHandler.registerNewError( numerical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, numerical,
                     "Left side of the binary expression not of type int."
             );
         }
         if (!rightCorrect) {
-            this.astErrorHandler.registerNewError( numerical,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, numerical,
                     "Right side of the binary expression not of type int."
             );
         }
@@ -314,7 +332,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsInt(unary);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( unary,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, unary,
                     "Unary numerical expression not of type int."
             );
         }
@@ -364,7 +383,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         // if it's type equals null => it is undefined
         boolean questionDefined = this.checkIfDefined(idLiteral);
         if (!questionDefined) {
-            this.astErrorHandler.registerNewError( idLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.UNDEFINED, idLiteral,
                     "Question not defined."
             );
         }
@@ -386,7 +406,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsInt(intLiteral);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( intLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, intLiteral,
                     "Int Literal not of type int."
             );
         }
@@ -398,7 +419,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsString(stringLiteral);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( stringLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, stringLiteral,
                     "String Literal not of type string."
             );
         }
@@ -410,7 +432,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         boolean exprCorrect = this.checkIfExpressionIsBool(boolLiteral);
 
         if (!exprCorrect) {
-            this.astErrorHandler.registerNewError( boolLiteral,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.TYPE_MISMATCH, boolLiteral,
                     "Bool Literal not of type bool."
             );
         }
@@ -500,18 +523,6 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         return;
     }
 
-    /* This method has to find all the nodes that depend on depender
-    *   You have to add dependee and all depender's further dependers
-        to detect cycles like this:
-        1. a = b
-        2. b = c
-        3. c = d
-        3. d = a
-        after 2. c needs to be added to a list of ids that depend on, and therefore a.
-
-        In other words, the update needs to propapagte through the whole graph
-         (see transitive closure).
-    */
     private void addDependency(ID depender, ID dependee) {
         // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
@@ -541,6 +552,14 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         for (ID newDependant : idsToAddNewDependencyTo) {
             this.questionDependencies.addIdDependenant(newDependant, dependee);
         }
+
+        // for a new depender add also all dependencies of dependee
+        List<ID> indirectDependersDependees = this.questionDependencies.getIdDependencies(dependee);
+        if (indirectDependersDependees != null) {
+            for (ID newIndirectDependee : indirectDependersDependees) {
+                this.questionDependencies.addIdDependenant(depender, newIndirectDependee);
+            }
+        }
         return;
     }
 
@@ -550,7 +569,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     private void addAndCheckDependency(ID depender, ID dependee) {
         boolean revertedDependencyExists = this.checkDependency(dependee, depender);
         if (revertedDependencyExists) {
-            this.astErrorHandler.registerNewError( depender,
+            this.astErrorHandler.registerNewError(
+                    ASTNodeErrorType.ERROR.CYCLIC, depender,
                     "Circular dependency between this node and " +
                             dependee.toString() + "."
             );

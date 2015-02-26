@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.computedva
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
+import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class LabelWidget implements IWidget {
     }
 
     public LabelWidget(final ComputedValue computedValue, final HeadlessFormInterpreter headlessFormInterpreter) {
-        valueLabel = new JLabel();  valueLabel.setText("Uninitialized");
+        valueLabel = new JLabel();
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
@@ -28,7 +28,7 @@ public class LabelWidget implements IWidget {
                     valueLabel.setText(headlessFormInterpreter
                             .getField(computedValue.getFieldName()).getValue().toString());
                 } catch (NullPointerException e) {
-                    valueLabel.setText("");
+                    valueLabel.setText("-");
                 }
             }
         });

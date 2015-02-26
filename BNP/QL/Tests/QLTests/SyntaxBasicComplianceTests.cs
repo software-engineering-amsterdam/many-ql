@@ -3,7 +3,7 @@
 namespace Tests.QLTests
 {
     [TestClass]
-    public class SyntaxBasicComplianceTests : SyntaxComplianceTestBase
+    public class SyntaxBasicComplianceTests : QLTestBase
     {
         [TestMethod]
         public void FormBlock()

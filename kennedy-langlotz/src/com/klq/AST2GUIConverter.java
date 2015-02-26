@@ -83,7 +83,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        return new Question(id, type, null, text, new ArrayList<AExpression>());
+        return new Question(id, type, null, text);
     }
 
     @Override
@@ -92,7 +92,8 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        return new Question(id, type, null, text, new ArrayList<AExpression>(), new Answer(node.getChild().accept(this).toString()));
+        AExpression expr = (AExpression) node.getChild().accept(this);
+        return new Question(id, type, null, text, expr);
     }
 
     @Override

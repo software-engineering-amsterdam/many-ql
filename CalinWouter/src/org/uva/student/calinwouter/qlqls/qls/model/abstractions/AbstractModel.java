@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.*;
+import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
 import java.util.HashMap;
@@ -11,14 +11,21 @@ import java.util.List;
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractModel<T> implements IModel {
 
+    public List<String> getFieldUses() {
+        return new LinkedList<String>();
+    }
+
+    public List<String> getIllegalWidgetUsages() {
+        return new LinkedList<String>();
+    }
+
     @Override
-    public void caseHashMap(HashMap<Object, Object> hashMap) {
+    public void caseHashMap(HashMap<String, Object> hashMap) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void caseString(String string) {
-        System.out.println(this.getClass() + "/ " + string);
         throw new UnsupportedOperationException();
     }
 
@@ -72,6 +79,20 @@ public abstract class AbstractModel<T> implements IModel {
         throw new UnsupportedOperationException();
     }
 
-    public abstract void apply(IModel iModel);
+    @Override
+    public void caseSlider(Slider radio) {
+        throw new UnsupportedOperationException();
+    }
 
+    @Override
+    public void caseCheckbox(Checkbox radio) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void caseTextbox(Textbox radio) {
+        throw new UnsupportedOperationException();
+    }
+
+    public abstract void apply(IModel iModel);
 }

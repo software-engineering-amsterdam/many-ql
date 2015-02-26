@@ -6,6 +6,7 @@ import com.klq.logic.expression.operator.bool.GreaterEquals;
 import com.klq.logic.expression.terminal.*;
 import com.klq.logic.expression.terminal.Boolean;
 import com.klq.logic.expression.terminal.Number;
+import com.klq.logic.expression.terminal.String;
 import com.klq.logic.question.*;
 
 import java.util.ArrayList;
@@ -35,13 +36,12 @@ public class ExampleQuestions{
 
     public static Question q2(){
         Id id = new Id("question2");
-        List<AExpression> dependencies = new ArrayList<AExpression>();
         AExpression left = new Identifier("question1");
         AExpression right = new Number("18");
         GreaterEquals ge = new GreaterEquals(left, right);
-        dependencies.add(ge);
         Text text = new Text("Do you have a driving license?");
-        Question q = new Question(id, Type.BOOLEAN, null, text, dependencies);
+        Question q = new Question(id, Type.BOOLEAN, null, text);
+        q.addDependency(ge);
         return q;
     }
 
@@ -49,25 +49,24 @@ public class ExampleQuestions{
         Id id = new Id("question3");
         Text text = new Text("When did you get your license?");
 
-        List<AExpression> dependencies = new ArrayList<AExpression>();
         AExpression left = new Identifier("question1");
         AExpression right = new Number("18");
         GreaterEquals ge = new GreaterEquals(left, right);
-        dependencies.add(ge);
 
         AExpression left2 = new Identifier("question2");
         AExpression right2 = Boolean.getTrue();
         Equals eq = new Equals(left2, right2);
-        dependencies.add(eq);
 
-        Question q = new Question(id, Type.DATE, null, text, dependencies);
+        Question q = new Question(id, Type.DATE, null, text);
+        q.addDependency(ge);
+        q.addDependency(eq);
         return q;
     }
 
     public static Question q4(){
         Id id = new Id("question4");
         OptionSet optionSet = new OptionSet();
-        optionSet.add(new Answer("Example Answer"));
+        optionSet.add(new String("Example Answer"));
         Text text = new Text("This is a question, that is even more long!?");
 
         Question q = new Question(id, Type.STRING, optionSet, text, null);
@@ -77,8 +76,8 @@ public class ExampleQuestions{
     public static Question q5(){
         Id id = new Id("question5");
         OptionSet optionSet = new OptionSet();
-        optionSet.add(new Answer("So n grote Feuerball!"));
-        optionSet.add(new Answer("BAM"));
+        optionSet.add(new String("So n grote Feuerball!"));
+        optionSet.add(new String("BAM"));
         Text text = new Text("New Kids?");
 
         Question q = new Question(id, Type.SET, optionSet, text, null);

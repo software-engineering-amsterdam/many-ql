@@ -13,18 +13,14 @@ class ParseTreeVisitor(QLVisitor):
         statements = [self.visit(child) for child in ctx.getChildren()]
         return Nodes.Root(statements)
 
-    # Visit a parse tree produced by QLParser#statement.
-    def visitStatement(self, ctx):
-        return self.visitChildren(ctx)
-
     # Visit a parse tree produced by QLParser#form.
     def visitForm_statement(self, ctx):
-        identifier = self.visit(ctx.getChild(1))
+        identifier = self.visit(ctx.name)
         
         statements = []
-        for child in ctx.getChildren():
-            if isinstance(child, QLParser.StatementContext):
-                statements.append(self.visit(child))
+        if ctx.statements:
+            for statement in ctx.statements:
+                statements.append(self.visit(statement))
 
         lineNumber = ctx.start.line
 
@@ -32,14 +28,11 @@ class ParseTreeVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser
     def visitQuestion_statement(self, ctx):
-        identifier = self.visit(ctx.getChild(1))
-        text = ctx.getChild(3).getText()
-        question_type = ctx.getChild(4).getText()
+        identifier = self.visit(ctx.name)
+        text = ctx.text.getText()
+        question_type = ctx.qtype.getText()
         
-        if isinstance(ctx.getChild(ctx.getChildCount() - 2), QLParser.ExprContext):
-            expr = self.visit(ctx.getChild(ctx.getChildCount() - 2))
-        else:
-            expr = None
+        expr = self.visit(ctx.expression) if ctx.expression != None else None
 
         lineNumber = ctx.start.line
 
@@ -47,13 +40,13 @@ class ParseTreeVisitor(QLVisitor):
 
     # Visit a parse tree produced by QLParser#if_statement.
     def visitIf_statement(self, ctx):
-        expr = self.visit(ctx.getChild(1))
+        expr = self.visit(ctx.expression)
 
         statements = []
-        for child in ctx.getChildren():
-            if isinstance(child, QLParser.StatementContext):
-                statements.append(self.visit(child))
-
+        if ctx.statements:
+            for statement in ctx.statements:
+                statements.append(self.visit(statement))
+        
         lineNumber = ctx.start.line
 
         return Nodes.IfStatement(expr, statements, lineNumber)

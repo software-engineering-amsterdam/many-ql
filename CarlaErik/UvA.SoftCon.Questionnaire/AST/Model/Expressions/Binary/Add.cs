@@ -4,18 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.AST.Types;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
     public class Add : BinaryExpression
     {
-        public Value Evaluate(IDictionary<string, Value> environment)
+        public override NodeType Type
         {
-            Integer left = (Integer)Left.Evaluate(environment);
-            Integer right = (Integer)Right.Evaluate(environment);
+            get
+            {
+                return NodeType.Add;
+            }
+        }
 
-            return new Integer(left.Value + right.Value);
+        public Add(Operation operation, IExpression left, IExpression right, TextPosition position)
+            : base(operation, left, right, position) {}
+
+        public override T Accept<T>(IASTVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
         }
 
         public override DataType? GetType(IDictionary<string, DataType> symbolTable)

@@ -2,7 +2,7 @@ package uva.ql.ast.expressions.literals;
 
 import uva.ql.ast.CodeLines;
 import uva.ql.ast.value.BooleanValue;
-import uva.ql.ast.visitor.VisitorInterface;
+import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
 public class BooleanLiteral extends Literal{
 	
@@ -24,7 +24,7 @@ public class BooleanLiteral extends Literal{
 		return "BooleanLiteral(" + String.valueOf(this.value) + ")";
 	}
 	@Override
-	public <T> T accept(VisitorInterface<T> visitor) {
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitBooleanLiteral(this);
 	}
 }

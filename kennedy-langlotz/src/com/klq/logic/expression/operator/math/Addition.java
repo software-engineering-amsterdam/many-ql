@@ -23,6 +23,6 @@ public class Addition extends AExpression {
             BigDecimal r = new BigDecimal(right.getContent());
             return new Number(l.add(r).toString());
         }
-        return null;
+        return this;
     }
 }

@@ -40,7 +40,7 @@ public class Error extends Message
     public static Error identifierDefEvalMismatch(String id, String defined, String evaluated, int line)
     {
         return new Error(String.format(
-                "Error (Line %d): Question \"%s\" is defined as type %s, but is calculated as type %s",
+                "Error (Line %d): Question \"%s\" is defined as type %s, but is assigned expression of type %s",
                 line, id, defined, evaluated));
     }
 

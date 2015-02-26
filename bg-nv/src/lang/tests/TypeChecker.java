@@ -64,7 +64,7 @@ public class TypeChecker
         assertEquals(1, ms.size());
 
         TestHelper.assertErrorMessage(ms.get(0),
-                "Error (Line 2): Question \"quest\" is defined as type string, but is calculated as type boolean");;
+                "Error (Line 2): Question \"quest\" is defined as type string, but is assigned expression of type boolean");
     }
 
     @Test
@@ -111,15 +111,17 @@ public class TypeChecker
         List<Message> ms =  TestHelper.analyse("manyCyclicQuestions");
         assertEquals(1, ms.size());
 
-        TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: tas, has, mas");
+        TestHelper.assertErrorMessage(ms.get(0),
+                "Error: the following questions form a cyclic dependency: tas, has, mas");
     }
 
     @Test
     public void autoTypePromError() throws FileNotFoundException
     {
         List<Message> ms =  TestHelper.analyse("autoTypeProm");
-        assertEquals(0, ms.size());
+        assertEquals(1, ms.size());
 
-        //TestHelper.assertErrorMessage(ms.get(0), "Error: the following questions form a cyclic dependency: tas, has, mas");
+        TestHelper.assertErrorMessage(ms.get(0),
+                "Error (Line 3): Question \"tax\" is defined as type integer, but is assigned expression of type decimal");
     }
 }

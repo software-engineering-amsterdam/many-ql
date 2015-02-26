@@ -25,8 +25,8 @@ public abstract class EqualityExpression extends BinaryExpression {
     /**
      * {@inheritDoc}
      *
-     * Resolves types for equality expressions - {@link EqualExpression},
-     * {@link NotEqualExpression}
+     * Resolves types for equality expressions - {@link Equal},
+     * {@link NotEqual}
      */
     public static Type resolveType(final Type type, final Type otherType) {
         final Type resolvedType = EQUALITY_OPERATORS_TABLE.get(type, otherType);

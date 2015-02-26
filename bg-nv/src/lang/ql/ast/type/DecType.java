@@ -11,6 +11,12 @@ public class DecType extends Type
     }
 
     @Override
+    public Type promoteInt(IntType t)
+    {
+        return this;
+    }
+
+    @Override
     public <T> T accept(TypeVisitor<T> visitor)
     {
         return visitor.visit(this);

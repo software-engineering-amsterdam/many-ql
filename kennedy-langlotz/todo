@@ -1,0 +1,6 @@
+- Add Boolean, Set
+- Type checking
+- Unique ID nodes in AST
+
+- Databinding between store and UI
+- save data

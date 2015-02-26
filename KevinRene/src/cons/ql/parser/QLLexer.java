@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.literal.QLFloat;
-import cons.ql.ast.expression.literal.QLIdent;
-import cons.ql.ast.expression.literal.QLInt;
-import cons.ql.ast.expression.literal.QLString;
+import cons.ql.ast.expression.Identifier;
+import cons.ql.ast.expression.literal.BooleanLiteral;
+import cons.ql.ast.expression.literal.FloatLiteral;
+import cons.ql.ast.expression.literal.IntegerLiteral;
+import cons.ql.ast.expression.literal.StringLiteral;
 
 public class QLLexer implements QLTokens {
 	private static final Map<String, Integer> KEYWORDS;
@@ -18,10 +19,16 @@ public class QLLexer implements QLTokens {
 		KEYWORDS = new HashMap<String, Integer>();
 		KEYWORDS.put("form", FORM);
 		KEYWORDS.put("boolean", BOOLEAN);
+		KEYWORDS.put("string", STRING);
 		KEYWORDS.put("assign", ASSIGN);
+		KEYWORDS.put("integer", INTEGER);
+		KEYWORDS.put("float", FLOAT);
 		KEYWORDS.put("money", MONEY);
+		KEYWORDS.put("string", STRING);
 		KEYWORDS.put("if", IF);
 		KEYWORDS.put("else", ELSE);
+		KEYWORDS.put("true", BOOLEANLITERAL);
+		KEYWORDS.put("false", BOOLEANLITERAL);
 	}
 	
 	
@@ -117,7 +124,15 @@ public class QLLexer implements QLTokens {
 			    	}
 			    	throw new RuntimeException("Unexpected character: " + (char)c);
 			    }
-			    case '!': nextChar(); return token = '!';
+
+			    case '!': {
+			    	nextChar(); 
+			    	if(c == '=') {
+			    		nextChar();
+			    		return token = NEQ;
+			    	}
+			    	return token = '!';
+			    }
 			    case '<': {
 			    	nextChar();
 			    	if (c == '=') {
@@ -146,17 +161,30 @@ public class QLLexer implements QLTokens {
 			    	StringBuilder sb = new StringBuilder();
 			    	// Skip opening quote.
 			    	nextChar();
+			    	
 			    	// Build a string from everything between the quotes.
 			    	while (c != '"') {
-		    			sb.append((char)c);
+			    		// Detected escaped quotes.
+			    		if(c == '\\') {
+				    		nextChar();
+				    		
+				    		if(c == '"') {
+				    			sb.append((char)c);
+				    			nextChar();
+				    			continue;
+				    		}
+				    	}
+			    		
+			    		sb.append((char)c);
 		    			nextChar();
 		    		}
+			    	
 			    	// Skip closing quote.
 			    	nextChar();
 		    		String string = sb.toString();
 					
-		    		yylval = new QLString(string);
-		    		return token = INITSTRING;
+		    		yylval = new StringLiteral(string);
+		    		return token = STRINGLITERAL;
 			    }
 			    default: {
 			    	if (Character.isDigit(c)) {
@@ -181,9 +209,9 @@ public class QLLexer implements QLTokens {
 			    			nextChar(); 
 			    		} while (Character.isDigit(c) || (c == '.' && !isFloat));
 			    		
-			    		yylval = isFloat ? new QLFloat((float)n) : new QLInt((int)n);
+			    		yylval = isFloat ? new FloatLiteral((float)n) : new IntegerLiteral((int)n);
 			    		
-			    		return token = isFloat ? INITFLOAT : INITINT;
+			    		return token = isFloat ? FLOATLITERAL : INTEGERLITERAL;
 			    	}
 			    	if (Character.isLetter(c)) {
 			    		StringBuilder sb = new StringBuilder();
@@ -195,12 +223,20 @@ public class QLLexer implements QLTokens {
 			    		
 			    		String name = sb.toString();
 			    		
+			    		// Boolean literals
+			    		if (name.equals("true")) {
+			    			yylval = new BooleanLiteral(true);
+			    		}
+			    		if (name.equals("false")) {
+			    			yylval = new BooleanLiteral(false);
+			    		}
+			    		
 			    		if (KEYWORDS.containsKey(name)) {
 			    			return token = KEYWORDS.get(name);
 			    		}
 						
-			    		yylval = new QLIdent(name);
-			    		return token = IDENT;
+			    		yylval = new Identifier(name);
+			    		return token = IDENTIFIER;
 			    	}
 			    	throw new RuntimeException("Unexpected character: " + (char)c);
 			    }

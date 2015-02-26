@@ -1,0 +1,92 @@
+
+state 0
+	$accept: .top $end 
+
+	StylesheetToken  shift 2
+	.  error
+
+	top  goto 1
+
+state 1
+	$accept:  top.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	top:  StylesheetToken.TextToken '{' stack '}' 
+
+	TextToken  shift 3
+	.  error
+
+
+state 3
+	top:  StylesheetToken TextToken.'{' stack '}' 
+
+	'{'  shift 4
+	.  error
+
+
+state 4
+	top:  StylesheetToken TextToken '{'.stack '}' 
+	stack: .    (2)
+
+	.  reduce 2 (src line 42)
+
+	stack  goto 5
+
+state 5
+	top:  StylesheetToken TextToken '{' stack.'}' 
+	stack:  stack.defaultNode 
+
+	DefaultToken  shift 8
+	'}'  shift 6
+	.  error
+
+	defaultNode  goto 7
+
+state 6
+	top:  StylesheetToken TextToken '{' stack '}'.    (1)
+
+	.  reduce 1 (src line 36)
+
+
+state 7
+	stack:  stack defaultNode.    (3)
+
+	.  reduce 3 (src line 43)
+
+
+state 8
+	defaultNode:  DefaultToken.TextToken TextToken 
+
+	TextToken  shift 9
+	.  error
+
+
+state 9
+	defaultNode:  DefaultToken TextToken.TextToken 
+
+	TextToken  shift 10
+	.  error
+
+
+state 10
+	defaultNode:  DefaultToken TextToken TextToken.    (4)
+
+	.  reduce 4 (src line 53)
+
+
+10 terminals, 4 nonterminals
+5 grammar rules, 11/2000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+53 working sets used
+memory: parser 2/30000
+0 extra closures
+7 shift entries, 1 exceptions
+3 goto entries
+0 entries saved by goto default
+Optimizer space used: output 10/30000
+10 table entries, 0 zero
+maximum spread: 10, maximum offset: 9

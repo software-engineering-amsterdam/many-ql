@@ -8,7 +8,7 @@ import lang.ql.ast.type.TypeVisitor;
 /**
  * Created by bore on 13/02/15.
  */
-public interface AstVisitor<T> extends StatVisitor<T>, ExprVisitor<T>, FormVisitor<T>, TypeVisitor<T>
+public interface AstVisitor<T> extends FormVisitor<T>, StatVisitor<T>, ExprVisitor<T>, TypeVisitor<T>
 {
 
 }

@@ -27,7 +27,7 @@ expression
 
 fragment StringCharacter : EscapeSequence | ~[\\] ;
 
-fragment Quote : [“”"'];
+fragment Quote : ["];
 
 fragment EscapeSequence : '\\' Quote;
 
