@@ -9,7 +9,7 @@ import com.form.language.ast.values.GenericValue;
 
 public class Memory {
 	
-	private HashMap<String,String> ids;
+	private Map<String,String> ids;
 	//private HashMap<String,GenericValue> values;
 	//private List<String> labels;
 			

@@ -15,7 +15,7 @@ public class BooleanValue extends Value<Boolean> {
 
     @Override
     public BooleanValue isEqual(Value otherValue) {
-        return new BooleanValue(this.value != null && (this.value == ((Boolean) otherValue.getValue())));
+        return new BooleanValue(this.value != null && (this.value.equals((Boolean) otherValue.getValue())));
     }
 
     @Override

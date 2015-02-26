@@ -1,8 +1,13 @@
 package gui;
 
+import interpreter.ValueRepository;
+import gui.trash.SimpleQuestionUI;
+import gui.widgets.IWidgetComponent;
+import gui.widgets.WidgetVisitor;
+
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import ast.expression.BracketsExpression;
@@ -37,8 +42,12 @@ import ast.unary.MinusExpression;
 import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
 
-public class GUIVisitor implements IFormVisitor<Void> {
+public class GUIVisitor extends JPanel implements IFormVisitor<Void> {
 	private JPanel panel;
+	private IWidgetComponent c;
+	WidgetVisitor wv;
+	SimpleQuestionUI simp;
+	ValueRepository valueRepository;
 	
 	public static JPanel maker(Form form) {
 		GUIVisitor visitor = new GUIVisitor();
@@ -61,13 +70,14 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	
 	public void getLabel(String text) {
 		this.panel.add(new JLabel(text));
-	//	this.panel.setVisible(true);
+		this.panel.setVisible(true);
 	}
 	
 	//to be changed in widget
-	public void addWidget(String id) {
-		this.panel.add(new JTextField(15), "wrap");
-	//	this.panel.setVisible(true);
+	public JComponent addWidget(IWidgetComponent co) { 
+		this.panel.add(co.getWidget(), "wrap");
+		this.panel.setVisible(true); //temporary
+		return panel;
 	}
 	
 	public void visibility(Boolean visibilityValue) {
@@ -80,6 +90,8 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	public Void visit(Form form) {
 		for(Question q : form.getQuestionText())
 			q.accept(this);
+		System.out.print("*  ");
+		//this.panel.setVisible(true);
 		return null;
 	}
 	
@@ -89,10 +101,34 @@ public class GUIVisitor implements IFormVisitor<Void> {
 		return null;
 	}
 
+	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
+		return simpleQuestion.getQuestionType().accept(new WidgetVisitor( simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType(), valueRepository));
+		
+	}
 	@Override
 	public Void visit(SimpleQuestion simpleQuestion) {
 		getLabel(simpleQuestion.getQuestionText());
-		addWidget(simpleQuestion.getQuestionId());
+		addWidget(widget(simpleQuestion));
+		//SimpleQuestionUI simp = new SimpleQuestionUI();
+		//Connector conny = new Connector(this);
+		//conny.widget(simpleQuestion);
+		
+		//this.panel.add(conny.widget(simpleQuestion).getWidget());
+		System.out.print("Test: are you working or what");
+		//IQuestions q;
+		//this.panel.add(simp.createdLabel(), "wrap");
+		
+	//	getLabel(simpleQuestion.getQuestionText());
+		
+		//new Connector().widget(simpleQuestion);
+	//	System.out.println("q:");
+	//	this.panel.add(simp.createdLabel(), "wrap");
+	//	SimpleQuestion sq = new SimpleQuestion(simpleQuestion.getQuestionId(),simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType());
+	//	c.setIdWidget(simpleQuestion.getQuestionId());
+	//	c.setLabel(simpleQuestion.getQuestionText());
+	//	c.setWidgetType(simpleQuestion.getQuestionType());
+	//	this.panel.add(sq.g, "wrap");
+	//	this.panel.setVisible(true); //temporary
 	//	visibility(true);
 	//	attachEvent('onUnfocus', call_update_symboltable_with_its_data());
 		return null;
@@ -100,8 +136,8 @@ public class GUIVisitor implements IFormVisitor<Void> {
 
 	@Override
 	public Void visit(ComputationQuestion calQuestion) {
-		getLabel(calQuestion.getQuestionText());
-		addWidget(calQuestion.getQuestionId());
+	//	getLabel(calQuestion.getQuestionText());
+	//	addWidget(calQuestion.getQuestionId());
 	//	visibility(false);
 		return null;
 	}
@@ -259,5 +295,7 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	public Void visit(UndefinedType type) {
 		// TODO Auto-generated method stub
 		return null;
-	}	
+	}
+
+	
 }
