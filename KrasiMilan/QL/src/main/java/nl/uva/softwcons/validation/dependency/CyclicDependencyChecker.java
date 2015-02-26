@@ -35,7 +35,7 @@ public class CyclicDependencyChecker implements FormVisitor<Void>, StatementVisi
         final Set<Identifier> expressionVariables = VariableExctractor.extractFrom(question.getExpression());
 
         if (expressionVariables.contains(questionIdentifier)) {
-            this.errorsFound.add(new CyclicQuestionsDependency());
+            this.errorsFound.add(new CyclicQuestionsDependency(question.getLineInfo()));
         }
 
         return null;

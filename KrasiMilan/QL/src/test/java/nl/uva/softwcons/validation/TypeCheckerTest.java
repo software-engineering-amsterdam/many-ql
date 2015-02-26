@@ -8,7 +8,7 @@ import java.util.List;
 import nl.uva.softwcons.Questionnaire;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.validation.typechecker.TypeChecker;
-import nl.uva.softwcons.validation.typechecker.error.DuplicateQuestion;
+import nl.uva.softwcons.validation.typechecker.error.DuplicateQuestionIdentifier;
 import nl.uva.softwcons.validation.typechecker.error.InvalidConditionType;
 import nl.uva.softwcons.validation.typechecker.error.InvalidOperatorTypes;
 import nl.uva.softwcons.validation.typechecker.error.InvalidQuestionExpressionType;
@@ -32,7 +32,7 @@ public class TypeCheckerTest {
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question, question);
 
         assertThat(validationErrors).hasSize(1);
-        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestion.class);
+        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestionIdentifier.class);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class TypeCheckerTest {
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question1, question2, question1);
 
         assertThat(validationErrors).hasSize(1);
-        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestion.class);
+        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestionIdentifier.class);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class TypeCheckerTest {
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question, ifStatement);
 
         assertThat(validationErrors).hasSize(1);
-        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestion.class);
+        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestionIdentifier.class);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class TypeCheckerTest {
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question, question, ifStatement);
 
         assertThat(validationErrors).hasSize(2);
-        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestion.class);
+        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestionIdentifier.class);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class TypeCheckerTest {
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question, question2, question, question2);
 
         assertThat(validationErrors).hasSize(2);
-        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestion.class);
+        assertThat(validationErrors).hasOnlyElementsOfType(DuplicateQuestionIdentifier.class);
     }
 
     @Test
@@ -315,7 +315,7 @@ public class TypeCheckerTest {
         assertThat(validationErrors).hasSize(6);
         assertThat(validationErrors).extracting("class").contains(UndefinedReference.class, InvalidOperatorTypes.class,
                 InvalidQuestionExpressionType.class, InvalidOperatorTypes.class, InvalidConditionType.class,
-                DuplicateQuestion.class);
+                DuplicateQuestionIdentifier.class);
     }
 
     /**
@@ -323,7 +323,7 @@ public class TypeCheckerTest {
      * interface.
      * 
      * Builds a Form called always "form1" with the given statements (separating
-     * them by spaces), runs the {@link TypeChecker} checker and returns the
+     * them by newlines), runs the {@link TypeChecker} checker and returns the
      * list of found errors.
      * 
      * @param formContents

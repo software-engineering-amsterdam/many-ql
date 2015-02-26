@@ -32,7 +32,7 @@ import nl.uva.softwcons.ast.statement.Question;
 import nl.uva.softwcons.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ast.type.Type;
 import nl.uva.softwcons.validation.Error;
-import nl.uva.softwcons.validation.typechecker.error.DuplicateQuestion;
+import nl.uva.softwcons.validation.typechecker.error.DuplicateQuestionIdentifier;
 import nl.uva.softwcons.validation.typechecker.error.InvalidConditionType;
 import nl.uva.softwcons.validation.typechecker.error.InvalidOperatorTypes;
 import nl.uva.softwcons.validation.typechecker.error.InvalidQuestionExpressionType;
@@ -59,7 +59,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
         final Type questionExpressionType = computedQuestion.getExpression().accept(this);
         if (questionExpressionType != computedQuestion.getType()) {
-            this.errorsFound.add(new InvalidQuestionExpressionType());
+            this.errorsFound.add(new InvalidQuestionExpressionType(computedQuestion.getLineInfo()));
         }
 
         return null;
@@ -76,7 +76,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     public Void visit(final Conditional conditional) {
         final Type conditionExprType = conditional.getCondition().accept(this);
         if (conditionExprType != Type.BOOLEAN) {
-            this.errorsFound.add(new InvalidConditionType());
+            this.errorsFound.add(new InvalidConditionType(conditional.getLineInfo()));
         }
 
         conditional.getQuestions().forEach(q -> q.accept(this));
@@ -230,7 +230,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
         final Type variableType = this.env.resolveVariable(questionId);
 
         if (variableType == Type.UNDEFINED) {
-            this.errorsFound.add(new UndefinedReference());
+            this.errorsFound.add(new UndefinedReference(questionId.getLineInfo()));
         }
 
         return variableType;
@@ -258,8 +258,8 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     /**
      * Registers the given question in the current environment or adds a
-     * {@link DuplicateQuestion} error to the current errors list in case the
-     * variable has already been defined.
+     * {@link DuplicateQuestionIdentifier} error to the current errors list in
+     * case the variable has already been defined.
      * 
      * @param question
      *            The question which should be defined in the current
@@ -269,13 +269,13 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
         if (this.env.resolveVariable(question.getId()) == Type.UNDEFINED) {
             this.env.defineVariable(question.getId(), question.getType());
         } else {
-            this.errorsFound.add(new DuplicateQuestion());
+            this.errorsFound.add(new DuplicateQuestionIdentifier(question.getLineInfo()));
         }
     }
 
-    private void validateExpressionType(final Expression node, final Type nodeType, final Type... allowedTypes) {
+    private void validateExpressionType(final Expression expr, final Type nodeType, final Type... allowedTypes) {
         if (!Arrays.asList(allowedTypes).contains(nodeType)) {
-            this.errorsFound.add(new InvalidOperatorTypes());
+            this.errorsFound.add(new InvalidOperatorTypes(expr.getLineInfo()));
         }
     }
 

@@ -1,12 +1,13 @@
 package nl.uva.softwcons.validation.typechecker.error;
 
+import static nl.uva.softwcons.ast.i18n._i;
+import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.validation.Error;
 
 public class InvalidConditionType extends Error {
-    private static final String ERROR_TEXT = "Expression in condition statetement should be boolean";
 
-    public InvalidConditionType() {
-        super(ERROR_TEXT);
+    public InvalidConditionType(final LineInfo lineInfo) {
+        super(_i("validation.errors.invalidconditiontype", lineInfo.getLine()));
     }
 
 }

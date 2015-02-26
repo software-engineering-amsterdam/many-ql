@@ -10,6 +10,6 @@ public class TestHelper {
     public static final LineInfo DUMMY_LINE_INFO = new LineInfo(-1, -1);
 
     public static String buildForm(final String formName, final String... statements) {
-        return String.format("form %s { %s }", formName, String.join(" ", statements));
+        return String.format("form %s {\n%s\n}", formName, String.join("\n", statements));
     }
 }

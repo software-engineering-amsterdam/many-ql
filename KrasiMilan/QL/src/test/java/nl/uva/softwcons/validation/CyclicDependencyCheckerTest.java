@@ -84,7 +84,7 @@ public class CyclicDependencyCheckerTest {
      * interface.
      * 
      * Builds a Form called always "form1" with the given statements (separating
-     * them by spaces), runs the {@link CyclicDependencyChecker} checker and
+     * them by newlines), runs the {@link CyclicDependencyChecker} checker and
      * returns the list of found errors.
      * 
      * @param formContents

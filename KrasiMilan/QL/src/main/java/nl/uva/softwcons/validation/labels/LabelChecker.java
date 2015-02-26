@@ -13,7 +13,6 @@ import nl.uva.softwcons.ast.statement.Question;
 import nl.uva.softwcons.ast.statement.StatementVisitor;
 import nl.uva.softwcons.validation.Error;
 import nl.uva.softwcons.validation.labels.error.DuplicateLabel;
-import nl.uva.softwcons.validation.typechecker.error.DuplicateQuestion;
 
 public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
     private final Set<String> labels;
@@ -31,19 +30,19 @@ public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
     }
 
     @Override
-    public Void visit(ComputedQuestion question) {
+    public Void visit(final ComputedQuestion question) {
         validateQuestionLabel(question);
         return null;
     }
 
     @Override
-    public Void visit(Question question) {
+    public Void visit(final Question question) {
         validateQuestionLabel(question);
         return null;
     }
 
     @Override
-    public Void visit(Conditional conditional) {
+    public Void visit(final Conditional conditional) {
         conditional.getQuestions().forEach(q -> q.accept(this));
         return null;
     }
@@ -55,7 +54,7 @@ public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
 
     /**
      * Registers the given question's label for the current environment or adds
-     * a {@link DuplicateQuestion} error to the current errors list in case the
+     * a {@link DuplicateLabel} error to the current errors list in case the
      * variable has already been defined.
      * 
      * @param question
@@ -65,7 +64,7 @@ public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
     private void validateQuestionLabel(final Question question) {
         final String questionLabel = question.getLabel();
         if (this.labels.contains(questionLabel)) {
-            this.errorsFound.add(new DuplicateLabel());
+            this.errorsFound.add(new DuplicateLabel(question.getLineInfo()));
         } else {
             this.labels.add(questionLabel);
         }
