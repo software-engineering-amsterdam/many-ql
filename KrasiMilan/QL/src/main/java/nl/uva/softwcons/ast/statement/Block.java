@@ -2,13 +2,20 @@ package nl.uva.softwcons.ast.statement;
 
 import java.util.List;
 
+import nl.uva.softwcons.ast.LineInfo;
+
 public class Block extends Statement {
 
     private List<Statement> statements;
+    private LineInfo lineInfo;
 
-    public Block(List<Statement> statements) {
-        super();
+    public Block(List<Statement> statements, LineInfo lineInfo) {
         this.statements = statements;
+        this.lineInfo = lineInfo;
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
     }
 
     @Override
@@ -16,8 +23,9 @@ public class Block extends Statement {
         return visitor.visit(this);
     }
 
-    public List<Statement> getStatements() {
-        return statements;
+    @Override
+    public LineInfo getLineInfo() {
+        return lineInfo;
     }
 
 }

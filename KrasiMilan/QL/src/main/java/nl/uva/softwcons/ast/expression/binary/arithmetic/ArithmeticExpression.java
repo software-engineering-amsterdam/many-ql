@@ -1,5 +1,6 @@
 package nl.uva.softwcons.ast.expression.binary.arithmetic;
 
+import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.type.Type;
@@ -15,13 +16,21 @@ public abstract class ArithmeticExpression extends BinaryExpression {
         ARITHMENTIC_OPERATORS_TABLE.put(Type.DECIMAL, Type.INTEGER, Type.DECIMAL);
         ARITHMENTIC_OPERATORS_TABLE.put(Type.DECIMAL, Type.DECIMAL, Type.DECIMAL);
     }
+    private final LineInfo lineInfo;
 
-    public ArithmeticExpression(final Expression left, final Expression right) {
+    public ArithmeticExpression(final Expression left, final Expression right, final LineInfo lineInfo) {
         super(left, right);
+
+        this.lineInfo = lineInfo;
     }
 
     public static Type resolveType(final Type type, final Type otherType) {
         final Type resolvedType = ARITHMENTIC_OPERATORS_TABLE.get(type, otherType);
         return resolvedType != null ? resolvedType : Type.UNDEFINED;
+    }
+
+    @Override
+    public LineInfo getLineInfo() {
+        return lineInfo;
     }
 }

@@ -1,5 +1,6 @@
 package nl.uva.softwcons.eval;
 
+import static helper.TestHelper.DUMMY_LINE_INFO;
 import static org.assertj.core.api.Assertions.assertThat;
 import helper.TestHelper;
 
@@ -29,40 +30,40 @@ import org.junit.Test;
 
 public class EvaluatorTest {
 
-    IntegerLiteral intLiteral1;
-    IntegerLiteral intLiteral2;
+    private IntegerLiteral intLiteral1;
+    private IntegerLiteral intLiteral2;
 
-    DecimalLiteral decLiteral1;
-    DecimalLiteral decLiteral2;
+    private DecimalLiteral decLiteral1;
+    private DecimalLiteral decLiteral2;
 
-    BooleanLiteral boolTrueLiteral;
-    BooleanLiteral boolFalseLiteral;
+    private BooleanLiteral boolTrueLiteral;
+    private BooleanLiteral boolFalseLiteral;
 
-    StringLiteral strLiteral1;
-    StringLiteral strLiteral2;
-    Evaluator evaluator;
+    private StringLiteral strLiteral1;
+    private StringLiteral strLiteral2;
+    private Evaluator evaluator;
 
     @Before
     public void beforeEachSetRating() {
         evaluator = new Evaluator(null);
-        intLiteral1 = new IntegerLiteral(1);
-        intLiteral2 = new IntegerLiteral(2);
+        intLiteral1 = new IntegerLiteral(1, DUMMY_LINE_INFO);
+        intLiteral2 = new IntegerLiteral(2, DUMMY_LINE_INFO);
 
-        decLiteral1 = new DecimalLiteral(1.5);
-        decLiteral2 = new DecimalLiteral(2.5);
+        decLiteral1 = new DecimalLiteral(1.5, DUMMY_LINE_INFO);
+        decLiteral2 = new DecimalLiteral(2.5, DUMMY_LINE_INFO);
 
-        boolTrueLiteral = new BooleanLiteral(true);
-        boolFalseLiteral = new BooleanLiteral(false);
+        boolTrueLiteral = new BooleanLiteral(true, DUMMY_LINE_INFO);
+        boolFalseLiteral = new BooleanLiteral(false, DUMMY_LINE_INFO);
 
-        strLiteral1 = new StringLiteral("string1");
-        strLiteral2 = new StringLiteral("string2");
+        strLiteral1 = new StringLiteral("string1", DUMMY_LINE_INFO);
+        strLiteral2 = new StringLiteral("string2", DUMMY_LINE_INFO);
     }
 
     @Test
     public void testVisitAddition() {
-        Addition exprInt = new Addition(intLiteral1, intLiteral2);
-        Addition exprDec = new Addition(decLiteral1, decLiteral2);
-        Addition exprMixed = new Addition(decLiteral2, intLiteral2);
+        Addition exprInt = new Addition(intLiteral1, intLiteral2, DUMMY_LINE_INFO);
+        Addition exprDec = new Addition(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
+        Addition exprMixed = new Addition(decLiteral2, intLiteral2, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigInteger.valueOf(3));
         assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
@@ -79,11 +80,11 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitSubtraction() {
-        Subtraction exprInt = new Subtraction(intLiteral1, intLiteral2);
+        Subtraction exprInt = new Subtraction(intLiteral1, intLiteral2, DUMMY_LINE_INFO);
 
-        Subtraction exprDec = new Subtraction(decLiteral1, decLiteral2);
-        Subtraction exprMixed = new Subtraction(intLiteral1, decLiteral1);
-        Subtraction exprMixed2 = new Subtraction(decLiteral1, intLiteral1);
+        Subtraction exprDec = new Subtraction(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
+        Subtraction exprMixed = new Subtraction(intLiteral1, decLiteral1, DUMMY_LINE_INFO);
+        Subtraction exprMixed2 = new Subtraction(decLiteral1, intLiteral1, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigInteger.valueOf(-1));
         assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
@@ -104,9 +105,9 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitMultiplication() {
-        Multiplication exprInt = new Multiplication(intLiteral1, intLiteral2);
+        Multiplication exprInt = new Multiplication(intLiteral1, intLiteral2, DUMMY_LINE_INFO);
 
-        Multiplication exprDec = new Multiplication(decLiteral1, decLiteral2);
+        Multiplication exprDec = new Multiplication(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigInteger.valueOf(2));
         assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
@@ -120,8 +121,8 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitDivision() {
-        Division exprInt = new Division(intLiteral1, intLiteral2);
-        Division exprDec = new Division(decLiteral1, decLiteral2);
+        Division exprInt = new Division(intLiteral1, intLiteral2, DUMMY_LINE_INFO);
+        Division exprDec = new Division(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
         assertThat(evaluator.visit(exprInt).getValue()).isExactlyInstanceOf(BigInteger.class);
@@ -135,10 +136,10 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitGE() {
-        GreaterOrEqual exprInt = new GreaterOrEqual(intLiteral1, intLiteral2);
-        GreaterOrEqual exprDec = new GreaterOrEqual(decLiteral2, decLiteral1);
+        GreaterOrEqual exprInt = new GreaterOrEqual(intLiteral1, intLiteral2, DUMMY_LINE_INFO);
+        GreaterOrEqual exprDec = new GreaterOrEqual(decLiteral2, decLiteral1, DUMMY_LINE_INFO);
 
-        GreaterOrEqual exprMixed = new GreaterOrEqual(decLiteral2, intLiteral2);
+        GreaterOrEqual exprMixed = new GreaterOrEqual(decLiteral2, intLiteral2, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(BooleanValue.class);
         assertThat(evaluator.visit(exprInt).getValue()).isExactlyInstanceOf(Boolean.class);
@@ -155,9 +156,9 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitAnd() {
-        And exprAndFalse = new And(boolFalseLiteral, boolTrueLiteral);
-        And exprAndTrue = new And(boolTrueLiteral, boolTrueLiteral);
-        And exprAndFalse2 = new And(boolFalseLiteral, boolFalseLiteral);
+        And exprAndFalse = new And(boolFalseLiteral, boolTrueLiteral, DUMMY_LINE_INFO);
+        And exprAndTrue = new And(boolTrueLiteral, boolTrueLiteral, DUMMY_LINE_INFO);
+        And exprAndFalse2 = new And(boolFalseLiteral, boolFalseLiteral, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprAndFalse)).isExactlyInstanceOf(BooleanValue.class);
         assertThat(evaluator.visit(exprAndFalse).getValue()).isExactlyInstanceOf(Boolean.class);
@@ -174,9 +175,9 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitOr() {
-        Or exprOrTrue = new Or(boolFalseLiteral, boolTrueLiteral);
-        Or exprOrTrue2 = new Or(boolTrueLiteral, boolTrueLiteral);
-        Or exprOrFalse = new Or(boolFalseLiteral, boolFalseLiteral);
+        Or exprOrTrue = new Or(boolFalseLiteral, boolTrueLiteral, DUMMY_LINE_INFO);
+        Or exprOrTrue2 = new Or(boolTrueLiteral, boolTrueLiteral, DUMMY_LINE_INFO);
+        Or exprOrFalse = new Or(boolFalseLiteral, boolFalseLiteral, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprOrTrue)).isExactlyInstanceOf(BooleanValue.class);
         assertThat(evaluator.visit(exprOrTrue).getValue()).isExactlyInstanceOf(Boolean.class);
@@ -193,8 +194,8 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitNot() {
-        Not exprNotTrue = new Not(boolFalseLiteral);
-        Not exprNotFalse = new Not(boolTrueLiteral);
+        Not exprNotTrue = new Not(boolFalseLiteral, DUMMY_LINE_INFO);
+        Not exprNotFalse = new Not(boolTrueLiteral, DUMMY_LINE_INFO);
 
         assertThat(evaluator.visit(exprNotTrue)).isExactlyInstanceOf(BooleanValue.class);
         assertThat(evaluator.visit(exprNotTrue).getValue()).isExactlyInstanceOf(Boolean.class);
@@ -220,6 +221,6 @@ public class EvaluatorTest {
 
         evaluator.visit(form.getBody());
         assertThat(answers.getValue("id3")).isExactlyInstanceOf(IntegerValue.class);
-        assertThat(answers.getValue("id3").getValue()).isEqualTo(new IntegerLiteral(3).getValue());
+        assertThat(answers.getValue("id3").getValue()).isEqualTo(new IntegerLiteral(3, DUMMY_LINE_INFO).getValue());
     }
 }

@@ -49,6 +49,8 @@ import nl.uva.softwcons.generated.QLParser.StringContext;
 import nl.uva.softwcons.generated.QLParser.TypeContext;
 import nl.uva.softwcons.util.Utils;
 
+import org.antlr.v4.runtime.Token;
+
 public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
@@ -57,7 +59,8 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         final List<Statement> statements = ctx.statement().stream().map(st -> (Statement) st.accept(this))
                 .collect(Collectors.toList());
 
-        return new Form(formName, new Block(statements));
+        // TODO remove block and introduce identifier object
+        return new Form(formName, new Block(statements, null), extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
@@ -66,7 +69,8 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         final String label = Utils.unquote(ctx.STRING().getText());
         final Type type = (Type) ctx.type().accept(this);
 
-        return new Question(id, label, type);
+        // TODO make id an identifier object
+        return new Question(id, label, type, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
@@ -76,7 +80,8 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         final Type type = (Type) ctx.type().accept(this);
         final Expression value = (Expression) ctx.expr().accept(this);
 
-        return new ComputedQuestion(id, label, type, value);
+        // TODO make id an identifier object
+        return new ComputedQuestion(id, label, type, value, extractLineInfo(ctx.ID().getSymbol()));
     }
 
     @Override
@@ -100,29 +105,29 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
         switch (ctx.op.getText()) {
         case "*":
-            return new Multiplication(leftExpression, rightExpression);
+            return new Multiplication(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "/":
-            return new Division(leftExpression, rightExpression);
+            return new Division(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "-":
-            return new Subtraction(leftExpression, rightExpression);
+            return new Subtraction(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "+":
-            return new Addition(leftExpression, rightExpression);
+            return new Addition(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "&&":
-            return new And(leftExpression, rightExpression);
+            return new And(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "||":
-            return new Or(leftExpression, rightExpression);
+            return new Or(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "<":
-            return new LowerThan(leftExpression, rightExpression);
+            return new LowerThan(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "<=":
-            return new LowerOrEqual(leftExpression, rightExpression);
+            return new LowerOrEqual(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "==":
-            return new Equal(leftExpression, rightExpression);
+            return new Equal(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case "!=":
-            return new NotEqual(leftExpression, rightExpression);
+            return new NotEqual(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case ">=":
-            return new GreaterOrEqual(leftExpression, rightExpression);
+            return new GreaterOrEqual(leftExpression, rightExpression, extractLineInfo(ctx.op));
         case ">":
-            return new GreaterThan(leftExpression, rightExpression);
+            return new GreaterThan(leftExpression, rightExpression, extractLineInfo(ctx.op));
         default:
             throw new IllegalArgumentException("Unsupported operator in expression.");
         }
@@ -130,7 +135,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public UnaryExpression visitNotExpr(NotExprContext ctx) {
-        return new Not((Expression) ctx.expr().accept(this));
+        return new Not((Expression) ctx.expr().accept(this), extractLineInfo(ctx.op));
     }
 
     @Override
@@ -140,26 +145,30 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public BooleanLiteral visitBoolean(BooleanContext ctx) {
-        return new BooleanLiteral(Boolean.valueOf(ctx.BOOLEAN().getText()));
+        return new BooleanLiteral(Boolean.valueOf(ctx.BOOLEAN().getText()), extractLineInfo(ctx.BOOLEAN().getSymbol()));
     }
 
     @Override
     public IntegerLiteral visitInteger(IntegerContext ctx) {
-        return new IntegerLiteral(Integer.parseInt(ctx.INT().getText()));
+        return new IntegerLiteral(Integer.parseInt(ctx.INT().getText()), extractLineInfo(ctx.INT().getSymbol()));
     }
 
     @Override
     public StringLiteral visitString(StringContext ctx) {
-        return new StringLiteral(Utils.unquote(ctx.STRING().getText()));
+        return new StringLiteral(Utils.unquote(ctx.STRING().getText()), extractLineInfo(ctx.STRING().getSymbol()));
     }
 
     @Override
     public ASTNode visitDecimal(DecimalContext ctx) {
-        return new DecimalLiteral(new BigDecimal(ctx.DECIMAL().getText()));
+        return new DecimalLiteral(new BigDecimal(ctx.DECIMAL().getText()), extractLineInfo(ctx.DECIMAL().getSymbol()));
     }
 
     @Override
     public Identifier visitId(IdContext ctx) {
-        return new Identifier(ctx.ID().getText());
+        return new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
+    }
+
+    private LineInfo extractLineInfo(final Token token) {
+        return new LineInfo(token.getLine(), token.getCharPositionInLine());
     }
 }

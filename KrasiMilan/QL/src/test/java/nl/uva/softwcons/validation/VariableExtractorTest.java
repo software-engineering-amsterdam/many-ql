@@ -2,16 +2,8 @@ package nl.uva.softwcons.validation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import helper.TestHelper;
-
-import java.math.BigDecimal;
-
 import nl.uva.softwcons.Questionnaire;
 import nl.uva.softwcons.ast.expression.Expression;
-import nl.uva.softwcons.ast.expression.identifier.Identifier;
-import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
-import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
-import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
-import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 
@@ -21,16 +13,17 @@ public class VariableExtractorTest {
 
     @Test
     public void testNoExtractedVariablesFromLiterals() {
-        assertThat(VariableExctractor.extractFrom(new BooleanLiteral(false))).isEmpty();
-        assertThat(VariableExctractor.extractFrom(new IntegerLiteral(0))).isEmpty();
-        assertThat(VariableExctractor.extractFrom(new StringLiteral(""))).isEmpty();
-        assertThat(VariableExctractor.extractFrom(new DecimalLiteral(BigDecimal.ONE))).isEmpty();
+        assertThat(VariableExctractor.extractFrom(getExpression("false"))).isEmpty();
+        assertThat(VariableExctractor.extractFrom(getExpression("0"))).isEmpty();
+        assertThat(VariableExctractor.extractFrom(getExpression("1.0"))).isEmpty();
+
+        // empty string literal ""
+        assertThat(VariableExctractor.extractFrom(getExpression("\"\""))).isEmpty();
     }
 
     @Test
     public void testSingleExtractedVariableFromIdentifierLiteral() {
-        final Identifier id = new Identifier("id");
-        assertThat(VariableExctractor.extractFrom(id)).containsOnly("id");
+        assertThat(VariableExctractor.extractFrom(getExpression("id"))).containsOnly("id");
     }
 
     @Test

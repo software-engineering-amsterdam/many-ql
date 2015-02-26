@@ -2,6 +2,7 @@ package nl.uva.softwcons.ast.statement;
 
 import java.util.List;
 
+import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.ast.expression.Expression;
 
 public class Conditional extends Statement {
@@ -15,11 +16,6 @@ public class Conditional extends Statement {
         this.questions = questions;
     }
 
-    @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
-
     public Expression getCondition() {
         return condition;
     }
@@ -30,5 +26,15 @@ public class Conditional extends Statement {
 
     public String getId() {
         return this.id;
+    }
+
+    @Override
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public LineInfo getLineInfo() {
+        return condition.getLineInfo();
     }
 }

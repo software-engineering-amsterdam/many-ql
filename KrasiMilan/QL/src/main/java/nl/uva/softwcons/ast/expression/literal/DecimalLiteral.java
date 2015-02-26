@@ -2,19 +2,26 @@ package nl.uva.softwcons.ast.expression.literal;
 
 import java.math.BigDecimal;
 
+import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
 public class DecimalLiteral extends Expression {
-
     private BigDecimal value;
+    private LineInfo lineInfo;
 
-    public DecimalLiteral(final BigDecimal value) {
+    public DecimalLiteral(BigDecimal value, LineInfo lineInfo) {
         this.value = value;
+        this.lineInfo = lineInfo;
     }
 
-    public DecimalLiteral(final double value) {
+    public DecimalLiteral(double value, LineInfo lineInfo) {
         this.value = new BigDecimal(value);
+        this.lineInfo = lineInfo;
+    }
+
+    public BigDecimal getValue() {
+        return value;
     }
 
     @Override
@@ -22,8 +29,9 @@ public class DecimalLiteral extends Expression {
         return visitor.visit(this);
     }
 
-    public BigDecimal getValue() {
-        return value;
+    @Override
+    public LineInfo getLineInfo() {
+        return this.lineInfo;
     }
 
 }
