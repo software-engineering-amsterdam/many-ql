@@ -4,11 +4,11 @@ class DuplicateLabelChecker < StaticChecker
 
   def after_initialize(base)
     @descriptions = []
-    @errors = []
   end
 
-  def check
-    run
+  def errors
+    @errors = []
+    visit @base
     @errors
   end
 

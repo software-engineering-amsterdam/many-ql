@@ -20,7 +20,11 @@ rule
     | conditional
     ;
   question
-    : string variable_name ':' type { result = AST::Question.new(val[0], val[1], val[3].to_sym) }
+    : description variable_name ':' type { result = AST::Question.new(val[0], val[1], val[3].to_sym) }
+    ;
+  description
+    # TODO: get rid of double quotes in a nicer way.
+    : STRING { result = val[0][1..-2] }
     ;
   variable_name
     : VARIABLE_NAME 

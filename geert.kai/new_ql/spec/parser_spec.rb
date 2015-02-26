@@ -22,8 +22,8 @@ describe "Expression" do
     form = QL.parse( source("expression_query") )
     
     expression = form.statements[1].expression
-    expect(expression.lhs).to eq 10
-    expect(expression.rhs).to eq 18
+    expect(expression.lhs.value).to eq 10
+    expect(expression.rhs.value).to eq 18
     expect(expression.operator).to eq :<
   end
 end

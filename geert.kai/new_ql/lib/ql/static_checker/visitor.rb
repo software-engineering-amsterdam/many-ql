@@ -12,10 +12,6 @@ class BaseVisitor
   def after_initialize(base)
   end
 
-  def run
-    visit @base
-  end
-
   def map_accept(statements)
     statements.map do |statement|
       statement.accept(self) 

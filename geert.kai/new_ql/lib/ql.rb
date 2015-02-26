@@ -1,9 +1,9 @@
+require "require_all"
 require "jrubyfx"
 require "stringio"
 require "ruby-debug"
-require_relative 'ql/parser/parser'
-require_relative 'ql/parser/tokenizer'
-require_relative 'ql/evaluator/evaluator'
+
+require_all "lib"
 
 module QL
   def self.parse(path)
@@ -17,30 +17,47 @@ end
 
 class MyApp < JRubyFX::Application
   def start(stage)
-    
+    form = QL.parse("spec/source_files/long_query.ql")
+    runner = Runner.new(form)
 
-    with(stage, title: "Hello app", width: 800, height: 600) do
+    this = self
+    
+    with(stage, title: form.name, width: 800, height: 600) do
       layout_scene do
-        grid_pane(hgap: 10, vgap: 10, alignment: :baseline_left)  do
-          # label = label("Wat is uw naam?")
-          # notification = label("")
-          # text = text_field do
-          #   set_id "Pietje"
-          #   text_property.add_listener do |observable, old_value, new_value|
-          #     puts "text field changed: #{observable} #{old_value} #{new_value}"
-          #     notification.text = "text field with id #{observable.bean.id} changed: #{new_value}"
-          #   end
-          # end
-          # add(label, 1, 1)
-          # add(text, 2, 1)
-          # add(notification, 1, 2)
-          form = QL.parse("spec/source_files/one_query.ql")
-          @runner = Runner.new(form)
-          position = 1
-          @runner.applicable_questions.each do |question|
-            label = build.label(question.description)
+        grid_pane = grid_pane(hgap: 10, vgap: 10, alignment: :baseline_left)  do
+          runner.applicable_questions.each_with_index do |question, position|
+            case question.type
+            when :string
+              widget = text_field do
+                set_id(question.variable_name)
+                text_property.add_change_listener do |observable, old_value, new_value|
+                  runner.update_variable(observable.bean.id, new_value)
+                  puts "#{runner.instance_eval { @values }}"
+                  #this.start(stage, runner)
+                end
+              end
+            when :integer
+              widget = text_field do
+                set_id(question.variable_name)
+                text_property.add_change_listener do |observable, old_value, new_value|
+                  # this.start(stage, runner)
+                end
+              end
+            when :boolean
+              widget = check_box do
+                set_id(question.variable_name)
+                set_text("I agree")
+                selected_property.add_change_listener do |observable, old_value, new_value|
+                  runner.update_variable(observable.bean.id, new_value)
+                  puts "#{runner.instance_eval { @values }}"
+                  # this.start(stage, runner)
+                end
+              end
+           
+           end 
+            label = label(question.description)
             add(label, 1, position)
-            position += 1
+            add(widget, 2, position)
           end
         end
       end
@@ -48,6 +65,13 @@ class MyApp < JRubyFX::Application
       show
     end
   end
+
+  def reload
+    @grid_pane
+  end
+end
+
+class Java::javafx::scene::layout::GridPane
 end
 
 

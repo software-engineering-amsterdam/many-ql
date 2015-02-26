@@ -4,12 +4,16 @@ require_relative "../ast/ast"
 class TypeChecker < StaticChecker
   def after_initialize(base)
     @types = {}
-    @errors = []
   end
 
-  def check
-    run
+  def errors
+    @errors = []
+    visit @base 
     @errors
+  end
+
+  def visit_form(form)
+    map_accept(form.statements)
   end
 
   def visit_question(question)
@@ -21,7 +25,7 @@ class TypeChecker < StaticChecker
   end
 
   def visit_conditional(conditional)
-    unless [:boolean].include?(conditional.expression.accept(self))
+    unless [:boolean, :undefined].include?(conditional.expression.accept(self))
       @errors << Exception.new("Expression in condition not a boolean: #{conditional}.")
     end
 
@@ -32,7 +36,7 @@ class TypeChecker < StaticChecker
     lhs_type = expression.lhs.accept(self)
     rhs_type = expression.rhs.accept(self)
 
-    # return :undefined if lhs_type == :undefined || rhs_type == :undefined
+    return :undefined if lhs_type == :undefined || rhs_type == :undefined
 
     unless expression.possible_argument_types.include?(lhs_type)
       @errors << Exception.new("#{lhs_type} doesn't match any of #{expression.possible_argument_types} in #{expression}.")
@@ -42,9 +46,9 @@ class TypeChecker < StaticChecker
       @errors << Exception.new("#{rhs_type} doesn't match any of #{expression.possible_argument_types} in #{expression}.")
     end
 
-    unless lhs_type == rhs_type
-      @errors << Exception.new("#{expression.lhs} doesn't match type of #{expression.rhs}")
-    end
+    #unless lhs_type == rhs_type
+      #@errors << Exception.new("#{expression.lhs} doesn't match type of #{expression.rhs}")
+    #end
 
     expression.type
   end
