@@ -17,3 +17,12 @@ question
     value : question1 + question2
 end
 
+if question2 > 5 then
+    question
+        id : question10
+        text : "blah"
+        type : string
+    end
+end
+
+

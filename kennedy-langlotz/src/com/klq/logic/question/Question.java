@@ -89,6 +89,7 @@ public class Question implements IKLQItem{
             this.result = result; //need to call set() for observer!
         String newValue = result.evaluate().getContent();
         this.result.set(newValue);
+
         if (update)
             store.update(this);
     }
