@@ -1,8 +1,11 @@
 package gui;
 
+import interpreter.ValueRepository;
+import gui.trash.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,12 +42,12 @@ import ast.unary.MinusExpression;
 import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
 
-public class GUIVisitor implements IFormVisitor<Void> {
+public class GUIVisitor extends JPanel implements IFormVisitor<Void> {
 	private JPanel panel;
 	private IWidgetComponent c;
 	WidgetVisitor wv;
 	SimpleQuestionUI simp;
-	//private Widget widget;
+	ValueRepository valueRepository;
 	
 	public static JPanel maker(Form form) {
 		GUIVisitor visitor = new GUIVisitor();
@@ -71,9 +74,10 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	}
 	
 	//to be changed in widget
-	public void addWidget() { 
-		this.panel.add(c.getWidget(), "wrap");
+	public JComponent addWidget(IWidgetComponent co) { 
+		this.panel.add(co.getWidget(), "wrap");
 		this.panel.setVisible(true); //temporary
+		return panel;
 	}
 	
 	public void visibility(Boolean visibilityValue) {
@@ -85,7 +89,7 @@ public class GUIVisitor implements IFormVisitor<Void> {
 	@Override
 	public Void visit(Form form) {
 		for(Question q : form.getQuestionText())
-			q.accept(new Connector(this));
+			q.accept(this);
 		System.out.print("*  ");
 		//this.panel.setVisible(true);
 		return null;
@@ -97,11 +101,20 @@ public class GUIVisitor implements IFormVisitor<Void> {
 		return null;
 	}
 
+	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
+		return simpleQuestion.getQuestionType().accept(new WidgetVisitor( simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType(), valueRepository));
+		
+	}
 	@Override
 	public Void visit(SimpleQuestion simpleQuestion) {
+		getLabel(simpleQuestion.getQuestionText());
+		addWidget(widget(simpleQuestion));
 		//SimpleQuestionUI simp = new SimpleQuestionUI();
-		Connector conny = new Connector(this);
-		conny.widget(simpleQuestion);
+		//Connector conny = new Connector(this);
+		//conny.widget(simpleQuestion);
+		
+		//this.panel.add(conny.widget(simpleQuestion).getWidget());
+		System.out.print("Test: are you working or what");
 		//IQuestions q;
 		//this.panel.add(simp.createdLabel(), "wrap");
 		
@@ -123,7 +136,7 @@ public class GUIVisitor implements IFormVisitor<Void> {
 
 	@Override
 	public Void visit(ComputationQuestion calQuestion) {
-		getLabel(calQuestion.getQuestionText());
+	//	getLabel(calQuestion.getQuestionText());
 	//	addWidget(calQuestion.getQuestionId());
 	//	visibility(false);
 		return null;

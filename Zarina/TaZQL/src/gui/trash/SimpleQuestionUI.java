@@ -1,4 +1,4 @@
-package gui;
+package gui.trash;
 
 import gui.widgets.IWidgetComponent;
 
@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 
 import ast.question.IQuestions;
 
-public class SimpleQuestionUI extends IQuestions { //implements WidgetVisitor {
+public class SimpleQuestionUI extends IQuestions { 
 	private final String id, label;
 	private final IWidgetComponent wc;
 	

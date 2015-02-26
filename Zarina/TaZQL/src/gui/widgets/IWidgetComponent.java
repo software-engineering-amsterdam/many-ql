@@ -5,8 +5,6 @@ import ast.type.Type;
 
 public interface IWidgetComponent {
 	
-
-	//public abstract
 	public JComponent getWidget();  // textfield, radio etc.
 	public String getIdWidget();	// id
 	public Type getWidgetType();	// choice/digits/text

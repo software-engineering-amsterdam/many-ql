@@ -1,10 +1,8 @@
-package gui;
+package gui.trash;
 
+import gui.GUIVisitor;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
-
-import javax.swing.JLabel;
-
 import ast.question.ComputationQuestion;
 import ast.question.IQuestionVisitor;
 import ast.question.IQuestions;
@@ -15,6 +13,7 @@ import ast.question.SimpleQuestion;
 
 public class Connector implements  IQuestionVisitor<IQuestions>{
 	private final GUIVisitor gui;
+	WidgetVisitor wid;
 
 	public Connector(GUIVisitor gui) {
 		this.gui = gui;
@@ -22,11 +21,11 @@ public class Connector implements  IQuestionVisitor<IQuestions>{
 	
 	public void addStuff(SimpleQuestion q) {
 			this.gui.getLabel(q.getQuestionText());
-			System.out.print("Test: " + q.getQuestionText());
+			//System.out.print("Test: " + q.getQuestionText());
 	}
 	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
-		return simpleQuestion.getQuestionType().accept(new WidgetVisitor(simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType()));
-	
+		return simpleQuestion.getQuestionType().accept(new WidgetVisitor(gui, simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType()));
+		
 	}
 	
 	@Override
@@ -37,9 +36,14 @@ public class Connector implements  IQuestionVisitor<IQuestions>{
 
 	@Override
 	public SimpleQuestionUI visit(SimpleQuestion simpleQuestion) {
-		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId(),simpleQuestion.getQuestionText(), this.widget(simpleQuestion));
-		addStuff(simpleQuestion);
-		return sq;
+		//SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId(),simpleQuestion.getQuestionText(), this.widget(simpleQuestion));
+		//addStuff(simpleQuestion);
+		//wid.attachDamnWidget(simpleQuestion.getQuestionId());
+		//gui.add(widget(simpleQuestion).getWidget());
+		//gui.add(widget(simpleQuestion).getWidget()).setVisible(true);
+	//	gui.add(sq.getWc().getWidget());
+	//	gui.addWidget(widget(simpleQuestion));
+		return null;
 	}
 
 	@Override
