@@ -14,7 +14,7 @@ grammar Grammar;
 }
 
 form returns [Form result]
-	: 'form' ID '{' stmts=statementList {$result = new Form($ID.text,$stmts.result);}'}'
+	: 'form' ID '{' stmts=statementList {$result = new Form($ID.text,$stmts.result);}'}' 
 ;
 
 statementList returns [List<Statement> result]
