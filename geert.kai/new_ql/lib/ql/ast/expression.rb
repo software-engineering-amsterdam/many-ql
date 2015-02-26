@@ -21,10 +21,6 @@ module AST
     def initialize(value)
       @value = value
     end
-
-    def ==(other_value)
-      value == other_value
-    end
   end
 
   class IntegerLiteral < Literal

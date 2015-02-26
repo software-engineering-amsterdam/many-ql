@@ -5,12 +5,10 @@
 #
 
 require 'racc/parser.rb'
+require_relative '../ast/ast.rb'
+
 module QL
-  class Parser < Racc::Parser
-
-
-  require_relative '../../ql'
-  
+  class Parser < Racc::Parser  
 
   def initialize(tokenizer)
     @tokenizer = tokenizer

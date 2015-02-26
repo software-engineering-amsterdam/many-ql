@@ -1,4 +1,3 @@
-
 module AST
   class Node
     def accept(visitor)
