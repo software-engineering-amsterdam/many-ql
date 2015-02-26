@@ -24,7 +24,7 @@ class Question:
         self._answer.value = newAnswer
 
     def observeAnswerWith(self, callback):
-        self._answer.registerObsever(callback)
+        self._answer.registerObserver(callback)
 
     @property
     def visible(self):
@@ -35,7 +35,7 @@ class Question:
         self._visible.value = newVisibility
 
     def observeVisibilityWith(self, callback):
-        self._visible.registerObsever(callback)
+        self._visible.registerObserver(callback)
 
 
 class ComputedQuestion(Question):
