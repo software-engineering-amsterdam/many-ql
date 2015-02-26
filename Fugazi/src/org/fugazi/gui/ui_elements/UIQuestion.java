@@ -26,9 +26,4 @@ public abstract class UIQuestion extends Colleague {
     public IWidget getWidget() {
         return this.widget;
     }
-
-    @Override
-    public void receive(String message) {
-        // todo: YANGI?
-    }
 }
