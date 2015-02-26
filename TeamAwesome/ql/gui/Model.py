@@ -1,3 +1,5 @@
+from .Observable import Observable
+
 class Question:
     def __init__(
         self,
@@ -6,12 +8,8 @@ class Question:
         answer = None
     ):
         self._question = question
-        self._visible = visible
-        self._answer = answer
-        self._observers = []
-
-    def registerObserver(self, observer):
-        self._observers.append(observer)
+        self._visible = Observable(visible)
+        self._answer = Observable(answer)
 
     @property
     def question(self):
@@ -19,39 +17,25 @@ class Question:
 
     @property:
     def answer(self):
-        return self._answer
+        return self._answer.value
 
     @answer.setter:
     def answer(self, newAnswer):
-        oldAnswer = self.answer
-        self._answer = newAnswer
+        self._answer.value = newAnswer
 
-        if oldAnswer != newAnswer:
-            for observer in self._observers:
-                observer.answerChanged(self, oldAnswer, newAnswer)
+    def registerAnswerObserver(self, observer):
+        self._answer.registerObsever(observer)
 
     @property
     def visible(self):
-        return self._visible
+        return self._visible.value
 
     @visible.setter:
     def visible(self, newVisibility):
-        oldVisibility = self.visible
-        self._visible = newVisibility
+        self._visible.value = newVisibility
 
-        if oldAnswer != newAnswer:
-            for observer in self._observers:
-                observer.visibilityChanged(
-                    self, oldVisibility, newVisibility
-                )
-
-
-class QuestionObserver:
-    def answerChanged(question, oldAnswer, newAnswer):
-        pass
-
-    def visibilityChanged(question, oldVisibility, newVisibility):
-        pass
+    def registerVisibilityObserver(self, observer):
+        self._visible.registerObsever(observer)
 
 
 class ComputedQuestion(Question):
