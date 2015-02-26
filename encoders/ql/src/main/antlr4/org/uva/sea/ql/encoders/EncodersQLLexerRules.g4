@@ -4,6 +4,7 @@ DATATYPE      : ( BOOLEAN
                 | INTEGER 
                 | STRING 
                 | MONEY
+                | DATE
                 );
 
 BOOLEAN       : 'boolean';
@@ -11,7 +12,7 @@ INTEGER       : 'int';
 DECIMAL       : 'decimal';
 STRING        : 'string';
 MONEY         : 'money';
-DATE          : 'date';
+DATE          : 'datum';
 
 MULDIV: MUL | DIV;
 ADDSUB: ADD | SUB;
