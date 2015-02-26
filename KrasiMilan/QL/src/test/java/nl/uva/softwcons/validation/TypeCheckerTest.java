@@ -333,7 +333,7 @@ public class TypeCheckerTest {
     private static List<Error> getTypeCheckerValidationErrors(final String... formContents) {
         Form form = Questionnaire.build(TestHelper.buildForm("form1", formContents));
         TypeChecker checker = new TypeChecker();
-        form.getBody().accept(checker);
+        form.accept(checker);
 
         return checker.getErrors();
 

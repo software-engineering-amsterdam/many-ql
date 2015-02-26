@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nl.uva.softwcons.ast.FormVisitor;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
@@ -24,7 +25,7 @@ import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
-import nl.uva.softwcons.ast.statement.Block;
+import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
@@ -37,8 +38,7 @@ import nl.uva.softwcons.validation.typechecker.error.InvalidOperatorTypes;
 import nl.uva.softwcons.validation.typechecker.error.InvalidQuestionExpressionType;
 import nl.uva.softwcons.validation.typechecker.error.UndefinedReference;
 
-public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Type> {
-
+public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Type> {
     private final Environment env;
     private final List<Error> errorsFound;
 
@@ -48,13 +48,13 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Ty
     }
 
     @Override
-    public Type visit(final Block block) {
-        block.getStatements().forEach(st -> st.accept(this));
-        return Type.UNDEFINED;
+    public Void visitForm(final Form form) {
+        form.getStatements().forEach(st -> st.accept(this));
+        return null;
     }
 
     @Override
-    public Type visit(final ComputedQuestion computedQuestion) {
+    public Void visit(final ComputedQuestion computedQuestion) {
         defineQuestionInEnvironment(computedQuestion);
 
         final Type questionExpressionType = computedQuestion.getExpression().accept(this);
@@ -62,35 +62,18 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Ty
             this.errorsFound.add(new InvalidQuestionExpressionType());
         }
 
-        return Type.UNDEFINED;
+        return null;
     }
 
     @Override
-    public Type visit(final Question question) {
+    public Void visit(final Question question) {
         defineQuestionInEnvironment(question);
 
-        return Type.UNDEFINED;
-    }
-
-    /**
-     * Registers the given question in the current environment or adds a
-     * {@link DuplicateQuestion} error to the current errors list in case the
-     * variable has already been defined.
-     * 
-     * @param question
-     *            The question which should be defined in the current
-     *            environment
-     */
-    private void defineQuestionInEnvironment(final Question question) {
-        if (this.env.resolveVariable(question.getId()) == Type.UNDEFINED) {
-            this.env.defineVariable(question.getId(), question.getType());
-        } else {
-            this.errorsFound.add(new DuplicateQuestion());
-        }
+        return null;
     }
 
     @Override
-    public Type visit(final Conditional conditional) {
+    public Void visit(final Conditional conditional) {
         final Type conditionExprType = conditional.getCondition().accept(this);
         if (conditionExprType != Type.BOOLEAN) {
             this.errorsFound.add(new InvalidConditionType());
@@ -98,7 +81,7 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Ty
 
         conditional.getQuestions().forEach(q -> q.accept(this));
 
-        return Type.UNDEFINED;
+        return null;
     }
 
     @Override
@@ -271,6 +254,23 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Ty
     @Override
     public Type visit(DecimalLiteral expr) {
         return Type.DECIMAL;
+    }
+
+    /**
+     * Registers the given question in the current environment or adds a
+     * {@link DuplicateQuestion} error to the current errors list in case the
+     * variable has already been defined.
+     * 
+     * @param question
+     *            The question which should be defined in the current
+     *            environment
+     */
+    private void defineQuestionInEnvironment(final Question question) {
+        if (this.env.resolveVariable(question.getId()) == Type.UNDEFINED) {
+            this.env.defineVariable(question.getId(), question.getType());
+        } else {
+            this.errorsFound.add(new DuplicateQuestion());
+        }
     }
 
     private void validateExpressionType(final Expression node, final Type nodeType, final Type... allowedTypes) {

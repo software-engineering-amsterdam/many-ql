@@ -1,5 +1,6 @@
 package nl.uva.softwcons.eval;
 
+import nl.uva.softwcons.ast.FormVisitor;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
@@ -21,11 +22,10 @@ import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
-import nl.uva.softwcons.ast.statement.Block;
+import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
-import nl.uva.softwcons.ast.statement.Statement;
 import nl.uva.softwcons.ast.statement.StatementVisitor;
 import nl.uva.softwcons.eval.value.BooleanValue;
 import nl.uva.softwcons.eval.value.DecimalValue;
@@ -33,7 +33,7 @@ import nl.uva.softwcons.eval.value.IntegerValue;
 import nl.uva.softwcons.eval.value.StringValue;
 import nl.uva.softwcons.eval.value.Value;
 
-public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Void> {
+public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Value> {
 
     private FormAnswers answers;
 
@@ -42,10 +42,8 @@ public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Voi
     }
 
     @Override
-    public Void visit(Block block) {
-        for (Statement stat : block.getStatements()) {
-            stat.accept(this);
-        }
+    public Void visitForm(final Form form) {
+        form.getStatements().forEach(st -> st.accept(this));
         return null;
     }
 

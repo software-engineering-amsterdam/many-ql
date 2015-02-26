@@ -224,7 +224,7 @@ public class EvaluatorTest {
         answers.setValue(id2, new IntegerValue(2));
         Evaluator evaluator = new Evaluator(answers);
 
-        evaluator.visit(form.getBody());
+        form.accept(evaluator);
         assertThat(answers.getValue(id3)).isExactlyInstanceOf(IntegerValue.class);
         assertThat(answers.getValue(id3).getValue()).isEqualTo(new IntegerLiteral(3, DUMMY_LINE_INFO).getValue());
     }

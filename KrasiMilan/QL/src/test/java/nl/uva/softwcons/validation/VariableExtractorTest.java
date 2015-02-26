@@ -155,7 +155,7 @@ public class VariableExtractorTest {
         final String questionText = "question: \"Label\" boolean(" + expressionText + ")";
 
         final Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText));
-        final ComputedQuestion question = (ComputedQuestion) form.getBody().getStatements().get(0);
+        final ComputedQuestion question = (ComputedQuestion) form.getStatements().get(0);
 
         return question.getExpression();
     }

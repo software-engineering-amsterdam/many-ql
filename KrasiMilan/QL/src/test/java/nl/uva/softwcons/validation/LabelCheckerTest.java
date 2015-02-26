@@ -103,7 +103,7 @@ public class LabelCheckerTest {
     private static List<Error> getLabelCheckerValidationErrors(final String... formContents) {
         Form form = Questionnaire.build(TestHelper.buildForm("form1", formContents));
         LabelChecker checker = new LabelChecker();
-        form.getBody().accept(checker);
+        form.accept(checker);
 
         return checker.getErrors();
 
