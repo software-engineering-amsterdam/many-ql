@@ -46,6 +46,13 @@ public class GUIBuilder implements IMediator, IStatementVisitor<Void> {
         }
     }
 
+    private void removeQuestionToTheForm(UIQuestion _quest) {
+        if (formQuestions.containsKey(_quest.getId())) {
+            UIQuestion question = formQuestions.get(_quest.getId());
+            this.uiForm.removeQuestion(question);
+        }
+    }
+
     /**
      * Evaluation
      */
@@ -117,7 +124,7 @@ public class GUIBuilder implements IMediator, IStatementVisitor<Void> {
         ExpressionValue result =  this.evaluateComputedQuestion(_computedQuest);
         this.storage.saveValue(_computedQuest.getIdName(), result);
 
-        UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, storage.getRealValue(_computedQuest.getIdName()).toString());
+        UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
         this.addQuestionToTheForm(uiComputedQuestion);
         
         return null;

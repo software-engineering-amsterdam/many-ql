@@ -5,9 +5,6 @@ import org.fugazi.ast.expression.literal.ID;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lukaszharezlak on 23/02/15.
- */
 public class Dependency {
 
     private final ID dependee;
@@ -28,6 +25,5 @@ public class Dependency {
 
     public void addDependant(ID _dependant) {
         this.dependants.add(_dependant);
-        return;
     }
 }
