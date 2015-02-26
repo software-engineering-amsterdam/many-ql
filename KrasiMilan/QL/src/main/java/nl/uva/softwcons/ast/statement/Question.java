@@ -1,23 +1,22 @@
 package nl.uva.softwcons.ast.statement;
 
 import nl.uva.softwcons.ast.LineInfo;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.type.Type;
 
 public class Question extends Statement {
 
-    private String id;
+    private Identifier id;
     private String label;
     private Type type;
-    private LineInfo lineInfo;
 
-    public Question(final String id, final String label, final Type type, final LineInfo lineInfo) {
+    public Question(final Identifier id, final String label, final Type type) {
         this.id = id;
         this.label = label;
         this.type = type;
-        this.lineInfo = lineInfo;
     }
 
-    public String getId() {
+    public Identifier getId() {
         return id;
     }
 
@@ -36,7 +35,7 @@ public class Question extends Statement {
 
     @Override
     public LineInfo getLineInfo() {
-        return lineInfo;
+        return id.getLineInfo();
     }
 
 }

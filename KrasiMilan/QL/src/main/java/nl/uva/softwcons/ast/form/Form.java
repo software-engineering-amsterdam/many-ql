@@ -2,20 +2,19 @@ package nl.uva.softwcons.ast.form;
 
 import nl.uva.softwcons.ast.ASTNode;
 import nl.uva.softwcons.ast.LineInfo;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.statement.Block;
 
 public class Form implements ASTNode {
-    private String name;
+    private Identifier name;
     private Block body;
-    private LineInfo lineInfo;
 
-    public Form(final String name, final Block body, final LineInfo lineInfo) {
+    public Form(final Identifier name, final Block body) {
         this.name = name;
         this.body = body;
-        this.lineInfo = lineInfo;
     }
 
-    public String getName() {
+    public Identifier getName() {
         return name;
     }
 
@@ -25,7 +24,7 @@ public class Form implements ASTNode {
 
     @Override
     public LineInfo getLineInfo() {
-        return this.lineInfo;
+        return name.getLineInfo();
     }
 
 }

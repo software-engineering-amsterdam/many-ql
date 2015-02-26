@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.statement.Block;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
@@ -29,8 +30,8 @@ public class CyclicDependencyChecker implements StatementVisitor<Void> {
 
     @Override
     public Void visit(final ComputedQuestion question) {
-        final String questionIdentifier = question.getId();
-        final Set<String> expressionVariables = VariableExctractor.extractFrom(question.getExpression());
+        final Identifier questionIdentifier = question.getId();
+        final Set<Identifier> expressionVariables = VariableExctractor.extractFrom(question.getExpression());
 
         if (expressionVariables.contains(questionIdentifier)) {
             this.errorsFound.add(new CyclicQuestionsDependency());

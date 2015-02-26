@@ -15,6 +15,7 @@ import nl.uva.softwcons.ast.expression.binary.arithmetic.Subtraction;
 import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqual;
 import nl.uva.softwcons.ast.expression.binary.logical.And;
 import nl.uva.softwcons.ast.expression.binary.logical.Or;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
@@ -208,6 +209,10 @@ public class EvaluatorTest {
 
     @Test
     public void testAnswersValuesStorage() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Identifier id2 = new Identifier("id2", DUMMY_LINE_INFO);
+        final Identifier id3 = new Identifier("id3", DUMMY_LINE_INFO);
+
         String questionText1 = "id1: \"Label\" integer";
         String questionText2 = "id2: \"Label\" integer";
         String questionText3 = "id3: \"Label\" integer(id1 + id2)";
@@ -215,12 +220,12 @@ public class EvaluatorTest {
         Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText1, questionText2, questionText3));
         FormAnswers answers = new FormAnswers();
 
-        answers.setValue("id1", new IntegerValue(1));
-        answers.setValue("id2", new IntegerValue(2));
+        answers.setValue(id1, new IntegerValue(1));
+        answers.setValue(id2, new IntegerValue(2));
         Evaluator evaluator = new Evaluator(answers);
 
         evaluator.visit(form.getBody());
-        assertThat(answers.getValue("id3")).isExactlyInstanceOf(IntegerValue.class);
-        assertThat(answers.getValue("id3").getValue()).isEqualTo(new IntegerLiteral(3, DUMMY_LINE_INFO).getValue());
+        assertThat(answers.getValue(id3)).isExactlyInstanceOf(IntegerValue.class);
+        assertThat(answers.getValue(id3).getValue()).isEqualTo(new IntegerLiteral(3, DUMMY_LINE_INFO).getValue());
     }
 }

@@ -146,8 +146,8 @@ public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Voi
     }
 
     @Override
-    public Value visit(Identifier expr) {
-        return answers.getValue(expr.getName());
+    public Value visit(Identifier questionId) {
+        return answers.getValue(questionId);
     }
 
     @Override

@@ -55,33 +55,31 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public Form visitForm(FormContext ctx) {
-        final String formName = ctx.ID().getText();
+        final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final List<Statement> statements = ctx.statement().stream().map(st -> (Statement) st.accept(this))
                 .collect(Collectors.toList());
 
-        // TODO remove block and introduce identifier object
-        return new Form(formName, new Block(statements, null), extractLineInfo(ctx.ID().getSymbol()));
+        // TODO remove block
+        return new Form(id, new Block(statements, null));
     }
 
     @Override
     public Question visitSimpleQuestion(SimpleQuestionContext ctx) {
-        final String id = ctx.ID().getText();
+        final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
         final Type type = (Type) ctx.type().accept(this);
 
-        // TODO make id an identifier object
-        return new Question(id, label, type, extractLineInfo(ctx.ID().getSymbol()));
+        return new Question(id, label, type);
     }
 
     @Override
     public ComputedQuestion visitComputedQuestion(ComputedQuestionContext ctx) {
-        final String id = ctx.ID().getText();
+        final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
         final Type type = (Type) ctx.type().accept(this);
         final Expression value = (Expression) ctx.expr().accept(this);
 
-        // TODO make id an identifier object
-        return new ComputedQuestion(id, label, type, value, extractLineInfo(ctx.ID().getSymbol()));
+        return new ComputedQuestion(id, label, type, value);
     }
 
     @Override

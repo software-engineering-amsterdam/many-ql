@@ -24,7 +24,7 @@ public class ASTBuilderVisitorTest {
         Question question = (Question) form.getBody().getStatements().get(0);
 
         assertThat(form.getBody().getStatements().get(0)).isExactlyInstanceOf(Question.class);
-        assertThat(question.getId()).isEqualTo("question");
+        assertThat(question.getId().getName()).isEqualTo("question");
         assertThat(question.getLabel()).isEqualTo("Label");
     }
 
@@ -38,9 +38,9 @@ public class ASTBuilderVisitorTest {
 
         assertThat(form.getBody().getStatements()).hasSize(2);
         assertThat(form.getBody().getStatements()).hasOnlyElementsOfType(Question.class);
-        assertThat(question1.getId()).isEqualTo("question1");
+        assertThat(question1.getId().getName()).isEqualTo("question1");
         assertThat(question1.getLabel()).isEqualTo("Label 1");
-        assertThat(question2.getId()).isEqualTo("question2");
+        assertThat(question2.getId().getName()).isEqualTo("question2");
         assertThat(question2.getLabel()).isEqualTo("Label 2");
     }
 
@@ -64,7 +64,7 @@ public class ASTBuilderVisitorTest {
         ComputedQuestion question = (ComputedQuestion) form.getBody().getStatements().get(0);
 
         assertThat(form.getBody().getStatements().get(0)).isExactlyInstanceOf(ComputedQuestion.class);
-        assertThat(question.getId()).isEqualTo("question");
+        assertThat(question.getId().getName()).isEqualTo("question");
         assertThat(question.getLabel()).isEqualTo("Label");
         assertThat(question.getExpression()).isInstanceOf(Expression.class);
     }
@@ -79,10 +79,10 @@ public class ASTBuilderVisitorTest {
 
         assertThat(form.getBody().getStatements()).hasSize(2);
         assertThat(form.getBody().getStatements()).hasOnlyElementsOfType(ComputedQuestion.class);
-        assertThat(question1.getId()).isEqualTo("question1");
+        assertThat(question1.getId().getName()).isEqualTo("question1");
         assertThat(question1.getLabel()).isEqualTo("Label 1");
         assertThat(question1.getExpression()).isInstanceOf(Expression.class);
-        assertThat(question2.getId()).isEqualTo("question2");
+        assertThat(question2.getId().getName()).isEqualTo("question2");
         assertThat(question2.getLabel()).isEqualTo("Label 2");
         assertThat(question2.getExpression()).isInstanceOf(Expression.class);
     }

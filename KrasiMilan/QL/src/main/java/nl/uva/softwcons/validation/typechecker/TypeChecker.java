@@ -243,9 +243,8 @@ public class TypeChecker implements ExpressionVisitor<Type>, StatementVisitor<Ty
     }
 
     @Override
-    public Type visit(Identifier expr) {
-        final String variableName = expr.getName();
-        final Type variableType = this.env.resolveVariable(variableName);
+    public Type visit(Identifier questionId) {
+        final Type variableType = this.env.resolveVariable(questionId);
 
         if (variableType == Type.UNDEFINED) {
             this.errorsFound.add(new UndefinedReference());
