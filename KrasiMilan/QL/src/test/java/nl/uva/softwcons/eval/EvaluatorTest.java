@@ -56,6 +56,7 @@ public class EvaluatorTest {
         boolTrueLiteral = new BooleanLiteral(true, DUMMY_LINE_INFO);
         boolFalseLiteral = new BooleanLiteral(false, DUMMY_LINE_INFO);
 
+        // TODO add tests for strings
         strLiteral1 = new StringLiteral("string1", DUMMY_LINE_INFO);
         strLiteral2 = new StringLiteral("string2", DUMMY_LINE_INFO);
     }
