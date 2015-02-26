@@ -4,10 +4,14 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class I18n {
-    private static ResourceBundle MESSAGES = ResourceBundle.getBundle("locale.messages");
+public final class I18n {
 
-    public static String _i(final String originalStr, Object... params) {
+    private I18n() {
+    }
+
+    private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("locale.messages");
+
+    public static String i(final String originalStr, Object... params) {
         try {
             return MessageFormat.format(MESSAGES.getString(originalStr), params);
         } catch (MissingResourceException e) {

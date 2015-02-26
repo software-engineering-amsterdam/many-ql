@@ -2,7 +2,7 @@ package helper;
 
 import nl.uva.softwcons.ast.LineInfo;
 
-public class TestHelper {
+public final class TestHelper {
 
     private TestHelper() {
     }

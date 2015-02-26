@@ -27,7 +27,7 @@ import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 
-public class VariableExctractor implements ExpressionVisitor<Set<Identifier>> {
+public final class VariableExctractor implements ExpressionVisitor<Set<Identifier>> {
 
     private VariableExctractor() {
     }
