@@ -3,8 +3,8 @@ class Observable:
         self._value = value
         self._observers = []
 
-    def registerObserver(self, observer):
-        self._observers.append(observer)
+    def registerObserver(self, callback):
+        self._observers.append(callback)
 
     @property
     def value(self):
@@ -15,5 +15,5 @@ class Observable:
         oldValue = self.value
         self._value = newValue
 
-        for o in self._observers:
-            o(self, oldValue, newValue)
+        for observer in self._observers:
+            observer(self, oldValue, newValue)
