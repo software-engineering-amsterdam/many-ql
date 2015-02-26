@@ -12,14 +12,14 @@ class ObservableQuestionProperty(Observable):
 
 
 class Question:
-    def __init__(self, question, visible = True, answer = None):
-        self._question = question
+    def __init__(self, text, visible = True, answer = None):
+        self._text = text
         self._visible = ObservableQuestionProperty(self, visible)
         self._answer = ObservableQuestionProperty(self, answer)
 
     @property
-    def question(self):
-        return self._question
+    def text(self):
+        return self._text
 
     @property:
     def answer(self):
