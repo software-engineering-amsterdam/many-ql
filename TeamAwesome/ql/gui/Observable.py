@@ -15,5 +15,6 @@ class Observable:
         oldValue = self.value
         self._value = newValue
 
-        for observer in self._observers:
-            observer(self, oldValue, newValue)
+        if oldValue != newValue:
+            for observer in self._observers:
+                observer(self, oldValue, newValue)
