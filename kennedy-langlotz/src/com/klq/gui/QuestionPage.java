@@ -27,7 +27,6 @@ public class QuestionPage extends ScrollPane implements IStoreListener {
         questionToQuestionPaneMap = new HashMap<Question, QuestionPane>();
         vbox = new VBox(10);
         vbox.setPadding(new Insets(5));
-        //vbox.setStyle("-fx-background-color: #FFFFFF;");
         vbox.prefHeightProperty().bind(this.prefHeightProperty());
         vbox.setAlignment(Pos.TOP_RIGHT);
         this.setContent(vbox);

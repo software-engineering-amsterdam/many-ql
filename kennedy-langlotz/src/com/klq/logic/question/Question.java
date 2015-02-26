@@ -6,6 +6,13 @@ import com.klq.logic.expression.AExpression;
 import com.klq.logic.expression.terminal.Boolean;
 import com.klq.logic.expression.terminal.Date;
 import com.klq.logic.expression.terminal.Number;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.binding.StringExpression;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +28,7 @@ public class Question implements IKLQItem{
     private final Text text;
     private final List<AExpression> dependencies;
     private AExpression result;
+    private boolean computedQuestion;
 
     private Store store;
 
@@ -31,11 +39,17 @@ public class Question implements IKLQItem{
         this.text = text;
         dependencies = new ArrayList<AExpression>();
         this.store = null;
+        computedQuestion = false;
     }
 
     public Question(Id id, Type type, OptionSet options, Text text, AExpression result) {
         this (id, type, options, text);
         this.result = result;
+        computedQuestion = true;
+    }
+
+    public boolean isComputedQuestion() {
+        return computedQuestion;
     }
 
     public Id getId() {
@@ -54,7 +68,7 @@ public class Question implements IKLQItem{
         return text;
     }
 
-    public List<AExpression> getDependencies() {
+    public List<AExpression> getDependencyList() {
         return dependencies;
     }
 
@@ -70,9 +84,13 @@ public class Question implements IKLQItem{
         return true;
     }
 
-    public void setResult(AExpression result) {
-        this.result = result;
-        store.update();
+    public void setResult(AExpression result, boolean update) {
+        if (!computedQuestion)
+            this.result = result; //need to call set() for observer!
+        String newValue = result.evaluate().getContent();
+        this.result.set(newValue);
+        if (update)
+            store.update(this);
     }
 
     public AExpression getResult() {

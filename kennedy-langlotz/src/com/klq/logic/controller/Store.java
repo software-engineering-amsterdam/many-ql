@@ -4,7 +4,6 @@ import com.klq.gui.IStoreListener;
 import com.klq.logic.IKLQItem;
 import com.klq.logic.expression.AExpression;
 import com.klq.logic.expression.terminal.Identifier;
-import com.klq.logic.expression.util.Pair;
 import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
 
@@ -49,12 +48,21 @@ public class Store implements IKLQItem {
         return result;
     }
 
-    public void update() {  //gets called when age is set to 5, and is then already replaced.
-                            // when another 5 is typed, the expr is already evaluated.
+    public void update(Question updatedComputedQuestion){
         for (Question question : store.values()) {
-            List<AExpression> dependencies = question.getDependencies();
+            List<AExpression> dependencies = question.getDependencyList();
             for (AExpression dependency : dependencies) {
                 iterate(dependency);
+            }
+            //if computed question, evaluate
+            if (question.isComputedQuestion()) {
+                AExpression questionResult = iterate(question.getResult());
+                if (questionResult != null){
+                    if (question != updatedComputedQuestion)
+                        question.setResult(questionResult, true);
+                    else
+                       question.setResult(questionResult, false);
+                }
             }
         }
         updateListeners();
@@ -83,7 +91,7 @@ public class Store implements IKLQItem {
 
     private AExpression resolveIdentifier(AExpression id){
         if (id == null || id.getType() != AExpression.IDENTIFIER)
-            return null;
+            return id;
 
         Identifier identifier = (Identifier) id;
         Question question = store.get(getOrignialIdentifier(identifier.getContent()));

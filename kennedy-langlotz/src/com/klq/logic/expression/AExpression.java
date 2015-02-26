@@ -6,13 +6,15 @@ import com.klq.logic.expression.operator.math.Addition;
 import com.klq.logic.expression.operator.math.Division;
 import com.klq.logic.expression.operator.math.Multiplication;
 import com.klq.logic.expression.operator.math.Subtraction;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringPropertyBase;
 
 import java.lang.*;
 
 /**
  * Created by Timon on 17.02.2015.
  */
-public abstract class AExpression implements Comparable, IKLQItem{
+public abstract class AExpression extends StringPropertyBase implements Comparable, IKLQItem{
     public static final int ADD = -4;
     public static final int SUB = -3;
     public static final int MUL = -2;
@@ -47,6 +49,22 @@ public abstract class AExpression implements Comparable, IKLQItem{
 
     public java.lang.String getContent(){
         return null;
+    }
+
+    @Override
+    public String get() {
+        return (evaluate().getContent() != null ?
+                evaluate().getContent() : "---");
+    }
+
+    @Override
+    public String getName() {
+        return "Expression?";
+    }
+
+    @Override
+    public Object getBean() {
+        return this;
     }
 
     public int getType() {

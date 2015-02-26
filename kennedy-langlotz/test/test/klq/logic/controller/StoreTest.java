@@ -24,13 +24,13 @@ public class StoreTest {
         store.add(q2);
         store.add(q3);
 
-        assertTrue(q2.getDependencies().get(0) != Boolean.getTrue());
-        q1.setResult(new Number("18"));
-        assertTrue(q2.getDependencies().get(0) == Boolean.getTrue());
+        assertTrue(q2.getDependencyList().get(0) != Boolean.getTrue());
+        q1.setResult(new Number("18"), true);
+        assertTrue(q2.getDependencyList().get(0) == Boolean.getTrue());
 
-        AExpression var = q3.getDependencies().get(0);
+        AExpression var = q3.getDependencyList().get(0);
         assertTrue(var != Boolean.getTrue());
-        q2.setResult(Boolean.getTrue());
-        assertTrue(q3.getDependencies().get(0) == Boolean.getTrue());
+        q2.setResult(Boolean.getTrue(), true);
+        assertTrue(q3.getDependencyList().get(0) == Boolean.getTrue());
     }
 }

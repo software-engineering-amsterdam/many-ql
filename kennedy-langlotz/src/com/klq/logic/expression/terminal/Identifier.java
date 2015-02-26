@@ -30,6 +30,9 @@ public class Identifier extends AExpression {
     }
 
     public void assignVariable(AExpression variable){
-        this.assignedVariable = variable;
+        if (variable != null) {
+            this.assignedVariable = variable;
+            fireValueChangedEvent();
+        }
     }
 }

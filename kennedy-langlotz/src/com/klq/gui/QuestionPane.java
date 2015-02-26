@@ -7,9 +7,11 @@ import com.klq.logic.question.Type;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
@@ -32,6 +34,7 @@ public class QuestionPane extends GridPane {
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
     private final double MIN_HEIGHT = 50;
     private final double EFFECT_DURATION = 500;
+    private TextField computedField;
 
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
@@ -42,24 +45,35 @@ public class QuestionPane extends GridPane {
         super();
         this.question = question;
         createQuestionLabel(question.getText().toString());
-        switch (question.getType()) {
-            case SET:
-            case BOOLEAN:
-                createAnswerSetPane(question.getOptions());
-                break;
-            case DATE:
-                createDatePicker(question.getOptions());
-                break;
-            case NUMERAL:
-            case STRING:
-                createTextField(question.getOptions(), question.getType());
-                break;
-        }
         this.setVgap(5);
         this.setPadding(new Insets(5));
         this.setBorder(createBorder());
         this.setBackground(createBackground());
         this.setMinHeight(MIN_HEIGHT);
+        if (question.isComputedQuestion()){
+            computedField = new TextField();
+            computedField.textProperty().bind(question.getResult().evaluate());
+            computedField.setEditable(false);
+            this.getChildren().add(computedField);
+            this.setConstraints(computedField, 0, 1);
+            return;
+        }
+
+        switch (question.getType()) {
+            case SET:
+                createAnswerSetPane(question.getOptions());
+                break;
+            case BOOLEAN:
+                createAnswerSetPane(OptionSet.createAnswerSet(Type.BOOLEAN));
+                break;
+            case DATE:
+                createDatePicker();
+                break;
+            case NUMERAL:
+            case STRING:
+                createTextField(question.getType());
+                break;
+        }
     }
 
     public void show(){
@@ -104,7 +118,7 @@ public class QuestionPane extends GridPane {
         group.selectedToggleProperty().addListener(onToggleChanged());
     }
 
-    private void createDatePicker(OptionSet optionSet){
+    private void createDatePicker(){
         Label dateLabel = new Label("Please select a date:");
         dateLabel.setWrapText(true);
         this.getChildren().add(dateLabel);
@@ -112,8 +126,8 @@ public class QuestionPane extends GridPane {
 
         LocalDate lDate = LocalDate.now();
         final DatePicker datePicker = new DatePicker(lDate);
-        if (optionSet != null && optionSet.size() != 0){
-            lDate = LocalDate.parse(optionSet.get(0).toString());
+        if (question.isComputedQuestion()){
+            //lDate = LocalDate.parse(optionSet.get(0).toString());
             datePicker.setEditable(false);
             datePicker.getEditor().setEditable(false);
             //TODO disable button somehow
@@ -124,14 +138,13 @@ public class QuestionPane extends GridPane {
         this.setConstraints(datePicker, 0, 2);
     }
 
-    private void createTextField(OptionSet optionSet, Type questionType){
+    private void createTextField(Type questionType){
         final TextField input = new TextField();
 
-        if (optionSet != null) {
-            input.setText(optionSet.get(0).toString());
+        if (question.isComputedQuestion()) {
             input.setEditable(false);
         } else {
-            input.setOnMouseClicked(highlightHandler(input));
+            input.focusedProperty().addListener(highlightHandler(input));
         }
 
         input.textProperty().addListener(createInputListener(questionType, input));
@@ -173,18 +186,22 @@ public class QuestionPane extends GridPane {
 
     private void questionAnswered(String result) {
         AExpression expr = Question.createTerminalFromString(question, result);
-        question.setResult(expr);
+        question.setResult(expr, true);
         if (question.dependenciesResolved())
             show();
         else
             hide();
     }
 
-    private EventHandler<MouseEvent> highlightHandler(final TextField input){
-        return new EventHandler<MouseEvent>() {
+    private ChangeListener<Boolean> highlightHandler(final TextField input){
+        return new ChangeListener<Boolean>() {
             @Override
-            public void handle(MouseEvent event) {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                //TODO doesn't work yet!
+                if (!oldValue)
+                    input.requestFocus();
                 input.selectAll();
+
             }
         };
     }
