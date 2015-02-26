@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -20,6 +24,8 @@ import javafx.stage.Stage;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.model.UIQuestion;
+import org.uva.sea.ql.encoders.model.UIQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
@@ -43,10 +49,13 @@ public class QLUI extends Application {
 		scrollPane.setPrefSize(550, 275);
 
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
+		AstTransformer astTransformer = new AstTransformer();
 		try {
 			Questionnaire questionnaire = questionnaireParsingService
 					.parse("src/main/resources/input_form.ql");
-			setUpQuestionnaireUI(questionnaire, grid);
+			UIQuestionnaire uiQuestionnaire = astTransformer
+					.transform(questionnaire);
+			setUpQuestionnaireUI(uiQuestionnaire, grid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,29 +65,68 @@ public class QLUI extends Application {
 		primaryStage.show();
 	}
 
-	private void setUpQuestionnaireUI(Questionnaire questionnaire, GridPane grid) {
+	private void setUpQuestionnaireUI(UIQuestionnaire questionnaire,
+			GridPane grid) {
 		Text scenetitle = new Text(questionnaire.getName());
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		List<Question> questions = questionnaire.getQuestions();
+		List<UIQuestion> questions = questionnaire.getQuestions();
 		int y = 1;
-		for (Question question : questions) {
+		for (UIQuestion uiQuestion : questions) {
+			Question question = uiQuestion.getQuestion();
 			DataType dataType = question.getDataType();
+			grid.add(new Label(question.getQuestionText()), 0, y);
 			switch (dataType) {
 			case BOOLEAN:
-				grid.add(new Label(question.getQuestionText()), 0, y);
-				grid.add(new CheckBox("Yes"), 1, y);
+				CheckBox checkBox = new CheckBox("Yes");
+				checkBox.setOnAction(new CheckBoxEventHandler(uiQuestion));
+				grid.add(checkBox, 1, y);
 				break;
+			case DATUM:
+				DatePicker datePicker = new DatePicker();
+				grid.add(datePicker, 1, y);
+				break;
+			case STRING:
+			case INTEGER:
+			case DECIMAL:
 			case MONEY:
-				grid.add(new Label(question.getQuestionText()), 0, y);
 				TextField textField = new TextField();
+				textField.setOnKeyReleased(new TextFieldHandler(uiQuestion));
 				grid.add(textField, 1, y);
 				break;
 			default:
 				throw new IllegalStateException("Unsupported type: " + dataType);
 			}
 			y++;
+		}
+	}
+
+	private class TextFieldHandler implements EventHandler<Event> {
+		private UIQuestion question;
+
+		public TextFieldHandler(UIQuestion question) {
+			this.question = question;
+		}
+
+		@Override
+		public void handle(Event event) {
+			TextField textField = (TextField) event.getSource();
+			question.setValue(textField.getText());
+		}
+	}
+
+	private class CheckBoxEventHandler implements EventHandler<ActionEvent> {
+		private UIQuestion question;
+
+		public CheckBoxEventHandler(UIQuestion question) {
+			this.question = question;
+		}
+
+		@Override
+		public void handle(ActionEvent event) {
+			CheckBox checkBox = (CheckBox) event.getSource();
+			question.setValue(checkBox.isSelected());
 		}
 	}
 }
