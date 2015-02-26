@@ -1,5 +1,6 @@
 package edu.parser
 
+import edu.Main
 import edu.parser.nodes.Form
 import spock.lang.Specification
 
@@ -7,7 +8,7 @@ import spock.lang.Specification
  * Created by Steven Kok on 17/02/2015.
  */
 class AntlrParserTest extends Specification {
-    public static final String PATH_TO_INPUT_FILE = "src/test/resources/antlr/input/"
+    public static final String PATH_TO_INPUT_FILE = Main.PATH_TO_INPUT_FILES
     AntlrParser parseTreeWalker
 
     def setup() {

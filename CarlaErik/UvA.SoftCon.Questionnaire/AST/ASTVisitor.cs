@@ -12,53 +12,61 @@ using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.AST
 {
-    public abstract class ASTVisitor : IASTVisitor
+    public abstract class ASTVisitor<T> : IASTVisitor<T>
     {
-        public virtual void Visit(Form form)
+        public virtual T Visit(Form form)
         {
             foreach (var statement in form.Statements)
             {
                 statement.Accept(this);
             }
+            return default(T);
         }
 
-        public virtual void Visit(Identifier identifier)
+        public virtual T Visit(Identifier identifier)
         {
+            return default(T);
         }
 
-        public virtual void Visit(BooleanLiteral literal)
+        public virtual T Visit(BooleanLiteral literal)
         {
+            return default(T);
         }
 
-        public virtual void Visit(IntegerLiteral literal)
+        public virtual T Visit(IntegerLiteral literal)
         {
+            return default(T);
         }
 
-        public virtual void Visit(StringLiteral literal)
+        public virtual T Visit(StringLiteral literal)
         {
+            return default(T);
         }
 
-        public virtual void Visit(Question question)
+        public virtual T Visit(Question question)
         {
             question.Id.Accept(this);
+            return default(T);
         }
 
-        public virtual void Visit(Declaration declaration)
+        public virtual T Visit(Declaration declaration)
         {
             declaration.Id.Accept(this);
             if (declaration.Initialization != null)
             {
                 declaration.Initialization.Accept(this);
             }
+            return default(T);
         }
 
-        public virtual void Visit(Assignment assignment)
+        public virtual T Visit(Assignment assignment)
         {
             assignment.Variable.Accept(this);
             assignment.Expression.Accept(this);
+            return default(T);
         }
 
-        public virtual void Visit(IfStatement ifStatement)
+        public virtual T Visit(IfStatement ifStatement)
         {
             ifStatement.If.Accept(this);
             foreach (var statement in ifStatement.Then)
@@ -69,87 +77,90 @@ namespace UvA.SoftCon.Questionnaire.AST
             {
                 statement.Accept(this);
             }
+            return default(T);
         }
 
-        public void Visit(Add add)
+        public virtual T Visit(Add add)
         {
-            VisitBinaryExpression(add);
+            return VisitBinaryExpression(add);
         }
 
-        public void Visit(And and)
+        public virtual T Visit(And and)
         {
-            VisitBinaryExpression(and);
+            return VisitBinaryExpression(and);
         }
 
-        public void Visit(Divide divide)
+        public virtual T Visit(Divide divide)
         {
-            VisitBinaryExpression(divide);
+            return VisitBinaryExpression(divide);
         }
 
-        public void Visit(EqualTo equalTo)
+        public virtual T Visit(EqualTo equalTo)
         {
-            VisitBinaryExpression(equalTo);
+            return VisitBinaryExpression(equalTo);
         }
 
-        public void Visit(GreaterThan greaterThan)
+        public virtual T Visit(GreaterThan greaterThan)
         {
-            VisitBinaryExpression(greaterThan);
+            return VisitBinaryExpression(greaterThan);
         }
 
-        public void Visit(GreaterThanOrEqualTo greaterThanOrEqualTo)
+        public virtual T Visit(GreaterThanOrEqualTo greaterThanOrEqualTo)
         {
-            VisitBinaryExpression(greaterThanOrEqualTo);
+            return VisitBinaryExpression(greaterThanOrEqualTo);
         }
 
-        public void Visit(LessThan lessThan)
+        public virtual T Visit(LessThan lessThan)
         {
-            VisitBinaryExpression(lessThan);
+            return VisitBinaryExpression(lessThan);
         }
 
-        public void Visit(LessThanOrEqualTo lessThanOrEqualTo)
+        public virtual T Visit(LessThanOrEqualTo lessThanOrEqualTo)
         {
-            VisitBinaryExpression(lessThanOrEqualTo);
+            return VisitBinaryExpression(lessThanOrEqualTo);
         }
 
-        public void Visit(Multiply multiply)
+        public virtual T Visit(Multiply multiply)
         {
-            VisitBinaryExpression(multiply);
+            return VisitBinaryExpression(multiply);
         }
 
-        public void Visit(NotEqualTo notEqualTo)
+        public virtual T Visit(NotEqualTo notEqualTo)
         {
-            VisitBinaryExpression(notEqualTo);
+            return VisitBinaryExpression(notEqualTo);
         }
 
-        public void Visit(Or or)
+        public virtual T Visit(Or or)
         {
-            VisitBinaryExpression(or);
+            return VisitBinaryExpression(or);
         }
 
-        public void Visit(Substract substract)
+        public virtual T Visit(Substract substract)
         {
-            VisitBinaryExpression(substract);
+            return VisitBinaryExpression(substract);
         }
 
-        public void Visit(Negation negation)
+        public virtual T Visit(Negation negation)
         {
-            VisitUnaryExpression(negation);
+            return VisitUnaryExpression(negation);
         }
 
-        public void Visit(Increment increment)
+        public virtual T Visit(Increment increment)
         {
-            VisitUnaryExpression(increment);
+            return VisitUnaryExpression(increment);
         }
 
-        private void VisitBinaryExpression(BinaryExpression expression)
+        private T VisitBinaryExpression(BinaryExpression expression)
         {
             expression.Left.Accept(this);
             expression.Right.Accept(this);
+            return default(T);
         }
 
-        private void VisitUnaryExpression(UnaryExpression expression)
+        private T VisitUnaryExpression(UnaryExpression expression)
         {
             expression.Operand.Accept(this);
+            return default(T);
         }
     }
 }

@@ -7,25 +7,25 @@ import java.util.stream.Collectors;
 
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.AdditionExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.DivisionExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.SubtractionExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.EqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThanExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.LowerOrEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.LowerThanExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.NotEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.logical.AndExpression;
-import nl.uva.softwcons.ast.expression.binary.logical.OrExpression;
-import nl.uva.softwcons.ast.expression.identifier.IdentifierExpression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Subtraction;
+import nl.uva.softwcons.ast.expression.binary.comparison.Equal;
+import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqual;
+import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThan;
+import nl.uva.softwcons.ast.expression.binary.comparison.LowerOrEqual;
+import nl.uva.softwcons.ast.expression.binary.comparison.LowerThan;
+import nl.uva.softwcons.ast.expression.binary.comparison.NotEqual;
+import nl.uva.softwcons.ast.expression.binary.logical.And;
+import nl.uva.softwcons.ast.expression.binary.logical.Or;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
-import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
+import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.Block;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
@@ -100,29 +100,29 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
         switch (ctx.op.getText()) {
         case "*":
-            return new MultiplicationExpression(leftExpression, rightExpression);
+            return new Multiplication(leftExpression, rightExpression);
         case "/":
-            return new DivisionExpression(leftExpression, rightExpression);
+            return new Division(leftExpression, rightExpression);
         case "-":
-            return new SubtractionExpression(leftExpression, rightExpression);
+            return new Subtraction(leftExpression, rightExpression);
         case "+":
-            return new AdditionExpression(leftExpression, rightExpression);
+            return new Addition(leftExpression, rightExpression);
         case "&&":
-            return new AndExpression(leftExpression, rightExpression);
+            return new And(leftExpression, rightExpression);
         case "||":
-            return new OrExpression(leftExpression, rightExpression);
+            return new Or(leftExpression, rightExpression);
         case "<":
-            return new LowerThanExpression(leftExpression, rightExpression);
+            return new LowerThan(leftExpression, rightExpression);
         case "<=":
-            return new LowerOrEqualExpression(leftExpression, rightExpression);
+            return new LowerOrEqual(leftExpression, rightExpression);
         case "==":
-            return new EqualExpression(leftExpression, rightExpression);
+            return new Equal(leftExpression, rightExpression);
         case "!=":
-            return new NotEqualExpression(leftExpression, rightExpression);
+            return new NotEqual(leftExpression, rightExpression);
         case ">=":
-            return new GreaterOrEqualExpression(leftExpression, rightExpression);
+            return new GreaterOrEqual(leftExpression, rightExpression);
         case ">":
-            return new GreaterThanExpression(leftExpression, rightExpression);
+            return new GreaterThan(leftExpression, rightExpression);
         default:
             throw new IllegalArgumentException("Unsupported operator in expression.");
         }
@@ -130,7 +130,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public UnaryExpression visitNotExpr(NotExprContext ctx) {
-        return new NotExpression((Expression) ctx.expr().accept(this));
+        return new Not((Expression) ctx.expr().accept(this));
     }
 
     @Override
@@ -159,7 +159,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public IdentifierExpression visitId(IdContext ctx) {
-        return new IdentifierExpression(ctx.ID().getText());
+    public Identifier visitId(IdContext ctx) {
+        return new Identifier(ctx.ID().getText());
     }
 }

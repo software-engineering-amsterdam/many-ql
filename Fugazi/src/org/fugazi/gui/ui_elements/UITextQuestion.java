@@ -3,7 +3,7 @@ package org.fugazi.gui.ui_elements;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.evaluator.expression_value.StringValue;
-import org.fugazi.gui.UIMediator;
+import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.widgets.TextBox;
 
 import javax.swing.event.DocumentEvent;
@@ -13,7 +13,7 @@ public class UITextQuestion extends UIQuestion {
 
     private String value;
     
-    public UITextQuestion(UIMediator _med, Question _question) {
+    public UITextQuestion(IMediator _med, Question _question) {
         super(_med, _question);
         this.value = ""; // default
 
@@ -34,9 +34,6 @@ public class UITextQuestion extends UIQuestion {
             }
             public void changedUpdate(DocumentEvent e) {}
         });
-
-        // Todo: get initial form state OR get undefined value when no default
-        this.sendToMediator();
     }
 
     public void setState(String _value) {

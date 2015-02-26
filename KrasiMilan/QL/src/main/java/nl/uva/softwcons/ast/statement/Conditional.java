@@ -8,6 +8,7 @@ public class Conditional extends Statement {
 
     private Expression condition;
     private List<Question> questions;
+    private String id;
 
     public Conditional(final Expression condition, final List<Question> questions) {
         this.condition = condition;
@@ -25,5 +26,9 @@ public class Conditional extends Statement {
 
     public List<Question> getQuestions() {
         return questions;
+    }
+
+    public String getId() {
+        return this.id;
     }
 }

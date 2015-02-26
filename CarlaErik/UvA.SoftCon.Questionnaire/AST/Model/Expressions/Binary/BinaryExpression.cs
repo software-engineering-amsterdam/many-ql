@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.AST.Types;
 using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
@@ -38,8 +37,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
         }
 
         public abstract DataType? GetType(IDictionary<string, DataType> symbolTable);
-
-        public abstract IValue Evaluate(IDictionary<string, IValue> environment);
 
         public override string ToString()
         {

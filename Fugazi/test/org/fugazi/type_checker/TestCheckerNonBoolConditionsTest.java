@@ -1,6 +1,5 @@
 package org.fugazi.type_checker;
 
-import com.sun.tools.javac.code.Type;
 import org.fugazi.type_checker.error.ASTNodeError;
 import org.fugazi.type_checker.error.ASTNodeErrorType;
 import org.junit.Before;
