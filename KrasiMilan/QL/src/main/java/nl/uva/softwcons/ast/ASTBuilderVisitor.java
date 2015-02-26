@@ -46,7 +46,6 @@ import nl.uva.softwcons.generated.QLParser.NotExprContext;
 import nl.uva.softwcons.generated.QLParser.ParenthesisContext;
 import nl.uva.softwcons.generated.QLParser.SimpleQuestionContext;
 import nl.uva.softwcons.generated.QLParser.StringContext;
-import nl.uva.softwcons.generated.QLParser.TypeContext;
 import nl.uva.softwcons.util.Utils;
 
 import org.antlr.v4.runtime.Token;
@@ -67,7 +66,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     public Question visitSimpleQuestion(SimpleQuestionContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
-        final Type type = (Type) ctx.type().accept(this);
+        final Type type = Type.valueOf(ctx.type().getText().toUpperCase(Locale.ENGLISH));
 
         return new Question(id, label, type);
     }
@@ -76,7 +75,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     public ComputedQuestion visitComputedQuestion(ComputedQuestionContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
-        final Type type = (Type) ctx.type().accept(this);
+        final Type type = Type.valueOf(ctx.type().getText().toUpperCase(Locale.ENGLISH));
         final Expression value = (Expression) ctx.expr().accept(this);
 
         return new ComputedQuestion(id, label, type, value);
@@ -89,11 +88,6 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
                 .collect(Collectors.toList());
 
         return new Conditional(condition, questions);
-    }
-
-    @Override
-    public Type visitType(TypeContext ctx) {
-        return Type.valueOf(ctx.getText().toUpperCase(Locale.ENGLISH));
     }
 
     @Override
