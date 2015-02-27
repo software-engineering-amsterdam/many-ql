@@ -12,4 +12,5 @@ public interface IWidgetComponent {
 	public boolean visibility();	// visibility of components...not sure yet
 	public void addDocListener();
 	public String getValue();			// inserted text (String to be changed in something neutral later)
+	public void setValue(String value);
 }

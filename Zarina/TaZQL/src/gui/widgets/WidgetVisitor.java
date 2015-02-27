@@ -12,13 +12,13 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
 	private final String id, label;
 	private final Type type;
-	private final ValueRepository valueRepository; 
+//	private final ValueRepository valueRepository; 
 	
-	public WidgetVisitor(String id, String label, Type type, ValueRepository valueRepository) {
+	public WidgetVisitor(String id, String label, Type type) { //, ValueRepository valueRepository) {
 		this.id = id;
 		this.label = label;
 		this.type = type;
-		this.valueRepository = valueRepository;
+	//	this.valueRepository = valueRepository;
 	}
 	
 	@Override
