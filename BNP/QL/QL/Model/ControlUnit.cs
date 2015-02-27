@@ -13,7 +13,9 @@ namespace QL.Model
         {
             get
             {
-                return (Expression) Children[0];
+                if (Children.Count > 0)
+                { return (Expression)Children[0]; }
+                else { return null; }
             }
             set
             {
@@ -32,9 +34,9 @@ namespace QL.Model
 
         public Block ConditionTrueBlock{
             get{
-                if (Children.Count() == 2)
+                if (Children.Count() >2)
                 {
-                    return (Block)Children[1];
+                    return (Block)(Children[1]);
                 }
                 else
                 {
@@ -117,6 +119,17 @@ namespace QL.Model
         public ControlUnit()
         {
             Children= new List<ElementBase>(3);            
+        }
+
+        public void HandleChildren(Expression e, Block trueBlock)
+        {
+            Expression = e;
+            ConditionTrueBlock = trueBlock;
+        }
+        public void HandleChildren(Expression e, Block trueBlock, Block falseBlock)
+        {
+            HandleChildren(e, trueBlock);
+            ConditionFalseBlock = falseBlock;
         }
 
       

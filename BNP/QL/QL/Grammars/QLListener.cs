@@ -9,6 +9,7 @@ using System.Diagnostics;
 using QL.Model.Terminals;
 using QL.Factories;
 using Antlr4.Runtime;
+using QL.Model.Operators;
 
 
 namespace QL.Grammars
@@ -37,7 +38,10 @@ namespace QL.Grammars
         private IList<ElementBase> GetChildren()
         {
             Debug.Assert(_childrenStack.Any(), "Level with children should be always initialized before appending one.");//TODO maybe throw it out
-            return _childrenStack.Pop().ToList();
+            IList<ElementBase> e = _childrenStack.Pop().ToList();
+            //stack has opposite ordering, need to be reversed to have the order as it was created.           
+            IList<ElementBase> reversed = e.Reverse().ToList();
+            return reversed;
         }
 
         private void AppendToAST(ElementBase newChild)
@@ -46,6 +50,7 @@ namespace QL.Grammars
             if (_childrenStack.Any())
             {
                 Stack<ElementBase> siblings = _childrenStack.Peek();
+                
                 siblings.Push(newChild);
             }
             else
@@ -163,28 +168,19 @@ namespace QL.Grammars
         IList<ElementBase> children = GetChildren();
 
         ControlUnit controlUnit = new ControlUnit();
-        
-
-        controlUnit.Expression = (Expression) children[0];
-        controlUnit.ConditionTrueBlock = (Block) children[1];
-            if (children.Count()==3)
-            {
-                controlUnit.ConditionFalseBlock = (Block)children[2];
-            }
+        Debug.Assert(children.Count() == 2 || children.Count() == 3, "Bad number of controlUnit children");
+        if (children.Count()==3)
+        {
+            controlUnit.HandleChildren((Expression)children[0], (Block)children[1], (Block)children[2]);                
+        }
+        else if (children.Count() ==2)
+        {
+            controlUnit.HandleChildren((Expression)children[0], (Block)children[1]);
+        }
         
         AppendToAST(controlUnit);
         }
-       
-        public override void EnterOperator(QLParser.OperatorContext context)
-        {
-            InitializeNewLevel();
-            
-        }
-        public override void ExitOperator(QLParser.OperatorContext context)
-        {
-            
-            //TODO
-        }
+               
 
         public override void EnterLiteral(QLParser.LiteralContext context)
         {
@@ -193,8 +189,46 @@ namespace QL.Grammars
         }
         public override void ExitLiteral(QLParser.LiteralContext context)
         {
-            
-            //TODO
+            IList<ElementBase> children = GetChildren();
+
+            if (context.YESNO() != null)
+            {
+
+                Yesno literal = new Yesno();
+                literal.Value = context.YESNO().ToString()=="yes"?true:false;
+                AppendToAST(literal);
+
+
+            }
+            else if (context.NUMBER() != null) {
+                Number literal = new Number();
+                literal.Value = Int32.Parse(context.NUMBER().ToString());
+                AppendToAST(literal);
+
+                }
+            else if (context.IDENTIFIER() != null) {
+                //todo assign not to value but just pointer probably, value will be determined later
+                Identifier literal = new Identifier();
+                literal.PointerName = context.IDENTIFIER().ToString();
+                AppendToAST(literal);
+
+            }
+            else if (context.TEXT() != null)
+            {
+                Text literal = new Text();
+                literal.Value = context.TEXT().ToString();
+
+                AppendToAST(literal);
+
+
+            }
+            else {
+                Debug.Assert(children.Count()>0, " children of a literal are  not empty" );
+            }
+            ;
+
+
+
         }
 
         public override void EnterExpression(QLParser.ExpressionContext context)
@@ -205,8 +239,10 @@ namespace QL.Grammars
         }
         public override void ExitExpression(QLParser.ExpressionContext context)
         {
-
-            AppendToAST(new Expression());
+            IList<ElementBase> children = GetChildren();
+            Expression e = new Expression();
+            e.HandleChildren(children);
+            AppendToAST(e);
 
             //TODO
         }

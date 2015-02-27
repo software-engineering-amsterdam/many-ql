@@ -15,6 +15,6 @@ namespace QL.Model.Terminals
             
             return Value.ToString();
         }
-
+        public Number(){}
     }
 }

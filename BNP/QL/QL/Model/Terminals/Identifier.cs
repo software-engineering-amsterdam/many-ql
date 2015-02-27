@@ -5,6 +5,7 @@ namespace QL.Model.Terminals
     public class Identifier : BinaryTreeElementBase, ITerminal<string>
     {
         public string Value { get; private set; }
+        public string PointerName;
 
         public override string ToString()
         {
@@ -19,6 +20,11 @@ namespace QL.Model.Terminals
         public Identifier(string value)
         {
             Value = value;
+        }
+
+        public Identifier()
+        {
+            // TODO: Complete member initialization
         }
     }
 }

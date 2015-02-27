@@ -11,6 +11,27 @@ namespace Tests.AstBuilderTests
     public class AstBuilderTests : QLTestBase
     {
         protected QLListener Listener;
+        
+        [TestMethod]
+        public void ControlUnitConstruction()
+        {
+            ControlUnit c = new ControlUnit();
+            Expression e = new Expression();
+            Block tb = new Block();
+            Block fb = new Block();
+
+            Assert.IsNull(c.Expression);
+            Assert.IsNull(c.ConditionFalseBlock);
+            Assert.IsNull(c.ConditionTrueBlock);
+
+
+            c.Expression = e;
+            c.ConditionTrueBlock = tb;
+            c.ConditionFalseBlock = fb;
+            Assert.AreEqual(c.Children.Count, 3);
+
+        }
+        
 
         [TestMethod]
         public void ControlBlockChildrenAssignment()
@@ -30,7 +51,7 @@ namespace Tests.AstBuilderTests
 
             Parser.AddParseListener(Listener);
             var formBlock = Parser.formBlock();
-            Listener.AstExists();
+            Assert.IsTrue(Listener.AstExists());
 
         }
     }
