@@ -11,7 +11,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime
 {
     public class RuntimeController
     {
-        public ErrorReportBuilder Validate(Form form)
+        public ErrorReport Validate(Form form)
         {
             if (form == null) { throw new ArgumentNullException("form"); }
 
@@ -23,11 +23,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime
             //duplicateLabelVisitor.Visit(form);
             typeCheckingVisitor.Visit(form);
 
-            var errorReport = new ErrorReportBuilder();
+            var errorReport = new ErrorReport();
 
-            errorReport.GenerateVariableUsageMessages(variableUsageVisitor);
-            errorReport.GenerateDuplicateLabelMessages(duplicateLabelVisitor);
-            errorReport.GenerateTypeCheckingMessages(typeCheckingVisitor);
+            errorReport.AddVariableUsageMessages(variableUsageVisitor);
+            errorReport.AddDuplicateLabelMessages(duplicateLabelVisitor);
+            errorReport.AddTypeCheckingMessages(typeCheckingVisitor);
 
             return errorReport;
         }

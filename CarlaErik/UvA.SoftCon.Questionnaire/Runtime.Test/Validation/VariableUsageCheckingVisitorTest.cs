@@ -80,8 +80,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
 
             visitor.Visit(form);
 
-            var errorReportBuilder = new ErrorReportBuilder();
-            errorReportBuilder.GenerateVariableUsageMessages(visitor);
+            var errorReportBuilder = new ErrorReport();
+            errorReportBuilder.AddVariableUsageMessages(visitor);
 
             string report = errorReportBuilder.GetReport();
 

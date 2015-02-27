@@ -32,11 +32,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SplitPanel = new System.Windows.Forms.SplitContainer();
             this.OutputTextBox = new System.Windows.Forms.TextBox();
             this.OpenQLFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.outputWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitPanel)).BeginInit();
             this.SplitPanel.Panel2.SuspendLayout();
@@ -46,7 +48,8 @@
             // MainMenu
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(684, 24);
@@ -77,17 +80,17 @@
             this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeFileToolStripMenuItem.Text = "&Close File";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // SplitPanel
             // 
@@ -99,6 +102,7 @@
             // SplitPanel.Panel2
             // 
             this.SplitPanel.Panel2.Controls.Add(this.OutputTextBox);
+            this.SplitPanel.Panel2Collapsed = true;
             this.SplitPanel.Size = new System.Drawing.Size(684, 385);
             this.SplitPanel.SplitterDistance = 228;
             this.SplitPanel.TabIndex = 1;
@@ -106,6 +110,7 @@
             // OutputTextBox
             // 
             this.OutputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OutputTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OutputTextBox.Location = new System.Drawing.Point(0, 0);
             this.OutputTextBox.Multiline = true;
             this.OutputTextBox.Name = "OutputTextBox";
@@ -117,6 +122,22 @@
             // 
             this.OpenQLFileDialog.Filter = "QL Files|*.ql";
             this.OpenQLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenQLFileDialog_FileOk);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.outputWindowToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "&View";
+            // 
+            // outputWindowToolStripMenuItem
+            // 
+            this.outputWindowToolStripMenuItem.CheckOnClick = true;
+            this.outputWindowToolStripMenuItem.Name = "outputWindowToolStripMenuItem";
+            this.outputWindowToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.outputWindowToolStripMenuItem.Text = "Output Window";
+            this.outputWindowToolStripMenuItem.Click += new System.EventHandler(this.outputWindowToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -150,6 +171,8 @@
         private System.Windows.Forms.SplitContainer SplitPanel;
         private System.Windows.Forms.TextBox OutputTextBox;
         private System.Windows.Forms.OpenFileDialog OpenQLFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem outputWindowToolStripMenuItem;
     }
 }
 

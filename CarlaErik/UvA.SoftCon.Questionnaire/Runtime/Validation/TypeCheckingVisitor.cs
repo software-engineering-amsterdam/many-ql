@@ -7,35 +7,48 @@ using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
     /// <summary>
-    /// Checks ....
+    /// Checks if expressions are valid to their operators and variables.
     /// </summary>
-    /// <remarks>
-    /// The type checker checks the following conditions:
-    ///   - The expresison in if-statements should be of type boolean.
-    ///   - Operands of invalid type to operators.
-    ///   - 
-    /// </remarks>
     public class TypeCheckingVisitor : ASTVisitor
     {
         private IDictionary<string, DataType> _declaredVariables = new Dictionary<string, DataType>();
 
+        /// <summary>
+        /// A collection of assignments which expression type differs from the target type.
+        /// </summary>
         public ICollection<InvalidAssignment> InvalidAssignments
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// A collection of if statements which if-condition is not a boolean expression.
+        /// </summary>
         public ICollection<IfStatement> InvalidIfStatements
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// A collection of unary expressions which operators are not compatible with their operand.
+        /// </summary>
+        public ICollection<InvalidUnaryExpression> InvalidUnaryExpressions
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// A collection of binary expressions which operators are not compatible with their operands.
+        /// </summary>
         public ICollection<InvalidBinaryExpression> InvalidBinaryExpressions
         {
             get;
@@ -46,17 +59,12 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         {
             InvalidAssignments = new List<InvalidAssignment>();
             InvalidIfStatements = new List<IfStatement>();
+            InvalidUnaryExpressions = new List<InvalidUnaryExpression>();
             InvalidBinaryExpressions = new List<InvalidBinaryExpression>();
-        }
-
-        public TypeCheckingVisitor(TypeCheckingVisitor parentVisitor)
-        {
-            _declaredVariables = parentVisitor._declaredVariables;
         }
 
         public override void Visit(Declaration declaration)
         {
-
             if (declaration.Initialization != null)
             {
                 DataType? expressionType = declaration.Initialization.GetType(_declaredVariables);
@@ -110,40 +118,141 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                     InvalidIfStatements.Add(ifStatement);
                 }
             }
-            // Traverse the rest of the tree with a new visitor.
-            var thenVisitor = new TypeCheckingVisitor(this);
 
-            foreach(var statement in ifStatement.Then) {
-                statement.Accept(thenVisitor);
+            foreach(var statement in ifStatement.Then) 
+            {
+                statement.Accept(this);
             }
 
-            var elseVisitor = new TypeCheckingVisitor(this);
             foreach (var statement in ifStatement.Else)
             {
-                statement.Accept(elseVisitor);
+                statement.Accept(this);
             }
         }
 
-        //public override void Visit(BinaryExpression expression)
-        //{
-        //    // Validate that the data type of the operands conform 
-        //    DataType? left = expression.Left.GetType(_declaredVariables);
-        //    DataType? right = GetResultType(expression.Right);
+        public override void Visit(Add add)
+        {
+            base.Visit(add);
+            ValidateBinaryExpression(add);
+        }
 
-        //    if (left.HasValue && right.HasValue)
-        //    {
-        //        if (!BinaryExpressionIsValid(expression.Operation, left.Value, right.Value))
-        //        {
-        //            InvalidBinaryExpressions.Add(new InvalidBinaryExpression(expression, left.Value, right.Value));
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Traverse the rest of the tree.
-        //        base.Visit(expression);
-        //    }
-        //}
+        public override void Visit(And and)
+        {
+            base.Visit(and);
+            ValidateBinaryExpression(and);
+        }
 
+        public override void Visit(Divide divide)
+        {
+            base.Visit(divide);
+            ValidateBinaryExpression(divide);
+        }
+
+        public override void Visit(EqualTo equalTo)
+        {
+            base.Visit(equalTo);
+            ValidateBinaryExpression(equalTo);
+        }
+
+        public override void Visit(GreaterThan greaterThan)
+        {
+            base.Visit(greaterThan);
+            ValidateBinaryExpression(greaterThan);
+        }
+
+        public override void Visit(GreaterThanOrEqualTo greaterThanOrEqualTo)
+        {
+            base.Visit(greaterThanOrEqualTo);
+            ValidateBinaryExpression(greaterThanOrEqualTo);
+        }
+
+        public override void Visit(Increment increment)
+        {
+            base.Visit(increment);
+            ValidateUnaryExpression(increment);
+        }
+
+        public override void Visit(LessThan lessThan)
+        {
+            base.Visit(lessThan);
+            ValidateBinaryExpression(lessThan);
+        }
+
+        public override void Visit(LessThanOrEqualTo lessThanOrEqualTo)
+        {
+            base.Visit(lessThanOrEqualTo);
+            ValidateBinaryExpression(lessThanOrEqualTo);
+        }
+
+        public override void Visit(Multiply multiply)
+        {
+            base.Visit(multiply);
+            ValidateBinaryExpression(multiply);
+        }
+
+        public override void Visit(Negation negation)
+        {
+            base.Visit(negation);
+            ValidateUnaryExpression(negation);
+        }
+
+        public override void Visit(NotEqualTo notEqualTo)
+        {
+            base.Visit(notEqualTo);
+            ValidateBinaryExpression(notEqualTo);
+        }
+
+        public override void Visit(Or or)
+        {
+            base.Visit(or);
+            ValidateBinaryExpression(or);
+        }
+
+        public override void Visit(Substract substract)
+        {
+            base.Visit(substract);
+            ValidateBinaryExpression(substract);
+        }
+
+        private void ValidateUnaryExpression(UnaryExpression expression)
+        {
+            DataType? operand = expression.Operand.GetType(_declaredVariables);
+
+            if (operand.HasValue)
+            {
+                if (!UnaryExpressionIsValid(expression.Operation, operand.Value))
+                {
+                    InvalidUnaryExpressions.Add(new InvalidUnaryExpression(expression, operand.Value));
+                }
+            }
+        }
+
+        private void ValidateBinaryExpression(BinaryExpression expression)
+        {
+            DataType? left = expression.Left.GetType(_declaredVariables);
+            DataType? right = expression.Right.GetType(_declaredVariables);
+
+            if (left.HasValue && right.HasValue)
+            {
+                if (!BinaryExpressionIsValid(expression.Operation, left.Value, right.Value))
+                {
+                    InvalidBinaryExpressions.Add(new InvalidBinaryExpression(expression, left.Value, right.Value));
+                }
+            }
+        }
+
+        private bool UnaryExpressionIsValid(Operation operation, DataType operand)
+        {
+            switch (operation)
+            {
+                case Operation.Increment:
+                    return operand == DataType.Integer;
+                case Operation.Negation:
+                    return operand == DataType.Boolean;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
 
         private bool BinaryExpressionIsValid(Operation operation, DataType left, DataType right)
         {

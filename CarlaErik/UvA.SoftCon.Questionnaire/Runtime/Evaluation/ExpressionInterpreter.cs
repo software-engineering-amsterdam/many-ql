@@ -14,6 +14,17 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 {
     internal class ExpressionInterpreter : ASTVisitor<Value>
     {
+        protected IDictionary<string, Value> Context
+        {
+            get;
+            private set;
+        }
+
+        internal ExpressionInterpreter(IDictionary<string, Value> context)
+        {
+            Context = context;
+        }
+
         #region Visit Literals
 
         public override Value Visit(BooleanLiteral literal)
@@ -37,7 +48,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         public override Value Visit(Identifier identifier)
         {
-            return base.Visit(identifier);
+            if (Context.ContainsKey(identifier.Name))
+            {
+                return Context[identifier.Name];
+            }
+            else
+            {
+                return new Undefined();
+            }
         }
 
         #endregion

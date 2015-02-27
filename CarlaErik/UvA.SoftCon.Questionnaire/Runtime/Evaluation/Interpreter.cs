@@ -14,9 +14,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
     {
         private IDictionary<string, Value> _variables = new Dictionary<string, Value>();
 
-        public void Interpretet(object answers)
+        public void Interpretet(IDictionary<string, Value> answers)
         {
+            if (answers == null) { throw new ArgumentNullException("answers"); }
 
+            _variables = answers;
         }
 
         public override void Visit(Form form)
@@ -29,44 +31,49 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         public override void Visit(Declaration declaration)
         {
-            if (!_variables.Keys.Contains(declaration.Id.Name))
+            if (!_variables.ContainsKey(declaration.Id.Name))
             {
-                _variables.Add(declaration.Id.Name, new Undefined());
+                Value initialization = new Undefined();
 
                 if (declaration.Initialization != null)
                 {
-                    Value value = declaration.Initialization.Accept(new ExpressionInterpreter());
-                    _variables[declaration.Id.Name] = value;
+                    initialization = declaration.Initialization.Accept(new ExpressionInterpreter(_variables));
                 }
+
+                _variables.Add(declaration.Id.Name, initialization);
             }
             else
             {
-                throw new InvalidOperationException("");
+                string message = String.Format("A variable with the name '{0}' is already declared.", declaration.Id.Name);
+                throw new InvalidOperationException(message);
             }
         }
 
         public override void Visit(Assignment assignment)
         {
-            if (!_variables.Keys.Contains(assignment.Variable.Name))
+            if (_variables.ContainsKey(assignment.Variable.Name))
             {
-                
+                _variables[assignment.Variable.Name] = assignment.Expression.Accept(new ExpressionInterpreter(_variables));
+            }
+            else
+            {
+                string message = String.Format("Cannot assign value to undeclared variable '{0}'.", assignment.Variable.Name);
+                throw new InvalidOperationException(message);
             }
         }
 
         public override void Visit(Question question)
         {
-            base.Visit(question);
+            // Do nothing
         }
 
         public override void Visit(IfStatement ifStatement)
         {
-            Value condition = ifStatement.If.Accept(new ExpressionInterpreter());
+            Value result = ifStatement.If.Accept(new ExpressionInterpreter(_variables));
 
-            if (!condition.IsUndefined)
+            if (!result.IsUndefined)
             {
-                var result = (BooleanValue)condition;
-
-                if (result.Val)
+                if (((BooleanValue)result).Val)
                 {
                     foreach (var statement in ifStatement.Then)
                     {

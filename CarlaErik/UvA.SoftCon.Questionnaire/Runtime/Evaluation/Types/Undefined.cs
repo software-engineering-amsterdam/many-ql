@@ -24,152 +24,152 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
 
         public override Value Plus(Value value)
         {
-            return this;
+            return new Undefined();
         }
 
         internal override Value PlusInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value Minus(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value MinusInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value MultipliedBy(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value MultipliedByInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value DividedBy(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value DividedByInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value Increment()
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value IsEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsEqualToString(StringValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsEqualToBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value IsNotEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsNotEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsNotEqualToString(StringValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsNotEqualToBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value IsLessThan(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsLessThanInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value IsLessThanOrEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsLessThanOrEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value IsGreaterThan(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsGreaterThanInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value IsGreaterThanOrEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value IsGreaterThanOrEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value And(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value AndBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value Or(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         internal override Value OrBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
         public override Value Negate()
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
     }
 }

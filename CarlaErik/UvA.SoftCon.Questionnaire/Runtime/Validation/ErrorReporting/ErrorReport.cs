@@ -8,7 +8,7 @@ using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 {
-    public class ErrorReportBuilder
+    public class ErrorReport
     {
         public ICollection<Message> Messages
         {
@@ -16,12 +16,28 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
             private set;
         }
 
-        public ErrorReportBuilder()
+        public int NrOfWarnings
+        {
+            get
+            {
+                return Messages.Count(m => m.Severity == Severity.Warning);
+            }
+        }
+
+        public int NrOfErrors
+        {
+            get
+            {
+                return Messages.Count(m => m.Severity == Severity.Error);
+            }
+        }
+
+        public ErrorReport()
         {
             Messages = new List<Message>();
         }
 
-        public void GenerateVariableUsageMessages(VariableUsageCheckingVisitor visitor) 
+        public void AddVariableUsageMessages(VariableUsageCheckingVisitor visitor) 
         {
             foreach (var declaredVaribale in visitor.DeclaredVariables.Values)
             {
@@ -47,7 +63,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
             }
         }
 
-        public void GenerateDuplicateLabelMessages(DuplicateLabelCheckingVisitor visitor)
+        public void AddDuplicateLabelMessages(DuplicateLabelCheckingVisitor visitor)
         {
             foreach (var duplicateLabel in visitor.DuplicateLabels)
             {
@@ -57,7 +73,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
             }
         }
 
-        public void GenerateTypeCheckingMessages(TypeCheckingVisitor visitor)
+        public void AddTypeCheckingMessages(TypeCheckingVisitor visitor)
         {
             foreach (var assignment in visitor.InvalidAssignments)
             {
@@ -74,6 +90,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
                 AddErrorMessage(message, ifStatement.Position);
             }
 
+            foreach (var invalidExpression in visitor.InvalidUnaryExpressions)
+            {
+                string message = String.Format("Operator '{0}' can not be applied to operand of type '{1}'.",
+                    StringEnum.GetStringValue(invalidExpression.Expression.Operation), StringEnum.GetStringValue(invalidExpression.OperandType));
+
+            }
+
             foreach (var invalidExpression in visitor.InvalidBinaryExpressions)
             {
                 string message = String.Format("Operator '{0}' can not be applied to operands of type '{1}' and '{2}'.",
@@ -81,16 +104,6 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 
                 AddErrorMessage(message, invalidExpression.Expression.Position);
             }
-        }
-
-        private void AddErrorMessage(string message, TextPosition position)
-        {
-            Messages.Add(new Message(Severity.Error, position, message));
-        }
-
-        private void AddWarningMessage(string message, TextPosition position)
-        {
-            Messages.Add(new Message(Severity.Warning, position, message));
         }
 
         public string GetReport()
@@ -102,6 +115,16 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
                 report.AppendLine(message.ToString());
             }
             return report.ToString();
+        }
+
+        private void AddErrorMessage(string message, TextPosition position)
+        {
+            Messages.Add(new Message(Severity.Error, position, message));
+        }
+
+        private void AddWarningMessage(string message, TextPosition position)
+        {
+            Messages.Add(new Message(Severity.Warning, position, message));
         }
     }
 }

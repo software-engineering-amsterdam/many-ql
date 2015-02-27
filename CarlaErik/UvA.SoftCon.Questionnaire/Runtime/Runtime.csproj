@@ -56,10 +56,11 @@
     <Compile Include="RuntimeController.cs" />
     <Compile Include="Validation\DuplicateLabelCheckingVisitor.cs" />
     <Compile Include="Validation\ErrorReporting\Message.cs" />
-    <Compile Include="Validation\ErrorReporting\ErrorReportBuilder.cs" />
+    <Compile Include="Validation\ErrorReporting\ErrorReport.cs" />
     <Compile Include="Validation\ErrorReporting\Severity.cs" />
     <Compile Include="Validation\InvalidAssignment.cs" />
     <Compile Include="Validation\InvalidBinaryExpression.cs" />
+    <Compile Include="Validation\InvalidUnaryExpression.cs" />
     <Compile Include="Validation\TypeCheckingVisitor.cs" />
     <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
   </ItemGroup>
