@@ -9,6 +9,8 @@ public class InputValidator {
     private static final String DATE = "\\d\\d[\\./,]\\d\\d[\\./,]\\d\\d\\d\\d";
     private static final String NUMBER = "-?\\d+(\\.\\d+)?";
     public static boolean matches(Type questionType, String input){
+        if (input.trim().isEmpty())
+            return true;
         switch (questionType){
             case NUMERAL:
                 return matchesNumber(input);
