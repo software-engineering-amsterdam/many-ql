@@ -10,19 +10,19 @@ question
     type : numeral
 end
 
-question
-    id : question3
-    text : "This is what you earned in the last two years:"
-    type : numeral
-    value : question1 + question2
-end
-
 if question2 > 5 then
     question
         id : question10
         text : "blah"
         type : string
     end
+end
+
+question
+    id : question3
+    text : "This is what you earned in the last two years:"
+    type : numeral
+    value : question1 + question2
 end
 
 

@@ -1,5 +1,6 @@
 package test.klq.logic.controller;
 
+import com.klq.logic.controller.NoSuchQuestionException;
 import com.klq.logic.controller.Store;
 import com.klq.logic.expression.AExpression;
 import com.klq.logic.expression.terminal.Boolean;
@@ -24,13 +25,22 @@ public class StoreTest {
         store.add(q2);
         store.add(q3);
 
-        assertTrue(q2.getDependencyList().get(0) != Boolean.getTrue());
-        q1.setResult(new Number("18"), true);
-        assertTrue(q2.getDependencyList().get(0) == Boolean.getTrue());
+        assertTrue(q2.getDependencies().get(0) != Boolean.getTrue());
+        try {
+            store.updateAnswer(q1.getId(), new Number("18"));
+        } catch (NoSuchQuestionException nsq){
+            assertTrue(nsq.getMessage(), false);
+        }
+        assertTrue(q2.getDependencies().get(0) == Boolean.getTrue());
 
-        AExpression var = q3.getDependencyList().get(0);
+        AExpression var = q3.getDependencies().get(0);
+
         assertTrue(var != Boolean.getTrue());
-        q2.setResult(Boolean.getTrue(), true);
-        assertTrue(q3.getDependencyList().get(0) == Boolean.getTrue());
+        try {
+            store.updateAnswer(q1.getId(), Boolean.getTrue());
+        } catch (NoSuchQuestionException nsq){
+            assertTrue(nsq.getMessage(), false);
+        }
+        assertTrue(q3.getDependencies().get(0) == Boolean.getTrue());
     }
 }

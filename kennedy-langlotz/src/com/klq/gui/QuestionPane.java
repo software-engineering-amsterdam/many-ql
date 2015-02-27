@@ -1,27 +1,27 @@
 package com.klq.gui;
 
+import com.klq.logic.controller.NoSuchQuestionException;
+import com.klq.logic.controller.Store;
 import com.klq.logic.expression.AExpression;
+import com.klq.logic.expression.util.ExpressionUtil;
 import com.klq.logic.question.OptionSet;
 import com.klq.logic.question.Question;
 import com.klq.logic.question.Type;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.StringProperty;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-import java.security.Key;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,25 +34,45 @@ public class QuestionPane extends GridPane {
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
     private final double MIN_HEIGHT = 50;
     private final double EFFECT_DURATION = 500;
-    private TextField computedField;
-
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
 
-    private Question question;
+    private final Store store;
+    private final Question question;
 
-    public QuestionPane(Question question) {
+    public QuestionPane(Question question, Store store) {
         super();
+        this.store = store;
         this.question = question;
-        createQuestionLabel(question.getText().toString());
+
+        init();
+        createQuestionLabel();
+        createQuestionBody();
+    }
+
+    private void init(){
         this.setVgap(5);
         this.setPadding(new Insets(5));
         this.setBorder(createBorder());
         this.setBackground(createBackground());
         this.setMinHeight(MIN_HEIGHT);
+        this.question.visibleProperty().addListener(createVisibilityListener());
+    }
+
+    private void createQuestionLabel() {
+        String text = question.getText().toString();
+        Label question = new Label(text);
+        question.setWrapText(true);
+        question.setFont(DEFAULT_QUESTION);
+        this.setConstraints(question, 0, 0);
+        this.getChildren().add(question);
+    }
+
+    private void createQuestionBody(){
         if (question.isComputedQuestion()){
-            computedField = new TextField();
-            computedField.textProperty().bind(question.getResult().evaluate());
+            TextField computedField = new TextField();
+            //TODO bind
+            computedField.textProperty().bind(store.getComputedValue(question.getId()));
             computedField.setEditable(false);
             this.getChildren().add(computedField);
             this.setConstraints(computedField, 0, 1);
@@ -74,33 +94,6 @@ public class QuestionPane extends GridPane {
                 createTextField(question.getType());
                 break;
         }
-    }
-
-    public void show(){
-        if (isVisible())
-            return;
-        this.managedProperty().bind(this.visibleProperty());
-        this.setVisible(true);
-
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(createPositionTranslationFrames());
-        timeline.getKeyFrames().addAll(createBlurEffectFrames(10));
-        timeline.play();
-    }
-
-    public void hide(){
-        if (!isVisible())
-            return;
-        this.managedProperty().bind(this.visibleProperty());
-        this.setVisible(false);
-    }
-
-    private void createQuestionLabel(String text) {
-        Label question = new Label(text);
-        question.setWrapText(true);
-        question.setFont(DEFAULT_QUESTION);
-        this.setConstraints(question, 0, 0);
-        this.getChildren().add(question);
     }
 
     private void createAnswerSetPane(OptionSet optionSet){
@@ -163,6 +156,34 @@ public class QuestionPane extends GridPane {
         return new Background(fill);
     }
 
+    private ChangeListener<Boolean> createVisibilityListener(){
+        return new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue)
+                    show();
+                else
+                    hide();
+            }
+        };
+    }
+
+    public void show(){
+        if (isVisible())
+            return;
+        this.setManaged(true);
+        this.setVisible(true);
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().addAll(createPositionTranslationFrames());
+        timeline.getKeyFrames().addAll(createBlurEffectFrames(10));
+        timeline.play();
+    }
+
+    public void hide(){
+        this.setManaged(false);
+        this.setVisible(false);
+    }
+
     private List<KeyFrame> createPositionTranslationFrames(){
         List<KeyFrame> result = new ArrayList<KeyFrame>();
         result.add(new KeyFrame(Duration.ZERO,
@@ -185,12 +206,13 @@ public class QuestionPane extends GridPane {
     }
 
     private void questionAnswered(String result) {
-        AExpression expr = Question.createTerminalFromString(question, result);
-        question.setResult(expr, true);
-        if (question.dependenciesResolved())
-            show();
-        else
-            hide();
+        AExpression expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
+        try {
+            store.updateAnswer(question.getId(), expr);
+        } catch (NoSuchQuestionException nsq){
+            System.err.println(nsq.getMessage());
+            //TODO notify user
+        }
     }
 
     private ChangeListener<Boolean> highlightHandler(final TextField input){
