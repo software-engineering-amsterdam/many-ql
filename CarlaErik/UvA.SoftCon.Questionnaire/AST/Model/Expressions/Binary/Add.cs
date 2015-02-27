@@ -20,6 +20,11 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
         public Add(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(operation, left, right, position) {}
 
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override T Accept<T>(IASTVisitor<T> visitor)
         {
             return visitor.Visit(this);
