@@ -62,7 +62,7 @@ public class GUIBuilder implements IMediator, IStatementVisitor<Void> {
         }
     }
 
-    private void removeQuestionToTheForm(UIQuestion _quest) {
+    private void removeQuestionFromTheForm(UIQuestion _quest) {
         if (formQuestions.containsKey(_quest.getId())) {
             UIQuestion question = formQuestions.get(_quest.getId());
             this.uiForm.removeQuestion(question);

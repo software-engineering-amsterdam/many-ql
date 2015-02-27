@@ -39,9 +39,4 @@ public class UIForm {
         this.panel.remove(widget.getJComponent());
         this.formFrame.revalidate();
     }
-    
-    public void clearForm() {
-        this.panel.removeAll();
-        this.formFrame.revalidate();
-    }
 }
