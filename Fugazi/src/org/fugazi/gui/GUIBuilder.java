@@ -27,20 +27,36 @@ public class GUIBuilder implements IMediator, IStatementVisitor<Void> {
     
     private HashMap<String, UIQuestion> formQuestions = new HashMap<>(); // used for dynamic add/remove from form.
 
-    public GUIBuilder(Form _astForm, ValueStorage _storage) {
+    public GUIBuilder(Form _astForm) {
         this.astForm = _astForm;
-        this.storage = _storage;
+        this.storage = new ValueStorage();
         this.evaluator = new Evaluator(storage);
         this.uiForm = new UIForm(astForm.getName());
     }
     
     public void renderGUI() {
-        this.getFormBody(astForm);
+        this.setupUiElements(astForm);
         this.uiForm.showForm();
     }
 
+    private void setupUiElements(Form _form) {
+        _form.getBody().forEach(statement -> statement.accept(this));
+    }
+    
+    private void setupIfStatementBody(IfStatement _ifStatement) {
+        _ifStatement.getBody().forEach(statement -> statement.accept(this));
+    }
+
+    private void removeIfStatementBody(IfStatement _ifStatement) {
+        //_ifStatement.getBody().forEach(statement -> statement.accept(this));
+    }
+
+    /**
+     * Body Management
+     */
     private void addQuestionToTheForm(UIQuestion _quest) {
         if (!formQuestions.containsKey(_quest.getId())) { // don't add duplicates.
+            this.storage.saveValue(_quest.getId(), _quest.getState());
             formQuestions.put(_quest.getId(), _quest);
             this.uiForm.addQuestion(_quest);
         }
@@ -53,41 +69,43 @@ public class GUIBuilder implements IMediator, IStatementVisitor<Void> {
         }
     }
 
+    private void addIfStatement(IfStatement _ifStatement) {
+        if (!ifStatements.contains(_ifStatement)) {
+            ifStatements.add(_ifStatement);
+        }
+    }
+
+    private void addComputedQuestion(ComputedQuestion _computedQuest) {
+        if (!computedQuestions.contains(_computedQuest)) {
+            computedQuestions.add(_computedQuest);
+        }
+    }
+
     /**
-     * Evaluation
-     */
-    private void getFormBody(Form _form) {
-        _form.getBody().forEach(statement -> statement.accept(this));
-    }
-
-    private void getIfStatementBody(IfStatement _ifStatement) {
-        _ifStatement.getBody().forEach(statement -> statement.accept(this));
-    }
-
-    private boolean evaluateIfStatement(IfStatement _ifStatement) {
-        Expression condition = _ifStatement.getCondition();
-        BoolValue result = (BoolValue) this.evaluator.evaluateExpression(condition); //todo: no casting?
-        return result.getValue();
-    }
-
-    private ExpressionValue evaluateComputedQuestion(ComputedQuestion _computedQuest) {
-        Expression expression = _computedQuest.getComputedExpression();
-        ExpressionValue result = evaluator.evaluateExpression(expression);
-        return result;
-    }
-    
-    /**
-     * Mediator
+     * Mediator messages
      */
     public void getChangeFromColleagues(Colleague _origin) {
         // save the new value.
         this.storage.saveValue(_origin.getId(), _origin.getState());
-        
+
         // re-visit the conditions.
         ifStatements.forEach(ifStatement -> ifStatement.accept(this));
 
         // re-visit the computed questions.
         computedQuestions.forEach(quest -> quest.accept(this));
+    }
+    
+    /**
+     * Evaluation
+     */
+    private boolean evaluateIfStatement(IfStatement _ifStatement) {
+        BoolValue result = (BoolValue) this.evaluator.evaluateExpression(_ifStatement.getCondition());
+        return result.getValue();
+    }
+
+    private ExpressionValue evaluateComputedQuestion(ComputedQuestion _computedQuest) {
+        Expression expression = _computedQuest.getComputedExpression();
+        return evaluator.evaluateExpression(expression);
     }
 
     /**
@@ -96,36 +114,36 @@ public class GUIBuilder implements IMediator, IStatementVisitor<Void> {
     public Void visitQuestion(Question _question) {
         UITypeVisitor typeVisitor = new UITypeVisitor(this, _question);
         UIQuestion uiQuestion = _question.getType().accept(typeVisitor);
-
         this.addQuestionToTheForm(uiQuestion);
-
-        this.storage.saveValue(uiQuestion.getId(), uiQuestion.getState());
-
         return null;
     }
 
     public Void visitIfStatement(IfStatement _ifStatement) {
-        if (!ifStatements.contains(_ifStatement)) {
-            ifStatements.add(_ifStatement);
-        }
+        this.addIfStatement(_ifStatement);
 
         boolean isConditionTrue = this.evaluateIfStatement(_ifStatement);
         if (isConditionTrue) {
-            getIfStatementBody(_ifStatement);
+            this.setupIfStatementBody(_ifStatement);
+        } else {
+            this.removeIfStatementBody(_ifStatement);
         }
         
         return null;
     }
 
     public Void visitComputedQuestion(ComputedQuestion _computedQuest) {
-        if (!computedQuestions.contains(_computedQuest)) {
-            computedQuestions.add(_computedQuest);
-        }
-        ExpressionValue result =  this.evaluateComputedQuestion(_computedQuest);
+        this.addComputedQuestion(_computedQuest);
+        
+        ExpressionValue result = this.evaluateComputedQuestion(_computedQuest);
         this.storage.saveValue(_computedQuest.getIdName(), result);
-
-        UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
-        this.addQuestionToTheForm(uiComputedQuestion);
+        
+        if (!formQuestions.containsKey(_computedQuest.getIdName())) {
+            UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
+            this.addQuestionToTheForm(uiComputedQuestion);
+        } else {
+            UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) formQuestions.get(_computedQuest.getIdName());
+            uiComputedQuestion.setComputedValue(result);
+        }
         
         return null;
     }

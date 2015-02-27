@@ -23,19 +23,11 @@ public class UINumQuestion extends UIQuestion {
         this.widget.addDocumentListener(new DocumentListener() {
             
             public void insertUpdate(DocumentEvent e) {
-                setState(
-                        Integer.parseInt(
-                                widget.getValue().toString()
-                        )
-                );
+                setState(widget.getValue().toString());
             }
 
             public void removeUpdate(DocumentEvent e) {
-                setState(
-                        Integer.parseInt(
-                                widget.getValue().toString()
-                        )
-                );
+                setState(widget.getValue().toString());
             }
 
             public void changedUpdate(DocumentEvent e) {
@@ -43,8 +35,13 @@ public class UINumQuestion extends UIQuestion {
         });
     }
 
-    public void setState(Integer _value) {
-        value = _value;
+    public void setState(String _value) {
+        if (_value.equals("")) {
+            this.value = 0;
+        } else {
+            this.value = Integer.parseInt(_value);
+        }
+
         this.sendToMediator();
     }
 
