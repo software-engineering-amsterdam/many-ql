@@ -6,8 +6,7 @@ import java.awt.event.ItemListener;
 public class CheckBox implements IWidget<Boolean> {
 
     private final String label;
-
-    // todo: generalize the component
+    
     private JCheckBox component;
 
     public CheckBox(String _label) {

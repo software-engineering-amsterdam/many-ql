@@ -3,13 +3,14 @@ package org.fugazi.gui.ui_elements;
 import org.fugazi.gui.widgets.IWidget;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class UIForm {
 
     private final JFrame formFrame;
 
-    public static final int winHeight = 400;
-    public static final int winWidth = 480;
+    public static final int winHeight = 600;
+    public static final int winWidth = 580;
     
     private final JPanel panel = new JPanel();
 
@@ -20,7 +21,8 @@ public class UIForm {
         this.formFrame.setLocationRelativeTo(null);
         this.formFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        GridLayout layout = new GridLayout(0, 1);
+        this.panel.setLayout(layout);
         this.formFrame.add(panel);
     }
 

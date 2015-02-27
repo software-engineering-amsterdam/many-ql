@@ -8,7 +8,6 @@ public class TextBox implements IWidget<String> {
 
     private final String label;
 
-    // todo: generalize the component
     private JTextField input;
     private JPanel panel;
 

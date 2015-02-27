@@ -2,13 +2,13 @@ package org.fugazi.gui.widgets;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ItemListener;
 
 public class Label implements IWidget<String> {
 
     private final JLabel value;
 
-    // todo: generalize the component
     private JPanel panel;
 
     public Label(String _label, String _value) {
@@ -16,6 +16,9 @@ public class Label implements IWidget<String> {
         this.panel = new JPanel();
         JLabel label = new JLabel(_label);
         this.value = new JLabel(_value);
+
+        // Todo: Will be taken from a Style Object in QLS.
+        value.setFont(new Font(value.getName(), Font.BOLD, 14));
 
         panel.add(label);
         panel.add(this.value);
