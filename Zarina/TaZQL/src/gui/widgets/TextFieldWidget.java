@@ -10,6 +10,7 @@ public class TextFieldWidget implements IWidgetComponent {
 	private final String id, label;
 	private final Type variableType;
 	private JTextField widget;
+	private String value = new String("");
 		
 	public TextFieldWidget(String id, String label, Type variableType) {
 		this.id = id;
@@ -19,8 +20,7 @@ public class TextFieldWidget implements IWidgetComponent {
 	
 	@Override
 	public JComponent getWidget() {
-		widget = new JTextField(10);
-		System.out.println("Do it!" );
+		widget = new JTextField("", 10);
 		widget.setVisible(visibility());
 		return widget;
 	}
@@ -46,13 +46,18 @@ public class TextFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void addDocListener() {
-		widget.getDocument().addDocumentListener(new TextDigitsListener(widget));
+		widget.getDocument().addDocumentListener(new TextDigitsListener(this));
 		
 	}
 
 	@Override
 	public String getValue() {
+		return  value;	
+	}
+
+	@Override
+	public void setValue(String value) {
 		// TODO Auto-generated method stub
-		return widget.getText();
+		value = widget.getText();
 	}
 }
