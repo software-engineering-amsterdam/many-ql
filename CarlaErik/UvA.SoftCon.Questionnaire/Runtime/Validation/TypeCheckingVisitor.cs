@@ -163,7 +163,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                 case Operation.GreaterThanOrEqualTo:
                 case Operation.LessThan:
                 case Operation.LessThanOrEqualTo:
-                    return (left == DataType.Integer || left == DataType.Double) && (right == DataType.Integer || right == DataType.Double);
+                    return (left == DataType.Integer) && (right == DataType.Integer);
                 default:
                     throw new NotSupportedException();
             }

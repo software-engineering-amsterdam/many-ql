@@ -47,13 +47,8 @@
   <ItemGroup>
     <Compile Include="Evaluation\ExpressionInterpreter.cs" />
     <Compile Include="Evaluation\Interpreter.cs" />
-    <Compile Include="Evaluation\Types\BoolValue.cs" />
-    <Compile Include="Evaluation\Types\IBoolean.cs" />
-    <Compile Include="Evaluation\Types\IInteger.cs" />
-    <Compile Include="Evaluation\Types\IntValue.cs" />
-    <Compile Include="Evaluation\Types\IString.cs" />
-    <Compile Include="Evaluation\Types\IUndefined.cs" />
-    <Compile Include="Evaluation\Types\IValue.cs" />
+    <Compile Include="Evaluation\Types\BooleanValue.cs" />
+    <Compile Include="Evaluation\Types\IntegerValue.cs" />
     <Compile Include="Evaluation\Types\StringValue.cs" />
     <Compile Include="Evaluation\Types\Undefined.cs" />
     <Compile Include="Evaluation\Types\Value.cs" />
