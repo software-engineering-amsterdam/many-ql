@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime.Validation;
 using UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting;
 
@@ -30,6 +31,15 @@ namespace UvA.SoftCon.Questionnaire.Runtime
             errorReport.AddTypeCheckingMessages(typeCheckingVisitor);
 
             return errorReport;
+        }
+
+        public IReadOnlyCollection<IQuestionResult> ExtractQuestionsAndResults(Form form)
+        {
+            var visitor = new QuestionAndResultExtracter();
+
+            visitor.Visit(form);
+
+            return visitor.QuestionsAndResults;
         }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Evaluation\Types\Undefined.cs" />
     <Compile Include="Evaluation\Types\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuestionAndResultExtracter.cs" />
     <Compile Include="RuntimeController.cs" />
     <Compile Include="Validation\DuplicateLabelCheckingVisitor.cs" />
     <Compile Include="Validation\ErrorReporting\Message.cs" />

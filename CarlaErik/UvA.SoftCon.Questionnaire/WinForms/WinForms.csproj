@@ -50,7 +50,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\BooleanQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BooleanQuestion.Designer.cs">
+      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NumericQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\NumericQuestion.Designer.cs">
+      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\OutputWindow.cs" />
+    <Compile Include="Controls\QuestionAnswerEventArgs.cs" />
+    <Compile Include="Controls\QuestionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\QuestionControl.Designer.cs">
+      <DependentUpon>QuestionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TextQuestion.Designer.cs">
+      <DependentUpon>TextQuestion.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +91,18 @@
     <Compile Include="UIQuestion.Designer.cs">
       <DependentUpon>UIQuestion.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\BooleanQuestion.resx">
+      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NumericQuestion.resx">
+      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\QuestionControl.resx">
+      <DependentUpon>QuestionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TextQuestion.resx">
+      <DependentUpon>TextQuestion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

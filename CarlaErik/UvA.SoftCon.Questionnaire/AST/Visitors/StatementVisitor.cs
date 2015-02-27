@@ -70,5 +70,16 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
 
             return new Assignment(variable, expression, context.GetTextPosition());
         }
+
+        public override IStatement VisitShowResult(QLParser.ShowResultContext context)
+        {
+            Identifier variable = new Identifier(context.ID().GetText(), context.GetTextPosition());
+            string label = context.STRING().GetText();
+
+            // Remove the leading and trailing '"' characters from the string literal.
+            label = label.Trim('"');
+
+            return new Result(variable, "label", context.GetTextPosition());
+        }
     }
 }

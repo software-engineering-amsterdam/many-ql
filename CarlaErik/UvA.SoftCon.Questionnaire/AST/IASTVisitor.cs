@@ -20,6 +20,7 @@ namespace UvA.SoftCon.Questionnaire.AST
         void Visit(IntegerLiteral literal);
         void Visit(StringLiteral literal);
         void Visit(Question question);
+        void Visit(Result result);
         void Visit(Declaration declaration);
         void Visit(Assignment assignment);
         void Visit(IfStatement ifStatement);
@@ -48,6 +49,7 @@ namespace UvA.SoftCon.Questionnaire.AST
         T Visit(IntegerLiteral literal);
         T Visit(StringLiteral literal);
         T Visit(Question question);
+        T Visit(Result result);
         T Visit(Declaration declaration);
         T Visit(Assignment assignment);
         T Visit(IfStatement ifStatement);

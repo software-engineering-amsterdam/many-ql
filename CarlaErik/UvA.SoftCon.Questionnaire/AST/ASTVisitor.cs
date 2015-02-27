@@ -43,6 +43,11 @@ namespace UvA.SoftCon.Questionnaire.AST
             question.Id.Accept(this);
         }
 
+        public virtual void Visit(Result result)
+        {
+            result.Id.Accept(this);
+        }
+
         public virtual void Visit(Declaration declaration)
         {
             declaration.Id.Accept(this);
@@ -188,6 +193,12 @@ namespace UvA.SoftCon.Questionnaire.AST
         public virtual T Visit(Question question)
         {
             question.Id.Accept(this);
+            return default(T);
+        }
+
+        public virtual T Visit(Result result)
+        {
+            result.Id.Accept(this);
             return default(T);
         }
 

@@ -10,6 +10,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
     {
         Form,
         Question,
+        Result,
         Declaration,
         IfStatement,
         Assignment,

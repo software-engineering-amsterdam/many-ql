@@ -7,20 +7,14 @@ using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
-    public class Question : Node, IStatement, IQuestionResult
+    public class Result : Node, IStatement, IQuestionResult
     {
         public override NodeType Type
         {
             get
             {
-                return NodeType.Question;
+                return NodeType.Result;
             }
-        }
-
-        public DataType DataType
-        {
-            get;
-            private set;
         }
 
         public Identifier Id
@@ -35,10 +29,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public Question(DataType dataType, Identifier id, string label, TextPosition position)
+        public Result(Identifier id, string label, TextPosition position)
             : base(position)
         {
-            DataType = dataType;
             Id = id;
             Label = label;
         }
@@ -52,5 +45,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
         {
             return visitor.Visit(this);
         }
+
     }
 }
