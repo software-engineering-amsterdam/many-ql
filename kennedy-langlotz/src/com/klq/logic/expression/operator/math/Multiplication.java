@@ -23,6 +23,6 @@ public class Multiplication extends AExpression {
             BigDecimal r = new BigDecimal(right.getContent());
             return new Number(l.multiply(r).toString());
         }
-        return null;
+        return this;
     }
 }

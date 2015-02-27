@@ -1,5 +1,6 @@
 package org.uva.ql.ast.statement;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.type.Type;
@@ -10,7 +11,8 @@ public class QuestionNormal extends Statement {
 	private final StrLiteral label;
 	private final Type type;
 
-	public QuestionNormal(Identifier identifier, StrLiteral label, Type type) {
+	public QuestionNormal(Identifier identifier, StrLiteral label, Type type, CodePosition pos) {
+		super(pos);
 		this.identifier = identifier;
 		this.label = label;
 		this.type = type;

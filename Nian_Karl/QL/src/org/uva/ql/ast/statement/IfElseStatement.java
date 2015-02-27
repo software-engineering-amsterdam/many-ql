@@ -1,6 +1,7 @@
 package org.uva.ql.ast.statement;
 
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.visitor.Visitor;
 
@@ -9,8 +10,8 @@ public class IfElseStatement extends IfStatement {
 	//private Block elseBlock;
 	private final Block elseBlock;
 
-	public IfElseStatement(Expression expr, Block ifBlock, Block elseBlock) {
-		super(expr, ifBlock);
+	public IfElseStatement(Expression expr, Block ifBlock, Block elseBlock, CodePosition pos) {
+		super(expr, ifBlock,pos);
 		this.elseBlock = elseBlock;
 	}
 

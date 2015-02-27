@@ -85,4 +85,12 @@ public class ExpressionUtil {
             default: return null;
         }
     }
+
+    public static boolean isTerminal(AExpression expr, boolean includeIdentifier){
+        return (includeIdentifier ? expr.getType() == AExpression.IDENTIFIER : false)
+                || expr.getType() == AExpression.DATE
+                || expr.getType() == AExpression.BOOLEAN
+                || expr.getType() == AExpression.STRING
+                || expr.getType() == AExpression.NUMBER;
+    }
 }

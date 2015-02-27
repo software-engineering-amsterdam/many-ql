@@ -1,9 +1,14 @@
 package org.uva.ql.ast.type;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class IntType extends Type {
 	
+	public IntType(CodePosition pos) {
+		super(pos);
+	}
+
 	@Override
 	public boolean isInt() {
 		return true;

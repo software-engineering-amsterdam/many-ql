@@ -25,6 +25,6 @@ public class Division extends AExpression {
             BigDecimal r = new BigDecimal(right.getContent());
             return new Number(l.divide(r, new MathContext(PRECISION)).toString());
         }
-        return null;
+        return this;
     }
 }

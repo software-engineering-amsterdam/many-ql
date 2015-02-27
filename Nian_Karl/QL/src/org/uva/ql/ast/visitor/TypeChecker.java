@@ -160,19 +160,16 @@ public class TypeChecker implements Visitor<Boolean> {
 
 	@Override
 	public Boolean visit(IntType node) {
-		
 		return null;
 	}
 
 	@Override
 	public Boolean visit(BoolType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Boolean visit(StrType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
