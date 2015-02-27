@@ -1,12 +1,14 @@
 package org.uva.ql.ast.expression.literal;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class BoolLiteral extends Literal {
 	
 	private final Boolean value;
 
-	public BoolLiteral(Boolean value) {
+	public BoolLiteral(Boolean value,CodePosition pos) {
+		super(pos);
 		this.value = value;
 	}
 	

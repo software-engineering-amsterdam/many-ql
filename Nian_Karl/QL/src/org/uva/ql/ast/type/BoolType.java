@@ -1,8 +1,13 @@
 package org.uva.ql.ast.type;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class BoolType extends Type {
+
+	public BoolType(CodePosition pos) {
+		super(pos);
+	}
 
 	@Override
 	public boolean isBool() {

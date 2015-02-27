@@ -19,8 +19,8 @@ ifStatement
   ;
 
 question
-  : questionName COLON questionLabel questionType LEFT_PAREN expr = expression RIGHT_PAREN #QuestionCompute
-  | questionName COLON questionLabel questionType                                          #QuestionNormal
+  : identifier = questionName COLON label = questionLabel type = questionType LEFT_PAREN expr = expression RIGHT_PAREN #QuestionCompute
+  | identifier = questionName COLON label = questionLabel type = questionType                                          #QuestionNormal
   ;
 
 questionName: Identifier;

@@ -1,12 +1,13 @@
 package org.uva.ql.ast.expression.unary;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class Negative extends Unary {
 
-	public Negative(Expression expr) {
-		super(expr);
+	public Negative(Expression expr,CodePosition pos) {
+		super(expr,pos);
 	}
 
 	@Override
