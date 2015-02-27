@@ -4,6 +4,8 @@ import com.klq.logic.IKLQItem;
 import com.klq.logic.expression.AExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class Question implements IKLQItem{
     private final AExpression computedValue;
 
     private final SimpleBooleanProperty visibleProperty;
+    private final SimpleStringProperty computedProperty;
 
     public Question (Id id, Type type, OptionSet options, Text text){
         this(id, type, options, text, null);
@@ -39,6 +42,7 @@ public class Question implements IKLQItem{
         else
             computedQuestion = false;
         visibleProperty = new SimpleBooleanProperty(dependencies.isEmpty());
+        computedProperty = new SimpleStringProperty("");
     }
 
     public boolean isComputedQuestion() {
@@ -75,5 +79,9 @@ public class Question implements IKLQItem{
 
     public BooleanProperty visibleProperty(){
         return visibleProperty;
+    }
+
+    public StringProperty computedProperty(){
+        return computedProperty;
     }
 }

@@ -7,7 +7,7 @@ import com.klq.logic.question.Type;
  */
 public class InputValidator {
     private static final String DATE = "\\d\\d[\\./,]\\d\\d[\\./,]\\d\\d\\d\\d";
-
+    private static final String NUMBER = "-?\\d+(\\.\\d+)?";
     public static boolean matches(Type questionType, String input){
         switch (questionType){
             case NUMERAL:
@@ -26,6 +26,6 @@ public class InputValidator {
     }
 
     public static boolean matchesNumber(String input){
-        return input.matches("\\d+(\\.\\d+)?");
+        return input.matches(NUMBER);
     }
 }

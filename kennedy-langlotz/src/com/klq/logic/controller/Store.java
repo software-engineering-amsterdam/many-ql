@@ -37,7 +37,10 @@ public class Store implements IKLQItem {
         //TODO replace question.Id with AExpression?
         String id = question.getId().toString();
         AExpression exprId = new Identifier(id);
-        variables.put(exprId, exprId);
+        if (!question.isComputedQuestion())
+            variables.put(exprId, exprId);
+        else
+            variables.put(exprId, question.getComputedValue());
     }
 
     public List<Question> getOrderedQuestions() {
@@ -97,6 +100,7 @@ public class Store implements IKLQItem {
             throw new NoSuchQuestionException("Error while updating variable table!\n"
                     + String.format(NO_SUCH_QUESTION, questionId));
         updateVisibilities();
+        updateComputed();
     }
 
     public void updateVisibilities(){
@@ -111,7 +115,13 @@ public class Store implements IKLQItem {
         }
     }
 
-    public String getComputedValue(Id questionId){
-        return "---";
+    private void updateComputed(){
+        for (Question q : store.values()){
+            if (q.isComputedQuestion()){
+                AExpression var = new Identifier(q.getId().toString());
+                AExpression computed = iterate(variables.get(var)).evaluate();
+                q.computedProperty().setValue(computed.getContent());
+            }
+        }
     }
 }

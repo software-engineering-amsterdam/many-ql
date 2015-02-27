@@ -72,7 +72,7 @@ public class QuestionPane extends GridPane {
         if (question.isComputedQuestion()){
             TextField computedField = new TextField();
             //TODO bind
-            computedField.textProperty().bind(store.getComputedValue(question.getId()));
+            computedField.textProperty().bind(question.computedProperty());
             computedField.setEditable(false);
             this.getChildren().add(computedField);
             this.setConstraints(computedField, 0, 1);
