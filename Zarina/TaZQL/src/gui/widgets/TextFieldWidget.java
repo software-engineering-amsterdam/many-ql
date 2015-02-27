@@ -5,10 +5,11 @@ import javax.swing.JTextField;
 
 import ast.type.Type;
 
-public class TextFieldWidget implements IWidgetComponent  {
+
+public class TextFieldWidget implements IWidgetComponent {
 	private final String id, label;
 	private final Type variableType;
-	private JComponent widget;
+	private JTextField widget;
 		
 	public TextFieldWidget(String id, String label, Type variableType) {
 		this.id = id;
@@ -19,9 +20,12 @@ public class TextFieldWidget implements IWidgetComponent  {
 	@Override
 	public JComponent getWidget() {
 		widget = new JTextField(10);
+		System.out.println("Do it!" );
 		widget.setVisible(visibility());
 		return widget;
 	}
+	
+	
 	@Override
 	public String getIdWidget() {
 		return id;
@@ -38,5 +42,17 @@ public class TextFieldWidget implements IWidgetComponent  {
 	public boolean visibility() {
 		return true;
 		//temporary...
+	}
+
+	@Override
+	public void addDocListener() {
+		widget.getDocument().addDocumentListener(new TextDigitsListener(widget));
+		
+	}
+
+	@Override
+	public String getValue() {
+		// TODO Auto-generated method stub
+		return widget.getText();
 	}
 }
