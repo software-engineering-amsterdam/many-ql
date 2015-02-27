@@ -24,7 +24,9 @@ import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * Created by Timon on 10.02.2015.
@@ -174,30 +176,42 @@ public class QuestionPane extends GridPane {
         this.setManaged(true);
         this.setVisible(true);
         Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(createPositionTranslationFrames());
-        timeline.getKeyFrames().addAll(createBlurEffectFrames(10));
+        timeline.getKeyFrames().addAll(createPositionTranslationFrames(false));
+        timeline.getKeyFrames().addAll(createBlurEffectFrames(10, false));
         timeline.play();
     }
 
     public void hide(){
-        this.setManaged(false);
-        this.setVisible(false);
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().addAll(createBlurEffectFrames(10, true));
+        timeline.getKeyFrames().addAll(createPositionTranslationFrames(true));
+        timeline.getKeyFrames().add(new KeyFrame(
+                Duration.millis(EFFECT_DURATION),
+                ae -> {
+                    this.setManaged(false);
+                    this.setVisible(false);
+                }
+        ));
+        timeline.play();
     }
 
-    private List<KeyFrame> createPositionTranslationFrames(){
+    private List<KeyFrame> createPositionTranslationFrames(boolean reverse){
         List<KeyFrame> result = new ArrayList<KeyFrame>();
-        result.add(new KeyFrame(Duration.ZERO,
+        Duration first = (reverse ? new Duration(EFFECT_DURATION) : Duration.ZERO);
+        Duration last = (reverse ? Duration.ZERO : new Duration(EFFECT_DURATION));
+        result.add(new KeyFrame(first,
                 new KeyValue(this.translateYProperty(), -getMinHeight())));
-        result.add(new KeyFrame(new Duration(EFFECT_DURATION),
+        result.add(new KeyFrame(last,
                         new KeyValue(this.translateYProperty(), 0)));
         return result;
     }
 
-    private List<KeyFrame> createBlurEffectFrames(double steps){
+    private List<KeyFrame> createBlurEffectFrames(double steps, boolean reverse){
         List<KeyFrame> frames = new ArrayList<KeyFrame>();
         for(double i=0; i<=steps; i++){
-            frames.add(
-                    new KeyFrame(new Duration(i/steps*EFFECT_DURATION),
+            Duration duration = (reverse ? new Duration((1-i/steps)*EFFECT_DURATION)
+                    : new Duration(i/steps*EFFECT_DURATION));
+            frames.add(new KeyFrame(duration,
                             new KeyValue(this.effectProperty(), new BoxBlur(steps-i, steps-i, 3))
                     )
             );
