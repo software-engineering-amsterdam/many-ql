@@ -1,0 +1,28 @@
+stylesheet title{
+
+    question name1
+    page{
+        section "section"{
+            question name2
+        }
+        section "another section" {
+            question name3 {
+                width 40
+            }
+        }
+    }
+
+    page{
+    }
+
+    question name3{
+        widget SPINBOX
+        width 500
+        font "arial"
+        color # 123
+    }
+
+    default STRING{
+        color #456
+    }
+}
