@@ -4,36 +4,21 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.fugazi.ast.expression.Expression;
 import org.fugazi.ast.expression.comparison.*;
-import org.fugazi.ast.expression.literal.BOOL;
-import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.INT;
-import org.fugazi.ast.expression.literal.STRING;
-import org.fugazi.ast.expression.logical.And;
-import org.fugazi.ast.expression.logical.Logical;
-import org.fugazi.ast.expression.logical.Or;
+import org.fugazi.ast.expression.literal.*;
+import org.fugazi.ast.expression.logical.*;
 import org.fugazi.ast.expression.numerical.*;
-import org.fugazi.ast.expression.unary.Negative;
-import org.fugazi.ast.expression.unary.Not;
-import org.fugazi.ast.expression.unary.Positive;
-import org.fugazi.ast.expression.unary.Unary;
+import org.fugazi.ast.expression.unary.*;
 import org.fugazi.ast.form.Form;
-import org.fugazi.ast.statement.ComputedQuestion;
-import org.fugazi.ast.statement.IfStatement;
-import org.fugazi.ast.statement.Question;
-import org.fugazi.ast.statement.Statement;
-import org.fugazi.ast.type.BoolType;
-import org.fugazi.ast.type.IntType;
-import org.fugazi.ast.type.StringType;
-import org.fugazi.ast.type.Type;
-import org.fugazi.parser.QLBaseVisitor;
-import org.fugazi.parser.QLParser;
+import org.fugazi.ast.statement.*;
+import org.fugazi.ast.type.*;
+import org.fugazi.parser.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
-    private final HashMap<String, Type> identifiers = new HashMap<String, Type>();
+    private final HashMap<String, Type> identifiers = new HashMap<>();
 
     private void addIdentifier(String _name, Type _type) {
         identifiers.put(_name, _type);
@@ -60,7 +45,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
         String formName = ctx.ID().getText();
-        ArrayList<Statement> formStatements = new ArrayList<Statement>();
+        ArrayList<Statement> formStatements = new ArrayList<>();
 
         for (QLParser.StatementContext statement : ctx.statement()) {
             Statement stat = (Statement) statement.accept(this);
@@ -79,7 +64,7 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     @Override
     public IfStatement visitIfStatement(@NotNull QLParser.IfStatementContext ctx) {
         Expression condition = (Expression) ctx.expression().accept(this);
-        ArrayList<Statement> statements = new ArrayList<Statement>();
+        ArrayList<Statement> statements = new ArrayList<>();
 
         for (QLParser.StatementContext statement : ctx.statement()) {
             Statement stat = (Statement) statement.accept(this);

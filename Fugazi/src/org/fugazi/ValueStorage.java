@@ -6,7 +6,7 @@ import org.fugazi.evaluator.expression_value.UndefinedValue;
 import java.util.HashMap;
 
 /**
- * Value keeper: <identifier name, value >
+ * Value keeper: <identifier name, ExpressionValue >
  */
 public class ValueStorage extends HashMap<String, ExpressionValue> {
 
@@ -25,5 +25,4 @@ public class ValueStorage extends HashMap<String, ExpressionValue> {
     public Boolean isValueExists(String _id) {
         return this.containsKey(_id);
     }
-
 }
