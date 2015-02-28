@@ -197,8 +197,6 @@ namespace QL.Grammars
                 Yesno literal = new Yesno();
                 literal.Value = context.YESNO().ToString()=="yes"?true:false;
                 AppendToAST(literal);
-
-
             }
             else if (context.NUMBER() != null) {
                 Number literal = new Number();
@@ -241,7 +239,37 @@ namespace QL.Grammars
         {
             IList<ElementBase> children = GetChildren();
             Expression e = new Expression();
-            e.HandleChildren(children);
+            if (children.Count()==1)
+            {
+                e.HandleChildren(children[0]);
+            }
+            else if (children.Count() == 2 &&(context.children.Count()==5)) {
+                BinaryTreeElementBase op;
+                switch (context.children[2].GetText())
+                {
+                    case ("+"):
+                        {
+                            op = new AndOperator();
+                            break;
+                        }
+                    case ("=="):
+                        {
+                            op = new EqualsOperator();
+                            break;
+                        }
+                    case "!=":
+                        {
+                            op = new NotEqualsOperator();
+                            break;
+                        }
+                    default:
+                        throw new Exception(" operator not identified");
+                    
+                }
+                op.HandleChildren((ElementBase)children[0], (ElementBase)children[1]);
+                e.HandleChildren(op);
+            }
+            
             AppendToAST(e);
 
             //TODO

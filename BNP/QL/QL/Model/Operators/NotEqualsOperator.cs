@@ -9,5 +9,6 @@ namespace QL.Model.Operators
         {
             throw new NotImplementedException();
         }
+        
     }
 }
