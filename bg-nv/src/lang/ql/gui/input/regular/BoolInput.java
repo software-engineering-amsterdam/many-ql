@@ -1,8 +1,10 @@
-package lang.ql.gui.input;
+package lang.ql.gui.input.regular;
 
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import lang.ql.ast.expression.BoolExpr;
 import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.input.Input;
 import lang.ql.semantics.values.BooleanValue;
 
 /**
@@ -10,24 +12,19 @@ import lang.ql.semantics.values.BooleanValue;
  */
 public class BoolInput extends Input
 {
-    public BoolInput()
+    public BoolInput(String id)
     {
-        super();
+        super(id);
     }
 
-    public BoolInput(Boolean visible, Boolean disabled)
+    public BoolInput(String id, Boolean visible, Boolean disabled)
     {
-        super(visible, disabled);
+        super(id, visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)
     {
         return visitor.visit(this);
-    }
-
-    public void setValue(BooleanValue value)
-    {
-        this.value = value;
     }
 
 }

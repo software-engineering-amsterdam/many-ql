@@ -1,8 +1,10 @@
-package lang.ql.gui.input;
+package lang.ql.gui.input.regular;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import lang.ql.ast.expression.DecExpr;
 import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.input.Input;
 import lang.ql.semantics.values.DecimalValue;
 
 /**
@@ -10,14 +12,14 @@ import lang.ql.semantics.values.DecimalValue;
  */
 public class DecInput extends Input
 {
-    public DecInput()
+    public DecInput(String id)
     {
-        super();
+        super(id);
     }
 
-    public DecInput(Boolean visible, Boolean disabled)
+    public DecInput(String id, Boolean visible, Boolean disabled)
     {
-        super(visible, disabled);
+        super(id, visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)

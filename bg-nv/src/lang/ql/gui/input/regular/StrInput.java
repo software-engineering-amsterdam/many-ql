@@ -1,8 +1,10 @@
-package lang.ql.gui.input;
+package lang.ql.gui.input.regular;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import lang.ql.ast.expression.StrExpr;
 import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.input.Input;
 import lang.ql.semantics.values.StringValue;
 
 /**
@@ -10,14 +12,14 @@ import lang.ql.semantics.values.StringValue;
  */
 public class StrInput extends Input
 {
-    public StrInput()
+    public StrInput(String id)
     {
-        super();
+        super(id);
     }
 
-    public StrInput(Boolean visible, Boolean disabled)
+    public StrInput(String id, Boolean visible, Boolean disabled)
     {
-        super(visible, disabled);
+        super(id, visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)

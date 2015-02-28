@@ -1,6 +1,7 @@
-package lang.ql.gui.input;
+package lang.ql.gui.input.regular;
 
 import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.input.Input;
 import lang.ql.semantics.values.DateValue;
 
 /**
@@ -8,14 +9,14 @@ import lang.ql.semantics.values.DateValue;
  */
 public class DateInput extends Input
 {
-    public DateInput()
+    public DateInput(String id)
     {
-        super();
+        super(id);
     }
 
-    public DateInput(Boolean visible, Boolean disabled)
+    public DateInput(String id, Boolean visible, Boolean disabled)
     {
-        super(visible, disabled);
+        super(id, visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)

@@ -1,8 +1,10 @@
-package lang.ql.gui.input;
+package lang.ql.gui.input.regular;
 
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import lang.ql.ast.expression.IntExpr;
 import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.input.Input;
 import lang.ql.semantics.values.IntegerValue;
 
 /**
@@ -10,23 +12,18 @@ import lang.ql.semantics.values.IntegerValue;
  */
 public class IntInput extends Input
 {
-    public IntInput()
+    public IntInput(String id)
     {
-        super();
+        super(id);
     }
 
-    public IntInput(Boolean visible, Boolean disabled)
+    public IntInput(String id, Boolean visible, Boolean disabled)
     {
-        super(visible, disabled);
+        super(id, visible, disabled);
     }
 
     public <T> T accept(GuiVisitor<T> visitor)
     {
         return visitor.visit(this);
-    }
-
-    public void setValue(IntegerValue value)
-    {
-        this.value = value;
     }
 }
