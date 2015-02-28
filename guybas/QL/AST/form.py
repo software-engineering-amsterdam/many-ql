@@ -64,7 +64,21 @@ class Form:
         for s in self._statements:
             new_dependencies = s.dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
-        return dependencies
+
+        # Get transitive dependencies
+        transitive_dependencies = {}
+        for k in dependencies:
+            transitive_dependencies[k] = Form.transitive_dependencies_key(k, set([]), set([]), dependencies)
+        return transitive_dependencies
+
+    @staticmethod
+    def transitive_dependencies_key(key, values, checked, dependencies):
+        for v in dependencies[key]:
+            values.add(v)
+            checked.add(key)
+            if v not in checked:
+                values = values.union(Form.transitive_dependencies_key(v, values, checked, dependencies))
+        return values
 
     # Return all expressions present in the form
     def get_expressions(self):

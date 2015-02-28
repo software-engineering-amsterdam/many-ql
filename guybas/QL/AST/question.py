@@ -24,6 +24,10 @@ class Question(IStatement):
         return s
 
     # Override
+    def id_collection(self):
+        return [self.id]
+
+    # Override
     def label_collection(self):
         return [self.label]
 

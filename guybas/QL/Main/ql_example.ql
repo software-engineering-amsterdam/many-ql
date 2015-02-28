@@ -11,7 +11,12 @@ if (hummus == True) {
 
     if (grade < 6) {
         Question con (bool) : This is quite contradicting isn't it?
+
+        if (dep == True) {
+            Question dep (bool) : This should fail.
+        }
     }
+
 }
 else {
     Question why (text) : Why you don't love it?
