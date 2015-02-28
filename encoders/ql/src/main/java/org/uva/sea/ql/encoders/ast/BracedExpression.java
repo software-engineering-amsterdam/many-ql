@@ -4,7 +4,8 @@ public class BracedExpression extends Expression {
 
 	private Expression expression;
 
-	public BracedExpression(Expression expression) {
+	public BracedExpression(TextLocation textLocation, Expression expression) {
+		super(textLocation);
 		this.expression = expression;
 	}
 

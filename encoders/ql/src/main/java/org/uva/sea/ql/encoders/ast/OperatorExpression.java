@@ -8,8 +8,9 @@ public class OperatorExpression extends Expression {
 
 	private Expression rightHand;
 
-	public OperatorExpression(Expression leftHand, Expression rightHand,
-			String operator) {
+	public OperatorExpression(TextLocation textLocation, Expression leftHand,
+			Expression rightHand, String operator) {
+		super(textLocation);
 		this.leftHand = leftHand;
 		this.rightHand = rightHand;
 		this.operator = operator;

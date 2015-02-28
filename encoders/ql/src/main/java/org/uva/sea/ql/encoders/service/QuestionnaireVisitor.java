@@ -2,6 +2,8 @@ package org.uva.sea.ql.encoders.service;
 
 import java.util.List;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
 import org.uva.sea.ql.encoders.EncodersQLBaseVisitor;
 import org.uva.sea.ql.encoders.EncodersQLParser.AddSubContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.AndContext;
@@ -26,12 +28,13 @@ import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.ast.TextLocation;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
-		Questionnaire questionnaire = new Questionnaire();
+		Questionnaire questionnaire = new Questionnaire(getTextLocation(ctx));
 		questionnaire.setName(ctx.formName.getText());
 		List<StatementContext> statements = ctx.statement();
 
@@ -53,7 +56,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public ConditionalBlock visitConditionalBlock(ConditionalBlockContext ctx) {
-		ConditionalBlock cb = new ConditionalBlock();
+		ConditionalBlock cb = new ConditionalBlock(getTextLocation(ctx));
 		for (QuestionContext questionContext : ctx.question()) {
 			Question question = (Question) visit(questionContext);
 			cb.add(question);
@@ -68,7 +71,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String questionString = ctx.questionString.getText();
 		questionString = questionString.replaceAll("\"", "");
 
-		Question question = new Question(questionName, dataType, questionString);
+		TextLocation textLocation = getTextLocation(ctx);
+		Question question = new Question(textLocation, questionName, dataType,
+				questionString);
 		if (ctx.parent instanceof ConditionalBlockContext) {
 			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
 			Expression condition = (Expression) visit(parent.expression());
@@ -89,7 +94,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new OperatorExpression(leftHand, rightHand, operator);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new OperatorExpression(textLocation, leftHand, rightHand,
+				operator);
 	}
 
 	@Override
@@ -97,7 +104,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new OperatorExpression(leftHand, rightHand, operator);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new OperatorExpression(textLocation, leftHand, rightHand,
+				operator);
 	}
 
 	@Override
@@ -105,7 +114,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new OperatorExpression(leftHand, rightHand, operator);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new OperatorExpression(textLocation, leftHand, rightHand,
+				operator);
 	}
 
 	@Override
@@ -113,7 +124,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new OperatorExpression(leftHand, rightHand, operator);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new OperatorExpression(textLocation, leftHand, rightHand,
+				operator);
 	}
 
 	@Override
@@ -121,7 +134,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new OperatorExpression(leftHand, rightHand, operator);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new OperatorExpression(textLocation, leftHand, rightHand,
+				operator);
 	}
 
 	@Override
@@ -129,7 +144,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new OperatorExpression(leftHand, rightHand, operator);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new OperatorExpression(textLocation, leftHand, rightHand,
+				operator);
 	}
 
 	@Override
@@ -137,17 +154,29 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		String operator = ctx.operator.getText();
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
-		return new OperatorExpression(leftHand, rightHand, operator);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new OperatorExpression(textLocation, leftHand, rightHand,
+				operator);
 	}
 
 	@Override
 	public Expression visitBracedExpression(BracedExpressionContext ctx) {
 		Expression expression = (Expression) visit(ctx.expression());
-		return new BracedExpression(expression);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new BracedExpression(textLocation, expression);
 	}
 
 	@Override
 	public Expression visitName(NameContext ctx) {
-		return new NameExpression(ctx.name.getText());
+		TextLocation textLocation = getTextLocation(ctx);
+		String text = ctx.name.getText();
+		return new NameExpression(textLocation, text);
+	}
+
+	private TextLocation getTextLocation(ParserRuleContext ctx) {
+		Token start = ctx.getStart();
+		int line = start.getLine();
+		int charPositionInLine = start.getCharPositionInLine();
+		return new TextLocation(line, charPositionInLine);
 	}
 }

@@ -5,6 +5,10 @@ import java.util.List;
 
 public class ConditionalBlock extends AstNode {
 
+	public ConditionalBlock(TextLocation textLocation) {
+		super(textLocation);
+	}
+
 	private final List<Question> questions = new ArrayList<Question>();
 
 	public void add(Question question) {
