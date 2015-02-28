@@ -8,6 +8,10 @@ import java.util.List;
  */
 public class Questionnaire extends AstNode {
 
+	public Questionnaire(TextLocation textLocation) {
+		super(textLocation);
+	}
+
 	private String name;
 
 	private List<Question> questions = new ArrayList<Question>();

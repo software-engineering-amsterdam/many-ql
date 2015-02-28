@@ -4,7 +4,8 @@ public class NameExpression extends Expression {
 
 	private String name;
 
-	public NameExpression(String name) {
+	public NameExpression(TextLocation textLocation, String name) {
+		super(textLocation);
 		this.name = name;
 	}
 
