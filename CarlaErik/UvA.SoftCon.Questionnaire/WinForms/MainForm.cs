@@ -15,7 +15,7 @@ using UvA.SoftCon.Questionnaire.Runtime;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
-namespace WinForms
+namespace UvA.SoftCon.Questionnaire.WinForms
 {
     public partial class MainForm : System.Windows.Forms.Form
     {
