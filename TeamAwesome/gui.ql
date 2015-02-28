@@ -1,7 +1,7 @@
 form taxOfficeExample { 
   question hasSoldHouse {
     "Did you sell a house in 2010?"
-    money = -3
+    money
   }
 
   if 5 > 3 {

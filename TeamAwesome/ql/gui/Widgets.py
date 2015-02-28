@@ -40,7 +40,6 @@ class TextInputWidget(tk.Entry):
         if questionModel.isConstant:
             self.config(state = "readonly")
 
-        self.bind("<Return>", lambda event : callback(self.value()))
         self.bind("<FocusOut>", lambda event : callback(self.value()))
 
     def value(self):

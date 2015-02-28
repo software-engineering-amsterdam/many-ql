@@ -10,5 +10,9 @@ class Controller(object):
 				self._view.render(questionModel, lambda value, questionModel = questionModel : self.valueChangedCallback(questionModel, value))
 
 	def valueChangedCallback(self, questionModel, value):
-		questionModel.updateValue(value)
+		updateSuccess = questionModel.updateValue(value)
+		
+		if not updateSuccess:
+			self._view.showWarning("Incorrect answer type entered in the question: " + questionModel.text)
+		
 		self.refresh()

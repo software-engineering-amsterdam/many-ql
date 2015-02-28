@@ -1,3 +1,5 @@
+import decimal
+
 class QuestionModel(object):
     def __init__(self, identifier, evaluator):
         self._identifier = identifier
@@ -33,4 +35,10 @@ class QuestionModel(object):
         return self._evaluator.getValue(self._identifier)
 
     def updateValue(self, value):
+        try:
+            value = self.type(value)
+        except (ValueError, decimal.InvalidOperation): 
+            return False
+
         self._evaluator.addValue(self._identifier, value)
+        return True

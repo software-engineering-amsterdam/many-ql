@@ -1,6 +1,7 @@
 import tkinter as tk
 from .Widgets import *
 from .Styles import typeStyleTable
+from tkinter import messagebox
 
 class View(tk.Frame):
     def __init__(self, master = None, title = 'Questionnaire'):
@@ -18,3 +19,7 @@ class View(tk.Frame):
 
         widget = typeStyleTable()[questionModel.type](self, questionModel, callback)
         widget.grid()
+
+    def showWarning(self, text):
+        print("hi")
+        messagebox.showwarning("Warning", text)
