@@ -1,0 +1,16 @@
+stylesheet title{
+
+    question name1
+    page{
+        section{
+            question name2
+        }
+    }
+
+    page{
+    }
+
+    question name3{
+        widget SPINBOX
+    }
+}

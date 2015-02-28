@@ -1,4 +1,4 @@
-// Generated from E:/development/Steven/src/main/antlr/grammers\QL.g4 by ANTLR 4.5
+// Generated from E:/development/Steven/src/test/resources/antlr/grammars\QL.g4 by ANTLR 4.5
 package edu.parser.QL.antlrGenerated;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLParser extends Parser {
@@ -17,9 +19,8 @@ public class QLParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, T__27=28, UPPERCASE=29, LOWERCASE=30, NUMBERS=31, 
-		STRING=32, COMMENT_LINE=33, WS=34;
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, UPPERCASE=23, LOWERCASE=24, 
+		NUMBERS=25, STRING=26, COMMENT_LINE=27, WS=28;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_if_statement = 2, RULE_else_clause = 3, 
 		RULE_expression = 4, RULE_booleanExpression = 5, RULE_arithmeticOperator = 6, 
@@ -34,14 +35,12 @@ public class QLParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 		null, "'form'", "'{'", "'}'", "'if'", "'('", "')'", "'else'", "'!'", "'true'", 
 		"'false'", "'*'", "'/'", "'+'", "'-'", "'>'", "'<'", "'<='", "'>='", "'=='", 
-		"'!='", "'&&'", "'||'", "'STRING'", "'INTEGER'", "'BOOLEAN'", "'DATE'", 
-		"'MONEY'", "'DECIMAL'"
+		"'!='", "'&&'", "'||'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, "UPPERCASE", "LOWERCASE", "NUMBERS", "STRING", 
-		"COMMENT_LINE", "WS"
+		null, null, null, null, null, null, null, null, null, null, null, "UPPERCASE", 
+		"LOWERCASE", "NUMBERS", "STRING", "COMMENT_LINE", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -107,14 +106,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_form; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterForm(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitForm(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitForm(this);
 			else return visitor.visitChildren(this);
@@ -174,14 +165,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitStatement(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitStatement(this);
@@ -243,14 +226,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_if_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterIf_statement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitIf_statement(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIf_statement(this);
@@ -324,14 +299,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_else_clause; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterElse_clause(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitElse_clause(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitElse_clause(this);
@@ -409,14 +376,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitExpression(this);
@@ -545,14 +504,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_booleanExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterBooleanExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitBooleanExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitBooleanExpression(this);
 			else return visitor.visitChildren(this);
@@ -603,14 +554,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithmeticOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterArithmeticOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitArithmeticOperator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitArithmeticOperator(this);
@@ -698,14 +641,6 @@ public class QLParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalOperator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterLogicalOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitLogicalOperator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitLogicalOperator(this);
@@ -826,14 +761,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_identifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterIdentifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitIdentifier(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitIdentifier(this);
 			else return visitor.visitChildren(this);
@@ -903,14 +830,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_question; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion(this);
 			else return visitor.visitChildren(this);
@@ -961,14 +880,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_question_expression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion_expression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion_expression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion_expression(this);
 			else return visitor.visitChildren(this);
@@ -1001,24 +912,11 @@ public class QLParser extends Parser {
 	}
 
 	public static class Question_typeContext extends ParserRuleContext {
-		public Token string;
-		public Token integer;
-		public Token booleanType;
-		public Token date;
-		public Token money;
-		public Token decimal;
+		public TerminalNode UPPERCASE() { return getToken(QLParser.UPPERCASE, 0); }
 		public Question_typeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_question_type; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion_type(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion_type(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion_type(this);
@@ -1030,52 +928,10 @@ public class QLParser extends Parser {
 		Question_typeContext _localctx = new Question_typeContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_question_type);
 		try {
-			setState(137);
-			switch (_input.LA(1)) {
-			case T__22:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(131); 
-				((Question_typeContext)_localctx).string = match(T__22);
-				}
-				break;
-			case T__23:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(132); 
-				((Question_typeContext)_localctx).integer = match(T__23);
-				}
-				break;
-			case T__24:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(133); 
-				((Question_typeContext)_localctx).booleanType = match(T__24);
-				}
-				break;
-			case T__25:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(134); 
-				((Question_typeContext)_localctx).date = match(T__25);
-				}
-				break;
-			case T__26:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(135); 
-				((Question_typeContext)_localctx).money = match(T__26);
-				}
-				break;
-			case T__27:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(136); 
-				((Question_typeContext)_localctx).decimal = match(T__27);
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(131); 
+			match(UPPERCASE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1096,14 +952,6 @@ public class QLParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_question_label; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).enterQuestion_label(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof QLListener ) ((QLListener)listener).exitQuestion_label(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof QLVisitor ) return ((QLVisitor<? extends T>)visitor).visitQuestion_label(this);
 			else return visitor.visitChildren(this);
@@ -1116,7 +964,7 @@ public class QLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(139); 
+			setState(133); 
 			match(STRING);
 			}
 		}
@@ -1149,45 +997,42 @@ public class QLParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$\u0090\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\2\6\2!\n\2\r\2\16\2\"\3\2"+
-		"\3\2\3\3\3\3\5\3)\n\3\3\4\3\4\3\4\3\4\3\4\3\4\6\4\61\n\4\r\4\16\4\62\3"+
-		"\4\3\4\5\4\67\n\4\3\5\3\5\3\5\6\5<\n\5\r\5\16\5=\3\5\3\5\3\6\3\6\3\6\3"+
-		"\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6L\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\7"+
-		"\6V\n\6\f\6\16\6Y\13\6\3\7\3\7\5\7]\n\7\3\b\3\b\5\ba\n\b\3\b\3\b\5\be"+
-		"\n\b\5\bg\n\b\3\t\3\t\3\t\3\t\5\tm\n\t\3\t\3\t\5\tq\n\t\3\t\3\t\5\tu\n"+
-		"\t\3\n\6\nx\n\n\r\n\16\ny\3\13\3\13\3\13\3\13\5\13\u0080\n\13\3\f\3\f"+
-		"\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u008c\n\r\3\16\3\16\3\16\2\3\n\17"+
-		"\2\4\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2\37!\u009f\2\34\3\2\2\2\4(\3"+
-		"\2\2\2\6*\3\2\2\2\b8\3\2\2\2\nK\3\2\2\2\f\\\3\2\2\2\16f\3\2\2\2\20t\3"+
-		"\2\2\2\22w\3\2\2\2\24{\3\2\2\2\26\u0081\3\2\2\2\30\u008b\3\2\2\2\32\u008d"+
-		"\3\2\2\2\34\35\7\3\2\2\35\36\5\22\n\2\36 \7\4\2\2\37!\5\4\3\2 \37\3\2"+
-		"\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#$\3\2\2\2$%\7\5\2\2%\3\3\2\2\2&"+
-		")\5\24\13\2\')\5\6\4\2(&\3\2\2\2(\'\3\2\2\2)\5\3\2\2\2*+\7\6\2\2+,\7\7"+
-		"\2\2,-\5\n\6\2-.\7\b\2\2.\60\7\4\2\2/\61\5\4\3\2\60/\3\2\2\2\61\62\3\2"+
-		"\2\2\62\60\3\2\2\2\62\63\3\2\2\2\63\64\3\2\2\2\64\66\7\5\2\2\65\67\5\b"+
-		"\5\2\66\65\3\2\2\2\66\67\3\2\2\2\67\7\3\2\2\289\7\t\2\29;\7\4\2\2:<\5"+
-		"\4\3\2;:\3\2\2\2<=\3\2\2\2=;\3\2\2\2=>\3\2\2\2>?\3\2\2\2?@\7\5\2\2@\t"+
-		"\3\2\2\2AB\b\6\1\2BC\7\n\2\2CL\5\n\6\bDE\7\7\2\2EF\5\n\6\2FG\7\b\2\2G"+
-		"L\3\2\2\2HL\7!\2\2IL\5\22\n\2JL\5\f\7\2KA\3\2\2\2KD\3\2\2\2KH\3\2\2\2"+
-		"KI\3\2\2\2KJ\3\2\2\2LW\3\2\2\2MN\f\7\2\2NO\5\16\b\2OP\5\n\6\bPV\3\2\2"+
-		"\2QR\f\6\2\2RS\5\20\t\2ST\5\n\6\7TV\3\2\2\2UM\3\2\2\2UQ\3\2\2\2VY\3\2"+
-		"\2\2WU\3\2\2\2WX\3\2\2\2X\13\3\2\2\2YW\3\2\2\2Z]\7\13\2\2[]\7\f\2\2\\"+
-		"Z\3\2\2\2\\[\3\2\2\2]\r\3\2\2\2^a\7\r\2\2_a\7\16\2\2`^\3\2\2\2`_\3\2\2"+
-		"\2ag\3\2\2\2be\7\17\2\2ce\7\20\2\2db\3\2\2\2dc\3\2\2\2eg\3\2\2\2f`\3\2"+
-		"\2\2fd\3\2\2\2g\17\3\2\2\2hm\7\21\2\2im\7\22\2\2jm\7\23\2\2km\7\24\2\2"+
-		"lh\3\2\2\2li\3\2\2\2lj\3\2\2\2lk\3\2\2\2mu\3\2\2\2nq\7\25\2\2oq\7\26\2"+
-		"\2pn\3\2\2\2po\3\2\2\2qu\3\2\2\2ru\7\27\2\2su\7\30\2\2tl\3\2\2\2tp\3\2"+
-		"\2\2tr\3\2\2\2ts\3\2\2\2u\21\3\2\2\2vx\t\2\2\2wv\3\2\2\2xy\3\2\2\2yw\3"+
-		"\2\2\2yz\3\2\2\2z\23\3\2\2\2{|\5\22\n\2|}\5\30\r\2}\177\5\32\16\2~\u0080"+
-		"\5\26\f\2\177~\3\2\2\2\177\u0080\3\2\2\2\u0080\25\3\2\2\2\u0081\u0082"+
-		"\7\7\2\2\u0082\u0083\5\n\6\2\u0083\u0084\7\b\2\2\u0084\27\3\2\2\2\u0085"+
-		"\u008c\7\31\2\2\u0086\u008c\7\32\2\2\u0087\u008c\7\33\2\2\u0088\u008c"+
-		"\7\34\2\2\u0089\u008c\7\35\2\2\u008a\u008c\7\36\2\2\u008b\u0085\3\2\2"+
-		"\2\u008b\u0086\3\2\2\2\u008b\u0087\3\2\2\2\u008b\u0088\3\2\2\2\u008b\u0089"+
-		"\3\2\2\2\u008b\u008a\3\2\2\2\u008c\31\3\2\2\2\u008d\u008e\7\"\2\2\u008e"+
-		"\33\3\2\2\2\24\"(\62\66=KUW\\`dflpty\177\u008b";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\36\u008a\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\2\6\2!\n\2\r\2\16\2\"\3"+
+		"\2\3\2\3\3\3\3\5\3)\n\3\3\4\3\4\3\4\3\4\3\4\3\4\6\4\61\n\4\r\4\16\4\62"+
+		"\3\4\3\4\5\4\67\n\4\3\5\3\5\3\5\6\5<\n\5\r\5\16\5=\3\5\3\5\3\6\3\6\3\6"+
+		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6L\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
+		"\7\6V\n\6\f\6\16\6Y\13\6\3\7\3\7\5\7]\n\7\3\b\3\b\5\ba\n\b\3\b\3\b\5\b"+
+		"e\n\b\5\bg\n\b\3\t\3\t\3\t\3\t\5\tm\n\t\3\t\3\t\5\tq\n\t\3\t\3\t\5\tu"+
+		"\n\t\3\n\6\nx\n\n\r\n\16\ny\3\13\3\13\3\13\3\13\5\13\u0080\n\13\3\f\3"+
+		"\f\3\f\3\f\3\r\3\r\3\16\3\16\3\16\2\3\n\17\2\4\6\b\n\f\16\20\22\24\26"+
+		"\30\32\2\3\3\2\31\33\u0094\2\34\3\2\2\2\4(\3\2\2\2\6*\3\2\2\2\b8\3\2\2"+
+		"\2\nK\3\2\2\2\f\\\3\2\2\2\16f\3\2\2\2\20t\3\2\2\2\22w\3\2\2\2\24{\3\2"+
+		"\2\2\26\u0081\3\2\2\2\30\u0085\3\2\2\2\32\u0087\3\2\2\2\34\35\7\3\2\2"+
+		"\35\36\5\22\n\2\36 \7\4\2\2\37!\5\4\3\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2"+
+		"\2\2\"#\3\2\2\2#$\3\2\2\2$%\7\5\2\2%\3\3\2\2\2&)\5\24\13\2\')\5\6\4\2"+
+		"(&\3\2\2\2(\'\3\2\2\2)\5\3\2\2\2*+\7\6\2\2+,\7\7\2\2,-\5\n\6\2-.\7\b\2"+
+		"\2.\60\7\4\2\2/\61\5\4\3\2\60/\3\2\2\2\61\62\3\2\2\2\62\60\3\2\2\2\62"+
+		"\63\3\2\2\2\63\64\3\2\2\2\64\66\7\5\2\2\65\67\5\b\5\2\66\65\3\2\2\2\66"+
+		"\67\3\2\2\2\67\7\3\2\2\289\7\t\2\29;\7\4\2\2:<\5\4\3\2;:\3\2\2\2<=\3\2"+
+		"\2\2=;\3\2\2\2=>\3\2\2\2>?\3\2\2\2?@\7\5\2\2@\t\3\2\2\2AB\b\6\1\2BC\7"+
+		"\n\2\2CL\5\n\6\bDE\7\7\2\2EF\5\n\6\2FG\7\b\2\2GL\3\2\2\2HL\7\33\2\2IL"+
+		"\5\22\n\2JL\5\f\7\2KA\3\2\2\2KD\3\2\2\2KH\3\2\2\2KI\3\2\2\2KJ\3\2\2\2"+
+		"LW\3\2\2\2MN\f\7\2\2NO\5\16\b\2OP\5\n\6\bPV\3\2\2\2QR\f\6\2\2RS\5\20\t"+
+		"\2ST\5\n\6\7TV\3\2\2\2UM\3\2\2\2UQ\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2"+
+		"\2X\13\3\2\2\2YW\3\2\2\2Z]\7\13\2\2[]\7\f\2\2\\Z\3\2\2\2\\[\3\2\2\2]\r"+
+		"\3\2\2\2^a\7\r\2\2_a\7\16\2\2`^\3\2\2\2`_\3\2\2\2ag\3\2\2\2be\7\17\2\2"+
+		"ce\7\20\2\2db\3\2\2\2dc\3\2\2\2eg\3\2\2\2f`\3\2\2\2fd\3\2\2\2g\17\3\2"+
+		"\2\2hm\7\21\2\2im\7\22\2\2jm\7\23\2\2km\7\24\2\2lh\3\2\2\2li\3\2\2\2l"+
+		"j\3\2\2\2lk\3\2\2\2mu\3\2\2\2nq\7\25\2\2oq\7\26\2\2pn\3\2\2\2po\3\2\2"+
+		"\2qu\3\2\2\2ru\7\27\2\2su\7\30\2\2tl\3\2\2\2tp\3\2\2\2tr\3\2\2\2ts\3\2"+
+		"\2\2u\21\3\2\2\2vx\t\2\2\2wv\3\2\2\2xy\3\2\2\2yw\3\2\2\2yz\3\2\2\2z\23"+
+		"\3\2\2\2{|\5\22\n\2|}\5\30\r\2}\177\5\32\16\2~\u0080\5\26\f\2\177~\3\2"+
+		"\2\2\177\u0080\3\2\2\2\u0080\25\3\2\2\2\u0081\u0082\7\7\2\2\u0082\u0083"+
+		"\5\n\6\2\u0083\u0084\7\b\2\2\u0084\27\3\2\2\2\u0085\u0086\7\31\2\2\u0086"+
+		"\31\3\2\2\2\u0087\u0088\7\34\2\2\u0088\33\3\2\2\2\23\"(\62\66=KUW\\`d"+
+		"flpty\177";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

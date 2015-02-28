@@ -1,5 +1,6 @@
 package edu.parser.QL;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.exceptions.ParseException;
 import org.antlr.v4.runtime.misc.NotNull;
 import edu.parser.QL.antlrGenerated.QLBaseVisitor;
@@ -100,19 +101,9 @@ public class ParseTreeWalker extends QLBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitQuestion_type(@NotNull QLParser.Question_typeContext ctx) {
-        if (ctx.booleanType != null) {
-            return QuestionType.BOOLEAN;
-        } else if (ctx.date != null) {
-            return QuestionType.DATE;
-        } else if (ctx.decimal != null) {
-            return QuestionType.DECIMAL;
-        } else if (ctx.integer != null) {
-            return QuestionType.INTEGER;
-        } else if (ctx.money != null) {
-            return QuestionType.MONEY;
-        } else if (ctx.string != null) {
-            return QuestionType.STRING;
-        } else {
+        try {
+            return QuestionType.getType(ctx.getText());
+        } catch (InvalidArgumentException e) {
             throw new ParseException("No question type found for: " + ctx.getText());
         }
     }
