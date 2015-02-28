@@ -29,9 +29,8 @@ class Evaluator(object):
 		return None
 
 	def addValue(self, identifier, value):
-		questions = self._questionTable.getQuestionList(identifier)
-
-		for question in questions:
+		question = self._questionTable.get(identifier)
+		if question:
 			self._questionValueTable.update(question, value)
 
 	def getValue(self, identifier):
