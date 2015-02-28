@@ -42,10 +42,11 @@ public class Symbol {
 	}
 	@Override
 	public boolean equals(Object object){
-		if (((Symbol)object).type.equals(null))
-			return this.className.equals(((Symbol)object).className) && this.type.equals(((Symbol)object).type);
-		else 
+		
+		if (((Symbol)object).type == null || this.type == null)
 			return this.className.equals(((Symbol)object).className);
+		else 
+			return this.className.equals(((Symbol)object).className) && this.type.equals(((Symbol)object).type);
 	}
 	@Override
 	public int hashCode(){

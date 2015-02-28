@@ -39,7 +39,7 @@ public class QLParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'form'", "'question'", "'typeof'", "'='", "';'", "'if'", "'boolean'", 
+		null, "'form'", "'question'", "'typeof'", "':'", "';'", "'if'", "'boolean'", 
 		"'decimal'", "'string'", "'int'", null, null, null, null, null, null, 
 		null, null, null, null, null, "'*'", "'/'", "'+'", "'-'", "'('", "')'", 
 		"'{'", "'}'", "'<'", "'<='", "'>'", "'>='", "'=='", "'&&'", "'||'", "'!='", 

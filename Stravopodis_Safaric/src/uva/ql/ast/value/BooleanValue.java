@@ -26,7 +26,7 @@ public class BooleanValue extends GenericValue<Boolean> {
 		return new BooleanValue(this.value && value.value);
 	}
 	public BooleanValue or(BooleanValue value){
-		return new BooleanValue(this.value && value.value);
+		return new BooleanValue(this.value || value.value);
 	}
 
 	@Override

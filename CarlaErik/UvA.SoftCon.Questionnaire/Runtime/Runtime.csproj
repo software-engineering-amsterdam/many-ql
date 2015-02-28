@@ -47,13 +47,8 @@
   <ItemGroup>
     <Compile Include="Evaluation\ExpressionInterpreter.cs" />
     <Compile Include="Evaluation\Interpreter.cs" />
-    <Compile Include="Evaluation\Types\BoolValue.cs" />
-    <Compile Include="Evaluation\Types\IBoolean.cs" />
-    <Compile Include="Evaluation\Types\IInteger.cs" />
-    <Compile Include="Evaluation\Types\IntValue.cs" />
-    <Compile Include="Evaluation\Types\IString.cs" />
-    <Compile Include="Evaluation\Types\IUndefined.cs" />
-    <Compile Include="Evaluation\Types\IValue.cs" />
+    <Compile Include="Evaluation\Types\BooleanValue.cs" />
+    <Compile Include="Evaluation\Types\IntegerValue.cs" />
     <Compile Include="Evaluation\Types\StringValue.cs" />
     <Compile Include="Evaluation\Types\Undefined.cs" />
     <Compile Include="Evaluation\Types\Value.cs" />
@@ -61,10 +56,11 @@
     <Compile Include="RuntimeController.cs" />
     <Compile Include="Validation\DuplicateLabelCheckingVisitor.cs" />
     <Compile Include="Validation\ErrorReporting\Message.cs" />
-    <Compile Include="Validation\ErrorReporting\ErrorReportBuilder.cs" />
+    <Compile Include="Validation\ErrorReporting\ErrorReport.cs" />
     <Compile Include="Validation\ErrorReporting\Severity.cs" />
     <Compile Include="Validation\InvalidAssignment.cs" />
     <Compile Include="Validation\InvalidBinaryExpression.cs" />
+    <Compile Include="Validation\InvalidUnaryExpression.cs" />
     <Compile Include="Validation\TypeCheckingVisitor.cs" />
     <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
   </ItemGroup>

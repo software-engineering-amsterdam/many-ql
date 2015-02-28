@@ -24,10 +24,12 @@ import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfStatement;
+import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
+import org.uva.ql.visitor.Visitor;
 
 public class TypeChecker implements Visitor<Boolean> {
 
@@ -160,19 +162,21 @@ public class TypeChecker implements Visitor<Boolean> {
 
 	@Override
 	public Boolean visit(IntType node) {
-		
 		return null;
 	}
 
 	@Override
 	public Boolean visit(BoolType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Boolean visit(StrType node) {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean visit(QuestionCompute questionComputeStatement) {
 		return null;
 	}
 

@@ -2,28 +2,31 @@
 form HouseSelling {
     
     question hasSoldHouse typeof boolean {
-        hasSoldHouse = "Did you sell a house in 2015?";
-        hasSoldHouse = false;
+        hasSoldHouse : "Did you sell a house in 2015?";
+        hasSoldHouse : false;
     }
     question hasRentHouse typeof boolean {
-        hasRentHouse = "Did you bought a house in 2015?";
-        hasRentHouse = 9482.23 + 2323.23 - 2323;
+        hasRentHouse : "Did you bought a house in 2015?";
+        hasRentHouse : true;
     }
     question hasMaintLoan typeof boolean {
-    	hasMaintLoan = "Did you sell a house in 2014 ?";
-    	hasMaintLoan = true;
+    	hasMaintLoan : "Did you sell a house in 2014 ?";
     }	
 
-    if (true == true){
-    	question sellingPrice typeof decimal {
-    		sellingPrice = "What was the selling price?";
+    if (hasMaintLoan == false && (hasRentHouse == true && hasSoldHouse == false)){
+    	question sellingPrice typeof int {
+    		sellingPrice : "What was the selling price?";
+    		sellingPrice : 238283;
+    		question sellingPrice2 typeof decimal {
+    				sellingPrice2 : "What is the seeling price 2?";
+    		}
     	}
-    	question privateDebt typeof decimal {
-    		privateDebt = "Private debt value:";
+    	question privateDebt typeof int {
+    		privateDebt : "What was the value of the private debt?";
     	}
-    	question valueResidue typeof decimal {
-    		valueResidue = "Value residue:";
-    		//valueResidue = sellingPrice - privateDebt;
+    	question valueResidue typeof int {
+    		valueResidue : "What was the residue value?";
+    		valueResidue : sellingPrice - privateDebt;
     	}
     }
 }

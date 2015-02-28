@@ -21,6 +21,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
             Position = position;
         }
 
+        public abstract void Accept(IASTVisitor visitor);
+
         public abstract T Accept<T>(IASTVisitor<T> visitor);
     }
 }

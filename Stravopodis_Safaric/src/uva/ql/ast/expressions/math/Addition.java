@@ -21,7 +21,7 @@ public class Addition extends BinaryExpressions{
 	public NumberValue evaluate() {
 		if (!NumberValue.isNumberValue(getLeftExpr()) || !NumberValue.isNumberValue(getRightExpr())){
 			throw new IllegalArgumentException("Operands Not Of The Same Type. Addition requires numbers.");
-			}
+		}
 		return NumberValue.numberValueFromExpr(getLeftExpr()).addition(NumberValue.numberValueFromExpr(getRightExpr()));
 	}
 }

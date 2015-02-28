@@ -10,8 +10,6 @@ import com.klq.logic.question.Type;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.Observable;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -24,9 +22,7 @@ import javafx.util.Duration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
 
 /**
  * Created by Timon on 10.02.2015.
@@ -34,10 +30,11 @@ import java.util.Timer;
 public class QuestionPane extends GridPane {
     private final static Font DEFAULT_QUESTION = new Font("Arial Bold", 14);
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
-    private final double MIN_HEIGHT = 50;
-    private final double EFFECT_DURATION = 500;
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
+    private final double MIN_HEIGHT = 50;
+    private final double EFFECT_DURATION = 500;
+    private final int TEXTBOX_PREFERRED_WIDTH = 250;
 
     private final Store store;
     private final Question question;
@@ -73,9 +70,11 @@ public class QuestionPane extends GridPane {
     private void createQuestionBody(){
         if (question.isComputedQuestion()){
             TextField computedField = new TextField();
-            //TODO bind
             computedField.textProperty().bind(question.computedProperty());
             computedField.setEditable(false);
+            computedField.setDisable(true);
+            computedField.setStyle("-fx-opacity: 0.9");
+            computedField.setPrefWidth(TEXTBOX_PREFERRED_WIDTH);
             this.getChildren().add(computedField);
             this.setConstraints(computedField, 0, 1);
             return;
@@ -119,22 +118,29 @@ public class QuestionPane extends GridPane {
         this.getChildren().add(dateLabel);
         this.setConstraints(dateLabel, 0, 1);
 
-        LocalDate lDate = LocalDate.now();
-        final DatePicker datePicker = new DatePicker(lDate);
+        final DatePicker datePicker = new DatePicker();
         if (question.isComputedQuestion()){
-            //lDate = LocalDate.parse(optionSet.get(0).toString());
+            LocalDate lDate = LocalDate.parse(question.computedProperty().toString());
             datePicker.setEditable(false);
             datePicker.getEditor().setEditable(false);
+            datePicker.setValue(lDate);
             //TODO disable button somehow
         }
-        datePicker.setValue(lDate);
         datePicker.getEditor().textProperty().addListener(createInputListener(Type.DATE, datePicker));
+        question.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue)
+                    datePicker.getEditor().setText("");
+            }
+        });
         this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
 
     private void createTextField(Type questionType){
         final TextField input = new TextField();
+        input.setPrefWidth(TEXTBOX_PREFERRED_WIDTH);
 
         if (question.isComputedQuestion()) {
             input.setEditable(false);
@@ -170,9 +176,8 @@ public class QuestionPane extends GridPane {
         };
     }
 
+    //TODO QuestionPane gets lost, if user varies to fast bewteen accepted and not accepted input.
     public void show(){
-        if (isVisible())
-            return;
         this.setManaged(true);
         this.setVisible(true);
         Timeline timeline = new Timeline();
@@ -187,7 +192,7 @@ public class QuestionPane extends GridPane {
         timeline.getKeyFrames().addAll(createPositionTranslationFrames(true));
         timeline.getKeyFrames().add(new KeyFrame(
                 Duration.millis(EFFECT_DURATION),
-                ae -> {
+                hide -> {
                     this.setManaged(false);
                     this.setVisible(false);
                 }
@@ -202,7 +207,7 @@ public class QuestionPane extends GridPane {
         result.add(new KeyFrame(first,
                 new KeyValue(this.translateYProperty(), -getMinHeight())));
         result.add(new KeyFrame(last,
-                        new KeyValue(this.translateYProperty(), 0)));
+                new KeyValue(this.translateYProperty(), 0)));
         return result;
     }
 
@@ -220,7 +225,9 @@ public class QuestionPane extends GridPane {
     }
 
     private void questionAnswered(String result) {
-        AExpression expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
+        AExpression expr = null;
+        if (!result.trim().isEmpty())
+            expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
         try {
             store.updateAnswer(question.getId(), expr);
         } catch (NoSuchQuestionException nsq){
@@ -254,6 +261,7 @@ public class QuestionPane extends GridPane {
                 else {
                     control.setStyle("-fx-border-color: red;");
                     control.setStyle("-fx-focus-color: red;");
+                    questionAnswered("");
                 }
             }
         };

@@ -7,7 +7,7 @@ import com.form.language.error.ErrorCollector;
 public interface Expression {
 	public abstract GenericValue<?> evaluate();
 	public abstract Type getType();
-	public abstract ErrorCollector getErrors(ErrorCollector errs);
+	public abstract void getErrors(ErrorCollector errs);
 	public abstract Boolean isCorrectlyTyped();
 	public abstract String showTokenInfo();
 }

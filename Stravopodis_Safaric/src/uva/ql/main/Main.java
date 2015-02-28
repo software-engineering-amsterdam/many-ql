@@ -8,8 +8,10 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Prog;
-import uva.ql.ast.expressions.Expression;
 import uva.ql.interpreter.gui.GUIVisitor;
+import uva.ql.interpreter.gui.StoreTable;
+import uva.ql.interpreter.observer.Observer;
+import uva.ql.interpreter.observer.Subject;
 import uva.ql.interpreter.typecheck.TypeCheck;
 import uva.ql.interpreter.typecheck.TypeCheckVisitor;
 import uva.ql.parser.QLLexer;
@@ -35,10 +37,12 @@ public class Main{
 		v.visitProg((Prog)ast);
 		
 		TypeCheck typeCheck = new TypeCheck(ast);
-		typeCheck.printSymbolTable();
+		typeCheck.getSymbolTable().printSymbolTable();
+		// Don't pass the symbol table, but rather convert the Symbol Table to a Store Table with Identifier - unique
 		
-		GUIVisitor guiVisitor = new GUIVisitor(typeCheck.getSymbolTable());
+		Subject subject = new Subject();
+		
+		GUIVisitor guiVisitor = new GUIVisitor(typeCheck.getSymbolTable(), subject);
 		guiVisitor.visitProg((Prog)ast);
-		
 	}
 }

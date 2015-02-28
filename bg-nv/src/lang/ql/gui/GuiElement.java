@@ -12,7 +12,7 @@ public abstract class GuiElement extends Observable
 
     public GuiElement()
     {
-        this.visible = true;
+        this(true);
     }
 
     public GuiElement(Boolean visible)

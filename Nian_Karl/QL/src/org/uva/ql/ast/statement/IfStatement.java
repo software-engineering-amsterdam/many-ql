@@ -1,15 +1,16 @@
 package org.uva.ql.ast.statement;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class IfStatement extends Statement {
 
-	//private Block ifBlock;
 	private final Block ifBlock;
 	private final Expression expr;
 
-	public IfStatement(Expression expr, Block ifBlock) {
+	public IfStatement(Expression expr, Block ifBlock, CodePosition pos) {
+		super(pos);
 		this.expr = expr;
 		this.ifBlock = ifBlock;
 	}

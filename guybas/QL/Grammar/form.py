@@ -1,6 +1,8 @@
 # Grammar of form
 
+from pyparsing import Group, Optional
 from Grammar.expressions import *
+from Factory.forms import *
 
 
 class FormFormat:
@@ -24,8 +26,8 @@ class FormFormat:
     
     statement = Forward()
 
-    # condition :: condition
-    condition = Expressions.condition
+    # condition :: expr
+    condition = Expressions.expr
 
     # pIf :: if ( condition ) { statement+ }
     pIf = \
@@ -38,13 +40,13 @@ class FormFormat:
           OneOrMore(statement) + Suppress("}")) + Literal("else") + Suppress("{") + statement + Suppress("}")
          ).setParseAction(FormFactory.make_else)
 
-    # statement :: pIfElse | pIf | _statements
+    # statement :: pIfElse | pIf | statements
     statement <<= \
         pIfElse | \
         pIf | \
         questions
 
-    # _introduction :: Introduction : sentences
+    # introduction :: Introduction : sentences
     introduction = (Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences))
 
     # form :: id _introduction? statement+
