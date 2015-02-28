@@ -29,3 +29,8 @@ class Processor:
                 continue
             vars.append(str(e))
         return vars
+
+    @staticmethod
+    def export_answers(answers_map, qGui):
+        print("done")
+        qGui.close()
