@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL.Model.Enums;
+using QL.Exceptions;
 
 namespace QL.Model
 {
@@ -11,7 +12,7 @@ namespace QL.Model
     {
         public SourceLocation SourceLocation { get; set; }
         public IList<ElementBase> Children { get; set; }
-
+        protected List<TypeException> TypeExceptions;
         /// <summary>
         /// Gets an ElementType indicating if this element is a leaf or a node.
         /// </summary>
@@ -19,6 +20,7 @@ namespace QL.Model
         protected ElementBase ()
         {
             Children = new List<ElementBase>();
+            TypeExceptions = new List<TypeException>();
         }
 
         internal void HandleChildren(IList<ElementBase> list)
@@ -26,7 +28,28 @@ namespace QL.Model
             Children = list;
             
         }
-        public bool CheckType() { return false; }  //TODO when we start to implement typechecking then change to abstract
-        public bool Evaluate() { return false; }       //TODO when we start to implement evaluation then change to abstract
+        public virtual Type GetReturnType(){
+            return GetType();
+        }
+        protected virtual bool _CheckType(){return true;}//make abstract when implemented
+        public bool CheckType() {
+            GetType();
+            bool ok = _CheckType();
+            foreach (ElementBase child in Children){
+                ok&=child.CheckType();
+            }
+            return ok; 
+        }
+
+        public List<TypeException> CollectTypeExceptions()
+        {
+            List<TypeException> retval = TypeExceptions;
+            foreach (ElementBase child in Children)
+            {
+                retval.AddRange(child.CollectTypeExceptions());
+            }
+            return retval;
+        }
+        public virtual bool Evaluate() { return false; }    
     }
 }

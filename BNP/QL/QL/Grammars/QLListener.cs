@@ -33,7 +33,18 @@ namespace QL.Grammars
         {
             return _astRootNode != null; 
         }
-        
+
+        public AstHandler GetAst()
+        {
+            if (AstExists())
+            {
+                return new AstHandler(_astRootNode);
+            }
+            else
+            {
+                throw new Exception(" Ast is not created");
+            }
+        }
 
         private IList<ElementBase> GetChildren()
         {
@@ -94,6 +105,7 @@ namespace QL.Grammars
             Block block = new Block();
             block.SourceLocation = SourceLocation.CreateFor(context);
             block.Children = GetChildren();
+            block.SourceLocation = SourceLocation.CreateFor(context);
 
             AppendToAST(block);
         }
@@ -177,7 +189,8 @@ namespace QL.Grammars
         {
             controlUnit.HandleChildren((Expression)children[0], (Block)children[1]);
         }
-        
+        controlUnit.SourceLocation = SourceLocation.CreateFor(context);
+
         AppendToAST(controlUnit);
         }
                
@@ -196,11 +209,15 @@ namespace QL.Grammars
 
                 Yesno literal = new Yesno();
                 literal.Value = context.YESNO().ToString()=="yes"?true:false;
+                literal.SourceLocation = SourceLocation.CreateFor(context);
+
                 AppendToAST(literal);
             }
             else if (context.NUMBER() != null) {
                 Number literal = new Number();
                 literal.Value = Int32.Parse(context.NUMBER().ToString());
+                literal.SourceLocation = SourceLocation.CreateFor(context);
+
                 AppendToAST(literal);
 
                 }
@@ -208,6 +225,8 @@ namespace QL.Grammars
                 //todo assign not to value but just pointer probably, value will be determined later
                 Identifier literal = new Identifier();
                 literal.PointerName = context.IDENTIFIER().ToString();
+                literal.SourceLocation = SourceLocation.CreateFor(context);
+
                 AppendToAST(literal);
 
             }
@@ -215,6 +234,8 @@ namespace QL.Grammars
             {
                 Text literal = new Text();
                 literal.Value = context.TEXT().ToString();
+                literal.SourceLocation = SourceLocation.CreateFor(context);
+
 
                 AppendToAST(literal);
 
@@ -267,6 +288,9 @@ namespace QL.Grammars
                     
                 }
                 op.HandleChildren((ElementBase)children[0], (ElementBase)children[1]);
+                op.SourceLocation = SourceLocation.CreateFor(context);
+                e.SourceLocation = SourceLocation.CreateFor(context);
+
                 e.HandleChildren(op);
             }
             

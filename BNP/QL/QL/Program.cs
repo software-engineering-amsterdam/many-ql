@@ -11,6 +11,7 @@ using Antlr4.Runtime.Tree;
 using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
+using QL.Exceptions;
 
 
 namespace QL
@@ -37,7 +38,30 @@ namespace QL
                 
 
                 // parses the input as a formBlock(cos it's on the top)
-                var result = parser.formBlock();    
+                var result = parser.formBlock();
+                AstHandler ast = listener.GetAst();
+                ast.CheckType();
+                if (ast.TypeCheckerExceptions.Count()>0)
+                {
+                    //do something
+                    foreach (QLException e in ast.TypeCheckerExceptions)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                }
+                else
+                {
+                    ast.Evaluate();
+                    if (ast.EvaluationExceptions.Count()>0)
+                    {
+                        //do something
+                        foreach (QLException e in ast.EvaluationExceptions)
+                        {
+                            Console.WriteLine(e.ToString());
+                        }
+                    }
+                }
+                
 
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();
