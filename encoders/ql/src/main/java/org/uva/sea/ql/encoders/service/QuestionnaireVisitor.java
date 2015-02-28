@@ -23,6 +23,7 @@ import org.uva.sea.ql.encoders.ast.AstNode;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.DataType;
+import org.uva.sea.ql.encoders.ast.Evaluator;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.OperatorExpression;
@@ -31,6 +32,8 @@ import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
+	
+	public Evaluator expressionChecker = new Evaluator();
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
@@ -83,6 +86,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		if (computedCtx != null) {
 			Expression computed = (Expression) visit(computedCtx);
 			question.setComputed(computed);
+			expressionChecker.parseExpression(computed);
 			System.out.println(computed);
 		}
 		super.visitChildren(ctx);

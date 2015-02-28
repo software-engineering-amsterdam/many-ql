@@ -113,7 +113,13 @@ public class QLUI extends Application {
 		grid.add(new Label("Type Checker errors:"), 0, y+1);
 		TextArea typeCheckerMessages = new TextArea();
 		grid.add(typeCheckerMessages, 0, y+2);
-		typeCheckerMessages.setText("Error in expression, invalid operator on boolean (line 1, character 30)\nError in... ()");
+		
+		//should read out errors from evaluator
+		for (int i = 0; i < 2; i++) {
+			typeCheckerMessages.appendText("Error " + i + ": ");
+			typeCheckerMessages.appendText("\n");
+		}
+		
 		typeCheckerMessages.setEditable(false);
 		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 	}
