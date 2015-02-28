@@ -1,8 +1,8 @@
 # AST for operators
-from Grammar.expressions import *
 from Grammar.basic_types import *
 
 
+# TODO: Put this in multiple files?
 class Element:
     def __init__(self):
         pass
