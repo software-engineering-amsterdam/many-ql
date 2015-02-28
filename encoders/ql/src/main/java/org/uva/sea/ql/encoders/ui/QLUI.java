@@ -60,7 +60,7 @@ public class QLUI extends Application {
 			e.printStackTrace();
 		}
 
-		Scene scene = new Scene(scrollPane, 550, 275);
+		Scene scene = new Scene(scrollPane, 550, 400);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -73,15 +73,22 @@ public class QLUI extends Application {
 
 		List<UIQuestion> questions = questionnaire.getQuestions();
 		int y = 1;
+		boolean initializeDisabled = false;
+
 		for (UIQuestion uiQuestion : questions) {
 			Question question = uiQuestion.getQuestion();
 			DataType dataType = question.getDataType();
 			grid.add(new Label(question.getQuestionText()), 0, y);
+			if (question.getCondition() != null)
+			{
+				initializeDisabled = true;
+			}
 			switch (dataType) {
 			case BOOLEAN:
 				CheckBox checkBox = new CheckBox("Yes");
 				checkBox.setOnAction(new CheckBoxEventHandler(uiQuestion));
 				grid.add(checkBox, 1, y);
+				checkBox.setDisable(initializeDisabled);
 				break;
 			case DATUM:
 				DatePicker datePicker = new DatePicker();
@@ -94,6 +101,7 @@ public class QLUI extends Application {
 				TextField textField = new TextField();
 				textField.setOnKeyReleased(new TextFieldHandler(uiQuestion));
 				grid.add(textField, 1, y);
+				textField.setDisable(initializeDisabled);
 				break;
 			default:
 				throw new IllegalStateException("Unsupported type: " + dataType);
