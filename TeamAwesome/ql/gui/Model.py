@@ -76,7 +76,7 @@ class InputStringQuestion(InputQuestion):
     pass
 
 
-class Page:
+class Form:
     def __init__(self, questions):
         self._questions = questions
 
@@ -85,8 +85,8 @@ class Page:
         return self._questions
 
 
-class PageVisitor(GenericVisitor):
-    def _visitPage(self, form):
+class FormVisitor(GenericVisitor):
+    def _visitForm(self, form):
         for q in self.questions:
             self.visit(q)
 
