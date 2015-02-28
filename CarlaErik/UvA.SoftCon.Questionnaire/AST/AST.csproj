@@ -80,6 +80,8 @@
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\Expressions\Operation.cs" />
     <Compile Include="Model\Statements\Declaration.cs" />
+    <Compile Include="Model\Statements\IQuestionResult.cs" />
+    <Compile Include="Model\Statements\Result.cs" />
     <Compile Include="Model\TextPosition.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
     <Compile Include="Model\Form.cs" />

@@ -3,6 +3,7 @@ import com.klq.ast.ANode;
 import com.klq.ast.ASTPrinter;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.gui.QuestionPage;
+import com.klq.gui.Questionnaire;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
 import javafx.application.Application;
@@ -24,7 +25,7 @@ import java.util.Map;
  * Created by Timon on 09.02.2015.
  */
 public class Main extends Application {
-    private QuestionPage page;
+    private Questionnaire questionnaire;
 
     public static void main(String[] args) throws Exception {
         if (args == null || args.length == 0) {
@@ -68,9 +69,11 @@ public class Main extends Application {
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         Store store = (Store) ast.accept(AST2GUIConverter);
 
-        page = new QuestionPage();
-        store.addStoreListener(page);
+        QuestionPage page = new QuestionPage(store);
         page.addQuestions(store.getOrderedQuestions());
+
+        questionnaire = new Questionnaire(store);
+        questionnaire.addQuestionPage(page);
 
         //print AST for test purposes
         //ASTPrinter printer = new ASTPrinter();
@@ -79,7 +82,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(page);
+        Scene scene = new Scene(questionnaire);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

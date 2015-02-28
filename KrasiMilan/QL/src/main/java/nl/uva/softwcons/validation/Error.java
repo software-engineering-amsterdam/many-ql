@@ -1,10 +1,9 @@
 package nl.uva.softwcons.validation;
 
 public abstract class Error {
+    protected final String message;
 
-    private final String message;
-
-    public Error(String message) {
+    public Error(final String message) {
         this.message = message;
     }
 
@@ -17,8 +16,7 @@ public abstract class Error {
         return true;
     }
 
-    @Override
-    public String toString() {
+    public String getMessage() {
         return "Error: " + message;
     }
 }

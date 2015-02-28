@@ -52,5 +52,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
         {
             visitor.Visit(this);
         }
+
+        public override T Accept<T>(IASTVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
-    public class Question : Node, IStatement
+    public class Question : Node, IStatement, IQuestionResult
     {
         public override NodeType Type
         {
@@ -46,6 +46,11 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
         public override void Accept(IASTVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override T Accept<T>(IASTVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

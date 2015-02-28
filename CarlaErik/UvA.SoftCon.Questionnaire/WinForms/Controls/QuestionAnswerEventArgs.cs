@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
+namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public interface IInteger : IValue<int>
+    public class QuestionAnswerEventArgs : EventArgs
     {
     }
 }

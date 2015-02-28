@@ -198,25 +198,21 @@ public class Evaluator implements Visitor<Value> {
 
 	@Override
 	public Value visit(QuestionNormal questionStatement) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Value visit(Block blockStatement) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Value visit(Form form) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Value visit(Questionnaire questionnaire) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -227,13 +223,11 @@ public class Evaluator implements Visitor<Value> {
 
 	@Override
 	public Value visit(BoolType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Value visit(StrType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

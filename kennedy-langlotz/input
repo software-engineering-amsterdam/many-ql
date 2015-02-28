@@ -1,19 +1,33 @@
 question
     id : question1
-    text : "How much did you earn in 2014?"
-    type : numeral
+    text : "What is your name?"
+    type : string
 end
 
 question
     id : question2
-    text : "How much did you earn in 2013?"
+    text : "How old are you?"
+    type : numeral
+end
+
+if question2 > 18 then
+    question
+        id : question3
+        text : "On what date is your birthday?"
+        type : date
+    end
+end
+
+question
+    id : question4
+    text : "How old would you like to get?"
     type : numeral
 end
 
 question
-    id : question3
-    text : "This is what you earned in the last two years:"
+    id : question5
+    text : "Then you have to live for so many years:"
     type : numeral
-    value : question1 + question2
+    value : question4 - question2
 end
 

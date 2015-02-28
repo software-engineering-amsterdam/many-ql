@@ -1,7 +1,7 @@
 # Grammar of the basic and question types
 
-from pyparsing import *
-from AST.factory import *
+from pyparsing import oneOf, Suppress, Word, OneOrMore, Literal, restOfLine, cStyleComment
+from Factory.forms import *
 
 
 class BasicTypes:

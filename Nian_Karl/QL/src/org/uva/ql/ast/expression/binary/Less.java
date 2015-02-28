@@ -1,12 +1,13 @@
 package org.uva.ql.ast.expression.binary;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class Less extends Binary {
 
-	public Less(Expression left, Expression right) {
-		super(left, right);
+	public Less(Expression left, Expression right, CodePosition pos) {
+		super(left, right, pos);
 	}
 
 	@Override

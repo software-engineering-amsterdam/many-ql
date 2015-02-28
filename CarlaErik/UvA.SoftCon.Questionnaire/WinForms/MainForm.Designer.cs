@@ -32,13 +32,17 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.outputWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SplitPanel = new System.Windows.Forms.SplitContainer();
             this.OutputTextBox = new System.Windows.Forms.TextBox();
             this.OpenQLFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.QuestionFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitPanel)).BeginInit();
+            this.SplitPanel.Panel1.SuspendLayout();
             this.SplitPanel.Panel2.SuspendLayout();
             this.SplitPanel.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +50,8 @@
             // MainMenu
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(684, 24);
@@ -67,27 +72,43 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.openToolStripMenuItem.Text = "&Open File";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // closeFileToolStripMenuItem
             // 
             this.closeFileToolStripMenuItem.Name = "closeFileToolStripMenuItem";
-            this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeFileToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.closeFileToolStripMenuItem.Text = "&Close File";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "E&xit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(121, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.outputWindowToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "&View";
+            // 
+            // outputWindowToolStripMenuItem
+            // 
+            this.outputWindowToolStripMenuItem.CheckOnClick = true;
+            this.outputWindowToolStripMenuItem.Name = "outputWindowToolStripMenuItem";
+            this.outputWindowToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.outputWindowToolStripMenuItem.Text = "Output Window";
+            this.outputWindowToolStripMenuItem.Click += new System.EventHandler(this.outputWindowToolStripMenuItem_Click);
             // 
             // SplitPanel
             // 
@@ -96,9 +117,14 @@
             this.SplitPanel.Name = "SplitPanel";
             this.SplitPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
+            // SplitPanel.Panel1
+            // 
+            this.SplitPanel.Panel1.Controls.Add(this.QuestionFlowLayout);
+            // 
             // SplitPanel.Panel2
             // 
             this.SplitPanel.Panel2.Controls.Add(this.OutputTextBox);
+            this.SplitPanel.Panel2Collapsed = true;
             this.SplitPanel.Size = new System.Drawing.Size(684, 385);
             this.SplitPanel.SplitterDistance = 228;
             this.SplitPanel.TabIndex = 1;
@@ -106,17 +132,30 @@
             // OutputTextBox
             // 
             this.OutputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OutputTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OutputTextBox.Location = new System.Drawing.Point(0, 0);
             this.OutputTextBox.Multiline = true;
             this.OutputTextBox.Name = "OutputTextBox";
             this.OutputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.OutputTextBox.Size = new System.Drawing.Size(684, 153);
+            this.OutputTextBox.Size = new System.Drawing.Size(150, 46);
             this.OutputTextBox.TabIndex = 0;
             // 
             // OpenQLFileDialog
             // 
             this.OpenQLFileDialog.Filter = "QL Files|*.ql";
             this.OpenQLFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenQLFileDialog_FileOk);
+            // 
+            // QuestionFlowLayout
+            // 
+            this.QuestionFlowLayout.AutoScroll = true;
+            this.QuestionFlowLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.QuestionFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.QuestionFlowLayout.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.QuestionFlowLayout.Location = new System.Drawing.Point(0, 0);
+            this.QuestionFlowLayout.Name = "QuestionFlowLayout";
+            this.QuestionFlowLayout.Size = new System.Drawing.Size(684, 385);
+            this.QuestionFlowLayout.TabIndex = 0;
+            this.QuestionFlowLayout.WrapContents = false;
             // 
             // MainForm
             // 
@@ -130,6 +169,7 @@
             this.Text = "Questionnaire";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.SplitPanel.Panel1.ResumeLayout(false);
             this.SplitPanel.Panel2.ResumeLayout(false);
             this.SplitPanel.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitPanel)).EndInit();
@@ -150,6 +190,9 @@
         private System.Windows.Forms.SplitContainer SplitPanel;
         private System.Windows.Forms.TextBox OutputTextBox;
         private System.Windows.Forms.OpenFileDialog OpenQLFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem outputWindowToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel QuestionFlowLayout;
     }
 }
 

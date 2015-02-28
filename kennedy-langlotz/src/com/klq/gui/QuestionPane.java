@@ -1,27 +1,25 @@
 package com.klq.gui;
 
+import com.klq.logic.controller.NoSuchQuestionException;
+import com.klq.logic.controller.Store;
 import com.klq.logic.expression.AExpression;
+import com.klq.logic.expression.util.ExpressionUtil;
 import com.klq.logic.question.OptionSet;
 import com.klq.logic.question.Question;
 import com.klq.logic.question.Type;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-import java.security.Key;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,28 +30,51 @@ import java.util.List;
 public class QuestionPane extends GridPane {
     private final static Font DEFAULT_QUESTION = new Font("Arial Bold", 14);
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
+    private final int TEXTBOX_PREFERRED_WIDTH = 250;
     private final double MIN_HEIGHT = 50;
     private final double EFFECT_DURATION = 500;
-    private TextField computedField;
-
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
 
-    private Question question;
+    private final Store store;
+    private final Question question;
 
-    public QuestionPane(Question question) {
+    public QuestionPane(Question question, Store store) {
         super();
+        this.store = store;
         this.question = question;
-        createQuestionLabel(question.getText().toString());
+
+        init();
+        createQuestionLabel();
+        createQuestionBody();
+    }
+
+    private void init(){
         this.setVgap(5);
         this.setPadding(new Insets(5));
         this.setBorder(createBorder());
         this.setBackground(createBackground());
         this.setMinHeight(MIN_HEIGHT);
+        this.question.visibleProperty().addListener(createVisibilityListener());
+    }
+
+    private void createQuestionLabel() {
+        String text = question.getText().toString();
+        Label question = new Label(text);
+        question.setWrapText(true);
+        question.setFont(DEFAULT_QUESTION);
+        this.setConstraints(question, 0, 0);
+        this.getChildren().add(question);
+    }
+
+    private void createQuestionBody(){
         if (question.isComputedQuestion()){
-            computedField = new TextField();
-            computedField.textProperty().bind(question.getResult().evaluate());
+            TextField computedField = new TextField();
+            computedField.textProperty().bind(question.computedProperty());
             computedField.setEditable(false);
+            computedField.setDisable(true);
+            computedField.setStyle("-fx-opacity: 0.9");
+            computedField.setPrefWidth(TEXTBOX_PREFERRED_WIDTH);
             this.getChildren().add(computedField);
             this.setConstraints(computedField, 0, 1);
             return;
@@ -74,33 +95,6 @@ public class QuestionPane extends GridPane {
                 createTextField(question.getType());
                 break;
         }
-    }
-
-    public void show(){
-        if (isVisible())
-            return;
-        this.managedProperty().bind(this.visibleProperty());
-        this.setVisible(true);
-
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().addAll(createPositionTranslationFrames());
-        timeline.getKeyFrames().addAll(createBlurEffectFrames(10));
-        timeline.play();
-    }
-
-    public void hide(){
-        if (!isVisible())
-            return;
-        this.managedProperty().bind(this.visibleProperty());
-        this.setVisible(false);
-    }
-
-    private void createQuestionLabel(String text) {
-        Label question = new Label(text);
-        question.setWrapText(true);
-        question.setFont(DEFAULT_QUESTION);
-        this.setConstraints(question, 0, 0);
-        this.getChildren().add(question);
     }
 
     private void createAnswerSetPane(OptionSet optionSet){
@@ -124,15 +118,14 @@ public class QuestionPane extends GridPane {
         this.getChildren().add(dateLabel);
         this.setConstraints(dateLabel, 0, 1);
 
-        LocalDate lDate = LocalDate.now();
-        final DatePicker datePicker = new DatePicker(lDate);
+        final DatePicker datePicker = new DatePicker();
         if (question.isComputedQuestion()){
-            //lDate = LocalDate.parse(optionSet.get(0).toString());
+            LocalDate lDate = LocalDate.parse(question.computedProperty().toString());
             datePicker.setEditable(false);
             datePicker.getEditor().setEditable(false);
+            datePicker.setValue(lDate);
             //TODO disable button somehow
         }
-        datePicker.setValue(lDate);
         datePicker.getEditor().textProperty().addListener(createInputListener(Type.DATE, datePicker));
         this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
@@ -140,6 +133,7 @@ public class QuestionPane extends GridPane {
 
     private void createTextField(Type questionType){
         final TextField input = new TextField();
+        input.setPrefWidth(TEXTBOX_PREFERRED_WIDTH);
 
         if (question.isComputedQuestion()) {
             input.setEditable(false);
@@ -163,20 +157,60 @@ public class QuestionPane extends GridPane {
         return new Background(fill);
     }
 
-    private List<KeyFrame> createPositionTranslationFrames(){
+    private ChangeListener<Boolean> createVisibilityListener(){
+        return new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue)
+                    show();
+                else
+                    hide();
+            }
+        };
+    }
+
+    public void show(){
+        if (isVisible())
+            return;
+        this.setManaged(true);
+        this.setVisible(true);
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().addAll(createPositionTranslationFrames(false));
+        timeline.getKeyFrames().addAll(createBlurEffectFrames(10, false));
+        timeline.play();
+    }
+
+    public void hide(){
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().addAll(createBlurEffectFrames(10, true));
+        timeline.getKeyFrames().addAll(createPositionTranslationFrames(true));
+        timeline.getKeyFrames().add(new KeyFrame(
+                Duration.millis(EFFECT_DURATION),
+                ae -> {
+                    this.setManaged(false);
+                    this.setVisible(false);
+                }
+        ));
+        timeline.play();
+    }
+
+    private List<KeyFrame> createPositionTranslationFrames(boolean reverse){
         List<KeyFrame> result = new ArrayList<KeyFrame>();
-        result.add(new KeyFrame(Duration.ZERO,
+        Duration first = (reverse ? new Duration(EFFECT_DURATION) : Duration.ZERO);
+        Duration last = (reverse ? Duration.ZERO : new Duration(EFFECT_DURATION));
+        result.add(new KeyFrame(first,
                 new KeyValue(this.translateYProperty(), -getMinHeight())));
-        result.add(new KeyFrame(new Duration(EFFECT_DURATION),
+        result.add(new KeyFrame(last,
                         new KeyValue(this.translateYProperty(), 0)));
         return result;
     }
 
-    private List<KeyFrame> createBlurEffectFrames(double steps){
+    private List<KeyFrame> createBlurEffectFrames(double steps, boolean reverse){
         List<KeyFrame> frames = new ArrayList<KeyFrame>();
         for(double i=0; i<=steps; i++){
-            frames.add(
-                    new KeyFrame(new Duration(i/steps*EFFECT_DURATION),
+            Duration duration = (reverse ? new Duration((1-i/steps)*EFFECT_DURATION)
+                    : new Duration(i/steps*EFFECT_DURATION));
+            frames.add(new KeyFrame(duration,
                             new KeyValue(this.effectProperty(), new BoxBlur(steps-i, steps-i, 3))
                     )
             );
@@ -185,12 +219,15 @@ public class QuestionPane extends GridPane {
     }
 
     private void questionAnswered(String result) {
-        AExpression expr = Question.createTerminalFromString(question, result);
-        question.setResult(expr, true);
-        if (question.dependenciesResolved())
-            show();
-        else
-            hide();
+        AExpression expr = null;
+        if (!result.trim().isEmpty())
+            expr = ExpressionUtil.createTerminalFromString(question.getType(), result);
+        try {
+            store.updateAnswer(question.getId(), expr);
+        } catch (NoSuchQuestionException nsq){
+            System.err.println(nsq.getMessage());
+            //TODO notify user
+        }
     }
 
     private ChangeListener<Boolean> highlightHandler(final TextField input){
@@ -218,6 +255,7 @@ public class QuestionPane extends GridPane {
                 else {
                     control.setStyle("-fx-border-color: red;");
                     control.setStyle("-fx-focus-color: red;");
+                    questionAnswered("");
                 }
             }
         };

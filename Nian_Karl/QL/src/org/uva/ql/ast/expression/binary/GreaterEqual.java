@@ -1,12 +1,13 @@
 package org.uva.ql.ast.expression.binary;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class GreaterEqual extends Binary {
 
-	public GreaterEqual(Expression left, Expression right) {
-		super(left, right);
+	public GreaterEqual(Expression left, Expression right, CodePosition pos) {
+		super(left, right, pos);
 	}
 
 	@Override

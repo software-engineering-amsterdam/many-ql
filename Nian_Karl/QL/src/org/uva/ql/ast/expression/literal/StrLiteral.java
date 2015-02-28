@@ -1,12 +1,14 @@
 package org.uva.ql.ast.expression.literal;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.visitor.Visitor;
 
 public class StrLiteral extends Literal {
 
 	private final String value;
 
-	public StrLiteral(String value) {
+	public StrLiteral(String value,CodePosition pos) {
+		super(pos);
 		this.value = value;
 	}
 

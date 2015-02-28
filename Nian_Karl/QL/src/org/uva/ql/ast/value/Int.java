@@ -113,7 +113,7 @@ public class Int extends Value{
 		return new Bool(arg.getValue() < getValue());
 	}
 	
-//Less Equal
+	//Less Equal
 	@Override
 	public Value lessEqual(Value arg) {
 		return arg.intLessEqual(this);

@@ -9,6 +9,7 @@ import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.ast.Node;
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.binary.Divide;
@@ -53,21 +54,23 @@ public class Main {
 //		}
 //		
 		Node result = tree.accept(visitor);
+		// dummy position
+		CodePosition pos = new CodePosition(0, 0);
 		System.out.println(result);
 		Evaluator e = new Evaluator();
-		Identifier id1 = new Identifier("ID1");
-		Identifier id2 = new Identifier("ID2");
-		IntLiteral i1 = new IntLiteral(5);
-		IntLiteral i2 = new IntLiteral(9);
+		Identifier id1 = new Identifier("ID1",pos);
+		Identifier id2 = new Identifier("ID2",pos);
+		IntLiteral i1 = new IntLiteral(5,pos);
+		IntLiteral i2 = new IntLiteral(9,pos);
 		Int v1 = new Int(11);
 		Int v2 = new Int(7);
 		
 		e.putValue(id1, v1);
 		e.putValue(id2, v2);
-		System.out.println("Test Evaluator ID1 + ID2 = " + e.evaluate(new Plus(id1, id2)));
-		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2)));
-		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2)));
-		System.out.println("Test Evaluator ID1 / ID2 = " + e.evaluate(new Divide(id1, id2)));
+		System.out.println("Test Evaluator ID1 + ID2 = " + e.evaluate(new Plus(id1, id2,pos)));
+		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2,pos)));
+		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2,pos)));
+		System.out.println("Test Evaluator ID1 / ID2 = " + e.evaluate(new Divide(id1, id2,pos)));
 		
 //		Plus p1 = new Plus(i1, i2);
 //		Minus p2 = new Minus(p1,i2);
