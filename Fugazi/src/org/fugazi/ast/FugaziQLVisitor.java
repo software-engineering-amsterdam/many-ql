@@ -239,4 +239,10 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
         Type type = this.getIdentifier(name);
         return new ID(name, type, this.getLineNumber(ctx));
     }
+
+    @Override
+    public STRING visitStringExpression(@NotNull QLParser.StringExpressionContext ctx) {
+        String value = ctx.STRING().getText();
+        return new STRING(value, this.getLineNumber(ctx));
+    }
 }
