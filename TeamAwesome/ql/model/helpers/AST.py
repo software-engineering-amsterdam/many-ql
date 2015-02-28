@@ -1,0 +1,2 @@
+def buildApplication(ast):
+    pass

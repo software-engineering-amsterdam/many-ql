@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
@@ -24,13 +25,18 @@ public class QuestionPage extends ScrollPane {
         super();
         this.store = store;
         this.vbox = new VBox(10);
+        init();
+    }
+
+    private void init(){
         this.vbox.setPadding(new Insets(5));
         this.vbox.prefHeightProperty().bind(this.prefHeightProperty());
         this.vbox.setAlignment(Pos.TOP_RIGHT);
         this.setContent(vbox);
         this.setPrefWidth(400);
-        this.setMinHeight(500);
         this.setFitToWidth(true);
+        this.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+        this.setBorder(Border.EMPTY);
     }
 
     public void addQuestions(List<Question> questions){
