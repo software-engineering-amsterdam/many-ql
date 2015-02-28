@@ -2,8 +2,13 @@ stylesheet title{
 
     question name1
     page{
-        section{
+        section "section"{
             question name2
+        }
+        section "another section" {
+            question name3 {
+                width 40
+            }
         }
     }
 

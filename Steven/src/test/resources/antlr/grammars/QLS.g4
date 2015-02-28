@@ -19,7 +19,7 @@ page
     : 'page' '{' section* '}'
     ;
 section
-    : 'section' '{' statement+ '}'
+    : 'section' STRING '{' statement+ '}'
     ;
 question
     : 'question' identifier '{' style* '}'
