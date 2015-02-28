@@ -21,7 +21,7 @@ class NumberSpinbox(tk.Spinbox):
     def __init__(self, master, lowerBound = 0, upperBound = 10, callback = None):
         if callback == None:
             callback = defaultCallback
-        tk.Spinbox.__init__(self, master, from_ = lowerBound, to = upperBound, command = lambda x : callback(self))
+        tk.Spinbox.__init__(self, master, from_ = lowerBound, to = upperBound, command = lambda : callback(self))
 
     def value(self):
         return int(self.get())
