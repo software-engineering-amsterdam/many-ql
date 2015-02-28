@@ -38,6 +38,7 @@ import org.uva.ql.ast.value.Int;
 import org.uva.ql.ast.value.Str;
 import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.ast.value.Value;
+import org.uva.ql.visitor.Visitor;
 
 public class Evaluator implements Visitor<Value> {
 	

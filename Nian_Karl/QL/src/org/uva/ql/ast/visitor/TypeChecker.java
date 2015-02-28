@@ -29,6 +29,7 @@ import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
+import org.uva.ql.visitor.Visitor;
 
 public class TypeChecker implements Visitor<Boolean> {
 

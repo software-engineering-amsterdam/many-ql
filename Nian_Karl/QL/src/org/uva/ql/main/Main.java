@@ -20,13 +20,14 @@ import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.visitor.TypeChecker;
 import org.uva.ql.view.FormView;
+import org.uva.ql.view.GUIVisitor;
 import org.uva.ql.view.QuestionView;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Start");
-		ANTLRFileStream input = new ANTLRFileStream("scripts/quest2.ql");
+		ANTLRFileStream input = new ANTLRFileStream("scripts/quest3.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
@@ -35,15 +36,9 @@ public class Main {
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
 		System.out.println("FinalTree = " + finalTree);
-		FormView formView = new FormView();
-		for (Form form: finalTree.getForms()) {
-			for (Statement statement : form.getBlock().getStatements()) {
-				if (statement.getClass() == QuestionNormal.class) {
-					QuestionView questionView = new QuestionView((QuestionNormal) statement);
-					formView.add(questionView);
-				}
-			}
-		}
+		
+		GUIVisitor guiVisitor = new GUIVisitor();
+		guiVisitor.visit(finalTree);
 		
 //		for (Form form: finalTree.getFormList()) {
 //			printBlock(form.getBlock());

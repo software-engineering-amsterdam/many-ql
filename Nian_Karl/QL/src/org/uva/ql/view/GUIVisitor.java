@@ -1,5 +1,7 @@
 package org.uva.ql.view;
 
+import java.util.ArrayList;
+
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Divide;
@@ -26,186 +28,173 @@ import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
+import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class GUIVisitor implements Visitor<Object> {
-
-	private Questionnaire questionnaire;
-
-	public GUIVisitor(Questionnaire questionnaire) {
-		this.questionnaire = questionnaire;
-	}
+ 
 
 	@Override
-	public Object visit(IfStatement ifStatement) {
+	public ComponentView visit(IfStatement ifStatement) {
 		return null;
 	}
 
 	@Override
-	public Object visit(QuestionNormal questionStatement) {
-		return null;
+	public ComponentView visit(QuestionNormal questionStatement) {
+		QuestionView questionView = new QuestionView(questionStatement);
+		System.out.println("Hallo!");
+		return questionView;
 	}
 
 	@Override
-	public Object visit(QuestionCompute questionComputeStatement) {
+	public ComponentView visit(QuestionCompute questionComputeStatement) {
 		return null;
 	}
 
 	
 	@Override
-	public Object visit(Block blockStatement) {
-		return null;
+	public ArrayList<ComponentView> visit(Block blockStatement) {
+		ArrayList<ComponentView> components = new ArrayList<ComponentView>();
+		for (Statement statement: blockStatement.getStatements()) {
+			components.add((ComponentView) statement.accept(this));
+		}
+		return components;
 	}
 
 	@Override
-	public Object visit(Form form) {
-		
-		return null;
+	public FormView visit(Form form) {
+		FormView formView = new FormView(); 
+		ArrayList<ComponentView> components= ((ArrayList<ComponentView>) form.getBlock().accept(this));
+		for (ComponentView component: components) {
+			formView.add(component);
+		}
+		return formView;
 	}
 
 	@Override
 	public Object visit(Questionnaire questionnaire) {
-		return null;
+		ArrayList<FormView> formViews = new ArrayList<FormView>();
+		for (Form form : questionnaire.getForms()) {
+			formViews.add((FormView) form.accept(this));
+		}
+		return formViews;
 	}
 
 	@Override
 	public Object visit(Not node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Positive node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Negative node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Plus node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Minus node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Multiply node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Divide node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(And node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Or node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Equal node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(NotEqual node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Greater node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(GreaterEqual node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Less node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(LessEqual node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Identifier node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(IntLiteral node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(BoolLiteral node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(StrLiteral node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(Parenthese node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(IntType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(BoolType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object visit(StrType node) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -15,5 +15,4 @@ public class FormView extends JFrame{
 	public void addView(ComponentView view) {
 		this.add(view);
 	}
-	
 }

@@ -5,7 +5,7 @@ import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class QuestionCompute extends QuestionNormal {
 

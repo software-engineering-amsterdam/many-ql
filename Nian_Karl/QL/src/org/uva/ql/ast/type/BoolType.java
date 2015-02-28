@@ -1,7 +1,7 @@
 package org.uva.ql.ast.type;
 
 import org.uva.ql.ast.builder.CodePosition;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class BoolType extends Type {
 
@@ -28,5 +28,4 @@ public class BoolType extends Type {
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
 }

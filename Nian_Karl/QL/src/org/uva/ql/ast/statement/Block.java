@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.ql.ast.builder.CodePosition;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class Block extends Statement {
 
