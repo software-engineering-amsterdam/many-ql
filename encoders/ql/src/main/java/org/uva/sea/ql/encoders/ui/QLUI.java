@@ -14,6 +14,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -60,7 +61,7 @@ public class QLUI extends Application {
 			e.printStackTrace();
 		}
 
-		Scene scene = new Scene(scrollPane, 550, 400);
+		Scene scene = new Scene(scrollPane, 700, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -108,6 +109,13 @@ public class QLUI extends Application {
 			}
 			y++;
 		}
+		
+		grid.add(new Label("Type Checker errors:"), 0, y+1);
+		TextArea typeCheckerMessages = new TextArea();
+		grid.add(typeCheckerMessages, 0, y+2);
+		typeCheckerMessages.setText("Error in expression, invalid operator on boolean (line 1, character 30)\nError in... ()");
+		typeCheckerMessages.setEditable(false);
+		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 	}
 
 	private class TextFieldHandler implements EventHandler<Event> {
