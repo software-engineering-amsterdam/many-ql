@@ -127,6 +127,13 @@ public class QuestionPane extends GridPane {
             //TODO disable button somehow
         }
         datePicker.getEditor().textProperty().addListener(createInputListener(Type.DATE, datePicker));
+        question.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue)
+                    datePicker.getEditor().setText("");
+            }
+        });
         this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
@@ -169,9 +176,8 @@ public class QuestionPane extends GridPane {
         };
     }
 
+    //TODO QuestionPane gets lost, if user varies to fast bewteen accepted and not accepted input.
     public void show(){
-        if (isVisible())
-            return;
         this.setManaged(true);
         this.setVisible(true);
         Timeline timeline = new Timeline();
