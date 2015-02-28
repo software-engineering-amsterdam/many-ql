@@ -91,9 +91,7 @@
     <Compile Include="Visitors\ExpressionVisitor.cs" />
     <Compile Include="Visitors\StatementVisitor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Types\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="S:\StrongName\Questionnaire.snk">
       <Link>Properties\Questionnaire.snk</Link>
