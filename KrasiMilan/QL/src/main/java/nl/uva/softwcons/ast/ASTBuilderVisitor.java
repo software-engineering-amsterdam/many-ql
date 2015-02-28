@@ -2,7 +2,6 @@ package nl.uva.softwcons.ast;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import nl.uva.softwcons.ast.expression.Expression;
@@ -31,7 +30,13 @@ import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
 import nl.uva.softwcons.ast.statement.Statement;
+import nl.uva.softwcons.ast.type.BooleanType;
+import nl.uva.softwcons.ast.type.DateType;
+import nl.uva.softwcons.ast.type.DecimalType;
+import nl.uva.softwcons.ast.type.IntegerType;
+import nl.uva.softwcons.ast.type.StringType;
 import nl.uva.softwcons.ast.type.Type;
+import nl.uva.softwcons.ast.type.UndefinedType;
 import nl.uva.softwcons.generated.QLBaseVisitor;
 import nl.uva.softwcons.generated.QLParser.BinaryExprContext;
 import nl.uva.softwcons.generated.QLParser.BooleanContext;
@@ -64,7 +69,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     public Question visitSimpleQuestion(SimpleQuestionContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
-        final Type type = Type.valueOf(ctx.type().getText().toUpperCase(Locale.ENGLISH));
+        final Type type = getType(ctx.type().getText());
 
         return new Question(id, label, type);
     }
@@ -73,7 +78,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     public ComputedQuestion visitComputedQuestion(ComputedQuestionContext ctx) {
         final Identifier id = new Identifier(ctx.ID().getText(), extractLineInfo(ctx.ID().getSymbol()));
         final String label = Utils.unquote(ctx.STRING().getText());
-        final Type type = Type.valueOf(ctx.type().getText().toUpperCase(Locale.ENGLISH));
+        final Type type = getType(ctx.type().getText());
         final Expression value = (Expression) ctx.expr().accept(this);
 
         return new ComputedQuestion(id, label, type, value);
@@ -160,5 +165,24 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     private LineInfo extractLineInfo(final Token token) {
         return new LineInfo(token.getLine(), token.getCharPositionInLine());
+    }
+
+    private Type getType(final String typeName) {
+
+        switch (typeName) {
+
+        case "boolean":
+            return BooleanType.instance;
+        case "integer":
+            return IntegerType.instance;
+        case "decimal":
+            return DecimalType.instance;
+        case "date":
+            return DateType.instance;
+        case "string":
+            return StringType.instance;
+        default:
+            return UndefinedType.instance;
+        }
     }
 }
