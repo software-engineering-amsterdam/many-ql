@@ -103,6 +103,21 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         public override void Visit(Question question)
         {
+            DataType questionType = question.DataType;
+
+            if (question.IsComputed)
+            {
+                DataType? expressionType = question.Expression.GetType(_declaredVariables);
+
+                if (expressionType.HasValue)
+                {
+                    if (questionType != expressionType.Value)
+                    {
+                        InvalidAssignments.Add(new InvalidAssignment(question.Id, question.Expression, questionType, expressionType.Value));
+                    }
+                }
+            }
+
             _declaredVariables.Add(question.Id.Name, question.DataType);
         }
 

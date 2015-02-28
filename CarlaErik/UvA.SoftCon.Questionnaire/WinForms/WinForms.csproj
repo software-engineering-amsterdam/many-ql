@@ -63,7 +63,6 @@
       <DependentUpon>NumericQuestion.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\OutputWindow.cs" />
-    <Compile Include="Controls\QuestionAnswerEventArgs.cs" />
     <Compile Include="Controls\QuestionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,13 +83,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIController.cs" />
-    <Compile Include="UIQuestion.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UIQuestion.Designer.cs">
-      <DependentUpon>UIQuestion.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Controls\BooleanQuestion.resx">
       <DependentUpon>BooleanQuestion.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,9 +108,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UIQuestion.resx">
-      <DependentUpon>UIQuestion.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

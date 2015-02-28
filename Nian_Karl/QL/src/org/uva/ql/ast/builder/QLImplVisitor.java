@@ -27,6 +27,8 @@ import org.uva.ql.antlr.QLParser.LiteralIdContext;
 import org.uva.ql.antlr.QLParser.LiteralIntContext;
 import org.uva.ql.antlr.QLParser.LiteralStrContext;
 import org.uva.ql.antlr.QLParser.QuestionComputeContext;
+import org.uva.ql.antlr.QLParser.QuestionIdentifierContext;
+import org.uva.ql.antlr.QLParser.QuestionLabelContext;
 import org.uva.ql.antlr.QLParser.QuestionNormalContext;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.antlr.QLParser.StatementContext;
@@ -72,7 +74,6 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitQuestionnaire(QuestionnaireContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Questionnaire...");
 		Questionnaire questionnaire = new Questionnaire(pos);
 		for (FormContext formContext : ctx.form()) {
 			questionnaire.addForm((Form) formContext.accept(this));
@@ -83,8 +84,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitForm(FormContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Form...");
-		Identifier id = new Identifier(ctx.Identifier().getText(),pos);
+		Identifier id = new Identifier(ctx.Identifier().getText(), pos);
 		Block block = (Block) ctx.block().accept(this);
 		return new Form(id, block, pos);
 	}
@@ -92,7 +92,6 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitBlock(BlockContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Block...");
 		Block block = new Block(pos);
 		for (StatementContext statementContext : ctx.statement()) {
 			block.addStatement((Statement) statementContext.accept(this));
@@ -103,7 +102,6 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitIf(IfContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting If...");
 		Expression expr = (Expression) ctx.expression().accept(this);
 		Block block = (Block) ctx.ifBody.accept(this);
 		return new IfStatement(expr, block, pos);
@@ -112,7 +110,6 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitIfElse(IfElseContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting If-Else...");
 		Expression expr = (Expression) ctx.expression().accept(this);
 		Block ifBlock = (Block) ctx.ifBody.accept(this);
 		Block elseBlock = (Block) ctx.elseBody.accept(this);
@@ -123,12 +120,12 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitQuestionNormal(QuestionNormalContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Normal Question...");
-		// Changed to ctx.accept instead of extracting it from the context. Delete after read, thnx Nian
-		Identifier id = (Identifier) ctx.identifier.accept(this);
-		// Remove the First and Last Quotes
-		// Changed to ctx.accept instead of extracting it from the context. Delete after read, thnx Nian
-		StrLiteral label = (StrLiteral) ctx.label.accept(this);
+		// Changed to ctx.accept instead of extracting it from the context.
+		// Delete after read, thnx Nian
+		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
+		// Changed to ctx.accept instead of extracting it from the context.
+		// Delete after read, thnx Nian
+		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
 		return new QuestionNormal(id, label, type, pos);
 	}
@@ -136,12 +133,12 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitQuestionCompute(QuestionComputeContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Compute Question...");
-		// Changed to ctx.accept instead of extracting it from the context. Delete after read, thnx Nian
-		Identifier id = (Identifier) ctx.identifier.accept(this);
-		// Remove the First and Last Quotes
-		// Changed to ctx.accept instead of extracting it from the context. Delete after read, thnx Nian
-		StrLiteral label = (StrLiteral) ctx.label.accept(this);
+		// Changed to ctx.accept instead of extracting it from the context.
+		// Delete after read, thnx Nian
+		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
+		// Changed to ctx.accept instead of extracting it from the context.
+		// Delete after read, thnx Nian
+		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		return new QuestionCompute(id, label, type, expr, pos);
@@ -150,21 +147,18 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitTypeInt(TypeIntContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Type Int");
 		return new IntType(pos);
 	}
 
 	@Override
 	public Node visitTypeBool(TypeBoolContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Type Bool");
 		return new BoolType(pos);
 	}
 
 	@Override
 	public Node visitTypeStr(TypeStrContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		System.out.println("Visiting Type Str");
 		return new StrType(pos);
 	}
 
@@ -176,21 +170,21 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	public Node visitExprNot(ExprNotContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new Not(expr,pos);
+		return new Not(expr, pos);
 	}
 
 	@Override
 	public Node visitExprPositive(ExprPositiveContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new Positive(expr,pos);
+		return new Positive(expr, pos);
 	}
 
 	@Override
 	public Node visitExprNegative(ExprNegativeContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new Negative(expr,pos);
+		return new Negative(expr, pos);
 	}
 
 	@Override
@@ -198,7 +192,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Plus(left, right,pos);
+		return new Plus(left, right, pos);
 	}
 
 	@Override
@@ -206,7 +200,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Minus(left, right,pos);
+		return new Minus(left, right, pos);
 	}
 
 	@Override
@@ -214,7 +208,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Multiply(left, right,pos);
+		return new Multiply(left, right, pos);
 	}
 
 	@Override
@@ -222,7 +216,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Divide(left, right,pos);
+		return new Divide(left, right, pos);
 	}
 
 	@Override
@@ -230,7 +224,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new And(left, right,pos);
+		return new And(left, right, pos);
 	}
 
 	@Override
@@ -238,7 +232,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Or(left, right,pos);
+		return new Or(left, right, pos);
 	}
 
 	@Override
@@ -246,7 +240,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Equal(left, right,pos);
+		return new Equal(left, right, pos);
 	}
 
 	@Override
@@ -254,7 +248,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new NotEqual(left, right,pos);
+		return new NotEqual(left, right, pos);
 	}
 
 	@Override
@@ -262,7 +256,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Greater(left, right,pos);
+		return new Greater(left, right, pos);
 	}
 
 	@Override
@@ -270,7 +264,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new GreaterEqual(left, right,pos);
+		return new GreaterEqual(left, right, pos);
 	}
 
 	@Override
@@ -278,7 +272,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Less(left, right,pos);
+		return new Less(left, right, pos);
 	}
 
 	@Override
@@ -286,19 +280,19 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new LessEqual(left, right,pos);
+		return new LessEqual(left, right, pos);
 	}
 
 	@Override
 	public Node visitLiteralId(LiteralIdContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		return new Identifier(ctx.Identifier().getText(),pos);
+		return new Identifier(ctx.Identifier().getText(), pos);
 	}
 
 	@Override
 	public Node visitLiteralInt(LiteralIntContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		return new IntLiteral(Integer.parseInt(ctx.getText()),pos);
+		return new IntLiteral(Integer.parseInt(ctx.getText()), pos);
 	}
 
 	@Override
@@ -311,16 +305,28 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitLiteralStr(LiteralStrContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		return new StrLiteral(ctx.StringLiteral().getText().replaceAll("^\"|\"$", ""),pos);
+		return new StrLiteral(ctx.StringLiteral().getText(), pos);
 	}
 
 	@Override
 	public Node visitExprParentheses(ExprParenthesesContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		return new Parenthese((Expression) ctx.expression().accept(this),pos);
+		return new Parenthese((Expression) ctx.expression().accept(this), pos);
 	}
 
 	private CodePosition getCodePosition(ParserRuleContext ctx) {
 		return new CodePosition(ctx.getStart().getLine(), ctx.getStop().getLine());
+	}
+
+	@Override
+	public Node visitQuestionIdentifier(QuestionIdentifierContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
+		return new Identifier(ctx.Identifier().getText(), pos);
+	}
+
+	@Override
+	public Node visitQuestionLabel(QuestionLabelContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
+		return new StrLiteral(ctx.StringLiteral().getText().replaceAll("^\"|\"$", ""), pos);
 	}
 }

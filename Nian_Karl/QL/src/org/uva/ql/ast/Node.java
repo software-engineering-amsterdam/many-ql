@@ -1,6 +1,6 @@
 package org.uva.ql.ast;
 
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public interface Node {
 	

@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.AST
 {
     public abstract class ASTVisitor : IASTVisitor
     {
-        public virtual void Visit(Form form)
+        public virtual void Visit(QuestionForm form)
         {
             foreach (var statement in form.Statements)
             {
@@ -41,11 +41,11 @@ namespace UvA.SoftCon.Questionnaire.AST
         public virtual void Visit(Question question)
         {
             question.Id.Accept(this);
-        }
 
-        public virtual void Visit(Result result)
-        {
-            result.Id.Accept(this);
+            if (question.Expression != null)
+            {
+                question.Expression.Accept(this);
+            }
         }
 
         public virtual void Visit(Declaration declaration)
@@ -161,7 +161,7 @@ namespace UvA.SoftCon.Questionnaire.AST
 
     public abstract class ASTVisitor<T> : IASTVisitor<T>
     {
-        public virtual T Visit(Form form)
+        public virtual T Visit(QuestionForm form)
         {
             foreach (var statement in form.Statements)
             {
@@ -193,12 +193,12 @@ namespace UvA.SoftCon.Questionnaire.AST
         public virtual T Visit(Question question)
         {
             question.Id.Accept(this);
-            return default(T);
-        }
 
-        public virtual T Visit(Result result)
-        {
-            result.Id.Accept(this);
+            if (question.Expression != null)
+            {
+                question.Expression.Accept(this);
+            }
+
             return default(T);
         }
 

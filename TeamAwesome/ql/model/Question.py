@@ -12,10 +12,21 @@ class ObservableQuestionProperty(Observable):
 
 
 class Question:
-    def __init__(self, text, visible = True, answer = None):
+    def __init__(
+        self,
+        identifier,
+        text,
+        visible = True,
+        answer = None
+    ):
+        self._identifier = identifier
         self._text = text
         self._visible = ObservableQuestionProperty(self, visible)
         self._answer = ObservableQuestionProperty(self, answer)
+
+    @property
+    def identifier(self):
+        return self._identifier
 
     @property
     def text(self):
@@ -30,7 +41,7 @@ class Question:
         self._answer.value = newAnswer
 
     def observeAnswerWith(self, callback):
-        self._answer.registerObserver(callback)
+        self._answer.addObserver(callback)
 
     @property
     def visible(self):
@@ -41,7 +52,11 @@ class Question:
         self._visible.value = newVisibility
 
     def observeVisibilityWith(self, callback):
-        self._visible.registerObserver(callback)
+        self._visible.addObserver(callback)
+
+    def removeObservers(self):
+        self._answer.removeObservers()
+        self._visible.removeObservers()
 
 
 class ComputedQuestion(Question):
@@ -74,42 +89,3 @@ class InputMoneyQuestion(InputQuestion):
 
 class InputStringQuestion(InputQuestion):
     pass
-
-
-class Form:
-    def __init__(self, questions):
-        self._questions = questions
-
-    @property
-    def questions(self):
-        return self._questions
-
-
-class FormVisitor(GenericVisitor):
-    def _visitForm(self, form):
-        for q in self.questions:
-            self.visit(q)
-
-    def _visitComputedBooleanQuestion(self, question):
-        pass
-
-    def _visitComputedIntegerQuestion(self, question):
-        pass
-
-    def _visitComputedMoneyQuestion(self, question):
-        pass
-
-    def _visitComputedStringQuestion(self, question):
-        pass
-
-    def _visitInputBooleanQuestion(self, question):
-        pass
-
-    def _visitInputIntegerQuestion(self, question):
-        pass
-
-    def _visitInputMoneyQuestion(self, question):
-        pass
-
-    def _visitInputStringQuestion(self, question):
-        pass

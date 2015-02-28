@@ -18,12 +18,4 @@ public class TypeCheck {
 	public SymbolMap getSymbolTable(){
 		return this.symbolTable;
 	}
-	
-	public void printSymbolTable(){
-		for (String s : this.symbolTable.getAllKeys()){
-			for (Symbol symbol : this.symbolTable.retrieve(s)){
-				System.out.println("SYMBOLTABLE -> " + s + " - " + symbol.toString());
-			}
-		}
-	}
 }

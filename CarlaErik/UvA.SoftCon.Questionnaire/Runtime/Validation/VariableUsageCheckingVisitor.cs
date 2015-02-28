@@ -74,44 +74,59 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        public override void Visit(Question node)
+        public override void Visit(Question question)
         {
-            if (!DeclaredVariables.Keys.Contains(node.Id.Name))
+            if (question.Expression != null)
             {
-                DeclaredVariables.Add(node.Id.Name, new IdentifierUsageCount(node.Id, 0));
+                question.Expression.Accept(this);
+            }
+
+            if (!DeclaredVariables.Keys.Contains(question.Id.Name))
+            {
+                DeclaredVariables.Add(question.Id.Name, new IdentifierUsageCount(question.Id, 0));
             }
             else
             {
-                RedeclaredVariables.Add(node.Id);
+                RedeclaredVariables.Add(question.Id);
             }
         }
 
-        public override void Visit(Declaration node)
+        public override void Visit(Declaration declaration)
         {
-            if (!DeclaredVariables.Keys.Contains(node.Id.Name))
+            if (declaration.Initialization != null)
             {
-                DeclaredVariables.Add(node.Id.Name, new IdentifierUsageCount(node.Id, 0));
+                declaration.Initialization.Accept(this);
+            }
+
+            if (!DeclaredVariables.Keys.Contains(declaration.Id.Name))
+            {
+                DeclaredVariables.Add(declaration.Id.Name, new IdentifierUsageCount(declaration.Id, 0));
             }
             else
             {
-                RedeclaredVariables.Add(node.Id);
-            }
-
-            if (node.Initialization != null)
-            {
-                node.Initialization.Accept(this);
+                RedeclaredVariables.Add(declaration.Id);
             }
         }
 
-        public override void Visit(Identifier node)
+        public override void Visit(Assignment assignment)
         {
-            if (DeclaredVariables.Keys.Contains(node.Name))
+            if (!DeclaredVariables.ContainsKey(assignment.Variable.Name))
             {
-                DeclaredVariables[node.Name].Increase();
+                UndeclaredVariables.Add(assignment.Variable);
+            }
+
+            assignment.Expression.Accept(this);
+        }
+
+        public override void Visit(Identifier identifier)
+        {
+            if (DeclaredVariables.Keys.Contains(identifier.Name))
+            {
+                DeclaredVariables[identifier.Name].Increase();
             }
             else
             {
-                UndeclaredVariables.Add(node);
+                UndeclaredVariables.Add(identifier);
             }
         }
 

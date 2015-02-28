@@ -83,7 +83,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
         public override Value Visit(Add add)
         {
             Value left = add.Left.Accept(this);
-            Value right = add.Left.Accept(this);
+            Value right = add.Right.Accept(this);
 
             return left.Plus(right);
         }
@@ -91,9 +91,89 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
         public override Value Visit(And and)
         {
             Value left = and.Left.Accept(this);
-            Value right = and.Left.Accept(this);
+            Value right = and.Right.Accept(this);
 
             return left.And(right);
+        }
+
+        public override Value Visit(Divide divide)
+        {
+            Value left = divide.Left.Accept(this);
+            Value right = divide.Right.Accept(this);
+
+            return left.DividedBy(right);
+        }
+
+        public override Value Visit(EqualTo equalTo)
+        {
+            Value left = equalTo.Left.Accept(this);
+            Value right = equalTo.Right.Accept(this);
+
+            return left.IsEqualTo(right);
+        }
+
+        public override Value Visit(GreaterThan greaterThan)
+        {
+            Value left = greaterThan.Left.Accept(this);
+            Value right = greaterThan.Right.Accept(this);
+
+            return left.IsGreaterThan(right);
+        }
+
+        public override Value Visit(GreaterThanOrEqualTo greaterThanOrEqualTo)
+        {
+            Value left = greaterThanOrEqualTo.Left.Accept(this);
+            Value right = greaterThanOrEqualTo.Right.Accept(this);
+
+            return left.IsGreaterThanOrEqualTo(right);
+        }
+
+        public override Value Visit(LessThan lessThan)
+        {
+            Value left = lessThan.Left.Accept(this);
+            Value right = lessThan.Right.Accept(this);
+
+            return left.IsLessThan(right);
+        }
+
+        public override Value Visit(LessThanOrEqualTo lessThanOrEqualTo)
+        {
+            Value left = lessThanOrEqualTo.Left.Accept(this);
+            Value right = lessThanOrEqualTo.Right.Accept(this);
+
+            return left.IsLessThanOrEqualTo(right);
+        }
+
+        public override Value Visit(Multiply multiply)
+        {
+            Value left = multiply.Left.Accept(this);
+            Value right = multiply.Right.Accept(this);
+
+            return left.MultipliedBy(right);
+        }
+
+        public override Value Visit(NotEqualTo notEqualTo)
+        {
+            Value left = notEqualTo.Left.Accept(this);
+            Value right = notEqualTo.Right.Accept(this);
+
+            return left.IsNotEqualTo(right);
+        }
+
+        public override Value Visit(Or or)
+        {
+            Value left = or.Left.Accept(this);
+            Value right = or.Right.Accept(this);
+
+            return left.Or(right);
+        }
+
+        public override Value Visit(Substract substract)
+        {
+            Value left = substract.Left.Accept(this);
+            Value right = substract.Right.Accept(this);
+
+            return left.Minus(right);
         }
 
         #endregion
