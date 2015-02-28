@@ -23,29 +23,23 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
-        public IReadOnlyList<IStatement> Then
+        public ICollection<IStatement> Then
         {
             get;
             private set;
         }
 
-        public IReadOnlyList<IStatement> Else
+        public ICollection<IStatement> Else
         {
             get;
             private set;
         }
 
-        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then, TextPosition position)
+        public IfStatement(IExpression @if, ICollection<IStatement> then, ICollection<IStatement> @else, TextPosition position)
             : base(position)
         {
             If = @if;
             Then = then;
-            Else = new List<IStatement>();
-        }
-
-        public IfStatement(IExpression @if, IReadOnlyList<IStatement> then, IReadOnlyList<IStatement> @else, TextPosition position)
-            : this(@if, then, position)
-        {
             Else = @else;
         }
 

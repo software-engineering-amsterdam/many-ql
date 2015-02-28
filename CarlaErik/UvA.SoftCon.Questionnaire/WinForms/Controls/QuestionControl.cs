@@ -8,40 +8,57 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
     public partial class QuestionControl : UserControl
     {
+        private Value _answer;
+
         public event EventHandler QuestionAnswered;
 
-        public virtual string Label
+        public string Name
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            protected set;
         }
 
-        public virtual Value Answer
+        public string Label
+        {
+            get;
+            protected set;
+        }
+
+        public Value Answer
         {
             get
             {
-                throw new NotImplementedException();
+                return _answer;
             }
             set
             {
-                throw new NotImplementedException();
+                _answer = value;
+                SetControls();
             }
         }
 
         public QuestionControl()
         {
             InitializeComponent();
+        }
+
+        protected QuestionControl(Question astQuestion)
+            : this()
+        {
+            Name = astQuestion.Id.Name;
+            Label = astQuestion.Label;
+            Answer = new Undefined();
+        }
+
+        protected virtual void SetControls()
+        {
+
         }
 
         protected virtual void OnQuestionAnswered(EventArgs e)

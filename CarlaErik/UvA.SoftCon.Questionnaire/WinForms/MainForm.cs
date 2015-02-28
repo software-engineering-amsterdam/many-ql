@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UvA.SoftCon.Questionnaire.AST;
+using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
@@ -16,7 +17,7 @@ using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
 namespace WinForms
 {
-    public partial class MainForm : Form
+    public partial class MainForm : System.Windows.Forms.Form
     {
         protected OutputWindow Output
         {
@@ -24,7 +25,7 @@ namespace WinForms
             private set;
         }
 
-        protected ICollection<QuestionControl> Questions
+        protected QuestionForm QuestionForm
         {
             get;
             private set;
@@ -33,42 +34,95 @@ namespace WinForms
         public MainForm()
         {
             InitializeComponent();
-
             Output = new OutputWindow(OutputTextBox);
         }
 
 
-        public void InitializeQuestions(UvA.SoftCon.Questionnaire.AST.Model.Form form)
+        public void InitializeQuestions()
         {
             QuestionFlowLayout.Controls.Clear();
 
             var runtimeController = new RuntimeController();
 
-            var allQuestionsAndResults = runtimeController.ExtractQuestionsAndResults(form);
+            var astQuestions = QuestionForm.GetAllQuestions();
 
-            foreach (var statement in allQuestionsAndResults)
+            foreach (var astQuestion in astQuestions)
             {
-                if (statement.Type == UvA.SoftCon.Questionnaire.AST.Model.NodeType.Question)
-                {
-                    Question question = statement as Question;
+                QuestionControl uiQuestion;
 
-                    switch (question.DataType)
-                    {
-                        case DataType.Boolean:
-                            QuestionFlowLayout.Controls.Add(new BooleanQuestion());
-                            break;
-                        case DataType.Integer:
-                            QuestionFlowLayout.Controls.Add(new NumericQuestion());
-                            break;
-                        case DataType.String:
-                            QuestionFlowLayout.Controls.Add(new TextQuestion());
-                            break;
-                    }
-                    Output.WriteLine("Question added: {0}, \"{1}\"", question.Id.Name, question.Label);
+                switch (astQuestion.DataType)
+                {
+                    case DataType.Boolean:
+                        uiQuestion = new BooleanQuestion(astQuestion);
+                        break;
+                    case DataType.Integer:
+                        uiQuestion = new NumericQuestion(astQuestion);
+                        break;
+                    case DataType.String:
+                        uiQuestion = new TextQuestion(astQuestion);
+                        break;
+                    default:
+                        throw new NotSupportedException();
                 }
+
+                if (!astQuestion.IsComputed)
+                {
+                    uiQuestion.QuestionAnswered += uiQuestion_QuestionAnswered;
+                }
+                uiQuestion.Visible = false;
+
+                QuestionFlowLayout.Controls.Add(uiQuestion);
+                Output.WriteLine("Question added: {0}, \"{1}\"", astQuestion.Id.Name, astQuestion.Label);
             }
         }
 
+        private void uiQuestion_QuestionAnswered(object sender, EventArgs e)
+        {
+            Interpretet();
+        }
+
+        public void Interpretet()
+        {
+            var runtimeController = new RuntimeController();
+            var answers = GetAnswers();
+
+            try
+            {
+                var visibleQuestions =  runtimeController.Interpretet(QuestionForm, answers);
+
+                foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
+                {
+                    uiQuestion.Visible = visibleQuestions.ContainsKey(uiQuestion.Name);
+
+                    if (visibleQuestions.ContainsKey(uiQuestion.Name))
+                    {
+                        Value result = visibleQuestions[uiQuestion.Name];
+
+                        if (!result.IsUndefined)
+                        {
+                            uiQuestion.Answer = result;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Output.WriteLine("ERROR - {0}", ex.ToString());
+                MessageBox.Show("Exception occured.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private IDictionary<string, Value> GetAnswers()
+        {
+            var answers = new Dictionary<string, Value>();
+
+            foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
+            {
+                answers.Add(uiQuestion.Name, uiQuestion.Answer);
+            }
+
+            return answers;
+        }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -105,7 +159,10 @@ namespace WinForms
                 }
                 else
                 {
-                    InitializeQuestions(form);
+                    QuestionForm = form;
+                    
+                    InitializeQuestions();
+                    Interpretet();
                 }
             }
         }
@@ -114,7 +171,5 @@ namespace WinForms
         {
             SplitPanel.Panel2Collapsed = !outputWindowToolStripMenuItem.Checked;
         }
-
-
     }
 }

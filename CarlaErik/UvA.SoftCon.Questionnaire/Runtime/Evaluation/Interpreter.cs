@@ -14,14 +14,23 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
     {
         private IDictionary<string, Value> _variables = new Dictionary<string, Value>();
 
-        public void Interpretet(IDictionary<string, Value> answers)
+        public IDictionary<string, Value> AvailableQuestions
+        {
+            get;
+            private set;
+        }
+
+        public void Interpretet(QuestionForm form, IDictionary<string, Value> answers)
         {
             if (answers == null) { throw new ArgumentNullException("answers"); }
 
             _variables = answers;
+            AvailableQuestions = new Dictionary<string, Value>();
+
+            Visit(form);
         }
 
-        public override void Visit(Form form)
+        public override void Visit(QuestionForm form)
         {
             foreach (var statement in form.Statements)
             {
@@ -64,7 +73,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         public override void Visit(Question question)
         {
-            // Do nothing
+            Value result = new Undefined();
+
+            if (question.IsComputed)
+            {
+                result = question.Expression.Accept(new ExpressionInterpreter(_variables));
+            }
+
+            AvailableQuestions.Add(question.Id.Name, result);
         }
 
         public override void Visit(IfStatement ifStatement)
