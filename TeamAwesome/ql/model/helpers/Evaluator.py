@@ -1,8 +1,4 @@
-def buildApplicationFromAST(ast):
-    pass
-
-
-def bindApplicationToEvaluator(application, evaluator):
+def bindApplication(application, evaluator):
     answerChangedCallback = _reEvaluateApplicationCallback(
         evaluator,
         application
@@ -12,21 +8,17 @@ def bindApplicationToEvaluator(application, evaluator):
         _bindFormToEvaluator(form, evaluator, answerChangedCallback) 
 
 
-def bindApplicationToGUI(application, gui):
-    pass
+def _reEvaluateApplicationCallback(evaluator, application):
+    callback = lambda question, oldValue, newValue: \
+        evaluator.addValue(question.identifier, newValue)
+        _updateApplicationFromEvaluator(evaluator, application)
+    return callback
 
 
 def _bindFormToEvaluator(form, evaluator, answerChangedCallback):
     for question in form.questions:
         question.removeObservers()
         question.observeAnswerWith(answerChangedCallback)
-
-
-def _reEvaluateApplicationCallback(evaluator, application):
-    callback = lambda question, oldValue, newValue: \
-        evaluator.addValue(question.identifier, newValue)
-        _updateApplicationFromEvaluator(evaluator, application)
-    return callback
 
 
 def _updateApplicationFromEvaluator(evaluator, application):
