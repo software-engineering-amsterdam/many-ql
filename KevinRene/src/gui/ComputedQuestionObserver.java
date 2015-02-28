@@ -26,7 +26,7 @@ public class ComputedQuestionObserver implements Observer {
 			// Recalculate the value for this computedQuestion
 			Value value = expression.getExpression().accept(new Evaluator(controller.getValueEnvironment()));	
 	
-			System.out.println("new value for " + expression.getIdentifier() + ": " + value);
+//			System.out.println("new value for " + expression.getIdentifier() + ": " + value);
 				
 			// Update the type environment
 			controller.storeValue(expression.getIdentifier(), value);

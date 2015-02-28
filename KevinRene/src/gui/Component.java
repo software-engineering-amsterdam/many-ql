@@ -2,6 +2,8 @@ package gui;
 
 import java.util.Observable;
 
+import javax.swing.JComponent;
+
 import cons.Value;
 import cons.ql.ast.expression.Identifier;
 
@@ -28,5 +30,5 @@ public abstract class Component extends Observable {
 	}
 	
 	public abstract void setValue(Value value);
-	
+	public abstract JComponent getComponent();
 }

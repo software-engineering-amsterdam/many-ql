@@ -3,6 +3,7 @@ package gui;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -28,10 +29,6 @@ public class TextComponent extends Component {
 	public TextComponent (Identifier identifier, Controller controller, boolean enabled) {
 		this(identifier, controller);
     	textField.setEnabled(false);
-	}
-	
-	public JTextField getComponent() {
-		return this.textField;
 	}
 	
 	public class MyCaretListener implements CaretListener {
@@ -66,5 +63,10 @@ public class TextComponent extends Component {
 		
 		// Notify this value has changed
 		controller.notify(getIdentifier());
+	}
+
+	@Override
+	public JComponent getComponent() {
+		return this.textField;
 	}
 }

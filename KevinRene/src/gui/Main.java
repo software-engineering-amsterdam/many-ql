@@ -22,20 +22,20 @@ public class Main {
 			+ "			assign(firstValue + secondValue)"
 			+ "    }"
 			+ ""
-//			+ ""
-//			+ "    if (hasSoldHouse == \"yes\") {"
-//			+ "        sellingPrice: money {"
-//			+ "            \"What was the selling price?\""
-//			+ "        }"
-//			+ "        privateDebt: money {"
-//			+ "            \"Private debts for the sold house:\" "
-//			+ "        }"
-//			+ ""
-//			+ "        valueResidue: money {"
-//			+ "            \"Value residue:\""
-//			+ "            assign(sellingPrice - privateDebt)"
-//			+ "        }"
-//			+ "    }"
+			+ ""
+			+ "    if (firstValue == 10) {"
+			+ "        sellingPrice: integer {"
+			+ "            \"What was the selling price?\""
+			+ "        }"
+			+ "        privateDebt: integer {"
+			+ "            \"Private debts for the sold house:\" "
+			+ "        }"
+			+ ""
+			+ "        valueResidue: integer {"
+			+ "            \"Value residue:\""
+			+ "            assign(sellingPrice - privateDebt)"
+			+ "        }"
+			+ "    }"
 			+ "}";
 	
     /**
@@ -59,7 +59,7 @@ public class Main {
 			System.exit(0);
 		}
 		
-		ComponentCreator.check(frame.getContentPane(), tree, valueEnv);
+		frame.getContentPane().add(ComponentCreator.check(tree, valueEnv));
  
         //Display the window.
         frame.pack();

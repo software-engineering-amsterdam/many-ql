@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.math.BigInteger;
 
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -31,7 +32,8 @@ public class IntegerComponent extends Component {
     	textField.setEnabled(false);
 	}
 	
-	public JTextField getComponent() {
+	@Override
+	public JComponent getComponent() {
 		return this.textField;
 	}
 	

@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
@@ -18,19 +19,22 @@ import cons.ql.ast.visitor.StatementVisitor;
 
 public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisitor<Void> {
 	
-	private Container pane;
+	private JPanel pane;
 	private Controller controller;
-	
-	private ComponentCreator(Container pane, ValueEnvironment valueEnv) {
+		
+	private ComponentCreator(JPanel pane, ValueEnvironment valueEnv) {
 		this.pane = pane;
 		this.controller = new Controller(valueEnv);
 	}
 	
-	public static Container check(Container pane, ASTNode tree, ValueEnvironment valueEnv) {
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		ComponentCreator creator = new ComponentCreator(pane, valueEnv);
+	public static JPanel check(ASTNode tree, ValueEnvironment valueEnv) {
+		
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		ComponentCreator creator = new ComponentCreator(container, valueEnv);
 		
 		tree.accept(creator);
+		
 		
 		return creator.pane;
 	}
@@ -58,10 +62,17 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	public Void visit(If ifNode) {
 //		ifNode.getExpression().accept(this);
 
+		JPanel container = check(ifNode.getBlock(), controller.getValueEnvironment());
+		IfObserver ifObserver = new IfObserver(ifNode, controller, container);
+		
+		controller.addGlobalObserver(ifObserver);
+		
+		pane.add(container);
+		
 		// TODO, request value environment
-		if (true) {
-			ifNode.getBlock().accept(this);
-		}
+//		if (true) {
+//			ifNode.getBlock().accept(this);
+//		}
 		
 		return null;
 	}
