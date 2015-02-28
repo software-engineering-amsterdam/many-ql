@@ -87,8 +87,8 @@ public class QLUI extends Application {
 			case BOOLEAN:
 				CheckBox checkBox = new CheckBox("Yes");
 				checkBox.setOnAction(new CheckBoxEventHandler(uiQuestion));
-				grid.add(checkBox, 1, y);
 				checkBox.setDisable(initializeDisabled);
+				grid.add(checkBox, 1, y);
 				break;
 			case DATUM:
 				DatePicker datePicker = new DatePicker();
@@ -100,8 +100,8 @@ public class QLUI extends Application {
 			case MONEY:
 				TextField textField = new TextField();
 				textField.setOnKeyReleased(new TextFieldHandler(uiQuestion));
-				grid.add(textField, 1, y);
 				textField.setDisable(initializeDisabled);
+				grid.add(textField, 1, y);
 				break;
 			default:
 				throw new IllegalStateException("Unsupported type: " + dataType);
