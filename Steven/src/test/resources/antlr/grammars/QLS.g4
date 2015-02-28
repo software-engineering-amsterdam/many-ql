@@ -7,10 +7,13 @@ identifier
     ;
 statement
     : question
-    | default
+    | default_statement
     ;
-default
-    : 'default' UPPERCASE
+default_statement
+    : 'default' question_type '{' style* '}'
+    ;
+question_type
+    : UPPERCASE
     ;
 page
     : 'page' '{' section* '}'
@@ -24,6 +27,9 @@ question
     ;
 style
     : 'widget' UPPERCASE
+    | 'width' NUMBERS
+    | 'font' STRING
+    | 'color' '#' NUMBERS
     ;
 UPPERCASE
     : [A-Z]+
