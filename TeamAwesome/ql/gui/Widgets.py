@@ -21,15 +21,20 @@ class NumberSpinbox(tk.Spinbox):
     def __init__(self, master, lowerBound = 0, upperBound = 10, callback = None):
         if callback == None:
             callback = defaultCallback
-        tk.Spinbox.__init__(self, master, from_ = lowerBound, to = upperBound, command = lambda : callback(self))
+        tk.Spinbox.__init__(self, master, from_ = lowerBound, to = upperBound, command = lambda x : callback(self))
 
     def value(self):
         return int(self.get())
 
-class TextInputWidget(tk.Text):
-    def __init__(self, master, width = 80, height = 1, text = ""):
-        tk.Text.__init__(self, master, width = width, height = height)
-        self.insert('0.0', text)
+class TextInputWidget(tk.Entry):
+    def __init__(self, master, width = 80, text = "", callback = None):
+        tk.Entry.__init__(self, master, width = width)
+        self.insert(0, text)
+
+        if callback == None:
+            callback = defaultCallback
+        self.bind("<Return>", lambda x : callback(self))
+        self.bind("<FocusOut>", lambda x : callback(self))
 
     def value(self):
         return self.get('0.0', tk.END)
