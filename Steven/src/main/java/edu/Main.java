@@ -27,6 +27,6 @@ public class Main {
         Form evaluatedForm = (Form) evaluator.visit(form);
 
         SwingUtilities.invokeLater(() -> mainWindow.initialize(evaluatedForm));
-        mainWindow.setVisible(true);
+
     }
 }
