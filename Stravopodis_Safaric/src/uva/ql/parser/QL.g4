@@ -24,8 +24,8 @@ stat	: expr
 	 	| assign
 	 	;
 
-assign		: Identifier '=' exp = expr ';' 	# AssignExpr			
-			| Identifier '=' str = STRING ';' 	# AssignStr; 				
+assign		: Identifier ':' exp = expr ';' 	# AssignExpr			
+			| Identifier ':' str = STRING ';' 	# AssignStr; 				
 
 expr 		: LP x = expr RP
 			| x = expr op = EXP<assoc=right> y = expr 	
