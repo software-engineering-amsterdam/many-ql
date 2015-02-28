@@ -8,6 +8,8 @@ import org.fugazi.evaluator.Evaluator;
 import org.fugazi.evaluator.expression_value.BoolValue;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.gui.block.*;
+import org.fugazi.gui.block.block_memento.BlockCareTaker;
+import org.fugazi.gui.block.block_memento.BlockOriginator;
 import org.fugazi.gui.mediator.Colleague;
 import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.ui_elements.*;
@@ -26,9 +28,13 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     private ArrayList<IfStatement> ifStatements = new ArrayList<>(); // used for their re-evaluation
     private ArrayList<ComputedQuestion> computedQuestions = new ArrayList<>(); // used for their re-evaluation
 
-    private HashMap<String, Block> blocks = new HashMap<>();
-    private Block currentBlock; // todo: memento
-    private FormBlock formBlock; // todo: memento
+    private HashMap<String, Block> blocks = new HashMap<>(); // todo memento
+
+    // Memento pattern to handle the states of the Blocks
+    private final BlockCareTaker blockCaretaker = new BlockCareTaker();
+    private final BlockOriginator blockOriginator = new BlockOriginator();
+    private Block currentBlock;
+    private FormBlock formBlock;
 
     public UIBuilder(Form _astForm) {
         this.astForm = _astForm;
