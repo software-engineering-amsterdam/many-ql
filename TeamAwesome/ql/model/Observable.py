@@ -3,7 +3,10 @@ class Observable:
         self._value = value
         self._observers = []
 
-    def registerObserver(self, callback):
+    def removeObservers(self):
+        self._observers = []
+
+    def addObserver(self, callback):
         self._observers.append(callback)
 
     @property
