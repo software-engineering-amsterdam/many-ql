@@ -30,11 +30,11 @@ import java.util.List;
 public class QuestionPane extends GridPane {
     private final static Font DEFAULT_QUESTION = new Font("Arial Bold", 14);
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
-    private final int TEXTBOX_PREFERRED_WIDTH = 250;
-    private final double MIN_HEIGHT = 50;
-    private final double EFFECT_DURATION = 500;
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
+    private final double MIN_HEIGHT = 50;
+    private final double EFFECT_DURATION = 500;
+    private final int TEXTBOX_PREFERRED_WIDTH = 250;
 
     private final Store store;
     private final Question question;
@@ -186,7 +186,7 @@ public class QuestionPane extends GridPane {
         timeline.getKeyFrames().addAll(createPositionTranslationFrames(true));
         timeline.getKeyFrames().add(new KeyFrame(
                 Duration.millis(EFFECT_DURATION),
-                ae -> {
+                hide -> {
                     this.setManaged(false);
                     this.setVisible(false);
                 }
@@ -201,7 +201,7 @@ public class QuestionPane extends GridPane {
         result.add(new KeyFrame(first,
                 new KeyValue(this.translateYProperty(), -getMinHeight())));
         result.add(new KeyFrame(last,
-                        new KeyValue(this.translateYProperty(), 0)));
+                new KeyValue(this.translateYProperty(), 0)));
         return result;
     }
 

@@ -26,7 +26,6 @@ public class Questionnaire extends VBox {
         super();
         this.store = store;
         this.questionPages = new ArrayList<QuestionPage>();
-
         init();
     }
 
@@ -46,7 +45,7 @@ public class Questionnaire extends VBox {
 
     public boolean addQuestionPage(QuestionPage page){
         this.getChildren().add(0, page);
-        store.updateVisibilities();
+        this.store.updateVisibilities();
         return questionPages.add(page);
     }
 
@@ -55,11 +54,14 @@ public class Questionnaire extends VBox {
         btn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                if (store.progressProperty().get() < 1)
+                    return; //Not yet done)
                 if (store.exportResults(System.getProperty("user.dir") + File.separator + "out"))
                     System.exit(0);
                 else {
                     //TODO: Java alerts coming in March 2015
                     //Too lazy for now!
+                    System.err.println("Could not export file to user.dir!");
                 }
             }
         });
