@@ -25,7 +25,7 @@ public class Form implements ASTNode {
     }
 
     public <T> T accept(FormVisitor<T> visitor) {
-        return visitor.visitForm(this);
+        return visitor.visit(this);
     }
 
     @Override

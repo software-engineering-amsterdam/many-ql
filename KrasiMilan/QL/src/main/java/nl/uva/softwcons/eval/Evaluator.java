@@ -1,6 +1,5 @@
 package nl.uva.softwcons.eval;
 
-import nl.uva.softwcons.ast.FormVisitor;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
@@ -23,6 +22,7 @@ import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ast.form.Form;
+import nl.uva.softwcons.ast.form.FormVisitor;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
@@ -50,7 +50,7 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
     }
 
     @Override
-    public Void visitForm(final Form form) {
+    public Void visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
         return null;
     }
