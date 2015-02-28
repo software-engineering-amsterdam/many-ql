@@ -1,19 +1,19 @@
 package org.uva.ql.view;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class FormView extends JFrame{
+	
+	private static final long serialVersionUID = 1L;
 
 	public FormView() {
-//		QuestionNormal normalQuestion = new QuestionNormal(QuestionType.BOOL, "MyIdentifier", "How are you");
-//		QuestionView questionView = new QuestionView(normalQuestion);
-		JLabel jlbHelloWorld = new JLabel("Hello World");
-//		getContentPane().add(questionView);
-		getContentPane().add(jlbHelloWorld);
-		this.setSize(600, 400);
-//		 pack();
+		this.setSize(1200, 400);
 		setVisible(true);
+	}
+
+	
+	public void addView(ComponentView view) {
+		this.add(view);
 	}
 	
 }

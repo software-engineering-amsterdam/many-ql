@@ -24,6 +24,7 @@ import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfStatement;
+import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
@@ -35,6 +36,7 @@ public interface Visitor<T> {
 	// Statements
 	public T visit(IfStatement ifStatement);
 	public T visit(QuestionNormal questionStatement);
+	public T visit(QuestionCompute questionComputeStatement);
 	public T visit(Block blockStatement);
 	public T visit(Form form);
 	public T visit(Questionnaire questionnaire);

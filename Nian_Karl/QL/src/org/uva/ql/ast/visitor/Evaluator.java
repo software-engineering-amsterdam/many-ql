@@ -28,6 +28,7 @@ import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfStatement;
+import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
@@ -228,6 +229,11 @@ public class Evaluator implements Visitor<Value> {
 
 	@Override
 	public Value visit(StrType node) {
+		return null;
+	}
+
+	@Override
+	public Value visit(QuestionCompute questionComputeStatement) {
 		return null;
 	}
 
