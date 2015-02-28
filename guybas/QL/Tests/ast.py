@@ -151,10 +151,3 @@ class TestAST(unittest.TestCase):
              "comp_operator": "comp_operator",
              "number": "number"
             })
-
-
-# Execute tests
-suite = unittest.TestLoader().loadTestsFromTestCase(TestFactories)
-suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestAST))
-
-unittest.TextTestRunner(verbosity=2).run(suite)
