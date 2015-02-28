@@ -1,4 +1,8 @@
 package uva.ql.interpreter.typecheck;
+
+import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.question.Question;
+import uva.ql.ast.statements.Assign;
 import uva.ql.interpreter.typecheck.Symbol;
 
 import java.util.*;
@@ -29,7 +33,34 @@ public class SymbolMap {
 		symbolsList.add(symbol);
 		this.symbols.put(name, symbolsList);
 	}
-	
+	private void removeFromList(String identifier, Symbol oldSymbol){
+		List<Symbol> symbols = this.retrieve(identifier);
+
+		if (oldSymbol != null){
+			symbols.remove(this.indexOfSymbol(symbols, oldSymbol));
+			this.symbols.put(identifier, symbols);
+		}
+	}
+	public void updateValue(String identifier, Expression expression){
+		List<Symbol> symbols = this.retrieve(identifier);
+		Symbol symbol = null;
+		
+		for (Symbol s : symbols){
+			if (s.getClassName().equals(Assign.class.getName()) && !s.getSymbolType().equals("string")){
+				symbol = s;
+				break;
+			}
+		}
+		
+		this.removeFromList(identifier, symbol);
+		this.putValue(identifier, this.prepareNewObject(identifier, expression));
+		System.err.println("PRINTING");
+		this.printSymbolTable();
+	}
+	private Symbol prepareNewObject(String identifier, Expression expression){
+		Symbol question = this.getSymbolForAttributes(identifier, null, Question.class.getName());
+		return new Symbol(question.getSymbolType(), Assign.class.getName(), question.getCodeLines(), expression);
+	}
 	public List<Symbol> retrieve(String name){
 		if (symbols.get(name) != null)
 			return symbols.get(name);
@@ -60,6 +91,7 @@ public class SymbolMap {
 	}
 
 	public Symbol getSymbolForAttributes(String name, String type, String className){
+		System.err.println("Checking for symbol: " + name + " " + type + " " + className);
 		int index = indexOfSymbol(this.retrieve(name), new Symbol(type, className, null));
 		if (index != -1) return this.retrieve(name).get(index);
 		return null;
@@ -96,6 +128,13 @@ public class SymbolMap {
 	@Override
 	public String toString(){
 		return symbols.keySet().toString();
+	}
+	public void printSymbolTable(){
+		for (String s : this.symbols.keySet()){
+			for (Symbol symbol : this.retrieve(s)){
+				System.out.println("SYMBOLTABLE -> " + s + " - " + symbol.toString());
+			}
+		}
 	}
 }
 

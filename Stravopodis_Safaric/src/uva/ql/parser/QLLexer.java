@@ -44,7 +44,7 @@ public class QLLexer extends Lexer {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'form'", "'question'", "'typeof'", "'='", "';'", "'if'", "'boolean'", 
+		null, "'form'", "'question'", "'typeof'", "':'", "';'", "'if'", "'boolean'", 
 		"'decimal'", "'string'", "'int'", null, null, null, null, null, null, 
 		null, null, null, null, null, "'*'", "'/'", "'+'", "'-'", "'('", "')'", 
 		"'{'", "'}'", "'<'", "'<='", "'>'", "'>='", "'=='", "'&&'", "'||'", "'!='", 
@@ -156,7 +156,7 @@ public class QLLexer extends Lexer {
 		"\2\2M\u013d\3\2\2\2O\u0141\3\2\2\2Q\u0145\3\2\2\2ST\7h\2\2TU\7q\2\2UV"+
 		"\7t\2\2VW\7o\2\2W\4\3\2\2\2XY\7s\2\2YZ\7w\2\2Z[\7g\2\2[\\\7u\2\2\\]\7"+
 		"v\2\2]^\7k\2\2^_\7q\2\2_`\7p\2\2`\6\3\2\2\2ab\7v\2\2bc\7{\2\2cd\7r\2\2"+
-		"de\7g\2\2ef\7q\2\2fg\7h\2\2g\b\3\2\2\2hi\7?\2\2i\n\3\2\2\2jk\7=\2\2k\f"+
+		"de\7g\2\2ef\7q\2\2fg\7h\2\2g\b\3\2\2\2hi\7<\2\2i\n\3\2\2\2jk\7=\2\2k\f"+
 		"\3\2\2\2lm\7k\2\2mn\7h\2\2n\16\3\2\2\2op\7d\2\2pq\7q\2\2qr\7q\2\2rs\7"+
 		"n\2\2st\7g\2\2tu\7c\2\2uv\7p\2\2v\20\3\2\2\2wx\7f\2\2xy\7g\2\2yz\7e\2"+
 		"\2z{\7k\2\2{|\7o\2\2|}\7c\2\2}~\7n\2\2~\22\3\2\2\2\177\u0080\7u\2\2\u0080"+

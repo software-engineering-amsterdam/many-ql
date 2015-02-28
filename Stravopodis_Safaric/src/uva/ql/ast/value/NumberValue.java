@@ -1,6 +1,7 @@
 package uva.ql.ast.value;
 
 import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.expressions.literals.Identifier;
 
 public class NumberValue extends GenericValue<Number>{
 
@@ -16,7 +17,7 @@ public class NumberValue extends GenericValue<Number>{
 	}
 	
 	public static boolean isNumberValue(Expression expr){
-		return expr.evaluate().getClass() == NumberValue.class;
+		return (expr.evaluate().getClass() == NumberValue.class || expr.getClass().equals(Identifier.class));
 	}
 	
 	public static NumberValue numberValueFromExpr(Expression expr){
@@ -32,7 +33,7 @@ public class NumberValue extends GenericValue<Number>{
 	}
 	
 	public NumberValue exponentiation(NumberValue _value){
-		return new NumberValue(Math.pow(this.value.floatValue(), _value.floatValue()));
+		return new NumberValue((float)Math.pow(this.value.floatValue(), _value.floatValue()));
 	}
 	public NumberValue multiplication(NumberValue _value){
 		return new NumberValue(this.value.floatValue() * _value.floatValue());
