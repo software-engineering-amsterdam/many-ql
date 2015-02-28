@@ -72,6 +72,9 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         this.uiForm.removeQuestion(_quest);
     }
 
+    /**
+     * Block managment
+     */
     private void addBlock(Block _block) {
         if (!blockCaretaker.isMementoExists(new BlockMemento(_block))) {
             // store block, change block
@@ -93,10 +96,14 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private void addQuestionToBlock(UIQuestion _quest) {
-        if (!currentBlock.getBody().containsKey(_quest.getId())) {
+        if (!isQuestionExistsInBlock(_quest.getId())) {
             currentBlock.add(_quest);
             addQuestionToTheForm(_quest);
         }
+    }
+
+    private boolean isQuestionExistsInBlock(String _id) {
+        return currentBlock.getBody().containsKey(_id);
     }
 
     /**
@@ -107,7 +114,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         this.storage.saveValue(_origin.getId(), _origin.getState());
 
         // re-evaluate the computed questions.
-        computedQuestions.forEach(quest -> evaluateComputedExpression(quest));
+        computedQuestions.forEach(quest -> this.evaluateComputedExpression(quest));
 
         // re-visit the conditions.
         ifStatements.forEach(ifStatement -> ifStatement.accept(this));
@@ -164,7 +171,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
         ExpressionValue result = evaluateComputedExpression(_computedQuest);
 
-        if (!currentBlock.getBody().containsKey(_computedQuest.getIdName())) {
+        if (!isQuestionExistsInBlock(_computedQuest.getIdName())) {
             UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
             this.addQuestionToBlock(uiComputedQuestion);
         } else {
