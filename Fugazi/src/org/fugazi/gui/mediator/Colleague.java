@@ -10,12 +10,9 @@ public abstract class Colleague {
     }
 
     protected void sendToMediator() {
-        this.mediator.notify(this);
+        this.mediator.getChangeFromColleagues(this);
     }
-
-    // todo: YANGI? Do I need to send messages from mediator to colleagues?
-    public abstract void receive(String message);
-
+    
     public abstract ExpressionValue getState();
     public abstract String getId();
 }

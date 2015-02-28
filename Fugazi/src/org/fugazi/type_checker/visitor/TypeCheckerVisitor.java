@@ -515,12 +515,10 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
 
     private void saveQuestionLabel(String label) {
         this.questionLabels.add(label);
-        return;
     }
 
     private void saveQuestionType(ID questionId, Type questionType) {
         this.questionTypes.put(questionId.getName(), questionType);
-        return;
     }
 
     private void addDependency(ID depender, ID dependee) {
@@ -560,7 +558,6 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
                 this.questionDependencies.addIdDependenant(depender, newIndirectDependee);
             }
         }
-        return;
     }
 
     // a = b
@@ -576,7 +573,6 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
             );
         }
         this.addDependency(depender, dependee);
-        return;
     }
 
     private void clearErrorHandler() {

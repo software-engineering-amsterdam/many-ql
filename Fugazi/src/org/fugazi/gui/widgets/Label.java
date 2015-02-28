@@ -2,26 +2,25 @@ package org.fugazi.gui.widgets;
 
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ItemListener;
 
-public class TextBox implements IWidget<String> {
+public class Label implements IWidget<String> {
 
-    private final String label;
+    private final JLabel value;
 
-    private JTextField input;
     private JPanel panel;
 
-    public TextBox(String _label) {
-        this.label = _label;
+    public Label(String _label, String _value) {
 
         this.panel = new JPanel();
-        JLabel label = new JLabel(this.label);
-        this.input = new JTextField();
+        JLabel label = new JLabel(_label);
+        this.value = new JLabel(_value);
 
-        input.setColumns(7);
+        value.setFont(new Font(value.getName(), Font.BOLD, 14));
 
         panel.add(label);
-        panel.add(input);
+        panel.add(this.value);
     }
 
     @Override
@@ -36,16 +35,15 @@ public class TextBox implements IWidget<String> {
 
     @Override
     public void addDocumentListener(DocumentListener _listener) {
-        this.input.getDocument().addDocumentListener(_listener);
     }
 
     @Override
     public String getValue() {
-        return this.input.getText();
+        return this.value.getText();
     }
 
     @Override
     public void setValue(String _value) {
-        this.input.setText(_value);
+        value.setText(_value);
     }
 }
