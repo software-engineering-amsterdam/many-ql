@@ -14,9 +14,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
     /// <summary>
     /// Represents the top level visitor for constructing the Abstract Syntax Tree.
     /// </summary>
-    internal class FormVisitor : QLBaseVisitor<Form>
+    internal class FormVisitor : QLBaseVisitor<QuestionForm>
     {
-        public override Form VisitForm(QLParser.FormContext context)
+        public override QuestionForm VisitForm(QLParser.FormContext context)
         {
             var statements = new List<IStatement>();
 
@@ -25,7 +25,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
                 statements.Add(child.Accept(new StatementVisitor()));
             }
 
-            return new Form(statements, context.GetTextPosition());
+            return new QuestionForm(statements, context.GetTextPosition());
         }
     }
 }

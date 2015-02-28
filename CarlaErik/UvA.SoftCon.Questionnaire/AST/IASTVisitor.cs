@@ -14,13 +14,12 @@ namespace UvA.SoftCon.Questionnaire.AST
 {
     public interface IASTVisitor
     {
-        void Visit(Form form);
+        void Visit(QuestionForm form);
         void Visit(Identifier identifier);
         void Visit(BooleanLiteral literal);
         void Visit(IntegerLiteral literal);
         void Visit(StringLiteral literal);
         void Visit(Question question);
-        void Visit(Result result);
         void Visit(Declaration declaration);
         void Visit(Assignment assignment);
         void Visit(IfStatement ifStatement);
@@ -43,13 +42,12 @@ namespace UvA.SoftCon.Questionnaire.AST
 
     public interface IASTVisitor<T>
     {
-        T Visit(Form form);
+        T Visit(QuestionForm form);
         T Visit(Identifier identifier);
         T Visit(BooleanLiteral literal);
         T Visit(IntegerLiteral literal);
         T Visit(StringLiteral literal);
         T Visit(Question question);
-        T Visit(Result result);
         T Visit(Declaration declaration);
         T Visit(Assignment assignment);
         T Visit(IfStatement ifStatement);

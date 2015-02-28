@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
-    public class Question : Node, IStatement, IQuestionResult
+    public class Question : Node, IStatement
     {
         public override NodeType Type
         {
@@ -35,12 +35,33 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
+        public IExpression Expression
+        {
+            get;
+            private set;
+        }
+
+        public bool IsComputed
+        {
+            get
+            {
+                return Expression != null;
+            }
+        }
+
         public Question(DataType dataType, Identifier id, string label, TextPosition position)
             : base(position)
         {
             DataType = dataType;
             Id = id;
             Label = label;
+            Expression = null;
+        }
+
+        public Question(DataType dataType, Identifier id, string label, IExpression expression, TextPosition position)
+            : this(dataType, id, label, position)
+        {
+            Expression = expression;
         }
 
         public override void Accept(IASTVisitor visitor)

@@ -1,7 +1,6 @@
 package uva.ql.interpreter.typecheck;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uva.ql.ast.ASTNode;
@@ -34,10 +33,10 @@ import uva.ql.ast.question.Question;
 import uva.ql.ast.statements.Assign;
 import uva.ql.ast.statements.IfStatement;
 import uva.ql.ast.statements.Statement;
-import uva.ql.ast.value.GenericValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
+import uva.ql.supporting.ExpressionSupporting;
 
 public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
 
@@ -58,6 +57,18 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		return this.symbols.existsWithClassType(identifier.evaluate().getValue(), Question.class.getName());
 	}
 	
+	private boolean questionNested(Symbol origin){
+		
+		for (String key: this.symbols.getAllKeys()){
+			for (Symbol s: this.symbols.retrieve(key)){
+				if ((s.getClassName()).equals(Question.class.getName())){
+					if (this.withinScope(origin.getCodeLines(), s.getCodeLines()) == true)
+						return true;
+				}
+			}
+		}
+		return false;
+	}
 	@Override
 	public Object visitProg(Prog prog) {
 		this.visitForm(prog.getForm());
@@ -96,10 +107,15 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	public Object visitQuestion(Question question) {
 		
 		Symbol symbol = new Symbol(question.getType().getTypeName(), question.getClass().getName(), question.getCodeLines());
-		
+		Boolean nested = this.questionNested(symbol);
 		Identifier identifier = question.getIdentifier();
 		String identifierValue = identifier.evaluate().getValue();
 		
+		if (nested) {
+			throw new IllegalTypeException("IllegalTypeException: nested questions found");
+			
+		}
+		else {
 		if (symbols.existsWithClassType(identifierValue, question.getClass().getName())){
 			
 			if (symbols.keyWithSymbolExists(identifierValue, symbol))
@@ -116,25 +132,17 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		this.visitStatements(question.getStatement());
 		return null;
 	}
-
+	}
 	@Override
 	public Object visitIfStatement(IfStatement ifStatement) {
+		Expression expression = ifStatement.getExpression();
 		
+		BinaryExpressions binary = (BinaryExpressions)expression.accept(this);
 		
-		System.err.println(ifStatement.getExpression().accept(this));
+		if (binary.evaluate().getValue().getClass() != Boolean.class)
+			throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
+											+ expression.getCodeLines().toString());
 		
-		/*Object evaluatedExpression = ifStatement.evaluate().getValue();
-		
-		if (evaluatedExpression.getClass().equals(Identifier.class)){
-			System.out.println("Found some identifier");
-		}*/
-		
-		//if (expression.evaluate().getValue().getClass() != Boolean.class)
-			//throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
-				//							+ expression.getCodeLines().toString());
-		
-
-		ifStatement.getExpression().accept(this);
 		this.visitStatements(ifStatement.getStatement());
 		
 		return null;
@@ -143,7 +151,9 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	@Override
 	public Object visitAssign(Assign assign) {
 		
-		Type type = new Type(assign.getExpression().evaluate().getValue().getClass().getSimpleName().toLowerCase(), assign.getCodeLines());
+		PrimitiveType primitiveType = PrimitiveType.findOperator(assign.getExpression().evaluate().getValue().getClass().getSimpleName().toLowerCase());
+		
+		Type type = new Type(primitiveType.getName(), assign.getCodeLines());
 		String identifier = assign.getIdentifier().evaluate().getValue();
 		Expression expression = assign.getExpression();
 		
@@ -173,46 +183,14 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public List<Object> visitBinaryExpression(BinaryExpressions expression) {
+	public Expression visitBinaryExpression(BinaryExpressions expression) {
 		
-		Expression left = expression.getLeftExpr();
-		Expression right = expression.getRightExpr();
+		Expression evalLeft = (Expression)expression.getLeftExpr().accept(this);
+		Expression evalRight = (Expression)expression.getRightExpr().accept(this);
 		
-		left.accept(this);
-		right.accept(this);
-		
-		// Identifiers evaluated in accordance to their type
-		List<Object> objects = new ArrayList<Object>();
-		objects.add(left.accept(this));
-		objects.add(right.accept(this));
-		
-		
-		System.err.println(findSomeValue(objects, "boolean"));
-		
-		return objects;
-	}
-	private List<GenericValue<?>> findSomeValue(List<Object> objects, String type){
-		// create a map that stores all of these values!
-		
-		
-		List<GenericValue<?>> genericValue = new ArrayList<GenericValue<?>>();
-		
-		for (Object _expression : objects){
-			if (_expression.getClass().equals(Identifier.class)){
-				String identifier = ((Expression)_expression).evaluate().getValue().toString();
-				
-				for (Symbol symbol : this.symbols.retrieve(identifier)){
-					if (symbol.getClassName().equals(Assign.class.getName()) && symbol.getContent() != null){
-						if (symbol.getSymbolType().equals(type)){
-							Object obj = PrimitiveType.identifierFromPrimitiveType(symbol.getSymbolType(), symbol.getContent());
-							
-							genericValue.add((GenericValue<?>)obj);
-						}
-					}
-				}
-			}
-		}
-		return genericValue;
+	
+		ExpressionSupporting validateExpression = new ExpressionSupporting(this.symbols, evalLeft, evalRight, expression.getOperator());
+		return validateExpression.expressionValidator();
 	}
 
 	@Override

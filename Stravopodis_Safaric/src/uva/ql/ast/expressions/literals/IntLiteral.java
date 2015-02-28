@@ -17,7 +17,7 @@ public class IntLiteral extends Literal{
 	}
 	@Override
 	public NumberValue evaluate() {
-		return new NumberValue(this.value.floatValue());
+		return new NumberValue(this.value);
 	}
 	@Override
 	public String toString(){

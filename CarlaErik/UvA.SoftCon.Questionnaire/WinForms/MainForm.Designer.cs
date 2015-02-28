@@ -1,4 +1,4 @@
-﻿namespace WinForms
+﻿namespace UvA.SoftCon.Questionnaire.WinForms
 {
     partial class MainForm
     {

@@ -72,7 +72,6 @@
             this.Controls.Add(this.QuestionLabel);
             this.Controls.Add(this.FalseButton);
             this.Controls.Add(this.TrueButton);
-            this.Name = "BooleanQuestion";
             this.Size = new System.Drawing.Size(523, 50);
             this.ResumeLayout(false);
             this.PerformLayout();
