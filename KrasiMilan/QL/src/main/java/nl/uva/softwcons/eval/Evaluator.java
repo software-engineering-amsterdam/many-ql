@@ -33,12 +33,20 @@ import nl.uva.softwcons.eval.value.IntegerValue;
 import nl.uva.softwcons.eval.value.StringValue;
 import nl.uva.softwcons.eval.value.Value;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Value> {
 
     private FormAnswers answers;
+    private Multimap<Identifier, ValueChangeListener<Value>> changeListeners = ArrayListMultimap.create();
 
     public Evaluator(FormAnswers answers) {
         this.answers = answers;
+    }
+
+    public void addListener(final Identifier questionId, final ValueChangeListener<Value> listener) {
+        this.changeListeners.put(questionId, listener);
     }
 
     @Override
@@ -167,4 +175,5 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
     public DecimalValue visit(DecimalLiteral expr) {
         return new DecimalValue(expr.getValue());
     }
+
 }
