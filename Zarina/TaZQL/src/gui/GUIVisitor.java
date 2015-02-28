@@ -4,6 +4,9 @@ import gui.questions.IConnector;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
+
+import javax.swing.JLabel;
+
 import ast.question.ComputationQuestion;
 import ast.question.IQuestionVisitor;
 import ast.question.IfElseStatement;
@@ -11,7 +14,7 @@ import ast.question.IfStatement;
 import ast.question.Question;
 import ast.question.SimpleQuestion;
 
-public class GUIVisitor implements  IQuestionVisitor<IConnector>{
+public class GUIVisitor implements IQuestionVisitor<IConnector>{
 	private final GUIRender gui;
 	WidgetVisitor wid;
 
@@ -19,8 +22,9 @@ public class GUIVisitor implements  IQuestionVisitor<IConnector>{
 		this.gui = gui;
 	} 
 	
-	public void addStuff(SimpleQuestion q) {
-			this.gui.getLabel(q.getQuestionText());
+	public void addLabel(SimpleQuestion q) {
+		//
+			//this.gui.getLabel(q.getQuestionText());
 			//System.out.print("Test: " + q.getQuestionText());
 	}
 	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
@@ -34,19 +38,14 @@ public class GUIVisitor implements  IQuestionVisitor<IConnector>{
 		return null;
 	}
 	
-	
 
 	@Override
 	public IConnector visit(SimpleQuestion simpleQuestion) {
-		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId(),simpleQuestion.getQuestionText(), this.widget(simpleQuestion));
-		//addStuff(simpleQuestion);
+		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId(),
+												   new JLabel(simpleQuestion.getQuestionText()), 
+												   this.widget(simpleQuestion));
 		
-	//	gui.add(sq.getWc().getWidget());
-		gui.getLabel(simpleQuestion.getQuestionText());
-		gui.addWidget(widget(simpleQuestion));
-		
-		System.out.print(sq.getValue());
-		
+		gui.putWidgetRepository(simpleQuestion.getQuestionId(), sq);
 		return sq;
 	}
 

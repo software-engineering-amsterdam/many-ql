@@ -2,20 +2,6 @@ import hashlib
 
 
 class Converters:
-    @staticmethod
-    def rlist2string(a):
-        """
-        Converting a recursive list into a string
-        :param list|str a: the list
-        :return str: string
-        """
-        res = ''
-        if isinstance(a, list):
-            for item in a:
-                res += str(Converters.rlist2string(item)) + ' '
-        else:
-            res = str(a)
-        return res
 
     @staticmethod
     def get_md5(string):

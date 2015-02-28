@@ -84,7 +84,7 @@ class IfBlock(IStatement):
         return None
 
     def get_condition(self):
-        return self.condition.as_list()
+        return self.condition
 
     def get_str_condition(self):
         return self.condition.pretty_print()

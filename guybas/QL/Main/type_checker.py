@@ -57,6 +57,7 @@ class TypeChecker:
     @staticmethod
     def check_dependencies(dependencies):
         message = ""
+        print(dependencies)
         for d in dependencies:
             if d in dependencies[d]:
                 message += str(d) + " is dependent on itself"
