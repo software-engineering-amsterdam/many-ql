@@ -106,11 +106,11 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         // save the new value.
         this.storage.saveValue(_origin.getId(), _origin.getState());
 
+        // re-evaluate the computed questions.
+        computedQuestions.forEach(quest -> evaluateComputedExpression(quest));
+
         // re-visit the conditions.
         ifStatements.forEach(ifStatement -> ifStatement.accept(this));
-
-        // re-visit the computed questions.
-        //computedQuestions.forEach(quest -> quest.accept(this));
     }
 
     /**
@@ -125,6 +125,12 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     private ExpressionValue evaluateComputedQuestion(ComputedQuestion _computedQuest) {
         Expression expression = _computedQuest.getComputedExpression();
         return evaluator.evaluateExpression(expression);
+    }
+
+    private ExpressionValue evaluateComputedExpression(ComputedQuestion _computedQuest) {
+        ExpressionValue result = this.evaluateComputedQuestion(_computedQuest);
+        this.storage.saveValue(_computedQuest.getIdName(), result);
+        return result;
     }
 
     /**
@@ -156,8 +162,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     public Void visitComputedQuestion(ComputedQuestion _computedQuest) {
         this.addComputedQuestion(_computedQuest);
 
-        ExpressionValue result = this.evaluateComputedQuestion(_computedQuest);
-        this.storage.saveValue(_computedQuest.getIdName(), result);
+        ExpressionValue result = evaluateComputedExpression(_computedQuest);
 
         if (!currentBlock.getBody().containsKey(_computedQuest.getIdName())) {
             UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
