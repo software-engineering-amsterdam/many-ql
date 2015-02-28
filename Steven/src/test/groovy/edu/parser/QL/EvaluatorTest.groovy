@@ -1,4 +1,4 @@
-package edu
+package edu.parser.QL
 
 import edu.parser.QL.Evaluator
 import edu.parser.QL.nodes.Form

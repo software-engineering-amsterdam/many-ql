@@ -1,6 +1,7 @@
-package edu.parser
+package edu.parser.QL
 
 import edu.Main
+import edu.parser.AntlrParser
 import edu.parser.QL.ParseTreeWalker
 import junit.framework.Assert
 import edu.parser.QL.nodes.Form

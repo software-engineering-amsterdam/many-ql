@@ -1,5 +1,6 @@
-package edu
+package edu.parser.QL
 
+import edu.Main
 import edu.parser.QL.TypeChecker
 import edu.exceptions.TypeCheckException
 import edu.parser.AntlrParser
