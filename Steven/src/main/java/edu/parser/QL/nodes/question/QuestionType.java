@@ -1,13 +1,13 @@
 package edu.parser.QL.nodes.question;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
-import edu.parser.QL.nodes.AbstractNode;
+import edu.parser.AbstractNode;
 import edu.parser.QL.Visitor;
 
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public enum QuestionType implements AbstractNode {
+public enum QuestionType implements AbstractNode<Visitor> {
     STRING("STRING"), INTEGER("INTEGER"), BOOLEAN("BOOLEAN"), DATE("DATE"), MONEY("MONEY"), DECIMAL("DECIMAL");
 
     private final String type;

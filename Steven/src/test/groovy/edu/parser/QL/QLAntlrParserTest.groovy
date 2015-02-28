@@ -1,24 +1,24 @@
-package edu.parser
+package edu.parser.QL
 
 import edu.Main
-import edu.parser.QL.ParseTreeWalker
+import edu.parser.AntlrParser
 import edu.parser.QL.nodes.Form
 import spock.lang.Specification
 
 /**
  * Created by Steven Kok on 17/02/2015.
  */
-class AntlrParserTest extends Specification {
-    public static final String PATH_TO_INPUT_FILE = Main.PATH_TO_INPUT_FILES
+class QLAntlrParserTest extends Specification {
+    public static final String PATH_TO_INPUT_FILE = Main.PATH_TO_QL_INPUT_FILES
     AntlrParser parseTreeWalker
 
     def setup() {
-        parseTreeWalker = new AntlrParser()
+        parseTreeWalker = new QLAntlrParser();
     }
 
     def "Walker should throw exception when providing wrong path"() {
         when:
-        parseTreeWalker.walk(path, new ParseTreeWalker(), Form.class)
+        parseTreeWalker.parse(path, new ParseTreeVisitor(), Form.class)
 
         then:
         thrown(thrownClass)
@@ -33,7 +33,7 @@ class AntlrParserTest extends Specification {
 
     def "Walker shouldn't throw exception when provided correct path"() {
         when:
-        parseTreeWalker.walk(PATH_TO_INPUT_FILE + "QL_initial", new ParseTreeWalker(), Form.class)
+        parseTreeWalker.parse(PATH_TO_INPUT_FILE + "QL_initial", new ParseTreeVisitor(), Form.class)
 
         then:
         noExceptionThrown()
@@ -41,7 +41,7 @@ class AntlrParserTest extends Specification {
 
     def "Walker should return a populated list"() {
         when:
-        Form form = parseTreeWalker.walk(PATH_TO_INPUT_FILE + "QL_initial", new ParseTreeWalker(), Form.class)
+        Form form = parseTreeWalker.parse(PATH_TO_INPUT_FILE + "QL_initial", new ParseTreeVisitor(), Form.class)
 
         then:
         !form.getElements().empty

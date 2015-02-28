@@ -2,10 +2,11 @@ package edu.parser.QL;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.exceptions.ParseException;
+import edu.parser.QL.nodes.expression.Identifier;
 import org.antlr.v4.runtime.misc.NotNull;
 import edu.parser.QL.antlrGenerated.QLBaseVisitor;
 import edu.parser.QL.antlrGenerated.QLParser;
-import edu.parser.QL.nodes.AbstractNode;
+import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 17/02/2015.
  */
-public class ParseTreeWalker extends QLBaseVisitor<AbstractNode> {
+public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
     @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
         List<Statement> statements = collectStatements(ctx.statement());
@@ -60,7 +61,7 @@ public class ParseTreeWalker extends QLBaseVisitor<AbstractNode> {
     @Override
     public AbstractNode visitQuestion(@NotNull QLParser.QuestionContext ctx) {
         QuestionType questionType = (QuestionType) visit(ctx.question_type());
-        edu.parser.QL.nodes.expression.Identifier identifier = (edu.parser.QL.nodes.expression.Identifier) visit(ctx.identifier());
+        Identifier identifier = (Identifier) visit(ctx.identifier());
         Label label = (Label) visit(ctx.question_label());
         Optional<edu.parser.QL.nodes.expression.Expression> questionExpression = getQuestionExpression(ctx);
         boolean isQuestionEnabled = isQuestionEnabled(questionType);
@@ -96,7 +97,7 @@ public class ParseTreeWalker extends QLBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitIdentifier(@NotNull QLParser.IdentifierContext ctx) {
-        return new edu.parser.QL.nodes.expression.Identifier(ctx.getText());
+        return new Identifier(ctx.getText());
     }
 
     @Override
@@ -123,7 +124,7 @@ public class ParseTreeWalker extends QLBaseVisitor<AbstractNode> {
         } else if (ctx.numbers != null) {
             return visitNumbers(ctx);
         } else if (isIdentifier(ctx)) {
-            return new edu.parser.QL.nodes.expression.Identifier(ctx.getText());
+            return new Identifier(ctx.getText());
         } else {
             throw new ParseException("Unknown expression: " + ctx.getText());
         }

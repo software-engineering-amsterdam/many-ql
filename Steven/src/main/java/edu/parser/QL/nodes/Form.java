@@ -2,13 +2,14 @@ package edu.parser.QL.nodes;
 
 import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.Visitor;
+import edu.parser.AbstractNode;
 
 import java.util.List;
 
 /**
  * Created by Steven Kok on 17/02/2015.
  */
-public class Form implements AbstractNode {
+public class Form implements AbstractNode<Visitor> {
 
     private final List<Statement> elements;
 

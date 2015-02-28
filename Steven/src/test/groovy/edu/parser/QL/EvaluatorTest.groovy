@@ -1,6 +1,5 @@
 package edu.parser.QL
 
-import edu.parser.QL.Evaluator
 import edu.parser.QL.nodes.Form
 import edu.parser.QL.nodes.expression.Addition
 import edu.parser.QL.nodes.expression.And

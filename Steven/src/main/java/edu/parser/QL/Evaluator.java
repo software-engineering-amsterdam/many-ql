@@ -1,6 +1,6 @@
 package edu.parser.QL;
 
-import edu.parser.QL.nodes.AbstractNode;
+import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Question;
@@ -9,6 +9,7 @@ import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
+import edu.parser.QL.nodes.expression.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,6 @@ import java.util.logging.Logger;
 public class Evaluator extends VisitorImpl {
 
     private final List<Statement> questions = new ArrayList<>();
-    Logger logger = Logger.getLogger(Evaluator.class.getName());
 
     @Override
     public AbstractNode visit(Form form) {

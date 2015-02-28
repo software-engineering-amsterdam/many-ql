@@ -1,6 +1,6 @@
 package edu.parser.QL;
 
-import edu.parser.QL.nodes.AbstractNode;
+import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
@@ -10,6 +10,7 @@ import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
+import edu.parser.QL.nodes.expression.Identifier;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -32,7 +33,7 @@ public interface Visitor {
 
     AbstractNode visit(edu.parser.QL.nodes.expression.GreaterThan greaterThan);
 
-    AbstractNode visit(edu.parser.QL.nodes.expression.Identifier identifier);
+    AbstractNode visit(Identifier identifier);
 
     AbstractNode visit(edu.parser.QL.nodes.expression.LessOrEqual lessOrEqual);
 

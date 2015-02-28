@@ -1,10 +1,8 @@
 package edu.parser.QL
 
 import edu.Main
-import edu.parser.QL.TypeChecker
 import edu.exceptions.TypeCheckException
 import edu.parser.AntlrParser
-import edu.parser.QL.ParseTreeWalker
 import edu.parser.QL.nodes.Form
 import spock.lang.Specification
 
@@ -13,12 +11,12 @@ import spock.lang.Specification
  */
 class TypeCheckerTest extends Specification {
 
-    AntlrParser parseTreeWalker = new AntlrParser();
-    public static final String INPUT_PATH = Main.PATH_TO_INPUT_FILES
+    AntlrParser parseTreeWalker = new QLAntlrParser();
+    public static final String INPUT_PATH = Main.PATH_TO_QL_INPUT_FILES
 
     def "Should throw exception with duplicate and unreferenced questions"() {
         when:
-        Form form = parseTreeWalker.walk(input, new ParseTreeWalker(), Form.class)
+        Form form = parseTreeWalker.parse(input, new ParseTreeVisitor(), Form.class)
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form)
 
@@ -35,7 +33,7 @@ class TypeCheckerTest extends Specification {
 
     def "Should throw exception with non-boolean conditions"() {
         when:
-        Form form = parseTreeWalker.walk(input, new ParseTreeWalker(), Form.class)
+        Form form = parseTreeWalker.parse(input, new ParseTreeVisitor(), Form.class)
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form)
 
@@ -52,7 +50,7 @@ class TypeCheckerTest extends Specification {
 
     def "Should throw exception with non-arithmetic operators"() {
         when:
-        Form form = parseTreeWalker.walk(input, new ParseTreeWalker(), Form.class)
+        Form form = parseTreeWalker.parse(input, new ParseTreeVisitor(), Form.class)
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form)
 
@@ -67,7 +65,7 @@ class TypeCheckerTest extends Specification {
 
     def "Check valid grammars"() {
         when:
-        Form form = parseTreeWalker.walk(input, new ParseTreeWalker(), Form.class)
+        Form form = parseTreeWalker.parse(input, new ParseTreeVisitor(), Form.class)
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form)
 
@@ -82,7 +80,7 @@ class TypeCheckerTest extends Specification {
 
     def "Should throw exception when a question is used as a condition before it is declared"() {
         when:
-        Form form = parseTreeWalker.walk(input, new ParseTreeWalker(), Form.class)
+        Form form = parseTreeWalker.parse(input, new ParseTreeVisitor(), Form.class)
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form)
 

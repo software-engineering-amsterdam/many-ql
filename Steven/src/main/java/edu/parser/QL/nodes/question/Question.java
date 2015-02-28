@@ -1,7 +1,7 @@
 package edu.parser.QL.nodes.question;
 
 import edu.parser.QL.Visitor;
-import edu.parser.QL.nodes.AbstractNode;
+import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.statement.Statement;
@@ -70,8 +70,7 @@ public class Question extends Statement {
         if (enabled != question.enabled) return false;
         if (expression != null ? !expression.equals(question.expression) : question.expression != null) return false;
         if (!identifier.equals(question.identifier)) return false;
-        if (!label.equals(question.label)) return false;
-        return questionType == question.questionType;
+        return label.equals(question.label) && questionType == question.questionType;
 
     }
 

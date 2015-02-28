@@ -1,6 +1,6 @@
 package edu.parser.QL.nodes.type;
 
-import edu.parser.QL.nodes.AbstractNode;
+import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.Visitor;
 
