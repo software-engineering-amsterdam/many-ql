@@ -14,7 +14,7 @@ public interface IWidget <T> {
     public T getValue();
     public void setValue(T _value);
 
-    // Todo: think of that. (Smells)
+    // Todo: think of that.
     public void addItemListener(ItemListener _listener); // Use it on bool
     public void addDocumentListener(DocumentListener _listener); // Use it on text
 }

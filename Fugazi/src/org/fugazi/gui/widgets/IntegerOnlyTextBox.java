@@ -28,7 +28,6 @@ public class IntegerOnlyTextBox implements IWidget<String> {
 
         this.input = new JFormattedTextField(numberFormatter);
         
-        // Todo: Will be taken from a Style Object in QLS.
         input.setColumns(7);
 
         panel.add(label);

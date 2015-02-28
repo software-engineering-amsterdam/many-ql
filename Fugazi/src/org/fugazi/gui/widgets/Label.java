@@ -17,7 +17,6 @@ public class Label implements IWidget<String> {
         JLabel label = new JLabel(_label);
         this.value = new JLabel(_value);
 
-        // Todo: Will be taken from a Style Object in QLS.
         value.setFont(new Font(value.getName(), Font.BOLD, 14));
 
         panel.add(label);

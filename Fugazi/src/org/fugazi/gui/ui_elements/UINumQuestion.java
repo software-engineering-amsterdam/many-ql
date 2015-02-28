@@ -17,7 +17,6 @@ public class UINumQuestion extends UIQuestion {
         super(_med, _question);
         this.value = 0; // default
 
-        // TODO: get it from a GUI Designer
         this.widget = new IntegerOnlyTextBox(_question.getLabel());
 
         this.widget.addDocumentListener(new DocumentListener() {

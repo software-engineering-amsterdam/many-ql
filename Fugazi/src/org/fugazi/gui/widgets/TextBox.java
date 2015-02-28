@@ -18,7 +18,6 @@ public class TextBox implements IWidget<String> {
         JLabel label = new JLabel(this.label);
         this.input = new JTextField();
 
-        // Todo: Will be taken from a Style Object in QLS.
         input.setColumns(7);
 
         panel.add(label);
