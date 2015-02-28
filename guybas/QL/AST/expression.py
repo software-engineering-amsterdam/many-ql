@@ -17,13 +17,13 @@ class Expression:
         pass
 
     def as_list(self):
-       pass
+        pass
 
 
 # Expression without parenthesis
 class SimpleExpression(Expression):
     def __init__(self, expression):
-        self.expression = expression.asList()
+        self.expression = expression
 
     def return_type(self, type_dict):
         types = ""
@@ -44,13 +44,16 @@ class SimpleExpression(Expression):
         return dependencies
 
     def as_list(self):
-        return self.expression
+        l = []
+        for v in self.expression:
+            l += v.as_list()
+        return l
 
 
 # Expressions with sub-expressions
 class ComplexExpression(Expression):
     def __init__(self, expression):
-        self.expression = expression.asList()
+        self.expression = expression
         self.is_else = False
 
     def return_type(self, type_dict):
@@ -72,7 +75,10 @@ class ComplexExpression(Expression):
         return s
 
     def as_list(self):
-        return self.expression
+        l = []
+        for v in self.expression:
+            l.append(v.as_list())
+        return l
 
     def return_type(self, type_dict):
         types = ""

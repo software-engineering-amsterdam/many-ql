@@ -19,12 +19,13 @@ ifStatement
   ;
 
 question
-  : identifier = questionName COLON label = questionLabel type = questionType LEFT_PAREN expr = expression RIGHT_PAREN #QuestionCompute
-  | identifier = questionName COLON label = questionLabel type = questionType                                          #QuestionNormal
+  : identifier = questionIdentifier COLON label = questionLabel type = questionType LEFT_PAREN expr = expression RIGHT_PAREN #QuestionCompute
+  | identifier = questionIdentifier COLON label = questionLabel type = questionType                                          #QuestionNormal
   ;
 
-questionName: Identifier;
+questionIdentifier: Identifier;
 questionLabel: StringLiteral;
+
 questionType
   : INT       #TypeInt 
   | STR       #TypeStr 

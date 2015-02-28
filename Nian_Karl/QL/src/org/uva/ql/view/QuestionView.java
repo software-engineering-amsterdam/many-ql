@@ -2,25 +2,27 @@ package org.uva.ql.view;
 
 import java.awt.Color;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-
 import org.uva.ql.ast.statement.QuestionNormal;
+import org.uva.ql.view.widgit.QLCheckBox;
+import org.uva.ql.view.widgit.QLLabel;
+import org.uva.ql.view.widgit.QLWidget;
 
-public class QuestionView extends JComponent{
+public class QuestionView extends ComponentView {
 
-	private JLabel questionLabel;
+	private static final long serialVersionUID = 1L;
 
-	public QuestionView(QuestionNormal statement){
-		super();
-		this.setSize(200, 200);
-//		questionLabel = new JLabel(statement.getQuestionLabel());
-		questionLabel.setSize(50,50);
-		questionLabel.setLocation(100,100);
-		questionLabel.setVisible(true);
-		setBackground(new Color(255, 0, 0, 1));
-		setLocation(50, 50);
-		setVisible(true);
-//		setLayout(new BorderLayout());
+	private QuestionNormal question;
+	private QLLabel label;
+	private QLWidget widget;
+
+	public QuestionView(QuestionNormal question){
+		this.question = question;
+		System.out.println(this.question.getLabel());
+		this.label = new QLLabel("hoi"); 
+		// how to distinguish which type of widget on question?
+		this.widget = new QLCheckBox("myIdentifier");
+		this.setBounds(10, 10, 200, 50);
+		this.setBackground(new Color(255, 0, 0, 1));
+		this.setVisible(true);
 	}
 }
