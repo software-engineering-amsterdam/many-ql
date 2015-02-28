@@ -1,6 +1,6 @@
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
-import org.fugazi.gui.GUIBuilder;
+import org.fugazi.gui.widgets.UIBuilder;
 import org.fugazi.type_checker.TypeChecker;
 import org.fugazi.type_checker.error.ASTErrorPrinter;
 
@@ -43,7 +43,7 @@ public class Main {
         }
 
         // Render GUI.
-        GUIBuilder guiBuilder = new GUIBuilder(form);
+        UIBuilder guiBuilder = new UIBuilder(form);
         guiBuilder.renderGUI();
     }
 }
