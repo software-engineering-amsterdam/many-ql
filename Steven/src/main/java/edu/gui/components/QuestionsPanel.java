@@ -2,7 +2,7 @@ package edu.gui.components;
 
 import edu.exceptions.GuiException;
 import edu.gui.QuestionTypeGui;
-import edu.parser.nodes.question.Question;
+import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,11 +1,10 @@
 package edu
 
-import edu.TypeChecker
+import edu.parser.QL.TypeChecker
 import edu.exceptions.TypeCheckException
 import edu.parser.AntlrParser
-import edu.parser.AntlrParserTest
-import edu.parser.ParseTreeWalker
-import edu.parser.nodes.Form
+import edu.parser.QL.ParseTreeWalker
+import edu.parser.QL.nodes.Form
 import spock.lang.Specification
 
 /**

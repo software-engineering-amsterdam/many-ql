@@ -1,27 +1,28 @@
 package edu
 
-import edu.parser.nodes.Form
-import edu.parser.nodes.expression.Addition
-import edu.parser.nodes.expression.And
-import edu.parser.nodes.expression.Division
-import edu.parser.nodes.expression.Equal
-import edu.parser.nodes.expression.GreaterOrEqual
-import edu.parser.nodes.expression.GreaterThan
-import edu.parser.nodes.expression.Identifier
-import edu.parser.nodes.expression.LessOrEqual
-import edu.parser.nodes.expression.LessThan
-import edu.parser.nodes.expression.Multiplication
-import edu.parser.nodes.expression.Not
-import edu.parser.nodes.expression.NotEqual
-import edu.parser.nodes.expression.Or
-import edu.parser.nodes.question.Label
-import edu.parser.nodes.question.Question
-import edu.parser.nodes.question.QuestionType
-import edu.parser.nodes.statement.ElseClause
-import edu.parser.nodes.statement.IfStatement
-import edu.parser.nodes.statement.Statement
-import edu.parser.nodes.type.Boolean
-import edu.parser.nodes.type.Number
+import edu.parser.QL.Evaluator
+import edu.parser.QL.nodes.Form
+import edu.parser.QL.nodes.expression.Addition
+import edu.parser.QL.nodes.expression.And
+import edu.parser.QL.nodes.expression.Division
+import edu.parser.QL.nodes.expression.Equal
+import edu.parser.QL.nodes.expression.GreaterOrEqual
+import edu.parser.QL.nodes.expression.GreaterThan
+import edu.parser.QL.nodes.expression.Identifier
+import edu.parser.QL.nodes.expression.LessOrEqual
+import edu.parser.QL.nodes.expression.LessThan
+import edu.parser.QL.nodes.expression.Multiplication
+import edu.parser.QL.nodes.expression.Not
+import edu.parser.QL.nodes.expression.NotEqual
+import edu.parser.QL.nodes.expression.Or
+import edu.parser.QL.nodes.question.Label
+import edu.parser.QL.nodes.question.Question
+import edu.parser.QL.nodes.question.QuestionType
+import edu.parser.QL.nodes.statement.ElseClause
+import edu.parser.QL.nodes.statement.IfStatement
+import edu.parser.QL.nodes.statement.Statement
+import edu.parser.QL.nodes.type.Boolean
+import edu.parser.QL.nodes.type.Number
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -140,31 +141,6 @@ class EvaluatorTest extends Specification {
         new Not(new Boolean(true))                                                 | _
         new Not(new Identifier("unconditional"))                                   | _
     }
-
-    def "Should return disabled question when condition expects it so"() {
-        setup:
-        List<Statement> formStatements = new ArrayList<>()
-        List<Statement> questions = new ArrayList<>()
-
-        Question inputConditionalQuestion = new Question(new Identifier("conditional"), QuestionType.BOOLEAN, new Label("conditional"), true, Optional.empty())
-        questions.add(inputConditionalQuestion)
-
-        IfStatement ifStatement = new IfStatement(new Not(new Identifier("unconditional")), questions, Optional.empty())
-
-        def inputUnconditionalQuestion = new Question(new Identifier("unconditional"), QuestionType.BOOLEAN, new Label("unconditional"), false, Optional.empty())
-        formStatements.add(inputUnconditionalQuestion)
-        formStatements.add(ifStatement)
-        Form inputForm = new Form(formStatements);
-
-        when:
-        Form outputForm = (Form) evaluator.visit(inputForm)
-
-        then:
-        Assert.assertEquals(1, outputForm.elements.size())
-        Question outputConditionalQuestion = (Question) outputForm.elements.get(0)
-        Assert.assertEquals(inputConditionalQuestion, outputConditionalQuestion)
-    }
-
 
     def "Should return question from elseClause when condition is false"() {
         setup:

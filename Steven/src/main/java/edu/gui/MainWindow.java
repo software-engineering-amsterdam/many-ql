@@ -1,9 +1,9 @@
 package edu.gui;
 
 import edu.gui.components.Page;
-import edu.parser.nodes.Form;
-import edu.parser.nodes.question.Question;
-import edu.parser.nodes.statement.Statement;
+import edu.parser.QL.nodes.Form;
+import edu.parser.QL.nodes.question.Question;
+import edu.parser.QL.nodes.statement.Statement;
 
 import javax.swing.*;
 import java.awt.*;

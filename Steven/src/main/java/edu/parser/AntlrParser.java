@@ -1,8 +1,8 @@
 package edu.parser;
 
-import edu.parser.antlrGenerated.QLLexer;
-import edu.parser.antlrGenerated.QLParser;
-import edu.parser.antlrGenerated.QLVisitor;
+import edu.parser.QL.antlrGenerated.QLLexer;
+import edu.parser.QL.antlrGenerated.QLParser;
+import edu.parser.QL.antlrGenerated.QLVisitor;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 

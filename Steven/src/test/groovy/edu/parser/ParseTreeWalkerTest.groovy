@@ -1,20 +1,21 @@
 package edu.parser
 
 import edu.Main
+import edu.parser.QL.ParseTreeWalker
 import junit.framework.Assert
-import edu.parser.nodes.Form
+import edu.parser.QL.nodes.Form
 import edu.parser.ast.nodes.expression.*
-import edu.parser.nodes.expression.And
-import edu.parser.nodes.expression.BinaryExpression
-import edu.parser.nodes.expression.GreaterThan
-import edu.parser.nodes.expression.Identifier
-import edu.parser.nodes.expression.Multiplication
-import edu.parser.nodes.expression.Not
-import edu.parser.nodes.question.Question
-import edu.parser.nodes.statement.ElseClause
-import edu.parser.nodes.statement.IfStatement
-import edu.parser.nodes.type.Boolean
-import edu.parser.nodes.type.Number
+import edu.parser.QL.nodes.expression.And
+import edu.parser.QL.nodes.expression.BinaryExpression
+import edu.parser.QL.nodes.expression.GreaterThan
+import edu.parser.QL.nodes.expression.Identifier
+import edu.parser.QL.nodes.expression.Multiplication
+import edu.parser.QL.nodes.expression.Not
+import edu.parser.QL.nodes.question.Question
+import edu.parser.QL.nodes.statement.ElseClause
+import edu.parser.QL.nodes.statement.IfStatement
+import edu.parser.QL.nodes.type.Boolean
+import edu.parser.QL.nodes.type.Number
 import spock.lang.Specification
 
 /**
