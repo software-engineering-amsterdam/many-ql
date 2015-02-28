@@ -18,5 +18,4 @@ public class BlockOriginator{
         this.block = _memento.getSavedBlock();
         return this.block;
     }
-
 }

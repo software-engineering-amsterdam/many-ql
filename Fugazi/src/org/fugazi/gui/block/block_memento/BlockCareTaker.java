@@ -12,4 +12,12 @@ public class BlockCareTaker {
     public BlockMemento getMemento(int _index) {
         return savedBlocks.get(_index);
     }
+
+    public boolean isMementoExists(BlockMemento _m) {
+        for (BlockMemento block : savedBlocks) {
+            if (block.getSavedBlock().getName().equals(_m.getSavedBlock().getName()))
+                return true;
+        }
+        return false;
+    }
 }
