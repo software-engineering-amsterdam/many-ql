@@ -1,6 +1,6 @@
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
-import org.fugazi.gui.widgets.UIBuilder;
+import org.fugazi.gui.UIBuilder;
 import org.fugazi.type_checker.TypeChecker;
 import org.fugazi.type_checker.error.ASTErrorPrinter;
 

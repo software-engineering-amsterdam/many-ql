@@ -1,4 +1,4 @@
-package org.fugazi.gui.widgets;
+package org.fugazi.gui;
 
 import org.fugazi.ValueStorage;
 import org.fugazi.ast.expression.Expression;
@@ -154,6 +154,8 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     public Void visitIfStatement(IfStatement _ifStatement) {
         IfStatementBlock ifBlock = new IfStatementBlock(_ifStatement.getCondition().toString());
         this.addBlock(ifBlock);
+
+        //TODO: Concurrency problem on nested ifs
         this.addIfStatement(_ifStatement);
 
         boolean isConditionTrue = this.evaluateIfStatement(_ifStatement);
