@@ -8,3 +8,11 @@ type DefaultNode struct {
 func NewDefaultNode(questionType, widget string) *DefaultNode {
 	return &DefaultNode{questionType, widget}
 }
+
+func (d *DefaultNode) QuestionType() string {
+	return d.questionType
+}
+
+func (d *DefaultNode) Widget() string {
+	return d.widget
+}

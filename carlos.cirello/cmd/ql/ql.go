@@ -13,6 +13,8 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli/iostream"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/visitor"
 )
 
 func main() {
@@ -40,7 +42,16 @@ func main() {
 		csvReader.Read()
 	}
 
-	driver := graphic.GUI(aQuestionaire.Label())
+	style := ast.NewStyleNode(
+		"defaultStyle",
+		[]*ast.ActionNode{
+			ast.NewActionNode(ast.NewDefaultNode("bool", "switch")),
+		},
+	)
+	vstr := visitor.New()
+	vstr.Visit(style)
+
+	driver := graphic.GUI(aQuestionaire.Label(), vstr.Defaults())
 	frontend.New(fromInterpreter, toInterpreter, driver)
 	driver.Loop()
 
