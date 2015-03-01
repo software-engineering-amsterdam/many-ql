@@ -1,5 +1,7 @@
 package gui;
 
+import gui.components.Component;
+
 import java.util.Observable;
 import java.util.Observer;
 

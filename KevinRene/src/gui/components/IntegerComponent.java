@@ -1,4 +1,6 @@
-package gui;
+package gui.components;
+
+import gui.Controller;
 
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;

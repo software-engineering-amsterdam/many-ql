@@ -1,5 +1,7 @@
 package gui;
 
+import gui.components.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observer;

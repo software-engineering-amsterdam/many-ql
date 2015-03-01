@@ -1,5 +1,8 @@
 package gui;
 
+import gui.components.IntegerComponent;
+import gui.components.TextComponent;
+
 import java.awt.Container;
 import java.awt.Font;
 
