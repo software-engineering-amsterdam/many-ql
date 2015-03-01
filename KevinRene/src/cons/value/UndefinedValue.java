@@ -46,7 +46,7 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value or(Value argument) {
-		return this;
+		return argument.orBoolean(false);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value orBoolean(boolean argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(argument);
 		
 	}
 
