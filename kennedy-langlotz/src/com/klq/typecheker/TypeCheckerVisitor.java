@@ -16,7 +16,7 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.typecheker.error.AError;
-import com.klq.typecheker.error.NotAValidCondition;
+import com.klq.typecheker.error.InvalidCondition;
 
 import java.util.ArrayList;
 
@@ -100,7 +100,7 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
                 return child.accept(this);
             }
         }
-        return new NotAValidCondition(node);
+        return new InvalidCondition(node);
     }
 
     @Override

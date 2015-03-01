@@ -17,21 +17,24 @@ public class TypeChecker {
         this.ast = ast;
     }
 
-    public void firstPass(){
+    private void firstPass(){
         QuestionTable table = new QuestionTable(errors);
         QuestionMapper mapper = new QuestionMapper(table);
         ast.accept(mapper);
     }
 
-    public void secondPass(){
+    private void secondPass(){
         TypeCheckerVisitor visitor = new TypeCheckerVisitor(errors);
         ast.accept(visitor);
     }
 
-    //Just a temporary method, this logic should not be in here.
-    public void reportErrors(){
+    public void run(){
         firstPass();
         secondPass();
+    }
+    //Just a temporary method, this logic should not be in here.
+    public void reportErrors(){
+        run();
         if(errors.size() > 0){
             for(AError error : errors){
                 System.out.println(error.toString());
