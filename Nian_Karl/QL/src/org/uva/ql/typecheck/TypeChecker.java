@@ -163,10 +163,23 @@ public class TypeChecker implements Visitor<Void> {
 		checkCondition(binary.getRightExpression());
 	}
 	
-	public void checkOperand() {
+	public void checkOperand(Expression expr) {
+		if (!expr.getType(this).isEqual(new IntType())) {
+			Error error = new Error(Error.Type.OPERAND, expr.getPosition().getStartLine(),expr.toString());
+			messageManager.addError(error);
+		}
 		
+		expr.accept(this);
 	}
 	
+	public void checkUnaryOperand(Unary unary) {
+		checkOperand(unary.getExpression());
+	}
+	
+	public void checkBinaryOperand(Binary binary) {
+		checkOperand(binary.getLeftExpression());
+		checkOperand(binary.getRightExpression());
+	}
 	
 // Visits
 	
@@ -241,32 +254,37 @@ public class TypeChecker implements Visitor<Void> {
 
 	@Override
 	public Void visit(Positive node) {
+		checkUnaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Negative node) {
+		checkUnaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Plus node) {
-		
+		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Minus node) {
+		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Multiply node) {
+		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Divide node) {
+		checkBinaryOperand(node);
 		return null;
 	}
 
@@ -296,22 +314,25 @@ public class TypeChecker implements Visitor<Void> {
 
 	@Override
 	public Void visit(Greater node) {
+		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(GreaterEqual node) {
+		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Less node) {
-		
+		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(LessEqual node) {
+		checkBinaryOperand(node);
 		return null;
 	}
 

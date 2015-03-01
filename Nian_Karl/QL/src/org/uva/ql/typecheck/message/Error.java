@@ -38,11 +38,11 @@ public class Error extends Message {
 			break;
 		
 		case CONDITION:
-			content = "Condition <" + literal + "> is not Bool type.";
+			content = "Condition <" + literal + "> is not Bool.";
 			break;
 			
 		case OPERAND:
-			content = "The type of operand <" + literal + "> is invalid to operator.";
+			content = "Operand <" + literal + "> is not Int.";
 			break;
 			
 		case CYCLIC:
