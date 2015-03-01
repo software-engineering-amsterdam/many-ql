@@ -4,6 +4,7 @@ import com.klq.ast.impl.expr.*;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.*;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
 
 import java.time.LocalDate;
@@ -36,8 +37,12 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
             questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
         }
         else {
-            ANode child = visit(ctx.answerOptions());
-            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), child, formatLocation(ctx));
+            ArrayList<ANode> children = new ArrayList<ANode>();
+
+            for(KLQParser.ExprContext child : ctx.answerOptions().expr()){
+                children.add(visit(child));
+            }
+            questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), children, formatLocation(ctx));
         }
         return questionNode;
     }

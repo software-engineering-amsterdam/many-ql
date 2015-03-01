@@ -67,8 +67,8 @@ public class Main extends Application {
         ParseTreeConverter eval = new ParseTreeConverter();
         ANode ast = eval.visit(tree);
 
-        TypeChecker tc = new TypeChecker(ast);
-        tc.reportErrors();
+//        TypeChecker tc = new TypeChecker(ast);
+//        tc.reportErrors();
 
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         Store store = (Store) ast.accept(AST2GUIConverter);
@@ -80,8 +80,8 @@ public class Main extends Application {
         questionnaire.addQuestionPage(page);
 
         //print AST for test purposes
-        //ASTPrinter printer = new ASTPrinter();
-        //ast.accept(printer);
+//        ASTPrinter printer = new ASTPrinter();
+//        ast.accept(printer);
     }
 
     @Override

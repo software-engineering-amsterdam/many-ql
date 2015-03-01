@@ -39,7 +39,9 @@ public class DuplidateQuestionIdTest {
         assertEquals(1,tc.getErrors().size());
         assertThat(tc.getErrors().get(0), instanceOf(NotUniqueID.class));
 
-        ast.getChildren().add(new ComputedQuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", new StringNode("test", "5"), "4"));
+        ArrayList<ANode> list = new ArrayList<ANode>();
+        list.add(new StringNode("test", "5"));
+        ast.getChildren().add(new ComputedQuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", list, "4"));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(2, tc.getErrors().size());

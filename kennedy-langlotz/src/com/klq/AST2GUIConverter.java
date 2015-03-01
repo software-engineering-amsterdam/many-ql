@@ -90,8 +90,12 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        AExpression expr = (AExpression) node.getChild().accept(this);
-        return new Question(id, type, null, text, expr);
+        OptionSet options = new OptionSet();
+
+        for(ANode child : node.getChildren()){
+            options.add((AExpression) child.accept(this));
+        }
+        return new Question(id, type, options, text);
     }
 
     @Override
