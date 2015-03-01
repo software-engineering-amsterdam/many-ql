@@ -8,6 +8,16 @@ import edu.parser.QLS.Visitor;
  */
 public class Identifier implements AbstractNode<Visitor> {
 
+    private final String identifier;
+
+    public Identifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
     @Override
     public AbstractNode accept(Visitor visitor) {
         return visitor.accept(this);

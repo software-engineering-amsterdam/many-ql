@@ -5,7 +5,7 @@ import edu.parser.QLS.Visitor;
 import edu.parser.QLS.nodes.Identifier;
 import edu.parser.QLS.nodes.Style;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * Created by Steven Kok on 28/02/2015.
@@ -14,7 +14,7 @@ public class Question extends Statement {
 
     private final Identifier identifier;
 
-    protected Question(Identifier identifier, Optional<Style> style) {
+    public Question(Identifier identifier, List<Style> style) {
         super(style);
         this.identifier = identifier;
     }

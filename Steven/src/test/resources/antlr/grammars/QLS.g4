@@ -1,19 +1,13 @@
 grammar QLS;
 stylesheet
-    : 'stylesheet' identifier '{' (page | statement)+ '}'
+    : 'stylesheet' identifier '{' stylesheet_element+ '}'
     ;
 identifier
     : (UPPERCASE | LOWERCASE | NUMBERS)+
     ;
-statement
-    : question
-    | default_statement
-    ;
-default_statement
-    : 'default' question_type '{' style* '}'
-    ;
-question_type
-    : UPPERCASE
+stylesheet_element
+    : page
+    | statement
     ;
 page
     : 'page' '{' section* '}'
@@ -21,9 +15,19 @@ page
 section
     : 'section' STRING '{' statement+ '}'
     ;
+statement
+    : question
+    | default_statement
+    ;
 question
     : 'question' identifier '{' style* '}'
     | 'question' identifier
+    ;
+default_statement
+    : 'default' question_type '{' style* '}'
+    ;
+question_type
+    : UPPERCASE
     ;
 style
     : 'widget' UPPERCASE

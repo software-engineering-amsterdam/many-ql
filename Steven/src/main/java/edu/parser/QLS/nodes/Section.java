@@ -10,9 +10,11 @@ import java.util.List;
  * Created by Steven Kok on 28/02/2015.
  */
 public class Section implements AbstractNode<Visitor> {
+    private final String title;
     private final List<Statement> statements;
 
-    public Section(List<Statement> statements) {
+    public Section(String title, List<Statement> statements) {
+        this.title = title;
         this.statements = statements;
     }
 

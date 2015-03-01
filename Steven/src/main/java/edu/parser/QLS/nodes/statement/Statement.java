@@ -4,20 +4,20 @@ import edu.parser.AbstractNode;
 import edu.parser.QLS.Visitor;
 import edu.parser.QLS.nodes.Style;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * Created by Steven Kok on 28/02/2015.
  */
 public abstract class Statement implements AbstractNode<Visitor> {
 
-    private final Optional<Style> style;
+    private final List<Style> styles;
 
-    protected Statement(Optional<Style> style) {
-        this.style = style;
+    protected Statement(List<Style> styles) {
+        this.styles = styles;
     }
 
-    public Optional<Style> getStyle() {
-        return style;
+    public List<Style> getStyles() {
+        return styles;
     }
 }

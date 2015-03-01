@@ -10,8 +10,10 @@ import java.util.List;
  */
 public class Stylesheet implements AbstractNode<Visitor> {
     private final List<AbstractNode> elements;
+    private final Identifier title;
 
-    public Stylesheet(List<AbstractNode> elements) {
+    public Stylesheet(Identifier title, List<AbstractNode> elements) {
+        this.title = title;
         this.elements = elements;
     }
 

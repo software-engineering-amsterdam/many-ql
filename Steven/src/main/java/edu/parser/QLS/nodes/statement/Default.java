@@ -5,7 +5,7 @@ import edu.parser.QLS.Visitor;
 import edu.parser.QLS.nodes.QuestionType;
 import edu.parser.QLS.nodes.Style;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * Created by Steven Kok on 28/02/2015.
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class Default extends Statement {
     private final QuestionType questionType;
 
-    protected Default(QuestionType questionType, Optional<Style> style) {
+    public Default(QuestionType questionType, List<Style> style) {
         super(style);
         this.questionType = questionType;
     }
