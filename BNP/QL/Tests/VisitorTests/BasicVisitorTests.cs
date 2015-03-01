@@ -56,7 +56,7 @@ namespace Tests.VisitorTests
 
             Parser.AddParseListener(Listener);
             var formBlock = Parser.formBlock();
-            Assert.IsTrue(Listener.AstExists());
+            Assert.IsTrue(Listener.AstExists);
             AstHandler ast = Listener.GetAst();
             EvaluatorVisitor ev = new EvaluatorVisitor();
             ev.Enter(ast.RootNode);
