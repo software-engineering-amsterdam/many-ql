@@ -52,6 +52,7 @@
     <Compile Include="Evaluation\IVisitor.cs" />
     <Compile Include="Evaluation\TypeCheckerVisitor.cs" />
     <Compile Include="Exceptions\QLException.cs" />
+    <Compile Include="Exceptions\RedeclaredVariableWarning.cs" />
     <Compile Include="Exceptions\TypeException.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>

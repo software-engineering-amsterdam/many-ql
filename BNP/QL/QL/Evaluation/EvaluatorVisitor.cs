@@ -13,45 +13,91 @@ namespace QL.Evaluation
     public class EvaluatorVisitor : IVisitor
     {
         public IList<QLException> Exceptions { get; private set; }
-        Dictionary<string, IVisitable> _references;
+        public Dictionary<int, IVisitable> References; //change  ivisitable to ievaluatable
+        public Dictionary<string, IVisitable> DeclaredVariables;
 
         public EvaluatorVisitor()
         {
             Exceptions = new List<QLException>();
-            _references = new Dictionary<string, IVisitable>();
+            References = new Dictionary<int, IVisitable>();
+            DeclaredVariables = new Dictionary<string, IVisitable>();
+        }
+
+        private void DeclareNewVariable(string key, IVisitable node)
+        {
+            if (DeclaredVariables.ContainsKey(key))
+            {
+                //just put it somewhere into list of warnings
+                Exceptions.Add(new RedeclaredVariableWarning("Redeclared variable: " + key));
+            }
+
+            DeclaredVariables[key] = node;
         }
 
         public void Visit(Form node)
         {
-
         }
+
         public void Visit(Block node)
         {
-
         }
+
         public void Visit(ControlUnit node)
         {
-
         }
 
         public void Visit(StatementUnit node)
         {
-
-
+            DeclareNewVariable(node.Identifier.Value, node);
         }
-        public void Visit(QuestionUnit node) { }
-        public void Visit(Expression node) { }
-        public void Visit(EqualsOperator node) { }
-        public void Visit(NotEqualsOperator node) { }
-        public void Visit(PlusOperator node) { }
 
-        public void Visit(Number node) { }
+        public void Visit(QuestionUnit node)
+        {
+            DeclareNewVariable(node.Identifier.Value, node);
+        }
 
-        public void Visit(Yesno node) { }
+        public void Visit(Expression node)
+        {
+            References[node.GetHashCode()] = References[node.Children[0].GetHashCode()];
+        }
 
-        public void Visit(Identifier node) { }
+        public void Visit(EqualsOperator node)
+        {
+            //todo bool returnvalue= (References[node.Left.GetHashCode()].Value == References[node.Right.GetHashCode()].Value);
+        }
 
-        public void Visit(Text node) { }
+        public void Visit(NotEqualsOperator node)
+        {
+        }
+
+        public void Visit(PlusOperator node)
+        {
+        }
+
+        //todo rest of the operators
+
+        public void Visit(Number node)
+        {
+            References[node.GetHashCode()] = node;
+        }
+
+        public void Visit(Yesno node)
+        {
+            References[node.GetHashCode()] = node;
+        }
+
+        public void Visit(Identifier node)
+        {
+            if (DeclaredVariables.ContainsKey(node.Value))
+            {
+                References[node.Value.GetHashCode()] = DeclaredVariables[node.Value];
+            }
+        }
+
+        public void Visit(Text node)
+        {
+            References[node.GetHashCode()] = node;
+        }
 
         public void Visit(ElementBase node)
         {
