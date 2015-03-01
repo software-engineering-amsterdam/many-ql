@@ -11,20 +11,21 @@ import java.util.ArrayList;
 public class TypeChecker {
     private ArrayList<AError> errors;
     private ANode ast;
+    private QuestionTable table;
 
     public TypeChecker(ANode ast){
         errors = new ArrayList<AError>();
         this.ast = ast;
+        table = new QuestionTable(errors);
     }
 
     private void firstPass(){
-        QuestionTable table = new QuestionTable(errors);
         QuestionMapper mapper = new QuestionMapper(table);
         ast.accept(mapper);
     }
 
     private void secondPass(){
-        TypeCheckerVisitor visitor = new TypeCheckerVisitor(errors);
+        TypeCheckerVisitor visitor = new TypeCheckerVisitor(errors, table);
         ast.accept(visitor);
     }
 

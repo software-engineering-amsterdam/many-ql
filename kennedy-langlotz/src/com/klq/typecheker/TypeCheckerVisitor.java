@@ -17,6 +17,7 @@ import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.typecheker.error.AError;
 import com.klq.typecheker.error.InvalidCondition;
+import com.klq.typecheker.error.QuestionIDReference;
 
 import java.util.ArrayList;
 
@@ -25,15 +26,19 @@ import java.util.ArrayList;
  */
 public class TypeCheckerVisitor implements IVisitor<AError> {
     private ArrayList<AError> errors;
+    private QuestionTable table;
 
-    public TypeCheckerVisitor(ArrayList<AError> errors) {
+    public TypeCheckerVisitor(ArrayList<AError> errors, QuestionTable table) {
         this.errors = errors;
+        this.table = table;
     }
 
     public ArrayList<AError> getErrors() {//TODO make a collection class that contains all the errors. This class extends AError so that we can pass it through here. First discuss with Vadim/Thijs
         return errors;
     }
-
+    /*==================================================================================================================
+    Statements
+    ==================================================================================================================*/
     @Override
     public AError visit(QuestionnaireNode node) {
         for(ANode child : node.getChildren()){
@@ -50,9 +55,35 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
 
     @Override
     public AError visit(ComputedQuestionNode node) {
-        return null;
+        return node.getChild().accept(this);
     }
 
+    //TODO refactor and test this crappy code
+    @Override
+    public AError visit(ConditionalNode node) {
+        if(node.getCondition() instanceof ABooleanNode){
+            AError condition = node.getCondition().accept(this);
+
+            if(condition == null){ //if no error in the condition expression continue
+                for(ANode child : node.getChildren()){
+                    AError childError = child.accept(this);
+
+                    if(childError != null){ //if there is an error in a child return that.
+                        return child.accept(this);
+                    }
+                    else if(node.getChildren().get(node.getChildren().size() - 1) == child){ //if we have reached the last child and it has no errors, return no errors found
+                        return null;
+                    }
+                }
+            }else{
+                return condition;
+            }
+        }
+        return new InvalidCondition(node);
+    }
+    /*==================================================================================================================
+    Primitives
+    ==================================================================================================================*/
     @Override
     public AError visit(StringNode node) {
         return null;
@@ -74,6 +105,17 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
     }
 
     @Override
+    public AError visit(IdentifierNode node) {
+        if(table.has(node.getIdentifier())){
+            return null;
+        }
+        return new QuestionIDReference(node);
+    }
+
+    /*==================================================================================================================
+    Expressions - Mathematical
+    ==================================================================================================================*/
+    @Override
     public AError visit(MultiplyNode node) {
         return null;
     }
@@ -93,19 +135,23 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
         return null;
     }
 
-    @Override
-    public AError visit(ConditionalNode node) {
-        if(node.getCondition() instanceof ABooleanNode){
-            for(ANode child : node.getChildren()){
-                return child.accept(this);
-            }
-        }
-        return new InvalidCondition(node);
-    }
-
+    /*==================================================================================================================
+    Expressions - Boolean
+    ==================================================================================================================*/
     @Override
     public AError visit(GreaterThanNode node) {
-        return null;
+        AError leftChild = node.getLeftChild().accept(this);
+        AError rightChild = node.getRightChild().accept(this);
+
+        if(leftChild == null && rightChild == null){
+            return null;
+        }
+        else if(rightChild == null){
+            return leftChild;
+        }
+        else{
+            return rightChild;
+        }
     }
 
     @Override
@@ -140,11 +186,6 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
 
     @Override
     public AError visit(OrNode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(IdentifierNode node) {
         return null;
     }
 }

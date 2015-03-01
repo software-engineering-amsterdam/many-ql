@@ -29,4 +29,8 @@ public class QuestionTable {
             table.put(questionId, node);
         }
     }
+
+    public boolean has(String questionId){
+        return table.containsKey(questionId);
+    }
 }
