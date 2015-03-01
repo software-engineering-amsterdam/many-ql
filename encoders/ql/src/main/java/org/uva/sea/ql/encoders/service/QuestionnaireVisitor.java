@@ -1,5 +1,6 @@
 package org.uva.sea.ql.encoders.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -30,6 +31,7 @@ import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
+import org.uva.sea.ql.encoders.ast.TypeError;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	
@@ -182,5 +184,11 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		int line = start.getLine();
 		int charPositionInLine = start.getCharPositionInLine();
 		return new TextLocation(line, charPositionInLine);
+	}
+	
+	public List<TypeError> getTypeErrors() {
+		List<TypeError> typeErrors = new ArrayList<TypeError>();
+		typeErrors = expressionChecker.getTypeErrors();
+		return typeErrors;
 	}
 }

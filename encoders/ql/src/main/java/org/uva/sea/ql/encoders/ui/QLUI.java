@@ -1,6 +1,7 @@
 package org.uva.sea.ql.encoders.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.ast.TypeError;
 import org.uva.sea.ql.encoders.model.UIQuestion;
 import org.uva.sea.ql.encoders.model.UIQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
@@ -32,6 +34,8 @@ import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
 public class QLUI extends Application {
 
+	public List<TypeError> typeErrors = new ArrayList<TypeError>();
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -50,6 +54,7 @@ public class QLUI extends Application {
 		scrollPane.setPrefSize(550, 275);
 
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
+		
 		AstTransformer astTransformer = new AstTransformer();
 		try {
 			Questionnaire questionnaire = questionnaireParsingService
@@ -64,6 +69,20 @@ public class QLUI extends Application {
 		Scene scene = new Scene(scrollPane, 700, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		typeErrors = questionnaireParsingService.getTypeErrors();
+		
+		//TODO: remove hard coding of position error area
+		grid.add(new Label("Type Checker errors:"), 0, 10);
+		TextArea typeCheckerMessages = new TextArea();
+		grid.add(typeCheckerMessages, 0, 11);
+		typeCheckerMessages.setEditable(false);
+		typeCheckerMessages.setStyle("-fx-text-fill: red;");
+		
+		for (TypeError typeError : typeErrors) {
+			typeCheckerMessages.appendText(typeError.getName() + ": " + typeError.getTypeErrorText());
+			typeCheckerMessages.appendText("\n");
+		}
 	}
 
 	private void setUpQuestionnaireUI(UIQuestionnaire questionnaire,
@@ -109,19 +128,6 @@ public class QLUI extends Application {
 			}
 			y++;
 		}
-		
-		grid.add(new Label("Type Checker errors:"), 0, y+1);
-		TextArea typeCheckerMessages = new TextArea();
-		grid.add(typeCheckerMessages, 0, y+2);
-		
-		//should read out errors from evaluator
-		for (int i = 0; i < 2; i++) {
-			typeCheckerMessages.appendText("Error " + i + ": ");
-			typeCheckerMessages.appendText("\n");
-		}
-		
-		typeCheckerMessages.setEditable(false);
-		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 	}
 
 	private class TextFieldHandler implements EventHandler<Event> {
