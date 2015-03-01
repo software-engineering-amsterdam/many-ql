@@ -29,6 +29,7 @@ public class QuestionGrammarTest {
         walker = new ParseTreeWalker();
     }
 
+    //TODO: remove expected errors change into @Rule to check type of message etc.
     @Test
     public void question() throws IOException {
         String content = "Name: \"Tax\" {\n" +
@@ -132,8 +133,8 @@ public class QuestionGrammarTest {
 
 
         @Override
-        public void enterQuestionText(QLParser.QuestionTextContext ctx) {
-            super.enterQuestionText(ctx);
+        public void exitQuestionText(QLParser.QuestionTextContext ctx) {
+            super.exitQuestionText(ctx);
             this.questionTextCount += 1;
         }
     }

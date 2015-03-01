@@ -31,6 +31,7 @@ questionRangeSmallerThan: SMALLERTHAN num=NUMBER;
 calculation:
     'Calculation:' name=STRING calculationBody;
 
+//TODO: Can a calculation have multiple inputs?
 calculationBody:
    '{' (ifSequence|input)+'}';
 

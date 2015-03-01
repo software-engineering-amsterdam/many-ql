@@ -2,14 +2,10 @@ package nl.uva.bromance.grammar;
 
 import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
-import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Before;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,8 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by Robert on 2/24/2015.
  */
-public class IfSequenceTest {
 
+public class IfSequenceGrammarTest extends GrammarTest {
+
+    public static final String CORRECT_ELSE = "\n     Else:{ Text: \"something\"}";
+    public static final String CORRECT_IF = "\n     If: something{  Text: \"something\" }";
+    public static final String CORRECT_ELSE_IF = "Else If: something{ Text: \"something\"}";
     private FakeGrammarListener listener;
     private ParseTreeWalker walker;
 
@@ -28,76 +28,78 @@ public class IfSequenceTest {
         walker = new ParseTreeWalker();
     }
 
+
+    //Check if statement
     @org.junit.Test
     public void correctIfStatement() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     If: something{" +
-                "           Label: something" +
-                "{}"+
-                "    }}}";
+                CORRECT_IF +
+                "}}";
         walker.walk(listener, createTree(content));
 
         assertThat(listener.ifStatementCount).isEqualTo(1);
     }
 
 
-    @org.junit.Test(expected = GrammarErrorListener.SyntaxError.class)
-    public void formContainsIfStatementWithoutBodyContents() throws IOException {
+    @org.junit.Test
+    public void ifStatementWithoutBodyContents() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
                 "\n     If: something{}" +
                 "    }}";
+
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
         walker.walk(listener, createTree(content));
 
-        assertThat(listener.ifStatementCount).isEqualTo(1);
     }
 
-    @org.junit.Test(expected = GrammarErrorListener.SyntaxError.class)
+    @org.junit.Test
     public void malformedIfStatementBody() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
                 "\n     If: something{" +
                 "    }}";
-        walker.walk(listener, createTree(content));
-    }
 
-    @org.junit.Test(expected = GrammarErrorListener.SyntaxError.class)
-    public void ifStatementHasNoExpression() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                "    Form: \"default\" {\n" +
-                "\n     If: {}" +
-                "    }}";
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
         walker.walk(listener, createTree(content));
     }
 
     @org.junit.Test
-    public void formContainsMultipleIfStatementWithoutBodyContents() throws IOException {
+    public void ifStatementHasNoExpression() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     If: something{}" +
-                "\n     If: something{}" +
+                "\n     If: { Text: \"something\" }" +
+                "    }}";
+
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
+        walker.walk(listener, createTree(content));
+    }
+
+    @org.junit.Test
+    public void multipleIfStatements() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                CORRECT_IF +
                 "    }}";
         walker.walk(listener, createTree(content));
 
         assertThat(listener.ifStatementCount).isEqualTo(2);
     }
 
-    @org.junit.Test(expected = GrammarErrorListener.SyntaxError.class)
-    public void elseIfStatementWithoutPrecedingIfStatement() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                "    Form: \"default\" {\n" +
-                "\n     Else If: something{}" +
-                "    }}";
-        walker.walk(listener, createTree(content));
-    }
+
+    //Check else if statement
 
     @org.junit.Test
-    public void ifStatementAndElseIfStatementWithoutBodyContents() throws IOException {
+    public void correctElseIf() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     If: something{}" +
-                "\n     Else If: something{}" +
+                CORRECT_IF +
+                CORRECT_ELSE_IF +
                 "    }}";
         walker.walk(listener, createTree(content));
 
@@ -106,12 +108,37 @@ public class IfSequenceTest {
     }
 
     @org.junit.Test
-    public void ifStatementAndMultipleElseIfStatementWithoutBodyContents() throws IOException {
+    public void elseIfStatementWithoutPrecedingIfStatement() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     If: something{}" +
                 "\n     Else If: something{}" +
+                "    }}";
+
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
+        walker.walk(listener, createTree(content));
+    }
+
+    @org.junit.Test
+    public void elseIfWithoutBodyContents() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
                 "\n     Else If: something{}" +
+                "    }}";
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
+        walker.walk(listener, createTree(content));
+
+    }
+
+    @org.junit.Test
+    public void multipleCorrectElseIf() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                CORRECT_ELSE_IF +
+                CORRECT_ELSE_IF +
                 "    }}";
         walker.walk(listener, createTree(content));
 
@@ -119,55 +146,77 @@ public class IfSequenceTest {
         assertThat(listener.elseIfStatementCount).isEqualTo(2);
     }
 
+
+    //Check Else Statement
+
     @org.junit.Test
-    public void formContainsIfStatementAndElseStatementWithoutBodyContents() throws IOException {
+    public void correctElse() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     If: something{}" +
-                "\n     Else:{}" +
+                CORRECT_IF +
+                CORRECT_ELSE +
                 "    }}";
+
         walker.walk(listener, createTree(content));
 
-        assertThat(listener.ifStatementCount).isEqualTo(1);
         assertThat(listener.elseStatementCount).isEqualTo(1);
     }
 
-    @org.junit.Test(expected = GrammarErrorListener.SyntaxError.class)
-    public void formContainsElseStatementWithoutBodyContents() throws IOException {
+    @org.junit.Test
+    public void elseStatementWithoutBodyContents() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
+                CORRECT_IF +
                 "\n     Else:{}" +
                 "    }}";
+
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
         walker.walk(listener, createTree(content));
     }
 
     @org.junit.Test
-    public void formContainsIfStatementAndElseIfStatementAndElseStatementWithoutBodyContents() throws IOException {
+    public void elseWithoutPrecedingIf() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     If: something{}" +
-                "\n     Else If: something{}" +
-                "\n     Else:{}" +
+                CORRECT_ELSE +
                 "    }}";
+
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
+        walker.walk(listener, createTree(content));
+    }
+
+    @org.junit.Test
+    public void elseWithoutBodyContent() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                CORRECT_ELSE_IF +
+                "     Else:{}" +
+                "    }}";
+
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
         walker.walk(listener, createTree(content));
 
-        assertThat(listener.ifStatementCount).isEqualTo(1);
-        assertThat(listener.elseIfStatementCount).isEqualTo(1);
-        assertThat(listener.elseStatementCount).isEqualTo(1);
     }
 
-    private static QLParser.QuestionnaireContext createTree(String content) throws IOException {
-        QLLexer lexer = new QLLexer(new ANTLRInputStream(new ByteArrayInputStream(content.getBytes())));
-        lexer.removeErrorListeners();
-        lexer.addErrorListener(new GrammarErrorListener());
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(tokens);
-        parser.removeErrorListeners();
-        parser.addErrorListener(new GrammarErrorListener());
-        return parser.questionnaire();
+    @org.junit.Test
+    public void malformedElseStatement() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                "     Else:{" +
+                "    }}";
+
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
+        walker.walk(listener, createTree(content));
+
     }
 
-
+    //TODO: Maybe move the entire thing to GrammarTest? Duplication in other tests.
     static class FakeGrammarListener extends QLParseTreeListener {
         public int ifStatementCount = 0;
         public int elseIfStatementCount = 0;
