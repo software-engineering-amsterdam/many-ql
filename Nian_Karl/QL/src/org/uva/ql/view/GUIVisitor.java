@@ -2,6 +2,8 @@ package org.uva.ql.view;
 
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Divide;
@@ -37,36 +39,36 @@ import org.uva.ql.visitor.Visitor;
 public class GUIVisitor implements Visitor<Object> {
 
 	@Override
-	public ComponentView visit(IfStatement ifStatement) {
+	public Panel visit(IfStatement ifStatement) {
 		return null;
 	}
 
 	@Override
-	public ComponentView visit(QuestionNormal questionStatement) {
-		QuestionView questionView = new QuestionView(questionStatement);
+	public Panel visit(QuestionNormal questionStatement) {
+		QuestionPanel questionView = new QuestionPanel(questionStatement);
 		return questionView;
 	}
 
 	@Override
-	public ComponentView visit(QuestionCompute questionComputeStatement) {
+	public Panel visit(QuestionCompute questionComputeStatement) {
 		return null;
 	}
 
 	@Override
-	public ArrayList<ComponentView> visit(Block blockStatement) {
-		ArrayList<ComponentView> components = new ArrayList<ComponentView>();
+	public ArrayList<Panel> visit(Block blockStatement) {
+		ArrayList<Panel> components = new ArrayList<Panel>();
 		for (Statement statement : blockStatement.getStatements()) {
-			components.add((ComponentView) statement.accept(this));
+			components.add((Panel) statement.accept(this));
 		}
 		return components;
 	}
 
 	@Override
-	public FormView visit(Form form) {
-		FormView formView = new FormView();
-		ArrayList<ComponentView> components = ((ArrayList<ComponentView>) form.getBlock().accept(this));
-		for (ComponentView component : components) {
-			formView.getContentPane().add(component);
+	public FormFrame visit(Form form) {
+		FormFrame formView = new FormFrame();
+		ArrayList<Panel> components = ((ArrayList<Panel>) form.getBlock().accept(this));
+		for (JPanel component : components) {
+			formView.add(component);
 		}
 		formView.setVisible(true);
 		return formView;
@@ -74,9 +76,9 @@ public class GUIVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(Questionnaire questionnaire) {
-		ArrayList<FormView> formViews = new ArrayList<FormView>();
+		ArrayList<FormFrame> formViews = new ArrayList<FormFrame>();
 		for (Form form : questionnaire.getForms()) {
-			formViews.add((FormView) form.accept(this));
+			formViews.add((FormFrame) form.accept(this));
 		}
 		return formViews;
 	}

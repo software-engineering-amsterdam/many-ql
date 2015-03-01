@@ -4,13 +4,13 @@ import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 
-public class FormView extends JFrame{
+public class FormFrame extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 
-	public FormView() {
+	public FormFrame() {
 		super("QL Form.");
-		setSize(1200, 400);
+		setSize(400, 600);
         setLayout(new FlowLayout());
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);        

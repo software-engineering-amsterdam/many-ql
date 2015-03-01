@@ -40,4 +40,9 @@ public class QuestionNormal extends Statement {
 		return "[Question] " + "\n\tIdentifier = " + identifier.toString() + "\n\tLabel = " + label.toString()
 				+ "\n\tType = " + type.toString();
 	}
+	
+	@Override
+	public String getText() {
+		return label.getValue();
+	}
 }
