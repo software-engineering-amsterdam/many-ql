@@ -11,6 +11,7 @@ type StringQuestion struct {
 // interpreter and frontend
 const StringQuestionType = "string"
 
+// Type returns the string which represents the string question types
 func (s StringQuestion) Type() string {
 	return StringQuestionType
 }

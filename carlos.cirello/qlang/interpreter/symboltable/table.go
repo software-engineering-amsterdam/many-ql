@@ -28,6 +28,8 @@ func New() *SymbolTable {
 	return table
 }
 
+// SetWatchError toggles the warnings and error handling inside of symboltable.
+// This is supposed to be used only for type checking.
 func (s *SymbolTable) SetWatchError(v bool) {
 	s.watchError = v
 }
@@ -53,7 +55,7 @@ func (s *SymbolTable) ShowWarn() bool {
 	return false
 }
 
-// ShowWarn iterates through all errors, prints them and panic in the end
+// PanicErr iterates through all errors, prints them and panic in the end
 func (s *SymbolTable) PanicErr() {
 	if err := s.Err(); err != nil {
 		for _, e := range err {
