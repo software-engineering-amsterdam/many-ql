@@ -28,10 +28,15 @@ public class BooleanComponent extends Component implements ChangeListener {
 
 	@Override
 	public void setValue(Value value) {
-		radioButton.setSelected(((BooleanValue)value).getValue());
-		setChanged();
-		getController().storeValue(getIdentifier(), value);
-		getController().notify(getIdentifier());
+		try {
+			radioButton.setSelected(((BooleanValue)value).getValue());
+			setChanged();
+			getController().storeValue(getIdentifier(), value);
+			getController().notify(getIdentifier());
+		}
+		catch (ClassCastException e) {
+			// value is of type Undefined
+		}
 	}
 
 	@Override

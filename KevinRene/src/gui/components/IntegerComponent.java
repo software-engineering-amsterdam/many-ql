@@ -13,10 +13,12 @@ public class IntegerComponent extends TextComponent implements CaretListener {
 	
 	public IntegerComponent (Identifier identifier, Controller controller) {
 		super(identifier, controller);
+		textField.setText("0");
 	}
 	
 	public IntegerComponent (Identifier identifier, Controller controller, boolean enabled) {
 		super(identifier, controller, enabled);
+		textField.setText("0");
 	}
 
 	@Override

@@ -43,6 +43,12 @@ public class Main {
 			+ "            \"Value residue:\""
 			+ "            assign(sellingPrice - privateDebt)"
 			+ "        }"
+			+ "        if (firstValue == 100) {"
+			+ "            lol: string {"
+			+ "	               \"is this if active??\""
+			+ "                assign(\"Should be if you can this.\")"
+			+ "            }"
+			+ "        }"
 			+ "    }"
 			+ "}";
 	

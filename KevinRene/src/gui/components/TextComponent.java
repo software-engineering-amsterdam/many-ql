@@ -45,7 +45,11 @@ public class TextComponent extends Component implements CaretListener {
 	
 	public TextComponent (Identifier identifier, Controller controller, boolean enabled) {
 		this(identifier, controller);
-    	textField.setEnabled(false);
+    	textField.setEnabled(enabled);
+    	textField.setFocusable(enabled);
+    	if (!enabled) {
+    		textField.removeCaretListener(this);
+    	}
 	}
 
 	@Override
