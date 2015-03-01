@@ -7,26 +7,51 @@ form HouseSelling {
     }
     question hasRentHouse typeof boolean {
         hasRentHouse : "Did you bought a house in 2015?";
-        hasRentHouse : true;
+        hasRentHouse : false;
     }
     question hasMaintLoan typeof boolean {
     	hasMaintLoan : "Did you sell a house in 2014 ?";
-    }	
-
-    if (hasMaintLoan == false && (hasRentHouse == true && hasSoldHouse == false)){
+    }
+    
+     if (hasSoldHouse == true){
+    
     	question sellingPrice typeof int {
     		sellingPrice : "What was the selling price?";
-    		sellingPrice : 238283;
-    		question sellingPrice2 typeof decimal {
-    				sellingPrice2 : "What is the seeling price 2?";
-    		}
     	}
     	question privateDebt typeof int {
     		privateDebt : "What was the value of the private debt?";
     	}
     	question valueResidue typeof int {
-    		valueResidue : "What was the residue value?";
+    		valueResidue : "Value residue:";
     		valueResidue : sellingPrice - privateDebt;
     	}
     }
+    
+    if (hasRentHouse == true){
+    	question rentValue typeof int {
+    		rentValue : "What was the rent value?";
+    	}
+    	question rentDuration typeof int {
+    		rentDuration : "Duration of the agreement:";
+    	}
+    	question paid typeof decimal {
+    		paid : "Total amount paid to date:";
+    		paid : rentValue * rentDuration;
+    	}
+    }
+    
+    if (hasMaintLoan == true){
+    	question loanValue typeof int {
+    		loanValue : "What was the value of the loan?";
+    	}
+    	question interestValue typeof int {
+    		interestValue : "What was the percentage of interest?";
+    	}
+    	question interestSum typeof decimal {
+    		interestSum : "Interest value:";
+    		interestSum : (loanValue * (interestValue / 100));
+    	}
+    }	
+
+   
 }
