@@ -7,7 +7,7 @@ form SalarySurvey{
 	playGames: "Do you like to play games?" Bool
 	isBoolean: "Is this is just a boolean?" Bool
 	lastQuestion: "Is this the last Question of the day?" Bool
-	if(lastQuestion){
-		doesWork: "Hey, an Ifstatement Question" Bool
-	}
+	//if(lastQuestion){
+	//	doesWork: "Hey, an Ifstatement Question" Bool
+	//}
 }

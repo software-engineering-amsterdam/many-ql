@@ -3,8 +3,6 @@ package org.uva.ql.main;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -13,7 +11,6 @@ import org.uva.ql.antlr.QLParser;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
@@ -24,8 +21,6 @@ import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.typecheck.TypeChecker;
 import org.uva.ql.view.FormFrame;
 import org.uva.ql.view.GUIVisitor;
-import org.uva.ql.view.QuestionPanel;
-import org.uva.ql.view.widgit.QLLabel;
 
 public class Main {
 

@@ -5,9 +5,6 @@ import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.BoolType;
 import org.fugazi.ast.type.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Less extends Comparison {
 
     public Less(Expression _left, Expression _right) {

@@ -15,7 +15,6 @@ public class BoolType extends Type {
     }
 
     public <T> T accept(ITypeVisitor<T> visitor) {
-        
         return visitor.visitBoolType(this);
     }
 }
