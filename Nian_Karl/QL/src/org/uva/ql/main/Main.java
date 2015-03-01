@@ -1,6 +1,9 @@
 package org.uva.ql.main;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -22,11 +25,11 @@ import org.uva.ql.ast.visitor.TypeChecker;
 import org.uva.ql.view.FormView;
 import org.uva.ql.view.GUIVisitor;
 import org.uva.ql.view.QuestionView;
+import org.uva.ql.view.widgit.QLLabel;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Start");
 		ANTLRFileStream input = new ANTLRFileStream("scripts/quest3.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -35,10 +38,13 @@ public class Main {
 		ParseTree tree = parser.questionnaire();
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
-		System.out.println("FinalTree = " + finalTree);
-		
 		GUIVisitor guiVisitor = new GUIVisitor();
-		guiVisitor.visit(finalTree);
+		ArrayList<FormView> formList = (ArrayList<FormView>) guiVisitor.visit(finalTree);
+		for (FormView formView : formList) {
+			System.out.println();
+			System.out.println(formView.getComponentCount() + " eh?" );
+			formView.setVisible(true);
+		}
 		
 //		for (Form form: finalTree.getFormList()) {
 //			printBlock(form.getBlock());

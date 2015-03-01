@@ -35,7 +35,6 @@ import org.uva.ql.ast.type.StrType;
 import org.uva.ql.visitor.Visitor;
 
 public class GUIVisitor implements Visitor<Object> {
- 
 
 	@Override
 	public ComponentView visit(IfStatement ifStatement) {
@@ -45,7 +44,6 @@ public class GUIVisitor implements Visitor<Object> {
 	@Override
 	public ComponentView visit(QuestionNormal questionStatement) {
 		QuestionView questionView = new QuestionView(questionStatement);
-		System.out.println("Hallo!");
 		return questionView;
 	}
 
@@ -54,11 +52,10 @@ public class GUIVisitor implements Visitor<Object> {
 		return null;
 	}
 
-	
 	@Override
 	public ArrayList<ComponentView> visit(Block blockStatement) {
 		ArrayList<ComponentView> components = new ArrayList<ComponentView>();
-		for (Statement statement: blockStatement.getStatements()) {
+		for (Statement statement : blockStatement.getStatements()) {
 			components.add((ComponentView) statement.accept(this));
 		}
 		return components;
@@ -66,11 +63,12 @@ public class GUIVisitor implements Visitor<Object> {
 
 	@Override
 	public FormView visit(Form form) {
-		FormView formView = new FormView(); 
-		ArrayList<ComponentView> components= ((ArrayList<ComponentView>) form.getBlock().accept(this));
-		for (ComponentView component: components) {
-			formView.add(component);
+		FormView formView = new FormView();
+		ArrayList<ComponentView> components = ((ArrayList<ComponentView>) form.getBlock().accept(this));
+		for (ComponentView component : components) {
+			formView.getContentPane().add(component);
 		}
+		formView.setVisible(true);
 		return formView;
 	}
 
@@ -198,5 +196,4 @@ public class GUIVisitor implements Visitor<Object> {
 		return null;
 	}
 
-	
 }
