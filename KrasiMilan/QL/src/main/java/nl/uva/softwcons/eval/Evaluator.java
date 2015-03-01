@@ -38,10 +38,10 @@ import com.google.common.collect.Multimap;
 
 public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Value> {
 
-    private FormAnswers answers;
+    private final FormAnswers answers;
     private Multimap<Identifier, ValueChangeListener<Value>> changeListeners = ArrayListMultimap.create();
 
-    public Evaluator(FormAnswers answers) {
+    public Evaluator(final FormAnswers answers) {
         this.answers = answers;
     }
 

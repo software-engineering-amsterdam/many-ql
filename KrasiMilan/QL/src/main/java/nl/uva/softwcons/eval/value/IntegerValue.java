@@ -19,6 +19,16 @@ public class IntegerValue extends DecimalValue {
     }
 
     @Override
+    public BigInteger asInteger() {
+        return value;
+    }
+
+    @Override
+    public String asString() {
+        return value.toString();
+    }
+
+    @Override
     public Number getValue() {
         return value;
     }
