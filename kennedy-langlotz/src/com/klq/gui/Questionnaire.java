@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -52,9 +53,7 @@ public class Questionnaire extends AnchorPane {
         this.currentPagePane.setFitToWidth(true);
         this.setPadding(new Insets(5));
 
-        ProgressBar progressBar = new ProgressBar(0);
-        progressBar.progressProperty().bind(store.progressProperty());
-        progressBar.prefWidthProperty().bind(this.widthProperty());
+        ProgressBar progressBar = createProgressBar();
 
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.BOTTOM_RIGHT);
@@ -89,6 +88,23 @@ public class Questionnaire extends AnchorPane {
             this.getChildren().add(0, currentPagePane);
         } else
             nextButton.setText("Next");
+    }
+
+    private ProgressBar createProgressBar(){
+        ProgressBar progressBar = new ProgressBar(0);
+        progressBar.progressProperty().bind(store.progressProperty());
+        progressBar.prefWidthProperty().bind(this.widthProperty());
+        progressBar.progressProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                System.out.println(newValue);
+                if (newValue.equals(1.0))
+                    progressBar.setStyle("-fx-accent: #06ff40;");
+                else
+                    progressBar.setStyle("-fx-accent: #0b9add;");
+            }
+        });
+        return progressBar;
     }
 
     private Button createBackButton(){

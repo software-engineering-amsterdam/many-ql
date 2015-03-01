@@ -85,7 +85,7 @@ class ParseTreeVisitor(QLVisitor):
     def visitExpr(self, ctx):
         # no operator in expression (atom)
         if ctx.op == None:
-            return self.visitChildren(ctx)
+            return self.visitChildren(ctx.left)
 
         lineNumber = ctx.start.line
         op = ctx.op.text

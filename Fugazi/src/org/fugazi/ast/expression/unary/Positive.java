@@ -5,9 +5,6 @@ import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.IntType;
 import org.fugazi.ast.type.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Positive extends Unary {
 
     public Positive(Expression _expr) {

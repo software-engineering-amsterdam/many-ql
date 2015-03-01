@@ -5,14 +5,15 @@ import gui.questions.IConnector;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TextDigitsListener extends Update implements DocumentListener {
+public class TextDigitsListener implements DocumentListener {
 	private final IWidgetComponent widget;
+	private String id = "";
 	private String value = "";
 	IConnector connect;
 	
-	public TextDigitsListener(IWidgetComponent widget, String value) {
+	public TextDigitsListener(IWidgetComponent widget, String id) {
 		this.widget = widget;
-		this.value = value;
+		this.id = id;
 	}
 	
 	@Override
@@ -30,7 +31,7 @@ public class TextDigitsListener extends Update implements DocumentListener {
 		update();
 	}
 	
-	@Override
+	//@Override
 	public void update() {
 		//widget.addDocListener();
 		value = widget.getValue();

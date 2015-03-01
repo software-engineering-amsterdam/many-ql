@@ -19,7 +19,7 @@ public class ASTBuilder {
         ANTLRInputStream input = new ANTLRInputStream(inputStream);
         QLLexer lexer = new QLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        parser = new QLParser(tokens);
+        this.parser = new QLParser(tokens);
     }
 
     public Form buildForm() {

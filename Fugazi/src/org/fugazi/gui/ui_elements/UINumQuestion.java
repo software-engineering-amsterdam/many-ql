@@ -4,7 +4,7 @@ import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.evaluator.expression_value.IntValue;
 import org.fugazi.gui.mediator.IMediator;
-import org.fugazi.gui.widgets.NumsOnlyTextBox;
+import org.fugazi.gui.widgets.IntegerOnlyTextBox;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -17,25 +17,16 @@ public class UINumQuestion extends UIQuestion {
         super(_med, _question);
         this.value = 0; // default
 
-        // TODO: get it from a GUI Designer
-        this.widget = new NumsOnlyTextBox(_question.getLabel());
+        this.widget = new IntegerOnlyTextBox(_question.getLabel());
 
         this.widget.addDocumentListener(new DocumentListener() {
             
             public void insertUpdate(DocumentEvent e) {
-                setState(
-                        Integer.parseInt(
-                                widget.getValue().toString()
-                        )
-                );
+                setState(widget.getValue().toString());
             }
 
             public void removeUpdate(DocumentEvent e) {
-                setState(
-                        Integer.parseInt(
-                                widget.getValue().toString()
-                        )
-                );
+                setState(widget.getValue().toString());
             }
 
             public void changedUpdate(DocumentEvent e) {
@@ -43,8 +34,13 @@ public class UINumQuestion extends UIQuestion {
         });
     }
 
-    public void setState(Integer _value) {
-        value = _value;
+    public void setState(String _value) {
+        if (_value.equals("")) {
+            this.value = 0;
+        } else {
+            this.value = Integer.parseInt(_value);
+        }
+
         this.sendToMediator();
     }
 

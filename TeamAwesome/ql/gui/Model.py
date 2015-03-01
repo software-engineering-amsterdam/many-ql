@@ -23,12 +23,11 @@ class QuestionModel(object):
     @property
     def isConstant(self):
         evaluatorQuestion = self._getEvaluatorQuestion()
-        if evaluatorQuestion.valueExpression:
-            return evaluatorQuestion.constant        
+        return evaluatorQuestion and evaluatorQuestion.constant    
 
     @property
     def isVisible(self):
-        return self._evaluator.getQuestion(self._identifier)
+        return self._evaluator.getQuestion(self._identifier) != None
 
     @property
     def value(self):

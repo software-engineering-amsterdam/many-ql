@@ -1,7 +1,5 @@
 package org.uva.ql.view.widgit;
 
-import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -12,7 +10,6 @@ public class QLLabel extends JLabel{
 	
 	public QLLabel(String labelValue) {
 		this.labelValue = labelValue;
-		this.setPreferredSize(new Dimension(250, 50));
 		this.setText(labelValue);
 		this.setHorizontalAlignment(SwingConstants.LEFT);
 	}

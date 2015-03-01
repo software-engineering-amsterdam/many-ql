@@ -3,8 +3,6 @@ package org.uva.ql.main;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -13,7 +11,6 @@ import org.uva.ql.antlr.QLParser;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
@@ -21,11 +18,9 @@ import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
-import org.uva.ql.ast.visitor.TypeChecker;
-import org.uva.ql.view.FormView;
+import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.view.FormFrame;
 import org.uva.ql.view.GUIVisitor;
-import org.uva.ql.view.QuestionView;
-import org.uva.ql.view.widgit.QLLabel;
 
 public class Main {
 
@@ -39,12 +34,11 @@ public class Main {
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
 		GUIVisitor guiVisitor = new GUIVisitor();
-		ArrayList<FormView> formList = (ArrayList<FormView>) guiVisitor.visit(finalTree);
-		for (FormView formView : formList) {
-			System.out.println();
-			System.out.println(formView.getComponentCount() + " eh?" );
-			formView.setVisible(true);
-		}
+		ArrayList<FormFrame> formList = (ArrayList<FormFrame>) guiVisitor.visit(finalTree);
+//		for (FormFrame formView : formList) {
+//			System.out.println();
+//			formView.setVisible(true);
+//		}
 		
 //		for (Form form: finalTree.getFormList()) {
 //			printBlock(form.getBlock());

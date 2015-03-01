@@ -2,6 +2,8 @@ package org.uva.ql.view;
 
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
 import org.uva.ql.ast.expression.binary.Divide;
@@ -25,6 +27,7 @@ import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
+import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
@@ -32,51 +35,63 @@ import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
+import org.uva.ql.view.widgit.QLCheckBox;
+import org.uva.ql.view.widgit.QLNumberTextField;
+import org.uva.ql.view.widgit.QLTextField;
+import org.uva.ql.view.widgit.QLWidget;
 import org.uva.ql.visitor.Visitor;
 
 public class GUIVisitor implements Visitor<Object> {
 
 	@Override
-	public ComponentView visit(IfStatement ifStatement) {
+	public QLPanel visit(IfStatement ifStatement) {
+		
+		ArrayList<QLPanel> questionPannels = (ArrayList<QLPanel>) ifStatement.getIfBlock().accept(this);
+		System.out.println(questionPannels);
+		System.out.println("if statement");
 		return null;
 	}
 
 	@Override
-	public ComponentView visit(QuestionNormal questionStatement) {
-		QuestionView questionView = new QuestionView(questionStatement);
-		return questionView;
+	public QLPanel visit(QuestionNormal questionStatement) {
+		System.out.println("normalquestion");
+		QLWidget<?> widget = (QLWidget<?>) questionStatement.getType().accept(this);
+		QLQuestionComponent questionComponent = new QLQuestionComponent(questionStatement, widget);
+		return questionComponent;
 	}
 
 	@Override
-	public ComponentView visit(QuestionCompute questionComputeStatement) {
+	public QLPanel visit(QuestionCompute questionComputeStatement) {
+		DependentQuestionPanel questionPannel = new DependentQuestionPanel(null, null);
+		System.out.println("compute question");
 		return null;
 	}
 
 	@Override
-	public ArrayList<ComponentView> visit(Block blockStatement) {
-		ArrayList<ComponentView> components = new ArrayList<ComponentView>();
+	public ArrayList<QLPanel> visit(Block blockStatement) {
+		ArrayList<QLPanel> questionPannels = new ArrayList<QLPanel>();
 		for (Statement statement : blockStatement.getStatements()) {
-			components.add((ComponentView) statement.accept(this));
+			questionPannels.add((QLPanel) statement.accept(this));
 		}
-		return components;
+		return questionPannels;
 	}
 
 	@Override
-	public FormView visit(Form form) {
-		FormView formView = new FormView();
-		ArrayList<ComponentView> components = ((ArrayList<ComponentView>) form.getBlock().accept(this));
-		for (ComponentView component : components) {
-			formView.getContentPane().add(component);
-		}
+	public FormFrame visit(Form form) {
+		FormFrame formView = new FormFrame();
+		ArrayList<QLPanel> questionPannels = (ArrayList<QLPanel>) form.getBlock().accept(this);
+		QLQuestionPanel questionPanel = new QLQuestionPanel(questionPannels);
+		formView.add(questionPanel);
 		formView.setVisible(true);
 		return formView;
 	}
 
 	@Override
 	public Object visit(Questionnaire questionnaire) {
-		ArrayList<FormView> formViews = new ArrayList<FormView>();
+		System.out.println("Visiting block");
+		ArrayList<FormFrame> formViews = new ArrayList<FormFrame>();
 		for (Form form : questionnaire.getForms()) {
-			formViews.add((FormView) form.accept(this));
+			formViews.add((FormFrame) form.accept(this));
 		}
 		return formViews;
 	}
@@ -182,18 +197,23 @@ public class GUIVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(IntType node) {
-		return null;
+	public QLWidget<Integer> visit(IntType node) {
+		return new QLNumberTextField();
 	}
 
 	@Override
-	public Object visit(BoolType node) {
-		return null;
+	public QLWidget<Boolean> visit(BoolType node) {
+		return new QLCheckBox();
 	}
 
 	@Override
-	public Object visit(StrType node) {
-		return null;
+	public QLWidget<String> visit(StrType node) {
+		return new QLTextField();
 	}
 
+	@Override
+	public Object visit(IfElseStatement ifElseStatement) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
