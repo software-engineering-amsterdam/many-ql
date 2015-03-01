@@ -1,19 +1,21 @@
 package org.uva.ql.view;
 
-import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.statement.QuestionNormal;
-import org.uva.ql.view.widgit.QLWidget;
+import java.util.ArrayList;
 
-public class DependentQuestionPanel extends QuestionPanel {
- 
+import org.uva.ql.ast.expression.Expression;
+
+public class DependentQuestionPanel extends QLQuestionPanel {
+
 	private static final long serialVersionUID = -4507161988032536469L;
 
 	private Expression expr;
-	
-	public DependentQuestionPanel(QuestionNormal question, QLWidget<?> widget,Expression expr) {
-		super(question, widget);
+
+	public DependentQuestionPanel(ArrayList<QLPanel> questionPanels, Expression expr) {
+		super(questionPanels);
 		this.expr = expr;
 	}
-	
 
+	public Expression getExpr() {
+		return expr;
+	}
 }

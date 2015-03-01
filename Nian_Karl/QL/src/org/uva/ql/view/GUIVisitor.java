@@ -43,43 +43,44 @@ import org.uva.ql.visitor.Visitor;
 public class GUIVisitor implements Visitor<Object> {
 
 	@Override
-	public Panel visit(IfStatement ifStatement) {
+	public QLPanel visit(IfStatement ifStatement) {
 		
-		
+		ArrayList<QLPanel> questionPannels = (ArrayList<QLPanel>) ifStatement.getIfBlock().accept(this);
+		System.out.println(questionPannels);
 		System.out.println("if statement");
 		return null;
 	}
 
 	@Override
-	public Panel visit(QuestionNormal questionStatement) {
+	public QLPanel visit(QuestionNormal questionStatement) {
 		System.out.println("normalquestion");
 		QLWidget<?> widget = (QLWidget<?>) questionStatement.getType().accept(this);
-		QuestionPanel questionView = new QuestionPanel(questionStatement,widget);
-		return questionView;
+		QLQuestionComponent questionComponent = new QLQuestionComponent(questionStatement, widget);
+		return questionComponent;
 	}
 
 	@Override
-	public Panel visit(QuestionCompute questionComputeStatement) {
+	public QLPanel visit(QuestionCompute questionComputeStatement) {
+		DependentQuestionPanel questionPannel = new DependentQuestionPanel(null, null);
 		System.out.println("compute question");
 		return null;
 	}
 
 	@Override
-	public ArrayList<Panel> visit(Block blockStatement) {
-		ArrayList<Panel> components = new ArrayList<Panel>();
+	public ArrayList<QLPanel> visit(Block blockStatement) {
+		ArrayList<QLPanel> questionPannels = new ArrayList<QLPanel>();
 		for (Statement statement : blockStatement.getStatements()) {
-			components.add((Panel) statement.accept(this));
+			questionPannels.add((QLPanel) statement.accept(this));
 		}
-		return components;
+		return questionPannels;
 	}
 
 	@Override
 	public FormFrame visit(Form form) {
 		FormFrame formView = new FormFrame();
-		ArrayList<Panel> panelList= ((ArrayList<Panel>) form.getBlock().accept(this));
-		for (Panel panel: panelList) {
-			formView.add(panel);
-		}
+		ArrayList<QLPanel> questionPannels = (ArrayList<QLPanel>) form.getBlock().accept(this);
+		QLQuestionPanel questionPanel = new QLQuestionPanel(questionPannels);
+		formView.add(questionPanel);
 		formView.setVisible(true);
 		return formView;
 	}
