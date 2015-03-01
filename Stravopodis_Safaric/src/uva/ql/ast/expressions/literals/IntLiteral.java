@@ -15,17 +15,25 @@ public class IntLiteral extends Literal{
 	public IntLiteral(CodeLines _codeLines){
 		super(_codeLines);
 	}
+	
 	@Override
 	public NumberValue evaluate() {
 		return new NumberValue(this.value);
 	}
+	
+	@Override
+	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
+		return visitor.visitIntLiteral(this);
+	}
+	
+	@Override
+	public String evaluateType() {
+		return IntLiteral.class.getName();
+	}
+	
 	@Override
 	public String toString(){
 		if (this.value == null) return "IntegerLiteral()";
 		else return "IntegerLiteral(" + String.valueOf(this.value) + ")";
-	}
-	@Override
-	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
-		return visitor.visitIntLiteral(this);
 	}
 }
