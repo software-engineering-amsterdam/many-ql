@@ -6,7 +6,6 @@ import com.klq.ast.impl.expr.bool.OrNode;
 import com.klq.ast.impl.expr.comp.*;
 import com.klq.ast.impl.expr.math.*;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
 
 import java.time.LocalDate;
@@ -96,7 +95,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
     Expressions
     ==================================================================================================================*/
     @Override
-    public ANode visitId(@NotNull KLQParser.IdContext ctx) {
+    public ANode visitId(KLQParser.IdContext ctx) {
         return new IdentifierNode(ctx.QuestionId().getText(), formatLocation(ctx));
     }
 
