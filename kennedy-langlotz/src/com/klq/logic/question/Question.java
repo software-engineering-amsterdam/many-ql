@@ -27,22 +27,27 @@ public class Question implements IKLQItem{
     private final SimpleStringProperty computedProperty;
 
     public Question (Id id, Type type, OptionSet options, Text text){
-        this(id, type, options, text, null);
-    }
-
-    public Question(Id id, Type type, OptionSet options, Text text, AExpression computedValue) {
         this.id = id;
         this.type = type;
         this.options = options;
         this.text = text;
-        this.dependencies = new ArrayList<AExpression>();
-        this.computedValue = computedValue;
-        if (this.computedValue != null)
-            computedQuestion = true;
-        else
-            computedQuestion = false;
+        this.dependencies = new ArrayList<>();
         visibleProperty = new SimpleBooleanProperty(dependencies.isEmpty());
         computedProperty = new SimpleStringProperty("");
+
+        if (this.options != null) {
+            if (this.options.size() == 1) {
+                computedQuestion = true;
+                computedValue = options.get(0).evaluate();
+                return;
+            } else if (this.options.size() > 1){
+                for (int i=0; i<this.options.size(); i++){
+                    options.add(i, options.remove(i).evaluate());
+                }
+            }
+        }
+        computedQuestion = false;
+        computedValue = null;
     }
 
     public boolean isComputedQuestion() {

@@ -3,7 +3,7 @@ package nl.uva.softwcons.eval.value;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class DecimalValue extends Value<Number> {
+public class DecimalValue extends Value {
 
     private final BigDecimal value;
 
@@ -26,6 +26,16 @@ public class DecimalValue extends Value<Number> {
 
     public DecimalValue(int value) {
         this.value = new BigDecimal(value);
+    }
+
+    @Override
+    public BigDecimal asDecimal() {
+        return value;
+    }
+
+    @Override
+    public String asString() {
+        return value.toString();
     }
 
     @Override

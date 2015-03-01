@@ -6,6 +6,11 @@ import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
 import interpreter.ValueRepository;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -43,12 +48,14 @@ import ast.unary.MinusExpression;
 import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
 
-public class GUIRender implements IFormVisitor<Void> {
+public class GUIRender implements IFormVisitor<JPanel> {
 	private final JPanel panel;
 	WidgetVisitor wv;
 	SimpleQuestionUI simp;
 	ValueRepository valueRepository;
 	ChoiceListener handler;
+	private final LinkedHashMap<String, SimpleQuestionUI> widgetsRepository;
+	
 	
 	public static JPanel maker(Form form) {
 		GUIRender visitor = new GUIRender();
@@ -59,6 +66,7 @@ public class GUIRender implements IFormVisitor<Void> {
 	public GUIRender() {
 		this.panel = new JPanel();
 		this.panel.setLayout(new MigLayout("wrap 2")); 
+		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
 	}
 	
 	public JPanel getPanel() {
@@ -83,21 +91,31 @@ public class GUIRender implements IFormVisitor<Void> {
 		return panel;
 	}
 	
-	public void visibility(Boolean visibilityValue) {
-		this.panel.setVisible(visibilityValue);
+	public void addToPanel() {
+		Set<String> keys = widgetsRepository.keySet();
+        for(String k:keys){
+            System.out.println(k+" -- "+ widgetsRepository.get(k));
+            this.panel.add(widgetsRepository.get(k).getLabel());
+          //  this.panel.add(widgetsRepository.get(k).getWc());
+        }	
 	}
 	
+	public void putWidgetRepository(String id, SimpleQuestionUI widgets) {
+		this.widgetsRepository.put(id, widgets);
+	}
+
 	// ***** visitor's part , yeah ugly...cause i have separated it now *****
 
 	@Override
-	public Void visit(Form form) {
+	public JPanel visit(Form form) {
 		for(Question q : form.getQuestionText())
 			q.accept(new GUIVisitor(this));
-		return null;
+		addToPanel();
+		return panel;
 	}
 	
 	@Override
-	public Void visit(Question question) {
+	public JPanel visit(Question question) {
 		
 		return null;
 	}
@@ -110,7 +128,9 @@ public class GUIRender implements IFormVisitor<Void> {
 */
 
 	@Override
-	public Void visit(SimpleQuestion simpleQuestion) {
+	public JPanel visit(SimpleQuestion simpleQuestion) {
+		//new Update().update();
+		//new GUIVisitor(this).widget(simpleQuestion).addDocListener();
 	//	getLabel(simpleQuestion.getQuestionText());
 		//addWidget(widget(simpleQuestion));
 		//widget(simpleQuestion).addDocListener();	
@@ -140,168 +160,165 @@ public class GUIRender implements IFormVisitor<Void> {
 		return null;
 	}
 
-	@Override
-	public Void visit(ComputationQuestion calQuestion) {
-	//	getLabel(calQuestion.getQuestionText());
-	//	addWidget(calQuestion.getQuestionId());
-	//	visibility(false);
-		return null;
-	}
+@Override
+public JPanel visit(ComputationQuestion calQuestion) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(IfStatement ifStatement) {
-		return null;
-	}
+@Override
+public JPanel visit(IfStatement ifStatement) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(IfElseStatement ifElseStatement) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(BracketsExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(BracketsExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(MultiplicationExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(MultiplicationExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(DivisionExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(DivisionExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(AdditionExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(AdditionExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(SubstractionExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(SubstractionExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(EqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(EqualExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(NotEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(NotEqualExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(LessThanExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(LessThanExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(GreaterThanExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(GreaterThanExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(LessEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(LessEqualExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(GreaterEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(GreaterEqualExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(NotExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(NotExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(PlusExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(PlusExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(MinusExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(MinusExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(AndExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(AndExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(OrExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(OrExpression expr) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(StringVariable string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(StringVariable string) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(IntegerVariable integer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(IntegerVariable integer) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(BooleanVariable bool) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(BooleanVariable bool) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(Id identifier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(Id identifier) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(TextType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(TextType type) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(DigitsType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(DigitsType type) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(ChoiceType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+@Override
+public JPanel visit(ChoiceType type) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-	@Override
-	public Void visit(UndefinedType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
+@Override
+public JPanel visit(UndefinedType type) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

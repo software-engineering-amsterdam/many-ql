@@ -3,13 +3,10 @@ package org.fugazi.gui.widgets;
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ItemListener;
-import java.util.EventListener;
-
 public class CheckBox implements IWidget<Boolean> {
 
     private final String label;
-
-    // todo: generalize the component
+    
     private JCheckBox component;
 
     public CheckBox(String _label) {
@@ -35,5 +32,10 @@ public class CheckBox implements IWidget<Boolean> {
     @Override
     public Boolean getValue() {
         return this.component.isSelected();
+    }
+
+    @Override
+    public void setValue(Boolean _value) {
+        this.component.setSelected(_value);
     }
 }

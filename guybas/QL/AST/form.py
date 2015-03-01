@@ -64,7 +64,6 @@ class Form:
         for s in self._statements:
             new_dependencies = s.dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
-
         # Get transitive dependencies
         transitive_dependencies = {}
         for k in dependencies:

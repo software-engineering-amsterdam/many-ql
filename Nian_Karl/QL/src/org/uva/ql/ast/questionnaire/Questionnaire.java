@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.uva.ql.ast.Node;
 import org.uva.ql.ast.builder.CodePosition;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class Questionnaire implements Node {
 
@@ -16,7 +16,7 @@ public class Questionnaire implements Node {
 		this.position = pos;
 		forms = new ArrayList<Form>();
 	}
-
+	
 	public CodePosition getPosition() {
 		return position;
 	}

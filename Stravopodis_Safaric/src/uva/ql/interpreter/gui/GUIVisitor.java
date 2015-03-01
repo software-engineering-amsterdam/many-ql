@@ -1,8 +1,6 @@
 package uva.ql.interpreter.gui;
 
-import java.awt.GridLayout;
 import java.util.List;
-
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
@@ -34,27 +32,33 @@ import uva.ql.ast.statements.Statement;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.gui.elements.UIContainer;
-import uva.ql.interpreter.gui.elements.UIFrame;
 import uva.ql.interpreter.observer.Observer;
 import uva.ql.interpreter.observer.Subject;
-import uva.ql.interpreter.typecheck.Symbol;
 import uva.ql.interpreter.typecheck.SymbolMap;
 import uva.ql.supporting.ExpressionSupporting;
-import uva.ql.supporting.Tuple;
 import uva.ql.interpreter.gui.elements.*;
 
 public class GUIVisitor extends Observer implements StatementVisitorInterface<Object>, ExpressionVisitorInterface<Object>{
 
-	private UIContainer container;
-	private UIFrame frame;
-	private SymbolMap symbolTable;
 	
-	public GUIVisitor(SymbolMap _symbolTable, Subject _subject){
+	private SymbolMap symbolTable;
+	private Prog prog;
+	protected GUI gui;
+	
+	public GUIVisitor(SymbolMap _symbolTable, Prog _prog, Subject _subject){
 		this.symbolTable = _symbolTable;
 		this.subject = _subject;
-		System.out.println("SYMBOL TABLE: " + _symbolTable);
+		this.subject.setObserver(this);
+		this.prog = _prog;
 	}
 	
+	@Override
+	public void update() {
+		this.gui.container.removeAll();
+		this.gui.container.revalidate();
+		
+		this.visitProg(this.prog);
+	}
 	
 	private Object visitStatements(List<Statement> statements){
 		for(Statement statement : statements)
@@ -62,20 +66,6 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 		return null;
 	}
 	
-	private void setFrame(Form form){
-		if (this.frame == null){
-			this.frame = new UIFrame("Questions", new Tuple<Integer, Integer>(500, 6 * 60));
-			this.frame.randerFrame();
-			this.container = new UIContainer(this.frame.getFrameSize());
-			this.container.setLayout(new GridLayout(6,0));	// Set the number of rows acording to the number of questions
-			
-			this.frame.add(this.container);
-			this.frame.revalidate();		
-		}
-	}
-	public static void refreshGUI(){
-		
-	}
 	@Override
 	public Object visitProg(Prog prog) {
 		this.visitForm(prog.getForm());
@@ -84,7 +74,7 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 
 	@Override
 	public Object visitForm(Form form) {
-		this.setFrame(form);
+		this.gui.setFrame();
 		this.visitStatements(form.getStatement());
 		return null;
 	}
@@ -103,16 +93,15 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 	public Object visitQuestion(Question question) {		
 		
 		String identifier = question.getIdentifier().evaluate().getValue();
-		Symbol questionSymbol = this.symbolTable.getSymbolForAttributes(identifier, "string", Assign.class.getName());
-		StringLiteral literal = (StringLiteral)questionSymbol.getContent();
+		Expression expression = this.gui.expressionForQuestion(this.symbolTable, identifier);
 		
-		
-		UIQuestion uiQuestion = new UIQuestion(question, this.subject , this.symbolTable, literal.evaluate().getValue());
-		this.container.add(uiQuestion.createElement());
-		this.frame.revalidate();
+		UIQuestion uiQuestion = new UIQuestion(question, this.symbolTable, this.subject, expression);
+		UIContainer component = uiQuestion.createElement();
+		this.gui.container.addComponent(component);
+		this.gui.container.getPanel().revalidate();
+		this.gui.setFocus(identifier, this.subject, component);
 		
 		this.visitStatements(question.getStatement());
-		
 		return question;
 	}
 
@@ -123,13 +112,9 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 		BinaryExpressions binary = (BinaryExpressions)expression.accept(this);
 		
 		if ((boolean)binary.evaluate().getValue() == true){
-			System.out.println("Have to go inside of if");
 			for (Statement statement : ifStatement.getStatement()){
 				statement.accept(this);
 			}
-		}
-		else {
-			System.out.println("I'm not going inside of if");
 		}
 		
 		return null;
@@ -141,12 +126,11 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 	}
 
 	@Override
-	public Expression visitBinaryExpression(BinaryExpressions expression) {
+	public Object visitBinaryExpression(BinaryExpressions expression) {
+		Expression left = (Expression)expression.getLeftExpr().accept(this);
+		Expression right = (Expression)expression.getRightExpr().accept(this);
 		
-		Expression evalLeft = (Expression)expression.getLeftExpr().accept(this);
-		Expression evalRight = (Expression)expression.getRightExpr().accept(this);
-	
-		ExpressionSupporting validateExpression = new ExpressionSupporting(this.symbolTable, evalLeft, evalRight, expression.getOperator());
+		ExpressionSupporting validateExpression = new ExpressionSupporting(this.symbolTable, left, right, expression.getOperator());
 		return validateExpression.expressionValidator();
 	}
 
@@ -222,7 +206,7 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 
 	@Override
 	public Object visitType(Type type) {
-		return null;
+		return type;
 	}
 
 	@Override
@@ -247,12 +231,6 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 
 	@Override
 	public Object visitStringLiteral(StringLiteral stringLiteral) {
-		return null;
+		return stringLiteral;
 	}
-
-	@Override
-	public void update() {
-		System.out.println("Update form" + this.subject);
-	}
-	
 }

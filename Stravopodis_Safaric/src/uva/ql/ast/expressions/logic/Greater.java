@@ -14,19 +14,26 @@ public class Greater extends BinaryExpressions{
 		super(_left, _right, Operator.GREATER, _codeLines);
 	}
 
-	@Override 
-	public String toString(){
-		return this.getLeftExpr() + Operator.GREATER.getName() + this.getRightExpr();
-	}
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitGreater(this);
 	}
+	
 	@Override
 	public BooleanValue evaluate() {
 		if (!NumberValue.isNumberValue(this.getLeftExpr()) || !NumberValue.isNumberValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: > operator requires both operands NumberValue");
 		
 		return NumberValue.numberValueFromExpr(this.getLeftExpr()).greater(NumberValue.numberValueFromExpr(this.getRightExpr()));
+	}
+
+	@Override
+	public String evaluateType() {
+		return Greater.class.getName();
+	}
+	
+	@Override 
+	public String toString(){
+		return this.getLeftExpr() + Operator.GREATER.getName() + this.getRightExpr();
 	}
 }

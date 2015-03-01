@@ -21,18 +21,19 @@ public class SymbolMap {
 	public SymbolMap(){
 		this.symbols = new HashMap<String, List<Symbol>>();
 	}
+	
 	public void putValue(String name, Symbol symbol){
-		if (!this.exists(name)){
+		if (!this.exists(name))
 			this.putValueToList(new ArrayList<Symbol>(), name, symbol);
-		}
-		else {
+		else 
 			this.putValueToList(this.retrieve(name), name, symbol);
-		}
 	}
+	
 	private void putValueToList(List<Symbol> symbolsList, String name, Symbol symbol){
 		symbolsList.add(symbol);
 		this.symbols.put(name, symbolsList);
 	}
+	
 	private void removeFromList(String identifier, Symbol oldSymbol){
 		List<Symbol> symbols = this.retrieve(identifier);
 
@@ -41,6 +42,7 @@ public class SymbolMap {
 			this.symbols.put(identifier, symbols);
 		}
 	}
+	
 	public void updateValue(String identifier, Expression expression){
 		List<Symbol> symbols = this.retrieve(identifier);
 		Symbol symbol = null;
@@ -54,24 +56,27 @@ public class SymbolMap {
 		
 		this.removeFromList(identifier, symbol);
 		this.putValue(identifier, this.prepareNewObject(identifier, expression));
-		System.err.println("PRINTING");
-		this.printSymbolTable();
 	}
+	
 	private Symbol prepareNewObject(String identifier, Expression expression){
 		Symbol question = this.getSymbolForAttributes(identifier, null, Question.class.getName());
 		return new Symbol(question.getSymbolType(), Assign.class.getName(), question.getCodeLines(), expression);
 	}
+	
 	public List<Symbol> retrieve(String name){
 		if (symbols.get(name) != null)
 			return symbols.get(name);
 		else return null;
 	}
+	
 	public Symbol retrieveSymbol(List<Symbol> listSymbols, String identifier, String className){
 		return null;
 	}
+	
 	public boolean exists(String name){
 		return this.retrieve(name) != null;
 	}
+	
 	public boolean existsWithClassType(String name, String className){
 		if (this.exists(name)){
 			for (Symbol s : this.retrieve(name)){
@@ -81,6 +86,7 @@ public class SymbolMap {
 		}
 		return false;
 	}
+	
 	public boolean keyWithSymbolExists(String name, Symbol symbol){
 		if (this.exists(name)){
 			for (Symbol s : this.retrieve(name)){
@@ -91,14 +97,15 @@ public class SymbolMap {
 	}
 
 	public Symbol getSymbolForAttributes(String name, String type, String className){
-		System.err.println("Checking for symbol: " + name + " " + type + " " + className);
 		int index = indexOfSymbol(this.retrieve(name), new Symbol(type, className, null));
 		if (index != -1) return this.retrieve(name).get(index);
 		return null;
 	}
+	
 	public Set<String> getAllKeys(){
 		return symbols.keySet();
 	}
+	
 	public List<String> getTypesForKey(String name){
 		List<String> listOfTypes = new ArrayList<String>();
 		for (Symbol s : this.retrieve(name))
@@ -114,6 +121,7 @@ public class SymbolMap {
 		}
 		return -1;
 	}
+	
 	public boolean contentExists(Object _content){
 		for (String key : this.getAllKeys()){
 			for (Symbol s : this.retrieve(key)){
@@ -125,16 +133,18 @@ public class SymbolMap {
 		}
 		return false;
 	}
-	@Override
-	public String toString(){
-		return symbols.keySet().toString();
-	}
+	
 	public void printSymbolTable(){
 		for (String s : this.symbols.keySet()){
 			for (Symbol symbol : this.retrieve(s)){
 				System.out.println("SYMBOLTABLE -> " + s + " - " + symbol.toString());
 			}
 		}
+	}
+	
+	@Override
+	public String toString(){
+		return symbols.keySet().toString();
 	}
 }
 

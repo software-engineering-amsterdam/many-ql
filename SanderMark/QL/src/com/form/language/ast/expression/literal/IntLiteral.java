@@ -6,7 +6,6 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
-import com.form.language.error.ErrorCollector;
 
 public class IntLiteral extends Literal implements Expression {
 	private final int _value;
@@ -26,8 +25,5 @@ public class IntLiteral extends Literal implements Expression {
 		return new IntType();
 	}
 	
-	@Override
-	public ErrorCollector getErrors(ErrorCollector errs) {
-		return errs;
-	}
+
 }

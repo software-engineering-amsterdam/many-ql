@@ -27,15 +27,13 @@ public class UILabel extends JLabel{
 		this.setMinimumSize(new Dimension(300,50));
 		this.setPreferredSize(new Dimension(300,50));
 		this.setPreferredSize(new Dimension(300,50));
-		
 		this.setHorizontalAlignment(SwingConstants.RIGHT);
-		//this.setSize(getTextHeight(this.getText()), 200);
 		this.setSize(getTextHeight(this.getText()), 200);
 		this.setText(getText());
-		
 	}
 
 	public static int getTextHeight(String text){
+		// Function used for resizing the label size, if the text is larger than 50 in height
 		
 		AffineTransform transform = new AffineTransform();
 		FontRenderContext frc = new FontRenderContext(transform,true,true);

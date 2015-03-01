@@ -1,6 +1,7 @@
 package org.uva.ql.main;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -8,16 +9,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
-import org.uva.ql.ast.Node;
-import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.builder.QLImplVisitor;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.expression.binary.Divide;
-import org.uva.ql.ast.expression.binary.Minus;
-import org.uva.ql.ast.expression.binary.Multiply;
-import org.uva.ql.ast.expression.binary.Plus;
-import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.ql.ast.expression.literal.IntLiteral;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
 import org.uva.ql.ast.statement.IfElseStatement;
@@ -25,16 +18,14 @@ import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
-import org.uva.ql.ast.value.Int;
-import org.uva.ql.ast.visitor.Evaluator;
-import org.uva.ql.ast.visitor.TypeChecker;
-import org.uva.ql.view.FormView;
+import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.view.FormFrame;
+import org.uva.ql.view.GUIVisitor;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("Start");
-		ANTLRFileStream input = new ANTLRFileStream("scripts/quest2.ql");
+		ANTLRFileStream input = new ANTLRFileStream("scripts/quest3.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
@@ -42,8 +33,12 @@ public class Main {
 		ParseTree tree = parser.questionnaire();
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
-		System.out.println("FinalTree = " + finalTree);
-		FormView form = new FormView();
+		GUIVisitor guiVisitor = new GUIVisitor();
+		ArrayList<FormFrame> formList = (ArrayList<FormFrame>) guiVisitor.visit(finalTree);
+//		for (FormFrame formView : formList) {
+//			System.out.println();
+//			formView.setVisible(true);
+//		}
 		
 //		for (Form form: finalTree.getFormList()) {
 //			printBlock(form.getBlock());
@@ -53,24 +48,24 @@ public class Main {
 //			printBlock(form.getBlock());
 //		}
 //		
-		Node result = tree.accept(visitor);
-		// dummy position
-		CodePosition pos = new CodePosition(0, 0);
-		System.out.println(result);
-		Evaluator e = new Evaluator();
-		Identifier id1 = new Identifier("ID1",pos);
-		Identifier id2 = new Identifier("ID2",pos);
-		IntLiteral i1 = new IntLiteral(5,pos);
-		IntLiteral i2 = new IntLiteral(9,pos);
-		Int v1 = new Int(11);
-		Int v2 = new Int(7);
-		
-		e.putValue(id1, v1);
-		e.putValue(id2, v2);
-		System.out.println("Test Evaluator ID1 + ID2 = " + e.evaluate(new Plus(id1, id2,pos)));
-		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2,pos)));
-		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2,pos)));
-		System.out.println("Test Evaluator ID1 / ID2 = " + e.evaluate(new Divide(id1, id2,pos)));
+//		Node result = tree.accept(visitor);
+//		// dummy position
+//		CodePosition pos = new CodePosition(0, 0);
+//		System.out.println(result);
+//		Evaluator e = new Evaluator();
+//		Identifier id1 = new Identifier("ID1",pos);
+//		Identifier id2 = new Identifier("ID2",pos);
+//		IntLiteral i1 = new IntLiteral(5,pos);
+//		IntLiteral i2 = new IntLiteral(9,pos);
+//		Int v1 = new Int(11);
+//		Int v2 = new Int(7);
+//		
+//		e.putValue(id1, v1);
+//		e.putValue(id2, v2);
+//		System.out.println("Test Evaluator ID1 + ID2 = " + e.evaluate(new Plus(id1, id2,pos)));
+//		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2,pos)));
+//		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2,pos)));
+//		System.out.println("Test Evaluator ID1 / ID2 = " + e.evaluate(new Divide(id1, id2,pos)));
 		
 //		Plus p1 = new Plus(i1, i2);
 //		Minus p2 = new Minus(p1,i2);
@@ -79,6 +74,7 @@ public class Main {
 //		
 //		Greater p4 = new Greater(p2, p3);
 //		System.out.println("TEST VALUE2 " + p4.accept(e).getValue());
+		 
 		
 	}
 	

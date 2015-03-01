@@ -11,16 +11,24 @@ public class Identifier extends Literal{
 		super(_codeLines);
 		this.identifier = _identifier;
 	}
-	@Override
-	public String toString() {
-		return "Identifier(" + this.identifier + ")";
-	}
+	
 	@Override
 	public StringValue evaluate() {
 		return new StringValue(this.identifier);
 	}
+	
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitIdentifier(this);
+	}
+	
+	@Override
+	public String evaluateType() {
+		return Identifier.class.getName();
+	}
+	
+	@Override
+	public String toString() {
+		return "Identifier(" + this.identifier + ")";
 	}
 }

@@ -8,10 +8,13 @@ public abstract class Expression extends ASTNode {
 	public Expression(CodeLines _codeLines) {
 		super(_codeLines);
 	}
+	
 	public CodeLines getCodeLines(){
 		return this.codeLines;
 	}
+	
 	public abstract GenericValue<?> evaluate();
+	public abstract String evaluateType();
 	public abstract <T> T accept(ExpressionVisitorInterface<T> visitor);
 	
 }

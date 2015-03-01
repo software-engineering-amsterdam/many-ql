@@ -8,6 +8,7 @@ public class Tuple <T,K>{
 		this.x = _x;
 		this.y = _y;
 	}
+	
 	public Tuple<T,K> getTuple(){
 		return this;
 	}

@@ -1,17 +1,14 @@
 package org.fugazi.ast;
 
-/*
- We decided it should be an abstract class rather than an interface.
- The rationale behind it is that we need it to have some additional fields,
- such as error line number.
- */
 public abstract class AbstractASTNode {
 
     protected final int lineNumber;
 
+    public static final int DUMMY_LINE_NUMBER = -1;
+
     public AbstractASTNode() {
         // this is used for temporary objects
-        this.lineNumber = -1;
+        this.lineNumber = DUMMY_LINE_NUMBER;
     }
 
     public AbstractASTNode(int _lineNum) {

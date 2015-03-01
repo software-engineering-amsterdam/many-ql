@@ -30,11 +30,11 @@ import java.util.List;
 public class QuestionPane extends GridPane {
     private final static Font DEFAULT_QUESTION = new Font("Arial Bold", 14);
     private final static Font DEFAULT_ANSWER = new Font("Arial", 12);
-    private final int TEXTBOX_PREFERRED_WIDTH = 250;
-    private final double MIN_HEIGHT = 50;
-    private final double EFFECT_DURATION = 500;
     private final CornerRadii RADII = new CornerRadii(10, 0.05, 0.05, 10, 10, 0.05, 0.05, 10,
             false, true, true, false, false, true, true, false);
+    private final double MIN_HEIGHT = 50;
+    private final double EFFECT_DURATION = 500;
+    private final int TEXTBOX_PREFERRED_WIDTH = 250;
 
     private final Store store;
     private final Question question;
@@ -100,8 +100,8 @@ public class QuestionPane extends GridPane {
     private void createAnswerSetPane(OptionSet optionSet){
         ToggleGroup group = new ToggleGroup();
         for (int i=0; i< optionSet.size(); i++) {
-            Object a = optionSet.get(i);
-            RadioButton rb = new RadioButton(a.toString());
+            AExpression answer = optionSet.get(i);
+            RadioButton rb = new RadioButton(answer.getContent());
             rb.setWrapText(true);
             rb.setFont(DEFAULT_ANSWER);
             rb.setToggleGroup(group);
@@ -127,6 +127,13 @@ public class QuestionPane extends GridPane {
             //TODO disable button somehow
         }
         datePicker.getEditor().textProperty().addListener(createInputListener(Type.DATE, datePicker));
+        question.visibleProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue)
+                    datePicker.getEditor().setText("");
+            }
+        });
         this.getChildren().add(datePicker);
         this.setConstraints(datePicker, 0, 2);
     }
@@ -169,9 +176,8 @@ public class QuestionPane extends GridPane {
         };
     }
 
+    //TODO QuestionPane gets lost, if user varies to fast bewteen accepted and not accepted input.
     public void show(){
-        if (isVisible())
-            return;
         this.setManaged(true);
         this.setVisible(true);
         Timeline timeline = new Timeline();
@@ -186,7 +192,7 @@ public class QuestionPane extends GridPane {
         timeline.getKeyFrames().addAll(createPositionTranslationFrames(true));
         timeline.getKeyFrames().add(new KeyFrame(
                 Duration.millis(EFFECT_DURATION),
-                ae -> {
+                hide -> {
                     this.setManaged(false);
                     this.setVisible(false);
                 }
@@ -201,7 +207,7 @@ public class QuestionPane extends GridPane {
         result.add(new KeyFrame(first,
                 new KeyValue(this.translateYProperty(), -getMinHeight())));
         result.add(new KeyFrame(last,
-                        new KeyValue(this.translateYProperty(), 0)));
+                new KeyValue(this.translateYProperty(), 0)));
         return result;
     }
 
@@ -238,7 +244,6 @@ public class QuestionPane extends GridPane {
                 if (!oldValue)
                     input.requestFocus();
                 input.selectAll();
-
             }
         };
     }
@@ -265,8 +270,9 @@ public class QuestionPane extends GridPane {
         return new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                String userInput = newValue.getUserData().toString();
-                questionAnswered(userInput);
+                String value = observable.getValue().toString();
+                value = value.substring(value.indexOf("'")+1, value.lastIndexOf("'"));
+                questionAnswered(value);
             }
         };
     }

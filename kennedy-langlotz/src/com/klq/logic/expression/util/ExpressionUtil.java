@@ -26,6 +26,7 @@ public class ExpressionUtil {
             case NUMERAL:
                 return createNumberFromString(value);
             case STRING:
+            case SET:
                 return new com.klq.logic.expression.terminal.String(value);
         }
         return null;

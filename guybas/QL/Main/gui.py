@@ -6,13 +6,13 @@ from Main.mapper import *
 
 class QuestionnaireGUI:
     def __init__(self, form):
-        self.qGui        = Tk()
-        self.statements   = form.get_statements()
-        self.title       = form.get_name()
-        self.intro       = form.get_introduction()
+        self.qGui = Tk()
+        self.statements = form.get_statements()
+        self.title = form.get_name()
+        self.intro = form.get_introduction()
         self.column_span = 1
         self.row_counter = 0
-        self.answersMap  = Mapper()
+        self.answersMap = Mapper()
         self.elementsMap = {}  # structure: {parent_id: {_statements:List, guiElements:List} .. }
         self.varsCondMap = {}
 
@@ -22,6 +22,7 @@ class QuestionnaireGUI:
         self.qGui.title(self.title)
         Label(text=self.intro, height=2).grid(row=self.row_counter, column=0, sticky=W)
         self.draw_statements(self.statements)
+        Button(text="Submit", width=10, command=lambda: Processor.export_answers(self.answersMap, self)).grid(row=999, column=0)
 
     def draw_statements(self, statements):
         for statement in statements:
@@ -72,12 +73,9 @@ class QuestionnaireGUI:
         # s = str_var.get()
 
     def update(self, question, new_answer):
-        print(new_answer)
         self.answersMap.update(question, new_answer)
         pointers = self.varsCondMap[question.get_id()]
-        # self.elements_recreate(pointers[0])
         for pointer in pointers:
-            # print(pointer)
             self.elements_recreate(pointer)
 
     def elements_recreate(self, parent_id):
@@ -94,11 +92,11 @@ class QuestionnaireGUI:
 
     def draw_conditional_q(self, c_question):
         processor = Processor()
-        condition = processor.conditions_proc(c_question.get_str_condition(), self.answersMap)
+        condition = processor.eval_expression(c_question.get_str_condition(), self.answersMap)
 
         # map variables/question id to conditions where they are used
-        vars = processor.extract_variables(c_question.get_condition())
-        for v in vars:
+        variables = c_question.get_condition().get_dependencies()
+        for v in variables:
             if v in self.varsCondMap:
                 if c_question.get_parent_id() not in self.varsCondMap[v]:
                     self.varsCondMap[v].append(c_question.get_parent_id())
@@ -114,3 +112,6 @@ class QuestionnaireGUI:
 
     def show(self):
         self.qGui.mainloop()
+
+    def close(self):
+        self.qGui.destroy()

@@ -1,8 +1,8 @@
 package edu.gui;
 
-import edu.gui.Components.CheckBox;
-import edu.gui.Components.TextBox;
-import edu.parser.nodes.question.QuestionType;
+import edu.gui.components.CheckBox;
+import edu.gui.components.TextBox;
+import edu.parser.QL.nodes.question.QuestionType;
 
 import javax.swing.*;
 
@@ -14,7 +14,7 @@ public enum QuestionTypeGui {
     BOOLEAN(CheckBox.class, QuestionType.BOOLEAN);
 
     private final Class component;
-    private final edu.parser.nodes.question.QuestionType questionType;
+    private final edu.parser.QL.nodes.question.QuestionType questionType;
 
     private <T> QuestionTypeGui(Class<T> component, QuestionType questionType) {
         this.component = component;
