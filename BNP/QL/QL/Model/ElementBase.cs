@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using QL.Model.Enums;
 using QL.Exceptions;
+using QL.Evaluation;
 
 namespace QL.Model
 {
-    public abstract class ElementBase
+    public abstract class ElementBase : IVisitable
     {
         public SourceLocation SourceLocation { get; set; }
         public IList<ElementBase> Children { get; set; }
@@ -50,6 +51,13 @@ namespace QL.Model
             }
             return retval;
         }
-        public virtual bool Evaluate() { return false; }    
+        public virtual bool Evaluate() { return false; }
+        public virtual void Accept(IVisitor visitor)
+        {
+            visitor.visit((dynamic) this); //dynamic!! BECAUSE It's cloning to implement this for everything as the same
+            foreach(ElementBase child in Children){
+                child.Accept(visitor);
+            }
+        }
     }
 }

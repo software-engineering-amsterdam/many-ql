@@ -12,14 +12,17 @@ using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
 using QL.Exceptions;
+using QL.Evaluation;
 
 
 namespace QL
 {
+   
+
     class Program
     {
         static void Main(string[] args){
-
+            
             while (true)
             {
                 Console.WriteLine("Please enter QL syntax commit by Ctrl+Z. Quit by Ctrl+C");
@@ -48,20 +51,11 @@ namespace QL
                     {
                         Console.WriteLine(e.ToString());
                     }
+                    continue;
                 }
-                else
-                {
-                    ast.Evaluate();
-                    if (ast.EvaluationExceptions.Count()>0)
-                    {
-                        //do something
-                        foreach (QLException e in ast.EvaluationExceptions)
-                        {
-                            Console.WriteLine(e.ToString());
-                        }
-                    }
-                }
-                
+                EvaluatorVisitor eVisitor= new EvaluatorVisitor();
+                eVisitor.Enter(ast.RootNode);
+
 
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();
