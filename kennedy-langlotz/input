@@ -35,5 +35,5 @@ question
     id: question6
     text: "Do you want to live that long?"
     type: set
-    value: "Yes please", "IDGAF", "Hell no"
+    value: 2+2, 3+7, 4*5
 end

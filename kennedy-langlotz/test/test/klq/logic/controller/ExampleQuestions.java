@@ -30,7 +30,7 @@ public class ExampleQuestions{
     public static Question q1(){
         Id id = new Id("question1");
         Text text = new Text("How old are you?");
-        Question q = new Question(id, Type.NUMERAL, null, text, null);
+        Question q = new Question(id, Type.NUMERAL, null, text);
         return q;
     }
 
@@ -69,7 +69,7 @@ public class ExampleQuestions{
         optionSet.add(new String("Example Answer"));
         Text text = new Text("This is a question, that is even more long!?");
 
-        Question q = new Question(id, Type.STRING, optionSet, text, null);
+        Question q = new Question(id, Type.STRING, optionSet, text);
         return q;
     }
 
@@ -80,7 +80,7 @@ public class ExampleQuestions{
         optionSet.add(new String("BAM"));
         Text text = new Text("New Kids?");
 
-        Question q = new Question(id, Type.SET, optionSet, text, null);
+        Question q = new Question(id, Type.SET, optionSet, text);
         return q;
     }
 }
