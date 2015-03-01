@@ -2,6 +2,7 @@ package com.klq.typecheker;
 
 import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.logic.question.Type;
 import com.klq.typecheker.error.AError;
 import com.klq.typecheker.error.NotUniqueID;
 
@@ -32,5 +33,9 @@ public class QuestionTable {
 
     public boolean has(String questionId){
         return table.containsKey(questionId);
+    }
+
+    public Type getQuestionType(String questionId){
+        return table.get(questionId).getQuestionType();
     }
 }

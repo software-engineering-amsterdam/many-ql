@@ -15,8 +15,10 @@ import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.logic.question.Type;
 import com.klq.typecheker.error.AError;
 import com.klq.typecheker.error.InvalidCondition;
+import com.klq.typecheker.error.NotAnError;
 import com.klq.typecheker.error.QuestionIDReference;
 
 import java.util.ArrayList;
@@ -86,17 +88,17 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
     ==================================================================================================================*/
     @Override
     public AError visit(StringNode node) {
-        return null;
+        return new NotAnError(node, Type.STRING);
     }
 
     @Override
     public AError visit(NumberNode node) {
-        return null;
+        return new NotAnError(node, Type.NUMERAL);
     }
 
     @Override
     public AError visit(DateNode node) {
-        return null;
+        return new NotAnError(node, Type.DATE);
     }
 
     @Override
@@ -107,7 +109,7 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
     @Override
     public AError visit(IdentifierNode node) {
         if(table.has(node.getIdentifier())){
-            return null;
+            return new NotAnError(node, table.getQuestionType(node.getIdentifier()));
         }
         return new QuestionIDReference(node);
     }

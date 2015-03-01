@@ -7,6 +7,6 @@ import com.klq.ast.impl.ConditionalNode;
  */
 public class InvalidCondition extends AError{
     public InvalidCondition(ConditionalNode node) {
-        super(1, true, "The expression of the condition does not return a boolean value", node.getLoc());
+        super(2, true, "The expression of the condition does not return a boolean value", node.getLoc());
     }
 }
