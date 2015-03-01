@@ -35,10 +35,10 @@ public class Main {
 		Questionnaire finalTree = (Questionnaire) visitor.visitQuestionnaire((QuestionnaireContext) tree);
 		GUIVisitor guiVisitor = new GUIVisitor();
 		ArrayList<FormFrame> formList = (ArrayList<FormFrame>) guiVisitor.visit(finalTree);
-		for (FormFrame formView : formList) {
-			System.out.println();
-			formView.setVisible(true);
-		}
+//		for (FormFrame formView : formList) {
+//			System.out.println();
+//			formView.setVisible(true);
+//		}
 		
 //		for (Form form: finalTree.getFormList()) {
 //			printBlock(form.getBlock());

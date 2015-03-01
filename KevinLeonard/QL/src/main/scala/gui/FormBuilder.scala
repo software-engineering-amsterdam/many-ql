@@ -1,5 +1,8 @@
 package gui
 
+//import java.util.concurrent.Callable
+//import java.lang.Boolean
+//import javafx.beans.binding.Bindings
 import javafx.beans.value.ObservableValue
 
 import ast._
@@ -7,6 +10,9 @@ import evaluator.Evaluator
 
 import scala.collection.immutable.Map
 import scalafx.Includes._
+//import scalafx.beans.Observable
+//import scalafx.beans.binding.Bindings
+//import scalafx.collections.ObservableBuffer
 import scalafx.scene.Node
 import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
@@ -93,9 +99,14 @@ class FormBuilder {
         case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
       }
     }
-    field.selectedProperty().addListener(
-      (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
-    )
+    // Alternative for text.addListener
+//    field.onAction = (event: ActionEvent) => model.userData += "x"
+
+    // Option 1 (Java way). Create binding (first argument) and pass items to observe (second to nth argument)
+//    field.visible <== Bindings.createBooleanBinding(new Callable[Boolean] { override def call(): Boolean = field.selected.value }, field.selected)
+    // Option 2 (Scala way. Create simple binding between 2 values. But how to pass the items to observe?
+//    field.visible <== field.selected
+
     List(label, field)
   }
 }
