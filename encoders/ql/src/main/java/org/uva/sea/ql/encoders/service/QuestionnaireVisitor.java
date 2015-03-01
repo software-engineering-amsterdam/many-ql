@@ -24,7 +24,7 @@ import org.uva.sea.ql.encoders.ast.AstNode;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.DataType;
-import org.uva.sea.ql.encoders.ast.Evaluator;
+import org.uva.sea.ql.encoders.ast.TypeChecker;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.OperatorExpression;
@@ -35,7 +35,7 @@ import org.uva.sea.ql.encoders.ast.TypeError;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	
-	public Evaluator expressionChecker = new Evaluator();
+	public TypeChecker expressionTypeChecker = new TypeChecker();
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
@@ -88,7 +88,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		if (computedCtx != null) {
 			Expression computed = (Expression) visit(computedCtx);
 			question.setComputed(computed);
-			expressionChecker.parseExpression(computed);
+			expressionTypeChecker.testExpression(computed);
 			System.out.println(computed);
 		}
 		super.visitChildren(ctx);
@@ -188,7 +188,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	
 	public List<TypeError> getTypeErrors() {
 		List<TypeError> typeErrors = new ArrayList<TypeError>();
-		typeErrors = expressionChecker.getTypeErrors();
+		typeErrors = expressionTypeChecker.getTypeErrors();
 		return typeErrors;
 	}
 }
