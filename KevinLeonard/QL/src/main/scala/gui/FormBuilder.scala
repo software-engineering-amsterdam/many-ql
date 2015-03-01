@@ -39,9 +39,9 @@ class FormBuilder {
   }
 
   def buildQuestion(q: Question, env: EvalEnvironment): VBox = buildVerticalBox(getFieldElements(q, env))
-  
+
   def buildVerticalBox(nodes: List[Node]): VBox = {
-    val box = new VBox()
+    val box = new VBox
     for (node <- nodes) box.children.add(node)
     box
   }
@@ -51,7 +51,7 @@ class FormBuilder {
     case NumberType() => getNumberFieldElements(q.label, q.variable.name, env)
     case StringType() => getStringFieldElements(q.label, q.variable.name, env)
   }
-  
+
   def getStringFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
     val label = new Label(l)
     val field = new TextField {
@@ -65,8 +65,8 @@ class FormBuilder {
       (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
     )
     List(label, field)
-  } 
-  
+  }
+
   def getNumberFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
     val label = new Label(l)
     val field = new TextField {
@@ -76,14 +76,14 @@ class FormBuilder {
         case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
       }
     }
-    
+
     // TODO: Add number input validation.
     field.text.addListener(
       (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
     )
     List(label, field)
   }
-  
+
   def getBooleanFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
     val label = new Label(l)
     val field = new CheckBox {
