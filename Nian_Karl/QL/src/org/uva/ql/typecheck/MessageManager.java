@@ -2,6 +2,7 @@ package org.uva.ql.typecheck;
 
 import java.util.ArrayList;
 
+import org.uva.ql.typecheck.message.Error;
 import org.uva.ql.typecheck.message.Warning;
 
 public class MessageManager {

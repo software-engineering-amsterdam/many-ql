@@ -15,4 +15,8 @@ form SalarySurvey{
 		statusInt: "How are you doing?" Int
 
 	}
+
+	if(isNian){
+
+	}
 }

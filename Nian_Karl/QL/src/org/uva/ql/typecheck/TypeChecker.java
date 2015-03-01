@@ -36,6 +36,7 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
+import org.uva.ql.typecheck.message.Error;
 import org.uva.ql.typecheck.message.Warning;
 import org.uva.ql.visitor.Visitor;
 
@@ -50,20 +51,26 @@ public class TypeChecker implements Visitor<Void> {
 		labels = new ArrayList<String>();
 		messageManager = new MessageManager();
 	}
-	
+
+// Type list	
 	public void addType(Identifier identifier, Type type) {
 		types.put(identifier, type);
 	}
 	
+	public boolean isDeclared(Identifier identifier) {
+		return types.containsKey(identifier);
+	}
+	
 	public Type getType(Identifier identifier) {
-		if (types.containsKey(identifier)) {
+		if (isDeclared(identifier)) {
 			return types.get(identifier);
 		} else {
 			System.out.println("Identifier <" + identifier + "> does not exist.");
 			return null;
 		}
 	}
-	
+
+// Label list
 	public void addLabel(String label) {
 		labels.add(label);
 	}
@@ -75,7 +82,6 @@ public class TypeChecker implements Visitor<Void> {
 	
 	
 // Message Management	
-	
 	public void addError(Error error) {
 		messageManager.addError(error);
 	}
@@ -102,7 +108,6 @@ public class TypeChecker implements Visitor<Void> {
 	
 	
 // Checkers
-	
 	public void checkLabel(QuestionNormal question) {
 		String label = question.getLabel().getValue();
 		if (hasLabel(label)) {
@@ -113,7 +118,14 @@ public class TypeChecker implements Visitor<Void> {
 		}
 	}
 	
+	public void checkReference(Identifier identifier) {
+		if (!isDeclared(identifier)) {
+			Error error = new Error(Error.Type.REFERENCE, identifier.getPosition().getStartLine(), identifier.toString());
+			messageManager.addError(error);
+		}
+	}
 
+	
 	
 	
 // Visits
@@ -161,6 +173,7 @@ public class TypeChecker implements Visitor<Void> {
 	@Override
 	public Void visit(IfStatement ifStatement) {
 		System.out.println("If Statement");
+		ifStatement.getExpr().accept(this);
 		ifStatement.getIfBlock().accept(this);
 		return null;
 	}
@@ -258,6 +271,8 @@ public class TypeChecker implements Visitor<Void> {
 
 	@Override
 	public Void visit(Identifier node) {
+		System.out.println("Identifier");
+		checkReference(node);
 		return null;
 	}
 
