@@ -24,7 +24,7 @@ public class CyclicDependencyChecker implements FormVisitor<Void>, StatementVisi
     }
 
     @Override
-    public Void visitForm(final Form form) {
+    public Void visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
         return null;
     }

@@ -65,7 +65,9 @@ ID  :   [a-zA-Z]+;
 STRING :  '"' (ESC | ~["\\])* '"' ;
 
 // boolean value definition
-BOOLEAN: ["true"|"false"];
+BOOLEAN : 'true'
+        | 'false'
+        ;
 
 // integer definition
 // integer is a sequence of digits of a length that can vary

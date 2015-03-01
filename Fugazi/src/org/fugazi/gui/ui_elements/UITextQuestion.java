@@ -17,7 +17,6 @@ public class UITextQuestion extends UIQuestion {
         super(_med, _question);
         this.value = ""; // default
 
-        // TODO: get it from a GUI Designer
         this.widget = new TextBox(_question.getLabel());
         
         this.widget.addDocumentListener(new DocumentListener() {

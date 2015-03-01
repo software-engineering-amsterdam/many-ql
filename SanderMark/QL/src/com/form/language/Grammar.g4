@@ -9,6 +9,7 @@ grammar Grammar;
 	import com.form.language.ast.expression.logic.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
+	import com.form.language.ast.type.*;
 	
 	import com.form.language.memory.*;
 }
@@ -30,7 +31,7 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID TYPE {$result = new Question($STRING.text, $ID.text, $TYPE.text,new Memory());}
+	: 'question' STRING ID type {$result = new Question($STRING.text, $ID.text, $type.result,new Memory());}
 	;
 	
 assignmentStatement returns [Statement result]
@@ -38,7 +39,7 @@ assignmentStatement returns [Statement result]
 ;
 
 ifStatement returns [Statement result]
-: 'if' exp=expression 'then' slist=statementList
+: IF exp=expression 'then' slist=statementList
   'end' {$result = new IfStatement($exp.result,$slist.result);}
 ;
 
@@ -69,10 +70,14 @@ literal returns [Expression result]
 	| ID	    {$result = new IdLiteral($ID.text,$ID);}
 	;
 
+type returns [Type result]
+	: 'Boolean' {new BoolType();}
+	| 'String' {new StringType();}
+	| 'Number' {new IntType();};
+
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
 BOOLEAN : 'true' | 'false';
-TYPE: 'Boolean' | 'String' | 'Number';
 STRING: '"'.*?'"';
 INTEGER : [0-9]+;
 
@@ -80,6 +85,7 @@ ID : ([a-z][A-Za-z0-9]+);
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;
 
+IF: 'if';
 OR: '||';
 AND: '&&';
 LTEQ: '<=';

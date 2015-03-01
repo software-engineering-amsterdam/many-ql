@@ -1,8 +1,6 @@
-import org.fugazi.ValueStorage;
 import org.fugazi.ast.ASTBuilder;
 import org.fugazi.ast.form.Form;
-import org.fugazi.evaluator.Evaluator;
-import org.fugazi.gui.GUIBuilder;
+import org.fugazi.gui.UIBuilder;
 import org.fugazi.type_checker.TypeChecker;
 import org.fugazi.type_checker.error.ASTErrorPrinter;
 
@@ -44,10 +42,8 @@ public class Main {
             System.exit(-1);
         }
 
-        ValueStorage valueStorage = new ValueStorage();
-
         // Render GUI.
-        GUIBuilder guiBuilder = new GUIBuilder(form, valueStorage);
+        UIBuilder guiBuilder = new UIBuilder(form);
         guiBuilder.renderGUI();
     }
 }

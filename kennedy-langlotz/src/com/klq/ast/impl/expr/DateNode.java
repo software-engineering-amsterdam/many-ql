@@ -11,7 +11,8 @@ import java.time.LocalDate;
 public class DateNode extends ANode {
     private LocalDate date;
 
-    public DateNode(LocalDate date) {
+    public DateNode(LocalDate date, String location) {
+        super(location);
         this.date = date;
     }
 

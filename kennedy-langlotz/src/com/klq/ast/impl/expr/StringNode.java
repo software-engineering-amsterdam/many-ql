@@ -9,7 +9,8 @@ import com.klq.ast.IVisitor;
 public class StringNode extends ANode {
     private String string;
 
-    public StringNode(String string) {
+    public StringNode(String string, String location) {
+        super(location);
         this.string = string;
     }
 

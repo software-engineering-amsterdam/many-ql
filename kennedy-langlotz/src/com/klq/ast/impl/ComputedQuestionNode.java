@@ -8,8 +8,8 @@ import com.klq.ast.*;
 public class ComputedQuestionNode extends QuestionNode {
     private ANode child;
 
-    public ComputedQuestionNode(String questionID, String questionType, String text, ANode child) {
-        super(questionID, questionType, text);
+    public ComputedQuestionNode(String questionID, String questionType, String text, ANode child, String location) {
+        super(questionID, questionType, text, location);
         this.child = child;
     }
 

@@ -2,13 +2,8 @@ package com.klq.ast;
 
 import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.*;
-import com.klq.ast.impl.expr.bool.AndNode;
-import com.klq.ast.impl.expr.bool.OrNode;
-import com.klq.ast.impl.expr.comp.*;
+import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.*;
-import com.klq.logic.expression.operator.bool.And;
-
-import java.util.ArrayList;
 
 /**
  * Created by Juriaan on 21-2-2015.

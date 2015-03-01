@@ -9,8 +9,8 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
  */
 public class MultiplyNode extends ABinaryExprNode {
 
-    public MultiplyNode(ANode leftChild, ANode rightChild) {
-        super(leftChild, rightChild);
+    public MultiplyNode(ANode leftChild, ANode rightChild, String location) {
+        super(leftChild, rightChild, location);
     }
 
     @Override

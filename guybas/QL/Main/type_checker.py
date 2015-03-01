@@ -57,7 +57,6 @@ class TypeChecker:
     @staticmethod
     def check_dependencies(dependencies):
         message = ""
-        print(dependencies)
         for d in dependencies:
             if d in dependencies[d]:
                 message += str(d) + " is dependent on itself"
@@ -70,7 +69,7 @@ class TypeChecker:
             if ExpressionValidator.validator(e.return_type(type_dict)):
                 continue
             else:
-                messages += str(e) + "is malformed"
+                messages += e.pretty_print() + " is malformed"
         return messages
 
     # TODO: try to make this obsolete

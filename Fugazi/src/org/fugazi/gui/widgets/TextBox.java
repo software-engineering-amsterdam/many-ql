@@ -8,7 +8,6 @@ public class TextBox implements IWidget<String> {
 
     private final String label;
 
-    // todo: generalize the component
     private JTextField input;
     private JPanel panel;
 
@@ -19,7 +18,6 @@ public class TextBox implements IWidget<String> {
         JLabel label = new JLabel(this.label);
         this.input = new JTextField();
 
-        // Todo: Will be taken from a Style Object in QLS.
         input.setColumns(7);
 
         panel.add(label);
@@ -44,5 +42,10 @@ public class TextBox implements IWidget<String> {
     @Override
     public String getValue() {
         return this.input.getText();
+    }
+
+    @Override
+    public void setValue(String _value) {
+        this.input.setText(_value);
     }
 }

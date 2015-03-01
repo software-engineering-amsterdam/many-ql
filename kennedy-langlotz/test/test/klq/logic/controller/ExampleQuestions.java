@@ -40,7 +40,7 @@ public class ExampleQuestions{
         AExpression right = new Number("18");
         GreaterEquals ge = new GreaterEquals(left, right);
         Text text = new Text("Do you have a driving license?");
-        Question q = new Question(id, Type.BOOLEAN, null, text);
+        Question q = new Question(id, Type.STRING, null, text);
         q.addDependency(ge);
         return q;
     }
@@ -54,7 +54,7 @@ public class ExampleQuestions{
         GreaterEquals ge = new GreaterEquals(left, right);
 
         AExpression left2 = new Identifier("question2");
-        AExpression right2 = Boolean.getTrue();
+        AExpression right2 = new String("Yes");
         Equals eq = new Equals(left2, right2);
 
         Question q = new Question(id, Type.DATE, null, text);

@@ -24,7 +24,7 @@ public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
     }
 
     @Override
-    public Void visitForm(final Form form) {
+    public Void visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
         return null;
     }
