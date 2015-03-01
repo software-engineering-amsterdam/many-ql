@@ -52,7 +52,7 @@ namespace Tests.AstBuilderTests
 
             Parser.AddParseListener(Listener);
             var formBlock = Parser.formBlock();
-            Assert.IsTrue(Listener.AstExists());
+            Assert.IsTrue(Listener.AstExists);
 
         }
         [TestMethod]
@@ -73,7 +73,7 @@ namespace Tests.AstBuilderTests
 
             Parser.AddParseListener(Listener);
             var formBlock = Parser.formBlock();
-            Assert.IsTrue(Listener.AstExists());
+            Assert.IsTrue(Listener.AstExists);
             AstHandler ast = Listener.GetAst();
             Assert.AreEqual(ast.TypeCheckerExceptions.Count,0);
             ast.CheckType();
@@ -99,7 +99,7 @@ namespace Tests.AstBuilderTests
 
             Parser.AddParseListener(Listener);
             var formBlock = Parser.formBlock();
-            Assert.IsTrue(Listener.AstExists());
+            Assert.IsTrue(Listener.AstExists);
             AstHandler ast = Listener.GetAst();
             ast.CheckType();
             Assert.AreEqual(ast.TypeCheckerExceptions.Count, 1);

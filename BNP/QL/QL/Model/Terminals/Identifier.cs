@@ -2,10 +2,27 @@
 
 namespace QL.Model.Terminals
 {
-    public class Identifier : BinaryTreeElementBase, ITerminal<string>
+    public class Identifier : BinaryTreeElementBase, ITerminal<string>, ITerminalType
     {
         public string Value { get; private set; }
-        public string PointerName;
+
+        public Identifier()
+        { }
+
+        public Identifier(string value)
+        {
+            Value = value;
+        }
+
+        public void SetValue(object value)
+        {
+            Value = value.ToString();
+        }
+
+        public ITerminalType ResolveValue()
+        {
+            throw new NotImplementedException();
+        }
 
         public override string ToString()
         {
@@ -15,16 +32,6 @@ namespace QL.Model.Terminals
             }
             
             return Value;
-        }
-
-        public Identifier(string value)
-        {
-            Value = value;
-        }
-
-        public Identifier()
-        {
-            // TODO: Complete member initialization
         }
     }
 }

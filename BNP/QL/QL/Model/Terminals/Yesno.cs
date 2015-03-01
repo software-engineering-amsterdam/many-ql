@@ -5,7 +5,21 @@ namespace QL.Model.Terminals
     public class Yesno : BinaryTreeElementBase, ITerminal<bool?>, ITerminalType
     {
         public bool? Value { get; set; }
-        
+
+        public Yesno()
+        { }
+
+        public void SetValue(object value)
+        {
+            bool parsedValue;
+            bool parseSuccess = bool.TryParse(value.ToString(), out parsedValue);
+            if (!parseSuccess)
+            {
+                parsedValue = value.ToString().ToLowerInvariant() == "yes" ? true : false;
+            }
+            Value = parsedValue;
+        }
+
         public override string ToString()
         {
             if (!Value.HasValue)

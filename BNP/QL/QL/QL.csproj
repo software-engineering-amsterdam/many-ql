@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Exceptions\QLException.cs" />
     <Compile Include="Exceptions\TypeException.cs" />
-    <Compile Include="Factories\TerminalTypeFactory.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>

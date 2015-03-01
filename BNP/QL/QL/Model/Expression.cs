@@ -52,6 +52,7 @@ namespace QL.Model
             op.HandleChildren(e1, e2);
             Children.Add(op);
         }
+
         public override Type GetReturnType()
         {
             if (Children.Count == 1) {

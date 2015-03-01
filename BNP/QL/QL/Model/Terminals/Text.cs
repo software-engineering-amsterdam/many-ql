@@ -6,6 +6,14 @@ namespace QL.Model.Terminals
     {
         public string Value { get; set; }
 
+        public Text()
+        { }
+
+        public void SetValue(object value)
+        {
+            Value = value.ToString();
+        }
+
         public override string ToString()
         {
             if (Value== null) {
