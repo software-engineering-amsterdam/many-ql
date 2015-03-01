@@ -123,8 +123,6 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         if (statements != null) {
             statements.forEach(statement -> statement.accept(this));
         }
-
-        System.out.println(blocksStack.size());
     }
 
     /**
