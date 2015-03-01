@@ -133,7 +133,7 @@ namespace QL.Grammars
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
-            Debug.Assert((children.Count() == 1), "A unit should syntactically not have any children.");
+            Debug.Assert((children.Count() == 1), "A statement should have only expression as a child.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             ITerminalType dataType = GetTypeInstance(context.type());

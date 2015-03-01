@@ -12,35 +12,6 @@ namespace QL.Model
     {
         public Expression() { }
 
-        /* useleess
-        public void HandleChildren(Expression e)
-        {
-            //in this case, the expresion does not make sense, it's like ((e))
-            Children = e.Children;
-        }
-        public void HandleChildren(Identifier value)
-        {
-            Children.Clear();
-            Children.Add(value);
-        }
-
-        public void HandleChildren(Yesno value)
-        {
-            Children.Clear();
-            Children.Add(value);
-        }
-        public void HandleChildren(Text value)
-        {
-            Children.Clear();
-            Children.Add(value);
-        }
-        public void HandleChildren(Number value)
-        {
-            Children.Clear();
-            Children.Add(value);
-        }
-         */
-
         public void HandleChildren(ElementBase e)
         {
             Children.Clear();
@@ -52,6 +23,8 @@ namespace QL.Model
             op.HandleChildren(e1, e2);
             Children.Add(op);
         }
+
+        
 
         public override Type GetReturnType()
         {
