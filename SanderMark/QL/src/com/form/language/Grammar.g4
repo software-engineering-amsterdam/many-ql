@@ -35,12 +35,12 @@ question returns [Question result]
 	;
 	
 assignmentStatement returns [Statement result]
-: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result);}
+: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result, $ID);}
 ;
 
 ifStatement returns [Statement result]
 : IF exp=expression 'then' slist=statementList
-  'end' {$result = new IfStatement($exp.result,$slist.result);}
+  'end' {$result = new IfStatement($exp.result,$slist.result, $IF);}
 ;
 
 expression returns [Expression result]
