@@ -1,19 +1,17 @@
 package org.uva.ql.view.widgit;
 
-import java.util.Observable;
 
-public class QLTextField extends QLBaseTextField implements QLWidget<String> {
+public class QLNumberTextField extends QLBaseTextField implements QLWidget<Integer> {
 
-	private static final long serialVersionUID = -4761288106171787127L;
+	private static final long serialVersionUID = -158503348332039721L;
 	private String identifier;
 
-	public QLTextField() {
+	public QLNumberTextField() {
 		super();
-
 	}
 
 	@Override
-	public String getValue() {
+	public Integer getValue() {
 		return getValue();
 	}
 
@@ -24,6 +22,6 @@ public class QLTextField extends QLBaseTextField implements QLWidget<String> {
 
 	@Override
 	public void update(Object object) {
+		
 	}
-
 }
