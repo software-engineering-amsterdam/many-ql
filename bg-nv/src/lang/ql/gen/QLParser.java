@@ -19,8 +19,8 @@ public class QLParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, QuestionType=20, Boolean=21, Identifier=22, Integer=23, 
-		Decimal=24, String=25, Comment=26, LineComment=27, WS=28;
+		T__17=18, T__18=19, QuestionType=20, Boolean=21, Integer=22, Decimal=23, 
+		String=24, Identifier=25, Comment=26, LineComment=27, WS=28;
 	public static final int
 		RULE_form = 0, RULE_statement = 1, RULE_question = 2, RULE_ifCondition = 3, 
 		RULE_expression = 4;
@@ -35,7 +35,7 @@ public class QLParser extends Parser {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, "QuestionType", "Boolean", 
-		"Identifier", "Integer", "Decimal", "String", "Comment", "LineComment", 
+		"Integer", "Decimal", "String", "Identifier", "Comment", "LineComment", 
 		"WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -234,7 +234,7 @@ public class QLParser extends Parser {
 			match(String);
 			setState(28);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << Boolean) | (1L << Identifier) | (1L << Integer) | (1L << Decimal) | (1L << String))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << Boolean) | (1L << Integer) | (1L << Decimal) | (1L << String) | (1L << Identifier))) != 0)) {
 				{
 				setState(27); 
 				expression(0);
@@ -583,16 +583,16 @@ public class QLParser extends Parser {
 		"\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6O\n\6\f\6\16\6R\13\6\3\6\2\3\n\7"+
 		"\2\4\6\b\n\2\7\3\2\t\13\3\2\f\r\3\2\t\n\3\2\16\23\3\2\24\25]\2\f\3\2\2"+
 		"\2\4\30\3\2\2\2\6\32\3\2\2\2\b\62\3\2\2\2\n@\3\2\2\2\f\r\7\3\2\2\r\16"+
-		"\7\30\2\2\16\20\7\4\2\2\17\21\5\4\3\2\20\17\3\2\2\2\21\22\3\2\2\2\22\20"+
+		"\7\33\2\2\16\20\7\4\2\2\17\21\5\4\3\2\20\17\3\2\2\2\21\22\3\2\2\2\22\20"+
 		"\3\2\2\2\22\23\3\2\2\2\23\24\3\2\2\2\24\25\7\5\2\2\25\3\3\2\2\2\26\31"+
 		"\5\6\4\2\27\31\5\b\5\2\30\26\3\2\2\2\30\27\3\2\2\2\31\5\3\2\2\2\32\33"+
-		"\7\26\2\2\33\34\7\30\2\2\34\36\7\33\2\2\35\37\5\n\6\2\36\35\3\2\2\2\36"+
+		"\7\26\2\2\33\34\7\33\2\2\34\36\7\32\2\2\35\37\5\n\6\2\36\35\3\2\2\2\36"+
 		"\37\3\2\2\2\37\7\3\2\2\2 !\7\6\2\2!\"\7\7\2\2\"#\5\n\6\2#$\7\b\2\2$&\7"+
 		"\4\2\2%\'\5\4\3\2&%\3\2\2\2\'(\3\2\2\2(&\3\2\2\2()\3\2\2\2)*\3\2\2\2*"+
 		"+\7\5\2\2+\63\3\2\2\2,-\7\6\2\2-.\7\7\2\2./\5\n\6\2/\60\7\b\2\2\60\61"+
 		"\5\4\3\2\61\63\3\2\2\2\62 \3\2\2\2\62,\3\2\2\2\63\t\3\2\2\2\64\65\b\6"+
 		"\1\2\65\66\t\2\2\2\66A\5\n\6\f\678\7\7\2\289\5\n\6\29:\7\b\2\2:A\3\2\2"+
-		"\2;A\7\27\2\2<A\7\32\2\2=A\7\33\2\2>A\7\30\2\2?A\7\31\2\2@\64\3\2\2\2"+
+		"\2;A\7\27\2\2<A\7\31\2\2=A\7\32\2\2>A\7\33\2\2?A\7\30\2\2@\64\3\2\2\2"+
 		"@\67\3\2\2\2@;\3\2\2\2@<\3\2\2\2@=\3\2\2\2@>\3\2\2\2@?\3\2\2\2AP\3\2\2"+
 		"\2BC\f\13\2\2CD\t\3\2\2DO\5\n\6\fEF\f\n\2\2FG\t\4\2\2GO\5\n\6\13HI\f\t"+
 		"\2\2IJ\t\5\2\2JO\5\n\6\nKL\f\b\2\2LM\t\6\2\2MO\5\n\6\tNB\3\2\2\2NE\3\2"+

@@ -26,8 +26,5 @@ public class IntLiteral extends Literal implements Expression {
 		return new IntType();
 	}
 	
-	@Override
-	public ErrorCollector getErrors(ErrorCollector errs) {
-		return errs;
-	}
+
 }

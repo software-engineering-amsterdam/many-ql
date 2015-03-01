@@ -8,14 +8,19 @@ import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Question;
+import nl.uva.softwcons.ast.type.BooleanType;
+import nl.uva.softwcons.ast.type.DateType;
+import nl.uva.softwcons.ast.type.DecimalType;
+import nl.uva.softwcons.ast.type.IntegerType;
+import nl.uva.softwcons.ast.type.StringType;
 import nl.uva.softwcons.ast.type.Type;
 
 import org.junit.Test;
 
 public class ASTBuilderVisitorTest {
 
-    private static final Type[] ALL_PARSEABLE_TYPES = { Type.BOOLEAN, Type.STRING, Type.DATE, Type.DECIMAL,
-            Type.INTEGER };
+    private static final Type[] ALL_PARSEABLE_TYPES = { BooleanType.instance, StringType.instance, DateType.instance,
+            DecimalType.instance, IntegerType.instance };
 
     @Test
     public void testSingleQuestionInForm() {
