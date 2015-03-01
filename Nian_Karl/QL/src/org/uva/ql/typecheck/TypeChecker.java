@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
+import org.uva.ql.ast.expression.binary.Binary;
 import org.uva.ql.ast.expression.binary.Divide;
 import org.uva.ql.ast.expression.binary.Equal;
 import org.uva.ql.ast.expression.binary.Greater;
@@ -24,6 +26,7 @@ import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.expression.unary.Negative;
 import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
+import org.uva.ql.ast.expression.unary.Unary;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
@@ -127,11 +130,8 @@ public class TypeChecker implements Visitor<Void> {
 
 	public void checkDeclaration(QuestionNormal question) {
 		if (isDeclared(question.getIdentifier())) {
-			System.out.println("Repeat");
 			Type thisType = question.getType();
 			Type expectType = getType(question.getIdentifier());
-			System.out.println(thisType.toString());
-			System.out.println(expectType.toString());
 			
 			if (thisType.isEqual(expectType) == false) {
 				Error error = new Error(Error.Type.DECLARATION,
@@ -139,14 +139,33 @@ public class TypeChecker implements Visitor<Void> {
 			                            question.getIdentifier().toString());
 				messageManager.addError(error);
 			}
-			
 		} else {
-			System.out.println("Add");
 			System.out.println(question.getIdentifier().toString());
 			addType(question.getIdentifier(), question.getType());
 		}
 	}
 	
+	public void checkCondition(Expression expr) {
+		if (!expr.getType(this).isEqual(new BoolType())) {
+			Error error = new Error(Error.Type.CONDITION, expr.getPosition().getStartLine(),expr.toString());
+			messageManager.addError(error);
+		}
+		
+		expr.accept(this);
+	}
+	
+	public void checkUnaryCondition(Unary unary) {
+		checkCondition(unary.getExpression());
+	}
+	
+	public void checkBinaryCondition(Binary binary) {
+		checkCondition(binary.getLeftExpression());
+		checkCondition(binary.getRightExpression());
+	}
+	
+	public void checkOperand() {
+		
+	}
 	
 	
 // Visits
@@ -216,6 +235,7 @@ public class TypeChecker implements Visitor<Void> {
 	
 	@Override
 	public Void visit(Not node) {
+		checkUnaryCondition(node);
 		return null;
 	}
 
@@ -252,21 +272,25 @@ public class TypeChecker implements Visitor<Void> {
 
 	@Override
 	public Void visit(And node) {
+		checkBinaryCondition(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Or node) {
+		checkBinaryCondition(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(Equal node) {
+		checkBinaryCondition(node);
 		return null;
 	}
 
 	@Override
 	public Void visit(NotEqual node) {
+		checkBinaryCondition(node);
 		return null;
 	}
 

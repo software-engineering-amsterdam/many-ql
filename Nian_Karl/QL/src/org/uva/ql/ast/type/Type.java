@@ -1,19 +1,8 @@
 package org.uva.ql.ast.type;
 
 import org.uva.ql.ast.Node;
-import org.uva.ql.ast.builder.CodePosition;
 
-public abstract class Type implements Node {
-	
-	private final CodePosition position;
-	
-	public CodePosition getPosition() {
-		return position;
-	}
-	
-	public Type(CodePosition pos) {
-		this.position = pos;
-	}
+public abstract class Type implements Node{
 	
 	public boolean isInt(){
 		return false;

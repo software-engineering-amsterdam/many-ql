@@ -2,6 +2,8 @@ package org.uva.ql.ast.expression.association;
 
 import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.typecheck.TypeChecker;
 import org.uva.ql.visitor.Visitor;
 
 public class Parenthese extends Expression{
@@ -26,4 +28,10 @@ public class Parenthese extends Expression{
 	public String toString() {
 		return " ( " + expr.toString() + " ) ";
 	}
+
+	@Override
+	public Type getType(TypeChecker typeChecker) {
+		return expr.getType(typeChecker);
+	}
+
 }
