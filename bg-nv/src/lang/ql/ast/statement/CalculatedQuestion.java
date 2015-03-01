@@ -8,17 +8,17 @@ import lang.ql.ast.type.Type;
  */
 public class CalculatedQuestion extends Question
 {
-    private Expr defaultValue;
+    private Expr calculation;
 
     public CalculatedQuestion(String id, Type type, String text, int lineNumber, Expr expr)
     {
         super(id, type, text, lineNumber);
-        this.defaultValue = expr;
+        this.calculation = expr;
     }
 
-    public Expr getDefaultValue()
+    public Expr getCalculation()
     {
-        return this.defaultValue;
+        return this.calculation;
     }
 
     public <T> T accept(StatVisitor<T> visitor)

@@ -1,115 +1,43 @@
-from .Observable import Observable
+import decimal
 
+class QuestionModel(object):
+    def __init__(self, identifier, evaluator):
+        self._identifier = identifier
+        self._evaluator = evaluator
 
-class ObservableQuestionProperty(Observable):
-    def __init__(self, question, value = None):
-        super().__init__(value)
-        self._question = question
-
-    @property
-    def question(self):
-        return self._question
-
-
-class Question:
-    def __init__(self, text, visible = True, answer = None):
-        self._text = text
-        self._visible = ObservableQuestionProperty(self, visible)
-        self._answer = ObservableQuestionProperty(self, answer)
+    def _getEvaluatorQuestion(self):
+        return self._evaluator.getQuestion(self._identifier)
 
     @property
     def text(self):
-        return self._text
-
-    @property:
-    def answer(self):
-        return self._answer.value
-
-    @answer.setter:
-    def answer(self, newAnswer):
-        self._answer.value = newAnswer
-
-    def observeAnswerWith(self, callback):
-        self._answer.registerObserver(callback)
+        evaluatorQuestion = self._getEvaluatorQuestion()
+        if evaluatorQuestion:
+            return evaluatorQuestion.text
 
     @property
-    def visible(self):
-        return self._visible.value
-
-    @visible.setter:
-    def visible(self, newVisibility):
-        self._visible.value = newVisibility
-
-    def observeVisibilityWith(self, callback):
-        self._visible.registerObserver(callback)
-
-
-class ComputedQuestion(Question):
-    pass
-
-class ComputedBooleanQuestion(ComputedQuestion):
-    pass
-
-class ComputedIntegerQuestion(ComputedQuestion):
-    pass
-
-class ComputedMoneyQuestion(ComputedQuestion):
-    pass
-
-class ComputedStringQuestion(ComputedQuestion):
-    pass
-
-
-class InputQuestion(Question):
-    pass
-
-class InputBooleanQuestion(InputQuestion):
-    pass
-
-class InputIntegerQuestion(InputQuestion):
-    pass
-
-class InputMoneyQuestion(InputQuestion):
-    pass
-
-class InputStringQuestion(InputQuestion):
-    pass
-
-
-class Form:
-    def __init__(self, questions):
-        self._questions = questions
+    def type(self):
+        evaluatorQuestion = self._getEvaluatorQuestion()
+        if evaluatorQuestion:
+            return evaluatorQuestion.type
 
     @property
-    def questions(self):
-        return self._questions
+    def isConstant(self):
+        evaluatorQuestion = self._getEvaluatorQuestion()
+        return evaluatorQuestion and evaluatorQuestion.constant    
 
+    @property
+    def isVisible(self):
+        return self._evaluator.getQuestion(self._identifier) != None
 
-class FormVisitor(GenericVisitor):
-    def _visitForm(self, form):
-        for q in self.questions:
-            self.visit(q)
+    @property
+    def value(self):
+        return self._evaluator.getValue(self._identifier)
 
-    def _visitComputedBooleanQuestion(self, question):
-        pass
+    def updateValue(self, value):
+        try:
+            value = self.type(value)
+        except (ValueError, decimal.InvalidOperation): 
+            return False
 
-    def _visitComputedIntegerQuestion(self, question):
-        pass
-
-    def _visitComputedMoneyQuestion(self, question):
-        pass
-
-    def _visitComputedStringQuestion(self, question):
-        pass
-
-    def _visitInputBooleanQuestion(self, question):
-        pass
-
-    def _visitInputIntegerQuestion(self, question):
-        pass
-
-    def _visitInputMoneyQuestion(self, question):
-        pass
-
-    def _visitInputStringQuestion(self, question):
-        pass
+        self._evaluator.addValue(self._identifier, value)
+        return True

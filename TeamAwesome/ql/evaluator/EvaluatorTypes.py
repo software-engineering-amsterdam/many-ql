@@ -1,5 +1,6 @@
 from ..CustomTypes import Money as CustomMoney
 from ..CustomTypes import Identifier as CustomIdentifier
+from ..TypeRules import nativeQuestionType
 
 class BinaryExpression(object):
 	def __init__(self, leftExpression, op, rightExpression, evaluator):
@@ -36,12 +37,14 @@ class Form(object):
 
 class Question(object):
 	def __init__(self, questionStatementNode, conditionalExpressionsTuple, form, valueExpression = None):
-		self.identifier = questionStatementNode.identifier	
+		self.identifier = questionStatementNode.identifier
 		self.valueExpression = valueExpression
 		self.text = questionStatementNode.text
-		self.type = questionStatementNode.type
+		self.type = nativeQuestionType(questionStatementNode.type)
 
 		self.conditionalExpressions = conditionalExpressionsTuple
+		self.constant = self.valueExpression != None
+
 		self.form = form
 
 	def __str__(self):

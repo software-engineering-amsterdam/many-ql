@@ -3,12 +3,9 @@ package com.form.language.ast.expression.literal;
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.IdType;
 import com.form.language.ast.type.Type;
-import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.error.ErrorCollector;
 import com.form.language.memory.Memory;
 
 public class IdLiteral extends Literal implements Expression {
@@ -34,6 +31,7 @@ public class IdLiteral extends Literal implements Expression {
 	}
 
 	@Override
+	// TODO create real return value
 	public GenericValue<?> evaluate() {
 		return null;
 	}
@@ -53,8 +51,4 @@ public class IdLiteral extends Literal implements Expression {
 		return null;
 	}
 	
-	@Override
-	public ErrorCollector getErrors(ErrorCollector errs) {
-		return errs;
-	}
 }

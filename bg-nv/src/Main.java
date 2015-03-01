@@ -25,7 +25,7 @@ import lang.ql.gen.*;
 public class Main extends Application
 {
     private static Form ast;
-    private static ValueTable values;
+//    private static ValueTable values;
 
     public static void main(String[] args)
     {
@@ -44,14 +44,6 @@ public class Main extends Application
 
             TypeChecker.check(ast);
 
-            ValueTable table = Evaluator.evaluate(ast);
-            Evaluator.reevaluate(ast, table);
-
-            //Interpreter.interpret(ast);
-            //values = v.getVariableValues();
-
-            System.out.println(values);
-
             IntType i = new IntType();
             DecType d = new DecType();
 
@@ -69,8 +61,6 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        Modeler modeler = new Modeler();
-        // TODO: To cast, or not to cast...
-        SimpleGui.run((Canvas) modeler.visit(this.ast), primaryStage);
+        SimpleGui.run(ast, primaryStage);
     }
 }

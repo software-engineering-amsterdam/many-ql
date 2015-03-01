@@ -4,7 +4,7 @@ import org.uva.ql.ast.Node;
 import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.statement.Block;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class Form implements Node{
 	

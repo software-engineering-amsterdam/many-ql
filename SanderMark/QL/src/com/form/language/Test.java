@@ -17,25 +17,26 @@ import org.junit.runner.notification.Failure;
 public class Test {
 	public static void main(String[] args) {
 		
-//		CharStream charStream = 
-//				new ANTLRInputStream("true && true == (2 == 2)");
-//		GrammarLexer lexer = new GrammarLexer(charStream);
-//		TokenStream tokenStream = new CommonTokenStream(lexer);
-//		GrammarParser parser = new GrammarParser(tokenStream);
-//		Expression evaluator = parser.expression().result;
-//		System.out.println((evaluator.getType()));
-//		ErrorCollector errors = evaluator.getErrors(new ErrorCollector());
-//		errors.print();
-////		Result result = JUnitCore.runClasses(AstTest.class);
-////	    for (Failure failure : result.getFailures()) {
-////	      System.out.println(failure.toString());
-////	    }
-		
-		CharStream charStream = new ANTLRInputStream("question" + "\"Did you sell a house in 2010?\"" + "hasSoldHouse Boolean");
+		CharStream charStream = 
+				new ANTLRInputStream("true + true == (2 == 2)");
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
-		Question question = parser.question().result;
+		Expression evaluator = parser.expression().result;
+		System.out.println((evaluator.getType()));
+		ErrorCollector errors = new ErrorCollector();
+		evaluator.getErrors(errors);
+		errors.print();
+//		Result result = JUnitCore.runClasses(AstTest.class);
+//	    for (Failure failure : result.getFailures()) {
+//	      System.out.println(failure.toString());
+//	    }
+		
+//		CharStream charStream = new ANTLRInputStream("question" + "\"Did you sell a house in 2010?\"" + "hasSoldHouse Boolean");
+//		GrammarLexer lexer = new GrammarLexer(charStream);
+//		TokenStream tokenStream = new CommonTokenStream(lexer);
+//		GrammarParser parser = new GrammarParser(tokenStream);
+//		Question question = parser.question().result;
 /*		System.out.println((evaluator.getType()));
 		System.out.println((evaluator.evaluate()));*/
 		

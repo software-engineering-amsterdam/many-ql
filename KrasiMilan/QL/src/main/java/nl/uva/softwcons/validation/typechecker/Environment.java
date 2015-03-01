@@ -5,6 +5,7 @@ import java.util.Map;
 
 import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.type.Type;
+import nl.uva.softwcons.ast.type.UndefinedType;
 
 public class Environment {
 
@@ -22,7 +23,7 @@ public class Environment {
      * @return the type of the given variable
      */
     public Type resolveVariable(final Identifier variableName) {
-        return this.identifiers.getOrDefault(variableName, Type.UNDEFINED);
+        return this.identifiers.getOrDefault(variableName, UndefinedType.instance);
     }
 
     public void defineVariable(final Identifier variableName, final Type variableType) {

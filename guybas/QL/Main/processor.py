@@ -11,14 +11,8 @@ class Processor:
         answers_dict['__builtins__'] = None
         try:
             result = eval(expression, answers_dict)
-            print(result)
-            print("Evaluate to true")
             return result
-        except NameError:
-            print("Variable not initialized yet")
-            return False
         except:
-            print("Unknown error")
             return False
 
     @staticmethod
@@ -29,3 +23,8 @@ class Processor:
                 continue
             vars.append(str(e))
         return vars
+
+    @staticmethod
+    def export_answers(answers_map, qGui):
+        print("done")
+        qGui.close()

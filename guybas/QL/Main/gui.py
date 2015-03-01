@@ -22,6 +22,7 @@ class QuestionnaireGUI:
         self.qGui.title(self.title)
         Label(text=self.intro, height=2).grid(row=self.row_counter, column=0, sticky=W)
         self.draw_statements(self.statements)
+        Button(text="Submit", width=10, command=lambda: Processor.export_answers(self.answersMap, self)).grid(row=999, column=0)
 
     def draw_statements(self, statements):
         for statement in statements:
@@ -111,3 +112,6 @@ class QuestionnaireGUI:
 
     def show(self):
         self.qGui.mainloop()
+
+    def close(self):
+        self.qGui.destroy()

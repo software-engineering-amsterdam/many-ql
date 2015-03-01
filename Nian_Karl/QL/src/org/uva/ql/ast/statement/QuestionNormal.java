@@ -4,7 +4,7 @@ import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class QuestionNormal extends Statement {
 	private final Identifier identifier;
@@ -39,5 +39,10 @@ public class QuestionNormal extends Statement {
 	public String toString() {
 		return "[Question] " + "\n\tIdentifier = " + identifier.toString() + "\n\tLabel = " + label.toString()
 				+ "\n\tType = " + type.toString();
+	}
+	
+	@Override
+	public String getText() {
+		return label.getValue();
 	}
 }

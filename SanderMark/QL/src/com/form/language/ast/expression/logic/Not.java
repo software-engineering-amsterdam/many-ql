@@ -29,21 +29,20 @@ public class Not extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public ErrorCollector getErrors(ErrorCollector errors) {
+	public void getErrors(ErrorCollector errors) {
 		Type childType = value.getType();
+		value.getErrors(errors);
 		
-		ErrorCollector newErrors = value.getErrors(errors);
-
 		if(childType.isBoolType()) {
-			return newErrors;
+			return;
 		}
 		else{
 			if(!childType.isErrorType()){
 				Error newError = new Error(tokenInfo, "Expected !Boolean, but found !"  + childType);
-				newErrors.add(newError);
-				return newErrors;
+				errors.add(newError);
+				return;
 			}
-			return newErrors;
+			return;
 		}
 	}
 }
