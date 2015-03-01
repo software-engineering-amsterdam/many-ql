@@ -30,7 +30,7 @@ public class Error extends Message {
 		String content;
 		switch (type) {
 		case REFERENCE:
-			content = "Reference to undefined question <" + literal + 	">.";
+			content = "Question <" + literal + 	"> is undefined.";
 			break;
 		
 		case DECLARATION:
