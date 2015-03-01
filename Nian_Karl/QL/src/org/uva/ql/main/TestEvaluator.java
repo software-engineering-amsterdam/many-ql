@@ -24,6 +24,8 @@ import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.value.Bool;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.typecheck.message.Error;
+import org.uva.ql.typecheck.message.Warning;
 
 public class TestEvaluator {
 
@@ -60,6 +62,12 @@ public class TestEvaluator {
 		e.putValue(id1, b1);
 		e.putValue(id2, b2);
 		System.out.println("Bool Evaluation" + e.evaluate(new Equal(id1, id2, new CodePosition(0,0))));
+		
+		
+		Error a = new Error(Error.Type.CYCLIC, 37, "hasMoney", "isMarried");
+		Warning b = new Warning(Warning.Type.DUPLICATE, 74, "hasMoney");
+		System.out.println(a);
+		System.out.println(b);
 		
 //		System.out.println("Test Evaluator ID1 + ID2 = " + e.evaluate(new Plus(id1, id2)));
 //		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2)));
