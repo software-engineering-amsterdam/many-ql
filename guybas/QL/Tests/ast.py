@@ -6,7 +6,28 @@ from Factory.expressions import *
 from Factory.forms import *
 
 
+class GenerateStatements:
+    @staticmethod
+    def generate_statements():
+            q1 = Question("1a", "bool", "Is this a _statements?")
+            q2 = Question("2a", "text", "What?")
+            q3 = Question("3a", "number", "Why!")
+            q4 = Question("4a", "bool", "when")
+            q5 = Question("5a", "text", "who.")
+            q6 = Question("6a", "number", "where?")
+
+            is_op = Operator("==")
+            plus_op = Operator("+")
+
+            i1 = IfBlock(SimpleExpression([Variable("1a"), is_op, Bool(True)]), [q2, q3], "")
+            i2 = IfElseBlock(SimpleExpression([Variable("2a"),  plus_op, Variable("6a")]), [q4], [q5], "")
+
+            f = Form("example", "Introduction", [q1, i1, q6, i2])
+            return f
+
+
 class TestFactories(unittest.TestCase):
+
     def test_variable(self):
         variable = ExpressionFactory.make_variable("hello")
         self.assertIsInstance(variable, Variable)
@@ -58,22 +79,6 @@ class TestFactories(unittest.TestCase):
 
 
 class TestAST(unittest.TestCase):
-    def generate_statements(self):
-        q1 = Question("1a", "bool", "Is this a _statements?")
-        q2 = Question("2a", "text", "What?")
-        q3 = Question("3a", "number", "Why!")
-        q4 = Question("4a", "bool", "when")
-        q5 = Question("5a", "text", "who.")
-        q6 = Question("6a", "number", "where?")
-
-        is_op = Operator("==")
-        plus_op = Operator("+")
-
-        i1 = IfBlock(SimpleExpression([Variable("1a"), is_op, Bool(True)]), [q2, q3], "")
-        i2 = IfElseBlock(SimpleExpression([Variable("2a"),  plus_op, Variable("6a")]), [q4], [q5], "")
-
-        f = Form("example", "Introduction", [q1, i1, q6, i2])
-        return f
 
     def test_question(self):
         result = (FormFormat.question.parseString("Question why (text) : What do you like about hummus?")).asList()
@@ -113,7 +118,7 @@ class TestAST(unittest.TestCase):
         self.assertIsInstance(result[0], IfElseBlock)
 
     def test_form(self):
-        form = self.generate_statements()
+        form = GenerateStatements.generate_statements()
 
         # The form has 6 questions, and therefore 6 labels
         self.assertEqual(len(form.get_labels()), 6)
@@ -125,7 +130,7 @@ class TestAST(unittest.TestCase):
         self.assertEqual(len(form.get_expressions()), 2)
 
     def test_dependencies(self):
-        form = self.generate_statements()
+        form = GenerateStatements.generate_statements()
 
         # The transitive dependencies of statements
         self.assertEqual(form.get_dependencies(),
@@ -137,7 +142,7 @@ class TestAST(unittest.TestCase):
                           "6a": set()})
 
     def test_type_dictionary(self):
-        form = self.generate_statements()
+        form = GenerateStatements.generate_statements()
 
         self.assertEqual(form.get_type_dict(),
             {"1a": "bool",
