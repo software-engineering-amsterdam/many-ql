@@ -42,28 +42,28 @@ import org.uva.ql.visitor.Visitor;
 
 public class TypeChecker implements Visitor<Void> {
 
-	private final Map<Identifier, Type> types;
+	private final Map<String, Type> types;
 	private final ArrayList<String> labels;
 	private final MessageManager messageManager;
 	
 	public TypeChecker() {
-		types = new HashMap<Identifier, Type>();
+		types = new HashMap<String, Type>();
 		labels = new ArrayList<String>();
 		messageManager = new MessageManager();
 	}
 
 // Type list	
 	public void addType(Identifier identifier, Type type) {
-		types.put(identifier, type);
+		types.put(identifier.toString(), type);
 	}
 	
 	public boolean isDeclared(Identifier identifier) {
-		return types.containsKey(identifier);
+		return types.containsKey(identifier.toString());
 	}
 	
 	public Type getType(Identifier identifier) {
 		if (isDeclared(identifier)) {
-			return types.get(identifier);
+			return types.get(identifier.toString());
 		} else {
 			System.out.println("Identifier <" + identifier + "> does not exist.");
 			return null;
@@ -125,6 +125,27 @@ public class TypeChecker implements Visitor<Void> {
 		}
 	}
 
+	public void checkDeclaration(QuestionNormal question) {
+		if (isDeclared(question.getIdentifier())) {
+			System.out.println("Repeat");
+			Type thisType = question.getType();
+			Type expectType = getType(question.getIdentifier());
+			System.out.println(thisType.toString());
+			System.out.println(expectType.toString());
+			
+			if (thisType.isEqual(expectType) == false) {
+				Error error = new Error(Error.Type.DECLARATION,
+			                            question.getIdentifier().getPosition().getStartLine(),
+			                            question.getIdentifier().toString());
+				messageManager.addError(error);
+			}
+			
+		} else {
+			System.out.println("Add");
+			System.out.println(question.getIdentifier().toString());
+			addType(question.getIdentifier(), question.getType());
+		}
+	}
 	
 	
 	
@@ -157,7 +178,7 @@ public class TypeChecker implements Visitor<Void> {
 	@Override
 	public Void visit(QuestionNormal question) {
 		System.out.println("Question Normal");
-		addType(question.getIdentifier(), question.getType());
+		checkDeclaration(question);
 		checkLabel(question);
 		return null;
 	}
@@ -165,7 +186,7 @@ public class TypeChecker implements Visitor<Void> {
 	@Override
 	public Void visit(QuestionCompute question) {
 		System.out.println("Question Compute");
-		addType(question.getIdentifier(), question.getType());
+		checkDeclaration(question);
 		checkLabel(question);
 		return null;
 	}
@@ -181,6 +202,7 @@ public class TypeChecker implements Visitor<Void> {
 	@Override
 	public Void visit(IfElseStatement ifElseStatement) {
 		System.out.println("If Else Statement");
+		ifElseStatement.getExpr().accept(this);
 		ifElseStatement.getIfBlock().accept(this);
 		ifElseStatement.getElseBLock().accept(this);
 		return null;
