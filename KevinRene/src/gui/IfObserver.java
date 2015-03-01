@@ -31,7 +31,6 @@ public class IfObserver implements Observer {
 				
 			if (value instanceof BooleanValue) {
 				boolean visible = ((BooleanValue)value).getValue();
-				System.out.println(visible);
 				this.component.setVisible(visible);
 			}
 		}

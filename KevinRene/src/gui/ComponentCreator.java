@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
 import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.expression.type.QLInteger;
@@ -29,12 +30,10 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	
 	public static JPanel check(ASTNode tree, ValueEnvironment valueEnv) {
 		
-		JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		JPanel container = new JPanel(new MigLayout());
 		ComponentCreator creator = new ComponentCreator(container, valueEnv);
 		
 		tree.accept(creator);
-		
 		
 		return creator.pane;
 	}
@@ -48,7 +47,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
     	
     	TextComponent comp = new TextComponent(compQuestionNode.getIdentifier(), 
     			controller, false);
-    	pane.add(comp.getComponent());
+    	pane.add(comp.getComponent(), "wrap");
     	
     	ComputedQuestionObserver observer = 
     			new ComputedQuestionObserver(compQuestionNode, controller, comp);
@@ -78,12 +77,12 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		if (questionNode.getType() instanceof QLString) {
 			TextComponent comp = new TextComponent(questionNode.getIdentifier(), controller);
 			controller.putComponent(questionNode.getIdentifier(), comp);
-	    	pane.add(comp.getComponent());
+	    	pane.add(comp.getComponent(), "wrap");
 		}
 		else if (questionNode.getType() instanceof QLInteger) {
 			IntegerComponent comp = new IntegerComponent(questionNode.getIdentifier(), controller);
 			controller.putComponent(questionNode.getIdentifier(), comp);
-	    	pane.add(comp.getComponent());
+	    	pane.add(comp.getComponent(), "wrap");
 		}
     	
 		return null;
@@ -91,9 +90,8 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	
 	private void addLabel(String text, Container pane) {
 		JLabel label = new JLabel(text);
-//    	label.setHorizontalAlignment(0);
     	label.setFont(new Font("Serif", Font.BOLD, 20));
-    	pane.add(label);
+    	pane.add(label, "wrap");
 	}
 
 }
