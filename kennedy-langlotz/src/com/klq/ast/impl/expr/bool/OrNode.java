@@ -9,8 +9,8 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
  */
 public class OrNode extends ABinaryExprNode {
 
-    public OrNode(ANode leftChild, ANode rightChild) {
-        super(leftChild, rightChild);
+    public OrNode(ANode leftChild, ANode rightChild, String location) {
+        super(leftChild, rightChild, location);
     }
 
     @Override

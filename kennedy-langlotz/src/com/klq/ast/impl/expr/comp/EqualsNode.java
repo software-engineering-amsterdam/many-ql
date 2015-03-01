@@ -9,8 +9,8 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
  */
 public class EqualsNode extends ABinaryExprNode {
 
-    public EqualsNode(ANode leftChild, ANode rightChild) {
-        super(leftChild, rightChild);
+    public EqualsNode(ANode leftChild, ANode rightChild, String location) {
+        super(leftChild, rightChild, location);
     }
 
     @Override

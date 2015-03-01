@@ -9,8 +9,8 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
  */
 public class LessEqualsNode extends ABinaryExprNode {
 
-    public LessEqualsNode(ANode leftChild, ANode rightChild) {
-        super(leftChild, rightChild);
+    public LessEqualsNode(ANode leftChild, ANode rightChild, String location) {
+        super(leftChild, rightChild, location);
     }
 
     @Override
