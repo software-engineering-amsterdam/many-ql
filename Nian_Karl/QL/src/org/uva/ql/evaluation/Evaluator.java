@@ -1,4 +1,4 @@
-package org.uva.ql.ast.visitor;
+package org.uva.ql.evaluation;
 
 import java.util.HashMap;
 import java.util.Map;

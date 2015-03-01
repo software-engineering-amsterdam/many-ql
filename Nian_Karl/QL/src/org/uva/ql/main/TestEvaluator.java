@@ -22,8 +22,8 @@ import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.value.Bool;
-import org.uva.ql.ast.visitor.Evaluator;
-import org.uva.ql.ast.visitor.TypeChecker;
+import org.uva.ql.evaluation.Evaluator;
+import org.uva.ql.typecheck.TypeChecker;
 
 public class TestEvaluator {
 

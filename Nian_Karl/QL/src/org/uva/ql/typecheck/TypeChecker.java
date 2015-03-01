@@ -1,4 +1,4 @@
-package org.uva.ql.ast.visitor;
+package org.uva.ql.typecheck;
 
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
