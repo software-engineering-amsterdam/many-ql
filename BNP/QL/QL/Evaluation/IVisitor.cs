@@ -11,24 +11,26 @@ namespace QL.Evaluation
 {
     public interface IVisitor
     {
-         void visit(Form node);
+        IList<QLException> Exceptions { get; }
 
-         void visit(Block node);
-         void visit(ControlUnit node);
-         void visit(StatementUnit node);
-         void visit(QuestionUnit node);
-         void visit(Expression node);
-         void visit(EqualsOperator node);
-         void visit(NotEqualsOperator node);
-         void visit(PlusOperator node);
-          void visit(Number node);
+        void Visit(Form node);
 
-          void visit(Yesno node);
-         void visit(Identifier node);
+        void Visit(Block node);
+        void Visit(ControlUnit node);
+        void Visit(StatementUnit node);
+        void Visit(QuestionUnit node);
+        void Visit(Expression node);
+        void Visit(EqualsOperator node);
+        void Visit(NotEqualsOperator node);
+        void Visit(PlusOperator node);
+        void Visit(Number node);
 
-          void visit(Text node);
+        void Visit(Yesno node);
+        void Visit(Identifier node);
 
+        void Visit(Text node);
 
-         void visit(ElementBase elementBase);
+        // Fallback visitor
+        void Visit(ElementBase elementBase);
     }
 }

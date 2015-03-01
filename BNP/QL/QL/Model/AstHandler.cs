@@ -1,40 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QL.Model;
+using QL.Evaluation;
 using QL.Exceptions;
 
-namespace QL
+namespace QL.Model
 {
     public class AstHandler
     {
-        public ElementBase RootNode {  get; private set; }
-         public IList<TypeException> TypeCheckerExceptions {   get; private set; }
-         public IList<QLException> EvaluationExceptions {  get; private set; }
+        public ElementBase RootNode { get; private set; }
+        public IList<QLException> TypeCheckerExceptions { get; private set; }
+        public IList<QLException> EvaluationExceptions { get; private set; }
 
-         public AstHandler(ElementBase root)
-         {
-             RootNode = root;
-             TypeCheckerExceptions= new List<TypeException>();
-             EvaluationExceptions= new List<QLException>();
-         }
+        public AstHandler(ElementBase root)
+        {
+            RootNode = root;
+            TypeCheckerExceptions = new List<QLException>();
+            EvaluationExceptions = new List<QLException>();
+        }
+        
+        public bool CheckType()
+        {
+            var typeChecker = new TypeCheckerVisitor();
+            RootNode.Accept(typeChecker);
 
-         
-         public bool CheckType()
-         {
-             bool ok = RootNode.CheckType();//implement visit here
-             if (!ok) {
-             TypeCheckerExceptions = RootNode.CollectTypeExceptions();
-             }
+            TypeCheckerExceptions = typeChecker.Exceptions;
+            return typeChecker.Exceptions.Any();
+        }
 
-             return ok;
-         }
-         public bool Evaluate()
-         {
-             RootNode.Evaluate();//implement visit here
-             return EvaluationExceptions.Any();
-         }
+        public bool Evaluate()
+        {
+            EvaluatorVisitor evaluator = new EvaluatorVisitor();
+            RootNode.Accept(evaluator);
+
+            EvaluationExceptions = evaluator.Exceptions;
+            return evaluator.Exceptions.Any();
+        }
     }
 }

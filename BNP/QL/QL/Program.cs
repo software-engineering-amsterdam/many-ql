@@ -44,7 +44,8 @@ namespace QL
                 var result = parser.formBlock();
                 AstHandler ast = listener.GetAst();
                 ast.CheckType();
-                if (ast.TypeCheckerExceptions.Count()>0)
+                
+                if (ast.TypeCheckerExceptions.Any())
                 {
                     //do something
                     foreach (QLException e in ast.TypeCheckerExceptions)
@@ -53,10 +54,19 @@ namespace QL
                     }
                     continue;
                 }
-                EvaluatorVisitor eVisitor= new EvaluatorVisitor();
-                eVisitor.Enter(ast.RootNode);
 
+                ast.Evaluate();
 
+                if (ast.EvaluationExceptions.Any())
+                {
+                    //do something
+                    foreach (QLException e in ast.TypeCheckerExceptions)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                    continue;
+                }
+                
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();
                 Console.Clear();

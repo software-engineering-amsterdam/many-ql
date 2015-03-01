@@ -16,7 +16,7 @@ namespace QL.Grammars
 {
     public class QLListener : QLBaseListener
     {
-        #region Common 
+        #region Common
         private readonly Stack<Stack<ElementBase>> _childrenStack;
         private ElementBase _astRootNode;
 
@@ -68,6 +68,7 @@ namespace QL.Grammars
         }
 
         #endregion
+
         # region  Overridden listener methods
         public override void EnterFormBlock(QLParser.FormBlockContext context)
         {
@@ -225,15 +226,19 @@ namespace QL.Grammars
         public override void ExitExpression(QLParser.ExpressionContext context)
         {
             IList<ElementBase> children = GetChildren();
-            Expression expression = new Expression();
-            expression.SourceLocation = SourceLocation.CreateFor(context);
-
+            
             if (children.Count() == 1)
             {
-                expression.HandleChildren(children[0]);
+                children[0].SourceLocation = SourceLocation.CreateFor(context); // not sure if this is the correct location
+                AppendToAST(children[0]);
+                return;
             }
-            else if (children.Count() == 2 && context.children.Count() == 5)
+            
+            if (children.Count() == 2 && context.children.Count() == 5)
             {
+                Expression expression = new Expression();
+                expression.SourceLocation = SourceLocation.CreateFor(context);
+
                 QLParser.OperatorContext operatorContext = context.children[2] as QLParser.OperatorContext;
                 ElementBase leftOperand = children[0];
                 ElementBase rightOperand = children[1];
@@ -256,9 +261,9 @@ namespace QL.Grammars
 
                     expression.HandleChildren(operatorElement);
                 }
+
+                AppendToAST(expression);
             }
-            
-            AppendToAST(expression);
         }
 
         public void TryCreateOperator<T>(QLParser.OperatorContext context, ITerminalNode node, ElementBase leftOperand, ElementBase rightOperand, ref BinaryTreeElementBase operatorElement)

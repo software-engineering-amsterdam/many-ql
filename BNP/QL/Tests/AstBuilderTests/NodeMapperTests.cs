@@ -102,7 +102,7 @@ namespace Tests.AstBuilderTests
             Assert.IsTrue(Listener.AstExists);
             AstHandler ast = Listener.GetAst();
             ast.CheckType();
-            Assert.AreEqual(ast.TypeCheckerExceptions.Count, 1);
+            Assert.AreEqual(1, ast.TypeCheckerExceptions.Count);
         }
     }
 }

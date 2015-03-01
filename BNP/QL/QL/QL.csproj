@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Evaluation\EvaluatorVisitor.cs" />
     <Compile Include="Evaluation\IVisitor.cs" />
+    <Compile Include="Evaluation\TypeCheckerVisitor.cs" />
     <Compile Include="Exceptions\QLException.cs" />
     <Compile Include="Exceptions\TypeException.cs" />
     <Compile Include="Grammars\QL.parser.cs">

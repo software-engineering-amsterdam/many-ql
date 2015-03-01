@@ -32,12 +32,13 @@ namespace Tests.VisitorTests
             var formBlock = Parser.formBlock();
 
             IList<UnitBase> parsedUnits = new List<UnitBase>();
-            
+
             QLVisitor visitor = new QLVisitor(Parser, parsedUnits);
 
             var x = visitor.VisitFormBlock(formBlock);
             x.ToString();
         }
+
         [TestMethod]
         public void EvaluationBasicTest()
         {
@@ -55,11 +56,12 @@ namespace Tests.VisitorTests
             QLListener Listener = new QLListener();
 
             Parser.AddParseListener(Listener);
-            var formBlock = Parser.formBlock();
+            Parser.formBlock();
+
             Assert.IsTrue(Listener.AstExists);
+
             AstHandler ast = Listener.GetAst();
-            EvaluatorVisitor ev = new EvaluatorVisitor();
-            ev.Enter(ast.RootNode);
+            ast.Evaluate();
         }
     }
 }

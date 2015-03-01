@@ -32,14 +32,19 @@ namespace QL.Model
         public virtual Type GetReturnType(){
             return GetType();
         }
+
         protected virtual bool _CheckType(){return true;}//make abstract when implemented
-        public bool CheckType() {
-            GetType();
+
+        public bool CheckType()
+        {
             bool ok = _CheckType();
-            foreach (ElementBase child in Children){
-                ok&=child.CheckType();
+
+            foreach (ElementBase child in Children)
+            {
+                ok &= child.CheckType();
             }
-            return ok; 
+
+            return ok;
         }
 
         public List<TypeException> CollectTypeExceptions()
@@ -51,10 +56,13 @@ namespace QL.Model
             }
             return retval;
         }
+
         public virtual bool Evaluate() { return false; }
+        
         public virtual void Accept(IVisitor visitor)
         {
-            visitor.visit((dynamic) this); //dynamic!! BECAUSE It's cloning to implement this for everything as the same
+            visitor.Visit((dynamic) this); //dynamic!! BECAUSE It's cloning to implement this for everything as the same
+            
             foreach(ElementBase child in Children){
                 child.Accept(visitor);
             }

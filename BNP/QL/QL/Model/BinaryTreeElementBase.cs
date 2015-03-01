@@ -11,41 +11,46 @@ namespace QL.Model
     {
         public ElementBase Left
         {
-            get { if (Children.Count() == 0)
-                    { return null; }
-                else { return Children[0]; }
-                }
-            set {
-                if (Children.Count() == 0) { Children.Add(value); }
-                else Children[0] = value; 
+            get { return Children.Any() ? Children[0] : null; }
+            set
+            {
+                if (Children.Any()) Children[0] = value;
+                else Children.Add(value);
             }
         }
 
         public ElementBase Right
         {
-            get { if (Children.Count() <2)
-                    { return null; }
-                else { return Children[1]; }
+            get { return Children.Count() < 2 ? null : Children[1]; }
+            set
+            {
+                switch (Children.Count())
+                {
+                    case 1:
+                        Children.Add(value);
+                        break;
+                    case 0:
+                        throw new Exception("initialize Left first");
+                        break;
+                    default:
+                        Children[1] = value;
+                        break;
                 }
-            set {
-                if (Children.Count() == 1) { Children.Add(value); }
-                else if (Children.Count() == 0) { throw new Exception("initialize Left first"); }
-                else {Children[1] = value;} 
             }
         }
-           
+
 
         public override ElementType ElementType
         {
             get { return Left == null || Right == null ? ElementType.Leaf : ElementType.Node; }
         }
 
-        protected BinaryTreeElementBase() : base()
+        protected BinaryTreeElementBase()
         {
             Children = new List<ElementBase>(2);
 
         }
-        public void HandleChildren(ElementBase left, ElementBase right) 
+        public void HandleChildren(ElementBase left, ElementBase right)
         {
             Left = left;
             Right = right;

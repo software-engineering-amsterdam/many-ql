@@ -21,7 +21,7 @@ namespace QL.Model.Operators
             else
             {
                 TypeExceptions.Add(
-                    new TypeException(String.Format("Types not comparable: {0} and {1} on position {2}", Left.GetReturnType().ToString(), Right.GetReturnType().ToString(), SourceLocation)
+                    new TypeException(String.Format("Types not comparable: {0} and {1} on position {2}", Left.GetReturnType().ToString(), Right.GetReturnType().ToString(), SourceLocation), this
                         )
                         );
                 return false;

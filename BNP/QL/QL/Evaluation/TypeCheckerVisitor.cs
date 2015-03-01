@@ -3,79 +3,106 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QL.Exceptions;
+using QL.Model;
+using QL.Model.Operators;
+using QL.Model.Terminals;
 
 namespace QL.Evaluation
 {
     class TypeCheckerVisitor: IVisitor
     {
-        public void visit(Model.Form node)
+        public IList<QLException> Exceptions { get; private set; }
+
+        public TypeCheckerVisitor()
         {
-            throw new NotImplementedException();
+            Exceptions = new List<QLException>();
         }
 
-        public void visit(Model.Block node)
+        public void Visit(Form node)
         {
-            throw new NotImplementedException();
+            return; // nothing to check
         }
 
-        public void visit(Model.ControlUnit node)
+        public void Visit(Block node)
         {
-            throw new NotImplementedException();
+            return; // nothing to check
         }
 
-        public void visit(Model.StatementUnit node)
+        public void Visit(ControlUnit node)
         {
-            throw new NotImplementedException();
+            return; // nothing to check
         }
 
-        public void visit(Model.QuestionUnit node)
+        public void Visit(StatementUnit node)
         {
-            throw new NotImplementedException();
+            return; // todo check if referenced variable exists
         }
 
-        public void visit(Model.Expression node)
+        public void Visit(QuestionUnit node)
         {
-            throw new NotImplementedException();
+            return; // nothing to check
         }
 
-        public void visit(Model.Operators.EqualsOperator node)
+        public void Visit(Expression node)
         {
-            throw new NotImplementedException();
+            return; // checking is done on children
         }
 
-        public void visit(Model.Operators.NotEqualsOperator node)
+        public void Visit(EqualsOperator node)
         {
-            throw new NotImplementedException();
+            if (node.Left is Text && node.Right is Text) return;
+            if (node.Left is Number && node.Right is Number) return;
+            if (node.Left is Yesno && node.Right is Yesno) return;
+
+            Exceptions.Add(new TypeException("Incompatible operands on equality operation", node));
         }
 
-        public void visit(Model.Operators.PlusOperator node)
+        public void Visit(NotEqualsOperator node)
         {
-            throw new NotImplementedException();
+            if (node.Left is Text && node.Right is Text) return;
+            if (node.Left is Number && node.Right is Number) return;
+            if (node.Left is Yesno && node.Right is Yesno) return;
+
+            Exceptions.Add(new TypeException("Incompatible operands on inequality operation", node));
         }
 
-        public void visit(Model.Terminals.Number node)
+        public void Visit(PlusOperator node)
         {
-            throw new NotImplementedException();
+            if (node.Left is Number && node.Right is Number) return;
+
+            Exceptions.Add(new TypeException("Non-number operands on addition operator", node));
         }
 
-        public void visit(Model.Terminals.Yesno node)
+        public void Visit(Number node)
         {
-            throw new NotImplementedException();
+            if (node.Value.HasValue) return;
+
+            Exceptions.Add(new TypeException("Number could not be interpreted correctly", node));
         }
 
-        public void visit(Model.Terminals.Identifier node)
+        public void Visit(Yesno node)
         {
-            throw new NotImplementedException();
+            if (node.Value.HasValue) return;
+
+            Exceptions.Add(new TypeException("Yes/no value could not be interpreted correctly", node));
         }
 
-        public void visit(Model.Terminals.Text node)
+        public void Visit(Identifier node)
         {
-            throw new NotImplementedException();
+            return; // nothing to check
         }
 
-        public void visit(Model.ElementBase elementBase)
+        public void Visit(Text node)
         {
-            throw new NotImplementedException();
+            if (node.Value != null) return;
+
+            Exceptions.Add(new TypeException("String value could not be parsed and resulted in null", node));
+        }
+
+        public void Visit(ElementBase elementBase)
+        {
+            Exceptions.Add(new QLException(string.Format("Type checker was called for {0} but is not implemented", elementBase.GetType().Name)));
         }
     }
 }
