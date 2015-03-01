@@ -15,18 +15,25 @@ public class Less_Eq extends BinaryExpressions{
 	}
 	
 	@Override
-	public String toString(){
-		return this.getLeftExpr() + Operator.LESS_EQ.getName() + this.getLeftExpr();
-	}
-	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitLessEqual(this);
 	}
+	
 	@Override
 	public BooleanValue evaluate() {
 		if (!NumberValue.isNumberValue(this.getLeftExpr()) || !NumberValue.isNumberValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: <= operator requires both operands NumberValue");
 		
 		return NumberValue.numberValueFromExpr(this.getLeftExpr()).lessEqual(NumberValue.numberValueFromExpr(this.getRightExpr()));
+	}
+
+	@Override
+	public String evaluateType() {
+		return Less_Eq.class.getName();
+	}
+	
+	@Override
+	public String toString(){
+		return this.getLeftExpr() + Operator.LESS_EQ.getName() + this.getLeftExpr();
 	}
 }

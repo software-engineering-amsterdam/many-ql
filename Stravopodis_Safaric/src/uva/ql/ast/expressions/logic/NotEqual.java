@@ -13,19 +13,27 @@ public class NotEqual extends BinaryExpressions{
 		super(_left, _right, Operator.NOT_EQUAL, _codeLines);
 		// TODO Auto-generated constructor stub
 	}
-	@Override
-	public String toString(){
-		return this.getLeftExpr() + Operator.NOT_EQUAL.getName() + this.getRightExpr();
-	}
+	
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitNotEqual(this);
 	}
+	
 	@Override
 	public BooleanValue evaluate() {
 		if (!this.getLeftExpr().evaluate().getValue().getClass().equals(this.getRightExpr().evaluate().getValue().getClass()))
 			throw new IllegalArgumentException("IllegalArgumentException: Both operands of != must be of same time");
 		
 		return new BooleanValue(this.getLeftExpr().evaluate().getValue() != this.getRightExpr().evaluate().getValue());
+	}
+	
+	@Override
+	public String evaluateType() {
+		return NotEqual.class.getName();
+	}
+	
+	@Override
+	public String toString(){
+		return this.getLeftExpr() + Operator.NOT_EQUAL.getName() + this.getRightExpr();
 	}
 }

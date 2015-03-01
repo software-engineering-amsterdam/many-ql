@@ -18,23 +18,33 @@ public class Type extends Expression{
 		}
 		this.name = _name;
 	}
+	
 	public String getTypeName(){
 		if (this.name.equals("Float")) return "decimal";
 		return this.name;
 	}
+	
 	public PrimitiveType getPrimitiveType(){
 		return this.type;
 	}
-	@Override
-	public String toString(){
-		return "PrimitiveType(" + this.name + ")";
-	}
+	
 	@Override
 	public GenericValue<?> evaluate() {
 		return null;
 	}
+	
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitType(this);
+	}
+	
+	@Override
+	public String evaluateType() {
+		return Type.class.getName();
+	}
+	
+	@Override
+	public String toString(){
+		return "PrimitiveType(" + this.name + ")";
 	}
 }

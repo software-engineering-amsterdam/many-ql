@@ -14,7 +14,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
     /// </summary>
     public class VariableUsageCheckingVisitor : ASTVisitor
     {
-        public class IdentifierUsageCount
+        protected class IdentifierUsageCount
         {
             public Identifier Identifier
             {
@@ -39,19 +39,27 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
             }
         }
 
-        public IDictionary<string, IdentifierUsageCount> DeclaredVariables
-        {
-            get;
-            set;
-        }
-
-        public IList<Identifier> UndeclaredVariables
+        protected IDictionary<string, IdentifierUsageCount> DeclaredVariables
         {
             get;
             private set;
         }
 
-        public IList<Identifier> RedeclaredVariables
+        public ICollection<Identifier> UnusedVariables
+        {
+            get
+            {
+                return DeclaredVariables.Where(dv => dv.Value.UsageCount == 0).Select(dv => dv.Value.Identifier).ToList();
+            }
+        }
+
+        public ICollection<Identifier> UndeclaredVariables
+        {
+            get;
+            private set;
+        }
+
+        public ICollection<Identifier> RedeclaredVariables
         {
             get;
             private set;
@@ -120,7 +128,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         public override void Visit(Identifier identifier)
         {
-            if (DeclaredVariables.Keys.Contains(identifier.Name))
+            if (DeclaredVariables.ContainsKey(identifier.Name))
             {
                 DeclaredVariables[identifier.Name].Increase();
             }

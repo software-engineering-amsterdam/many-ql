@@ -21,16 +21,20 @@ public enum Operator{
 	private Operator(String _name){
 		this.name = _name;
 	}
+	
 	private Operator(String _name, String _alternativeName){
 		this.name = _name;
 		this.alternativeName = _alternativeName;
 	}
+	
 	public String getName(){
 		return this.name;
 	}
+	
 	public String getAlternativeName(){
 		return this.alternativeName;
 	}
+	
 	public static Operator findOperator(String operator){
 		for(Operator o : Operator.values())
 			if (o.getName().equals(operator))

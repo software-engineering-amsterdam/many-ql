@@ -15,18 +15,25 @@ public class Or extends BinaryExpressions{
 	}
 	
 	@Override
-	public String toString(){
-		return this.getLeftExpr() + Operator.OR.getName() + this.getRightExpr();
-	}
-	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitOr(this);
 	}
+	
 	@Override
 	public GenericValue<?> evaluate() {
 		if (!BooleanValue.isBooleanValue(this.getLeftExpr()) || !BooleanValue.isBooleanValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: || operator requires both operands BooleanValue");
 		
 		return BooleanValue.booleanValueFromExpr(this.getLeftExpr()).or(BooleanValue.booleanValueFromExpr(this.getRightExpr()));
+	}
+
+	@Override
+	public String evaluateType() {
+		return Or.class.getName();
+	}
+	
+	@Override
+	public String toString(){
+		return this.getLeftExpr() + Operator.OR.getName() + this.getRightExpr();
 	}
 }

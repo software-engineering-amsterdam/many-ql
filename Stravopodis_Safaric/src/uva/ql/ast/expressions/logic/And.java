@@ -14,18 +14,25 @@ public class And extends BinaryExpressions{
 	}
 	
 	@Override
-	public String toString(){
-		return this.getLeftExpr() + Operator.AND.getName() + this.getRightExpr();
-	}
-	@Override
 	public BooleanValue evaluate() {
 		if (!BooleanValue.isBooleanValue(this.getLeftExpr()) || !BooleanValue.isBooleanValue(this.getRightExpr()))
 			throw new IllegalArgumentException("Ilegal argument: && operator requires both operands BooleanValue");
 		
 		return BooleanValue.booleanValueFromExpr(this.getLeftExpr()).and(BooleanValue.booleanValueFromExpr(this.getRightExpr()));
 	}
+	
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitAnd(this);
+	}
+
+	@Override
+	public String evaluateType() {
+		return And.class.getName();
+	}
+	
+	@Override
+	public String toString(){
+		return this.getLeftExpr() + Operator.AND.getName() + this.getRightExpr();
 	}
 }
