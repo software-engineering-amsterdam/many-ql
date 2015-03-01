@@ -36,4 +36,21 @@ class TypeCheckerTest extends Specification {
         def exception = thrown(TypeCheckException.class)
         Assert.assertEquals(true, exception.message.contains(identifier))
     }
+
+    def "should not throw exception when stylesheet question is contained in form questions"() {
+        setup:
+        List<Question> formQuestions = new ArrayList<>()
+
+        def identifier = "identifier"
+        formQuestions.add(new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+
+        typeChecker.stylesheetQuestions.add(new edu.parser.QLS.nodes.statement.Question(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
+
+        when:
+        typeChecker.confirmQuestionsExistInForm(formQuestions)
+
+        then:
+        noExceptionThrown()
+    }
+
 }
