@@ -1,8 +1,8 @@
 package org.uva.ql.view;
 
-import java.awt.Component;
+import javax.swing.JComponent;
 
-public abstract class ComponentView extends Component{
+public abstract class ComponentView extends JComponent{
 
 	private static final long serialVersionUID = 1L;
 
