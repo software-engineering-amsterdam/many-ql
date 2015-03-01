@@ -27,6 +27,7 @@ import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
+import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
@@ -45,10 +46,10 @@ public class Evaluator implements Visitor<Value> {
 	private final Map<Identifier, Value> values;
 	
 	public Evaluator() {
-		this.values = new HashMap<Identifier, Value>();
+		values = new HashMap<Identifier, Value>();
 	}
 	
-	public void putValue(Identifier identifier, Value value) {
+	public void addValue(Identifier identifier, Value value) {
 		values.put(identifier, value);
 	}
 	
@@ -60,6 +61,7 @@ public class Evaluator implements Visitor<Value> {
 		if (values.containsKey(identifier)) {
 			return values.get(identifier);
 		} else {
+			System.out.println("Identifier <" + identifier + "> does not exist.");
 			return new Undefined();
 		}
 	}
@@ -199,7 +201,7 @@ public class Evaluator implements Visitor<Value> {
 	}
 
 	@Override
-	public Value visit(QuestionNormal questionStatement) {
+	public Value visit(QuestionNormal questionNormalStatement) {
 		return null;
 	}
 
@@ -235,6 +237,12 @@ public class Evaluator implements Visitor<Value> {
 
 	@Override
 	public Value visit(QuestionCompute questionComputeStatement) {
+		return null;
+	}
+
+	@Override
+	public Value visit(IfElseStatement ifElseStatement) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

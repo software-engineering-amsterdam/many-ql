@@ -8,7 +8,7 @@ form TaxForm {
     answer number is (1 / 1)
 
     question C "How many houses did you sell in 2016?"
-    answer boolean
+    answer boolean is (true)
 
     if C {
        

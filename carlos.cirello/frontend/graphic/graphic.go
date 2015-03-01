@@ -5,7 +5,7 @@ package graphic
 import (
 	"sync"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 	"gopkg.in/qml.v1"
 )
@@ -29,8 +29,9 @@ type render struct {
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
-	renderEvent chan render
-	appName     string
+	renderEvent    chan render
+	appName        string
+	widgetDefaults map[string]string
 
 	mu          sync.Mutex
 	drawStack   []render
@@ -42,9 +43,10 @@ type Gui struct {
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string) frontend.Inputer {
+func GUI(appName string, widgetDefaults map[string]string) frontend.Inputer {
 	driver := &Gui{
-		appName: appName,
+		appName:        appName,
+		widgetDefaults: widgetDefaults,
 
 		renderEvent: make(chan render),
 		answerStack: make(map[string]string),
@@ -169,7 +171,8 @@ func (g *Gui) renderLoop() {
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				g.updateQuestion(event.identifier, event.fieldType, event.content)
+				// todo(carlos): restore this
+				// g.updateQuestion(event.identifier, event.fieldType, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()

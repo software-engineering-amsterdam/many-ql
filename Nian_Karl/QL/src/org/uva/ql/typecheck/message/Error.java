@@ -3,7 +3,7 @@ package org.uva.ql.typecheck.message;
 public class Error extends Message {
 
 	public enum Type {
-		UNDEFINED,        // reference to undefined questions
+		REFERENCE,        // reference to undefined questions
 		DECLARATION,      // duplicate question declarations with different types
 		CONDITION,        // conditions that are not of the type boolean
 		OPERAND,          // operands of invalid type to operators
@@ -29,7 +29,7 @@ public class Error extends Message {
 		
 		String content;
 		switch (type) {
-		case UNDEFINED:
+		case REFERENCE:
 			content = "Reference to undefined question <" + literal + 	">.";
 			break;
 		

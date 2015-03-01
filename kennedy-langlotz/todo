@@ -1,6 +1,4 @@
-- Add Boolean, Set
 - Type checking
-- Unique ID nodes in AST
 
 The type checker detects:
     operands of invalid type to operators (Ask how)

@@ -55,9 +55,21 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
         return null;
     }
 
+    //TODO refactor and test this crappy code
     @Override
     public AError visit(ComputedQuestionNode node) {
-        return node.getChild().accept(this);
+        //return node.getChild().accept(this);
+        for(ANode child : node.getChildren()){
+            AError childError = child.accept(this);
+
+            if(childError != null){ //if there is an error in a child return that.
+                return child.accept(this);
+            }
+            else if(node.getChildren().get(node.getChildren().size() - 1) == child){ //if we have reached the last child and it has no errors, return no errors found
+                return null;
+            }
+        }
+        return null;
     }
 
     //TODO refactor and test this crappy code

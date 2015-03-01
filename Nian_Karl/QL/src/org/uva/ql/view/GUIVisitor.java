@@ -27,6 +27,7 @@ import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
+import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
@@ -208,5 +209,11 @@ public class GUIVisitor implements Visitor<Object> {
 	@Override
 	public QLWidget<String> visit(StrType node) {
 		return new QLTextField();
+	}
+
+	@Override
+	public Object visit(IfElseStatement ifElseStatement) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

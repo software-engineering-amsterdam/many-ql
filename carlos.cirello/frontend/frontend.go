@@ -10,20 +10,18 @@ import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/i
 // in order to be compliant with the VM expectations of
 // functionality.
 type Inputer interface {
-	DrawQuestion(
-		identifier,
-		label,
-		typ string,
-		visible event.Visibility,
-	)
-	UpdateQuestion(
-		identifier string,
-		fieldType string,
-		value interface{},
-	)
+	DrawQuestion(identifier, label, typ string, visible event.Visibility)
+	UpdateQuestion(identifier string, fieldType string, value interface{})
 	Loop()
 	Flush()
 	FetchAnswers() map[string]string
+}
+
+type frontend struct {
+	receive chan *event.Frontend
+	send    chan *event.Frontend
+
+	driver Inputer
 }
 
 // New instantiates a frontend goroutine, looping all the
@@ -37,13 +35,6 @@ func New(fromVM, toVM chan *event.Frontend, driver Inputer) {
 	}
 
 	go f.loop()
-}
-
-type frontend struct {
-	receive chan *event.Frontend
-	send    chan *event.Frontend
-
-	driver Inputer
 }
 
 func (f *frontend) loop() {
