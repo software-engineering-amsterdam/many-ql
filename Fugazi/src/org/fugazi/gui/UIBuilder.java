@@ -13,10 +13,7 @@ import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.ui_elements.*;
 import org.fugazi.gui.visitor.UITypeVisitor;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashMap;
+import java.util.*;
 
 public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
@@ -54,10 +51,12 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
     private void addIfStatement(IfStatement _ifStatement) {
 
+        // add an ifstatements array for the block.
         if (!ifStatements.containsKey(currentBlock.getName())) {
             ifStatements.put(currentBlock.getName(), new ArrayList<IfStatement>());
         }
 
+        // add the if statement in the block.
         if (!ifStatements.get(currentBlock.getName()).contains(_ifStatement)) {
             ifStatements.get(currentBlock.getName()).add(_ifStatement);
         }
@@ -91,6 +90,18 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         currentBlock = blocksStack.getLast();
     }
 
+    private boolean isBlockExists(String _blockName) {
+        Iterator<Block> iter = blocksStack.iterator();
+
+        while (iter.hasNext()) {
+            Block block = iter.next();
+            if (block.getName().equals(_blockName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void removeBlockFromForm() {
         currentBlock.getBody().values().forEach(quest -> this.removeQuestionFromTheForm(quest));
         currentBlock.clearBlock();
@@ -119,10 +130,9 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         computedQuestions.forEach(quest -> this.evaluateComputedExpression(quest));
 
         // re-visit the conditions of the previous block.
-        ArrayList<IfStatement> statements = ifStatements.get(blocksStack.getLast().getName());
-        if (statements != null) {
-            statements.forEach(statement -> statement.accept(this));
-        }
+        ArrayList<IfStatement> statements = ifStatements.get(astForm.getName());
+        statements.forEach(statement -> statement.accept(this));
+        currentBlock = blocksStack.getFirst();
     }
 
     /**
@@ -162,14 +172,16 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         boolean isConditionTrue = this.evaluateIfStatement(_ifStatement);
 
         if (isConditionTrue) {
-            if (!currentBlock.getName().equals(_ifStatement.getCondition().toString())) {
+            if (!isBlockExists(_ifStatement.getCondition().toString())) {
                 IfStatementBlock ifBlock = new IfStatementBlock(_ifStatement.getCondition().toString());
                 this.addBlock(ifBlock);
             }
             _ifStatement.getBody().forEach(statement -> statement.accept(this));
         } else {
-            if (currentBlock.getName().equals(_ifStatement.getCondition().toString()))
+            // we are on current block
+            if (currentBlock.getName().equals(_ifStatement.getCondition().toString())) {
                 this.removeBlockFromForm();
+            }
         }
 
         return null;
