@@ -1,0 +1,3 @@
+stylesheet TheForm {
+	default bool radio
+}

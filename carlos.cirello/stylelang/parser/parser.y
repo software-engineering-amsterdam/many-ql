@@ -44,7 +44,7 @@ stack:
 	{
 		d := $2.defaultNode
 		qs := $$.stack
-		action := ast.NewActionNode(d, $2.position)
+		action := ast.NewActionNode(d)
 		qs = append(qs, action)
 		$$.stack = qs
 	}
@@ -53,6 +53,6 @@ stack:
 defaultNode:
 	DefaultToken TextToken TextToken
 	{
-		$$.defaultNode = ast.NewDefaultNode($1.content, $2.content)
+		$$.defaultNode = ast.NewDefaultNode($2.content, $3.content)
 	}
 	;

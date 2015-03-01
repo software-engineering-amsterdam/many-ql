@@ -40,9 +40,11 @@ func (v *Visitor) Visit(node interface{}) {
 }
 
 func (v *Visitor) styleNode(node *ast.StyleNode) {
-	actions := node.Stack()
-	for _, action := range actions {
-		v.Visit(action)
+	if node != nil {
+		actions := node.Stack()
+		for _, action := range actions {
+			v.Visit(action)
+		}
 	}
 }
 
