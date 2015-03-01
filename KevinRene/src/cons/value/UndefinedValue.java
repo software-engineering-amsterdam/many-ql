@@ -5,6 +5,7 @@ import cons.Value;
 @SuppressWarnings("rawtypes")
 public class UndefinedValue extends Value {
 
+	@SuppressWarnings("unchecked")
 	public UndefinedValue() {
 		super(null);
 	}
