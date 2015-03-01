@@ -99,7 +99,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		else if (type instanceof QLBoolean) {
 			return new BooleanComponent(identifier, controller, enabled);
 		}
-		return null;
+		return null; 
 	}
 	private Component createComponent(QLType type, Identifier identifier, Controller controller) {
 		return createComponent(type, identifier, controller, true);
