@@ -20,4 +20,6 @@ public abstract class Statement implements AbstractNode<Visitor> {
     public List<Style> getStyles() {
         return styles;
     }
+
+
 }
