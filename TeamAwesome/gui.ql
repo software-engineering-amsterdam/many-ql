@@ -1,32 +1,30 @@
 form taxOfficeExample { 
   question hasSoldHouse {
     "Did you sell a house in 2010?"
-    money
+    boolean
   }
 
-  if 5 > 3 {
-    if 3 == -hasSoldHouse {
-      question hasBoughtHouse {
-        "Did you buy a house1"
-        boolean = "no"
-      }
+  if hasSoldHouse {
+    question hasBoughtHouse {
+      "Did you buy a house1"
+      boolean = false
     }
   }
 
   question hasBoughtHouse {
     "Did you buy a house2"
-    boolean = "no"
+    boolean
   }
   
 
   question noValueQuestion1 {
      "noValueQuestion1"
-     integer
+     integer = 3
   }
 
   question noValueQuestion2 {
      "noValueQuestion2"
-     boolean
+     string
   }
 }
 

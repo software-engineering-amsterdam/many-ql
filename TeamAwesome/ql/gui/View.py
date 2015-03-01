@@ -14,12 +14,11 @@ class View(tk.Frame):
             widget.destroy()
 
     def render(self, questionModel, callback):
-        labelWidget = LabelWidget(self, questionModel.text)
+        labelWidget = Label(self, questionModel.text)
         labelWidget.grid()
 
         widget = typeStyleTable()[questionModel.type](self, questionModel, callback)
         widget.grid()
 
     def showWarning(self, text):
-        print("hi")
         messagebox.showwarning("Warning", text)

@@ -29,7 +29,7 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser
     def visitQuestion_statement(self, ctx):
         identifier = self.visit(ctx.name)
-        text = ctx.text.getText()
+        text = ctx.text.getText()[1:-1]
         question_type = ctx.qtype.getText()
         
         expr = self.visit(ctx.expression) if ctx.expression != None else None
