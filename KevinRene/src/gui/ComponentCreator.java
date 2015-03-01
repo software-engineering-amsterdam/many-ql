@@ -60,7 +60,6 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	
 	@Override
 	public Void visit(If ifNode) {
-//		ifNode.getExpression().accept(this);
 
 		JPanel container = check(ifNode.getBlock(), controller.getValueEnvironment());
 		IfObserver ifObserver = new IfObserver(ifNode, controller, container);
@@ -68,11 +67,6 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		controller.addGlobalObserver(ifObserver);
 		
 		pane.add(container);
-		
-		// TODO, request value environment
-//		if (true) {
-//			ifNode.getBlock().accept(this);
-//		}
 		
 		return null;
 	}
@@ -97,7 +91,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	
 	private void addLabel(String text, Container pane) {
 		JLabel label = new JLabel(text);
-    	label.setHorizontalAlignment(0);
+//    	label.setHorizontalAlignment(0);
     	label.setFont(new Font("Serif", Font.BOLD, 20));
     	pane.add(label);
 	}

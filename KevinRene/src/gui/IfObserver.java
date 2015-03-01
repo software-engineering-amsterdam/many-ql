@@ -28,9 +28,7 @@ public class IfObserver implements Observer {
 		try {
 			// Recalculate the value for this computedQuestion
 			Value value = expression.getExpression().accept(new Evaluator(controller.getValueEnvironment()));	
-	
-			System.out.println("If expression set to: " + expression.getExpression() + ": " + value);
-			
+				
 			if (value instanceof BooleanValue) {
 				boolean visible = ((BooleanValue)value).getValue();
 				System.out.println(visible);
