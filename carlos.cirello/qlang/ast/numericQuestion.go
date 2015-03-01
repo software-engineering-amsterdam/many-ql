@@ -11,6 +11,7 @@ type NumericQuestion struct {
 // and frontend
 const NumericQuestionType = "numeric"
 
+// Type returns the string which represents the numeric question types
 func (s NumericQuestion) Type() string {
 	return NumericQuestionType
 }

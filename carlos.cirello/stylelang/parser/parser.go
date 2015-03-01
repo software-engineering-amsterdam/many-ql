@@ -349,14 +349,14 @@ qlsdefault:
 		{
 			d := qlsS[qlspt-0].defaultNode
 			qs := qlsVAL.stack
-			action := ast.NewActionNode(d, qlsS[qlspt-0].position)
+			action := ast.NewActionNode(d)
 			qs = append(qs, action)
 			qlsVAL.stack = qs
 		}
 	case 4:
 		//line parser.y:55
 		{
-			qlsVAL.defaultNode = ast.NewDefaultNode(qlsS[qlspt-2].content, qlsS[qlspt-1].content)
+			qlsVAL.defaultNode = ast.NewDefaultNode(qlsS[qlspt-1].content, qlsS[qlspt-0].content)
 		}
 	}
 	goto qlsstack /* stack new state and value */

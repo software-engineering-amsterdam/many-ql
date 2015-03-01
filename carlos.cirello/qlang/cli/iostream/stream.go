@@ -8,12 +8,13 @@ import (
 
 // New instantiates streams according to parameters input. As Unix convention,
 // "-" always means stdin/stdout.
-func New(srcFn, inFn, outFn string) (srcReader, inReader io.Reader,
+func New(srcFn, inFn, outFn string) (srcReader, styleReader, inReader io.Reader,
 	outWriter io.Writer) {
 	srcReader = setupSrcReader(srcFn)
+	styleReader = setupStyleReader(srcFn)
 	inReader = setupInReader(inFn)
 	outWriter = setupOutReader(outFn)
-	return srcReader, inReader, outWriter
+	return srcReader, styleReader, inReader, outWriter
 }
 
 func setupSrcReader(srcFn string) (srcReader io.Reader) {
@@ -22,6 +23,18 @@ func setupSrcReader(srcFn string) (srcReader io.Reader) {
 		srcReader = openFile(srcFn)
 	}
 	return srcReader
+}
+
+func setupStyleReader(srcFn string) (styleReader io.Reader) {
+	styleReader = nil
+	if "-" != srcFn {
+		styleFn := srcFn + "s"
+		if _, err := os.Stat(styleFn); !os.IsNotExist(err) {
+			styleReader, _ = os.Open(styleFn)
+		}
+
+	}
+	return styleReader
 }
 
 func setupInReader(inFn string) (inReader io.Reader) {
