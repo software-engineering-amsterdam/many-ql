@@ -2,15 +2,13 @@ package test.klq.logic.controller;
 
 import com.klq.logic.controller.NoSuchQuestionException;
 import com.klq.logic.controller.Store;
-import com.klq.logic.expression.AExpression;
-import com.klq.logic.expression.terminal.*;
-import com.klq.logic.expression.terminal.Boolean;
 import com.klq.logic.expression.terminal.Number;
 import com.klq.logic.expression.terminal.String;
 import com.klq.logic.question.Question;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Timon on 24.02.2015.
