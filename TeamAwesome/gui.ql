@@ -16,15 +16,19 @@ form taxOfficeExample {
     boolean
   }
   
-
-  question noValueQuestion1 {
-     "noValueQuestion1"
+  question intValueQuestion {
+     "intValueQuestion"
      integer = 3
   }
 
-  question noValueQuestion2 {
-     "noValueQuestion2"
+  question noValueQuestion {
+     "noValueQuestion"
      string
+  }
+
+  question stringValueQuestion {
+     "StringValueQuestion"
+     string = ("bla")
   }
 }
 
