@@ -2,8 +2,6 @@ package ast
 
 type StyleNode struct {
 	label string
-
-	// todo(carlos) remove interface{}
 	stack []*ActionNode
 }
 
