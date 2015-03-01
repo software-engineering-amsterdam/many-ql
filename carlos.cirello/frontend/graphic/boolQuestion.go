@@ -79,6 +79,14 @@ func (g *Gui) renderCheckbox(fieldName, caption string,
 		}
 	})
 
+	g.updateCallbacks[fieldName] = func(content string) {
+		if content == "Yes" {
+			newFieldPtr.Set("checked", true)
+		} else {
+			newFieldPtr.Set("checked", false)
+		}
+	}
+
 	return question
 }
 
@@ -95,6 +103,7 @@ GroupBox {
 	RowLayout {
 		anchors.fill: parent
 		Label {
+			objectName: "{{ .ObjectName }}"
 			text: "{{ .QuestionName }}"
 		}
 		ExclusiveGroup { id: {{ .ObjectName }}Group }
@@ -141,6 +150,13 @@ func (g *Gui) renderRadio(fieldName, caption string,
 		g.answerStack[fieldName] = "0"
 	})
 
+	g.updateCallbacks[fieldName] = func(content string) {
+		if content == "Yes" {
+			newFieldPtrYes.Set("checked", true)
+		} else {
+			newFieldPtrNo.Set("checked", true)
+		}
+	}
 	return question
 }
 
@@ -189,6 +205,14 @@ func (g *Gui) renderSwitch(fieldName, caption string,
 			g.answerStack[objectName] = "1"
 		}
 	})
+
+	g.updateCallbacks[fieldName] = func(content string) {
+		if content == "Yes" {
+			newFieldPtr.Set("checked", true)
+		} else {
+			newFieldPtr.Set("checked", false)
+		}
+	}
 
 	return question
 }
