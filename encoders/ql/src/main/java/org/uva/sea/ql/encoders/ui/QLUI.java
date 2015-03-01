@@ -80,7 +80,7 @@ public class QLUI extends Application {
 		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 		
 		for (TypeError typeError : typeErrors) {
-			typeCheckerMessages.appendText(typeError.getName() + ": " + typeError.getTypeErrorText());
+			typeCheckerMessages.appendText(typeError.getName() + ": " + typeError.getTypeErrorText() + " (line: " + typeError.getLine() + ", character: " + typeError.getCharacter() + ")");
 			typeCheckerMessages.appendText("\n");
 		}
 	}

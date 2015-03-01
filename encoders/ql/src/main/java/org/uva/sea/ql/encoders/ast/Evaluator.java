@@ -14,12 +14,22 @@ public class Evaluator {
 			//TODO: rewrite to proper test, add test classes (e.g. AddSubTest, BiggerThenTest)
 			expressionParseable = true;
 		} catch (Exception e) {
-			typeErrorLogger.addTypeError(new TypeError("What a stupid error: ", e.getMessage()));
+			typeErrorLogger.addTypeError(new TypeError ( "What a stupid error"
+					                                   , e.getMessage()
+			                                           , 1
+			                                           , 2
+		                                               )
+				                        );
 			expressionParseable = false;
 		}
 		
 		//TO BE REMOVED: dummy error due to lack of proper test
-		typeErrorLogger.addTypeError(new TypeError("Stupid Error", "Mixed up Boolean with Integer in line 9. Idiot."));
+		typeErrorLogger.addTypeError( new TypeError ( "Dumb error"
+									                , "Adding an integer to a boolean. Idiot.."
+									                , 8
+									                , 1
+									                )
+                                    );
 		
 		return expressionParseable;
 	}

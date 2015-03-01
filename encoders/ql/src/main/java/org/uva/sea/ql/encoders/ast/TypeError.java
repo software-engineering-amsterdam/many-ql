@@ -6,12 +6,15 @@ package org.uva.sea.ql.encoders.ast;
 public class TypeError {
 
 	private final String name;
-
 	private final String errorText;
+	private final int line;
+	private final int character;
 
-	public TypeError(String name, String errorText) {
+	public TypeError(String name, String errorText, int line, int character) {
 		this.name = name;
 		this.errorText = errorText;
+		this.line = line;
+		this.character = character;
 	}
 
 	public String getName() {
@@ -20,5 +23,13 @@ public class TypeError {
 
 	public String getTypeErrorText() {
 		return errorText;
+	}
+	
+	public int getLine() {
+		return line;
+	}
+	
+	public int getCharacter() {
+		return character;
 	}
 }
