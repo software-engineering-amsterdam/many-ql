@@ -23,6 +23,23 @@ public class TypeChecker {
         ast.accept(mapper);
     }
 
+    public void secondPass(){
+        TypeCheckerVisitor visitor = new TypeCheckerVisitor(errors);
+        ast.accept(visitor);
+    }
+
+    //Just a temporary method, this logic should not be in here.
+    public void reportErrors(){
+        firstPass();
+        secondPass();
+        if(errors.size() > 0){
+            for(AError error : errors){
+                System.out.println(error.toString());
+            }
+            System.exit(0);
+        }
+    }
+
     public ArrayList<AError> getErrors() {
         return errors;
     }

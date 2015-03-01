@@ -1,4 +1,4 @@
-package com.klq.ast.impl.expr.comp;
+package com.klq.ast.impl.expr.bool;
 
 import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
@@ -7,9 +7,9 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
 /**
  * Created by Juriaan on 22-2-2015.
  */
-public class LessThanNode extends ABinaryExprNode {
+public class EqualsNode extends ABooleanNode {
 
-    public LessThanNode(ANode leftChild, ANode rightChild, String location) {
+    public EqualsNode(ANode leftChild, ANode rightChild, String location) {
         super(leftChild, rightChild, location);
     }
 

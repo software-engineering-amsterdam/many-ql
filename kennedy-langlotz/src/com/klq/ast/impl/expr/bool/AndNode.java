@@ -7,7 +7,7 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
 /**
  * Created by Juriaan on 22-2-2015.
  */
-public class AndNode extends ABinaryExprNode {
+public class AndNode extends ABooleanNode {
 
     public AndNode(ANode leftChild, ANode rightChild, String location) {
         super(leftChild, rightChild, location);

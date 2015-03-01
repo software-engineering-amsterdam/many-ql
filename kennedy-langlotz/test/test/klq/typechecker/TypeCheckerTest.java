@@ -1,7 +1,9 @@
 package test.klq.typechecker;
 
+import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.impl.expr.StringNode;
 import com.klq.logic.controller.Store;
 import com.klq.typecheker.TypeChecker;
 import com.klq.typecheker.error.NotUniqueID;
@@ -24,17 +26,21 @@ public class TypeCheckerTest {
 
     @Test
     public void testDuplicateQuestionId(){
-        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question", "1: 14"));
-        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is another test question", "2: 14"));
+        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question", "1"));
+        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is another test question", "2"));
         TypeChecker tc = new TypeChecker(ast);
         tc.firstPass();
-        assertEquals(tc.getErrors().size(), 0);
+        assertEquals(0, tc.getErrors().size());
 
-        ast.getChildren().add(new QuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", "3:14"));
+        ast.getChildren().add(new QuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", "3"));
         tc = new TypeChecker(ast);
         tc.firstPass();
-        assertEquals(tc.getErrors().size(), 1);
+        assertEquals(1,tc.getErrors().size());
         assertThat(tc.getErrors().get(0), instanceOf(NotUniqueID.class));
-        System.out.println(tc.getErrors().get(0).toString());
+
+        ast.getChildren().add(new ComputedQuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", new StringNode("test", "5"), "4"));
+        tc = new TypeChecker(ast);
+        tc.firstPass();
+        assertEquals(2, tc.getErrors().size());
     }
 }
