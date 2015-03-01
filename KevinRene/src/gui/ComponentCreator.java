@@ -30,15 +30,14 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	private JPanel pane;
 	private Controller controller;
 		
-	private ComponentCreator(JPanel pane, ValueEnvironment valueEnv) {
-		this.pane = pane;
-		this.controller = new Controller(valueEnv);
+	private ComponentCreator(Controller controller) {
+		this.pane = new JPanel(new MigLayout());
+		this.controller = controller;
 	}
 	
-	public static JPanel check(ASTNode tree, ValueEnvironment valueEnv) {
+	public static JPanel check(ASTNode tree, Controller controller) {
 		
-		JPanel container = new JPanel(new MigLayout());
-		ComponentCreator creator = new ComponentCreator(container, valueEnv);
+		ComponentCreator creator = new ComponentCreator(controller);
 		
 		tree.accept(creator);
 		
@@ -66,8 +65,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	
 	@Override
 	public Void visit(If ifNode) {
-
-		JPanel container = check(ifNode.getBlock(), controller.getValueEnvironment());
+		JPanel container = check(ifNode.getBlock(), controller);
 		IfObserver ifObserver = new IfObserver(ifNode, controller, container);
 		
 		controller.addGlobalObserver(ifObserver);

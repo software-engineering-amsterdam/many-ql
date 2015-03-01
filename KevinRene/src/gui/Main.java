@@ -45,8 +45,7 @@ public class Main {
 			+ "        }"
 			+ "        if (firstValue == 100) {"
 			+ "            lol: string {"
-			+ "	               \"is this if active??\""
-			+ "                assign(\"Should be if you can this.\")"
+			+ "	               \"is this IF active??\""
 			+ "            }"
 			+ "        }"
 			+ "    }"
@@ -73,7 +72,7 @@ public class Main {
 			System.exit(0);
 		}
 		
-		frame.getContentPane().add(ComponentCreator.check(tree, valueEnv));
+		frame.getContentPane().add(ComponentCreator.check(tree, new Controller(valueEnv)));
  
         //Display the window.
         frame.pack();
