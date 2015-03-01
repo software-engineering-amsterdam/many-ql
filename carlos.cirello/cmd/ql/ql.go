@@ -5,12 +5,12 @@ import (
 	"os"
 	"runtime/pprof"
 
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli/iostream"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/frontend/csvinput"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/frontend/csvoutput"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
 )

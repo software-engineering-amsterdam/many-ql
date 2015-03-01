@@ -44,6 +44,7 @@ func (g *Gui) updateQuestion(fieldName, fieldType string, content interface{}) {
 
 		switch fieldType {
 		case symboltable.BoolQuestionType:
+			// todo: deal with radio and switch
 			if content == "Yes" {
 				fieldPtr.Set("checked", true)
 			} else {
