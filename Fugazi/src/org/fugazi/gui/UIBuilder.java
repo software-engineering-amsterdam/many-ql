@@ -8,13 +8,15 @@ import org.fugazi.evaluator.Evaluator;
 import org.fugazi.evaluator.expression_value.BoolValue;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.gui.block.*;
-import org.fugazi.gui.block.block_memento.*;
 import org.fugazi.gui.mediator.Colleague;
 import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.ui_elements.*;
 import org.fugazi.gui.visitor.UITypeVisitor;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
 
 public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
@@ -23,14 +25,13 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     private final Evaluator evaluator;
     private final ValueStorage storage;
 
-    private ArrayList<IfStatement> ifStatements = new ArrayList<>(); // used for their re-evaluation
     private ArrayList<ComputedQuestion> computedQuestions = new ArrayList<>(); // used for their re-evaluation
 
-    // Memento pattern to handle the states of the Blocks
-    private final BlockCareTaker blockCaretaker = new BlockCareTaker();
-    private final BlockOriginator blockOriginator = new BlockOriginator();
-    private Block currentBlock;
-    private int currentBlockIndex = -1;
+    // if statements by block.
+    private HashMap<String, ArrayList<IfStatement>> ifStatements = new HashMap<>(); // used for their re-evaluation
+
+    private Deque<Block> blocksStack = new ArrayDeque<>();
+    private Block currentBlock = null;
 
     public UIBuilder(Form _astForm) {
         this.astForm = _astForm;
@@ -52,8 +53,13 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private void addIfStatement(IfStatement _ifStatement) {
-        if (!ifStatements.contains(_ifStatement)) {
-            ifStatements.add(_ifStatement);
+
+        if (!ifStatements.containsKey(currentBlock.getName())) {
+            ifStatements.put(currentBlock.getName(), new ArrayList<IfStatement>());
+        }
+
+        if (!ifStatements.get(currentBlock.getName()).contains(_ifStatement)) {
+            ifStatements.get(currentBlock.getName()).add(_ifStatement);
         }
     }
 
@@ -73,26 +79,22 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     /**
-     * Block managment
+     * Block management
      */
     private void addBlock(Block _block) {
-        if (!blockCaretaker.isMementoExists(new BlockMemento(_block))) {
-            // store block, change block
-            blockOriginator.set(_block);
-            blockCaretaker.addMemento(blockOriginator.storeInMemento());
-            currentBlockIndex++;
-            currentBlock = blockOriginator.restoreFromMemento(blockCaretaker.getMemento(currentBlockIndex));
-        }
+        blocksStack.push(_block);
+        currentBlock = _block;
     }
 
     private void previousBlock() {
-        currentBlockIndex--;
-        currentBlock = blockOriginator.restoreFromMemento(blockCaretaker.getMemento(currentBlockIndex));
+        blocksStack.pop();
+        currentBlock = blocksStack.getLast();
     }
 
     private void removeBlockFromForm() {
         currentBlock.getBody().values().forEach(quest -> this.removeQuestionFromTheForm(quest));
         currentBlock.clearBlock();
+        this.previousBlock();
     }
 
     private void addQuestionToBlock(UIQuestion _quest) {
@@ -116,8 +118,13 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         // re-evaluate the computed questions.
         computedQuestions.forEach(quest -> this.evaluateComputedExpression(quest));
 
-        // re-visit the conditions.
-        ifStatements.forEach(ifStatement -> ifStatement.accept(this));
+        // re-visit the conditions of the previous block.
+        ArrayList<IfStatement> statements = ifStatements.get(blocksStack.getLast().getName());
+        if (statements != null) {
+            statements.forEach(statement -> statement.accept(this));
+        }
+
+        System.out.println(blocksStack.size());
     }
 
     /**
@@ -152,17 +159,19 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     public Void visitIfStatement(IfStatement _ifStatement) {
-        IfStatementBlock ifBlock = new IfStatementBlock(_ifStatement.getCondition().toString());
-        this.addBlock(ifBlock);
-
-        //TODO: Concurrency problem on nested ifs
         this.addIfStatement(_ifStatement);
 
         boolean isConditionTrue = this.evaluateIfStatement(_ifStatement);
+
         if (isConditionTrue) {
+            if (!currentBlock.getName().equals(_ifStatement.getCondition().toString())) {
+                IfStatementBlock ifBlock = new IfStatementBlock(_ifStatement.getCondition().toString());
+                this.addBlock(ifBlock);
+            }
             _ifStatement.getBody().forEach(statement -> statement.accept(this));
         } else {
-            this.removeBlockFromForm();
+            if (currentBlock.getName().equals(_ifStatement.getCondition().toString()))
+                this.removeBlockFromForm();
         }
 
         return null;
