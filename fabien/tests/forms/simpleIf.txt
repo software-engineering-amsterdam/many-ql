@@ -1,7 +1,7 @@
 
 form taxOfficeExample {
 
-  if ( hasSoldHouse )  {
+  if (hasSoldHouse)  {
     "Did you enter a loan?"
        hasMaintLoan: boolean
   }

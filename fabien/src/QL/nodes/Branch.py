@@ -14,9 +14,6 @@ class Branch(Node):
     def children(self):
         return [self.expression] + self.ifChildren + self.elseChildren
 
-    def isValidExpression(self):
-        return self.expression.evaluate()
-
     def __repr__(self, nested=0):
         tree = "IF %s" % self.expression
 

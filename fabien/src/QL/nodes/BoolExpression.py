@@ -1,4 +1,6 @@
 
+import src.QL.operators as operators
+
 from Expression import Expression
 
 class BoolExpression(Expression):
@@ -6,46 +8,44 @@ class BoolExpression(Expression):
         Expression.__init__(self, LexNode, operator=None, left=None, right=None)
 
         self.operator = operator
-
         self.left  = left
         self.right = right
 
-        self.operatorTable = {
-          '>'  : lambda x, y : x > y,
-          '<'  : lambda x, y : x < y,
+        self._setOperation(operator)
 
-          '==' : lambda x, y : x == y,
-          '>=' : lambda x, y : x >= y,
-          '<=' : lambda x, y : x <= y,
+    def _setOperation(self, operator):
+        operatorTable = {
+          '>'  : lambda x, y : operators.GreaterThan(x, y),
+          '<'  : lambda x, y : operators.LessThan(x, y),
 
-          'or' : lambda x, y : x or y,
-          '||' : lambda x, y : x or y,
+          '!=' : lambda x, y : operators.NotEqual(x, y),
+          '==' : lambda x, y : operators.Equal(x, y),
+          '>=' : lambda x, y : operators.GreaterOrEqual(x, y),
+          '<=' : lambda x, y : operators.LessOrEqual(x,y),
 
-          'and' : lambda x, y : x and y,
-          '&&'  : lambda x, y : x and y
+          'or' : lambda x, y : operators.Or(x,y),
+          '||' : lambda x, y : operators.Or(x,y),
+
+          'and' : lambda x, y : operators.And(x,y),
+          '&&'  : lambda x, y : operators.And(x,y)
         }
 
+        try:
+            self._operationFn = operatorTable[operator](self.left, self.right)
+        except KeyError:
+            raise Exception("Unimplemented operator %s" % operator)
 
-    def evaluate(self):
-        # Basic case
-        if self.left.NodeType == 'Leaf' and \
-           self.left.NodeType == self.right.NodeType:
+    @property
+    def Operation(self):
+        return self._operationFn
 
-              if self.left.type == self.right.type:
-                  return True
+    def getType(self, IDs):
+        if self.Operation.checkType(IDs):
+            return "boolean"
 
-
-        if not self.left.NodeType == 'Leaf':
-            evaluatedLeft = self.left.evaluate()
-
-        if not self.right.NodeType == 'Leaf':
-            evaluatedRight = self.right.evaluate()
-
-        #print self.left #.NodeType
-
-    def execute(self):
-        return self.operatorTable[self.operator](self.left.execute(), self.right.execute())
+        # Found nested error -> should bubble up?
+        return False
 
     def __repr__(self):
-        return "Bool Expression(%s %s %s)" % (self.left, self.operator, self.right)
+        return "BoolExpression(%s %s %s)" % (self.left, self.operator, self.right)
 

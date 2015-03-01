@@ -1,15 +1,18 @@
 
-class DuplicateQuestions():
+from errors import DuplicationError
+
+class DuplicateQuestions:
     def __init__(self):
         self.errors = []
         self.questionTypes = {}
 
     def Question(self, node):
-        if node.label in self.questionTypes:
-            if node.type != self.questionTypes[node.label]:
-                errors.add(node) # Error object
+        if node.ID in self.questionTypes:
+            if node.type != self.questionTypes[node.ID].type:
+                error = DuplicationError(self.questionTypes[node.ID], node)
+                self.errors.append(error)
             else:
-                # Warning object, duplicate question but similar type
+                # TODO Warning object, duplicate question but same type
                 pass
         else:
-            self.questionTypes[node.label] = node.type
+            self.questionTypes[node.ID] = node
