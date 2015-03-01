@@ -3,6 +3,10 @@ class Controller(object):
 		self._questionModels = questionModels
 		self._view = view
 
+	def run(self):
+		self.refresh()
+		self._view.mainloop()
+
 	def refresh(self):
 		self._view.clear()
 		for questionModel in self._questionModels:
