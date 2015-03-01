@@ -24,7 +24,7 @@ class Expressions:
     # operators   :: + | - | / | * | > | >= | < | <= | == | && | || | !
     operator = \
         oneOf('+ - / *').setParseAction(ExpressionFactory.make_calc_operator) | \
-        oneOf(" > >= < <= == && || !").setParseAction(ExpressionFactory.make_comp_operator)
+        oneOf(" > >= < <= == and or not").setParseAction(ExpressionFactory.make_comp_operator)
 
     operator_name = 'operator'
 

@@ -10,18 +10,24 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-//import javafx.scene.control.DatePicker;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import lang.ql.ast.form.Form;
 import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
+import lang.ql.gui.input.expression.*;
+import lang.ql.gui.input.regular.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
-import lang.ql.semantics.values.IntegerValue;
+import lang.ql.semantics.Evaluator;
+import lang.ql.semantics.ValueTable;
+import lang.ql.semantics.values.Value;
 
 import java.util.List;
 
@@ -30,11 +36,20 @@ import java.util.List;
  */
 public class SimpleGui implements GuiVisitor<Node>
 {
+    private ValueTable valueTable;
 
-    public static void run(Canvas canvas, Stage primaryStage)
+    public static void run(Form ast, Stage primaryStage)
     {
-        SimpleGui gui = new SimpleGui();
+        Modeler modeler = new Modeler();
+        Canvas canvas = modeler.visit(ast);
+
+        SimpleGui gui = new SimpleGui(ast);
         gui.start(canvas, primaryStage);
+    }
+
+    private SimpleGui(Form ast)
+    {
+        this.valueTable = Evaluator.evaluate(ast);
     }
 
     private void start(Canvas canvas, Stage primaryStage)
@@ -53,7 +68,7 @@ public class SimpleGui implements GuiVisitor<Node>
         grid.add(hbBtn, 1, grid.getChildren().size() + 1);
 
         final Text actiontarget = new Text();
-        grid.add(actiontarget, 1, 6);
+        grid.add(actiontarget, 1, grid.getChildren().size() + 1);
 
         btn.setOnAction(new EventHandler<ActionEvent>()
         {
@@ -89,10 +104,17 @@ public class SimpleGui implements GuiVisitor<Node>
     @Override
     public Node visit(Line line)
     {
-        HBox box = new HBox();
+        VBox box = new VBox();
         List<Node> boxChildren = box.getChildren();
-        boxChildren.add(line.getLabel().accept(this));
-        boxChildren.add(line.getInput().accept(this));
+
+        HBox labelBox = new HBox();
+        labelBox.getChildren().add(line.getLabel().accept(this));
+        boxChildren.add(labelBox);
+
+        HBox inputBox = new HBox();
+        inputBox.setAlignment(Pos.TOP_RIGHT);
+        inputBox.getChildren().add(line.getInput().accept(this));
+        boxChildren.add(inputBox);
 
         return box;
     }
@@ -106,13 +128,20 @@ public class SimpleGui implements GuiVisitor<Node>
     @Override
     public Node visit(BoolInput input)
     {
-        return new CheckBox();
+        CheckBox checkBox = new CheckBox();
+
+        //TODO: fix this mess below
+        Value val = valueTable.getValue(input.getId());
+        Boolean selected = val.isUndefined() ? false : (Boolean)val.getValue();
+
+        checkBox.setSelected(selected);
+        return checkBox;
     }
 
     @Override
     public Node visit(DateInput input)
     {
-        return null;//new DatePicker();
+        return new DatePicker();
     }
 
     @Override
@@ -122,7 +151,7 @@ public class SimpleGui implements GuiVisitor<Node>
     }
 
     @Override
-    public Node visit(final IntInput input)
+    public Node visit(IntInput input)
     {
         final TextField textField = new TextField();
         textField.textProperty().addListener(new ChangeListener<String>()
@@ -135,7 +164,7 @@ public class SimpleGui implements GuiVisitor<Node>
                 newValue = newValue.trim();
                 try
                 {
-                    input.setValue(new IntegerValue(Integer.parseInt(newValue)));
+//                    input.setValue(new IntegerValue(Integer.parseInt(newValue)));
                 }
                 catch (NumberFormatException e)
                 {
@@ -151,6 +180,57 @@ public class SimpleGui implements GuiVisitor<Node>
     public Node visit(StrInput input)
     {
         return new TextField();
+    }
+
+    @Override
+    public Node visit(ExprInput input)
+    {
+        return input.accept(this);
+    }
+
+    @Override
+    public Node visit(BoolExprInput input)
+    {
+        CheckBox checkBox = new CheckBox();
+
+        //TODO: fix this mess below
+        Value val = valueTable.getValue(input.getId());
+        Boolean selected = val.isUndefined() ? false : (Boolean)val.getValue();
+
+        checkBox.setSelected(selected);
+        return checkBox;
+    }
+
+    @Override
+    public Node visit(DateExprInput input)
+    {
+        return new DatePicker();
+    }
+
+    @Override
+    public Node visit(DecExprInput input)
+    {
+        return new TextField();
+    }
+
+    @Override
+    public Node visit(IntExprInput input)
+    {
+        return new TextField();
+    }
+
+    @Override
+    public Node visit(StrExprInput input)
+    {
+        TextField textField = new TextField();
+
+        //TODO: fix this mess below
+        Value val = valueTable.getValue(input.getId());
+        String text = val.isUndefined() ? "" : (String)val.getValue();
+
+        textField.setText(text);
+
+        return textField;
     }
 
     @Override

@@ -10,6 +10,7 @@ public abstract class ASTNode {
 	public ASTNode(CodeLines _codeLines){
 		this.codeLines = _codeLines;
 	}
+	
 	@Override
 	public String toString(){
 		return this.toString();

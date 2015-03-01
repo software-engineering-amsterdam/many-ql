@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import nl.uva.softwcons.ast.FormVisitor;
 import nl.uva.softwcons.ast.form.Form;
+import nl.uva.softwcons.ast.form.FormVisitor;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
@@ -24,7 +24,7 @@ public class LabelChecker implements FormVisitor<Void>, StatementVisitor<Void> {
     }
 
     @Override
-    public Void visitForm(final Form form) {
+    public Void visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
         return null;
     }

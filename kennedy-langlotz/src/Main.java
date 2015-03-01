@@ -6,6 +6,7 @@ import com.klq.gui.QuestionPage;
 import com.klq.gui.Questionnaire;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
+import com.klq.typecheker.TypeChecker;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -65,6 +66,9 @@ public class Main extends Application {
 
         ParseTreeConverter eval = new ParseTreeConverter();
         ANode ast = eval.visit(tree);
+
+        TypeChecker tc = new TypeChecker(ast);
+        tc.reportErrors();
 
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         Store store = (Store) ast.accept(AST2GUIConverter);

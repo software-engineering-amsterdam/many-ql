@@ -9,8 +9,8 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
  */
 public class SubtractNode extends ABinaryExprNode {
 
-    public SubtractNode(ANode leftChild, ANode rightChild) {
-        super(leftChild, rightChild);
+    public SubtractNode(ANode leftChild, ANode rightChild, String location) {
+        super(leftChild, rightChild, location);
     }
 
     @Override
