@@ -4,6 +4,7 @@ import edu.parser.AbstractNode;
 import edu.parser.QLS.nodes.*;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Question;
+import edu.parser.QLS.nodes.styles.Style;
 
 /**
  * Created by Steven Kok on 28/02/2015.

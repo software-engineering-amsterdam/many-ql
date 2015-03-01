@@ -8,6 +8,7 @@ import edu.parser.QLS.nodes.*;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Question;
 import edu.parser.QLS.nodes.statement.Statement;
+import edu.parser.QLS.nodes.styles.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -39,13 +40,24 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
 
     private <T extends ParserRuleContext> List<AbstractNode> collectAbstractNodes(List<T> elements) {
         return elements.stream()
-                .map(element -> this.visit(element))
+                .map(this::visit)
                 .collect(Collectors.toList());
     }
 
     @Override
     public AbstractNode visitStyle(@NotNull QLSParser.StyleContext ctx) {
-        return new Style(ctx.getText());
+        if (ctx.color != null) {
+            return new Color(ctx.NUMBERS().getText());
+        } else if (ctx.width != null) {
+            return new Width(ctx.NUMBERS().getText());
+        } else if (ctx.font != null) {
+            String text = ctx.STRING().getText();
+            return new Font(text.substring(1, text.length() - 1));
+        } else if (ctx.widget != null) {
+            return new Widget(ctx.UPPERCASE().getText());
+        } else {
+            throw new ParseException("Couldn't parse style for input: " + ctx.getText());
+        }
     }
 
     @Override

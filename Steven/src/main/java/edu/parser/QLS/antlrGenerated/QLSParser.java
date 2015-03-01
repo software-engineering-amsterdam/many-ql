@@ -612,6 +612,10 @@ public class QLSParser extends Parser {
 	}
 
 	public static class StyleContext extends ParserRuleContext {
+		public Token widget;
+		public Token width;
+		public Token font;
+		public Token color;
 		public TerminalNode UPPERCASE() { return getToken(QLSParser.UPPERCASE, 0); }
 		public TerminalNode NUMBERS() { return getToken(QLSParser.NUMBERS, 0); }
 		public TerminalNode STRING() { return getToken(QLSParser.STRING, 0); }
@@ -636,7 +640,7 @@ public class QLSParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(91); 
-				match(T__7);
+				((StyleContext)_localctx).widget = match(T__7);
 				setState(92); 
 				match(UPPERCASE);
 				}
@@ -645,7 +649,7 @@ public class QLSParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(93); 
-				match(T__8);
+				((StyleContext)_localctx).width = match(T__8);
 				setState(94); 
 				match(NUMBERS);
 				}
@@ -654,7 +658,7 @@ public class QLSParser extends Parser {
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(95); 
-				match(T__9);
+				((StyleContext)_localctx).font = match(T__9);
 				setState(96); 
 				match(STRING);
 				}
@@ -663,7 +667,7 @@ public class QLSParser extends Parser {
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(97); 
-				match(T__10);
+				((StyleContext)_localctx).color = match(T__10);
 				setState(98); 
 				match(T__11);
 				setState(99); 

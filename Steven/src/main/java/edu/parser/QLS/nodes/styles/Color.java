@@ -1,4 +1,4 @@
-package edu.parser.QLS.nodes;
+package edu.parser.QLS.nodes.styles;
 
 import edu.parser.AbstractNode;
 import edu.parser.QLS.Visitor;
@@ -6,11 +6,10 @@ import edu.parser.QLS.Visitor;
 /**
  * Created by Steven Kok on 28/02/2015.
  */
-public class Style implements AbstractNode<Visitor> {
-    private final String style;
+public class Color extends Style {
 
-    public Style(String style) {
-        this.style = style;
+    public Color(String style) {
+        super(style);
     }
 
     @Override
