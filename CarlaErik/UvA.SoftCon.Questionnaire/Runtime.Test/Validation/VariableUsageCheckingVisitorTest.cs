@@ -34,8 +34,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             visitor.Visit(ql);
 
             // Assert
-            Assert.AreEqual<int>(1, visitor.DeclaredVariables.Count);
-            Assert.AreEqual<int>(1, visitor.DeclaredVariables["age"].UsageCount);
+            Assert.AreEqual<int>(0, visitor.UnusedVariables.Count);
             Assert.AreEqual<int>(0, visitor.UndeclaredVariables.Count);
             Assert.AreEqual<int>(0, visitor.RedeclaredVariables.Count);
         }
@@ -57,8 +56,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             visitor.Visit(ql);
 
             // Assert
-            Assert.AreEqual<int>(1, visitor.DeclaredVariables.Count);
-            Assert.AreEqual<int>(0, visitor.DeclaredVariables["age"].UsageCount);
+            Assert.AreEqual<int>(0, visitor.UnusedVariables.Count);
             Assert.AreEqual<int>(0, visitor.UndeclaredVariables.Count);
             Assert.AreEqual<int>(1, visitor.RedeclaredVariables.Count);
         }
