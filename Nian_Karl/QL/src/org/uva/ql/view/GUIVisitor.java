@@ -34,23 +34,33 @@ import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
+import org.uva.ql.view.widgit.QLCheckBox;
+import org.uva.ql.view.widgit.QLNumberTextField;
+import org.uva.ql.view.widgit.QLTextField;
+import org.uva.ql.view.widgit.QLWidget;
 import org.uva.ql.visitor.Visitor;
 
 public class GUIVisitor implements Visitor<Object> {
 
 	@Override
 	public Panel visit(IfStatement ifStatement) {
+		
+		
+		System.out.println("if statement");
 		return null;
 	}
 
 	@Override
 	public Panel visit(QuestionNormal questionStatement) {
-		QuestionPanel questionView = new QuestionPanel(questionStatement);
+		System.out.println("normalquestion");
+		QLWidget<?> widget = (QLWidget<?>) questionStatement.getType().accept(this);
+		QuestionPanel questionView = new QuestionPanel(questionStatement,widget);
 		return questionView;
 	}
 
 	@Override
 	public Panel visit(QuestionCompute questionComputeStatement) {
+		System.out.println("compute question");
 		return null;
 	}
 
@@ -66,9 +76,9 @@ public class GUIVisitor implements Visitor<Object> {
 	@Override
 	public FormFrame visit(Form form) {
 		FormFrame formView = new FormFrame();
-		ArrayList<Panel> components = ((ArrayList<Panel>) form.getBlock().accept(this));
-		for (JPanel component : components) {
-			formView.add(component);
+		ArrayList<Panel> panelList= ((ArrayList<Panel>) form.getBlock().accept(this));
+		for (Panel panel: panelList) {
+			formView.add(panel);
 		}
 		formView.setVisible(true);
 		return formView;
@@ -76,6 +86,7 @@ public class GUIVisitor implements Visitor<Object> {
 
 	@Override
 	public Object visit(Questionnaire questionnaire) {
+		System.out.println("Visiting block");
 		ArrayList<FormFrame> formViews = new ArrayList<FormFrame>();
 		for (Form form : questionnaire.getForms()) {
 			formViews.add((FormFrame) form.accept(this));
@@ -184,18 +195,17 @@ public class GUIVisitor implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visit(IntType node) {
-		return null;
+	public QLWidget<Integer> visit(IntType node) {
+		return new QLNumberTextField();
 	}
 
 	@Override
-	public Object visit(BoolType node) {
-		return null;
+	public QLWidget<Boolean> visit(BoolType node) {
+		return new QLCheckBox();
 	}
 
 	@Override
-	public Object visit(StrType node) {
-		return null;
+	public QLWidget<String> visit(StrType node) {
+		return new QLTextField();
 	}
-
 }

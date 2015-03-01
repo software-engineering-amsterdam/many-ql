@@ -1,7 +1,5 @@
 package org.uva.ql.view.widgit;
 
-import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
