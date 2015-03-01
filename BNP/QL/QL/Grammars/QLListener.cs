@@ -226,49 +226,56 @@ namespace QL.Grammars
         {
             IList<ElementBase> children = GetChildren();
             Expression expression = new Expression();
+            expression.SourceLocation = SourceLocation.CreateFor(context);
+
             if (children.Count() == 1)
             {
                 expression.HandleChildren(children[0]);
             }
             else if (children.Count() == 2 && context.children.Count() == 5)
             {
-                BinaryTreeElementBase op;
-                switch (context.children[2].GetText())
-                {
-                    case ("+"):
-                        {
-                            op = new AndOperator();
-                            break;
-                        }
-                    case ("=="):
-                        {
-                            op = new EqualsOperator();
-                            break;
-                        }
-                    case "!=":
-                        {
-                            op = new NotEqualsOperator();
-                            break;
-                        }
-                    default:
-                        throw new Exception(" operator not identified");
-                    
-                }
-                op.HandleChildren((ElementBase)children[0], (ElementBase)children[1]);
-                op.SourceLocation = SourceLocation.CreateFor(context);
-                expression.SourceLocation = SourceLocation.CreateFor(context);
+                QLParser.OperatorContext operatorContext = context.children[2] as QLParser.OperatorContext;
+                ElementBase leftOperand = children[0];
+                ElementBase rightOperand = children[1];
 
-                expression.HandleChildren(op);
+                if (operatorContext != null)
+                {
+                    BinaryTreeElementBase operatorElement = null;
+                    TryCreateOperator<EqualsOperator>(operatorContext, operatorContext.EQUALS(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<NotEqualsOperator>(operatorContext, operatorContext.NOTEQUALS(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<GreaterThanOperator>(operatorContext, operatorContext.GREATERTHAN(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<GreaterThanEqualToOperator>(operatorContext, operatorContext.GREATERTHANOREQUALTO(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<LessThanOperator>(operatorContext, operatorContext.LESSTHAN(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<LessThanEqualToOperator>(operatorContext, operatorContext.LESSTHANOREQUALTO(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<MultiplicationOperator>(operatorContext, operatorContext.MULTIPLICATION(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<DivisionOperator>(operatorContext, operatorContext.DIVISION(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<PlusOperator>(operatorContext, operatorContext.ADDITION(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<MinusOperator>(operatorContext, operatorContext.SUBTRACTION(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<AndOperator>(operatorContext, operatorContext.AND(), leftOperand, rightOperand, ref operatorElement);
+                    TryCreateOperator<OrOperator>(operatorContext, operatorContext.OR(), leftOperand, rightOperand, ref operatorElement);
+
+                    expression.HandleChildren(operatorElement);
+                }
             }
             
             AppendToAST(expression);
-
-            //TODO
         }
-        
-        
-        
 
+        public void TryCreateOperator<T>(QLParser.OperatorContext context, ITerminalNode node, ElementBase leftOperand, ElementBase rightOperand, ref BinaryTreeElementBase operatorElement)
+            where T : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>, new()
+        {
+            if (node == null)
+            {
+                operatorElement = operatorElement ?? null;
+                return;
+            }
+
+            T @operator = new T();
+            @operator.HandleChildren(leftOperand, rightOperand);
+            @operator.SourceLocation = SourceLocation.CreateFor(context);
+
+            operatorElement = @operator;
+        }
         #endregion
     }
 
