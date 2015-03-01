@@ -52,7 +52,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
             return new Width(ctx.NUMBERS().getText());
         } else if (ctx.font != null) {
             String text = ctx.STRING().getText();
-            return new Font(text.substring(1, text.length() - 1));
+            return new Font(removeQuotesFromString(text));
         } else if (ctx.widget != null) {
             return new Widget(ctx.UPPERCASE().getText());
         } else {
@@ -97,7 +97,11 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
     public AbstractNode visitSection(@NotNull QLSParser.SectionContext ctx) {
         String title = ctx.STRING().getSymbol().getText();
         List<Statement> sections = collectSections(ctx.statement());
-        return new Section(title, sections);
+        return new Section(removeQuotesFromString(title), sections);
+    }
+
+    private String removeQuotesFromString(String title) {
+        return title.substring(1, title.length() - 1);
     }
 
     private List<Statement> collectSections(List<QLSParser.StatementContext> elements) {

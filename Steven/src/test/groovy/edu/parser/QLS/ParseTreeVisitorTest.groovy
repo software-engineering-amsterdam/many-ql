@@ -2,7 +2,11 @@ package edu.parser.QLS
 
 import edu.Main
 import edu.parser.AntlrParser
+import edu.parser.QLS.nodes.Page
 import edu.parser.QLS.nodes.Stylesheet
+import edu.parser.QLS.nodes.statement.Question
+import edu.parser.QLS.nodes.styles.Width
+import junit.framework.Assert
 import spock.lang.Specification
 
 /**
@@ -18,11 +22,25 @@ class ParseTreeVisitorTest extends Specification {
         parseTreeVisitor = new ParseTreeVisitor();
     }
 
-    def "smoke"() {
-        when:
+    def "QLS_initial should be parsed correctly"() {
+        setup:
         Stylesheet stylesheet = antlrParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_initial", parseTreeVisitor, Stylesheet.class)
 
+        when:
+        def firstElement = stylesheet.elements.get(0)
+        def secondElement = stylesheet.elements.get(1)
+
         then:
-        true
+        Assert.assertEquals("first element should be firstElement name1", "name1", firstElement.identifier.identifier);
+        Assert.assertEquals("second element should be a page", Page.class, secondElement.class);
+        Assert.assertEquals("page should contain two sections", 2, secondElement.sections.size());
+        Assert.assertEquals("first section should be called: 'section'", "section", secondElement.sections.get(0).title);
+        Assert.assertEquals("second section should be called: 'another section'", "another section", secondElement.sections.get(1).title);
+        Assert.assertEquals("first section contains one element", 1, secondElement.sections.get(0).statements.size());
+        Assert.assertEquals("first section contains a question", Question.class, secondElement.sections.get(0).statements.get(0).class);
+        Assert.assertEquals("second section contains a question", Question.class, secondElement.sections.get(1).statements.get(0).class);
+        Assert.assertEquals("second section contains a question with a style width", Width.class, secondElement.sections.get(1).statements.get(0).styles.get(0).class);
+        Assert.assertEquals("second section contains a question with a style width of 40", "40", secondElement.sections.get(1).statements.get(0).styles.get(0).style);
     }
+
 }
