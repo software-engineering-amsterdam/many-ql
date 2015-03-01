@@ -44,12 +44,7 @@ question_expression
     : '(' expression ')'
     ;
 question_type
-    : string='STRING'
-    | integer='INTEGER'
-    | booleanType='BOOLEAN'
-    | date='DATE'
-    | money='MONEY'
-    | decimal='DECIMAL'
+    : UPPERCASE
     ;
 question_label
     : STRING

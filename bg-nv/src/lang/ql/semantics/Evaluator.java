@@ -90,7 +90,7 @@ public class Evaluator implements FormVisitor<ValueTable>, StatVisitor<Void>, Ex
     {
         this.questions.put(q.getId(), q);
 
-        Expr expr = q.getDefaultValue();
+        Expr expr = q.getCalculation();
 
         this.intermediateDependencies.put(q.getId(), expr.accept(this));
 

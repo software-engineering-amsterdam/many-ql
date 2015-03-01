@@ -3,7 +3,6 @@ package nl.uva.softwcons.ast.form;
 import java.util.List;
 
 import nl.uva.softwcons.ast.ASTNode;
-import nl.uva.softwcons.ast.FormVisitor;
 import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.statement.Statement;
@@ -26,7 +25,7 @@ public class Form implements ASTNode {
     }
 
     public <T> T accept(FormVisitor<T> visitor) {
-        return visitor.visitForm(this);
+        return visitor.visit(this);
     }
 
     @Override

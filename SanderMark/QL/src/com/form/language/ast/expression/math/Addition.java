@@ -29,22 +29,21 @@ public class Addition extends BinaryExpression implements Expression {
 	}
 	
 	@Override
-	public ErrorCollector getErrors(ErrorCollector errors) {
+	public void getErrors(ErrorCollector errors) {
 		Type leftType = left.getType();
 		Type rightType = right.getType();
+		left.getErrors(errors);
+		right.getErrors(errors);
 		
-		ErrorCollector newErrors = new ErrorCollector(left.getErrors(errors), right.getErrors(errors));
-
 		if(leftType.isIntType() && rightType.isIntType()) {
-			return newErrors;
+			return;
 		}
 		else{
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				Error newError = new Error(tokenInfo, "Expected Int + Int, but found " + leftType + " + " + rightType);
-				newErrors.add(newError);
-				return newErrors;
+				errors.add(new Error(tokenInfo, "Expected Int + Int, but found " + leftType + " + " + rightType));
+				return ;
 			}
-			return newErrors;
+			return;
 		}
 	}
 }

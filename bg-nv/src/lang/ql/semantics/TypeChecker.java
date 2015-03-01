@@ -115,7 +115,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
         Type defined = q.getType();
 
         this.setScopeForExpr(q);
-        Type assigned = q.getDefaultValue().accept(this);
+        Type assigned = q.getCalculation().accept(this);
         assigned = assigned.promoteTo(defined);
         this.resetScopeForExpr();
 

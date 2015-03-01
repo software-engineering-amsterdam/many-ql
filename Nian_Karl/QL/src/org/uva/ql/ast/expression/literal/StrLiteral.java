@@ -1,7 +1,7 @@
 package org.uva.ql.ast.expression.literal;
 
 import org.uva.ql.ast.builder.CodePosition;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class StrLiteral extends Literal {
 

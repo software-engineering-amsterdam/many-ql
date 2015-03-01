@@ -1,6 +1,5 @@
 package nl.uva.softwcons.eval;
 
-import nl.uva.softwcons.ast.FormVisitor;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
@@ -23,6 +22,7 @@ import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ast.form.Form;
+import nl.uva.softwcons.ast.form.FormVisitor;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
@@ -33,16 +33,24 @@ import nl.uva.softwcons.eval.value.IntegerValue;
 import nl.uva.softwcons.eval.value.StringValue;
 import nl.uva.softwcons.eval.value.Value;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Value> {
 
     private FormAnswers answers;
+    private Multimap<Identifier, ValueChangeListener<Value>> changeListeners = ArrayListMultimap.create();
 
     public Evaluator(FormAnswers answers) {
         this.answers = answers;
     }
 
+    public void addListener(final Identifier questionId, final ValueChangeListener<Value> listener) {
+        this.changeListeners.put(questionId, listener);
+    }
+
     @Override
-    public Void visitForm(final Form form) {
+    public Void visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));
         return null;
     }
@@ -167,4 +175,5 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
     public DecimalValue visit(DecimalLiteral expr) {
         return new DecimalValue(expr.getValue());
     }
+
 }
