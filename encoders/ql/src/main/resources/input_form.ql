@@ -20,7 +20,7 @@ form taxOfficeExample {
     "Do you have a contract for longer than 1 year?"
       yearContract: boolean
     "Did you have an unlimited contract with your employer?"
-      unlimitedContract: boolean
+      unlimitedContract: int
     "Employer followed rules according CAO:"
       rulesFollowed: boolean =
         yearContract >= unlimitedContract 

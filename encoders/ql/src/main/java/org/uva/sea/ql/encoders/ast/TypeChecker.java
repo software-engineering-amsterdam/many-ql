@@ -2,6 +2,9 @@ package org.uva.sea.ql.encoders.ast;
 
 import java.util.List;
 
+/**
+ * TypeChecker implementation to verify whether correct types are used within expressions
+ */
 public class TypeChecker {
 	
 	TypeErrorLogger typeErrorLogger = new TypeErrorLogger();

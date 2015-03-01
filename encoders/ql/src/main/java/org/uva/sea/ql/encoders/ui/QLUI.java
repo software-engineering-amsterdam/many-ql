@@ -115,7 +115,7 @@ public class QLUI extends Application {
 				grid.add(datePicker, 1, y);
 				break;
 			case STRING:
-			case INTEGER:
+			case INT:
 			case DECIMAL:
 			case MONEY:
 				TextField textField = new TextField();
