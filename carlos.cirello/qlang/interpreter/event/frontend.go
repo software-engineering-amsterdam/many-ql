@@ -1,6 +1,6 @@
 package event
 
-import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 
 // Frontend carries the communication between VM and Frontend
 type Frontend struct {

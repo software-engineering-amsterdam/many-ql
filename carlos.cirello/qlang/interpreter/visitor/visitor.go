@@ -3,7 +3,7 @@ package visitor
 import (
 	"log"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 )
 
 // Visitor is the base visitor struct which all other Executer AST tree are
@@ -20,7 +20,8 @@ func NewVisitor(tree Executer) *Visitor {
 }
 
 // Visit type switch through all possible root AST node types
-func (v *Visitor) Visit(node interface{}) {
+func (v *Visitor) Visit(node interface{}) { // node AcceptableInterface
+	//node.Accept(v.Tree);
 	switch t := node.(type) {
 	default:
 		pos := node.(ast.Positionable).Pos()

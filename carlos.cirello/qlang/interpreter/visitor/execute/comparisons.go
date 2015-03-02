@@ -3,7 +3,7 @@ package execute
 import (
 	"fmt"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 )
 
 // EqualsNode is the visitor for Equals comparison operation

@@ -3,7 +3,7 @@ package execute
 import (
 	"fmt"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/visitor"
