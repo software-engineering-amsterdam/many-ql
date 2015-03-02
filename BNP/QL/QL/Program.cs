@@ -17,12 +17,10 @@ using QL.Evaluation;
 
 namespace QL
 {
-   
-
     class Program
     {
-        static void Main(string[] args){
-            
+        static void Main(string[] args)
+        {
             while (true)
             {
                 Console.WriteLine("Please enter QL syntax commit by Ctrl+Z. Quit by Ctrl+C");
@@ -38,16 +36,15 @@ namespace QL
                 parser.AddErrorListener(new ParserErrorHandler());
                 QLListener listener = new QLListener();
                 parser.AddParseListener(listener);
-                
+
 
                 // parses the input as a formBlock(cos it's on the top)
                 var result = parser.formBlock();
                 AstHandler ast = listener.GetAst();
                 ast.CheckType();
-                
+
                 if (ast.TypeCheckerExceptions.Any())
                 {
-                    //do something
                     foreach (QLError e in ast.TypeCheckerExceptions)
                     {
                         Console.WriteLine(e.ToString());
@@ -59,14 +56,13 @@ namespace QL
 
                 if (ast.EvaluationExceptions.Any())
                 {
-                    //do something
                     foreach (QLError e in ast.TypeCheckerExceptions)
                     {
                         Console.WriteLine(e.ToString());
                     }
                     continue;
                 }
-                
+
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();
                 Console.Clear();
