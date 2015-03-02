@@ -15,6 +15,7 @@ public class Tuple <A,B> {
 		return this;
 	}
 	
+	
 	public String toString(){
 		return this.k+" "+this.l;
 	}

@@ -1,5 +1,10 @@
 package uva.qls.ast;
 
+import java.util.List;
+
+import uva.qls.ast.literal.Identifier;
+import uva.qls.ast.value.GenericValue;
+
 public class StyleSheet extends ASTNode {
 	
 	private Identifier identifier;
@@ -10,7 +15,7 @@ public class StyleSheet extends ASTNode {
 		this.identifier=_identifier;
 	}
 	
-	public StyleSheet (Identifier _identifier, List<Page> _page CodeLines _codeLines) {
+	public StyleSheet (Identifier _identifier, List<Page> _page, CodeLines _codeLines) {
 		super(_codeLines);
 		this.identifier=_identifier;
 		this.page=_page;
