@@ -1,14 +1,12 @@
 package gui.widget;
 
+import gui.Widget;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import gui.Widget;
-
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import cons.value.BooleanValue;
 

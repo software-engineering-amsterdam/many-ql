@@ -3,9 +3,9 @@ package gui;
 import gui.observer.IfObserver;
 import gui.widget.IntegerSpinbox;
 import gui.widget.Label;
-import gui.widget.Panel;
 import gui.widget.RadioButton;
 import gui.widget.TextField;
+import gui.widget.composite.Panel;
 import gui.widget.composite.QuestionComposite;
 
 import javax.swing.JPanel;
@@ -93,9 +93,11 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	@Override
 	public Widget visit(Block blockNode) {
 		Panel widgetPanel = new Panel();
+		Widget statementWidget;
 		
 		for(Statement statement : blockNode.statements()) {
-			widgetPanel.addComponent(statement.accept(this));
+			statementWidget = statement.accept(this);			
+			widgetPanel.addComponent(statementWidget);
 		}
 		
 		return widgetPanel;
@@ -122,7 +124,10 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 		Widget questionText = questionNode.getText().accept(this);
     	Widget questionWidget = questionNode.getType().accept(this);
     	
-		return new QuestionComposite(questionNode.getIdentifier(), questionText, questionWidget);
+    	QuestionComposite questionPanel = new QuestionComposite(questionNode.getIdentifier(), questionText, questionWidget);
+    	questionWidget.addObserver(questionPanel);
+    	
+    	return questionPanel;
 	}
 	
 	@Override
@@ -152,6 +157,7 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	@Override
 	public Widget visit(IfElse ifElseNode) {		
 		Value expressionValue = Evaluator.check(ifElseNode.getExpression(), valueEnvironment);
+		
 		Widget ifPanel = new Panel();
 		Widget elsePanel = ifElseNode.getElseBranch().accept(this);
 		

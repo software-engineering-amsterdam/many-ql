@@ -49,7 +49,7 @@ public class QuestionComposite extends Composite implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Something changed in the question " + getIdentifier());
+		notifyObservers();
 	}
 }

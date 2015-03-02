@@ -4,14 +4,10 @@ import gui.Widget;
 
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import cons.Value;
 import cons.value.IntegerValue;
 
 public class IntegerSpinbox extends Widget<IntegerValue> implements ChangeListener {
@@ -20,19 +16,21 @@ public class IntegerSpinbox extends Widget<IntegerValue> implements ChangeListen
 	        
 	public IntegerSpinbox() {
 		model = new SpinnerNumberModel(
-				0, //initial value
-        		Integer.MIN_VALUE, //min
-        		Integer.MAX_VALUE, //max
-        		1);
+					0, //initial value
+	        		Integer.MIN_VALUE, //min
+	        		Integer.MAX_VALUE, //max
+	        		1
+	        	);
 		spinbox = new JSpinner(model);
 	}
 	
 	public IntegerSpinbox(IntegerValue integerValue) {
 		model = new SpinnerNumberModel(
-						(int) integerValue.getValue(), //initial value
-                		integerValue.getValue() - Integer.MAX_VALUE, //min
-                		integerValue.getValue() + Integer.MAX_VALUE, //max
-                		1);
+					(int) integerValue.getValue(), //initial value
+                	integerValue.getValue() - Integer.MAX_VALUE, //min
+                	integerValue.getValue() + Integer.MAX_VALUE, //max
+                	1
+                );
 		spinbox = new JSpinner(model);
 	}
 	
