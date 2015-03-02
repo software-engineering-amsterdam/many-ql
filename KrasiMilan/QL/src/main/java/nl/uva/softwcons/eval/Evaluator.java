@@ -1,7 +1,6 @@
 package nl.uva.softwcons.eval;
 
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
-import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
@@ -19,13 +18,12 @@ import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
-import nl.uva.softwcons.ast.statement.Block;
+import nl.uva.softwcons.ast.form.Form;
+import nl.uva.softwcons.ast.form.FormVisitor;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
-import nl.uva.softwcons.ast.statement.Statement;
 import nl.uva.softwcons.ast.statement.StatementVisitor;
 import nl.uva.softwcons.eval.value.BooleanValue;
 import nl.uva.softwcons.eval.value.DecimalValue;
@@ -33,140 +31,134 @@ import nl.uva.softwcons.eval.value.IntegerValue;
 import nl.uva.softwcons.eval.value.StringValue;
 import nl.uva.softwcons.eval.value.Value;
 
-public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Void> {
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
-    private FormAnswers answers;
+public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, ExpressionVisitor<Value> {
 
-    public Evaluator(FormAnswers answers) {
+    private final FormAnswers answers;
+    private Multimap<Identifier, ValueChangeListener<Value>> changeListeners = ArrayListMultimap.create();
+
+    public Evaluator(final FormAnswers answers) {
         this.answers = answers;
     }
 
+    public void addListener(final Identifier questionId, final ValueChangeListener<Value> listener) {
+        this.changeListeners.put(questionId, listener);
+    }
+
     @Override
-    public Void visit(Block block) {
-        for (Statement stat : block.getStatements()) {
-            stat.accept(this);
-        }
+    public Void visit(final Form form) {
+        form.getStatements().forEach(st -> st.accept(this));
         return null;
     }
 
     @Override
-    public Void visit(ComputedQuestion question) {
+    public Void visit(final ComputedQuestion question) {
         Value resultValue = question.getExpression().accept(this);
         this.answers.setValue(question.getId(), resultValue);
         return null;
     }
 
     @Override
-    public Void visit(Question question) {
+    public Void visit(final Question question) {
         return null;
     }
 
     @Override
-    public Void visit(Conditional question) {
+    public Void visit(final Conditional question) {
         Value resultValue = question.getCondition().accept(this);
         this.answers.setValue(question.getId(), resultValue);
         return null;
     }
 
-    private Value leftValue(BinaryExpression expr) {
-        return expr.getLeftExpression().accept(this);
-    }
-
-    private Value rightValue(BinaryExpression expr) {
-        return expr.getRightExpression().accept(this);
-    }
-
-    private Value unaryValue(UnaryExpression expr) {
-        return expr.getExpression().accept(this);
+    @Override
+    public Value visit(final Addition expr) {
+        return leftOperand(expr).add(rightOperand(expr));
     }
 
     @Override
-    public Value visit(Addition expr) {
-        return (Value) leftValue(expr).add(rightValue(expr));
+    public Value visit(final Division expr) {
+        return leftOperand(expr).divide(rightOperand(expr));
     }
 
     @Override
-    public Value visit(Division expr) {
-        return (Value) leftValue(expr).divide(rightValue(expr));
+    public Value visit(final Multiplication expr) {
+        return leftOperand(expr).multiply(rightOperand(expr));
     }
 
     @Override
-    public Value visit(Multiplication expr) {
-        return (Value) leftValue(expr).multiply(rightValue(expr));
+    public Value visit(final Subtraction expr) {
+        return leftOperand(expr).subtract(rightOperand(expr));
     }
 
     @Override
-    public Value visit(Subtraction expr) {
-        return (Value) leftValue(expr).subtract(rightValue(expr));
+    public Value visit(final Equal expr) {
+        return leftOperand(expr).isEqual(rightOperand(expr));
     }
 
     @Override
-    public Value visit(Equal expr) {
-        return leftValue(expr).isEqual(rightValue(expr));
+    public Value visit(final GreaterOrEqual expr) {
+        return leftOperand(expr).isGreaterOrEqual(rightOperand(expr));
     }
 
     @Override
-    public Value visit(GreaterOrEqual expr) {
-        return leftValue(expr).isGreaterOrEqual(rightValue(expr));
+    public Value visit(final GreaterThan expr) {
+        return leftOperand(expr).isGreater(rightOperand(expr));
     }
 
     @Override
-    public Value visit(GreaterThan expr) {
-        return leftValue(expr).isGreater(rightValue(expr));
+    public Value visit(final LowerOrEqual expr) {
+        return leftOperand(expr).isLowerOrEqual(rightOperand(expr));
     }
 
     @Override
-    public Value visit(LowerOrEqual expr) {
-        return leftValue(expr).isLowerOrEqual(rightValue(expr));
+    public Value visit(final LowerThan expr) {
+        return leftOperand(expr).isLower(rightOperand(expr));
     }
 
     @Override
-    public Value visit(LowerThan expr) {
-        return leftValue(expr).isLower(rightValue(expr));
+    public Value visit(final NotEqual expr) {
+        return leftOperand(expr).isEqual(rightOperand(expr)).not();
     }
 
     @Override
-    public Value visit(NotEqual expr) {
-        return leftValue(expr).isEqual(rightValue(expr)).not();
+    public Value visit(final And expr) {
+        return leftOperand(expr).and(rightOperand(expr));
     }
 
     @Override
-    public Value visit(And expr) {
-        return leftValue(expr).and(rightValue(expr));
+    public Value visit(final Or expr) {
+        return leftOperand(expr).or(rightOperand(expr));
     }
 
     @Override
-    public Value visit(Or expr) {
-        return leftValue(expr).or(rightValue(expr));
+    public Value visit(final Not expr) {
+        return unaryOperand(expr).not();
     }
 
     @Override
-    public Value visit(Not expr) {
-        return unaryValue(expr).not();
+    public Value visit(final Identifier questionId) {
+        return answers.getValue(questionId);
     }
 
     @Override
-    public Value visit(Identifier expr) {
-        return answers.getValue(expr.getName());
-    }
-
-    @Override
-    public BooleanValue visit(BooleanLiteral expr) {
+    public BooleanValue visit(final BooleanLiteral expr) {
         return new BooleanValue(expr.getValue());
     }
 
     @Override
-    public IntegerValue visit(IntegerLiteral expr) {
+    public IntegerValue visit(final IntegerLiteral expr) {
         return new IntegerValue(expr.getValue());
     }
 
     @Override
-    public StringValue visit(StringLiteral expr) {
+    public StringValue visit(final StringLiteral expr) {
         return new StringValue(expr.getValue());
     }
 
     @Override
-    public DecimalValue visit(DecimalLiteral expr) {
+    public DecimalValue visit(final DecimalLiteral expr) {
         return new DecimalValue(expr.getValue());
     }
 }

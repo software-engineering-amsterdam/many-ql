@@ -10,7 +10,8 @@ public abstract class ABinaryExprNode extends ANode {
     private ANode leftChild;
     private ANode rightChild;
 
-    public ABinaryExprNode(ANode leftChild, ANode rightChild) {
+    public ABinaryExprNode(ANode leftChild, ANode rightChild, String location) {
+        super(location);
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }

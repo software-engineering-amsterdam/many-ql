@@ -29,9 +29,8 @@ class Evaluator(object):
 		return None
 
 	def addValue(self, identifier, value):
-		questions = self._questionTable.getQuestionList(identifier)
-
-		for question in questions:
+		question = self._questionTable.get(identifier)
+		if question:
 			self._questionValueTable.update(question, value)
 
 	def getValue(self, identifier):
@@ -47,6 +46,15 @@ class Evaluator(object):
 
 	def identifiers(self):
 		return self._questionTable.identifiers()
+
+	def questions(self):	
+	    questions = []
+	    for ident in self.identifiers():
+	        question = self.getQuestion(ident)
+	        if question:
+	            questions.append(question)
+	    return questions
+
 
 
 class Visitor(ASTVisitor):
@@ -65,7 +73,7 @@ class Visitor(ASTVisitor):
             child = self.visit(n)
 
     def _visitQuestionStatement(self, node):
-    	expr = self.visit(node.expr) if node.expr else None
+    	expr = self.visit(node.expr) if node.expr != None else None
     	question = Question(node, self._conditionalStatements.copy(), self._currentForm, valueExpression = expr)
     	self._evaluator.addQuestion(question)
 
@@ -102,23 +110,3 @@ class Visitor(ASTVisitor):
 
     def _visitBool(self, node):
         return Boolean(node)
-
-# TODO rename to something else?
-class PageStructure(object):
-	def __init__(self, evaluator):
-		self.evaluator = evaluator	
-		self.pages = []
-
-	def createDefaultPages(self):
-		self.pages = [Page(self.evaluator.identifiers())]
-
-	def getVisibleQuestions(self, pageNumber):
-		return self.pages[pageNumber].getQuestions(self.evaluator)
-
-class Page(object):
-	def __init__(self, questionIdentifiers):
-		self.questionIdentifiers = questionIdentifiers
-
-	def getQuestions(self, evaluator):
-		questions = [evaluator.getQuestion(identifier) for identifier in self.questionIdentifiers]
-		return [question for question in questions if question != None]	

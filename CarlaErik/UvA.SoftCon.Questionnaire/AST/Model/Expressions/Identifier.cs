@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.AST.Types;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
@@ -33,12 +32,17 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             Name = name;
         }
 
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override T Accept<T>(IASTVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             if (symbolTable.Keys.Contains(Name))
             {
@@ -46,19 +50,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             }
             else
             {
-                return null;
-            }
-        }
-
-        public IValue Evaluate(IDictionary<string, IValue> environment)
-        {
-            if (environment.Keys.Contains(Name))
-            {
-                return environment[Name];
-            }
-            else
-            {
-                return null;
+                return DataType.Undefined;
             }
         }
 

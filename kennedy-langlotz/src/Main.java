@@ -3,8 +3,10 @@ import com.klq.ast.ANode;
 import com.klq.ast.ASTPrinter;
 import com.klq.ast.ParseTreeConverter;
 import com.klq.gui.QuestionPage;
+import com.klq.gui.Questionnaire;
 import com.klq.logic.controller.Store;
 import com.klq.logic.question.Question;
+import com.klq.typecheker.TypeChecker;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -24,7 +26,7 @@ import java.util.Map;
  * Created by Timon on 09.02.2015.
  */
 public class Main extends Application {
-    private QuestionPage page;
+    private Questionnaire questionnaire;
 
     public static void main(String[] args) throws Exception {
         if (args == null || args.length == 0) {
@@ -65,21 +67,26 @@ public class Main extends Application {
         ParseTreeConverter eval = new ParseTreeConverter();
         ANode ast = eval.visit(tree);
 
+//        TypeChecker tc = new TypeChecker(ast);
+//        tc.reportErrors();
+
         AST2GUIConverter AST2GUIConverter = new AST2GUIConverter();
         Store store = (Store) ast.accept(AST2GUIConverter);
 
-        page = new QuestionPage();
-        store.addStoreListener(page);
+        QuestionPage page = new QuestionPage(store);
         page.addQuestions(store.getOrderedQuestions());
 
+        questionnaire = new Questionnaire(store);
+        questionnaire.addQuestionPage(page);
+
         //print AST for test purposes
-        //ASTPrinter printer = new ASTPrinter();
-        //ast.accept(printer);
+//        ASTPrinter printer = new ASTPrinter();
+//        ast.accept(printer);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(page);
+        Scene scene = new Scene(questionnaire);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

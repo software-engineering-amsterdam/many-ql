@@ -1,5 +1,5 @@
 package org.fugazi.gui.mediator;
 
 public interface IMediator {
-    public void notify(Colleague colleague);
+    public void getChangeFromColleagues(Colleague colleague);
 }

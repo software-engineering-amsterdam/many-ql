@@ -84,7 +84,7 @@ public class CyclicDependencyCheckerTest {
      * interface.
      * 
      * Builds a Form called always "form1" with the given statements (separating
-     * them by spaces), runs the {@link CyclicDependencyChecker} checker and
+     * them by newlines), runs the {@link CyclicDependencyChecker} checker and
      * returns the list of found errors.
      * 
      * @param formContents
@@ -92,9 +92,9 @@ public class CyclicDependencyCheckerTest {
      * @return The errors found by the {@link CyclicDependencyChecker} checker
      */
     private static List<Error> getCyclicDependencyCheckerValidationErrors(final String... formContents) {
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", formContents));
-        CyclicDependencyChecker checker = new CyclicDependencyChecker();
-        form.getBody().accept(checker);
+        final Form form = Questionnaire.build(TestHelper.buildForm("form1", formContents));
+        final CyclicDependencyChecker checker = new CyclicDependencyChecker();
+        form.accept(checker);
 
         return checker.getErrors();
 

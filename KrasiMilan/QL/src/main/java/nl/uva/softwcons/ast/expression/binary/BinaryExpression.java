@@ -1,5 +1,6 @@
 package nl.uva.softwcons.ast.expression.binary;
 
+import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.type.Type;
 
@@ -19,6 +20,11 @@ public abstract class BinaryExpression extends Expression {
 
     public Expression getRightExpression() {
         return rightExpression;
+    }
+
+    @Override
+    public LineInfo getLineInfo() {
+        return leftExpression.getLineInfo();
     }
 
     /**

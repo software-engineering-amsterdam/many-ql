@@ -54,7 +54,6 @@ public class DependencyList {
             idx = this.indexOf(id);
         }
         this.dependecies.get(idx).addDependant(dependant);
-        return;
     }
 
     // this needed to be overridden since AST variables are different object

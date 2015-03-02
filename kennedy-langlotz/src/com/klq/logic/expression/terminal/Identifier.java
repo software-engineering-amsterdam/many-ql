@@ -10,7 +10,6 @@ import java.lang.String;
  */
 public class Identifier extends AExpression {
     private final String content;
-    private AExpression assignedVariable;
 
     public Identifier(String content) {
         super(null, null, AExpression.IDENTIFIER);
@@ -19,8 +18,6 @@ public class Identifier extends AExpression {
 
     @Override
     public AExpression evaluate() {
-        if (assignedVariable != null)
-            return assignedVariable;
         return this;
     }
 
@@ -29,10 +26,17 @@ public class Identifier extends AExpression {
         return content;
     }
 
-    public void assignVariable(AExpression variable){
-        if (variable != null) {
-            this.assignedVariable = variable;
-            fireValueChangedEvent();
+    @Override
+    public int hashCode() {
+        return content.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Identifier){
+            AExpression id = (Identifier) obj;
+            return content.equals(id.getContent());
         }
+        return false;
     }
 }

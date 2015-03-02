@@ -6,12 +6,10 @@ grammar QL;
 /* Start rule */
 form : stat* ;
 
-
-stat : TYPE ID STRING                                                       # Question
+stat : ID STRING TYPE ('=' expr)?                                           # Question
      | 'if' '(' expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
 	 | TYPE ID ('=' expr)?                                                  # Declaration
 	 | ID '=' expr                                                          # Assignment
-	 | 'show' expr                                                          # ShowExpression
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride

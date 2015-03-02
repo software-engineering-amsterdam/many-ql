@@ -22,4 +22,9 @@ public class Id implements IKLQItem {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }

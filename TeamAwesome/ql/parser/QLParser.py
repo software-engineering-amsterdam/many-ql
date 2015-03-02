@@ -610,7 +610,7 @@ class QLParser ( Parser ):
                 self.state = 74
                 self.match(QLParser.T__10)
                 self.state = 75
-                self.expr(0)
+                localctx.left = self.expr(0)
                 self.state = 76
                 self.match(QLParser.T__11)
 

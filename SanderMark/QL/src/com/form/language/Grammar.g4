@@ -9,12 +9,13 @@ grammar Grammar;
 	import com.form.language.ast.expression.logic.*;
 	import com.form.language.ast.statement.*;
 	import com.form.language.ast.values.*;
+	import com.form.language.ast.type.*;
 	
 	import com.form.language.memory.*;
 }
 
 form returns [Form result]
-	: 'form' ID '{' stmts=statementList {$result = new Form($ID.text,$stmts.result);}'}'
+	: 'form' ID '{' stmts=statementList {$result = new Form($ID.text,$stmts.result);}'}' 
 ;
 
 statementList returns [List<Statement> result]
@@ -30,17 +31,19 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID TYPE {$result = new Question($STRING.text, $ID.text, $TYPE.text,new Memory());}
+	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result,new Memory());}
 	;
 	
-assignmentStatement returns [Statement result]
-: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result);}
+ifStatement returns [Statement result]
+: IF exp=expression 'then' slist=statementList
+  'end' {$result = new IfStatement($exp.result,$slist.result, $IF);}
 ;
 
-ifStatement returns [Statement result]
-: 'if' exp=expression 'then' slist=statementList
-  'end' {$result = new IfStatement($exp.result,$slist.result);}
+assignmentStatement returns [Statement result]
+: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result, $ID);}
 ;
+
+
 
 expression returns [Expression result]
 	: LBRACE x=expression RBRACE				{ $result = $x.result;}
@@ -69,10 +72,15 @@ literal returns [Expression result]
 	| ID	    {$result = new IdLiteral($ID.text,$ID);}
 	;
 
+type returns [Type result]
+	: 'Boolean' {new BoolType();}
+	| 'String' {new StringType();}
+	| 'Number' {new IntType();};
+
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
+IF: 'if';
 BOOLEAN : 'true' | 'false';
-TYPE: 'Boolean' | 'String' | 'Number';
 STRING: '"'.*?'"';
 INTEGER : [0-9]+;
 

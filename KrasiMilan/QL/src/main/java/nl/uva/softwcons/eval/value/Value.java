@@ -1,8 +1,11 @@
 package nl.uva.softwcons.eval.value;
 
-public abstract class Value<T> {
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
-    public abstract T getValue();
+public abstract class Value {
+
+    public abstract Object getValue();
 
     public Value add(Value otherValue) {
         throw new UnsupportedOperationException();
@@ -51,4 +54,21 @@ public abstract class Value<T> {
     public BooleanValue not() {
         throw new UnsupportedOperationException();
     }
+
+    public BigInteger asInteger() {
+        throw new UnsupportedOperationException();
+    }
+
+    public BigDecimal asDecimal() {
+        throw new UnsupportedOperationException();
+    }
+
+    public String asString() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Boolean asBoolean() {
+        throw new UnsupportedOperationException();
+    }
+
 }

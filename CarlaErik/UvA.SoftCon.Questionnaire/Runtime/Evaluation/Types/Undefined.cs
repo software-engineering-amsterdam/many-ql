@@ -3,164 +3,173 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
 {
-    public class Undefined : IValue
+    public class Undefined : Value
     {
-        public bool IsUndefined
+        public override DataType DataType
+        {
+            get
+            {
+                return DataType.Undefined;
+            }
+        }
+
+        public override bool IsUndefined
         {
             get { return true; }
         }
 
-        public IInteger Plus(IValue value)
+        public override Value Plus(Value value)
         {
-            //return new Undefined
+            return new Undefined();
         }
 
-        public IInteger PlusInt(IInteger value)
+        internal override Value PlusInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IInteger Minus(IValue value)
+        public override Value Minus(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IInteger MinusInt(IInteger value)
+        internal override Value MinusInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IInteger MultipliedBy(IValue value)
+        public override Value MultipliedBy(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IInteger MultipliedByInt(IInteger value)
+        internal override Value MultipliedByInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IInteger DividedBy(IValue value)
+        public override Value DividedBy(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IInteger DividedByInt(IInteger value)
+        internal override Value DividedByInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IInteger Increment()
+        public override Value Increment()
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsEqualTo(IValue value)
+        public override Value IsEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsEqualToInt(IInteger value)
+        internal override Value IsEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsEqualToString(IString value)
+        internal override Value IsEqualToString(StringValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsEqualToBool(IBoolean value)
+        internal override Value IsEqualToBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsNotEqualTo(IValue value)
+        public override Value IsNotEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsNotEqualToInt(IInteger value)
+        internal override Value IsNotEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsNotEqualToString(IString value)
+        internal override Value IsNotEqualToString(StringValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsNotEqualToBool(IBoolean value)
+        internal override Value IsNotEqualToBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsLessThan(IValue value)
+        public override Value IsLessThan(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsLessThanInt(IInteger value)
+        internal override Value IsLessThanInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsLessThanOrEqualTo(IValue value)
+        public override Value IsLessThanOrEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsLessThanOrEqualToInt(IInteger value)
+        internal override Value IsLessThanOrEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsGreaterThan(IValue value)
+        public override Value IsGreaterThan(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsGreaterThanInt(IInteger value)
+        internal override Value IsGreaterThanInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsGreaterThanOrEqualTo(IValue value)
+        public override Value IsGreaterThanOrEqualTo(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean IsGreaterThanOrEqualToInt(IInteger value)
+        internal override Value IsGreaterThanOrEqualToInt(IntegerValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean And(IValue value)
+        public override Value And(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean AndBool(IBoolean value)
+        internal override Value AndBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean Or(IValue value)
+        public override Value Or(Value value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean OrBool(IBoolean value)
+        internal override Value OrBool(BooleanValue value)
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
 
-        public IBoolean Negate()
+        public override Value Negate()
         {
-            throw new NotImplementedException();
+            return new Undefined();
         }
     }
 }

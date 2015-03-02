@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
-import com.form.language.ast.type.BoolType;
+import com.form.language.error.ErrorCollector;
 import com.form.language.memory.Memory;
 
 public class Question implements Statement {
@@ -20,19 +20,21 @@ public class Question implements Statement {
 	private JPanel qPanel;
 	private JPanel labelContainer;
 	
-	public Question(String questionLabel, String id, String questionType, Memory memory) {
+	public Question(String questionLabel, String id, Type questionType, Memory memory) {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
-		if(questionType.equals("Boolean"))
-				{
-					this.questionType = new BoolType();
-				}
+		this.questionType = questionType;
 		
 		//Call ID constructor
 		new IdLiteral(id,questionType,memory,null);
 	}
 	
+	@Override
+	public Type getType() {
+		return this.questionType;
+	}
+
 	private void createQuestion(){		
 		qPanel = new JPanel();
 		qPanel.setLayout(new BoxLayout(qPanel, BoxLayout.X_AXIS)); 
@@ -51,13 +53,13 @@ public class Question implements Statement {
 	//Type checker implementation to be added
 	private void createQuestionType()
 	{
-		if(questionType.equals("Boolean"))
+		if(questionType.isBoolType())
 		{
 			JCheckBox checkbox = new JCheckBox();
 			checkbox.setName(id);
 			qPanel.add(checkbox);			
 		}
-		else if(questionType.equals("String"))
+		else if(questionType.isStringType())
 		{
 			JTextField textfield = new JTextField();
 			textfield.setName(id);
@@ -77,5 +79,19 @@ public class Question implements Statement {
 		createQuestionLabel();
 		createQuestionType();
 		return qPanel;
+	}
+
+	@Override
+	public void getErrors(ErrorCollector errs) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fillMemory(Memory memory) {
+		// TODO Auto-generated method stub		
+		memory.addId(this.id, this.questionType);
 	}	
+	
+	
 }

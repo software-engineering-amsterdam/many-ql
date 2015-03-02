@@ -7,10 +7,10 @@ import com.klq.ast.impl.expr.ABinaryExprNode;
 /**
  * Created by Juriaan on 22-2-2015.
  */
-public class OrNode extends ABinaryExprNode {
+public class OrNode extends ABooleanNode {
 
-    public OrNode(ANode leftChild, ANode rightChild) {
-        super(leftChild, rightChild);
+    public OrNode(ANode leftChild, ANode rightChild, String location) {
+        super(leftChild, rightChild, location);
     }
 
     @Override

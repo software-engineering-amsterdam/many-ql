@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class QuestionnaireNode extends ANode {
     private ArrayList<ANode> children;
 
-    public QuestionnaireNode() {
+    public QuestionnaireNode(String location) {
+        super(location);
         this.children = new ArrayList<ANode>();
     }
 

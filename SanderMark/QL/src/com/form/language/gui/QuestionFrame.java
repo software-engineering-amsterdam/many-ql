@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.form.language.ast.statement.Form;
+import com.form.language.ast.Form;
 
 public class QuestionFrame extends JFrame {
 	

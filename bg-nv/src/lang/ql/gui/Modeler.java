@@ -2,14 +2,12 @@ package lang.ql.gui;
 
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
+import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
-import lang.ql.ast.type.*;
 import lang.ql.gui.canvas.Canvas;
 import lang.ql.gui.input.*;
 import lang.ql.gui.label.Label;
 import lang.ql.gui.line.Line;
-import lang.ql.semantics.ValueTable;
-import lang.ql.ast.AstVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +16,10 @@ import java.util.List;
 /**
  * Created by Nik on 17-2-15.
  */
-public class Modeler implements AstVisitor<GuiElement>
+public class Modeler implements FormVisitor<GuiElement>, StatVisitor<GuiElement>, ExprVisitor<GuiElement>
 {
     @Override
-    public GuiElement visit(Form form)
+    public Canvas visit(Form form)
     {
         List<Line> lines = new ArrayList<Line>();
         for (Statement s : form.getBody())
@@ -36,54 +34,16 @@ public class Modeler implements AstVisitor<GuiElement>
     public GuiElement visit(Question q)
     {
         Label label = new Label(q.getLabel());
-        Input input = (Input) q.getType().accept(this);
+        Input input = InputBuilder.build(q.getId(), q.getType());
         return new Line(label, input);
     }
 
     @Override
     public GuiElement visit(CalculatedQuestion cq)
     {
-//        Expr expression = cq.getDefaultValue();
-
         Label label = new Label(cq.getLabel());
-        Input input = (Input) cq.getType().accept(this);
+        Input input = ExprInputBuilder.build(cq.getId(), cq.getCalculation(), cq.getType());
         return new Line(label, input);
-    }
-
-    @Override
-    public GuiElement visit(BoolType type)
-    {
-        return new BoolInput();
-    }
-
-    @Override
-    public GuiElement visit(DateType type)
-    {
-        return new DateInput();
-    }
-
-    @Override
-    public GuiElement visit(DecType type)
-    {
-        return new DecInput();
-    }
-
-    @Override
-    public GuiElement visit(IntType type)
-    {
-        return new IntInput();
-    }
-
-    @Override
-    public GuiElement visit(StrType type)
-    {
-        return new StrInput();
-    }
-
-    @Override
-    public GuiElement visit(UndefinedType type)
-    {
-        return new StrInput();
     }
 
     @Override

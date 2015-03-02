@@ -36,8 +36,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             // Act
             visitor.Visit(form);
 
-            var errorReportBuilder = new ErrorReportBuilder();
-            errorReportBuilder.GenerateTypeCheckingMessages(visitor);
+            var errorReportBuilder = new ErrorReport();
+            errorReportBuilder.AddTypeCheckingMessages(visitor);
 
             string report = errorReportBuilder.GetReport();
 

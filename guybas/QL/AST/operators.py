@@ -1,8 +1,8 @@
 # AST for operators
-from Grammar.expressions import *
-from Grammar.basic_types import *
+from QL.Grammar.basic_types import *
 
 
+# TODO: Put this in multiple files?
 class Element:
     def __init__(self):
         pass
@@ -16,12 +16,15 @@ class Element:
     def get_dependencies(self):
         pass
 
+    def as_list(self):
+        pass
+
 
 class Variable(Element):
     def __init__(self, name):
         self.name = name
 
-    def __str__(self):
+    def pretty_print(self):
         return str(self.name)
 
     def return_type(self, type_dict):
@@ -31,6 +34,9 @@ class Variable(Element):
         return self.name
 
     def get_dependencies(self):
+        return [self.name]
+
+    def as_list(self):
         return [self.name]
 
 
@@ -47,6 +53,9 @@ class Number(Element):
     def get_dependencies(self):
         return []
 
+    def as_list(self):
+        return [self.number]
+
 
 class Bool(Element):
     def __init__(self, pbool):
@@ -60,6 +69,9 @@ class Bool(Element):
 
     def get_dependencies(self):
         return []
+
+    def as_list(self):
+        return [self.bool]
 
 
 class Operator(Element):
@@ -78,6 +90,9 @@ class Operator(Element):
 
     def get_dependencies(self):
         return []
+
+    def as_list(self):
+        return [self.operator]
 
 
 class CompareOperator(Operator):

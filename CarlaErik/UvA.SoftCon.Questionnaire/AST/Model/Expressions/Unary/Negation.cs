@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.AST.Types;
 using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
@@ -24,21 +23,24 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
         {
         }
 
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override T Accept<T>(IASTVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public override DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Boolean;
         }
 
-        public override IValue Evaluate(IDictionary<string, IValue> environment)
+        public override bool OperandTypeIsValid(DataType operandType)
         {
-            IValue operand = Operand.Evaluate(environment);
-
-            return operand.Negate();
+            return (operandType == DataType.Boolean);
         }
 
         public override string ToString()

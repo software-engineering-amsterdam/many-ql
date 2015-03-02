@@ -10,6 +10,7 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 
 public class Not extends UnaryExpression implements Expression {
 
@@ -29,21 +30,26 @@ public class Not extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public ErrorCollector getErrors(ErrorCollector errors) {
+	public void getErrors(ErrorCollector errors) {
 		Type childType = value.getType();
+		value.getErrors(errors);
 		
-		ErrorCollector newErrors = value.getErrors(errors);
-
 		if(childType.isBoolType()) {
-			return newErrors;
+			return;
 		}
 		else{
 			if(!childType.isErrorType()){
 				Error newError = new Error(tokenInfo, "Expected !Boolean, but found !"  + childType);
-				newErrors.add(newError);
-				return newErrors;
+				errors.add(newError);
+				return;
 			}
-			return newErrors;
+			return;
 		}
+	}
+
+	@Override
+	public void fillMemory(Memory memory) {
+		// TODO Auto-generated method stub
+		
 	}
 }

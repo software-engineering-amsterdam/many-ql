@@ -82,7 +82,7 @@
     <Compile Include="Model\Statements\Declaration.cs" />
     <Compile Include="Model\TextPosition.cs" />
     <Compile Include="Visitors\FormVisitor.cs" />
-    <Compile Include="Model\Form.cs" />
+    <Compile Include="Model\QuestionForm.cs" />
     <Compile Include="Model\Expressions\IExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Statements\IfStatement.cs" />
@@ -91,9 +91,7 @@
     <Compile Include="Visitors\ExpressionVisitor.cs" />
     <Compile Include="Visitors\StatementVisitor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Types\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="S:\StrongName\Questionnaire.snk">
       <Link>Properties\Questionnaire.snk</Link>

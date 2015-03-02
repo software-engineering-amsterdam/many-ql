@@ -1,6 +1,6 @@
-from Grammar.form import *
-from Main.type_checker import *
-from Main.gui import *
+from QL.Grammar.form import *
+from QL.Main.type_checker import *
+from QL.Main.gui import *
 
 # TODO: unit tests for type checker and processor (and gui?)
 # TODO: support text in expressions
@@ -8,10 +8,10 @@ from Main.gui import *
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = FormFactory.make_form(formAsParseResults)
-    print(form.pretty_print())
+    # print(form.pretty_print())
 
-    #print(form._type_dict)
-    #typeChecker = TypeChecker(form)
+    typeChecker = TypeChecker(form)
+
     gui = QuestionnaireGUI(form)
     gui.generate_gui()
     gui.show()

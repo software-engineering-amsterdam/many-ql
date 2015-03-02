@@ -1,11 +1,16 @@
 package nl.uva.softwcons.eval.value;
 
-public class StringValue extends Value<String> {
+public class StringValue extends Value {
 
     private final String stringValue;
 
     public StringValue(String value) {
         this.stringValue = value;
+    }
+
+    @Override
+    public String asString() {
+        return stringValue;
     }
 
     @Override

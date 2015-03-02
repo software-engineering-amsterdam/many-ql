@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Antlr4.Runtime;
@@ -45,7 +46,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            var question = form.Statements[0] as Question;
+            var question = form.Statements.First() as Question;
             Assert.AreEqual<string>("What is your favorite color?", question.Label);
             Assert.AreEqual<string>("FavoriteColor", question.Id.Name);
             Assert.AreEqual<DataType>(DataType.String, question.DataType);
@@ -64,7 +65,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            var declaration = form.Statements[0] as Declaration;
+            var declaration = form.Statements.First() as Declaration;
 
             Assert.AreEqual<DataType>(DataType.Integer, declaration.DataType);
             Assert.AreEqual<string>("counter", declaration.Id.Name);
@@ -76,7 +77,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
         {
             // Arrange
             var controller = new ASTController();
-            string ql = "string surname = \"Verhoofstad\"";
+            string ql = "string surname = \"De Vries\"";
 
             // Act
             var form = controller.ParseQLString(ql);
@@ -84,13 +85,13 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            var declaration = form.Statements[0] as Declaration;
+            var declaration = form.Statements.First() as Declaration;
 
             Assert.AreEqual<DataType>(DataType.String, declaration.DataType);
             Assert.AreEqual<string>("surname", declaration.Id.Name);
             Assert.IsInstanceOfType(declaration.Initialization, typeof(StringLiteral));
             var initialization = declaration.Initialization as StringLiteral;
-            Assert.AreEqual<string>("Verhoofstad", initialization.Value);
+            Assert.AreEqual<string>("De Vries", initialization.Value);
         }
 
         [TestMethod]
@@ -106,7 +107,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            var assignment = form.Statements[0] as Assignment;
+            var assignment = form.Statements.First() as Assignment;
 
             Assert.AreEqual<string>("5 * 6 + 7", assignment.Expression.ToString());
         }
@@ -124,8 +125,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements[0].Type);
-            var ifStatement = form.Statements[0] as IfStatement;
+            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements.First().Type);
+            var ifStatement = form.Statements.First() as IfStatement;
             Assert.AreEqual<int>(1, ifStatement.Then.Count);
             Assert.AreEqual<int>(0, ifStatement.Else.Count);
         }
@@ -143,8 +144,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements[0].Type);
-            var ifStatement = form.Statements[0] as IfStatement;
+            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements.First().Type);
+            var ifStatement = form.Statements.First() as IfStatement;
             Assert.AreEqual<int>(1, ifStatement.Then.Count);
             Assert.AreEqual<int>(1, ifStatement.Else.Count);
         }

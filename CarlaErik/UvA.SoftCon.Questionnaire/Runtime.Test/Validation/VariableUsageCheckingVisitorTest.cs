@@ -28,14 +28,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
                 new Assignment(new Identifier("age", new TextPosition(2,1)), new IntegerLiteral(36, new TextPosition(2,4)), new TextPosition(2,1))
             };
 
-            var ql = new Form(statements, new TextPosition(1,1));
+            var ql = new QuestionForm(statements, new TextPosition(1,1));
 
             // Act
             visitor.Visit(ql);
 
             // Assert
-            Assert.AreEqual<int>(1, visitor.DeclaredVariables.Count);
-            Assert.AreEqual<int>(1, visitor.DeclaredVariables["age"].UsageCount);
+            Assert.AreEqual<int>(0, visitor.UnusedVariables.Count);
             Assert.AreEqual<int>(0, visitor.UndeclaredVariables.Count);
             Assert.AreEqual<int>(0, visitor.RedeclaredVariables.Count);
         }
@@ -51,14 +50,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
                 new Declaration(DataType.Integer, new Identifier("age", new TextPosition(1,5)), new TextPosition(2,1)),
             };
 
-            var ql = new Form(statements, new TextPosition(1,1));
+            var ql = new QuestionForm(statements, new TextPosition(1,1));
 
             // Act
             visitor.Visit(ql);
 
             // Assert
-            Assert.AreEqual<int>(1, visitor.DeclaredVariables.Count);
-            Assert.AreEqual<int>(0, visitor.DeclaredVariables["age"].UsageCount);
+            Assert.AreEqual<int>(0, visitor.UnusedVariables.Count);
             Assert.AreEqual<int>(0, visitor.UndeclaredVariables.Count);
             Assert.AreEqual<int>(1, visitor.RedeclaredVariables.Count);
         }
@@ -80,8 +78,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
 
             visitor.Visit(form);
 
-            var errorReportBuilder = new ErrorReportBuilder();
-            errorReportBuilder.GenerateVariableUsageMessages(visitor);
+            var errorReportBuilder = new ErrorReport();
+            errorReportBuilder.AddVariableUsageMessages(visitor);
 
             string report = errorReportBuilder.GetReport();
 

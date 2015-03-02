@@ -6,7 +6,6 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.StringType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.StringValue;
-import com.form.language.error.ErrorCollector;
 
 public class StringLiteral extends Literal implements Expression {
 	private final String value;
@@ -26,8 +25,4 @@ public class StringLiteral extends Literal implements Expression {
 		return new StringType();
 	}
 	
-	@Override
-	public ErrorCollector getErrors(ErrorCollector errs) {
-		return errs;
-	}
 }

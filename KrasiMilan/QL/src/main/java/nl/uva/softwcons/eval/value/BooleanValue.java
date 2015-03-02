@@ -1,6 +1,6 @@
 package nl.uva.softwcons.eval.value;
 
-public class BooleanValue extends Value<Boolean> {
+public class BooleanValue extends Value {
 
     private final Boolean value;
 
@@ -14,8 +14,18 @@ public class BooleanValue extends Value<Boolean> {
     }
 
     @Override
+    public Boolean asBoolean() {
+        return value;
+    }
+
+    @Override
+    public String asString() {
+        return value.toString();
+    }
+
+    @Override
     public BooleanValue isEqual(Value otherValue) {
-        return new BooleanValue(this.value != null && (this.value == ((Boolean) otherValue.getValue())));
+        return new BooleanValue(this.value != null && (this.value.equals((Boolean) otherValue.getValue())));
     }
 
     @Override

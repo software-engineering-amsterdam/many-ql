@@ -1,5 +1,6 @@
 package org.uva.ql.ast.builder;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.uva.ql.antlr.QLBaseVisitor;
 import org.uva.ql.antlr.QLParser.BlockContext;
 import org.uva.ql.antlr.QLParser.ExprAndContext;
@@ -26,6 +27,8 @@ import org.uva.ql.antlr.QLParser.LiteralIdContext;
 import org.uva.ql.antlr.QLParser.LiteralIntContext;
 import org.uva.ql.antlr.QLParser.LiteralStrContext;
 import org.uva.ql.antlr.QLParser.QuestionComputeContext;
+import org.uva.ql.antlr.QLParser.QuestionIdentifierContext;
+import org.uva.ql.antlr.QLParser.QuestionLabelContext;
 import org.uva.ql.antlr.QLParser.QuestionNormalContext;
 import org.uva.ql.antlr.QLParser.QuestionnaireContext;
 import org.uva.ql.antlr.QLParser.StatementContext;
@@ -47,6 +50,7 @@ import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.NotEqual;
 import org.uva.ql.ast.expression.binary.Or;
 import org.uva.ql.ast.expression.binary.Plus;
+import org.uva.ql.ast.expression.literal.BoolLiteral;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.IntLiteral;
 import org.uva.ql.ast.expression.literal.StrLiteral;
@@ -70,10 +74,9 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitQuestionnaire(QuestionnaireContext ctx) {
-		System.out.println("Visiting Questionnaire...");
-		Questionnaire questionnaire = new Questionnaire();
+		CodePosition pos = getCodePosition(ctx);
+		Questionnaire questionnaire = new Questionnaire(pos);
 		for (FormContext formContext : ctx.form()) {
-			//questionnaire.addForm((Form) visitForm(formContext));
 			questionnaire.addForm((Form) formContext.accept(this));
 		}
 		return questionnaire;
@@ -81,16 +84,16 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitForm(FormContext ctx) {
-		System.out.println("Visiting Form...");
-		Identifier id = new Identifier(ctx.Identifier().getText());
+		CodePosition pos = getCodePosition(ctx);
+		Identifier id = new Identifier(ctx.Identifier().getText(), pos);
 		Block block = (Block) ctx.block().accept(this);
-		return new Form(id, block);
+		return new Form(id, block, pos);
 	}
-	
+
 	@Override
 	public Node visitBlock(BlockContext ctx) {
-		System.out.println("Visiting Block...");
-		Block block = new Block();
+		CodePosition pos = getCodePosition(ctx);
+		Block block = new Block(pos);
 		for (StatementContext statementContext : ctx.statement()) {
 			block.addStatement((Statement) statementContext.accept(this));
 		}
@@ -99,190 +102,220 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitIf(IfContext ctx) {
-		System.out.println("Visiting If...");
+		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		Block block = (Block) ctx.ifBody.accept(this);
-		return new IfStatement(expr, block);
+		return new IfStatement(expr, block, pos);
 	}
 
 	@Override
 	public Node visitIfElse(IfElseContext ctx) {
-		System.out.println("Visiting If-Else...");
+		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
 		Block ifBlock = (Block) ctx.ifBody.accept(this);
 		Block elseBlock = (Block) ctx.elseBody.accept(this);
-		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock);
+		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock, pos);
 		return ifElseStatement;
 	}
 
 	@Override
 	public Node visitQuestionNormal(QuestionNormalContext ctx) {
-		System.out.println("Visiting Normal Question...");
-		Identifier id = new Identifier(ctx.questionName().getText());
-		// Remove the First and Last Quotes
-		StrLiteral label = new StrLiteral(ctx.questionLabel().getText().replaceAll("^\"|\"$", ""));
+		CodePosition pos = getCodePosition(ctx);
+		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
+		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
-		return new QuestionNormal(id, label, type);
+		return new QuestionNormal(id, label, type, pos);
 	}
 
 	@Override
 	public Node visitQuestionCompute(QuestionComputeContext ctx) {
-		System.out.println("Visiting Compute Question...");
-		Identifier id = new Identifier(ctx.questionName().Identifier().getText());
-		// Remove the First and Last Quotes
-		StrLiteral label = new StrLiteral(ctx.questionLabel().getText().replaceAll("^\"|\"$", ""));
+		CodePosition pos = getCodePosition(ctx);
+		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
+		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new QuestionCompute(id, label, type, expr);
+		return new QuestionCompute(id, label, type, expr, pos);
 	}
 
 	@Override
 	public Node visitTypeInt(TypeIntContext ctx) {
-		System.out.println("Visiting Type Int");
 		return new IntType();
 	}
-	
+
 	@Override
 	public Node visitTypeBool(TypeBoolContext ctx) {
-		System.out.println("Visiting Type Bool");
 		return new BoolType();
 	}
-	
+
 	@Override
 	public Node visitTypeStr(TypeStrContext ctx) {
-		System.out.println("Visiting Type Str");
 		return new StrType();
 	}
-	
-	//=================================================================
-	//	Expression
-	//=================================================================
+
+	// =================================================================
+	// Expression
+	// =================================================================
 
 	@Override
 	public Node visitExprNot(ExprNotContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new Not(expr);
+		return new Not(expr, pos);
 	}
 
 	@Override
 	public Node visitExprPositive(ExprPositiveContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new Positive(expr);
+		return new Positive(expr, pos);
 	}
 
 	@Override
 	public Node visitExprNegative(ExprNegativeContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression expr = (Expression) ctx.expression().accept(this);
-		return new Negative(expr);
+		return new Negative(expr, pos);
 	}
 
 	@Override
 	public Node visitExprPlus(ExprPlusContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Plus(left, right);
+		return new Plus(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprMinus(ExprMinusContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Minus(left, right);
+		return new Minus(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprMultiply(ExprMultiplyContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Multiply(left, right);
+		return new Multiply(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprDivide(ExprDivideContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Divide(left, right);
+		return new Divide(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprAnd(ExprAndContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new And(left, right);
+		return new And(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprOr(ExprOrContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Or(left, right);
+		return new Or(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprEqual(ExprEqualContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Equal(left, right);
+		return new Equal(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprNotEqual(ExprNotEqualContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new NotEqual(left, right);
+		return new NotEqual(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprGreater(ExprGreaterContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Greater(left, right);
+		return new Greater(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprGreaterEqual(ExprGreaterEqualContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new GreaterEqual(left, right);
+		return new GreaterEqual(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprLess(ExprLessContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new Less(left, right);
+		return new Less(left, right, pos);
 	}
 
 	@Override
 	public Node visitExprLessEqual(ExprLessEqualContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
 		Expression left = (Expression) ctx.left.accept(this);
 		Expression right = (Expression) ctx.right.accept(this);
-		return new LessEqual(left, right);
+		return new LessEqual(left, right, pos);
 	}
 
 	@Override
 	public Node visitLiteralId(LiteralIdContext ctx) {
-		return new Identifier(ctx.Identifier().getText());
+		CodePosition pos = getCodePosition(ctx);
+		return new Identifier(ctx.Identifier().getText(), pos);
 	}
 
 	@Override
 	public Node visitLiteralInt(LiteralIntContext ctx) {
-		return new IntLiteral(Integer.parseInt(ctx.getText()));
+		CodePosition pos = getCodePosition(ctx);
+		return new IntLiteral(Integer.parseInt(ctx.getText()), pos);
 	}
 
 	@Override
 	public Node visitLiteralBool(LiteralBoolContext ctx) {
-		return ctx.BooleanLiteral().accept(this);
+		CodePosition pos = getCodePosition(ctx);
+		return new BoolLiteral(Boolean.parseBoolean(ctx.getText()), pos);
 	}
 
 	@Override
 	public Node visitLiteralStr(LiteralStrContext ctx) {
-		return new StrLiteral(ctx.StringLiteral().getText());
+		CodePosition pos = getCodePosition(ctx);
+		return new StrLiteral(ctx.StringLiteral().getText(), pos);
 	}
 
 	@Override
 	public Node visitExprParentheses(ExprParenthesesContext ctx) {
-		return new Parenthese((Expression) ctx.expression().accept(this));
+		CodePosition pos = getCodePosition(ctx);
+		return new Parenthese((Expression) ctx.expression().accept(this), pos);
 	}
-	
+
+	private CodePosition getCodePosition(ParserRuleContext ctx) {
+		return new CodePosition(ctx.getStart().getLine(), ctx.getStop().getLine());
+	}
+
+	@Override
+	public Node visitQuestionIdentifier(QuestionIdentifierContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
+		return new Identifier(ctx.Identifier().getText(), pos);
+	}
+
+	@Override
+	public Node visitQuestionLabel(QuestionLabelContext ctx) {
+		CodePosition pos = getCodePosition(ctx);
+		return new StrLiteral(ctx.StringLiteral().getText().replaceAll("^\"|\"$", ""), pos);
+	}
 }

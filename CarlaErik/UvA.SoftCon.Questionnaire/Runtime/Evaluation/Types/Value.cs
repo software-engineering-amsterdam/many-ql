@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
 {
-    public abstract class Value : IValue
+    public abstract class Value
     {
+        public abstract DataType DataType { get; }
+
         public virtual bool IsUndefined
         {
             get
@@ -16,160 +21,177 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types
             }
         }
 
-        public virtual IInteger Plus(IValue value)
+        public virtual Value Plus(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Add, this, value));
+        }
+
+        internal virtual Value PlusInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Add, value, this));
+        }
+
+        internal virtual Value PlusString(StringValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Add, value, this));
+        }
+
+        public virtual Value Minus(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Substract, this, value));
+        }
+
+        internal virtual Value MinusInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Substract, value, this));
+        }
+
+        public virtual Value MultipliedBy(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Multiply, this, value));
+        }
+
+        internal virtual Value MultipliedByInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Multiply, value, this));
+        }
+
+        public virtual Value DividedBy(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Divide, this, value));
+        }
+
+        internal virtual Value DividedByInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Divide, value, this));
+        }
+
+        public virtual Value Increment()
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.Increment, this));
+        }
+
+        public virtual Value IsEqualTo(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.EqualTo, this, value));
+        }
+
+        internal virtual Value IsEqualToInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.EqualTo, value, this));
+        }
+
+        internal virtual Value IsEqualToString(StringValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.EqualTo, value, this));
+        }
+
+        internal virtual Value IsEqualToBool(BooleanValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.EqualTo, value, this));
+        }
+
+        public virtual Value IsNotEqualTo(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.NotEqualTo, this, value));
+        }
+
+        internal virtual Value IsNotEqualToInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.NotEqualTo, value, this));
+        }
+
+        internal virtual Value IsNotEqualToString(StringValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.NotEqualTo, value, this));
+        }
+
+        internal virtual Value IsNotEqualToBool(BooleanValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.NotEqualTo, value, this));
+        }
+
+        public virtual Value IsLessThan(Value value)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual IInteger PlusInt(IInteger value)
+        internal virtual Value IsLessThanInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.LessThan, value, this));
+        }
+
+        public virtual Value IsLessThanOrEqualTo(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.LessThanOrEqualTo, this, value));
+        }
+
+        internal virtual Value IsLessThanOrEqualToInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.LessThanOrEqualTo, value, this));
+        }
+
+        public virtual Value IsGreaterThan(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.GreaterThan, this, value));
+        }
+
+        internal virtual Value IsGreaterThanInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.GreaterThan, value, this));
+        }
+
+        public virtual Value IsGreaterThanOrEqualTo(Value value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.GreaterThanOrEqualTo, this, value));
+        }
+
+        internal virtual Value IsGreaterThanOrEqualToInt(IntegerValue value)
+        {
+            throw new InvalidOperationException(CreateMessage(Operation.GreaterThanOrEqualTo, value, this));
+        }
+
+        public virtual Value And(Value value)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual IInteger Minus(IValue value)
+        internal virtual Value AndBool(BooleanValue value)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual IInteger MinusInt(IInteger value)
+        public virtual Value Or(Value value)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual IInteger MultipliedBy(IValue value)
+        internal virtual Value OrBool(BooleanValue value)
         {
             throw new InvalidOperationException();
         }
 
-        public virtual IInteger MultipliedByInt(IInteger value)
+        public virtual Value Negate()
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException(CreateMessage(Operation.Negation, this));
         }
 
-        public virtual IInteger DividedBy(IValue value)
+        private string CreateMessage(Operation operation, Value operand)
         {
-            throw new InvalidOperationException();
+            return String.Format("Operator '{0}' can not be applied to operand of type '{1}'.",
+                StringEnum.GetStringValue(operation), StringEnum.GetStringValue(operand.DataType));
         }
 
-        public virtual IInteger DividedByInt(IInteger value)
+        private string CreateMessage(Operation operation, Value left, Value right)
         {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IInteger Increment()
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsEqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsEqualToInt(IInteger value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsEqualToString(IString value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsEqualToBool(IBoolean value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsNotEqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsNotEqualToInt(IInteger value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsNotEqualToString(IString value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsNotEqualToBool(IBoolean value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsLessThan(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsLessThanInt(IInteger value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsLessThanOrEqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsLessThanOrEqualToInt(IInteger value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsGreaterThan(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsGreaterThanInt(IInteger value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsGreaterThanOrEqualTo(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean IsGreaterThanOrEqualToInt(IInteger value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean And(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean AndBool(IBoolean value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean Or(IValue value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean OrBool(IBoolean value)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public virtual IBoolean Negate()
-        {
-            throw new InvalidOperationException();
+            return String.Format("Operator '{0}' can not be applied to operands of types '{1}' and '{2}'.",
+                StringEnum.GetStringValue(operation), StringEnum.GetStringValue(left.DataType), StringEnum.GetStringValue(right.DataType));
         }
     }
 
-    public abstract class Value<T> : Value, IValue<T>
+    public abstract class Value<T> : Value
     {
-        public new T Val
+        public T Val
         {
             get;
             private set;

@@ -9,10 +9,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public enum DataType
     {
+        [StringValue("undefined")]
+        Undefined,
         [StringValue("bool")]
         Boolean,
-        [StringValue("double")]
-        Double,
         [StringValue("int")]
         Integer,
         [StringValue("string")]
