@@ -20,6 +20,11 @@ namespace QL.Model.Terminals
             Value = parsedValue;
         }
 
+        public override Type GetReturnType()
+        {
+            return GetType();
+        }
+
         public override string ToString()
         {
             if (!Value.HasValue)

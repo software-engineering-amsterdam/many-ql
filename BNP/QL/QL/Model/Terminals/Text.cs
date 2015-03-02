@@ -14,6 +14,11 @@ namespace QL.Model.Terminals
             Value = value.ToString();
         }
 
+        public override Type GetReturnType()
+        {
+            return GetType();
+        }
+
         public override string ToString()
         {
             if (Value== null) {

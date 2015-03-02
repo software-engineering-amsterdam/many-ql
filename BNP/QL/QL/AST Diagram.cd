@@ -3,7 +3,7 @@
   <Class Name="QL.Model.ElementBase" Collapsed="true">
     <Position X="4" Y="0.5" Width="2" />
     <TypeIdentifier>
-      <HashCode>AIhABEBAAABAAAAAAAAkAgAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <HashCode>AIgABEBAAAAAAAAAAAAkAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Model\ElementBase.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -42,7 +42,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAQAgAEgAAAAAAAAAAAAIAAAAAgAAAAAAA=</HashCode>
       <FileName>Model\Terminals\Identifier.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -57,7 +57,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Model\Terminals\Number.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -72,7 +72,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Model\Terminals\Text.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -87,7 +87,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAAAAAgAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Model\Terminals\Yesno.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -120,7 +120,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAAAAAgAAAAAAAAAAAACACAAAAAAAA=</HashCode>
+      <HashCode>AAAABEAAAAAAAAAAAAAgAAAAAAAAAAAACACAAAAAAAA=</HashCode>
       <FileName>Model\BinaryTreeElementBase.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -188,7 +188,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAABAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Model\Operators\EqualsOperator.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />

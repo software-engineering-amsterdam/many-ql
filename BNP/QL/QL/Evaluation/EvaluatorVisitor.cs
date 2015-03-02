@@ -34,6 +34,7 @@ namespace QL.Evaluation
             DeclaredVariables[key] = node;
         }
 
+        #region Regular elements
         public void Visit(Form node)
         {
         }
@@ -60,7 +61,9 @@ namespace QL.Evaluation
         {
             References[node.GetHashCode()] = References[node.Children[0].GetHashCode()];
         }
+        #endregion
 
+        #region Operators
         public void Visit(EqualsOperator node)
         {
             //todo bool returnvalue= (References[node.Left.GetHashCode()].Value == References[node.Right.GetHashCode()].Value);
@@ -70,18 +73,59 @@ namespace QL.Evaluation
         {
         }
 
+        public void Visit(GreaterThanOperator node)
+        {
+        }
+
+        public void Visit(GreaterThanEqualToOperator node)
+        {
+        }
+
+        public void Visit(LessThanOperator node)
+        {
+        }
+
+        public void Visit(LessThanEqualToOperator node)
+        {
+        }
+
+        public void Visit(MultiplicationOperator node)
+        {
+        }
+
+        public void Visit(DivisionOperator node)
+        {
+        }
+
         public void Visit(PlusOperator node)
         {
         }
 
-        //todo rest of the operators
+        public void Visit(MinusOperator node)
+        {
+        }
 
+        public void Visit(AndOperator node)
+        {
+        }
+
+        public void Visit(OrOperator node)
+        {
+        }
+        #endregion
+
+        #region Terminals
         public void Visit(Number node)
         {
             References[node.GetHashCode()] = node;
         }
 
         public void Visit(Yesno node)
+        {
+            References[node.GetHashCode()] = node;
+        }
+
+        public void Visit(Text node)
         {
             References[node.GetHashCode()] = node;
         }
@@ -93,11 +137,7 @@ namespace QL.Evaluation
                 References[node.Value.GetHashCode()] = DeclaredVariables[node.Value];
             }
         }
-
-        public void Visit(Text node)
-        {
-            References[node.GetHashCode()] = node;
-        }
+        #endregion
 
         public void Visit(ElementBase node)
         {

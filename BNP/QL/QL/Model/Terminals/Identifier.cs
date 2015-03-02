@@ -24,14 +24,25 @@ namespace QL.Model.Terminals
             throw new NotImplementedException();
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Identifier) return Equals(obj as Identifier);
+            return false;
+        }
+
+        public bool Equals(Identifier obj)
+        {
+            return Value == obj.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return (Value != null ? Value.GetHashCode() : 0);
+        }
+
         public override string ToString()
         {
-            if (Value == null)
-            {
-                throw new Exception();
-            }
-            
-            return Value;
+            return string.IsNullOrWhiteSpace(Value) ? "undefined" : Value;
         }
     }
 }

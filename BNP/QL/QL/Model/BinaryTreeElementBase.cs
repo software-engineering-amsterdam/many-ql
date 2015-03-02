@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL.Model.Enums;
+using QL.Model.Terminals;
 
 namespace QL.Model
 {
@@ -48,13 +49,17 @@ namespace QL.Model
         protected BinaryTreeElementBase()
         {
             Children = new List<ElementBase>(2);
-
         }
+
         public void HandleChildren(ElementBase left, ElementBase right)
         {
             Left = left;
             Right = right;
         }
 
+        public override Type GetReturnType()
+        {
+            return (new Yesno()).GetType();
+        }
     }
 }
