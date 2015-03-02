@@ -4,17 +4,17 @@ import org.uva.sea.ql.encoders.ast.TextLocation;
 
 public class TypeValidation {
 
-	private final String errorText;
+	private final String validationMessage;
 
 	private final TextLocation textLocation;
 
-	public TypeValidation(String errorText, TextLocation textLocation) {
-		this.errorText = errorText;
+	public TypeValidation(String validationMessage, TextLocation textLocation) {
+		this.validationMessage = validationMessage;
 		this.textLocation = textLocation;
 	}
 
-	public String getTypeErrorText() {
-		return errorText;
+	public String getValidationMessage() {
+		return validationMessage;
 	}
 
 	public TextLocation getTextLocation() {

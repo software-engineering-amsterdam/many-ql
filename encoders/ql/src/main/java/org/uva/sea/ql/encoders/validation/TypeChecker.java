@@ -62,9 +62,9 @@ public class TypeChecker implements AstVisitor {
 				return leftHandDataType;
 			}
 			TextLocation textLocation = expression.getTextLocation();
-			String errorText = "DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType
+			String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType
 					+ " righthand datatype=" + rightHandDataType;
-			typeValidations.add(new TypeValidation(errorText, textLocation));
+			typeValidations.add(new TypeValidation(validationMessage, textLocation));
 			return DataType.UNDEFINED;
 		}
 		throw new RuntimeException("Unsupported type " + expression.getClass());

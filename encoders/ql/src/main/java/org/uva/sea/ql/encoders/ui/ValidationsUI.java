@@ -33,7 +33,7 @@ public class ValidationsUI {
 			typeCheckerMessages.appendText("line " + textLocation.getLine());
 			typeCheckerMessages.appendText(":" + textLocation.getCharPositionInLine());
 			typeCheckerMessages.appendText(" ");
-			typeCheckerMessages.appendText(typeValidation.getTypeErrorText());
+			typeCheckerMessages.appendText(typeValidation.getValidationMessage());
 			typeCheckerMessages.appendText("\n");
 		}
 		ScrollPane scrollPane = new ScrollPane(grid);
