@@ -85,5 +85,13 @@ public class Question implements Statement {
 	public void getErrors(ErrorCollector errs) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void fillMemory(Memory memory) {
+		// TODO Auto-generated method stub		
+		memory.addId(this.id, this.questionType);
 	}	
+	
+	
 }

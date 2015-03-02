@@ -24,7 +24,7 @@ public class Memory {
 	}
 	public void addId(String id,Type _type)
 	{
-		System.out.println(this.ids.size());
+		//System.out.println(this.ids.size());
 		if(!Exists(id))
 		{
 			this.ids.put(id, _type);
@@ -33,11 +33,16 @@ public class Memory {
 		{			
 			//Add error		
 		}
-		System.out.println(this.ids.size());
+		//System.out.println(this.ids.size());
 	}
 	public Type getType(String id)
 	{
 		return ids.get(id);
+	}
+	
+	public int showMemory()
+	{
+		return this.ids.size();		
 	}
 
 }
