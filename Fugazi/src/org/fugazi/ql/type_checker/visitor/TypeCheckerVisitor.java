@@ -546,8 +546,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
 
     private void updateDependencyGraph(ID depender, ID dependee) {
 
-        // get all affected nodes
-        List<ID> idsToAddNewDependencyTo = this.getAllIdsWithNewIndirectDependency(depender, dependee);
+        // get all indirectly affected nodes (that depend on the depender)
+        List<ID> idsToAddNewDependencyTo = this.getAllIdsWithNewIndirectDependency(depender);
 
         // for a new depender add also all dependencies of dependee (propagate backwards)
         for (ID newDependant : idsToAddNewDependencyTo) {
@@ -558,7 +558,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         this.addDependenciesForId(depender, this.questionDependencies.getIdDependencies(dependee));
     }
 
-    private List<ID> getAllIdsWithNewIndirectDependency(ID depender, ID dependee) {
+    // TODO get this be simplified?
+    private List<ID> getAllIdsWithNewIndirectDependency(ID depender) {
         // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
         List<ID> idsToAddNewDependencyTo = new ArrayList<>();
