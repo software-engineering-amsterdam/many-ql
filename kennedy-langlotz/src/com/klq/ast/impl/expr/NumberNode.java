@@ -9,7 +9,8 @@ import com.klq.ast.IVisitor;
 public class NumberNode extends ANode {
     private double number;
 
-    public NumberNode(double number) {
+    public NumberNode(double number, String location) {
+        super(location);
         this.number = number;
     }
 

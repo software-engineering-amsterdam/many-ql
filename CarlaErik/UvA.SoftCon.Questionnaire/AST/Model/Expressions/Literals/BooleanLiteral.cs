@@ -25,12 +25,17 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
         {
         }
 
+        public override void Accept(IASTVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public override T Accept<T>(IASTVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public override DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Boolean;
         }

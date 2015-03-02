@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import nl.uva.softwcons.ast.statement.Block;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ast.form.Form;
+import nl.uva.softwcons.ast.form.FormVisitor;
 import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
@@ -13,7 +15,7 @@ import nl.uva.softwcons.validation.Error;
 import nl.uva.softwcons.validation.VariableExctractor;
 import nl.uva.softwcons.validation.dependency.error.CyclicQuestionsDependency;
 
-public class CyclicDependencyChecker implements StatementVisitor<Void> {
+public class CyclicDependencyChecker implements FormVisitor<Void>, StatementVisitor<Void> {
 
     private final List<Error> errorsFound;
 
@@ -22,18 +24,18 @@ public class CyclicDependencyChecker implements StatementVisitor<Void> {
     }
 
     @Override
-    public Void visit(final Block body) {
-        body.getStatements().forEach(st -> st.accept(this));
+    public Void visit(final Form form) {
+        form.getStatements().forEach(st -> st.accept(this));
         return null;
     }
 
     @Override
     public Void visit(final ComputedQuestion question) {
-        final String questionIdentifier = question.getId();
-        final Set<String> expressionVariables = VariableExctractor.extractFrom(question.getExpression());
+        final Identifier questionIdentifier = question.getId();
+        final Set<Identifier> expressionVariables = VariableExctractor.extractFrom(question.getExpression());
 
         if (expressionVariables.contains(questionIdentifier)) {
-            this.errorsFound.add(new CyclicQuestionsDependency());
+            this.errorsFound.add(new CyclicQuestionsDependency(question.getLineInfo()));
         }
 
         return null;

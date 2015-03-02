@@ -7,8 +7,8 @@ class IStatement:
     def __init__(self):
         pass
 
-    # pretty print ast, with level giving the identation
-    def pretty_print(self, level = 0):
+    # pretty print ast, with level giving the indentation
+    def pretty_print(self, level=0):
         pass
 
     # return all ids in the statement
@@ -27,11 +27,28 @@ class IStatement:
     def dependency_collection(self, dependencies):
         pass
 
+    # return all sub (expressions)
     def return_expressions(self):
         pass
 
+    # Get the parent id of the statement
+    def get_parent_id(self):
+        pass
+
+    # set the parent id, only set once
     def set_parent_id(self, pid):
         pass
 
+    # set the order number of the statement, only set once
     def set_order(self, order_num):
         pass
+
+    # return a dictionary of the ids as keys and types as value in the statement
+    def id_type_collection(self):
+        pass
+
+    # Get the order of elements in the statement
+    def get_order(self):
+        pass
+
+

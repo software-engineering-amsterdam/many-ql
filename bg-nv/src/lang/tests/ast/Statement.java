@@ -45,7 +45,7 @@ public class Statement
         assertEquals("hasSoldHouse", q.getId());
         assertEquals("Example", q.getLabel());
         assertTrue(q.getType() instanceof IntType);
-        assertTrue(q.getDefaultValue() instanceof Add);
+        assertTrue(q.getCalculation() instanceof Add);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class Statement
         assertEquals("Quest_123", q.getId());
         assertEquals("Example", q.getLabel());
         assertTrue(q.getType() instanceof StrType);
-        assertTrue(q.getDefaultValue() instanceof StrExpr);
+        assertTrue(q.getCalculation() instanceof StrExpr);
     }
 
     @Test

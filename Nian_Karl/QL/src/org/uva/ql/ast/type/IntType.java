@@ -1,6 +1,6 @@
 package org.uva.ql.ast.type;
 
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.visitor.Visitor;
 
 public class IntType extends Type {
 	
@@ -18,7 +18,7 @@ public class IntType extends Type {
 	public String toString() {
 		return "Int";
 	}
-	
+
 	@Override
 	public <T> T accept(Visitor<T> visitor) {
 		return visitor.visit(this);

@@ -54,7 +54,7 @@ public class Bool extends Value{
 //Equal
 	@Override
 	public Value equal(Value arg) {
-		return arg.equal(this);
+		return arg.boolEqual(this);
 	}
 	
 	@Override

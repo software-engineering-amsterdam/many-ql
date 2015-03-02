@@ -15,7 +15,6 @@ public class UIBoolQuestion extends UIQuestion {
         super(_med, _question);
         this.value = false; // default
 
-        // TODO: get it from a GUI Designer
         this.widget = new CheckBox(_question.getLabel());
         this.widget.addItemListener(event -> itemChanged(event));
     }

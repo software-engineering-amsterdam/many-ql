@@ -5,35 +5,35 @@ import javax.swing.JTextField;
 
 import ast.type.Type;
 
-public class TextFieldWidget /*extends JTextField*/ implements IWidgetComponent  {
-	/**
-	 * 
-	 */
-//	private static final long serialVersionUID = 1L;
-	private String id, label;
-	private Type variableType;
-	private final JComponent widget;
-	
-	
-	public TextFieldWidget(String id, String label, Type variableType){
+
+public class TextFieldWidget implements IWidgetComponent {
+	private final String id, label;
+	private final Type variableType;
+	private JTextField widget;
+	private String value;
+		
+	public TextFieldWidget(String id, String label, Type variableType) {
 		this.id = id;
 		this.label = label;
 		this.variableType = variableType;
-		this.widget = new JTextField(10);
+		this.widget = new JTextField("", 10);
+		this.widget.setVisible(visibility());
+		this.widget.getDocument().addDocumentListener(new TextDigitsListener(this, id));
 	}
-	
 	
 	@Override
 	public JComponent getWidget() {
-		return widget;
+		return this.widget;
 	}
+	
+	
 	@Override
 	public String getIdWidget() {
-		return id;
+		return this.id;
 	}
 	@Override
 	public Type getWidgetType(){
-		return variableType;
+		return this.variableType;
 	}
 	@Override
 	public String getLabel() {
@@ -43,5 +43,43 @@ public class TextFieldWidget /*extends JTextField*/ implements IWidgetComponent 
 	public boolean visibility() {
 		return true;
 		//temporary...
+	}
+
+	//@Override
+	public void addDocListener() {
+		widget.getDocument().addDocumentListener(new TextDigitsListener(this, getValue()));
+	}
+
+	@Override
+	public String getValue() {
+		value = "" + widget.getText();
+		//System.out.println("cry" +value);
+		
+		return  value;	
+		
+	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+		widget.setText(value);
+	}
+
+	@Override
+	public boolean getChoiceValue() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setChoiceValue(boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEnabled(boolean isEnabled) {
+		widget.setEnabled(isEnabled);
+		
 	}
 }

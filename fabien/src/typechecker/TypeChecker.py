@@ -1,6 +1,6 @@
 import sys
 
-# Observer Patern
+# Using Observer Patern
 class TypeChecker():
     def __init__(self):
         self.listeners = set()
@@ -22,10 +22,12 @@ class TypeChecker():
         # Reset listeners
         self.dispatch("__init__")
 
-        # Pre-order traversal of AST
         for node in AST:
-            print node.NodeType
             self.dispatch(node.NodeType, node)
 
-        #for listener in self.listeners:
-        #    print listener.errors
+        self.dispatch("Done")
+
+    def reportErrors(self):
+        for listener in self.listeners:
+            for err in listener.errors:
+                print err

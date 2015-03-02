@@ -13,7 +13,7 @@ namespace UvA.SoftCon.Questionnaire.AST
 {
     public class ASTController
     {
-        public Form ParseQLFile(FileInfo qlFile)
+        public QuestionForm ParseQLFile(FileInfo qlFile)
         {
             if(qlFile == null) { throw new ArgumentNullException("qlFile"); }
             if(!qlFile.Exists) { throw new FileNotFoundException("Could not find file " + qlFile.FullName + "."); }
@@ -24,7 +24,7 @@ namespace UvA.SoftCon.Questionnaire.AST
             }
         }
 
-        public Form ParseQLString(string ql)
+        public QuestionForm ParseQLString(string ql)
         {
             if (ql == null) { throw new ArgumentNullException("ql"); }
 
@@ -34,7 +34,7 @@ namespace UvA.SoftCon.Questionnaire.AST
             }
         }
 
-        public Form ParseQLStream(TextReader reader)
+        public QuestionForm ParseQLStream(TextReader reader)
         {
             if (reader == null) { throw new ArgumentNullException("reader"); }
 

@@ -11,7 +11,6 @@ import scala.io.Source
 object Interpreter {
   def main(args: Array[String]) {
     val parser = new Parser()
-    val evaluator = new Evaluator()
     val typeChecker = new TypeChecker()
     val formBuilder = new FormBuilder()
 
@@ -21,8 +20,7 @@ object Interpreter {
       case parser.Success(ast: Form, _) =>
         typeChecker.check(ast) match {
           case Right(_) =>
-            val env: evaluator.EvalEnvironment = evaluator.eval(ast)
-            formBuilder.build(ast, env).main(Array())
+            formBuilder.build(ast).main(Array())
           // TODO: warnings stop execution
           case Left(e) => println(e)
         }

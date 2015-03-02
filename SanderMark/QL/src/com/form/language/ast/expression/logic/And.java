@@ -10,6 +10,7 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 
 public class And extends BinaryExpression implements Expression {
 
@@ -36,22 +37,27 @@ public class And extends BinaryExpression implements Expression {
 	}
 	
 	@Override
-	public ErrorCollector getErrors(ErrorCollector errors) {
+	public void getErrors(ErrorCollector errors) {
 		Type leftType = left.getType();
 		Type rightType = right.getType();
+		left.getErrors(errors);
+		right.getErrors(errors);
 		
-		ErrorCollector newErrors = new ErrorCollector(left.getErrors(errors), right.getErrors(errors));
-
 		if(leftType.isBoolType() && rightType.isBoolType()) {
-			return newErrors;
+			return;
 		}
 		else{
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				Error newError = new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType);
-				newErrors.add(newError);
-				return newErrors;
+				errors.add(new Error(tokenInfo, "Expected Boolean && Boolean, but found " + leftType + " && " + rightType));
+				return;
 			}
-			return newErrors;
+			return;
 		}
+	}
+
+	@Override
+	public void fillMemory(Memory memory) {
+		// TODO Auto-generated method stub
+		
 	}
 }

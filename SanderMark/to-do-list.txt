@@ -6,3 +6,6 @@
 - testen voor statements
 - code checken
 - grade form
+
+- else statements voor andere types / values etc.
+- curly altijd, dus geen 1 line ifs etc.

@@ -3,17 +3,17 @@ package com.form.language.ast.expression.literal;
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.IdType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
-import com.form.language.error.ErrorCollector;
+import com.form.language.ast.values.IntValue;
+import com.form.language.ast.values.StringValue;
 import com.form.language.memory.Memory;
 
 public class IdLiteral extends Literal implements Expression {
 	private final String _value;
-	private String _type;
+	private Type _type;
 	
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
@@ -21,11 +21,11 @@ public class IdLiteral extends Literal implements Expression {
 		
 		//Throw in memory
 	}
-	public IdLiteral(String value, String type,Memory memory,Token tokenInfo)
+	public IdLiteral(String value, Type questionType,Memory memory,Token tokenInfo)
 	{
 		super(tokenInfo);
 		this._value = value;
-		this._type = type;	
+		this._type = questionType;	
 		
 		System.out.println(memory);
 		
@@ -35,26 +35,21 @@ public class IdLiteral extends Literal implements Expression {
 
 	@Override
 	public GenericValue<?> evaluate() {
-		return null;
+		if(_type.isBoolType()){
+			return new BoolValue(Boolean.parseBoolean(_value));
+		};
+		if(_type.isIntType()){
+			return new IntValue(Integer.parseInt(_value));
+		}
+		if(_type.isStringType()){
+			return new StringValue(_value);
+		}
+		else 
+			throw new IllegalArgumentException();
 	}
 
 	@Override
 	public Type getType() {
 		return new IdType();
-	}
-	@Override
-	public Boolean isCorrectlyTyped() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public String showTokenInfo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public ErrorCollector getErrors(ErrorCollector errs) {
-		return errs;
 	}
 }

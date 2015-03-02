@@ -56,6 +56,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Evaluation\Types\BooleanValueTest.cs" />
+    <Compile Include="Evaluation\Types\IntegerValueTest.cs" />
+    <Compile Include="Evaluation\Types\StringValueTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\TypeCheckingVisitorTest.cs" />
     <Compile Include="Validation\VariableUsageCheckingVisitorTest.cs" />

@@ -1,8 +1,6 @@
 package gui.widgets;
 
-import javax.swing.JComponent;
-import javax.swing.JTextField;
-
+import interpreter.ValueRepository;
 import ast.type.ChoiceType;
 import ast.type.DigitsType;
 import ast.type.ITypeVisitor;
@@ -12,22 +10,15 @@ import ast.type.UndefinedType;
 
 public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
-	//private IWidgetComponent widgetComponent;
-	private JComponent widget;
-	String id, label;
-	Type type;
-	//private final ValueRepository valueRepository; // for later, set/get value from fields
-	//private SimpleQuestion q;
-	public WidgetVisitor(String id, String label, Type type) {
+	private final String id, label;
+	private final Type type;
+//	private final ValueRepository valueRepository; 
+	
+	public WidgetVisitor(String id, String label, Type type) { //, ValueRepository valueRepository) {
 		this.id = id;
 		this.label = label;
 		this.type = type;
-	}
-	
-	
-	public JComponent attachDamnWidget(){
-		widget =  new JTextField("test");
-		return widget;
+	//	this.valueRepository = valueRepository;
 	}
 	
 	@Override
@@ -42,9 +33,9 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	}
 
 	@Override
-	public TextFieldWidget visit(ChoiceType type) {
+	public ChoiceWidget visit(ChoiceType type) {
 		//TODO to be changed to checkbox?
-		return new TextFieldWidget(id, this.label, type);
+		return new ChoiceWidget(id, this.label, type);
 	}
 
 	@Override

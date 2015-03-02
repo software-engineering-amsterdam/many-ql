@@ -23,6 +23,6 @@ public class Subtraction extends AExpression {
             BigDecimal r = new BigDecimal(right.getContent());
             return new Number(l.subtract(r).toString());
         }
-        return null;
+        return this;
     }
 }

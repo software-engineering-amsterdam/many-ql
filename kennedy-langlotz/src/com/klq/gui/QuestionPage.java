@@ -6,11 +6,10 @@ import com.klq.logic.question.Question;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
@@ -18,60 +17,32 @@ import java.util.*;
 /**
  * Created by Timon on 10.02.2015.
  */
-public class QuestionPage extends ScrollPane implements IStoreListener {
-    private Map<Question, QuestionPane> questionToQuestionPaneMap;
+public class QuestionPage extends ScrollPane {
+    private final Store store;
     private final VBox vbox;
 
-    public QuestionPage(){
+    public QuestionPage(Store store){
         super();
-        questionToQuestionPaneMap = new HashMap<Question, QuestionPane>();
-        vbox = new VBox(10);
-        vbox.setPadding(new Insets(5));
-        vbox.prefHeightProperty().bind(this.prefHeightProperty());
-        vbox.setAlignment(Pos.TOP_RIGHT);
+        this.store = store;
+        this.vbox = new VBox(10);
+        init();
+    }
+
+    private void init(){
+        this.vbox.setPadding(new Insets(5));
+        this.vbox.prefHeightProperty().bind(this.prefHeightProperty());
+        this.vbox.setAlignment(Pos.TOP_RIGHT);
         this.setContent(vbox);
         this.setPrefWidth(400);
-        this.setMinHeight(500);
         this.setFitToWidth(true);
-        createFinishButton();
+        this.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+        this.setBorder(Border.EMPTY);
     }
 
     public void addQuestions(List<Question> questions){
-        List<Id> updated = new ArrayList<Id>();
         for (Question question : questions) {
-            QuestionPane newPane = new QuestionPane(question);
-            vbox.getChildren().add(vbox.getChildren().size()-1, newPane);
-            questionToQuestionPaneMap.put(question, newPane);
-            updated.add(question.getId());
-        }
-        storeUpdated();
-    }
-
-    private void createFinishButton(){
-        Button btn = new Button("Finish");
-        btn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.exit(exportResults());
-            }
-        });
-        vbox.getChildren().add(vbox.getChildren().size(), btn);
-    }
-
-    private int exportResults(){
-        //TODO export
-        return -1;
-    }
-
-    @Override
-    public void storeUpdated() {
-        for (Question question : questionToQuestionPaneMap.keySet()) {
-
-            if (question.dependenciesResolved())
-                questionToQuestionPaneMap.get(question).show();
-            else
-                questionToQuestionPaneMap.get(question).hide();
-
+            QuestionPane newPane = new QuestionPane(question, store);
+            vbox.getChildren().add(newPane);
         }
     }
 }

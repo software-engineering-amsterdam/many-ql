@@ -1,5 +1,5 @@
 # AST format of a question, initializing the IStatement
-from AST.statement import *
+from QL.AST.statement import *
 
 
 class Question(IStatement):
@@ -15,10 +15,11 @@ class Question(IStatement):
 
     # Override
     def pretty_print(self, level=0):
-        s = "\n" + "   " * level + "Question:" + self.id + "\n"
-        s += "   " * (level + 1) + str(self.order) + "\n"
-        s += "   " * (level + 1) + self.label + "\n"
-        s += "   " * (level + 1) + str(self.type)
+        s = "\n" + "   " * level + "Question\n"
+        s += "   " * (level + 1) + "Question id: " + self.id + "\n"
+        s += "   " * (level + 1) + "Order number: "+ str(self.order) + "\n"
+        s += "   " * (level + 1) + "Question itself: " + self.label + "\n"
+        s += "   " * (level + 1) + "Question type: " + str(self.type)
         s += "\n"
         return s
 
@@ -40,10 +41,36 @@ class Question(IStatement):
             dependencies[self.id] = []
         return dependencies
 
+    # Override
+    def return_expressions(self):
+        return []
+
+    # Override
+    def get_parent_id(self):
+        return self.parent_id
+
+    # Override
+    def set_parent_id(self, pid):
+        self.parent_id = pid
+
+    # Override
+    def set_order(self, order_num):
+        if not self.order:
+            self.order = order_num
+            return self.order + 1
+        else:
+            print("Warning: order set more than once")
+        return self.order + 1
+
+    # Override
     def id_type_collection(self):
         return {self.id: self.type}
 
-    # Getters
+    # Override
+    def get_order(self):
+        return self.order
+
+    # Getters of the question statement
     def get_label(self):
         return self.label
 
@@ -56,18 +83,8 @@ class Question(IStatement):
     def get_answer(self):
         return self.answer
 
-    def get_parent_id(self):
-        return self.parent_id
 
-    def return_expressions(self):
-        return []
 
-    def set_parent_id(self, pid):
-        self.parent_id = pid
 
-    def set_order(self, order_num):
-        self.order = order_num
-        return self.order + 1
 
-    def get_order(self):
-        return self.order
+

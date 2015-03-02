@@ -7,16 +7,31 @@ class Leaf(Node):
 
         self.leafValue = value
 
-    def execute(self):
-        return self.leafValue
-
     @property
     def children(self):
         return []
 
-    def Label(self):
+    @property
+    def ID(self):
         return self.tokens.get('ID', None)
 
     @property
-    def type(self):
+    def tokenType(self):
         return self.tokens.keys()[0]
+
+    # Since a single Leaf can be an expression
+    @property
+    def Operation(self):
+        return self
+
+    def checkType(self, IDs):
+        return self.getType(IDs)
+
+    def getType(self, IDs):
+        if self.ID in IDs:
+            return IDs[self.ID]
+
+        return self.tokenType.lower()
+
+    def __repr__(self):
+        return "(%s) %s" % (self.tokenType.lower(), self.leafValue)

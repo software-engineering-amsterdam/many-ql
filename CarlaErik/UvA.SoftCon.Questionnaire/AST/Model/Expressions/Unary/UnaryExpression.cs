@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
-using UvA.SoftCon.Questionnaire.AST.Types;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
 {
@@ -35,8 +34,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
             Operand = operand;
         }
 
-        public abstract DataType? GetType(IDictionary<string, DataType> symbolTable);
+        public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
 
-        public abstract IValue Evaluate(IDictionary<string, IValue> environment);
+        public abstract bool OperandTypeIsValid(DataType operandType);
     }
 }

@@ -36,7 +36,9 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
             Right = right;
         }
 
-        public abstract DataType? GetType(IDictionary<string, DataType> symbolTable);
+        public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
+
+        public abstract bool OperandTypesAreValid(DataType leftType, DataType rightType);
 
         public override string ToString()
         {

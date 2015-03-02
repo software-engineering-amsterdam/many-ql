@@ -29,7 +29,7 @@ question_type
     ;
 
 expr
-    :   '(' expr ')'
+    :   '(' left=expr ')'
     |   op=('+' | '-' | '!') right=expr
     |   left=expr op='^' right=expr
     |   left=expr op=('*' | '/' | '%') right=expr
