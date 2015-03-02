@@ -5,7 +5,7 @@ import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typecheck.TypeChecker;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Equal extends Binary {
 
@@ -14,7 +14,7 @@ public class Equal extends Binary {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

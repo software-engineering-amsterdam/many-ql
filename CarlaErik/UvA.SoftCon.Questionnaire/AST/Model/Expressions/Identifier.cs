@@ -12,14 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
     /// </summary>
     public class Identifier : Node, IExpression
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Identifier;
-            }
-        }
-
         public string Name
         {
             get;
@@ -42,7 +34,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             return visitor.Visit(this);
         }
 
-        public DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             if (symbolTable.Keys.Contains(Name))
             {
@@ -50,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             }
             else
             {
-                return null;
+                return DataType.Undefined;
             }
         }
 

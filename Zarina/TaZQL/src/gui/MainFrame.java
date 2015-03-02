@@ -3,7 +3,11 @@
  */
 package gui;
 
+import gui.questions.SimpleQuestionUI;
+import interpreter.ValueRepository;
+
 import java.awt.Dimension;
+import java.util.LinkedHashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -16,7 +20,7 @@ public class MainFrame {
 
 	private final JPanel contentPane;
 	private final JFrame mainFrame;
-	
+	LinkedHashMap<String, SimpleQuestionUI> questions = new LinkedHashMap<String, SimpleQuestionUI>();
 
 	public MainFrame() {
 		mainFrame = new JFrame("Questionnaire");
@@ -31,11 +35,26 @@ public class MainFrame {
 		mainFrame.setContentPane(contentPane);	
 	}
 	
-	public void magic(Form form) {
-		JPanel mainpanel = GUIRender.maker(form);
+	public void magic(Form form, ValueRepository valueRepository) {
+		JPanel mainpanel = GUIRender.maker(form, valueRepository);
 		contentPane.add(mainpanel);
 		mainFrame.setTitle(form.getFormId().toString());
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 	}
+	
+	
+	 public void addQuestionInput(String id, SimpleQuestionUI input) {
+		 questions.put(id, input);
+	 }
+	 
+	 public SimpleQuestionUI getIdinput(String id) {
+		 return questions.get(id);
+	 }
+	 
+	 public boolean containsLabelInputPair(String id) {
+		 return questions.containsKey(id);
+	 }
+	 
+	
 }

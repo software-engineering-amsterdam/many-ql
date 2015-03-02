@@ -51,13 +51,22 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
     private void addIfStatement(IfStatement _ifStatement) {
 
+        Iterator<Block> iter = blocksStack.iterator();
+        boolean isAdded = false;
+        while (iter.hasNext()) {
+            Block block = iter.next();
+            if (ifStatements.containsKey(block.getName())) {
+                isAdded = true;
+            }
+        }
+
         // add an ifstatements array for the block.
-        if (!ifStatements.containsKey(currentBlock.getName())) {
+        if (!isAdded) {
             ifStatements.put(currentBlock.getName(), new ArrayList<IfStatement>());
         }
 
         // add the if statement in the block.
-        if (!ifStatements.get(currentBlock.getName()).contains(_ifStatement)) {
+        if (!isAdded && !ifStatements.get(currentBlock.getName()).contains(_ifStatement)) {
             ifStatements.get(currentBlock.getName()).add(_ifStatement);
         }
     }
@@ -102,6 +111,19 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         return false;
     }
 
+    private UIQuestion getExistingQuestion(String _questId) {
+        UIQuestion question = null;
+
+        Iterator<Block> iter = blocksStack.iterator();
+        while (iter.hasNext()) {
+            Block block = iter.next();
+            if (block.getBody().containsKey(_questId)) {
+                question = block.getBody().get(_questId);
+            }
+        }
+        return question;
+    }
+
     private void removeBlockFromForm() {
         currentBlock.getBody().values().forEach(quest -> this.removeQuestionFromTheForm(quest));
         currentBlock.clearBlock();
@@ -109,14 +131,22 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private void addQuestionToBlock(UIQuestion _quest) {
-        if (!isQuestionExistsInBlock(_quest.getId())) {
+        if (!isQuestionExists(_quest.getId())) {
             currentBlock.add(_quest);
             addQuestionToTheForm(_quest);
         }
     }
 
-    private boolean isQuestionExistsInBlock(String _id) {
-        return currentBlock.getBody().containsKey(_id);
+    private boolean isQuestionExists(String _id) {
+        Iterator<Block> iter = blocksStack.iterator();
+        boolean isExists = false;
+        while (iter.hasNext()) {
+            Block block = iter.next();
+            if (block.getBody().containsKey(_id)) {
+                isExists = true;
+            }
+        }
+        return isExists;
     }
 
     /**
@@ -159,10 +189,11 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
      * Statement Visitor
      */
     public Void visitQuestion(Question _question) {
-        UITypeVisitor typeVisitor = new UITypeVisitor(this, _question);
-        UIQuestion uiQuestion = _question.getType().accept(typeVisitor);
-        this.addQuestionToBlock(uiQuestion);
-
+        if (!isQuestionExists(_question.getIdName())) {
+            UITypeVisitor typeVisitor = new UITypeVisitor(this, _question);
+            UIQuestion uiQuestion = _question.getType().accept(typeVisitor);
+            this.addQuestionToBlock(uiQuestion);
+        }
         return null;
     }
 
@@ -179,7 +210,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
             _ifStatement.getBody().forEach(statement -> statement.accept(this));
         } else {
             // The current block
-            if (currentBlock.getName().equals(_ifStatement.getCondition().toString())) {
+            if (isBlockExists(_ifStatement.getCondition().toString())) { //todo: fix remove
                 this.removeBlockFromForm();
             }
         }
@@ -188,16 +219,16 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     public Void visitComputedQuestion(ComputedQuestion _computedQuest) {
-        this.addComputedQuestion(_computedQuest);
-
         ExpressionValue result = evaluateComputedExpression(_computedQuest);
 
-        if (!isQuestionExistsInBlock(_computedQuest.getIdName())) {
+        if (!isQuestionExists(_computedQuest.getIdName())) {
+            this.addComputedQuestion(_computedQuest);
             UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
             this.addQuestionToBlock(uiComputedQuestion);
         } else {
-            UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) currentBlock.getBody().get(_computedQuest.getIdName());
-            uiComputedQuestion.setComputedValue(result);
+            UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) getExistingQuestion(_computedQuest.getIdName());
+            if (uiComputedQuestion != null)
+                uiComputedQuestion.setComputedValue(result);
         }
 
         return null;

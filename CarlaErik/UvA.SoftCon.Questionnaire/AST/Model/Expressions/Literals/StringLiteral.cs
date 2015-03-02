@@ -12,14 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
     /// </summary>
     public class StringLiteral : Literal<string>
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.StringLiteral;
-            }
-        }
-
         public StringLiteral(string value, TextPosition position)
             : base(value, position) { }
 
@@ -33,7 +25,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
             return visitor.Visit(this);
         }
 
-        public override DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.String;
         }

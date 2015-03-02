@@ -18,6 +18,5 @@ form FamilySurvey {
 			isPlan: "Are you plan to have a child?" Bool
 			age: "How old are you?" Int
 		}
-	}
-	
+	}	
 }

@@ -18,5 +18,4 @@ public class Undefined extends Value {
 	public String toString() {
 		return "Undefined";
 	}
-
 }

@@ -7,15 +7,17 @@
   {6} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
   {7} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
   {8} [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
-  {9} http://go-talks.appspot.com/github.com/software-engineering-amsterdam/many-ql/carlos.cirello/doc/carlos.cirello.ql.qls.slide#1
 
-* QL [4/6]
+* QL [6/7]
+  - [ ] Refactor [0/2]
+    - [ ] Refactor Bool nodes into Visitor
+    - [ ] Refactor Math nodes into Visitor
   - [X] Basic Architecture {4}
   - [X] Interpreter wise error handling
     - [X] Pretty and informing error message
   - [X] Resolve the Visitor debate. {7}
-  - [ ] Compiler [0/2] {1}
-    - [ ] Write grammar [8/10]
+  - [X] Compiler [2/2] {1}
+    - [X] Write grammar [8/8]
       - [X] form parsing :MUST:
       - [X] question parsing :MUST:
       - [X] add support for comment :MUST:
@@ -28,8 +30,6 @@
       - [X] math evaluation for IF and default values :MUST:
         - [X] Protect against undeclared and empty values :MUST:
         - [X] Support for (...) blocks
-      - [ ] multiple form in the same file :SHOULD:
-      - [ ] read from multiple files :COULD:
     - [X] Generate AST [3/3]
       - [X] Basic cases
       - [X] Advanced cases [5/5]
@@ -41,36 +41,31 @@
         - [X] Treat nodes as Immutable Value Objects(?) :COULD:
       - [X] All cases
         - [X] Double declaration
-  - [ ] Frontend Interface [1/2]
+  - [X] Frontend Interface [2/2]
     - [X] Concurrent Interface between Frontends and VM
-    - [ ] GUI Frontend [4/6]
+    - [X] GUI Frontend [6/6]
       - [X] Basic cases
       - [X] Questions shuffled when toggling visibility :BUG:
       - [X] Fix the concertina effect :BUG:
       - [X] Advanced cases
-      - [ ] All cases
-      - [ ] Transpose restrictions from the dependency into the main doc.
+      - [X] All cases
+      - [X] Transpose restrictions from the dependency into the main doc.
   - [X] Preload answers from CSV file
-  ** Functionalities [7/10] {2}
-    - [ ] The language supports: [0/4]
-      - [ ] Bool [2/3]
+  ** Functionalities [10/10] {2}
+    - [X] The language supports: [4/4]
+      - [X] Bool [2/2]
         - [X] Basic Algorithm
         - [X] Initial Tests
-        - [ ] 100% coverage
-      - [ ] Int [2/3]
+      - [X] Int [2/3]
         - [X] Basic Algorithm
         - [X] Initial Tests
-        - [ ] 100% coverage
-        - [ ] Top/Bottom restrictions
-        - [ ] Number masking
-      - [ ] String [2/3]
+      - [X] String [2/3]
         - [X] Basic Algorithm
         - [X] Initial Tests
-        - [ ] 100% coverage
-      - [ ] Computed Questions
-        - [ ] Avoid recursion within the expression
-        - [ ] Avoid recursion between computed questions
-    - [ ] Questions are enabled and disabled when different values are entered.
+      - [X] Computed Questions
+        - [X] Avoid recursion within the expression
+        - [X] Avoid recursion between computed questions
+    - [X] Questions are enabled and disabled when different values are entered.
     - [X] Type Checker: reference to undefined questions
     - [X] Type Checker: duplicate question declarations with different types
     - [X] Type Checker: conditions that are not of the type boolean
@@ -78,18 +73,13 @@
     - [X] Type Checker: references to questions with an undefined value
     - [X] Type Checker: cyclic dependencies between questions
     - [X] Type Checker: duplicate labels (warning)
-    - [ ] Different data types in QL map to different (default) GUI widgets.
+    - [X] Different data types in QL map to different (default) GUI widgets.
 
   ** Requirements on the implementation [4/4] {2}
     - [X] The parser of the DSL is implemented using a grammar-based parser generator.
     - [X] The internal structure of a DSL program is represented using abstract syntax trees.
     - [X] QL programs are executed as GUI programs, not command-line dialogues.
     - [X] QL programs are executed by interpretation, not code generation.
-
-  ** Nice to have
-    - Loop
-    - Optional answers (nil response)
-
 
 * QLS
   - [ ] Basic Architecture

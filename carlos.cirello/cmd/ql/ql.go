@@ -15,7 +15,6 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
 	qlsparser "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/parser"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/visitor"
 )
 
 func main() {
@@ -42,7 +41,7 @@ func main() {
 	if styleReader != nil {
 		theStyle = qlsparser.ReadQLS(styleReader, srcFn+"s")
 	}
-	vstr := visitor.New()
+	vstr := ast.NewVisitor()
 	vstr.Visit(theStyle)
 
 	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)

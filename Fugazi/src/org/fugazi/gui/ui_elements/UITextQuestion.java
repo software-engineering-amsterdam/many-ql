@@ -26,11 +26,7 @@ public class UITextQuestion extends UIQuestion {
                         widget.getValue().toString()
                 );
             }
-            public void removeUpdate(DocumentEvent e) {
-                setState(
-                        widget.getValue().toString()
-                );
-            }
+            public void removeUpdate(DocumentEvent e) {}
             public void changedUpdate(DocumentEvent e) {}
         });
     }

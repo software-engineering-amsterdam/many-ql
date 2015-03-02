@@ -14,6 +14,7 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -51,7 +52,9 @@ public class IfStatement implements Statement {
 
 	@Override
 	public JComponent createGUIComponent(JPanel panel) {
-		
+		Memory m = new Memory();
+		this.conditions.fillMemory(m);
+		System.out.println(m.showMemory());
 		Component[] cArray =  panel.getComponents();	
 		for(Component c : cArray)
 		{
@@ -60,6 +63,13 @@ public class IfStatement implements Statement {
 			System.out.println(c.toString());
 		}				
 		return null;
+	}
+
+
+	@Override
+	public void fillMemory(Memory memory) {
+		// TODO Auto-generated method stub
+		this.conditions.fillMemory(memory);
 	}
 	
 }

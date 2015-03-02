@@ -10,6 +10,7 @@ module QL
 
 
   require_relative '../ast/ast.rb'
+  include AST
 
   def initialize(tokenizer)
     @tokenizer = tokenizer
@@ -137,9 +138,9 @@ racc_reduce_table = [
   4, 34, :_reduce_6,
   1, 36, :_reduce_7,
   1, 31, :_reduce_none,
-  1, 37, :_reduce_none,
-  1, 37, :_reduce_none,
-  1, 37, :_reduce_none,
+  1, 37, :_reduce_9,
+  1, 37, :_reduce_10,
+  1, 37, :_reduce_11,
   1, 35, :_reduce_none,
   1, 35, :_reduce_none,
   6, 38, :_reduce_14,
@@ -276,7 +277,7 @@ Racc_debug_parser = false
 # reduce 0 omitted
 
 def _reduce_1(val, _values, result)
- result = AST::Form.new(val[1], val[2]) 
+ result = Form.new(val[1], val[2]) 
     result
 end
 
@@ -295,7 +296,7 @@ end
 # reduce 5 omitted
 
 def _reduce_6(val, _values, result)
- result = AST::Question.new(val[0], val[1], val[3].to_sym) 
+ result = Question.new(val[0], val[1], val[3]) 
     result
 end
 
@@ -306,83 +307,92 @@ end
 
 # reduce 8 omitted
 
-# reduce 9 omitted
+def _reduce_9(val, _values, result)
+ result = BooleanType.new 
+    result
+end
 
-# reduce 10 omitted
+def _reduce_10(val, _values, result)
+ result = IntegerType.new 
+    result
+end
 
-# reduce 11 omitted
+def _reduce_11(val, _values, result)
+ result = StringType.new 
+    result
+end
 
 # reduce 12 omitted
 
 # reduce 13 omitted
 
 def _reduce_14(val, _values, result)
- result = AST::If.new(val[2], val[4]) 
+ result = If.new(val[2], val[4]) 
     result
 end
 
 def _reduce_15(val, _values, result)
- result = AST::IfElse.new(val[2], val[4], val[6]) 
+ result = IfElse.new(val[2], val[4], val[6]) 
     result
 end
 
 def _reduce_16(val, _values, result)
- result = AST::Equal.new(val[0], val[2]) 
+ result = Equal.new(val[0], val[2]) 
     result
 end
 
 def _reduce_17(val, _values, result)
- result = AST::LessThanOrEqualTo.new(val[0], val[2]) 
+ result = LessThanOrEqualTo.new(val[0], val[2]) 
     result
 end
 
 def _reduce_18(val, _values, result)
- result = AST::LessThan.new(val[0], val[2]) 
+ result = LessThan.new(val[0], val[2]) 
     result
 end
 
 def _reduce_19(val, _values, result)
- result = AST::GreaterThanOrEqualTo.new(val[0], val[2]) 
+ result = GreaterThanOrEqualTo.new(val[0], val[2]) 
     result
 end
 
 def _reduce_20(val, _values, result)
- result = AST::GreaterThan.new(val[0], val[2]) 
+ result = GreaterThan.new(val[0], val[2]) 
     result
 end
 
 def _reduce_21(val, _values, result)
- result = AST::Inequal.new(val[0], val[2]) 
+ result = Inequal.new(val[0], val[2]) 
     result
 end
 
 def _reduce_22(val, _values, result)
- result = AST::And.new(val[0], val[2]) 
+ result = And.new(val[0], val[2]) 
     result
 end
 
 def _reduce_23(val, _values, result)
- result = AST::Or.new(val[0], val[2]) 
+ result = Or.new(val[0], val[2]) 
     result
 end
 
 def _reduce_24(val, _values, result)
- result = AST::Multiplication.new(val[0], val[2]) 
+ result = Multiplication.new(val[0], val[2]) 
     result
 end
 
 def _reduce_25(val, _values, result)
- result = AST::Division.new(val[0], val[2]) 
+ result = Division.new(val[0], val[2]) 
     result
 end
 
 def _reduce_26(val, _values, result)
- result = AST::Plus.new(val[0], val[2]) 
+ result = Plus.new(val[0], val[2]) 
     result
 end
 
 def _reduce_27(val, _values, result)
- result = AST::Minus.new(val[0], val[2]) 
+ result = Minus.new(val[0], val[2]) 
     result
 end
 
@@ -391,7 +401,7 @@ end
 # reduce 29 omitted
 
 def _reduce_30(val, _values, result)
- result = AST::Variable.new(val[0]) 
+ result = Variable.new(val[0]) 
     result
 end
 
@@ -402,22 +412,22 @@ end
 # reduce 33 omitted
 
 def _reduce_34(val, _values, result)
- result = AST::IntegerLiteral.new(val[0].to_i) 
+ result = IntegerLiteral.new(val[0].to_i) 
     result
 end
 
 def _reduce_35(val, _values, result)
- result = AST::StringLiteral.new(val[0][1..-2]) 
+ result = StringLiteral.new(val[0][1..-2]) 
     result
 end
 
 def _reduce_36(val, _values, result)
- result = AST::BooleanLiteral.new(true) 
+ result = BooleanLiteral.new(true) 
     result
 end
 
 def _reduce_37(val, _values, result)
- result = AST::BooleanLiteral.new(false) 
+ result = BooleanLiteral.new(false) 
     result
 end
 
