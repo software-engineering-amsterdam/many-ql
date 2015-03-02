@@ -7,21 +7,14 @@ import javax.swing.JCheckBox;
 
 import org.uva.ql.view.observer.Observer;
 
-public class QLCheckBox extends JCheckBox implements QLWidget<Boolean>, Observer{
+public class CheckBox extends JCheckBox implements Widget<Boolean>, Observer{
 
 	private static final long serialVersionUID = 1L;
 
-	private  String identifier;
-		
-	public QLCheckBox() {
+	public CheckBox() {
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		setOpaque(false);
 		addItemListener(checkboxListener);
-	}
-
-	@Override
-	public String getIdentifier() {
-		return identifier;
 	}
 
 	@Override
@@ -36,8 +29,8 @@ public class QLCheckBox extends JCheckBox implements QLWidget<Boolean>, Observer
 	
 	  private class CheckBoxListener implements ItemListener{
 	        public void itemStateChanged(ItemEvent e) {
-	            if(e.getSource()== QLCheckBox.this){
-	                if(QLCheckBox.this.isSelected()) {
+	            if(e.getSource()== CheckBox.this){
+	                if(CheckBox.this.isSelected()) {
 	                    System.out.println("one has been selected");
 	                } else {System.out.println("nothing");}
 	            }

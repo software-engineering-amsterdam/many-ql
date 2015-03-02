@@ -41,9 +41,12 @@ import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typecheck.message.Error;
 import org.uva.ql.typecheck.message.Warning;
+import org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.ql.visitor.QuestionnaireVisitor;
+import org.uva.ql.visitor.StatementVisitor;
 import org.uva.ql.visitor.Visitor;
 
-public class TypeChecker implements Visitor<Void> {
+public class TypeChecker implements StatementVisitor<Void>,ExpressionVisitor<Void>,QuestionnaireVisitor<Void> {
 
 	private final Map<String, Type> types;
 	private final ArrayList<String> labels;
@@ -357,20 +360,4 @@ public class TypeChecker implements Visitor<Void> {
 	public Void visit(StrLiteral node) {
 		return null;
 	}
-
-	@Override
-	public Void visit(IntType node) {
-		return null;
-	}
-
-	@Override
-	public Void visit(BoolType node) {
-		return null;
-	}
-
-	@Override
-	public Void visit(StrType node) {
-		return null;
-	}
-
 }

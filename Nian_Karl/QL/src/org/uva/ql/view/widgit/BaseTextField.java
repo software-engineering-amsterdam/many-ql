@@ -9,11 +9,11 @@ import javax.swing.text.BadLocationException;
 
 import org.uva.ql.view.observer.Observer;
 
-public abstract class QLBaseTextField extends JTextField implements Observer, DocumentListener {
+public abstract class BaseTextField extends JTextField implements Observer, DocumentListener{
 
 	private static final long serialVersionUID = 1L;
 
-	public QLBaseTextField() {
+	public BaseTextField() {
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener(this);
 	}
