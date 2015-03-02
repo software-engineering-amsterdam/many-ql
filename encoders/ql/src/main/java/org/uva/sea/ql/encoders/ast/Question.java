@@ -15,8 +15,7 @@ public class Question extends AstNode {
 
 	private Expression computed = null;
 
-	public Question(TextLocation textLocation, String name, DataType dataType,
-			String questionText) {
+	public Question(TextLocation textLocation, String name, DataType dataType, String questionText) {
 		super(textLocation);
 		this.name = name;
 		this.type = dataType;

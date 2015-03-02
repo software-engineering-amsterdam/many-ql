@@ -34,7 +34,7 @@ import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.TypeError;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
-	
+
 	public TypeChecker expressionTypeChecker = new TypeChecker();
 
 	@Override
@@ -44,8 +44,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		List<StatementContext> statements = ctx.statement();
 
 		for (StatementContext statementContext : statements) {
-			ConditionalBlockContext conditionalBlock = statementContext
-					.conditionalBlock();
+			ConditionalBlockContext conditionalBlock = statementContext.conditionalBlock();
 			if (conditionalBlock != null) {
 				ConditionalBlock cb = (ConditionalBlock) visit(conditionalBlock);
 				questionnaire.addQuestions(cb.getQuestions());
@@ -77,8 +76,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		questionString = questionString.replaceAll("\"", "");
 
 		TextLocation textLocation = getTextLocation(ctx);
-		Question question = new Question(textLocation, questionName, dataType,
-				questionString);
+		Question question = new Question(textLocation, questionName, dataType, questionString);
 		if (ctx.parent instanceof ConditionalBlockContext) {
 			ConditionalBlockContext parent = (ConditionalBlockContext) ctx.parent;
 			Expression condition = (Expression) visit(parent.expression());
@@ -101,8 +99,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new OperatorExpression(textLocation, leftHand, rightHand,
-				operator);
+		return new OperatorExpression(textLocation, leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -111,8 +108,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new OperatorExpression(textLocation, leftHand, rightHand,
-				operator);
+		return new OperatorExpression(textLocation, leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -121,8 +117,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new OperatorExpression(textLocation, leftHand, rightHand,
-				operator);
+		return new OperatorExpression(textLocation, leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -131,8 +126,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new OperatorExpression(textLocation, leftHand, rightHand,
-				operator);
+		return new OperatorExpression(textLocation, leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -141,8 +135,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new OperatorExpression(textLocation, leftHand, rightHand,
-				operator);
+		return new OperatorExpression(textLocation, leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -151,8 +144,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new OperatorExpression(textLocation, leftHand, rightHand,
-				operator);
+		return new OperatorExpression(textLocation, leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -161,8 +153,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new OperatorExpression(textLocation, leftHand, rightHand,
-				operator);
+		return new OperatorExpression(textLocation, leftHand, rightHand, operator);
 	}
 
 	@Override
@@ -185,7 +176,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		int charPositionInLine = start.getCharPositionInLine();
 		return new TextLocation(line, charPositionInLine);
 	}
-	
+
 	public List<TypeError> getTypeErrors() {
 		List<TypeError> typeErrors = new ArrayList<TypeError>();
 		typeErrors = expressionTypeChecker.getTypeErrors();

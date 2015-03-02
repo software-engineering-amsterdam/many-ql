@@ -15,21 +15,18 @@ import org.uva.sea.ql.encoders.ast.TypeError;
 /**
  * Implementation for {@link QuestionnaireParsingService}.
  */
-public class QuestionnaireParsingServiceImpl implements
-		QuestionnaireParsingService {
+public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingService {
 
 	public List<TypeError> typeErrors = new ArrayList<TypeError>();
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Questionnaire parse(String location) throws IOException {
-		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(
-				location));
-		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(
-				lexer));
-		
+		EncodersQLLexer lexer = new EncodersQLLexer(new ANTLRFileStream(location));
+		EncodersQLParser parser = new EncodersQLParser(new CommonTokenStream(lexer));
+
 		QuestionnaireContext parseTree = parser.questionnaire();
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
 		typeErrors = visitor.getTypeErrors();
@@ -37,7 +34,7 @@ public class QuestionnaireParsingServiceImpl implements
 
 		return questionnaire;
 	}
-	
+
 	@Override
 	public List<TypeError> getTypeErrors() {
 		return typeErrors;

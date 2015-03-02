@@ -19,6 +19,6 @@ public interface QuestionnaireParsingService {
 	 * @return The {@link Questionnaire} that was parsed from the input file.
 	 */
 	Questionnaire parse(String location) throws IOException;
-	
+
 	List<TypeError> getTypeErrors();
 }
