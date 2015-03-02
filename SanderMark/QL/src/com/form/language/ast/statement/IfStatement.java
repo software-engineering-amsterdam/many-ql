@@ -67,7 +67,7 @@ public class IfStatement implements Statement {
 	@Override
 	public void fillMemory(Memory memory) {
 		// TODO Auto-generated method stub
-		
+		this.conditions.fillMemory(memory);
 	}
 	
 }
