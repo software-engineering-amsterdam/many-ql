@@ -10,7 +10,7 @@ import edu.parser.AbstractNode;
 public enum QuestionType implements AbstractNode<edu.parser.Visitor> {
     STRING("STRING", Widgets.TEXT),
     INTEGER("INTEGER", Widgets.SPINBOX, Widgets.TEXT, Widgets.SLIDER),
-    BOOLEAN("BOOLEAN", Widgets.YESNO_DROPDOWN, Widgets.YESNO_RADIOS, Widgets.CHECKBOX),
+    BOOLEAN("BOOLEAN", Widgets.YESNO_DROPDOWN, Widgets.YESNO_RADIO, Widgets.CHECKBOX),
     DATE("DATE", Widgets.TEXT),
     MONEY("MONEY", Widgets.SLIDER, Widgets.TEXT, Widgets.SPINBOX),
     DECIMAL("DECIMAL", Widgets.SPINBOX, Widgets.TEXT, Widgets.SLIDER);

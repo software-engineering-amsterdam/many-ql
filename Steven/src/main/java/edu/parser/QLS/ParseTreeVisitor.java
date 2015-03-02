@@ -1,6 +1,7 @@
 package edu.parser.QLS;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
+import edu.Widgets;
 import edu.exceptions.ParseException;
 import edu.parser.AbstractNode;
 import edu.parser.QLS.antlrGenerated.QLSBaseVisitor;
@@ -67,7 +68,12 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitWidget(@NotNull QLSParser.WidgetContext ctx) {
-        return new Widget(ctx.UPPERCASE().getText());
+        try {
+            Widgets widget = Widgets.getWidget(ctx.UPPERCASE().getText());
+            return new Widget(widget);
+        } catch (InvalidArgumentException e) {
+            throw new ParseException(e);
+        }
     }
 
     @Override

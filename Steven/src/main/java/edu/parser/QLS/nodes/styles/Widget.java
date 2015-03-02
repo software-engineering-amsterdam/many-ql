@@ -1,5 +1,6 @@
 package edu.parser.QLS.nodes.styles;
 
+import edu.Widgets;
 import edu.parser.AbstractNode;
 import edu.parser.QLS.QLSVisitor;
 
@@ -7,13 +8,13 @@ import edu.parser.QLS.QLSVisitor;
  * Created by Steven Kok on 28/02/2015.
  */
 public class Widget extends Style {
-    private final String widget;
+    private final Widgets widget;
 
-    public Widget(String widget) {
+    public Widget(Widgets widget) {
         this.widget = widget;
     }
 
-    public String getWidget() {
+    public Widgets getWidget() {
         return widget;
     }
 

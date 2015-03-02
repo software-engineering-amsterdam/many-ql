@@ -1,6 +1,7 @@
 package edu.parser.QLS
 
 import edu.Main
+import edu.Widgets
 import edu.parser.AntlrParser
 import edu.parser.QLS.nodes.statement.Page
 import edu.parser.QLS.nodes.Stylesheet
@@ -48,7 +49,7 @@ class ParseTreeVisitorTest extends Specification {
         Assert.assertEquals("third element is an empty page", true, thirdElement.sections.isEmpty())
         Assert.assertEquals("fourth element is a question named name3", "name3", fourthElement.identifier.identifier)
         Assert.assertEquals("fourth element has a widget", Widget.class, fourthElement.styles.get(0).class)
-        Assert.assertEquals("fourth element has a widget called SPINBOX", "SPINBOX", fourthElement.styles.get(0).widget)
+        Assert.assertEquals("fourth element has a widget called SPINBOX", Widgets.SPINBOX, fourthElement.styles.get(0).widget)
         Assert.assertEquals("fourth element has a width", Width.class, fourthElement.styles.get(1).class)
         Assert.assertEquals("fourth element has a width of 500", 500, fourthElement.styles.get(1).width)
     }
