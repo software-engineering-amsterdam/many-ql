@@ -32,7 +32,7 @@ import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
-public class QLUI extends Application {
+public class Main extends Application {
 
 	private static final String DEFAULT_INPUT_FILE_LOCATION = "src/main/resources/input_form.ql";
 
