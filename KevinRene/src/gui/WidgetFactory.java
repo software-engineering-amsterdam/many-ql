@@ -4,6 +4,7 @@ import gui.widgets.IntegerField;
 import gui.widgets.RadioButton;
 import gui.widgets.TextField;
 import gui.widgets.Widget;
+import cons.ValueEnvironment;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.literal.BooleanLiteral;
 import cons.ql.ast.expression.literal.FloatLiteral;
@@ -22,21 +23,21 @@ import cons.ql.ast.visitor.StatementVisitor;
 public class WidgetFactory implements ExpressionVisitor<Widget>, StatementVisitor<Widget> {
 
 	private final Identifier identifier;
-	private final Controller controller;
+	private final ValueEnvironment valueEnv;
 	private final boolean enabled;
 	
-	public WidgetFactory(Identifier identifier, Controller controller, boolean enabled) {
+	public WidgetFactory(Identifier identifier, ValueEnvironment valueEnv, boolean enabled) {
 		this.identifier = identifier;
-		this.controller = controller;
+		this.valueEnv = valueEnv;
 		this.enabled = enabled;
 	}
-	public WidgetFactory(Identifier identifier, Controller controller) {
-		this(identifier, controller, true);
+	public WidgetFactory(Identifier identifier, ValueEnvironment valueEnv) {
+		this(identifier, valueEnv, true);
 	}
 	
 	@Override
 	public Widget visit(QLString qlString) {
-		return new TextField(identifier, controller, enabled);	
+		return new TextField(identifier, valueEnv, enabled);	
 	}
 
 	@Override
@@ -59,12 +60,12 @@ public class WidgetFactory implements ExpressionVisitor<Widget>, StatementVisito
 
 	@Override
 	public Widget visit(QLInteger qlInteger) {
-		return new IntegerField(identifier, controller, enabled);
+		return new IntegerField(identifier, valueEnv, enabled);
 	}
 
 	@Override
 	public Widget visit(QLBoolean qlBoolean) {
-		return new RadioButton(identifier, controller, enabled);
+		return new RadioButton(identifier, valueEnv, enabled);
 	}
 
 	@Override

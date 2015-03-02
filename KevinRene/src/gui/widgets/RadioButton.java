@@ -1,13 +1,12 @@
 package gui.widgets;
 
-import gui.Controller;
-
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import cons.Value;
+import cons.ValueEnvironment;
 import cons.ql.ast.expression.Identifier;
 import cons.value.BooleanValue;
 
@@ -15,13 +14,13 @@ public class RadioButton extends Widget implements ChangeListener {
 	
 	private JRadioButton radioButton;
 
-	public RadioButton(Identifier identifier, Controller controller) {
+	public RadioButton(Identifier identifier, ValueEnvironment controller) {
 		super(identifier, controller);
 		
 		radioButton = new JRadioButton();
 		radioButton.addChangeListener(this);
 	}
-	public RadioButton(Identifier identifier, Controller controller, boolean enabled) {
+	public RadioButton(Identifier identifier, ValueEnvironment controller, boolean enabled) {
 		this(identifier, controller);
 		radioButton.setEnabled(enabled);
 	}
@@ -31,7 +30,7 @@ public class RadioButton extends Widget implements ChangeListener {
 		try {
 			radioButton.setSelected(((BooleanValue)value).getValue());
 			setChanged();
-			getController().getValueEnvironment().store(getIdentifier(), value);
+			valueEnv.store(getIdentifier(), value);
 
 			notifyObservers();
 		}
@@ -49,7 +48,7 @@ public class RadioButton extends Widget implements ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		Value value = new BooleanValue(radioButton.isSelected());
 		setChanged();
-		getController().getValueEnvironment().store(getIdentifier(), value);
+		valueEnv.store(getIdentifier(), value);
 
 		notifyObservers();
 	}

@@ -1,7 +1,5 @@
 package gui.widgets;
 
-import gui.Controller;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,6 +14,7 @@ import javax.swing.event.CaretListener;
 
 import net.miginfocom.swing.MigLayout;
 import cons.Value;
+import cons.ValueEnvironment;
 import cons.ql.ast.expression.Identifier;
 import cons.value.StringValue;
 
@@ -25,7 +24,7 @@ public class TextField extends Widget implements CaretListener {
 	protected JTextField textField;
 	protected JLabel errorLabel;
 	
-	public TextField (Identifier identifier, Controller controller) {
+	public TextField (Identifier identifier, ValueEnvironment controller) {
 		super(identifier, controller);
 
 		textField = new JTextField(100);
@@ -43,7 +42,7 @@ public class TextField extends Widget implements CaretListener {
     	container.add(errorLabel, "wrap");
 	}
 	
-	public TextField (Identifier identifier, Controller controller, boolean enabled) {
+	public TextField (Identifier identifier, ValueEnvironment controller, boolean enabled) {
 		this(identifier, controller);
     	textField.setEnabled(enabled);
     	textField.setFocusable(enabled);
@@ -68,7 +67,7 @@ public class TextField extends Widget implements CaretListener {
 		setChanged();
 		
 		// Store the new value in the TypeEnvironment
-		controller.getValueEnvironment().store(getIdentifier(), value);
+		valueEnv.store(getIdentifier(), value);
 		
 		// Notify this value has changed
 		notifyObservers();
@@ -91,9 +90,9 @@ public class TextField extends Widget implements CaretListener {
 		setChanged();
 		
 		// Store the new value in the TypeEnvironment
-		controller.getValueEnvironment().store(getIdentifier(), value);
+		valueEnv.store(getIdentifier(), value);
 		
 		// Notify this value has changed
-		this.notifyObservers();
+		notifyObservers();
 	}
 }

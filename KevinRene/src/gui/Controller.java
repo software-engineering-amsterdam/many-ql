@@ -13,11 +13,9 @@ import cons.ql.ast.expression.Identifier;
 public class Controller {
 	
 	private final Map<Identifier, Widget> widgets;
-	private final ValueEnvironment valueEnv;
 	
-	public Controller(ValueEnvironment valueEnv) {
+	public Controller() {
 		this.widgets = new HashMap<Identifier, Widget>();
-		this.valueEnv = valueEnv;
 	}
 	
 	public void addObserver(Identifier x, Observer obs) {
@@ -33,9 +31,5 @@ public class Controller {
 	
 	public void putObservable(Identifier x, Widget obs) {
 		widgets.put(x, obs);
-	}
-		
-	public ValueEnvironment getValueEnvironment() {
-		return this.valueEnv;
 	}
 }

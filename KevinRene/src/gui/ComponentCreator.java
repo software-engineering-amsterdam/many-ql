@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.If;
@@ -21,16 +22,18 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	
 	private JPanel pane;
 	private Controller controller;
+	private ValueEnvironment valueEnv;
 		
-	private ComponentCreator(Controller controller) {
+	private ComponentCreator(Controller controller, ValueEnvironment valueEnv) {
 		this.pane = new JPanel();
 		this.pane.setLayout(new MigLayout("insets 0, hidemode 3"));
 		this.controller = controller;
+		this.valueEnv = valueEnv;
 	}
 	
-	public static JPanel check(ASTNode tree, Controller controller) {
+	public static JPanel check(ASTNode tree, Controller controller, ValueEnvironment valueEnv) {
 		
-		ComponentCreator creator = new ComponentCreator(controller);
+		ComponentCreator creator = new ComponentCreator(controller, valueEnv);
 		
 		tree.accept(creator);
 		
@@ -45,11 +48,11 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
     	addLabel(compQuestionNode.getText().toString(), pane);
 
     	Widget comp = compQuestionNode.getType().accept(
-				new WidgetFactory(compQuestionNode.getIdentifier(), controller, false));
+				new WidgetFactory(compQuestionNode.getIdentifier(), valueEnv, false));
     	pane.add(comp.getComponent(), "wrap");
     	
     	ComputedQuestionObserver observer = 
-    			new ComputedQuestionObserver(compQuestionNode, controller, comp);
+    			new ComputedQuestionObserver(compQuestionNode, valueEnv, comp);
     	controller.addGlobalObserver(observer);
     	controller.putObservable(comp.getIdentifier(), comp);
     	
@@ -60,7 +63,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		addLabel(questionNode.getText().toString(), pane);
 		
 		Widget comp = questionNode.getType().accept(
-				new WidgetFactory(questionNode.getIdentifier(), controller));
+				new WidgetFactory(questionNode.getIdentifier(), valueEnv));
 		
 		controller.putObservable(questionNode.getIdentifier(), comp);
 	    pane.add(comp.getComponent(), "wrap");
@@ -70,8 +73,8 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	
 	@Override
 	public Void visit(If ifNode) {
-		JPanel ifPanel = check(ifNode.getBlock(), controller);
-		IfObserver ifObserver = new IfObserver(ifNode.getExpression(), controller, ifPanel);
+		JPanel ifPanel = check(ifNode.getBlock(), controller, valueEnv);
+		IfObserver ifObserver = new IfObserver(ifNode.getExpression(), valueEnv, ifPanel);
 		
 		controller.addGlobalObserver(ifObserver);
 		
@@ -84,9 +87,9 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 
 	@Override
 	public Void visit(IfElse ifElseNode) {
-		JPanel ifPanel = check(ifElseNode.getIfBranch(), controller);
-		JPanel elsePanel = check(ifElseNode.getElseBranch(), controller);
-		IfObserver ifObserver = new IfObserver(ifElseNode.getExpression(), controller, ifPanel, elsePanel);
+		JPanel ifPanel = check(ifElseNode.getIfBranch(), controller, valueEnv);
+		JPanel elsePanel = check(ifElseNode.getElseBranch(), controller, valueEnv);
+		IfObserver ifObserver = new IfObserver(ifElseNode.getExpression(), valueEnv, ifPanel, elsePanel);
 		
 		controller.addGlobalObserver(ifObserver);		
 

@@ -1,22 +1,21 @@
 package gui.widgets;
 
-import gui.Controller;
-
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import cons.Value;
+import cons.ValueEnvironment;
 import cons.ql.ast.expression.Identifier;
 import cons.value.IntegerValue;
 
 public class IntegerField extends TextField implements CaretListener {
 	
-	public IntegerField (Identifier identifier, Controller controller) {
+	public IntegerField (Identifier identifier, ValueEnvironment controller) {
 		super(identifier, controller);
 		textField.setText("0");
 	}
 	
-	public IntegerField (Identifier identifier, Controller controller, boolean enabled) {
+	public IntegerField (Identifier identifier, ValueEnvironment controller, boolean enabled) {
 		super(identifier, controller, enabled);
 		textField.setText("0");
 	}
@@ -31,7 +30,7 @@ public class IntegerField extends TextField implements CaretListener {
 		setChanged();
 		
 		// Store the new value in the TypeEnvironment
-		controller.getValueEnvironment().store(getIdentifier(), value);
+		valueEnv.store(getIdentifier(), value);
 		
 		// Notify this value has changed
 		notifyObservers();
@@ -45,7 +44,7 @@ public class IntegerField extends TextField implements CaretListener {
 			setChanged();
 			
 			// Store the new value in the TypeEnvironment
-			controller.getValueEnvironment().store(getIdentifier(), value);
+			valueEnv.store(getIdentifier(), value);
 			
 			// Notify this value has changed
 			notifyObservers();

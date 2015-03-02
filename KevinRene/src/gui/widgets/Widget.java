@@ -1,22 +1,21 @@
 package gui.widgets;
 
-import gui.Controller;
-
 import java.util.Observable;
 
 import javax.swing.JComponent;
 
 import cons.Value;
+import cons.ValueEnvironment;
 import cons.ql.ast.expression.Identifier;
 
 public abstract class Widget extends Observable {
 
 	protected final Identifier identifier;
-	protected final Controller controller;
+	protected final ValueEnvironment valueEnv;
 	
-	public Widget(Identifier identifier, Controller controller) {
+	public Widget(Identifier identifier, ValueEnvironment valueEnv) {
 		this.identifier = identifier;
-		this.controller = controller;
+		this.valueEnv = valueEnv;
 	}
 	
 	public Identifier getIdentifier() {
@@ -24,12 +23,9 @@ public abstract class Widget extends Observable {
 	}
 	
 	public Value getValue() {
-		return controller.getValueEnvironment().resolve(identifier);
+		return valueEnv.resolve(identifier);
 	}
 	
-	public Controller getController() {
-		return this.controller;
-	}
 	
 	public abstract void setValue(Value value);
 	public abstract JComponent getComponent();
