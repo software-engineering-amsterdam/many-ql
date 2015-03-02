@@ -233,7 +233,6 @@ namespace QL.Grammars
             if (children.Count() == 1)
             {
                 expression.HandleChildren(children[0]);
-                AppendToAST(expression);
             } 
             else if (children.Count() == 2 && context.children.Count() == 5)
             {
