@@ -3,7 +3,7 @@ package nl.uva.softwcons.eval.value;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class DecimalValue extends Value {
+public class NumberValue extends Value {
 
     private final BigDecimal value;
 
@@ -12,11 +12,19 @@ public class DecimalValue extends Value {
         return this.value;
     }
 
-    public DecimalValue(BigDecimal value) {
+    public NumberValue(int value) {
+        this.value = new BigDecimal(value);
+    }
+
+    public NumberValue(double value) {
+        this.value = new BigDecimal(value);
+    }
+
+    public NumberValue(BigDecimal value) {
         this.value = value;
     }
 
-    public DecimalValue(BigInteger value) {
+    public NumberValue(BigInteger value) {
         this.value = new BigDecimal(value);
     }
 
@@ -31,23 +39,23 @@ public class DecimalValue extends Value {
     }
 
     @Override
-    public DecimalValue add(Value otherValue) {
-        return new DecimalValue(this.value.add(otherValue.asDecimal()));
+    public NumberValue add(Value otherValue) {
+        return new NumberValue(this.value.add(otherValue.asDecimal()));
     }
 
     @Override
-    public DecimalValue subtract(Value otherValue) {
-        return new DecimalValue(this.value.subtract(otherValue.asDecimal()));
+    public NumberValue subtract(Value otherValue) {
+        return new NumberValue(this.value.subtract(otherValue.asDecimal()));
     }
 
     @Override
-    public DecimalValue multiply(Value otherValue) {
-        return new DecimalValue(this.value.multiply(otherValue.asDecimal()));
+    public NumberValue multiply(Value otherValue) {
+        return new NumberValue(this.value.multiply(otherValue.asDecimal()));
     }
 
     @Override
-    public DecimalValue divide(Value otherValue) {
-        return new DecimalValue(this.value.divide(otherValue.asDecimal()));
+    public NumberValue divide(Value otherValue) {
+        return new NumberValue(this.value.divide(otherValue.asDecimal()));
     }
 
     @Override
@@ -75,24 +83,8 @@ public class DecimalValue extends Value {
         return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) <= 0);
     }
 
-    protected DecimalValue addInt(IntegerValue value) {
-        return this.add(value);
-    }
-
-    protected DecimalValue subInt(IntegerValue value) {
-        return new DecimalValue(value.asDecimal().subtract(this.value));
-    }
-
-    protected DecimalValue mulInt(IntegerValue value) {
-        return this.multiply(value);
-    }
-
-    protected DecimalValue divInt(IntegerValue value) {
-        return new DecimalValue(value.asDecimal().divide(this.value));
-    }
-
     @Override
     public Value getValueFromString(String string) {
-        return new DecimalValue(new BigDecimal(string));
+        return new NumberValue(new BigDecimal(string));
     }
 }

@@ -26,8 +26,7 @@ import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
 import nl.uva.softwcons.ast.statement.StatementVisitor;
 import nl.uva.softwcons.eval.value.BooleanValue;
-import nl.uva.softwcons.eval.value.DecimalValue;
-import nl.uva.softwcons.eval.value.IntegerValue;
+import nl.uva.softwcons.eval.value.NumberValue;
 import nl.uva.softwcons.eval.value.StringValue;
 import nl.uva.softwcons.eval.value.Value;
 
@@ -152,8 +151,8 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
     }
 
     @Override
-    public IntegerValue visit(final IntegerLiteral expr) {
-        return new IntegerValue(expr.getValue());
+    public NumberValue visit(final IntegerLiteral expr) {
+        return new NumberValue(expr.getValue());
     }
 
     @Override
@@ -162,7 +161,7 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
     }
 
     @Override
-    public DecimalValue visit(final DecimalLiteral expr) {
-        return new DecimalValue(expr.getValue());
+    public NumberValue visit(final DecimalLiteral expr) {
+        return new NumberValue(expr.getValue());
     }
 }
