@@ -33,7 +33,6 @@ public class IfObserver implements Observer {
 			// Recalculate the value for this computedQuestion
 			Value value = expression.accept(new Evaluator(controller.getValueEnvironment()));	
 			System.out.println(value);
-				
 			
 			boolean visible = ((BooleanValue)value).getValue();
 			this.ifComponent.setVisible(visible);
