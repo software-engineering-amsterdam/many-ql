@@ -1,6 +1,5 @@
 package org.uva.sea.ql.encoders.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -30,12 +29,8 @@ import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.validation.TypeChecker;
-import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
-
-	public TypeChecker expressionTypeChecker = new TypeChecker();
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
@@ -86,7 +81,6 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		if (computedCtx != null) {
 			Expression computed = (Expression) visit(computedCtx);
 			question.setComputed(computed);
-			expressionTypeChecker.testExpression(computed);
 			System.out.println(computed);
 		}
 		super.visitChildren(ctx);
@@ -177,9 +171,4 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		return new TextLocation(line, charPositionInLine);
 	}
 
-	public List<TypeValidation> getTypeErrors() {
-		List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
-		typeValidations = expressionTypeChecker.getTypeErrors();
-		return typeValidations;
-	}
 }

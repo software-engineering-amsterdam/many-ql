@@ -13,6 +13,7 @@ import org.uva.sea.ql.encoders.EncodersQLLexer;
 import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.validation.TypeChecker;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 /**
@@ -40,8 +41,10 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 		QuestionnaireContext parseTree = parser.questionnaire();
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
-		typeValidations = visitor.getTypeErrors();
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
+
+		TypeChecker typeChecker = new TypeChecker(questionnaire.getQuestions());
+		typeValidations = typeChecker.checkTypes();
 
 		return questionnaire;
 	}

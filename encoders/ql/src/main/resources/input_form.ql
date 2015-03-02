@@ -5,6 +5,12 @@ form taxOfficeExample {
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
+  "What is the percentage?"
+    percentage: money
+  "What is the commissioning?"
+    commissioning: boolean
+  "Do you have a contract?"
+    hasContract: boolean
 
   if (hasSoldHouse) {
     "What was the selling price?"
@@ -18,7 +24,7 @@ form taxOfficeExample {
   
   if (hasContract) {
     "Do you have a contract for longer than 1 year?"
-      yearContract: boolean
+      yearContract: int
     "Did you have an unlimited contract with your employer?"
       unlimitedContract: int
     "Employer followed rules according CAO:"
