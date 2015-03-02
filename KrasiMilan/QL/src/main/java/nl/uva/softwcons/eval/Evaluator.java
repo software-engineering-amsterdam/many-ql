@@ -1,7 +1,6 @@
 package nl.uva.softwcons.eval;
 
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
-import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
@@ -19,7 +18,6 @@ import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.ast.form.FormVisitor;
@@ -76,67 +74,67 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
 
     @Override
     public Value visit(final Addition expr) {
-        return leftValue(expr).add(rightValue(expr));
+        return leftOperand(expr).add(rightOperand(expr));
     }
 
     @Override
     public Value visit(final Division expr) {
-        return leftValue(expr).divide(rightValue(expr));
+        return leftOperand(expr).divide(rightOperand(expr));
     }
 
     @Override
     public Value visit(final Multiplication expr) {
-        return leftValue(expr).multiply(rightValue(expr));
+        return leftOperand(expr).multiply(rightOperand(expr));
     }
 
     @Override
     public Value visit(final Subtraction expr) {
-        return leftValue(expr).subtract(rightValue(expr));
+        return leftOperand(expr).subtract(rightOperand(expr));
     }
 
     @Override
     public Value visit(final Equal expr) {
-        return leftValue(expr).isEqual(rightValue(expr));
+        return leftOperand(expr).isEqual(rightOperand(expr));
     }
 
     @Override
     public Value visit(final GreaterOrEqual expr) {
-        return leftValue(expr).isGreaterOrEqual(rightValue(expr));
+        return leftOperand(expr).isGreaterOrEqual(rightOperand(expr));
     }
 
     @Override
     public Value visit(final GreaterThan expr) {
-        return leftValue(expr).isGreater(rightValue(expr));
+        return leftOperand(expr).isGreater(rightOperand(expr));
     }
 
     @Override
     public Value visit(final LowerOrEqual expr) {
-        return leftValue(expr).isLowerOrEqual(rightValue(expr));
+        return leftOperand(expr).isLowerOrEqual(rightOperand(expr));
     }
 
     @Override
     public Value visit(final LowerThan expr) {
-        return leftValue(expr).isLower(rightValue(expr));
+        return leftOperand(expr).isLower(rightOperand(expr));
     }
 
     @Override
     public Value visit(final NotEqual expr) {
-        return leftValue(expr).isEqual(rightValue(expr)).not();
+        return leftOperand(expr).isEqual(rightOperand(expr)).not();
     }
 
     @Override
     public Value visit(final And expr) {
-        return leftValue(expr).and(rightValue(expr));
+        return leftOperand(expr).and(rightOperand(expr));
     }
 
     @Override
     public Value visit(final Or expr) {
-        return leftValue(expr).or(rightValue(expr));
+        return leftOperand(expr).or(rightOperand(expr));
     }
 
     @Override
     public Value visit(final Not expr) {
-        return unaryValue(expr).not();
+        return unaryOperand(expr).not();
     }
 
     @Override
@@ -162,17 +160,5 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
     @Override
     public DecimalValue visit(final DecimalLiteral expr) {
         return new DecimalValue(expr.getValue());
-    }
-
-    private Value leftValue(final BinaryExpression expr) {
-        return expr.getLeftExpression().accept(this);
-    }
-
-    private Value rightValue(final BinaryExpression expr) {
-        return expr.getRightExpression().accept(this);
-    }
-
-    private Value unaryValue(final UnaryExpression expr) {
-        return expr.getExpression().accept(this);
     }
 }
