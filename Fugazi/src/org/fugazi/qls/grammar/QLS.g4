@@ -1,33 +1,66 @@
 grammar QLS;
 
-// top node
+// stylesheet name
 stylesheet : 'stylesheet' ID;
 
-// Page
-page    : 'page' ID '{' section* '}';
+// Page, includes default declarations, and/or sections
+page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
-// Section
-section : 'section' STRING;
+// Section, includes questions
+section : 'section' STRING '{' question* '}'; //todo: make curlies optional for single statements
 
 // question
-question : 'question' ID;
+question : 'question' ID widget;
 
 // widget
-widget : 'widget' widgets;
+widget : 'widget' supportedWidget;
 
-widgets : 'checkbox'    # checkboxWidget
-        | 'radio'       # radioWidget
-        | 'dropdown'    # dropdownWidget
-        | 'spinbox'     # spinboxWidget
-        | 'slider'      # sliderWidget
-        | 'text'        # textWidget
+// defaultStyle
+defaultStyleDeclr : 'default' type; // todo: create this.
+
+/**
+ * Definitions.
+ */
+
+// The supported widgets
+supportedWidget : 'checkbox'    # checkboxWidget
+                | 'radio'       # radioWidget
+                | 'dropdown'    # dropdownWidget
+                | 'spinbox'     # spinboxWidget
+                | 'slider'      # sliderWidget
+                | 'text'        # textWidget
+                ;
+
+// Properties for styling
+styleProperty : 'width' NUMBER
+              | 'font' STRING
+              | 'fontsize' NUMBER
+              | 'color' '#'HEX
+              | widget
+              ;
+
+
+// all alowed variable types. //todo: share grammar part with QL?
+type    : 'bool'        # boolType
+        | 'int'         # intType
+        | 'string'      # stringType
         ;
 
 /**
  * LITERALS
  */
+
+// String
 STRING :  '"' (ESC | ~["\\])* '"' ;
+
+// Identidier
 ID  :   [a-zA-Z]+;
+
+// Number
+NUMBER : DIGIT+ ;
+
+// HEX
+HEX : [0-9a-fA-F] ;
 
 // comment matches anything between /* and */
 COMMENT
@@ -46,5 +79,4 @@ LINE_COMMENT
 // Fragments
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
-fragment HEX : [0-9a-fA-F] ;
 fragment DIGIT   : [0-9] ; // match single digit
