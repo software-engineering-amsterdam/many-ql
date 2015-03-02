@@ -31,7 +31,7 @@ public class ComputedQuestionObserver implements Observer {
 //			System.out.println("new value for " + expression.getIdentifier() + ": " + value);
 				
 			// Update the type environment
-			controller.storeValue(expression.getIdentifier(), value);
+			controller.getValueEnvironment().store(expression.getIdentifier(), value);
 				
 			// Now update all the Components that watch the computedQuestion
 			controller.notify(expression.getIdentifier());

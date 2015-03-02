@@ -48,17 +48,7 @@ public class Controller {
 	public void putComponent(Identifier x, Widget obs) {
 		components.put(x, obs);
 	}
-	
-	// Access point for the TypeEnvironment
-	public void storeValue(Identifier x, Value value) {
-		valueEnv.store(x, value);
-	}
-	
-	public Value resolveValue(Identifier identifier) {
-		return valueEnv.resolve(identifier);
-	}
-	
-	
+		
 	public ValueEnvironment getValueEnvironment() {
 		return this.valueEnv;
 	}

@@ -24,7 +24,7 @@ public abstract class Widget extends Observable {
 	}
 	
 	public Value getValue() {
-		return controller.resolveValue(identifier);
+		return controller.getValueEnvironment().resolve(identifier);
 	}
 	
 	public Controller getController() {
