@@ -1,14 +1,15 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter;
+package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
-import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
+import org.uva.student.calinwouter.qlqls.ql.types.Value;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.VariableNotSetException;
 
 public class ExpInterpreter extends AnalysisAdapter {
-    private TypeModel<?> value;
+    private Value<?> value;
     private FormInterpreter formInterpreter;
 
     @Override
@@ -23,12 +24,12 @@ public class ExpInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseATrueExp(ATrueExp node) {
-        setValue(new TBool(true));
+        setValue(new BoolValue(true));
     }
 
     @Override
     public void caseAFalseExp(AFalseExp node) {
-        setValue(new TBool(false));
+        setValue(new BoolValue(false));
     }
 
     @Override
@@ -93,29 +94,29 @@ public class ExpInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseANumberExp(ANumberExp node) {
-        setValue(new TInteger(Integer.parseInt(node.getNumber().getText())));
+        setValue(new IntegerValue(Integer.parseInt(node.getNumber().getText())));
     }
 
     @Override
     public void caseAIdentExp(AIdentExp node) {
-        TypeModel<?> value = (formInterpreter.getField(node.getIdent().getText()));
+        Value<?> value = (formInterpreter.getField(node.getIdent().getText()));
         if (value == null) {
             throw new VariableNotSetException(node.getIdent().getText());
         }
         setValue(value);
     }
 
-    private TypeModel<?> interpExp(Node n) {
+    private Value<?> interpExp(Node n) {
         ExpInterpreter expInterpreter = new ExpInterpreter(formInterpreter);
         n.apply(expInterpreter);
         return expInterpreter.getValue();
     }
 
-    protected void setValue(TypeModel<?> value) {
+    protected void setValue(Value<?> value) {
         this.value = value;
     }
 
-    public TypeModel<?> getValue() {
+    public Value<?> getValue() {
         return value;
     }
 

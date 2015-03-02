@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.b
 
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Combo;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
@@ -28,12 +28,12 @@ public class ComboWidget implements IWidget {
             public void itemStateChanged(ItemEvent e) {
                 if (yesNoComboBox.getSelectedIndex() == 0) {
                     System.out.println("true");
-                    headlessFormInterpreter.setField(question.getFieldName(), new TBool(true));
+                    headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(true));
                     headlessFormInterpreter.interpret();
                     return;
                 }
                 System.out.println("false");
-                headlessFormInterpreter.setField(question.getFieldName(), new TBool(false));
+                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(false));
                 headlessFormInterpreter.interpret();
             }
         });

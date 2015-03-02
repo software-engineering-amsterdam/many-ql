@@ -1,7 +1,6 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker;
+package org.uva.student.calinwouter.qlqls.ql.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.IfNotBoolOrNullException;

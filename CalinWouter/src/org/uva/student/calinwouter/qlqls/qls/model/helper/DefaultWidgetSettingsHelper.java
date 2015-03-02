@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.qls.model.helper;
 
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
-import org.uva.student.calinwouter.qlqls.ql.types.TString;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
+import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Checkbox;
@@ -30,11 +30,11 @@ public class DefaultWidgetSettingsHelper {
     public static HashMap<String, WidgetSettingsModel> createDefaultTypeToWidgetSettingsModel(QLSInterpreter qlsInterpreter)
             throws NoSuchFieldException, IllegalAccessException {
         HashMap<String,WidgetSettingsModel> defaultTypeToWidgetSettingsModel = new HashMap<String, WidgetSettingsModel>();
-        defaultTypeToWidgetSettingsModel.put(TBool.TYPE_REFERENCE, createDefaultBoolWidgetSettings(qlsInterpreter));
+        defaultTypeToWidgetSettingsModel.put(BoolValue.TYPE_REFERENCE, createDefaultBoolWidgetSettings(qlsInterpreter));
 
-        defaultTypeToWidgetSettingsModel.put(TInteger.TYPE_REFERENCE, createDefaultIntegerWidgetSettings(qlsInterpreter));
+        defaultTypeToWidgetSettingsModel.put(IntegerValue.TYPE_REFERENCE, createDefaultIntegerWidgetSettings(qlsInterpreter));
 
-        defaultTypeToWidgetSettingsModel.put(TString.TYPE_REFERENCE, createDefaultStringWidgetSettings(qlsInterpreter));
+        defaultTypeToWidgetSettingsModel.put(StringValue.TYPE_REFERENCE, createDefaultStringWidgetSettings(qlsInterpreter));
         return defaultTypeToWidgetSettingsModel;
     }
 }
