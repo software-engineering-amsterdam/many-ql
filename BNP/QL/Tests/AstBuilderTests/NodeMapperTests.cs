@@ -75,9 +75,9 @@ namespace Tests.AstBuilderTests
             var formBlock = Parser.formBlock();
             Assert.IsTrue(Listener.AstExists);
             AstHandler ast = Listener.GetAst();
-            Assert.AreEqual(ast.TypeCheckerExceptions.Count,0);
+            Assert.AreEqual(ast.TypeCheckerErrors.Count,0);
             ast.CheckType();
-            Assert.AreEqual(ast.TypeCheckerExceptions.Count, 0);            
+            Assert.AreEqual(ast.TypeCheckerErrors.Count, 0);            
 
         }
 
@@ -102,7 +102,7 @@ namespace Tests.AstBuilderTests
             Assert.IsTrue(Listener.AstExists);
             AstHandler ast = Listener.GetAst();
             ast.CheckType();
-            Assert.AreEqual(1, ast.TypeCheckerExceptions.Count);
+            Assert.AreEqual(1, ast.TypeCheckerErrors.Count);
         }
         [TestMethod]
         public void TypeCheckerCollectException2()
@@ -126,7 +126,7 @@ namespace Tests.AstBuilderTests
             AstHandler ast = Listener.GetAst();
             ast.CheckType();
 
-            Assert.AreEqual(3, ast.TypeCheckerExceptions.Count);
+            Assert.AreEqual(3, ast.TypeCheckerErrors.Count);
 
         }
         [TestMethod]
@@ -151,7 +151,7 @@ namespace Tests.AstBuilderTests
             AstHandler ast = Listener.GetAst();
             ast.CheckType();
 
-            Assert.AreEqual(0, ast.TypeCheckerExceptions.Count);
+            Assert.AreEqual(0, ast.TypeCheckerErrors.Count);
 
         }
         [TestMethod]
@@ -177,7 +177,7 @@ namespace Tests.AstBuilderTests
             AstHandler ast = Listener.GetAst();
             ast.CheckType();
 
-            Assert.AreEqual(0, ast.TypeCheckerExceptions.Count);
+            Assert.AreEqual(0, ast.TypeCheckerErrors.Count);
 
         }
         

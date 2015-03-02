@@ -43,9 +43,9 @@ namespace QL
                 AstHandler ast = listener.GetAst();
                 ast.CheckType();
 
-                if (ast.TypeCheckerExceptions.Any())
+                if (ast.TypeCheckerErrors.Any())
                 {
-                    foreach (QLError e in ast.TypeCheckerExceptions)
+                    foreach (QLError e in ast.TypeCheckerErrors)
                     {
                         Console.WriteLine(e.ToString());
                     }
@@ -54,9 +54,9 @@ namespace QL
 
                 ast.Evaluate();
 
-                if (ast.EvaluationExceptions.Any())
+                if (ast.EvaluationErrors.Any())
                 {
-                    foreach (QLError e in ast.TypeCheckerExceptions)
+                    foreach (QLError e in ast.TypeCheckerErrors)
                     {
                         Console.WriteLine(e.ToString());
                     }
