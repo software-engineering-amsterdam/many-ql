@@ -47,7 +47,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 	}
 
 	@Override
-	public List<TypeValidation> getTypeErrors() {
+	public List<TypeValidation> getTypeValidations() {
 		return typeValidations;
 	}
 }

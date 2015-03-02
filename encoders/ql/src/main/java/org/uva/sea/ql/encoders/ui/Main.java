@@ -73,7 +73,7 @@ public class Main extends Application {
 					QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 					Questionnaire questionnaire = questionnaireParsingService.parse(textField.getText());
 					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
-					List<TypeValidation> typeValidations = questionnaireParsingService.getTypeErrors();
+					List<TypeValidation> typeValidations = questionnaireParsingService.getTypeValidations();
 					if (!typeValidations.isEmpty()) {
 						ValidationsUI validationsUIFactory = new ValidationsUI();
 						Control validationsUI = validationsUIFactory.generateUI(typeValidations);

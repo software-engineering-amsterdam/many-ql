@@ -20,5 +20,5 @@ public interface QuestionnaireParsingService {
 	 */
 	Questionnaire parse(String location) throws IOException;
 
-	List<TypeValidation> getTypeErrors();
+	List<TypeValidation> getTypeValidations();
 }
