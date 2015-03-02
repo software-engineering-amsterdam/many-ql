@@ -1,33 +1,68 @@
 grammar QLS;
 
-// top node
-stylesheet : 'stylesheet' ID;
+// stylesheet name, ROOT NODE
+stylesheet : 'stylesheet' ID page*;
 
-// Page
-page    : 'page' ID '{' section* '}';
+// Page, includes default declarations, and/or sections.
+page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
-// Section
-section : 'section' STRING;
+// Section, includes questions and/or other sections, and/or default declarations.
+section : 'section' STRING '{' (question | section)* '}'; //todo: make curlies optional for single statements
 
-// question
-question : 'question' ID;
+// question id (zero or one widget)
+question : 'question' ID widget??;
 
 // widget
-widget : 'widget' widgets;
+widget : 'widget' supportedWidget   # simpleWidget
+       | defaultStyleDeclr          # defaultStyleWidget
+       ;
 
-widgets : 'checkbox'    # checkboxWidget
-        | 'radio'       # radioWidget
-        | 'dropdown'    # dropdownWidget
-        | 'spinbox'     # spinboxWidget
-        | 'slider'      # sliderWidget
-        | 'text'        # textWidget
+// defaultStyle, can be: default boolean widget radio("Yes", "No"), and/or default int { style widget }
+defaultStyleDeclr : 'default' type widget                           # noStylesDefault
+                  | 'default' type '{' styleProperty* widget '}'    # stylesDefault
+                  ;
+
+/**
+ * Definitions.
+ */
+
+// The supported widgets
+supportedWidget : 'checkbox'    # checkboxWidget
+                | 'radio'       # radioWidget
+                | 'dropdown'    # dropdownWidget
+                | 'spinbox'     # spinboxWidget
+                | 'slider'      # sliderWidget
+                | 'text'        # textWidget
+                ;
+
+// Properties for styling
+styleProperty : 'width:' NUMBER         # widthStyleProperty
+              | 'font:' STRING          # fontStyleProperty
+              | 'fontsize:' NUMBER      # fontsizeStyleProperty
+              | 'color:' HEX            # colorStyleProperty
+              ;
+
+// all alowed variable types.
+type    : 'bool'        # boolType
+        | 'int'         # intType
+        | 'string'      # stringType
         ;
 
 /**
  * LITERALS
  */
+
+// String
 STRING :  '"' (ESC | ~["\\])* '"' ;
+
+// Identidier
 ID  :   [a-zA-Z]+;
+
+// Number
+NUMBER : DIGIT+ ;
+
+// HEX
+HEX : [0-9a-fA-F] ; // todo: does not work
 
 // comment matches anything between /* and */
 COMMENT
@@ -46,5 +81,4 @@ LINE_COMMENT
 // Fragments
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
 fragment UNICODE : 'u' HEX HEX HEX HEX ;
-fragment HEX : [0-9a-fA-F] ;
 fragment DIGIT   : [0-9] ; // match single digit
