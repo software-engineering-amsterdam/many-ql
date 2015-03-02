@@ -1,18 +1,17 @@
 package org.uva.ql.view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 
-public class QLQuestionPanel extends QLPanel {
+public class QuestionPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	private final Dimension size;
-	private final ArrayList<QLPanel> baseComponents;
+	private final ArrayList<Panel> baseComponents;
 
-	public QLQuestionPanel(ArrayList<QLPanel> baseComponents) {
+	public QuestionPanel(ArrayList<Panel> baseComponents) {
 		super();
 		this.baseComponents = baseComponents;
 		size = new Dimension(350, 50);
@@ -20,7 +19,7 @@ public class QLQuestionPanel extends QLPanel {
 		setSize(size);
 		setPreferredSize(size);
 		setBackground(Color.LIGHT_GRAY);
-		for (QLPanel questionPanel : baseComponents) {
+		for (Panel questionPanel : baseComponents) {
 			int width = (int) getSize().getWidth();
 			int height = (int) getSize().getHeight() + 50;
 			setSize(new Dimension(width, height));
@@ -29,7 +28,7 @@ public class QLQuestionPanel extends QLPanel {
 		}
 	}
 
-	public ArrayList<QLPanel> getBaseComponents() {
+	public ArrayList<Panel> getBaseComponents() {
 		return baseComponents;
 	}
 }

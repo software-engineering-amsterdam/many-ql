@@ -11,11 +11,12 @@ import org.uva.ql.view.observer.Subject;
 public class FormFrame extends JFrame implements Subject {
 
 	private ArrayList<Observer> observerList;
-
+	private final String identifier;
 	private static final long serialVersionUID = 1L;
 
-	public FormFrame() {
-		super("QL Form.");
+	public FormFrame(String identifier) {
+		super("QL Form");
+		this.identifier = identifier;
 		setSize(400, 600);
 		setLayout(new FlowLayout());
 		setResizable(false);
@@ -26,7 +27,6 @@ public class FormFrame extends JFrame implements Subject {
 	@Override
 	public void register(Observer observer) {
 		observerList.add(observer);
-
 	}
 
 	@Override
@@ -39,5 +39,9 @@ public class FormFrame extends JFrame implements Subject {
 		for (Observer observer : observerList) {
 			observer.update("Hmmm");
 		}
+	}
+
+	public String getIdentifier() {
+		return identifier;
 	}
 }

@@ -1,6 +1,6 @@
 package org.uva.ql.ast.type;
 
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.TypeVisitor;
 
 public class StrType extends Type {
 
@@ -20,7 +20,7 @@ public class StrType extends Type {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(TypeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 	

@@ -4,7 +4,7 @@ import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.StatementVisitor;
 
 public class QuestionNormal extends Statement {
 	private final Identifier identifier;
@@ -31,7 +31,7 @@ public class QuestionNormal extends Statement {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 
