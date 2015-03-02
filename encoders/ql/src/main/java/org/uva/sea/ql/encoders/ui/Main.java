@@ -26,7 +26,9 @@ import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
 public class Main extends Application {
 
-	private static final String DEFAULT_INPUT_FILE_LOCATION = "src/main/resources/input_form.ql";
+	private static final String DEFAULT_INPUT_FILE_DIRECTORY = "src/main/resources/";
+
+	private static final String DEFAULT_INPUT_FILE_NAME = "input_form.ql";
 
 	public static void main(String[] args) {
 		launch(args);
@@ -41,7 +43,7 @@ public class Main extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		final TextField textField = new TextField(DEFAULT_INPUT_FILE_LOCATION);
+		final TextField textField = new TextField(DEFAULT_INPUT_FILE_DIRECTORY + DEFAULT_INPUT_FILE_NAME);
 		Button chooseInputButton = new Button("Choose input file...");
 		Button parseButton = new Button("Parse");
 		grid.add(textField, 0, 0);
@@ -53,6 +55,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				FileChooser fileChooser = new FileChooser();
+				fileChooser.setInitialDirectory(new File(DEFAULT_INPUT_FILE_DIRECTORY));
 				File result = fileChooser.showOpenDialog(null);
 				if (result != null) {
 					textField.setText(result.getPath());
