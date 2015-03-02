@@ -17,12 +17,16 @@ public class Stylesheet implements AbstractNode<Visitor> {
         this.elements = elements;
     }
 
+    public Identifier getTitle() {
+        return title;
+    }
+
     public List<AbstractNode> getElements() {
         return elements;
     }
 
     @Override
     public AbstractNode accept(Visitor visitor) {
-        return visitor.accept(this);
+        return visitor.visit(this);
     }
 }

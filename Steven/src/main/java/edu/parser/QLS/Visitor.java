@@ -10,19 +10,19 @@ import edu.parser.QLS.nodes.styles.Style;
  * Created by Steven Kok on 28/02/2015.
  */
 public interface Visitor {
-    AbstractNode accept(Stylesheet stylesheet);
+    AbstractNode visit(Stylesheet stylesheet);
 
-    AbstractNode accept(Page page);
+    AbstractNode visit(Page page);
 
-    AbstractNode accept(Style style);
+    AbstractNode visit(Style style);
 
-    AbstractNode accept(Question question);
+    AbstractNode visit(Question question);
 
-    AbstractNode accept(Identifier identifier);
+    AbstractNode visit(Identifier identifier);
 
-    AbstractNode accept(Section section);
+    AbstractNode visit(Section section);
 
-    AbstractNode accept(Default aDefault);
+    AbstractNode visit(Default aDefault);
 
-    AbstractNode accept(QuestionType questionType);
+    AbstractNode visit(QuestionType questionType);
 }

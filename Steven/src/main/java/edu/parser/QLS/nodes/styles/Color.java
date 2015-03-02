@@ -14,6 +14,6 @@ public class Color extends Style {
 
     @Override
     public AbstractNode accept(Visitor visitor) {
-        return visitor.accept(this);
+        return visitor.visit(this);
     }
 }

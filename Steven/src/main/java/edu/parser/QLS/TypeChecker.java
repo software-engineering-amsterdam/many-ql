@@ -25,7 +25,7 @@ public class TypeChecker implements Visitor {
     }
 
     public void start(Stylesheet stylesheet, Form form) {
-        accept(stylesheet);
+        visit(stylesheet);
 
         confirmQuestionsExistInForm(getQuestions(form));
     }
@@ -65,43 +65,43 @@ public class TypeChecker implements Visitor {
     }
 
     @Override
-    public AbstractNode accept(Stylesheet stylesheet) {
+    public AbstractNode visit(Stylesheet stylesheet) {
         return stylesheet;
     }
 
     @Override
-    public AbstractNode accept(Page page) {
+    public AbstractNode visit(Page page) {
         return null;
     }
 
     @Override
-    public AbstractNode accept(Style style) {
+    public AbstractNode visit(Style style) {
         return null;
     }
 
     @Override
-    public AbstractNode accept(Question question) {
+    public AbstractNode visit(Question question) {
         stylesheetQuestions.add(question);
         return question;
     }
 
     @Override
-    public AbstractNode accept(Identifier identifier) {
+    public AbstractNode visit(Identifier identifier) {
         return null;
     }
 
     @Override
-    public AbstractNode accept(Section section) {
+    public AbstractNode visit(Section section) {
         return null;
     }
 
     @Override
-    public AbstractNode accept(Default aDefault) {
+    public AbstractNode visit(Default aDefault) {
         return null;
     }
 
     @Override
-    public AbstractNode accept(QuestionType questionType) {
+    public AbstractNode visit(QuestionType questionType) {
         return null;
     }
 }
