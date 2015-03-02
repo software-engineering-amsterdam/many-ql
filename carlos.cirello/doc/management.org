@@ -7,7 +7,6 @@
   {6} QL longer spec [[http://www.languageworkbenches.net/wp-content/uploads/2013/11/Ql.pdf]]
   {7} On Why you should not use Visitor Pattern in Go [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/GeE1z5qUA6YJ]] [[https://groups.google.com/d/msg/golang-nuts/3fOIZ1VLn1o/u5rCkpGhhscJ]]
   {8} [[http://www.vitanuova.com/inferno/man/1/yacc.html]]
-  {9} http://go-talks.appspot.com/github.com/software-engineering-amsterdam/many-ql/carlos.cirello/doc/carlos.cirello.ql.qls.slide#1
 
 * QL [6/7]
   - [ ] Refactor [0/2]
