@@ -124,10 +124,17 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         return question;
     }
 
-    private void removeBlockFromForm() {
-        currentBlock.getBody().values().forEach(quest -> this.removeQuestionFromTheForm(quest));
-        currentBlock.clearBlock();
-        this.previousBlock();
+    private void removeBlockFromForm(String _blockId) {
+        Iterator<Block> iter = blocksStack.iterator();
+
+        while (iter.hasNext()) {
+            Block block = iter.next();
+            if (block.getName().equals(_blockId)) {
+                block.getBody().values().forEach(quest -> this.removeQuestionFromTheForm(quest));
+                block.clearBlock();
+                this.previousBlock();
+            }
+        }
     }
 
     private void addQuestionToBlock(UIQuestion _quest) {
@@ -210,8 +217,9 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
             _ifStatement.getBody().forEach(statement -> statement.accept(this));
         } else {
             // The current block
-            if (isBlockExists(_ifStatement.getCondition().toString())) { //todo: fix remove
-                this.removeBlockFromForm();
+            if (isBlockExists(_ifStatement.getCondition().toString())) {
+                this.removeBlockFromForm(currentBlock.getName());
+                this.removeBlockFromForm(_ifStatement.getCondition().toString());
             }
         }
 
