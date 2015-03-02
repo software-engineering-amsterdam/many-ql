@@ -1,7 +1,7 @@
 from tkinter import *
 
-from Main.processor import *
-from Main.mapper import *
+from QL.Main.processor import *
+from QL.Main.mapper import *
 
 
 class QuestionnaireGUI:
@@ -46,6 +46,7 @@ class QuestionnaireGUI:
         row = statement.get_order()
         l = Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
         l.grid(row=row, column=0, sticky=W)
+        self.answersMap.update(statement, None)
         # vcmd = self.qGui.register(self.validate) # we have to wrap the commandQ
         self.elementsMap[parent_id]['guiElements'] += [l]
         if statement.get_type() is BasicTypes.bool_name:

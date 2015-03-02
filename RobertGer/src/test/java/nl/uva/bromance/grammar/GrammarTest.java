@@ -7,6 +7,7 @@ import nl.uva.bromance.parsers.QLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -18,21 +19,35 @@ import java.io.IOException;
  */
 public class GrammarTest {
 
-    protected FakeGrammarListener listener;
-    protected ParseTreeWalker walker;
 
+    protected ParseTreeWalker walker;
     protected static final String CORRECT_FORM = "    Form: \"default\" {\n" +
             "       Label: \"something\"{" +
             "           Text: \"something\"" +
-            "      }";
+            "      }}";
 
+    protected static final String CORRECT_QUESTION = "\n     Question: \"question\"{" +
+            "           Text: \"text?\"" +
+            "           Answer: integer" +
+            "       }";
     protected static final String CORRECT_CALCULATION = "\n     Calculation: \"calculation\"{" +
             IfSequenceGrammarTest.CORRECT_IF +
             "    }";
+    protected static final String CORRECT_ELSE = "\n     Else:{ Text: \"something\"}";
+    protected static final String CORRECT_IF = "\n     If: something{  Text: \"something\" }";
+    protected static final String CORRECT_ELSE_IF = "Else If: something{ Text: \"something\"}";
 
+    protected FakeGrammarListener listener;
 
+    //TODO: consider asserting the messages in expectedException
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    @Before
+    public void setup() {
+        listener = new FakeGrammarListener();
+        walker = new ParseTreeWalker();
+    }
 
     protected static QLParser.QuestionnaireContext createTree(String content) throws IOException {
         QLLexer lexer = new QLLexer(new ANTLRInputStream(new ByteArrayInputStream(content.getBytes())));
@@ -54,7 +69,10 @@ public class GrammarTest {
         public int elseIfStatementCount = 0;
         public int elseStatementCount = 0;
         public int calculationCount = 0;
-        public int expressionCount;
+        public int expressionCount = 0;
+        public int questionCount = 0;
+        public int questionTextCount = 0;
+
 
         @Override
         public void exitIfStatement(QLParser.IfStatementContext ctx) {
@@ -98,6 +116,19 @@ public class GrammarTest {
         public void exitExpression(QLParser.ExpressionContext ctx) {
             super.exitExpression(ctx);
             this.expressionCount += 1;
+        }
+
+        @Override
+        public void exitQuestion(QLParser.QuestionContext qtx) {
+            super.exitQuestion(qtx);
+            questionCount += 1;
+        }
+
+
+        @Override
+        public void exitQuestionText(QLParser.QuestionTextContext ctx) {
+            super.exitQuestionText(ctx);
+            this.questionTextCount += 1;
         }
     }
 }

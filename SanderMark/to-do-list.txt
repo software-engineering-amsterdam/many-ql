@@ -1,8 +1,20 @@
-- type checker for statements, en types
-- memory id gedeelte , implementeren met error class
 
+- memory id gedeelte , implementeren met error class
 - Errors koppelen aan GUI 
+
 - GUI afmaken if statemens 
 - testen voor statements
+
 - code checken
 - grade form
+
+- else statements voor andere types / values t.c
+- curly altijd, dus geen 1 line ifs etc.
+
+
+
+form taxOfficeExample { 
+  question "Did you sell a house in 2010?" hasSoldHouse Boolean
+  question "Did you buy a house in 2010?"  hasBoughtHouse Boolean
+  question "Did you enter a loan?" hasMaintLoan Boolean
+}

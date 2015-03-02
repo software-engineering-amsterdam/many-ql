@@ -252,7 +252,7 @@ public class QuestionPane extends GridPane {
         return new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (InputValidator.matches(type, newValue)){
+                if (InputValidator.matches(type, newValue) && !newValue.equals("")){
                     control.setStyle("-fx-border-color: white;");
                     control.setStyle("-fx-focus-color: #0950ff;");
                     questionAnswered(newValue);
@@ -260,7 +260,7 @@ public class QuestionPane extends GridPane {
                 else {
                     control.setStyle("-fx-border-color: red;");
                     control.setStyle("-fx-focus-color: red;");
-                    questionAnswered("");
+                    //questionAnswered("");
                 }
             }
         };

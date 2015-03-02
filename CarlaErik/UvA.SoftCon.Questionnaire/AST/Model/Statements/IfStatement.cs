@@ -9,14 +9,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public class IfStatement : Node, IStatement
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.IfStatement;
-            }
-        }
-
         public IExpression If
         {
             get;
@@ -51,6 +43,18 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
         public override T Accept<T>(IASTVisitor<T> visitor)
         {
             return visitor.Visit(this);
+        }
+
+        public void AppendQuestions(ICollection<Question> questions)
+        {
+            foreach (var statement in Then)
+            {
+                statement.AppendQuestions(questions);
+            }
+            foreach (var statement in Else)
+            {
+                statement.AppendQuestions(questions);
+            }
         }
     }
 }

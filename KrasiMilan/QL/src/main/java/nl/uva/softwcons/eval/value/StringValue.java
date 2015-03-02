@@ -15,11 +15,17 @@ public class StringValue extends Value {
 
     @Override
     public BooleanValue isEqual(Value otherValue) {
-        return new BooleanValue(this.stringValue != null && this.stringValue.equals((String) otherValue.getValue()));
+        return new BooleanValue(this.stringValue != null && this.stringValue.equals(otherValue.asString()));
     }
 
     @Override
     public String getValue() {
         return this.stringValue;
+    }
+
+    @Override
+    public Value getValueFromString(String string) {
+        // TODO Auto-generated method stub
+        return new StringValue(string);
     }
 }

@@ -4,7 +4,7 @@ form taxOfficeExample {
   if ( (a+b) + (c < d) > e)  {}
   if ( 4.5 - 5 )  {}
   if ( -4 - 5 )  {}
-  if ( !4 - 5 )  {}
+  if ( 4 < 5 )  {}
 
   if ( a && b  or c)  {}
 

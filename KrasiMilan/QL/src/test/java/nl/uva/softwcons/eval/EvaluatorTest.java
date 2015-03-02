@@ -123,6 +123,7 @@ public class EvaluatorTest {
 
     @Test
     public void testVisitDivision() {
+
         Division exprInt = new Division(intLiteral1, intLiteral2, DUMMY_LINE_INFO);
         Division exprDec = new Division(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
 
@@ -134,6 +135,13 @@ public class EvaluatorTest {
         assertThat(evaluator.visit(exprDec).getValue()).isExactlyInstanceOf(BigDecimal.class);
         BigDecimal result = new BigDecimal(1.5).divide(new BigDecimal(2.5));
         assertThat(((BigDecimal) evaluator.visit(exprDec).getValue()).compareTo(result)).isEqualTo(0);
+
+        Division exprMixedFromInt = new Division(new IntegerLiteral(3, DUMMY_LINE_INFO), decLiteral1, DUMMY_LINE_INFO);
+        assertThat(evaluator.visit(exprMixedFromInt)).isExactlyInstanceOf(DecimalValue.class);
+        assertThat(evaluator.visit(exprMixedFromInt).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        BigDecimal result2 = new BigDecimal(3.0).divide(new BigDecimal(1.5));
+        assertThat(((BigDecimal) evaluator.visit(exprMixedFromInt).getValue()).compareTo(result2)).isEqualTo(0);
+
     }
 
     @Test

@@ -4,10 +4,7 @@ class Dropdown(tk.OptionMenu):
     def __init__(self, master, questionModel, callback):
         self._value = tk.StringVar()
 
-        if questionModel.value:
-            self._value.set("yes")
-        else:
-            self._value.set("no")
+        self._value.set("yes" if questionModel.value else "no")
 
         tk.OptionMenu.__init__(self, master, self._value, "yes", "no", command = lambda _ : callback(self.value()))
 
@@ -23,10 +20,7 @@ class RadioButtons(tk.Frame):
         
         self._value = tk.IntVar()
 
-        if questionModel.value:
-            self._value.set("1")
-        else:
-            self._value.set("0")
+        self._value.set("1" if questionModel.value else "0")
         
         for answer, value in (("yes", 1), ("no", 0)):
             button = tk.Radiobutton(self, text = answer, variable = self._value, value = value, command = lambda : callback(self.value()))

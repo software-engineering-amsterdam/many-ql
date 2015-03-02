@@ -1,5 +1,5 @@
-from Main.type_checker import *
-from Main.exceptions import *
+from QL.Main.type_checker import *
+from QL.Main.exceptions import *
 
 
 class Mapper:
@@ -10,7 +10,7 @@ class Mapper:
 
     def update(self, question, answer):
         qid = question.get_id()
-        if not TypeChecker.type_checker(answer, question.get_type()):
+        if answer is not None and not TypeChecker.type_checker(answer, question.get_type()):
             raise QException("Answer type has different type than defined in the question properties.")
         self.answers[qid] = answer
 

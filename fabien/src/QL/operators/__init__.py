@@ -1,4 +1,7 @@
 
+from Not import Not
+from UMinus import UMinus
+
 from Equal import Equal
 from NotEqual import NotEqual
 
@@ -10,7 +13,6 @@ from LessOrEqual import LessOrEqual
 
 from Or import Or
 from And import And
-
 
 from Plus import Plus
 from Minus import Minus

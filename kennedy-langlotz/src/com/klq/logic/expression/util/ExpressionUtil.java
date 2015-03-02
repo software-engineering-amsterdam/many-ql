@@ -41,6 +41,7 @@ public class ExpressionUtil {
 
     private static Date createDateFromString(String value){
         String[] split = value.split("[\\./-]");
+        split = addZeros(split);
         String year = "0000", month = "01", day = "01";
         if (split[0].length() == 4 && split[1].length() == 2 && split[2].length() == 2){
             year = split[0];
@@ -52,6 +53,15 @@ public class ExpressionUtil {
             year = split[2];
         }
         return new Date(year + "-" + month + "-" + day);
+    }
+
+    private static String[] addZeros(String[] dateArray){
+        String[] result = dateArray.clone();
+        for (int i = 0; i < result.length; i++) {
+            if (result[i].length() == 1)
+                result[i] = "0" + result[i];
+        }
+        return result;
     }
 
     private static Number createNumberFromString(String value){
