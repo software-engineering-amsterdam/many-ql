@@ -3,13 +3,9 @@ package org.uva.sea.ql.encoders.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TypeChecker implementation to verify whether correct types are used within
- * expressions
- */
 public class TypeChecker {
 
-	private List<TypeError> typeErrors = new ArrayList<TypeError>();
+	private List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
 
 	public boolean testExpression(Expression testExpression) {
 		boolean expressionValid = false;
@@ -25,14 +21,14 @@ public class TypeChecker {
 			// BiggerThenTest)
 			expressionValid = true;
 		} catch (Exception e) {
-			TypeError typeError = new TypeError("What a stupid error", e.getMessage());
-			typeErrors.add(typeError);
+			TypeValidation typeValidation = new TypeValidation("What a stupid error", e.getMessage());
+			typeValidations.add(typeValidation);
 			expressionValid = false;
 		}
 
 		// TO BE REMOVED: dummy error due to lack of proper test
-		TypeError typeError = new TypeError("What a stupid error", "Adding an integer to a boolean. Idiot..");
-		typeErrors.add(typeError);
+		TypeValidation typeValidation = new TypeValidation("What a stupid error", "Adding an integer to a boolean. Idiot..");
+		typeValidations.add(typeValidation);
 
 		return expressionValid;
 	}
@@ -41,8 +37,8 @@ public class TypeChecker {
 		return false;
 	}
 
-	public List<TypeError> getTypeErrors() {
-		return typeErrors;
+	public List<TypeValidation> getTypeErrors() {
+		return typeValidations;
 	}
 
 }

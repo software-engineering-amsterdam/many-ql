@@ -31,7 +31,7 @@ import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.ast.TypeError;
+import org.uva.sea.ql.encoders.ast.TypeValidation;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
@@ -177,9 +177,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		return new TextLocation(line, charPositionInLine);
 	}
 
-	public List<TypeError> getTypeErrors() {
-		List<TypeError> typeErrors = new ArrayList<TypeError>();
-		typeErrors = expressionTypeChecker.getTypeErrors();
-		return typeErrors;
+	public List<TypeValidation> getTypeErrors() {
+		List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
+		typeValidations = expressionTypeChecker.getTypeErrors();
+		return typeValidations;
 	}
 }

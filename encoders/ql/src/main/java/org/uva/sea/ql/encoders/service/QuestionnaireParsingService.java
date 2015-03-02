@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.Questionnaire;
-import org.uva.sea.ql.encoders.ast.TypeError;
+import org.uva.sea.ql.encoders.ast.TypeValidation;
 
 /**
  * Service for parsing questionnaire input files.
@@ -20,5 +20,5 @@ public interface QuestionnaireParsingService {
 	 */
 	Questionnaire parse(String location) throws IOException;
 
-	List<TypeError> getTypeErrors();
+	List<TypeValidation> getTypeErrors();
 }

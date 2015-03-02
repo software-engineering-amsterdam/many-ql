@@ -10,14 +10,14 @@ import org.uva.sea.ql.encoders.EncodersQLLexer;
 import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
-import org.uva.sea.ql.encoders.ast.TypeError;
+import org.uva.sea.ql.encoders.ast.TypeValidation;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.
  */
 public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingService {
 
-	public List<TypeError> typeErrors = new ArrayList<TypeError>();
+	public List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
 
 	/**
 	 * {@inheritDoc}
@@ -29,14 +29,14 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 		QuestionnaireContext parseTree = parser.questionnaire();
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
-		typeErrors = visitor.getTypeErrors();
+		typeValidations = visitor.getTypeErrors();
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
 		return questionnaire;
 	}
 
 	@Override
-	public List<TypeError> getTypeErrors() {
-		return typeErrors;
+	public List<TypeValidation> getTypeErrors() {
+		return typeValidations;
 	}
 }

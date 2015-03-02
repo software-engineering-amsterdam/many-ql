@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
-import org.uva.sea.ql.encoders.ast.TypeError;
+import org.uva.sea.ql.encoders.ast.TypeValidation;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
@@ -34,7 +34,7 @@ import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
 public class QLUI extends Application {
 
-	public List<TypeError> typeErrors = new ArrayList<TypeError>();
+	public List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
 
 	public static void main(String[] args) {
 		launch(args);
@@ -68,7 +68,7 @@ public class QLUI extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
-		typeErrors = questionnaireParsingService.getTypeErrors();
+		typeValidations = questionnaireParsingService.getTypeErrors();
 
 		// TODO: remove hard coding of position error area
 		grid.add(new Label("Type Checker errors:"), 0, 10);
@@ -77,8 +77,8 @@ public class QLUI extends Application {
 		typeCheckerMessages.setEditable(false);
 		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 
-		for (TypeError typeError : typeErrors) {
-			typeCheckerMessages.appendText(typeError.getName() + ": " + typeError.getTypeErrorText());
+		for (TypeValidation typeValidation : typeValidations) {
+			typeCheckerMessages.appendText(typeValidation.getName() + ": " + typeValidation.getTypeErrorText());
 			typeCheckerMessages.appendText("\n");
 		}
 	}
