@@ -231,25 +231,37 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     }
 
     /*
-       This checks if both sides of the binary logical comparison are of required type bool.
+       This checks if both sides of the logical comparison are of required type.
     */
-    private Void visitBinaryComparison(Comparison comparison) {
+    private Void visitBinaryComparison(Comparison comparison, Type expectedType) {
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
+        boolean leftCorrect = false;
+        boolean rightCorrect = false;
 
-        boolean leftCorrect = this.checkIfExpressionIsInt(left);
-        boolean rightCorrect = this.checkIfExpressionIsInt(right);
+        if (expectedType.equals(new IntType())) {
+            leftCorrect = this.checkIfExpressionIsInt(left);
+            rightCorrect = this.checkIfExpressionIsInt(right);
+        } else if (expectedType.equals(new BoolType())) {
+            leftCorrect = this.checkIfExpressionIsInt(left);
+            rightCorrect = this.checkIfExpressionIsInt(right);
+        } else if (expectedType.equals(new StringType())) {
+            leftCorrect = this.checkIfExpressionIsString(left);
+            rightCorrect = this.checkIfExpressionIsString(right);
+        }
 
         if (!leftCorrect) {
             this.astErrorHandler.registerNewError(
                     ASTNodeErrorType.ERROR.TYPE_MISMATCH, comparison,
-                    "Left side of the binary comparison expression not of type int."
+                    "Left side of the binary comparison expression not of type "
+                            + expectedType.toString() + "."
             );
         }
         if (!rightCorrect) {
             this.astErrorHandler.registerNewError(
                     ASTNodeErrorType.ERROR.TYPE_MISMATCH, comparison,
-                    "Right side of the binary comparison expression not of type int."
+                    "Right side of the binary comparison expression not of type "
+                            + expectedType.toString() + "."
             );
         }
 
@@ -260,32 +272,49 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
 
     @Override
     public Void visitEQ(EQ eq) {
-        return this.visitBinaryComparison(eq);
+
+        if (this.checkIfExpressionIsInt(eq)) {
+            this.visitBinaryComparison(eq, new IntType());
+        } else if (this.checkIfExpressionIsString(eq)) {
+            this.visitBinaryComparison(eq, new StringType());
+        } else if (this.checkIfExpressionIsBool(eq)) {
+            this.visitBinaryComparison(eq, new BoolType());
+        }
+
+        return null;
     }
 
     @Override
     public Void visitGE(GE ge) {
-        return this.visitBinaryComparison(ge);
+        return this.visitBinaryComparison(ge, new IntType());
     }
 
     @Override
     public Void visitGreater(Greater greater) {
-        return this.visitBinaryComparison(greater);
+        return this.visitBinaryComparison(greater, new IntType());
     }
 
     @Override
     public Void visitLE(LE le) {
-        return this.visitBinaryComparison(le);
+        return this.visitBinaryComparison(le, new IntType());
     }
 
     @Override
     public Void visitLesser(Less less) {
-        return this.visitBinaryComparison(less);
+        return this.visitBinaryComparison(less, new IntType());
     }
 
     @Override
     public Void visitNotEq(NotEq notEq) {
-        return this.visitBinaryComparison(notEq);
+        if (this.checkIfExpressionIsInt(notEq)) {
+            this.visitBinaryComparison(notEq, new IntType());
+        } else if (this.checkIfExpressionIsString(notEq)) {
+            this.visitBinaryComparison(notEq, new StringType());
+        } else if (this.checkIfExpressionIsBool(notEq)) {
+            this.visitBinaryComparison(notEq, new BoolType());
+        }
+
+        return null;
     }
 
     /**
