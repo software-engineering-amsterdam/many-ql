@@ -25,6 +25,7 @@ public class Test {
   + "question \"Did you sell a house in 2010?\" hasSoldHouse : Boolean"
   + "question \"Did you buy a house in 2010?\"  hasBoughtHouse : Boolean"
   + "question \"Did you enter a loan?\" hasMaintLoan : Boolean"
+  + "if hasSoldHouse == true && hasBoughtHouse then bla end"
   + "}");
 	
 		GrammarLexer lexer = new GrammarLexer(charStream);

@@ -52,7 +52,9 @@ public class IfStatement implements Statement {
 
 	@Override
 	public JComponent createGUIComponent(JPanel panel) {
-		
+		Memory m = new Memory();
+		this.conditions.fillMemory(m);
+		System.out.println(m.showMemory());
 		Component[] cArray =  panel.getComponents();	
 		for(Component c : cArray)
 		{

@@ -31,7 +31,7 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result,new Memory());}
+	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result);}
 	;
 	
 ifStatement returns [Statement result]
@@ -71,9 +71,9 @@ literal returns [Expression result]
 	;
 
 type returns [Type result]
-	: 'Boolean' {new BoolType();}
-	| 'String' {new StringType();}
-	| 'Number' {new IntType();};
+	: 'Boolean' {$result = new BoolType();}
+	| 'String'  {$result = new StringType();}
+	| 'Number'  {$result = new IntType();};
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 

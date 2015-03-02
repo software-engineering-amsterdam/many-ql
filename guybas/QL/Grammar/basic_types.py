@@ -13,7 +13,7 @@ class BasicTypes:
     end_sign_esc = Suppress("\\") + end_sign
 
     # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_-;]
-    characters = Word(alphanums + "()[]{}@#$%^&*-+=/\'\"`~_-;")
+    characters = Word(alphanums + "@#$%^&*-+=/\'\"`~_-;")
 
     # word :: end_sign_esc | characters
     word = end_sign_esc | characters
