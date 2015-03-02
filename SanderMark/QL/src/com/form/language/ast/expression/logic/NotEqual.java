@@ -54,11 +54,4 @@ public class NotEqual extends BinaryExpression implements Expression {
 			return;
 		}
 	}
-
-
-	@Override
-	public void fillMemory(Memory memory) {
-		// TODO Auto-generated method stub
-		
-	}
 }

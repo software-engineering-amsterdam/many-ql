@@ -17,19 +17,12 @@ public class IdLiteral extends Literal implements Expression {
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
 		this._value = value;
-		
-		//Throw in memory
 	}
 	public IdLiteral(String value, Type questionType,Memory memory,Token tokenInfo)
 	{
 		super(tokenInfo);
 		this._value = value;
 		this._type = questionType;	
-		
-		System.out.println(memory);
-		
-		//Throw in memory
-		memory.addId(value,_type);
 	}
 
 	@Override
@@ -50,5 +43,10 @@ public class IdLiteral extends Literal implements Expression {
 	@Override
 	public Type getType() {
 		return _type;
+	}
+	
+	@Override
+	public void fillMemory(Memory memory) {
+		memory.addId(this);
 	}
 }

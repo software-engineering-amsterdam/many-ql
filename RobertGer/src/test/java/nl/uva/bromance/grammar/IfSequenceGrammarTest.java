@@ -1,32 +1,15 @@
 package nl.uva.bromance.grammar;
 
 import nl.uva.bromance.listeners.GrammarErrorListener;
-import nl.uva.bromance.listeners.QLParseTreeListener;
-import nl.uva.bromance.parsers.QLParser;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.junit.Before;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by Robert on 2/24/2015.
- */
-
+/*
+* Tests both ifSequence and loose if, else if and else statements.
+* */
 public class IfSequenceGrammarTest extends GrammarTest {
-
-    public static final String CORRECT_ELSE = "\n     Else:{ Text: \"something\"}";
-    public static final String CORRECT_IF = "\n     If: something{  Text: \"something\" }";
-    public static final String CORRECT_ELSE_IF = "Else If: something{ Text: \"something\"}";
-    private FakeGrammarListener listener;
-    private ParseTreeWalker walker;
-
-    @Before
-    public void setup() {
-        listener = new FakeGrammarListener();
-        walker = new ParseTreeWalker();
-    }
 
 
     //Check if statement
@@ -216,28 +199,4 @@ public class IfSequenceGrammarTest extends GrammarTest {
 
     }
 
-    //TODO: Maybe move the entire thing to GrammarTest? Duplication in other tests.
-    static class FakeGrammarListener extends QLParseTreeListener {
-        public int ifStatementCount = 0;
-        public int elseIfStatementCount = 0;
-        public int elseStatementCount = 0;
-
-        @Override
-        public void exitIfStatement(QLParser.IfStatementContext ctx) {
-            super.exitIfStatement(ctx);
-            ifStatementCount += 1;
-        }
-
-        @Override
-        public void exitElseIfStatement(QLParser.ElseIfStatementContext ctx) {
-            super.exitElseIfStatement(ctx);
-            this.elseIfStatementCount += 1;
-        }
-
-        @Override
-        public void exitElseStatement(QLParser.ElseStatementContext ctx) {
-            super.exitElseStatement(ctx);
-            this.elseStatementCount += 1;
-        }
-    }
 }
