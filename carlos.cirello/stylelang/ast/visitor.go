@@ -4,12 +4,14 @@ package ast
 // used by the GUI frontend.
 type Visitor struct {
 	defaults map[string]string
+	visible  map[string]bool
 }
 
 // NewVisitor is the constructor for QLS Visitor
 func NewVisitor() *Visitor {
 	return &Visitor{
 		defaults: make(map[string]string),
+		visible:  make(map[string]bool),
 	}
 }
 
@@ -45,8 +47,8 @@ func (v *Visitor) DefaultNode(node *DefaultNode) {
 	v.setDefaultFor(node.QuestionType(), node.Widget())
 }
 
-func (v *Visitor) setDefaultFor(t, w string) {
-	if _, ok := v.defaults[t]; !ok {
-		v.defaults[t] = w
-	}
+// QuestionNode defines a default widget for a question type
+func (v *Visitor) QuestionNode(node *QuestionNode) {
+	// todo(carlos): should there be an option for hidden field?
+	v.setVisibleFor(node.Identifier())
 }

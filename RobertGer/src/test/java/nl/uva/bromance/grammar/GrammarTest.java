@@ -14,30 +14,32 @@ import org.junit.rules.ExpectedException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-/**
- * Created by Robert on 3/1/2015.
- */
 public class GrammarTest {
 
 
-    protected ParseTreeWalker walker;
     protected static final String CORRECT_FORM = "    Form: \"default\" {\n" +
             "       Label: \"something\"{" +
             "           Text: \"something\"" +
             "      }}";
 
+    protected static final String CORRECT_QUESTIONNAIRE = "Name: \"Tax\" {\n" +
+            CORRECT_FORM +
+            "}";
     protected static final String CORRECT_QUESTION = "\n     Question: \"question\"{" +
             "           Text: \"text?\"" +
             "           Answer: integer" +
             "       }";
-    protected static final String CORRECT_CALCULATION = "\n     Calculation: \"calculation\"{" +
-            IfSequenceGrammarTest.CORRECT_IF +
-            "    }";
+
     protected static final String CORRECT_ELSE = "\n     Else:{ Text: \"something\"}";
     protected static final String CORRECT_IF = "\n     If: something{  Text: \"something\" }";
     protected static final String CORRECT_ELSE_IF = "Else If: something{ Text: \"something\"}";
 
+    protected static final String CORRECT_CALCULATION = "\n     Calculation: \"calculation\"{" +
+            CORRECT_IF +
+            "    }";
+
     protected FakeGrammarListener listener;
+    protected ParseTreeWalker walker;
 
     //TODO: consider asserting the messages in expectedException
     @Rule
@@ -72,6 +74,8 @@ public class GrammarTest {
         public int expressionCount = 0;
         public int questionCount = 0;
         public int questionTextCount = 0;
+        public int labelCount = 0;
+        public int inputCount = 0;
 
 
         @Override
@@ -129,6 +133,18 @@ public class GrammarTest {
         public void exitQuestionText(QLParser.QuestionTextContext ctx) {
             super.exitQuestionText(ctx);
             this.questionTextCount += 1;
+        }
+
+        @Override
+        public void exitLabel(QLParser.LabelContext ctx) {
+            super.exitLabel(ctx);
+            this.labelCount += 1;
+        }
+
+        @Override
+        public void exitInput(QLParser.InputContext ctx) {
+            super.exitInput(ctx);
+            this.inputCount += 1;
         }
     }
 }
