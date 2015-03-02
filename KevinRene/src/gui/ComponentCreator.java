@@ -51,7 +51,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
     	ComputedQuestionObserver observer = 
     			new ComputedQuestionObserver(compQuestionNode, controller, comp);
     	controller.addGlobalObserver(observer);
-    	controller.putComponent(comp.getIdentifier(), comp);
+    	controller.putObservable(comp.getIdentifier(), comp);
     	
 		return null;
 	}
@@ -62,7 +62,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		Widget comp = questionNode.getType().accept(
 				new WidgetFactory(questionNode.getIdentifier(), controller));
 		
-		controller.putComponent(questionNode.getIdentifier(), comp);
+		controller.putObservable(questionNode.getIdentifier(), comp);
 	    pane.add(comp.getComponent(), "wrap");
     	
 		return null;
