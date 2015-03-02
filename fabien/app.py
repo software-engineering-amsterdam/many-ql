@@ -16,8 +16,8 @@ if __name__ == '__main__':
 
     checker = TypeChecker()
 
-    #checker.register(DuplicateQuestions())
-    #checker.register(UndefinedQuestions())
+    checker.register(DuplicateQuestions())
+    checker.register(UndefinedQuestions())
     checker.register(NonBooleanTypes())
 
     checker.checkAST(Form)

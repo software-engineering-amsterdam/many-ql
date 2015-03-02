@@ -15,7 +15,9 @@ class NonOperandTypes:
         self.questionIDs[node.ID] = node.type
 
     def Done(self):
+        errorMessage = "Invalid operation"
+
         for op in self.expressions:
             if not op.checkType(self.questionIDs):
-                error = QLTypeError(op)
+                error = QLTypeError(op, errorMessage)
                 self.errors.append(error)
