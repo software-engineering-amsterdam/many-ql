@@ -21,9 +21,11 @@ public class Test {
 		
 		CharStream charStream = 
 				new ANTLRInputStream("form taxOfficeExample {"
+  + "xX := Boolean true \n"						
   + "question \"Did you sell a house in 2010?\" hasSoldHouse : Boolean"
   + "question \"Did you buy a house in 2010?\"  hasBoughtHouse : Boolean"
-  + "question \"Did you enter a loan?\" hasMaintLoan : Boolean}");
+  + "question \"Did you enter a loan?\" hasMaintLoan : Boolean"
+  + "}");
 	
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
