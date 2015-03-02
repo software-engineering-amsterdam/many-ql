@@ -43,8 +43,8 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
-		TypeChecker typeChecker = new TypeChecker(questionnaire.getQuestions());
-		typeValidations = typeChecker.checkTypes();
+		TypeChecker typeChecker = new TypeChecker();
+		typeValidations = typeChecker.checkTypes(questionnaire.getQuestions());
 
 		return questionnaire;
 	}

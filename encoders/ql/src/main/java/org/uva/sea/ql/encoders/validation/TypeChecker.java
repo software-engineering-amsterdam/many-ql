@@ -14,32 +14,25 @@ import org.uva.sea.ql.encoders.ast.TextLocation;
 
 public class TypeChecker implements AstVisitor {
 
-	private List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
-
-	private List<Question> questions = new ArrayList<>();
-
-	public TypeChecker(List<Question> questions) {
-		this.questions = questions;
-	}
-
-	public List<TypeValidation> checkTypes() {
+	public List<TypeValidation> checkTypes(List<Question> questions) {
+		List<TypeValidation> typeValidations = new ArrayList<>();
 		for (Question question : questions) {
 			Expression condition = question.getCondition();
 			if (condition != null) {
-				determineDataType(condition);
+				determineDataType(condition, typeValidations, questions);
 			}
 			Expression computed = question.getComputed();
 			if (computed != null) {
-				determineDataType(computed);
+				determineDataType(computed, typeValidations, questions);
 			}
 		}
 		return typeValidations;
 	}
 
-	private DataType determineDataType(Expression expression) {
+	private DataType determineDataType(Expression expression, List<TypeValidation> typeValidations, List<Question> questions) {
 		if (expression instanceof NameExpression) {
 			String name = ((NameExpression) expression).getName();
-			Question question = getQuestion(name);
+			Question question = getQuestion(name, questions);
 			if (question != null) {
 				return question.getDataType();
 			} else {
@@ -50,14 +43,15 @@ public class TypeChecker implements AstVisitor {
 			}
 		}
 		if (expression instanceof BracedExpression) {
-			return determineDataType(((BracedExpression) expression).getExpression());
+			Expression innerExpression = ((BracedExpression) expression).getExpression();
+			return determineDataType(innerExpression, typeValidations, questions);
 		}
 		if (expression instanceof OperatorExpression) {
 			OperatorExpression operatorExpression = (OperatorExpression) expression;
 			Expression leftHand = operatorExpression.getLeftHand();
 			Expression rightHand = operatorExpression.getRightHand();
-			DataType leftHandDataType = determineDataType(leftHand);
-			DataType rightHandDataType = determineDataType(rightHand);
+			DataType leftHandDataType = determineDataType(leftHand, typeValidations, questions);
+			DataType rightHandDataType = determineDataType(rightHand, typeValidations, questions);
 			if (leftHandDataType.equals(DataType.UNDEFINED) || rightHandDataType.equals(DataType.UNDEFINED)) {
 				return DataType.UNDEFINED;
 			}
@@ -73,7 +67,7 @@ public class TypeChecker implements AstVisitor {
 		throw new RuntimeException("Unsupported type " + expression.getClass());
 	}
 
-	private Question getQuestion(String name) {
+	private Question getQuestion(String name, List<Question> questions) {
 		for (Question question : questions) {
 			String questionName = question.getName();
 			if (name.equals(questionName)) {
