@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.TypeToWidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.helper.DefaultWidgetSettingsHelper;
@@ -47,10 +48,11 @@ public class StyleSheet extends AbstractComponent<StyleSheet> {
         iModel.caseStyleSheet(this);
     }
 
-    public StyleSheet() {
+    public StyleSheet(QLSInterpreter qlsInterpreter) {
+        super(qlsInterpreter);
         pages = new LinkedList<Page>();
         try {
-            typeToWidgetSettingsModel = new TypeToWidgetSettingsModel(DefaultWidgetSettingsHelper.createDefaultTypeToWidgetSettingsModel());
+            typeToWidgetSettingsModel = new TypeToWidgetSettingsModel(DefaultWidgetSettingsHelper.createDefaultTypeToWidgetSettingsModel(qlsInterpreter));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

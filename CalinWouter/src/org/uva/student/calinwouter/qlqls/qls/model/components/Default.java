@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
@@ -10,6 +11,10 @@ import java.util.HashMap;
 public class Default extends AbstractComponent<Default> {
     private TypeDescriptor<?> type;
     private WidgetSettingsModel widgetSettingsModel;
+
+    public Default(QLSInterpreter qlsInterpreter) {
+        super(qlsInterpreter);
+    }
 
     public TypeDescriptor<?> getType() {
         return type;

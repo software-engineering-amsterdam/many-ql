@@ -32,13 +32,11 @@ public class MainTC {
 		Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
 		
 		System.out.println("[Questionnaire] " + questionnaire);
-		
+
 		TypeChecker typeChecker = new TypeChecker();
 		questionnaire.accept(typeChecker);
 		
 		typeChecker.printMessages();
-		
-		
 //		Error a = new Error(Error.Type.CYCLIC, 37, "hasMoney", "isMarried");
 //		Warning b = new Warning(Warning.Type.DUPLICATE, 74, "hasMoney");
 //		System.out.println(a);

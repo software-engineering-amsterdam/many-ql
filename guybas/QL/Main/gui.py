@@ -31,7 +31,7 @@ class QuestionnaireGUI:
             if parent_id not in self.elementsMap:
                 self.elementsMap[parent_id] = {'statements': [], 'guiElements': []}
             if statement.is_conditional():  # TODO: fix statement condition drawing
-                self.elementsMap[parent_id]['statements'] = [statement]
+                self.elementsMap[parent_id]['statements'].append(statement)
                 self.draw_conditional_q(statement)
             else:
                 if statement.get_id() not in self.varsCondMap:
@@ -88,6 +88,11 @@ class QuestionnaireGUI:
             e.destroy()
         # self.elementsMap[parent_id]['guiElements'] = []
         statements_to_recreate = list(self.elementsMap[parent_id]['statements'])
+
+        # for statement in statements_to_recreate:
+        #     print(statement.pretty_print())
+        # print("---" * 50)
+
         del self.elementsMap[parent_id]
         self.draw_statements(statements_to_recreate)
 

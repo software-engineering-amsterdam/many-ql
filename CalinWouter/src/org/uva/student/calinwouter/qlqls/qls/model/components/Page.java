@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
@@ -40,7 +41,8 @@ public class Page extends AbstractComponent<Page> {
         iModel.casePage(this);
     }
 
-    public Page() {
+    public Page(QLSInterpreter qlsInterpreter) {
+        super(qlsInterpreter);
         sections = new LinkedList<Section>();
     }
 }

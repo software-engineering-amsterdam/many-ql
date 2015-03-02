@@ -20,7 +20,7 @@ public class Question implements Statement {
 	private JPanel qPanel;
 	private JPanel labelContainer;
 	
-	public Question(String questionLabel, String id, Type questionType, Memory memory) {
+	public Question(String questionLabel, String id, Type questionType) {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
@@ -85,10 +85,8 @@ public class Question implements Statement {
 	}
 
 	@Override
-	public void fillMemory(Memory memory) {
-		//Check! niet echt netjes?		
-		
-		new IdLiteral(id,questionType,memory,null);
+	public void fillMemory(Memory memory) {		
+		memory.addId(new IdLiteral(id,questionType,memory,null));
 	}	
 	
 	

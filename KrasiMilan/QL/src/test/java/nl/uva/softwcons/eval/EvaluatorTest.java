@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import helper.TestHelper;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import nl.uva.softwcons.Questionnaire;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
@@ -23,8 +22,7 @@ import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ast.form.Form;
 import nl.uva.softwcons.eval.value.BooleanValue;
-import nl.uva.softwcons.eval.value.DecimalValue;
-import nl.uva.softwcons.eval.value.IntegerValue;
+import nl.uva.softwcons.eval.value.NumberValue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -67,16 +65,13 @@ public class EvaluatorTest {
         Addition exprDec = new Addition(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
         Addition exprMixed = new Addition(decLiteral2, intLiteral2, DUMMY_LINE_INFO);
 
-        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigInteger.valueOf(3));
-        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
-        assertThat(evaluator.visit(exprInt).getValue()).isExactlyInstanceOf(BigInteger.class);
+        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigDecimal.valueOf(3));
+        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(NumberValue.class);
 
-        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprDec).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(NumberValue.class);
         assertThat(((BigDecimal) evaluator.visit(exprDec).getValue()).compareTo(new BigDecimal(4))).isEqualTo(0);
 
-        assertThat(evaluator.visit(exprMixed)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprMixed).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprMixed)).isExactlyInstanceOf(NumberValue.class);
         assertThat(((BigDecimal) evaluator.visit(exprMixed).getValue()).compareTo(new BigDecimal(4.5))).isEqualTo(0);
     }
 
@@ -88,20 +83,16 @@ public class EvaluatorTest {
         Subtraction exprMixed = new Subtraction(intLiteral1, decLiteral1, DUMMY_LINE_INFO);
         Subtraction exprMixed2 = new Subtraction(decLiteral1, intLiteral1, DUMMY_LINE_INFO);
 
-        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigInteger.valueOf(-1));
-        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
-        assertThat(evaluator.visit(exprInt).getValue()).isExactlyInstanceOf(BigInteger.class);
+        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigDecimal.valueOf(-1));
+        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(NumberValue.class);
 
         assertThat(evaluator.visit(exprMixed).getValue()).isEqualTo(BigDecimal.valueOf(-0.5));
-        assertThat(evaluator.visit(exprMixed)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprMixed).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprMixed)).isExactlyInstanceOf(NumberValue.class);
 
         assertThat(evaluator.visit(exprMixed2).getValue()).isEqualTo(BigDecimal.valueOf(0.5));
-        assertThat(evaluator.visit(exprMixed2)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprMixed2).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprMixed2)).isExactlyInstanceOf(NumberValue.class);
 
-        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprDec).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(NumberValue.class);
         assertThat(((BigDecimal) evaluator.visit(exprDec).getValue()).compareTo(new BigDecimal(-1))).isEqualTo(0);
     }
 
@@ -111,12 +102,10 @@ public class EvaluatorTest {
 
         Multiplication exprDec = new Multiplication(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
 
-        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigInteger.valueOf(2));
-        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
-        assertThat(evaluator.visit(exprInt).getValue()).isExactlyInstanceOf(BigInteger.class);
+        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigDecimal.valueOf(2));
+        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(NumberValue.class);
 
-        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprDec).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(NumberValue.class);
         assertThat(((BigDecimal) evaluator.visit(exprDec).getValue()).compareTo(new BigDecimal(1.5 * 2.5)))
                 .isEqualTo(0);
     }
@@ -127,18 +116,16 @@ public class EvaluatorTest {
         Division exprInt = new Division(intLiteral1, intLiteral2, DUMMY_LINE_INFO);
         Division exprDec = new Division(decLiteral1, decLiteral2, DUMMY_LINE_INFO);
 
-        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(IntegerValue.class);
-        assertThat(evaluator.visit(exprInt).getValue()).isExactlyInstanceOf(BigInteger.class);
-        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigInteger.valueOf(0));
+        assertThat(evaluator.visit(exprInt)).isExactlyInstanceOf(NumberValue.class);
+        assertThat(evaluator.visit(exprInt).getValue()).isEqualTo(BigDecimal.valueOf(0.5));
 
-        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprDec).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprDec)).isExactlyInstanceOf(NumberValue.class);
         BigDecimal result = new BigDecimal(1.5).divide(new BigDecimal(2.5));
         assertThat(((BigDecimal) evaluator.visit(exprDec).getValue()).compareTo(result)).isEqualTo(0);
 
         Division exprMixedFromInt = new Division(new IntegerLiteral(3, DUMMY_LINE_INFO), decLiteral1, DUMMY_LINE_INFO);
-        assertThat(evaluator.visit(exprMixedFromInt)).isExactlyInstanceOf(DecimalValue.class);
-        assertThat(evaluator.visit(exprMixedFromInt).getValue()).isExactlyInstanceOf(BigDecimal.class);
+        assertThat(evaluator.visit(exprMixedFromInt)).isExactlyInstanceOf(NumberValue.class);
+
         BigDecimal result2 = new BigDecimal(3.0).divide(new BigDecimal(1.5));
         assertThat(((BigDecimal) evaluator.visit(exprMixedFromInt).getValue()).compareTo(result2)).isEqualTo(0);
 
@@ -229,12 +216,12 @@ public class EvaluatorTest {
         Form form = Questionnaire.build(TestHelper.buildForm("form1", questionText1, questionText2, questionText3));
         FormAnswers answers = new FormAnswers();
 
-        answers.setValue(id1, new IntegerValue(1));
-        answers.setValue(id2, new IntegerValue(2));
+        answers.setValue(id1, new NumberValue(1));
+        answers.setValue(id2, new NumberValue(2));
         Evaluator evaluator = new Evaluator(answers);
 
         form.accept(evaluator);
-        assertThat(answers.getValue(id3)).isExactlyInstanceOf(IntegerValue.class);
-        assertThat(answers.getValue(id3).getValue()).isEqualTo(new IntegerLiteral(3, DUMMY_LINE_INFO).getValue());
+        assertThat(answers.getValue(id3)).isExactlyInstanceOf(NumberValue.class);
+        assertThat(answers.getValue(id3).getValue()).isEqualTo(new NumberValue(3).getValue());
     }
 }

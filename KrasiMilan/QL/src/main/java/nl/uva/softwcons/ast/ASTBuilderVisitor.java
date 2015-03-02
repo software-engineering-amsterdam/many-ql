@@ -1,6 +1,5 @@
 package nl.uva.softwcons.ast;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -155,7 +154,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitDecimal(DecimalContext ctx) {
-        return new DecimalLiteral(new BigDecimal(ctx.DECIMAL().getText()), extractLineInfo(ctx.DECIMAL().getSymbol()));
+        return new DecimalLiteral(new Double(ctx.DECIMAL().getText()), extractLineInfo(ctx.DECIMAL().getSymbol()));
     }
 
     @Override
