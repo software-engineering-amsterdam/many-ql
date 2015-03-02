@@ -16,7 +16,7 @@ question : 'question' ID widget;
 widget : 'widget' supportedWidget;
 
 // defaultStyle
-defaultStyleDeclr : 'default' type; // todo: create this.
+defaultStyleDeclr : 'default' type widget; // todo: create this.
 
 /**
  * Definitions.
