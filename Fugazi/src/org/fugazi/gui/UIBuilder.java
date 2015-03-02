@@ -122,10 +122,8 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private void addQuestionToBlock(UIQuestion _quest) {
-        if (!isQuestionExists(_quest.getId())) {
-            currentBlock.add(_quest);
-            addQuestionToTheForm(_quest);
-        }
+        currentBlock.add(_quest);
+        addQuestionToTheForm(_quest);
     }
 
     private boolean isQuestionExists(String _id) {
