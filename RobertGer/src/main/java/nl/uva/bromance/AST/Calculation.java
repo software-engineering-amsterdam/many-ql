@@ -21,12 +21,8 @@ public class Calculation extends Node implements CanContainConditionals {
     public Calculation(int lineNumber, String id) {
         super(lineNumber, Calculation.class);
         this.setAcceptedParents(parentsAllowed);
-        if (id != null) {
-            this.identifier = id;
-        } else {
-            //TODO: Consider putting this in the TypeChecker
-            System.err.println("Calculation Error: No identifier specified");
-        }
+        this.identifier = id;
+
     }
 
     @Override

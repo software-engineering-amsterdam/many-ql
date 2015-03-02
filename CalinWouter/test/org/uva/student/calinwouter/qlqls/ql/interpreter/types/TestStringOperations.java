@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.TString;
 
 import static org.junit.Assert.assertEquals;
 
-public class StringOperations {
+public class TestStringOperations {
 
     @Test
     public void testAdd() {

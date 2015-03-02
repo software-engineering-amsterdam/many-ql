@@ -17,6 +17,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         {
             InitializeComponent();
             QuestionLabel.Text = Label;
+            AnswerTextBox.Enabled = !astQuestion.IsComputed;
         }
 
         private void AnswerTextBox_TextChanged(object sender, EventArgs e)

@@ -17,7 +17,7 @@ public abstract class AError {
     }
 
     public String toString() {
-        return String.format("Error code %d - %s at %s", code, errorMessage, location);
+        return String.format("Error code %d --- %s --- at %s", code, errorMessage, location);
     }
 
     public Boolean getStopRunning() {

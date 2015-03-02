@@ -8,17 +8,20 @@ class View(tk.Frame):
         tk.Frame.__init__(self, master)
         self.grid()
         self.master.title(title)
-
-    def clear(self):
-        for widget in self.winfo_children():
-            widget.destroy()
+        self.widgets = {}
 
     def render(self, questionModel, callback):
-        labelWidget = Label(self, questionModel.text)
+        labelWidget = Label(self, questionModel)
         labelWidget.grid()
 
         widget = typeStyleTable()[questionModel.type](self, questionModel, callback)
         widget.grid()
+
+        self.widgets[questionModel] = (labelWidget, widget)
+
+    def update(self, questionModel):
+        for widget in self.widgets[questionModel]:
+            widget.update(questionModel)
 
     def showWarning(self, text):
         messagebox.showwarning("Warning", text)

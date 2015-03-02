@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 
@@ -11,11 +12,9 @@ import java.util.List;
 // TODO check if invoking this model fails the interpreter.
 public abstract class AbstractModel<T> implements IModel {
 
-    public List<String> getFieldUses() {
-        return new LinkedList<String>();
-    }
+    protected final QLSInterpreter qlsInterpreter;
 
-    public List<String> getIllegalWidgetUsages() {
+    public List<String> getFieldUses() {
         return new LinkedList<String>();
     }
 
@@ -26,11 +25,12 @@ public abstract class AbstractModel<T> implements IModel {
 
     @Override
     public void caseString(String string) {
+        System.out.println(getClass());
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void caseInteger(Integer styleSheet) {
+    public void caseInteger(Integer integer) {
         throw new UnsupportedOperationException();
     }
 
@@ -95,4 +95,8 @@ public abstract class AbstractModel<T> implements IModel {
     }
 
     public abstract void apply(IModel iModel);
+
+    public AbstractModel(QLSInterpreter qlsInterpreter) {
+        this.qlsInterpreter = qlsInterpreter;
+    }
 }

@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
 
 import static org.junit.Assert.*;
 
-public class IntegerOperations {
+public class TestIntegerOperations {
 
     @Test
     public void testAdd() {

@@ -6,9 +6,6 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Created by Robert on 2/24/2015.
- */
 public class ExpressionGrammarTest extends GrammarTest {
 
     private String parExpression = "(id)";
