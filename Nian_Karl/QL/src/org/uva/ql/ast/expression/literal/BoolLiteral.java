@@ -20,7 +20,6 @@ public class BoolLiteral extends Literal {
 		return visitor.visit(this);
 	}
 
-	@Override
 	public Boolean getValue() {
 		return value;
 	}

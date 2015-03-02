@@ -4,7 +4,8 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.NotOfTypeException;
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ExpInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
 import java.util.LinkedList;
 
@@ -21,7 +22,7 @@ public abstract class StmtInterpreter<T extends FormInterpreter> extends Analysi
         ExpInterpreter expI = new ExpInterpreter(formInterpreter);
         nExp.apply(expI);
         if (!(expI.getValue().getValue() instanceof Boolean)) {
-            throw new NotOfTypeException(TBool.TYPE_REFERENCE);
+            throw new NotOfTypeException(BoolValue.TYPE_REFERENCE);
         } else if ((Boolean) expI.getValue().getValue()) {
             return true;
         }

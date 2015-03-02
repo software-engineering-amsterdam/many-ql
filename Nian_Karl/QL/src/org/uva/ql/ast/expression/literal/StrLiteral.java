@@ -20,7 +20,6 @@ public class StrLiteral extends Literal {
 		return visitor.visit(this);
 	}
 
-	@Override
 	public String getValue() {
 		return value;
 	}
