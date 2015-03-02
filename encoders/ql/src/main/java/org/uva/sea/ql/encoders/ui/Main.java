@@ -54,7 +54,9 @@ public class Main extends Application {
 			public void handle(ActionEvent event) {
 				FileChooser fileChooser = new FileChooser();
 				File result = fileChooser.showOpenDialog(null);
-				textField.setText(result.getPath());
+				if (result != null) {
+					textField.setText(result.getPath());
+				}
 			}
 		});
 		final StackPane stackPane = new StackPane();
