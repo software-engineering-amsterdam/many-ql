@@ -25,7 +25,7 @@ public class TypeChecker {
     }
 
     private void secondPass(){
-        TypeCheckerVisitorNew visitor = new TypeCheckerVisitorNew(errors);
+        TypeCheckerVisitor visitor = new TypeCheckerVisitor(errors, table);
         ast.accept(visitor);
     }
 
