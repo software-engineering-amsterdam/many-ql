@@ -198,4 +198,37 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
             }
         });
     }
+<<<<<<< HEAD
+
+    public static void main(String[] args) throws ParserException, IOException, LexerException {
+        String input = "styleSheet(taxOfficeExample," +
+                "" +
+                "\tpage(Housing,\n" +
+                        "\t\tsection(Buying,\n" +
+                        "\t\t\tquestion(hasBoughtHouse, {widget: checkbox})),\n" +
+                        "\t\tsection(Loaning,\n" +
+                        "\t\t\tquestion(hasMaintLoan))\n" +
+                        "\t), page(Selling,\n" +
+                        "\t\tsection(Selling,\n" +
+                        "\t\t\tquestion(hasSoldHouse, {widget: radio(\"Yes\", \"No\")})), \n" +
+                        "\t\tsection(\"You sold a house\",\n" +
+                        "\t\t\tquestion(sellingPrice, {widget: spinbox}),\n" +
+                        "\t\t\tquestion(privateDebt, {widget: spinbox}),\n" +
+                        "\t\t\tquestion(valueResidue)),\n" +
+                        "\t\tdefault(integer, {\n" +
+                        "\t\t\twidth: 400,\n" +
+                        "\t\t\tfont: \"Arial\",\n" +
+                        "\t\t\tfontsize: 14,\n" +
+                        "\t\t\tcolor: #999999,\n" +
+                        "\t\t\twidget: spinbox\n" +
+                        "\t\t})\n" +
+                        "\t), default(boolean, {widget: radio(\"Yes\", \"No\")})\n" +
+                        ")";
+
+        System.out.println(input);
+
+        //InterpreterHelper.interpetStylesheetString(input);
+    }
+=======
+>>>>>>> 8b285e6c59bddfb17ef11dc4b02acb2c480b78c9
 }
