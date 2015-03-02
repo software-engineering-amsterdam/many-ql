@@ -1,7 +1,10 @@
 package edu.parser.QLS;
 
 import edu.parser.AbstractNode;
-import edu.parser.QLS.nodes.*;
+import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.statement.Page;
+import edu.parser.QLS.nodes.Section;
+import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Question;
 import edu.parser.QLS.nodes.styles.Style;
@@ -9,7 +12,7 @@ import edu.parser.QLS.nodes.styles.Style;
 /**
  * Created by Steven Kok on 28/02/2015.
  */
-public interface Visitor {
+public interface QLSVisitor extends edu.parser.Visitor {
     AbstractNode visit(Stylesheet stylesheet);
 
     AbstractNode visit(Page page);
@@ -24,5 +27,4 @@ public interface Visitor {
 
     AbstractNode visit(Default aDefault);
 
-    AbstractNode visit(QuestionType questionType);
 }

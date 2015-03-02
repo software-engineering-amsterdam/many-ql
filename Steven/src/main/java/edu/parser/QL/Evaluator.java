@@ -14,12 +14,11 @@ import edu.parser.QL.nodes.expression.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * Created by Steven Kok on 23/02/2015.
  */
-public class Evaluator extends VisitorImpl {
+public class Evaluator extends QLVisitorImpl {
 
     private final List<Statement> questions = new ArrayList<>();
 

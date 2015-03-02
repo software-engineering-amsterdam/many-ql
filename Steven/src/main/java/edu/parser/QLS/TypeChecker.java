@@ -3,10 +3,14 @@ package edu.parser.QLS;
 import edu.exceptions.TypeCheckException;
 import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.Form;
-import edu.parser.QLS.nodes.*;
+import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.statement.Page;
+import edu.parser.QLS.nodes.Section;
+import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Question;
 import edu.parser.QLS.nodes.styles.Style;
+import edu.parser.nodes.QuestionType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 01/03/2015.
  */
-public class TypeChecker implements Visitor {
+public class TypeChecker implements QLSVisitor {
     public static final String UNIDENTIFIED_STYLESHEET_QUESTION = "Stylesheet contains questions that are not contained in the form. Unknown question identifiers:";
     private final List<Question> stylesheetQuestions;
 
@@ -26,7 +30,6 @@ public class TypeChecker implements Visitor {
 
     public void start(Stylesheet stylesheet, Form form) {
         visit(stylesheet);
-
         confirmQuestionsExistInForm(getQuestions(form));
     }
 
@@ -66,17 +69,23 @@ public class TypeChecker implements Visitor {
 
     @Override
     public AbstractNode visit(Stylesheet stylesheet) {
+        stylesheet.getStatements()
+                .stream()
+                .forEach(element -> element.accept(this));
         return stylesheet;
     }
 
     @Override
     public AbstractNode visit(Page page) {
-        return null;
+        page.getSections()
+                .stream()
+                .forEach(section -> section.accept(this));
+        return page;
     }
 
     @Override
     public AbstractNode visit(Style style) {
-        return null;
+        return style;
     }
 
     @Override
@@ -104,4 +113,5 @@ public class TypeChecker implements Visitor {
     public AbstractNode visit(QuestionType questionType) {
         return null;
     }
+
 }

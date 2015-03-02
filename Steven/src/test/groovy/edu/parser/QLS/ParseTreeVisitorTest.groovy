@@ -2,7 +2,7 @@ package edu.parser.QLS
 
 import edu.Main
 import edu.parser.AntlrParser
-import edu.parser.QLS.nodes.Page
+import edu.parser.QLS.nodes.statement.Page
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.Question
 import edu.parser.QLS.nodes.styles.Width
@@ -27,8 +27,8 @@ class ParseTreeVisitorTest extends Specification {
         Stylesheet stylesheet = antlrParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_initial", parseTreeVisitor, Stylesheet.class)
 
         when:
-        def firstElement = stylesheet.elements.get(0)
-        def secondElement = stylesheet.elements.get(1)
+        def firstElement = stylesheet.statements.get(0)
+        def secondElement = stylesheet.statements.get(1)
 
         then:
         Assert.assertEquals("first element should be firstElement name1", "name1", firstElement.identifier.identifier);

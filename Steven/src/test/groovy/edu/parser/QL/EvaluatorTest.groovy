@@ -16,7 +16,7 @@ import edu.parser.QL.nodes.expression.NotEqual
 import edu.parser.QL.nodes.expression.Or
 import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
-import edu.parser.QL.nodes.question.QuestionType
+import edu.parser.nodes.QuestionType
 import edu.parser.QL.nodes.statement.ElseClause
 import edu.parser.QL.nodes.statement.IfStatement
 import edu.parser.QL.nodes.statement.Statement

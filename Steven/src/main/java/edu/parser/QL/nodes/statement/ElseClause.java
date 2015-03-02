@@ -1,6 +1,6 @@
 package edu.parser.QL.nodes.statement;
 
-import edu.parser.QL.Visitor;
+import edu.parser.QL.QLVisitor;
 import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 
@@ -27,7 +27,7 @@ public class ElseClause extends Expression {
     }
 
     @Override
-    public AbstractNode accept(Visitor visitor) {
-        return visitor.visit(this);
+    public AbstractNode accept(QLVisitor QLVisitor) {
+        return QLVisitor.visit(this);
     }
 }

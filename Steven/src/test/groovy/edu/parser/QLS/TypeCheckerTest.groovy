@@ -4,7 +4,7 @@ import edu.exceptions.TypeCheckException
 import edu.parser.QL.nodes.expression.Identifier
 import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
-import edu.parser.QL.nodes.question.QuestionType
+import edu.parser.nodes.QuestionType
 import edu.parser.QLS.nodes.styles.Style
 import junit.framework.Assert
 import spock.lang.Specification

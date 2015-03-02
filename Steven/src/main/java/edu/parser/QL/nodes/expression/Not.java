@@ -1,6 +1,6 @@
 package edu.parser.QL.nodes.expression;
 
-import edu.parser.QL.Visitor;
+import edu.parser.QL.QLVisitor;
 import edu.parser.AbstractNode;
 
 /**
@@ -13,8 +13,8 @@ public class Not extends UnaryExpression {
     }
 
     @Override
-    public AbstractNode accept(Visitor visitor) {
-        return visitor.visit(this);
+    public AbstractNode accept(QLVisitor QLVisitor) {
+        return QLVisitor.visit(this);
     }
 
     @Override

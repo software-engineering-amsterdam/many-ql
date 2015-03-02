@@ -6,7 +6,7 @@ import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
-import edu.parser.QL.nodes.question.QuestionType;
+import edu.parser.nodes.QuestionType;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class TypeChecker extends VisitorImpl {
+public class TypeChecker extends QLVisitorImpl {
 
     public static final String ALREADY_DECLARED_QUESTION_DIFFERENT_TYPE = "Question identifier: [%s] was already declared with type: [%s].";
     public static final String ALREADY_DECLARED_QUESTION = "Duplicate question declaration. Identifier: [%s] Type: [%s].";

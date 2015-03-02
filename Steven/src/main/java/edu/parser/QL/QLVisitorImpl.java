@@ -4,7 +4,7 @@ import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.expression.NotEqual;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
-import edu.parser.QL.nodes.question.QuestionType;
+import edu.parser.nodes.QuestionType;
 import edu.parser.QL.nodes.statement.Statement;
 
 import java.util.Collections;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 23/02/2015.
  */
-public abstract class VisitorImpl implements Visitor {
+public abstract class QLVisitorImpl implements QLVisitor {
 
     public List<Statement> visitStatements(List<Statement> statements) {
         if (statements != null && !statements.isEmpty()) {

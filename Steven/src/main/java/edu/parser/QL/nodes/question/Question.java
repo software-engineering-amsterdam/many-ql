@@ -1,10 +1,11 @@
 package edu.parser.QL.nodes.question;
 
-import edu.parser.QL.Visitor;
+import edu.parser.QL.QLVisitor;
 import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.statement.Statement;
+import edu.parser.nodes.QuestionType;
 
 import java.util.Optional;
 
@@ -56,8 +57,8 @@ public class Question extends Statement {
     }
 
     @Override
-    public AbstractNode accept(Visitor visitor) {
-        return visitor.visit(this);
+    public AbstractNode accept(QLVisitor QLVisitor) {
+        return QLVisitor.visit(this);
     }
 
     @Override
@@ -68,9 +69,8 @@ public class Question extends Statement {
         Question question = (Question) o;
 
         if (enabled != question.enabled) return false;
-        if (expression != null ? !expression.equals(question.expression) : question.expression != null) return false;
-        if (!identifier.equals(question.identifier)) return false;
-        return label.equals(question.label) && questionType == question.questionType;
+        // intellij 'simplified' the next line:
+        return !(expression != null ? !expression.equals(question.expression) : question.expression != null) && identifier.equals(question.identifier) && label.equals(question.label) && questionType == question.questionType;
 
     }
 

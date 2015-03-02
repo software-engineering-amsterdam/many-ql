@@ -1,15 +1,20 @@
 package edu.parser.QLS;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.exceptions.ParseException;
 import edu.parser.AbstractNode;
 import edu.parser.QLS.antlrGenerated.QLSBaseVisitor;
 import edu.parser.QLS.antlrGenerated.QLSParser;
-import edu.parser.QLS.nodes.*;
+import edu.parser.QLS.nodes.Identifier;
+import edu.parser.QLS.nodes.Section;
+import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
+import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.Question;
 import edu.parser.QLS.nodes.statement.Statement;
 import edu.parser.QLS.nodes.styles.*;
-import org.antlr.v4.runtime.ParserRuleContext;
+import edu.parser.nodes.QuestionType;
+import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Collections;
@@ -23,25 +28,25 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
     @Override
     public Stylesheet visitStylesheet(@NotNull QLSParser.StylesheetContext ctx) {
         Identifier identifier = (Identifier) visitIdentifier(ctx.identifier());
-        List<AbstractNode> stylesheetElements = getStatements(ctx.stylesheet_element());
+        List<Statement> stylesheetElements = getStatements(ctx.stylesheet_element());
         return new Stylesheet(identifier, stylesheetElements);
     }
 
-    public List<AbstractNode> getStatements(List<QLSParser.Stylesheet_elementContext> stylesheetElements) {
+    public List<Statement> getStatements(List<QLSParser.Stylesheet_elementContext> stylesheetElements) {
         if (isPopulated(stylesheetElements)) {
-            return collectAbstractNodes(stylesheetElements);
+            return collectStatements(stylesheetElements);
         }
         return Collections.emptyList();
     }
 
-    private boolean isPopulated(List<QLSParser.Stylesheet_elementContext> stylesheetElements) {
-        return stylesheetElements != null && !stylesheetElements.isEmpty();
+    private <T extends RuleContext> List<Statement> collectStatements(List<T> stylesheetElements) {
+        return stylesheetElements.stream()
+                .map(statement -> (Statement) statement.accept(this))
+                .collect(Collectors.toList());
     }
 
-    private <T extends ParserRuleContext> List<AbstractNode> collectAbstractNodes(List<T> elements) {
-        return elements.stream()
-                .map(this::visit)
-                .collect(Collectors.toList());
+    private boolean isPopulated(List<QLSParser.Stylesheet_elementContext> stylesheetElements) {
+        return stylesheetElements != null && !stylesheetElements.isEmpty();
     }
 
     @Override
@@ -84,29 +89,33 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
 
     @Override
     public AbstractNode visitQuestion_type(@NotNull QLSParser.Question_typeContext ctx) {
-        return new QuestionType(ctx.getText());
+        try {
+            return QuestionType.getType(ctx.getText());
+        } catch (InvalidArgumentException e) {
+            throw new ParseException(e);
+        }
     }
 
     @Override
     public AbstractNode visitPage(@NotNull QLSParser.PageContext ctx) {
-        List<AbstractNode> pages = collectAbstractNodes(ctx.section());
-        return new Page(pages);
+        List<Section> sections = collectSections(ctx.section());
+        return new Page(sections);
     }
 
     @Override
     public AbstractNode visitSection(@NotNull QLSParser.SectionContext ctx) {
         String title = ctx.STRING().getSymbol().getText();
-        List<Statement> sections = collectSections(ctx.statement());
-        return new Section(removeQuotesFromString(title), sections);
+        List<Statement> statements = collectStatements(ctx.statement());
+        return new Section(removeQuotesFromString(title), statements);
     }
 
     private String removeQuotesFromString(String title) {
         return title.substring(1, title.length() - 1);
     }
 
-    private List<Statement> collectSections(List<QLSParser.StatementContext> elements) {
+    private List<Section> collectSections(List<QLSParser.SectionContext> elements) {
         return elements.stream()
-                .map(element -> (Statement) this.visit(element))
+                .map(statement -> (Section) statement.accept(this))
                 .collect(Collectors.toList());
     }
 
