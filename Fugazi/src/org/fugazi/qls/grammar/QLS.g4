@@ -8,10 +8,10 @@ page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
 // Section, includes questions and/or other sections, and/or default declarations.
 section : 'section' STRING question
-        | 'section' STRING '{' (question | section)* '}';
+        | 'section' STRING '{' (question | section | defaultStyleDeclr)* '}';
 
 // question id (zero or one widget)
-question : 'question' ID widget??;
+question : 'question' ID (widget)?;
 
 // widget
 widget : 'widget' supportedWidget   # simpleWidget
@@ -63,7 +63,10 @@ ID  :   [a-zA-Z]+;
 NUMBER : DIGIT+ ;
 
 // HEX
-HEX : [0-9a-fA-F] ; // todo: does not work
+// TODO this is ugly but also not.
+// This is the only way to enforce n repetitions of a token with antlr.
+HEX : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT ;
+HEXDIGIT: [0-9a-fA-F] ;
 
 // comment matches anything between /* and */
 COMMENT
