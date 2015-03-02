@@ -82,7 +82,7 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value and(Value argument) {
-		return this;
+		return argument.andBoolean(false);
 	}
 
 	@Override
@@ -147,104 +147,102 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value notEqualToBoolean(boolean argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value notEqualToInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value notEqualToFloat(float argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value notEqualToString(String argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value lowerThanInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value lowerThanFloat(float argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value lowerOrEqualInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value lowerOrEqualFloat(float argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value greaterThanInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value greaterThanFloat(float argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value greaterOrEqualThanInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value greaterOrEqualThanFloat(float argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value equalToBoolean(boolean argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value equalToInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value equalToFloat(float argument) {
-		throw new UnsupportedOperationException();
+		return new BooleanValue(false);
 		
 	}
 
 	@Override
 	public Value equalToString(String argument) {
-		throw new UnsupportedOperationException();
-		
+		return new BooleanValue(false);
 	}
 
 	@Override
 	public Value andBoolean(boolean argument) {
-		throw new UnsupportedOperationException();
-		
+		return new BooleanValue(false);
 	}
 
 }

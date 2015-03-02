@@ -34,13 +34,12 @@ public class IfObserver implements Observer {
 			Value value = expression.accept(new Evaluator(controller.getValueEnvironment()));	
 			System.out.println(value);
 				
-			if (value instanceof BooleanValue) {
-				boolean visible = ((BooleanValue)value).getValue();
-				this.ifComponent.setVisible(visible);
+			
+			boolean visible = ((BooleanValue)value).getValue();
+			this.ifComponent.setVisible(visible);
 				
-				if (elseComponent != null) {
-					this.elseComponent.setVisible(!visible);
-				}
+			if (elseComponent != null) {
+				this.elseComponent.setVisible(!visible);
 			}
 		}
 		catch (UnsupportedOperationException e) {
