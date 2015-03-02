@@ -66,10 +66,6 @@ public class QLUI extends Application {
 		ScrollPane scrollPane = new ScrollPane(grid);
 		scrollPane.setPrefSize(550, 275);
 
-		Scene scene = new Scene(scrollPane, 700, 600);
-		primaryStage.setScene(scene);
-		primaryStage.show();
-
 		typeValidations = questionnaireParsingService.getTypeErrors();
 
 		// TODO: remove hard coding of position error area
@@ -83,6 +79,10 @@ public class QLUI extends Application {
 			typeCheckerMessages.appendText(typeValidation.getName() + ": " + typeValidation.getTypeErrorText());
 			typeCheckerMessages.appendText("\n");
 		}
+
+		Scene scene = new Scene(scrollPane, 700, 600);
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 
 	private void setUpQuestionnaireUI(RuntimeQuestionnaire questionnaire, GridPane grid) {
