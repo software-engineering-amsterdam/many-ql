@@ -7,7 +7,7 @@ using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.AST.Visitors;
 using UvA.SoftCon.Questionnaire.AST.Extensions;
-using UvA.SoftCon.Questionnaire.Parsing;
+using UvA.SoftCon.Questionnaire.Grammars;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
 {

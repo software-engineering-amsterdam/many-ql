@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.statement.Statement;
 
 public class Memory {
 	
@@ -27,6 +28,17 @@ public class Memory {
 	public int showMemory()
 	{
 		return this.ids.size();		
+	}
+	
+	public boolean containsId(String id)
+	{
+		for(IdLiteral i: this.ids){
+			if(i._value.equals(id))		
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

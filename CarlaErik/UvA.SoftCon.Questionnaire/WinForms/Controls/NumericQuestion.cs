@@ -18,6 +18,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             InitializeComponent();
             Answer = new IntegerValue(0); // Initialize this control with 0
             QuestionLabel.Text = Label;
+            AnswerUpDown.Enabled = !astQuestion.IsComputed;
         }
 
         private void AnswerUpDown_ValueChanged(object sender, EventArgs e)

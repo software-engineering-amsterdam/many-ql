@@ -1,7 +1,8 @@
 from QL.Main.mapper import *
-from QL.AST.operators import *
+from QL.AST.Elements.operators import *
 
 
+# TODO : check all imports
 class Processor:
 
     @staticmethod
@@ -13,7 +14,7 @@ class Processor:
             result = eval(expression, answers_dict)
             return result
         except Exception as e:
-            print(e)
+            # print(e)
             return False
 
     @staticmethod

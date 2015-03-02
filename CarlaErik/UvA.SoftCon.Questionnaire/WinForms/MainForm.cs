@@ -44,9 +44,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
             var runtimeController = new RuntimeController();
 
-            var astQuestions = QuestionForm.GetAllQuestions();
-
-            foreach (var astQuestion in astQuestions)
+            foreach (var astQuestion in QuestionForm.AllQuestions)
             {
                 QuestionControl uiQuestion;
 
@@ -92,11 +90,11 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                 foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
                 {
-                    uiQuestion.Visible = visibleQuestions.ContainsKey(uiQuestion.Name);
+                    uiQuestion.Visible = visibleQuestions.ContainsKey(uiQuestion.QuestionName);
 
-                    if (visibleQuestions.ContainsKey(uiQuestion.Name))
+                    if (visibleQuestions.ContainsKey(uiQuestion.QuestionName))
                     {
-                        Value result = visibleQuestions[uiQuestion.Name];
+                        Value result = visibleQuestions[uiQuestion.QuestionName];
 
                         if (!result.IsUndefined)
                         {
@@ -118,7 +116,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
             foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
             {
-                answers.Add(uiQuestion.Name, uiQuestion.Answer);
+                answers.Add(uiQuestion.QuestionName, uiQuestion.Answer);
             }
 
             return answers;
