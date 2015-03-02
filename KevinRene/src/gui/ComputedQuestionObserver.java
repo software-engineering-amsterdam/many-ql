@@ -1,6 +1,6 @@
 package gui;
 
-import gui.components.Component;
+import gui.widgets.Widget;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -13,9 +13,9 @@ public class ComputedQuestionObserver implements Observer {
 	
 	private final ComputedQuestion expression;
 	private final Controller controller;
-	private final Component component;
+	private final Widget component;
 	
-	public ComputedQuestionObserver(ComputedQuestion expression, Controller controller, Component component) {
+	public ComputedQuestionObserver(ComputedQuestion expression, Controller controller, Widget component) {
 		this.expression = expression;
 		this.controller = controller;
 		this.component = component;

@@ -1,4 +1,4 @@
-package gui.components;
+package gui.widgets;
 
 import gui.Controller;
 
@@ -9,14 +9,14 @@ import cons.Value;
 import cons.ql.ast.expression.Identifier;
 import cons.value.IntegerValue;
 
-public class IntegerComponent extends TextComponent implements CaretListener {
+public class IntegerField extends TextField implements CaretListener {
 	
-	public IntegerComponent (Identifier identifier, Controller controller) {
+	public IntegerField (Identifier identifier, Controller controller) {
 		super(identifier, controller);
 		textField.setText("0");
 	}
 	
-	public IntegerComponent (Identifier identifier, Controller controller, boolean enabled) {
+	public IntegerField (Identifier identifier, Controller controller, boolean enabled) {
 		super(identifier, controller, enabled);
 		textField.setText("0");
 	}

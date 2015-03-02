@@ -1,4 +1,4 @@
-package gui.components;
+package gui.widgets;
 
 import gui.Controller;
 
@@ -19,13 +19,13 @@ import cons.Value;
 import cons.ql.ast.expression.Identifier;
 import cons.value.StringValue;
 
-public class TextComponent extends Component implements CaretListener {
+public class TextField extends Widget implements CaretListener {
 	
 	protected JPanel container;
 	protected JTextField textField;
 	protected JLabel errorLabel;
 	
-	public TextComponent (Identifier identifier, Controller controller) {
+	public TextField (Identifier identifier, Controller controller) {
 		super(identifier, controller);
 
 		textField = new JTextField(100);
@@ -43,7 +43,7 @@ public class TextComponent extends Component implements CaretListener {
     	container.add(errorLabel, "wrap");
 	}
 	
-	public TextComponent (Identifier identifier, Controller controller, boolean enabled) {
+	public TextField (Identifier identifier, Controller controller, boolean enabled) {
 		this(identifier, controller);
     	textField.setEnabled(enabled);
     	textField.setFocusable(enabled);

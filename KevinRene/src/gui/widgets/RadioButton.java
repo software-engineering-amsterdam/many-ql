@@ -1,4 +1,4 @@
-package gui.components;
+package gui.widgets;
 
 import gui.Controller;
 
@@ -11,17 +11,17 @@ import cons.Value;
 import cons.ql.ast.expression.Identifier;
 import cons.value.BooleanValue;
 
-public class BooleanComponent extends Component implements ChangeListener {
+public class RadioButton extends Widget implements ChangeListener {
 	
 	private JRadioButton radioButton;
 
-	public BooleanComponent(Identifier identifier, Controller controller) {
+	public RadioButton(Identifier identifier, Controller controller) {
 		super(identifier, controller);
 		
 		radioButton = new JRadioButton();
 		radioButton.addChangeListener(this);
 	}
-	public BooleanComponent(Identifier identifier, Controller controller, boolean enabled) {
+	public RadioButton(Identifier identifier, Controller controller, boolean enabled) {
 		this(identifier, controller);
 		radioButton.setEnabled(enabled);
 	}

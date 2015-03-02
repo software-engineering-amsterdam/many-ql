@@ -1,4 +1,4 @@
-package gui.components;
+package gui.widgets;
 
 import gui.Controller;
 
@@ -9,12 +9,12 @@ import javax.swing.JComponent;
 import cons.Value;
 import cons.ql.ast.expression.Identifier;
 
-public abstract class Component extends Observable {
+public abstract class Widget extends Observable {
 
 	protected final Identifier identifier;
 	protected final Controller controller;
 	
-	public Component(Identifier identifier, Controller controller) {
+	public Widget(Identifier identifier, Controller controller) {
 		this.identifier = identifier;
 		this.controller = controller;
 	}

@@ -1,9 +1,9 @@
 package gui;
 
-import gui.components.BooleanComponent;
-import gui.components.Component;
-import gui.components.IntegerComponent;
-import gui.components.TextComponent;
+import gui.widgets.IntegerField;
+import gui.widgets.RadioButton;
+import gui.widgets.TextField;
+import gui.widgets.Widget;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -53,7 +53,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	public Void visit(ComputedQuestion compQuestionNode) {
     	addLabel(compQuestionNode.getText().toString(), pane);
     	
-    	Component comp = createComponent(compQuestionNode.getType(), compQuestionNode.getIdentifier(), 
+    	Widget comp = createComponent(compQuestionNode.getType(), compQuestionNode.getIdentifier(), 
     			controller, false);
     	pane.add(comp.getComponent(), "wrap");
     	
@@ -68,7 +68,7 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	public Void visit(Question questionNode) {
 		addLabel(questionNode.getText().toString(), pane);
 		
-		Component comp = createComponent(questionNode.getType(), questionNode.getIdentifier(), controller);
+		Widget comp = createComponent(questionNode.getType(), questionNode.getIdentifier(), controller);
 			
 		controller.putComponent(questionNode.getIdentifier(), comp);
 	    pane.add(comp.getComponent(), "wrap");
@@ -107,19 +107,19 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		return null;
 	}
 	
-	private Component createComponent(QLType type, Identifier identifier, Controller controller, boolean enabled) {
+	private Widget createComponent(QLType type, Identifier identifier, Controller controller, boolean enabled) {
 		if (type instanceof QLString) {
-			return new TextComponent(identifier, controller, enabled);		
+			return new TextField(identifier, controller, enabled);		
 		}
 		else if (type instanceof QLInteger) {
-			return new IntegerComponent(identifier, controller, enabled);
+			return new IntegerField(identifier, controller, enabled);
 		}
 		else if (type instanceof QLBoolean) {
-			return new BooleanComponent(identifier, controller, enabled);
+			return new RadioButton(identifier, controller, enabled);
 		}
 		return null; 
 	}
-	private Component createComponent(QLType type, Identifier identifier, Controller controller) {
+	private Widget createComponent(QLType type, Identifier identifier, Controller controller) {
 		return createComponent(type, identifier, controller, true);
 	}
 	

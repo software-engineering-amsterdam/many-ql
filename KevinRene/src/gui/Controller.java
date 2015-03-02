@@ -1,6 +1,6 @@
 package gui;
 
-import gui.components.Component;
+import gui.widgets.Widget;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +12,11 @@ import cons.ql.ast.expression.Identifier;
 
 public class Controller {
 	
-	private final Map<Identifier, Component> components;
+	private final Map<Identifier, Widget> components;
 	private final ValueEnvironment valueEnv;
 	
 	public Controller(ValueEnvironment valueEnv) {
-		this.components = new HashMap<Identifier, Component>();
+		this.components = new HashMap<Identifier, Widget>();
 		this.valueEnv = valueEnv;
 	}
 	
@@ -27,7 +27,7 @@ public class Controller {
 	 * then notifies the observers of this Component.
 	 */
 	public void notify(Identifier identifier) {
-		Component comp = components.get(identifier);
+		Widget comp = components.get(identifier);
 		
 		if (comp != null) {
 			comp.notifyObservers();
@@ -45,7 +45,7 @@ public class Controller {
 		}
 	}
 	
-	public void putComponent(Identifier x, Component obs) {
+	public void putComponent(Identifier x, Widget obs) {
 		components.put(x, obs);
 	}
 	
