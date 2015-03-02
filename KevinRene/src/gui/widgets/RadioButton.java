@@ -29,10 +29,8 @@ public class RadioButton extends Widget implements ChangeListener {
 	public void setValue(Value value) {
 		try {
 			radioButton.setSelected(((BooleanValue)value).getValue());
-			setChanged();
-			valueEnv.store(getIdentifier(), value);
 
-			notifyObservers();
+			storeAndNotify(getIdentifier(), value);
 		}
 		catch (ClassCastException e) {
 			// value is of type Undefined
@@ -40,16 +38,13 @@ public class RadioButton extends Widget implements ChangeListener {
 	}
 
 	@Override
-	public JComponent getComponent() {
-		return radioButton;
+	public void stateChanged(ChangeEvent e) {
+		Value value = new BooleanValue(radioButton.isSelected());
+		storeAndNotify(getIdentifier(), value);
 	}
 
 	@Override
-	public void stateChanged(ChangeEvent e) {
-		Value value = new BooleanValue(radioButton.isSelected());
-		setChanged();
-		valueEnv.store(getIdentifier(), value);
-
-		notifyObservers();
+	public JComponent getComponent() {
+		return radioButton;
 	}
 }

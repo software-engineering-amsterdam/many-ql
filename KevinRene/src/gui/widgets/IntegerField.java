@@ -27,13 +27,8 @@ public class IntegerField extends TextField implements CaretListener {
 		
 		// Update value of the JTextField
 		textField.setText(value.toString());
-		setChanged();
-		
-		// Store the new value in the TypeEnvironment
-		valueEnv.store(getIdentifier(), value);
-		
-		// Notify this value has changed
-		notifyObservers();
+
+		storeAndNotify(getIdentifier(), value);
 	}
 
 	@Override
@@ -41,13 +36,7 @@ public class IntegerField extends TextField implements CaretListener {
 		try {
 			Value value = new IntegerValue(Integer.parseInt(textField.getText()));
 			
-			setChanged();
-			
-			// Store the new value in the TypeEnvironment
-			valueEnv.store(getIdentifier(), value);
-			
-			// Notify this value has changed
-			notifyObservers();
+			storeAndNotify(getIdentifier(), value);
 
 			removeError();
 		}

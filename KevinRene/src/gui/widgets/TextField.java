@@ -64,13 +64,14 @@ public class TextField extends Widget implements CaretListener {
 		
 		// Update value of the JComponent
 		textField.setText(value.toString());
-		setChanged();
+		storeAndNotify(getIdentifier(), value);
+	}
+	
+	@Override
+	public void caretUpdate(CaretEvent e) {
+		Value value = new StringValue(textField.getText());	
 		
-		// Store the new value in the TypeEnvironment
-		valueEnv.store(getIdentifier(), value);
-		
-		// Notify this value has changed
-		notifyObservers();
+		storeAndNotify(getIdentifier(), value);
 	}
 	
 	protected void setError(String text) {
@@ -81,18 +82,5 @@ public class TextField extends Widget implements CaretListener {
 	protected void removeError() {
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		errorLabel.setText("");
-	}
-
-	@Override
-	public void caretUpdate(CaretEvent e) {
-		Value value = new StringValue(textField.getText());	
-		
-		setChanged();
-		
-		// Store the new value in the TypeEnvironment
-		valueEnv.store(getIdentifier(), value);
-		
-		// Notify this value has changed
-		notifyObservers();
 	}
 }

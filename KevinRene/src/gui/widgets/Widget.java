@@ -26,6 +26,11 @@ public abstract class Widget extends Observable {
 		return valueEnv.resolve(identifier);
 	}
 	
+	protected void storeAndNotify(Identifier identifier, Value value) {
+		setChanged();
+		valueEnv.store(identifier, value);
+		notifyObservers();
+	}
 	
 	public abstract void setValue(Value value);
 	public abstract JComponent getComponent();
