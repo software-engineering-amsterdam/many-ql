@@ -8,7 +8,7 @@ from Main.gui import *
 try:
     formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
     form = FormFactory.make_form(formAsParseResults)
-    #print(form.pretty_print())
+    # print(form.pretty_print())
 
     typeChecker = TypeChecker(form)
 
