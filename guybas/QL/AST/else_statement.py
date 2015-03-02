@@ -1,4 +1,4 @@
-from AST.if_statement import *
+from QL.AST.if_statement import *
 
 class IfElseBlock(IfBlock):
 

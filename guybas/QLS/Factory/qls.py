@@ -1,15 +1,15 @@
 from QLS.AST.option import *
 from QLS.AST.sheet import *
 
+
 class WidgetFactory:
     @staticmethod
     def make_radio(tokens):
-        if tokens[1] == "Default":
+        if len(tokens > 1):
             default = tokens[2]
         else:
             default = ""
         return Radio(tokens[0], default)
-
 
     @staticmethod
     def make_checkbox(tokens):
@@ -17,19 +17,31 @@ class WidgetFactory:
 
     @staticmethod
     def make_spinbox(tokens):
-        return Spinbox(tokens[0], tokens[1])
+        if len(tokens > 1):
+            default = tokens[2]
+        else:
+            default = ""
+        return Spinbox(tokens[0], tokens[1], default)
 
     @staticmethod
     def make_slider(tokens):
-        pass
+        if len(tokens > 1):
+            default = tokens[2]
+        else:
+            default = ""
+        return Slider(tokens[0], tokens[1], default)
 
     @staticmethod
     def make_textbox(tokens):
-        pass
+        return Textbox()
 
     @staticmethod
     def make_dropdown(tokens):
-        pass
+        if len(tokens > 1):
+            default = tokens[2]
+        else:
+            default = ""
+        return DropDown(tokens[0], default)
 
     @staticmethod
     def make_widget(tokens):

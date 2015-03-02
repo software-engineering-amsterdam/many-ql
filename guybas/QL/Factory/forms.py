@@ -1,13 +1,13 @@
 # Factory which expects tokens and uses the ast classes to return a parsed form
 # Everything is static (pipeline style)
 
-from AST.expression import *
-from AST.question import *
-from AST.if_statement import *
-from AST.form import *
-from AST.else_statement import *
-from AST.operators import *
-from Main.converters import *
+from QL.AST.expression import *
+from QL.AST.question import *
+from QL.AST.if_statement import *
+from QL.AST.form import *
+from QL.AST.else_statement import *
+from QL.AST.operators import *
+from QL.Main.converters import *
 
 
 class FormFactory:

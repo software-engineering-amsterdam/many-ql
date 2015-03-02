@@ -22,9 +22,10 @@ class Checkbox(Option):
 
 
 class Spinbox(NumberWidget):
-    def __init__(self, min, max):
+    def __init__(self, min, max, default=""):
         self.min = min
         self.max = max
+        self.default = default
 
 
 class Textbox:
@@ -33,10 +34,13 @@ class Textbox:
 
 
 class Slider(NumberWidget):
-    def __init__(self, min, max):
-        self.min = min 
+    def __init__(self, min, max, default=""):
+        self.min = min
         self.max = max
+        self.default = default
 
 
-class DropDown:
-    pass
+class DropDown(Option):
+    def __init__(self, options, default=""):
+        self.options = options
+        self.default = default
