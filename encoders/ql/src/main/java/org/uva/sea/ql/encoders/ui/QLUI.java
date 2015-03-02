@@ -35,7 +35,7 @@ import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 public class QLUI extends Application {
 
 	public List<TypeError> typeErrors = new ArrayList<TypeError>();
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -54,13 +54,11 @@ public class QLUI extends Application {
 		scrollPane.setPrefSize(550, 275);
 
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
-		
+
 		AstTransformer astTransformer = new AstTransformer();
 		try {
-			Questionnaire questionnaire = questionnaireParsingService
-					.parse("src/main/resources/input_form.ql");
-			UIQuestionnaire uiQuestionnaire = astTransformer
-					.transform(questionnaire);
+			Questionnaire questionnaire = questionnaireParsingService.parse("src/main/resources/input_form.ql");
+			UIQuestionnaire uiQuestionnaire = astTransformer.transform(questionnaire);
 			setUpQuestionnaireUI(uiQuestionnaire, grid);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -69,24 +67,23 @@ public class QLUI extends Application {
 		Scene scene = new Scene(scrollPane, 700, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+
 		typeErrors = questionnaireParsingService.getTypeErrors();
-		
-		//TODO: remove hard coding of position error area
+
+		// TODO: remove hard coding of position error area
 		grid.add(new Label("Type Checker errors:"), 0, 10);
 		TextArea typeCheckerMessages = new TextArea();
 		grid.add(typeCheckerMessages, 0, 11);
 		typeCheckerMessages.setEditable(false);
 		typeCheckerMessages.setStyle("-fx-text-fill: red;");
-		
+
 		for (TypeError typeError : typeErrors) {
-			typeCheckerMessages.appendText(typeError.getName() + ": " + typeError.getTypeErrorText() + " (line: " + typeError.getLine() + ", character: " + typeError.getCharacter() + ")");
+			typeCheckerMessages.appendText(typeError.getName() + ": " + typeError.getTypeErrorText());
 			typeCheckerMessages.appendText("\n");
 		}
 	}
 
-	private void setUpQuestionnaireUI(UIQuestionnaire questionnaire,
-			GridPane grid) {
+	private void setUpQuestionnaireUI(UIQuestionnaire questionnaire, GridPane grid) {
 		Text scenetitle = new Text(questionnaire.getName());
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
@@ -99,8 +96,7 @@ public class QLUI extends Application {
 			Question question = uiQuestion.getQuestion();
 			DataType dataType = question.getDataType();
 			grid.add(new Label(question.getQuestionText()), 0, y);
-			if (question.getCondition() != null)
-			{
+			if (question.getCondition() != null) {
 				initializeDisabled = true;
 			}
 			switch (dataType) {
