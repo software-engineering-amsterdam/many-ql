@@ -1,46 +1,45 @@
 package gui.observer;
 
-import gui.Controller;
+import gui.Widget;
 
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JComponent;
-
 import cons.Value;
+import cons.ValueEnvironment;
 import cons.ql.ast.Expression;
-import cons.ql.ast.statement.If;
 import cons.ql.ast.visitor.evaluator.Evaluator;
 import cons.value.BooleanValue;
 
-public class IfObserver implements Observer {
-	
+@SuppressWarnings("rawtypes")
+public class IfObserver implements Observer {	
 	private final Expression expression;
-	private final Controller controller;
-	private final JComponent ifComponent, elseComponent;
+	private final ValueEnvironment valueEnvironment;
+	private final Widget ifPanel, elsePanel;
 	
-	public IfObserver(Expression expression, Controller controller, JComponent ifComponent, JComponent elseComponent) {
+	public IfObserver(Expression expression, ValueEnvironment valueEnvironment, Widget ifPanel, Widget elsePanel) {
 		this.expression = expression;
-		this.controller = controller;
-		this.ifComponent = ifComponent;
-		this.elseComponent = elseComponent;
+		this.valueEnvironment = valueEnvironment;
+		this.ifPanel = ifPanel;
+		this.elsePanel = elsePanel;
 	}
-	public IfObserver(Expression expression, Controller controller, JComponent ifComponent) {
-		this(expression, controller, ifComponent, null);
+	
+	public IfObserver(Expression expression, ValueEnvironment valueEnvironment, Widget ifComponent) {
+		this(expression, valueEnvironment, ifComponent, null);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		try {
 			// Recalculate the value for this computedQuestion
-			Value value = expression.accept(new Evaluator(controller.getValueEnvironment()));	
+			Value value = Evaluator.check(expression, valueEnvironment);	
 			System.out.println(value);
 			
 			boolean visible = ((BooleanValue)value).getValue();
-			this.ifComponent.setVisible(visible);
+			ifPanel.getComponent().setVisible(visible);
 				
-			if (elseComponent != null) {
-				this.elseComponent.setVisible(!visible);
+			if (elsePanel != null) {
+				elsePanel.getComponent().setVisible(!visible);
 			}
 		}
 		catch (UnsupportedOperationException e) {

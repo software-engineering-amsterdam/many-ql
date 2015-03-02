@@ -1,5 +1,8 @@
 package gui.widget;
 
+import java.awt.Component;
+
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -11,11 +14,13 @@ public class Panel extends Widget<UndefinedValue> {
 	
 	public Panel() {
 		this.panel = new JPanel();
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public void addComponent(Widget component) {
 		panel.add(component.getComponent());
+		component.getComponent().setAlignmentX(Component.LEFT_ALIGNMENT);
 	}
 	
 	@Override

@@ -20,12 +20,12 @@ public class Label extends Widget<StringValue> {
 	}
 	
 	@Override
-	public JComponent getComponent() {
-		return labelComponent;
-	}
-
-	@Override
 	public StringValue getValue() {
 		return new StringValue(labelComponent.getText());
 	}
+	
+	@Override
+	public JComponent getComponent() {
+		return labelComponent;
+	}	
 }

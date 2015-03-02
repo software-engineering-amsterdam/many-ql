@@ -1,5 +1,8 @@
 package gui.widget;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import gui.Widget;
 
 import javax.swing.JComponent;
@@ -9,19 +12,22 @@ import javax.swing.event.ChangeListener;
 
 import cons.value.BooleanValue;
 
-public class RadioButton extends Widget<BooleanValue> implements ChangeListener {	
+public class RadioButton extends Widget<BooleanValue> implements ActionListener {	
 	private JRadioButton radioButton;
 	private BooleanValue booleanValue;
 
 	public RadioButton() {
-		radioButton = new JRadioButton();
+		this.booleanValue = new BooleanValue(false);
+		this.radioButton = new JRadioButton();
+		this.radioButton.addActionListener(this);
 	}
 	
 	public RadioButton(BooleanValue booleanValue) {
 		this.booleanValue = booleanValue;
 		
-		radioButton = new JRadioButton();		
-		radioButton.setSelected(this.booleanValue.getValue());
+		this.radioButton = new JRadioButton();		
+		this.radioButton.setSelected(this.booleanValue.getValue());
+		this.radioButton.addActionListener(this);
 	}
 	
 	@Override
@@ -44,7 +50,7 @@ public class RadioButton extends Widget<BooleanValue> implements ChangeListener 
 	}
 
 	@Override
-	public void stateChanged(ChangeEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		setChanged();
 		notifyObservers();
 	}
