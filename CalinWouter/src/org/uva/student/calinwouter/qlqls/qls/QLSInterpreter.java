@@ -194,6 +194,8 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
                         "\t), default(boolean, {widget: radio(\"Yes\", \"No\")})\n" +
                         ")";
 
-        InterpreterHelper.interpetStylesheetString(input);
+        System.out.println(input);
+
+        //InterpreterHelper.interpetStylesheetString(input);
     }
 }
