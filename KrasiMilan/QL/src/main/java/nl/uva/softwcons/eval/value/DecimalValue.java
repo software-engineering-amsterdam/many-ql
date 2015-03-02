@@ -12,10 +12,6 @@ public class DecimalValue extends Value {
         return this.value;
     }
 
-    public BigDecimal getDecimalValue() {
-        return this.value;
-    }
-
     public DecimalValue(BigDecimal value) {
         this.value = value;
     }
@@ -84,7 +80,7 @@ public class DecimalValue extends Value {
     }
 
     protected DecimalValue subInt(IntegerValue value) {
-        return new DecimalValue(value.getDecimalValue().subtract(this.value));
+        return new DecimalValue(value.asDecimal().subtract(this.value));
     }
 
     protected DecimalValue mulInt(IntegerValue value) {
@@ -92,7 +88,7 @@ public class DecimalValue extends Value {
     }
 
     protected DecimalValue divInt(IntegerValue value) {
-        return new DecimalValue(value.getDecimalValue().divide(this.value));
+        return new DecimalValue(value.asDecimal().divide(this.value));
     }
 
     @Override
