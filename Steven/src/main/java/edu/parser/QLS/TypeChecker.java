@@ -36,9 +36,8 @@ public class TypeChecker implements QLSVisitor {
     private void confirmQuestionsExistInForm(List<edu.parser.QL.nodes.question.Question> formQuestions) {
         List<Question> notFoundQuestions = stylesheetQuestions.stream()
                 .filter(stylesheetQuestion ->
-                                formQuestions.stream()
-                                        .noneMatch(doesFormQuestionsContainStylesheetQuestion(stylesheetQuestion))
-                )
+                        formQuestions.stream()
+                                .noneMatch(doesFormQuestionsContainStylesheetQuestion(stylesheetQuestion)))
                 .collect(Collectors.toList());
 
         if (!notFoundQuestions.isEmpty()) {
