@@ -25,6 +25,7 @@ public class LabelWithWidgetWidget implements IWidget {
         final Label fieldLabel = new Label();
         labelWithWidgetWidget = new JPanel();
         labelWithWidgetWidget.add(fieldLabel);
+        System.out.println(widget.getClass());
         labelWithWidgetWidget.add(widget.getWidget());
 
         if (widgetSettingsModel != null) {

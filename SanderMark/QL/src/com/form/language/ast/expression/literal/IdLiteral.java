@@ -11,8 +11,8 @@ import com.form.language.ast.values.StringValue;
 import com.form.language.memory.Memory;
 
 public class IdLiteral extends Literal implements Expression {
-	private final String _value;
-	private Type _type;
+	public final String _value;
+	public Type _type;
 	
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);

@@ -1,32 +1,28 @@
 package com.klq.typecheker;
 
 import com.klq.ast.ANode;
+import com.klq.ast.IExpressionVisitor;
+import com.klq.ast.IStatementVisitor;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.QuestionnaireNode;
-import com.klq.ast.impl.expr.DateNode;
-import com.klq.ast.impl.expr.IdentifierNode;
-import com.klq.ast.impl.expr.NumberNode;
-import com.klq.ast.impl.expr.StringNode;
+import com.klq.ast.impl.expr.*;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.logic.question.Type;
-import com.klq.typecheker.error.AError;
-import com.klq.typecheker.error.InvalidCondition;
-import com.klq.typecheker.error.NotAnError;
-import com.klq.typecheker.error.QuestionIDReference;
+import com.klq.typecheker.error.*;
 
 import java.util.ArrayList;
 
 /**
- * Created by Juriaan on 1-3-2015.
+ * Created by juriaan on 2-3-15.
  */
-public class TypeCheckerVisitor implements IVisitor<AError> {
+public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementVisitor<Void> {
     private ArrayList<AError> errors;
     private QuestionTable table;
 
@@ -35,175 +31,161 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
         this.table = table;
     }
 
-    public ArrayList<AError> getErrors() {//TODO make a collection class that contains all the errors. This class extends AError so that we can pass it through here. First discuss with Vadim/Thijs
-        return errors;
-    }
     /*==================================================================================================================
-    Statements
+        Statements
     ==================================================================================================================*/
     @Override
-    public AError visit(QuestionnaireNode node) {
+    public Void visit(QuestionnaireNode node) {
         for(ANode child : node.getChildren()){
-            AError error = child.accept(this);
-            if(error != null) errors.add(error);
+            child.accept(this);
         }
         return null;
     }
 
     @Override
-    public AError visit(QuestionNode node) {
+    public Void visit(QuestionNode node) {
         return null;
     }
 
-    //TODO refactor and test this crappy code
     @Override
-    public AError visit(ComputedQuestionNode node) {
-        //return node.getChild().accept(this);
+    public Void visit(ComputedQuestionNode node) {
+        if(node.getQuestionType() == Type.SET) {
+            for (ANode child : node.getChildren()) {
+                child.accept(this);
+            }
+        }
+        else{
+            Type childType = (Type) node.getChildren().get(0).accept(this);
+            if(childType != node.getQuestionType()){
+                errors.add(new TypeMismatch(node, childType));
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visit(ConditionalNode node) {
+        if(node.getCondition() instanceof ABooleanNode) {
+            node.getCondition().accept(this);
+        }
+        else{
+            errors.add(new InvalidCondition(node));
+        }
+
         for(ANode child : node.getChildren()){
-            AError childError = child.accept(this);
-
-            if(childError != null){ //if there is an error in a child return that.
-                return child.accept(this);
-            }
-            else if(node.getChildren().get(node.getChildren().size() - 1) == child){ //if we have reached the last child and it has no errors, return no errors found
-                return null;
-            }
+            child.accept(this);
         }
         return null;
     }
 
-    //TODO refactor and test this crappy code
-    @Override
-    public AError visit(ConditionalNode node) {
-        if(node.getCondition() instanceof ABooleanNode){
-            AError condition = node.getCondition().accept(this);
-
-            if(condition == null){ //if no error in the condition expression continue
-                for(ANode child : node.getChildren()){
-                    AError childError = child.accept(this);
-
-                    if(childError != null){ //if there is an error in a child return that.
-                        return child.accept(this);
-                    }
-                    else if(node.getChildren().get(node.getChildren().size() - 1) == child){ //if we have reached the last child and it has no errors, return no errors found
-                        return null;
-                    }
-                }
-            }else{
-                return condition;
-            }
-        }
-        return new InvalidCondition(node);
-    }
     /*==================================================================================================================
     Primitives
     ==================================================================================================================*/
     @Override
-    public AError visit(StringNode node) {
-        //return new NotAnError(node, Type.STRING);
-        return null;
+    public Type visit(StringNode node) {
+        return Type.STRING;
     }
 
     @Override
-    public AError visit(NumberNode node) {
-        //return new NotAnError(node, Type.NUMERAL);
-        return null;
+    public Type visit(NumberNode node) {
+        return Type.NUMERAL;
     }
 
     @Override
-    public AError visit(DateNode node) {
-        //return new NotAnError(node, Type.DATE);
-        return null;
+    public Type visit(DateNode node) {
+        return Type.DATE;
     }
 
     @Override
-    public AError visit(ANode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(IdentifierNode node) {
+    public Type visit(IdentifierNode node) {
         if(table.has(node.getIdentifier())){
-            //return new NotAnError(node, table.getQuestionType(node.getIdentifier()));
+            return table.getQuestionType(node.getIdentifier());
+        }
+        else {
+            errors.add(new QuestionIDReference(node));
             return null;
         }
-        return new QuestionIDReference(node);
+    }
+
+    @Override
+    public Type visit(ANode node) {
+        return null;
     }
 
     /*==================================================================================================================
     Expressions - Mathematical
     ==================================================================================================================*/
     @Override
-    public AError visit(MultiplyNode node) {
-        return null;
+    public Type visit(MultiplyNode node) {
+        return visitBinaryNode(node, "*");
     }
 
     @Override
-    public AError visit(DivideNode node) {
-        return null;
+    public Type visit(DivideNode node) {
+        return visitBinaryNode(node, "/");
     }
 
     @Override
-    public AError visit(AddNode node) {
-        return null;
+    public Type visit(AddNode node) {
+        return visitBinaryNode(node, "+");
     }
 
     @Override
-    public AError visit(SubtractNode node) {
-        return null;
+    public Type visit(SubtractNode node) {
+        return visitBinaryNode(node, "-");
     }
 
     /*==================================================================================================================
     Expressions - Boolean
     ==================================================================================================================*/
     @Override
-    public AError visit(GreaterThanNode node) {
-        AError leftChild = node.getLeftChild().accept(this);
-        AError rightChild = node.getRightChild().accept(this);
+    public Type visit(GreaterThanNode node) {
+        return visitBinaryNode(node, ">");
+    }
 
-        if(leftChild == null && rightChild == null){
-            return null;
+    @Override
+    public Type visit(GreaterEqualsNode node) {
+        return visitBinaryNode(node, ">=");
+    }
+
+    @Override
+    public Type visit(LessThanNode node) {
+        return visitBinaryNode(node, "<");
+    }
+
+    @Override
+    public Type visit(LessEqualsNode node) {
+        return visitBinaryNode(node, "<=");
+    }
+
+    @Override
+    public Type visit(EqualsNode node) {
+        return visitBinaryNode(node, "==");
+    }
+
+    @Override
+    public Type visit(NotEqualsNode node) {
+        return visitBinaryNode(node, "!=");
+    }
+
+    @Override
+    public Type visit(AndNode node) {
+        return visitBinaryNode(node, "&&");
+    }
+
+    @Override
+    public Type visit(OrNode node) {
+        return visitBinaryNode(node, "||");
+    }
+
+    private Type visitBinaryNode(ABinaryExprNode node, String operator){
+        Type leftChild = (Type) node.getLeftChild().accept(this);
+        Type rightChild = (Type) node.getRightChild().accept(this);
+
+        if(leftChild != rightChild){
+            errors.add(new Incomparable(node, operator, leftChild, rightChild));
         }
-        else if(rightChild == null){
-            return leftChild;
-        }
-        else{
-            return rightChild;
-        }
-    }
 
-    @Override
-    public AError visit(GreaterEqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(LessThanNode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(LessEqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(EqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(NotEqualsNode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(AndNode node) {
-        return null;
-    }
-
-    @Override
-    public AError visit(OrNode node) {
-        return null;
+        return leftChild;
     }
 }

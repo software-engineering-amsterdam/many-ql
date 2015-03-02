@@ -24,12 +24,27 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 
         public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
-            return DataType.Integer;
+            DataType leftType = Left.GetType(symbolTable);
+            DataType rightType = Right.GetType(symbolTable);
+
+            if (leftType == DataType.Integer && rightType == DataType.Integer)
+            {
+                return DataType.Integer;
+            }
+            else if (leftType == DataType.String && rightType == DataType.String)
+            {
+                return DataType.String;
+            }
+            else
+            {
+                return DataType.Undefined;
+            }
         }
 
         public override bool OperandTypesAreValid(DataType left, DataType right)
         {
-            return(left == DataType.Integer && right == DataType.Integer);
+            return(left == DataType.Integer && right == DataType.Integer)
+                || (left == DataType.String && right == DataType.String);
         }
     }
 }

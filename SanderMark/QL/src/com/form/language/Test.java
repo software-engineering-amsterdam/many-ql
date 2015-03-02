@@ -20,18 +20,12 @@ public class Test {
 	public static void main(String[] args) {
 		
 		CharStream charStream = 
-				new ANTLRInputStream("form taxOfficeExample {"
-  + "xX := Boolean true \n"						
-  + "question \"Did you sell a house in 2010?\" hasSoldHouse : Boolean"
-  + "question \"Did you buy a house in 2010?\"  hasBoughtHouse : Boolean"
-  + "question \"Did you enter a loan?\" hasMaintLoan : Boolean"
-  + "if hasSoldHouse == true && hasBoughtHouse then bla end"
-  + "}");
+				new ANTLRInputStream("hasSoldHouse == true && hasBoughtHouse == true");
 	
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
-		Form evaluator = parser.form().result;
+		Expression evaluator = parser.expression().result;
 		//System.out.println((evaluator.getType()));
 		
 		Memory m = new Memory();		

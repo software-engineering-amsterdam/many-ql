@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.TypeToWidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Default;
 
@@ -7,8 +8,8 @@ public abstract class AbstractComponent<T> extends AbstractModel<T> {
     protected TypeToWidgetSettingsModel typeToWidgetSettingsModel;
     protected AbstractComponent<?> parent;
 
-    public AbstractComponent() {
-        super();
+    public AbstractComponent(QLSInterpreter qlsInterpreter) {
+        super(qlsInterpreter);
         typeToWidgetSettingsModel = new TypeToWidgetSettingsModel();
     }
 

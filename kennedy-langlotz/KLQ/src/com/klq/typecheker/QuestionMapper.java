@@ -26,10 +26,6 @@ public class QuestionMapper implements IVisitor<Void> {
         this.table = table;
     }
 
-    public QuestionTable getTable() {
-        return table;
-    }
-
     @Override
     public Void visit(QuestionnaireNode node) {
         for(ANode child : node.getChildren()){
