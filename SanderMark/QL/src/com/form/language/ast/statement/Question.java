@@ -85,10 +85,9 @@ public class Question implements Statement {
 	}
 
 	@Override
-	public void fillMemory(Memory memory) {
-		//Check! niet echt netjes?		
+	public void fillMemory(Memory memory) {		
+		memory.addId(new IdLiteral(id,questionType,memory,null));
 		
-		new IdLiteral(id,questionType,memory,null);
 	}	
 	
 	

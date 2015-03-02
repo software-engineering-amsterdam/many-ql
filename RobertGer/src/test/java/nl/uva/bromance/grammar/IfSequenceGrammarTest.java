@@ -94,7 +94,7 @@ public class IfSequenceGrammarTest extends GrammarTest {
     public void elseIfStatementWithoutPrecedingIfStatement() throws IOException {
         String content = "Name: \"Tax\" {\n" +
                 "    Form: \"default\" {\n" +
-                "\n     Else If: something{}" +
+                CORRECT_ELSE_IF +
                 "    }}";
 
         expectedException.expect(GrammarErrorListener.SyntaxError.class);
@@ -108,6 +108,19 @@ public class IfSequenceGrammarTest extends GrammarTest {
                 "    Form: \"default\" {\n" +
                 CORRECT_IF +
                 "\n     Else If: something{}" +
+                "    }}";
+        expectedException.expect(GrammarErrorListener.SyntaxError.class);
+
+        walker.walk(listener, createTree(content));
+
+    }
+
+    @org.junit.Test
+    public void elseIfWithoutExpression() throws IOException {
+        String content = "Name: \"Tax\" {\n" +
+                "    Form: \"default\" {\n" +
+                CORRECT_IF +
+                "\n     Else If: {}" +
                 "    }}";
         expectedException.expect(GrammarErrorListener.SyntaxError.class);
 

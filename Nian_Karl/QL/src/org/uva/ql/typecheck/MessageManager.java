@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.uva.ql.typecheck.message.Error;
 import org.uva.ql.typecheck.message.Warning;
 
-public class MessageManager {
+public class MessageManager{
 	
 	private final ArrayList<Error> errors;
 	private final ArrayList<Warning> warnings;
