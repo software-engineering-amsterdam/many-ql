@@ -12,7 +12,7 @@ namespace QL.Model.Operators
 
         public override Type GetReturnType()
         {
-            return Left.GetType();
+            return Left.GetReturnType();
         }
     }
 }

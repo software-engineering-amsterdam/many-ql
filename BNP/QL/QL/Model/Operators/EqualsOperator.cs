@@ -13,7 +13,7 @@ namespace QL.Model.Operators
 
         public override Type GetReturnType()
         {
-            return (new Yesno()).GetType();
+            return (new Yesno()).GetReturnType();
         }
     }
 }
