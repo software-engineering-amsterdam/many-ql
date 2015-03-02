@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import com.form.language.ast.statement.Statement;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 
 public class Form  {
 	public String id;
@@ -45,5 +46,11 @@ public class Form  {
 		for(Statement s: statementList){
 			s.getErrors(errs);
 		}
+	}
+	public void fillMemory(Memory memory){
+		for(Statement s: statementList){
+			s.fillMemory(memory);			
+		}
+		
 	}
 }

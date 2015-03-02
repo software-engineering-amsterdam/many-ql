@@ -31,3 +31,4 @@ class TypeChecker():
         for listener in self.listeners:
             for err in listener.errors:
                 print err
+                print "\n"

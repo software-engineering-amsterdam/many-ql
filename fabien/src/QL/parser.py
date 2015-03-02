@@ -124,17 +124,20 @@ def p_operand_expression(p):
 
 
 def p_unary_minus_expression(p):
-    '''expr : '-' expr %prec UMINUS'''
-    p[0] = nodes.UnaryExpression(p[2], 'MIN')
+    '''expr : '-' ID %prec UMINUS
+            | '-' NUMBER %prec UMINUS
+    '''
+    p[0] = nodes.UnaryExpression(p, p[2], 'MIN')
 
 
 def p_not_expression(p):
-    '''expr : '!' expr %prec NOT'''
-    p[0] = nodes.UnaryExpression(p[2], 'NOT')
+    '''expr : '!' ID %prec NOT'''
+    p[0] = nodes.UnaryExpression(p, p[2], 'NOT')
 
 
 def p_error(p):
     raise ParseError(p)
+
 
 class Parser:
     def __init__(self, debug=0):

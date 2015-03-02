@@ -1,10 +1,4 @@
-package visitor
-
-import (
-	"log"
-
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
-)
+package ast
 
 // Visitor is the data structure which converts QLS AST into a set of hash maps
 // used by the GUI frontend.
@@ -12,8 +6,8 @@ type Visitor struct {
 	defaults map[string]string
 }
 
-// New is the constructor for Visitor
-func New() *Visitor {
+// NewVisitor is the constructor for QLS Visitor
+func NewVisitor() *Visitor {
 	return &Visitor{
 		defaults: make(map[string]string),
 	}
@@ -26,20 +20,12 @@ func (v *Visitor) Defaults() map[string]string {
 }
 
 // Visit is the Visitor pattern implementation
-func (v *Visitor) Visit(node interface{}) {
-	switch t := node.(type) {
-	default:
-		log.Fatalf("unexpected style node type. got: %T", t)
-	case *ast.StyleNode:
-		v.styleNode(node.(*ast.StyleNode))
-	case *ast.ActionNode:
-		v.actionNode(node.(*ast.ActionNode))
-	case *ast.DefaultNode:
-		v.defaultNode(node.(*ast.DefaultNode))
-	}
+func (v *Visitor) Visit(node Acceptable) {
+	node.Accept(v)
 }
 
-func (v *Visitor) styleNode(node *ast.StyleNode) {
+// StyleNode is the root node for QLS trees
+func (v *Visitor) StyleNode(node *StyleNode) {
 	if node != nil {
 		actions := node.Stack()
 		for _, action := range actions {
@@ -48,11 +34,14 @@ func (v *Visitor) styleNode(node *ast.StyleNode) {
 	}
 }
 
-func (v *Visitor) actionNode(node *ast.ActionNode) {
-	v.Visit(node.Action())
+// ActionNode represents the ambiguous node which define page, section or
+// default
+func (v *Visitor) ActionNode(node *ActionNode) {
+	v.Visit(node.Action().(Acceptable))
 }
 
-func (v *Visitor) defaultNode(node *ast.DefaultNode) {
+// DefaultNode defines a default widget for a question type
+func (v *Visitor) DefaultNode(node *DefaultNode) {
 	v.setDefaultFor(node.QuestionType(), node.Widget())
 }
 
