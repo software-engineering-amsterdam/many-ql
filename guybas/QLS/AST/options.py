@@ -34,7 +34,9 @@ class Checkbox:
         self.options = options
 
     def pretty_print(self, level=0):
-        s = level * "   "
+        s = "    " * level + "Checkbox "
+        s += self.options.pretty_print()
+        s += "\n"
         return s
 
 
@@ -84,7 +86,7 @@ class DropDown(Options):
 
 class Widget:
     def __init__(self, widget):
-        self.widget = widget[0]
+        self.widget = widget
 
     def pretty_print(self, level=0):
         x = self.widget

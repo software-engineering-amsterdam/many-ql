@@ -1,7 +1,8 @@
-from Tests.grammar import *
-from Tests.ast import *
-from Tests.type_checker import *
-from Tests.evaluator import *
+import unittest
+from QL.Tests.grammar import *
+from QL.Tests.ast import *
+from QL.Tests.type_checker import *
+from QL.Tests.evaluator import *
 
 # Execute tests
 

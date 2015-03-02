@@ -10,7 +10,7 @@ question
     type : numeral
 end
 
-if question2 > 18 then
+if question2 > 5 then
     question
         id : question3
         text : "On what date is your birthday?"

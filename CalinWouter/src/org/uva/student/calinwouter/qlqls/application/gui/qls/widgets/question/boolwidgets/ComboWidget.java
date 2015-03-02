@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.b
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.TBool;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Combo;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import javax.swing.*;
@@ -10,26 +11,29 @@ import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class ComboboxWidget implements IWidget {
-    private JComboBox comboBox;
+public class ComboWidget implements IWidget {
+    private JComboBox yesNoComboBox;
 
     @Override
     public Component getWidget() {
-        return comboBox;
+        return yesNoComboBox;
     }
 
-    public ComboboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
-        final String[] comboBoxOptions = {"Yes", "No"};
-        comboBox = new JComboBox(comboBoxOptions);
+    public ComboWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter, Combo combo) {
+        yesNoComboBox = new JComboBox(new String[] {combo.getYesLbl(), combo.getNoLbl()});
+        yesNoComboBox.setSelectedIndex(-1);
 
-        comboBox.addItemListener(new ItemListener() {
+        yesNoComboBox.addItemListener( new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(comboBox.getSelectedItem().toString().equals("Yes")){
+                if (yesNoComboBox.getSelectedIndex() == 0) {
+                    System.out.println("true");
                     headlessFormInterpreter.setField(question.getFieldName(), new TBool(true));
-                } else {
-                    headlessFormInterpreter.setField(question.getFieldName(), new TBool(false));
+                    headlessFormInterpreter.interpret();
+                    return;
                 }
+                System.out.println("false");
+                headlessFormInterpreter.setField(question.getFieldName(), new TBool(false));
                 headlessFormInterpreter.interpret();
             }
         });

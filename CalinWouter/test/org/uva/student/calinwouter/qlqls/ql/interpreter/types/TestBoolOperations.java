@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.ql.types.TBool;
 
 import static org.junit.Assert.*;
 
-public class BoolOperations {
+public class TestBoolOperations {
 
     @Test
     public void testOr() {
