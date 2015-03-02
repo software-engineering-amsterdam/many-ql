@@ -49,6 +49,11 @@ public class Main {
 			+ "            }"
 			+ "        }"
 			+ "    }"
+			+ "    else {"
+			+ "        lol2: string {"
+			+ "	           \"This is the else\""
+			+ "        }"
+			+ "    }"
 			+ "}";
 	
     /**

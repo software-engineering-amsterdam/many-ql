@@ -21,6 +21,7 @@ import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.If;
+import cons.ql.ast.statement.IfElse;
 import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
@@ -31,7 +32,8 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 	private Controller controller;
 		
 	private ComponentCreator(Controller controller) {
-		this.pane = new JPanel(new MigLayout());
+		this.pane = new JPanel();
+		this.pane.setLayout(new MigLayout("insets 0, hidemode 3"));
 		this.controller = controller;
 	}
 	
@@ -62,19 +64,6 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
     	
 		return null;
 	}
-	
-	@Override
-	public Void visit(If ifNode) {
-		JPanel container = check(ifNode.getBlock(), controller);
-		IfObserver ifObserver = new IfObserver(ifNode, controller, container);
-		
-		controller.addGlobalObserver(ifObserver);
-		
-		pane.add(container);
-		
-		return null;
-	}
-
 	@Override
 	public Void visit(Question questionNode) {
 		addLabel(questionNode.getText().toString(), pane);
@@ -84,6 +73,37 @@ public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisit
 		controller.putComponent(questionNode.getIdentifier(), comp);
 	    pane.add(comp.getComponent(), "wrap");
     	
+		return null;
+	}
+	
+	@Override
+	public Void visit(If ifNode) {
+		JPanel ifPanel = check(ifNode.getBlock(), controller);
+		IfObserver ifObserver = new IfObserver(ifNode.getExpression(), controller, ifPanel);
+		
+		controller.addGlobalObserver(ifObserver);
+		
+		ifPanel.setVisible(false);
+		
+		pane.add(ifPanel, "span");
+		
+		return null;
+	}
+
+	@Override
+	public Void visit(IfElse ifElseNode) {
+		JPanel ifPanel = check(ifElseNode.getIfBranch(), controller);
+		JPanel elsePanel = check(ifElseNode.getElseBranch(), controller);
+		IfObserver ifObserver = new IfObserver(ifElseNode.getExpression(), controller, ifPanel, elsePanel);
+		
+		controller.addGlobalObserver(ifObserver);		
+
+		ifPanel.setVisible(false);
+		elsePanel.setVisible(false);
+		
+		pane.add(ifPanel, "span");
+		pane.add(elsePanel, "span");
+		
 		return null;
 	}
 	
