@@ -24,63 +24,59 @@ public class DecimalValue extends Value {
         this.value = new BigDecimal(value);
     }
 
-    public DecimalValue(int value) {
-        this.value = new BigDecimal(value);
-    }
-
     @Override
     public BigDecimal asDecimal() {
         return value;
     }
 
     @Override
-    public String asString() {
+    public String toString() {
         return value.toString();
     }
 
     @Override
     public DecimalValue add(Value otherValue) {
-        return new DecimalValue(this.value.add(((DecimalValue) otherValue).getDecimalValue()));
+        return new DecimalValue(this.value.add(otherValue.asDecimal()));
     }
 
     @Override
     public DecimalValue subtract(Value otherValue) {
-        return new DecimalValue(this.value.subtract(((DecimalValue) otherValue).getDecimalValue()));
+        return new DecimalValue(this.value.subtract(otherValue.asDecimal()));
     }
 
     @Override
     public DecimalValue multiply(Value otherValue) {
-        return new DecimalValue(this.value.multiply(((DecimalValue) otherValue).getDecimalValue()));
+        return new DecimalValue(this.value.multiply(otherValue.asDecimal()));
     }
 
     @Override
     public DecimalValue divide(Value otherValue) {
-        return new DecimalValue(this.value.divide(((DecimalValue) otherValue).getDecimalValue()));
+        return new DecimalValue(this.value.divide(otherValue.asDecimal()));
     }
 
     @Override
     public BooleanValue isEqual(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) == 0);
+        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) == 0);
     }
 
     @Override
     public BooleanValue isGreater(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) > 0);
+        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) > 0);
     }
 
     @Override
     public BooleanValue isLower(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) < 0);
+        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) < 0);
     }
 
     @Override
     public BooleanValue isGreaterOrEqual(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) >= 0);
+        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) >= 0);
     }
 
     @Override
     public BooleanValue isLowerOrEqual(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(((DecimalValue) otherValue).getDecimalValue()) <= 0);
+        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) <= 0);
     }
 
     protected DecimalValue addInt(IntegerValue value) {
@@ -97,5 +93,10 @@ public class DecimalValue extends Value {
 
     protected DecimalValue divInt(IntegerValue value) {
         return new DecimalValue(value.getDecimalValue().divide(this.value));
+    }
+
+    @Override
+    public Value getValueFromString(String string) {
+        return new DecimalValue(new BigDecimal(string));
     }
 }

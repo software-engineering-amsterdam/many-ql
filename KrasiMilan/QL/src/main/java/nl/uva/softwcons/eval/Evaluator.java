@@ -47,6 +47,10 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void>, Exp
         this.changeListeners.put(questionId, listener);
     }
 
+    public void setQuestionValue(Identifier id, Value value) {
+        this.answers.setValue(id, value);
+    }
+
     @Override
     public Void visit(final Form form) {
         form.getStatements().forEach(st -> st.accept(this));

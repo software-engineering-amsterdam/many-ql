@@ -12,10 +12,9 @@ public class IntegerValue extends DecimalValue {
     }
 
     public IntegerValue(int value) {
-        super(value);
+        super(BigInteger.valueOf(value));
         BigInteger bigValue = BigInteger.valueOf(value);
         this.value = bigValue;
-
     }
 
     @Override
@@ -24,7 +23,7 @@ public class IntegerValue extends DecimalValue {
     }
 
     @Override
-    public String asString() {
+    public String toString() {
         return value.toString();
     }
 
@@ -50,23 +49,28 @@ public class IntegerValue extends DecimalValue {
 
     @Override
     public DecimalValue divide(Value otherValue) {
-        return ((IntegerValue) otherValue).divInt(this);
+        return ((DecimalValue) otherValue).divInt(this);
+    }
+
+    @Override
+    public Value getValueFromString(String string) {
+        return new IntegerValue(Integer.parseInt(string));
     }
 
     protected IntegerValue addInt(IntegerValue otherValue) {
-        return new IntegerValue(this.value.add((BigInteger) otherValue.getValue()));
+        return new IntegerValue(this.value.add(otherValue.asInteger()));
     }
 
     protected IntegerValue subInt(IntegerValue otherValue) {
-        return new IntegerValue(((BigInteger) otherValue.getValue()).subtract(this.value));
+        return new IntegerValue((otherValue.asInteger()).subtract(this.value));
     }
 
     protected IntegerValue mulInt(IntegerValue otherValue) {
-        return new IntegerValue(((BigInteger) otherValue.getValue()).multiply(this.value));
+        return new IntegerValue((otherValue.asInteger()).multiply(this.value));
     }
 
     protected IntegerValue divInt(IntegerValue otherValue) {
-        return new IntegerValue(((BigInteger) otherValue.getValue()).divide(this.value));
+        return new IntegerValue((otherValue.asInteger()).divide(this.value));
     }
 
 }
