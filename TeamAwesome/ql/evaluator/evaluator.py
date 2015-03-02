@@ -8,44 +8,56 @@ from ..ast.Visitor import Visitor as ASTVisitor
 from ..TypeRules import OperatorTable
 
 def createEvaluator(ast):
-	return Visitor().visit(ast.root)
+    return Visitor().visit(ast.root)
 
 class Evaluator(object):
-	def __init__(self):
-		self._questionTable = QuestionTable()
-		self._questionValueTable = QuestionValueTable()
-		self._operatorTable = OperatorTable()
+    def __init__(self):
+        self._questionTable = QuestionTable()
+        self._questionValueTable = QuestionValueTable()
+        self._operatorTable = OperatorTable()
 
-	def evaluateBinaryExpression(self, operator, leftValue, rightValue):
-		pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
-		if pythonOp:
-			return pythonOp(leftValue, rightValue)
-		return None
+    def evaluateBinaryExpression(self, operator, leftValue, rightValue):
+        pythonOp = self._operatorTable.getBinaryOperator(operator, type(leftValue), type(rightValue))
+        if pythonOp:
+            return pythonOp(leftValue, rightValue)
+        return None
 
-	def evaluateUnaryExpression(self, operator, value):
-		pythonOp = self._operatorTable.getUnaryOperator(operator, type(value))
-		if pythonOp:
-			return pythonOp(value)
-		return None
+    def evaluateUnaryExpression(self, operator, value):
+        pythonOp = self._operatorTable.getUnaryOperator(operator, type(value))
+        if pythonOp:
+            return pythonOp(value)
+        return None
 
-	def addValue(self, identifier, value):
-		question = self._questionTable.get(identifier)
-		if question:
-			self._questionValueTable.update(question, value)
+    def addValue(self, identifier, value):
+        question = self._questionTable.get(identifier)
+        if question:
+            self._questionValueTable.update(question, value)
 
-	def getValue(self, identifier):
-		question = self._questionTable.get(identifier)
-		return self._questionValueTable.get(question)
+    def getValue(self, identifier):
+        question = self._questionTable.get(identifier)
+        return self._questionValueTable.get(question)
 
-	def addQuestion(self, question):
-		self._questionTable.add(question)
-		self._questionValueTable.add(question)
+    def addQuestion(self, question):
+        self._questionTable.add(question)
+        self._questionValueTable.add(question)
 
-	def getQuestion(self, identifier):
-		return self._questionTable.get(identifier)
+    def getQuestion(self, identifier):
+        return self._questionTable.get(identifier)
 
-	def identifiers(self):
-		return self._questionTable.identifiers()
+    def getQuestionType(self, identifier):
+        return self._questionTable.getType(identifier)
+
+    def identifiers(self):
+        return self._questionTable.identifiers()
+
+    def questions(self):    
+        questions = []
+        for ident in self.identifiers():
+            question = self.getQuestion(ident)
+            if question:
+                questions.append(question)
+        return questions
+
 
 
 class Visitor(ASTVisitor):
@@ -64,9 +76,9 @@ class Visitor(ASTVisitor):
             child = self.visit(n)
 
     def _visitQuestionStatement(self, node):
-    	expr = self.visit(node.expr) if node.expr != None else None
-    	question = Question(node, self._conditionalStatements.copy(), self._currentForm, valueExpression = expr)
-    	self._evaluator.addQuestion(question)
+        expr = self.visit(node.expr) if node.expr != None else None
+        question = Question(node, self._conditionalStatements.copy(), self._currentForm, valueExpression = expr)
+        self._evaluator.addQuestion(question)
 
     def _visitIfStatement(self, node):
         expr = self.visit(node.expr)
@@ -88,7 +100,7 @@ class Visitor(ASTVisitor):
         return BinaryExpression(leftExpr, node.op, rightExpr, self._evaluator)
 
     def _visitIdentifier(self, node):
-       	return Identifier(node, self._evaluator)
+        return Identifier(node, self._evaluator)
 
     def _visitStr(self, node):
         return String(node)
@@ -101,23 +113,3 @@ class Visitor(ASTVisitor):
 
     def _visitBool(self, node):
         return Boolean(node)
-
-# TODO rename to something else?
-class PageStructure(object):
-	def __init__(self, evaluator):
-		self.evaluator = evaluator	
-		self.pages = []
-
-	def createDefaultPages(self):
-		self.pages = [Page(self.evaluator.identifiers())]
-
-	def getVisibleQuestions(self, pageNumber):
-		return self.pages[pageNumber].getQuestions(self.evaluator)
-
-class Page(object):
-	def __init__(self, questionIdentifiers):
-		self.questionIdentifiers = questionIdentifiers
-
-	def getQuestions(self, evaluator):
-		questions = [evaluator.getQuestion(identifier) for identifier in self.questionIdentifiers]
-		return [question for question in questions if question != None]	

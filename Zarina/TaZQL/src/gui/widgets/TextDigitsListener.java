@@ -1,19 +1,19 @@
 package gui.widgets;
 
-import gui.questions.IConnector;
+import interpreter.StringValue;
+import interpreter.ValueRepository;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class TextDigitsListener implements DocumentListener {
 	private final IWidgetComponent widget;
-	private String id = "";
 	private String value = "";
-	IConnector connect;
+	private final ValueRepository valueRepository;
 	
-	public TextDigitsListener(IWidgetComponent widget, String id) {
+	public TextDigitsListener(IWidgetComponent widget, ValueRepository valueRepository) {
 		this.widget = widget;
-		this.id = id;
+		this.valueRepository = valueRepository;
 	}
 	
 	@Override
@@ -33,17 +33,12 @@ public class TextDigitsListener implements DocumentListener {
 	
 	//@Override
 	public void update() {
-		//widget.addDocListener();
-		value = widget.getValue();
+		value = widget.getTextValue().toString();
+		StringValue stringValue = new StringValue(value);
+		
+		valueRepository.putID(widget.getIdWidget().toString(), stringValue);
 		widget.getWidget().revalidate();
 		widget.getWidget().repaint();
-		//widget.setValue(value);
-		System.out.println("Listener value: " + value + " , id: " + widget.getIdWidget());
-		//widget.setValue(widget.getValue());
-	}
-
-	public void updateV() {
-		connect.setValue(widget.getValue());
-		//System.out.println("Updating");
+		System.out.println("Listener value: " + valueRepository.getValueRepository() + " , id: " + widget.getIdWidget());
 	}
 }

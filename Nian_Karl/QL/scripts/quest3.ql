@@ -6,13 +6,20 @@ form SalarySurvey{
 	money: "How much do you earn?" Int
 	satisfied: "Are you satisfied with this? " Bool
 	playGames: "Do you like to play games?" Bool
-	isBoolean: "Is this is just a boolean?" Bool
+	isBoolean: "Is this just a boolean?" Bool
 	lastQuestion: "Is this the last Question of the day?" Bool
-	if(lastQuestion){
+	
+	if((-isBoolean == lastName) == !name){
 		doesWork: "Hey, an Ifstatement Question" Bool
-		statusInt: "How are you doing?" Int
 	} else {
 		statusInt: "How are you doing?" Int
 
+		if ((isBoolean + lastName) < name) {
+		}
+
+	}
+
+	if (isBoolean) {
+		isInt: "Is this a Int?" Bool
 	}
 }

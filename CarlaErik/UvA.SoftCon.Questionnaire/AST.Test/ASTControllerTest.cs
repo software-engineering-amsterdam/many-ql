@@ -38,7 +38,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
         {
             // Arrange
             var controller = new ASTController();
-            string ql = "string FavoriteColor \"What is your favorite color?\"";
+            string ql = "FavoriteColor \"What is your favorite color?\" string";
 
             // Act
             var form = controller.ParseQLString(ql);
@@ -125,7 +125,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements.First().Type);
+            Assert.IsInstanceOfType(form.Statements.First(), typeof(IfStatement));
             var ifStatement = form.Statements.First() as IfStatement;
             Assert.AreEqual<int>(1, ifStatement.Then.Count);
             Assert.AreEqual<int>(0, ifStatement.Else.Count);
@@ -144,7 +144,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
             // Assert
             Assert.IsNotNull(form, "Method ParseQLString should never return a null value.");
             Assert.AreEqual<int>(1, form.Statements.Count);
-            Assert.AreEqual<NodeType>(NodeType.IfStatement, form.Statements.First().Type);
+            Assert.IsInstanceOfType(form.Statements.First(), typeof(IfStatement));
             var ifStatement = form.Statements.First() as IfStatement;
             Assert.AreEqual<int>(1, ifStatement.Then.Count);
             Assert.AreEqual<int>(1, ifStatement.Else.Count);

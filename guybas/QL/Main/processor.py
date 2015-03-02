@@ -1,5 +1,5 @@
-from Main.mapper import *
-from AST.operators import *
+from QL.Main.mapper import *
+from QL.AST.operators import *
 
 
 class Processor:
@@ -12,19 +12,11 @@ class Processor:
         try:
             result = eval(expression, answers_dict)
             return result
-        except:
+        except Exception as e:
+            # print(e)
             return False
 
     @staticmethod
-    def extract_variables(expression):
-        vars = []
-        for e in expression:
-            if not isinstance(e, Variable):
-                continue
-            vars.append(str(e))
-        return vars
-
-    @staticmethod
-    def export_answers(answers_map, qGui):
+    def export_answers(answers_map, gui):
         print("done")
-        qGui.close()
+        gui.close()

@@ -42,5 +42,9 @@ func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
 		g.answerStack[objectName] = content
 	})
 
+	g.updateCallbacks[fieldName] = func(content string) {
+		newFieldPtr.Set("text", content)
+	}
+
 	return question
 }

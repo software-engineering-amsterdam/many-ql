@@ -33,13 +33,14 @@ type Gui struct {
 	appName        string
 	widgetDefaults map[string]string
 
-	mu          sync.Mutex
-	drawStack   []render
-	renderStack []render
-	answerStack map[string]string
-	sweepStack  map[string]bool
-	symbolTable map[string]qml.Object
-	rows        qml.Object
+	mu              sync.Mutex
+	drawStack       []render
+	renderStack     []render
+	answerStack     map[string]string
+	sweepStack      map[string]bool
+	symbolTable     map[string]qml.Object
+	rows            qml.Object
+	updateCallbacks map[string]func(v string)
 }
 
 // GUI creates the driver for Frontend process.
@@ -48,10 +49,11 @@ func GUI(appName string, widgetDefaults map[string]string) frontend.Inputer {
 		appName:        appName,
 		widgetDefaults: widgetDefaults,
 
-		renderEvent: make(chan render),
-		answerStack: make(map[string]string),
-		sweepStack:  make(map[string]bool),
-		symbolTable: make(map[string]qml.Object),
+		renderEvent:     make(chan render),
+		answerStack:     make(map[string]string),
+		sweepStack:      make(map[string]bool),
+		symbolTable:     make(map[string]qml.Object),
+		updateCallbacks: make(map[string]func(v string)),
 	}
 	return driver
 }
@@ -171,8 +173,7 @@ func (g *Gui) renderLoop() {
 				qml.Unlock()
 			case updateQuestion:
 				qml.Lock()
-				// todo(carlos): restore this
-				// g.updateQuestion(event.identifier, event.fieldType, event.content)
+				g.updateQuestion(event.identifier, event.fieldType, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()

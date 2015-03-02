@@ -1,43 +1,44 @@
 package com.form.language.memory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.form.language.ast.type.Type;
+import com.form.language.ast.expression.literal.IdLiteral;
+import com.form.language.ast.statement.Statement;
 
 public class Memory {
 	
-	private Map<String,Type> ids;
+	private List<IdLiteral> ids;
 	//private HashMap<String,GenericValue> values;
 	//private List<String> labels;
 			
 	public Memory()
 	{
-		ids = new HashMap<String, Type>();
+		ids = new ArrayList<IdLiteral>();
 		//values = new HashMap();
 		//labels = new List();
 	}
 	
-	public boolean Exists(String id)
+	public void addId(IdLiteral idLiteral)
 	{
-		return this.ids.containsKey(id);		
+		ids.add(idLiteral);
+		System.out.println(this);
 	}
-	public void addId(String id,Type _type)
+	
+	public int showMemory()
 	{
-		System.out.println(this.ids.size());
-		if(!Exists(id))
-		{
-			this.ids.put(id, _type);
-		}
-		else
-		{			
-			//Add error		
-		}
-		System.out.println(this.ids.size());
+		return this.ids.size();		
 	}
-	public Type getType(String id)
+	
+	public boolean containsId(String id)
 	{
-		return ids.get(id);
+		for(IdLiteral i: this.ids){
+			if(i._value.equals(id))		
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

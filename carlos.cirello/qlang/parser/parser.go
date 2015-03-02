@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"text/scanner"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 )
 
 var finalQuestionaire *ast.QuestionaireNode

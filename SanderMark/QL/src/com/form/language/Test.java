@@ -5,9 +5,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.CharStream;
 
+import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 import com.form.language.test.AstTest;
 
 import org.junit.runner.JUnitCore;
@@ -18,15 +20,24 @@ public class Test {
 	public static void main(String[] args) {
 		
 		CharStream charStream = 
-				new ANTLRInputStream("true + true == (2 == 2)");
+				new ANTLRInputStream("hasSoldHouse == true && hasBoughtHouse == true");
+	
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
 		Expression evaluator = parser.expression().result;
-		System.out.println((evaluator.getType()));
+		//System.out.println((evaluator.getType()));
+		
+		Memory m = new Memory();		
+		evaluator.fillMemory(m);
+		System.out.println(m.showMemory());
+			
 		ErrorCollector errors = new ErrorCollector();
 		evaluator.getErrors(errors);
 		errors.print();
+		
+		
+		
 //		Result result = JUnitCore.runClasses(AstTest.class);
 //	    for (Failure failure : result.getFailures()) {
 //	      System.out.println(failure.toString());

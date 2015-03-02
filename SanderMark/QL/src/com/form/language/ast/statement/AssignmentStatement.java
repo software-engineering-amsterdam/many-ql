@@ -3,18 +3,26 @@ package com.form.language.ast.statement;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 
 public class AssignmentStatement implements Statement {
-	public String name;
+	public String id;
+	public Type type;
 	public Expression expression;
+	private Token tokenInfo;
 	
-	public AssignmentStatement(String name, Expression expression) {
+	public AssignmentStatement(String id, Type type, Expression expression, Token tokenInfo) {
 		super();
-		this.name = name;
+		this.id = id;
+		this.type = type;
 		this.expression = expression;
+		this.tokenInfo = tokenInfo;
 	}
 
 	@Override
@@ -30,7 +38,14 @@ public class AssignmentStatement implements Statement {
 
 	@Override
 	public void getErrors(ErrorCollector errs) {
-		return;
+		expression.getErrors(errs);
+	}
+
+	@Override
+	public void fillMemory(Memory memory) {
+		// TODO Auto-generated method stub
+		//this.expression.fillMemory(memory);
+		memory.addId(new IdLiteral(id,type,memory,null));
 	}
 	
 	

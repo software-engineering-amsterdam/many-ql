@@ -39,24 +39,20 @@ class Checker(Checker.FullChecker):
                     self._typeOfLastExpression,
                     node.expr
                 ) 
-
-    def _visitAtomicExpression(self, node):
-        super()._visitAtomicExpression(node)
-
-        # Only in case of undeclared identifiers does this happen
-        if self._typeOfLastExpression is None:
-            self._result = self._result.withMessage(
-                Message.Error(
-                    'undeclared identifier '+node.left,
-                    node
-                )
-            )
-
+        
     def _visitIdentifier(self, node):
         self._typeOfLastExpression = typeOfIdentifier(
             node,
             self._ast.root
         )
+
+        if self._typeOfLastExpression is None:
+            self._result = self._result.withMessage(
+                Message.Error(
+                    'undeclared identifier '+node,
+                    node
+                )
+            )
         
     def _visitStr(self, node):
         self._typeOfLastExpression = str

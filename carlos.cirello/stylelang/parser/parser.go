@@ -7,7 +7,7 @@ import __yyfmt__ "fmt"
 import (
 	"text/scanner"
 
-	//"github.com/davecgh/go-spew/spew"
+	// "github.com/davecgh/go-spew/spew"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
 )
 
@@ -25,18 +25,20 @@ type qlsSymType struct {
 	position scanner.Position
 }
 
-const StylesheetToken = 57346
-const TextToken = 57347
-const NumericToken = 57348
+const DefaultToken = 57346
+const NumericToken = 57347
+const PageToken = 57348
 const QuotedStringToken = 57349
-const DefaultToken = 57350
+const StylesheetToken = 57350
+const TextToken = 57351
 
 var qlsToknames = []string{
+	"DefaultToken",
+	"NumericToken",
+	"PageToken",
+	"QuotedStringToken",
 	"StylesheetToken",
 	"TextToken",
-	"NumericToken",
-	"QuotedStringToken",
-	"DefaultToken",
 }
 var qlsStatenames = []string{}
 
@@ -51,44 +53,45 @@ var qlsExca = []int{
 	-2, 0,
 }
 
-const qlsNprod = 5
+const qlsNprod = 8
 const qlsPrivate = 57344
 
 var qlsTokenNames []string
 var qlsStates []string
 
-const qlsLast = 10
+const qlsLast = 20
 
 var qlsAct = []int{
 
-	8, 10, 6, 4, 9, 3, 2, 7, 5, 1,
+	5, 10, 10, 11, 11, 15, 9, 9, 17, 6,
+	4, 14, 12, 3, 2, 13, 16, 8, 7, 1,
 }
 var qlsPact = []int{
 
-	2, -1000, 0, -6, -1000, -8, -1000, -1000, -1, -4,
-	-1000,
+	6, -1000, 4, 0, -1000, -2, -1000, -1000, -1000, -1000,
+	3, 8, 2, -5, -1000, -1000, -3, -1000,
 }
 var qlsPgo = []int{
 
-	0, 9, 8, 7,
+	0, 19, 0, 18, 17,
 }
 var qlsR1 = []int{
 
-	0, 1, 2, 2, 3,
+	0, 1, 2, 2, 2, 2, 4, 3,
 }
 var qlsR2 = []int{
 
-	0, 5, 0, 2, 3,
+	0, 5, 0, 2, 2, 2, 5, 3,
 }
 var qlsChk = []int{
 
-	-1000, -1, 4, 5, 9, -2, 10, -3, 8, 5,
-	5,
+	-1000, -1, 8, 9, 10, -2, 11, -3, -4, 9,
+	4, 6, 9, 7, 9, 10, -2, 11,
 }
 var qlsDef = []int{
 
-	0, -2, 0, 0, 2, 0, 1, 3, 0, 0,
-	4,
+	0, -2, 0, 0, 2, 0, 1, 3, 4, 5,
+	0, 0, 0, 0, 7, 2, 0, 6,
 }
 var qlsTok1 = []int{
 
@@ -104,11 +107,11 @@ var qlsTok1 = []int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-	3, 3, 3, 9, 3, 10,
+	3, 3, 3, 10, 3, 11,
 }
 var qlsTok2 = []int{
 
-	2, 3, 4, 5, 6, 7, 8,
+	2, 3, 4, 5, 6, 7, 8, 9,
 }
 var qlsTok3 = []int{
 	0,
@@ -340,23 +343,45 @@ qlsdefault:
 	switch qlsnt {
 
 	case 1:
-		//line parser.y:38
+		//line parser.y:39
 		{
 			finalStyle = ast.NewStyleNode(qlsS[qlspt-3].content, qlsS[qlspt-1].stack)
 		}
 	case 3:
-		//line parser.y:44
+		//line parser.y:45
 		{
 			d := qlsS[qlspt-0].defaultNode
 			qs := qlsVAL.stack
-			action := ast.NewActionNode(d, qlsS[qlspt-0].position)
+			action := ast.NewActionNode(d)
 			qs = append(qs, action)
 			qlsVAL.stack = qs
 		}
 	case 4:
-		//line parser.y:55
+		//line parser.y:53
 		{
-			qlsVAL.defaultNode = ast.NewDefaultNode(qlsS[qlspt-2].content, qlsS[qlspt-1].content)
+			d := qlsS[qlspt-0].styleNode
+			qs := qlsVAL.stack
+			action := ast.NewActionNode(d)
+			qs = append(qs, action)
+			qlsVAL.stack = qs
+		}
+	case 5:
+		//line parser.y:61
+		{
+			qs := qlsVAL.stack
+			action := ast.NewActionNode(ast.NewQuestionNode(qlsS[qlspt-0].content))
+			qs = append(qs, action)
+			qlsVAL.stack = qs
+		}
+	case 6:
+		//line parser.y:71
+		{
+			qlsVAL.styleNode = ast.NewStyleNode(qlsS[qlspt-3].content, qlsS[qlspt-1].stack)
+		}
+	case 7:
+		//line parser.y:78
+		{
+			qlsVAL.defaultNode = ast.NewDefaultNode(qlsS[qlspt-1].content, qlsS[qlspt-0].content)
 		}
 	}
 	goto qlsstack /* stack new state and value */

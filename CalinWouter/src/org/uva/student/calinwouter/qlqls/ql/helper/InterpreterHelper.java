@@ -9,6 +9,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
+import org.uva.student.calinwouter.qlqls.qls.QLSTypeChecker;
 
 import java.io.IOException;
 import java.io.PushbackReader;
@@ -32,6 +33,17 @@ public class InterpreterHelper {
 
     public static QLSInterpreter interpetStylesheetString(String input) throws ParserException, IOException, LexerException {
         QLSInterpreter qlsInterpreter = new QLSInterpreter();
+        Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
+        Parser parser = new Parser(lexer);
+        Start ast = parser.parse();
+        PIdentList stylesheet = ((AStylesheetBegin) ast.getPBegin()).getIdentList();
+        stylesheet.apply(qlsInterpreter);
+        return qlsInterpreter;
+    }
+
+    // TODO Code duplication from previous method.
+    public static QLSInterpreter typeCheckStylesheetString(String input) throws ParserException, IOException, LexerException {
+        QLSTypeChecker qlsInterpreter = new QLSTypeChecker();
         Lexer lexer = new Lexer(new PushbackReader(new StringReader(input)));
         Parser parser = new Parser(lexer);
         Start ast = parser.parse();

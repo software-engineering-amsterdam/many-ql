@@ -1,23 +1,23 @@
 # AST for operators
-from Grammar.basic_types import *
+from QL.Grammar.basic_types import *
 
 
 # TODO: Put this in multiple files?
 class Element:
     def __init__(self):
-        pass
+        raise Exception("Not implemented by sub class")
 
     def return_type(self, type_dict):
-        pass
+        raise Exception("Not implemented by sub class")
 
     def pretty_print(self):
-        pass
+        raise Exception("Not implemented by sub class")
 
     def get_dependencies(self):
-        pass
+        raise Exception("Not implemented by sub class")
 
     def as_list(self):
-        pass
+        raise Exception("Not implemented by sub class")
 
 
 class Variable(Element):

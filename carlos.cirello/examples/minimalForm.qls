@@ -1,0 +1,8 @@
+stylesheet TheForm {
+	default bool radio
+
+	page "Page 1" {
+		default bool switch
+		p1q1
+	}
+}

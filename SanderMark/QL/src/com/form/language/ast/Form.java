@@ -8,6 +8,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.form.language.ast.statement.Statement;
+import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 
 public class Form  {
 	public String id;
@@ -25,18 +27,27 @@ public class Form  {
 	}
 
 	public JComponent createGUIComponent(JPanel panel) {
-		fPanel = new JPanel();
-		fPanel.setLayout(new BoxLayout(fPanel, BoxLayout.Y_AXIS));
-		
 		for(Iterator<Statement> s = this.statementList.iterator(); s.hasNext();)
 		{
 			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(fPanel);
+			JComponent component = statement.createGUIComponent(panel);
 			if(component != null)
 			{
-				fPanel.add(component);
+				panel.add(component);
 			}
 		}		
-		return fPanel;
+		return null;
+	}
+	
+	public void getErrors(ErrorCollector errs){
+		for(Statement s: statementList){
+			s.getErrors(errs);
+		}
+	}
+	public void fillMemory(Memory memory){
+		for(Statement s: statementList){
+			s.fillMemory(memory);			
+		}
+		
 	}
 }

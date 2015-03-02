@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IComputedValueWidgetCallback;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
@@ -18,7 +19,8 @@ public class ComputedValue extends AbstractFormField<ComputedValue> {
         iModel.caseComputedValue(this);
     }
 
-    public ComputedValue() {
+    public ComputedValue(QLSInterpreter qlsInterpreter) {
+        super(qlsInterpreter);
         stylingArguments = new HashMap<String, Object>();
     }
 }

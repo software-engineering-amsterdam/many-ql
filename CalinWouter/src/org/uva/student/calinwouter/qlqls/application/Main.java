@@ -1,9 +1,13 @@
 package org.uva.student.calinwouter.qlqls.application;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.FormRenderer;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
+import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
+import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.qls.QLSTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.BufferedReader;
@@ -47,30 +51,48 @@ public class Main {
         System.out.println("1 file arguments:       displays the QL form (first argument) using QLS (second argument).");
     }
 
+    private static void typeCheckQls(String ql, String qls) throws ParserException, IOException, LexerException {
+        FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+        QLSTypeChecker qlsTypeChecker = new QLSTypeChecker();
+
+        System.out.println("getFieldUsedMultipleTimes()");
+        System.out.println(qlsTypeChecker.getFieldUsedMultipleTimes());
+
+        System.out.println("getUnallowedFieldReferences()");
+        System.out.println(qlsTypeChecker.getUnallowedFieldReferences(formTypeChecker.getFieldNames()));
+
+        System.out.println("getUnallowedWidgetsTypes()");
+        System.out.println(qlsTypeChecker.getUnallowedWidgetsTypes(formTypeChecker.getFields()));
+
+        System.out.println("getUnreferencedFields()");
+        System.out.println(qlsTypeChecker.getUnreferencedFields(formTypeChecker.getFieldNames()));
+    }
+
     private static void executeQlQls(String ql, String qls) {
         try {
-            HeadlessFormInterpreter headlessFormInterpreter;
-            FormTypeChecker formTypeChecker;
-            StyleSheet styleSheet;
-
-            headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
-            formTypeChecker = InterpreterHelper.typeCheckString(ql);
-            styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(qls).getValue().getValue();
-
+            typeCheckQls(ql, qls);
+            HeadlessFormInterpreter headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
+            FormTypeChecker formTypeChecker = InterpreterHelper.typeCheckString(ql);
+            StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(qls).getValue().getValue();
             styleSheet.apply(new StyleSheetRenderer(headlessFormInterpreter, formTypeChecker));
             headlessFormInterpreter.interpret();
-
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-
     private static void executeQl(String ql) {
         try {
 
-            // TODO create GUI for QL.
+            HeadlessFormInterpreter headlessFormInterpreter;
+            FormTypeChecker formTypeChecker;
 
+            headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
+            formTypeChecker = InterpreterHelper.typeCheckString(ql);
+
+            FormRenderer formRenderer = new FormRenderer(headlessFormInterpreter, formTypeChecker);
+            headlessFormInterpreter.interpret();
+            formRenderer.render();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +102,7 @@ public class Main {
      * based on the results of QL. */
     public static void main(String[] args) throws IOException {
         printAbout();
-        if (args.length == 0) {
+        if (args.length == 1) {
             String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
             String qls = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/qls.txt");
@@ -91,8 +113,10 @@ public class Main {
             executeQlQls(ql, qls);
         } else if (args.length == 1 && args[0].equals("--help")) {
             printSyntax();
-        } else if (args.length == 1) {
-            executeQl(args[0]);
+        } else if (args.length == 0) {
+            String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
+            executeQl(ql);
         }
     }
 

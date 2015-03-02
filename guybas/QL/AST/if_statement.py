@@ -1,5 +1,5 @@
 # AST for if_block
-from AST.statement import *
+from QL.AST.statement import *
 
 
 class IfBlock(IStatement):

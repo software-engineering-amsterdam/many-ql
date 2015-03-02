@@ -14,7 +14,7 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/visitor"
+	qlsparser "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/parser"
 )
 
 func main() {
@@ -33,23 +33,23 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	srcReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
+	srcReader, styleReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
 	aQuestionaire := parser.ReadQL(srcReader, srcFn)
+
+	// todo(carlos): reorganize this part
+	var theStyle *ast.StyleNode
+	if styleReader != nil {
+		theStyle = qlsparser.ReadQLS(styleReader, srcFn+"s")
+	}
+	vstr := ast.NewVisitor()
+	vstr.Visit(theStyle)
+
 	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)
 
 	if inReader != nil {
 		csvReader := csvinput.New(fromInterpreter, toInterpreter, inReader)
 		csvReader.Read()
 	}
-
-	style := ast.NewStyleNode(
-		"defaultStyle",
-		[]*ast.ActionNode{
-			ast.NewActionNode(ast.NewDefaultNode("bool", "switch")),
-		},
-	)
-	vstr := visitor.New()
-	vstr.Visit(style)
 
 	driver := graphic.GUI(aQuestionaire.Label(), vstr.Defaults())
 	frontend.New(fromInterpreter, toInterpreter, driver)

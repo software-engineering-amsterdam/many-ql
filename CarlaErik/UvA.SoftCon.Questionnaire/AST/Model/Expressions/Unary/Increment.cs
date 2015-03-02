@@ -10,14 +10,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
 {
     public class Increment : UnaryExpression
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Increment;
-            }
-        }
-
         public Increment(Operation operation, IExpression operand, TextPosition position)
             :base(operation, operand, position)
         {
@@ -33,9 +25,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
             return visitor.Visit(this);
         }
 
-        public override DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Integer;
+        }
+
+        public override bool OperandTypeIsValid(DataType operandType)
+        {
+            return (operandType == DataType.Integer);
         }
 
         public override string ToString()
