@@ -10,6 +10,7 @@ import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.TextLocation;
 
 public class TypeChecker implements AstVisitor {
 
@@ -54,12 +55,16 @@ public class TypeChecker implements AstVisitor {
 			Expression rightHand = operatorExpression.getRightHand();
 			DataType leftHandDataType = determineDataType(leftHand);
 			DataType rightHandDataType = determineDataType(rightHand);
+			if (leftHandDataType.equals(DataType.UNDEFINED) || rightHandDataType.equals(DataType.UNDEFINED)) {
+				return DataType.UNDEFINED;
+			}
 			if (leftHandDataType.equals(rightHandDataType)) {
 				return leftHandDataType;
 			}
-			typeValidations.add(new TypeValidation("UnequalDataTypes",
-					"DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType + "righthand datatype="
-							+ rightHandDataType));
+			TextLocation textLocation = expression.getTextLocation();
+			String errorText = "DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType
+					+ " righthand datatype=" + rightHandDataType;
+			typeValidations.add(new TypeValidation(errorText, textLocation));
 			return DataType.UNDEFINED;
 		}
 		throw new RuntimeException("Unsupported type " + expression.getClass());

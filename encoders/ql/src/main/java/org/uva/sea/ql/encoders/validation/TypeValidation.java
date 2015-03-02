@@ -1,20 +1,23 @@
 package org.uva.sea.ql.encoders.validation;
 
+import org.uva.sea.ql.encoders.ast.TextLocation;
+
 public class TypeValidation {
 
-	private final String name;
 	private final String errorText;
 
-	public TypeValidation(String name, String errorText) {
-		this.name = name;
-		this.errorText = errorText;
-	}
+	private final TextLocation textLocation;
 
-	public String getName() {
-		return name;
+	public TypeValidation(String errorText, TextLocation textLocation) {
+		this.errorText = errorText;
+		this.textLocation = textLocation;
 	}
 
 	public String getTypeErrorText() {
 		return errorText;
+	}
+
+	public TextLocation getTextLocation() {
+		return textLocation;
 	}
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 
+import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 public class ValidationsUI {
@@ -28,7 +29,11 @@ public class ValidationsUI {
 		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 
 		for (TypeValidation typeValidation : typeValidations) {
-			typeCheckerMessages.appendText(typeValidation.getName() + ": " + typeValidation.getTypeErrorText());
+			TextLocation textLocation = typeValidation.getTextLocation();
+			typeCheckerMessages.appendText("line " + textLocation.getLine());
+			typeCheckerMessages.appendText(":" + textLocation.getCharPositionInLine());
+			typeCheckerMessages.appendText(" ");
+			typeCheckerMessages.appendText(typeValidation.getTypeErrorText());
 			typeCheckerMessages.appendText("\n");
 		}
 		ScrollPane scrollPane = new ScrollPane(grid);
