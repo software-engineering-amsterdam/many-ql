@@ -38,7 +38,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Test
         {
             // Arrange
             var controller = new ASTController();
-            string ql = "string FavoriteColor \"What is your favorite color?\"";
+            string ql = "FavoriteColor \"What is your favorite color?\" string";
 
             // Act
             var form = controller.ParseQLString(ql);
