@@ -26,6 +26,8 @@ public class HeadlessFormInterpreter extends FormInterpreter {
         return fields;
     }
 
+    public AForm getForm() { return form; }
+
     public String getLabelForField(String fieldName) throws LabelNotAvailableException {
         if (form == null) throw new IllegalStateException("No form was applied on the headless form interpreter.");
         for (FormField f : fields) {
