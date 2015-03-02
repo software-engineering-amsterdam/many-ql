@@ -110,6 +110,7 @@
     <Antlr4 Include="Grammar\QL.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>UvA.SoftCon.Questionnaire.QL.Grammar</CustomToolNamespace>
+      <Listener>False</Listener>
     </Antlr4>
     <None Include="packages.config" />
     <None Include="S:\StrongName\Questionnaire.snk">
