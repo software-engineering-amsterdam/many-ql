@@ -27,8 +27,8 @@ import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TypeError;
-import org.uva.sea.ql.encoders.model.RuntimeQuestion;
-import org.uva.sea.ql.encoders.model.RuntimeQuestionnaire;
+import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
+import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 

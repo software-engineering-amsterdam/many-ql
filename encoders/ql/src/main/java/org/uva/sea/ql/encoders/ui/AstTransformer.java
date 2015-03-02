@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
-import org.uva.sea.ql.encoders.model.RuntimeQuestion;
-import org.uva.sea.ql.encoders.model.RuntimeQuestionnaire;
+import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
+import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 
 public class AstTransformer {
 

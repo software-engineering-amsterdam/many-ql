@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.model;
+package org.uva.sea.ql.encoders.runtime;
 
 import java.util.List;
 
