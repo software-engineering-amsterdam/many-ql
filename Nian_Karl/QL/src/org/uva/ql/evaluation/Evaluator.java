@@ -33,28 +33,31 @@ import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Evaluator implements ExpressionVisitor<Value> {
 
-	private final Map<Identifier, Value> values;
+	private final Map<String, Value> values;
 
 	public Evaluator() {
-		values = new HashMap<Identifier, Value>();
+		values = new HashMap<String, Value>();
 	}
 
-
-	public void addValue(Identifier identifier, Value value) {
-		values.put(identifier, value);
+	public void addValue(String name, Value value) {
+		values.put(name, value);
 	}
 
-	/**
-	 * Get the value of specified identifier (if the value is not set yet,
-	 * return undefined value)
-	 */
-	public Value getValue(Identifier identifier) {
-		if (values.containsKey(identifier)) {
-			return values.get(identifier);
+	public boolean contains(String name) {
+		return values.containsKey(name);
+	}
+	
+	public Value getValue(String name) {
+		if (contains(name)) {
+			return values.get(name);
 		} else {
-			System.out.println("Identifier <" + identifier + "> does not exist.");
+			System.out.println("Question <" + name + "> does not exist.");
 			return new Undefined();
 		}
+	}
+	
+	public int countValues() {
+		return values.size();
 	}
 
 	public Value evaluate(Expression expr) {
@@ -162,7 +165,7 @@ public class Evaluator implements ExpressionVisitor<Value> {
 
 	@Override
 	public Value visit(Identifier node) {
-		return getValue(node);
+		return node.getValue(this);
 	}
 
 	@Override

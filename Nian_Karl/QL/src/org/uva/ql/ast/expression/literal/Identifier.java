@@ -2,16 +2,18 @@ package org.uva.ql.ast.expression.literal;
 
 import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.type.Type;
+import org.uva.ql.ast.value.Value;
+import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;
 import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Identifier extends Literal {
 
-	private final String value;
+	private final String name;
 
-	public Identifier(String value,CodePosition pos) {
+	public Identifier(String name,CodePosition pos) {
 		super(pos);
-		this.value = value;
+		this.name = name;
 	}
 	
 	@Override
@@ -19,19 +21,18 @@ public class Identifier extends Literal {
 		return visitor.visit(this);
 	}
 
-	@Override
-	public String getValue() {
-		return value;
+	public Value getValue(Evaluator evaluator) {
+		return evaluator.getValue(name);
 	}
 	
 	@Override
 	public String toString() {
-		return value;
+		return name;
 	}
 
 	@Override
 	public Type getType(TypeChecker typeChecker) {
-		return typeChecker.getType(this);
+		return typeChecker.getType(name);
 	}
 	
 }

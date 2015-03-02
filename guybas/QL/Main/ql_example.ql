@@ -26,7 +26,7 @@ else {
     Question check (bool) : Will this work?
 }
 
-if (con == True) {
+if (con == True and why == "True") {
     Question trans2 (bool) : Just a test?
 }
 else {

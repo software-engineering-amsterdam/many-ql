@@ -7,7 +7,7 @@ import org.uva.student.calinwouter.qlqls.generated.node.ABoolType;
 import org.uva.student.calinwouter.qlqls.generated.node.AIntType;
 import org.uva.student.calinwouter.qlqls.generated.node.AStringType;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 
 import java.awt.*;
 

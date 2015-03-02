@@ -2,7 +2,9 @@ package org.uva.ql.typecheck;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
@@ -37,16 +39,14 @@ import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typecheck.message.Error;
 import org.uva.ql.typecheck.message.Warning;
 import org.uva.ql.visitor.ExpressionVisitor;
 import org.uva.ql.visitor.QuestionnaireVisitor;
 import org.uva.ql.visitor.StatementVisitor;
-import org.uva.ql.visitor.Visitor;
 
-public class TypeChecker implements StatementVisitor<Void>,ExpressionVisitor<Void>,QuestionnaireVisitor<Void> {
+public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<Boolean>,QuestionnaireVisitor<Boolean> {
 
 	private final Map<String, Type> types;
 	private final ArrayList<String> labels;
@@ -58,24 +58,28 @@ public class TypeChecker implements StatementVisitor<Void>,ExpressionVisitor<Voi
 		messageManager = new MessageManager();
 	}
 
-// Type list	
-	public void addType(Identifier identifier, Type type) {
-		types.put(identifier.toString(), type);
+// Name-Type table	
+	public void addType(String name, Type type) {
+		types.put(name, type);
 	}
 	
-	public boolean isDeclared(Identifier identifier) {
-		return types.containsKey(identifier.toString());
-	}
-	
-	public Type getType(Identifier identifier) {
-		if (isDeclared(identifier)) {
-			return types.get(identifier.toString());
-		} else {
-			System.out.println("Identifier <" + identifier + "> does not exist.");
-			return null;
-		}
+	public Type getType(String name) {
+		return types.get(name);
 	}
 
+	public boolean isDeclared(String name) {
+		return types.containsKey(name);
+	}
+	
+	public void printAll() {
+		Set keys = types.keySet();
+		for (Iterator i = keys.iterator(); i.hasNext();) {
+			String name = (String) i.next();
+			String type = types.get(name).toString();
+			System.out.println(name + " " + type);
+		}
+	}
+	
 // Label list
 	public void addLabel(String label) {
 		labels.add(label);
@@ -84,8 +88,6 @@ public class TypeChecker implements StatementVisitor<Void>,ExpressionVisitor<Voi
 	public boolean hasLabel(String label) {
 		return labels.contains(label);
 	}
-	
-	
 	
 // Message Management	
 	public void addError(Error error) {
@@ -112,9 +114,8 @@ public class TypeChecker implements StatementVisitor<Void>,ExpressionVisitor<Voi
 		messageManager.printWarnings();
 	}
 	
-	
 // Checkers
-	public void checkLabel(QuestionNormal question) {
+	public boolean checkLabel(QuestionNormal question) {
 		String label = question.getLabel().getValue();
 		if (hasLabel(label)) {
 			Warning warning = new Warning(Warning.Type.DUPLICATE, question.getPosition().getStartLine(), label);
@@ -122,242 +123,302 @@ public class TypeChecker implements StatementVisitor<Void>,ExpressionVisitor<Voi
 		} else {
 			addLabel(label);
 		}
+		return true;
 	}
 	
-	public void checkReference(Identifier identifier) {
-		if (!isDeclared(identifier)) {
-			Error error = new Error(Error.Type.REFERENCE, identifier.getPosition().getStartLine(), identifier.toString());
-			messageManager.addError(error);
-		}
-	}
-
-	public void checkDeclaration(QuestionNormal question) {
-		if (isDeclared(question.getIdentifier())) {
+	public boolean checkDeclaration(QuestionNormal question) {
+		if (isDeclared(question.getIdentifier().toString())) {
 			Type thisType = question.getType();
-			Type expectType = getType(question.getIdentifier());
+			Type expectType = getType(question.getIdentifier().toString());
 			
-			if (thisType.isEqual(expectType) == false) {
+			if (!thisType.isEqual(expectType)) {
 				Error error = new Error(Error.Type.DECLARATION,
-			                            question.getIdentifier().getPosition().getStartLine(),
-			                            question.getIdentifier().toString());
+						question.getIdentifier().getPosition().getStartLine(),
+						question.getIdentifier().toString());
 				messageManager.addError(error);
+				return false;
 			}
 		} else {
-			System.out.println(question.getIdentifier().toString());
-			addType(question.getIdentifier(), question.getType());
+			addType(question.getIdentifier().toString(), question.getType());
 		}
+		return true;
 	}
 	
-	public void checkCondition(Expression expr) {
-		if (!expr.getType(this).isEqual(new BoolType())) {
-			Error error = new Error(Error.Type.CONDITION, expr.getPosition().getStartLine(),expr.toString());
+	public boolean checkReference(Identifier identifier) {
+		System.out.println(identifier.toString());
+		if (!isDeclared(identifier.toString())) {
+			Error error = new Error(Error.Type.REFERENCE, identifier.getPosition().getStartLine(), identifier.toString());
 			messageManager.addError(error);
+			return false;
 		}
-		
-		expr.accept(this);
+		return true;
 	}
 	
-	public void checkUnaryCondition(Unary unary) {
-		checkCondition(unary.getExpression());
-	}
-	
-	public void checkBinaryCondition(Binary binary) {
-		checkCondition(binary.getLeftExpression());
-		checkCondition(binary.getRightExpression());
-	}
-	
-	public void checkOperand(Expression expr) {
-		if (!expr.getType(this).isEqual(new IntType())) {
-			Error error = new Error(Error.Type.OPERAND, expr.getPosition().getStartLine(),expr.toString());
-			messageManager.addError(error);
+	public boolean checkSameBinary(Binary binary) {
+		Expression left = binary.getLeftExpression();
+		Expression right = binary.getRightExpression();
+		boolean result = true;
+		// Makse sure both side will be checked
+		boolean resultLeft = left.accept(this);
+		boolean resultRight = right.accept(this);
+		if (resultLeft && resultRight){
+			if (!left.getType(this).isEqual(right.getType(this))) {
+				Error error = new Error(Error.Type.CONDITION, right.getPosition().getStartLine(),right.toString());
+				messageManager.addError(error);
+				result = false;
+			}
+		} else {
+			System.out.println("CM: Expression <" + binary.toString() + "> has type error inside it.");
+			result = false;
 		}
-		
-		expr.accept(this);
+		return result;
+	}
+
+	public boolean checkBool(Expression expr) {
+		boolean result = true;
+		if (expr.accept(this)){
+			if (!expr.getType(this).isEqual(new BoolType())) {
+				Error error = new Error(Error.Type.CONDITION, expr.getPosition().getStartLine(),expr.toString());
+				messageManager.addError(error);
+				result = false;
+			}
+		} else {
+			System.out.println("CB: Expression <" + expr.toString() + "> has type error inside it.");
+			result = false;
+		}
+		return result;
 	}
 	
-	public void checkUnaryOperand(Unary unary) {
-		checkOperand(unary.getExpression());
+	public boolean checkBoolUnary(Unary unary) {
+		Expression expr = unary.getExpression();
+		return checkBool(expr);
+	}
+	public boolean checkBoolBinary(Binary binary) {
+		Expression left = binary.getLeftExpression();
+		Expression right = binary.getRightExpression();
+		// Make sure both side will be checked
+		boolean resultLeft = checkBool(left);
+		boolean resultRight = checkBool(right);
+		return resultLeft && resultRight;
 	}
 	
-	public void checkBinaryOperand(Binary binary) {
-		checkOperand(binary.getLeftExpression());
-		checkOperand(binary.getRightExpression());
+	public boolean checkInt(Expression expr) {
+		boolean result = true;
+		// this line make sure the reference comes before this check.
+		if (expr.accept(this)){
+			if (!expr.getType(this).isEqual(new IntType())) {
+				Error error = new Error(Error.Type.OPERAND, expr.getPosition().getStartLine(),expr.toString());
+				messageManager.addError(error);
+				result = false;
+			}
+		} else {
+			System.out.println("CI: Expression <" + expr.toString() + "> has type error inside it.");
+			result = false;
+		}
+		return result;
 	}
+	
+	public boolean checkIntUnary(Unary unary) {
+		Expression expr = unary.getExpression();
+		return checkInt(expr);
+	}
+	
+	public boolean checkIntBinary(Binary binary) {
+		Expression left = binary.getLeftExpression();
+		Expression right = binary.getRightExpression();
+		// Make sure both side will be checked
+		boolean resultLeft = checkInt(left);
+		boolean resultRight = checkInt(right);
+		return resultLeft && resultRight;
+	}
+	
+
+	
+	
+	
 	
 // Visits
 	
 	@Override
-	public Void visit(Questionnaire questionnaire) {
+	public Boolean visit(Questionnaire questionnaire) {
 		System.out.println("Questionnaire");
+		boolean result = true;
 		for (Form form : questionnaire.getForms()) {
-			form.accept(this);
+			if(!form.accept(this)) {
+				result = false;
+			}
 		}
-		return null;
+		return result;
 	}
 	
 	@Override
-	public Void visit(Form form) {
+	public Boolean visit(Form form) {
 		System.out.println("Form");
-		form.getBlock().accept(this);
-		return null;
+		//form.getBlock().accept(this);
+		return form.getBlock().accept(this);
 	}
 
 	@Override
-	public Void visit(Block block) {
+	public Boolean visit(Block block) {
+		boolean result = true;
 		for (Statement statement : block.getStatements()) {
-			statement.accept(this);
+			if (!statement.accept(this)) {
+				result = false;
+			}
 		}
-		return null;
+		return result;
 	}
 	
 	@Override
-	public Void visit(QuestionNormal question) {
+	public Boolean visit(QuestionNormal question) {
 		System.out.println("Question Normal");
-		checkDeclaration(question);
-		checkLabel(question);
-		return null;
+		return checkDeclaration(question) && checkLabel(question);
 	}
 	
 	@Override
-	public Void visit(QuestionCompute question) {
+	public Boolean visit(QuestionCompute question) {
 		System.out.println("Question Compute");
-		checkDeclaration(question);
-		checkLabel(question);
-		return null;
+		//checkDeclaration(question);
+		//checkLabel(question);
+		question.getExpression().accept(this);
+		
+		return checkDeclaration(question) && checkLabel(question);
+		//return null;
 	}
 	
 	@Override
-	public Void visit(IfStatement ifStatement) {
+	public Boolean visit(IfStatement ifStatement) {
 		System.out.println("If Statement");
-		ifStatement.getExpr().accept(this);
-		ifStatement.getIfBlock().accept(this);
-		return null;
+		//ifStatement.getExpr().accept(this);
+		//ifStatement.getIfBlock().accept(this);
+		return ifStatement.getExpr().accept(this) && ifStatement.getIfBlock().accept(this);
 	}
 
 	@Override
-	public Void visit(IfElseStatement ifElseStatement) {
+	public Boolean visit(IfElseStatement ifElseStatement) {
 		System.out.println("If Else Statement");
-		ifElseStatement.getExpr().accept(this);
-		ifElseStatement.getIfBlock().accept(this);
-		ifElseStatement.getElseBLock().accept(this);
-		return null;
+		//ifElseStatement.getExpr().accept(this);
+		//ifElseStatement.getIfBlock().accept(this);
+		//ifElseStatement.getElseBLock().accept(this);
+		return ifElseStatement.getExpr().accept(this) 
+				&& ifElseStatement.getIfBlock().accept(this) 
+				&& ifElseStatement.getElseBLock().accept(this);
 	}
 	
 	@Override
-	public Void visit(Parenthese node) {
+	public Boolean visit(Parenthese node) {
 		return node.getExpression().accept(this);
 	}
 	
 	
 	@Override
-	public Void visit(Not node) {
-		checkUnaryCondition(node);
-		return null;
+	public Boolean visit(Not node) {
+		//checkUnaryCondition(node);
+		return checkBoolUnary(node);
 	}
 
 	@Override
-	public Void visit(Positive node) {
-		checkUnaryOperand(node);
-		return null;
+	public Boolean visit(Positive node) {
+		//checkUnaryOperand(node);
+		return checkIntUnary(node);
 	}
 
 	@Override
-	public Void visit(Negative node) {
-		checkUnaryOperand(node);
-		return null;
+	public Boolean visit(Negative node) {
+		//checkUnaryOperand(node);
+		return checkIntUnary(node);
 	}
 
 	@Override
-	public Void visit(Plus node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(Plus node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(Minus node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(Minus node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(Multiply node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(Multiply node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(Divide node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(Divide node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(And node) {
-		checkBinaryCondition(node);
-		return null;
+	public Boolean visit(And node) {
+		//checkBinaryCondition(node);
+		return checkBoolBinary(node);
 	}
 
 	@Override
-	public Void visit(Or node) {
-		checkBinaryCondition(node);
-		return null;
+	public Boolean visit(Or node) {
+		//checkBinaryCondition(node);
+		return checkBoolBinary(node);
 	}
 
 	@Override
-	public Void visit(Equal node) {
-		checkBinaryCondition(node);
-		return null;
+	public Boolean visit(Equal node) {
+		//checkBinaryCondition(node);
+		return checkSameBinary(node);
 	}
 
 	@Override
-	public Void visit(NotEqual node) {
-		checkBinaryCondition(node);
-		return null;
+	public Boolean visit(NotEqual node) {
+		//checkBinaryCondition(node);
+		return checkSameBinary(node);
 	}
 
 	@Override
-	public Void visit(Greater node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(Greater node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(GreaterEqual node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(GreaterEqual node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(Less node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(Less node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(LessEqual node) {
-		checkBinaryOperand(node);
-		return null;
+	public Boolean visit(LessEqual node) {
+		//checkBinaryOperand(node);
+		return checkIntBinary(node);
 	}
 
 	@Override
-	public Void visit(Identifier node) {
+	public Boolean visit(Identifier node) {
 		System.out.println("Identifier");
-		checkReference(node);
-		return null;
+		return checkReference(node);
 	}
 
 	@Override
-	public Void visit(IntLiteral node) {
-		return null;
+	public Boolean visit(IntLiteral node) {
+		return true;
 	}
 
 	@Override
-	public Void visit(BoolLiteral node) {
-		return null;
+	public Boolean visit(BoolLiteral node) {
+		return true;
 	}
 
 	@Override
-	public Void visit(StrLiteral node) {
-		return null;
+	public Boolean visit(StrLiteral node) {
+		return true;
 	}
 }
