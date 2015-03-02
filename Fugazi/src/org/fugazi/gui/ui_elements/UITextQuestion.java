@@ -19,7 +19,7 @@ public class UITextQuestion extends UIQuestion {
 
         this.widget = new TextBox(_question.getLabel());
         
-        this.widget.addDocumentListener(new DocumentListener() {
+        this.widget.addEventListener(new DocumentListener() {
 
             public void insertUpdate(DocumentEvent e) {
                 setState(

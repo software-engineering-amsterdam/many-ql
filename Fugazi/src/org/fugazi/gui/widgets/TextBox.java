@@ -3,6 +3,7 @@ package org.fugazi.gui.widgets;
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ItemListener;
+import java.util.EventListener;
 
 public class TextBox implements IWidget<String> {
 
@@ -30,13 +31,8 @@ public class TextBox implements IWidget<String> {
     }
 
     @Override
-    public void addItemListener(ItemListener _listener) {
-        throw new AssertionError();
-    }
-
-    @Override
-    public void addDocumentListener(DocumentListener _listener) {
-        this.input.getDocument().addDocumentListener(_listener);
+    public void addEventListener(EventListener _listener) {
+        this.input.getDocument().addDocumentListener((DocumentListener) _listener);
     }
 
     @Override

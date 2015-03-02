@@ -6,8 +6,26 @@ import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.gui.mediator.IMediator;
 import org.fugazi.gui.widgets.CheckBox;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.EventListener;
 
 public class UIBoolQuestion extends UIQuestion {
+
+    class BoolQuestionListener implements ItemListener {
+
+        private final UIBoolQuestion question;
+        BoolQuestionListener(UIBoolQuestion _question) {
+            this.question = _question;
+        }
+
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                question.setState(true);
+            } else {
+                question.setState(false);
+            }
+        }
+    }
 
     private Boolean value;
 
@@ -16,15 +34,7 @@ public class UIBoolQuestion extends UIQuestion {
         this.value = false; // default
 
         this.widget = new CheckBox(_question.getLabel());
-        this.widget.addItemListener(event -> itemChanged(event));
-    }
-
-    private void itemChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            this.setState(true);
-        } else {
-            this.setState(false);
-        }
+        this.widget.addEventListener(new BoolQuestionListener(this));
     }
 
     public void setState(Boolean _value) {

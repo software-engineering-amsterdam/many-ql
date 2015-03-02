@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ItemListener;
+import java.util.EventListener;
 
 public class Label implements IWidget<String> {
 
@@ -29,12 +30,7 @@ public class Label implements IWidget<String> {
     }
 
     @Override
-    public void addItemListener(ItemListener _listener) {
-        throw new AssertionError();
-    }
-
-    @Override
-    public void addDocumentListener(DocumentListener _listener) {
+    public void addEventListener(EventListener _listener) {
     }
 
     @Override

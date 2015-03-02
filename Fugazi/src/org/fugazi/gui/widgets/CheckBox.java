@@ -3,6 +3,8 @@ package org.fugazi.gui.widgets;
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ItemListener;
+import java.util.EventListener;
+
 public class CheckBox implements IWidget<Boolean> {
 
     private final String label;
@@ -20,15 +22,10 @@ public class CheckBox implements IWidget<Boolean> {
     }
 
     @Override
-    public void addItemListener(ItemListener _listener) {
-        component.addItemListener(_listener);
+    public void addEventListener(EventListener _listener) {
+        component.addItemListener((ItemListener)_listener);
     }
 
-    @Override
-    public void addDocumentListener(DocumentListener _listener) {
-        throw new AssertionError();
-    }
-    
     @Override
     public Boolean getValue() {
         return this.component.isSelected();

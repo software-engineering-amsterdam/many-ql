@@ -19,7 +19,7 @@ public class UINumQuestion extends UIQuestion {
 
         this.widget = new IntegerOnlyTextBox(_question.getLabel());
 
-        this.widget.addDocumentListener(new DocumentListener() {
+        this.widget.addEventListener(new DocumentListener() {
             
             public void insertUpdate(DocumentEvent e) {
                 setState(widget.getValue().toString());

@@ -5,6 +5,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
 import java.awt.event.ItemListener;
 import java.text.NumberFormat;
+import java.util.EventListener;
 
 public class IntegerOnlyTextBox implements IWidget<String> {
 
@@ -40,13 +41,8 @@ public class IntegerOnlyTextBox implements IWidget<String> {
     }
 
     @Override
-    public void addItemListener(ItemListener _listener) {
-        throw new AssertionError();
-    }
-
-    @Override
-    public void addDocumentListener(DocumentListener _listener) {
-        this.input.getDocument().addDocumentListener(_listener);
+    public void addEventListener(EventListener _listener) {
+        this.input.getDocument().addDocumentListener((DocumentListener) _listener);
     }
 
     @Override
