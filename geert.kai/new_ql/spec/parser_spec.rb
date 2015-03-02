@@ -13,7 +13,7 @@ describe "Parsing" do
     question = form.statements.first
     expect(question.description).to eq "Wat is je naam?"
     expect(question.variable_name).to eq "naam"
-    expect(question.type).to eq :string
+    expect(question.type).to eq StringType.new
   end
 end
 

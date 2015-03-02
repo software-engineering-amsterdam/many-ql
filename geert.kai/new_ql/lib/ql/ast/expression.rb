@@ -25,19 +25,19 @@ module AST
 
   class IntegerLiteral < Literal
     def type
-      :integer
+      IntegerType.new
     end
   end
 
   class StringLiteral < Literal
     def type
-      :string
+      StringType.new
     end
   end
 
   class BooleanLiteral < Literal
     def type
-      :boolean
+      BooleanType.new
     end
   end
 
@@ -54,41 +54,41 @@ module AST
 
   class BooleanExpression < BinaryExpression # || &&
     def type
-      :boolean
+      BooleanType.new
     end
 
     def possible_argument_types
-      [:boolean]
+      [BooleanType.new]
     end
   end
 
   class EqualityExpression < BinaryExpression # ==, !=
     def type
-      :boolean
+      BooleanType.new
     end
 
     def possible_argument_types
-      [:boolean, :string, :integer]
+      [BooleanType.new, StringType.new, IntegerType.new]
     end
   end
 
   class OrderingExpression < BinaryExpression # <, >, <=, >=
     def type
-      :boolean
+      BooleanType.new
     end
 
     def possible_argument_types
-      [:integer]
+      [IntegerType.new]
     end
   end
 
   class IntegerExpression < BinaryExpression # * + - /
     def type
-      :integer
+      IntegerType.new
     end
 
     def possible_argument_types
-      [:integer]
+      [IntegerType.new]
     end
   end
 
