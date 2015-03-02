@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace QL.Model
 {
-    public class Expression : TreeElementBase
+    public class Expression : TreeElementBase, ITypeResolvable
     {
         public Expression() { }
 
@@ -26,7 +26,7 @@ namespace QL.Model
 
         
 
-        public override Type GetReturnType()
+        public Type GetReturnType()
         {
             if (Children.Count == 1) {
                 return Children[0].GetReturnType();

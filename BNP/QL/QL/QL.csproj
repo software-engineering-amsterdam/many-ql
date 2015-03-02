@@ -93,6 +93,7 @@
     <Compile Include="Model\StatementUnit.cs" />
     <Compile Include="Model\Terminals\Identifier.cs" />
     <Compile Include="Model\Terminals\ITerminal.cs" />
+    <Compile Include="Model\ITypeResolvable.cs" />
     <Compile Include="Model\Terminals\Number.cs" />
     <Compile Include="Model\Terminals\ITerminalType.cs" />
     <Compile Include="Model\Terminals\Text.cs" />

@@ -14,7 +14,8 @@ namespace QL.Exceptions
 
         public TypeException()
         { }
-
+        public TypeException(string message)  : base(message)
+        { }
         public TypeException(string message, ElementBase source)
             : base(message)
         {

@@ -34,5 +34,7 @@ namespace QL.Model.Terminals
 
             return Value.Value ? "Yes" : "No";
         }
+        
+
     }
 }

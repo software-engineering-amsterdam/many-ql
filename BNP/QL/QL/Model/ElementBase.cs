@@ -9,7 +9,7 @@ using QL.Evaluation;
 
 namespace QL.Model
 {
-    public abstract class ElementBase : IVisitable
+    public abstract class ElementBase : IVisitable, ITypeResolvable
     {
         public SourceLocation SourceLocation { get; set; }
         public IList<ElementBase> Children { get; set; }
@@ -31,7 +31,7 @@ namespace QL.Model
         }
 
         public virtual Type GetReturnType(){
-            return GetType();
+            return null;
         }
 
         public List<TypeException> CollectTypeExceptions()

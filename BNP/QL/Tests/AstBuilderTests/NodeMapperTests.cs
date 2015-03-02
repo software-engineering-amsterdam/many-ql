@@ -104,5 +104,6 @@ namespace Tests.AstBuilderTests
             ast.CheckType();
             Assert.AreEqual(1, ast.TypeCheckerExceptions.Count);
         }
+        
     }
 }

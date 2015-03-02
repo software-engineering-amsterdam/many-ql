@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using QL.Exceptions;
 using QL.Model;
 using QL.Model.Operators;
+
 using QL.Model.Terminals;
 
 namespace QL.Evaluation
 {
     class TypeCheckerVisitor: IVisitor
     {
+        Dictionary<Identifier, ITypeResolvable> TypeReferenceDictionary;
+
         public IList<QLException> Exceptions { get; private set; }
 
         public TypeCheckerVisitor()
@@ -54,9 +57,10 @@ namespace QL.Evaluation
         #region Operators
         public void Visit(EqualsOperator node)
         {
-            if (node.Left.GetReturnType() == node.Right.GetReturnType()) return;
-
-            Exceptions.Add(new TypeException("Incompatible operands on equality operation", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Incompatible operands on equality operation", node));
+            }
         }
 
         public void Visit(NotEqualsOperator node)
@@ -179,5 +183,26 @@ namespace QL.Evaluation
         {
             Exceptions.Add(new QLException(string.Format("Type checker was called for {0} but is not implemented", elementBase.GetType().Name)));
         }
+
+        # region Type distinction
+        Type DetermineType(Type type)
+        {
+            return type;
+        }
+        Type DetermineType(Identifier i)
+        {
+            return DetermineType(TypeReferenceDictionary[i]);
+        }
+        
+        Type DetermineType(ITypeResolvable i)
+        {
+            return DetermineType(i.GetReturnType());
+        }
+
+        Type DetermineType(object other)
+        {
+            throw new TypeException("Cannot resolve type:"+other.GetType().ToString());
+        }
+# endregion
     }
 }

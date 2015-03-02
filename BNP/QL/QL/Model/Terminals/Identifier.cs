@@ -1,11 +1,12 @@
-﻿using System;
+﻿using QL.Exceptions;
+using System;
 
 namespace QL.Model.Terminals
 {
     public class Identifier : BinaryTreeElementBase, ITerminal<string>, ITerminalType
     {
         public string Value { get; private set; }
-
+        
         public Identifier()
         { }
 
@@ -43,6 +44,10 @@ namespace QL.Model.Terminals
         public override string ToString()
         {
             return string.IsNullOrWhiteSpace(Value) ? "undefined" : Value;
+        }
+        public override Type GetReturnType()
+        {
+            throw new QLException("Cannot determine type of this identifier on the ast level");
         }
     }
 }

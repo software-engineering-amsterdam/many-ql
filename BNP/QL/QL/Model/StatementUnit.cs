@@ -1,4 +1,5 @@
 ﻿using QL.Model.Terminals;
+using System;
 
 namespace QL.Model
 {
