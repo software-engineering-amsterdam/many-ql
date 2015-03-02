@@ -1,7 +1,6 @@
 package edu.gui;
 
-import edu.gui.components.CheckBox;
-import edu.gui.components.TextBox;
+
 import edu.parser.nodes.QuestionType;
 
 import javax.swing.*;
@@ -10,8 +9,8 @@ import javax.swing.*;
  * Created by Steven Kok on 25/02/2015.
  */
 public enum QuestionTypeGui {
-    STRING(TextBox.class, QuestionType.STRING),
-    BOOLEAN(CheckBox.class, QuestionType.BOOLEAN);
+    STRING(edu.gui.componentsss.TextBox.class, QuestionType.STRING),
+    BOOLEAN(edu.gui.componentsss.CheckBox.class, QuestionType.BOOLEAN);
 
     private final Class component;
     private final QuestionType questionType;
