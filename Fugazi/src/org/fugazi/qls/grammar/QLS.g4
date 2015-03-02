@@ -28,12 +28,12 @@ defaultStyleDeclr : 'default' type widget                           # noStylesDe
  */
 
 // The supported widgets
-supportedWidget : 'checkbox'    # checkboxWidget
-                | 'radio'       # radioWidget
-                | 'dropdown'    # dropdownWidget
-                | 'spinbox'     # spinboxWidget
-                | 'slider'      # sliderWidget
-                | 'text'        # textWidget
+supportedWidget : 'checkbox'                                    # checkboxWidget
+                | 'radio' '(' (STRING ',')* STRING  ')'         # radioWidget
+                | 'dropdown'                                    # dropdownWidget
+                | 'spinbox'                                     # spinboxWidget
+                | 'slider'                                      # sliderWidget
+                | 'text'                                        # textWidget
                 ;
 
 // Properties for styling
