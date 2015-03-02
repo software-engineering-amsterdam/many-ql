@@ -1,7 +1,0 @@
-Sheet example_sheet
-
-Page first_page {
-    Section first_section {
-        Question hummus
-    }
-}

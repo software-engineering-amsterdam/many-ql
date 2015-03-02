@@ -87,18 +87,3 @@ class IfElseBlock(IfBlock):
 
     def get_e_statements(self):
         return self.else_statements
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

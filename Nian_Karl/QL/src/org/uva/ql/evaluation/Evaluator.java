@@ -24,50 +24,45 @@ import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.expression.unary.Negative;
 import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
-import org.uva.ql.ast.questionnaire.Form;
-import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.statement.Block;
-import org.uva.ql.ast.statement.IfElseStatement;
-import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionCompute;
-import org.uva.ql.ast.statement.QuestionNormal;
-import org.uva.ql.ast.type.BoolType;
-import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.value.Bool;
 import org.uva.ql.ast.value.Int;
 import org.uva.ql.ast.value.Str;
 import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.ast.value.Value;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.ExpressionVisitor;
 
-public class Evaluator implements Visitor<Value> {
-	
-	private final Map<Identifier, Value> values;
-	
+public class Evaluator implements ExpressionVisitor<Value> {
+
+	private final Map<String, Value> values;
+
 	public Evaluator() {
-		values = new HashMap<Identifier, Value>();
+		values = new HashMap<String, Value>();
+	}
+
+
+	public void addValue(String name, Value value) {
+		values.put(name, value);
+	}
+
+	public boolean contains(String name) {
+		return values.containsKey(name);
 	}
 	
-	public void addValue(Identifier identifier, Value value) {
-		values.put(identifier, value);
-	}
-	
-	/**
-	 * Get the value of specified identifier 
-	 * (if the value is not set yet, return undefined value)
-	 */
-	public Value getValue(Identifier identifier) {
-		if (values.containsKey(identifier)) {
-			return values.get(identifier);
+	public Value getValue(String name) {
+		if (contains(name)) {
+			return values.get(name);
 		} else {
-			System.out.println("Identifier <" + identifier + "> does not exist.");
+			System.out.println("Question <" + name + "> does not exist.");
 			return new Undefined();
 		}
 	}
 	
+	public int countValues() {
+		return values.size();
+	}
+
 	public Value evaluate(Expression expr) {
-		return expr.accept(this); 
+		return expr.accept(this);
 	}
 
 	@Override
@@ -171,7 +166,7 @@ public class Evaluator implements Visitor<Value> {
 
 	@Override
 	public Value visit(Identifier node) {
-		return getValue(node);
+		return getValue(node.toString());
 	}
 
 	@Override
@@ -193,57 +188,4 @@ public class Evaluator implements Visitor<Value> {
 	public Value visit(Parenthese node) {
 		return node.getExpression().accept(this);
 	}
-
-	@Override
-	public Value visit(IfStatement ifStatement) {
-		// TODO Auto-generated method
-		return null;
-	}
-
-	@Override
-	public Value visit(QuestionNormal questionNormalStatement) {
-		return null;
-	}
-
-	@Override
-	public Value visit(Block blockStatement) {
-		return null;
-	}
-
-	@Override
-	public Value visit(Form form) {
-		return null;
-	}
-
-	@Override
-	public Value visit(Questionnaire questionnaire) {
-		return null;
-	}
-
-	@Override
-	public Value visit(IntType node) {
-		return null;
-	}
-
-	@Override
-	public Value visit(BoolType node) {
-		return null;
-	}
-
-	@Override
-	public Value visit(StrType node) {
-		return null;
-	}
-
-	@Override
-	public Value visit(QuestionCompute questionComputeStatement) {
-		return null;
-	}
-
-	@Override
-	public Value visit(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

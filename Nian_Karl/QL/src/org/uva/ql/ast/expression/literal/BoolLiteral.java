@@ -4,7 +4,7 @@ import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typecheck.TypeChecker;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public class BoolLiteral extends Literal {
 	
@@ -16,7 +16,7 @@ public class BoolLiteral extends Literal {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

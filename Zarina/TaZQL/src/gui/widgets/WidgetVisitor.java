@@ -1,6 +1,5 @@
 package gui.widgets;
 
-import interpreter.ValueRepository;
 import ast.type.ChoiceType;
 import ast.type.DigitsType;
 import ast.type.ITypeVisitor;
@@ -12,13 +11,11 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
 	private final String id, label;
 	private final Type type;
-//	private final ValueRepository valueRepository; 
 	
-	public WidgetVisitor(String id, String label, Type type) { //, ValueRepository valueRepository) {
+	public WidgetVisitor(String id, String label, Type type) {
 		this.id = id;
 		this.label = label;
 		this.type = type;
-	//	this.valueRepository = valueRepository;
 	}
 	
 	@Override
@@ -28,7 +25,6 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 
 	@Override
 	public TextFieldWidget visit(DigitsType type) {
-		// TODO to be changed
 		return new TextFieldWidget(id, this.label, type);
 	}
 

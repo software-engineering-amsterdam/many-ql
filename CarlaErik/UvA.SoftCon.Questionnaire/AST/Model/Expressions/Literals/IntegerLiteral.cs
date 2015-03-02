@@ -12,14 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
     /// </summary>
     public class IntegerLiteral : Literal<int>
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.IntegerLiteral;
-            }
-        }
-
         public IntegerLiteral(int value, TextPosition position)
             : base(value, position) { }
 

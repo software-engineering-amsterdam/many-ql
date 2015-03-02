@@ -37,42 +37,38 @@ import org.uva.ql.ast.statement.QuestionNormal;
 import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typecheck.message.Error;
 import org.uva.ql.typecheck.message.Warning;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.ExpressionVisitor;
+import org.uva.ql.visitor.QuestionnaireVisitor;
+import org.uva.ql.visitor.StatementVisitor;
 
-public class TypeChecker implements Visitor<Void> {
+public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<Boolean>,QuestionnaireVisitor<Boolean> {
 
-	private final Map<String, Type> types;
+	private final Map<Identifier, Type> types;
 	private final ArrayList<String> labels;
 	private final MessageManager messageManager;
 	
 	public TypeChecker() {
-		types = new HashMap<String, Type>();
+		types = new HashMap<Identifier, Type>();
 		labels = new ArrayList<String>();
 		messageManager = new MessageManager();
 	}
 
-// Type list	
+// Identifier-Type table	
 	public void addType(Identifier identifier, Type type) {
-		types.put(identifier.toString(), type);
-	}
-	
-	public boolean isDeclared(Identifier identifier) {
-		return types.containsKey(identifier.toString());
+		types.put(identifier, type);
 	}
 	
 	public Type getType(Identifier identifier) {
-		if (isDeclared(identifier)) {
-			return types.get(identifier.toString());
-		} else {
-			System.out.println("Identifier <" + identifier + "> does not exist.");
-			return null;
-		}
+		return types.get(identifier);
 	}
 
+	public boolean isDeclared(Identifier identifier) {
+		return types.containsKey(identifier);
+	}
+	
 // Label list
 	public void addLabel(String label) {
 		labels.add(label);
@@ -81,8 +77,6 @@ public class TypeChecker implements Visitor<Void> {
 	public boolean hasLabel(String label) {
 		return labels.contains(label);
 	}
-	
-	
 	
 // Message Management	
 	public void addError(Error error) {
@@ -184,7 +178,7 @@ public class TypeChecker implements Visitor<Void> {
 // Visits
 	
 	@Override
-	public Void visit(Questionnaire questionnaire) {
+	public Boolean visit(Questionnaire questionnaire) {
 		System.out.println("Questionnaire");
 		for (Form form : questionnaire.getForms()) {
 			form.accept(this);
@@ -193,14 +187,14 @@ public class TypeChecker implements Visitor<Void> {
 	}
 	
 	@Override
-	public Void visit(Form form) {
+	public Boolean visit(Form form) {
 		System.out.println("Form");
 		form.getBlock().accept(this);
 		return null;
 	}
 
 	@Override
-	public Void visit(Block block) {
+	public Boolean visit(Block block) {
 		for (Statement statement : block.getStatements()) {
 			statement.accept(this);
 		}
@@ -208,7 +202,7 @@ public class TypeChecker implements Visitor<Void> {
 	}
 	
 	@Override
-	public Void visit(QuestionNormal question) {
+	public Boolean visit(QuestionNormal question) {
 		System.out.println("Question Normal");
 		checkDeclaration(question);
 		checkLabel(question);
@@ -216,7 +210,7 @@ public class TypeChecker implements Visitor<Void> {
 	}
 	
 	@Override
-	public Void visit(QuestionCompute question) {
+	public Boolean visit(QuestionCompute question) {
 		System.out.println("Question Compute");
 		checkDeclaration(question);
 		checkLabel(question);
@@ -224,7 +218,7 @@ public class TypeChecker implements Visitor<Void> {
 	}
 	
 	@Override
-	public Void visit(IfStatement ifStatement) {
+	public Boolean visit(IfStatement ifStatement) {
 		System.out.println("If Statement");
 		ifStatement.getExpr().accept(this);
 		ifStatement.getIfBlock().accept(this);
@@ -232,7 +226,7 @@ public class TypeChecker implements Visitor<Void> {
 	}
 
 	@Override
-	public Void visit(IfElseStatement ifElseStatement) {
+	public Boolean visit(IfElseStatement ifElseStatement) {
 		System.out.println("If Else Statement");
 		ifElseStatement.getExpr().accept(this);
 		ifElseStatement.getIfBlock().accept(this);
@@ -241,136 +235,120 @@ public class TypeChecker implements Visitor<Void> {
 	}
 	
 	@Override
-	public Void visit(Parenthese node) {
+	public Boolean visit(Parenthese node) {
 		return node.getExpression().accept(this);
 	}
 	
 	
 	@Override
-	public Void visit(Not node) {
+	public Boolean visit(Not node) {
 		checkUnaryCondition(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Positive node) {
+	public Boolean visit(Positive node) {
 		checkUnaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Negative node) {
+	public Boolean visit(Negative node) {
 		checkUnaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Plus node) {
+	public Boolean visit(Plus node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Minus node) {
+	public Boolean visit(Minus node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Multiply node) {
+	public Boolean visit(Multiply node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Divide node) {
+	public Boolean visit(Divide node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(And node) {
+	public Boolean visit(And node) {
 		checkBinaryCondition(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Or node) {
+	public Boolean visit(Or node) {
 		checkBinaryCondition(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Equal node) {
+	public Boolean visit(Equal node) {
 		checkBinaryCondition(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(NotEqual node) {
+	public Boolean visit(NotEqual node) {
 		checkBinaryCondition(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Greater node) {
+	public Boolean visit(Greater node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(GreaterEqual node) {
+	public Boolean visit(GreaterEqual node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Less node) {
+	public Boolean visit(Less node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(LessEqual node) {
+	public Boolean visit(LessEqual node) {
 		checkBinaryOperand(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(Identifier node) {
+	public Boolean visit(Identifier node) {
 		System.out.println("Identifier");
 		checkReference(node);
 		return null;
 	}
 
 	@Override
-	public Void visit(IntLiteral node) {
+	public Boolean visit(IntLiteral node) {
 		return null;
 	}
 
 	@Override
-	public Void visit(BoolLiteral node) {
+	public Boolean visit(BoolLiteral node) {
 		return null;
 	}
 
 	@Override
-	public Void visit(StrLiteral node) {
+	public Boolean visit(StrLiteral node) {
 		return null;
 	}
-
-	@Override
-	public Void visit(IntType node) {
-		return null;
-	}
-
-	@Override
-	public Void visit(BoolType node) {
-		return null;
-	}
-
-	@Override
-	public Void visit(StrType node) {
-		return null;
-	}
-
 }
