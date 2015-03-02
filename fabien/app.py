@@ -8,7 +8,7 @@ from src.Typechecker import *
 if __name__ == '__main__':
     parser = Parser()
 
-    with open("tests/forms/simple.txt") as f:
+    with open("tests/forms/nonBoolean.txt") as f:
         formText = f.read()
         Form = parser.parse(formText)
 
@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
     checker.register(DuplicateQuestions())
     checker.register(UndefinedQuestions())
-    checker.register(NonBooleanExpressions())
+    checker.register(NonBooleanTypes())
 
     checker.checkAST(Form)
     checker.reportErrors()

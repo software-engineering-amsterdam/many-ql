@@ -74,7 +74,7 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser#identifier.
     def visitIdentifier(self, ctx): # TODO
         lineNumber = ctx.start.line
-        return Identifier(ctx.getText())
+        return Identifier(ctx.getText(), lineNumber)
     
     # Visit a parse tree produced by QLParser#atom.
     def visitAtom(self, ctx):

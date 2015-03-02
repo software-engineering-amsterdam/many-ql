@@ -3,7 +3,7 @@ import src.QL.operators as operators
 
 from Expression import Expression
 
-class BoolExpression(Expression):
+class BooleanExpression(Expression):
     def __init__(self, LexNode, operator=None, left=None, right=None):
         Expression.__init__(self, LexNode, operator=None, left=None, right=None)
 
@@ -47,5 +47,5 @@ class BoolExpression(Expression):
         return False
 
     def __repr__(self):
-        return "BoolExpression(%s %s %s)" % (self.left, self.operator, self.right)
+        return "BooleanExpression(%s %s %s)" % (self.left, self.operator, self.right)
 
