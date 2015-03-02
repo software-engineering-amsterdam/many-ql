@@ -1,7 +1,7 @@
 from tkinter import *
 
-from Main.processor import *
-from Main.mapper import *
+from QL.Main.processor import *
+from QL.Main.mapper import *
 
 
 class QuestionnaireGUI:

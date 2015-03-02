@@ -9,14 +9,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public class Assignment : Node, IStatement
     {
-        public override NodeType Type
-        {
-            get 
-            {
-                return NodeType.Assignment;
-            }
-        }
-
         public Identifier Variable
         {
             get;
@@ -44,6 +36,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
         public override T Accept<T>(IASTVisitor<T> visitor)
         {
             return visitor.Visit(this);
+        }
+
+        public void AppendQuestions(ICollection<Question> questions)
+        {
         }
     }
 }

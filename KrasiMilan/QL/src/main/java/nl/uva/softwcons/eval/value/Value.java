@@ -71,4 +71,6 @@ public abstract class Value {
         throw new UnsupportedOperationException();
     }
 
+    public abstract Value getValueFromString(String string);
+
 }

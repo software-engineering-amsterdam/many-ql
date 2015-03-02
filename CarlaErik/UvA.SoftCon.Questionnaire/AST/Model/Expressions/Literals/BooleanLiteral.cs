@@ -12,14 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
     /// </summary>
     public class BooleanLiteral : Literal<bool>
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.BooleanLiteral;
-            }
-        }
-
         public BooleanLiteral(bool value, TextPosition position)
             : base(value, position)
         {
@@ -35,7 +27,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
             return visitor.Visit(this);
         }
 
-        public override DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Boolean;
         }

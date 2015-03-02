@@ -6,7 +6,7 @@ import (
 )
 
 func TestDefaults(t *testing.T) {
-	srcFn, inFn, outFn := New("-", "", "-")
+	srcFn, _, inFn, outFn := New("-", "", "-")
 
 	if srcFn != os.Stdin {
 		t.Errorf("Expected os.Stdin for srcFn. Got: %#v", srcFn)
@@ -20,7 +20,7 @@ func TestDefaults(t *testing.T) {
 }
 
 func TestSpecifiedFiles(t *testing.T) {
-	srcFn, inFn, outFn := New("stream_test.go", "stream_test.go", "tmpfile")
+	srcFn, _, inFn, outFn := New("stream_test.go", "stream_test.go", "tmpfile")
 
 	if got, ok := srcFn.(*os.File); !ok {
 		t.Errorf("Expected *os.File for srcFn. Got: %#v", got)

@@ -1,5 +1,5 @@
 # AST format of a question, initializing the IStatement
-from AST.statement import *
+from QL.AST.statement import *
 
 
 class Question(IStatement):

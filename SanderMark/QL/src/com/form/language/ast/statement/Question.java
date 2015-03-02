@@ -25,9 +25,6 @@ public class Question implements Statement {
 		this.questionLabel = questionLabel;
 		this.id = id;
 		this.questionType = questionType;
-		
-		//Call ID constructor
-		new IdLiteral(id,questionType,memory,null);
 	}
 	
 	@Override
@@ -85,5 +82,14 @@ public class Question implements Statement {
 	public void getErrors(ErrorCollector errs) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void fillMemory(Memory memory) {
+		//Check! niet echt netjes?		
+		
+		new IdLiteral(id,questionType,memory,null);
 	}	
+	
+	
 }

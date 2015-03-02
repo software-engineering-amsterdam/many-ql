@@ -1,5 +1,6 @@
 package nl.uva.softwcons.ast.expression;
 
+import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
 import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
@@ -17,6 +18,7 @@ import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
+import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 
 public interface ExpressionVisitor<T> {
@@ -61,5 +63,17 @@ public interface ExpressionVisitor<T> {
     T visit(StringLiteral expr);
 
     T visit(DecimalLiteral expr);
+
+    default T leftOperand(BinaryExpression expr) {
+        return expr.getLeftExpression().accept(this);
+    }
+
+    default T rightOperand(BinaryExpression expr) {
+        return expr.getRightExpression().accept(this);
+    }
+
+    default T unaryOperand(UnaryExpression expr) {
+        return expr.getExpression().accept(this);
+    }
 
 }

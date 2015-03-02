@@ -1,5 +1,5 @@
 # AST for operators
-from Grammar.basic_types import *
+from QL.Grammar.basic_types import *
 
 
 # TODO: Put this in multiple files?
