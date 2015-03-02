@@ -1,0 +1,19 @@
+.questionnaire {
+    -fx-padding: 10;
+    -fx-background-color: #CCFF99;
+}
+
+.prettyLabel {
+    -fx-font-size: 120%;
+    -fx-padding: 5 0;
+}
+
+.form {
+    -fx-padding: 10;
+}
+
+.formHeader {
+    -fx-text-alignment: center;
+    -fx-font-size: 150%;
+    -fx-font-style: italic;
+}

@@ -1,26 +1,28 @@
 
-class Branch:
-    def __init__(self, expression=None, ifChildren=None, elseChildren=None):
-        self.expression = expression
+from Node import Node
 
-        if ifChildren:
-            self.ifChildren = ifChildren
-        else:
-            self.ifChildren = []
+class Branch(Node):
+    def __init__(self, LexNode, ifChildren=None, elseChildren=None):
+        Node.__init__(self, LexNode)
 
-        if elseChildren:
-            self.elseChildren = elseChildren
-        else:
-            self.elseChildren = []
+        self.expression = self.tokens.get('expr')
 
+        self.ifChildren   = ifChildren or list()
+        self.elseChildren = elseChildren or list()
+
+    @property
+    def children(self):
+        return [self.expression] + self.ifChildren + self.elseChildren
 
     def __repr__(self, nested=0):
         tree = "IF %s" % self.expression
+
         for node in self.ifChildren:
             tree += "\n"  + ("\t" * nested) +  " -> " + node.__repr__(nested=nested+1)
 
         if self.elseChildren:
             elseTree = "\n   ELSE"
+
             for node in self.elseChildren:
                 elseTree += "\n"  + ("\t" * nested) +  " -> " + node.__repr__(nested=nested+1)
 

@@ -50,14 +50,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Controls\BooleanQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\BooleanQuestion.Designer.cs">
+      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NumericQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\NumericQuestion.Designer.cs">
+      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OutputWindow.cs" />
+    <Compile Include="Controls\QuestionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\QuestionControl.Designer.cs">
+      <DependentUpon>QuestionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextQuestion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TextQuestion.Designer.cs">
+      <DependentUpon>TextQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\BooleanQuestion.resx">
+      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NumericQuestion.resx">
+      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\QuestionControl.resx">
+      <DependentUpon>QuestionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TextQuestion.resx">
+      <DependentUpon>TextQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -83,6 +123,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AST\AST.csproj">
+      <Project>{23aa9a43-58a6-4870-a7bc-a3d5d8d5b8ce}</Project>
+      <Name>AST</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Runtime.csproj">
+      <Project>{e0c488e0-e95b-4d3f-b023-6397fa455d96}</Project>
+      <Name>Runtime</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

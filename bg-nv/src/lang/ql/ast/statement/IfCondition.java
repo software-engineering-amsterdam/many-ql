@@ -1,11 +1,7 @@
 package lang.ql.ast.statement;
 
-import lang.ql.ast.AstNode;
-import lang.ql.ast.expression.Expression;
-import lang.ql.ast.visitor.Visitor;
+import lang.ql.ast.expression.Expr;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,32 +9,28 @@ import java.util.List;
  */
 public class IfCondition extends Statement
 {
-    private Expression expression;
-    private List<Statement> statements;
+    private Expr condition;
+    private List<Statement> body;
 
-    public IfCondition(Expression expression, List<Statement> statements)
+    public IfCondition(Expr expr, List<Statement> statements, int lineNumber)
     {
-        this.expression = expression;
-        this.statements = statements;
+        super(lineNumber);
+        this.condition = expr;
+        this.body = statements;
     }
 
-    public Expression getExpression()
+    public Expr getCondition()
     {
-        return this.expression;
+        return this.condition;
     }
 
-    public List<Statement> getStatements()
+    public List<Statement> getBody()
     {
-        return this.statements;
+        return this.body;
     }
 
-    public void visit(Visitor visitor) { visitor.visit(this); }
-
-    public Iterable<? extends AstNode> getChildren()
+    public <T> T accept(StatVisitor<T> visitor)
     {
-        List<AstNode> result = new ArrayList<AstNode>();
-        result.add(this.expression);
-        result.addAll(this.statements);
-        return result;
+        return visitor.visit(this);
     }
 }

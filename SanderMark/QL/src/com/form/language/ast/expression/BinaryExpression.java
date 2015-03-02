@@ -1,10 +1,26 @@
 package com.form.language.ast.expression;
 
-public abstract class BinaryExpression {
-	public PrimitiveExpression left;
-	public PrimitiveExpression right;
-	public BinaryExpression(PrimitiveExpression left, PrimitiveExpression right) {
+import org.antlr.v4.runtime.Token;
+
+import com.form.language.ast.type.ErrorType;
+
+public abstract class BinaryExpression implements Expression {
+	public Token tokenInfo;
+	public Expression left;
+	public Expression right;
+	public BinaryExpression(Expression left, Expression right, Token tokenInfo) {
 		this.left = left;
 		this.right = right;
+		this.tokenInfo = tokenInfo;
 	}
+	@Override
+	public Boolean isCorrectlyTyped() {
+		return !this.getType().equals(new ErrorType());
+	}
+	
+	@Override
+	public String showTokenInfo(){
+		return "line: " + tokenInfo.getLine();
+	}
+	
 }

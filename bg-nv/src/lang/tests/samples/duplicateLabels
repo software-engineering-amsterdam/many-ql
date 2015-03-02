@@ -1,0 +1,9 @@
+form Box1HouseOwning {
+    boolean hasSoldHouse "Did you sell a house in 2010?"
+    boolean hasBoughtHouse "Did you by a house in 2010?"
+    boolean hasMaintLoan "Did you enter a loan for maintenance/reconstruction?"
+
+ if (hasSoldHouse) {
+    decimal privateDebt "Did you sell a house in 2010?" 1.25 * 5.25
+ }
+}

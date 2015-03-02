@@ -1,32 +1,34 @@
 package ast.question;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ast.expression.Expression;
 
-public abstract class IfElseStatement extends IQuestionVisitable {
+public class IfElseStatement extends IfStatement {
 
-		private Expression ifExpression;
-		private ArrayList<IQuestionVisitable> statement;
+	private List<Question> elseStatement;
 		
-		public IfElseStatement(Expression ifExpression, ArrayList<IQuestionVisitable> statement) {
-			this.statement = statement;
-			this.ifExpression = ifExpression;
-		}
-		
-		public Expression getExpression(){
-			return ifExpression;
-		}
-		
-		public ArrayList<IQuestionVisitable> getStatement(){
-			return statement;
-		}
-				
-		@Override
-		public <T> T accept(IQuestionVisitor<T> visitor) {
-			return visitor.visit(this);
-		}
+	public IfElseStatement(Expression ifExpression, List<Question> ifStatement, List<Question> elseStatement) {
+		super(ifExpression, ifStatement);
+		this.elseStatement = elseStatement;
 	}
-
-
-	//'if' '(' expression ')' '{' question+ '}'	
+		
+	public List<Question> getElseStatement(){
+		return elseStatement;
+	}
+				
+	@Override
+	public <T> T accept(IQuestionVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+	
+	@Override
+	public String toString() {
+		String output = super.toString();
+		output += "\n else { \n";
+			for(Question qe: elseStatement)
+				output += qe.toString() + "\n";
+		output += " }";
+	return output;
+	}
+}

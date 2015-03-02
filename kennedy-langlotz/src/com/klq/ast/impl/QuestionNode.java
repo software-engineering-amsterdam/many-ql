@@ -1,0 +1,49 @@
+package com.klq.ast.impl;
+
+import com.klq.ast.ANode;
+import com.klq.ast.IVisitor;
+import com.klq.logic.question.Type;
+
+/**
+ * Created by juriaan on 10-2-15.
+ */
+public class QuestionNode extends ANode {
+
+    private String questionID;
+    private Type questionType;
+    private String text;
+
+    public QuestionNode(String questionID, String questionType, String text, String location) {
+        super(location);
+        this.questionID = questionID;
+        this.questionType = Type.valueOf(questionType.toUpperCase());
+        this.text = text;
+    }
+
+    @Override
+    public <T> T accept(IVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public void printSelf(){
+        System.out.printf("questionID: %s", questionID);
+        System.out.println();
+        System.out.printf("type: %s", questionType);
+        System.out.println();
+        System.out.printf("text: %s", text);
+        System.out.println();
+    }
+
+    public String getQuestionID() {
+        return questionID;
+    }
+
+    public Type getQuestionType() {
+        return questionType;
+    }
+
+    public String getText() {
+        return text;
+    }
+}

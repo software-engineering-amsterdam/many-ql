@@ -1,10 +1,24 @@
 #!/usr/bin/env python
 
-from src.gui.app import GUI
+#from src.Gui.app import GUI
 
-# Dummy GUI app:
-# File dialog to select "form" to be parsed (output displayed in terminal)
+from src.QL.parser import Parser
+from src.Typechecker import *
+
 if __name__ == '__main__':
-    gui = GUI()
-    gui.mainloop()
+    parser = Parser()
 
+    with open("tests/forms/nonBoolean.txt") as f:
+        formText = f.read()
+        Form = parser.parse(formText)
+
+        f.close()
+
+    checker = TypeChecker()
+
+    checker.register(DuplicateQuestions())
+    checker.register(UndefinedQuestions())
+    checker.register(NonBooleanTypes())
+
+    checker.checkAST(Form)
+    checker.reportErrors()

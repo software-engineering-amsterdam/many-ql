@@ -1,6 +1,9 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
+
 public class TString extends TypeModel<String> {
+    public static final String TYPE_REFERENCE = "string";
 
     @Override
     public TypeModel<?> add(TypeModel<?> typeModel) {
@@ -15,6 +18,11 @@ public class TString extends TypeModel<String> {
     @Override
     public Class<String> getTypeModelClass() {
         return String.class;
+    }
+
+    @Override
+    public void apply(TypeCallback typeCallback) {
+        typeCallback.usesString();
     }
 
     public TString(String value) {

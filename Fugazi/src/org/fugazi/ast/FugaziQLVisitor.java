@@ -1,73 +1,58 @@
 package org.fugazi.ast;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.fugazi.ast.ASTNode.AbstractASTNode;
-import org.fugazi.ast.Expression.*;
-import org.fugazi.ast.Expression.comparison.*;
-import org.fugazi.ast.Expression.logical.AndExpression;
-import org.fugazi.ast.Expression.logical.LogicalExpression;
-import org.fugazi.ast.Expression.logical.OrExpression;
-import org.fugazi.ast.Expression.numerical.*;
-import org.fugazi.ast.Expression.unary.NegExpression;
-import org.fugazi.ast.Expression.unary.NotExpression;
-import org.fugazi.ast.Expression.unary.PosExpression;
-import org.fugazi.ast.Expression.unary.UnaryExpression;
-import org.fugazi.ast.Literals.ID;
-import org.fugazi.ast.Literals.NUMBER;
-import org.fugazi.ast.Literals.STRING;
-import org.fugazi.ast.Statement.IfStatement;
-import org.fugazi.ast.Statement.QuestionStatement;
-import org.fugazi.ast.Statement.ComputedQuestionStatement;
-import org.fugazi.ast.Statement.Statement;
-import org.fugazi.ast.Type.*;
-import org.fugazi.parser.QLBaseVisitor;
-import org.fugazi.parser.QLParser;
-import org.fugazi.ast.Form.Form;
+import org.fugazi.ast.expression.Expression;
+import org.fugazi.ast.expression.comparison.*;
+import org.fugazi.ast.expression.literal.*;
+import org.fugazi.ast.expression.logical.*;
+import org.fugazi.ast.expression.numerical.*;
+import org.fugazi.ast.expression.unary.*;
+import org.fugazi.ast.form.Form;
+import org.fugazi.ast.statement.*;
+import org.fugazi.ast.type.*;
+import org.fugazi.parser.*;
 
 import java.util.ArrayList;
-
-/*
-reference to undefined questions
-duplicate question declarations with different types
-conditions that are not of the type boolean
-operands of invalid type to operators
-cyclic dependencies between questions
-duplicate labels (warning)
-*/
-
-/*
-WHY VISITOR?
-1. Each visit can return an AST node.
-2. Build our ASt.
-*/
+import java.util.HashMap;
 
 public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
 
+    private final HashMap<String, Type> identifiers = new HashMap<>();
+
+    private void addIdentifier(String _name, Type _type) {
+        identifiers.put(_name, _type);
+    }
+
+    private Type getIdentifier(String _name) {
+        return identifiers.containsKey(_name) ? identifiers.get(_name) : null;
+    }
+    
+    private String removeStringQuotes(String _str) {
+        return _str.replaceAll("^\"|\"$", "");
+    }
+
+    private int getLineNumber(ParserRuleContext ctx) {
+        return ctx.getStart().getLine();
+    }
+
     /**
      * =======================
-     * Form
+     * form
      * =======================
      */
     
     @Override
     public Form visitForm(@NotNull QLParser.FormContext ctx) {
-        
-        // Get form's name.
         String formName = ctx.ID().getText();
-
-        // Get the body statements.
-        ArrayList<Statement> formStatements = new ArrayList<Statement>();
+        ArrayList<Statement> formStatements = new ArrayList<>();
 
         for (QLParser.StatementContext statement : ctx.statement()) {
-            Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the statement
+            Statement stat = (Statement) statement.accept(this);
             formStatements.add(stat);
         }
 
-        // Create the form.
-        Form form = new Form(formName, formStatements);
-        System.out.println("FORM: " + form.getName());
-
-        return form;
+        return new Form(formName, formStatements, this.getLineNumber(ctx));
     }
 
     /**
@@ -78,60 +63,41 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     
     @Override
     public IfStatement visitIfStatement(@NotNull QLParser.IfStatementContext ctx) {
-        
-        // Get the condition.
         Expression condition = (Expression) ctx.expression().accept(this);
-        
-        // Get the body statements.
-        ArrayList<Statement> statements = new ArrayList<Statement>();
+        ArrayList<Statement> statements = new ArrayList<>();
 
-        // Add the statements.
         for (QLParser.StatementContext statement : ctx.statement()) {
-            Statement stat = (Statement) statement.accept(this);    // Accept the QL Visitor of the statement
+            Statement stat = (Statement) statement.accept(this);
             statements.add(stat);
         }
 
-        // Create an if Statement
-        IfStatement ifStatement = new IfStatement(condition, statements);
-        System.out.println("CONDITION: " + ctx.expression().getText());
-
-        return ifStatement;
+        return new IfStatement(condition, statements, this.getLineNumber(ctx));
     }
 
     @Override
-    public QuestionStatement visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
-        
-        Type type = (Type) ctx.type().accept(this); 
-
-        ID identifier = new ID(ctx.ID().getText());
-
-        // TODO: Which is better?
-        // Literal? : STRING label = new STRING(ctx.STRING().getText());
-        STRING grammarLabel = new STRING(ctx.STRING().getText());
-        String label = grammarLabel.toString();
-
-        QuestionStatement question = new QuestionStatement(type, label, identifier);
-        System.out.println("LABEL: " + label + " ID: " + identifier + " ");
-
-        return question;
-    }
-
-    @Override
-    public ComputedQuestionStatement visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
-        
+    public Question visitNoAssignmentQuestion(@NotNull QLParser.NoAssignmentQuestionContext ctx) {
         Type type = (Type) ctx.type().accept(this);
+        ID identifier = new ID(ctx.ID().getText(), type, this.getLineNumber(ctx));
+        this.addIdentifier(identifier.getName(), type);
 
-        ID identifier = new ID(ctx.ID().getText());
+        STRING grammarLabel = new STRING(ctx.STRING().getText(), this.getLineNumber(ctx));
+        String label = removeStringQuotes(grammarLabel.toString());
 
-        STRING grammarLabel = new STRING(ctx.STRING().getText());
-        String label = grammarLabel.toString();
+        return new Question(type, label, identifier, this.getLineNumber(ctx));
+    }
+
+    @Override
+    public ComputedQuestion visitAssignmentQuestion(@NotNull QLParser.AssignmentQuestionContext ctx) {
+        Type type = (Type) ctx.type().accept(this);
+        ID identifier = new ID(ctx.ID().getText(), type, this.getLineNumber(ctx));
+        this.addIdentifier(identifier.getName(), type);
+
+        STRING grammarLabel = new STRING(ctx.STRING().getText(), this.getLineNumber(ctx));
+        String label = removeStringQuotes(grammarLabel.toString());
 
         Expression expression = (Expression) ctx.expression().accept(this);
 
-        ComputedQuestionStatement question = new ComputedQuestionStatement(type, label, identifier, expression);
-        System.out.println("LABEL: " + label + " ID: " + identifier + " ");
-        
-        return question;
+        return new ComputedQuestion(type, label, identifier, expression, this.getLineNumber(ctx));
     }
 
     /** 
@@ -142,24 +108,16 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
     
     @Override 
     public BoolType visitBoolType(@NotNull QLParser.BoolTypeContext ctx) {
-        System.out.print("TYPE: " + "Bool ");
-        return new BoolType();
-    }
-
-    @Override public MoneyType visitMoneyType(@NotNull QLParser.MoneyTypeContext ctx) {
-        System.out.print("TYPE: " + "Money ");
-        return new MoneyType();
+        return new BoolType(this.getLineNumber(ctx));
     }
 
     @Override public IntType visitIntType(@NotNull QLParser.IntTypeContext ctx) {
-        System.out.print("TYPE: " + "Int ");
-        return new IntType();
+        return new IntType(this.getLineNumber(ctx));
     }
 
     @Override 
     public StringType visitStringType(@NotNull QLParser.StringTypeContext ctx) { 
-        System.out.print("TYPE: " + "String ");
-        return new StringType();
+        return new StringType(this.getLineNumber(ctx));
     }
 
     /**
@@ -169,129 +127,122 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
      */
     @Override
     public Expression visitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx) {
-        System.out.print("PARENTHESIS: " + ctx.expression().getText() + " ");
-    return (Expression) ctx.expression().accept(this);
+        return (Expression) ctx.expression().accept(this);
     }
 
     @Override 
-    public UnaryExpression visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
-        System.out.print("OP: " + ctx.op.getText() + " ");
-        
-        // Get the expression
+    public Unary visitUnaryExpression(@NotNull QLParser.UnaryExpressionContext ctx) {
         Expression expr = (Expression) ctx.expression().accept(this);
 
-        // Check the operator. 
         if (ctx.op.getText().equals("!"))
-            return new NotExpression(expr);
-        else if (ctx.op.getText().equals("-"))
-            return new NegExpression(expr);
-        else if (ctx.op.getText().equals("+"))
-            return new PosExpression(expr);
+            return new Not(expr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("-"))
+            return new Negative(expr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("+"))
+            return new Positive(expr, this.getLineNumber(ctx));
         
         return null;
     }
     
     @Override
-    public NumericalExpression visitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) {
-        System.out.print("OP: " + ctx.op.getText() + " ");
-
-        // Get the expressions
+    public Numerical visitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) {
         Expression leftExpr = (Expression) ctx.expression(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression(1).accept(this);
 
-        // Check the operator.
-        if (ctx.op.getText().equals("*"))                        // *
-            return new MulExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText().equals("/"))                   // /
-            return new DivExpression(leftExpr, rightExpr);
+        if (ctx.op.getText().equals("*"))
+            return new Mul(leftExpr, rightExpr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("/"))
+            return new Div(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         return null;
     }
 
     @Override
-    public NumericalExpression visitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) {
-        System.out.print("OP: " + ctx.op.getText() + " ");
-
-        // Get the expressions
+    public Numerical visitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // Check the operator.
-        if (ctx.op.getText().equals("+"))                        // +
-            return new AddExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText().equals("-"))                  // -
-            return new SubExpression(leftExpr, rightExpr);
+        if (ctx.op.getText().equals("+"))
+            return new Add(leftExpr, rightExpr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("-"))
+            return new Sub(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         return null;
     }
 
     @Override
-    public LogicalExpression visitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) {
-        System.out.print("OP: || ");
-        
-        // Get the expressions
+    public Logical visitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
         
-        return new OrExpression(leftExpr, rightExpr);
+        return new Or(leftExpr, rightExpr, this.getLineNumber(ctx));
     }
     
     @Override
-    public LogicalExpression visitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) {
-        System.out.print("OP: && ");
-
-        // Get the expressions
+    public Logical visitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        return new AndExpression(leftExpr, rightExpr);
+        return new And(leftExpr, rightExpr, this.getLineNumber(ctx));
     }
     
     @Override
-    public ComparisonExpression visitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) {
-        System.out.print("OP: " + ctx.op.getText() + " ");
-
-        // Get the expressions
+    public Comparison visitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) {
         Expression leftExpr = (Expression) ctx.expression().get(0).accept(this);
         Expression rightExpr = (Expression) ctx.expression().get(1).accept(this);
 
-        // Check the operator.
-        if (ctx.op.getText().equals(">"))                            // >
-            return new GreaterExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText().equals(">="))                      // >=
-            return new GEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText().equals("<"))                       // <
-            return new LessExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText().equals("<="))                      // <=
-            return new LEExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText().equals("=="))                      // ==
-            return new EQExpression(leftExpr, rightExpr);
-        else if (ctx.op.getText().equals("!="))                      // !=
-            return new NotEqExpression(leftExpr, rightExpr);
+        if (ctx.op.getText().equals(">"))
+            return new Greater(leftExpr, rightExpr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals(">="))
+            return new GE(leftExpr, rightExpr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("<"))
+            return new Less(leftExpr, rightExpr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("<="))
+            return new LE(leftExpr, rightExpr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("=="))
+            return new EQ(leftExpr, rightExpr, this.getLineNumber(ctx));
+
+        if (ctx.op.getText().equals("!="))
+            return new NotEq(leftExpr, rightExpr, this.getLineNumber(ctx));
 
         return null;
     }
 
     /**
      * =======================
-     * Literals
+     * literals
      * =======================
      */
     @Override
-    public NUMBER visitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) {
-        System.out.print(" " + ctx.NUMBER().getText() + " ");
-        return (NUMBER) ctx.NUMBER().accept(this); // Accept the QL Visitor of the NUMBER
+    public INT visitIntExpression(@NotNull QLParser.IntExpressionContext ctx) {
+        int value = Integer.parseInt(ctx.INT().getText());
+        return new INT(value, this.getLineNumber(ctx));
     }
 
     @Override
-    public BoolType visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
-        System.out.print(" " + ctx.BOOLEAN().getText() + " ");
-        return (BoolType) ctx.BOOLEAN().accept(this); // Accept the QL Visitor of the BOOLEAN
+    public BOOL visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
+        Boolean value = Boolean.parseBoolean(ctx.BOOLEAN().getText());
+        return new BOOL(value, this.getLineNumber(ctx));
     }
     
     @Override
     public ID visitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) {
-        System.out.print(" " + ctx.ID().getText() + " ");
-        return (ID) ctx.ID().accept(this); // Accept the QL Visitor of the ID
+        String name = ctx.ID().getText();
+        Type type = this.getIdentifier(name);
+        return new ID(name, type, this.getLineNumber(ctx));
+    }
+
+    @Override
+    public STRING visitStringExpression(@NotNull QLParser.StringExpressionContext ctx) {
+        String value = ctx.STRING().getText();
+        return new STRING(value, this.getLineNumber(ctx));
     }
 }

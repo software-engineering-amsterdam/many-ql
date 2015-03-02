@@ -13,22 +13,14 @@ This project depends on go-qml to compile execute, there for QT5 is expected to 
 Once QT5 is available, execute:
 
 ```
-$ git clone https://github.com/software-engineering-amsterdam/many-ql.git
-$ cd many-ql/carlos.cirello
-$ go build
-$ ./carlos.cirello
-
-or
-
-C:\...> carlos.cirello
-```
-
-Or if you are in Unix-derived environment:
-```
+$ cd $GOPATH
+$ mkdir github.com/
+$ mkdir github.com/software-engineering-amsterdam/
+$ cd github.com/software-engineering-amsterdam/
 $ git clone https://github.com/software-engineering-amsterdam/many-ql.git
 $ cd many-ql/carlos.cirello
 $ make
-$ ./carlos.cirello
+$ ./carlos.cirello -src="example.ql"
 ```
 
 # Documentation

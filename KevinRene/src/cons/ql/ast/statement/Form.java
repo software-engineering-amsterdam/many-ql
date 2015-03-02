@@ -1,20 +1,26 @@
 package cons.ql.ast.statement;
 
 import cons.ql.ast.Statement;
-import cons.ql.ast.Visitor;
-import cons.ql.ast.expression.literal.QLIdent;
+import cons.ql.ast.expression.Identifier;
+import cons.ql.ast.expression.QLType;
+import cons.ql.ast.expression.type.QLForm;
+import cons.ql.ast.visitor.Visitor;
 
-public class Form extends Statement {	
-	protected QLIdent identifier;
-	protected Block block;
+public class Form extends Statement {
+	private final Identifier identifier;
+	private final Block block;
 	
-	public Form(QLIdent identifier, Block statements) {
+	public Form(Identifier identifier, Block block) {
 		this.identifier = identifier;
-		this.block = statements;
+		this.block = block;
 	}
 	
-	public QLIdent getIdent() {
+	public Identifier getIdentifier() {
 		return this.identifier;
+	}
+	
+	public QLType getType() {
+		return new QLForm();
 	}
 	
 	public Block getBlock() {
@@ -25,16 +31,15 @@ public class Form extends Statement {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Form(");
 		
-		sb.append(identifier.toString() + ", ");
-		sb.append(block.toString());
+		sb.append(getIdentifier().toString() + ", ");
+		sb.append(getBlock().toString());
 		sb.append(")");
 		
 		return sb.toString();
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
-		
+	public <T> T accept(Visitor<T> visitor) {		
+		return visitor.visit(this);
 	}
 }

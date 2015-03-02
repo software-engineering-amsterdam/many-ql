@@ -1,8 +1,9 @@
-form Box1HouseOwning
+form sample
 {
- boolean hasSoldHouse "purely test question :)"
- if (hasSoldHouse)
- {
-    integer sellingPrice "Price the house was sold for:" 2+1
- }
+    boolean test3 "Mwahaha" test2
+    boolean test "Test question" true
+    boolean test2 "Test question 2" test
+    integer a "label" b + 2 //TODO: fix evaluator, does not work for 2 + b !
+    integer b "label1" 3
+    string str "string input" "test"
 }

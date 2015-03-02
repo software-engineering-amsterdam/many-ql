@@ -1,22 +1,36 @@
-import lang.ql.ast.AstNode;
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
+import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.SymbolTable;
-import lang.ql.semantics.TypeChecker;
-import lang.ql.ast.visitor.PrintVisitor;
-import lang.ql.ast.visitor.SymbolVisitor;
-import lang.ql.syntax.QLVisitorImpl;
+import lang.ql.ast.type.DecType;
+import lang.ql.ast.type.IntType;
+import lang.ql.ast.type.Type;
+import lang.ql.gui.Modeler;
+import lang.ql.gui.SimpleGui;
+import lang.ql.gui.canvas.Canvas;
+import lang.ql.semantics.*;
+import lang.ql.ast.AstBuilder;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 import lang.ql.gen.*;
 
-public class Main
+public class Main extends Application
 {
+    private static Form ast;
+//    private static ValueTable values;
+
     public static void main(String[] args)
     {
+        new JFXPanel(); //TODO: figure out why all hell breaks loose without this statement
+
         try
         {
             CharStream stream = new ANTLRFileStream("src/lang/tests/formInput");
@@ -25,24 +39,28 @@ public class Main
             QLParser parser = new QLParser(tokens);
             ParserRuleContext tree = parser.form();
 
-            QLVisitorImpl visitor = new QLVisitorImpl();
-            AstNode root = visitor.visit(tree);
+            AstBuilder visitor = new AstBuilder();
+            ast = (Form) visitor.visit(tree);
 
-            PrintVisitor print = new PrintVisitor();
-            print.visit((Form)root);
+            TypeChecker.check(ast);
 
-            SymbolVisitor symbolVisitor = new SymbolVisitor();
-            SymbolTable table = symbolVisitor.visit(root);
+            IntType i = new IntType();
+            DecType d = new DecType();
 
-            TypeChecker typeVisitor = new TypeChecker();
-            typeVisitor.visit(root, table);
-
-            System.out.println(root);
-            System.out.println(print.getString());
+            Type r = i.promoteTo(d);
+            Type r2 = d.promoteInt(i);
+            System.out.print(r2);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage)
+    {
+        SimpleGui.run(ast, primaryStage);
     }
 }

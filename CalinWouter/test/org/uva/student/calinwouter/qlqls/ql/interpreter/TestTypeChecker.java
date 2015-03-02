@@ -1,8 +1,9 @@
-package org.uva.student.calinwouter.qlqls.ql;
+package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
+import org.uva.student.calinwouter.qlqls.ql.exceptions.*;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 
@@ -20,7 +21,7 @@ import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.*;
  */
 public class TestTypeChecker {
 
-    // TODO change type check strings to helper functions.
+    // TODO change type check strings to helper components.
 
     @Test
     public void testUndefinedQuestions() throws ParserException, IOException, LexerException {
@@ -40,7 +41,7 @@ public class TestTypeChecker {
     public void testIfNotBool() throws ParserException, IOException, LexerException {
         FormTypeChecker formInterpreter = InterpreterHelper
                 .typeCheckString(form("if (5) {  a: \"a\" int }"));
-        assertTrue(formInterpreter.getFatalException() instanceof IfNotBoolOrNull);
+        assertTrue(formInterpreter.getFatalException() instanceof IfNotBoolOrNullException);
     }
 
     @Test
@@ -54,14 +55,14 @@ public class TestTypeChecker {
     public void testComputedValueType() throws ParserException, IOException, LexerException {
         FormTypeChecker formInterpreter = InterpreterHelper
                 .typeCheckString(form("a: \"a\" boolean c: \"c:\" int(a)"));
-        assertTrue(formInterpreter.getFatalException() instanceof InvalidComputedValueType);
+        assertTrue(formInterpreter.getFatalException() instanceof InvalidComputedValueTypeException);
     }
 
     @Test
     public void testOperandsInvalidTypeIf() throws ParserException, IOException, LexerException {
         FormTypeChecker formInterpreter = InterpreterHelper
                 .typeCheckString(form("a: \"a\" int if (a) { b: \"b\" int } "));
-        assertTrue(formInterpreter.getFatalException() instanceof IfNotBoolOrNull);
+        assertTrue(formInterpreter.getFatalException() instanceof IfNotBoolOrNullException);
     }
 
     @Test

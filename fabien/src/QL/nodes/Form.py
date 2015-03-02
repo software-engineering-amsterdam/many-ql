@@ -1,24 +1,21 @@
 
-class Form:
-    def __init__(self, name="", children=None):
-         self.name = name
+from Node import Node
 
-         if children:
-            self.children = children
-         else:
-            self.children = []
+class Form(Node):
+    def __init__(self, LexNode):
+        Node.__init__(self, LexNode)
 
+        self.name  = self.tokens.get('ID', "")
+        self.block = self.tokens.get('block', list())
 
-    def __getitem__(self, key):
-        return self.children[key]
-
-    def __len__(self):
-        return len(self.children)
+    @property
+    def children(self):
+        return self.block
 
     def __repr__(self, nested=0):
         tree = "Form %s" % self.name
 
-        for node in self.children:
-            tree += "\n"  + ("\t" * nested) +  " -> " + node.__repr__(nested=nested+1)
+        for child in self.block:
+            tree += "\n"  + ("\t" * nested) +  " -> " + child.__repr__(nested=nested+1)
 
         return tree

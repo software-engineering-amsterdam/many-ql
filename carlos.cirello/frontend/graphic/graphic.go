@@ -3,18 +3,18 @@ package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
-	"log"
 	"sync"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 	"gopkg.in/qml.v1"
 )
 
 type renderAction int
 
 const (
-	renderQuestion renderAction = iota
+	drawQuestion renderAction = iota
+	updateQuestion
 	nukeQuestion
 )
 
@@ -24,55 +24,93 @@ type render struct {
 	label      string
 	fieldType  string
 	content    interface{}
+	invisible  bool
 }
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
-	renderEvent chan render
-	appName     string
+	renderEvent    chan render
+	appName        string
+	widgetDefaults map[string]string
 
-	mu          sync.Mutex
-	renderStack []render
-	answerStack map[string]string
-	sweepStack  map[string]bool
-	symbolTable map[string]qml.Object
+	mu              sync.Mutex
+	drawStack       []render
+	renderStack     []render
+	answerStack     map[string]string
+	sweepStack      map[string]bool
+	symbolTable     map[string]qml.Object
+	rows            qml.Object
+	updateCallbacks map[string]func(v string)
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string) frontend.Inputer {
+func GUI(appName string, widgetDefaults map[string]string) frontend.Inputer {
 	driver := &Gui{
-		appName: appName,
+		appName:        appName,
+		widgetDefaults: widgetDefaults,
 
-		renderEvent: make(chan render),
-		answerStack: make(map[string]string),
-		sweepStack:  make(map[string]bool),
-		symbolTable: make(map[string]qml.Object),
+		renderEvent:     make(chan render),
+		answerStack:     make(map[string]string),
+		sweepStack:      make(map[string]bool),
+		symbolTable:     make(map[string]qml.Object),
+		updateCallbacks: make(map[string]func(v string)),
 	}
 	return driver
 }
 
-// InputQuestion adds a new question into the GUI form stack
-func (g *Gui) InputQuestion(q *ast.QuestionNode) {
+// DrawQuestion adds a new question into the GUI form stack
+func (g *Gui) DrawQuestion(
+	identifier,
+	label,
+	typ string,
+	visible event.Visibility,
+) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	if _, ok := g.sweepStack[q.Identifier]; !ok {
-		m := &render{
-			renderQuestion,
-			q.Identifier,
-			q.Label,
-			q.Type(),
-			q.Content,
-		}
-		g.renderStack = append(g.renderStack, *m)
+	invisible := false
+	if visible == event.Hidden {
+		invisible = true
 	}
-	g.sweepStack[q.Identifier] = true
+	m := &render{
+		action:     drawQuestion,
+		identifier: identifier,
+		label:      label,
+		fieldType:  typ,
+		invisible:  invisible,
+	}
+	g.drawStack = append(g.drawStack, *m)
+	g.sweepStack[identifier] = true
+}
+
+// UpdateQuestion updates an existing question in the GUI form stack
+func (g *Gui) UpdateQuestion(
+	identifier,
+	fieldType string,
+	content interface{},
+) {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	m := &render{
+		action:     updateQuestion,
+		identifier: identifier,
+		fieldType:  fieldType,
+		content:    content,
+	}
+	g.renderStack = append(g.renderStack, *m)
+	g.sweepStack[identifier] = true
 }
 
 // Flush transfers form stack into the screen.
 func (g *Gui) Flush() {
 	g.mu.Lock()
 	defer g.mu.Unlock()
+
+	for _, v := range g.drawStack {
+		g.renderEvent <- v
+	}
+	g.drawStack = []render{}
 
 	for _, v := range g.renderStack {
 		g.renderEvent <- v
@@ -112,103 +150,36 @@ func (g *Gui) Loop() {
 
 func (g *Gui) loop() error {
 	win := startQMLengine(g.appName).CreateWindow(nil)
-	rows := win.Root().ObjectByName("questions")
+	g.rows = win.Root().ObjectByName("questions")
 	win.Show()
-	go g.addQuestionLoop(rows)
+	go g.renderLoop()
 	win.Wait()
 	return nil
 }
 
-func (g *Gui) addQuestionLoop(rows qml.Object) {
+func (g *Gui) renderLoop() {
 	for {
 		select {
 		case event := <-g.renderEvent:
 			switch event.action {
-			case renderQuestion:
+			case drawQuestion:
 				qml.Lock()
 				g.addNewQuestion(
-					rows,
 					event.fieldType,
 					event.identifier,
 					event.label,
-					event.content,
+					event.invisible,
 				)
+				qml.Unlock()
+			case updateQuestion:
+				qml.Lock()
+				g.updateQuestion(event.identifier, event.fieldType, event.content)
 				qml.Unlock()
 			case nukeQuestion:
 				qml.Lock()
-				g.hideQuestion(rows, event.identifier)
+				g.hideQuestion(event.identifier)
 				qml.Unlock()
 			}
 		}
 	}
-}
-
-func (g *Gui) addNewQuestion(rows qml.Object, newFieldType, newFieldName,
-	newFieldCaption string, content interface{}) {
-
-	if question, ok := g.symbolTable[newFieldName]; ok {
-		log.Printf("marking %s as visible", newFieldName)
-		question.Set("visible", true)
-		return
-	}
-
-	engine := qml.NewEngine()
-	newQuestionQML := renderNewQuestion(newFieldType, newFieldName,
-		newFieldCaption)
-	newQuestion, err := engine.LoadString("newQuestion.qml", newQuestionQML)
-	if err != nil {
-		log.Fatal("Fatal error while parsing newQuestion.qml:", err,
-			"Got:", newQuestionQML)
-	}
-
-	question := newQuestion.Create(nil)
-	question.Set("parent", rows)
-
-	g.symbolTable[newFieldName] = question
-
-	newFieldPtr := question.ObjectByName(newFieldName)
-	// todo(carlos) improve readability
-	switch newFieldType {
-	case ast.BoolQuestionType:
-		if content.(*ast.BoolQuestion).String() == "Yes" {
-			newFieldPtr.Set("checked", true)
-		}
-		newFieldPtr.On("clicked", func() {
-			g.mu.Lock()
-			defer g.mu.Unlock()
-
-			objectName := newFieldPtr.String("objectName")
-			content := newFieldPtr.Bool("checked")
-
-			g.answerStack[objectName] = "0"
-			if content {
-				g.answerStack[objectName] = "1"
-			}
-		})
-	default:
-		newFieldPtr.Set("text", content.(ast.Parser).String())
-		newFieldPtr.On("editingFinished", func() {
-			g.mu.Lock()
-			defer g.mu.Unlock()
-
-			objectName := newFieldPtr.String("objectName")
-			content := newFieldPtr.String("text")
-			g.answerStack[objectName] = content
-		})
-	}
-}
-
-func (g *Gui) hideQuestion(rows qml.Object, fieldName string) {
-	log.Printf("marking %s as invisible", fieldName)
-	g.symbolTable[fieldName].Set("visible", "false")
-}
-
-func startQMLengine(appName string) qml.Object {
-	engine := qml.NewEngine()
-	craddleQML := renderCraddle(appName)
-	craddle, err := engine.LoadString("craddle.qml", craddleQML)
-	if err != nil {
-		log.Fatal("Fatal error while parsing craddle.qml:", err)
-	}
-	return craddle
 }

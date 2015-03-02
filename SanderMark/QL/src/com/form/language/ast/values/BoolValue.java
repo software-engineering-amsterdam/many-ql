@@ -6,7 +6,7 @@ public class BoolValue extends GenericValue<Boolean> {
 	public BoolValue(boolean value) {
 		this.value = value;
 	}
-	public boolean evaluate() {
+	public boolean getValue() {
 		return value;
 }
 	@Override
@@ -15,13 +15,4 @@ public class BoolValue extends GenericValue<Boolean> {
 		
 	}
 	
-    public BoolValue Not(){
-    	return new BoolValue(!value);
-    }	
-	public BoolValue And(BoolValue right){
-		return new BoolValue(value && right.value);
-	}	
-	public BoolValue Or(BoolValue right){
-		return new BoolValue(value || right.value);
-	}		
 }

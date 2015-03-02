@@ -1,19 +1,24 @@
 package cons.ql.ast.expression.arithmetic;
 
 import cons.ql.ast.Expression;
-import cons.ql.ast.Visitor;
 import cons.ql.ast.expression.Binary;
+import cons.ql.ast.expression.QLType;
+import cons.ql.ast.expression.type.QLNumeric;
+import cons.ql.ast.visitor.Visitor;
 
-public class Div extends Binary {	
-	final static String operator = "/";
-
+public class Div extends Binary {
 	public Div(Expression left, Expression right) {
-		super(left, right, operator);
+		super(left, right, "/");
 	}
-
+	
 	@Override
-	public void accept(Visitor visitor) {
-		// TODO Auto-generated method stub
-		
+	public <T> T accept(Visitor<T> visitor) {		
+		return visitor.visit(this);
+	}
+	
+	//TODO: Add a superclass for numeric types.
+	@Override
+	public QLType getType() {
+		return new QLNumeric();
 	}
 }

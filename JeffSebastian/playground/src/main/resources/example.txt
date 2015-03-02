@@ -4,6 +4,7 @@ form taxOfficeExample {
   boolean hasMaintLoan : "Did you enter a loan?"
   
   if (hasSoldHouse) {
-  	double income : "Your income?"	
+  	decimal income : "Your income?"
+  	decimal test : "some question?" ((100 - 20) - 10)
   }
 }

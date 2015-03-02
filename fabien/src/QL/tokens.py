@@ -1,7 +1,7 @@
 
 import ply.lex
 
-literals = ["!", "(", ")", '{', '}', '<', '>', ':', '+', '-', '*', '/']
+literals = ["!", "(", ")", '{', '}', '<', '>', ':', '+', '-', '*', '/', '=']
 
 reserved = {
   "form"    : "FORM",
@@ -65,4 +65,5 @@ def t_error(t):
 t_ignore = " \t"
 
 # Build the lexer
-ply.lex.lex()
+def Lexer():
+    return ply.lex.lex()

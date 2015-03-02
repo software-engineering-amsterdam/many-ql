@@ -1,2 +1,0 @@
-class IllegalOperatorError(ValueError):
-    pass

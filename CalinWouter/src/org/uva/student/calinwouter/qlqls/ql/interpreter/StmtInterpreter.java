@@ -4,11 +4,12 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.NotOfTypeException;
+import org.uva.student.calinwouter.qlqls.ql.types.TBool;
 
 import java.util.LinkedList;
 
-public abstract class StmtInterpreter extends AnalysisAdapter {
-    protected final FormInterpreter formInterpreter;
+public abstract class StmtInterpreter<T extends FormInterpreter> extends AnalysisAdapter {
+    protected final T formInterpreter;
 
     @Override
     public abstract void caseAQuestionStmt(final AQuestionStmt node);
@@ -20,7 +21,7 @@ public abstract class StmtInterpreter extends AnalysisAdapter {
         ExpInterpreter expI = new ExpInterpreter(formInterpreter);
         nExp.apply(expI);
         if (!(expI.getValue().getValue() instanceof Boolean)) {
-            throw new NotOfTypeException("Boolean");
+            throw new NotOfTypeException(TBool.TYPE_REFERENCE);
         } else if ((Boolean) expI.getValue().getValue()) {
             return true;
         }
@@ -59,7 +60,7 @@ public abstract class StmtInterpreter extends AnalysisAdapter {
         }
     }
 
-    public StmtInterpreter(FormInterpreter formInterpreter) {
+    public StmtInterpreter(T formInterpreter) {
         this.formInterpreter = formInterpreter;
     }
 

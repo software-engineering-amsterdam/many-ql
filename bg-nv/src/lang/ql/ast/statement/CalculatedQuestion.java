@@ -1,34 +1,28 @@
 package lang.ql.ast.statement;
 
-import lang.ql.ast.AstNode;
-import lang.ql.ast.expression.Expression;
-import lang.ql.ast.visitor.Visitor;
-
-import java.util.Arrays;
-import java.util.Collections;
+import lang.ql.ast.expression.Expr;
+import lang.ql.ast.type.Type;
 
 /**
  * Created by bore on 14/02/15.
  */
 public class CalculatedQuestion extends Question
 {
-    private Expression expression;
+    private Expr calculation;
 
-    public CalculatedQuestion(String id, QuestionType questionType, String text, Expression expression)
+    public CalculatedQuestion(String id, Type type, String text, int lineNumber, Expr expr)
     {
-        super(id, questionType, text);
-        this.expression = expression;
+        super(id, type, text, lineNumber);
+        this.calculation = expr;
     }
 
-    public Expression getExpression()
+    public Expr getCalculation()
     {
-        return this.expression;
+        return this.calculation;
     }
 
-    public void visit(Visitor visitor) { visitor.visit(this); }
-
-    public Iterable<? extends AstNode> getChildren()
+    public <T> T accept(StatVisitor<T> visitor)
     {
-        return Arrays.asList(this.expression);
+        return visitor.visit(this);
     }
 }

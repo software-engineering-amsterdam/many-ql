@@ -1,16 +1,24 @@
 package lang.ql.ast;
 
-import lang.ql.ast.visitor.Visitor;
-
 /**
  * Created by bore on 09/02/15.
  */
 public abstract class AstNode
 {
-    public Iterable<? extends AstNode> getChildren()
+    private int lineNumber;
+
+    public AstNode()
     {
-        return null;
+
     }
 
-    public abstract void visit(Visitor visitor);
+    public AstNode(int lineNumber)
+    {
+        this.lineNumber = lineNumber;
+    }
+
+    public int getLineNumber()
+    {
+        return this.lineNumber;
+    }
 }

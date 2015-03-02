@@ -1,25 +1,22 @@
 package nl.uva.softwcons.ast.statement;
 
+import nl.uva.softwcons.ast.LineInfo;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.type.Type;
 
 public class Question extends Statement {
 
-    private String id;
+    private Identifier id;
     private String label;
     private Type type;
 
-    public Question(final String id, final String label, final Type type) {
+    public Question(final Identifier id, final String label, final Type type) {
         this.id = id;
         this.label = label;
         this.type = type;
     }
 
-    @Override
-    public <T> T accept(StatementVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
-
-    public String getId() {
+    public Identifier getId() {
         return id;
     }
 
@@ -29,6 +26,16 @@ public class Question extends Statement {
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public <T> T accept(StatementVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public LineInfo getLineInfo() {
+        return id.getLineInfo();
     }
 
 }

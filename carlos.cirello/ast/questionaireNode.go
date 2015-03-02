@@ -1,7 +1,0 @@
-package ast
-
-// QuestionaireNode holds all questions for a particular form
-type QuestionaireNode struct {
-	Label string
-	Stack []*ActionNode
-}

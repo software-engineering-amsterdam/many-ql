@@ -2,9 +2,9 @@
 import ply.yacc
 
 from src.QL import nodes
-from src.typechecker.errors import ParseError
+from src.Typechecker.errors import ParseError
 
-from tokens import tokens
+from tokens import tokens, Lexer
 
 
 # Precedence is ordered from low to high
@@ -21,10 +21,9 @@ precedence = (
     ('right','UMINUS', 'NOT'),
 )
 
-
 def p_form(p):
     '''formdef : FORM ID block'''
-    p[0] = nodes.Form(p[2], p[3])
+    p[0] = nodes.Form(p)
 
 
 def p_block(p):
@@ -33,6 +32,8 @@ def p_block(p):
     '''
     if len(p) == 4:
         p[0] = p[2]
+    else:
+        p[0] = []
 
 def p_statements(p):
     '''statements : statement
@@ -53,39 +54,28 @@ def p_statement(p):
     p[0] = p[1]
 
 
-def p_question_simple(p):
-    '''question : STRING'''
-    p[0] = nodes.Question(p[1])
-
-
-def p_question_with_type(p):
-    '''question : STRING TYPE
-                | STRING TYPE function
+def p_question(p):
     '''
-    p[0] = nodes.Question(p[1], p[2], None, p[3])
-
-
-def p_question_typed_label(p):
-    '''question : STRING ID ':' TYPE
-                | STRING ID ':' TYPE function
+    question : STRING
+             | STRING TYPE
+             | STRING TYPE function
+             | STRING ID ':' TYPE
+             | STRING ID ':' TYPE '=' function
     '''
-    if len(p) == 5:
-        p[0] = nodes.Question(p[1], p[4], p[2])
-    else:
-        p[0] = nodes.Question(p[1], p[4], p[2], p[5])
+    p[0] = nodes.Question(p)
 
 
 def p_if(p):
-    '''ifdef : IF function block
-             | IF function block ELSE block
-    '''
-    if len(p) == 4:
-      p[0] = nodes.Branch(p[2], p[3], [])
-    else:
-      p[0] = nodes.Branch(p[2], p[3], p[5])
+    '''ifdef : IF expr block'''
+    p[0] = nodes.Branch(p, p[3])
 
 
-def p_grouped_expression(p):
+def p_ifElse(p):
+    '''ifdef : IF expr block ELSE block'''
+    p[0] = nodes.Branch(p, p[3], p[5])
+
+
+def p_function_expression(p):
     '''
     function : '(' ')'
              | '(' expr ')'
@@ -94,19 +84,25 @@ def p_grouped_expression(p):
         p[0] = p[2]
 
 
-def p_single_term_expression(p):
-    '''expr : ID
-            | NUMBER
-            | STRING
-            | function
+def p_leaf(p):
+    '''
+    expr : ID
+         | NUMBER
+         | STRING
+    '''
+    p[0] = nodes.Leaf(p, p[1])
+
+
+def p_function(p):
+    '''
+    expr : function
     '''
     p[0] = p[1]
 
 
-def p_binary_expression(p):
+def p_bool_expression(p):
     '''expr : expr '>' expr
             | expr '<' expr
-
             | expr EQ expr
             | expr NEQ expr
             | expr LT_EQ expr
@@ -114,13 +110,17 @@ def p_binary_expression(p):
 
             | expr AND expr
             | expr OR  expr
+    '''
+    p[0] = nodes.BooleanExpression(p, p[2], p[1], p[3])
 
-            | expr '+' expr
+
+def p_operand_expression(p):
+    '''expr : expr '+' expr
             | expr '-' expr
             | expr '*' expr
             | expr '/' expr
     '''
-    p[0] = nodes.Expression(p[2], p[1], p[3])
+    p[0] = nodes.OperandExpression(p, p[2], p[1], p[3])
 
 
 def p_unary_minus_expression(p):
@@ -134,15 +134,17 @@ def p_not_expression(p):
 
 
 def p_error(p):
-    print "Syntax error at '%s'" % p
     raise ParseError(p)
-
 
 class Parser:
     def __init__(self, debug=0):
         self.debug  = debug
+
+        self.lexer  = Lexer()
         self.parser = ply.yacc.yacc()
 
+    def parse(self, text=None):
+        if text.strip():
+            return self.parser.parse(text, debug=self.debug)
 
-    def parse(self, text=""):
-        return self.parser.parse(text, debug=self.debug)
+        return []

@@ -1,47 +1,42 @@
 form TaxForm {
     
     // SINGLE LINE COMMENT
-    question hasSoldHouse2 "How many houses did you sell in 2014?"
-    answer integer is (100)
+    question A "How many houses did you sell in 2014?"
+    answer number is (199)
     
-    question hasSoldHouse3 "How many houses did you sell in 2014?"
-    answer string is ("Dummy" + hasSoldHouse)
+    question B "How many houses did you sell in 2015?"
+    answer number is (1 / 1)
 
-    question hasSoldHouse "How many houses did you sell in 2014?"
-    answer boolean is (fieldA and fieldB < fieldC)
+    question C "How many houses did you sell in 2016?"
+    answer boolean is (true)
 
-    if hasSoldHouse {
-        question totalHousesSold "How many houses did you sell in 2014?"
-        answer integer
-        
-        if hasSoldHouse {
-            question totalHousesSold "How many houses did you sell in 2014?"
-            answer integer
-        }
-
+    if C {
+       
+        question D "How many houses did you sell in 2017?"
+        answer string is ("Test")
         
     } else {
-        question sellingPrice "What was the selling price?"
-        answer integer
+       
+        question E "What was the selling price?"
+        answer number
 
-        question houseBuyer "To whom did you sell the house?"
-        answer string
+        question F "To whom did you sell the house?"
+        answer boolean is (E > 100 and C)
         
-        if hasSoldHouse {
-            question totalHousesSold "How many houses did you sell in 2014?"
-            answer integer
+        if F {
+            question G "How many houses did you sell in 2018?"
+            answer number
         }
-
         
     }
     
-    if hasSoldHouse {
-        question totalHousesSold "How many houses did you sell in 2014?"
-        answer integer
+    if C {
+        question H "How many houses did you sell in 2019?"
+        answer number
     }
     
     /* MULTI LINE COMMENTS
-    question hasSoldHouse2 "How many houses did you sell in 2014?"
-    answer integer
+    question I "How many houses did you sell in 2020?"
+    answer number
     */
 }

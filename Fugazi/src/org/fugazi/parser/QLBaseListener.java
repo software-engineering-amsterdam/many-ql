@@ -1,4 +1,4 @@
-// Generated from /Users/lukaszharezlak/Projects/uva_software_construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
+// Generated from /home/alex/Develop/Msc/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
 package org.fugazi.parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -89,18 +89,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMoneyType(@NotNull QLParser.MoneyTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMoneyType(@NotNull QLParser.MoneyTypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterIntType(@NotNull QLParser.IntTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -125,18 +113,6 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterStringExpression(@NotNull QLParser.StringExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -144,6 +120,66 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStringExpression(@NotNull QLParser.StringExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntExpression(@NotNull QLParser.IntExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntExpression(@NotNull QLParser.IntExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -161,13 +197,25 @@ public class QLBaseListener implements QLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { }
+	@Override public void enterComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx) { }
+	@Override public void exitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -192,66 +240,6 @@ public class QLBaseListener implements QLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNumberExpression(@NotNull QLParser.NumberExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
