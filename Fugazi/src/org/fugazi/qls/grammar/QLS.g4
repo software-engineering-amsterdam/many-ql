@@ -1,19 +1,21 @@
 grammar QLS;
 
-// stylesheet name
-stylesheet : 'stylesheet' ID;
+// stylesheet name, ROOT NODE
+stylesheet : 'stylesheet' ID page*;
 
-// Page, includes default declarations, and/or sections
+// Page, includes default declarations, and/or sections.
 page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
-// Section, includes questions
-section : 'section' STRING '{' question* '}'; //todo: make curlies optional for single statements
+// Section, includes questions and/or other sections, and/or default declarations.
+section : 'section' STRING '{' (question | section)* '}'; //todo: make curlies optional for single statements
 
-// question
-question : 'question' ID widget;
+// question id (zero or one widget)
+question : 'question' ID widget??;
 
 // widget
-widget : 'widget' supportedWidget;
+widget : 'widget' supportedWidget   # simpleWidget
+       | defaultStyleDeclr          # defaultStyleWidget
+       ;
 
 // defaultStyle, can be: default boolean widget radio("Yes", "No"), and/or default int { style widget }
 defaultStyleDeclr : 'default' type widget                           # noStylesDefault
