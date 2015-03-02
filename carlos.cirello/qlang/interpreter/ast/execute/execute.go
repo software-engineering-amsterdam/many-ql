@@ -37,7 +37,7 @@ func (exec Execute) QuestionaireNode(v *ast.Visitor, q *ast.QuestionaireNode) {
 
 // ActionNode branches to QuestionNode or IfNode executers
 func (exec Execute) ActionNode(v *ast.Visitor, a *ast.ActionNode) {
-	v.Visit(a.Action())
+	v.Visit(a.Action().(ast.Acceptable))
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend

@@ -12,10 +12,10 @@ func (n *IfNode) Accept(v *Visitor) {
 	v.Tree.IfNode(v, n)
 }
 
-func (n *QuestionaireNode) QuestionaireNode(v *Visitor) {
+func (n *QuestionaireNode) Accept(v *Visitor) {
 	v.Tree.QuestionaireNode(v, n)
 }
 
-func (n *QuestionNode) QuestionNode(v *Visitor) {
+func (n *QuestionNode) Accept(v *Visitor) {
 	v.Tree.QuestionNode(v, n)
 }

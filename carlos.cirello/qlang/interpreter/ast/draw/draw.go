@@ -26,7 +26,7 @@ func (Draw Draw) QuestionaireNode(v *ast.Visitor, q *ast.QuestionaireNode) {
 
 // ActionNode branches to QuestionNode or IfNode Drawerrs
 func (Draw Draw) ActionNode(v *ast.Visitor, a *ast.ActionNode) {
-	v.Visit(a.Action())
+	v.Visit(a.Action().(ast.Acceptable))
 }
 
 // QuestionNode adds question to symbol table, and dispatch to frontend
