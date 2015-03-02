@@ -1,5 +1,6 @@
 package org.uva.sea.ql.encoders.ast;
 
+
 public class NameExpression extends Expression {
 
 	private String name;

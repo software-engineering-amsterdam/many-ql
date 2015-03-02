@@ -1,7 +1,9 @@
 package org.uva.sea.ql.encoders.validation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.uva.sea.ql.encoders.ast.AstVisitor;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
@@ -14,19 +16,34 @@ import org.uva.sea.ql.encoders.ast.TextLocation;
 
 public class TypeChecker implements AstVisitor {
 
+	private Set<String> labels = new HashSet<>();
+
 	public List<TypeValidation> checkTypes(List<Question> questions) {
 		List<TypeValidation> typeValidations = new ArrayList<>();
 		for (Question question : questions) {
-			Expression condition = question.getCondition();
-			if (condition != null) {
-				determineDataType(condition, typeValidations, questions);
-			}
-			Expression computed = question.getComputed();
-			if (computed != null) {
-				determineDataType(computed, typeValidations, questions);
-			}
+			checkForDuplicateLabel(question, typeValidations);
+			checkDataTypes(questions, typeValidations, question);
 		}
 		return typeValidations;
+	}
+
+	private void checkDataTypes(List<Question> questions, List<TypeValidation> typeValidations, Question question) {
+		Expression condition = question.getCondition();
+		if (condition != null) {
+			determineDataType(condition, typeValidations, questions);
+		}
+		Expression computed = question.getComputed();
+		if (computed != null) {
+			determineDataType(computed, typeValidations, questions);
+		}
+	}
+
+	private void checkForDuplicateLabel(Question question, List<TypeValidation> typeValidations) {
+		String label = question.getQuestionText();
+		boolean added = labels.add(label);
+		if (!added) {
+			typeValidations.add(new TypeValidation("Duplicate label: " + label, question.getTextLocation()));
+		}
 	}
 
 	private DataType determineDataType(Expression expression, List<TypeValidation> typeValidations, List<Question> questions) {
