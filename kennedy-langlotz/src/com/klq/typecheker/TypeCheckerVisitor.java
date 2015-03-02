@@ -100,17 +100,20 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
     ==================================================================================================================*/
     @Override
     public AError visit(StringNode node) {
-        return new NotAnError(node, Type.STRING);
+        //return new NotAnError(node, Type.STRING);
+        return null;
     }
 
     @Override
     public AError visit(NumberNode node) {
-        return new NotAnError(node, Type.NUMERAL);
+        //return new NotAnError(node, Type.NUMERAL);
+        return null;
     }
 
     @Override
     public AError visit(DateNode node) {
-        return new NotAnError(node, Type.DATE);
+        //return new NotAnError(node, Type.DATE);
+        return null;
     }
 
     @Override
@@ -121,7 +124,8 @@ public class TypeCheckerVisitor implements IVisitor<AError> {
     @Override
     public AError visit(IdentifierNode node) {
         if(table.has(node.getIdentifier())){
-            return new NotAnError(node, table.getQuestionType(node.getIdentifier()));
+            //return new NotAnError(node, table.getQuestionType(node.getIdentifier()));
+            return null;
         }
         return new QuestionIDReference(node);
     }
