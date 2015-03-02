@@ -1,5 +1,6 @@
 package org.uva.student.calinwouter.qlqls.application;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.FormRenderer;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
@@ -69,8 +70,16 @@ public class Main {
     private static void executeQl(String ql) {
         try {
 
-            // TODO create GUI for QL.
+            HeadlessFormInterpreter headlessFormInterpreter;
+            FormTypeChecker formTypeChecker;
 
+            headlessFormInterpreter = InterpreterHelper.initializeHeadlessInterpreter(ql);
+            formTypeChecker = InterpreterHelper.typeCheckString(ql);
+
+            FormRenderer formRenderer = new FormRenderer(headlessFormInterpreter, formTypeChecker);
+            formRenderer.render();
+
+            headlessFormInterpreter.interpret();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -92,7 +101,9 @@ public class Main {
         } else if (args.length == 1 && args[0].equals("--help")) {
             printSyntax();
         } else if (args.length == 1) {
-            executeQl(args[0]);
+            String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
+            executeQl(ql);
         }
     }
 
