@@ -49,5 +49,6 @@ public class IdLiteral extends Literal implements Expression {
 	
 	@Override
 	public void fillMemory(Memory memory) {
+		memory.addId(this);
 	}
 }
