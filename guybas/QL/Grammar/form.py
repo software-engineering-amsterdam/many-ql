@@ -1,8 +1,9 @@
 # Grammar of form
 
 from pyparsing import Group, Optional
-from Grammar.expressions import *
-from Factory.forms import *
+from QL.Grammar.expressions import *
+from QL.Factory.forms import *
+from QL.Grammar.basic_types import *
 
 
 class FormFormat:

@@ -1,5 +1,5 @@
-from Main.type_checker import *
-from Main.exceptions import *
+from QL.Main.type_checker import *
+from QL.Main.exceptions import *
 
 
 class Mapper:

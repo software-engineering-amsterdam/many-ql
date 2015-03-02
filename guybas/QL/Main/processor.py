@@ -1,5 +1,5 @@
-from Main.mapper import *
-from AST.operators import *
+from QL.Main.mapper import *
+from QL.AST.operators import *
 
 
 class Processor:
