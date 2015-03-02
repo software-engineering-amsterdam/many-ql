@@ -11,10 +11,12 @@ import (
 const eof = 0
 
 const (
-	// StylesheetTokenText - Reserved Word
-	StylesheetTokenText = "stylesheet"
 	// DefaultTokenText - Reserved Word
 	DefaultTokenText = "default"
+	// PageTokenText - Reserved Word
+	PageTokenText = "page"
+	// StylesheetTokenText - Reserved Word
+	StylesheetTokenText = "stylesheet"
 
 	singleQuotedChar  = `'`
 	doubleQuotedChar  = `"`
@@ -56,6 +58,8 @@ func (x *lexer) Lex(yylval *qlsSymType) int {
 		typ = StylesheetToken
 	} else if txt == DefaultTokenText {
 		typ = DefaultToken
+	} else if txt == PageTokenText {
+		typ = PageToken
 
 	} else if txt == "{" || txt == "}" || txt == "(" || txt == ")" ||
 		txt == "+" || txt == "-" || txt == "*" || txt == "/" ||
