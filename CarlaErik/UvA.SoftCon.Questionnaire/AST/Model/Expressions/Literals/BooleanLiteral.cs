@@ -12,14 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
     /// </summary>
     public class BooleanLiteral : Literal<bool>
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.BooleanLiteral;
-            }
-        }
-
         public BooleanLiteral(bool value, TextPosition position)
             : base(value, position)
         {

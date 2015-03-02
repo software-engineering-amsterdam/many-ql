@@ -12,14 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
     /// </summary>
     public class StringLiteral : Literal<string>
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.StringLiteral;
-            }
-        }
-
         public StringLiteral(string value, TextPosition position)
             : base(value, position) { }
 

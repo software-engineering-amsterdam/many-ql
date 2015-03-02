@@ -12,14 +12,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
     /// </summary>
     public class Identifier : Node, IExpression
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Identifier;
-            }
-        }
-
         public string Name
         {
             get;

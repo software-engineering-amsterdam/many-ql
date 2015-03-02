@@ -9,14 +9,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
     public class EqualTo : BinaryExpression
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.EqualTo;
-            }
-        }
-
         public EqualTo(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(operation, left, right, position) {}
 

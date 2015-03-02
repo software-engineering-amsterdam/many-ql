@@ -10,14 +10,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
 {
     public class Negation : UnaryExpression
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Negation;
-            }
-        }
-
         public Negation(Operation operation, IExpression operand, TextPosition position)
             :base(operation, operand, position)
         {

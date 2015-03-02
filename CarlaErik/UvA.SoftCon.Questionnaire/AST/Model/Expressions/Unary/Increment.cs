@@ -10,14 +10,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
 {
     public class Increment : UnaryExpression
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Increment;
-            }
-        }
-
         public Increment(Operation operation, IExpression operand, TextPosition position)
             :base(operation, operand, position)
         {

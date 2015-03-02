@@ -9,14 +9,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
     public class Substract : BinaryExpression
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Substract;
-            }
-        }
-
         public Substract(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(operation, left, right, position) {}
 
