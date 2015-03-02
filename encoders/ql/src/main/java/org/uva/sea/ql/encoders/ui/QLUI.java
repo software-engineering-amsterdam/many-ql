@@ -34,6 +34,8 @@ import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
 public class QLUI extends Application {
 
+	private static final String DEFAULT_INPUT_FILE_LOCATION = "src/main/resources/input_form.ql";
+
 	public List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
 
 	public static void main(String[] args) {
@@ -50,19 +52,19 @@ public class QLUI extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		ScrollPane scrollPane = new ScrollPane(grid);
-		scrollPane.setPrefSize(550, 275);
-
 		QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 
 		AstTransformer astTransformer = new AstTransformer();
 		try {
-			Questionnaire questionnaire = questionnaireParsingService.parse("src/main/resources/input_form.ql");
+			Questionnaire questionnaire = questionnaireParsingService.parse(DEFAULT_INPUT_FILE_LOCATION);
 			RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
 			setUpQuestionnaireUI(runtimeQuestionnaire, grid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		ScrollPane scrollPane = new ScrollPane(grid);
+		scrollPane.setPrefSize(550, 275);
 
 		Scene scene = new Scene(scrollPane, 700, 600);
 		primaryStage.setScene(scene);
