@@ -16,9 +16,7 @@ class QuestionModel(object):
 
     @property
     def type(self):
-        evaluatorQuestion = self._getEvaluatorQuestion()
-        if evaluatorQuestion:
-            return evaluatorQuestion.type
+        return self._evaluator.getQuestionType(self._identifier)
 
     @property
     def isConstant(self):
@@ -27,7 +25,7 @@ class QuestionModel(object):
 
     @property
     def isVisible(self):
-        return self._evaluator.getQuestion(self._identifier) != None
+        return self._getEvaluatorQuestion() != None
 
     @property
     def value(self):
