@@ -27,19 +27,16 @@ public class Form  {
 	}
 
 	public JComponent createGUIComponent(JPanel panel) {
-		fPanel = new JPanel();
-		fPanel.setLayout(new BoxLayout(fPanel, BoxLayout.Y_AXIS));
-		
 		for(Iterator<Statement> s = this.statementList.iterator(); s.hasNext();)
 		{
 			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(fPanel);
+			JComponent component = statement.createGUIComponent(panel);
 			if(component != null)
 			{
-				fPanel.add(component);
+				panel.add(component);
 			}
 		}		
-		return fPanel;
+		return null;
 	}
 	
 	public void getErrors(ErrorCollector errs){

@@ -1,7 +1,7 @@
 import unittest
 from QL.Grammar.form import *
 from QL.AST.form import *
-from QL.AST.operators import *
+from QL.AST.Elements import *
 from QL.Factory.expressions import *
 from QL.Factory.forms import *
 

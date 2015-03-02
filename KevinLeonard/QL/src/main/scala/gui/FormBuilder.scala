@@ -1,19 +1,18 @@
 package gui
 
-//import java.util.concurrent.Callable
-//import java.lang.Boolean
-//import javafx.beans.binding.Bindings
 import javafx.beans.value.ObservableValue
 
 import ast._
 import evaluator.Evaluator
 
-import scala.collection.immutable.Map
+import scala.collection.immutable.StringOps
+import scala.util.Try
+
 import scalafx.Includes._
-//import scalafx.beans.Observable
-//import scalafx.beans.binding.Bindings
-//import scalafx.collections.ObservableBuffer
-import scalafx.scene.Node
+import scalafx.beans.property.StringProperty
+import scalafx.collections.ObservableMap
+import scalafx.collections.ObservableMap.Replace
+
 import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
 
@@ -22,91 +21,143 @@ class FormBuilder {
   val evaluator = new Evaluator()
 
   type VariableName = String
-  type EvalEnvironment = Map[VariableName, Value]
+  type EvalEnvironment = ObservableMap[VariableName, Value]
+
+  var env: EvalEnvironment = ObservableMap.empty[VariableName, Value]
 
   def build(form: Form): FormGUI = {
-    val env = evaluator.eval(form)
-    new FormGUI(form.label, build(form.s, env))
+    env = evaluator.eval(form)
+    new FormGUI(form.label, build(form.s))
   }
 
-  def build(s: Statement, env: EvalEnvironment): List[VBox] = s match {
-    case Sequence(statements: List[Statement]) => statements.flatMap(s => build(s, env))
-    case i: IfStatement => buildIfStatement(i, env)
-    case q: Question => List(buildQuestion(q, env))
+  def build(s: Statement, visibilityExpressions: List[Expression] = List()): List[VBox] = s match {
+    case Sequence(statements: List[Statement]) => statements.flatMap(s => build(s, visibilityExpressions))
+    case i: IfStatement => buildIfStatement(i, visibilityExpressions)
+    case q: Question => List(buildQuestion(q, visibilityExpressions))
   }
 
-  def buildIfStatement(i: IfStatement, env: EvalEnvironment): List[VBox] = evaluator.eval(i.expression, env) match {
-    case BooleanValue(true) => build(i.ifBlock, env)
-    case BooleanValue(false) => i.optionalElseBlock match {
-      case Some(s) => build(i.optionalElseBlock.get, env)
+  def buildIfStatement(i: IfStatement, visibilityExpressions: List[Expression]): List[VBox] = {
+    val ifBlock = build(i.ifBlock, i.expression :: visibilityExpressions)
+    val elseBlock = i.optionalElseBlock match {
+      case Some(s) => build(s, Not(i.expression) :: visibilityExpressions)
       case None => List()
     }
-    case _ =>  throw new AssertionError(s"Error in type checker. If expression is not of type Boolean.")
+    ifBlock ++ elseBlock
   }
 
-  def buildQuestion(q: Question, env: EvalEnvironment): VBox = buildVerticalBox(getFieldElements(q, env))
-
-  def buildVerticalBox(nodes: List[Node]): VBox = {
-    val box = new VBox
-    for (node <- nodes) box.children.add(node)
+  def buildQuestion(q: Question, visibilityExpressions: List[Expression]): VBox = {
+    val box = new QuestionBox(q, visibilityExpressions)
+    val field = q._type match {
+      case BooleanType() => buildBooleanField(box.fieldValue, q.variable.name)
+      case NumberType() => buildNumberField(box.fieldValue, q.variable.name)
+      case StringType() => buildStringField(box.fieldValue, q.variable.name)
+    }
+    box.children.add(field)
+    box.children.add(new Label(q.label))
+    box.visible = box.isVisible
     box
   }
 
-  def getFieldElements(q: Question, env: EvalEnvironment): List[Node] = q._type match {
-    case BooleanType() => getBooleanFieldElements(q.label, q.variable.name, env)
-    case NumberType() => getNumberFieldElements(q.label, q.variable.name, env)
-    case StringType() => getStringFieldElements(q.label, q.variable.name, env)
+  def buildBooleanField(fieldValue: StringProperty, name: VariableName): CheckBox = {
+    val field = new CheckBox {
+//      selected = env get name match {
+//        case Some(BooleanValue(v)) => v
+//        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
+//        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
+//      }
+    }
+//    field.selected.bindBidirectional(fieldValue)
+    field
   }
 
-  def getStringFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
-    val label = new Label(l)
-    val field = new TextField {
-      text = env get name match {
-        case Some(StringValue(v)) => v
-        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type String.")
-        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
-      }
-    }
-    field.text.addListener(
-      (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
-    )
-    List(label, field)
-  }
-
-  def getNumberFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
-    val label = new Label(l)
-    val field = new TextField {
-      text = env get name match {
-        case Some(NumberValue(v)) => v.toString
-        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type Number.")
-        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
-      }
-    }
+  def buildNumberField(fieldValue: StringProperty, name: VariableName): TextField = {
+    val field = new TextField
+    field.text.bindBidirectional(fieldValue)
 
     // TODO: Add number input validation.
     field.text.addListener(
-      (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
+      (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => {
+        val newIntV = Try(new StringOps(newV.toString).toInt).toOption.getOrElse(0)
+        env += (name -> NumberValue(newIntV))
+        ()
+      }
     )
-    List(label, field)
+    field
   }
 
-  def getBooleanFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
-    val label = new Label(l)
-    val field = new CheckBox {
-      selected = env get name match {
-        case Some(BooleanValue(v)) => v
-        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
-        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
+  def buildStringField(fieldValue: StringProperty, name: VariableName): TextField = {
+    val field = new TextField
+    field.text.bindBidirectional(fieldValue)
+
+    field.text.addListener(
+      (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => {
+        env += (name -> StringValue(newV.toString))
+        ()
+      }
+    )
+    field
+  }
+
+  class QuestionBox(q: Question, visibilityExpressions: List[Expression]) extends VBox {
+    val fieldValue: StringProperty = env get q.variable.name match {
+      case None => StringProperty("")
+      case Some(BooleanValue(_)) => StringProperty("false")
+      case Some(NumberValue(v)) => StringProperty(v.toString)
+      case Some(StringValue(v)) => StringProperty(v)
+    }
+    def fieldValue_=(v: Value) {
+      v match {
+        case BooleanValue(_) => fieldValue() = ""
+        case NumberValue(v) => fieldValue() = v.toString
+        case StringValue(v) => fieldValue() = v
       }
     }
-    // Alternative for text.addListener
-//    field.onAction = (event: ActionEvent) => model.userData += "x"
+    val dependencies: List[VariableName] = q.optionalExpression match {
+      case Some(e) => findDependencies(e)
+      case None => List()
+    }
+    val visibilityDependencies: List[VariableName] = visibilityExpressions.flatMap(v => findDependencies(v))
 
-    // Option 1 (Java way). Create binding (first argument) and pass items to observe (second to nth argument)
-//    field.visible <== Bindings.createBooleanBinding(new Callable[Boolean] { override def call(): Boolean = field.selected.value }, field.selected)
-    // Option 2 (Scala way. Create simple binding between 2 values. But how to pass the items to observe?
-//    field.visible <== field.selected
+    def isVisible: Boolean = visibilityExpressions.forall(evaluator.eval(_, env) == BooleanValue(true))
 
-    List(label, field)
+    env.onChange((map, change) => change match {
+      case Replace(key, added, removed) => {
+        if (visibilityDependencies contains key) {
+          visible = isVisible
+        }
+
+        // Only evaluate if visible
+        if (visible.value) {
+          if (dependencies contains key) {
+            q.optionalExpression match {
+              case Some(e) => fieldValue_=(evaluator.eval(e, env))
+              case None => ()
+            }
+          }
+        }
+      }
+    })
+  }
+
+  def findDependencies(e: Expression, dependencies: List[VariableName] = List()): List[VariableName] = e match {
+    case Or(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case And(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case Not(e1) => findDependencies(e1, dependencies)
+    case Equal(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case NotEqual(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case LessThan(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case LessThanEqual(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case GreaterThan(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case GreaterThanEqual(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case ast.Add(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case Sub(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case Mul(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case Div(l, r) => findDependencies(l, dependencies) ++ findDependencies(r, dependencies)
+    case Variable(name) => name :: dependencies 
+    case Literal(_, v) => dependencies
   }
 }
+
+
+
+

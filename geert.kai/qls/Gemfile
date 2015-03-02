@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+
+
+gem 'rspec'
+gem 'require_all'
+#gem 'jrubyfx'
+#gem 'ruby-debug'
+#gem
+gem 'racc'
+
