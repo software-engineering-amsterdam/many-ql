@@ -7,9 +7,14 @@ import edu.parser.QLS.QLSVisitor;
  * Created by Steven Kok on 28/02/2015.
  */
 public class Width extends Style {
+    private final int width;
 
-    public Width(String style) {
-        super(style);
+    public Width(int width) {
+        this.width = width;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     @Override

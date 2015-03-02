@@ -7,7 +7,7 @@ import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Question;
-import edu.parser.QLS.nodes.styles.Style;
+import edu.parser.QLS.nodes.styles.*;
 
 /**
  * Created by Steven Kok on 28/02/2015.
@@ -17,8 +17,6 @@ public interface QLSVisitor extends edu.parser.Visitor {
 
     AbstractNode visit(Page page);
 
-    AbstractNode visit(Style style);
-
     AbstractNode visit(Question question);
 
     AbstractNode visit(Identifier identifier);
@@ -27,4 +25,11 @@ public interface QLSVisitor extends edu.parser.Visitor {
 
     AbstractNode visit(Default aDefault);
 
+    AbstractNode visit(Width width);
+
+    AbstractNode visit(Widget widget);
+
+    AbstractNode visit(Font font);
+
+    AbstractNode visit(Color color);
 }

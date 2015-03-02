@@ -9,7 +9,7 @@ import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Question;
-import edu.parser.QLS.nodes.styles.Style;
+import edu.parser.QLS.nodes.styles.*;
 import edu.parser.nodes.QuestionType;
 
 import java.util.ArrayList;
@@ -83,11 +83,6 @@ public class TypeChecker implements QLSVisitor {
     }
 
     @Override
-    public AbstractNode visit(Style style) {
-        return style;
-    }
-
-    @Override
     public AbstractNode visit(Question question) {
         stylesheetQuestions.add(question);
         return question;
@@ -105,6 +100,26 @@ public class TypeChecker implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Default aDefault) {
+        return null;
+    }
+
+    @Override
+    public AbstractNode visit(Width width) {
+        return null;
+    }
+
+    @Override
+    public AbstractNode visit(Widget widget) {
+        return null;
+    }
+
+    @Override
+    public AbstractNode visit(Font font) {
+        return null;
+    }
+
+    @Override
+    public AbstractNode visit(Color color) {
         return null;
     }
 

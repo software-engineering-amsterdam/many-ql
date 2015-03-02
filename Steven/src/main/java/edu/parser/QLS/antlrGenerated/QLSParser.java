@@ -612,20 +612,49 @@ public class QLSParser extends Parser {
 	}
 
 	public static class StyleContext extends ParserRuleContext {
-		public Token widget;
-		public Token width;
-		public Token font;
-		public Token color;
-		public TerminalNode UPPERCASE() { return getToken(QLSParser.UPPERCASE, 0); }
-		public TerminalNode NUMBERS() { return getToken(QLSParser.NUMBERS, 0); }
-		public TerminalNode STRING() { return getToken(QLSParser.STRING, 0); }
 		public StyleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_style; }
+	 
+		public StyleContext() { }
+		public void copyFrom(StyleContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class WidgetContext extends StyleContext {
+		public TerminalNode UPPERCASE() { return getToken(QLSParser.UPPERCASE, 0); }
+		public WidgetContext(StyleContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitStyle(this);
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitWidget(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ColorContext extends StyleContext {
+		public TerminalNode NUMBERS() { return getToken(QLSParser.NUMBERS, 0); }
+		public ColorContext(StyleContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitColor(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class WidthContext extends StyleContext {
+		public TerminalNode NUMBERS() { return getToken(QLSParser.NUMBERS, 0); }
+		public WidthContext(StyleContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitWidth(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class FontContext extends StyleContext {
+		public TerminalNode STRING() { return getToken(QLSParser.STRING, 0); }
+		public FontContext(StyleContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof QLSVisitor ) return ((QLSVisitor<? extends T>)visitor).visitFont(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -637,37 +666,41 @@ public class QLSParser extends Parser {
 			setState(100);
 			switch (_input.LA(1)) {
 			case T__7:
+				_localctx = new WidgetContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(91); 
-				((StyleContext)_localctx).widget = match(T__7);
+				match(T__7);
 				setState(92); 
 				match(UPPERCASE);
 				}
 				break;
 			case T__8:
+				_localctx = new WidthContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(93); 
-				((StyleContext)_localctx).width = match(T__8);
+				match(T__8);
 				setState(94); 
 				match(NUMBERS);
 				}
 				break;
 			case T__9:
+				_localctx = new FontContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(95); 
-				((StyleContext)_localctx).font = match(T__9);
+				match(T__9);
 				setState(96); 
 				match(STRING);
 				}
 				break;
 			case T__10:
+				_localctx = new ColorContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(97); 
-				((StyleContext)_localctx).color = match(T__10);
+				match(T__10);
 				setState(98); 
 				match(T__11);
 				setState(99); 

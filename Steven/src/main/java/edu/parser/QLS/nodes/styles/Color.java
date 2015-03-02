@@ -8,8 +8,14 @@ import edu.parser.QLS.QLSVisitor;
  */
 public class Color extends Style {
 
-    public Color(String style) {
-        super(style);
+    private final int color;
+
+    public Color(int color) {
+        this.color = color;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     @Override

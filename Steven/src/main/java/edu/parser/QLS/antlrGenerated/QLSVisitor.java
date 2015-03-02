@@ -66,9 +66,31 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion_type(@NotNull QLSParser.Question_typeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#style}.
+	 * Visit a parse tree produced by the {@code widget}
+	 * labeled alternative in {@link QLSParser#style}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStyle(@NotNull QLSParser.StyleContext ctx);
+	T visitWidget(@NotNull QLSParser.WidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code width}
+	 * labeled alternative in {@link QLSParser#style}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWidth(@NotNull QLSParser.WidthContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code font}
+	 * labeled alternative in {@link QLSParser#style}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFont(@NotNull QLSParser.FontContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code color}
+	 * labeled alternative in {@link QLSParser#style}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColor(@NotNull QLSParser.ColorContext ctx);
 }

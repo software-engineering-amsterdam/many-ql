@@ -30,10 +30,10 @@ question_type
     : UPPERCASE
     ;
 style
-    : widget='widget' UPPERCASE
-    | width='width' NUMBERS
-    | font='font' STRING
-    | color='color' '#' NUMBERS
+    : 'widget' UPPERCASE #widget
+    | 'width' NUMBERS #width
+    | 'font' STRING #font
+    | 'color' '#' NUMBERS #color
     ;
 UPPERCASE
     : [A-Z]+

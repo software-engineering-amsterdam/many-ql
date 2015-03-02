@@ -50,19 +50,24 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
     }
 
     @Override
-    public AbstractNode visitStyle(@NotNull QLSParser.StyleContext ctx) {
-        if (ctx.color != null) {
-            return new Color(ctx.NUMBERS().getText());
-        } else if (ctx.width != null) {
-            return new Width(ctx.NUMBERS().getText());
-        } else if (ctx.font != null) {
-            String text = ctx.STRING().getText();
-            return new Font(removeQuotesFromString(text));
-        } else if (ctx.widget != null) {
-            return new Widget(ctx.UPPERCASE().getText());
-        } else {
-            throw new ParseException("Couldn't parse style for input: " + ctx.getText());
-        }
+    public AbstractNode visitColor(@NotNull QLSParser.ColorContext ctx) {
+        return new Color(Integer.parseInt(ctx.NUMBERS().getText()));
+    }
+
+    @Override
+    public AbstractNode visitFont(@NotNull QLSParser.FontContext ctx) {
+        String text = ctx.STRING().getText();
+        return new Font(removeQuotesFromString(text));
+    }
+
+    @Override
+    public AbstractNode visitWidth(@NotNull QLSParser.WidthContext ctx) {
+        return new Width(Integer.parseInt(ctx.NUMBERS().getText()));
+    }
+
+    @Override
+    public AbstractNode visitWidget(@NotNull QLSParser.WidgetContext ctx) {
+        return new Widget(ctx.UPPERCASE().getText());
     }
 
     @Override
