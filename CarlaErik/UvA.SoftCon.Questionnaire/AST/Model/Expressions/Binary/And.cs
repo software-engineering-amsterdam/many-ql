@@ -9,14 +9,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 {
     public class And : BinaryExpression 
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.And;
-            }
-        }
-
         public And(Operation operation, IExpression left, IExpression right, TextPosition position)
             : base(operation, left, right, position) {}
 
@@ -30,9 +22,14 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
             return visitor.Visit(this);
         }
 
-        public override DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Boolean;
+        }
+
+        public override bool OperandTypesAreValid(DataType leftType, DataType rightType)
+        {
+            return (leftType == DataType.Boolean && rightType == DataType.Boolean);
         }
     }
 }

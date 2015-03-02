@@ -8,5 +8,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public interface IStatement : INode
     {
+        void AppendQuestions(ICollection<Question> questions);
     }
 }

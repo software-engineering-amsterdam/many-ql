@@ -1,0 +1,21 @@
+
+form taxOfficeExample {
+  "Did you sell a house in 2010?"
+    hasSoldHouse: boolean
+
+  # Error
+  if (2 < "string" ) {
+
+  }
+
+  # Allowed
+  if (hasSoldHouse and (2 > 3)) {
+
+  }
+
+  # Error
+  if (hasSoldHouse and 23) {
+
+  }
+
+}

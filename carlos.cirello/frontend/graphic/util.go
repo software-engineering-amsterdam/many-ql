@@ -5,7 +5,7 @@ import (
 	"log"
 	"text/template"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 	"gopkg.in/qml.v1"
 )
 

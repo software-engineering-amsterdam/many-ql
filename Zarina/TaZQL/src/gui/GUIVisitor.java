@@ -1,6 +1,7 @@
 package gui;
 
-import gui.questions.IConnector;
+import interpreter.ValueRepository;
+import gui.questions.IQuestionUI;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
 import gui.widgets.WidgetVisitor;
@@ -14,55 +15,58 @@ import ast.question.IfStatement;
 import ast.question.Question;
 import ast.question.SimpleQuestion;
 
-public class GUIVisitor implements IQuestionVisitor<IConnector>{
+public class GUIVisitor implements IQuestionVisitor<IQuestionUI>{
 	private final GUIRender gui;
-	WidgetVisitor wid;
+	private final ValueRepository valueRepository;
 
-	public GUIVisitor(GUIRender gui) {
+	public GUIVisitor(GUIRender gui, ValueRepository valueRepository) {
 		this.gui = gui;
+		this.valueRepository = valueRepository;
 	} 
 	
-	public void addLabel(SimpleQuestion q) {
-		//
-			//this.gui.getLabel(q.getQuestionText());
-			//System.out.print("Test: " + q.getQuestionText());
-	}
+
 	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
 		return simpleQuestion.getQuestionType().accept(new WidgetVisitor( simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType()));
 		
 	}
 	
 	@Override
-	public IConnector visit(Question question) {
+	public IQuestionUI visit(Question question) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
 
 	@Override
-	public IConnector visit(SimpleQuestion simpleQuestion) {
+	public IQuestionUI visit(SimpleQuestion simpleQuestion) {
 		SimpleQuestionUI sq = new SimpleQuestionUI(simpleQuestion.getQuestionId(),
 												   new JLabel(simpleQuestion.getQuestionText()), 
-												   this.widget(simpleQuestion));
+												   this.widget(simpleQuestion),
+												   valueRepository);
 		
 		gui.putWidgetRepository(simpleQuestion.getQuestionId(), sq);
 		return sq;
 	}
 
 	@Override
-	public IConnector visit(ComputationQuestion calQuestion) {
+	public IQuestionUI visit(ComputationQuestion calQuestion) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IConnector visit(IfStatement ifStatement) {
+	public IQuestionUI visit(IfStatement ifStatement) {
+	//	IfStatementUI ifst = new IfStatementUI(ifStatement.getExpression());
+		
+	//	for(Question q : ifStatement.getIfStatement())
 		// TODO Auto-generated method stub
+	//	ifStatement.getExpression();
+	//	ifStatement.getIfStatement();
 		return null;
 	}
 
 	@Override
-	public IConnector visit(IfElseStatement ifElseStatement) {
+	public IQuestionUI visit(IfElseStatement ifElseStatement) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,6 @@
 # Expression validator
 from pyparsing import *
-from Factory.forms import *
+from QL.Factory.forms import *
 
 
 class ExpressionValidator:

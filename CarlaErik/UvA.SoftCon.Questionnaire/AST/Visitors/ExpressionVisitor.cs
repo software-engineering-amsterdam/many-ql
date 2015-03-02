@@ -36,7 +36,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             IExpression operand = context.expr().Accept(this);
             Operation operation = StringEnum.GetEnumerationValue<Operation>(context.GetChild(0).GetText());
 
-            return new Increment(operation, operand, context.GetTextPosition());
+            return new Negation(operation, operand, context.GetTextPosition());
         }
 
         public override IExpression VisitMultiplyDivide(QLParser.MultiplyDivideContext context)

@@ -59,47 +59,6 @@ public class CalculationGrammarTest extends GrammarTest {
         walker.walk(listener, createTree(content));
 
     }
-
-    @Test
-    public void questionWithoutAnswerType() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                "    Form: \"default\" {\n" +
-                "\n     Question: \"question\"{" +
-                "           Text: \"How much money did you earn through employer paid wages during 2014?\"" +
-                "    }}}";
-
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
-
-        walker.walk(listener, createTree(content));
-    }
-
-    @Test
-    public void malformedQuestion() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                "    Form: \"default\" {\n" +
-                "\n     Question: \"question\"{" +
-                "    }}";
-
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
-
-        walker.walk(listener, createTree(content));
-    }
-
-    @Test
-    public void questionWithoutIdentifier() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                "    Form: \"default\" {\n" +
-                "\n     Question: {" +
-                "           Text: \"How much money did you earn through employer paid wages during 2014?\"" +
-                "           Answer: integer" +
-                "       }" +
-                "    }}";
-
-        expectedException.expect(GrammarErrorListener.SyntaxError.class);
-
-        walker.walk(listener, createTree(content));
-    }
-
     @Test
     public void multipleCorrectCalculations() throws IOException {
         String content = "Name: \"Tax\" {\n" +

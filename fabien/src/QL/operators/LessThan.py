@@ -3,7 +3,6 @@ from NumericOperand import NumericOperand
 
 class LessThan(NumericOperand):
 
-
     def getType(self, IDs=None):
         return "boolean"
 

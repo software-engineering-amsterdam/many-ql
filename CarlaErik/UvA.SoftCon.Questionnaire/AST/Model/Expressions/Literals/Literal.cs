@@ -21,7 +21,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals
             Value = value;
         }
 
-        public abstract DataType? GetType(IDictionary<string, DataType> symbolTable);
+        public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
 
         public override string ToString()
         {
