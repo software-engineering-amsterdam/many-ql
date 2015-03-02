@@ -92,56 +92,47 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value addInteger(int argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;		
 	}
 
 	@Override
 	public Value addFloat(float argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
 	public Value addString(String argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
 	public Value divideInteger(int argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
 	public Value divideFloat(float argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
 	public Value multiplyInteger(int argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
 	public Value multiplyFloat(float argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
 	public Value subtractInteger(int argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
 	public Value subtractFloat(float argument) {
-		throw new UnsupportedOperationException();
-		
+		return this;
 	}
 
 	@Override
@@ -152,97 +143,82 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value notEqualToBoolean(boolean argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value notEqualToInteger(int argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value notEqualToFloat(float argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value notEqualToString(String argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value lowerThanInteger(int argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value lowerThanFloat(float argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value lowerOrEqualInteger(int argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value lowerOrEqualFloat(float argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value greaterThanInteger(int argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value greaterThanFloat(float argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value greaterOrEqualThanInteger(int argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value greaterOrEqualThanFloat(float argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value equalToBoolean(boolean argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value equalToInteger(int argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value equalToFloat(float argument) {
-		return new BooleanValue(false);
-		
+		return this;
 	}
 
 	@Override
 	public Value equalToString(String argument) {
-		return new BooleanValue(false);
+		return this;
 	}
 
 	@Override

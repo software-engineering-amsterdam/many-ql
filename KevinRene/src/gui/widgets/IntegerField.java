@@ -25,7 +25,6 @@ public class IntegerField extends TextField implements CaretListener {
 		
 		System.out.println("Set value for " + getIdentifier() + " to " + value);
 		
-		// Update value of the JTextField
 		textField.setText(value.toString());
 
 		storeAndNotify(getIdentifier(), value);

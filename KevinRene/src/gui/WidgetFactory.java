@@ -1,6 +1,7 @@
 package gui;
 
 import gui.widgets.IntegerField;
+import gui.widgets.IntegerSpinner;
 import gui.widgets.RadioButton;
 import gui.widgets.TextField;
 import gui.widgets.Widget;
@@ -53,14 +54,8 @@ public class WidgetFactory implements ExpressionVisitor<Widget>, StatementVisito
 	}
 
 	@Override
-	public Widget visit(QLForm qlForm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Widget visit(QLInteger qlInteger) {
-		return new IntegerField(identifier, valueEnv, enabled);
+		return new IntegerSpinner(identifier, valueEnv, enabled);
 	}
 
 	@Override

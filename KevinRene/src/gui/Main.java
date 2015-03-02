@@ -78,7 +78,7 @@ public class Main {
 			System.exit(0);
 		}
 		
-		JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, new Controller(), valueEnv));
+		JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, new WidgetEnvironment(), valueEnv));
 		frame.getContentPane().add(scrollPane);
  
         //Display the window.

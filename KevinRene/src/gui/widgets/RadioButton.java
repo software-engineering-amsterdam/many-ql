@@ -14,27 +14,25 @@ public class RadioButton extends Widget implements ChangeListener {
 	
 	private JRadioButton radioButton;
 
-	public RadioButton(Identifier identifier, ValueEnvironment controller) {
-		super(identifier, controller);
+	public RadioButton(Identifier identifier, ValueEnvironment valueEnv) {
+		super(identifier, valueEnv);
 		
 		radioButton = new JRadioButton();
 		radioButton.addChangeListener(this);
 	}
-	public RadioButton(Identifier identifier, ValueEnvironment controller, boolean enabled) {
-		this(identifier, controller);
+	public RadioButton(Identifier identifier, ValueEnvironment valueEnv, boolean enabled) {
+		this(identifier, valueEnv);
 		radioButton.setEnabled(enabled);
 	}
 
 	@Override
 	public void setValue(Value value) {
-		try {
-			radioButton.setSelected(((BooleanValue)value).getValue());
+		if (value.isUndefined()) {
+			return;
+		}
 
-			storeAndNotify(getIdentifier(), value);
-		}
-		catch (ClassCastException e) {
-			// value is of type Undefined
-		}
+		radioButton.setSelected(((BooleanValue)value).getValue());
+		storeAndNotify(getIdentifier(), value);
 	}
 
 	@Override

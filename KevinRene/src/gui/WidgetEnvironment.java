@@ -10,11 +10,11 @@ import cons.Value;
 import cons.ValueEnvironment;
 import cons.ql.ast.expression.Identifier;
 
-public class Controller {
+public class WidgetEnvironment {
 	
 	private final Map<Identifier, Widget> widgets;
 	
-	public Controller() {
+	public WidgetEnvironment() {
 		this.widgets = new HashMap<Identifier, Widget>();
 	}
 	

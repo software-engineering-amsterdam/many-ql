@@ -21,17 +21,17 @@ import cons.ql.ast.visitor.StatementVisitor;
 public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisitor<Void> {
 	
 	private JPanel pane;
-	private Controller controller;
+	private WidgetEnvironment controller;
 	private ValueEnvironment valueEnv;
 		
-	private ComponentCreator(Controller controller, ValueEnvironment valueEnv) {
+	private ComponentCreator(WidgetEnvironment controller, ValueEnvironment valueEnv) {
 		this.pane = new JPanel();
 		this.pane.setLayout(new MigLayout("insets 0, hidemode 3"));
 		this.controller = controller;
 		this.valueEnv = valueEnv;
 	}
 	
-	public static JPanel check(ASTNode tree, Controller controller, ValueEnvironment valueEnv) {
+	public static JPanel check(ASTNode tree, WidgetEnvironment controller, ValueEnvironment valueEnv) {
 		
 		ComponentCreator creator = new ComponentCreator(controller, valueEnv);
 		
