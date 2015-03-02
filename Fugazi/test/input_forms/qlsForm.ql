@@ -1,5 +1,4 @@
 stylesheet taxOfficeExample
-
   page Housing {
     section "Buying"
       question hasBoughtHouse
