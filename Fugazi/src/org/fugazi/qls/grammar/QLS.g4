@@ -15,8 +15,10 @@ question : 'question' ID widget;
 // widget
 widget : 'widget' supportedWidget;
 
-// defaultStyle
-defaultStyleDeclr : 'default' type widget; // todo: create this.
+// defaultStyle, can be: default boolean widget radio("Yes", "No"), and/or default int { style widget }
+defaultStyleDeclr : 'default' type widget                           # noStylesDefault
+                  | 'default' type '{' styleProperty* widget '}'    # stylesDefault
+                  ;
 
 /**
  * Definitions.
@@ -32,15 +34,13 @@ supportedWidget : 'checkbox'    # checkboxWidget
                 ;
 
 // Properties for styling
-styleProperty : 'width' NUMBER
-              | 'font' STRING
-              | 'fontsize' NUMBER
-              | 'color' '#'HEX
-              | widget
+styleProperty : 'width:' NUMBER         # widthStyleProperty
+              | 'font:' STRING          # fontStyleProperty
+              | 'fontsize:' NUMBER      # fontsizeStyleProperty
+              | 'color:' HEX            # colorStyleProperty
               ;
 
-
-// all alowed variable types. //todo: share grammar part with QL?
+// all alowed variable types.
 type    : 'bool'        # boolType
         | 'int'         # intType
         | 'string'      # stringType
@@ -60,7 +60,7 @@ ID  :   [a-zA-Z]+;
 NUMBER : DIGIT+ ;
 
 // HEX
-HEX : [0-9a-fA-F] ;
+HEX : [0-9a-fA-F] ; // todo: does not work
 
 // comment matches anything between /* and */
 COMMENT
