@@ -20,7 +20,7 @@ public class OptionSet implements Iterable, IKLQItem {
         answers = new ArrayList<AExpression>();
     }
 
-    private static OptionSet createAnswerSet(Type type){
+    public static OptionSet createAnswerSet(Type type){
         OptionSet result = new OptionSet();
         switch (type) {
             case BOOLEAN:
@@ -33,6 +33,10 @@ public class OptionSet implements Iterable, IKLQItem {
 
     public boolean add(AExpression answer) {
         return answers.add(answer);
+    }
+
+    public void add(int index, AExpression answer){
+        answers.add(index, answer);
     }
 
     public int size() {

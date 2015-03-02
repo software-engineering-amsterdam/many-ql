@@ -12,23 +12,27 @@ public class Division extends BinaryExpressions{
 	}
 	
 	@Override
-	public String toString(){
-		return "Division(" + this.getLeftExpr() + "," + this.getRightExpr() + ")";
-	}
-	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitDivision(this);
 	}
+	
 	@Override
 	public NumberValue evaluate() {
 		NumberValue left = NumberValue.numberValueFromExpr(this.getLeftExpr());
-		if (!NumberValue.isNumberValue(getLeftExpr()) || !NumberValue.isNumberValue(getRightExpr())){
-			throw new IllegalArgumentException("Operands Not Of The Same Type. Division requires numbers.");
-			}
-		if (left.intValue() == 0)
-			throw new IllegalArgumentException("Argument divisor 0");
 		
+		if (!NumberValue.isNumberValue(getLeftExpr()) || !NumberValue.isNumberValue(getRightExpr()))
+			throw new IllegalArgumentException("Operands Not Of The Same Type. Division requires numbers.");
 		
 		return left.division(NumberValue.numberValueFromExpr(getRightExpr()));
+	}
+
+	@Override
+	public String evaluateType() {
+		return Division.class.getName();
+	}
+	
+	@Override
+	public String toString(){
+		return "Division(" + this.getLeftExpr() + "," + this.getRightExpr() + ")";
 	}
 }

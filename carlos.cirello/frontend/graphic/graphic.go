@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 	"gopkg.in/qml.v1"
 )
 
@@ -29,27 +29,31 @@ type render struct {
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
-	renderEvent chan render
-	appName     string
+	renderEvent    chan render
+	appName        string
+	widgetDefaults map[string]string
 
-	mu          sync.Mutex
-	drawStack   []render
-	renderStack []render
-	answerStack map[string]string
-	sweepStack  map[string]bool
-	symbolTable map[string]qml.Object
-	rows        qml.Object
+	mu              sync.Mutex
+	drawStack       []render
+	renderStack     []render
+	answerStack     map[string]string
+	sweepStack      map[string]bool
+	symbolTable     map[string]qml.Object
+	rows            qml.Object
+	updateCallbacks map[string]func(v string)
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string) frontend.Inputer {
+func GUI(appName string, widgetDefaults map[string]string) frontend.Inputer {
 	driver := &Gui{
-		appName: appName,
+		appName:        appName,
+		widgetDefaults: widgetDefaults,
 
-		renderEvent: make(chan render),
-		answerStack: make(map[string]string),
-		sweepStack:  make(map[string]bool),
-		symbolTable: make(map[string]qml.Object),
+		renderEvent:     make(chan render),
+		answerStack:     make(map[string]string),
+		sweepStack:      make(map[string]bool),
+		symbolTable:     make(map[string]qml.Object),
+		updateCallbacks: make(map[string]func(v string)),
 	}
 	return driver
 }

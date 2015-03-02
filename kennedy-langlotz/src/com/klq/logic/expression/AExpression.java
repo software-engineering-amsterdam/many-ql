@@ -1,13 +1,20 @@
 package com.klq.logic.expression;
 
 import com.klq.logic.IKLQItem;
+import com.klq.logic.expression.operator.bool.*;
+import com.klq.logic.expression.operator.math.Addition;
+import com.klq.logic.expression.operator.math.Division;
+import com.klq.logic.expression.operator.math.Multiplication;
+import com.klq.logic.expression.operator.math.Subtraction;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringPropertyBase;
 
 import java.lang.*;
 
 /**
  * Created by Timon on 17.02.2015.
  */
-public abstract class AExpression implements Comparable, IKLQItem{
+public abstract class AExpression extends SimpleStringProperty implements Comparable, IKLQItem{
     public static final int ADD = -4;
     public static final int SUB = -3;
     public static final int MUL = -2;
@@ -48,6 +55,14 @@ public abstract class AExpression implements Comparable, IKLQItem{
         return type;
     }
 
+    public AExpression getLeft() {
+        return left;
+    }
+
+    public AExpression getRight() {
+        return right;
+    }
+
     @Override
     public int compareTo(Object o) {
         return UNCOMPARABLE;
@@ -55,14 +70,8 @@ public abstract class AExpression implements Comparable, IKLQItem{
 
     @Override
     public String toString() {
-        return left + " - " + this.getClass().getSimpleName() + " - " + right;
-    }
-
-    public AExpression getLeft() {
-        return left;
-    }
-
-    public AExpression getRight() {
-        return right;
+        return (left != null ? left : "()") + " - "
+                + this.getClass().getSimpleName() + " - "
+                + (right != null ? right : "()");
     }
 }

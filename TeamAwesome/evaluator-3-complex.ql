@@ -4,7 +4,7 @@ form taxOfficeExample {
     money = -3
   }
 
-  if "h" * 2 + 6 > "h" {
+  if 5 > 3 {
     if 3 == -hasSoldHouse {
       question hasBoughtHouse {
         "Did you buy a house1"

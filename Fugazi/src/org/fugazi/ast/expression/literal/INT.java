@@ -4,9 +4,6 @@ import org.fugazi.ast.expression.IExpressionVisitor;
 import org.fugazi.ast.type.IntType;
 import org.fugazi.ast.type.Type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class INT extends Literal {
 
     private final int value;

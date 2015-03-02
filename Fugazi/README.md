@@ -26,20 +26,16 @@ of support and many active online communities.
 
 ## Unit Tests
 
-For test framework we are using JUnit4.
+For the tests we use the JUnit4 framework.
 
 ## IDE
 
 Both contributors use the `IntelliJ IDEA` IDE for their development process, the reason is that we both have worked on *JetBrains* IDE's
 before and we feel more comfortable by using it.
 
-## Build tools
-
-//TODO: Gradle, Maven, Makefile?
-
 ## UI
 
-//TODO: JavaFX, Swing, JFrame?
+For the UI we use the Java Swing framework.
 
 ## External Tools
 
@@ -102,12 +98,6 @@ OR cmd+shift+G*
 
 **Jetbrains Antlr test:**
 *Inside of a g4 file -> right click on the token you want to test -> Test Rule <token>*
-
-Architecture
-=======
-## Class diagram
-
-![Class diagram](https://lh6.googleusercontent.com/0d9Rtc9nWYU6KRbII8q8ucI4-vCt6iW5nd0lliNElMiUjFY1Au2ubUu7C0YlC2np5oCrnnz3BZI=w1413-h577)
 
 QL & QLS
 =========

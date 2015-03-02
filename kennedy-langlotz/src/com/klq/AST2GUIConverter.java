@@ -4,9 +4,7 @@ import com.klq.ast.IVisitor;
 import com.klq.ast.ANode;
 import com.klq.ast.impl.*;
 import com.klq.ast.impl.expr.*;
-import com.klq.ast.impl.expr.bool.AndNode;
-import com.klq.ast.impl.expr.bool.OrNode;
-import com.klq.ast.impl.expr.comp.*;
+import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
@@ -24,15 +22,20 @@ import com.klq.logic.expression.terminal.Number;
 import com.klq.logic.question.*;
 
 import java.lang.String;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by juriaan on 17-2-15.
  */
 public class AST2GUIConverter implements IVisitor<IKLQItem> {
-    List<Question> questList = new ArrayList<Question>();
-    OptionSet currentAnswers = new OptionSet();
+    private HashMap<String, Identifier> identifiers;
+
+    public AST2GUIConverter(){
+        this.identifiers = new HashMap<String, Identifier>();
+    }
 
     /*==================================================================================================================
     Statements
@@ -92,8 +95,11 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Type type = node.getQuestionType();
         Text text = new Text(node.getText());
 
-        AExpression expr = (AExpression) node.getChild().accept(this);
-        return new Question(id, type, null, text, expr);
+        OptionSet options = new OptionSet();
+        for(ANode child : node.getChildren()){
+            options.add((AExpression) child.accept(this));
+        }
+        return new Question(id, type, options, text);
     }
 
     @Override
@@ -193,7 +199,14 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
 
     @Override
     public IKLQItem visit(IdentifierNode node) {
-        return new Identifier(node.getIdentifier());
+        if(identifiers.containsKey(node.getIdentifier())){
+            return identifiers.get(node.getIdentifier());
+        }
+        else {
+            Identifier id = new Identifier(node.getIdentifier());
+            identifiers.put(node.getIdentifier(), id);
+            return id;
+        }
     }
     /*==================================================================================================================
             Primitives

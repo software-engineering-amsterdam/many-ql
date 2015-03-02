@@ -2,8 +2,8 @@ from .. import CustomTypes
 
 def castableTo(fromType):
     castingSpec = {
-        # int: [CustomTypes.Money],
-        # CustomTypes.Money: [int]
+        int: [CustomTypes.Money],
+        CustomTypes.Money: [int]
     }
 
     if fromType in castingSpec:

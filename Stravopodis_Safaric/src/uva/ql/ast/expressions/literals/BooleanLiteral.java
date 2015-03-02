@@ -12,19 +12,28 @@ public class BooleanLiteral extends Literal{
 		super(_codeLines);
 		this.value = _value;
 	}
+	
 	public BooleanLiteral(CodeLines _codeLines){
 		super(_codeLines);
 	}
+	
 	@Override
 	public BooleanValue evaluate() {
 		return new BooleanValue(this.value);
 	}
-	@Override
-	public String toString() {
-		return "BooleanLiteral(" + String.valueOf(this.value) + ")";
-	}
+	
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
 		return visitor.visitBooleanLiteral(this);
+	}
+	
+	@Override
+	public String evaluateType() {
+		return BooleanLiteral.class.getName();
+	}
+	
+	@Override
+	public String toString() {
+		return "BooleanLiteral(" + String.valueOf(this.value) + ")";
 	}
 }

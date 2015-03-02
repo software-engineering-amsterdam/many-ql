@@ -25,4 +25,5 @@ public class IntLiteral extends Literal implements Expression {
 		return new IntType();
 	}
 	
+
 }

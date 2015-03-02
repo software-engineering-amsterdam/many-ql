@@ -22,5 +22,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
         }
 
         public abstract void Accept(IASTVisitor visitor);
+
+        public abstract T Accept<T>(IASTVisitor<T> visitor);
     }
 }

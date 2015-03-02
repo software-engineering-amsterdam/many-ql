@@ -8,6 +8,8 @@ import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.error.Error;
+import com.form.language.error.ErrorCollector;
 
 public class Not extends UnaryExpression implements Expression {
 
@@ -26,4 +28,21 @@ public class Not extends UnaryExpression implements Expression {
 		return new ErrorType();
 	}
 
+	@Override
+	public void getErrors(ErrorCollector errors) {
+		Type childType = value.getType();
+		value.getErrors(errors);
+		
+		if(childType.isBoolType()) {
+			return;
+		}
+		else{
+			if(!childType.isErrorType()){
+				Error newError = new Error(tokenInfo, "Expected !Boolean, but found !"  + childType);
+				errors.add(newError);
+				return;
+			}
+			return;
+		}
+	}
 }

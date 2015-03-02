@@ -4,11 +4,11 @@ package uva.ql.interpreter.typecheck;
 import java.util.List;
 
 import uva.ql.ast.ASTNode;
-import uva.ql.ast.CodeLines;
 import uva.ql.ast.Form;
 import uva.ql.ast.Prog;
 import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.expressions.PrimitiveType;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
 import uva.ql.ast.expressions.literals.DecimalLiteral;
@@ -35,6 +35,7 @@ import uva.ql.ast.statements.Statement;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 import uva.ql.ast.visitor.StatementVisitorInterface;
 import uva.ql.interpreter.typecheck.exception.IllegalTypeException;
+import uva.ql.supporting.ExpressionSupporting;
 
 public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, StatementVisitorInterface<Object>{
 
@@ -44,16 +45,6 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		return this.symbols;
 	}
 	
-	// Check whether an e.g. assignment is within the scope a question declaration
-	private boolean withinScope(CodeLines x, CodeLines y){
-		if (x == null || y == null) return false;
-		return 		x.getSourceCodeLocation().x > y.getSourceCodeLocation().x 
-				&& 	x.getSourceCodeLocation().y <= y.getSourceCodeLocation().y;
-	}
-	
-	private boolean questionReferenceUndefined(Identifier identifier){
-		return this.symbols.existsWithClassType(identifier.evaluate().getValue(), Question.class.getName());
-	}
 	
 	@Override
 	public Object visitProg(Prog prog) {
@@ -93,17 +84,10 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	public Object visitQuestion(Question question) {
 		
 		Symbol symbol = new Symbol(question.getType().getTypeName(), question.getClass().getName(), question.getCodeLines());
-		
 		Identifier identifier = question.getIdentifier();
 		String identifierValue = identifier.evaluate().getValue();
 		
-		if (symbols.existsWithClassType(identifierValue, question.getClass().getName())){
-			
-			if (symbols.keyWithSymbolExists(identifierValue, symbol))
-				throw new IllegalTypeException("IllegalTypeException: duplicate question with same type" + identifierValue);
-			else 
-				throw new IllegalTypeException("IllegalTypeException: duplicate question with different type" + identifierValue);	
-		}
+		TypeCheck.hasDuplicateQuestionDeclarations(this.symbols, identifierValue, question, symbol);
 		
 		symbols.putValue(identifierValue, symbol);
 		
@@ -116,15 +100,14 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 
 	@Override
 	public Object visitIfStatement(IfStatement ifStatement) {
-		
 		Expression expression = ifStatement.getExpression();
 		
-		if (expression.evaluate().getValue().getClass() != Boolean.class)
+		BinaryExpressions binary = (BinaryExpressions)expression.accept(this);
+		
+		if (binary.evaluate().getValue().getClass() != Boolean.class)
 			throw new IllegalTypeException("IllegalTypeException: conditions must be of type boolean - " 
 											+ expression.getCodeLines().toString());
 		
-
-		expression.accept(this);
 		this.visitStatements(ifStatement.getStatement());
 		
 		return null;
@@ -133,27 +116,16 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	@Override
 	public Object visitAssign(Assign assign) {
 		
-		Type type = new Type(assign.getExpression().evaluate().getValue().getClass().getSimpleName().toLowerCase(), assign.getCodeLines());
+		PrimitiveType primitiveType = PrimitiveType.findOperator(assign.getExpression().evaluate().getValue().getClass().getSimpleName().toLowerCase());
+		Type type = new Type(primitiveType.getName(), assign.getCodeLines());
 		String identifier = assign.getIdentifier().evaluate().getValue();
 		Expression expression = assign.getExpression();
 		
-		// Check whether this identifier is defined as an question, but it has to be within scope of the question
-		if (this.symbols.exists(identifier)){			
-			Symbol symbol = symbols.getSymbolForAttributes(identifier, null , Question.class.getName());
-			
-			if (!this.withinScope(assign.getCodeLines(), symbol.getCodeLines()))
-				throw new IllegalArgumentException("IllegalArgumentException: question assignment not in scope of question -> " 
-													+ assign.getCodeLines().toString());
-			
-		}
-		
-		// Check for duplicate labels
-		if (expression.getClass().equals(StringLiteral.class) && symbols.contentExists(expression))
-			throw new IllegalArgumentException("IllegalArgumentException: multiple question instances have same question: " 
-											+ expression.evaluate().getValue().toString());
+		TypeCheck.hasDuplicateLabels(this.symbols, expression);
 		
 		symbols.putValue(identifier, 
-				new Symbol(type.getTypeName(), assign.getClass().getName(), assign.getCodeLines(), expression));
+				new Symbol(type.getTypeName(), assign.getClass().getName(), assign.getCodeLines(),
+				expression));
 		
 		this.visitExpression(expression);
 		assign.getExpression().accept(this);
@@ -163,99 +135,83 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitBinaryExpression(BinaryExpressions expression) {
+	public Expression visitBinaryExpression(BinaryExpressions expression) {
 		
-		Expression left = expression.getLeftExpr();
-		Expression right = expression.getRightExpr();
-		
-		left.accept(this);
-		right.accept(this);
-		
-		return null;
+		Expression evalLeft = (Expression)expression.getLeftExpr().accept(this);
+		Expression evalRight = (Expression)expression.getRightExpr().accept(this);
+	
+		ExpressionSupporting validateExpression = new ExpressionSupporting(this.symbols, evalLeft, evalRight, expression.getOperator());
+		return validateExpression.expressionValidator();
 	}
 
 	@Override
 	public Object visitExpression(Expression expression) {
-		expression.accept(this);
-		return null;
+		return expression.accept(this);
 	}
 
 	@Override
 	public Object visitExponentiation(Exponentiation exponentiation) {
-		this.visitBinaryExpression(exponentiation);
-		return null;
+		return this.visitBinaryExpression(exponentiation);
 	}
 
 	@Override
 	public Object visitAddition(Addition addition) {
-		this.visitBinaryExpression(addition);
-		return null;
+		return this.visitBinaryExpression(addition);
 	}
 
 	@Override
 	public Object visitSubstraction(Substraction substraction) {
-		this.visitBinaryExpression(substraction);
-		return null;
+		return this.visitBinaryExpression(substraction);
 	}
 
 	@Override
 	public Object visitMultiplication(Multiplication multipllication) {
-		this.visitBinaryExpression(multipllication);
-		return null;
+		return this.visitBinaryExpression(multipllication);
 	}
 
 	@Override
 	public Object visitDivision(Division division) {
-		this.visitBinaryExpression(division);
-		return null;
+		return this.visitBinaryExpression(division);
 	}
 
 	@Override
 	public Object visitAnd(And and) {
-		this.visitBinaryExpression(and);
-		return null;
+		return this.visitBinaryExpression(and);
 	}
 
 	@Override
 	public Object visitOr(Or or) {
-		this.visitBinaryExpression(or);
-		return null;
+		return this.visitBinaryExpression(or);
 	}
 
 	@Override
 	public Object visitEqual(Equal equal) {
-		this.visitBinaryExpression(equal);
-		return null;
+		return this.visitBinaryExpression(equal);
 	}
 
 	@Override
 	public Object visitNotEqual(NotEqual notEqual) {
-		this.visitBinaryExpression(notEqual);
-		return null;
+		return this.visitBinaryExpression(notEqual);
 	}
 
 	@Override
 	public Object visitGreaterEqual(Greater_Eq greaterEqual) {
-		this.visitBinaryExpression(greaterEqual);
-		return null;
+		return this.visitBinaryExpression(greaterEqual);
 	}
 
 	@Override
 	public Object visitGreater(Greater greater) {
-		this.visitBinaryExpression(greater);
-		return null;
+		return this.visitBinaryExpression(greater);
 	}
 
 	@Override
 	public Object visitLessEqual(Less_Eq lessEqual) {
-		this.visitBinaryExpression(lessEqual);
-		return null;
+		return this.visitBinaryExpression(lessEqual);
 	}
 
 	@Override
 	public Object visitLess(Less less) {
-		this.visitBinaryExpression(less);
-		return null;
+		return this.visitBinaryExpression(less);
 	}
 
 	@Override
@@ -266,30 +222,30 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	@Override
 	public Object visitIdentifier(Identifier identifier) {
 		
-		if (!questionReferenceUndefined(identifier))
+		if (!TypeCheck.questionReferenceUndefined(this.symbols, identifier))
 			throw new IllegalArgumentException("IllegalArgumentException: reference to an undefined question -> " 
 												+ identifier.toString());
 		
-		return null;
+		return identifier;
 	}
 
 	@Override
 	public Object visitBooleanLiteral(BooleanLiteral booleanLiteral) {
-		return null;
+		return booleanLiteral;
 	}
 
 	@Override
 	public Object visitDecimalLiteral(DecimalLiteral decimalLiteral) {
-		return null;
+		return decimalLiteral;
 	}
 
 	@Override
 	public Object visitIntLiteral(IntLiteral intLiteral) {
-		return null;
+		return intLiteral;
 	}
 
 	@Override
 	public Object visitStringLiteral(StringLiteral stringLiteral) {
-		return null;
+		return stringLiteral;
 	}
 }

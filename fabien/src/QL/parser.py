@@ -2,9 +2,9 @@
 import ply.yacc
 
 from src.QL import nodes
-from src.typechecker.errors import ParseError
+from src.Typechecker.errors import ParseError
 
-from tokens import tokens
+from tokens import tokens, Lexer
 
 
 # Precedence is ordered from low to high
@@ -20,7 +20,6 @@ precedence = (
 
     ('right','UMINUS', 'NOT'),
 )
-
 
 def p_form(p):
     '''formdef : FORM ID block'''
@@ -101,10 +100,9 @@ def p_function(p):
     p[0] = p[1]
 
 
-def p_binary_expression(p):
+def p_bool_expression(p):
     '''expr : expr '>' expr
             | expr '<' expr
-
             | expr EQ expr
             | expr NEQ expr
             | expr LT_EQ expr
@@ -112,13 +110,17 @@ def p_binary_expression(p):
 
             | expr AND expr
             | expr OR  expr
+    '''
+    p[0] = nodes.BooleanExpression(p, p[2], p[1], p[3])
 
-            | expr '+' expr
+
+def p_operand_expression(p):
+    '''expr : expr '+' expr
             | expr '-' expr
             | expr '*' expr
             | expr '/' expr
     '''
-    p[0] = nodes.Expression(p, p[2], p[1], p[3])
+    p[0] = nodes.OperandExpression(p, p[2], p[1], p[3])
 
 
 def p_unary_minus_expression(p):
@@ -134,12 +136,15 @@ def p_not_expression(p):
 def p_error(p):
     raise ParseError(p)
 
-
 class Parser:
     def __init__(self, debug=0):
         self.debug  = debug
+
+        self.lexer  = Lexer()
         self.parser = ply.yacc.yacc()
 
+    def parse(self, text=None):
+        if text.strip():
+            return self.parser.parse(text, debug=self.debug)
 
-    def parse(self, text=""):
-        return self.parser.parse(text, debug=self.debug)
+        return []

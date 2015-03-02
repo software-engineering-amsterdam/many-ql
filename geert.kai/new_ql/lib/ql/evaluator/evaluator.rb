@@ -11,7 +11,7 @@ class Runner < BaseVisitor
   end
 
   def applicable_questions
-    run
+    visit @base
   end
 
   def visit_form(form)

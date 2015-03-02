@@ -2,19 +2,16 @@ from ..ast import Nodes
 
 class Message:
     def __init__(self, message, nodeOrLine = None):
-        self.__message = message
-        if isinstance(nodeOrLine, Nodes.Node):
-            self.__line = getattr(nodeOrLine, 'lineNumber', None)
-        else:
-            self.__line = nodeOrLine
+        self._message = message
+        self._line = getattr(nodeOrLine, 'lineNumber', nodeOrLine)
 
     @property
     def message(self):
-        return self.__message
+        return self._message
 
     @property
     def line(self):
-        return self.__line
+        return self._line
 
     def __str__(self):
         if self.line is None:

@@ -3,43 +3,49 @@ package org.fugazi.gui.ui_elements;
 import org.fugazi.ast.statement.Question;
 import org.fugazi.evaluator.expression_value.ExpressionValue;
 import org.fugazi.evaluator.expression_value.IntValue;
-import org.fugazi.evaluator.expression_value.StringValue;
-import org.fugazi.gui.widgets.TextBox;
+import org.fugazi.gui.mediator.IMediator;
+import org.fugazi.gui.widgets.IntegerOnlyTextBox;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class UINumQuestion extends UIQuestion {
 
-    private String textValue;
+    private Integer value;
 
-    public UINumQuestion(Question _question) {
-        super(_question);
-        this.textValue = "";
+    public UINumQuestion(IMediator _med, Question _question) {
+        super(_med, _question);
+        this.value = 0; // default
 
-        // TODO: get it from a GUI Designer
-        this.widget = new TextBox(_question.getLabel());
-        JTextField textField = ((TextBox)this.widget).getTextField();
-        //textField.addActionListener(event -> itemChanged(event)); // lambda
+        this.widget = new IntegerOnlyTextBox(_question.getLabel());
+
+        this.widget.addDocumentListener(new DocumentListener() {
+            
+            public void insertUpdate(DocumentEvent e) {
+                setState(widget.getValue().toString());
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                setState(widget.getValue().toString());
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
     }
 
-    @Override
-    public void setState(ExpressionValue _value) {
-        StringValue exprValue = (StringValue) _value;
-        this.textValue = exprValue.getValue();
+    public void setState(String _value) {
+        if (_value.equals("")) {
+            this.value = 0;
+        } else {
+            this.value = Integer.parseInt(_value);
+        }
 
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    private void itemChanged(ActionEvent e) {
-
-        JTextField textField = ((TextBox)this.widget).getTextField();
-        this.setState(new StringValue(textField.getText()));
+        this.sendToMediator();
     }
 
     @Override
     public ExpressionValue getState() {
-        return new IntValue(Integer.parseInt(textValue));
+        return new IntValue(value);
     }
 }

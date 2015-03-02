@@ -3,11 +3,13 @@ package nl.uva.softwcons.validation.typechecker;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.type.Type;
+import nl.uva.softwcons.ast.type.UndefinedType;
 
 public class Environment {
 
-    private final Map<String, Type> identifiers;
+    private final Map<Identifier, Type> identifiers;
 
     public Environment() {
         this.identifiers = new HashMap<>();
@@ -20,11 +22,11 @@ public class Environment {
      * @param variableName
      * @return the type of the given variable
      */
-    public Type resolveVariable(final String variableName) {
-        return this.identifiers.getOrDefault(variableName, Type.UNDEFINED);
+    public Type resolveVariable(final Identifier variableName) {
+        return this.identifiers.getOrDefault(variableName, UndefinedType.instance);
     }
 
-    public void defineVariable(final String variableName, final Type variableType) {
+    public void defineVariable(final Identifier variableName, final Type variableType) {
         this.identifiers.put(variableName, variableType);
     }
 }

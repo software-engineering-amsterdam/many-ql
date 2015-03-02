@@ -1,15 +1,13 @@
 package com.form.language.memory;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.form.language.ast.type.Type;
-import com.form.language.ast.values.GenericValue;
 
 public class Memory {
 	
-	private static HashMap<String,Type> ids;
+	private Map<String,Type> ids;
 	//private HashMap<String,GenericValue> values;
 	//private List<String> labels;
 			
@@ -20,25 +18,26 @@ public class Memory {
 		//labels = new List();
 	}
 	
-	public static boolean Exists(String id)
+	public boolean Exists(String id)
 	{
-		return ids.containsKey(id);		
+		return this.ids.containsKey(id);		
 	}
-	public static void addId(String id,Type type)
+	public void addId(String id,Type _type)
 	{
-		System.out.println(ids.size());
+		System.out.println(this.ids.size());
 		if(!Exists(id))
 		{
-			ids.put(id, type);
+			this.ids.put(id, _type);
 		}
 		else
 		{			
 			//Add error		
 		}
+		System.out.println(this.ids.size());
 	}
 	public Type getType(String id)
 	{
-		return ids.get(id).getType();
+		return ids.get(id);
 	}
 
 }

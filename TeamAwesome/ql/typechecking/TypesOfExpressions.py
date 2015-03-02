@@ -1,15 +1,13 @@
-from .Visitor import Visitor
-from . import Message
-from .Common import typeOfIdentifier
+from . import Checker, Message
+from .Identifier import typeOfIdentifier
 from .Cast import effectiveTypes
 
-from .. import TypeRules
-from .. import CustomTypes
+from .. import TypeRules, CustomTypes
 
 from ..ast import Nodes
 
 
-class Checker(Visitor):
+class Checker(Checker.FullChecker):
     def __init__(self, ast):
         super().__init__(ast)
         self._operatorTable = TypeRules.OperatorTable()
@@ -41,22 +39,32 @@ class Checker(Visitor):
                     self._typeOfLastExpression,
                     node.expr
                 ) 
+        
+    def _visitIdentifier(self, node):
+        self._typeOfLastExpression = typeOfIdentifier(
+            node,
+            self._ast.root
+        )
 
-    def _visitAtomicExpression(self, node):
-        if isinstance(node.left, CustomTypes.Identifier):
-            self._typeOfLastExpression = typeOfIdentifier(
-                node.left,
-                self._ast.root
-            )
-            if self._typeOfLastExpression is None:
-                self._result = self._result.withMessage(
-                    Message.Error(
-                        'undefined identifier '+node.left,
-                        node
-                    )
+        if self._typeOfLastExpression is None:
+            self._result = self._result.withMessage(
+                Message.Error(
+                    'undeclared identifier '+node,
+                    node
                 )
-        else:
-            self._typeOfLastExpression = type(node.left)
+            )
+        
+    def _visitStr(self, node):
+        self._typeOfLastExpression = str
+
+    def _visitInt(self, node):
+        self._typeOfLastExpression = int
+
+    def _visitMoney(self, node):
+        self._typeOfLastExpression = CustomTypes.Money
+
+    def _visitBool(self, node):
+        self._typeOfLastExpression = bool
 
     def _visitUnaryExpression(self, node):
         self.visit(node.right)

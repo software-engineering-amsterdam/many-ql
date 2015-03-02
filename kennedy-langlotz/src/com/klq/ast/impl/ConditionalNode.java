@@ -12,7 +12,8 @@ public class ConditionalNode extends ANode {
     ANode condition;
     ArrayList<ANode> children;
 
-    public ConditionalNode(ANode condition, ArrayList<ANode> children) {
+    public ConditionalNode(ANode condition, ArrayList<ANode> children, String location) {
+        super(location);
         this.condition = condition;
         this.children = children;
     }

@@ -1,0 +1,8 @@
+- type checker for statements, en types
+- memory id gedeelte , implementeren met error class
+
+- Errors koppelen aan GUI 
+- GUI afmaken if statemens 
+- testen voor statements
+- code checken
+- grade form

@@ -1,16 +1,19 @@
 package org.uva.ql.ast.statement;
 
+import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.type.QuestionType;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.ast.expression.literal.Identifier;
+import org.uva.ql.ast.expression.literal.StrLiteral;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.visitor.Visitor;
 
 public class QuestionCompute extends QuestionNormal {
 
-	private Expression expression;
+	private final Expression expression;
 
-	public QuestionCompute(QuestionType type, String identifier, String label, Expression expr) {
-		super(type, identifier, label);
-		expression = expr;
+	public QuestionCompute(Identifier identifier, StrLiteral label, Type type, Expression expr, CodePosition pos) {
+		super(identifier, label, type, pos);
+		this.expression = expr;
 	}
 
 	public Expression getExpression() {
@@ -22,10 +25,9 @@ public class QuestionCompute extends QuestionNormal {
 		return visitor.visit(this);
 	}
 
-	
 	@Override
 	public String toString() {
-		
-		return super.toString() + "\n expression: " + expression;
+		return super.toString() + "\n\tExpression = " + expression;
 	}
+
 }

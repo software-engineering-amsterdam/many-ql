@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
+    /// <summary>
+    /// Represents a binary expression which operator is not compatible with its operands.
+    /// </summary>
     public class InvalidBinaryExpression
     {
         public DataType LeftType

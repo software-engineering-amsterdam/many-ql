@@ -1,8 +1,7 @@
 grammar QL;
 
-statement 
-    :   form_statement
-    |   question_statement
+nested_statement
+    :   question_statement
     |   if_statement
     ;
 
@@ -11,15 +10,15 @@ root
     ;
 
 form_statement
-    :   'form' identifier '{' statement* '}'
+    :   'form' name=identifier '{' statements+=nested_statement* '}'
     ;
 
 question_statement
-    :   'question' identifier '{' string question_type ('=' expr)? '}'
+    :   'question' name=identifier '{' text=string qtype=question_type ('=' expression=expr)? '}'
     ;
 
 if_statement
-    :   'if' expr '{' statement* '}'
+    :   'if' expression=expr '{' statements+=nested_statement* '}'
     ;
 
 question_type
@@ -30,7 +29,7 @@ question_type
     ;
 
 expr
-    :   '(' expr ')'
+    :   '(' left=expr ')'
     |   op=('+' | '-' | '!') right=expr
     |   left=expr op='^' right=expr
     |   left=expr op=('*' | '/' | '%') right=expr

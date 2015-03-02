@@ -4,9 +4,9 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedSta
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Page;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Section;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.StyleSheet;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Page;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Section;
+import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,14 +35,12 @@ public class StyleSheetRenderer extends AbstractRenderer {
         JTabbedPane jTabbedPane = new JTabbedPane();
         for (Page p : styleSheet.getPages()) {
             p.apply(this);
-            System.out.println(p.getPageName());
             jTabbedPane.addTab(p.getPageName(), new JScrollPane(lastCreatedComponent));
         }
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
-                frame.repaint();
-                frame.revalidate();
+                frame.invalidate();
             }
         });
         frame.getContentPane().add(jTabbedPane);

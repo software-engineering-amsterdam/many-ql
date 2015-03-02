@@ -9,10 +9,6 @@ public class BooleanValue extends GenericValue<Boolean> {
 	public BooleanValue(boolean _value){
 		this.value = _value;
 	}
-	@Override
-	public Boolean getValue() {
-		return this.value;
-	}
 	
 	public static BooleanValue booleanValueFromExpr(Expression expr){
 		return new BooleanValue((boolean)expr.evaluate().getValue());
@@ -26,7 +22,12 @@ public class BooleanValue extends GenericValue<Boolean> {
 		return new BooleanValue(this.value && value.value);
 	}
 	public BooleanValue or(BooleanValue value){
-		return new BooleanValue(this.value && value.value);
+		return new BooleanValue(this.value || value.value);
+	}
+	
+	@Override
+	public Boolean getValue() {
+		return this.value;
 	}
 
 	@Override

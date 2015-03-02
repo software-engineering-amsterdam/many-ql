@@ -34,7 +34,7 @@ public class Runner {
         walker.walk(listener, tree);
 
         Questionnaire ast = listener.getAst();
-        ExpressionEvaluator.evaluateNode(ast);
+        ExpressionEvaluator ee = new ExpressionEvaluator(ast);
         TypeChecker tc = new TypeChecker(ast);
         tc.runChecks();
 

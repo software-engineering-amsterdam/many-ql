@@ -1,21 +1,51 @@
 package org.fugazi.gui.widgets;
 
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 
-public class TextBox extends JPanel implements IWidget {
+public class TextBox implements IWidget<String> {
 
-    private final JTextField valueField;
-    private final JLabel label;
+    private final String label;
+
+    private JTextField input;
+    private JPanel panel;
 
     public TextBox(String _label) {
-        this.valueField = new JTextField();
-        this.label = new JLabel(_label);
-        this.add(this.label);
-        this.valueField.setColumns(7);
-        this.add(this.valueField);
+        this.label = _label;
+
+        this.panel = new JPanel();
+        JLabel label = new JLabel(this.label);
+        this.input = new JTextField();
+
+        input.setColumns(7);
+
+        panel.add(label);
+        panel.add(input);
     }
 
-    public JTextField getTextField() {
-        return this.valueField;
+    @Override
+    public JComponent getJComponent() {
+        return this.panel;
+    }
+
+    @Override
+    public void addItemListener(ItemListener _listener) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public void addDocumentListener(DocumentListener _listener) {
+        this.input.getDocument().addDocumentListener(_listener);
+    }
+
+    @Override
+    public String getValue() {
+        return this.input.getText();
+    }
+
+    @Override
+    public void setValue(String _value) {
+        this.input.setText(_value);
     }
 }

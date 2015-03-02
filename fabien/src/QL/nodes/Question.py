@@ -1,4 +1,6 @@
 
+import uuid
+
 from Node import Node
 
 class Question(Node):
@@ -7,8 +9,15 @@ class Question(Node):
 
         self.text     = self.tokens.get('STRING', "")
         self.type     = self.tokens.get('TYPE', "boolean")
-        self.label    = self.tokens.get('ID', None)
+        self.ID       = self.tokens.get('ID', uuid.uuid4())
         self.function = self.tokens.get('function', None)
 
+    @property
+    def children(self):
+        if self.function:
+            return [self.function]
+
+        return []
+
     def __repr__(self, nested=0):
-        return "Question(%s: %s)" % (self.type, self.text)
+        return "Question (%s: %s)" % (self.type, self.text)

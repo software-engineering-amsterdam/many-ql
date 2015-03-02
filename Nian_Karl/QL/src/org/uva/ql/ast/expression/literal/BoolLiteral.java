@@ -1,13 +1,17 @@
 package org.uva.ql.ast.expression.literal;
 
-import org.uva.ql.ast.type.ExpressionType;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.ast.builder.CodePosition;
+import org.uva.ql.ast.type.BoolType;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.visitor.Visitor;
 
 public class BoolLiteral extends Literal {
 	
 	private final Boolean value;
 
-	public BoolLiteral(Boolean value) {
+	public BoolLiteral(Boolean value,CodePosition pos) {
+		super(pos);
 		this.value = value;
 	}
 	
@@ -26,9 +30,9 @@ public class BoolLiteral extends Literal {
 		return value.toString();
 	}
 
-	
 	@Override
-	public ExpressionType getExpressionType() {
-		return ExpressionType.BOOL;
+	public Type getType(TypeChecker typeChecker) {
+		return new BoolType();
 	}
+
 }

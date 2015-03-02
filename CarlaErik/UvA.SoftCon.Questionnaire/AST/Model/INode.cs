@@ -11,5 +11,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
         NodeType Type { get; }
         TextPosition Position { get; }
         void Accept(IASTVisitor visitor);
+        T Accept<T>(IASTVisitor<T> visitor);
     }
 }

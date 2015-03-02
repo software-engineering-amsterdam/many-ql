@@ -8,6 +8,8 @@ import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.error.Error;
+import com.form.language.error.ErrorCollector;
 
 public class Or extends BinaryExpression implements Expression {
 
@@ -25,6 +27,25 @@ public class Or extends BinaryExpression implements Expression {
 	public Type getType() {
 		if(left.getType().isBoolType() && right.getType().isBoolType()) return new BoolType();
 		return new ErrorType();
+	}
+	
+	@Override
+	public void getErrors(ErrorCollector errors) {
+		Type leftType = left.getType();
+		Type rightType = right.getType();
+		left.getErrors(errors);
+		right.getErrors(errors);
+
+		if(leftType.isBoolType() && rightType.isBoolType()) {
+			return;
+		}
+		else{
+			if(!(leftType.isErrorType() || rightType.isErrorType())){
+				errors.add(new Error(tokenInfo, "Expected Boolean || Boolean, but found " + leftType + " || " + rightType));
+				return;
+			}
+			return;
+		}
 	}
 
 }

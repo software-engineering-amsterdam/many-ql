@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.application.gui.qls.StyleSheetRenderer;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.StyleSheet;
+import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -35,12 +35,17 @@ public class Main {
         System.out.println("QL / QLS by Calin Borlovan + Wouter Nederhof.");
         System.out.println("    Please use --help for the syntax.");
         System.out.println();
+        System.out.println("Usage: java -jar CalinWouter.jar <args>");
+        System.out.println();
     }
 
     private static void printSyntax() {
-        System.out.println("--help:                shows this help");
-        System.out.println("1 file argument:       displays the QL form.");
-        System.out.println("1 file arguments:      displays the QL form (first argument) using QLS (second argument).");
+        System.out.println("Available arguments:");
+        System.out.println("");
+        System.out.println("<no arguments>:         demo reel");
+        System.out.println("--help:                 shows this help");
+        System.out.println("1 file argument:        displays the QL form.");
+        System.out.println("1 file arguments:       displays the QL form (first argument) using QLS (second argument).");
     }
 
     private static void executeQlQls(String ql, String qls) {

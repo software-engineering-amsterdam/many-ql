@@ -1,13 +1,17 @@
 package org.uva.ql.ast.expression.literal;
 
-import org.uva.ql.ast.type.ExpressionType;
-import org.uva.ql.ast.visitor.Visitor;
+import org.uva.ql.ast.builder.CodePosition;
+import org.uva.ql.ast.type.StrType;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.visitor.Visitor;
 
 public class StrLiteral extends Literal {
 
 	private final String value;
 
-	public StrLiteral(String value) {
+	public StrLiteral(String value,CodePosition pos) {
+		super(pos);
 		this.value = value;
 	}
 
@@ -27,7 +31,8 @@ public class StrLiteral extends Literal {
 	}
 
 	@Override
-	public ExpressionType getExpressionType() {
-		return ExpressionType.STR;
+	public Type getType(TypeChecker typeChecker) {
+		return new StrType();
 	}
+	
 }

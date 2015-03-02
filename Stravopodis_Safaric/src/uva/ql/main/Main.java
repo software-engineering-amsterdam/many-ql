@@ -8,7 +8,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import uva.ql.ast.ASTNode;
 import uva.ql.ast.Prog;
-import uva.ql.interpreter.gui.GUIVisitor;
+import uva.ql.interpreter.gui.GUI;
+import uva.ql.interpreter.observer.Subject;
 import uva.ql.interpreter.typecheck.TypeCheck;
 import uva.ql.interpreter.typecheck.TypeCheckVisitor;
 import uva.ql.parser.QLLexer;
@@ -29,14 +30,13 @@ public class Main{
 		QLMainVisitor visitor = new QLMainVisitor();
 		ASTNode ast = visitor.visit(tree);
 		
-		TypeCheckVisitor v = new TypeCheckVisitor();
-		v.visitProg((Prog)ast);
 		
 		TypeCheck typeCheck = new TypeCheck(ast);
-		//typeCheck.printSymbolTable();
+		typeCheck.getSymbolTable().printSymbolTable();
 		
-		GUIVisitor guiVisitor = new GUIVisitor(typeCheck.getSymbolTable());
-		guiVisitor.visitProg((Prog)ast);
+		Subject subject = new Subject();
 		
+		GUI gui = new GUI(typeCheck.getSymbolTable(), (Prog)ast, subject);
+		gui.rander();
 	}
 }

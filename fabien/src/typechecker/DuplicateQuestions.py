@@ -1,22 +1,18 @@
 
-from TypeChecker import TypeChecker
+from errors import DuplicationError
 
-class DuplicateQuestions(TypeChecker):
+class DuplicateQuestions:
+    def __init__(self):
+        self.errors = []
+        self.questionTypes = {}
 
-    def isValid(self, Node):
-        questionTypes = {}
-
-        for node in self.preorderTraversal(Node):
-            if node.isClass('Question'):
-                if node.label in questionTypes:
-                    if node.type != questionTypes[node.label]:
-                        raise Exception("Duplicate label `%s' of different type (%s != %s) in %s at line %d" % \
-                            (node.label, questionTypes[node.label], node.type, node, node.lineNr))
-                    else:
-                        # Warning?
-                        pass
-                else:
-                    questionTypes[node.label] = node.type
-
-        return True
-
+    def Question(self, node):
+        if node.ID in self.questionTypes:
+            if node.type != self.questionTypes[node.ID].type:
+                error = DuplicationError(self.questionTypes[node.ID], node)
+                self.errors.append(error)
+            else:
+                # TODO Warning object, duplicate question but same type
+                pass
+        else:
+            self.questionTypes[node.ID] = node

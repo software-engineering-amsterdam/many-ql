@@ -1,20 +1,38 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
-import java.util.HashMap;
+import org.uva.student.calinwouter.qlqls.qls.model.TypeToWidgetSettingsModel;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Default;
 
 public abstract class AbstractComponent<T> extends AbstractModel<T> {
-    private AbstractComponent<?> parent;
+    protected TypeToWidgetSettingsModel typeToWidgetSettingsModel;
+    protected AbstractComponent<?> parent;
 
-    protected AbstractComponent<?> getParent() {
-        return parent;
+    public AbstractComponent() {
+        super();
+        typeToWidgetSettingsModel = new TypeToWidgetSettingsModel();
     }
 
     public void setParent(AbstractComponent<?> parent) {
         this.parent = parent;
     }
 
-    public HashMap<String, HashMap<Object, Object>> getWidgetSettings() {
-        return parent.getWidgetSettings();
+    public AbstractComponent<?> getParent() {
+        return parent;
     }
 
+    public TypeToWidgetSettingsModel getTypeToWidgetSettingsModel() {
+        return getParent().getTypeToWidgetSettingsModel();
+    }
+
+    @Override
+    public void caseDefault(Default defaultSetting) {
+        try {
+            typeToWidgetSettingsModel = new TypeToWidgetSettingsModel(
+                    typeToWidgetSettingsModel,
+                    defaultSetting.getType(),
+                    defaultSetting.getWidgetSettingsModel());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

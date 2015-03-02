@@ -1,58 +1,58 @@
 package nl.uva.softwcons.ast.expression;
 
-import nl.uva.softwcons.ast.expression.binary.arithmetic.AdditionExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.DivisionExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.MultiplicationExpression;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.SubtractionExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.EqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThanExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.LowerOrEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.LowerThanExpression;
-import nl.uva.softwcons.ast.expression.binary.comparison.NotEqualExpression;
-import nl.uva.softwcons.ast.expression.binary.logical.AndExpression;
-import nl.uva.softwcons.ast.expression.binary.logical.OrExpression;
-import nl.uva.softwcons.ast.expression.identifier.IdentifierExpression;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
+import nl.uva.softwcons.ast.expression.binary.arithmetic.Subtraction;
+import nl.uva.softwcons.ast.expression.binary.comparison.Equal;
+import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqual;
+import nl.uva.softwcons.ast.expression.binary.comparison.GreaterThan;
+import nl.uva.softwcons.ast.expression.binary.comparison.LowerOrEqual;
+import nl.uva.softwcons.ast.expression.binary.comparison.LowerThan;
+import nl.uva.softwcons.ast.expression.binary.comparison.NotEqual;
+import nl.uva.softwcons.ast.expression.binary.logical.And;
+import nl.uva.softwcons.ast.expression.binary.logical.Or;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
 import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
 import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ast.expression.unary.logical.NotExpression;
+import nl.uva.softwcons.ast.expression.unary.logical.Not;
 
 public interface ExpressionVisitor<T> {
 
     /* Binary arithmetic expressions */
-    T visit(AdditionExpression expr);
+    T visit(Addition expr);
 
-    T visit(DivisionExpression expr);
+    T visit(Division expr);
 
-    T visit(MultiplicationExpression expr);
+    T visit(Multiplication expr);
 
-    T visit(SubtractionExpression expr);
+    T visit(Subtraction expr);
 
     /* Binary comparison expressions */
-    T visit(EqualExpression expr);
+    T visit(Equal expr);
 
-    T visit(GreaterOrEqualExpression expr);
+    T visit(GreaterOrEqual expr);
 
-    T visit(GreaterThanExpression expr);
+    T visit(GreaterThan expr);
 
-    T visit(LowerOrEqualExpression expr);
+    T visit(LowerOrEqual expr);
 
-    T visit(LowerThanExpression expr);
+    T visit(LowerThan expr);
 
-    T visit(NotEqualExpression expr);
+    T visit(NotEqual expr);
 
     /* Binary logical expressions */
-    T visit(AndExpression expr);
+    T visit(And expr);
 
-    T visit(OrExpression expr);
+    T visit(Or expr);
 
     /* Unary logical expressions */
-    T visit(NotExpression expr);
+    T visit(Not expr);
 
     /* Literal and identifier expressions */
-    T visit(IdentifierExpression expr);
+    T visit(Identifier expr);
 
     T visit(BooleanLiteral expr);
 

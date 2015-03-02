@@ -9,6 +9,8 @@ import com.form.language.ast.type.IntType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
+import com.form.language.error.Error;
+import com.form.language.error.ErrorCollector;
 
 public class Division extends BinaryExpression implements Expression {
 
@@ -27,5 +29,22 @@ public class Division extends BinaryExpression implements Expression {
 		return new ErrorType();
 	}
 	
-	
+	@Override
+	public void getErrors(ErrorCollector errors) {
+		Type leftType = left.getType();
+		Type rightType = right.getType();
+		left.getErrors(errors);
+		right.getErrors(errors);
+
+		if(leftType.isIntType() && rightType.isIntType()) {
+			return;
+		}
+		else{
+			if(!(leftType.isErrorType() || rightType.isErrorType())){
+				errors.add(new Error(tokenInfo, "Expected Int / Int, but found " + leftType + " / " + rightType));
+				return;
+			}
+			return;
+		}
+	}
 }

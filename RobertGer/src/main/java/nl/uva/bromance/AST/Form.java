@@ -28,7 +28,7 @@ public class Form extends Node implements CanContainConditionals {
         this.setAcceptedParents(parentsAllowed);
         if (id != null) {
             // Remove double quotes around the identifier
-            this.identifier = id.substring(1,id.length()-1);
+            this.identifier = id.substring(1, id.length() - 1);
         } else {
             //TODO: Consider putting this in the type checker.
             System.err.println("Form Error: No identifier specified");
@@ -83,6 +83,7 @@ public class Form extends Node implements CanContainConditionals {
             throw new TypeCheckingException.NoIdentifierDefinedTypeCheckingException(getLineNumber());
         }
     }
+
     //TODO: Create Identifier class.
     @Override
     public Optional<IfStatement> getIfsStatement() {
