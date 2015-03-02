@@ -8,7 +8,7 @@ using QL.Model;
 
 namespace QL.Exceptions
 {
-    public class TypeException : QLException
+    public class TypeException : QLError
     {
         public SourceLocation SourceLocation { get; private set; }
 

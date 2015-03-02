@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QL.Exceptions
 {
-    public class RedeclaredVariableWarning : QLException
+    public class RedeclaredVariableWarning : QLError
     {
         public RedeclaredVariableWarning() { }
         public RedeclaredVariableWarning(string message) : base(message) { }

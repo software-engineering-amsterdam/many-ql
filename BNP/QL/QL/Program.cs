@@ -48,7 +48,7 @@ namespace QL
                 if (ast.TypeCheckerExceptions.Any())
                 {
                     //do something
-                    foreach (QLException e in ast.TypeCheckerExceptions)
+                    foreach (QLError e in ast.TypeCheckerExceptions)
                     {
                         Console.WriteLine(e.ToString());
                     }
@@ -60,7 +60,7 @@ namespace QL
                 if (ast.EvaluationExceptions.Any())
                 {
                     //do something
-                    foreach (QLException e in ast.TypeCheckerExceptions)
+                    foreach (QLError e in ast.TypeCheckerExceptions)
                     {
                         Console.WriteLine(e.ToString());
                     }

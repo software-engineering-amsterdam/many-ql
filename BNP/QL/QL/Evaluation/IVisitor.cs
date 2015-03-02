@@ -11,7 +11,7 @@ namespace QL.Evaluation
 {
     public interface IVisitor
     {
-        IList<QLException> Exceptions { get; }
+        IList<QLError> Errors { get; }
 
         void Visit(Form node);
         void Visit(Block node);

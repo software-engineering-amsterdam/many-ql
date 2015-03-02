@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace QL.Exceptions
 {
-    public class QLException : Exception
+    public class QLError : Exception
     {
-        public QLException()
+        public QLError()
         { }
 
-        public QLException(string message)
+        public QLError(string message)
             : base(message)
         { }
 
-        public QLException(string message, Exception inner)
+        public QLError(string message, Exception inner)
             : base(message, inner)
         { }
 
-        protected QLException(SerializationInfo info, StreamingContext context)
+        protected QLError(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
     }

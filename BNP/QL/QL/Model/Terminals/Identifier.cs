@@ -47,7 +47,7 @@ namespace QL.Model.Terminals
         }
         public override Type GetReturnType()
         {
-            throw new QLException("Cannot determine type of this identifier on the ast level");
+            throw new QLError("Cannot determine type of this identifier on the ast level");
         }
     }
 }

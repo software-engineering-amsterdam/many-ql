@@ -154,7 +154,32 @@ namespace Tests.AstBuilderTests
             Assert.AreEqual(0, ast.TypeCheckerExceptions.Count);
 
         }
+        [TestMethod]
+        public void TypeCheckerReferencesTest()
+        {
+            string input = @"form ExampleBlock {
+                statement Smthing (yesno, (3==4)) ""well"";
+                if (3+(4+(5+6))){}
+	            else {
+                     if (Smthing==(4==2))
+                        {}
+                     else {};
+                     };
+                }
+            ";
+            Build(input);
 
+            Listener = new QLListener();
+
+            Parser.AddParseListener(Listener);
+            var formBlock = Parser.formBlock();
+            Assert.IsTrue(Listener.AstExists);
+            AstHandler ast = Listener.GetAst();
+            ast.CheckType();
+
+            Assert.AreEqual(0, ast.TypeCheckerExceptions.Count);
+
+        }
         
     }
 }

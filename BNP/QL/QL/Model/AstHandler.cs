@@ -7,15 +7,15 @@ namespace QL.Model
 {
     public class AstHandler
     {
-        public ElementBase RootNode { get; private set; }
-        public IList<QLException> TypeCheckerExceptions { get; private set; }
-        public IList<QLException> EvaluationExceptions { get; private set; }
+        public ElementBase RootNode { get; private set; }//TODO change to form
+        public IList<QLError> TypeCheckerExceptions { get; private set; }
+        public IList<QLError> EvaluationExceptions { get; private set; }
 
         public AstHandler(ElementBase root)
         {
             RootNode = root;
-            TypeCheckerExceptions = new List<QLException>();
-            EvaluationExceptions = new List<QLException>();
+            TypeCheckerExceptions = new List<QLError>();
+            EvaluationExceptions = new List<QLError>();
         }
         
         public bool CheckType()
@@ -23,8 +23,8 @@ namespace QL.Model
             var typeChecker = new TypeCheckerVisitor();
             RootNode.Accept(typeChecker);
 
-            TypeCheckerExceptions = typeChecker.Exceptions;
-            return typeChecker.Exceptions.Any();
+            TypeCheckerExceptions = typeChecker.Errors;
+            return typeChecker.Errors.Any();
         }
 
         public bool Evaluate()
@@ -32,8 +32,8 @@ namespace QL.Model
             EvaluatorVisitor evaluator = new EvaluatorVisitor();
             RootNode.Accept(evaluator);
 
-            EvaluationExceptions = evaluator.Exceptions;
-            return evaluator.Exceptions.Any();
+            EvaluationExceptions = evaluator.Errors;
+            return evaluator.Errors.Any();
         }
     }
 }

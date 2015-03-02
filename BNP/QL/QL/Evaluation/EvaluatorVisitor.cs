@@ -12,13 +12,13 @@ namespace QL.Evaluation
 {
     public class EvaluatorVisitor : IVisitor
     {
-        public IList<QLException> Exceptions { get; private set; }
+        public IList<QLError> Errors { get; private set; }
         public Dictionary<int, IVisitable> References; //change  ivisitable to ievaluatable
         public Dictionary<string, IVisitable> DeclaredVariables;
 
         public EvaluatorVisitor()
         {
-            Exceptions = new List<QLException>();
+            Errors = new List<QLError>();
             References = new Dictionary<int, IVisitable>();
             DeclaredVariables = new Dictionary<string, IVisitable>();
         }
@@ -28,7 +28,7 @@ namespace QL.Evaluation
             if (DeclaredVariables.ContainsKey(key))
             {
                 //just put it somewhere into list of warnings
-                Exceptions.Add(new RedeclaredVariableWarning("Redeclared variable: " + key));
+                Errors.Add(new RedeclaredVariableWarning("Redeclared variable: " + key));
             }
 
             DeclaredVariables[key] = node;
@@ -141,7 +141,7 @@ namespace QL.Evaluation
 
         public void Visit(ElementBase node)
         {
-            throw new QLException("Not implemented: " + node.GetType().ToString());
+            throw new QLError("Not implemented: " + node.GetType().ToString());
         }
     }
 }
