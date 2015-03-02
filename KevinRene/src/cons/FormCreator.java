@@ -54,9 +54,7 @@ public class FormCreator {
 					
 					tree.accept(prettyPrinter);
 					
-					Evaluator evaluator = new Evaluator(valueEnv);
-					
-					System.out.println(tree.accept(evaluator));
+					System.out.println(Evaluator.check(tree, valueEnv));
 				}
 			}
 		} catch (IOException e) {

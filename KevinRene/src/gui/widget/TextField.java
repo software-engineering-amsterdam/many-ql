@@ -1,6 +1,6 @@
-package gui.widgets;
+package gui.widget;
 
-import gui.Controller;
+import gui.Widget;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,19 +15,14 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
 import net.miginfocom.swing.MigLayout;
-import cons.Value;
-import cons.ql.ast.expression.Identifier;
 import cons.value.StringValue;
 
-public class TextField extends Widget implements CaretListener {
-	
+public class TextField extends Widget<StringValue> implements CaretListener {	
 	protected JPanel container;
 	protected JTextField textField;
 	protected JLabel errorLabel;
 	
-	public TextField (Identifier identifier, Controller controller) {
-		super(identifier, controller);
-
+	public TextField() {
 		textField = new JTextField(100);
     	textField.setMaximumSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height * 2));
     	textField.setFont(new Font("Serif", Font.BOLD, 20));
@@ -43,13 +38,21 @@ public class TextField extends Widget implements CaretListener {
     	container.add(errorLabel, "wrap");
 	}
 	
-	public TextField (Identifier identifier, Controller controller, boolean enabled) {
-		this(identifier, controller);
-    	textField.setEnabled(enabled);
-    	textField.setFocusable(enabled);
-    	if (!enabled) {
-    		textField.removeCaretListener(this);
-    	}
+	public TextField (StringValue stringValue) {
+		textField = new JTextField(100);
+    	textField.setMaximumSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height * 2));
+    	textField.setFont(new Font("Serif", Font.BOLD, 20));
+    	textField.addCaretListener(this);
+    	textField.setFocusable(true);
+    	textField.setText(stringValue.getValue());
+    	
+    	errorLabel = new JLabel();
+    	errorLabel.setFont(new Font("Serif", Font.BOLD, 20));
+    	errorLabel.setVisible(true);
+    	
+    	container = new JPanel(new MigLayout());
+    	container.add(textField);
+    	container.add(errorLabel, "wrap");		
 	}
 
 	@Override
@@ -57,20 +60,17 @@ public class TextField extends Widget implements CaretListener {
 		return this.container;
 	}
 
-
 	@Override
-	public void setValue(Value value) {
-		
-		System.out.println("Set value for " + getIdentifier() + " to " + value);
-		
+	public StringValue getValue() {
+		return new StringValue(textField.getText());
+	}
+	
+	@Override
+	public void setValue(StringValue value) {
 		// Update value of the JComponent
 		textField.setText(value.toString());
+		
 		setChanged();
-		
-		// Store the new value in the TypeEnvironment
-		controller.getValueEnvironment().store(getIdentifier(), value);
-		
-		// Notify this value has changed
 		notifyObservers();
 	}
 	
@@ -85,15 +85,8 @@ public class TextField extends Widget implements CaretListener {
 	}
 
 	@Override
-	public void caretUpdate(CaretEvent e) {
-		Value value = new StringValue(textField.getText());	
-		
+	public void caretUpdate(CaretEvent e) {		
 		setChanged();
-		
-		// Store the new value in the TypeEnvironment
-		controller.getValueEnvironment().store(getIdentifier(), value);
-		
-		// Notify this value has changed
-		this.notifyObservers();
+		notifyObservers();
 	}
 }

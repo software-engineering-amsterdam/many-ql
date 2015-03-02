@@ -1,7 +1,5 @@
 package gui;
 
-import gui.widgets.Widget;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observer;

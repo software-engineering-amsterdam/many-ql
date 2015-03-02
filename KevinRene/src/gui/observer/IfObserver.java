@@ -1,4 +1,6 @@
-package gui;
+package gui.observer;
+
+import gui.Controller;
 
 import java.util.Observable;
 import java.util.Observer;

@@ -2,6 +2,7 @@ package cons.ql.ast.visitor.evaluator;
 
 import cons.Value;
 import cons.ValueEnvironment;
+import cons.ql.ast.ASTNode;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.arithmetic.Add;
 import cons.ql.ast.expression.arithmetic.Div;
@@ -24,20 +25,21 @@ import cons.ql.ast.expression.relational.Not;
 import cons.ql.ast.expression.relational.Or;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
-import cons.value.BooleanValue;
-import cons.value.FloatValue;
-import cons.value.IntegerValue;
-import cons.value.StringValue;
 import cons.value.UndefinedValue;
 
 @SuppressWarnings("rawtypes")
 public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Value> {
 	private ValueEnvironment valueEnv;
 	
-	public Evaluator(ValueEnvironment valueEnv) {
+	private Evaluator(ValueEnvironment valueEnv) {
 		this.valueEnv = valueEnv;
 	}
 	
+	public static Value check(ASTNode tree, ValueEnvironment valueEnvironment) {
+		Evaluator evaluator = new Evaluator(valueEnvironment);
+		
+		return tree.accept(evaluator);
+	}
 	
 	@Override
 	public Value visit(Pos pos) {
@@ -126,22 +128,22 @@ public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Val
 
 	@Override
 	public Value visit(StringLiteral stringLiteral) {
-		return new StringValue(stringLiteral.getValue());
+		return stringLiteral.getValue();
 	}
 
 	@Override
 	public Value visit(IntegerLiteral integerLiteral) {
-		return new IntegerValue(integerLiteral.getValue());
+		return integerLiteral.getValue();
 	}
 
 	@Override
 	public Value visit(FloatLiteral floatLiteral) {
-		return new FloatValue(floatLiteral.getValue());
+		return floatLiteral.getValue();
 	}
 
 	@Override
 	public Value visit(BooleanLiteral booleanLiteral) {
-		return new BooleanValue(booleanLiteral.getValue());
+		return booleanLiteral.getValue();
 	}
 
 	@Override
