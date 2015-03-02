@@ -6,7 +6,7 @@ type Visitor struct {
 	defaults map[string]string
 }
 
-// New is the constructor for Visitor
+// NewVisitor is the constructor for QLS Visitor
 func NewVisitor() *Visitor {
 	return &Visitor{
 		defaults: make(map[string]string),
@@ -24,6 +24,7 @@ func (v *Visitor) Visit(node Acceptable) {
 	node.Accept(v)
 }
 
+// StyleNode is the root node for QLS trees
 func (v *Visitor) StyleNode(node *StyleNode) {
 	if node != nil {
 		actions := node.Stack()
@@ -33,10 +34,13 @@ func (v *Visitor) StyleNode(node *StyleNode) {
 	}
 }
 
+// ActionNode represents the ambiguous node which define page, section or
+// default
 func (v *Visitor) ActionNode(node *ActionNode) {
 	v.Visit(node.Action().(Acceptable))
 }
 
+// DefaultNode defines a default widget for a question type
 func (v *Visitor) DefaultNode(node *DefaultNode) {
 	v.setDefaultFor(node.QuestionType(), node.Widget())
 }
