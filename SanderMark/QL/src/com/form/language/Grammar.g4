@@ -40,10 +40,8 @@ ifStatement returns [Statement result]
 ;
 
 assignmentStatement returns [Statement result]
-: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result, $ID);}
+: ID ':=' type lit=literal {$result = new AssignmentStatement($ID.text, $lit.result, $ID);}
 ;
-
-
 
 expression returns [Expression result]
 	: LBRACE x=expression RBRACE				{ $result = $x.result;}

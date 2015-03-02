@@ -34,10 +34,12 @@ public class Test {
 		Memory m = new Memory();		
 		evaluator.fillMemory(m);
 		System.out.println(m.showMemory());
-		
+			
 		ErrorCollector errors = new ErrorCollector();
 		evaluator.getErrors(errors);
 		errors.print();
+		
+		
 		
 //		Result result = JUnitCore.runClasses(AstTest.class);
 //	    for (Failure failure : result.getFailures()) {

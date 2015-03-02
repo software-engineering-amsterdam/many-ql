@@ -1,8 +1,6 @@
 package nl.uva.bromance.grammar;
 
 import nl.uva.bromance.listeners.GrammarErrorListener;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -13,12 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by Robert on 10-2-2015.
  */
 public class FormGrammarTest extends GrammarTest {
-
-    @Before
-    public void setup() {
-        listener = new FakeGrammarListener();
-        walker = new ParseTreeWalker();
-    }
 
     @Test
     public void questionnaireWithoutForms() throws IOException {
