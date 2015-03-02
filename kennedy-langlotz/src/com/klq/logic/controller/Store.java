@@ -7,6 +7,7 @@ import com.klq.logic.expression.terminal.Boolean;
 import com.klq.logic.expression.util.ExpressionUtil;
 import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -121,10 +122,14 @@ public class Store implements IKLQItem {
         invisibleCount = 0;
         for (Id id : store.keySet()){
             try {
-                boolean visibility = dependenciesResolved(id);
-                if (!visibility)
+                boolean visible = dependenciesResolved(id);
+                if (!visible) {
                     invisibleCount++;
-                store.get(id).visibleProperty().setValue(visibility);
+                }
+                BooleanProperty property = store.get(id).visibleProperty();
+                if (property.get() != visible) {
+                    property.setValue(visible);
+                }
             } catch (NoSuchQuestionException nsq){
                 System.err.println("Error while updating visibilities!"
                         + String.format(NO_SUCH_QUESTION, id));
