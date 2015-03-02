@@ -17,15 +17,23 @@ ApplicationWindow {
 	width: 800
 	height: 600
 
-	ScrollView {
-		width: 800
+	TabView {
+		width: 799
 		height: 600
-		verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
-		contentItem: ColumnLayout {
-			Layout.fillHeight: true
-			width: 800
-			id: mainLayout
-			objectName: "questions"
+		Tab {
+			title: "{{ .AppName }}"
+			objectName: "{{ .AppName }}Tab"
+			ScrollView {
+				width: 798
+				height: 600
+				verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+				contentItem: ColumnLayout {
+					Layout.fillHeight: true
+					width: 797
+					id: mainLayout
+					objectName: "questions"
+				}
+			}
 		}
 	}
 }

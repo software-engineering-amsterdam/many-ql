@@ -11,7 +11,7 @@ using UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting;
 namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
 {
     /// <summary>
-    /// Provides test methods for the <see cref=""/> class.
+    /// Provides test methods for the <see cref="UvA.SoftCon.Questionnaire.Runtime.Validation.TypeCheckingVisitor"/> class.
     /// </summary>
     [TestClass]
     public class TypeCheckingVisitorTest
@@ -41,5 +41,24 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             Assert.AreEqual<int>(0, errorReport.NrOfWarnings);
         }
 
+        [TestMethod]
+        public void TestStringConcationation()
+        {
+            // Arrange
+            var controller = new ASTController();
+            var form = controller.ParseQLString("string test = \"Piet\" + \"Jansen\"");
+
+            var visitor = new TypeCheckingVisitor();
+
+            // Act
+            visitor.Visit(form);
+
+            // Assert
+            var errorReport = new ErrorReport();
+            errorReport.AddTypeCheckingMessages(visitor);
+
+            Assert.AreEqual<int>(0, errorReport.NrOfErrors);
+            Assert.AreEqual<int>(0, errorReport.NrOfWarnings);
+        }
     }
 }

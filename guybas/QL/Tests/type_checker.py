@@ -1,5 +1,4 @@
-import unittest
-from QL.Main.type_checker import *
+from QL.Validators.type_checker import *
 from QL.Tests.ast import *
 from QL.Grammar.expressions import *
 
