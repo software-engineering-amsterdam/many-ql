@@ -19,10 +19,17 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
             private set;
         }
 
+        public ICollection<Question> AllQuestions
+        {
+            get;
+            private set;
+        }
+
         public QuestionForm(ICollection<IStatement> statements, TextPosition position)
             : base(position)
         {
             Statements = statements;
+            AllQuestions = GetAllQuestions();
         }
 
         public override void Accept(IASTVisitor visitor)
@@ -35,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
             return visitor.Visit(this);
         }
 
-        public ICollection<Question> GetAllQuestions()
+        private ICollection<Question> GetAllQuestions()
         {
             var questions = new List<Question>();
 

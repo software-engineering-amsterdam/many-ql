@@ -30,7 +30,7 @@ class QuestionnaireGUI:
             parent_id = statement.get_parent_id()
             if parent_id not in self.elementsMap:
                 self.elementsMap[parent_id] = {'statements': [], 'guiElements': []}
-            if statement.is_conditional():  # TODO: fix statement condition drawing
+            if statement.is_conditional():
                 self.elementsMap[parent_id]['statements'].append(statement)
                 self.draw_conditional_q(statement)
             else:
