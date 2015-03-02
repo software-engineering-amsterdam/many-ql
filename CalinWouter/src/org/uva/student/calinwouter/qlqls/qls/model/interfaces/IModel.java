@@ -1,7 +1,17 @@
 package org.uva.student.calinwouter.qlqls.qls.model.interfaces;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.qls.model.components.*;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Checkbox;
+import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Default;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Page;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Radio;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Section;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Slider;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Spinbox;
+import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Textbox;
 
 import java.util.HashMap;
 
@@ -36,5 +46,4 @@ public interface IModel {
     void caseCheckbox(Checkbox checkbox);
 
     void caseTextbox(Textbox checkbox);
-
 }
