@@ -9,6 +9,10 @@ namespace QL.Model.Operators
         {
             throw new NotImplementedException();
         }
-        
+
+        public override Type GetReturnType()
+        {
+            return (new Yesno()).GetType();
+        }
     }
 }

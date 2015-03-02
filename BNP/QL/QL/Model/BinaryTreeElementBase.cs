@@ -56,10 +56,5 @@ namespace QL.Model
             Left = left;
             Right = right;
         }
-
-        public override Type GetReturnType()
-        {
-            return (new Yesno()).GetType();
-        }
     }
 }

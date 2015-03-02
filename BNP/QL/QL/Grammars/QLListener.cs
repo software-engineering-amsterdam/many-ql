@@ -134,7 +134,7 @@ namespace QL.Grammars
         public override void ExitStatementUnit(QLParser.StatementUnitContext context)
         {
             IList<ElementBase> children = GetChildren();
-            Debug.Assert((children.Count() == 1), "A statement should have only expression as a child.");
+            Debug.Assert(children.Count() == 1, "A statement should have only expression as a child.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
             ITerminalType dataType = GetTypeInstance(context.type());
@@ -227,18 +227,16 @@ namespace QL.Grammars
         {
             IList<ElementBase> children = GetChildren();
             
+            Expression expression = new Expression();
+            expression.SourceLocation = SourceLocation.CreateFor(context); // not sure if context is the correct location of a literal wrapped in an expr
+            
             if (children.Count() == 1)
             {
-                children[0].SourceLocation = SourceLocation.CreateFor(context); // not sure if this is the correct location
-                AppendToAST(children[0]);
-                return;
-            }
-            
-            if (children.Count() == 2 && context.children.Count() == 5)
+                expression.HandleChildren(children[0]);
+                AppendToAST(expression);
+            } 
+            else if (children.Count() == 2 && context.children.Count() == 5)
             {
-                Expression expression = new Expression();
-                expression.SourceLocation = SourceLocation.CreateFor(context);
-
                 QLParser.OperatorContext operatorContext = context.children[2] as QLParser.OperatorContext;
                 ElementBase leftOperand = children[0];
                 ElementBase rightOperand = children[1];
@@ -262,8 +260,9 @@ namespace QL.Grammars
                     expression.HandleChildren(operatorElement);
                 }
 
-                AppendToAST(expression);
             }
+
+            AppendToAST(expression);
         }
 
         public void TryCreateOperator<T>(QLParser.OperatorContext context, ITerminalNode node, ElementBase leftOperand, ElementBase rightOperand, ref BinaryTreeElementBase operatorElement)
