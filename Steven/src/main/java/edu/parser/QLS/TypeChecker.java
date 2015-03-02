@@ -4,12 +4,15 @@ import edu.exceptions.TypeCheckException;
 import edu.parser.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QLS.nodes.Identifier;
-import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
+import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.Question;
-import edu.parser.QLS.nodes.styles.*;
+import edu.parser.QLS.nodes.styles.Color;
+import edu.parser.QLS.nodes.styles.Font;
+import edu.parser.QLS.nodes.styles.Widget;
+import edu.parser.QLS.nodes.styles.Width;
 import edu.parser.nodes.QuestionType;
 
 import java.util.ArrayList;
