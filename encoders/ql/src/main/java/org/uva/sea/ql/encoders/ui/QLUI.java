@@ -27,8 +27,8 @@ import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TypeError;
-import org.uva.sea.ql.encoders.model.UIQuestion;
-import org.uva.sea.ql.encoders.model.UIQuestionnaire;
+import org.uva.sea.ql.encoders.model.RuntimeQuestion;
+import org.uva.sea.ql.encoders.model.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
 
@@ -58,8 +58,8 @@ public class QLUI extends Application {
 		AstTransformer astTransformer = new AstTransformer();
 		try {
 			Questionnaire questionnaire = questionnaireParsingService.parse("src/main/resources/input_form.ql");
-			UIQuestionnaire uiQuestionnaire = astTransformer.transform(questionnaire);
-			setUpQuestionnaireUI(uiQuestionnaire, grid);
+			RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
+			setUpQuestionnaireUI(runtimeQuestionnaire, grid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,17 +83,17 @@ public class QLUI extends Application {
 		}
 	}
 
-	private void setUpQuestionnaireUI(UIQuestionnaire questionnaire, GridPane grid) {
+	private void setUpQuestionnaireUI(RuntimeQuestionnaire questionnaire, GridPane grid) {
 		Text scenetitle = new Text(questionnaire.getName());
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		List<UIQuestion> questions = questionnaire.getQuestions();
+		List<RuntimeQuestion> questions = questionnaire.getQuestions();
 		int y = 1;
 		boolean initializeDisabled = false;
 
-		for (UIQuestion uiQuestion : questions) {
-			Question question = uiQuestion.getQuestion();
+		for (RuntimeQuestion runtimeQuestion : questions) {
+			Question question = runtimeQuestion.getQuestion();
 			DataType dataType = question.getDataType();
 			grid.add(new Label(question.getQuestionText()), 0, y);
 			if (question.getCondition() != null) {
@@ -102,7 +102,7 @@ public class QLUI extends Application {
 			switch (dataType) {
 			case BOOLEAN:
 				CheckBox checkBox = new CheckBox("Yes");
-				checkBox.setOnAction(new CheckBoxEventHandler(uiQuestion));
+				checkBox.setOnAction(new CheckBoxEventHandler(runtimeQuestion));
 				checkBox.setDisable(initializeDisabled);
 				grid.add(checkBox, 1, y);
 				break;
@@ -115,7 +115,7 @@ public class QLUI extends Application {
 			case DECIMAL:
 			case MONEY:
 				TextField textField = new TextField();
-				textField.setOnKeyReleased(new TextFieldHandler(uiQuestion));
+				textField.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
 				textField.setDisable(initializeDisabled);
 				grid.add(textField, 1, y);
 				break;
@@ -127,9 +127,9 @@ public class QLUI extends Application {
 	}
 
 	private class TextFieldHandler implements EventHandler<Event> {
-		private UIQuestion question;
+		private RuntimeQuestion question;
 
-		public TextFieldHandler(UIQuestion question) {
+		public TextFieldHandler(RuntimeQuestion question) {
 			this.question = question;
 		}
 
@@ -141,9 +141,9 @@ public class QLUI extends Application {
 	}
 
 	private class CheckBoxEventHandler implements EventHandler<ActionEvent> {
-		private UIQuestion question;
+		private RuntimeQuestion question;
 
-		public CheckBoxEventHandler(UIQuestion question) {
+		public CheckBoxEventHandler(RuntimeQuestion question) {
 			this.question = question;
 		}
 

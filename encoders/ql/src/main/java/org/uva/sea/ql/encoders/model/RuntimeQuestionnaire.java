@@ -2,18 +2,18 @@ package org.uva.sea.ql.encoders.model;
 
 import java.util.List;
 
-public class UIQuestionnaire {
+public class RuntimeQuestionnaire {
 
 	private final String name;
 
-	private final List<UIQuestion> questions;
+	private final List<RuntimeQuestion> questions;
 
-	public UIQuestionnaire(List<UIQuestion> questions, String name) {
+	public RuntimeQuestionnaire(List<RuntimeQuestion> questions, String name) {
 		this.questions = questions;
 		this.name = name;
 	}
 
-	public List<UIQuestion> getQuestions() {
+	public List<RuntimeQuestion> getQuestions() {
 		return questions;
 	}
 

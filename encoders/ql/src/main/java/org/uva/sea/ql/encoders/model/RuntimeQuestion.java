@@ -2,13 +2,13 @@ package org.uva.sea.ql.encoders.model;
 
 import org.uva.sea.ql.encoders.ast.Question;
 
-public class UIQuestion {
+public class RuntimeQuestion {
 
 	private final Question question;
 
 	private Object value;
 
-	public UIQuestion(Question question) {
+	public RuntimeQuestion(Question question) {
 		this.question = question;
 	}
 
