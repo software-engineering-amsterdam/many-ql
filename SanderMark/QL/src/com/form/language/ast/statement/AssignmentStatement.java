@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.Token;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.Memory;
 
 public class AssignmentStatement implements Statement {
 	public String name;
@@ -35,6 +36,12 @@ public class AssignmentStatement implements Statement {
 	@Override
 	public void getErrors(ErrorCollector errs) {
 		expression.getErrors(errs);
+	}
+
+	@Override
+	public void fillMemory(Memory memory) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
