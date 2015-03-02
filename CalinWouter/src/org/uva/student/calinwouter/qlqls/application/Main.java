@@ -101,8 +101,8 @@ public class Main {
         } else if (args.length == 1 && args[0].equals("--help")) {
             printSyntax();
         } else if (args.length == 1) {
-            //String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            //String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
+            String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
             executeQl(ql);
         }
     }
