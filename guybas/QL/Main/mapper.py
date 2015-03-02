@@ -1,4 +1,4 @@
-from QL.Main.type_checker import *
+from QL.Validators.type_checker import *
 from QL.Main.exceptions import *
 
 

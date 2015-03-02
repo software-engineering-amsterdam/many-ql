@@ -1,16 +1,14 @@
 package evaluator
 
 import ast._
-import scala.collection.immutable.Map
+import scalafx.collections.ObservableMap
 
 class Evaluator {
 
   type VariableName = String
-  type EvalEnvironment = Map[VariableName, Value]
+  type EvalEnvironment = ObservableMap[VariableName, Value]
 
-  val emptyEnvironment = Map[VariableName, Value]()
-
-  def eval(f: Form, environment: EvalEnvironment = emptyEnvironment): EvalEnvironment = eval(f.s, environment)
+  def eval(f: Form, environment: EvalEnvironment = ObservableMap.empty[VariableName, Value]): EvalEnvironment = eval(f.s, environment)
 
   def eval(s: Statement, env: EvalEnvironment): EvalEnvironment = s match {
     case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env)}
@@ -50,11 +48,11 @@ class Evaluator {
   def doQuestionStatement(q: Question, env: EvalEnvironment): EvalEnvironment = {
     q.optionalExpression match {
       case None => q._type match {
-        case BooleanType() => env + (q.variable.name -> BooleanValue())
-        case NumberType() => env + (q.variable.name -> NumberValue())
-        case StringType() => env + (q.variable.name -> StringValue())
+        case BooleanType() => env += (q.variable.name -> BooleanValue())
+        case NumberType() => env += (q.variable.name -> NumberValue())
+        case StringType() => env += (q.variable.name -> StringValue())
       }
-      case Some(e) => env + (q.variable.name -> eval(e, env))
+      case Some(e) => env += (q.variable.name -> eval(e, env))
     }
   }
 
