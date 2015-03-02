@@ -71,3 +71,4 @@ public class IfComposite extends Composite {
 		notifyObservers();
 	}
 }
+ 
