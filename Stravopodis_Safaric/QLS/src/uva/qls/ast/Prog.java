@@ -1,5 +1,7 @@
 package uva.qls.ast;
 
+import uva.qls.ast.value.GenericValue;
+
 public class Prog extends ASTNode {
 	
 	private StyleSheet styleSheet;

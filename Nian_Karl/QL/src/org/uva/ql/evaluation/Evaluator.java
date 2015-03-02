@@ -39,7 +39,6 @@ public class Evaluator implements ExpressionVisitor<Value> {
 		values = new HashMap<String, Value>();
 	}
 
-
 	public void addValue(String name, Value value) {
 		values.put(name, value);
 	}
@@ -166,7 +165,7 @@ public class Evaluator implements ExpressionVisitor<Value> {
 
 	@Override
 	public Value visit(Identifier node) {
-		return getValue(node.toString());
+		return node.getValue(this);
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class Error extends Message {
 			break;
 		
 		case CONDITION:
-			content = "Condition <" + literal + "> is not Bool.";
+			content = "Condition <" + literal + "> does not match the type of this condition.";
 			break;
 			
 		case OPERAND:
