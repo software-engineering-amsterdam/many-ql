@@ -1,7 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.model;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
+import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 public abstract class FormField {
     private final FormInterpreter formInterpreter;
@@ -9,7 +9,7 @@ public abstract class FormField {
 
     public abstract void render(IRenderer iRenderer);
 
-    public TypeModel<?> getValue() {
+    public Value<?> getValue() {
         return formInterpreter.getField(variable);
     }
 
@@ -17,8 +17,8 @@ public abstract class FormField {
 
     public String getLabel() { return label; }
 
-    public void setValue(TypeModel<?> typeModel) {
-        formInterpreter.setField(variable, typeModel);
+    public void setValue(Value<?> value) {
+        formInterpreter.setField(variable, value);
     }
 
     public FormField(String label, String variable, FormInterpreter formInterpreter) {

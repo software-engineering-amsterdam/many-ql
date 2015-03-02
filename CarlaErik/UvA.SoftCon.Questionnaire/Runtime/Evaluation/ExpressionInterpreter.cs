@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Binary;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 {
-    internal class ExpressionInterpreter : ASTVisitor<Value>
+    internal class ExpressionInterpreter : QLVisitor<Value>
     {
         protected IDictionary<string, Value> Context
         {

@@ -13,7 +13,6 @@ import org.antlr.v4.runtime.Token;
 import java.util.Optional;
 import java.util.Stack;
 
-//TODO: Maybe consider splitting this class into multiple listeners. It's getting kinda large.
 //TODO: Use Optional to make it obvious that the value can be null. Makes the code prettier as well.
 public class QLParseTreeListener extends QLBaseListener {
 

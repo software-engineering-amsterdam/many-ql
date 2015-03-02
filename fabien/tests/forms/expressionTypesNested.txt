@@ -17,8 +17,9 @@ form taxOfficeExample {
         if (2*2 >= 4) {
             if ( (2+2) == 4) {
 
+              # error
               if (hasBoughtCar > 3) {
-                # The above should be an error
+
               }
             }
         }

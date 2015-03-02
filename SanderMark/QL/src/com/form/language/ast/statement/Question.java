@@ -20,14 +20,11 @@ public class Question implements Statement {
 	private JPanel qPanel;
 	private JPanel labelContainer;
 	
-	public Question(String questionLabel, String id, Type questionType, Memory memory) {
+	public Question(String questionLabel, String id, Type questionType) {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
 		this.questionType = questionType;
-		
-		//Call ID constructor
-		new IdLiteral(id,questionType,memory,null);
 	}
 	
 	@Override
@@ -88,9 +85,8 @@ public class Question implements Statement {
 	}
 
 	@Override
-	public void fillMemory(Memory memory) {
-		// TODO Auto-generated method stub		
-		memory.addId(this.id, this.questionType);
+	public void fillMemory(Memory memory) {		
+		memory.addId(new IdLiteral(id,questionType,memory,null));
 	}	
 	
 	

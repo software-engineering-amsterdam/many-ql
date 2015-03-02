@@ -1,0 +1,31 @@
+Sheet taxOfficeExample
+
+Page Housing
+
+    Section Buying {
+        Question hasBoughtHouse
+        Widget : Checkbox (option1, option2)
+    }
+
+    Section Loaning {
+        Question hasMaintLoan
+        Widget : Textbox
+    }
+
+Page Selling
+
+    Section Selling {
+        Question hasSoldHouse
+        Widget : Radio (Yes, No) default : No
+    }
+
+    Section You_Sold_A_House {
+        Question SellingPrice
+            Widget : Textbox 100
+
+        Question PrivateDept
+            Widget : Checkbox (yes, no)
+
+        QuestionValueResidue
+            Widget : Spinbox 1 10
+    }

@@ -24,6 +24,6 @@ doc: .FORCE
 
 lint:
 	clear
-	golint ./... | head -n 20
+	golint ./... | grep -iv parser.y | head -n 20
 
 .FORCE:

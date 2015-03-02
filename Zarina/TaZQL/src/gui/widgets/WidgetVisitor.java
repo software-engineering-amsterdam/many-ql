@@ -12,36 +12,34 @@ public class WidgetVisitor implements ITypeVisitor<IWidgetComponent>{
 	
 	private final String id, label;
 	private final Type type;
-//	private final ValueRepository valueRepository; 
+	private final ValueRepository valueRepository;
 	
-	public WidgetVisitor(String id, String label, Type type) { //, ValueRepository valueRepository) {
+	public WidgetVisitor(String id, String label, Type type, ValueRepository valueRepository) {
 		this.id = id;
 		this.label = label;
 		this.type = type;
-	//	this.valueRepository = valueRepository;
+		this.valueRepository = valueRepository;
 	}
 	
 	@Override
 	public TextFieldWidget visit(TextType type) {
-		return new TextFieldWidget(this.id, this.label, this.type);
+		return new TextFieldWidget(this.id, this.label, this.type, this.valueRepository);
 	}
 
 	@Override
-	public TextFieldWidget visit(DigitsType type) {
-		// TODO to be changed
-		return new TextFieldWidget(id, this.label, type);
+	public IntegerFieldWidget visit(DigitsType type) {
+		return new IntegerFieldWidget(id, this.label, type, this.valueRepository);
 	}
 
 	@Override
 	public ChoiceWidget visit(ChoiceType type) {
-		//TODO to be changed to checkbox?
-		return new ChoiceWidget(id, this.label, type);
+		return new ChoiceWidget(id, this.label, type, this.valueRepository);
 	}
 
 	@Override
 		//TODO probably set on invisible or give an error?
 	public TextFieldWidget visit(UndefinedType type) {
-		return new TextFieldWidget(id, this.label, type);
+		return new TextFieldWidget(id, this.label, type, this.valueRepository);
 	}
 	
 }

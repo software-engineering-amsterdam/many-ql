@@ -11,25 +11,20 @@ import com.form.language.ast.values.StringValue;
 import com.form.language.memory.Memory;
 
 public class IdLiteral extends Literal implements Expression {
-	private final String _value;
-	private Type _type;
+	public final String _value;
+	public Type _type;
 	
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
 		this._value = value;
-		
-		//Throw in memory
+		System.out.println("test1");
 	}
 	public IdLiteral(String value, Type questionType,Memory memory,Token tokenInfo)
 	{
 		super(tokenInfo);
 		this._value = value;
 		this._type = questionType;	
-		
-		System.out.println(memory);
-		
-		//Throw in memory
-		memory.addId(value,_type);
+		System.out.println("test2");
 	}
 
 	@Override
@@ -50,5 +45,10 @@ public class IdLiteral extends Literal implements Expression {
 	@Override
 	public Type getType() {
 		return _type;
+	}
+	
+	@Override
+	public void fillMemory(Memory memory) {
+		memory.addId(this);
 	}
 }

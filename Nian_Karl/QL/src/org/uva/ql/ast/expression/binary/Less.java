@@ -5,7 +5,7 @@ import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.Type;
 import org.uva.ql.typecheck.TypeChecker;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.ExpressionVisitor;
 
 public class Less extends Binary {
 
@@ -14,10 +14,10 @@ public class Less extends Binary {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.left.toString() + " < " + this.right.toString();
@@ -27,5 +27,5 @@ public class Less extends Binary {
 	public Type getType(TypeChecker typeChecker) {
 		return new BoolType();
 	}
-	
+
 }

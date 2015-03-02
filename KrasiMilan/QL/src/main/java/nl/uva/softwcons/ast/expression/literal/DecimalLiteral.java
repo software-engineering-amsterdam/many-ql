@@ -10,11 +10,6 @@ public class DecimalLiteral extends Expression {
     private BigDecimal value;
     private LineInfo lineInfo;
 
-    public DecimalLiteral(BigDecimal value, LineInfo lineInfo) {
-        this.value = value;
-        this.lineInfo = lineInfo;
-    }
-
     public DecimalLiteral(double value, LineInfo lineInfo) {
         this.value = new BigDecimal(value);
         this.lineInfo = lineInfo;
