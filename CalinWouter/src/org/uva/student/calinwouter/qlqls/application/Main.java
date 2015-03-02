@@ -77,9 +77,8 @@ public class Main {
             formTypeChecker = InterpreterHelper.typeCheckString(ql);
 
             FormRenderer formRenderer = new FormRenderer(headlessFormInterpreter, formTypeChecker);
-            formRenderer.render();
-
             headlessFormInterpreter.interpret();
+            formRenderer.render();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +88,7 @@ public class Main {
      * based on the results of QL. */
     public static void main(String[] args) throws IOException {
         printAbout();
-        if (args.length == 0) {
+        if (args.length == 1) {
             String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
             String qls = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/qls.txt");
@@ -100,7 +99,7 @@ public class Main {
             executeQlQls(ql, qls);
         } else if (args.length == 1 && args[0].equals("--help")) {
             printSyntax();
-        } else if (args.length == 1) {
+        } else if (args.length == 0) {
             String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
             executeQl(ql);

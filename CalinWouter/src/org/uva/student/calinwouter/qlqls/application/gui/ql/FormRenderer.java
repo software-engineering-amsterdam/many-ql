@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.ql;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.ql.model.FormField;
@@ -33,7 +34,7 @@ public class FormRenderer extends AnalysisAdapter {
     }
 
     public void render() {
-        AForm form = headlessFormInterpreter.getForm();
+        final AForm form = headlessFormInterpreter.getForm();
         frame = new JFrame(form.getIdent().getText());
         frame.setPreferredSize(new Dimension(800, 600));
         framePanel = new JPanel();
@@ -46,13 +47,13 @@ public class FormRenderer extends AnalysisAdapter {
             throw new RuntimeException(e);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        /*headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
             @Override
             public void onStateChanged() {
                 frame.repaint();
                 frame.revalidate();
             }
-        });*/
+        });
 
         renderStatements(form.getStmt());
 
