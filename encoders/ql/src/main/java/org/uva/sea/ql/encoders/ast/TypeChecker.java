@@ -1,5 +1,6 @@
 package org.uva.sea.ql.encoders.ast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  */
 public class TypeChecker {
 
-	TypeErrorLogger typeErrorLogger = new TypeErrorLogger();
+	private List<TypeError> typeErrors = new ArrayList<TypeError>();
 
 	public boolean testExpression(Expression testExpression) {
 		boolean expressionValid = false;
@@ -25,13 +26,13 @@ public class TypeChecker {
 			expressionValid = true;
 		} catch (Exception e) {
 			TypeError typeError = new TypeError("What a stupid error", e.getMessage());
-			typeErrorLogger.addTypeError(typeError);
+			typeErrors.add(typeError);
 			expressionValid = false;
 		}
 
 		// TO BE REMOVED: dummy error due to lack of proper test
 		TypeError typeError = new TypeError("What a stupid error", "Adding an integer to a boolean. Idiot..");
-		typeErrorLogger.addTypeError(typeError);
+		typeErrors.add(typeError);
 
 		return expressionValid;
 	}
@@ -41,6 +42,7 @@ public class TypeChecker {
 	}
 
 	public List<TypeError> getTypeErrors() {
-		return typeErrorLogger.getTypeErrors();
+		return typeErrors;
 	}
+
 }
