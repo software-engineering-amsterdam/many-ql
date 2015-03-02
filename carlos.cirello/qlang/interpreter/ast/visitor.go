@@ -1,10 +1,6 @@
-package visitor
+package ast
 
-import (
-	"log"
-
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
-)
+import "log"
 
 // Visitor is the base visitor struct which all other Executer AST tree are
 // injected for traversal
@@ -24,15 +20,15 @@ func (v *Visitor) Visit(node interface{}) { // node AcceptableInterface
 	//node.Accept(v.Tree);
 	switch t := node.(type) {
 	default:
-		pos := node.(ast.Positionable).Pos()
+		pos := node.(Positionable).Pos()
 		log.Fatalf("%s: unexpected execution node type. got: %T", pos, t)
-	case *ast.QuestionaireNode:
-		v.Tree.QuestionaireNode(v, node.(*ast.QuestionaireNode))
-	case *ast.ActionNode:
-		v.Tree.ActionNode(v, node.(*ast.ActionNode))
-	case *ast.QuestionNode:
-		v.Tree.QuestionNode(v, node.(*ast.QuestionNode))
-	case *ast.IfNode:
-		v.Tree.IfNode(v, node.(*ast.IfNode))
+	case *QuestionaireNode:
+		v.Tree.QuestionaireNode(v, node.(*QuestionaireNode))
+	case *ActionNode:
+		v.Tree.ActionNode(v, node.(*ActionNode))
+	case *QuestionNode:
+		v.Tree.QuestionNode(v, node.(*QuestionNode))
+	case *IfNode:
+		v.Tree.IfNode(v, node.(*IfNode))
 	}
 }

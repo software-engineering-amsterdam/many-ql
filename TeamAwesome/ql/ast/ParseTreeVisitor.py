@@ -16,14 +16,8 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser#form.
     def visitForm_statement(self, ctx):
         identifier = self.visit(ctx.name)
-        
-        statements = []
-        if ctx.statements:
-            for statement in ctx.statements:
-                statements.append(self.visit(statement))
-
+        statements = [self.visit(statement) for statement in ctx.statements]
         lineNumber = ctx.start.line
-
         return Nodes.FormStatement(identifier, statements, lineNumber)
 
     # Visit a parse tree produced by QLParser
@@ -41,14 +35,8 @@ class ParseTreeVisitor(QLVisitor):
     # Visit a parse tree produced by QLParser#if_statement.
     def visitIf_statement(self, ctx):
         expr = self.visit(ctx.expression)
-
-        statements = []
-        if ctx.statements:
-            for statement in ctx.statements:
-                statements.append(self.visit(statement))
-        
+        statements = [self.visit(statement) for statement in ctx.statements]
         lineNumber = ctx.start.line
-
         return Nodes.IfStatement(expr, statements, lineNumber)
 
     # Visit a parse tree produced by QLParser#boolean.
