@@ -20,7 +20,7 @@ public abstract class GuiElement extends Observable
         this.visible = visible;
     }
 
-    public abstract <T> T accept(GuiModelVisitor<T> visitor);
+    public abstract <T> T accept(ModelVisitor<T> visitor);
 
     public Boolean getVisible()
     {

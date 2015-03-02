@@ -10,7 +10,7 @@ import lang.ql.gui.line.Line;
 /**
  * Created by Nik on 23-2-15.
  */
-public interface GuiModelVisitor<T>
+public interface ModelVisitor<T>
 {
     public T visit(Canvas c);
 

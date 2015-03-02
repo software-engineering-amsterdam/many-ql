@@ -1,7 +1,7 @@
 package lang.ql.gui.canvas;
 
 import lang.ql.gui.GuiElement;
-import lang.ql.gui.GuiModelVisitor;
+import lang.ql.gui.ModelVisitor;
 import lang.ql.gui.line.Line;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class Canvas extends GuiElement
         this.lines = lines;
     }
 
-    public <T> T accept(GuiModelVisitor<T> visitor)
+    public <T> T accept(ModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

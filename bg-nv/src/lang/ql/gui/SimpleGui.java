@@ -33,7 +33,7 @@ import java.util.*;
 /**
  * Created by Nik on 23-2-15.
  */
-public class SimpleGui implements GuiModelVisitor<Node>
+public class SimpleGui implements ModelVisitor<Node>
 {
     private ValueTable valueTable;
     private DependencyTable dependencyTable;

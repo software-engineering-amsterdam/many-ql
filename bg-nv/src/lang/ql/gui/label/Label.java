@@ -1,7 +1,7 @@
 package lang.ql.gui.label;
 
 import lang.ql.gui.GuiElement;
-import lang.ql.gui.GuiModelVisitor;
+import lang.ql.gui.ModelVisitor;
 
 /**
  * Created by Nik on 22-02-2015
@@ -22,7 +22,7 @@ public class Label extends GuiElement
         this.text = text;
     }
 
-    public <T> T accept(GuiModelVisitor<T> visitor)
+    public <T> T accept(ModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

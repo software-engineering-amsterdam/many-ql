@@ -1,6 +1,6 @@
 package lang.ql.gui.input.regular;
 
-import lang.ql.gui.GuiModelVisitor;
+import lang.ql.gui.ModelVisitor;
 import lang.ql.gui.input.Input;
 
 /**
@@ -18,7 +18,7 @@ public class IntInput extends Input
         super(id, visible, disabled);
     }
 
-    public <T> T accept(GuiModelVisitor<T> visitor)
+    public <T> T accept(ModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }
