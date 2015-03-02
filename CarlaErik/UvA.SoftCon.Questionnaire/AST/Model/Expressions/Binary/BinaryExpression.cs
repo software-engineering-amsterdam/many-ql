@@ -38,6 +38,8 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
 
         public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
 
+        public abstract bool OperandTypesAreValid(DataType leftType, DataType rightType);
+
         public override string ToString()
         {
             return String.Format("{0} {1} {2}", Left.ToString(), StringEnum.GetStringValue(Operation), Right.ToString());

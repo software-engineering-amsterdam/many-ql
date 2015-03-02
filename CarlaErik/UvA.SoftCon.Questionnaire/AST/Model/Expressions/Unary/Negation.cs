@@ -38,6 +38,11 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
             return DataType.Boolean;
         }
 
+        public override bool OperandTypeIsValid(DataType operandType)
+        {
+            return (operandType == DataType.Boolean);
+        }
+
         public override string ToString()
         {
             return String.Format("{0}{1}", StringEnum.GetStringValue(Operation), Operand.ToString());

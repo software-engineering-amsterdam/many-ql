@@ -35,5 +35,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary
         }
 
         public abstract DataType GetType(IDictionary<string, DataType> symbolTable);
+
+        public abstract bool OperandTypeIsValid(DataType operandType);
     }
 }

@@ -34,5 +34,10 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
         {
             return DataType.Integer;
         }
+
+        public override bool OperandTypesAreValid(DataType left, DataType right)
+        {
+            return(left == DataType.Integer && right == DataType.Integer);
+        }
     }
 }
