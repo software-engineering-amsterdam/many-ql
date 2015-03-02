@@ -1,7 +1,8 @@
 from QL.Main.mapper import *
-from QL.AST.operators import *
+from QL.AST.Elements.operators import *
 
 
+# TODO : check all imports
 class Processor:
 
     @staticmethod

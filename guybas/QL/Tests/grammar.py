@@ -1,6 +1,6 @@
 import unittest
 from QL.Grammar.form import *
-from QL.AST.operators import *
+from QL.AST.Elements import *
 
 
 class TestBasicGrammar(unittest.TestCase):
