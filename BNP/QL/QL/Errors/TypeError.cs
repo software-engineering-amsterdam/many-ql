@@ -1,32 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using QL.Model;
 
-namespace QL.Exceptions
+namespace QL.Errors
 {
-    public class TypeException : QLError
+    public class TypeError : QLError
     {
         public SourceLocation SourceLocation { get; private set; }
 
-        public TypeException()
+        public TypeError()
         { }
-        public TypeException(string message)  : base(message)
+        public TypeError(string message)  : base(message)
         { }
-        public TypeException(string message, ElementBase source)
+        public TypeError(string message, ElementBase source)
             : base(message)
         {
             SourceLocation = source.SourceLocation;
         }
 
-        public TypeException(string message, Exception inner)
+        public TypeError(string message, Exception inner)
             : base(message, inner)
         { }
 
-        protected TypeException(SerializationInfo info, StreamingContext context)
+        protected TypeError(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
 

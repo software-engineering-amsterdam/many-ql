@@ -1,6 +1,5 @@
 ﻿using System;
 using QL.Model.Terminals;
-using QL.Exceptions;
 
 namespace QL.Model.Operators
 {

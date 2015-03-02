@@ -1,5 +1,5 @@
-﻿using QL.Exceptions;
-using System;
+﻿using System;
+using QL.Errors;
 
 namespace QL.Model.Terminals
 {

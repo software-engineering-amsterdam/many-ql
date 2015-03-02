@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QL.Errors;
 using QL.Model.Enums;
-using QL.Exceptions;
 using QL.Evaluation;
 
 namespace QL.Model
@@ -13,7 +13,7 @@ namespace QL.Model
     {
         public SourceLocation SourceLocation { get; set; }
         public IList<ElementBase> Children { get; set; }
-        protected List<TypeException> TypeExceptions;
+        protected List<TypeError> TypeExceptions;
         /// <summary>
         /// Gets an ElementType indicating if this element is a leaf or a node.
         /// </summary>
@@ -22,7 +22,7 @@ namespace QL.Model
         protected ElementBase()
         {
             Children = new List<ElementBase>();
-            TypeExceptions = new List<TypeException>();
+            TypeExceptions = new List<TypeError>();
         }
 
         internal void HandleChildren(IList<ElementBase> list)
@@ -34,9 +34,9 @@ namespace QL.Model
             return null;
         }
 
-        public List<TypeException> CollectTypeExceptions()
+        public List<TypeError> CollectTypeExceptions()
         {
-            List<TypeException> retval = TypeExceptions;
+            List<TypeError> retval = TypeExceptions;
             foreach (ElementBase child in Children)
             {
                 retval.AddRange(child.CollectTypeExceptions());

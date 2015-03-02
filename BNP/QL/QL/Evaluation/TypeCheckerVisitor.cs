@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QL.Exceptions;
+using QL.Errors;
 using QL.Model;
 using QL.Model.Operators;
 
@@ -59,7 +59,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Incompatible operands on equality operation", node));
+                Errors.Add(new TypeError("Incompatible operands on equality operation", node));
             }
         }
 
@@ -67,7 +67,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Incompatible operands on inequality operation", node));
+                Errors.Add(new TypeError("Incompatible operands on inequality operation", node));
             }
         }
 
@@ -75,7 +75,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Incompatible operands on greater-than operation", node));
+                Errors.Add(new TypeError("Incompatible operands on greater-than operation", node));
             }
         }
 
@@ -83,7 +83,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Incompatible operands on greater-than-or-equal-to operation", node));
+                Errors.Add(new TypeError("Incompatible operands on greater-than-or-equal-to operation", node));
             }
         }
 
@@ -91,7 +91,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Incompatible operands on less-than operation", node));
+                Errors.Add(new TypeError("Incompatible operands on less-than operation", node));
             }
         }
 
@@ -99,7 +99,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Incompatible operands on less-than-or-equal-to operation", node));
+                Errors.Add(new TypeError("Incompatible operands on less-than-or-equal-to operation", node));
             }
         }
 
@@ -107,7 +107,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Non-number operands on multiplication operator", node));
+                Errors.Add(new TypeError("Non-number operands on multiplication operator", node));
             }
         }
 
@@ -115,7 +115,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Non-number operands on division operator", node));
+                Errors.Add(new TypeError("Non-number operands on division operator", node));
             }
         }
 
@@ -123,7 +123,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Non-number operands on addition operator", node));
+                Errors.Add(new TypeError("Non-number operands on addition operator", node));
             }
         }
 
@@ -131,7 +131,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Non-number operands on subtraction operator", node));
+                Errors.Add(new TypeError("Non-number operands on subtraction operator", node));
             }
         }
 
@@ -139,7 +139,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Non-number operands on AND operator", node));
+                Errors.Add(new TypeError("Non-number operands on AND operator", node));
 
             }
         }
@@ -148,7 +148,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeException("Non-number operands on OR operator", node));
+                Errors.Add(new TypeError("Non-number operands on OR operator", node));
             }
         }
         #endregion
@@ -158,21 +158,21 @@ namespace QL.Evaluation
         {
             if (node.Value.HasValue) return;
 
-            Errors.Add(new TypeException("Number could not be interpreted correctly", node));
+            Errors.Add(new TypeError("Number could not be interpreted correctly", node));
         }
 
         public void Visit(Yesno node)
         {
             if (node.Value.HasValue) return;
 
-            Errors.Add(new TypeException("Yes/no value could not be interpreted correctly", node));
+            Errors.Add(new TypeError("Yes/no value could not be interpreted correctly", node));
         }
 
         public void Visit(Text node)
         {
             if (node.Value != null) return;
 
-            Errors.Add(new TypeException("String value could not be parsed and resulted in null", node));
+            Errors.Add(new TypeError("String value could not be parsed and resulted in null", node));
         }
 
         public void Visit(Identifier node)
@@ -203,7 +203,7 @@ namespace QL.Evaluation
 
         Type DetermineType(object other)
         {
-            throw new TypeException("Cannot resolve type:"+other.GetType().ToString());
+            throw new TypeError("Cannot resolve type:"+other.GetType().ToString());
         }
         # endregion
     }

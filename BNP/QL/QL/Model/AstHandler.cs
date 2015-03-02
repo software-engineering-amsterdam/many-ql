@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using QL.Errors;
 using QL.Evaluation;
-using QL.Exceptions;
 
 namespace QL.Model
 {

@@ -8,10 +8,10 @@ using System.IO;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using QL.Errors;
 using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
-using QL.Exceptions;
 using QL.Evaluation;
 
 
