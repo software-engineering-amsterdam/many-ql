@@ -3,7 +3,7 @@ package org.uva.ql.ast.statement;
 
 import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.StatementVisitor;
 
 public class IfElseStatement extends IfStatement {
 
@@ -20,7 +20,7 @@ public class IfElseStatement extends IfStatement {
 	}
 	
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

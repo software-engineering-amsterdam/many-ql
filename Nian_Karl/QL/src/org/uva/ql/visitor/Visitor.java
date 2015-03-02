@@ -33,7 +33,6 @@ import org.uva.ql.ast.type.StrType;
 
 public interface Visitor<T> {
 	
-
 	public T visit(Not node);
 	public T visit(Positive node);
 	public T visit(Negative node);

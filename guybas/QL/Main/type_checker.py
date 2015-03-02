@@ -3,6 +3,7 @@ import collections
 
 from QL.Main.exceptions import *
 from QL.AST.expression_validator import *
+from QL.AST.operators import *
 from QL.Grammar.basic_types import *
 
 

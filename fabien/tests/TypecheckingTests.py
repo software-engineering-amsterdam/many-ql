@@ -78,6 +78,6 @@ class TypecheckingTests(unittest.TestCase):
 
         self.assertEqual(len(self.duplicateQuestions.errors), 0)
         self.assertEqual(len(self.undefinedQuestions.errors), 0)
-        self.assertEqual(len(self.nonExpressions.errors), 5)
+        self.assertEqual(len(self.nonExpressions.errors), 4)
 
 

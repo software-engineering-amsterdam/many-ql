@@ -1,5 +1,7 @@
 package execute
 
+//todo(carlos): refactor bool nodes into visitor
+
 import (
 	"fmt"
 

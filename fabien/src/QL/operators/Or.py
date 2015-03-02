@@ -1,18 +1,7 @@
 
-from BooleanOperand import BooleanOperand
+from AndOr import AndOr
 
-class Or(BooleanOperand):
-
-    def checkType(self, IDs):
-        leftType  = self.left.getType(IDs)
-        rightType = self.right.getType(IDs)
-
-        numberTypes = ["number", "int", "float", "money"]
-
-        return leftType  == "boolean" or \
-               rightType == "boolean" or \
-               leftType  == rightType or \
-               leftType in numberTypes and rightType in numberTypes
+class Or(AndOr):
 
     def __repr__(self):
         return "%s or %s" % (self.left, self.right)
