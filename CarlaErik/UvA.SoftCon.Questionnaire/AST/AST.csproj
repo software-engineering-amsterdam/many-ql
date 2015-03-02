@@ -36,8 +36,9 @@
     <AssemblyOriginatorKeyFile>S:\StrongName\Questionnaire.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr4.Runtime">
-      <HintPath>S:\Antlr4\Antlr4.Runtime.dll</HintPath>
+    <Reference Include="Antlr4.Runtime, Version=4.4.0.0, Culture=neutral, PublicKeyToken=edc21c04cf562012, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr4.Runtime.4.4.1-alpha001\lib\net45\Antlr4.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,14 +93,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="S:\StrongName\Questionnaire.snk">
       <Link>Properties\Questionnaire.snk</Link>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Parsing\Parsing.csproj">
-      <Project>{2caea2a7-d4a2-4b49-b14b-2b6ec95101d6}</Project>
-      <Name>Parsing</Name>
+    <ProjectReference Include="..\Grammars\Grammars.csproj">
+      <Project>{fd838a49-3120-4ff2-b507-379186c298c6}</Project>
+      <Name>Grammars</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>

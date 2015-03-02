@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
-using UvA.SoftCon.Questionnaire.Parsing;
-using UvA.SoftCon.Questionnaire.Utilities;
 using UvA.SoftCon.Questionnaire.AST.Extensions;
+using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Unary;
+using UvA.SoftCon.Questionnaire.Grammars;
+using UvA.SoftCon.Questionnaire.Utilities;
 
 namespace UvA.SoftCon.Questionnaire.AST.Visitors
 {

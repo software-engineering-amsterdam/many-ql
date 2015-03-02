@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Antlr4.Runtime;
-using UvA.SoftCon.Questionnaire.Parsing;
 using UvA.SoftCon.Questionnaire.AST;
 using UvA.SoftCon.Questionnaire.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
