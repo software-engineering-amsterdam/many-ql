@@ -24,21 +24,16 @@ public class ComputedQuestionObserver implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-
-		try {
-			// Recalculate the value for this computedQuestion
-			Value value = expression.getExpression().accept(new Evaluator(controller));	
+		// Recalculate the value for this computedQuestion
+		Value value = expression.getExpression().accept(new Evaluator(controller));	
 	
-//			System.out.println("new value for " + expression.getIdentifier() + ": " + value);
-				
-			// Update the type environment
-			controller.store(expression.getIdentifier(), value);
+		if (value.isUndefined()) {
+			return;
+		}
+		// Update the type environment
+		controller.store(expression.getIdentifier(), value);
 								
-			// Now also update the component
-			component.setValue(value);
-		}
-		catch (UnsupportedOperationException e) {
-			
-		}
+		// Now also update the component
+		component.setValue(value);
 	}
 }

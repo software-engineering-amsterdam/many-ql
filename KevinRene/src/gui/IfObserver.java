@@ -30,20 +30,19 @@ public class IfObserver implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		try {
-			// Recalculate the value for this computedQuestion
-			Value value = expression.accept(new Evaluator(valueEnv));	
-			System.out.println(value);
-			
-			boolean visible = ((BooleanValue)value).getValue();
-			this.ifComponent.setVisible(visible);
-				
-			if (elseComponent != null) {
-				this.elseComponent.setVisible(!visible);
-			}
+		
+		// Recalculate the value for this computedQuestion
+		Value value = expression.accept(new Evaluator(valueEnv));	
+
+		if (value.isUndefined()) {
+			return;
 		}
-		catch (UnsupportedOperationException e) {
-			System.err.println(e);
+		
+		boolean visible = ((BooleanValue)value).getValue();
+		this.ifComponent.setVisible(visible);
+				
+		if (elseComponent != null) {
+			this.elseComponent.setVisible(!visible);
 		}
 	}
 

@@ -9,6 +9,11 @@ public class UndefinedValue extends Value {
 	public UndefinedValue() {
 		super(null);
 	}
+	
+	@Override
+	public boolean isUndefined() {
+		return true;
+	}
 
 	@Override
 	public Value add(Value argument) {
