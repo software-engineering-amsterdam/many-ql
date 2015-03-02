@@ -24,7 +24,7 @@ public class GrammarTest {
     protected static final String CORRECT_FORM = "    Form: \"default\" {\n" +
             "       Label: \"something\"{" +
             "           Text: \"something\"" +
-            "      }";
+            "      }}";
 
     protected static final String CORRECT_CALCULATION = "\n     Calculation: \"calculation\"{" +
             IfSequenceGrammarTest.CORRECT_IF +
