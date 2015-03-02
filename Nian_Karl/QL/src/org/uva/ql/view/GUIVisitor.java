@@ -43,8 +43,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		System.out.println();
 		evaluator.evaluate(expr);
 		DependentQuestionPanel questionPanel = new DependentQuestionPanel(questionPanels, expr);
-		
-
 		return questionPanel;
 	}
 

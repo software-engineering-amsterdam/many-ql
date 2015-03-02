@@ -18,7 +18,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 
         public event EventHandler QuestionAnswered;
 
-        public string Name
+        public string QuestionName
         {
             get;
             protected set;
@@ -51,7 +51,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         protected QuestionControl(Question astQuestion)
             : this()
         {
-            Name = astQuestion.Id.Name;
+            QuestionName = astQuestion.Id.Name;
             Label = astQuestion.Label;
             Answer = new Undefined();
         }

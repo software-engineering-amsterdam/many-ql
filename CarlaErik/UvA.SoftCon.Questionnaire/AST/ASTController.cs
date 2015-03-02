@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.AST.Model;
 using UvA.SoftCon.Questionnaire.AST.Visitors;
-using UvA.SoftCon.Questionnaire.Parsing;
+using UvA.SoftCon.Questionnaire.Grammars;
 
 namespace UvA.SoftCon.Questionnaire.AST
 {

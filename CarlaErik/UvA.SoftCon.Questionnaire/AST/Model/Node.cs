@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UvA.SoftCon.Questionnaire.AST.Model
 {
-    public abstract class Node
+    public abstract class Node : INode
     {
         public TextPosition Position
         {

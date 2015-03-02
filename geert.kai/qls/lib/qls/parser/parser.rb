@@ -9,8 +9,8 @@ module QLS
   class Parser < Racc::Parser
 
 
-  require_relative '../ast/stylesheet.rb'
-  require_relative '../ast/types.rb'
+  require_relative '../ast/ast.rb'
+  
   include AST
 
 
