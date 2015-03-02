@@ -32,3 +32,6 @@ class Leaf(Node):
             return IDs[self.ID]
 
         return self.tokenType.lower()
+
+    def __repr__(self):
+        return "(%s) %s" % (self.tokenType.lower(), self.leafValue)

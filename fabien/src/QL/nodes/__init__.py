@@ -7,7 +7,7 @@ from Question import Question
 
 from Expression import Expression
 from OperandExpression import OperandExpression
-from BoolExpression import BoolExpression
+from BooleanExpression import BooleanExpression
 from UnaryExpression import UnaryExpression
 
 from Leaf import Leaf

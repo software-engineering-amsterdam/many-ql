@@ -1,24 +1,21 @@
 
 from errors import QLTypeError
 
-class NonBooleanExpressions():
+class NonOperandTypes:
     def __init__(self):
         self.questionIDs = {}
 
         self.errors = []
-        self.branchExpressions = []
+        self.expressions = []
 
-    def Branch(self, node):
-        self.branchExpressions.append(node.expression.Operation)
+    def OperandExpression(self, node):
+        self.expressions.append(node.Operation)
 
     def Question(self, node):
         self.questionIDs[node.ID] = node.type
 
-    def Leaf(self, node):
-        pass
-
     def Done(self):
-        for op in self.branchExpressions:
+        for op in self.expressions:
             if not op.checkType(self.questionIDs):
                 error = QLTypeError(op)
                 self.errors.append(error)
