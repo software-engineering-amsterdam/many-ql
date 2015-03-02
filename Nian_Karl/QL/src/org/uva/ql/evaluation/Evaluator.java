@@ -31,21 +31,22 @@ import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.visitor.ExpressionVisitor;
 
-public class Evaluator implements ExpressionVisitor<Value>{
-	
+public class Evaluator implements ExpressionVisitor<Value> {
+
 	private final Map<Identifier, Value> values;
-	
+
 	public Evaluator() {
 		values = new HashMap<Identifier, Value>();
 	}
-	
+
+
 	public void addValue(Identifier identifier, Value value) {
 		values.put(identifier, value);
 	}
-	
+
 	/**
-	 * Get the value of specified identifier 
-	 * (if the value is not set yet, return undefined value)
+	 * Get the value of specified identifier (if the value is not set yet,
+	 * return undefined value)
 	 */
 	public Value getValue(Identifier identifier) {
 		if (values.containsKey(identifier)) {
@@ -55,9 +56,9 @@ public class Evaluator implements ExpressionVisitor<Value>{
 			return new Undefined();
 		}
 	}
-	
+
 	public Value evaluate(Expression expr) {
-		return expr.accept(this); 
+		return expr.accept(this);
 	}
 
 	@Override

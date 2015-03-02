@@ -15,10 +15,7 @@ import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
 import com.klq.logic.question.Type;
-import com.klq.typecheker.error.AError;
-import com.klq.typecheker.error.Incomparable;
-import com.klq.typecheker.error.InvalidCondition;
-import com.klq.typecheker.error.QuestionIDReference;
+import com.klq.typecheker.error.*;
 
 import java.util.ArrayList;
 
@@ -52,8 +49,16 @@ public class TypeCheckerVisitor implements IExpressionVisitor<Type>, IStatementV
 
     @Override
     public Void visit(ComputedQuestionNode node) {
-        for(ANode child : node.getChildren()){
-            child.accept(this);
+        if(node.getQuestionType() == Type.SET) {
+            for (ANode child : node.getChildren()) {
+                child.accept(this);
+            }
+        }
+        else{
+            Type childType = (Type) node.getChildren().get(0).accept(this);
+            if(childType != node.getQuestionType()){
+                errors.add(new TypeMismatch(node, childType));
+            }
         }
         return null;
     }
