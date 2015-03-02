@@ -24,24 +24,14 @@ import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.expression.unary.Negative;
 import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
-import org.uva.ql.ast.questionnaire.Form;
-import org.uva.ql.ast.questionnaire.Questionnaire;
-import org.uva.ql.ast.statement.Block;
-import org.uva.ql.ast.statement.IfElseStatement;
-import org.uva.ql.ast.statement.IfStatement;
-import org.uva.ql.ast.statement.QuestionCompute;
-import org.uva.ql.ast.statement.QuestionNormal;
-import org.uva.ql.ast.type.BoolType;
-import org.uva.ql.ast.type.IntType;
-import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.value.Bool;
 import org.uva.ql.ast.value.Int;
 import org.uva.ql.ast.value.Str;
 import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.ast.value.Value;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.ExpressionVisitor;
 
-public class Evaluator implements Visitor<Value> {
+public class Evaluator implements ExpressionVisitor<Value>{
 	
 	private final Map<Identifier, Value> values;
 	
@@ -193,57 +183,4 @@ public class Evaluator implements Visitor<Value> {
 	public Value visit(Parenthese node) {
 		return node.getExpression().accept(this);
 	}
-
-	@Override
-	public Value visit(IfStatement ifStatement) {
-		// TODO Auto-generated method
-		return null;
-	}
-
-	@Override
-	public Value visit(QuestionNormal questionNormalStatement) {
-		return null;
-	}
-
-	@Override
-	public Value visit(Block blockStatement) {
-		return null;
-	}
-
-	@Override
-	public Value visit(Form form) {
-		return null;
-	}
-
-	@Override
-	public Value visit(Questionnaire questionnaire) {
-		return null;
-	}
-
-	@Override
-	public Value visit(IntType node) {
-		return null;
-	}
-
-	@Override
-	public Value visit(BoolType node) {
-		return null;
-	}
-
-	@Override
-	public Value visit(StrType node) {
-		return null;
-	}
-
-	@Override
-	public Value visit(QuestionCompute questionComputeStatement) {
-		return null;
-	}
-
-	@Override
-	public Value visit(IfElseStatement ifElseStatement) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

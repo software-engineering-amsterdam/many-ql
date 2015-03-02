@@ -19,3 +19,8 @@ func (n *StyleNode) Accept(v *Visitor) {
 func (n *DefaultNode) Accept(v *Visitor) {
 	v.DefaultNode(n)
 }
+
+// Accept takes the visitor and acts on node type
+func (n *QuestionNode) Accept(v *Visitor) {
+	v.QuestionNode(n)
+}
