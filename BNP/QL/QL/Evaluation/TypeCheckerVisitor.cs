@@ -65,89 +65,91 @@ namespace QL.Evaluation
 
         public void Visit(NotEqualsOperator node)
         {
-            if (node.Left.GetReturnType() == node.Right.GetReturnType()) return;
-
-            Exceptions.Add(new TypeException("Incompatible operands on inequality operation", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Incompatible operands on inequality operation", node));
+            }
         }
 
         public void Visit(GreaterThanOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Incompatible operands on greater-than operation", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Incompatible operands on greater-than operation", node));
+            }
         }
 
         public void Visit(GreaterThanEqualToOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Incompatible operands on greater-than-or-equal-to operation", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Incompatible operands on greater-than-or-equal-to operation", node));
+            }
         }
 
         public void Visit(LessThanOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Incompatible operands on less-than operation", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Incompatible operands on less-than operation", node));
+            }
         }
 
         public void Visit(LessThanEqualToOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Incompatible operands on less-than-or-equal-to operation", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Incompatible operands on less-than-or-equal-to operation", node));
+            }
         }
 
         public void Visit(MultiplicationOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Non-number operands on multiplication operator", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Non-number operands on multiplication operator", node));
+            }
         }
 
         public void Visit(DivisionOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Non-number operands on division operator", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Non-number operands on division operator", node));
+            }
         }
 
         public void Visit(PlusOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Non-number operands on addition operator", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Non-number operands on addition operator", node));
+            }
         }
 
         public void Visit(MinusOperator node)
         {
-            Type desiredType = (new Number()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Non-number operands on subtraction operator", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Non-number operands on subtraction operator", node));
+            }
         }
 
         public void Visit(AndOperator node)
         {
-            Type desiredType = (new Yesno()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Non-number operands on AND operator", node));
 
-            Exceptions.Add(new TypeException("Non-number operands on AND operator", node));
+            }
         }
 
         public void Visit(OrOperator node)
         {
-            Type desiredType = (new Yesno()).GetReturnType();
-            if (node.Left.GetReturnType() == desiredType && node.Right.GetReturnType() == desiredType) return;
-
-            Exceptions.Add(new TypeException("Non-number operands on OR operator", node));
+            if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
+            {
+                Exceptions.Add(new TypeException("Non-number operands on OR operator", node));
+            }
         }
         #endregion
 
@@ -203,6 +205,6 @@ namespace QL.Evaluation
         {
             throw new TypeException("Cannot resolve type:"+other.GetType().ToString());
         }
-# endregion
+        # endregion
     }
 }

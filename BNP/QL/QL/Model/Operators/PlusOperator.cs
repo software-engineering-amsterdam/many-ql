@@ -9,5 +9,10 @@ namespace QL.Model.Operators
         {
             throw new NotImplementedException();
         }
+
+        public override Type GetReturnType()
+        {
+            return Left.GetReturnType();
+        }
     }
 }

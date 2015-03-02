@@ -104,6 +104,57 @@ namespace Tests.AstBuilderTests
             ast.CheckType();
             Assert.AreEqual(1, ast.TypeCheckerExceptions.Count);
         }
+        [TestMethod]
+        public void TypeCheckerCollectException2()
+        {
+            string input = @"form ExampleBlock {
+                if (3==(4==(4>2))){}
+	            else {
+                     if (3==(4==2))
+                        {}
+                     else {};
+                     };
+                }
+            ";
+            Build(input);
+
+            Listener = new QLListener();
+
+            Parser.AddParseListener(Listener);
+            var formBlock = Parser.formBlock();
+            Assert.IsTrue(Listener.AstExists);
+            AstHandler ast = Listener.GetAst();
+            ast.CheckType();
+
+            Assert.AreEqual(3, ast.TypeCheckerExceptions.Count);
+
+        }
+        [TestMethod]
+        public void TypeCheckerCollectNoExceptionCosParentheses()
+        {
+            string input = @"form ExampleBlock {
+                if (3+(4+(5+6))){}
+	            else {
+                     if (no==(4==2))
+                        {}
+                     else {};
+                     };
+                }
+            ";
+            Build(input);
+
+            Listener = new QLListener();
+
+            Parser.AddParseListener(Listener);
+            var formBlock = Parser.formBlock();
+            Assert.IsTrue(Listener.AstExists);
+            AstHandler ast = Listener.GetAst();
+            ast.CheckType();
+
+            Assert.AreEqual(0, ast.TypeCheckerExceptions.Count);
+
+        }
+
         
     }
 }
