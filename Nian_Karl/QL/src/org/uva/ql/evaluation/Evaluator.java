@@ -39,15 +39,10 @@ public class Evaluator implements ExpressionVisitor<Value> {
 		values = new HashMap<Identifier, Value>();
 	}
 
-
 	public void addValue(Identifier identifier, Value value) {
 		values.put(identifier, value);
 	}
 
-	/**
-	 * Get the value of specified identifier (if the value is not set yet,
-	 * return undefined value)
-	 */
 	public Value getValue(Identifier identifier) {
 		if (values.containsKey(identifier)) {
 			return values.get(identifier);
