@@ -40,17 +40,14 @@ class OperatorTable:
             return rule[0]
         return None
 
-    def getUnaryOperator(self, op, rightValue):
-        typeRight = type(rightValue)
-        rule = self._rules.get((op, typeRight), None)
+    def getUnaryOperator(self, op, valueType):
+        rule = self._rules.get((op, valueType), None)
         if rule:
             return rule[1]
         return None
 
-    def getBinaryOperator(self, op, leftValue, rightValue):
-        typeLeft = type(leftValue)
-        typeRight = type(rightValue)
-        rule = self._rules.get((op, typeLeft, typeRight), None)
+    def getBinaryOperator(self, op, leftType, rightType):
+        rule = self._rules.get((op, leftType, rightType), None)
         if rule:
             return rule[1]
         return None

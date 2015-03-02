@@ -6,9 +6,6 @@ public class IntValue extends ExpressionValue<Integer> {
         super(_value);
     }
 
-    /**
-     * Add
-     */
     @Override
     public ExpressionValue add(ExpressionValue exprValue) {
         return exprValue.addInt(this);
@@ -19,9 +16,6 @@ public class IntValue extends ExpressionValue<Integer> {
         return new IntValue(this.value + exprValue.getValue());
     }
 
-    /**
-     * Sub
-     */
     @Override
     public ExpressionValue sub(ExpressionValue exprValue) {
         return exprValue.subInt(this);
@@ -32,9 +26,6 @@ public class IntValue extends ExpressionValue<Integer> {
         return new IntValue(exprValue.getValue() - this.value);
     }
 
-    /**
-     * Mul
-     */
     @Override
     public ExpressionValue mul(ExpressionValue exprValue) {
         return exprValue.mulInt(this);
@@ -45,9 +36,6 @@ public class IntValue extends ExpressionValue<Integer> {
         return new IntValue(this.value * exprValue.getValue());
     }
 
-    /**
-     * Div
-     */
     @Override
     public ExpressionValue div(ExpressionValue exprValue) {
         return exprValue.divInt(this);

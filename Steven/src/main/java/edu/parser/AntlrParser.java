@@ -1,26 +1,31 @@
 package edu.parser;
 
-import edu.parser.antlrGenerated.QLLexer;
-import edu.parser.antlrGenerated.QLParser;
-import edu.parser.antlrGenerated.QLVisitor;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 import java.io.IOException;
 
 /**
  * Created by Steven Kok on 17/02/2015.
  */
-public class AntlrParser {
+public abstract class AntlrParser {
 
-    public <T> T walk(String inputFilePath, QLVisitor visitor, Class<T> returnClass) throws IOException {
+    public <T> T parse(String inputFilePath, ParseTreeVisitor visitor, Class<T> returnClass) throws IOException {
         ANTLRFileStream antlrFileStream = new ANTLRFileStream(inputFilePath);
-        QLLexer lexer = new QLLexer(antlrFileStream);
+        Lexer lexer = getLexer(antlrFileStream);
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
-        QLParser parser = new QLParser(commonTokenStream);
-        QLParser.FormContext tree = parser.form();
-
-        Object visit = visitor.visit(tree);
+        Parser parser = getParser(commonTokenStream);
+        Object visit = visitor.visit(getParseTree(parser));
         return returnClass.cast(visit);
     }
+
+    protected abstract Lexer getLexer(ANTLRFileStream antlrFileStream);
+
+    protected abstract Parser getParser(CommonTokenStream commonTokenStream);
+
+    protected abstract ParseTree getParseTree(Parser parser);
 }

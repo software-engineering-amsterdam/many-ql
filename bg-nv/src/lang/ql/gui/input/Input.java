@@ -1,25 +1,25 @@
 package lang.ql.gui.input;
 
+import lang.ql.ast.expression.Expr;
 import lang.ql.gui.GuiElement;
-import lang.ql.semantics.values.*;
 
 /**
  * Created by Nik on 17-2-15.
  */
 public abstract class Input extends GuiElement
 {
-    protected Value value; // TODO: ?
+    private String id;
     private Boolean disabled;
 
-    public Input()
+    public Input(String id)
     {
-        super();
-        this.disabled = false;
+        this(id, true, false);
     }
 
-    public Input(Boolean visible, Boolean disabled)
+    public Input(String id, Boolean visible, Boolean disabled)
     {
         super(visible);
+        this.id = id;
         this.disabled = disabled;
     }
 
@@ -35,38 +35,8 @@ public abstract class Input extends GuiElement
         notifyObservers();
     }
 
-    public Value getValue()
+    public String getId()
     {
-        return value;
+        return id;
     }
-
-    public void setValue(Value value)
-    {
-        throw new IllegalArgumentException();
-    }
-//
-//    public void setValue(BooleanValue value)
-//    {
-//        throw new IllegalArgumentException();
-//    }
-//
-//    public void setValue(DateValue value)
-//    {
-//        throw new IllegalArgumentException();
-//    }
-//
-//    public void setValue(DecimalValue value)
-//    {
-//        throw new IllegalArgumentException();
-//    }
-//
-//    public void setValue(IntegerValue value)
-//    {
-//        throw new IllegalArgumentException();
-//    }
-//
-//    public void setValue(StringValue value)
-//    {
-//        throw new IllegalArgumentException();
-//    }
 }

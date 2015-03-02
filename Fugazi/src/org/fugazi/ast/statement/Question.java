@@ -31,6 +31,10 @@ public class Question extends Statement {
         return this.identifier;
     }
 
+    public String getIdName() {
+        return this.identifier.getName();
+    }
+
     @Override
     public String toString() {
         return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "')";

@@ -44,7 +44,15 @@ namespace UvA.SoftCon.Questionnaire.AST.Visitors
             // Remove the leading and trailing '"' characters from the string literal.
             label = label.Trim('"');
 
-            return new Question(type, id, label, context.GetTextPosition());
+            if (context.expr() != null)
+            {
+                IExpression expression = context.expr().Accept(new ExpressionVisitor());
+                return new Question(type, id, label, expression, context.GetTextPosition());
+            }
+            else
+            {
+                return new Question(type, id, label, context.GetTextPosition());
+            }
         }
 
         public override IStatement VisitDeclaration(QLParser.DeclarationContext context)

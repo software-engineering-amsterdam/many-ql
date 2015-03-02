@@ -10,8 +10,8 @@ import com.klq.ast.impl.QuestionNode;
 public class IdentifierNode extends ANode {
     String identifier;
 
-    public IdentifierNode(String identifier) {
-
+    public IdentifierNode(String identifier, String location) {
+        super(location);
         this.identifier = identifier;
     }
 

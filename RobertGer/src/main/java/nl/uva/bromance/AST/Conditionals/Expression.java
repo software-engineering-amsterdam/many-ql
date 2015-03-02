@@ -1,6 +1,7 @@
 package nl.uva.bromance.AST.Conditionals;
 
 import javafx.util.Pair;
+import nl.uva.bromance.AST.Exceptions.InvalidOperandException;
 import nl.uva.bromance.AST.Input;
 import nl.uva.bromance.AST.Node;
 import org.antlr.v4.runtime.Token;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public class Expression extends Node {
     private static final List<Class<? extends Node>> parentsAllowed = new ArrayList<Class<? extends Node>>(Arrays.asList(Expression.class, IfStatement.class, ElseIfStatement.class, ElseStatement.class, Input.class));
     private String text;
-    private Optional<Token> operator;
+    private Operator operator;
     private Optional<Token> id;
     //TODO: Consider using children instead of this pair.
     private Optional<Pair<Expression, Expression>> expressionPair = Optional.empty();
@@ -21,7 +22,46 @@ public class Expression extends Node {
     public Expression(int lineNumber, Optional<Token> operator, Optional<Token> id) {
         super(lineNumber, Expression.class);
         this.setAcceptedParents(parentsAllowed);
-        this.operator = operator;
+        if (operator.isPresent()){
+            switch (operator.get().getText()) {
+                case "+":
+                    this.operator = new PlusOperator();
+                    break;
+                case "-":
+                    this.operator = new MinusOperator();
+                    break;
+                case "*":
+                    this.operator = new MultiplyOperator();
+                    break;
+                case "/":
+                    this.operator = new DivideOperator();
+                    break;
+                case ">":
+                    this.operator = new LargerThanOperator();
+                    break;
+                case "<":
+                    this.operator = new SmallerThanOperator();
+                    break;
+                case "==":
+                    this.operator = new EqualsOperator();
+                    break;
+                case "!=":
+                    this.operator = new NotEqualsOperator();
+                    break;
+                case ">=":
+                    this.operator = new LargerThanEqualsOperator();
+                    break;
+                case "<=":
+                    this.operator = new SmallerThanEqualsOperator();
+                    break;
+                case "||":
+                    this.operator = new OrOperator();
+                    break;
+                case "&&":
+                    this.operator = new AndOperator();
+                    break;
+            }
+        }
         this.id = id;
     }
 
@@ -40,39 +80,44 @@ public class Expression extends Node {
         this.text = t;
     }
 
-
-    //TODO: This is ugly, think of something plz!
-    public void evaluate() {
-        if (hasChildren() && getChildren().size() > 1) {
-            Node node = getChildren().get(0);
-            Node node1 = getChildren().get(1);
-            if (node != null && node1 != null) {
-                if (node instanceof Expression && node1 instanceof Expression) {
-                    Optional<Token> id1 = ((Expression) node).getId();
-                    Optional<Token> id2 = ((Expression) node1).getId();
-                    if (id1.isPresent() && id2.isPresent()) {
-                        if (id1.get().getType() != id2.get().getType()) {
-                            System.err.println("Expression Error @" + getLineNumber() + "cannot compare different types.");
-                        } else {
-                            System.err.println("Found id's of same type @" + getLineNumber());
-                        }
-                    }
-                }
+    public Result evaluate() {
+        if (operator != null) {
+            List<Node> children = getChildren();
+            Node one = children.get(0);
+            Node two = children.get(1);
+            Result resultOne = ((Expression) one).evaluate();
+            Result resultTwo = ((Expression) two).evaluate();
+            try {
+                 return operator.performOperation(resultOne, resultTwo);
+            } catch (InvalidOperandException e){
+                System.err.println("Got invalid operands ["+resultOne.getClass().getSimpleName()+","+resultTwo.getClass().getSimpleName()+"] for operator type :"+operator.getClass().getSimpleName());
+                return new BooleanResult(false);
             }
-        } else if (hasChildren() && getChildren().size() == 1) {
-            Expression kid = (Expression) getChildren().get(0);
-            System.out.println("Expression only has 1 kid :'" + kid.getOperator().get().getText() + "' @line :" + kid.getLineNumber());
         } else {
-            System.out.println("Operator/Text :" + text);
+            // Reached end point here, wrap value in result
+            if (this.getText() != null) {
+                String value = this.getText();
+                if (value.matches("[0-9]*")) {
+                    // Integer
+                    System.out.println("Int:"+value);
+                    return new IntResult(Integer.parseInt(value));
+                } else if (value.matches("\".+\"")) {
+                    // String
+                    return new StringResult(value);
+                } else {
+                    // Identifier
+                    // TODO Get value from actual identifier instead of int
+                    return new IntResult(1337);
+                }
+            } else {
+                // No text or operator, so one kid who does have something of use for us.
+                return ((Expression) getChildren().get(0)).evaluate();
+            }
         }
     }
 
     public Optional<Token> getId() {
         return id;
-    }
-
-    public Optional<Token> getOperator() {
-        return operator;
     }
 
     public String getText() {

@@ -1,0 +1,72 @@
+
+form taxOfficeExample {
+  "Your name"
+    fullname: string
+
+  # Allowed
+  if (-2 > 2) {
+    "Did you buy a new car in 2010?"
+      hasBoughtCarA: boolean
+  }
+
+  if (fullname or "Fingers crossed") {
+    "Did you buy a new car in 2010?"
+      hasBoughtCar: boolean
+
+    if (hasBoughtCar and (fullname == "Pietje")) {
+        if (2*2 >= 4) {
+            if ( (2+2) == 4) {
+
+              if (hasBoughtCar > 3) {
+                # The above should be an error
+              }
+            }
+        }
+    }
+  }
+
+  # Allowed
+  if ("Pietje" and ("Fred" or "Frits"))  {
+
+  }
+
+  # Allowed
+  if ("Pietje" and "Fred" or "Frits") {
+
+  }
+
+  # Allowed
+  if ("Pietje" or "Fred" and "Frits") {
+
+  }
+
+  # Error
+  if ("string" < 123) {
+
+  }
+
+  # Error
+  if (2 * "test") {
+
+  }
+
+  # Allowed
+  if (2 or 3) {
+
+  }
+
+  # Error
+  if (2 or "3") {
+
+  }
+
+  # Allowed
+  if (22 < (3*3*3) ) {
+
+  }
+
+  # Allowed
+  if (22 > (3 * (3+3)) ) {
+
+  }
+}

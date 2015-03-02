@@ -1,10 +1,41 @@
 package org.fugazi.gui.widgets;
 
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
+public class CheckBox implements IWidget<Boolean> {
 
-public class CheckBox extends JCheckBox implements IWidget {
+    private final String label;
+    
+    private JCheckBox component;
 
     public CheckBox(String _label) {
-        super(_label);
+        this.label = _label;
+        component = new JCheckBox(this.label);
+    }
+
+    @Override
+    public JComponent getJComponent() {
+        return component;
+    }
+
+    @Override
+    public void addItemListener(ItemListener _listener) {
+        component.addItemListener(_listener);
+    }
+
+    @Override
+    public void addDocumentListener(DocumentListener _listener) {
+        throw new AssertionError();
+    }
+    
+    @Override
+    public Boolean getValue() {
+        return this.component.isSelected();
+    }
+
+    @Override
+    public void setValue(Boolean _value) {
+        this.component.setSelected(_value);
     }
 }

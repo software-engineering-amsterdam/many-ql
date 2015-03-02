@@ -1,49 +1,58 @@
 package uva.ql.interpreter.gui.elements;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Component;
+import java.awt.event.ItemEvent;
 
 import javax.swing.JCheckBox;
 
-public class UICheckBox extends JCheckBox {
+import uva.ql.ast.expressions.Expression;
+import uva.ql.ast.expressions.literals.BooleanLiteral;
+import uva.ql.ast.question.Question;
+import uva.ql.interpreter.observer.Subject;
+import uva.ql.interpreter.typecheck.SymbolMap;
+
+public class UICheckBox extends UIQuestion{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private JCheckBox checkBox;
 	
-	
-	
-	public UICheckBox() {
-		this.setText("Yes");
-		this.setSelected(false);
-		this.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent event) {
-		        
-		        if (isSelected()) {
-		            // check box selected
-		        } else {
-		            // check box is unselected
-		        }
-		    }
-		});
+	public UICheckBox(Question _question, SymbolMap _symbolTable, Subject _subject, Expression _expression) {
+		super(_question, _symbolTable, _subject, _expression);
 		
-	}
-	public UICheckBox(Boolean _value) {
-		this.setText("Yes");
-		this.setSelected(_value);
-		
+		this.checkBox = new JCheckBox();
+		this.checkBox.setText("yes");
+		this.checkBox.setSelected((boolean)this.getExpression().evaluate().getValue());	
+		this.checkBox.addItemListener(event -> checkBoxSelected(event));
 	}
 	
-	public void setCheckBox(Boolean _status) {
-		
-		this.setSelected(_status);
+	public void setCheckBoxValue(Boolean _status) {
+		this.checkBox.setSelected(_status);
 	}
 	
-	public Boolean getCheckBox(){
+	public Component getWidget(){
+		return this.checkBox;
+	}
+	
+	private void checkBoxSelected(ItemEvent e){
+		this.symbolTable.updateValue(this.getIdentifier(), 
+				new BooleanLiteral((e.getStateChange() - 1) == 0, this.question.getCodeLines()));
 		
-		return this.isSelected();
+		this.subject.lastResponse = this.question.getIdentifier().evaluate().getValue();
+		super.update();
+	}
+	
+	@Override
+	public String getIdentifier(){
+		return this.question.getIdentifier().evaluate().getValue();
+	}
+	
+	@Override
+	public Expression getExpression(){
+		return super.getExpression();
+	}
+	
+	@Override
+	public Boolean getWidgetValue() {
+		return this.checkBox.isSelected();
 	}
 
 }

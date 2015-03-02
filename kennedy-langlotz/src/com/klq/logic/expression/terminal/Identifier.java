@@ -18,12 +18,25 @@ public class Identifier extends AExpression {
 
     @Override
     public AExpression evaluate() {
-        //TODO resolve in Store
         return this;
     }
 
     @Override
     public String getContent() {
         return content;
+    }
+
+    @Override
+    public int hashCode() {
+        return content.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Identifier){
+            AExpression id = (Identifier) obj;
+            return content.equals(id.getContent());
+        }
+        return false;
     }
 }

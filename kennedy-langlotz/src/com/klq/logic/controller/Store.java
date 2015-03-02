@@ -2,49 +2,61 @@ package com.klq.logic.controller;
 
 import com.klq.logic.IKLQItem;
 import com.klq.logic.expression.AExpression;
-import com.klq.logic.expression.operator.bool.*;
-import com.klq.logic.expression.operator.math.Addition;
-import com.klq.logic.expression.operator.math.Division;
-import com.klq.logic.expression.operator.math.Multiplication;
-import com.klq.logic.expression.operator.math.Subtraction;
+import com.klq.logic.expression.terminal.*;
 import com.klq.logic.expression.terminal.Boolean;
-import com.klq.logic.expression.terminal.Date;
-import com.klq.logic.expression.terminal.Number;
+import com.klq.logic.expression.util.ExpressionUtil;
 import com.klq.logic.question.Id;
 import com.klq.logic.question.Question;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.lang.String;
+import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Timon on 23.02.2015.
  */
-public class Store implements IKLQItem{
-    private List<Id> order;
-    private Map<Id, Question> store;
+public class Store implements IKLQItem {
+    private final DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+    private final List<Id> order;
+    private final Map<Id, Question> store;
+    private final Map<AExpression, AExpression> variables;
+
+    private final String NO_SUCH_QUESTION = "Question with ID \"%s\" does not exist!";
+
+    private int computedCount = 0;
+    private int invisibleCount = 0;
+
+    private final DoubleProperty progressProperty;
 
     public Store() {
         order = new ArrayList<Id>();
         store = new HashMap<Id, Question>();
+        variables = new HashMap<AExpression, AExpression>();
+        progressProperty = new SimpleDoubleProperty(0);
     }
 
-    public Question add(Question question){
+    public void add(Question question) {
         order.add(question.getId());
-        try {
-            question.setStore(this);
-        } catch (Exception e){
-            System.err.println("Store has already been set!");
+        store.put(question.getId(), question);
+
+        //TODO replace question.Id with AExpression?
+        String id = question.getId().toString();
+        AExpression exprId = new Identifier(id);
+        if (!question.isComputedQuestion())
+            variables.put(exprId, exprId);
+        else {
+            variables.put(exprId, question.getComputedValue());
+            computedCount++;
         }
-        return store.put(question.getId(), question);
     }
 
-    public Question get(Id questionId){
-        return store.get(questionId);
-    }
-
-    public List<Question> getOrderedQuestions(){
+    public List<Question> getOrderedQuestions() {
         List<Question> result = new ArrayList<Question>();
         for (Id id : order) {
             result.add(store.get(id));
@@ -52,115 +64,126 @@ public class Store implements IKLQItem{
         return result;
     }
 
-    private Id getIdFor(String identifier){
-        for (Id id : order) {
-            if (id.equals(identifier))
-                return id;
+    public boolean dependenciesResolved(Id questionId) throws NoSuchQuestionException{
+        Question question = store.get(questionId);
+        if (question == null)
+            throw new NoSuchQuestionException(String.format(NO_SUCH_QUESTION, questionId));
+
+        List<AExpression> dependencies = question.getDependencies();
+        for (AExpression d : dependencies) {
+            if (!isSatisfied(d))
+                return false;
         }
-        return null;
+        return true;
     }
 
-    public void update(Id updated){
-        for (Question q : store.values()) {
-            List<ReplacementTuple> replacements = new ArrayList<ReplacementTuple>();
-            List<AExpression> dList = q.getDependencies();
-            if (dList != null) {
-                for (AExpression expr : dList) {
-                    AExpression eval = expr.evaluate();
-                    Id toCheck;
-                    AExpression left = null, right = null;
-                    if (eval.getLeft() != null && eval.getLeft().getType() == AExpression.IDENTIFIER){
-                        toCheck = getIdFor(eval.getLeft().getContent());
-                        if (updated.equals(toCheck)) {
-                            left = createExpressionFromAnswer(toCheck);
-                        }
-                    }
-                    if (eval.getRight() != null && eval.getRight().getType() == AExpression.IDENTIFIER){
-                        toCheck = getIdFor(eval.getRight().getContent());
-                        if (updated.equals(toCheck)) {
-                            right = createExpressionFromAnswer(toCheck);
-                        }
-                    }
-                    if (left != null || right != null) {
-                        AExpression replacement = copyExpressionFrom(expr, left, right).evaluate();
-                        replacements.add(new ReplacementTuple(expr, replacement));
-                    }
-                }
-            }
-            for (ReplacementTuple rt : replacements){
-                q.updateDependency(rt.getExpression(), rt.getReplacement());
-            }
-        }
+    private boolean isSatisfied(AExpression expression){
+        AExpression result = iterate(expression).evaluate();
+        if (result == Boolean.getTrue())
+            return true;
+        return false;
+
     }
 
-    private AExpression copyExpressionFrom(AExpression current, AExpression newLeft, AExpression newRight){
-        AExpression left = (newLeft != null ? newLeft : current.getLeft());
-        AExpression right = (newRight != null ? newRight : current.getRight());
-        switch (current.getType()){
-            case AExpression.ADD: return new Addition(left, right);
-            case AExpression.AND: return new And(left, right);
-            case AExpression.DIV: return new Division(left, right);
-            case AExpression.EQUALS: return new Equals(left, right);
-            case AExpression.GREATER_EQUALS: return new GreaterEquals(left, right);
-            case AExpression.GREATER_THAN: return new GreaterThan(left, right);
-            case AExpression.LESS_EQUALS: return new LessEquals(left, right);
-            case AExpression.LESS_THAN: return new LessThan(left, right);
-            case AExpression.MUL: return new Multiplication(left, right);
-            case AExpression.NOT_EQUALS: return new NotEquals(left, right);
-            case AExpression.OR: return new Or(left, right);
-            case AExpression.SUB: return new Subtraction(left, right);
-            default: return null;
-        }
-    }
-
-    private AExpression createExpressionFromAnswer(Id source){
-        Question answered = store.get(source);
-        String answerString = answered.getResult().getContent();
-        AExpression newExpr;
-        switch (answered.getType()){
-            case BOOLEAN:
-                if ("True".equals(answered.getResult()))
-                    newExpr = Boolean.getTrue();
-                else
-                    newExpr = Boolean.getFalse();
-                break;
-            case DATE:
-                newExpr = new Date(answerString);
-                break;
-            case NUMERAL:
-                newExpr = new Number(answerString);
-                break;
+    private AExpression iterate(AExpression expr){
+        if (expr == null) 
+            return null;
+        
+        switch (expr.getType()) {
+            case AExpression.IDENTIFIER:
+                return variables.get(expr);
+            case AExpression.DATE:
+            case AExpression.NUMBER:
+            case AExpression.STRING:
+            case AExpression.BOOLEAN:
+                return expr;
             default:
-                newExpr = new com.klq.logic.expression.terminal.String(answerString);
-                break;
+                return ExpressionUtil.copyExpressionFrom(expr.evaluate(),
+                        iterate(expr.getLeft()).evaluate(),
+                        iterate(expr.getRight()).evaluate()
+                );
         }
-        return newExpr;
     }
 
-    private AExpression resolve(AExpression expr){
-        if (expr.getType() == AExpression.IDENTIFIER) {
-            Id id = new Id(expr.getContent());
-            Question question = store.get(id);
-
-        }
-        return null;
+    public void updateAnswer(Id questionId, AExpression answer) throws NoSuchQuestionException{
+        AExpression id = new Identifier(questionId.toString());
+        if (variables.containsKey(id))
+            variables.put(id, answer != null ? answer : id);
+        else
+            throw new NoSuchQuestionException("Error while updating variable table!\n"
+                    + String.format(NO_SUCH_QUESTION, questionId));
+        updateVisibilities();
+        updateComputed();
+        updateProgress();
     }
 
-    class ReplacementTuple {
-        private AExpression expression;
-        private AExpression replacement;
-
-        public ReplacementTuple(AExpression expression, AExpression replacement) {
-            this.expression = expression;
-            this.replacement = replacement;
+    public void updateVisibilities(){
+        invisibleCount = 0;
+        for (Id id : store.keySet()){
+            try {
+                boolean visibility = dependenciesResolved(id);
+                if (!visibility)
+                    invisibleCount++;
+                store.get(id).visibleProperty().setValue(visibility);
+            } catch (NoSuchQuestionException nsq){
+                System.err.println("Error while updating visibilities!"
+                        + String.format(NO_SUCH_QUESTION, id));
+            }
         }
+    }
 
-        public AExpression getExpression() {
-            return expression;
+    private void updateComputed(){
+        for (Question q : store.values()){
+            if (q.isComputedQuestion()){
+                AExpression var = new Identifier(q.getId().toString());
+                AExpression computed = iterate(variables.get(var)).evaluate();
+                q.computedProperty().setValue(computed.getContent());
+            }
         }
+    }
 
-        public AExpression getReplacement() {
-            return replacement;
+    private void updateProgress(){
+        double count = variables.size() - computedCount - invisibleCount;
+        double answered = 0;
+        for (AExpression expr : variables.keySet()) {
+            AExpression assignedValue = variables.get(expr).evaluate();
+            if (ExpressionUtil.isTerminal(assignedValue, false))
+                answered++;
         }
+        progressProperty.set((answered)/count);
+    }
+
+    public DoubleProperty progressProperty(){
+        return progressProperty;
+    }
+
+    public boolean exportResults(String path){
+        Date timestamp = new Date();
+        File file = new File(path + File.separator + DATE_FORMAT.format(timestamp) + ".xml");
+        try {
+            file.createNewFile();
+            String encoding = "UTF-8";
+            PrintWriter writer = new PrintWriter(file, encoding);
+            writer.write(String.format("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>%n"));
+            writer.write(String.format("<questionnaire>%n"));
+            for (Id id : order) {
+                AExpression var = new Identifier(id.toString());
+                AExpression assignedValue = iterate(variables.get(var)).evaluate();
+                String varString = assignedValue.getContent();
+                String xmlTag = String.format("\t<%s>%n" + "\t\t%s%n" + "\t</%s>%n",
+                                                id.toString(), varString, id.toString());
+                writer.write(xmlTag);
+            }
+            writer.write("</questionnaire>");
+            writer.flush();
+            writer.close();
+        } catch (FileNotFoundException fnf){
+            System.err.println(String.format("Could not write to file: %s", file));
+            return false;
+        } catch (IOException io){
+            System.err.println(String.format("Could not create file: %s", file));
+            return false;
+        }
+        return true;
     }
 }

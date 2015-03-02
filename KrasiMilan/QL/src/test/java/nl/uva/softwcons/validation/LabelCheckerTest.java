@@ -89,8 +89,11 @@ public class LabelCheckerTest {
     }
 
     /**
+     * TODO extract me into a common method when we create the checker
+     * interface.
+     * 
      * Builds a Form called always "form1" with the given statements (separating
-     * them by spaces), runs the {@link LabelChecker} checker and returns the
+     * them by newlines), runs the {@link LabelChecker} checker and returns the
      * list of found errors.
      * 
      * @param formContents
@@ -100,7 +103,7 @@ public class LabelCheckerTest {
     private static List<Error> getLabelCheckerValidationErrors(final String... formContents) {
         Form form = Questionnaire.build(TestHelper.buildForm("form1", formContents));
         LabelChecker checker = new LabelChecker();
-        form.getBody().accept(checker);
+        form.accept(checker);
 
         return checker.getErrors();
 

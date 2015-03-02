@@ -1,6 +1,5 @@
 package lang.ql.semantics;
 
-import lang.ql.ast.AstVisitor;
 import lang.ql.ast.expression.*;
 import lang.ql.ast.form.*;
 import lang.ql.ast.statement.*;
@@ -67,7 +66,7 @@ public class Interpreter implements FormVisitor<Void>, StatVisitor<Void>, ExprVi
     @Override
     public Void visit(CalculatedQuestion n)
     {
-        Expr e = n.getDefaultValue();
+        Expr e = n.getCalculation();
         e.accept(this);
 
         this.variableValues.storeValue(n.getId(), this.popFromStack());

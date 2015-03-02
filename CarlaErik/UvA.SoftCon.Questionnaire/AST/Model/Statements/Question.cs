@@ -35,17 +35,43 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
             private set;
         }
 
+        public IExpression Expression
+        {
+            get;
+            private set;
+        }
+
+        public bool IsComputed
+        {
+            get
+            {
+                return Expression != null;
+            }
+        }
+
         public Question(DataType dataType, Identifier id, string label, TextPosition position)
             : base(position)
         {
             DataType = dataType;
             Id = id;
             Label = label;
+            Expression = null;
+        }
+
+        public Question(DataType dataType, Identifier id, string label, IExpression expression, TextPosition position)
+            : this(dataType, id, label, position)
+        {
+            Expression = expression;
         }
 
         public override void Accept(IASTVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override T Accept<T>(IASTVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

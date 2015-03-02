@@ -4,9 +4,8 @@ import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.ComputedVal
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.QuestionWidgetFetcher;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.ComputedValue;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Question;
-import org.uva.student.calinwouter.qlqls.qls.model.functions.Slider;
+import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +23,6 @@ public class FieldRenderer extends AbstractRenderer {
         } catch(NullPointerException e) {
             // This should only occur when the field is used in QLS and not in QL.
             // Checking that there are no references to question
-            System.out.println("Not defined: " + question.getFieldName() + ", " + headlessFormInterpreter.getField(question.getFieldName()));
             this.fieldComponent = new JPanel();
             return;
         }

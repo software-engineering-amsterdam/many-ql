@@ -31,6 +31,7 @@ questionRangeSmallerThan: SMALLERTHAN num=NUMBER;
 calculation:
     'Calculation:' name=STRING calculationBody;
 
+//TODO: Can a calculation have multiple inputs?
 calculationBody:
    '{' (ifSequence|input)+'}';
 
@@ -64,8 +65,7 @@ expression
     | '(' expression ')'
     | expression operator=(TIMES|DIVISION) expression
     | expression operator=(ADDITION|SUBTRACTION) expression
-    | expression operator=(SMALLETHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN) expression
-    | expression operator=(EQUALTO | NOTEQUALTO) expression
+    | expression operator=(SMALLETHANOREQUAL | BIGGERTHANOREQUAL | BIGGERTHAN | SMALLERTHAN | EQUALTO | NOTEQUALTO) expression
     | expression operator=AND expression
     | expression operator=OR expression;
 

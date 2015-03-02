@@ -5,8 +5,7 @@ import (
 	"log"
 	"text/template"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/symboltable"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/ast"
 	"gopkg.in/qml.v1"
 )
 
@@ -42,19 +41,7 @@ func (g *Gui) updateQuestion(fieldName, fieldType string, content interface{}) {
 			return
 		}
 
-		switch fieldType {
-		case symboltable.BoolQuestionType:
-			if content == "Yes" {
-				fieldPtr.Set("checked", true)
-			} else {
-				fieldPtr.Set("checked", false)
-			}
-		default:
-			if content != fieldPtr.String("text") {
-				fieldPtr.Set("text", content)
-			}
-
-		}
+		g.updateCallbacks[fieldName](content.(string))
 	}
 }
 

@@ -1,19 +1,10 @@
 package org.fugazi.ast.expression;
 
 import org.fugazi.ast.expression.comparison.*;
-import org.fugazi.ast.expression.literal.BOOL;
-import org.fugazi.ast.expression.literal.ID;
-import org.fugazi.ast.expression.literal.INT;
-import org.fugazi.ast.expression.literal.STRING;
-import org.fugazi.ast.expression.logical.And;
-import org.fugazi.ast.expression.logical.Or;
-import org.fugazi.ast.expression.numerical.Add;
-import org.fugazi.ast.expression.numerical.Div;
-import org.fugazi.ast.expression.numerical.Mul;
-import org.fugazi.ast.expression.numerical.Sub;
-import org.fugazi.ast.expression.unary.Negative;
-import org.fugazi.ast.expression.unary.Not;
-import org.fugazi.ast.expression.unary.Positive;
+import org.fugazi.ast.expression.literal.*;
+import org.fugazi.ast.expression.logical.*;
+import org.fugazi.ast.expression.numerical.*;
+import org.fugazi.ast.expression.unary.*;
 
 public interface IExpressionVisitor<T> {
 

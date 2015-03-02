@@ -3,6 +3,7 @@ package org.uva.student.calinwouter.qlqls.ql.types;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 
 public class TInteger extends TypeModel<Integer> {
+    public static final String TYPE_REFERENCE = "int";
 
     @Override
     public TypeModel<?> add(TypeModel<?> typeModel) {

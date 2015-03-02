@@ -6,16 +6,14 @@ grammar QL;
 /* Start rule */
 form : stat* ;
 
-
-stat : TYPE ID STRING                                                       # Question
+stat : ID STRING TYPE ('=' expr)?                                           # Question
      | 'if' '(' expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
 	 | TYPE ID ('=' expr)?                                                  # Declaration
 	 | ID '=' expr                                                          # Assignment
-	 | 'show' expr                                                          # ShowExpression
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride
-     : expr '++'                      # Increment
+     | expr '++'                      # Increment
 	 | '!' expr                       # Negation
 	 | expr ('*'|'/') expr            # MultiplyDivide
 	 | expr ('+'|'-') expr            # AddSubstract
@@ -36,7 +34,6 @@ expr : '(' expr ')'                   # PrecedenceOverride
 INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
 STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
-	   ;
 
 TYPE : 'int' | 'string' | 'bool' ;
 

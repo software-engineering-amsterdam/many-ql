@@ -1,24 +1,36 @@
 package nl.uva.softwcons.ast.form;
 
+import java.util.List;
+
 import nl.uva.softwcons.ast.ASTNode;
-import nl.uva.softwcons.ast.statement.Block;
+import nl.uva.softwcons.ast.LineInfo;
+import nl.uva.softwcons.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ast.statement.Statement;
 
 public class Form implements ASTNode {
+    private Identifier name;
+    private List<Statement> statements;
 
-    private String name;
-    private Block body;
-
-    public Form(final String name, final Block body) {
+    public Form(final Identifier name, final List<Statement> statements) {
         this.name = name;
-        this.body = body;
+        this.statements = statements;
     }
 
-    public String getName() {
+    public Identifier getName() {
         return name;
     }
 
-    public Block getBody() {
-        return body;
+    public List<Statement> getStatements() {
+        return statements;
+    }
+
+    public <T> T accept(FormVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public LineInfo getLineInfo() {
+        return name.getLineInfo();
     }
 
 }
