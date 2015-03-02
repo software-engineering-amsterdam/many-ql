@@ -43,7 +43,10 @@ public class TypeChecker implements AstVisitor {
 			if (question != null) {
 				return question.getDataType();
 			} else {
-				throw new IllegalStateException("Unreferenced question: " + name);
+				String validationMessage = "Reference to undefined question: " + name;
+				TextLocation textLocation = expression.getTextLocation();
+				typeValidations.add(new TypeValidation(validationMessage, textLocation));
+				return DataType.UNDEFINED;
 			}
 		}
 		if (expression instanceof BracedExpression) {
