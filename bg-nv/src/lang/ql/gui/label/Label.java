@@ -1,8 +1,7 @@
 package lang.ql.gui.label;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lang.ql.gui.GuiElement;
-import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.GuiModelVisitor;
 
 /**
  * Created by Nik on 22-02-2015
@@ -23,7 +22,7 @@ public class Label extends GuiElement
         this.text = text;
     }
 
-    public <T> T accept(GuiVisitor<T> visitor)
+    public <T> T accept(GuiModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

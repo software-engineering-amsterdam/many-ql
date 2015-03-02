@@ -1,4 +1,4 @@
-package lang.ql.gui;
+package lang.ql.gui.input;
 
 import lang.ql.ast.expression.Expr;
 import lang.ql.ast.type.*;

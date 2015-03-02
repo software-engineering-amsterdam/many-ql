@@ -1,7 +1,7 @@
 package lang.ql.gui.line;
 
 import lang.ql.gui.GuiElement;
-import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.GuiModelVisitor;
 import lang.ql.gui.input.Input;
 import lang.ql.gui.label.Label;
 
@@ -27,7 +27,7 @@ public class Line extends GuiElement
         this.input = input;
     }
 
-    public <T> T accept(GuiVisitor<T> visitor)
+    public <T> T accept(GuiModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

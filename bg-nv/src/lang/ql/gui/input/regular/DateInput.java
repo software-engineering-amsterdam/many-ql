@@ -1,8 +1,7 @@
 package lang.ql.gui.input.regular;
 
-import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.GuiModelVisitor;
 import lang.ql.gui.input.Input;
-import lang.ql.semantics.values.DateValue;
 
 /**
  * Created by Nik on 22-02-2015
@@ -19,7 +18,7 @@ public class DateInput extends Input
         super(id, visible, disabled);
     }
 
-    public <T> T accept(GuiVisitor<T> visitor)
+    public <T> T accept(GuiModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }
