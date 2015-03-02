@@ -56,11 +56,11 @@ class ParseTreeVisitor(QLVisitor):
         return int(ctx.getText())
 
     # Visit a parse tree produced by QLParser#money.
-    def visitMoney(self, ctx): # TODO
+    def visitMoney(self, ctx):
         return Money(ctx.getText())
 
     # Visit a parse tree produced by QLParser#identifier.
-    def visitIdentifier(self, ctx): # TODO
+    def visitIdentifier(self, ctx):
         lineNumber = ctx.start.line
         return Identifier(ctx.getText(), lineNumber)
     
