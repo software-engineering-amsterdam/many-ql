@@ -111,7 +111,7 @@ def p_bool_expression(p):
             | expr AND expr
             | expr OR  expr
     '''
-    p[0] = nodes.BoolExpression(p, p[2], p[1], p[3])
+    p[0] = nodes.BooleanExpression(p, p[2], p[1], p[3])
 
 
 def p_operand_expression(p):

@@ -9,7 +9,9 @@ class TypecheckingTests(unittest.TestCase):
     def setUp(self):
         self.duplicateQuestions = DuplicateQuestions()
         self.undefinedQuestions = UndefinedQuestions()
-        self.nonBoolean         = NonBooleanExpressions()
+        self.nonBoolean         = NonBooleanTypes()
+        self.nonOperand         = NonOperandTypes()
+        self.nonExpressions     = NonExpressions()
 
         self.parser = Parser()
         self.checker = TypeChecker()
@@ -17,6 +19,8 @@ class TypecheckingTests(unittest.TestCase):
         self.checker.register(self.duplicateQuestions)
         self.checker.register(self.undefinedQuestions)
         self.checker.register(self.nonBoolean)
+        self.checker.register(self.nonOperand)
+        self.checker.register(self.nonExpressions)
 
 
     def testDuplicateQuestions(self):
@@ -64,7 +68,7 @@ class TypecheckingTests(unittest.TestCase):
 
         self.assertEqual(len(self.duplicateQuestions.errors), 0)
         self.assertEqual(len(self.undefinedQuestions.errors), 0)
-        self.assertEqual(len(self.nonBoolean.errors), 1)
+        self.assertEqual(len(self.nonExpressions.errors), 1)
 
     def testIncompatibleNestedTypes(self):
         with open("tests/forms/expressionTypesNested.txt", "r") as file:
@@ -74,6 +78,6 @@ class TypecheckingTests(unittest.TestCase):
 
         self.assertEqual(len(self.duplicateQuestions.errors), 0)
         self.assertEqual(len(self.undefinedQuestions.errors), 0)
-        self.assertEqual(len(self.nonBoolean.errors), 5)
+        self.assertEqual(len(self.nonExpressions.errors), 5)
 
 
