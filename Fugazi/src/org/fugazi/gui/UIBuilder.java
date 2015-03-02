@@ -50,24 +50,11 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private void addIfStatement(IfStatement _ifStatement) {
-
-        Iterator<Block> iter = blocksStack.iterator();
-        boolean isAdded = false;
-        while (iter.hasNext()) {
-            Block block = iter.next();
-            if (ifStatements.containsKey(block.getName())) {
-                isAdded = true;
-            }
-        }
-
-        // add an ifstatements array for the block.
-        if (!isAdded) {
+        if (!isBlockExists(_ifStatement.getCondition().toString())) {
             ifStatements.put(currentBlock.getName(), new ArrayList<IfStatement>());
-        }
-
-        // add the if statement in the block.
-        if (!isAdded && !ifStatements.get(currentBlock.getName()).contains(_ifStatement)) {
-            ifStatements.get(currentBlock.getName()).add(_ifStatement);
+            if (!ifStatements.get(currentBlock.getName()).contains(_ifStatement)) {
+                ifStatements.get(currentBlock.getName()).add(_ifStatement);
+            }
         }
     }
 
@@ -101,7 +88,6 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
     private boolean isBlockExists(String _blockName) {
         Iterator<Block> iter = blocksStack.iterator();
-
         while (iter.hasNext()) {
             Block block = iter.next();
             if (block.getName().equals(_blockName)) {
@@ -113,7 +99,6 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
     private UIQuestion getExistingQuestion(String _questId) {
         UIQuestion question = null;
-
         Iterator<Block> iter = blocksStack.iterator();
         while (iter.hasNext()) {
             Block block = iter.next();
@@ -126,7 +111,6 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
     private void removeBlockFromForm(String _blockId) {
         Iterator<Block> iter = blocksStack.iterator();
-
         while (iter.hasNext()) {
             Block block = iter.next();
             if (block.getName().equals(_blockId)) {
@@ -233,6 +217,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
             this.addComputedQuestion(_computedQuest);
             UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
             this.addQuestionToBlock(uiComputedQuestion);
+
         } else {
             UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) getExistingQuestion(_computedQuest.getIdName());
             if (uiComputedQuestion != null)
