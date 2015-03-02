@@ -9,7 +9,7 @@ import cons.ql.ast.expression.Identifier;
 public class ValueEnvironment {
 	private Map<String, Value> environment = new HashMap<String, Value>();
 	
-	public ValueEnvironment() { }
+	public ValueEnvironment() {}
 	
 	public void store(Identifier identifier, Value valueInstance) {
 		environment.put(identifier.toString(), valueInstance);
