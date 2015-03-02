@@ -9,6 +9,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
 {
     public interface IExpression : INode
     {
-        DataType? GetType(IDictionary<string, DataType> symbolTable);
+        DataType GetType(IDictionary<string, DataType> symbolTable);
     }
 }

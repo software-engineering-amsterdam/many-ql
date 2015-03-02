@@ -42,7 +42,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             return visitor.Visit(this);
         }
 
-        public DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             if (symbolTable.Keys.Contains(Name))
             {
@@ -50,7 +50,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions
             }
             else
             {
-                return null;
+                return DataType.Undefined;
             }
         }
 

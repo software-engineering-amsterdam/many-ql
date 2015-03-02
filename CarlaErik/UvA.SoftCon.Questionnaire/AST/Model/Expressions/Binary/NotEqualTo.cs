@@ -30,7 +30,7 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Expressions.Binary
             return visitor.Visit(this);
         }
 
-        public override DataType? GetType(IDictionary<string, DataType> symbolTable)
+        public override DataType GetType(IDictionary<string, DataType> symbolTable)
         {
             return DataType.Boolean;
         }
