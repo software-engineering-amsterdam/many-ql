@@ -81,7 +81,7 @@ end
 
 ---- inner
 
-  require_relative '../ast/ast.rb'
+  # require_relative '../ast/ast.rb'
 
   def initialize(tokenizer)
     @tokenizer = tokenizer
