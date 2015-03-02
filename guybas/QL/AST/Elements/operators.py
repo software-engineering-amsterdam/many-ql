@@ -28,13 +28,11 @@ class CompareOperator(Operator):
     def return_type(self, type_dict):
         return " comp_operator "
 
-    def compatible(self):
-        return [BasicTypes.bool_name, BasicTypes.number_name, BasicTypes.text_name]
-
-
 class CalcOperator(Operator):
     def return_type(self, type_dict):
         return " calc_operator "
 
-    def compatible(self):
-        return [BasicTypes.number_name, BasicTypes.text_name]
+
+class ExtraOperator(Operator):
+    def return_type(self, type_dict):
+        return " extra_operator "

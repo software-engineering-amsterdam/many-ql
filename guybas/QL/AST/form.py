@@ -40,7 +40,6 @@ class Form:
         return self._name
 
     # Return the introduction
-    # TODO: make this optional
     def get_introduction(self):
         return self._introduction
 

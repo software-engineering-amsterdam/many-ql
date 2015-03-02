@@ -54,9 +54,7 @@ class FormFactory:
     @staticmethod
     def make_form(tokens):
         name = tokens[0]
-        introduction = FormFactory.make_sentence(tokens[1])
-        questions = []
-        for i in range(2, len(tokens)):
-            questions.append(tokens[i])
-        x = Form(name, introduction, questions)
-        return x
+        if len(tokens) > 2:
+            return Form(name, FormFactory.make_sentence(tokens[1]), tokens[2])
+        else:
+            return Form(name, "", tokens[1])
