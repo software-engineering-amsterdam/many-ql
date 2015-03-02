@@ -10,7 +10,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 
-import org.uva.sea.ql.encoders.ast.TypeValidation;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 public class ValidationsUI {
 

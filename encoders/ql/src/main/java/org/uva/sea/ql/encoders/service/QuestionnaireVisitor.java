@@ -24,14 +24,14 @@ import org.uva.sea.ql.encoders.ast.AstNode;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.DataType;
-import org.uva.sea.ql.encoders.ast.TypeChecker;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.ast.TypeValidation;
+import org.uva.sea.ql.encoders.validation.TypeChecker;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 

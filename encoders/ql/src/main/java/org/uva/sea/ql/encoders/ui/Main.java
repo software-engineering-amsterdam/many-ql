@@ -19,10 +19,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import org.uva.sea.ql.encoders.ast.Questionnaire;
-import org.uva.sea.ql.encoders.ast.TypeValidation;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 public class Main extends Application {
 

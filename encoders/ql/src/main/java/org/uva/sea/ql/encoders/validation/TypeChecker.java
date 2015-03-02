@@ -1,7 +1,9 @@
-package org.uva.sea.ql.encoders.ast;
+package org.uva.sea.ql.encoders.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.uva.sea.ql.encoders.ast.Expression;
 
 public class TypeChecker {
 

@@ -13,7 +13,7 @@ import org.uva.sea.ql.encoders.EncodersQLLexer;
 import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
-import org.uva.sea.ql.encoders.ast.TypeValidation;
+import org.uva.sea.ql.encoders.validation.TypeValidation;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.
