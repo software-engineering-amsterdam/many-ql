@@ -4,14 +4,14 @@ class Controller(object):
 		self._view = view
 
 	def run(self):
+		for questionModel in self._questionModels:
+			self._view.render(questionModel, lambda value, questionModel = questionModel : self.valueChangedCallback(questionModel, value))
 		self.refresh()
 		self._view.mainloop()
 
 	def refresh(self):
-		self._view.clear()
 		for questionModel in self._questionModels:
-			if questionModel.isVisible:
-				self._view.render(questionModel, lambda value, questionModel = questionModel : self.valueChangedCallback(questionModel, value))
+			self._view.update(questionModel)			
 
 	def valueChangedCallback(self, questionModel, value):
 		updateSuccess = questionModel.updateValue(value)
