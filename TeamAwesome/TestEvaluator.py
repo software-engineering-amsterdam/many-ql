@@ -2,15 +2,13 @@ import argparse
 import glob
 
 from ql.ast.AST import AST
-from ql.evaluator.evaluator import createEvaluator, PageStructure
+from ql.evaluator.evaluator import createEvaluator
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
     evaluator = createEvaluator(ast)
-    pageStructure = PageStructure(evaluator)
-    pageStructure.createDefaultPages()
-
-    numQuestions = len(pageStructure.getVisibleQuestions(0))
+    questions = evaluator.questions()
+    numQuestions = len(questions)
 
     expectedNumQuestions = int(
         testFileName.split('.')[0].split('-')[1]
@@ -22,7 +20,7 @@ def runTest(verbose, testFileName):
         print(('-' * 10) + 'Evaluator test FAIL')
 
     if not success or verbose:
-        for question in pageStructure.getVisibleQuestions(0):
+        for question in questions:
             print(question)
 
         print( '^' + ('-' * 9) + testFileName + ': '\

@@ -31,17 +31,19 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID type {$result = new Question($STRING.text, $ID.text, $type.result,new Memory());}
+	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result,new Memory());}
 	;
 	
-assignmentStatement returns [Statement result]
-: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result);}
-;
-
 ifStatement returns [Statement result]
 : IF exp=expression 'then' slist=statementList
-  'end' {$result = new IfStatement($exp.result,$slist.result);}
+  'end' {$result = new IfStatement($exp.result,$slist.result, $IF);}
 ;
+
+assignmentStatement returns [Statement result]
+: ID ':=' lit=literal {$result = new AssignmentStatement($ID.text, $lit.result, $ID);}
+;
+
+
 
 expression returns [Expression result]
 	: LBRACE x=expression RBRACE				{ $result = $x.result;}
@@ -77,6 +79,7 @@ type returns [Type result]
 
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip ;
 
+IF: 'if';
 BOOLEAN : 'true' | 'false';
 STRING: '"'.*?'"';
 INTEGER : [0-9]+;
@@ -85,7 +88,6 @@ ID : ([a-z][A-Za-z0-9]+);
 WS : (' ' | '\t' | '\n' | '\r' | '\f')+ -> skip;
 COMMENT : '//' .*? ('\n'|'\r') -> skip;
 
-IF: 'if';
 OR: '||';
 AND: '&&';
 LTEQ: '<=';

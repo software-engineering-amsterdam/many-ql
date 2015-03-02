@@ -1,12 +1,15 @@
 
-class UndefinedQuestions():
+from errors import UndefinedError
+
+class UndefinedQuestions:
     def __init__(self):
         self.errors = []
-        self.questionLabels = set()
+        self.questionIDs = set()
 
     def Question(self, node):
-        self.questionLabels.add(node.label)
+        self.questionIDs.add(node.ID)
 
     def Leaf(self, node):
-        if not node.Label() in self.questionLabels:
-            self.errors += node
+        if node.tokenType == "ID" and not node.ID in self.questionIDs:
+            error = UndefinedError(node)
+            self.errors.append(error)

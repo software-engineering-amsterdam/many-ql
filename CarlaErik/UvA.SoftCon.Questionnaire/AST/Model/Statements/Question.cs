@@ -9,14 +9,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
 {
     public class Question : Node, IStatement
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Question;
-            }
-        }
-
         public DataType DataType
         {
             get;
@@ -72,6 +64,11 @@ namespace UvA.SoftCon.Questionnaire.AST.Model.Statements
         public override T Accept<T>(IASTVisitor<T> visitor)
         {
             return visitor.Visit(this);
+        }
+
+        public void AppendQuestions(ICollection<Question> questions)
+        {
+            questions.Add(this);
         }
     }
 }

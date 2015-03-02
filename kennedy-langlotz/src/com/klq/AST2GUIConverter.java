@@ -96,7 +96,6 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         Text text = new Text(node.getText());
 
         OptionSet options = new OptionSet();
-
         for(ANode child : node.getChildren()){
             options.add((AExpression) child.accept(this));
         }

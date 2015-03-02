@@ -1,5 +1,8 @@
 package symboltable
 
+// StringParser describes the interface to be used when reading the input from
+// frontend. It follows the Unix principle that pipe between computations are
+// strings.
 type StringParser interface {
 	From(str string) error
 }

@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.form.language.ast.statement.Statement;
+import com.form.language.error.ErrorCollector;
 
 public class Form  {
 	public String id;
@@ -38,5 +39,11 @@ public class Form  {
 			}
 		}		
 		return fPanel;
+	}
+	
+	public void getErrors(ErrorCollector errs){
+		for(Statement s: statementList){
+			s.getErrors(errs);
+		}
 	}
 }

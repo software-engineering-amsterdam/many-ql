@@ -1,7 +1,7 @@
 from tkinter import *
 
-from Main.processor import *
-from Main.mapper import *
+from QL.Main.processor import *
+from QL.Main.mapper import *
 
 
 class QuestionnaireGUI:
@@ -61,7 +61,7 @@ class QuestionnaireGUI:
             self.elementsMap[parent_id]['guiElements'] += [e1, e2]
         elif statement.get_type() is BasicTypes.number_name:
             e = Spinbox(from_=0, to_=10000)
-            e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, e.get()))
+            e.bind("<KeyPress><KeyRelease>", lambda event: self.update(statement, int(e.get())))
             e.grid(row=row, column=1, columnspan=self.column_span, sticky=W)
             self.elementsMap[parent_id]['guiElements'] += [e]
         elif statement.get_type() is BasicTypes.text_name:

@@ -1,7 +1,7 @@
 # Grammar of the basic and question types
 
-from pyparsing import oneOf, Suppress, Word, OneOrMore, Literal, restOfLine, cStyleComment
-from Factory.forms import *
+from pyparsing import oneOf, Suppress, Word, OneOrMore, Literal, restOfLine, cStyleComment, alphanums
+from QL.Factory.forms import *
 
 
 class BasicTypes:
@@ -12,8 +12,8 @@ class BasicTypes:
     # end_sign_esc :: \ end_sign
     end_sign_esc = Suppress("\\") + end_sign
 
-    # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_]
-    characters = Word("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()[]{},@#$%^&*-+=/\'\"`~_")
+    # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_-;]
+    characters = Word(alphanums + "()[]{}@#$%^&*-+=/\'\"`~_-;")
 
     # word :: end_sign_esc | characters
     word = end_sign_esc | characters

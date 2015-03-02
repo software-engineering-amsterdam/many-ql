@@ -139,20 +139,17 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitTypeInt(TypeIntContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
-		return new IntType(pos);
+		return new IntType();
 	}
 
 	@Override
 	public Node visitTypeBool(TypeBoolContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
-		return new BoolType(pos);
+		return new BoolType();
 	}
 
 	@Override
 	public Node visitTypeStr(TypeStrContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
-		return new StrType(pos);
+		return new StrType();
 	}
 
 	// =================================================================

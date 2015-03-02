@@ -47,6 +47,15 @@ class Evaluator(object):
 	def identifiers(self):
 		return self._questionTable.identifiers()
 
+	def questions(self):	
+	    questions = []
+	    for ident in self.identifiers():
+	        question = self.getQuestion(ident)
+	        if question:
+	            questions.append(question)
+	    return questions
+
+
 
 class Visitor(ASTVisitor):
     def __init__(self):
@@ -101,23 +110,3 @@ class Visitor(ASTVisitor):
 
     def _visitBool(self, node):
         return Boolean(node)
-
-# TODO rename to something else?
-class PageStructure(object):
-	def __init__(self, evaluator):
-		self.evaluator = evaluator	
-		self.pages = []
-
-	def createDefaultPages(self):
-		self.pages = [Page(self.evaluator.identifiers())]
-
-	def getVisibleQuestions(self, pageNumber):
-		return self.pages[pageNumber].getQuestions(self.evaluator)
-
-class Page(object):
-	def __init__(self, questionIdentifiers):
-		self.questionIdentifiers = questionIdentifiers
-
-	def getQuestions(self, evaluator):
-		questions = [evaluator.getQuestion(identifier) for identifier in self.questionIdentifiers]
-		return [question for question in questions if question != None]	

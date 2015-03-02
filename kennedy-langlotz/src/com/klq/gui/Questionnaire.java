@@ -97,7 +97,6 @@ public class Questionnaire extends AnchorPane {
         progressBar.progressProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println(newValue);
                 if (newValue.equals(1.0))
                     progressBar.setStyle("-fx-accent: #06ff40;");
                 else

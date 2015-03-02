@@ -67,13 +67,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         {
             if (declaration.Initialization != null)
             {
-                DataType? expressionType = declaration.Initialization.GetType(_declaredVariables);
+                DataType expressionType = declaration.Initialization.GetType(_declaredVariables);
 
-                if (expressionType.HasValue)
+                if (expressionType != DataType.Undefined)
                 {
-                    if (declaration.DataType != expressionType.Value)
+                    if (declaration.DataType != expressionType)
                     {
-                        InvalidAssignments.Add(new InvalidAssignment(declaration.Id, declaration.Initialization, declaration.DataType, expressionType.Value));
+                        InvalidAssignments.Add(new InvalidAssignment(declaration.Id, declaration.Initialization, declaration.DataType, expressionType));
                     }
                 }
 
@@ -86,14 +86,14 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         public override void Visit(Assignment assignment)
         {
-            DataType? targetType = assignment.Variable.GetType(_declaredVariables);
-            DataType? expressionType = assignment.Expression.GetType(_declaredVariables);
+            DataType targetType = assignment.Variable.GetType(_declaredVariables);
+            DataType expressionType = assignment.Expression.GetType(_declaredVariables);
 
-            if (targetType.HasValue && expressionType.HasValue)
+            if (targetType != DataType.Undefined && expressionType != DataType.Undefined)
             {
-                if (targetType.Value != expressionType.Value)
+                if (targetType != expressionType)
                 {
-                    InvalidAssignments.Add(new InvalidAssignment(assignment.Variable, assignment.Expression, targetType.Value, expressionType.Value));
+                    InvalidAssignments.Add(new InvalidAssignment(assignment.Variable, assignment.Expression, targetType, expressionType));
                 }
             }
 
@@ -107,13 +107,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
             if (question.IsComputed)
             {
-                DataType? expressionType = question.Expression.GetType(_declaredVariables);
+                DataType expressionType = question.Expression.GetType(_declaredVariables);
 
-                if (expressionType.HasValue)
+                if (expressionType != DataType.Undefined)
                 {
-                    if (questionType != expressionType.Value)
+                    if (questionType != expressionType)
                     {
-                        InvalidAssignments.Add(new InvalidAssignment(question.Id, question.Expression, questionType, expressionType.Value));
+                        InvalidAssignments.Add(new InvalidAssignment(question.Id, question.Expression, questionType, expressionType));
                     }
                 }
             }
@@ -124,11 +124,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         public override void Visit(IfStatement ifStatement)
         {
             // Validate that the condition of the if statement is of type boolean
-            DataType? result = ifStatement.If.GetType(_declaredVariables);
+            DataType expressionType = ifStatement.If.GetType(_declaredVariables);
 
-            if (result.HasValue)
+            if (expressionType != DataType.Undefined)
             {
-                if (result.Value != DataType.Boolean)
+                if (expressionType != DataType.Boolean)
                 {
                     InvalidIfStatements.Add(ifStatement);
                 }
@@ -231,65 +231,28 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         private void ValidateUnaryExpression(UnaryExpression expression)
         {
-            DataType? operand = expression.Operand.GetType(_declaredVariables);
+            DataType operandType = expression.Operand.GetType(_declaredVariables);
 
-            if (operand.HasValue)
+            if (operandType != DataType.Undefined)
             {
-                if (!UnaryExpressionIsValid(expression.Operation, operand.Value))
+                if (!expression.OperandTypeIsValid(operandType))
                 {
-                    InvalidUnaryExpressions.Add(new InvalidUnaryExpression(expression, operand.Value));
+                    InvalidUnaryExpressions.Add(new InvalidUnaryExpression(expression, operandType));
                 }
             }
         }
 
         private void ValidateBinaryExpression(BinaryExpression expression)
         {
-            DataType? left = expression.Left.GetType(_declaredVariables);
-            DataType? right = expression.Right.GetType(_declaredVariables);
+            DataType leftType = expression.Left.GetType(_declaredVariables);
+            DataType rightType = expression.Right.GetType(_declaredVariables);
 
-            if (left.HasValue && right.HasValue)
+            if (leftType != DataType.Undefined && rightType != DataType.Undefined)
             {
-                if (!BinaryExpressionIsValid(expression.Operation, left.Value, right.Value))
+                if (!expression.OperandTypesAreValid(leftType, rightType))
                 {
-                    InvalidBinaryExpressions.Add(new InvalidBinaryExpression(expression, left.Value, right.Value));
+                    InvalidBinaryExpressions.Add(new InvalidBinaryExpression(expression, leftType, rightType));
                 }
-            }
-        }
-
-        private bool UnaryExpressionIsValid(Operation operation, DataType operand)
-        {
-            switch (operation)
-            {
-                case Operation.Increment:
-                    return operand == DataType.Integer;
-                case Operation.Negation:
-                    return operand == DataType.Boolean;
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-
-        private bool BinaryExpressionIsValid(Operation operation, DataType left, DataType right)
-        {
-            switch (operation)
-            {
-                case Operation.And:
-                case Operation.Or:
-                    return left == DataType.Boolean && right == DataType.Boolean;
-                case Operation.NotEqualTo:
-                case Operation.EqualTo:
-                    return left == right;
-                case Operation.Add:
-                case Operation.Divide:
-                case Operation.Multiply:
-                case Operation.Substract:
-                case Operation.GreaterThan:
-                case Operation.GreaterThanOrEqualTo:
-                case Operation.LessThan:
-                case Operation.LessThanOrEqualTo:
-                    return (left == DataType.Integer) && (right == DataType.Integer);
-                default:
-                    throw new NotSupportedException();
             }
         }
     }

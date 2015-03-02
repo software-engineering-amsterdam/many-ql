@@ -91,147 +91,110 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Addition expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = Addition.resolveType(leftExprType, rightExprType);
-
+        final Type combinedExpressionType = Addition.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
 
         return combinedExpressionType;
     }
 
     @Override
-    public Type visit(Division expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = Division.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final Division expr) {
+        final Type combinedExpressionType = Division.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
 
         return combinedExpressionType;
     }
 
     @Override
-    public Type visit(Multiplication expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExprType = Multiplication.resolveType(leftExprType, rightExprType);
-
-        validateExpressionType(expr, combinedExprType, DecimalType.instance, IntegerType.instance);
-
-        return combinedExprType;
-    }
-
-    @Override
-    public Type visit(Subtraction expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = Subtraction.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final Multiplication expr) {
+        final Type combinedExpressionType = Multiplication.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
 
         return combinedExpressionType;
     }
 
     @Override
-    public Type visit(Equal expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = Equal.resolveType(leftExprType, rightExprType);
+    public Type visit(final Subtraction expr) {
+        final Type combinedExpressionType = Subtraction.resolveType(leftOperand(expr), rightOperand(expr));
+        validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
 
+        return combinedExpressionType;
+    }
+
+    @Override
+    public Type visit(final Equal expr) {
+        final Type combinedExpressionType = Equal.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(NotEqual expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = NotEqual.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final NotEqual expr) {
+        final Type combinedExpressionType = NotEqual.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(GreaterOrEqual expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = GreaterOrEqual.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final GreaterOrEqual expr) {
+        final Type combinedExpressionType = GreaterOrEqual.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(GreaterThan expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = GreaterThan.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final GreaterThan expr) {
+        final Type combinedExpressionType = GreaterThan.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(LowerOrEqual expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = LowerOrEqual.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final LowerOrEqual expr) {
+        final Type combinedExpressionType = LowerOrEqual.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(LowerThan expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = LowerThan.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final LowerThan expr) {
+        final Type combinedExpressionType = LowerThan.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(And expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = And.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final And expr) {
+        final Type combinedExpressionType = And.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(Or expr) {
-        final Type leftExprType = expr.getLeftExpression().accept(this);
-        final Type rightExprType = expr.getRightExpression().accept(this);
-        final Type combinedExpressionType = And.resolveType(leftExprType, rightExprType);
-
+    public Type visit(final Or expr) {
+        final Type combinedExpressionType = Or.resolveType(leftOperand(expr), rightOperand(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(Not expr) {
-        final Type expressionType = expr.getExpression().accept(this);
-
+    public Type visit(final Not expr) {
+        final Type expressionType = unaryOperand(expr);
         validateExpressionType(expr, expressionType, BooleanType.instance);
 
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(Identifier questionId) {
+    public Type visit(final Identifier questionId) {
         final Type variableType = this.env.resolveVariable(questionId);
 
         if (variableType == UndefinedType.instance) {
@@ -242,22 +205,22 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     }
 
     @Override
-    public Type visit(BooleanLiteral expr) {
+    public Type visit(final BooleanLiteral expr) {
         return BooleanType.instance;
     }
 
     @Override
-    public Type visit(IntegerLiteral expr) {
+    public Type visit(final IntegerLiteral expr) {
         return IntegerType.instance;
     }
 
     @Override
-    public Type visit(StringLiteral expr) {
+    public Type visit(final StringLiteral expr) {
         return StringType.instance;
     }
 
     @Override
-    public Type visit(DecimalLiteral expr) {
+    public Type visit(final DecimalLiteral expr) {
         return DecimalType.instance;
     }
 
