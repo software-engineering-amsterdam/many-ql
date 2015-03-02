@@ -1,5 +1,7 @@
 package gui.widgets;
 
+import interpreter.ValueRepository;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
@@ -8,12 +10,14 @@ import ast.type.Type;
 public class ChoiceWidget implements IWidgetComponent {
 	private final String id, label;
 	private final Type widgetType;
-	private JCheckBox widget = new JCheckBox("Yes");;
+	private JCheckBox widget = new JCheckBox("");;
 	private String value = new String("");
+	//private final ValueRepository valueRepository;
 		
 	public ChoiceWidget(String id, String label, Type widgetType) {
 		this.id = id;
 		this.label = label;
+	//	this.valueRepository = valueRepository;
 		this.widgetType = widgetType;
 		this.widget.addItemListener(new ChoiceListener());
 	}
@@ -37,50 +41,42 @@ public class ChoiceWidget implements IWidgetComponent {
 	}
 
 	@Override
-	public String getLabel() {
+	public String getTextValue() {
 		// TODO Auto-generated method stub
-		return label;
-	}
-
-	@Override
-	public boolean visibility() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public void addDocListener() {
-		this.widget.addItemListener(new ChoiceListener());
-		
-	}
-
-	@Override
-	public String getValue() {
-		// TODO Auto-generated method stub
-		return value;
-	}
-
-	@Override
-	public void setValue(String value) {
-		// only for textfield
-		
+		return null;
 	}
 
 	@Override
 	public boolean getChoiceValue() {
-		return widget.isSelected();
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void setChoiceValue(boolean value) {
-		widget.setSelected(value);
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
-		widget.setEnabled(isEnabled);
+		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void addDocListener(ValueRepository val) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	
 
 }
