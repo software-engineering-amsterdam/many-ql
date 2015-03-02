@@ -9,13 +9,13 @@ class NonExpressions():
         self.branchExpressions = []
 
     def Branch(self, node):
-        self.branchExpressions.append(node.expression.Operation)
+        self.branchExpressions.append(node.expression)
 
     def Question(self, node):
         self.questionIDs[node.ID] = node.type
 
     def Done(self):
         for op in self.branchExpressions:
-            if not op.checkType(self.questionIDs):
+            if not op.Operation.checkType(self.questionIDs):
                 error = QLTypeError(op)
                 self.errors.append(error)
