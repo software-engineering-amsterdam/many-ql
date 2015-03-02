@@ -41,17 +41,17 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     public void renderGUI() {
-        this.setup(astForm);
+        this.setupFormStatements(astForm);
         this.uiForm.showForm();
     }
 
-    private void setup(Form _form) {
+    private void setupFormStatements(Form _form) {
         _form.getBody().forEach(statement -> statement.accept(this));
     }
 
     private void addIfStatement(IfStatement _ifStatement) {
         if (!isBlockExists(_ifStatement.getCondition().toString())) {
-            ifStatements.put(currentBlock.getName(), new ArrayList<IfStatement>());
+            ifStatements.put(currentBlock.getName(), new ArrayList<>());
             if (!ifStatements.get(currentBlock.getName()).contains(_ifStatement)) {
                 ifStatements.get(currentBlock.getName()).add(_ifStatement);
             }
@@ -87,9 +87,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private boolean isBlockExists(String _blockName) {
-        Iterator<Block> iter = blocksStack.iterator();
-        while (iter.hasNext()) {
-            Block block = iter.next();
+        for (Block block : blocksStack) {
             if (block.getName().equals(_blockName)) {
                 return true;
             }
@@ -98,22 +96,17 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private UIQuestion getExistingQuestion(String _questId) {
-        UIQuestion question = null;
-        Iterator<Block> iter = blocksStack.iterator();
-        while (iter.hasNext()) {
-            Block block = iter.next();
+        for (Block block : blocksStack) {
             if (block.getBody().containsKey(_questId)) {
-                question = block.getBody().get(_questId);
+                return block.getBody().get(_questId);
             }
         }
-        return question;
+        return null;
     }
 
-    private void removeBlockFromForm(String _blockId) {
-        Iterator<Block> iter = blocksStack.iterator();
-        while (iter.hasNext()) {
-            Block block = iter.next();
-            if (block.getName().equals(_blockId)) {
+    private void removeBlockFromForm(String _blockName) {
+        for (Block block : blocksStack) {
+            if (block.getName().equals(_blockName)) {
                 block.getBody().values().forEach(quest -> this.removeQuestionFromTheForm(quest));
                 block.clearBlock();
                 this.previousBlock();
@@ -127,15 +120,12 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     private boolean isQuestionExists(String _id) {
-        Iterator<Block> iter = blocksStack.iterator();
-        boolean isExists = false;
-        while (iter.hasNext()) {
-            Block block = iter.next();
+        for (Block block : blocksStack) {
             if (block.getBody().containsKey(_id)) {
-                isExists = true;
+                return true;
             }
         }
-        return isExists;
+        return false;
     }
 
     /**
@@ -151,6 +141,8 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         // re-visit the conditions of the root block.
         ArrayList<IfStatement> statements = ifStatements.get(astForm.getName());
         statements.forEach(statement -> statement.accept(this));
+
+        // reset the current block
         currentBlock = blocksStack.getFirst();
     }
 
@@ -187,9 +179,9 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     }
 
     public Void visitIfStatement(IfStatement _ifStatement) {
-        this.addIfStatement(_ifStatement);
-
         boolean isConditionTrue = this.evaluateIfStatement(_ifStatement);
+
+        this.addIfStatement(_ifStatement);
 
         if (isConditionTrue) {
             if (!isBlockExists(_ifStatement.getCondition().toString())) {
@@ -198,13 +190,11 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
             }
             _ifStatement.getBody().forEach(statement -> statement.accept(this));
         } else {
-            // The current block
             if (isBlockExists(_ifStatement.getCondition().toString())) {
                 this.removeBlockFromForm(currentBlock.getName());
                 this.removeBlockFromForm(_ifStatement.getCondition().toString());
             }
         }
-
         return null;
     }
 
@@ -213,6 +203,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
         if (!isQuestionExists(_computedQuest.getIdName())) {
             this.addComputedQuestion(_computedQuest);
+
             UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
             this.addQuestionToBlock(uiComputedQuestion);
 
@@ -221,7 +212,6 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
             if (uiComputedQuestion != null)
                 uiComputedQuestion.setComputedValue(result);
         }
-
         return null;
     }
 }
