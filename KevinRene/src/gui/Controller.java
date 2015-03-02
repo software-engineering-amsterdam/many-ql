@@ -20,20 +20,6 @@ public class Controller {
 		this.valueEnv = valueEnv;
 	}
 	
-	/**
-	 * Call this method when the input of a question has changed.
-	 * The supplied identifier is used to retrieve the Component
-	 * that supplies the identifier for this value. The method
-	 * then notifies the observers of this Component.
-	 */
-	public void notify(Identifier identifier) {
-		Widget comp = components.get(identifier);
-		
-		if (comp != null) {
-			comp.notifyObservers();
-		}
-	}
-	
 	public void addComponent(Identifier x, Observer obs) {
 		components.get(x).addObserver(obs);
 	}

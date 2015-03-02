@@ -71,7 +71,7 @@ public class TextField extends Widget implements CaretListener {
 		controller.getValueEnvironment().store(getIdentifier(), value);
 		
 		// Notify this value has changed
-		controller.notify(getIdentifier());
+		notifyObservers();
 	}
 	
 	protected void setError(String text) {
@@ -94,6 +94,6 @@ public class TextField extends Widget implements CaretListener {
 		controller.getValueEnvironment().store(getIdentifier(), value);
 		
 		// Notify this value has changed
-		controller.notify(getIdentifier());
+		this.notifyObservers();
 	}
 }

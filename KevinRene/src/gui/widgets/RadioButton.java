@@ -32,7 +32,8 @@ public class RadioButton extends Widget implements ChangeListener {
 			radioButton.setSelected(((BooleanValue)value).getValue());
 			setChanged();
 			getController().getValueEnvironment().store(getIdentifier(), value);
-			getController().notify(getIdentifier());
+
+			notifyObservers();
 		}
 		catch (ClassCastException e) {
 			// value is of type Undefined
@@ -49,6 +50,7 @@ public class RadioButton extends Widget implements ChangeListener {
 		Value value = new BooleanValue(radioButton.isSelected());
 		setChanged();
 		getController().getValueEnvironment().store(getIdentifier(), value);
-		getController().notify(getIdentifier());
+
+		notifyObservers();
 	}
 }

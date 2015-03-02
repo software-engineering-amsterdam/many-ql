@@ -34,7 +34,7 @@ public class IntegerField extends TextField implements CaretListener {
 		controller.getValueEnvironment().store(getIdentifier(), value);
 		
 		// Notify this value has changed
-		controller.notify(getIdentifier());
+		notifyObservers();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class IntegerField extends TextField implements CaretListener {
 			controller.getValueEnvironment().store(getIdentifier(), value);
 			
 			// Notify this value has changed
-			controller.notify(getIdentifier());
+			notifyObservers();
 
 			removeError();
 		}
