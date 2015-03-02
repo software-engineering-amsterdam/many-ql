@@ -30,7 +30,12 @@ public class TypeChecker implements AstVisitor {
 	private void checkDataTypes(List<Question> questions, List<TypeValidation> typeValidations, Question question) {
 		Expression condition = question.getCondition();
 		if (condition != null) {
-			determineDataType(condition, typeValidations, questions);
+			DataType dataType = determineDataType(condition, typeValidations, questions);
+			if (!dataType.equals(DataType.BOOLEAN)) {
+				TextLocation textLocation = condition.getTextLocation();
+				String validationMessage = "Condition has to be of type boolean. Type: " + dataType;
+				typeValidations.add(new TypeValidation(validationMessage, textLocation));
+			}
 		}
 		Expression computed = question.getComputed();
 		if (computed != null) {
