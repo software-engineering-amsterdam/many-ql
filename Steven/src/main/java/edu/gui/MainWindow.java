@@ -1,6 +1,6 @@
 package edu.gui;
 
-import edu.gui.componentsss.Page;
+import edu.gui.components.Page;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.Statement;

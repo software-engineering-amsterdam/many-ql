@@ -1,4 +1,4 @@
-package edu.gui.componentsss;
+package edu.gui.components;
 
 import edu.parser.QL.nodes.question.Question;
 
