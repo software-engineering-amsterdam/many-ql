@@ -87,7 +87,7 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value addInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return this;
 		
 	}
 
@@ -129,7 +129,7 @@ public class UndefinedValue extends Value {
 
 	@Override
 	public Value subtractInteger(int argument) {
-		throw new UnsupportedOperationException();
+		return this;
 		
 	}
 

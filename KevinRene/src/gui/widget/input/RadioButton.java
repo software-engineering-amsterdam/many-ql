@@ -1,6 +1,6 @@
-package gui.widget;
+package gui.widget.input;
 
-import gui.Widget;
+import gui.widget.InputWidget;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,36 +10,33 @@ import javax.swing.JRadioButton;
 
 import cons.value.BooleanValue;
 
-public class RadioButton extends Widget<BooleanValue> implements ActionListener {	
+public class RadioButton extends InputWidget<BooleanValue> implements ActionListener {	
 	private JRadioButton radioButton;
-	private BooleanValue booleanValue;
 
 	public RadioButton() {
-		this.booleanValue = new BooleanValue(false);
 		this.radioButton = new JRadioButton();
 		this.radioButton.addActionListener(this);
 	}
 	
 	public RadioButton(BooleanValue booleanValue) {
-		this.booleanValue = booleanValue;
-		
 		this.radioButton = new JRadioButton();		
-		this.radioButton.setSelected(this.booleanValue.getValue());
+		this.radioButton.setSelected(booleanValue.getValue());
 		this.radioButton.addActionListener(this);
 	}
 	
 	@Override
+	public void disable() {
+		radioButton.setEnabled(false);
+	}
+	
+	@Override
 	public BooleanValue getValue() {
-		return booleanValue;
+		return new BooleanValue(radioButton.isSelected());
 	}
 	
 	@Override
 	public void setValue(BooleanValue value) {
-		this.booleanValue = value;
-		radioButton.setSelected(this.booleanValue.getValue());
-		
-		setChanged();
-		notifyObservers();
+		radioButton.setSelected(value.getValue());
 	}
 
 	@Override
@@ -49,7 +46,8 @@ public class RadioButton extends Widget<BooleanValue> implements ActionListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("Radio button clicked.");
 		setChanged();
-		notifyObservers();
+		notifyObservers(getValue());
 	}
 }

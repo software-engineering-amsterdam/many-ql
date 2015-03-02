@@ -1,23 +1,23 @@
-package gui.widget;
+package gui.widget.input;
 
-import gui.Widget;
+import gui.widget.InputWidget;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 
 import net.miginfocom.swing.MigLayout;
 import cons.value.StringValue;
 
-public class TextField extends Widget<StringValue> implements CaretListener {	
+public class TextField extends InputWidget<StringValue> implements FocusListener {	
 	protected JPanel container;
 	protected JTextField textField;
 	protected JLabel errorLabel;
@@ -26,7 +26,7 @@ public class TextField extends Widget<StringValue> implements CaretListener {
 		textField = new JTextField(100);
     	textField.setMaximumSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height * 2));
     	textField.setFont(new Font("Serif", Font.BOLD, 20));
-    	textField.addCaretListener(this);
+    	textField.addFocusListener(this);
     	textField.setFocusable(true);
     	
     	errorLabel = new JLabel();
@@ -39,25 +39,18 @@ public class TextField extends Widget<StringValue> implements CaretListener {
 	}
 	
 	public TextField (StringValue stringValue) {
-		textField = new JTextField(100);
-    	textField.setMaximumSize(new Dimension(textField.getPreferredSize().width, textField.getPreferredSize().height * 2));
-    	textField.setFont(new Font("Serif", Font.BOLD, 20));
-    	textField.addCaretListener(this);
-    	textField.setFocusable(true);
-    	textField.setText(stringValue.getValue());
-    	
-    	errorLabel = new JLabel();
-    	errorLabel.setFont(new Font("Serif", Font.BOLD, 20));
-    	errorLabel.setVisible(true);
-    	
-    	container = new JPanel(new MigLayout());
-    	container.add(textField);
-    	container.add(errorLabel, "wrap");		
+		this();		
+    	textField.setText(stringValue.getValue());	
 	}
 
 	@Override
 	public JComponent getComponent() {
 		return this.container;
+	}
+	
+	@Override
+	public void disable() {
+		textField.setEnabled(false);
 	}
 
 	@Override
@@ -85,7 +78,10 @@ public class TextField extends Widget<StringValue> implements CaretListener {
 	}
 
 	@Override
-	public void caretUpdate(CaretEvent e) {		
+	public void focusGained(FocusEvent arg0) {}
+
+	@Override
+	public void focusLost(FocusEvent arg0) {
 		setChanged();
 		notifyObservers();
 	}

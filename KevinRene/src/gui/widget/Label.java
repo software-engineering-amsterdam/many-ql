@@ -7,21 +7,11 @@ import javax.swing.JLabel;
 
 import cons.value.StringValue;
 
-public class Label extends Widget<StringValue> {
+public class Label extends Widget {
 	private final JLabel labelComponent;
 	
 	public Label(StringValue text) {
 		this.labelComponent = new JLabel(text.getValue());
-	}
-
-	@Override
-	public void setValue(StringValue value) {
-		labelComponent.setText(value.getValue());
-	}
-	
-	@Override
-	public StringValue getValue() {
-		return new StringValue(labelComponent.getText());
 	}
 	
 	@Override

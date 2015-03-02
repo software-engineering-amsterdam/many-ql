@@ -54,6 +54,9 @@ public class Main {
 			+ "        lol2: string {"
 			+ "	           \"This is the else\""
 			+ "        }"
+			+ "        lol3: integer {"
+			+ "	           \"This is the else second\""
+			+ "        }"
 			+ "    }"
 			+ "}";
 	
@@ -78,8 +81,9 @@ public class Main {
 			System.exit(0);
 		}
 		
-		JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, valueEnv));
-		frame.getContentPane().add(scrollPane);
+		//JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, valueEnv));
+		
+		frame.getContentPane().add(ComponentCreator.check(tree, valueEnv));
  
         //Display the window.
         frame.pack();

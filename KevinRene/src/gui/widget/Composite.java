@@ -3,7 +3,6 @@ package gui.widget;
 import gui.Widget;
 import cons.ql.ast.expression.Identifier;
 
-@SuppressWarnings("rawtypes")
 public abstract class Composite extends Widget {
 	private final Identifier identifier;
 	

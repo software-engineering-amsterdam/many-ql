@@ -30,10 +30,11 @@ public class IfObserver implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("Yay If observer");
 		try {
 			// Recalculate the value for this computedQuestion
 			Value value = Evaluator.check(expression, valueEnvironment);	
-			System.out.println(value);
+			System.out.println("Value: "+ value);
 			
 			boolean visible = ((BooleanValue)value).getValue();
 			ifPanel.getComponent().setVisible(visible);
