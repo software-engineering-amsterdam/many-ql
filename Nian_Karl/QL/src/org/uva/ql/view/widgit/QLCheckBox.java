@@ -1,26 +1,49 @@
 package org.uva.ql.view.widgit;
 
-import java.awt.Checkbox;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class QLCheckBox extends Checkbox implements QLWidget<Boolean>{
+import javax.swing.JCheckBox;
+
+import org.uva.ql.view.observer.Observer;
+
+public class QLCheckBox extends JCheckBox implements QLWidget<Boolean>, Observer{
 
 	private static final long serialVersionUID = 1L;
 
-	private final String identifier;
-	
-	public QLCheckBox(String identifier) {
-		this.identifier = identifier;
+	private  String identifier;
+		
+	public QLCheckBox() {
+		CheckBoxListener checkboxListener = new CheckBoxListener();
+		setOpaque(false);
+		addItemListener(checkboxListener);
 	}
-	
-	@Override
-	public Boolean getValue() {
-		return this.getState();
-	}
-
 
 	@Override
 	public String getIdentifier() {
 		return identifier;
 	}
+
+	@Override
+	public Boolean getValue() {
+		return getValue();
+	}
+
+	@Override
+	public void update(Object object) {
+		
+	}
+	
+	  private class CheckBoxListener implements ItemListener{
+	        public void itemStateChanged(ItemEvent e) {
+	            if(e.getSource()== QLCheckBox.this){
+	                if(QLCheckBox.this.isSelected()) {
+	                    System.out.println("one has been selected");
+	                } else {System.out.println("nothing");}
+	            }
+	        }
+	    }
+
+	
 	
 }

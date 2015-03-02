@@ -18,6 +18,16 @@ class Node(object):
             if hasattr(tok, 'lineno'):
                 self.linenumbers.append(tok.lineno)
 
+    @property
+    def NodeType(self):
+        return self.__class__.__name__
+
+    @property
+    def lineNr(self):
+        if min(self.linenumbers) == max(self.linenumbers):
+            return min(self.linenumbers)
+
+        return "%d - %d" % (min(self.linenumbers), max(self.linenumbers))
 
     def __iter__(self):
         yield self
@@ -29,17 +39,6 @@ class Node(object):
     def children(self):
         # Exception, as python does not provide abstract/interface
         raise Exception("Implement children attribute in %s" % self.NodeType)
-
-    @property
-    def NodeType(self):
-        return self.__class__.__name__
-
-    @property
-    def lineNr(self):
-        if min(self.linenumbers) == max(self.linenumbers):
-            return min(self.linenumbers)
-
-        return "%d - %d" % (min(self.linenumbers), max(self.linenumbers))
 
     def __repr__(self, nested=0):
         return "%s: %s" % (self.ruleName, self.tokens)

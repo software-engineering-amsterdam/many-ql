@@ -11,19 +11,22 @@ public class Prog extends ASTNode{
 		super(_codeLines);
 		this.form = _form;
 	}
+	
 	public Form getForm(){
 		return this.form;
 	}
 	
 	@Override
-	public String toString(){
-		return "Prog(" + this.form.toString() + ")";
-	}
-	@Override
 	public GenericValue<?> evaluate() {
 		return null;
 	}
+	
 	public <T> T accept(StatementVisitorInterface<T> visitor){
 		return visitor.visitProg(this);
+	}
+	
+	@Override
+	public String toString(){
+		return "Prog(" + this.form.toString() + ")";
 	}
 }

@@ -30,3 +30,10 @@ question
     type : numeral
     value : question4 - question2
 end
+
+question
+    id: question6
+    text: "Do you want to live that long?"
+    type: set
+    value: 2+2, 3+7, 4*5
+end

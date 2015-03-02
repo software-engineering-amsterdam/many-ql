@@ -13,8 +13,8 @@ public class QuestionNode extends ANode {
     private Type questionType;
     private String text;
 
-    public QuestionNode(){}
-    public QuestionNode(String questionID, String questionType, String text) {
+    public QuestionNode(String questionID, String questionType, String text, String location) {
+        super(location);
         this.questionID = questionID;
         this.questionType = Type.valueOf(questionType.toUpperCase());
         this.text = text;

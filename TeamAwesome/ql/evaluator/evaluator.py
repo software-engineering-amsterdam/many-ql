@@ -64,7 +64,7 @@ class Visitor(ASTVisitor):
             child = self.visit(n)
 
     def _visitQuestionStatement(self, node):
-    	expr = self.visit(node.expr) if node.expr else None
+    	expr = self.visit(node.expr) if node.expr != None else None
     	question = Question(node, self._conditionalStatements.copy(), self._currentForm, valueExpression = expr)
     	self._evaluator.addQuestion(question)
 

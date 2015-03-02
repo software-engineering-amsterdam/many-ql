@@ -15,18 +15,25 @@ public class StringLiteral extends Literal{
 		super(_codeLines);
 		this.value = _value;
 	}
-	@Override
-	public String toString(){
-		if (this.value != null) return "StringLiteral(" + this.value + ")";
-		else return "StringLiteral()";
-	}
+	
 	@Override
 	public StringValue evaluate() {
 		return new StringValue(this.value);
 	}
+	
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
-		return visitor.visitStringLiteral(this);
-		
+		return visitor.visitStringLiteral(this);	
+	}
+	
+	@Override
+	public String evaluateType() {
+		return StringLiteral.class.getName();
+	}
+	
+	@Override
+	public String toString(){
+		if (this.value != null) return "StringLiteral(" + this.value + ")";
+		else return "StringLiteral()";
 	}
 }

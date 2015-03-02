@@ -100,8 +100,8 @@ public class QuestionPane extends GridPane {
     private void createAnswerSetPane(OptionSet optionSet){
         ToggleGroup group = new ToggleGroup();
         for (int i=0; i< optionSet.size(); i++) {
-            Object a = optionSet.get(i);
-            RadioButton rb = new RadioButton(a.toString());
+            AExpression answer = optionSet.get(i);
+            RadioButton rb = new RadioButton(answer.getContent());
             rb.setWrapText(true);
             rb.setFont(DEFAULT_ANSWER);
             rb.setToggleGroup(group);
@@ -244,7 +244,6 @@ public class QuestionPane extends GridPane {
                 if (!oldValue)
                     input.requestFocus();
                 input.selectAll();
-
             }
         };
     }
@@ -271,8 +270,9 @@ public class QuestionPane extends GridPane {
         return new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                String userInput = newValue.getUserData().toString();
-                questionAnswered(userInput);
+                String value = observable.getValue().toString();
+                value = value.substring(value.indexOf("'")+1, value.lastIndexOf("'"));
+                questionAnswered(value);
             }
         };
     }

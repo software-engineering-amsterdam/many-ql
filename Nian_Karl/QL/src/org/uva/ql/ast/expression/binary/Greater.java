@@ -2,6 +2,9 @@ package org.uva.ql.ast.expression.binary;
 
 import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.type.BoolType;
+import org.uva.ql.ast.type.Type;
+import org.uva.ql.typecheck.TypeChecker;
 import org.uva.ql.visitor.Visitor;
 
 public class Greater extends Binary {
@@ -18,6 +21,11 @@ public class Greater extends Binary {
 	@Override
 	public String toString() {
 		return this.left.toString() + " > " + this.right.toString();
+	}
+
+	@Override
+	public Type getType(TypeChecker typeChecker) {
+		return new BoolType();
 	}
 
 }

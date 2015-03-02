@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-#from src.gui.app import GUI
+#from src.Gui.app import GUI
 
 from src.QL.parser import Parser
-from src.typechecker import *
+from src.Typechecker import *
 
 if __name__ == '__main__':
     parser = Parser()
@@ -20,5 +20,5 @@ if __name__ == '__main__':
     checker.register(UndefinedQuestions())
     checker.register(NonBooleanExpressions())
 
-
     checker.checkAST(Form)
+    checker.reportErrors()

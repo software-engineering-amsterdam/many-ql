@@ -23,6 +23,7 @@ import org.uva.ql.ast.expression.unary.Positive;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
+import org.uva.ql.ast.statement.IfElseStatement;
 import org.uva.ql.ast.statement.IfStatement;
 import org.uva.ql.ast.statement.QuestionCompute;
 import org.uva.ql.ast.statement.QuestionNormal;
@@ -55,12 +56,13 @@ public interface Visitor<T> {
 	public T visit(Parenthese node);
 	
 	// Statements
-	public T visit(IfStatement ifStatement);
-	public T visit(QuestionNormal questionStatement);
-	public T visit(QuestionCompute questionComputeStatement);
-	public T visit(Block blockStatement);
-	public T visit(Form form);
 	public T visit(Questionnaire questionnaire);
+	public T visit(Form form);
+	public T visit(Block block);
+	public T visit(QuestionNormal question);
+	public T visit(QuestionCompute question);
+	public T visit(IfStatement ifStatement);
+	public T visit(IfElseStatement ifElseStatement);
 
 	// Types
 	public T visit(IntType node);

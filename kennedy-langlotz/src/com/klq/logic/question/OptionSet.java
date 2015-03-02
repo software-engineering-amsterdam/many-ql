@@ -35,6 +35,10 @@ public class OptionSet implements Iterable, IKLQItem {
         return answers.add(answer);
     }
 
+    public void add(int index, AExpression answer){
+        answers.add(index, answer);
+    }
+
     public int size() {
         return answers.size();
     }

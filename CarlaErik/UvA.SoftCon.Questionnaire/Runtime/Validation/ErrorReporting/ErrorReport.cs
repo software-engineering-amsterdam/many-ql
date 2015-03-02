@@ -39,26 +39,21 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 
         public void AddVariableUsageMessages(VariableUsageCheckingVisitor visitor) 
         {
-            foreach (var declaredVaribale in visitor.DeclaredVariables.Values)
+            foreach (var unusedVariable in visitor.UnusedVariables)
             {
-                if (declaredVaribale.UsageCount == 0)
-                {
-                    string message = String.Format("Variable '{0}' is declared but never used.", declaredVaribale.Identifier.Name);
-                    AddWarningMessage(message, declaredVaribale.Identifier.Position);
-                }
+                string message = String.Format("Variable '{0}' is declared but never used.", unusedVariable.Name);
+                AddWarningMessage(message, unusedVariable.Position);
             }
 
             foreach (var redeclaredVaribale in visitor.RedeclaredVariables)
             {
                 string message = String.Format("Variable '{0}' is already defined.", redeclaredVaribale.Name);
-
                 AddErrorMessage(message, redeclaredVaribale.Position);
             }
 
             foreach (var undeclaredVariable in visitor.UndeclaredVariables)
             {
                 string message = String.Format("Variable '{0}' is not declared.", undeclaredVariable.Name);
-
                 AddErrorMessage(message, undeclaredVariable.Position);
             }
         }

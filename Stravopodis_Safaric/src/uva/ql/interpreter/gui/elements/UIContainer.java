@@ -14,6 +14,8 @@ public class UIContainer extends JPanel{
 	private Tuple<Integer, Integer> containerSize;
 
 	public UIContainer( Tuple<Integer, Integer> _containerSize){
+		this.containerSize = _containerSize;
+		
 		this.setSize(_containerSize.x, _containerSize.y);
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 	}

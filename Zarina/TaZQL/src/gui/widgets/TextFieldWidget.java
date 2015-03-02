@@ -18,7 +18,7 @@ public class TextFieldWidget implements IWidgetComponent {
 		this.variableType = variableType;
 		this.widget = new JTextField("", 10);
 		this.widget.setVisible(visibility());
-		this.widget.getDocument().addDocumentListener(new TextDigitsListener(this, getValue()));
+		this.widget.getDocument().addDocumentListener(new TextDigitsListener(this, id));
 	}
 	
 	@Override
@@ -63,5 +63,23 @@ public class TextFieldWidget implements IWidgetComponent {
 	public void setValue(String value) {
 		// TODO Auto-generated method stub
 		widget.setText(value);
+	}
+
+	@Override
+	public boolean getChoiceValue() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setChoiceValue(boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEnabled(boolean isEnabled) {
+		widget.setEnabled(isEnabled);
+		
 	}
 }

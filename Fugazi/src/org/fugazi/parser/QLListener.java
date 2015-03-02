@@ -1,4 +1,4 @@
-// Generated from /Users/lukaszharezlak/Projects/uva_software_construction/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
+// Generated from /home/alex/Develop/Msc/many-ql/Fugazi/src/org/fugazi/grammar/QL.g4 by ANTLR 4.5
 package org.fugazi.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
@@ -99,18 +99,6 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitStringType(@NotNull QLParser.StringTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code logicalOrExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code logicalOrExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code stringExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
@@ -122,6 +110,66 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStringExpression(@NotNull QLParser.StringExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mulDivExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mulDivExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code addSubExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code addSubExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code intExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntExpression(@NotNull QLParser.IntExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code intExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntExpression(@NotNull QLParser.IntExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code identifierExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code identifierExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalAndExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalAndExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code parenthesisExpression}
 	 * labeled alternative in {@link QLParser#expression}.
@@ -135,17 +183,29 @@ public interface QLListener extends ParseTreeListener {
 	 */
 	void exitParenthesisExpression(@NotNull QLParser.ParenthesisExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code identifierExpression}
+	 * Enter a parse tree produced by the {@code comparisonExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx);
+	void enterComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code identifierExpression}
+	 * Exit a parse tree produced by the {@code comparisonExpression}
 	 * labeled alternative in {@link QLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdentifierExpression(@NotNull QLParser.IdentifierExpressionContext ctx);
+	void exitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicalOrExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalOrExpression}
+	 * labeled alternative in {@link QLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalOrExpression(@NotNull QLParser.LogicalOrExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code unaryExpression}
 	 * labeled alternative in {@link QLParser#expression}.
@@ -170,64 +230,4 @@ public interface QLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code logicalAndExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code logicalAndExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicalAndExpression(@NotNull QLParser.LogicalAndExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code comparisonExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code comparisonExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitComparisonExpression(@NotNull QLParser.ComparisonExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code intExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterIntExpression(@NotNull QLParser.IntExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code intExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitIntExpression(@NotNull QLParser.IntExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code addSubExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code addSubExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddSubExpression(@NotNull QLParser.AddSubExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code mulDivExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code mulDivExpression}
-	 * labeled alternative in {@link QLParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMulDivExpression(@NotNull QLParser.MulDivExpressionContext ctx);
 }

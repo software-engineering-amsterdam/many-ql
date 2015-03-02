@@ -50,6 +50,7 @@ import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.NotEqual;
 import org.uva.ql.ast.expression.binary.Or;
 import org.uva.ql.ast.expression.binary.Plus;
+import org.uva.ql.ast.expression.literal.BoolLiteral;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.IntLiteral;
 import org.uva.ql.ast.expression.literal.StrLiteral;
@@ -120,11 +121,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitQuestionNormal(QuestionNormalContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		// Changed to ctx.accept instead of extracting it from the context.
-		// Delete after read, thnx Nian
 		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
-		// Changed to ctx.accept instead of extracting it from the context.
-		// Delete after read, thnx Nian
 		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
 		return new QuestionNormal(id, label, type, pos);
@@ -133,11 +130,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitQuestionCompute(QuestionComputeContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		// Changed to ctx.accept instead of extracting it from the context.
-		// Delete after read, thnx Nian
 		Identifier id = (Identifier) ctx.questionIdentifier().accept(this);
-		// Changed to ctx.accept instead of extracting it from the context.
-		// Delete after read, thnx Nian
 		StrLiteral label = (StrLiteral) ctx.questionLabel().accept(this);
 		Type type = (Type) ctx.questionType().accept(this);
 		Expression expr = (Expression) ctx.expression().accept(this);
@@ -146,20 +139,17 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitTypeInt(TypeIntContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
-		return new IntType(pos);
+		return new IntType();
 	}
 
 	@Override
 	public Node visitTypeBool(TypeBoolContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
-		return new BoolType(pos);
+		return new BoolType();
 	}
 
 	@Override
 	public Node visitTypeStr(TypeStrContext ctx) {
-		CodePosition pos = getCodePosition(ctx);
-		return new StrType(pos);
+		return new StrType();
 	}
 
 	// =================================================================
@@ -298,8 +288,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 	@Override
 	public Node visitLiteralBool(LiteralBoolContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
-		// Nian Why is this not returning a new BoolLiteral?
-		return ctx.BooleanLiteral().accept(this);
+		return new BoolLiteral(Boolean.parseBoolean(ctx.getText()), pos);
 	}
 
 	@Override
