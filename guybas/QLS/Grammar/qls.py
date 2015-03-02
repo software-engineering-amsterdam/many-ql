@@ -2,8 +2,10 @@
 
 from pyparsing import *
 from QL.Grammar.basic_types import *
-from QL.Grammar.form import *
 from QL.Grammar.expressions import *
+from QL.Grammar.form import *
+
+from QLS.Factory.qls import *
 
 
 class Widget:
@@ -11,46 +13,54 @@ class Widget:
     name = BasicTypes.characters
 
     # number :: [0-9]
-    number = Expressions.number
+    number = Word(nums)
 
     # options :: ( (name,)* name )
-    options = Suppress("(") + ZeroOrMore(name + Suppress(",")) + name + Suppress(")")
+    options = \
+        (Suppress("(") + ZeroOrMore(name + Suppress(",")) + name + Suppress(")")
+        ).setParseAction(WidgetFactory.make_option)
 
     # radio :: Radio options
-    radio = Suppress("Radio") + Group(options) + Optional("Default" + col + name)
+    radio = \
+        (Suppress("Radio") + options + Optional(Suppress("default") + Suppress(":") + name)
+        ).setParseAction(WidgetFactory.make_radio)
 
     # checkbox :: Checkbox options
-    checkbox = Suppress("Checkbox") + options
+    checkbox = (Suppress("Checkbox") + options).setParseAction(WidgetFactory.make_checkbox)
 
     # spinbox :: Spinbox number number number?
-    spinbox = Suppress("Spinbox") + number + number + Optional(number)
+    spinbox = \
+        (Suppress("Spinbox") + number + number + Optional(Suppress("default") + Suppress(":") + number)
+        ).setParseAction(WidgetFactory.make_spinbox)
 
     # slider :: Slider number number
-    slider = Suppress("Slider") + number + number
+    slider = (Suppress("Slider") + number + number).setParseAction(WidgetFactory.make_slider)
 
     # textbox :: Textbox number?
-    textbox = Suppress("Textbox") + Optional(number)
+    textbox = (Suppress("Textbox") + Optional(number)).setParseAction(WidgetFactory.make_textbox)
 
     # drop_down :: Dropdown
-    drop_down = Suppress("Dropdown") + options
+    drop_down = (Suppress("Dropdown") + options).setParseAction(WidgetFactory.make_dropdown)
 
     # widget  :: Widget : (radio | checkbox | spinbox | slider | textbox | drop_down)
-    widget = Suppress("Widget") + Suppress(":") + (radio | checkbox | spinbox | slider | textbox | drop_down)
+    widget = \
+        (Suppress("Widget") + Suppress(":") + (radio | checkbox | spinbox | slider | textbox | drop_down)
+        ).setParseAction(WidgetFactory.make_widget)
 
 
 class QLS:
 
-    # name :: [0-9a-zA-Z!@#$%^&*()_-~`{}[]'"
-    name = BasicTypes.characters
+    # characters :: [0-9a-zA-Z()[]{},@#$%^&*-+=/\'\"`~_-;]
+    characters = BasicTypes.characters
 
-    # comment :: // rest of line | /* ... */
-    comment = BasicTypes.comment
-
-    # word = characters | \? | \! | \.
+    # word :: end_sign_esc | characters
     word = BasicTypes.word
 
+    # name :: [0-9a-zA-Z!@#$%^&*()_-~`{}[]'"
+    name = Widget.name
+
     # integer :: [0-9]
-    integer = BasicTypes.integer
+    integer = Word(nums)
 
     # ( ) { } :
     opar = Suppress("(")
@@ -72,19 +82,26 @@ class QLS:
     font = OneOrMore(font_prop)
 
     # optionals :: (font | widget)*
-    optionals = ZeroOrMore(font | Widget.widget)
+    optionals = Optional(Widget.widget)
 
     # question_style = question : name widget?
-    question_style = Suppress("question") + col + name + optionals
+    question_style = (Suppress("Question") + name + optionals).setParseAction(QLSFactory.make_question_style)
 
-    # section :: name { question_style+ }
-    section = name + obrac + OneOrMore(question_style) + cbrac
+    # section :: Section name { question_style+ }
+    section = \
+        (Suppress("Section") + name + obrac + Group(OneOrMore(question_style)) + cbrac
+        ).setParseAction(QLSFactory.make_section)
 
     # default_settings :: Default answerR widget
     default_setting = Suppress("Default") + FormFormat.answerR + Widget.widget
 
     # page :: page name { section+ }
-    page = Suppress("page") + name + obrac + OneOrMore(section) + cbrac
+    page = (Suppress("Page") + name + Group(OneOrMore(section))).setParseAction(QLSFactory.make_page)
 
     # sheet = Sheet name page+
-    sheet = Suppress("Sheet") + name + OneOrMore(page)
+    sheet = Suppress("Sheet") + name + Group(OneOrMore(page)) + stringEnd()
+
+
+qls = QLSFactory.make_sheet(QLS.sheet.parseFile("example.qls"))
+print(qls.pretty_print())
+

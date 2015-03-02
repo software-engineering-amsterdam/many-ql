@@ -24,17 +24,13 @@ public class UINumQuestion extends UIQuestion {
             public void insertUpdate(DocumentEvent e) {
                 setState(widget.getValue().toString());
             }
-
-            public void removeUpdate(DocumentEvent e) {
-                setState(widget.getValue().toString());
-            }
-
-            public void changedUpdate(DocumentEvent e) {
-            }
+            public void removeUpdate(DocumentEvent e) {}
+            public void changedUpdate(DocumentEvent e) {}
         });
     }
 
     public void setState(String _value) {
+
         if (_value.equals("")) {
             this.value = 0;
         } else {

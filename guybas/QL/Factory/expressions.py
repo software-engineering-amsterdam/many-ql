@@ -1,4 +1,4 @@
-from AST.operators import *
+from QL.AST.operators import *
 
 
 # Factory for creating expressions

@@ -9,7 +9,10 @@ class NonBooleanTypes:
         self.expressions = []
 
     def BooleanExpression(self, node):
-        self.expressions.append(node.Operation)
+        self.expressions.append(node)
+
+    def UnaryExpression(self, node):
+        self.expressions.append(node)
 
     def Question(self, node):
         self.questionIDs[node.ID] = node.type
@@ -18,6 +21,6 @@ class NonBooleanTypes:
         errorMessage = "Invalid boolean operation"
 
         for op in self.expressions:
-            if not op.checkType(self.questionIDs):
+            if not op.Operation.checkType(self.questionIDs):
                 error = QLTypeError(op, errorMessage)
                 self.errors.append(error)

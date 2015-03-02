@@ -17,15 +17,12 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
     public class TypeCheckingVisitorTest
     {
         [TestMethod]
-        public void Test()
+        public void TestNegatedIfStatement()
         {
             // Arrange
             var ql = new StringBuilder();
-            ql.AppendLine("int age = 36");
-            ql.AppendLine("age = age + 5");
-            ql.AppendLine("string name = 45");
-
-            ql.AppendLine("if(name > 36)");
+            ql.AppendLine("bool isHappy = true");
+            ql.AppendLine("if(!isHappy)");
             ql.AppendLine("{ }");
 
             var controller = new ASTController();
@@ -36,11 +33,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             // Act
             visitor.Visit(form);
 
-            var errorReportBuilder = new ErrorReport();
-            errorReportBuilder.AddTypeCheckingMessages(visitor);
+            // Assert
+            var errorReport = new ErrorReport();
+            errorReport.AddTypeCheckingMessages(visitor);
 
-            string report = errorReportBuilder.GetReport();
-
+            Assert.AreEqual<int>(0, errorReport.NrOfErrors);
+            Assert.AreEqual<int>(0, errorReport.NrOfWarnings);
         }
+
     }
 }

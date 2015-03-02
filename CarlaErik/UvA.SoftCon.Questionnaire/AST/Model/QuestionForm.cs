@@ -13,14 +13,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
     /// </summary>
     public sealed class QuestionForm : Node
     {
-        public override NodeType Type
-        {
-            get
-            {
-                return NodeType.Form;
-            }
-        }
-
         public ICollection<IStatement> Statements
         {
             get;
@@ -45,28 +37,12 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
 
         public ICollection<Question> GetAllQuestions()
         {
-            return GetAllQuestions(Statements);
-        }
-
-        private ICollection<Question> GetAllQuestions(ICollection<IStatement> statements)
-        {
             var questions = new List<Question>();
 
-            foreach (var statement in statements)
+            foreach (var statement in Statements)
             {
-                switch (statement.Type)
-                {
-                    case NodeType.Question:
-                        questions.Add((Question)statement);
-                        break;
-                    case NodeType.IfStatement:
-                        IfStatement ifStatement = (IfStatement)statement;
-                        questions.AddRange(GetAllQuestions(ifStatement.Then));
-                        questions.AddRange(GetAllQuestions(ifStatement.Else));
-                        break;
-                }
+                statement.AppendQuestions(questions);
             }
-
             return questions;
         }
     }

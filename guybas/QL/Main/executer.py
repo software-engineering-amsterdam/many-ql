@@ -1,6 +1,6 @@
-from Grammar.form import *
-from Main.type_checker import *
-from Main.gui import *
+from QL.Grammar.form import *
+from QL.Main.type_checker import *
+from QL.Main.gui import *
 
 # TODO: unit tests for type checker and processor (and gui?)
 # TODO: support text in expressions

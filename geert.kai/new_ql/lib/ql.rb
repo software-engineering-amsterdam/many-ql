@@ -53,8 +53,7 @@ class MyApp < JRubyFX::Application
                   # this.start(stage, runner)
                 end
               end
-           
-           end 
+            end 
             label = label(question.description)
             add(label, 1, position)
             add(widget, 2, position)
@@ -71,8 +70,4 @@ class MyApp < JRubyFX::Application
   end
 end
 
-class Java::javafx::scene::layout::GridPane
-end
-
-
-MyApp.launch
+#MyApp.launch

@@ -8,8 +8,6 @@ namespace UvA.SoftCon.Questionnaire.AST.Model
 {
     public abstract class Node
     {
-        public abstract NodeType Type { get; }
-
         public TextPosition Position
         {
             get;

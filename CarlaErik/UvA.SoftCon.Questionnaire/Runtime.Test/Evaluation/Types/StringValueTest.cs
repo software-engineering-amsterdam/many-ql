@@ -20,5 +20,19 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Evaluation.Types
             // Assert
             Assert.AreEqual<string>("ErikVerhoofstad", erikVerhoofstad.Val);
         }
+
+        [TestMethod]
+        public void TestIsEqualTo()
+        {
+            // Arrange
+            var erikA = new StringValue("Erik");
+            var erikB = new StringValue("Erik");
+
+            // Act
+            var result = erikA.IsEqualTo(erikB) as BooleanValue;
+
+            // Assert
+            Assert.IsTrue(result.Val);
+        }
     }
 }

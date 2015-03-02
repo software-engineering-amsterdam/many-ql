@@ -1,9 +1,10 @@
 # Type Checker
 import collections
 
-from Main.exceptions import *
-from AST.expression_validator import *
-from Grammar.basic_types import *
+from QL.Main.exceptions import *
+from QL.AST.expression_validator import *
+from QL.AST.operators import *
+from QL.Grammar.basic_types import *
 
 
 class TypeChecker:
