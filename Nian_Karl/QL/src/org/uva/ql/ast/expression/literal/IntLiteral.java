@@ -20,7 +20,6 @@ public class IntLiteral extends Literal{
 		return visitor.visit(this);
 	}
 
-	@Override
 	public Integer getValue() {
 		return value;
 	}
