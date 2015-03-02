@@ -20,7 +20,7 @@ public abstract class TypeCheckerBaseTest {
     protected String inputFile;
     protected String fileName;
     protected String filePath;
-    private final String path = "/test/org/fugazi/type_checker/test_forms/";
+    private final String path = "/test/org/fugazi/ql/type_checker/test_forms/";
 
     @Before
     public void setUp() {
