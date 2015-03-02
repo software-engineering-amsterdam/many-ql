@@ -17,6 +17,8 @@ styleSheet(taxOfficeExample,
 			fontSize: 14,
 			color: #999999,
 			widget: spinbox()
-		})
-	), default(boolean, {widget: radio("Yes", "No"), fontSize:18, color: #FF0000})
+		}),
+		default(int, { widget: spinbox() })
+	), default(boolean, {widget: combo("Yes", "No"), fontSize:18, color: #FF0000}),
+	default(int, { widget: slider(0, 100) })
 )

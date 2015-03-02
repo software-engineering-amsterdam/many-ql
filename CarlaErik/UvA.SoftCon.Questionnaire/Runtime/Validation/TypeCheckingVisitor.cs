@@ -17,7 +17,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
     /// </summary>
     public class TypeCheckingVisitor : ASTVisitor
     {
-        private IDictionary<string, DataType> _declaredVariables = new Dictionary<string, DataType>();
+        private IDictionary<string, DataType> _symbolTable = new Dictionary<string, DataType>();
 
         /// <summary>
         /// A collection of assignments which expression type differs from the target type.
@@ -67,7 +67,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         {
             if (declaration.Initialization != null)
             {
-                DataType expressionType = declaration.Initialization.GetType(_declaredVariables);
+                DataType expressionType = declaration.Initialization.GetType(_symbolTable);
 
                 if (expressionType != DataType.Undefined)
                 {
@@ -81,13 +81,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                 declaration.Initialization.Accept(this);
             }
 
-            _declaredVariables.Add(declaration.Id.Name, declaration.DataType);
+            _symbolTable.Add(declaration.Id.Name, declaration.DataType);
         }
 
         public override void Visit(Assignment assignment)
         {
-            DataType targetType = assignment.Variable.GetType(_declaredVariables);
-            DataType expressionType = assignment.Expression.GetType(_declaredVariables);
+            DataType targetType = assignment.Variable.GetType(_symbolTable);
+            DataType expressionType = assignment.Expression.GetType(_symbolTable);
 
             if (targetType != DataType.Undefined && expressionType != DataType.Undefined)
             {
@@ -107,7 +107,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
             if (question.IsComputed)
             {
-                DataType expressionType = question.Expression.GetType(_declaredVariables);
+                DataType expressionType = question.Expression.GetType(_symbolTable);
 
                 if (expressionType != DataType.Undefined)
                 {
@@ -118,13 +118,13 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                 }
             }
 
-            _declaredVariables.Add(question.Id.Name, question.DataType);
+            _symbolTable.Add(question.Id.Name, question.DataType);
         }
 
         public override void Visit(IfStatement ifStatement)
         {
             // Validate that the condition of the if statement is of type boolean
-            DataType expressionType = ifStatement.If.GetType(_declaredVariables);
+            DataType expressionType = ifStatement.If.GetType(_symbolTable);
 
             if (expressionType != DataType.Undefined)
             {
@@ -231,7 +231,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         private void ValidateUnaryExpression(UnaryExpression expression)
         {
-            DataType operandType = expression.Operand.GetType(_declaredVariables);
+            DataType operandType = expression.Operand.GetType(_symbolTable);
 
             if (operandType != DataType.Undefined)
             {
@@ -244,8 +244,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         private void ValidateBinaryExpression(BinaryExpression expression)
         {
-            DataType leftType = expression.Left.GetType(_declaredVariables);
-            DataType rightType = expression.Right.GetType(_declaredVariables);
+            DataType leftType = expression.Left.GetType(_symbolTable);
+            DataType rightType = expression.Right.GetType(_symbolTable);
 
             if (leftType != DataType.Undefined && rightType != DataType.Undefined)
             {
