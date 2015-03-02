@@ -1,8 +1,8 @@
-import org.fugazi.ast.ASTBuilder;
-import org.fugazi.ast.form.Form;
-import org.fugazi.gui.UIBuilder;
-import org.fugazi.type_checker.TypeChecker;
-import org.fugazi.type_checker.error.ASTErrorPrinter;
+import org.fugazi.ql.ast.ASTBuilder;
+import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.gui.UIBuilder;
+import org.fugazi.ql.type_checker.TypeChecker;
+import org.fugazi.ql.type_checker.error.ASTErrorPrinter;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
