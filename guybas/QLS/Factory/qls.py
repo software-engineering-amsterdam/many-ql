@@ -49,7 +49,7 @@ class WidgetFactory:
 
     @staticmethod
     def make_widget(tokens):
-        return Widget(tokens)
+        return Widget(tokens[0])
 
 
 class QLSFactory:

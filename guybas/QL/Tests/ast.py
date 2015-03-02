@@ -1,9 +1,9 @@
 import unittest
-from Grammar.form import *
-from AST.form import *
-from AST.operators import *
-from Factory.expressions import *
-from Factory.forms import *
+from QL.Grammar.form import *
+from QL.AST.form import *
+from QL.AST.operators import *
+from QL.Factory.expressions import *
+from QL.Factory.forms import *
 
 
 class GenerateStatements:

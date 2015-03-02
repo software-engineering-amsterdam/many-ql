@@ -19,7 +19,7 @@ class Page:
         self.sections = sections
 
     def pretty_print(self, level=0):
-        s = "    " * level + "Page " + self.name + "\n"
+        s = "\n" + "    " * level + "Page " + self.name + "\n"
         for p in self.sections:
             s += p.pretty_print(level+1)
         return s
@@ -31,7 +31,7 @@ class Section:
         self.question_styles = question_styles
 
     def pretty_print(self, level=0):
-        s = "    " * level + "Section " + self.name + "\n"
+        s = "\n" + "    " * level + "Section " + self.name + "\n"
         for p in self.question_styles:
             s += p.pretty_print(level + 1)
         return s
@@ -45,5 +45,4 @@ class QuestionStyle:
     def pretty_print(self, level=0):
         s = "    " * level + "Question " + self.id + "\n"
         s += self.widget.pretty_print(level + 1)
-        s += "\n"
         return s
