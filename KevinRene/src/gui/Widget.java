@@ -9,7 +9,5 @@ public abstract class Widget extends Observable implements Observer {
 	public abstract JComponent getComponent();
 	
 	@Override
-	public void update(Observable o, Object arg) {
-		
-	} 
+	public void update(Observable o, Object arg) {} 
 }

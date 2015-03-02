@@ -20,6 +20,7 @@ public class Panel extends Composite {
 	
 	public Panel() {
 		super(new Identifier("Panel"));
+		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 		
@@ -43,7 +44,6 @@ public class Panel extends Composite {
 			panel.add(widget.getComponent());
 		}
 		
-		panel.revalidate();
 		panel.repaint();
 		
 		return panel;

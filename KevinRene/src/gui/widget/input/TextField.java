@@ -62,7 +62,6 @@ public class TextField extends InputWidget<StringValue> implements FocusListener
 	public void setValue(StringValue value) {
 		// Update value of the JComponent
 		textField.setText(value.toString());
-		textField.repaint();
 		
 		setChanged();
 		notifyObservers();

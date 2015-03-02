@@ -30,23 +30,21 @@ public class ComputedQuestionPanel extends Composite {
 			Widget inputWidget, Expression expression, ValueEnvironment valueEnvironment) {
 		super(identifier);
 		
-		this.expression = expression;
-		
 		questionPanel = new JPanel();
 		questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
 		
 		this.questionText = questionText;
-		this.questionText.addObserver(this);
-		
+		this.questionText.addObserver(this);		
 		questionPanel.add(this.questionText.getComponent());
-		
-		this.valueEnvironment = valueEnvironment;
 		
 		this.inputWidget = (InputWidget) inputWidget;		
 		this.inputWidget.addObserver(this);
-		this.inputWidget.disable();
-		
+		this.inputWidget.disable();		
 		questionPanel.add(this.inputWidget.getComponent());
+		
+		this.expression = expression;
+		
+		this.valueEnvironment = valueEnvironment;
 	}
 
 	public Expression getExpression() {

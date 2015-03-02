@@ -39,15 +39,7 @@ public class IfComposite extends Composite {
 	
 	public IfComposite(Expression expression, ValueEnvironment valueEnvironment, Panel ifComponent) {
 		this(expression, valueEnvironment, ifComponent, new Panel());
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) {
-		System.out.println("Something in the if block changed.");
-		
-		setChanged();
-		notifyObservers();
-	}
+	}	
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -68,10 +60,14 @@ public class IfComposite extends Composite {
 			activePanel.add(elsePanel.getComponent());	
 		}
 		
-		activePanel.revalidate();
-		activePanel.setVisible(true);
 		activePanel.repaint();
 		
 		return activePanel;
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {		
+		setChanged();
+		notifyObservers();
 	}
 }
