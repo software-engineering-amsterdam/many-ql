@@ -236,19 +236,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     private Void visitBinaryComparison(Comparison comparison, Type expectedType) {
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
-        boolean leftCorrect = false;
-        boolean rightCorrect = false;
-
-        if (expectedType.equals(new IntType())) {
-            leftCorrect = this.checkIfExpressionIsInt(left);
-            rightCorrect = this.checkIfExpressionIsInt(right);
-        } else if (expectedType.equals(new BoolType())) {
-            leftCorrect = this.checkIfExpressionIsInt(left);
-            rightCorrect = this.checkIfExpressionIsInt(right);
-        } else if (expectedType.equals(new StringType())) {
-            leftCorrect = this.checkIfExpressionIsString(left);
-            rightCorrect = this.checkIfExpressionIsString(right);
-        }
+        boolean leftCorrect = this.checkIfExpressionIsOfType(left, expectedType);
+        boolean rightCorrect = this.checkIfExpressionIsOfType(right, expectedType);
 
         if (!leftCorrect) {
             this.astErrorHandler.registerNewError(
@@ -489,16 +478,20 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
      * =======================
      */
 
+    private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
+        return expression.getReturnedType().equals(type);
+    }
+
     private boolean checkIfExpressionIsInt(Expression expression) {
-        return expression.getReturnedType().equals(new IntType());
+        return this.checkIfExpressionIsOfType(expression, new IntType());
     }
 
     private boolean checkIfExpressionIsBool(Expression expression) {
-        return expression.getReturnedType().equals(new BoolType());
+        return this.checkIfExpressionIsOfType(expression, new BoolType());
     }
 
     private boolean checkIfExpressionIsString(Expression expression) {
-        return expression.getReturnedType().equals(new StringType());
+        return this.checkIfExpressionIsOfType(expression, new StringType());
     }
 
     private boolean checkIfTypesEqual(Type type1, Type type2) {
