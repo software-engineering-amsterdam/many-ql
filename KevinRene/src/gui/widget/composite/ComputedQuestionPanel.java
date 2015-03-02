@@ -45,7 +45,7 @@ public class ComputedQuestionPanel extends Composite {
 		this.inputWidget = (InputWidget) inputWidget;		
 		this.inputWidget.addObserver(this);
 		this.inputWidget.disable();
-		//this.inputWidget.setValue(Evaluator.check(expression, this.valueEnvironment));
+		
 		questionPanel.add(this.inputWidget.getComponent());
 	}
 
@@ -64,12 +64,13 @@ public class ComputedQuestionPanel extends Composite {
 
 		inputWidget.setValue(expressionValue);
 		
+		questionPanel.repaint();
+		
 		return questionPanel;
 	}
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Changed the comp question");
 		valueEnvironment.store(getIdentifier(), (Value) arg);
 		
 		setChanged();		

@@ -16,6 +16,8 @@ public class Label extends Widget {
 	
 	@Override
 	public JComponent getComponent() {
+		labelComponent.repaint();
+		
 		return labelComponent;
 	}	
 }

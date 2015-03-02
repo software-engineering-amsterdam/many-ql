@@ -40,20 +40,17 @@ public class Panel extends Composite {
 		panel.removeAll();
 		
 		for(Widget widget : widgets) {
-			System.out.println("Getting widget component");
 			panel.add(widget.getComponent());
 		}
 		
+		panel.revalidate();
 		panel.repaint();
 		
 		return panel;
 	}
 
 	@Override
-	public void update(Observable changedSubject, Object arguments) {
-		System.out.println("Something in a block changed.");
-	
-		
+	public void update(Observable changedSubject, Object arguments) {		
 		setChanged();
 		notifyObservers();
 	}

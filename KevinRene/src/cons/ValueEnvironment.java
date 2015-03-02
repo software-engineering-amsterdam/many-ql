@@ -16,7 +16,6 @@ public class ValueEnvironment {
 	}
 	
 	public Value resolve(Identifier identifier) {
-		System.out.println("ID: " + identifier + ", value: " + environment.get(identifier.toString()));
 		return environment.get(identifier.toString());
 	}
 	

@@ -1,7 +1,6 @@
 package gui.widget.composite;
 
 import gui.Widget;
-import gui.observer.QuestionObserver;
 import gui.widget.Composite;
 
 import java.util.Observable;
@@ -26,7 +25,7 @@ public class QuestionPanel extends Composite {
 		questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
 		
 		this.questionText = questionText;
-		this.questionText.addObserver(new QuestionObserver());
+		this.questionText.addObserver(this);
 		questionPanel.add(this.questionText.getComponent());
 		
 		this.questionWidget = widget;
@@ -48,10 +47,9 @@ public class QuestionPanel extends Composite {
 		return questionPanel;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public void update(Observable o, Object arg) {
-		System.out.println("Question answer changed.");
-		
+	public void update(Observable o, Object arg) {		
 		valueEnvironment.store(getIdentifier(), (Value) arg);
 		
 		setChanged();		

@@ -35,17 +35,12 @@ public class IfComposite extends Composite {
 		this.elsePanel.addObserver(this);
 		
 		this.activePanel = new JPanel();
-		this.activePanel.add(this.elsePanel.getComponent());		
 	}
 	
 	public IfComposite(Expression expression, ValueEnvironment valueEnvironment, Panel ifComponent) {
 		this(expression, valueEnvironment, ifComponent, new Panel());
 	}
 	
-	public IfComposite(Expression expression, ValueEnvironment valueEnvironment) {
-		this(expression, valueEnvironment, new Panel(), new Panel());
-	}
-
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println("Something in the if block changed.");
@@ -54,6 +49,7 @@ public class IfComposite extends Composite {
 		notifyObservers();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public JComponent getComponent() {
 		// Recalculate the value for this computedQuestion
@@ -67,11 +63,13 @@ public class IfComposite extends Composite {
 		activePanel.removeAll();
 		
 		if(((BooleanValue) value).getValue()) {
-			activePanel.add(ifPanel.getComponent());
+			activePanel.add(ifPanel.getComponent());			
 		} else {
 			activePanel.add(elsePanel.getComponent());	
 		}
 		
+		activePanel.revalidate();
+		activePanel.setVisible(true);
 		activePanel.repaint();
 		
 		return activePanel;

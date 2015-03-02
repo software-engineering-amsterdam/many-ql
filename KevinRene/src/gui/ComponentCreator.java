@@ -10,9 +10,8 @@ import gui.widget.input.IntegerSpinbox;
 import gui.widget.input.RadioButton;
 import gui.widget.input.TextField;
 
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
-import net.miginfocom.swing.MigLayout;
 import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.Statement;
@@ -33,21 +32,18 @@ import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
 public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVisitor<Widget> {	
-	private JPanel pane;
+	private JFrame frame;
 	private ValueEnvironment valueEnvironment;
 
-	private ComponentCreator(ValueEnvironment valueEnvironment) {
-		this.pane = new JPanel();
-		this.pane.setLayout(new MigLayout("insets 0, hidemode 3"));
+	private ComponentCreator(JFrame frame, ValueEnvironment valueEnvironment) {
+		this.frame = frame;
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	public static JPanel check(ASTNode tree, ValueEnvironment valueEnvironment) {		
-		ComponentCreator creator = new ComponentCreator(valueEnvironment);
-		
-		creator.pane.add(tree.accept(creator).getComponent());
-		
-		return creator.pane;
+	public static Widget check(ASTNode tree, JFrame frame, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+				
+		return tree.accept(creator);
 	}
 	
 	@Override
@@ -119,12 +115,12 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	
 	@Override
 	public Widget visit(Form formNode) {
-		return new FormComposite(formNode.getBlock().accept(this));
+		return new FormComposite(frame, formNode.getBlock().accept(this));
 	}
 	
 	@Override
 	public Widget visit(If ifNode) {
-		return new IfComposite(ifNode.getExpression(), valueEnvironment);
+		return new IfComposite(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
 	}
 
 	@Override

@@ -46,7 +46,6 @@ public class RadioButton extends InputWidget<BooleanValue> implements ActionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Radio button clicked.");
 		setChanged();
 		notifyObservers(getValue());
 	}

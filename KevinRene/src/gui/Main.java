@@ -1,7 +1,6 @@
 package gui;
 
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 
 import cons.TypeEnvironment;
 import cons.ValueEnvironment;
@@ -83,7 +82,7 @@ public class Main {
 		
 		//JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, valueEnv));
 		
-		frame.getContentPane().add(ComponentCreator.check(tree, valueEnv));
+		frame.getContentPane().add(ComponentCreator.check(tree, frame, valueEnv).getComponent());
  
         //Display the window.
         frame.pack();
