@@ -1,43 +1,41 @@
 package gui.widgets;
 
+import gui.widgets.listeners.IntegerListener;
 import interpreter.ValueRepository;
 
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JTextField;
 
 import ast.type.Type;
 
-public class ChoiceWidget implements IWidgetComponent {
-	private final String id, label;
-	private final Type widgetType;
-	private JCheckBox widget = new JCheckBox("");;
-	private String value = new String("");
+public class IntegerFieldWidget implements IWidgetComponent {
+
+	private final String id; 
+	private final Type variableType;
+	private JTextField widget;
 	private final ValueRepository valueRepository;
 		
-	public ChoiceWidget(String id, String label, Type widgetType, ValueRepository valueRepository) {
+	public IntegerFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
-		this.label = label;
+		this.variableType = variableType;
 		this.valueRepository = valueRepository;
-		this.widgetType = widgetType;
-		this.widget.addItemListener(new ChoiceListener());
+		this.widget = new JTextField("0", 10);
+		
 	}
-
+	
 	@Override
 	public JComponent getWidget() {
-		//widget = new JCheckBox("Yes");
-		return widget;
+		return this.widget;
 	}
 
 	@Override
 	public String getIdWidget() {
-		// TODO Auto-generated method stub
-		return id;
+		return this.id;
 	}
 
 	@Override
 	public Type getWidgetType() {
-		// TODO Auto-generated method stub
-		return widgetType;
+		return variableType;
 	}
 
 	@Override
@@ -72,23 +70,18 @@ public class ChoiceWidget implements IWidgetComponent {
 
 	@Override
 	public void addDocListener() {
-		// TODO Auto-generated method stub
-		
+		widget.getDocument().addDocumentListener(new IntegerListener(this, valueRepository));
 	}
 
 	@Override
 	public int getIntegerValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Integer.valueOf(widget.getText());
 	}
 
 	@Override
 	public void setIntegerValue(int value) {
-		// TODO Auto-generated method stub
+		value = Integer.valueOf(widget.getText());
 		
 	}
-
-
-	
 
 }
