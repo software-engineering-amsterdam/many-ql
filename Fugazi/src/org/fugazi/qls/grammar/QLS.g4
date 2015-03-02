@@ -7,7 +7,8 @@ stylesheet : 'stylesheet' ID page*;
 page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
 // Section, includes questions and/or other sections, and/or default declarations.
-section : 'section' STRING '{' (question | section)* '}'; //todo: make curlies optional for single statements
+section : 'section' STRING question
+        | 'section' STRING '{' (question | section)* '}';
 
 // question id (zero or one widget)
 question : 'question' ID widget??;
