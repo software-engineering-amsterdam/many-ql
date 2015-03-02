@@ -129,7 +129,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         // re-evaluate the computed questions.
         computedQuestions.forEach(quest -> this.evaluateComputedExpression(quest));
 
-        // re-visit the conditions of the previous block.
+        // re-visit the conditions of the root block.
         ArrayList<IfStatement> statements = ifStatements.get(astForm.getName());
         statements.forEach(statement -> statement.accept(this));
         currentBlock = blocksStack.getFirst();
@@ -178,7 +178,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
             }
             _ifStatement.getBody().forEach(statement -> statement.accept(this));
         } else {
-            // we are on current block
+            // The current block
             if (currentBlock.getName().equals(_ifStatement.getCondition().toString())) {
                 this.removeBlockFromForm();
             }
