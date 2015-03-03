@@ -11,7 +11,8 @@ import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.Question;
 import edu.parser.QLS.nodes.statement.Statement;
-import edu.parser.QLS.nodes.styles.*;
+import edu.parser.QLS.nodes.styles.Style;
+import edu.parser.QLS.nodes.styles.Widget;
 import edu.parser.nodes.QuestionType;
 
 import java.util.ArrayList;
@@ -126,7 +127,6 @@ public class TypeChecker implements QLSVisitor {
                 .filter(style -> style instanceof Widget)
                 .map(widget -> (Widget) widget)
                 .allMatch(widget -> supportedWidgets.contains(widget.getWidget()));
-
     }
 
     @Override
@@ -145,23 +145,8 @@ public class TypeChecker implements QLSVisitor {
     }
 
     @Override
-    public AbstractNode visit(Width width) {
-        return width;
-    }
-
-    @Override
-    public AbstractNode visit(Widget widget) {
-        return widget;
-    }
-
-    @Override
-    public AbstractNode visit(Font font) {
-        return font;
-    }
-
-    @Override
-    public AbstractNode visit(Color color) {
-        return color;
+    public AbstractNode visit(Style style) {
+        return style;
     }
 
     @Override
