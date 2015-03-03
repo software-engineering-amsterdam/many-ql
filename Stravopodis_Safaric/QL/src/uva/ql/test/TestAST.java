@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static org.junit.Assert.assertEquals;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -24,26 +22,14 @@ import uva.ql.ast.Form;
 
 public class TestAST {
 	
-	private static ASTNode inputCheck(String stream){
-		ANTLRInputStream s = new ANTLRInputStream(stream);
-		QLLexer lexer = new QLLexer(s);
-		
-		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-		QLParser parser = new QLParser(tokenStream);
-		
-		ParseTree tree = parser.expr();
-		
-		QLMainVisitor visitor = new QLMainVisitor();
-		ASTNode ast = visitor.visit(tree);
-		return ast;
-	}
-	
 	private static String getTokensWithoutStringLiterals(String inputStream){
 		ANTLRInputStream stream = new ANTLRInputStream(inputStream);
 		QLLexer lexer = new QLLexer(stream);
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+		
 		return tokenStream.getText().replaceAll("\".*?\"","");
 	}
+	
 	private static ASTNode questCheck(String stream){
 		ANTLRInputStream s = new ANTLRInputStream(stream);
 		QLLexer lexer = new QLLexer(s);
@@ -52,6 +38,7 @@ public class TestAST {
 		ParseTree tree = parser.quest();
 		QLMainVisitor visitor = new QLMainVisitor();
 		ASTNode ast = visitor.visit(tree);
+		
 		return ast;
 	}
 	
@@ -63,6 +50,7 @@ public class TestAST {
 		ParseTree tree = parser.form();
 		QLMainVisitor visitor = new QLMainVisitor();
 		ASTNode ast = visitor.visit(tree);
+		
 		return ast;
 	}
 	

@@ -2,27 +2,30 @@ grammar QLS;
 
 import Types, Ident, Comments;
 
-stylesheet :  'stylesheet' Identifier '{'  '}';
+stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
-page : 'page' Identifier '{' '}';
+page : 'page' Identifier '{' (statement)+ '}';
 
-section : 'section' String '{' '}';
+statement : section | question | defaultStmt;
 
-question : ('question' Identifier) | ('question' Identifier 'widget' WidgetType);
+section : 'section' String '{' (statement)+ '}';
 
-default : 'default' Type '{' (style)* '}';
+question : 'question' Identifier ('{' (stylesheetRule)+ '}')?;
 
-style
-    : 'width' ':' Number
-    | 'fontsize' ':' Number
+defaultStmt : 'default' QuestionType '{' (stylesheetRule)+ '}';
+
+stylesheetRule
+    : 'width' ':' Integer
+    | 'fontsize' ':' Integer
     | 'font' ':' String
-    | 'color' ':' Color;
+    | 'color' ':' Color
+    | 'widget' WidgetType;
+
+fragment Hex : [0-9A-F];
 
 WidgetType
     : 'spinbox'
     | 'checkbox'
     | 'radio' ;
-
-fragment Hex : [0-9A-F];
 
 Color : [#] Hex Hex Hex Hex Hex Hex;

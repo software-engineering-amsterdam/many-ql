@@ -53,5 +53,4 @@ public class Evaluator implements FormVisitor<Void>, StatementVisitor<Void> {
         this.answers.setValue(conditional.getId(), resultValue);
         return null;
     }
-
 }
