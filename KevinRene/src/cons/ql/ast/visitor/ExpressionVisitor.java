@@ -44,7 +44,7 @@ public interface ExpressionVisitor<T> extends Visitor<T> {
 		return null;
 	};
 	
-	default T visit(Identifier identNode) {		return null;}
+	default T visit(Identifier identNode) {	return null; }
 	
 	// Types contain nothing. An empty function will be the default visit action.
 	default T visit(QLBoolean booleanNode) 	{ return null; }
