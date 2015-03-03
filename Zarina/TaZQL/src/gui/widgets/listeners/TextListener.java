@@ -1,17 +1,18 @@
-package gui.widgets;
+package gui.widgets.listeners;
 
+import gui.widgets.IWidgetComponent;
 import interpreter.StringValue;
 import interpreter.ValueRepository;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TextDigitsListener implements DocumentListener {
+public class TextListener implements DocumentListener {
 	private final IWidgetComponent widget;
 	private String value = "";
 	private final ValueRepository valueRepository;
 	
-	public TextDigitsListener(IWidgetComponent widget, ValueRepository valueRepository) {
+	public TextListener(IWidgetComponent widget, ValueRepository valueRepository) {
 		this.widget = widget;
 		this.valueRepository = valueRepository;
 	}
@@ -33,12 +34,12 @@ public class TextDigitsListener implements DocumentListener {
 	
 	//@Override
 	public void update() {
-		value = widget.getTextValue().toString();
+		value = widget.getStringValue().toString();
 		StringValue stringValue = new StringValue(value);
 		
 		valueRepository.putID(widget.getIdWidget().toString(), stringValue);
 		widget.getWidget().revalidate();
 		widget.getWidget().repaint();
-		System.out.println("Listener value: " + valueRepository.getValueRepository() + " , id: " + widget.getIdWidget());
+		System.out.println("Listener value: " + valueRepository.getValueRepository());
 	}
 }

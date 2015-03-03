@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL.Model.Enums;
+using QL.Model.Terminals;
 
 namespace QL.Model
 {
@@ -11,24 +12,49 @@ namespace QL.Model
     {
         public ElementBase Left
         {
-            get { return Children[0]; }
-            set { Children[0] = value; }
+            get { return Children.Any() ? Children[0] : null; }
+            set
+            {
+                if (Children.Any()) Children[0] = value;
+                else Children.Add(value);
+            }
         }
 
         public ElementBase Right
         {
-            get { return Children[1]; }
-            set { Children[1] = value; }
+            get { return Children.Count() < 2 ? null : Children[1]; }
+            set
+            {
+                switch (Children.Count())
+                {
+                    case 1:
+                        Children.Add(value);
+                        break;
+                    case 0:
+                        throw new Exception("initialize Left first");
+                        
+                    default:
+                        Children[1] = value;
+                        break;
+                }
+            }
         }
+
 
         public override ElementType ElementType
         {
             get { return Left == null || Right == null ? ElementType.Leaf : ElementType.Node; }
         }
 
-        protected BinaryTreeElementBase() : base()
+        protected BinaryTreeElementBase()
         {
-            
+            Children = new List<ElementBase>(2);
+        }
+
+        public void HandleChildren(ElementBase left, ElementBase right)
+        {
+            Left = left;
+            Right = right;
         }
     }
 }

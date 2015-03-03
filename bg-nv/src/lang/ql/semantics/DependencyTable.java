@@ -1,7 +1,5 @@
 package lang.ql.semantics;
 
-import lang.ql.ast.statement.Statement;
-
 import java.util.*;
 
 /**
@@ -9,23 +7,23 @@ import java.util.*;
  */
 public class DependencyTable
 {
-    private Map<Statement, Set<Statement>> dependencies;
+    private Map<String, Set<String>> dependencies;
 
     public DependencyTable()
     {
-        this.dependencies = new HashMap<Statement, Set<Statement>>();
+        this.dependencies = new HashMap<String, Set<String>>();
     }
 
-    public void addDependant(Statement subject, Statement dependant)
+    public void addDependant(String subject, String dependant)
     {
         if (!this.dependencies.containsKey(subject)){
-            this.dependencies.put(subject, new HashSet<Statement>());
+            this.dependencies.put(subject, new HashSet<String>());
         }
 
         this.dependencies.get(subject).add(dependant);
     }
 
-    public Set<Statement> getDependants(Statement subject)
+    public Set<String> getDependants(String subject)
     {
         if (!this.dependencies.containsKey(subject))
         {

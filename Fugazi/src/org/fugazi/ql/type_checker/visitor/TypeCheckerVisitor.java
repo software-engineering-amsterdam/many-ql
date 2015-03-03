@@ -239,19 +239,8 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     private Void visitBinaryComparison(Comparison comparison, Type expectedType) {
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
-        boolean leftCorrect = false;
-        boolean rightCorrect = false;
-
-        if (expectedType.equals(new IntType())) {
-            leftCorrect = this.checkIfExpressionIsInt(left);
-            rightCorrect = this.checkIfExpressionIsInt(right);
-        } else if (expectedType.equals(new BoolType())) {
-            leftCorrect = this.checkIfExpressionIsInt(left);
-            rightCorrect = this.checkIfExpressionIsInt(right);
-        } else if (expectedType.equals(new StringType())) {
-            leftCorrect = this.checkIfExpressionIsString(left);
-            rightCorrect = this.checkIfExpressionIsString(right);
-        }
+        boolean leftCorrect = this.checkIfExpressionIsOfType(left, expectedType);
+        boolean rightCorrect = this.checkIfExpressionIsOfType(right, expectedType);
 
         if (!leftCorrect) {
             this.astErrorHandler.registerNewError(
@@ -492,16 +481,20 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
      * =======================
      */
 
+    private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
+        return expression.getReturnedType().equals(type);
+    }
+
     private boolean checkIfExpressionIsInt(Expression expression) {
-        return expression.getReturnedType().equals(new IntType());
+        return this.checkIfExpressionIsOfType(expression, new IntType());
     }
 
     private boolean checkIfExpressionIsBool(Expression expression) {
-        return expression.getReturnedType().equals(new BoolType());
+        return this.checkIfExpressionIsOfType(expression, new BoolType());
     }
 
     private boolean checkIfExpressionIsString(Expression expression) {
-        return expression.getReturnedType().equals(new StringType());
+        return this.checkIfExpressionIsOfType(expression, new StringType());
     }
 
     private boolean checkIfTypesEqual(Type type1, Type type2) {
@@ -525,9 +518,7 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         return false;
     }
 
-    // a = b
-    // a - depender
-    // b - dependee
+    // a = b, a - depender, b - dependee
     private boolean checkDependency(ID depender, ID dependee) {
         List<String> dependenciesForDepender =
                 this.questionDependencies.getIdDependencyNames(depender);
@@ -553,15 +544,30 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
         this.questionTypes.put(questionId.getName(), questionType);
     }
 
-    private void addDependency(ID depender, ID dependee) {
+    private void updateDependencyGraph(ID depender, ID dependee) {
+
+        // get all indirectly affected nodes (that depend on the depender)
+        List<ID> idsToAddNewDependencyTo = this.getAllIdsWithNewIndirectDependency(depender);
+
+        // for a new depender add also all dependencies of dependee (propagate backwards)
+        for (ID newDependant : idsToAddNewDependencyTo) {
+            this.addSingleDependencyForId(newDependant, dependee);
+        }
+
+        // for a new depender add also all dependencies of dependee (propagate forward)
+        this.addDependenciesForId(depender, this.questionDependencies.getIdDependencies(dependee));
+    }
+
+    // TODO get this be simplified?
+    private List<ID> getAllIdsWithNewIndirectDependency(ID depender) {
         // all the ids that are dependent on depender directly or indirectly
         // ids depending on them need to be updated too with the new dependee
-        List<ID> idsToAddNewDependencyTo = new ArrayList<ID>();
+        List<ID> idsToAddNewDependencyTo = new ArrayList<>();
         // temporary list used for traversing the graph.
         // pop first element, update all it's dependencies and add them
         // used to traverse the graph until all elements indirectly affected
         // by new dependence relation found
-        List<ID> idsWithNewDependencies = new ArrayList<ID>();
+        List<ID> idsWithNewDependencies = new ArrayList<>();
         idsWithNewDependencies.add(depender);
 
         while (idsWithNewDependencies.size() > 0) {
@@ -579,22 +585,24 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
             idsToAddNewDependencyTo.add(depender);
         }
 
-        for (ID newDependant : idsToAddNewDependencyTo) {
-            this.questionDependencies.addIdDependenant(newDependant, dependee);
-        }
-
-        // for a new depender add also all dependencies of dependee
-        List<ID> indirectDependersDependees = this.questionDependencies.getIdDependencies(dependee);
-        if (indirectDependersDependees != null) {
-            for (ID newIndirectDependee : indirectDependersDependees) {
-                this.questionDependencies.addIdDependenant(depender, newIndirectDependee);
-            }
-        }
+        return idsToAddNewDependencyTo;
     }
 
-    // a = b
-    // a - depender
-    // b - dependee
+    private void addDependenciesForId(ID depender, List<ID> newDepenees) {
+        if (newDepenees != null) {
+            for (ID newDependee : newDepenees) {
+                this.addSingleDependencyForId(depender, newDependee);
+            }
+        }
+        return;
+    }
+
+    private void addSingleDependencyForId(ID depender, ID dependee) {
+        this.questionDependencies.addIdDependenant(depender, dependee);
+        return;
+    }
+
+    // a = b, a - depender, b - dependee
     private void addAndCheckDependency(ID depender, ID dependee) {
         boolean revertedDependencyExists = this.checkDependency(dependee, depender);
         if (revertedDependencyExists) {
@@ -604,7 +612,7 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
                             dependee.toString() + "."
             );
         }
-        this.addDependency(depender, dependee);
+        this.updateDependencyGraph(depender, dependee);
     }
 
     private void clearErrorHandler() {

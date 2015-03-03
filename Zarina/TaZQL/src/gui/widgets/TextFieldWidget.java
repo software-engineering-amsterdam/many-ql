@@ -1,5 +1,6 @@
 package gui.widgets;
 
+import gui.widgets.listeners.TextListener;
 import interpreter.ValueRepository;
 
 import javax.swing.JComponent;
@@ -12,10 +13,12 @@ public class TextFieldWidget implements IWidgetComponent {
 	private final String id; 
 	private final Type variableType;
 	private JTextField widget;
+	private final ValueRepository valueRepository;
 		
-	public TextFieldWidget(String id, String label, Type variableType) {
+	public TextFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
 		this.variableType = variableType;
+		this.valueRepository = valueRepository;
 		this.widget = new JTextField("", 10);
 	}
 	
@@ -34,17 +37,17 @@ public class TextFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void addDocListener(ValueRepository valRep) {
-		widget.getDocument().addDocumentListener(new TextDigitsListener(this, valRep));
+	public void addDocListener() {
+		widget.getDocument().addDocumentListener(new TextListener(this, valueRepository));
 	}
 
 	@Override
-	public String getTextValue() {
+	public String getStringValue() {
 		return widget.getText();
 	}
 
 	@Override
-	public boolean getChoiceValue() {
+	public boolean getBooleanValue() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -64,6 +67,18 @@ public class TextFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getIntegerValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setIntegerValue(int value) {
 		// TODO Auto-generated method stub
 		
 	}

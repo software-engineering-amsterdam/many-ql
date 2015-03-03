@@ -1,4 +1,4 @@
-// Generated from /home/alex/Develop/Msc/many-ql/Fugazi/src/org/fugazi/qls/grammar/QLS.g4 by ANTLR 4.5
+// Generated from /Users/Sugar/Documents/Msc/Software-Construction/many-ql/Fugazi/src/org/fugazi/qls/grammar/QLS.g4 by ANTLR 4.5
 package org.fugazi.qls.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -36,51 +36,122 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(@NotNull QLSParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#widget}.
+	 * Visit a parse tree produced by the {@code simpleWidget}
+	 * labeled alternative in {@link QLSParser#widget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitWidget(@NotNull QLSParser.WidgetContext ctx);
+	T visitSimpleWidget(@NotNull QLSParser.SimpleWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code defaultStyleWidget}
+	 * labeled alternative in {@link QLSParser#widget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefaultStyleWidget(@NotNull QLSParser.DefaultStyleWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code noStylesDefault}
+	 * labeled alternative in {@link QLSParser#defaultStyleDeclr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNoStylesDefault(@NotNull QLSParser.NoStylesDefaultContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code stylesDefault}
+	 * labeled alternative in {@link QLSParser#defaultStyleDeclr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStylesDefault(@NotNull QLSParser.StylesDefaultContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code checkboxWidget}
-	 * labeled alternative in {@link QLSParser#widgets}.
+	 * labeled alternative in {@link QLSParser#supportedWidget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCheckboxWidget(@NotNull QLSParser.CheckboxWidgetContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code radioWidget}
-	 * labeled alternative in {@link QLSParser#widgets}.
+	 * labeled alternative in {@link QLSParser#supportedWidget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code dropdownWidget}
-	 * labeled alternative in {@link QLSParser#widgets}.
+	 * labeled alternative in {@link QLSParser#supportedWidget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code spinboxWidget}
-	 * labeled alternative in {@link QLSParser#widgets}.
+	 * labeled alternative in {@link QLSParser#supportedWidget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSpinboxWidget(@NotNull QLSParser.SpinboxWidgetContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code sliderWidget}
-	 * labeled alternative in {@link QLSParser#widgets}.
+	 * labeled alternative in {@link QLSParser#supportedWidget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSliderWidget(@NotNull QLSParser.SliderWidgetContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code textWidget}
-	 * labeled alternative in {@link QLSParser#widgets}.
+	 * labeled alternative in {@link QLSParser#supportedWidget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTextWidget(@NotNull QLSParser.TextWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code widthStyleProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWidthStyleProperty(@NotNull QLSParser.WidthStylePropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code fontStyleProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFontStyleProperty(@NotNull QLSParser.FontStylePropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code fontsizeStyleProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFontsizeStyleProperty(@NotNull QLSParser.FontsizeStylePropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code colorStyleProperty}
+	 * labeled alternative in {@link QLSParser#styleProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitColorStyleProperty(@NotNull QLSParser.ColorStylePropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code boolType}
+	 * labeled alternative in {@link QLSParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolType(@NotNull QLSParser.BoolTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code intType}
+	 * labeled alternative in {@link QLSParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntType(@NotNull QLSParser.IntTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code stringType}
+	 * labeled alternative in {@link QLSParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringType(@NotNull QLSParser.StringTypeContext ctx);
 }

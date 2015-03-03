@@ -1,7 +1,6 @@
-package lang.ql.gui;
+package lang.ql.gui.input;
 
 import lang.ql.ast.type.*;
-import lang.ql.gui.input.Input;
 import lang.ql.gui.input.regular.*;
 
 /**

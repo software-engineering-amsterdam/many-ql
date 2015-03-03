@@ -1,11 +1,7 @@
 package lang.ql.gui.input.regular;
 
-import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
-import lang.ql.ast.expression.BoolExpr;
-import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.ModelVisitor;
 import lang.ql.gui.input.Input;
-import lang.ql.semantics.values.BooleanValue;
 
 /**
  * Created by Nik on 22-02-2015
@@ -22,7 +18,7 @@ public class BoolInput extends Input
         super(id, visible, disabled);
     }
 
-    public <T> T accept(GuiVisitor<T> visitor)
+    public <T> T accept(ModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

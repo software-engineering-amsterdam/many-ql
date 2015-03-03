@@ -11,28 +11,33 @@ WS			: [\r\n\t ]+ -> skip;
 COMMENT		: '//' ~[\r\n]* -> skip;
 
 // Operators
-fragment NEQOPERATOR	: '=='  //should be defaultly usable by text, number, yesno
-						| '!='  //should be defaultly usable by text, number, yesno
-						;
-fragment COMPAREOPERATOR: '>' | '>='  //should be defaultly usable by number
-						| '<' | '<=' //should be defaultly usable by number
-						;
-fragment CALCOPERATOR	: '*' // number, yesno
-						| '/' // number, except division by zero
-						| '+' // number, yesno, text
-						| '-' // number
-						;
-fragment ANDOROPERATOR	: '&&'  // if we use * and + for AND OR, we can abandon these
-						| '||' 
-						;
-OPERATOR				: CALCOPERATOR
-						| ANDOROPERATOR
-						| COMPAREOPERATOR
-						| NEQOPERATOR
-						;
+EQUALS				: '==';	//should be defaultly usable by text, number, yesno
+NOTEQUALS			: '!=';	//should be defaultly usable by text, number, yesno
+GREATERTHAN			: '>';	//should be defaultly usable by number
+GREATERTHANOREQUALTO: '>=';	//should be defaultly usable by number
+LESSTHAN			: '<';	//should be defaultly usable by number
+LESSTHANOREQUALTO	: '<=';	//should be defaultly usable by number
+MULTIPLICATION		: '*';	// number, yesno
+DIVISION			: '/';	// number, except division by zero
+ADDITION			: '+';	// number, yesno, text
+SUBTRACTION			: '-';	// number
+AND					: '&&';
+OR					: '||';
 
 // Production rules
-operator: OPERATOR;
+operator	: EQUALS
+			| NOTEQUALS
+			| GREATERTHAN
+			| GREATERTHANOREQUALTO
+			| LESSTHAN
+			| LESSTHANOREQUALTO
+			| MULTIPLICATION
+			| DIVISION
+			| ADDITION
+			| SUBTRACTION
+			| AND
+			| OR
+			;
 
 type		: 'yesno'	# yesno
 			| 'number'	# number
@@ -61,4 +66,4 @@ expression	: literal
 
 questionUnit  : 'question' IDENTIFIER '(' type ')' TEXT ';';
 statementUnit : 'statement' IDENTIFIER '(' type ',' expression ')' TEXT ';'	;
-controlUnit	  : 'if' expression block ('else' controlUnit)* ('else' block)? ';';
+controlUnit	  : 'if' expression block ('else' block)? ';';
