@@ -1,3 +1,4 @@
+
 module QLS
   module AST
     class PropertyDeclaration
@@ -14,7 +15,6 @@ module QLS
 
     class Checkbox < Widget
     end
-
 
     class Spinbox < Widget
     end

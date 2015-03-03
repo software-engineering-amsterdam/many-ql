@@ -19,10 +19,10 @@ class TypeChecker {
     case e @ Not(e1: Expression) => checkBooleanExpression(e1, env, e.pos)
     case e @ Equal(l: Expression, r: Expression) => checkEqualityExpression(l, r, env, e.pos)
     case e @ NotEqual(l: Expression, r: Expression) => checkEqualityExpression(l, r, env, e.pos)
-    case e @ LessThan(l: Expression, r: Expression) => checkOrderExpression(l, r, env, e.pos)
-    case e @ LessThanEqual(l: Expression, r: Expression) => checkOrderExpression(l, r, env, e.pos)
-    case e @ GreaterThan(l: Expression, r: Expression) => checkOrderExpression(l, r, env, e.pos)
-    case e @ GreaterThanEqual(l: Expression, r: Expression) => checkOrderExpression(l, r, env, e.pos)
+    case e @ LessThan(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
+    case e @ LessThanEqual(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
+    case e @ GreaterThan(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
+    case e @ GreaterThanEqual(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
     case e @ Add(l: Expression, r: Expression) => checkArithmeticExpression(l, r, env, e.pos)
     case e @ Sub(l: Expression, r: Expression) => checkArithmeticExpression(l, r, env, e.pos)
     case e @ Mul(l: Expression, r: Expression) => checkArithmeticExpression(l, r, env, e.pos)
@@ -96,12 +96,12 @@ class TypeChecker {
     }
   }
 
-  def checkOrderExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
+  def checkRelationalExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
     (check(e1, env), check(e2, env)) match {
       case (Right(NumberType()), Right(NumberType())) => Right(BooleanType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
-      case _ => Left(new Error("Invalid order expression at line", p))
+      case _ => Left(new Error("Invalid relational expression at line", p))
     }
   }
 

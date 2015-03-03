@@ -9,6 +9,13 @@ module QLS
       end
     end
 
+    def accept(visitor)
+      rules.map do |rule|
+        rule.accept(visitor)
+      end
+    end
+
+
     class Stylesheet < StyleGroup
     end
 
