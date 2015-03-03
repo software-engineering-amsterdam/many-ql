@@ -30,5 +30,9 @@ public class Radio extends Component {
 	public Tuple<String, String> evaluate() {
 		return this.values;
 	}
+	@Override
+	public String toString(){
+		return "Radio(" + this.values.toString() + " " + this.style.toString() + ")";
+	}
 
 }

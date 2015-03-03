@@ -5,7 +5,7 @@ import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 
 import javax.swing.*;
 import java.awt.*;

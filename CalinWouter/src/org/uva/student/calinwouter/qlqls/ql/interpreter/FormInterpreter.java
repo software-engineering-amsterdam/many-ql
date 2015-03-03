@@ -3,10 +3,11 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
-import org.uva.student.calinwouter.qlqls.ql.types.Value;
+import org.uva.student.calinwouter.qlqls.ql.model.FormField;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldInUseException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelInUseException;
+import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 import java.util.*;
 import java.util.List;

@@ -28,8 +28,13 @@ stylesheet taxOfficeExample
           font: "Arial" 
           fontsize: 14
           color: #999999
-          widget spinbox
+        }
+        default integer {
+          width: 200
         }        
+        default string {
+          color: #999999
+        }
       }
     }
     default boolean widget radio("Yes", "No")

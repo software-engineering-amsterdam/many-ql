@@ -8,6 +8,7 @@ import scala.util.Try
 import scalafx.beans.value.ObservableValue
 import scalafx.collections.ObservableMap
 import scalafx.collections.ObservableMap.Replace
+import scalafx.geometry.Insets
 import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
 
@@ -20,16 +21,27 @@ abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression],
   val evaluator = new Evaluator()
   val dependencyResolver = new DependencyResolver()
 
+  val DefaultPadding = 0
+  val PaddingBottom = 10
+
   val name: VariableName = q.variable.name
   val valueDependencies: Dependencies = q.optionalExpression.fold[Dependencies](List())(e => dependencyResolver.resolve(e))
   val visibilityDependencies: Dependencies = visibilityExpressions.flatMap(e => dependencyResolver.resolve(e))
 
-  def updateVisibility(key: String): Unit = if (visibilityDependencies contains key) visible = shouldBeVisible
+  def updateVisibility(key: String): Unit = if (visibilityDependencies contains key) {
+    visible = shouldBeVisible
+    managed = isVisible
+  }
   def shouldBeVisible: Boolean = visibilityExpressions.forall(evaluator.eval(_, env) == BooleanValue(true))
   def isVisible: Boolean = visible.value
 
   visible = shouldBeVisible
-  children.add(new Label(q.label))
+  managed = isVisible
+  padding = Insets(DefaultPadding, DefaultPadding, PaddingBottom, DefaultPadding)
+
+  val label = new Label(q.label)
+  label.margin = Insets(0, 0, 5, 0)
+  children.add(label)
 }
 
 class BooleanQuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value])

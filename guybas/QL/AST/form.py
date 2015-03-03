@@ -1,4 +1,5 @@
 # AST format of the Form
+import QL.Main.converters as converters
 
 
 class Form:
@@ -100,3 +101,8 @@ class Form:
         for s in self._statements:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
+
+    def set_statement_ids(self):
+        m = converters.Converters.get_md5(str(self))
+        for s in self._statements:
+            s.set_parent_id(m)

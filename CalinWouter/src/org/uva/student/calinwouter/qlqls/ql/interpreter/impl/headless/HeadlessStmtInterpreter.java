@@ -1,6 +1,7 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
 
 import org.uva.student.calinwouter.qlqls.generated.node.*;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.ExpInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
@@ -35,7 +36,7 @@ public class HeadlessStmtInterpreter extends StmtInterpreter {
                 expInterpreter.getValue());
 
         TypeInterpreter typeInterpreter = new TypeInterpreter();
-            node.getType().apply(typeInterpreter);
+        node.getType().apply(typeInterpreter);
 
         ((HeadlessFormInterpreter) formInterpreter).addFormField(new ComputedValueField(node.getStr().getText(),
                 node.getIdent().getText(), typeInterpreter.getValue(), formInterpreter));

@@ -1,4 +1,4 @@
-require_relative 'base_visitor'
+require_relative '../../util/base_visitor'
 
 module QLS
   module Checker

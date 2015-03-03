@@ -1,6 +1,7 @@
-from QL.AST.Statements.statement import *
+import QL.AST.Statements.statement as statement
 
-class Assignment:
+
+class Assignment(statement.IStatement):
     # init
     def __init__(self, qid, qtype, expression):
         self.id = qid

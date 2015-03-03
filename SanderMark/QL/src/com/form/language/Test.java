@@ -10,6 +10,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class Test {
 	public static void main(String[] args) {
@@ -34,6 +35,9 @@ public class Test {
 		IdTypeTable idTable = new IdTypeTable(ids);
 		evaluator.setTypes(idTable);
 		evaluator.showTypes();
+		RuntimeMemory mem = new RuntimeMemory();
+		evaluator.initMemory(mem);
+		System.out.println(mem);
 //		System.out.println(m.showMemory());
 //			
 //		ErrorCollector errors = new ErrorCollector();

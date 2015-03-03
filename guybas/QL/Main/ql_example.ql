@@ -37,5 +37,5 @@ if (5 - 3 + (2 / 1) == 4) {
     Question dunno (bool) : Do you know what to write?
 }
 
-Assignment improve (number) : 10 - grade
+// Assignment improve (number) : 10 - grade
 
