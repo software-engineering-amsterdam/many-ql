@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>S:\StrongName\Questionnaire.snk</AssemblyOriginatorKeyFile>
@@ -68,9 +68,6 @@
       <Listener>False</Listener>
     </Antlr4>
     <None Include="packages.config" />
-    <None Include="S:\StrongName\Questionnaire.snk">
-      <Link>Properties\Questionnaire.snk</Link>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AST\Model\" />
