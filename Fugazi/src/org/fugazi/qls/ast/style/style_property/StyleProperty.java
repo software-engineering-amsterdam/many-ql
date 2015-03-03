@@ -1,8 +1,8 @@
 package org.fugazi.qls.ast.style.style_property;
 
-import org.fugazi.qls.ast.AbstractASTNode;
+import org.fugazi.qls.ast.AbstractASTQLSNode;
 
-public abstract class StyleProperty<T> extends AbstractASTNode {
+public abstract class StyleProperty<T> extends AbstractASTQLSNode {
     
     protected final String name;
     protected final T value;

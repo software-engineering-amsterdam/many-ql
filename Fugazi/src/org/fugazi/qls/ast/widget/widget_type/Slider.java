@@ -1,6 +1,6 @@
 package org.fugazi.qls.ast.widget.widget_type;
 
-public class Slider implements IWidgetType {
+public class Slider extends WidgetType {
 
     public Slider() {
 

@@ -1,9 +1,9 @@
 package org.fugazi.qls.ast.question;
 
-import org.fugazi.qls.ast.AbstractASTNode;
+import org.fugazi.qls.ast.AbstractASTQLSNode;
 import org.fugazi.qls.ast.widget.Widget;
 
-public class Question extends AbstractASTNode {
+public class Question extends AbstractASTQLSNode {
 
     private final String identifier;
     private final Widget widget;

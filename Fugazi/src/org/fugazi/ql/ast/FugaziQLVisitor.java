@@ -31,7 +31,7 @@ import org.fugazi.ql.parser.QLParser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTNode> {
+public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTQLNode> {
 
     private final HashMap<String, Type> identifiers = new HashMap<>();
 

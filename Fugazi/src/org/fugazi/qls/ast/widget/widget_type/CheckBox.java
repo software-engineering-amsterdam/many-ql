@@ -1,6 +1,6 @@
 package org.fugazi.qls.ast.widget.widget_type;
 
-public class CheckBox implements IWidgetType {
+public class CheckBox extends WidgetType {
     
     public CheckBox() {
 

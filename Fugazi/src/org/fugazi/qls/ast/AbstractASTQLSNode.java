@@ -1,17 +1,17 @@
 package org.fugazi.qls.ast;
 
-public abstract class AbstractASTNode {
+public abstract class AbstractASTQLSNode {
 
     protected final int lineNumber;
 
     public static final int DUMMY_LINE_NUMBER = -1;
 
-    public AbstractASTNode() {
+    public AbstractASTQLSNode() {
         // this is used for temporary objects
         this.lineNumber = DUMMY_LINE_NUMBER;
     }
 
-    public AbstractASTNode(int _lineNum) {
+    public AbstractASTQLSNode(int _lineNum) {
         this.lineNumber = _lineNum;
     }
 

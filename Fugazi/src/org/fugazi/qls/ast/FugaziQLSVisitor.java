@@ -1,108 +1,183 @@
 package org.fugazi.qls.ast;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.fugazi.qls.ast.question.Question;
+import org.fugazi.qls.ast.segment.Page;
+import org.fugazi.qls.ast.segment.Section;
+import org.fugazi.qls.ast.style.DefaultTypeStyle;
+import org.fugazi.qls.ast.style.style_property.Color;
+import org.fugazi.qls.ast.style.style_property.Font;
+import org.fugazi.qls.ast.style.style_property.FontSize;
+import org.fugazi.qls.ast.style.style_property.Width;
+import org.fugazi.qls.ast.stylesheet.StyleSheet;
+import org.fugazi.qls.ast.widget.Widget;
+import org.fugazi.qls.ast.widget.widget_type.*;
 import org.fugazi.qls.parser.QLSBaseVisitor;
 import org.fugazi.qls.parser.QLSParser;
 
-public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
+import java.util.ArrayList;
+
+public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLSNode> {
+
+    private String removeStringQuotes(String _str) {
+        return _str.replaceAll("^\"|\"$", "");
+    }
+
+    private int getLineNumber(ParserRuleContext ctx) {
+        return ctx.getStart().getLine();
+    }
 
     @Override 
-    public AbstractASTNode visitStylesheet(@NotNull QLSParser.StylesheetContext ctx) { 
-        return null; 
+    public AbstractASTQLSNode visitStylesheet(@NotNull QLSParser.StylesheetContext ctx) {
+        String name = ctx.ID().getText();
+
+        ArrayList<Page> pages = new ArrayList<>();
+        for (QLSParser.PageContext pageContext : ctx.page()) {
+            Page page = (Page) pageContext.accept(this);
+            pages.add(page);
+        }
+
+        return new StyleSheet(name, pages);
     }
     
     @Override 
-    public AbstractASTNode visitPage(@NotNull QLSParser.PageContext ctx) { 
-		return null; 
+    public AbstractASTQLSNode visitPage(@NotNull QLSParser.PageContext ctx) {
+        String name = ctx.ID().getText();
+
+        ArrayList<Section> sections = new ArrayList<>();
+        for (QLSParser.SectionContext sectionContext : ctx.section()) {
+            Section section = (Section) sectionContext.accept(this);
+            sections.add(section);
+        }
+
+        ArrayList<DefaultTypeStyle> defaultStyles = new ArrayList<>();
+        for (QLSParser.DefaultStyleDeclrContext defaultStyleDeclrContext : ctx.defaultStyleDeclr()) {
+            DefaultTypeStyle style = (DefaultTypeStyle) defaultStyleDeclrContext.accept(this);
+            defaultStyles.add(style);
+        }
+
+		return new Page(name, sections, defaultStyles);
 	}
 
     @Override 
-    public AbstractASTNode visitSection(@NotNull QLSParser.SectionContext ctx) { 
+    public AbstractASTQLSNode visitSection(@NotNull QLSParser.SectionContext ctx) {
+        String name = ctx.STRING().getText();
+
+        ArrayList<Section> sections = new ArrayList<>();
+        for (QLSParser.SectionContext sectionContext : ctx.section()) {
+            Section section = (Section) sectionContext.accept(this);
+            sections.add(section);
+        }
+
+        ArrayList<Question> questions = new ArrayList<>();
+        for (QLSParser.QuestionContext questionContext : ctx.question()) {
+            Question question = (Question) questionContext.accept(this);
+            questions.add(question);
+        }
+
+        return new Section(this.removeStringQuotes(name), sections, questions);
+	}
+    
+    @Override 
+	public AbstractASTQLSNode visitQuestion(@NotNull QLSParser.QuestionContext ctx) {
+        String identifier = ctx.ID().getText();
+        Widget widget = (Widget) ctx.widget().accept(this);
+
+        //todo: default styles?
+
+		return new Question(identifier, widget);
+	}
+    
+    @Override 
+	public AbstractASTQLSNode visitWidget(@NotNull QLSParser.WidgetContext ctx) {
+        WidgetType widgetType = (WidgetType) ctx.supportedWidget().accept(this);
+
+        // todo
+		//return new Widget(widgetType);
+        return null;
+	}
+    
+    @Override 
+	public AbstractASTQLSNode visitNoStylesDefaultDeclr(@NotNull QLSParser.NoStylesDefaultDeclrContext ctx) {
+        // todo
 		return null; 
 	}
     
     @Override 
-	public AbstractASTNode visitQuestion(@NotNull QLSParser.QuestionContext ctx) { 
+	public AbstractASTQLSNode visitStylesDefaultDeclr(@NotNull QLSParser.StylesDefaultDeclrContext ctx) {
 		return null; 
 	}
     
     @Override 
-	public AbstractASTNode visitWidget(@NotNull QLSParser.WidgetContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitCheckboxWidget(@NotNull QLSParser.CheckboxWidgetContext ctx) {
+		return new CheckBox();
 	}
     
     @Override 
-	public AbstractASTNode visitNoStylesDefaultDeclr(@NotNull QLSParser.NoStylesDefaultDeclrContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx) {
+		return new RadioBtn();
 	}
     
     @Override 
-	public AbstractASTNode visitStylesDefaultDeclr(@NotNull QLSParser.StylesDefaultDeclrContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx) {
+		return new Dropdown();
 	}
     
     @Override 
-	public AbstractASTNode visitCheckboxWidget(@NotNull QLSParser.CheckboxWidgetContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitSpinboxWidget(@NotNull QLSParser.SpinboxWidgetContext ctx) {
+		return new SpinBox();
 	}
     
     @Override 
-	public AbstractASTNode visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitSliderWidget(@NotNull QLSParser.SliderWidgetContext ctx) {
+		return new Slider();
 	}
     
     @Override 
-	public AbstractASTNode visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitTextWidget(@NotNull QLSParser.TextWidgetContext ctx) {
+		return new TextBox();
 	}
     
     @Override 
-	public AbstractASTNode visitSpinboxWidget(@NotNull QLSParser.SpinboxWidgetContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitWidthStyleProperty(@NotNull QLSParser.WidthStylePropertyContext ctx) {
+        Integer value = Integer.parseInt(ctx.NUMBER().getText());
+		return new Width(value);
 	}
     
     @Override 
-	public AbstractASTNode visitSliderWidget(@NotNull QLSParser.SliderWidgetContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitFontStyleProperty(@NotNull QLSParser.FontStylePropertyContext ctx) {
+        String value = ctx.STRING().getText();
+		return new Font(this.removeStringQuotes(value));
 	}
     
     @Override 
-	public AbstractASTNode visitTextWidget(@NotNull QLSParser.TextWidgetContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitFontsizeStyleProperty(@NotNull QLSParser.FontsizeStylePropertyContext ctx) {
+        Integer value = Integer.parseInt(ctx.NUMBER().getText());
+        return new FontSize(value);
 	}
     
     @Override 
-	public AbstractASTNode visitWidthStyleProperty(@NotNull QLSParser.WidthStylePropertyContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitColorStyleProperty(@NotNull QLSParser.ColorStylePropertyContext ctx) {
+        String value = ctx.HEX().getText();
+        return new Color(value);
 	}
     
     @Override 
-	public AbstractASTNode visitFontStyleProperty(@NotNull QLSParser.FontStylePropertyContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitBoolType(@NotNull QLSParser.BoolTypeContext ctx) {
+        //todo
+		return null;
 	}
     
     @Override 
-	public AbstractASTNode visitFontsizeStyleProperty(@NotNull QLSParser.FontsizeStylePropertyContext ctx) { 
-		return null; 
+	public AbstractASTQLSNode visitIntType(@NotNull QLSParser.IntTypeContext ctx) {
+        //todo
+        return null;
 	}
     
     @Override 
-	public AbstractASTNode visitColorStyleProperty(@NotNull QLSParser.ColorStylePropertyContext ctx) { 
-		return null; 
-	}
-    
-    @Override 
-	public AbstractASTNode visitBoolType(@NotNull QLSParser.BoolTypeContext ctx) { 
-		return null; 
-	}
-    
-    @Override 
-	public AbstractASTNode visitIntType(@NotNull QLSParser.IntTypeContext ctx) { 
-		return null; 
-	}
-    
-    @Override 
-    public AbstractASTNode visitStringType(@NotNull QLSParser.StringTypeContext ctx) { 
-		return null; 
+    public AbstractASTQLSNode visitStringType(@NotNull QLSParser.StringTypeContext ctx) {
+        //todo
+        return null;
 	}
 }

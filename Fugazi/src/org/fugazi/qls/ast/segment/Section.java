@@ -1,10 +1,11 @@
 package org.fugazi.qls.ast.segment;
 
+import org.fugazi.qls.ast.AbstractASTQLSNode;
 import org.fugazi.qls.ast.question.Question;
 
 import java.util.List;
 
-public class Section {
+public class Section extends AbstractASTQLSNode {
 
     protected final String name;
     protected final List<Section> sections;

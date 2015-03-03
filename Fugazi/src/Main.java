@@ -1,4 +1,4 @@
-import org.fugazi.ql.ast.ASTBuilder;
+import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.gui.UIBuilder;
 import org.fugazi.ql.type_checker.TypeChecker;
@@ -21,11 +21,14 @@ public class Main {
         if (inputFile != null)
             input = new FileInputStream(inputFile);
 
+        /** ---------------------
+          * QL
+          * --------------------- */
         // Create The AST Builder.
-        ASTBuilder astBuilder = new ASTBuilder(input);
+        QLASTBuilder QLAstBuilder = new QLASTBuilder(input);
 
         // Build the AST.
-        Form form = astBuilder.buildForm();
+        Form form = QLAstBuilder.buildForm();
 
         // Perform type checking.
         TypeChecker typeChecker = new TypeChecker();
@@ -42,7 +45,17 @@ public class Main {
             System.exit(-1);
         }
 
-        // Render GUI.
+        /** ---------------------
+         * QLS
+         * --------------------- */
+        // Create The AST Builder.
+        //QLASTBuilder QLAstBuilder = new QLASTBuilder(input);
+
+        // Build the AST.
+        //Form form = QLAstBuilder.buildForm();
+
+
+         // Render GUI.
         UIBuilder guiBuilder = new UIBuilder(form);
         guiBuilder.renderGUI();
     }
