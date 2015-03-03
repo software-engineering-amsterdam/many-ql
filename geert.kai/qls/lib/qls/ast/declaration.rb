@@ -1,26 +1,29 @@
-module QLS
-  module AST
-    class Declaration
-      attr_reader :value
-      
-      def initialize(value)
-        @value = value
-      end
+
+module AST
+  class Declaration
+    attr_reader :value
+    
+    def initialize(value)
+      @value = value
     end
 
-    class ColorDeclaration < Declaration
+    def accept(visitor)
+      visitor.visit(self)
     end
+  end
 
-    class FontDeclaration < Declaration
-    end
+  class ColorDeclaration < Declaration
+  end
 
-    class FontSizeDeclaration < Declaration
-    end
+  class FontDeclaration < Declaration
+  end
 
-    class WidgetDeclaration < Declaration
-    end
+  class FontSizeDeclaration < Declaration
+  end
 
-    class WidthDeclaration < Declaration
-    end
+  class WidgetDeclaration < Declaration
+  end
+
+  class WidthDeclaration < Declaration
   end
 end
