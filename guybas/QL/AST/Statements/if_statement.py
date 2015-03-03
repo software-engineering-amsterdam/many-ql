@@ -1,14 +1,15 @@
 # AST for if_block
-from QL.AST.Statements.statement import *
+import QL.AST.Statements.statement as statement
+import QL.Main.converters as converters
 
 
-class IfBlock(IStatement):
+class IfBlock(statement.IStatement):
 
     # Override
-    def __init__(self, condition, statements, tid):
+    def __init__(self, condition, statements):
         self.condition = condition
         self.statements = statements
-        self.parent_id = tid
+        self.element = None
 
     # Override
     def pretty_print(self, level=0):
@@ -61,6 +62,10 @@ class IfBlock(IStatement):
     # Override
     def set_parent_id(self, pid):
         self.parent_id = pid
+        m = converters.Converters.get_md5(str(self))
+        for s in self.statements:
+            s.set_parent_id(m)
+            s.set_parent_condition(self.condition)
 
     # Override
     def set_order(self, order_num):
@@ -68,6 +73,12 @@ class IfBlock(IStatement):
         for s in self.statements:
             c = s.set_order(c)
         return c
+
+    def set_element(self, gui):
+        ...
+
+    def set_parent_condition(self, condition):
+        ...
 
     # Override
     def id_type_collection(self):
@@ -92,3 +103,11 @@ class IfBlock(IStatement):
     def get_e_statements(self):
         return []
 
+    def get_statement_dict(self):
+        d = {}
+        for s in self.statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        return d
+
+    def get_element(self):
+        return self.element

@@ -2,24 +2,24 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AListTerm extends PTerm
-{
+public final class AListTerm extends PTerm {
     private TLBkt _lBkt_;
     private final LinkedList<PListTerm> _listTerms_ = new LinkedList<PListTerm>();
 
-    public AListTerm()
-    {
+    public AListTerm() {
         // Constructor
     }
 
     public AListTerm(
-        @SuppressWarnings("hiding") TLBkt _lBkt_,
-        @SuppressWarnings("hiding") List<?> _listTerms_)
-    {
+            @SuppressWarnings("hiding") TLBkt _lBkt_,
+            @SuppressWarnings("hiding") List<?> _listTerms_) {
         // Constructor
         setLBkt(_lBkt_);
 
@@ -28,35 +28,28 @@ public final class AListTerm extends PTerm
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AListTerm(
-            cloneNode(this._lBkt_),
-            cloneList(this._listTerms_));
+                cloneNode(this._lBkt_),
+                cloneList(this._listTerms_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAListTerm(this);
     }
 
-    public TLBkt getLBkt()
-    {
+    public TLBkt getLBkt() {
         return this._lBkt_;
     }
 
-    public void setLBkt(TLBkt node)
-    {
-        if(this._lBkt_ != null)
-        {
+    public void setLBkt(TLBkt node) {
+        if (this._lBkt_ != null) {
             this._lBkt_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -66,24 +59,19 @@ public final class AListTerm extends PTerm
         this._lBkt_ = node;
     }
 
-    public LinkedList<PListTerm> getListTerms()
-    {
+    public LinkedList<PListTerm> getListTerms() {
         return this._listTerms_;
     }
 
-    public void setListTerms(List<?> list)
-    {
-        for(PListTerm e : this._listTerms_)
-        {
+    public void setListTerms(List<?> list) {
+        for (PListTerm e : this._listTerms_) {
             e.parent(null);
         }
         this._listTerms_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PListTerm e = (PListTerm) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -93,25 +81,21 @@ public final class AListTerm extends PTerm
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._lBkt_)
-            + toString(this._listTerms_);
+                + toString(this._lBkt_)
+                + toString(this._listTerms_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._lBkt_ == child)
-        {
+        if (this._lBkt_ == child) {
             this._lBkt_ = null;
             return;
         }
 
-        if(this._listTerms_.remove(child))
-        {
+        if (this._listTerms_.remove(child)) {
             return;
         }
 
@@ -119,21 +103,16 @@ public final class AListTerm extends PTerm
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._lBkt_ == oldChild)
-        {
+        if (this._lBkt_ == oldChild) {
             setLBkt((TLBkt) newChild);
             return;
         }
 
-        for(ListIterator<PListTerm> i = this._listTerms_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PListTerm> i = this._listTerms_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PListTerm) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

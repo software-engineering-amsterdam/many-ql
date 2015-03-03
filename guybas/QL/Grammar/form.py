@@ -1,54 +1,60 @@
 # Grammar of form
 
-from pyparsing import Group, Optional
-from QL.Grammar.expressions import *
-from QL.Factory.forms import *
-from QL.Grammar.basic_types import *
+import pyparsing as pp
+import QL.Grammar.expressions as expressions
+import QL.Factory.forms as forms
+import QL.Grammar.basic_types as basic_types
 
 
 class FormFormat:
 
     # id :: characters
-    id = BasicTypes.characters
+    id = basic_types.BasicTypes.characters
 
     # label :: sentence
-    label = BasicTypes.sentence
+    label = basic_types.BasicTypes.sentence
 
     # answerR :: "bool" | "number" | "text"
-    answerR = Literal(BasicTypes.bool_name) | Literal(BasicTypes.number_name) | Literal(BasicTypes.text_name)
+    answerR = pp.Literal(basic_types.BasicTypes.bool_name) | pp.Literal(basic_types.BasicTypes.number_name) | pp.Literal(basic_types.BasicTypes.text_name)
 
-    # question :: Question id ( answerR ) : label
+    # q :: Question id ( answerR ) : label
     question = \
-        (Suppress("Question") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + label
-         ).setParseAction(FormFactory.make_question)
+        (pp.Suppress("Question") + id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + label
+         ).setParseAction(forms.FormFactory.make_question)
 
-    # _statements   :: question+
-    questions = OneOrMore(question)
+    # _statements   :: q+
+    questions = pp.OneOrMore(question)
     
-    statement = Forward()
+    statement = pp.Forward()
 
     # condition :: expr
-    condition = Expressions.expr
+    condition = expressions.Expressions.expr
 
     # pIf :: if ( condition ) { statement+ }
     pIf = \
-        (Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
-         OneOrMore(statement) + Suppress("}")).setParseAction(FormFactory.make_if)
+        (pp.Suppress("if" + pp.Literal("(")) + condition + pp.Suppress(")") + pp.Suppress("{") +
+         pp.OneOrMore(statement) + pp.Suppress("}")).setParseAction(forms.FormFactory.make_if)
 
     # pIfElse :: if ( condition ) { statement+ } else { statement+ }
     pIfElse = \
-        ((Suppress("if" + Literal("(")) + condition + Suppress(")") + Suppress("{") +
-          OneOrMore(statement) + Suppress("}")) + Literal("else") + Suppress("{") + statement + Suppress("}")
-         ).setParseAction(FormFactory.make_else)
+        ((pp.Suppress("if" + pp.Literal("(")) + condition + pp.Suppress(")") + pp.Suppress("{") +
+          pp.OneOrMore(statement) + pp.Suppress("}")) + pp.Literal("else") + pp.Suppress("{") + statement + pp.Suppress("}")
+         ).setParseAction(forms.FormFactory.make_else)
+
+    # assignment ::
+    assignment = \
+        (pp.Suppress("Assignment") + id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + expressions.Expressions.expr
+        ).setParseAction(forms.FormFactory.make_assignment)
 
     # statement :: pIfElse | pIf | statements
     statement <<= \
         pIfElse | \
         pIf | \
-        questions
+        questions | \
+        assignment
 
     # introduction :: Introduction : sentences
-    introduction = (Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences))
+    introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + basic_types.BasicTypes.sentences))
 
     # form :: id _introduction? statement+
-    form = (id + Optional(introduction) + Group(OneOrMore(statement))) + stringEnd()
+    form = (id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()

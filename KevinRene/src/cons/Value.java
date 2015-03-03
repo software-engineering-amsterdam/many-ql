@@ -12,6 +12,10 @@ public abstract class Value<T> {
 		return value;
 	}
 	
+	public boolean isUndefined() {
+		return false;
+	}
+	
 	/**
 	 * Addition
 	 * 

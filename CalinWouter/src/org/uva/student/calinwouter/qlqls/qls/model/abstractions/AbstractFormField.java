@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.qlqls.qls.model.abstractions;
 
-import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Default;
 
@@ -13,10 +12,6 @@ public abstract class AbstractFormField<T> extends AbstractComponent<T> {
     protected String ident;
     protected HashMap<String, Object> stylingArguments = new HashMap<String, Object>();
     private int arg;
-
-    public AbstractFormField(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
 
     public String getFieldName() {
         return ident;
@@ -64,6 +59,6 @@ public abstract class AbstractFormField<T> extends AbstractComponent<T> {
     }
 
     protected void setWidgetForField(String fieldName, Object widget) {
-        qlsInterpreter.setWidgetForField(fieldName, (AbstractWidget<?>) widget);
+//        qlsInterpreter.setWidgetForField(fieldName, (AbstractWidget<?>) widget);
     }
 }

@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TBar extends Token
-{
-    public TBar()
-    {
+public final class TBar extends Token {
+    public TBar() {
         super.setText("|");
     }
 
-    public TBar(int line, int pos)
-    {
+    public TBar(int line, int pos) {
         super.setText("|");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TBar(getLine(), getPos());
+    public Object clone() {
+        return new TBar(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTBar(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TBar text.");
     }
 }

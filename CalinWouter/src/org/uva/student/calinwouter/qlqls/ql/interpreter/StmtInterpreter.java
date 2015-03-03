@@ -4,7 +4,6 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.NotOfTypeException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ExpInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
 import java.util.LinkedList;
@@ -45,7 +44,7 @@ public abstract class StmtInterpreter<T extends FormInterpreter> extends Analysi
             } else {
                 executeStmtList(node.getElseStmtList());
             }
-        } catch(InterpretationException e) {
+        } catch (InterpretationException e) {
             formInterpreter.notifyTypeChecker(e);
         }
     }
@@ -56,7 +55,7 @@ public abstract class StmtInterpreter<T extends FormInterpreter> extends Analysi
             if (testBoolean(node.getExp())) {
                 executeStmtList(node.getThenStmtList());
             }
-        } catch(InterpretationException e) {
+        } catch (InterpretationException e) {
             formInterpreter.notifyTypeChecker(e);
         }
     }

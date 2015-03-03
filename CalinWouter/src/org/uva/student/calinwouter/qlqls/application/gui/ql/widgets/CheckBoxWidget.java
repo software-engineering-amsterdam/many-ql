@@ -13,6 +13,7 @@ public class CheckBoxWidget {
     public JCheckBox getWidget() {
         return checkBox;
     }
+
     public CheckBoxWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter) {
         checkBox = new JCheckBox();
 

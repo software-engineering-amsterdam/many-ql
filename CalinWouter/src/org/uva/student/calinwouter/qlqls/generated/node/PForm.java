@@ -2,7 +2,6 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-public abstract class PForm extends Node
-{
+public abstract class PForm extends Node {
     // Empty body
 }

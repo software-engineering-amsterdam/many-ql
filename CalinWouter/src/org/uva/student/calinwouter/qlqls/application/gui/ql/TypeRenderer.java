@@ -7,7 +7,7 @@ import org.uva.student.calinwouter.qlqls.generated.node.ABoolType;
 import org.uva.student.calinwouter.qlqls.generated.node.AIntType;
 import org.uva.student.calinwouter.qlqls.generated.node.AStringType;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 
 import java.awt.*;
 
@@ -39,7 +39,7 @@ public class TypeRenderer extends AnalysisAdapter {
         widget = textBoxWidget.getWidget();
     }
 
-    public TypeRenderer(String identifier, HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker){
+    public TypeRenderer(String identifier, HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker) {
         this.headlessFormInterpreter = headlessFormInterpreter;
         this.formTypeChecker = formTypeChecker;
         this.identifier = identifier;

@@ -1,5 +1,5 @@
-from QL.Validators.type_checker import *
-from QL.Main.exceptions import *
+import QL.Validators.type_checker as type_checker
+import QL.Main.exceptions as exceptions
 
 
 class Mapper:
@@ -10,8 +10,8 @@ class Mapper:
 
     def update(self, question, answer):
         qid = question.get_id()
-        if answer is not None and not TypeChecker.type_checker(answer, question.get_type()):
-            raise QException("Answer type has different type than defined in the question properties.")
+        if answer is not None and not type_checker.TypeChecker.type_checker(answer, question.get_type()):
+            raise exceptions.QException("Answer type has different type than defined in the q properties.")
         self.answers[qid] = answer
 
     def get_answers(self):
@@ -20,7 +20,7 @@ class Mapper:
     def get_answer_by_id(self, qid):
         if qid in self.answers.keys():
             return self.answers[qid]
-        raise QException("Answer id " + qid + " does not exist.")
+        raise exceptions.QException("Answer id " + qid + " does not exist.")
 
     def id_exists(self, qid):
         if qid in self.answers.keys():

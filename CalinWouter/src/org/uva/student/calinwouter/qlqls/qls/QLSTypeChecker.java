@@ -3,9 +3,7 @@ package org.uva.student.calinwouter.qlqls.qls;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractPushable;
-import org.uva.student.calinwouter.qlqls.qls.model.helper.Tuple;
 
-import javax.naming.OperationNotSupportedException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -27,7 +25,7 @@ public class QLSTypeChecker extends QLSInterpreter {
                 if (fieldToWidgetMap.get(tuple.getKey()) != null) {
                     tuple.getValue().callTypeMethod(fieldToWidgetMap.get(tuple.getKey()));
                 }
-            } catch(UnsupportedOperationException e) {
+            } catch (UnsupportedOperationException e) {
                 unallowedWidgetsTypes.add(tuple.getKey());
             }
         }

@@ -116,7 +116,7 @@ class ParserSpec extends Specification with ParserMatchers {
 
     "be valid with a == operator on strings" in {
       equality must succeedOn("\"a\" == \"b\"")
-        .withResult(Equal(Literal(StringType(), StringValue("\"a\"")), Literal(StringType(), StringValue("\"b\""))))
+        .withResult(Equal(Literal(StringType(), StringValue("a")), Literal(StringType(), StringValue("b"))))
     }
 
     "be valid with a != operator on booleans" in {
@@ -131,7 +131,7 @@ class ParserSpec extends Specification with ParserMatchers {
 
     "be valid with a != operator on strings" in {
       equality must succeedOn("\"a\" != \"b\"")
-        .withResult(NotEqual(Literal(StringType(), StringValue("\"a\"")), Literal(StringType(), StringValue("\"b\""))))
+        .withResult(NotEqual(Literal(StringType(), StringValue("a")), Literal(StringType(), StringValue("b"))))
     }
   }
 
@@ -165,7 +165,7 @@ class ParserSpec extends Specification with ParserMatchers {
 
     "be valid with an plus operator on strings" in {
       sum must succeedOn("\"a\" + \"b\"")
-        .withResult(Add(Literal(StringType(), StringValue("\"a\"")), Literal(StringType(), StringValue("\"b\""))))
+        .withResult(Add(Literal(StringType(), StringValue("a")), Literal(StringType(), StringValue("b"))))
     }
 
     "be valid with multiple plus operators" in {

@@ -1,16 +1,16 @@
 package nl.uva.se.ast.expression.literal;
 
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.visitor.ExpressionVisitor;
 
-public class StringLiteral extends AbstractLiteral {
+public class StringLiteral extends AbstractLiteral<String> {
 
-	public StringLiteral(int lineNumber, int offset, String name) {
-		super(lineNumber, offset, name);
+	public StringLiteral(int lineNumber, int offset, String value) {
+		super(lineNumber, offset, value);
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

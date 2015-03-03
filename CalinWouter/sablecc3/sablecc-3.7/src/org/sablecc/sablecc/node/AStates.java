@@ -2,58 +2,51 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AStates extends PStates
-{
+public final class AStates extends PStates {
     private final LinkedList<TId> _listId_ = new LinkedList<TId>();
 
-    public AStates()
-    {
+    public AStates() {
         // Constructor
     }
 
     public AStates(
-        @SuppressWarnings("hiding") List<?> _listId_)
-    {
+            @SuppressWarnings("hiding") List<?> _listId_) {
         // Constructor
         setListId(_listId_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AStates(
-            cloneList(this._listId_));
+                cloneList(this._listId_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAStates(this);
     }
 
-    public LinkedList<TId> getListId()
-    {
+    public LinkedList<TId> getListId() {
         return this._listId_;
     }
 
-    public void setListId(List<?> list)
-    {
-        for(TId e : this._listId_)
-        {
+    public void setListId(List<?> list) {
+        for (TId e : this._listId_) {
             e.parent(null);
         }
         this._listId_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             TId e = (TId) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -63,18 +56,15 @@ public final class AStates extends PStates
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._listId_);
+                + toString(this._listId_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._listId_.remove(child))
-        {
+        if (this._listId_.remove(child)) {
             return;
         }
 
@@ -82,15 +72,11 @@ public final class AStates extends PStates
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<TId> i = this._listId_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<TId> i = this._listId_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((TId) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

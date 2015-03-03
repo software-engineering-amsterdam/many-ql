@@ -2,55 +2,45 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AFormBegin extends PBegin
-{
+public final class AFormBegin extends PBegin {
     private PForm _form_;
 
-    public AFormBegin()
-    {
+    public AFormBegin() {
         // Constructor
     }
 
     public AFormBegin(
-        @SuppressWarnings("hiding") PForm _form_)
-    {
+            @SuppressWarnings("hiding") PForm _form_) {
         // Constructor
         setForm(_form_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AFormBegin(
-            cloneNode(this._form_));
+                cloneNode(this._form_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAFormBegin(this);
     }
 
-    public PForm getForm()
-    {
+    public PForm getForm() {
         return this._form_;
     }
 
-    public void setForm(PForm node)
-    {
-        if(this._form_ != null)
-        {
+    public void setForm(PForm node) {
+        if (this._form_ != null) {
             this._form_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AFormBegin extends PBegin
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._form_);
+                + toString(this._form_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._form_ == child)
-        {
+        if (this._form_ == child) {
             this._form_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AFormBegin extends PBegin
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._form_ == oldChild)
-        {
+        if (this._form_ == oldChild) {
             setForm((PForm) newChild);
             return;
         }

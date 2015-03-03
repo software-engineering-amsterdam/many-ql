@@ -8,7 +8,8 @@ public class CodeLines {
 	
 	public CodeLines (int startLine, int endLine){
 		this.codeLines= new Tuple<Integer,Integer>(startLine,endLine);
-		}
+	}
+	
 	public Tuple<Integer, Integer> getCodeLocation(){
 		return this.codeLines;
 	}

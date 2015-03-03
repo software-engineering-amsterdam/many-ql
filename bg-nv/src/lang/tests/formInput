@@ -27,5 +27,15 @@ form sample
     string combinedName "Your name is" name + " " + surname
     integer age2 "Your age is" age
     boolean maritalStatus2 "You are married" maritalStatus
-/*    */
+/*
+form Box1HouseOwning {
+    boolean hasSoldHouse "Did you sell a house in 2010?"
+    boolean hasBoughtHouse "Did you by a house in 2010?"
+    boolean hasMaintLoan "Did you enter a loan for maintenance/reconstruction?"
+
+ //if (hasSoldHouse) {
+    decimal sellingPrice "Price the house was sold for:"
+    decimal privateDebt "Private debts for the sold house:" sellingPrice / 2
+ //}
+   */
 }

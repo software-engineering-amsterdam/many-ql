@@ -2,7 +2,7 @@ package nl.uva.se.ast.expression.logical;
 
 import nl.uva.se.ast.expression.Binary;
 import nl.uva.se.ast.expression.Expression;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.visitor.ExpressionVisitor;
 
 public class LessOrEqual extends Binary{
 
@@ -12,7 +12,8 @@ public class LessOrEqual extends Binary{
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
+	
 }

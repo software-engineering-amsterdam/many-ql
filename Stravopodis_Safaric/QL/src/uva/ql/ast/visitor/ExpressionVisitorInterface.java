@@ -2,9 +2,9 @@ package uva.ql.ast.visitor;
 
 import uva.ql.ast.expressions.*;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
-import uva.ql.ast.expressions.literals.DecimalLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.IntLiteral;
+import uva.ql.ast.expressions.literals.MoneyLiteral;
 import uva.ql.ast.expressions.literals.StringLiteral;
 import uva.ql.ast.expressions.logic.And;
 import uva.ql.ast.expressions.logic.Equal;
@@ -42,7 +42,7 @@ public interface ExpressionVisitorInterface<T>{
 	
 	public T visitIdentifier(Identifier identifier);
 	public T visitBooleanLiteral(BooleanLiteral booleanLiteral);
-	public T visitDecimalLiteral(DecimalLiteral decimalLiteral);
+	public T visitMoneyLiteral(MoneyLiteral moneyLiteral);
 	public T visitIntLiteral(IntLiteral intLiteral);
 	public T visitStringLiteral(StringLiteral stringLiteral);
 }

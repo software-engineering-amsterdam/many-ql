@@ -5,29 +5,24 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TString extends Token
-{
-    public TString(String text)
-    {
+public final class TString extends Token {
+    public TString(String text) {
         setText(text);
     }
 
-    public TString(String text, int line, int pos)
-    {
+    public TString(String text, int line, int pos) {
         setText(text);
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TString(getText(), getLine(), getPos());
+    public Object clone() {
+        return new TString(getText(), getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTString(this);
     }
 }

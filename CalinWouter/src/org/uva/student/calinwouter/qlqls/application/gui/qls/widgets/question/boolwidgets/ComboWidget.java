@@ -20,10 +20,10 @@ public class ComboWidget implements IWidget {
     }
 
     public ComboWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter, Combo combo) {
-        yesNoComboBox = new JComboBox(new String[] {combo.getYesLbl(), combo.getNoLbl()});
+        yesNoComboBox = new JComboBox(new String[]{combo.getYesLbl(), combo.getNoLbl()});
         yesNoComboBox.setSelectedIndex(-1);
 
-        yesNoComboBox.addItemListener( new ItemListener() {
+        yesNoComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (yesNoComboBox.getSelectedIndex() == 0) {

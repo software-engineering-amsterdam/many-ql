@@ -9,8 +9,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+//import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -329,15 +336,15 @@ public class SimpleGui implements ModelVisitor<Node>
         this.refreshables.add(input);
 
         TextInputControl textField = input.getControl();
-//        Value val = valueTable.getValue(input.getId());
-//
-//        String textValue = "";
-//        if (!val.isUndefined())
-//        {
-//            Integer intVal = ((IntegerValue)val).getValue();
-//            textValue = intVal.toString();
-//        }
-//        textField.setText(textValue);
+        Value val = valueTable.getValue(input.getId());
+
+        String textValue = "";
+        if (!val.isUndefined())
+        {
+            Integer intVal = ((IntegerValue)val).getValue();
+            textValue = intVal.toString();
+        }
+        textField.setText(textValue);
 
         return textField;
     }

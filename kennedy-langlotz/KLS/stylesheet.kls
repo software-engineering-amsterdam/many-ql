@@ -27,9 +27,7 @@ page "Expenses"
         font-style: bold
     end
 
-    /* Does not work!
     default set
         font-size: 15
     end
-    */
 end

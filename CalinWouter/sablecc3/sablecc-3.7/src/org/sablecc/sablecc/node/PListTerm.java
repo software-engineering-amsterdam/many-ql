@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PListTerm extends Node
-{
+public abstract class PListTerm extends Node {
     // Empty body
 }

@@ -13,9 +13,13 @@ public abstract class FormField {
         return formInterpreter.getField(variable);
     }
 
-    public String getVariable() { return variable; }
+    public String getVariable() {
+        return variable;
+    }
 
-    public String getLabel() { return label; }
+    public String getLabel() {
+        return label;
+    }
 
     public void setValue(Value<?> value) {
         formInterpreter.setField(variable, value);

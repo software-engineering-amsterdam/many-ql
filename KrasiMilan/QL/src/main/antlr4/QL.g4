@@ -20,9 +20,8 @@ conditional: 'if' '(' expr ')' '{' question+ '}'
 
 type: BOOL_TYPE
     | STRING_TYPE
-    | INT_TYPE
+    | NUM_TYPE
     | DATE_TYPE
-    | DECIMAL_TYPE
     ;
 
 
@@ -33,9 +32,8 @@ expr: expr op=(MUL|DIV) expr                      # binaryExpr
     | expr op=AND expr                            # binaryExpr
     | expr op=OR expr                             # binaryExpr
     | '(' expr ')'                                # parenthesis
-    | BOOLEAN                                     # boolean
-    | DECIMAL                                     # decimal 
-    | INT                                         # integer
+    | BOOLEAN                                     # boolean 
+    | NUMBER                                      # number
     | STRING                                      # string
     | ID                                          # id
     ;
@@ -45,9 +43,8 @@ expr: expr op=(MUL|DIV) expr                      # binaryExpr
 // Types
 BOOL_TYPE    : 'boolean' ;
 STRING_TYPE  : 'string' ;
-INT_TYPE     : 'integer' ;
+NUM_TYPE     : 'number' ;
 DATE_TYPE    : 'date' ;
-DECIMAL_TYPE : 'decimal' ;
 MONEY_TYPE   : 'money' ;
 
 
@@ -82,7 +79,8 @@ ID : [a-zA-Z][a-zA-Z0-9]*;
 // Numbers, stolen from JSON.g4 in antlr/grammars-v4/ repository
 INT : '-'? INT_FRAG;
 
-DECIMAL : '-'? INT_FRAG '.' [0-9]+ EXP? // 1.35, 1.35E-9, 0.3, -4.5
+NUMBER :  '-'? INT_FRAG
+    |     '-'? INT_FRAG '.' [0-9]+ EXP? // 1.35, 1.35E-9, 0.3, -4.5
     |     '-'? INT_FRAG EXP // 1e10 -3e4
     ;
 

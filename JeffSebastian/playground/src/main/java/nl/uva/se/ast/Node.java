@@ -1,7 +1,5 @@
 package nl.uva.se.ast;
 
-import nl.uva.se.visitor.Visitor;
-
 public abstract class Node {
 	
 	private final int lineNumber;
@@ -11,8 +9,6 @@ public abstract class Node {
 		this.lineNumber = lineNumber;
 		this.offset = offset;
 	}
-
-	public abstract void accept(Visitor visitor);
 
 	public int getLineNumber() {
 		return lineNumber;

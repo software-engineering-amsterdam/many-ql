@@ -7,62 +7,55 @@
 
 package org.sablecc.sablecc;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-class DisplayLicense
-{
-  DisplayLicense()
-  {
-    try
-    {
-      BufferedReader in =
-        new BufferedReader(
-          new InputStreamReader(
-            getClass().getResourceAsStream("LICENSE")));
-      System.out.println("---- FILE: LICENSE ----");
+class DisplayLicense {
+    DisplayLicense() {
+        try {
+            BufferedReader in =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    getClass().getResourceAsStream("LICENSE")));
+            System.out.println("---- FILE: LICENSE ----");
 
-      String s;
-      while((s = in.readLine()) != null)
-      {
-        System.out.println(s);
-      }
-      in.close();
+            String s;
+            while ((s = in.readLine()) != null) {
+                System.out.println(s);
+            }
+            in.close();
 
-      System.out.println("---- END OF FILE: SableCC-LICENSE ----");
-      System.out.println();
+            System.out.println("---- END OF FILE: SableCC-LICENSE ----");
+            System.out.println();
 
-      System.out.println("---- FILE: AUTHORS ----");
-      in =
-        new BufferedReader(
-          new InputStreamReader(
-            getClass().getResourceAsStream("AUTHORS")));
+            System.out.println("---- FILE: AUTHORS ----");
+            in =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    getClass().getResourceAsStream("AUTHORS")));
 
-      while((s = in.readLine()) != null)
-      {
-        System.out.println(s);
-      }
-      in.close();
-      System.out.println("---- END OF FILE: AUTHORS ----");
-      System.out.println();
+            while ((s = in.readLine()) != null) {
+                System.out.println(s);
+            }
+            in.close();
+            System.out.println("---- END OF FILE: AUTHORS ----");
+            System.out.println();
 
-      System.out.println("---- FILE: COPYING-LESSER ----");
+            System.out.println("---- FILE: COPYING-LESSER ----");
 
-      in =
-        new BufferedReader(
-          new InputStreamReader(
-            getClass().getResourceAsStream("COPYING-LESSER")));
+            in =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    getClass().getResourceAsStream("COPYING-LESSER")));
 
-      while((s = in.readLine()) != null)
-      {
-        System.out.println(s);
-      }
-      in.close();
-      System.out.println("---- END OF FILE: COPYING-LESSER ----");
+            while ((s = in.readLine()) != null) {
+                System.out.println(s);
+            }
+            in.close();
+            System.out.println("---- END OF FILE: COPYING-LESSER ----");
+        } catch (Exception e) {
+            System.out.println(e);
+            System.exit(1);
+        }
     }
-    catch(Exception e)
-    {
-      System.out.println(e);
-      System.exit(1);
-    }
-  }
 }

@@ -4,11 +4,10 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAd
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractModel;
+import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractPushable;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
-import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractPushable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -22,9 +21,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     /* This string is used for fetching the IModel objects. */
     private final static String COMPONENTS_PACKAGE_PREFIX =
             QLSInterpreter.class.getPackage().getName().toString() + ".model.components.";
-
     private Stack<AbstractPushable<?>> argumentStack = new Stack<AbstractPushable<?>>();
-
     HashMap<String, AbstractWidget<?>> fieldToWidgetMap = new HashMap<String, AbstractWidget<?>>();
 
     public void setWidgetForField(String fieldName, AbstractWidget<?> widget) {
@@ -32,7 +29,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     }
 
     public AbstractPushable<?> getValue() {
-        assert(argumentStack.size() == 1);
+        assert (argumentStack.size() == 1);
         return argumentStack.get(0);
     }
 
@@ -61,10 +58,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     private AbstractModel<?> newInstanceForClassPathWithQlsInterpreterAsArgument(String classPath)
             throws NoSuchMethodException, IllegalAccessException, InstantiationException,
             InvocationTargetException, ClassNotFoundException {
-        Class<AbstractModel<?>> cls = (Class<AbstractModel<?>>) Class.forName(classPath);
-        Constructor<AbstractModel<?>> constructor = cls.getDeclaredConstructor(this.getClass());
-        AbstractModel<?> model = constructor.newInstance(this);
-        return model;
+        return (AbstractModel<?>) Class.forName(classPath).newInstance();
     }
 
     private static void applyArgumentsToModel(AbstractModel<?> model, List<AbstractPushable<?>> args) {

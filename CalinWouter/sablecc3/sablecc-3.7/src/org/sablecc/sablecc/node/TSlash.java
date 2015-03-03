@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TSlash extends Token
-{
-    public TSlash()
-    {
+public final class TSlash extends Token {
+    public TSlash() {
         super.setText("/");
     }
 
-    public TSlash(int line, int pos)
-    {
+    public TSlash(int line, int pos) {
         super.setText("/");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TSlash(getLine(), getPos());
+    public Object clone() {
+        return new TSlash(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTSlash(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TSlash text.");
     }
 }

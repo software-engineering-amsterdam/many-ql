@@ -3,25 +3,12 @@ package gui
 import ast._
 import evaluator.Evaluator
 
-import scala.collection.immutable.StringOps
-import scala.util.Try
-
 import scalafx.collections.ObservableMap
-import scalafx.collections.ObservableMap.Replace
-
-import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
 
-class FormBuilder {
+class FormBuilder(var env: ObservableMap[String, Value] = ObservableMap.empty[String, Value]) {
 
   val evaluator = new Evaluator()
-  val dependencyResolver = new DependencyResolver()
-
-  type VariableName = String
-  type Dependencies = List[VariableName]
-  type EvalEnvironment = ObservableMap[VariableName, Value]
-
-  var env: EvalEnvironment = ObservableMap.empty[VariableName, Value]
 
   def build(form: Form): FormGUI = {
     env = evaluator.eval(form)
@@ -29,7 +16,7 @@ class FormBuilder {
   }
 
   def build(s: Statement, visibilityExpressions: List[Expression] = List()): List[VBox] = s match {
-    case Sequence(statements: List[Statement]) => statements.flatMap(s => build(s, visibilityExpressions))
+    case Sequence(statements) => statements.flatMap(s => build(s, visibilityExpressions))
     case i: IfStatement => buildIfStatement(i, visibilityExpressions)
     case q: Question => List(buildQuestion(q, visibilityExpressions))
   }
@@ -45,118 +32,9 @@ class FormBuilder {
 
   def buildQuestion(q: Question, visibilityExpressions: List[Expression]): VBox = {
     q._type match {
-      case BooleanType() => new BooleanQuestionBox(q, visibilityExpressions)
-      case NumberType() => new NumberQuestionBox(q, visibilityExpressions)
-      case StringType() => new StringQuestionBox(q, visibilityExpressions)
+      case BooleanType() => new BooleanQuestionBox(q, visibilityExpressions, env)
+      case NumberType() => new NumberQuestionBox(q, visibilityExpressions, env)
+      case StringType() => new StringQuestionBox(q, visibilityExpressions, env)
     }
-  }
-
-  abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression]) extends VBox {
-    val valueDeps: Dependencies = q.optionalExpression.fold[Dependencies](List())(e => dependencyResolver.resolve(e))
-    val visibilityDeps: Dependencies = visibilityExpressions.flatMap(e => dependencyResolver.resolve(e))
-    def isVisible: Boolean = visibilityExpressions.forall(evaluator.eval(_, env) == BooleanValue(true))
-    visible = isVisible
-  }
-
-  class BooleanQuestionBox(q: Question, visibilityExpressions: List[Expression]) extends QuestionBox(q: Question, visibilityExpressions: List[Expression]) {
-    val name: VariableName = q.variable.name
-
-    children.add(new Label(q.label))
-    val field: CheckBox = new CheckBox
-    children.add(field)
-
-    def value: Boolean = q.optionalExpression match {
-      case Some(e) => evaluator.eval(e, env) match {
-        case BooleanValue(v) => v
-        case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
-      }
-      case None => false
-    }
-    field.selected = value
-    field.selected.onChange((obs, oldValue, newValue) => { env += (name -> BooleanValue(newValue)) })
-
-    env.onChange((map, change) => change match {
-      case Replace(key, added, removed) => {
-        if (visibilityDeps contains key) {
-          visible = isVisible
-        }
-
-        // Only evaluate if visible
-        if (visible.value) {
-          if (valueDeps contains key) {
-            field.selected = value
-          }
-        }
-      }
-    })
-  }
-
-  class NumberQuestionBox(q: Question, visibilityExpressions: List[Expression]) extends QuestionBox(q: Question, visibilityExpressions: List[Expression]) {
-    val name: VariableName = q.variable.name
-
-    children.add(new Label(q.label))
-    val field: TextField = new TextField
-    children.add(field)
-
-    def value: Int = q.optionalExpression match {
-      case Some(e) => evaluator.eval(e, env) match {
-        case NumberValue(v) => v
-        case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
-      }
-      case None => 0
-    }
-    field.text = value.toString
-    field.text.onChange((obs, oldValue, newValue) => {
-      val newIntV = Try(new StringOps(newValue).toInt).toOption.getOrElse(0)
-      env += (name -> NumberValue(newIntV))
-    })
-
-    env.onChange((map, change) => change match {
-      case Replace(key, added, removed) => {
-        if (visibilityDeps contains key) {
-          visible = isVisible
-        }
-
-        // Only evaluate if visible
-        if (visible.value) {
-          if (valueDeps contains key) {
-            field.text = value.toString
-          }
-        }
-      }
-    })
-  }
-
-  class StringQuestionBox(q: Question, visibilityExpressions: List[Expression]) extends QuestionBox(q: Question, visibilityExpressions: List[Expression]) {
-    val name: VariableName = q.variable.name
-
-    children.add(new Label(q.label))
-    val field: TextField = new TextField
-    children.add(field)
-
-    def value: String = q.optionalExpression match {
-      case Some(e) => evaluator.eval(e, env) match {
-        case StringValue(v) => v
-        case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
-      }
-      case None => ""
-    }
-    field.text = value
-    field.text.onChange((obs, oldValue, newValue) => { env += (name -> StringValue(newValue)) })
-
-    env.onChange((map, change) => change match {
-      case Replace(key, added, removed) => {
-        if (visibilityDeps contains key) {
-          visible = isVisible
-        }
-
-        // Only evaluate if visible
-        if (visible.value) {
-          if (valueDeps contains key) {
-            field.text = value
-          }
-        }
-      }
-    })
   }
 }

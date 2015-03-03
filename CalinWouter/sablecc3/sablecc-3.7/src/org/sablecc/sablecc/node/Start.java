@@ -5,54 +5,44 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class Start extends Node
-{
+public final class Start extends Node {
     private PGrammar _pGrammar_;
     private EOF _eof_;
 
-    public Start()
-    {
+    public Start() {
         // Empty body
     }
 
     public Start(
-        @SuppressWarnings("hiding") PGrammar _pGrammar_,
-        @SuppressWarnings("hiding") EOF _eof_)
-    {
+            @SuppressWarnings("hiding") PGrammar _pGrammar_,
+            @SuppressWarnings("hiding") EOF _eof_) {
         setPGrammar(_pGrammar_);
         setEOF(_eof_);
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new Start(
-            cloneNode(this._pGrammar_),
-            cloneNode(this._eof_));
+                cloneNode(this._pGrammar_),
+                cloneNode(this._eof_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseStart(this);
     }
 
-    public PGrammar getPGrammar()
-    {
+    public PGrammar getPGrammar() {
         return this._pGrammar_;
     }
 
-    public void setPGrammar(PGrammar node)
-    {
-        if(this._pGrammar_ != null)
-        {
+    public void setPGrammar(PGrammar node) {
+        if (this._pGrammar_ != null) {
             this._pGrammar_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -62,22 +52,17 @@ public final class Start extends Node
         this._pGrammar_ = node;
     }
 
-    public EOF getEOF()
-    {
+    public EOF getEOF() {
         return this._eof_;
     }
 
-    public void setEOF(EOF node)
-    {
-        if(this._eof_ != null)
-        {
+    public void setEOF(EOF node) {
+        if (this._eof_ != null) {
             this._eof_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -88,16 +73,13 @@ public final class Start extends Node
     }
 
     @Override
-    void removeChild(Node child)
-    {
-        if(this._pGrammar_ == child)
-        {
+    void removeChild(Node child) {
+        if (this._pGrammar_ == child) {
             this._pGrammar_ = null;
             return;
         }
 
-        if(this._eof_ == child)
-        {
+        if (this._eof_ == child) {
             this._eof_ = null;
             return;
         }
@@ -106,16 +88,13 @@ public final class Start extends Node
     }
 
     @Override
-    void replaceChild(Node oldChild, Node newChild)
-    {
-        if(this._pGrammar_ == oldChild)
-        {
+    void replaceChild(Node oldChild, Node newChild) {
+        if (this._pGrammar_ == oldChild) {
             setPGrammar((PGrammar) newChild);
             return;
         }
 
-        if(this._eof_ == oldChild)
-        {
+        if (this._eof_ == oldChild) {
             setEOF((EOF) newChild);
             return;
         }
@@ -124,10 +103,9 @@ public final class Start extends Node
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "" +
-            toString(this._pGrammar_) +
-            toString(this._eof_);
+                toString(this._pGrammar_) +
+                toString(this._eof_);
     }
 }

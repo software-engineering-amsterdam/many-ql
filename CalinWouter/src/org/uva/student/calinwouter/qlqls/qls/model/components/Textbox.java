@@ -8,10 +8,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCal
 
 public class Textbox extends AbstractWidget<Textbox> {
 
-    public Textbox(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     @Override
     public void apply(IModel iModel) {
         iModel.caseTextbox(this);

@@ -11,6 +11,7 @@ public abstract class Literal extends ASTNode {
 		super(codeLines);
 		
 	}
+	
 	@Override
 	public abstract String toString();
 	public abstract GenericValue<?> evaluate();

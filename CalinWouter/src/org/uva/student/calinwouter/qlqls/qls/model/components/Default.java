@@ -12,10 +12,6 @@ public class Default extends AbstractComponent<Default> {
     private TypeDescriptor<?> type;
     private WidgetSettingsModel widgetSettingsModel;
 
-    public Default(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     public TypeDescriptor<?> getType() {
         return type;
     }
@@ -24,7 +20,7 @@ public class Default extends AbstractComponent<Default> {
     public void caseHashMap(HashMap<String, Object> hashMap) {
         try {
             widgetSettingsModel = new WidgetSettingsModel(hashMap);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

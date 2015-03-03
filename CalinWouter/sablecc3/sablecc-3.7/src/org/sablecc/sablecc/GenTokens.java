@@ -7,198 +7,161 @@
 
 package org.sablecc.sablecc;
 
-import java.io.*;
-import java.util.*;
-
 import org.sablecc.sablecc.analysis.*;
 import org.sablecc.sablecc.node.*;
 
-@SuppressWarnings({"rawtypes","unchecked"})
-public class GenTokens extends DepthFirstAdapter
-{
-  private MacroExpander macros;
-  private ResolveIds ids;
-  private File pkgDir;
-  private String pkgName;
+import java.io.*;
+import java.util.LinkedList;
 
-  //    final GenTokens instance = this;
-  String text;
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class GenTokens extends DepthFirstAdapter {
+    private MacroExpander macros;
+    private ResolveIds ids;
+    private File pkgDir;
+    private String pkgName;
 
-  public GenTokens(ResolveIds ids)
-  {
-    this.ids = ids;
+    //    final GenTokens instance = this;
+    String text;
 
-    try
-    {
-      macros = new MacroExpander(
-                 new InputStreamReader(
-                   getClass().getResourceAsStream("tokens.txt")));
-    }
-    catch(IOException e)
-    {
-      throw new RuntimeException("unable to open tokens.txt.");
-    }
+    public GenTokens(ResolveIds ids) {
+        this.ids = ids;
 
-    pkgDir = new File(ids.pkgDir, "node");
-    pkgName = ids.pkgName.equals("") ? "node" : ids.pkgName + ".node";
+        try {
+            macros = new MacroExpander(
+                    new InputStreamReader(
+                            getClass().getResourceAsStream("tokens.txt")));
+        } catch (IOException e) {
+            throw new RuntimeException("unable to open tokens.txt.");
+        }
 
-    if(!pkgDir.exists())
-    {
-      if(!pkgDir.mkdir())
-      {
-        throw new RuntimeException("Unable to create " + pkgDir.getAbsolutePath());
-      }
-    }
-  }
+        pkgDir = new File(ids.pkgDir, "node");
+        pkgName = ids.pkgName.equals("") ? "node" : ids.pkgName + ".node";
 
-  @Override
-  public void inATokenDef(ATokenDef node)
-  {
-    String name = (String) ids.names.get(node);
-
-    BufferedWriter file;
-
-    try
-    {
-      file = new BufferedWriter(
-               new FileWriter(
-                 new File(pkgDir, name + ".java")));
-    }
-    catch(IOException e)
-    {
-      throw new RuntimeException("Unable to create " + new File(pkgDir, name + ".java").getAbsolutePath());
+        if (!pkgDir.exists()) {
+            if (!pkgDir.mkdir()) {
+                throw new RuntimeException("Unable to create " + pkgDir.getAbsolutePath());
+            }
+        }
     }
 
-    text = null;
+    @Override
+    public void inATokenDef(ATokenDef node) {
+        String name = (String) ids.names.get(node);
 
-    ARegExp regExp = (ARegExp) node.getRegExp();
+        BufferedWriter file;
 
-    LinkedList concats = regExp.getConcats();
-
-    if(concats.size() == 1)
-    {
-      AConcat concat = (AConcat)concats.getFirst();
-      LinkedList unExps = concat.getUnExps();
-
-      if(unExps.size() == 1)
-      {
-        AUnExp unExp = (AUnExp) unExps.getFirst();
-
-        PBasic basic = unExp.getBasic();
-
-        if((basic instanceof AStringBasic) &&
-            (unExp.getUnOp() == null))
-        {
-          text = ((AStringBasic) basic).getString().getText();
-          text = text.substring(1, text.length() - 1);
+        try {
+            file = new BufferedWriter(
+                    new FileWriter(
+                            new File(pkgDir, name + ".java")));
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to create " + new File(pkgDir, name + ".java").getAbsolutePath());
         }
-        else if((basic instanceof ACharBasic) &&
-                (unExp.getUnOp() == null))
-        {
-          PChar pChar = ((ACharBasic) basic).getChar();
 
-          if(pChar instanceof ACharChar)
-          {
-            text = ((ACharChar) pChar).getChar().getText();
-            text = text.substring(1, text.length() - 1);
-          }
+        text = null;
+
+        ARegExp regExp = (ARegExp) node.getRegExp();
+
+        LinkedList concats = regExp.getConcats();
+
+        if (concats.size() == 1) {
+            AConcat concat = (AConcat) concats.getFirst();
+            LinkedList unExps = concat.getUnExps();
+
+            if (unExps.size() == 1) {
+                AUnExp unExp = (AUnExp) unExps.getFirst();
+
+                PBasic basic = unExp.getBasic();
+
+                if ((basic instanceof AStringBasic) &&
+                        (unExp.getUnOp() == null)) {
+                    text = ((AStringBasic) basic).getString().getText();
+                    text = text.substring(1, text.length() - 1);
+                } else if ((basic instanceof ACharBasic) &&
+                        (unExp.getUnOp() == null)) {
+                    PChar pChar = ((ACharBasic) basic).getChar();
+
+                    if (pChar instanceof ACharChar) {
+                        text = ((ACharChar) pChar).getChar().getText();
+                        text = text.substring(1, text.length() - 1);
+                    }
+                }
+            }
         }
-      }
+
+        try {
+            if (text == null) {
+                ids.fixedTokens.put(node, new Boolean(false));
+
+                macros.apply(file, "VariableTextToken", new String[]{pkgName,
+                        ids.pkgName.equals("") ? "analysis" : ids.pkgName + ".analysis",
+                        name});
+            } else {
+                ids.fixedTokens.put(node, new Boolean(true));
+
+                macros.apply(file, "FixedTextToken", new String[]{pkgName,
+                        ids.pkgName.equals("") ? "analysis" : ids.pkgName + ".analysis",
+                        name, processText(text)});
+
+                ids.errorNames.put(node, "'" + text + "'");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("An error occured while writing to " +
+                    new File(pkgDir, name + ".java").getAbsolutePath());
+        }
+
+        try {
+            file.close();
+        } catch (IOException e) {
+        }
     }
 
-    try
-    {
-      if(text == null)
-      {
-        ids.fixedTokens.put(node, new Boolean(false));
+    private String processText(String s) {
+        StringBuffer result = new StringBuffer();
 
-        macros.apply(file, "VariableTextToken", new String[] { pkgName,
-                     ids.pkgName.equals("") ? "analysis" : ids.pkgName + ".analysis",
-                     name});
-      }
-      else
-      {
-        ids.fixedTokens.put(node, new Boolean(true));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
 
-        macros.apply(file, "FixedTextToken", new String[] { pkgName,
-                     ids.pkgName.equals("") ? "analysis" : ids.pkgName + ".analysis",
-                     name, processText(text)});
+            switch (c) {
+                case '\b': {
+                    result.append("\\t");
+                    break;
+                }
+                case '\t': {
+                    result.append("\\t");
+                    break;
+                }
+                case '\n': {
+                    result.append("\\n");
+                    break;
+                }
+                case '\f': {
+                    result.append("\\f");
+                    break;
+                }
+                case '\r': {
+                    result.append("\\r");
+                    break;
+                }
+                case '\"': {
+                    result.append("\\\"");
+                    break;
+                }
+                case '\'': {
+                    result.append("\\\'");
+                    break;
+                }
+                case '\\': {
+                    result.append("\\\\");
+                    break;
+                }
+                default: {
+                    result.append(c);
+                }
+            }
+        }
 
-        ids.errorNames.put(node, "'" + text + "'");
-      }
+        return result.toString();
     }
-    catch(IOException e)
-    {
-      throw new RuntimeException("An error occured while writing to " +
-                                 new File(pkgDir, name + ".java").getAbsolutePath());
-    }
-
-    try
-    {
-      file.close();
-    }
-    catch(IOException e)
-    {}
-  }
-
-  private String processText(String s)
-  {
-    StringBuffer result = new StringBuffer();
-
-    for(int i = 0; i < s.length(); i++)
-    {
-      char c = s.charAt(i);
-
-      switch(c)
-      {
-      case '\b':
-        {
-          result.append("\\t");
-          break;
-        }
-      case '\t':
-        {
-          result.append("\\t");
-          break;
-        }
-      case '\n':
-        {
-          result.append("\\n");
-          break;
-        }
-      case '\f':
-        {
-          result.append("\\f");
-          break;
-        }
-      case '\r':
-        {
-          result.append("\\r");
-          break;
-        }
-      case '\"':
-        {
-          result.append("\\\"");
-          break;
-        }
-      case '\'':
-        {
-          result.append("\\\'");
-          break;
-        }
-      case '\\':
-        {
-          result.append("\\\\");
-          break;
-        }
-      default:
-        {
-          result.append(c);
-        }
-      }
-    }
-
-    return result.toString();
-  }
 }
 

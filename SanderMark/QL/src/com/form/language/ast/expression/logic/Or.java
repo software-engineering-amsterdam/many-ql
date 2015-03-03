@@ -10,7 +10,7 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.RuntimeMemory;
 
 public class Or extends BinaryExpression implements Expression {
 
@@ -20,8 +20,8 @@ public class Or extends BinaryExpression implements Expression {
 	
 	
 	@Override
-	public BoolValue evaluate() {
-		return new BoolValue(((BoolValue)super.left.evaluate()).getValue() || ((BoolValue)super.right.evaluate()).getValue());
+	public BoolValue evaluate(RuntimeMemory mem) {
+		return new BoolValue(((BoolValue)super.left.evaluate(mem)).getValue() || ((BoolValue)super.right.evaluate(mem)).getValue());
 	}
 
 	@Override

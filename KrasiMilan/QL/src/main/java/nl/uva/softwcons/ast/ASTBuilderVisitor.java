@@ -19,8 +19,7 @@ import nl.uva.softwcons.ast.expression.binary.logical.And;
 import nl.uva.softwcons.ast.expression.binary.logical.Or;
 import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
-import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
-import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
+import nl.uva.softwcons.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
@@ -31,8 +30,7 @@ import nl.uva.softwcons.ast.statement.Question;
 import nl.uva.softwcons.ast.statement.Statement;
 import nl.uva.softwcons.ast.type.BooleanType;
 import nl.uva.softwcons.ast.type.DateType;
-import nl.uva.softwcons.ast.type.DecimalType;
-import nl.uva.softwcons.ast.type.IntegerType;
+import nl.uva.softwcons.ast.type.NumberType;
 import nl.uva.softwcons.ast.type.StringType;
 import nl.uva.softwcons.ast.type.Type;
 import nl.uva.softwcons.ast.type.UndefinedType;
@@ -41,11 +39,10 @@ import nl.uva.softwcons.generated.QLParser.BinaryExprContext;
 import nl.uva.softwcons.generated.QLParser.BooleanContext;
 import nl.uva.softwcons.generated.QLParser.ComputedQuestionContext;
 import nl.uva.softwcons.generated.QLParser.ConditionalContext;
-import nl.uva.softwcons.generated.QLParser.DecimalContext;
 import nl.uva.softwcons.generated.QLParser.FormContext;
 import nl.uva.softwcons.generated.QLParser.IdContext;
-import nl.uva.softwcons.generated.QLParser.IntegerContext;
 import nl.uva.softwcons.generated.QLParser.NotExprContext;
+import nl.uva.softwcons.generated.QLParser.NumberContext;
 import nl.uva.softwcons.generated.QLParser.ParenthesisContext;
 import nl.uva.softwcons.generated.QLParser.SimpleQuestionContext;
 import nl.uva.softwcons.generated.QLParser.StringContext;
@@ -143,18 +140,13 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
     }
 
     @Override
-    public IntegerLiteral visitInteger(IntegerContext ctx) {
-        return new IntegerLiteral(Integer.parseInt(ctx.INT().getText()), extractLineInfo(ctx.INT().getSymbol()));
-    }
-
-    @Override
     public StringLiteral visitString(StringContext ctx) {
         return new StringLiteral(Utils.unquote(ctx.STRING().getText()), extractLineInfo(ctx.STRING().getSymbol()));
     }
 
     @Override
-    public ASTNode visitDecimal(DecimalContext ctx) {
-        return new DecimalLiteral(new Double(ctx.DECIMAL().getText()), extractLineInfo(ctx.DECIMAL().getSymbol()));
+    public ASTNode visitNumber(NumberContext ctx) {
+        return new NumberLiteral(new Double(ctx.NUMBER().getText()), extractLineInfo(ctx.NUMBER().getSymbol()));
     }
 
     @Override
@@ -172,10 +164,8 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
         case "boolean":
             return BooleanType.instance;
-        case "integer":
-            return IntegerType.instance;
-        case "decimal":
-            return DecimalType.instance;
+        case "number":
+            return NumberType.instance;
         case "date":
             return DateType.instance;
         case "string":

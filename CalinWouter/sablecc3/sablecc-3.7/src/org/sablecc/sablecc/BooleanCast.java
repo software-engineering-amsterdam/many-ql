@@ -8,16 +8,14 @@
 package org.sablecc.sablecc;
 
 
-public class BooleanCast implements Cast
-{
-  public final static BooleanCast instance = new BooleanCast();
+public class BooleanCast implements Cast {
+    public final static BooleanCast instance = new BooleanCast();
 
-  private BooleanCast()
-  {}
+    private BooleanCast() {
+    }
 
-  @Override
-  public  Object cast(Object o)
-  {
-    return (Boolean) o;
-  }
+    @Override
+    public Object cast(Object o) {
+        return (Boolean) o;
+    }
 }

@@ -2,38 +2,32 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TMul extends Token
-{
-    public TMul()
-    {
+public final class TMul extends Token {
+    public TMul() {
         super.setText("*");
     }
 
-    public TMul(int line, int pos)
-    {
+    public TMul(int line, int pos) {
         super.setText("*");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TMul(getLine(), getPos());
+    public Object clone() {
+        return new TMul(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTMul(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TMul text.");
     }
 }
