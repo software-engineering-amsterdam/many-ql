@@ -1,6 +1,6 @@
 package org.fugazi.qls.ast.segment;
 
-import org.fugazi.qls.ast.style.DefaultStyle;
+import org.fugazi.qls.ast.style.Style;
 
 import java.util.List;
 
@@ -8,12 +8,12 @@ public class Page {
 
     protected final String name;
     protected final List<Section> sections;
-    protected final List<DefaultStyle> defaultStyles;
+    protected final List<Style> styles;
 
-    public Page(String _name, List<Section> _sections, List<DefaultStyle> _defaultStyles) {
+    public Page(String _name, List<Section> _sections, List<Style> _Styles) {
         this.name = _name;
         this.sections = _sections;
-        this.defaultStyles = _defaultStyles;
+        this.styles = _Styles;
     }
 
     public String getName() {
