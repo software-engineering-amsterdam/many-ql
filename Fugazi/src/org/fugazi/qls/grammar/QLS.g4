@@ -6,15 +6,14 @@ stylesheet : 'stylesheet' ID page*;
 // Page, includes default declarations, and/or sections.
 page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
-// Section, includes questions and/or other sections.
-section : 'section' STRING (question | section)
-        | 'section' STRING '{' (question | section)* '}'
+// Section, includes questions and/or other sections, and/or default style.
+section : 'section' STRING (question | section | defaultStyleDeclr)
+        | 'section' STRING '{' (question | section | defaultStyleDeclr)* '}'
         ;
 
 // question id (zero or one widget)
 question : 'question' ID widget                 # questionWithWidget
          | 'question' ID                        # questionWithoutWidget
-         | 'question' ID defaultStyleDeclr      # questionWithStyleDeclr
          ;
 
 // widget
