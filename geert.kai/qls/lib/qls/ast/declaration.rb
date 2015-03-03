@@ -1,26 +1,31 @@
+
 module QLS
   module AST
-    class Declaration
-      attr_reader :value
+    class PropertyDeclaration
+      attr_reader :property, :value
       
-      def initialize(value)
+      def initialize(property, value)
+        @property = property
         @value = value
       end
     end
 
-    class ColorDeclaration < Declaration
+    class Widget
     end
 
-    class FontDeclaration < Declaration
+    class Checkbox < Widget
     end
 
-    class FontSizeDeclaration < Declaration
+    class Spinbox < Widget
     end
 
-    class WidgetDeclaration < Declaration
+    class Text < Widget
     end
 
-    class WidthDeclaration < Declaration
+    class YesNoRadio < Widget
+    end
+
+    class YesNoDropdown < Widget
     end
   end
 end
