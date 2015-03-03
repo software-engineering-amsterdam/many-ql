@@ -29,7 +29,7 @@ public class DefaultWidgetSettingsHelper {
 
     public static HashMap<String, WidgetSettingsModel> createDefaultTypeToWidgetSettingsModel(QLSInterpreter qlsInterpreter)
             throws NoSuchFieldException, IllegalAccessException {
-        HashMap<String,WidgetSettingsModel> defaultTypeToWidgetSettingsModel = new HashMap<String, WidgetSettingsModel>();
+        HashMap<String, WidgetSettingsModel> defaultTypeToWidgetSettingsModel = new HashMap<String, WidgetSettingsModel>();
         defaultTypeToWidgetSettingsModel.put(BoolValue.TYPE_REFERENCE, createDefaultBoolWidgetSettings(qlsInterpreter));
 
         defaultTypeToWidgetSettingsModel.put(IntegerValue.TYPE_REFERENCE, createDefaultIntegerWidgetSettings(qlsInterpreter));

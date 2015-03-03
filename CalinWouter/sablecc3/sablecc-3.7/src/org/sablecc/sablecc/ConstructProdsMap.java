@@ -7,24 +7,22 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
-
 import org.sablecc.sablecc.analysis.*;
 import org.sablecc.sablecc.node.*;
 
-@SuppressWarnings({"rawtypes","unchecked"})
-public class ConstructProdsMap extends DepthFirstAdapter
-{
-  public Map productionsMap =
-    new TypedTreeMap(StringCast.instance,
-                     NodeCast.instance);
+import java.util.Map;
 
-  private String currentProd;
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class ConstructProdsMap extends DepthFirstAdapter {
+    public Map productionsMap =
+            new TypedTreeMap(StringCast.instance,
+                    NodeCast.instance);
 
-  @Override
-  public void caseAProd(AProd node)
-  {
-    currentProd = ResolveIds.name(node.getId().getText());
-    productionsMap.put("P" + currentProd, node);
-  }
+    private String currentProd;
+
+    @Override
+    public void caseAProd(AProd node) {
+        currentProd = ResolveIds.name(node.getId().getText());
+        productionsMap.put("P" + currentProd, node);
+    }
 }

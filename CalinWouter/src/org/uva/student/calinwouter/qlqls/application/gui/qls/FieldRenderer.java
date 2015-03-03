@@ -20,7 +20,7 @@ public class FieldRenderer extends AbstractRenderer {
         QuestionWidgetFetcher w = new QuestionWidgetFetcher(headlessFormInterpreter, formTypeChecker);
         try {
             question.applyWidget(w, formTypeChecker.getTypeDescriptor(question.getFieldName()));
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             // This should only occur when the field is used in QLS and not in QL.
             // Checking that there are no references to question
             this.fieldComponent = new JPanel();

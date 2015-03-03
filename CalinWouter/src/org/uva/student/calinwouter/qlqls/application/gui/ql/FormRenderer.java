@@ -24,7 +24,7 @@ public class FormRenderer extends AnalysisAdapter {
     }
 
     public void renderStatements(LinkedList<PStmt> statements) {
-        for(PStmt stmt: statements) {
+        for (PStmt stmt : statements) {
             StatementRenderer stmtRenderer = new StatementRenderer(headlessFormInterpreter, formTypeChecker);
             stmt.apply(stmtRenderer);
             framePanel.add(stmtRenderer.getWidget());

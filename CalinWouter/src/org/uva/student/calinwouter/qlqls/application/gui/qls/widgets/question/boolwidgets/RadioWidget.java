@@ -29,7 +29,7 @@ public class RadioWidget implements IWidget {
         btnPanelYesNo.add(yesBtn);
         btnPanelYesNo.add(noBtn);
 
-        yesBtn.addItemListener( new ItemListener() {
+        yesBtn.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println("true");

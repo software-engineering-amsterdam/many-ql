@@ -2,55 +2,45 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AStringElement extends PElement
-{
+public final class AStringElement extends PElement {
     private TString _string_;
 
-    public AStringElement()
-    {
+    public AStringElement() {
         // Constructor
     }
 
     public AStringElement(
-        @SuppressWarnings("hiding") TString _string_)
-    {
+            @SuppressWarnings("hiding") TString _string_) {
         // Constructor
         setString(_string_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AStringElement(
-            cloneNode(this._string_));
+                cloneNode(this._string_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAStringElement(this);
     }
 
-    public TString getString()
-    {
+    public TString getString() {
         return this._string_;
     }
 
-    public void setString(TString node)
-    {
-        if(this._string_ != null)
-        {
+    public void setString(TString node) {
+        if (this._string_ != null) {
             this._string_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AStringElement extends PElement
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._string_);
+                + toString(this._string_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._string_ == child)
-        {
+        if (this._string_ == child) {
             this._string_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AStringElement extends PElement
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._string_ == oldChild)
-        {
+        if (this._string_ == oldChild) {
             setString((TString) newChild);
             return;
         }

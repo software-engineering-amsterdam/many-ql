@@ -2,26 +2,26 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class ANewListTerm extends PListTerm
-{
+public final class ANewListTerm extends PListTerm {
     private PProdName _prodName_;
     private TLPar _lPar_;
     private final LinkedList<PTerm> _params_ = new LinkedList<PTerm>();
 
-    public ANewListTerm()
-    {
+    public ANewListTerm() {
         // Constructor
     }
 
     public ANewListTerm(
-        @SuppressWarnings("hiding") PProdName _prodName_,
-        @SuppressWarnings("hiding") TLPar _lPar_,
-        @SuppressWarnings("hiding") List<?> _params_)
-    {
+            @SuppressWarnings("hiding") PProdName _prodName_,
+            @SuppressWarnings("hiding") TLPar _lPar_,
+            @SuppressWarnings("hiding") List<?> _params_) {
         // Constructor
         setProdName(_prodName_);
 
@@ -32,36 +32,29 @@ public final class ANewListTerm extends PListTerm
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ANewListTerm(
-            cloneNode(this._prodName_),
-            cloneNode(this._lPar_),
-            cloneList(this._params_));
+                cloneNode(this._prodName_),
+                cloneNode(this._lPar_),
+                cloneList(this._params_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseANewListTerm(this);
     }
 
-    public PProdName getProdName()
-    {
+    public PProdName getProdName() {
         return this._prodName_;
     }
 
-    public void setProdName(PProdName node)
-    {
-        if(this._prodName_ != null)
-        {
+    public void setProdName(PProdName node) {
+        if (this._prodName_ != null) {
             this._prodName_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -71,22 +64,17 @@ public final class ANewListTerm extends PListTerm
         this._prodName_ = node;
     }
 
-    public TLPar getLPar()
-    {
+    public TLPar getLPar() {
         return this._lPar_;
     }
 
-    public void setLPar(TLPar node)
-    {
-        if(this._lPar_ != null)
-        {
+    public void setLPar(TLPar node) {
+        if (this._lPar_ != null) {
             this._lPar_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -96,24 +84,19 @@ public final class ANewListTerm extends PListTerm
         this._lPar_ = node;
     }
 
-    public LinkedList<PTerm> getParams()
-    {
+    public LinkedList<PTerm> getParams() {
         return this._params_;
     }
 
-    public void setParams(List<?> list)
-    {
-        for(PTerm e : this._params_)
-        {
+    public void setParams(List<?> list) {
+        for (PTerm e : this._params_) {
             e.parent(null);
         }
         this._params_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PTerm e = (PTerm) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -123,32 +106,27 @@ public final class ANewListTerm extends PListTerm
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._prodName_)
-            + toString(this._lPar_)
-            + toString(this._params_);
+                + toString(this._prodName_)
+                + toString(this._lPar_)
+                + toString(this._params_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._prodName_ == child)
-        {
+        if (this._prodName_ == child) {
             this._prodName_ = null;
             return;
         }
 
-        if(this._lPar_ == child)
-        {
+        if (this._lPar_ == child) {
             this._lPar_ = null;
             return;
         }
 
-        if(this._params_.remove(child))
-        {
+        if (this._params_.remove(child)) {
             return;
         }
 
@@ -156,27 +134,21 @@ public final class ANewListTerm extends PListTerm
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._prodName_ == oldChild)
-        {
+        if (this._prodName_ == oldChild) {
             setProdName((PProdName) newChild);
             return;
         }
 
-        if(this._lPar_ == oldChild)
-        {
+        if (this._lPar_ == oldChild) {
             setLPar((TLPar) newChild);
             return;
         }
 
-        for(ListIterator<PTerm> i = this._params_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PTerm> i = this._params_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PTerm) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

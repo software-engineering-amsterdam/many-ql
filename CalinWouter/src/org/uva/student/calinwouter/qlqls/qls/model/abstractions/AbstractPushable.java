@@ -9,18 +9,12 @@ import java.util.HashMap;
 public abstract class AbstractPushable<T> {
     private T value;
 
-    public T getValue() { return value; }
-
-    public HashMap<String, Object> getHashMap() {
-        throw new RuntimeException("Value is not of type HashMap, but of type: " + value.getClass() + ".");
+    public T getValue() {
+        return value;
     }
 
     public HashMap.SimpleEntry<Object, Object> getSimpleEntry() {
         throw new RuntimeException("Value is not of type HashMap.SimpleEntry, but of type: " + value.getClass() + ".");
-    }
-
-    public Object[] getObjectArray() {
-        throw new RuntimeException("Value is not of type Object[], but of type: " + value.getClass() + ".");
     }
 
     public TypeDescriptor<?> getTypeDescriptor() {

@@ -7,19 +7,17 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
+import java.util.Comparator;
 
 @SuppressWarnings("rawtypes")
-public class IntegerComparator implements Comparator
-{
-  public final static IntegerComparator instance = new IntegerComparator();
+public class IntegerComparator implements Comparator {
+    public final static IntegerComparator instance = new IntegerComparator();
 
-  private IntegerComparator()
-  {}
+    private IntegerComparator() {
+    }
 
-  @Override
-  public int compare(Object o1, Object o2)
-  {
-    return ((Integer) o1).intValue() - ((Integer) o2).intValue();
-  }
+    @Override
+    public int compare(Object o1, Object o2) {
+        return ((Integer) o1).intValue() - ((Integer) o2).intValue();
+    }
 }

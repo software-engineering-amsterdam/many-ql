@@ -1,11 +1,13 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker;
 
-import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
+import org.uva.student.calinwouter.qlqls.generated.node.AIfStmt;
+import org.uva.student.calinwouter.qlqls.generated.node.AIfelseStmt;
+import org.uva.student.calinwouter.qlqls.generated.node.AQuestionStmt;
+import org.uva.student.calinwouter.qlqls.generated.node.AValueStmt;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.IfNotBoolOrNullException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InvalidComputedValueTypeException;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 
 public class StmtTypeChecker extends StmtInterpreter<FormTypeChecker> {
 

@@ -2,55 +2,45 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AEmptyIdentList extends PIdentList
-{
+public final class AEmptyIdentList extends PIdentList {
     private TIdent _ident_;
 
-    public AEmptyIdentList()
-    {
+    public AEmptyIdentList() {
         // Constructor
     }
 
     public AEmptyIdentList(
-        @SuppressWarnings("hiding") TIdent _ident_)
-    {
+            @SuppressWarnings("hiding") TIdent _ident_) {
         // Constructor
         setIdent(_ident_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AEmptyIdentList(
-            cloneNode(this._ident_));
+                cloneNode(this._ident_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAEmptyIdentList(this);
     }
 
-    public TIdent getIdent()
-    {
+    public TIdent getIdent() {
         return this._ident_;
     }
 
-    public void setIdent(TIdent node)
-    {
-        if(this._ident_ != null)
-        {
+    public void setIdent(TIdent node) {
+        if (this._ident_ != null) {
             this._ident_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AEmptyIdentList extends PIdentList
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._ident_);
+                + toString(this._ident_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._ident_ == child)
-        {
+        if (this._ident_ == child) {
             this._ident_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AEmptyIdentList extends PIdentList
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._ident_ == oldChild)
-        {
+        if (this._ident_ == oldChild) {
             setIdent((TIdent) newChild);
             return;
         }

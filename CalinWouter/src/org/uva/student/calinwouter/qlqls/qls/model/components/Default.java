@@ -24,7 +24,7 @@ public class Default extends AbstractComponent<Default> {
     public void caseHashMap(HashMap<String, Object> hashMap) {
         try {
             widgetSettingsModel = new WidgetSettingsModel(hashMap);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

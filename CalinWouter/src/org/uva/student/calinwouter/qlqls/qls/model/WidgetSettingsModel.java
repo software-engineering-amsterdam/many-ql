@@ -40,7 +40,7 @@ public class WidgetSettingsModel {
      * Combine the parent map and the child map, where the child map overrides the parent map.
      */
     public static WidgetSettingsModel combineSettingsModels(Map<String, Object> parentMap,
-                                                                Map<String, Object> childMap)
+                                                            Map<String, Object> childMap)
             throws NoSuchFieldException, IllegalAccessException {
         HashMap<String, Object> finalMap = new HashMap<String, Object>(parentMap);
         for (Map.Entry<String, Object> parentEntry : childMap.entrySet()) {

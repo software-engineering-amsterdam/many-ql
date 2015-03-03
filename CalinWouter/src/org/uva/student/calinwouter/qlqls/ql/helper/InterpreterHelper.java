@@ -64,6 +64,7 @@ public class InterpreterHelper {
         return headlessFormInterpreter;
     }
 
-    private InterpreterHelper() {}
+    private InterpreterHelper() {
+    }
 
 }

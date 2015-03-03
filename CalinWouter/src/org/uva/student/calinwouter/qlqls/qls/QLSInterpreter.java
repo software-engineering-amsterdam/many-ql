@@ -4,11 +4,10 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.ReversedDepthFirstAd
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractModel;
+import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractPushable;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
-import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractPushable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -32,7 +31,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     }
 
     public AbstractPushable<?> getValue() {
-        assert(argumentStack.size() == 1);
+        assert (argumentStack.size() == 1);
         return argumentStack.get(0);
     }
 

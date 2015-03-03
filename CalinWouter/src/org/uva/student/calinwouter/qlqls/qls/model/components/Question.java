@@ -33,7 +33,7 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
         try {
             getTypeToWidgetSettingsModel().getWidgetSettingsModel(BoolValue.TYPE_REFERENCE).getWidget()
                     .applyWidget(this, widgetCallback, getWidgetSettingsModel(BoolValue.TYPE_REFERENCE));
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -43,7 +43,7 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
         try {
             getTypeToWidgetSettingsModel().getWidgetSettingsModel(IntegerValue.TYPE_REFERENCE).getWidget()
                     .applyWidget(this, widgetCallback, getWidgetSettingsModel(IntegerValue.TYPE_REFERENCE));
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -53,7 +53,7 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
         try {
             getTypeToWidgetSettingsModel().getWidgetSettingsModel(StringValue.TYPE_REFERENCE).getWidget()
                     .applyWidget(this, widgetCallback, getWidgetSettingsModel(StringValue.TYPE_REFERENCE));
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

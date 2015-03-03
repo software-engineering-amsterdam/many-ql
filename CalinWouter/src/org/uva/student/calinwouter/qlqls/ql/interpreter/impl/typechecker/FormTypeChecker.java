@@ -1,22 +1,25 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
+import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This FormTypeChecker detects:
- *
+ * <p/>
  * - Reference to undefined questions
  * - Duplicate question declarations (NOT with different types)
  * - Conditions that are not of the type boolean
  * - Operands of invalid type to operators
  * - Duplicate labels (warning)
- *
+ * <p/>
  * Does not detect cyclic dependencies between questions, because it is not possible to create cyclic dependencies.
  */
 public class FormTypeChecker extends FormInterpreter {
@@ -57,7 +60,7 @@ public class FormTypeChecker extends FormInterpreter {
         try {
             typeDescriptorMap = new HashMap<String, TypeDescriptor<?>>();
             super.caseAForm(node);
-        } catch(InterpretationException e) {
+        } catch (InterpretationException e) {
             fatalException = e;
         }
     }

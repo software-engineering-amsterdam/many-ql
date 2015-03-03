@@ -2,58 +2,51 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AConcat extends PConcat
-{
+public final class AConcat extends PConcat {
     private final LinkedList<PUnExp> _unExps_ = new LinkedList<PUnExp>();
 
-    public AConcat()
-    {
+    public AConcat() {
         // Constructor
     }
 
     public AConcat(
-        @SuppressWarnings("hiding") List<?> _unExps_)
-    {
+            @SuppressWarnings("hiding") List<?> _unExps_) {
         // Constructor
         setUnExps(_unExps_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AConcat(
-            cloneList(this._unExps_));
+                cloneList(this._unExps_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAConcat(this);
     }
 
-    public LinkedList<PUnExp> getUnExps()
-    {
+    public LinkedList<PUnExp> getUnExps() {
         return this._unExps_;
     }
 
-    public void setUnExps(List<?> list)
-    {
-        for(PUnExp e : this._unExps_)
-        {
+    public void setUnExps(List<?> list) {
+        for (PUnExp e : this._unExps_) {
             e.parent(null);
         }
         this._unExps_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PUnExp e = (PUnExp) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -63,18 +56,15 @@ public final class AConcat extends PConcat
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._unExps_);
+                + toString(this._unExps_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._unExps_.remove(child))
-        {
+        if (this._unExps_.remove(child)) {
             return;
         }
 
@@ -82,15 +72,11 @@ public final class AConcat extends PConcat
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<PUnExp> i = this._unExps_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PUnExp> i = this._unExps_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PUnExp) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PStateList extends Node
-{
+public abstract class PStateList extends Node {
     // Empty body
 }

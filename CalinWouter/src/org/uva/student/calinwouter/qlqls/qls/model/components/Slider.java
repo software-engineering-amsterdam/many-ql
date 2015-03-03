@@ -29,7 +29,7 @@ public class Slider extends AbstractWidget<Slider> {
 
     @Override
     public void caseInteger(Integer i) {
-        switch(arg) {
+        switch (arg) {
             case 0:
                 min = i;
                 break;

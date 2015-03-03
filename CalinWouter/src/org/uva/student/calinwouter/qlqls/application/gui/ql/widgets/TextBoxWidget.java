@@ -15,7 +15,7 @@ public class TextBoxWidget {
         return textField;
     }
 
-    public TextBoxWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter){
+    public TextBoxWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter) {
         textField = new JTextField(20);
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -34,7 +34,7 @@ public class TextBoxWidget {
                 updateField();
             }
 
-            public void updateField(){
+            public void updateField() {
                 headlessFormInterpreter.setField(identifier, new IntegerValue(Integer.parseInt(textField.getText())));
                 headlessFormInterpreter.interpret();
             }

@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TNew extends Token
-{
-    public TNew()
-    {
+public final class TNew extends Token {
+    public TNew() {
         super.setText("New");
     }
 
-    public TNew(int line, int pos)
-    {
+    public TNew(int line, int pos) {
         super.setText("New");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TNew(getLine(), getPos());
+    public Object clone() {
+        return new TNew(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTNew(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TNew text.");
     }
 }

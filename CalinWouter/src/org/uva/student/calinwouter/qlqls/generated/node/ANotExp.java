@@ -2,55 +2,45 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ANotExp extends PExp
-{
+public final class ANotExp extends PExp {
     private PExp _exp_;
 
-    public ANotExp()
-    {
+    public ANotExp() {
         // Constructor
     }
 
     public ANotExp(
-        @SuppressWarnings("hiding") PExp _exp_)
-    {
+            @SuppressWarnings("hiding") PExp _exp_) {
         // Constructor
         setExp(_exp_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ANotExp(
-            cloneNode(this._exp_));
+                cloneNode(this._exp_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseANotExp(this);
     }
 
-    public PExp getExp()
-    {
+    public PExp getExp() {
         return this._exp_;
     }
 
-    public void setExp(PExp node)
-    {
-        if(this._exp_ != null)
-        {
+    public void setExp(PExp node) {
+        if (this._exp_ != null) {
             this._exp_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class ANotExp extends PExp
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._exp_);
+                + toString(this._exp_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._exp_ == child)
-        {
+        if (this._exp_ == child) {
             this._exp_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class ANotExp extends PExp
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._exp_ == oldChild)
-        {
+        if (this._exp_ == oldChild) {
             setExp((PExp) newChild);
             return;
         }
