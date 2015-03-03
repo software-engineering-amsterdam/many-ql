@@ -126,13 +126,10 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	WidgetListener widgetListener = new WidgetListener() {
-
 		@Override
 		public void widgetValueChanged(String identifier, Value value) {
 			evaluator.addValue(identifier, value);
-			System.out.println(evaluator.getValue(identifier));
-//			System.out.println("Identifier: " + identifier + " changed with value: " + value.getValue());
-			for (DependentQuestionPanel pannel: dependentQuestionPanels) {
+			for (DependentQuestionPanel pannel : dependentQuestionPanels) {
 				pannel.evaluateAndShow(evaluator);
 			}
 		}

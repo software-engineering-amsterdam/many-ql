@@ -12,7 +12,6 @@ public class DependentQuestionComponent extends QuestionComponent {
 	public DependentQuestionComponent(QuestionCompute question, Widget widget) {
 		super(question, widget);
 		this.expr = question.getExpression();
-		
 	}
 
 	public Expression getExpr() {

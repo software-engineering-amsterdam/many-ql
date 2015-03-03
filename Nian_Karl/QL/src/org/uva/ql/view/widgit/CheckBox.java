@@ -25,7 +25,6 @@ public class CheckBox extends Widget {
 	}
 
 	private class CheckBoxListener implements ItemListener {
-
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getSource() == CheckBox.this.checkBox) {
 				if (CheckBox.this.checkBox.isSelected()) {
