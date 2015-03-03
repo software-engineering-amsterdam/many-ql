@@ -28,15 +28,17 @@ class Checker(Checker.FullChecker):
 
 
     def _visitQuestionStatement(self, node):
-        if node.expr is not None:
-            typeOfExpression = self.visit(node.expr)
+        if node.expr is None:
+            return
+            
+        typeOfExpression = self.visit(node.expr)
 
-            if typeOfExpression is not None:
-                self._allowExpression(
-                    [typeOfIdentifier(node.identifier, node)],
-                    typeOfExpression,
-                    node.expr
-                ) 
+        if typeOfExpression is not None:
+            self._allowExpression(
+                [typeOfIdentifier(node.identifier, node)],
+                typeOfExpression,
+                node.expr
+            ) 
 
         
     def _visitIdentifier(self, node):
