@@ -33,7 +33,5 @@ class SimpleExpression(expression.Expression):
         return l
 
     def add_not(self):
-        print(self.pretty_print(0))
         l = [SimpleExpression(self.expression)]
-        print(self.pretty_print(0))
         return SimpleExpression([operators.ExtraOperator("not"), e.ComplexExpression(l)])
