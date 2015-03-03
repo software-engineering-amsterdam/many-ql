@@ -77,7 +77,6 @@ class Question(statement.IStatement):
             raise g.QException("Element type does not exists")
 
     def set_parent_condition(self, condition):
-        print(type(condition))
         self.parentCondition = condition
 
     # Override

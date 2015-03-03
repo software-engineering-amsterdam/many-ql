@@ -74,7 +74,7 @@ class IfElseBlock(if_statement.IfBlock):
             s.set_parent_condition(self.condition)
         for s in self.else_statements:
             s.set_parent_id(m)
-            s.set_parent_condition(self.condition.not_expression())
+            s.set_parent_condition(self.condition.add_not())
 
     # Override
     def set_order(self, order_num):

@@ -96,7 +96,6 @@ class QuestionnaireGUI:
         c_results = True
         if condition is not None:
             p = processor.Processor()
-            print(type(condition))
             c_results = p.eval_expression(condition.pretty_print(), self.answersMap)
 
         if not c_results:
