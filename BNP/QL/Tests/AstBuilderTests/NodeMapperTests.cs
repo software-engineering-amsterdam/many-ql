@@ -133,7 +133,7 @@ namespace Tests.AstBuilderTests
         public void TypeCheckerCollectNoExceptionCosParentheses()
         {
             string input = @"form ExampleBlock {
-                if (3+(4+(5+6))){}
+                if ((3+(4+(5+6)))==9){}
 	            else {
                      if (no==(4==2))
                         {}
@@ -159,7 +159,7 @@ namespace Tests.AstBuilderTests
         {
             string input = @"form ExampleBlock {
                 statement Smthing (yesno, (3==4)) ""well"";
-                if (3+(4+(5+6))){}
+                if ((3+(4+(5+6))==12){}
 	            else {
                      if (Smthing==(4==2))
                         {}

@@ -9,7 +9,7 @@ using QL.Evaluation;
 
 namespace QL.Model
 {
-    public abstract class ElementBase : IVisitable, ITypeResolvable
+    public abstract class ElementBase : IVisitable, ITraversable
     {
         public SourceLocation SourceLocation { get; set; }
         public IList<ElementBase> Children { get; set; }

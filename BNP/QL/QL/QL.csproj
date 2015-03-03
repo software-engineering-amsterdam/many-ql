@@ -73,6 +73,8 @@
     <Compile Include="Model\Enums\ElementType.cs" />
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Model\Form.cs" />
+    <Compile Include="Model\ITraversable.cs" />
+    <Compile Include="Model\ITypeResolvableByChildren.cs" />
     <Compile Include="Model\IVisitable.cs" />
     <Compile Include="Model\Operators\AndOperator.cs" />
     <Compile Include="Model\Operators\DivisionOperator.cs" />

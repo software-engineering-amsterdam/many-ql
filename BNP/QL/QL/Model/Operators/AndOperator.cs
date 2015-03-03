@@ -3,7 +3,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model.Operators
 {
-    public class AndOperator : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>
+    public class AndOperator : BinaryTreeElementBase, IOperator<BinaryTreeElementBase, BinaryTreeElementBase>, ITypeResolvable
     {
         public ITerminalType Evaluate()
         {
@@ -12,7 +12,7 @@ namespace QL.Model.Operators
 
         public override Type GetReturnType()
         {
-            return Left.GetReturnType();
+            return (new Yesno()).GetReturnType();
         }
     }
 }

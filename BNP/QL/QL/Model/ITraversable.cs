@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace QL.Model
 {
-    public interface ITypeResolvable
+    public interface ITraversable
     {
-        Type GetReturnType();
+        IList<ElementBase> Children { get; set; }
+
     }
 }

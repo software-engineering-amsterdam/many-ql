@@ -32,7 +32,7 @@ namespace QL.Model
                         break;
                     case 0:
                         throw new Exception("initialize Left first");
-                        break;
+                        
                     default:
                         Children[1] = value;
                         break;

@@ -13,13 +13,14 @@ namespace QL.Evaluation
 {
     class TypeCheckerVisitor: IVisitor
     {
-        Dictionary<Identifier, ITypeResolvable> TypeReferenceDictionary;
+        Dictionary<Identifier, Type> TypeReferenceDictionary;
 
-        public IList<QLError> Errors { get; private set; } //could be called errors TODO
+        public IList<QLError> Errors { get; private set; }
 
         public TypeCheckerVisitor()
         {
             Errors = new List<QLError>();
+            TypeReferenceDictionary = new Dictionary<Identifier, Type>();
         }
 
         #region Regular elements
@@ -40,11 +41,15 @@ namespace QL.Evaluation
 
         public void Visit(StatementUnit node)
         {
+            TypeReferenceDictionary[node.Identifier] = DetermineType(node.DataType);
+
             return; // todo check if referenced variable exists
         }
 
         public void Visit(QuestionUnit node)
         {
+            TypeReferenceDictionary[node.Identifier] = DetermineType(node.DataType);
+
             return; // nothing to check
         }
 
@@ -187,20 +192,23 @@ namespace QL.Evaluation
         }
 
         # region Type distinction
-        Type DetermineType(Type type)
-        {
-            return type;
-        }
+        
         Type DetermineType(Identifier i)
         {
-            return DetermineType(TypeReferenceDictionary[i]);
-        }
-        
-        Type DetermineType(ITypeResolvable i)
-        {
-            return DetermineType(i.GetReturnType());
+            return TypeReferenceDictionary[i];
         }
 
+        Type DetermineType(ITypeResolvableByChilren i)
+        {
+            return DetermineType((dynamic)i.Children[0]);
+        }
+
+        Type DetermineType(ITypeResolvable i)
+        {
+            return i.GetReturnType();
+        }
+
+        
         Type DetermineType(object other)
         {
             throw new TypeError("Cannot resolve type:"+other.GetType().ToString());
