@@ -32,9 +32,22 @@ public class CheckBox extends JCheckBox implements Widget {
 				if (CheckBox.this.isSelected()) {
 					//If condition == true then show QUESTION
 					rm.put(question.getId(), new BoolValue(isSelected()));
+					if(showCondition != null)
+					{
+						if(((BoolValue)showCondition.evaluate(rm)).getValue() == false)
+						{
+							//Toon question niet
+						}
+					}
 				} else {
-					//If condition == true then show QUESTION
 					rm.put(question.getId(), new BoolValue(isSelected()));
+					if(showCondition != null)
+					{
+						if(((BoolValue)showCondition.evaluate(rm)).getValue() == false)
+						{
+							//Toon question niet
+						}
+					}
 				}
 			}
 		}
