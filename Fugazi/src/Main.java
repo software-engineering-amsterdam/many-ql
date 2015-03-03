@@ -3,6 +3,8 @@ import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.gui.UIBuilder;
 import org.fugazi.ql.type_checker.TypeChecker;
 import org.fugazi.ql.type_checker.error.ASTErrorPrinter;
+import org.fugazi.qls.ast.QLSASTBuilder;
+import org.fugazi.qls.ast.stylesheet.StyleSheet;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -49,11 +51,10 @@ public class Main {
          * QLS
          * --------------------- */
         // Create The AST Builder.
-        //QLASTBuilder QLAstBuilder = new QLASTBuilder(input);
+        //QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(input);
 
         // Build the AST.
-        //Form form = QLAstBuilder.buildForm();
-
+        //StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
 
          // Render GUI.
         UIBuilder guiBuilder = new UIBuilder(form);
