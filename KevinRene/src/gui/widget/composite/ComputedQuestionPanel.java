@@ -13,7 +13,6 @@ import cons.ValueEnvironment;
 import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.visitor.evaluator.Evaluator;
-import cons.value.UndefinedValue;
 
 @SuppressWarnings("rawtypes")
 public class ComputedQuestionPanel extends Composite {
@@ -61,7 +60,7 @@ public class ComputedQuestionPanel extends Composite {
 	public void updateComponent() {
 		Value expressionValue = Evaluator.check(expression, this.valueEnvironment);
 
-		if(expressionValue instanceof UndefinedValue) {
+		if(expressionValue.isUndefined()) {
 			return;
 		}
 

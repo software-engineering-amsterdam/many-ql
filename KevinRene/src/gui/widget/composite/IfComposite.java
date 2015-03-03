@@ -12,7 +12,6 @@ import cons.ql.ast.Expression;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.visitor.evaluator.Evaluator;
 import cons.value.BooleanValue;
-import cons.value.UndefinedValue;
 
 public class IfComposite extends Composite {
 	private final Expression expression;
@@ -65,7 +64,7 @@ public class IfComposite extends Composite {
 		// Recalculate the value for this computedQuestion
 		Value value = Evaluator.check(expression, valueEnvironment);
 		
-		if(value instanceof UndefinedValue) {
+		if(value.isUndefined()) {
 			activateElsePanel();
 			return;
 		}
