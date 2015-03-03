@@ -1,20 +1,13 @@
 package com.form.language;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.CharStream;
 
-import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.statement.Question;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
-import com.form.language.test.AstTest;
-
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 
 public class Test {
 	public static void main(String[] args) {
@@ -30,11 +23,11 @@ public class Test {
 		
 		IdCollector m = new IdCollector();		
 		evaluator.collectIds(m);
-		System.out.println(m.showMemory());
-			
-		ErrorCollector errors = new ErrorCollector();
-		evaluator.getErrors(errors);
-		errors.print();
+//		System.out.println(m.showMemory());
+//			
+//		ErrorCollector errors = new ErrorCollector();
+//		evaluator.getErrors(errors);
+//		errors.print();
 		
 		
 		

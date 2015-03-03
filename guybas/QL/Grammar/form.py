@@ -57,4 +57,4 @@ class FormFormat:
     introduction = (Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences))
 
     # form :: id _introduction? statement+
-    form = (id + Optional(introduction) + Group(OneOrMore(statement))) + stringEnd()
+    form = (id + Optional(introduction) + Group(OneOrMore(statement))) + StringEnd()
