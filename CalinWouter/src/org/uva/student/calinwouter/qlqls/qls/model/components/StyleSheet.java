@@ -48,11 +48,10 @@ public class StyleSheet extends AbstractComponent<StyleSheet> {
         iModel.caseStyleSheet(this);
     }
 
-    public StyleSheet(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
+    public StyleSheet() {
         pages = new LinkedList<Page>();
         try {
-            typeToWidgetSettingsModel = new TypeToWidgetSettingsModel(DefaultWidgetSettingsHelper.createDefaultTypeToWidgetSettingsModel(qlsInterpreter));
+            typeToWidgetSettingsModel = new TypeToWidgetSettingsModel(DefaultWidgetSettingsHelper.createDefaultTypeToWidgetSettingsModel());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

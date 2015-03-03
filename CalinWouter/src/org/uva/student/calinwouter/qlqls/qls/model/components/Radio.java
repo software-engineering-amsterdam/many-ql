@@ -11,10 +11,6 @@ public class Radio extends AbstractWidget<Radio> {
     private String yesLbl, noLbl;
     private int arg;
 
-    public Radio(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     public String getYesLbl() {
         return yesLbl;
     }

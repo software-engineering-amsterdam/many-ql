@@ -12,10 +12,6 @@ public class Default extends AbstractComponent<Default> {
     private TypeDescriptor<?> type;
     private WidgetSettingsModel widgetSettingsModel;
 
-    public Default(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     public TypeDescriptor<?> getType() {
         return type;
     }

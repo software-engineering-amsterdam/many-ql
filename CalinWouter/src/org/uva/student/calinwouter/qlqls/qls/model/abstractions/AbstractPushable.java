@@ -29,6 +29,10 @@ public abstract class AbstractPushable<T> {
         throw new RuntimeException("Value is not of type Integer, but of type: " + value.getClass() + ".");
     }
 
+    public HashMap<String, Object> getHashMap() {
+        throw new RuntimeException("Value is not of type HashMap, but of type: " + value.getClass() + ".");
+    }
+
     public void apply(IModel model) {
         throw new RuntimeException(new OperationNotSupportedException());
     }

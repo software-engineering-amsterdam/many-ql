@@ -10,10 +10,6 @@ public class Slider extends AbstractWidget<Slider> {
     private int arg;
     private int min, max;
 
-    public Slider(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     public Integer getMin() {
         return min;
     }

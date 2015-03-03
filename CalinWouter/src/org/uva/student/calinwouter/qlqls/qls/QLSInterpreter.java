@@ -21,9 +21,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     /* This string is used for fetching the IModel objects. */
     private final static String COMPONENTS_PACKAGE_PREFIX =
             QLSInterpreter.class.getPackage().getName().toString() + ".model.components.";
-
     private Stack<AbstractPushable<?>> argumentStack = new Stack<AbstractPushable<?>>();
-
     HashMap<String, AbstractWidget<?>> fieldToWidgetMap = new HashMap<String, AbstractWidget<?>>();
 
     public void setWidgetForField(String fieldName, AbstractWidget<?> widget) {
@@ -60,10 +58,7 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     private AbstractModel<?> newInstanceForClassPathWithQlsInterpreterAsArgument(String classPath)
             throws NoSuchMethodException, IllegalAccessException, InstantiationException,
             InvocationTargetException, ClassNotFoundException {
-        Class<AbstractModel<?>> cls = (Class<AbstractModel<?>>) Class.forName(classPath);
-        Constructor<AbstractModel<?>> constructor = cls.getDeclaredConstructor(this.getClass());
-        AbstractModel<?> model = constructor.newInstance(this);
-        return model;
+        return (AbstractModel<?>) Class.forName(classPath).newInstance();
     }
 
     private static void applyArgumentsToModel(AbstractModel<?> model, List<AbstractPushable<?>> args) {

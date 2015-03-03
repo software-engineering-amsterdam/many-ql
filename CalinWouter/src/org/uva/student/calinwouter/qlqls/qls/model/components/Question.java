@@ -24,10 +24,6 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
         iModel.caseQuestion(this);
     }
 
-    public Question(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     @Override
     public void usesBoolean() {
         try {
