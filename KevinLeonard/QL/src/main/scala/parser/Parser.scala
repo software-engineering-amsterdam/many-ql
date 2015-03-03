@@ -80,5 +80,4 @@ class Parser extends JavaTokenParsers {
     }
   })
   def atom: Parser[Expression] = positioned(literal | variable | "(" ~> expression <~ ")")
-
 }

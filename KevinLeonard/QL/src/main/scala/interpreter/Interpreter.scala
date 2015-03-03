@@ -9,15 +9,16 @@ import typechecker.{DuplicateLabelsChecker, TypeChecker}
 import scala.io.Source
 
 object Interpreter {
+
   def main(args: Array[String]) {
     val parser = new Parser()
     val typeChecker = new TypeChecker()
     val duplicateLabelsChecker = new DuplicateLabelsChecker()
     val formBuilder = new FormBuilder()
 
-    val formFile = Source.fromFile(args(0)).mkString
+    val source = Source.fromFile(args(0)).mkString
 
-    parser.parseAll[Form](parser.form, formFile) match {
+    parser.parseAll[Form](parser.form, source) match {
       case parser.Success(ast: Form, _) =>
         typeChecker.check(ast) match {
           case Right(_) =>

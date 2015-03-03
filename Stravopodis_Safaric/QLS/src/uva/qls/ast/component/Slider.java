@@ -1,15 +1,19 @@
 package uva.qls.ast.component;
 
+import java.util.ArrayList;
+
 import uva.qls.ast.CodeLines;
+import uva.qls.ast.style.Style;
 import uva.qls.supporting.Tuple;
 
 public class Slider extends Component{
 	
 	private Tuple<String, String> minMax;
 	
-	public Slider(String _min, String _max, CodeLines _codeLines) {
+	public Slider(String _min, String _max, ArrayList<Style> _style , CodeLines _codeLines) {
 		super(_codeLines);
 		this.minMax = new Tuple<String, String>(_min, _max);
+		this.style = _style;
 	}
 
 	@Override

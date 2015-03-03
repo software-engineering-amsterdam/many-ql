@@ -10,7 +10,7 @@ class TypeEnvironment(val typeOfFields: Map[String, Type] = Map()) {
 
   def tryGetVariable(v: Variable): Either[Error, Type] = {
     typeOfFields get v.name match {
-      case Some(t: Type) => Right(t)
+      case Some(t) => Right(t)
       case None => Left(new Error(s"Variable ${v.name} is not defined", v.pos))
     }
   }
