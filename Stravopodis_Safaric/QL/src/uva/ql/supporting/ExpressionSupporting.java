@@ -86,7 +86,7 @@ public class ExpressionSupporting {
 		switch(symbol.getSymbolType()){
 			case "boolean" 	: return new BooleanLiteral((boolean)symbol.getContent(), null);
 			case "string" 	: return new StringLiteral(String.valueOf(symbol.getContent()), null);
-			case "decimal"	: return new DecimalLiteral(Float.valueOf(symbol.getContent().toString()), null);
+			case "decimal"	: return new MoneyLiteral(Integer.valueOf(symbol.getContent().toString()), null);
 			case "int"		: return new IntLiteral(Integer.valueOf(symbol.getContent().toString()), null);
 		}
 		return null;
@@ -99,7 +99,7 @@ public class ExpressionSupporting {
 			switch(questionSymbol.getSymbolType()){
 				case "boolean" 	: return new BooleanLiteral(false, null);
 				case "string" 	: return new StringLiteral("", null);
-				case "decimal"	: return new DecimalLiteral((float)0.00, null);
+				case "decimal"	: return new MoneyLiteral((int)0.00, null);
 				case "int"		: return new IntLiteral(0, null);
 			}
 		

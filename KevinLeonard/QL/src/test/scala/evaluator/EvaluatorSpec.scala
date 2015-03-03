@@ -35,20 +35,20 @@ class EvaluatorSpec extends Specification {
       eval(Question(StringType(), Variable("a"), "label", Some(Literal(StringType(), StringValue("b")))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> StringValue("b")))
     }
 
-    "eval the statements in the if block, if the expression evaluates to true" in {
+    "eval all statements, if the expression evaluates to true" in {
       eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("a"), "label", None), None), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> BooleanValue(false)))
     }
 
-    "eval no statements, if the expression evaluates to false" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), None), ObservableMap.empty[VariableName, Value]) must beEqualTo(ObservableMap.empty[VariableName, Value])
+    "eval all statements, if the expression evaluates to false" in {
+      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), None), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> BooleanValue(false)))
     }
 
-    "eval the statements in the if block, if the expression evaluates to true" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("a" -> BooleanValue(false)))
+    "eval all statements, if the expression evaluates to true" in {
+      eval(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("b" -> BooleanValue(false), "a" -> BooleanValue(false)))
     }
 
-    "eval the statements in the else block, if the expression evaluates to false" in {
-      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("b" -> BooleanValue(false)))
+    "eval all statements, if the expression evaluates to false" in {
+      eval(IfStatement(Literal(BooleanType(), BooleanValue(false)), Question(BooleanType(), Variable("a"), "label", None), Some(Question(BooleanType(), Variable("b"), "label", None))), ObservableMap.empty[VariableName, Value]) must beEqualTo(Map("b" -> BooleanValue(false), "a" -> BooleanValue(false)))
     }
 
     "eval all the statements in a sequence" in {

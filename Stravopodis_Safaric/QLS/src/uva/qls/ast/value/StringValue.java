@@ -13,7 +13,6 @@ public class StringValue extends GenericValue<String> {
 	}
 	@Override
 	public int intValue() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	

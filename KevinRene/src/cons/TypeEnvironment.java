@@ -9,7 +9,7 @@ import cons.ql.ast.expression.QLType;
 public class TypeEnvironment {
 	private Map<String, QLType> environment = new HashMap<String, QLType>();
 	
-	public TypeEnvironment() {}
+	public TypeEnvironment() { }
 	
 	public void store(Identifier identifier, QLType typeInstance) {
 		environment.put(identifier.toString(), typeInstance);

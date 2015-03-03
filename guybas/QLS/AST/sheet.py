@@ -12,6 +12,15 @@ class Sheet:
             s += p.pretty_print(level + 1)
         return s
 
+    def get_ids(self):
+        ids = []
+        for q in self.pages:
+            ids += q.id_collection()
+        return ids
+
+    def get_id_widget_dict(self):
+        pass
+
 
 class Page:
     def __init__(self, name, sections):
@@ -23,6 +32,12 @@ class Page:
         for p in self.sections:
             s += p.pretty_print(level+1)
         return s
+
+    def id_collection(self):
+        ids = []
+        for q in self.sections:
+            ids += q.id_collection()
+        return ids
 
 
 class Section:
@@ -36,6 +51,12 @@ class Section:
             s += p.pretty_print(level + 1)
         return s
 
+    def id_collection(self):
+        ids = []
+        for q in self.question_styles:
+            ids += q.id_collection()
+        return ids
+
 
 class QuestionStyle:
     def __init__(self, qid, widget):
@@ -46,3 +67,23 @@ class QuestionStyle:
         s = "    " * level + "Question " + self.id + "\n"
         s += self.widget.pretty_print(level + 1)
         return s
+
+    def id_collection(self):
+        return [self.id]
+
+
+class Default(Page):
+    def __init__(self, qtype, widget, properties):
+        self.type = qtype
+        self.widget = widget
+        self.properties = properties
+
+    def pretty_print(self, level=0):
+        s = "\n" + "    " * level + "Default " + self.type
+        s += " " + self.widget.pretty_print(0)
+        if self.properties:
+            s += "    " * level + str(self.properties)
+        return s
+
+    def id_collection(self):
+        return []

@@ -42,9 +42,11 @@ public class TypeCheck {
 		if (_symbols.existsWithClassType(_identifer, _question.getClass().getName())){
 			
 			if (_symbols.keyWithSymbolExists(_identifer, _symbol))
-				throw new IllegalTypeException("IllegalTypeException: duplicate question with same type" + _identifer );
+				throw new IllegalTypeException("IllegalTypeException: duplicate question with same type" + _identifer + " " + 
+						_question.getCodeLines().getSourceCodeLocation().toString());
 			else 
-				throw new IllegalTypeException("IllegalTypeException: duplicate question with different type" + _identifer);	
+				throw new IllegalTypeException("IllegalTypeException: duplicate question with different type" + _identifer + " " + 
+						_question.getCodeLines().getSourceCodeLocation().toString());	
 		}
 	}
 	
@@ -54,7 +56,7 @@ public class TypeCheck {
 			
 			if (!TypeCheck.withinScope(_assign.getCodeLines(), symbol.getCodeLines()))
 				throw new IllegalArgumentException("IllegalArgumentException: question assignment not in scope of question -> " 
-													+ _assign.getCodeLines().toString());
+													+ _assign.getCodeLines().getSourceCodeLocation().toString());
 			
 		}
 	}

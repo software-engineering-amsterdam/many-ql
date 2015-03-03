@@ -19,39 +19,13 @@ question
 
 type
  : 'boolean' 
- | 'integer'
+ | 'number'
  | 'string'
- | 'money'
  ;
 
 if_stat
  : IF '(' expr ')' '{' qs+=question* '}'
  ;
-
-/*stat
- : assignment
- | if_stat
- | while_stat
- | log
- | OTHER {System.err.println("unknown char: " + $OTHER.text);}
- ;
-
-assignment
- : ID '=' expr ';'
- ;
-
-condition_block
- : expr stat_block
- ;
-
-stat_block
- : '{' block '}'
- | stat
- ;
-
-while_stat
- : WHILE expr stat_block
- ;*/
  
 expr										
  : expr '^' expr           					#power
@@ -68,7 +42,7 @@ expr
  
 atom
  : '(' expr ')'    #parenthesis
- | (INT | DOUBLE)  #number
+ | NUMBER		   #number
  | BOOLEAN 		   #boolean
  | ID              #id
  | STRING          #string
@@ -101,13 +75,10 @@ ID
  : [a-zA-Z_] [a-zA-Z_0-9]*
  ;
 
-INT
- : [0-9]+
- ;
-
-DOUBLE
+NUMBER
  : [0-9]+ '.' [0-9]* 
  | '.' [0-9]+
+ | [0-9]+
  ;
 
 STRING
@@ -119,7 +90,3 @@ COMMENT
  ;
 
 WS : [ \t\r\n]+ -> skip ;
-
-OTHER
- : . 
- ;

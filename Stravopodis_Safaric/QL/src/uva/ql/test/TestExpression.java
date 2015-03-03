@@ -32,27 +32,27 @@ public class TestExpression {
 	@Test
 	public void testMultiplication(){
 		Expression expression = (Expression)this.returnExpr("2*3*4");
-		assertEquals(expression.evaluate().getValue(), (float)24);
+		assertEquals(expression.evaluate().getValue(), 24);
 	}
 	@Test
 	public void testAddition(){
 		Expression expression = (Expression)this.returnExpr("2+5+4+6+3");
-		assertEquals(expression.evaluate().getValue(), (float)20);
+		assertEquals(expression.evaluate().getValue(), 20);
 	}
 	@Test
 	public void testSubstraction(){
 		Expression expression = (Expression)this.returnExpr("20-2-5-3");
-		assertEquals(expression.evaluate().getValue(),(float)10);
+		assertEquals(expression.evaluate().getValue(),10);
 	}
 	@Test
 	public void testDivision(){
 		Expression expression = (Expression)this.returnExpr("200/2/4");
-		assertEquals(expression.evaluate().getValue(),(float)25);
+		assertEquals(expression.evaluate().getValue(),25);
 	}
 	@Test
 	public void testExponentiation(){
 		Expression expression = (Expression)this.returnExpr("2^2");
-		assertEquals(expression.evaluate().getValue(),(float)4);
+		assertEquals(expression.evaluate().getValue(),4);
 	}
 	@Test
 	public void testGreater(){
@@ -121,7 +121,7 @@ public class TestExpression {
 		Expression expression2 = (Expression)this.returnExpr("((30+8+12)*12/2) <= 300 ");
 		Expression expression3 = (Expression)this.returnExpr("((30+8+12)*12/2) > 300 ");
 		
-		assertEquals(expression.evaluate().getValue(),(float)150);
+		assertEquals(expression.evaluate().getValue(),150);
 		assertEquals(expression2.evaluate().getValue(),true);
 		assertEquals(expression3.evaluate().getValue(),false);
 	}

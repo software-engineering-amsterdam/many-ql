@@ -87,3 +87,12 @@ class IfElseBlock(IfBlock):
 
     def get_e_statements(self):
         return self.else_statements
+
+    def get_statement_dict(self):
+        d = {}
+        for s in self.statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        for s in self.else_statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+
+        return d

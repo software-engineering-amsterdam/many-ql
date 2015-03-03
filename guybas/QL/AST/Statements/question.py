@@ -83,6 +83,8 @@ class Question(IStatement):
     def get_answer(self):
         return self.answer
 
+    def get_statement_dict(self):
+        return {self.id: self}
 
 
 

@@ -15,7 +15,6 @@ public class NumberValue extends GenericValue<Number> {
 
 	@Override
 	public int intValue() {
-		
 		return this.value.intValue();
 	}
 

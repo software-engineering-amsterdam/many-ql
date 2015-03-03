@@ -1,97 +1,133 @@
 package gui;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import gui.widget.Label;
+import gui.widget.composite.ComputedQuestionPanel;
+import gui.widget.composite.FormComposite;
+import gui.widget.composite.IfComposite;
+import gui.widget.composite.Panel;
+import gui.widget.composite.QuestionPanel;
+import gui.widget.input.IntegerSpinbox;
+import gui.widget.input.RadioButton;
+import gui.widget.input.TextField;
 
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
+import javax.swing.JFrame;
 
+import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
+import cons.ql.ast.Statement;
+import cons.ql.ast.expression.Identifier;
+import cons.ql.ast.expression.literal.BooleanLiteral;
+import cons.ql.ast.expression.literal.IntegerLiteral;
+import cons.ql.ast.expression.literal.StringLiteral;
+import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLInteger;
+import cons.ql.ast.expression.type.QLString;
+import cons.ql.ast.statement.Block;
 import cons.ql.ast.statement.ComputedQuestion;
+import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
+import cons.ql.ast.statement.IfElse;
 import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
 
-public class ComponentCreator implements StatementVisitor<Void>, ExpressionVisitor<Void> {
-	
-	private Container pane;
-	private Controller controller;
-	
-	private ComponentCreator(Container pane) {
-		this.pane = pane;
-		this.controller = new Controller();
+public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVisitor<Widget> {	
+	private JFrame frame;
+	private ValueEnvironment valueEnvironment;
+
+	private ComponentCreator(JFrame frame, ValueEnvironment valueEnvironment) {
+		this.frame = frame;
+		this.valueEnvironment = valueEnvironment;
 	}
 	
-	public static Container check(Container pane, ASTNode tree) {
-		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		ComponentCreator creator = new ComponentCreator(pane);
-		
-		tree.accept(creator);
-		
-		return creator.pane;
+	public static Widget check(ASTNode tree, JFrame frame, ValueEnvironment valueEnvironment) {		
+		ComponentCreator creator = new ComponentCreator(frame, valueEnvironment);
+				
+		return tree.accept(creator);
+	}
+	
+	@Override
+	public Widget visit(Identifier identifier) {
+		return new Panel();
+	}
+	
+	@Override
+	public Widget visit(QLBoolean booleanNode) {
+		return new RadioButton();
+	}
+	
+	@Override
+	public Widget visit(QLInteger integerNode) {
+		return new IntegerSpinbox();
+	}
+	
+	@Override
+	public Widget visit(QLString integerNode) {
+		return new TextField();
+	}
+	
+	@Override
+	public Widget visit(StringLiteral stringNode) {
+		return new Label(stringNode.getValue());
+	}
+	
+	@Override
+	public Widget visit(IntegerLiteral integerLiteral) {
+		return new IntegerSpinbox(integerLiteral.getValue());
+	}
+	
+	@Override
+	public Widget visit(BooleanLiteral booleanLiteral) {
+		return new RadioButton(booleanLiteral.getValue());
 	}
 	
 	/**
 	 * Statements
-	 */		
+	 */	
 	@Override
-	public Void visit(ComputedQuestion compQuestionNode) {
-		JLabel label = new JLabel(compQuestionNode.getText().toString());
-    	label.setHorizontalAlignment(0);
-    	label.setFont(new Font("Serif", Font.BOLD, 20));
-    	this.pane.add(label);
-    	
-    	TextComponent comp = new TextComponent(compQuestionNode.getIdentifier(), 
-    			controller, false);
-    	this.pane.add(comp.getComponent());
-    	
-    	ComputedQuestionObserver observer = 
-    			new ComputedQuestionObserver(compQuestionNode, controller, comp);
-    	controller.addGlobalObserver(observer);
-    	controller.putObservable(comp.getIdentifier(), comp);
-    	
-    	
-		return null;
-	}
-	
-	@Override
-	public Void visit(If ifNode) {
-//		ifNode.getExpression().accept(this);
-
-		// TODO, request value environment
-		if (true) {
-			ifNode.getBlock().accept(this);
+	public Widget visit(Block blockNode) {
+		Panel widgetPanel = new Panel();
+		Widget statementWidget;
+		
+		for(Statement statement : blockNode.statements()) {
+			statementWidget = statement.accept(this);			
+			widgetPanel.addComponent(statementWidget);
 		}
 		
-		return null;
+		return widgetPanel;
+	}
+	
+	@Override
+	public Widget visit(ComputedQuestion compQuestionNode) {
+    	Widget questionText = compQuestionNode.getText().accept(this);
+    	Widget questionWidget = compQuestionNode.getType().accept(this);
+    	
+    	return new ComputedQuestionPanel(compQuestionNode.getIdentifier(), questionText, 
+    			questionWidget, compQuestionNode.getExpression(), valueEnvironment);
+	}
+	@Override
+	public Widget visit(Question questionNode) {
+		Widget questionText = questionNode.getText().accept(this);
+    	Widget questionWidget = questionNode.getType().accept(this);
+    	
+    	return new QuestionPanel(questionNode.getIdentifier(), questionText, questionWidget, valueEnvironment);
+	}
+	
+	@Override
+	public Widget visit(Form formNode) {
+		return new FormComposite(frame, formNode.getBlock().accept(this));
+	}
+	
+	@Override
+	public Widget visit(If ifNode) {
+		return new IfComposite(ifNode.getExpression(), valueEnvironment, (Panel) ifNode.getBlock().accept(this));
 	}
 
 	@Override
-	public Void visit(Question questionNode) {
-		addLabel(questionNode.getText().toString(), pane);
+	public Widget visit(IfElse ifElseNode) {		
+		Panel elsePanel = (Panel) ifElseNode.getElseBranch().accept(this);
+		Panel ifPanel = (Panel) ifElseNode.getIfBranch().accept(this);
 		
-		TextComponent comp = new TextComponent(questionNode.getIdentifier(), controller);
-    	this.pane.add(comp.getComponent());
-    	
-		return null;
+		return new IfComposite(ifElseNode.getExpression(), valueEnvironment, ifPanel, elsePanel);
 	}
-	
-	private void addLabel(String text, Container pane) {
-		JLabel label = new JLabel(text);
-    	label.setHorizontalAlignment(0);
-    	label.setFont(new Font("Serif", Font.BOLD, 20));
-    	pane.add(label);
-	}
-
 }

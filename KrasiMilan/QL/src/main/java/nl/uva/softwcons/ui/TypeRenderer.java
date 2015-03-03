@@ -2,8 +2,7 @@ package nl.uva.softwcons.ui;
 
 import nl.uva.softwcons.ast.type.BooleanType;
 import nl.uva.softwcons.ast.type.DateType;
-import nl.uva.softwcons.ast.type.DecimalType;
-import nl.uva.softwcons.ast.type.IntegerType;
+import nl.uva.softwcons.ast.type.NumberType;
 import nl.uva.softwcons.ast.type.StringType;
 import nl.uva.softwcons.ast.type.TypeVisitor;
 import nl.uva.softwcons.ast.type.UndefinedType;
@@ -21,17 +20,12 @@ public class TypeRenderer implements TypeVisitor<Widget> {
     }
 
     @Override
-    public Widget visit(IntegerType type) {
-        return new TextFieldWidget(new NumberValue(0));
-    }
-
-    @Override
     public Widget visit(StringType type) {
         return new TextFieldWidget(new StringValue(""));
     }
 
     @Override
-    public Widget visit(DecimalType type) {
+    public Widget visit(NumberType type) {
         return new TextFieldWidget(new NumberValue(0));
     }
 
