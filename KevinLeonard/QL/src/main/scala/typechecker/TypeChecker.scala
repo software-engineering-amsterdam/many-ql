@@ -8,25 +8,25 @@ class TypeChecker {
   def check(form: Form, env: TypeEnvironment = new TypeEnvironment()): Either[Error, TypeEnvironment] = check(form.s, env)
 
   def check(s: Statement, env: TypeEnvironment): Either[Error, TypeEnvironment] = s match {
-    case Sequence(statements: List[Statement]) => checkSequence(statements, env)
+    case Sequence(statements) => checkSequence(statements, env)
     case i: IfStatement => checkIfStatement(i, env)
     case q: Question => checkQuestionStatement(q, env)
   }
 
   def check(expression: Expression, env: TypeEnvironment): Either[Error, Type] = expression match {
-    case e @ Or(l: Expression, r: Expression) =>  checkBooleanExpression(l, r, env, e.pos)
-    case e @ And(l: Expression, r: Expression) => checkBooleanExpression(l, r, env, e.pos)
-    case e @ Not(e1: Expression) => checkBooleanExpression(e1, env, e.pos)
-    case e @ Equal(l: Expression, r: Expression) => checkEqualityExpression(l, r, env, e.pos)
-    case e @ NotEqual(l: Expression, r: Expression) => checkEqualityExpression(l, r, env, e.pos)
-    case e @ LessThan(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ LessThanEqual(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ GreaterThan(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ GreaterThanEqual(l: Expression, r: Expression) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ Add(l: Expression, r: Expression) => checkArithmeticExpression(l, r, env, e.pos)
-    case e @ Sub(l: Expression, r: Expression) => checkArithmeticExpression(l, r, env, e.pos)
-    case e @ Mul(l: Expression, r: Expression) => checkArithmeticExpression(l, r, env, e.pos)
-    case e @ Div(l: Expression, r: Expression) => checkArithmeticExpression(l, r, env, e.pos)
+    case e @ Or(l, r) =>  checkBooleanExpression(l, r, env, e.pos)
+    case e @ And(l, r) => checkBooleanExpression(l, r, env, e.pos)
+    case e @ Not(e1) => checkBooleanExpression(e1, env, e.pos)
+    case e @ Equal(l, r) => checkEqualityExpression(l, r, env, e.pos)
+    case e @ NotEqual(l, r) => checkEqualityExpression(l, r, env, e.pos)
+    case e @ LessThan(l, r) => checkRelationalExpression(l, r, env, e.pos)
+    case e @ LessThanEqual(l, r) => checkRelationalExpression(l, r, env, e.pos)
+    case e @ GreaterThan(l, r) => checkRelationalExpression(l, r, env, e.pos)
+    case e @ GreaterThanEqual(l, r) => checkRelationalExpression(l, r, env, e.pos)
+    case e @ Add(l, r) => checkArithmeticExpression(l, r, env, e.pos)
+    case e @ Sub(l, r) => checkArithmeticExpression(l, r, env, e.pos)
+    case e @ Mul(l, r) => checkArithmeticExpression(l, r, env, e.pos)
+    case e @ Div(l, r) => checkArithmeticExpression(l, r, env, e.pos)
     case v: Variable => env.tryGetVariable(v)
     case Literal(t, _) => Right(t)
   }
@@ -58,7 +58,7 @@ class TypeChecker {
   def checkQuestionStatement(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
     q.optionalExpression match {
       case None => tryAddQuestionToEnvironment(q, env)
-      case Some(e) => check(e, env) match {
+      case Some(optionalExpression) => check(optionalExpression, env) match {
         case Right(t: Type) if t == q._type => tryAddQuestionToEnvironment(q, env)
         case Right(_) => Left(new Error("Invalid expression type for computed question at line", q.pos))
         case Left(e) => Left(e)
