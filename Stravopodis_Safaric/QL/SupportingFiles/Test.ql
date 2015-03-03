@@ -34,7 +34,7 @@ form HouseSelling {
     	question rentDuration typeof int {
     		rentDuration : "Duration of the agreement:";
     	}
-    	question paid typeof decimal {
+    	question paid typeof money {
     		paid : "Total amount paid to date:";
     		paid : rentValue * rentDuration;
     	}
@@ -47,9 +47,9 @@ form HouseSelling {
     	question interestValue typeof int {
     		interestValue : "What was the percentage of interest?";
     	}
-    	question interestSum typeof decimal {
+    	question interestSum typeof money {
     		interestSum : "Interest value:";
-    		interestSum : (loanValue * (interestValue / 100));
+    		interestSum : (loanValue * interestValue) / 100;
     	}
     }	
 

@@ -11,7 +11,6 @@ import uva.ql.ast.Prog;
 import uva.ql.interpreter.gui.GUI;
 import uva.ql.interpreter.observer.Subject;
 import uva.ql.interpreter.typecheck.TypeCheck;
-import uva.ql.interpreter.typecheck.TypeCheckVisitor;
 import uva.ql.parser.QLLexer;
 import uva.ql.parser.QLMainVisitor;
 import uva.ql.parser.QLParser;
@@ -29,7 +28,6 @@ public class Main{
 		
 		QLMainVisitor visitor = new QLMainVisitor();
 		ASTNode ast = visitor.visit(tree);
-		
 		
 		TypeCheck typeCheck = new TypeCheck(ast);
 		typeCheck.getSymbolTable().printSymbolTable();

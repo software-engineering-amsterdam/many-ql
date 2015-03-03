@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.form.language.ast.expression.literal.IdLiteral;
-import com.form.language.ast.statement.Statement;
 
-public class Memory {
+public class IdCollector {
 	
 	private List<IdLiteral> ids;
 	//private HashMap<String,GenericValue> values;
 	//private List<String> labels;
 			
-	public Memory()
+	public IdCollector()
 	{
 		ids = new ArrayList<IdLiteral>();
 		//values = new HashMap();

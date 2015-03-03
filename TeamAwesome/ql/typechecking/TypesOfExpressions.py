@@ -12,73 +12,81 @@ class Checker(Checker.FullChecker):
         super().__init__(ast)
         self._operatorTable = TypeRules.OperatorTable()
 
-        # Type of the last checked expression or None if it could
-        # not be determined (which means there was a type error).
-        self._typeOfLastExpression = None
 
     def _visitIfStatement(self, node):
-        self.visit(node.expr)
+        typeOfExpression = self.visit(node.expr)
 
-        if self._typeOfLastExpression is not None:
+        if typeOfExpression is not None:
             self._allowExpression(
                 [bool],
-                self._typeOfLastExpression,
+                typeOfExpression,
                 node.expr
             )
 
         for n in node.getChildren():
             self.visit(n)
 
-    def _visitQuestionStatement(self, node):
-        if node.expr is not None:
-            self.visit(node.expr)
 
-            if self._typeOfLastExpression is not None:
-                self._allowExpression(
-                    [typeOfIdentifier(node.identifier, node)],
-                    self._typeOfLastExpression,
-                    node.expr
-                ) 
+    def _visitQuestionStatement(self, node):
+        if node.expr is None:
+            return
+            
+        typeOfExpression = self.visit(node.expr)
+
+        if typeOfExpression is not None:
+            self._allowExpression(
+                [typeOfIdentifier(node.identifier, node)],
+                typeOfExpression,
+                node.expr
+            ) 
+
         
     def _visitIdentifier(self, node):
-        self._typeOfLastExpression = typeOfIdentifier(
+        typeOfExpression = typeOfIdentifier(
             node,
             self._ast.root
         )
 
-        if self._typeOfLastExpression is None:
+        if typeOfExpression is None:
             self._result = self._result.withMessage(
                 Message.Error(
                     'undeclared identifier '+node,
                     node
                 )
             )
+
+        return typeOfExpression
         
+
     def _visitStr(self, node):
-        self._typeOfLastExpression = str
+        return str
+
 
     def _visitInt(self, node):
-        self._typeOfLastExpression = int
+        return int
+
 
     def _visitMoney(self, node):
-        self._typeOfLastExpression = CustomTypes.Money
+        return CustomTypes.Money
+
 
     def _visitBool(self, node):
-        self._typeOfLastExpression = bool
+        return bool
+
 
     def _visitUnaryExpression(self, node):
-        self.visit(node.right)
+        typeOfExpression = self.visit(node.right)
 
-        if self._typeOfLastExpression is None:
-            return
+        if typeOfExpression is None:
+            return None
 
-        self._typeOfLastExpression = \
+        typeOfExpression = \
             self._operatorTable.unaryOperationType(
                 node.op,
-                self._typeOfLastExpression
+                typeOfExpression
             )
 
-        if self._typeOfLastExpression is None:
+        if typeOfExpression is None:
             self._result = self._result.withMessage(
                 Message.Error(
                     'invalid operands to unary operator `'+node.op\
@@ -87,27 +95,26 @@ class Checker(Checker.FullChecker):
                 )
             )
 
+        return typeOfExpression
+
+
     def _visitBinaryExpression(self, node):
-        self.visit(node.left)
-        if self._typeOfLastExpression is None:
-            return
+        typeOfLeftExpression = self.visit(node.left)
+        if typeOfLeftExpression is None:
+            return None
 
-        leftType = self._typeOfLastExpression
+        typeOfRightExpression = self.visit(node.right)
+        if typeOfRightExpression is None:
+            return None
 
-        self.visit(node.right)
-        if self._typeOfLastExpression is None:
-            return
-
-        rightType = self._typeOfLastExpression
-
-        self._typeOfLastExpression = \
+        typeOfExpression = \
             self._operatorTable.binaryOperationType(
                 node.op,
-                leftType,
-                rightType
+                typeOfLeftExpression,
+                typeOfRightExpression
             )
 
-        if self._typeOfLastExpression is None: 
+        if typeOfExpression is None: 
             self._result = self._result.withMessage(
                 Message.Error(
                     'invalid operands to binary operator `'+node.op\
@@ -115,6 +122,8 @@ class Checker(Checker.FullChecker):
                     node
                 )
             )
+
+        return typeOfExpression
 
 
     def _allowExpression(self, allowedTypes, exprType, node):

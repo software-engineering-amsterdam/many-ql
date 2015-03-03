@@ -8,7 +8,7 @@ import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
-import uva.ql.ast.expressions.literals.DecimalLiteral;
+import uva.ql.ast.expressions.literals.MoneyLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.IntLiteral;
 import uva.ql.ast.expressions.literals.StringLiteral;
@@ -220,8 +220,8 @@ public class GUIVisitor extends Observer implements StatementVisitorInterface<Ob
 	}
 
 	@Override
-	public Object visitDecimalLiteral(DecimalLiteral decimalLiteral) {
-		return decimalLiteral;
+	public Object visitMoneyLiteral(MoneyLiteral moneyLiteral) {
+		return moneyLiteral;
 	}
 
 	@Override

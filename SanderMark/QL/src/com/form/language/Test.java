@@ -9,7 +9,7 @@ import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 import com.form.language.test.AstTest;
 
 import org.junit.runner.JUnitCore;
@@ -28,8 +28,8 @@ public class Test {
 		Expression evaluator = parser.expression().result;
 		//System.out.println((evaluator.getType()));
 		
-		Memory m = new Memory();		
-		evaluator.fillMemory(m);
+		IdCollector m = new IdCollector();		
+		evaluator.collectIds(m);
 		System.out.println(m.showMemory());
 			
 		ErrorCollector errors = new ErrorCollector();

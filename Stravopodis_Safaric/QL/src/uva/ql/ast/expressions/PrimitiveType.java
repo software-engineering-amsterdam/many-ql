@@ -7,7 +7,7 @@ public enum PrimitiveType {
 	BOOLEAN("boolean","Boolean", "boolean"),
 	INT("int","Int", "integer"),
 	STRING("string","String", "string"),
-	DECIMAL("decimal","Float", "float");
+	MONEY("money","Float", "float");
 	
 	private String name1;
 	private String name2;
@@ -53,7 +53,7 @@ public enum PrimitiveType {
 		switch(type){
 			case BOOLEAN: 	return new BooleanLiteral(((BooleanLiteral)value).evaluate().getValue(), null);
 			case INT: 		return (IntLiteral)value;
-			case DECIMAL:	return (DecimalLiteral)value;
+			case MONEY:		return (MoneyLiteral)value;
 			case STRING: 	return new StringLiteral(String.valueOf(value), null);
 		}
 		return null;
