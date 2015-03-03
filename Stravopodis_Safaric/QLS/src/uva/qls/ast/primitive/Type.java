@@ -14,7 +14,7 @@ public class Type extends ASTNode{
 	public Type(String _type, CodeLines _codeLines) {
 		super(_codeLines);
 		this.primitiveType = this.findPrimitiveType(_type);
-		this.name=_type;
+		this.name = this.primitiveType.getName();
 	}
 
 	private PrimitiveType findPrimitiveType(String _type){

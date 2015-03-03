@@ -40,5 +40,9 @@ public class Dropdown extends Component{
 	public Tuple<String, String> evaluate() {
 		return this.values;
 	}
+	@Override
+	public String toString(){
+		return "Dropdown(" + this.values.toString() + " " + this.style.toString() + ")";
+	}
 
 }

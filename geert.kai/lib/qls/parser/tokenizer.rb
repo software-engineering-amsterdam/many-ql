@@ -2,6 +2,7 @@ require 'strscan'
 
 module QLS
   class Tokenizer
+    COMMENT       = /\/\/.*$/
     WHITESPACE    = /\s+/
     KEYWORD       = /stylesheet|page|section|default|question|integer|boolean|string|checkbox|radio|dropdown|text|spinbox/
     VARIABLE_NAME = /[a-zA-Z_][a-zA-Z0-9?!_]*/
@@ -17,6 +18,7 @@ module QLS
       return nil if @ss.eos?
 
       case
+      when text = @ss.scan(COMMENT)       then next_token
       when text = @ss.scan(WHITESPACE)    then next_token
       when text = @ss.scan(KEYWORD)       then [text, text]
       when text = @ss.scan(VARIABLE_NAME) then [:VARIABLE_NAME, text]

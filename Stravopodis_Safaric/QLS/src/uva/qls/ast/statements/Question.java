@@ -35,12 +35,13 @@ public class Question extends Statement {
 	}
 	@Override
 	public String toString(){
-		return "Question(" + this.identifier.toString() + "," + component.toString() + ")";
+		return this.component == null	? "Question(" + this.identifier.toString() + "," + ")"
+										: "Question(" + this.identifier.toString() + "," +  this.component.toString() + ")";
 	}
 
 	@Override
 	public GenericValue<?> evaluate() {
-	return null;
+		return null;
 	}
 	
 }

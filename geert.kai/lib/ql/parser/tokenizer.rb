@@ -4,7 +4,7 @@ module QL
   class Tokenizer
     WHITESPACE    = /\s+/
     KEYWORD       = /form|if|else|end|integer|boolean|string/
-    VARIABLE_NAME = /[a-zA-Z_][a-zA-Z0-9?!_]*/
+    VARIABLE_NAME = /[a-zA-Z_][a-zA-Z0-9?!_-]*/
     INTEGER      = /[0-9]+/
     STRING        = /"(?:[^"\\]|\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))*"/
 

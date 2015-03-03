@@ -104,5 +104,5 @@ class Form:
 
     def set_statement_ids(self):
         m = converters.Converters.get_md5(str(self))
-        for s in self.statements:
+        for s in self._statements:
             s.set_parent_id(m)

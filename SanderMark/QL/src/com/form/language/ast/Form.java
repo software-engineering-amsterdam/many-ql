@@ -26,19 +26,6 @@ public class Form  {
 		this.id = id;
 		this.statementList = statementList;
 	}
-
-	public JComponent createGUIComponent(JPanel panel) {
-		for(Iterator<Statement> s = this.statementList.iterator(); s.hasNext();)
-		{
-			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(panel);
-			if(component != null)
-			{
-				panel.add(component);
-			}
-		}		
-		return null;
-	}
 	
 	public void getErrors(ErrorCollector errs){
 		for(Statement s: statementList){

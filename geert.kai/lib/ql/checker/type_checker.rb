@@ -1,4 +1,4 @@
-require_relative "base_visitor"
+require_relative "../../util/base_visitor"
 require_relative "../ast/ast"
 
 module QL
@@ -35,14 +35,14 @@ module QL
       end
 
       def valid_conditional_type?(type)
-        type == BooleanType.new || type == UndefinedType.new
+        type == AST::BooleanType.new || type == AST::UndefinedType.new
       end
 
       def visit_binary_expression(expression)
         lhs_type = expression.lhs.accept(self)
         rhs_type = expression.rhs.accept(self)
 
-        return UndefinedType.new if lhs_type == UndefinedType.new || rhs_type == UndefinedType.new
+        return AST::UndefinedType.new if lhs_type == AST::UndefinedType.new || rhs_type == AST::UndefinedType.new
 
 
         check_expression_type(expression, lhs_type)
@@ -62,7 +62,7 @@ module QL
           @types[variable.name]
         else
           @errors << Exception.new("Variable #{variable.name} not defined.")
-          UndefinedType.new
+          AST::UndefinedType.new
         end
       end
 

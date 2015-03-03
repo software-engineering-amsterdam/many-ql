@@ -1,6 +1,7 @@
-require_relative "../checker/base_visitor"
+require_relative "../../util/base_visitor"
+
 module QL
-  class Runner < Checking::BaseVisitor
+  class Runner < BaseVisitor
 
     attr_reader :questions
 
@@ -54,7 +55,7 @@ module QL
     end
   end
 
-  class Evaluator < Checking::BaseVisitor
+  class Evaluator < BaseVisitor
     def evaluate(values)
       @values = values
       visit @base
@@ -80,7 +81,7 @@ module QL
     end
   end
 
-  class QuestionVisitor < Checking::BaseVisitor
+  class QuestionVisitor < BaseVisitor
 
     def questions
       visit @base

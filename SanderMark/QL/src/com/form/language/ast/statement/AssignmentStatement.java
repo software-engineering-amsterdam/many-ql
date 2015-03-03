@@ -57,6 +57,6 @@ public class AssignmentStatement implements Statement {
 	}
 	
 	public void initMemory(RuntimeMemory mem){
-		expression.evaluate().addToMemory(id, mem);
+		expression.evaluate(mem).addToMemory(id, mem);
 	}
 }

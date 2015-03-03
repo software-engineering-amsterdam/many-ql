@@ -7,4 +7,8 @@ import lang.qls.ast.Rule.StylesheetRule;
  */
 public abstract class WidgetRule extends StylesheetRule
 {
+    public WidgetRule(int lineNumber)
+    {
+        super(lineNumber);
+    }
 }
