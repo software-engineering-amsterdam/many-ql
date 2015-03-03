@@ -43,9 +43,12 @@ namespace Tests.VisitorTests
         public void EvaluationBasicTest()
         {
             string input = @"form ExampleBlock {
-                if (3==-11){}
+                statement S1 (text, ""abc"") ""You've failed to answer:"";
+                statement S2 (yesno, yes) ""You've failed to answer:"";
+
+                if (yes){}
 	            else {
-                     if (3==12)
+                     if (S2)
                         {}
                      else {};
                      };

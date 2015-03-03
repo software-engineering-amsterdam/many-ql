@@ -13,23 +13,51 @@ namespace QL.Evaluation
     public class EvaluatorVisitor : IVisitor
     {
         public IList<QLError> Errors { get; private set; }
-        object TypeReferenceStorage;
+        IDictionary<Identifier,Type> TypeReference;  //reference for types
+        IDictionary<ITypeResolvable,IResolvableTerminalType> Values;   //storage of values         
+        IDictionary<Identifier, ITypeResolvable> IdentifierReference;    // storage of ID references
 
+        public EvaluatorVisitor(IDictionary<Identifier, Type> typeReference)//im not sure about this
+        
+        {
+            TypeReference = typeReference;//im not sure about this
+            Errors = new List<QLError>();
+            Values = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
+            IdentifierReference = new Dictionary<Identifier, ITypeResolvable>();
 
-        System.Collections.Generic.Dictionary<ITypeResolvable,IResolvableTerminalType> Values;
-            
-
-        Dictionary<Identifier, ITypeResolvable> References;
-
-        void ResolveValue(Expression node) {
-            
-            Values[node] = ResolveValue((dynamic)node.Children[0]);
-            
         }
 
-        ITypeResolvable ResolveValue(Identifier node)
+        public EvaluatorVisitor()
         {
-            return References[node];//todo
+            TypeReference = new Dictionary<Identifier,Type>();//im not sure about this
+            Errors = new List<QLError>();
+            Values = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
+            IdentifierReference = new Dictionary<Identifier, ITypeResolvable>();
+
+        }
+        IResolvableTerminalType GetValue(IResolvableTerminalType node)
+        {
+
+            return node;
+            
+        }
+        IResolvableTerminalType GetValue(Expression node)
+        {
+
+            return GetValue((dynamic)node.Children[0]);
+
+        }
+
+        IResolvableTerminalType GetValue(Identifier node)
+        {
+            if (!IdentifierReference.ContainsKey(node))
+            {
+                throw new QLError("Undeclared variable");
+            }
+            if (!Values.ContainsKey(IdentifierReference[node])){
+                throw new QLError("Variable not assigned");//this is bullshit, cannot happen?
+            }
+            return Values[IdentifierReference[node]];            
         }
 
 
@@ -44,19 +72,20 @@ namespace QL.Evaluation
 
         public void Visit(ControlUnit node)
         {
+            Values[node.Expression] = GetValue(node.Expression);
         }
 
         public void Visit(StatementUnit node)
         {
-            References[node.Identifier] = node.Expression;
-            ResolveValue((dynamic)node.Expression);
+            IdentifierReference[node.Identifier] = node.Expression;//NOT node.DataType, that is used only for type checking(arbitrary decision)
+            Values[node.Expression] = GetValue(node.Expression);
         
         }
 
         public void Visit(QuestionUnit node)
         {
-            References[node.Identifier] = node.DataType;
-            ResolveValue((dynamic)node.DataType);
+            IdentifierReference[node.Identifier] = node.DataType;
+            Values[node.DataType]=GetValue(node.DataType);
         }
 
         public void Visit(Expression node)
@@ -67,7 +96,8 @@ namespace QL.Evaluation
         #region Operators
         public void Visit(EqualsOperator node)
         {
-            //todo bool returnvalue= (References[node.Left.GetHashCode()].Value == References[node.Right.GetHashCode()].Value);
+
+            //Values[node] = Values[(ITypeResolvable)node.Left] == Values[(ITypeResolvable)node.Right];
         }
 
         public void Visit(NotEqualsOperator node)
@@ -130,51 +160,14 @@ namespace QL.Evaluation
 
         public void Visit(Identifier node)
         {
-            //Values[node] = Values[References[node]];
         }
-        public void Evaluate(Identifier node)
-        {
-            //Values[node] = Values[References[node]];
-        }
-        public void Evaluate(Number node)
-        {
-            if (!Values.ContainsKey(node)){
-                Values[node] = node;               
-            }
-            
-        }
-        public void Evaluate(Yesno node)
-        {
-            if (!Values.ContainsKey(node))
-            {
-                Values[node] = node;
-            }
-        }
-        public void Evaluate(Text node)
-        {
-            if (!Values.ContainsKey(node))
-            {
-                Values[node] = node;
-            }
-        } 
-        public void Evaluate(EqualsOperator node){
-            //Values[node] = Values[(ITypeResolvable)node.Left] == Values[(ITypeResolvable)node.Right];
-        }
-
-        void Evaluate(Expression node)
-        {
-            //Values[node] = Values[node.Children[0]];
-        }
-        void Evaluate(PlusOperator node)
-        {
-            //Values[node] = Values[node.Left] + Values[node.Right];
-        }
-
-        #endregion
 
         public void Visit(ElementBase node)
         {
             throw new QLError("Not implemented: " + node.GetType().ToString());
         }
+        #endregion
+
+        
     }
 }
