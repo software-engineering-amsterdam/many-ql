@@ -24,11 +24,15 @@ abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression],
   val valueDependencies: Dependencies = q.optionalExpression.fold[Dependencies](List())(e => dependencyResolver.resolve(e))
   val visibilityDependencies: Dependencies = visibilityExpressions.flatMap(e => dependencyResolver.resolve(e))
 
-  def updateVisibility(key: String): Unit = if (visibilityDependencies contains key) visible = shouldBeVisible
+  def updateVisibility(key: String): Unit = if (visibilityDependencies contains key) {
+    visible = shouldBeVisible
+    managed = isVisible
+  }
   def shouldBeVisible: Boolean = visibilityExpressions.forall(evaluator.eval(_, env) == BooleanValue(true))
   def isVisible: Boolean = visible.value
 
   visible = shouldBeVisible
+  managed = isVisible
   children.add(new Label(q.label))
 }
 
