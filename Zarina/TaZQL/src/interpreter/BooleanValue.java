@@ -1,16 +1,17 @@
 package interpreter;
 
-public class BooleanValue extends Value {
-	private final Boolean booleanValue;
+public class BooleanValue extends Value<Boolean> {
+	//private final Boolean booleanValue;
 	
-	public BooleanValue(Boolean booleanValue) {
-		this.booleanValue = booleanValue;
+	public BooleanValue(boolean booleanValue) {
+		super(booleanValue);
+		//this.booleanValue = booleanValue;
 	}
-	
+	/*
 	public Boolean getBooleanValue() {
 		return booleanValue;
 	}
-	
+	*/
 	public Value and(Value value) {
 		return value.andBoolean(this);
 	}
@@ -20,7 +21,7 @@ public class BooleanValue extends Value {
 	} 
 	
 	public Value not() {
-		return new BooleanValue(!getBooleanValue());
+		return new BooleanValue(!getValue());
 	}
 	
 	public Value equality(Value value) {
@@ -29,22 +30,22 @@ public class BooleanValue extends Value {
 	
 	
 	public Value equalBoolean(BooleanValue value) {
-		return new BooleanValue(value.getBooleanValue() == getBooleanValue() );
+		return new BooleanValue(value.getValue() == getValue() );
 	}
 
 	public Value andBoolean(BooleanValue value) {
-		return new BooleanValue(value.getBooleanValue() && getBooleanValue() );
+		return new BooleanValue(value.getValue() && getValue() );
 	}
 	
 	public Value orBoolean(BooleanValue value) {
-		return new BooleanValue(value.getBooleanValue() || getBooleanValue() );
+		return new BooleanValue(value.getValue() || getValue() );
 	}
-	
+	/*
 	public boolean equals(Object object) {
 		if (object instanceof BooleanValue) {	
-			return getBooleanValue().equals(((BooleanValue) object).getBooleanValue());
+			return getValue().equals(((BooleanValue) object).getValue());
 		}
 		return false;
 	}
-	
+	*/
 }
