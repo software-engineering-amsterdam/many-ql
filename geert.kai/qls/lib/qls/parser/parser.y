@@ -1,6 +1,6 @@
 class QLS::Parser
 
-token STRING VARIABLE_NAME INTEGER
+token STRING VARIABLE_NAME INTEGER COLOR
 rule
   stylesheet
     : 'stylesheet' variable_name '{' stylesheet_rules '}' { result = Stylesheet.new(val[1], val[3]) }
@@ -64,12 +64,11 @@ rule
 
  
   declaration
-    : 'color:' value      { result = ColorDeclaration.new(val[1]) }
-    | 'font:' value       { result = FontDeclaration.new(val[1]) }
-    | 'font-size:' value  { result = FontSizeDeclaration.new(val[1]) }
-    | 'widget:' value     { result = WidgetDeclaration.new(val[1]) }
-    | 'width:' value      { result = WidthDeclaration.new(val[1]) }
+    : property ':' value { PropertyDeclaration.new(val[0], val[1]) }
     ;
+
+  property
+    : variable_name
 
   value
     : integer
@@ -79,13 +78,15 @@ rule
     ;
 
   color
-    : '000000'
+    : COLOR
     ;
 
   widget
-    : 'checkbox'
-    | 'spinbox'
-    | 'radio'
+    : 'checkbox' { result = Checkbox.new }
+    | 'spinbox'  { result = Spinbox.new }
+    | 'radio'    { result = YesNoRadio.new }
+    | 'dropdown' { result = YesNoDropdown.new }
+    | 'text'     { result = Text.new }
     ;
 
   variable_name
@@ -101,8 +102,8 @@ rule
   integer
     : INTEGER { result = IntegerLiteral.new(val[0].to_i) }
     ;
+
   string
-    # TODO: get rid of double quotes in a nicer way.
     : STRING { result = StringLiteral.new(val[0][1..-2]) }
     ;
 end
