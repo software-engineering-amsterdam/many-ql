@@ -1,13 +1,12 @@
-from tkinter import *
+import tkinter as tk
 
-from QL.Main.processor import *
-from QL.Main.mapper import *
-# from QL.Grammar.basic_types import *
+import QL.Main.processor as processor
+import QL.Main.mapper as mapper
 
 
 class QuestionnaireGUI:
     def __init__(self, form):
-        self.qGui = Tk()
+        self.qGui = tk.Tk()
         self.form = form
         self.statements = self.form.get_statements()
         self.title = self.form.get_name()
@@ -15,7 +14,7 @@ class QuestionnaireGUI:
         self.dependencies = self.form.get_dependencies()
         self.column_span = 1
         self.row_counter = 0
-        self.answersMap = Mapper()
+        self.answersMap = mapper.Mapper()
         self.elementsMap = {}  # structure: {parent_id: {_statements:List, guiElements:List} .. }
         self.varsCondMap = {}
         # self.statements_dict = form.get_statement_dict()
@@ -25,9 +24,9 @@ class QuestionnaireGUI:
         print("_" * 50)
         # self.qGui.geometry('450x450')
         self.qGui.title(self.title)
-        Label(text=self.intro, height=2).grid(row=0, column=0, sticky=W)
+        tk.Label(text=self.intro, height=2).grid(row=0, column=0, sticky=tk.W)
         self.draw_statements(self.statements)
-        Button(text="Submit", width=10, command=lambda: Processor.export_answers(self.answersMap, self)).grid(row=999, column=0)
+        tk.Button(text="Submit", width=10, command=lambda: processor.export_answers(self.answersMap, self)).grid(row=999,column=0)
 
     def draw_statements(self, statements):
         for statement in statements:
@@ -95,8 +94,8 @@ class QuestionnaireGUI:
         condition = statement.get_parent_condition()
         c_results = True
         if condition is not None:
-            processor = Processor()
-            c_results = processor.eval_expression(condition.pretty_print(), self.answersMap)
+            p = processor.Processor()
+            c_results = p.eval_expression(condition.pretty_print(), self.answersMap)
 
         if not c_results:
             return False
@@ -105,11 +104,11 @@ class QuestionnaireGUI:
         if len(elements) is 2:
             colspan = 2
         for i in range(0, len(elements)):
-            elements[i].grid(row=statement.get_order() + 1, column=i, columnspan=colspan, sticky=W)
+            elements[i].grid(row=statement.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
         self.answersMap.update(question, new_answer)
-        # pointers = self.varsCondMap[question.get_id()]
+        # pointers = self.varsCondMap[q.get_id()]
         # for pointer in pointers:
         #     self.elements_recreate(pointer)
         pointers = []
@@ -120,7 +119,7 @@ class QuestionnaireGUI:
     def elements_recreate(self, qid): #parent_id
         statements_dict = self.form.get_statement_dict()
         if qid not in statements_dict:
-            raise QException("Fatal Error: no such condition id " + qid)
+            raise tk.QException("Fatal Error: no such condition id " + qid)
         statement = statements_dict[qid]
         elements = statement.get_element()
         if elements is None:
@@ -151,7 +150,7 @@ class QuestionnaireGUI:
     #     processor = Processor()
     #     condition = processor.eval_expression(c_question.get_str_condition(), self.answersMap)
     #
-    #     # map variables/question id to conditions where they are used
+    #     # map variables/q id to conditions where they are used
     #     variables = c_question.get_condition().get_dependencies()
     #     for v in variables:
     #         if v in self.varsCondMap:
@@ -175,7 +174,7 @@ class QuestionnaireGUI:
 
     @staticmethod
     def e_label(statement, gui):
-        l = Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
+        l = tk.Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
         # l.grid(row=statement.get_order(), column=0, sticky=W)
         return [l]
 
@@ -183,9 +182,9 @@ class QuestionnaireGUI:
     def e_radio(statement, gui):
         e_list = []
         e_list += QuestionnaireGUI.e_label(statement, gui)
-        e1 = Radiobutton(text="True", value=1, variable=statement.get_order(),
+        e1 = tk.Radiobutton(text="True", value=1, variable=statement.get_order(),
                          command=lambda: gui.update(statement, True))
-        e2 = Radiobutton(text="False", value=0, variable=statement.get_order(),
+        e2 = tk.Radiobutton(text="False", value=0, variable=statement.get_order(),
                          command=lambda: gui.update(statement, False))
         # e2.select()  # set default as False
         # e2.deselect()  # clean selection
@@ -199,7 +198,7 @@ class QuestionnaireGUI:
     def e_spin(statement, gui):
         e_list = []
         e_list += QuestionnaireGUI.e_label(statement, gui)
-        e = Spinbox(from_=0, to_=10000)
+        e = tk.Spinbox(from_=0, to_=10000)
         e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, e.get()))
         # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W)
         e_list.append(e)
@@ -209,8 +208,8 @@ class QuestionnaireGUI:
     def e_entry(statement, gui):
         e_list = []
         e_list += QuestionnaireGUI.e_label(statement, gui)
-        str_var = StringVar()
-        e = Entry(textvariable=str_var)
+        str_var = tk.StringVar()
+        e = tk.Entry(textvariable=str_var)
         e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, e.get()))
         # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
         e_list.append(e)

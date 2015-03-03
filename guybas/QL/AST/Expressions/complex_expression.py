@@ -1,7 +1,8 @@
-from QL.AST.Expressions.expression import *
+import QL.AST.Expressions.expression as e
+
 
 # Expressions with sub-expressions
-class ComplexExpression(Expression):
+class ComplexExpression(e.Expression):
     def __init__(self, expression):
         self.expression = expression
         self.is_else = False

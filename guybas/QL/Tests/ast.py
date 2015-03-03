@@ -91,14 +91,14 @@ class TestAST(unittest.TestCase):
         result = (FormFormat.pIf.parseString(
             "if (con == True) {  "
             "Question trans (bool) : Will transitive closure work? "
-            "Question two (text) : This is a second question.}"))
+            "Question two (text) : This is a second q.}"))
         self.assertIsInstance(result[0], IfBlock)
 
         # Get all the ids
         self.assertEqual(result[0].id_collection(), ["trans", "two"])
 
         # Get the labels
-        self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second question ."])
+        self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second q ."])
 
         # Get the dependencies
         self.assertEqual(result[0].dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})

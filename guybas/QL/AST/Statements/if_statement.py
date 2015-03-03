@@ -1,8 +1,8 @@
 # AST for if_block
-from QL.AST.Statements.statement import *
+import QL.AST.Statements.statement as statement
 
 
-class IfBlock(IStatement):
+class IfBlock(statement.IStatement):
 
     # Override
     def __init__(self, condition, statements, tid):

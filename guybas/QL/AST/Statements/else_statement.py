@@ -1,6 +1,7 @@
-from QL.AST.Statements.if_statement import *
+import QL.AST.Statements.if_statement as if_statement
 
-class IfElseBlock(IfBlock):
+
+class IfElseBlock(if_statement.IfBlock):
 
     # Override
     def __init__(self, condition, statements, else_statements, tid):

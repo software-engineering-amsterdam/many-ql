@@ -1,8 +1,9 @@
 # AST format of a question, initializing the IStatement
-from QL.AST.Statements.statement import *
-from QL.Main.gui import *
+import QL.AST.Statements.statement as statement
+import QL.Main.gui as g
 
-class Question(IStatement):
+
+class Question(statement.IStatement):
 
     # Override
     def __init__(self, qid, qtype, label):
@@ -67,13 +68,13 @@ class Question(IStatement):
 
     def set_element(self, gui):
         if self.get_type() is 'bool':
-            self.element = QuestionnaireGUI.e_radio(self, gui)
+            self.element = g.QuestionnaireGUI.e_radio(self, gui)
         elif self.get_type() is 'number':
-            self.element = QuestionnaireGUI.e_spin(self, gui)
+            self.element = g.QuestionnaireGUI.e_spin(self, gui)
         elif self.get_type() is 'text':
-            self.element = QuestionnaireGUI.e_entry(self, gui)
+            self.element = g.QuestionnaireGUI.e_entry(self, gui)
         else:
-            raise QException("Element type does not exists")
+            raise g.QException("Element type does not exists")
 
     def set_parent_condition(self, condition):
         self.parentCondition = condition
