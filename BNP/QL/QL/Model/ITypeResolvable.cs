@@ -9,6 +9,5 @@ namespace QL.Model
 {
     public interface ITypeResolvable
     {
-        Type GetReturnType();
     }
 }

@@ -75,6 +75,7 @@
     <Compile Include="Model\Expression.cs" />
     <Compile Include="Model\Form.cs" />
     <Compile Include="Model\ITraversable.cs" />
+    <Compile Include="Model\ITypeResolvableDirectly.cs" />
     <Compile Include="Model\ITypeResolvableByChildren.cs" />
     <Compile Include="Model\IVisitable.cs" />
     <Compile Include="Model\Operators\AndOperator.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Model\Operators\IOperator.cs" />
     <Compile Include="Model\Operators\NotEqualsOperator.cs" />
     <Compile Include="Model\QuestionUnit.cs" />
-    <Compile Include="Model\RootNode.cs" />
     <Compile Include="Model\SourceLocation.cs" />
     <Compile Include="Model\StatementUnit.cs" />
     <Compile Include="Model\Terminals\Identifier.cs" />

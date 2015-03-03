@@ -45,7 +45,7 @@ namespace QL.Model.Terminals
         {
             return string.IsNullOrWhiteSpace(Value) ? "undefined" : Value;
         }
-        public override Type GetReturnType()
+        public Type GetReturnType()
         {
             return GetType();
         }

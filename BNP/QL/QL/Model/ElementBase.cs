@@ -30,9 +30,6 @@ namespace QL.Model
             Children = list;
         }
 
-        public virtual Type GetReturnType(){
-            return null;
-        }
 
         public List<TypeError> CollectTypeExceptions()
         {

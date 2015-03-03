@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL.Errors;
-using QL.Extensions;
 using QL.Model;
 using QL.Model.Operators;
 
@@ -21,7 +20,7 @@ namespace QL.Evaluation
         public TypeCheckerVisitor()
         {
             Errors = new List<QLError>();
-            TypeReferenceDictionary = new SortedDictionary<Identifier, Type>();
+            TypeReferenceDictionary = new Dictionary<Identifier, Type>();
         }
 
         #region Regular elements
@@ -42,15 +41,14 @@ namespace QL.Evaluation
 
         public void Visit(StatementUnit node)
         {
-            TypeReferenceDictionary.RegisterTypeReference(node.Identifier, DetermineType(node.DataType));
+            TypeReferenceDictionary[node.Identifier]= DetermineType((dynamic)node.DataType);
 
             return; // todo check if referenced variable exists
         }
 
         public void Visit(QuestionUnit node)
         {
-            TypeReferenceDictionary.RegisterTypeReference(node.Identifier, DetermineType(node.DataType));
-
+            TypeReferenceDictionary[node.Identifier] = DetermineType((dynamic)node.DataType);
             return; // nothing to check
         }
 
@@ -204,7 +202,7 @@ namespace QL.Evaluation
             return DetermineType((dynamic)i.Children[0]);
         }
 
-        Type DetermineType(ITypeResolvable i)
+        Type DetermineType(ITypeResolvableDirectly i)
         {
             return i.GetReturnType();
         }
