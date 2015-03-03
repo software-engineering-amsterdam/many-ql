@@ -225,5 +225,18 @@ public class UndefinedValue extends Value {
 	public Value andBoolean(boolean argument) {
 		return new BooleanValue(false);
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {		
+		if(obj instanceof UndefinedValue) {
+			return true;
+		}
+		
+		return false;
+	};
+	
+	@Override
+	public String toString() {
+		return "Undefined";
+	}
 }

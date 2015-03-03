@@ -1,92 +1,51 @@
 package test.evaluator.arithmetic;
 
-import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import cons.TypeEnvironment;
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.visitor.typechecker.TypeChecker;
-import cons.ql.parser.Parser;
+import cons.Value;
+import cons.value.FloatValue;
+import cons.value.IntegerValue;
+import cons.value.UndefinedValue;
+import test.evaluator.BaseTest;
 
 @RunWith(value = Parameterized.class)
-public class TestAddition {
+public class TestAddition extends BaseTest {
 	 @Parameters
      public static Collection<Object[]> data() {
+    	 BaseTest.header = "Addition";
+    	 
     	 return Arrays.asList(new Object[][] {
     			// Integers with integers.
-				{ "5 + 10", true },
+				{ "5 + 10", new IntegerValue(15) },
 				// Integer with float and vice versa.
-				{ "5 + 10.5", true},
-				{ "10.5 + 5", true},
+				{ "5 + 10.5", new FloatValue((float) 15.5) },
+				{ "10.5 + 5", new FloatValue((float) 15.5) },
 				// Floats with floats.
-				{ "5.0 + 10.5", true},
-				// Additions with strings. Not allowed.
-				{ "\"String 1\" + 5", false},
-				{ "5 + \"String 1\"", false},
-				{ "\"String 1\" + \"String 2\"", false},
-				// Addition with booleans. Not allowed.
-				{ "true + 5", false},
-				{ "5 + true", false},
-				{ "true + false", false},
+				{ "5.0 + 10.5", new FloatValue((float) 15.5) },
+				
 				// Identifiers pointing to a integer.
-				{ "form myForm { "
-					+ "	newQuestion : integer { \"Number\" }"
-					+ "	if(newQuestion + 5 == 5) {}"
-					+ "}", true},
+				{ "integerQuestion + 10", new IntegerValue(20) },
+				{ "10 + integerQuestion", new IntegerValue(20) },
+				
 				// Identifiers pointing to a float.
-				{ "form myForm { "
-					+ "	newQuestion : float { \"Number\" }"
-					+ "	if(newQuestion + 5 == 5) {}"
-					+ "}", true},
-				{ "form myForm { "
-					+ "	newQuestion : money { \"Number\" }"
-					+ "	if(newQuestion + 5 == 5) {}"
-					+ "}", true},
-				// Identifier pointing to a string. Not allowed to add.
-				{ "form myForm { "
-					+ "	newQuestion : string { \"String\" }"
-					+ "	if(newQuestion + 5 == 5) {}"
-					+ "}", false},
-				// Identifier pointing to a boolean. Not allowed to add.
-				{ "form myForm { "
-					+ "	newQuestion : boolean { \"Boolean\" }"
-					+ "	if(newQuestion + 5 == 5) {}"
-					+ "}", false},
+				{ "floatQuestion + 10", new FloatValue((float) 20.5) },
+				{ "10 + floatQuestion", new FloatValue((float) 20.5) },
+				
+				// Undefined
+				{ "undefinedQuestion + 10", new UndefinedValue() },
+				{ "10 + undefinedQuestion", new UndefinedValue() },
+				{ "undefinedQuestion + 10.5", new UndefinedValue() },
+				{ "10.5 + undefinedQuestion", new UndefinedValue() },
     	 });
      }
 
-     private ASTNode inputNode;
-     private boolean expected;
-     
-     private Parser formParser = new Parser();
-     private TypeEnvironment register = new TypeEnvironment();
-
-     public TestAddition(String input, boolean expected) {
-    	 System.out.println("Testing: " + input);
-
-         register = new TypeEnvironment();
-    	 
-    	 inputNode = formParser.parse(input);
-    	 this.expected = expected;
-     }
-     
-     @BeforeClass
-     public static void printHeader() {
-    	 System.out.println("========================");
-    	 System.out.println("*** Testing Addition ***");
-    	 System.out.println("========================");
-     }
-     
-     @Test
-     public void testAdd() {
-    	 assertEquals(expected, TypeChecker.check(inputNode, register));
+     @SuppressWarnings("rawtypes")
+     public TestAddition(String input, Value expected) {
+    	 super(input, expected); 
      }
 }
