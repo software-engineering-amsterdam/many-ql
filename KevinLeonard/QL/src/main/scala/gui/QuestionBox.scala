@@ -8,6 +8,7 @@ import scala.util.Try
 import scalafx.beans.value.ObservableValue
 import scalafx.collections.ObservableMap
 import scalafx.collections.ObservableMap.Replace
+import scalafx.geometry.Insets
 import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
 
@@ -19,6 +20,9 @@ abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression],
 
   val evaluator = new Evaluator()
   val dependencyResolver = new DependencyResolver()
+
+  val DefaultPadding = 0
+  val PaddingBottom = 10
 
   val name: VariableName = q.variable.name
   val valueDependencies: Dependencies = q.optionalExpression.fold[Dependencies](List())(e => dependencyResolver.resolve(e))
@@ -33,6 +37,7 @@ abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression],
 
   visible = shouldBeVisible
   managed = isVisible
+  padding = Insets(DefaultPadding, DefaultPadding, PaddingBottom, DefaultPadding)
   children.add(new Label(q.label))
 }
 
