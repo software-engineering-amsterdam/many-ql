@@ -32,6 +32,7 @@ class QuestionnaireGUI:
         for statement in statements:
             if statement.is_conditional():
                 self.draw_statements(statement.get_c_statements())
+                self.draw_statements(statement.get_e_statements())
             else:
                 self.draw_statement(statement)
             # self.row_counter += 1
@@ -95,6 +96,7 @@ class QuestionnaireGUI:
         c_results = True
         if condition is not None:
             p = processor.Processor()
+            print(condition.pretty_print())
             c_results = p.eval_expression(condition.pretty_print(), self.answersMap)
 
         if not c_results:
