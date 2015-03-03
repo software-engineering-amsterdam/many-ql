@@ -2,15 +2,13 @@ package typechecker
 
 import ast.{Type, Variable}
 
-import scala.util.parsing.input.Position
-
 // Holds the defined variables and their type.
 // Note that we require variables to be declared before being used.
 class TypeEnvironment(val typeOfFields: Map[String, Type] = Map()) {
 
   def tryGetVariable(v: Variable): Either[Error, Type] = {
     typeOfFields get v.name match {
-      case Some(t: Type) => Right(t)
+      case Some(t) => Right(t)
       case None => Left(new Error(s"Variable ${v.name} is not defined", v.pos))
     }
   }

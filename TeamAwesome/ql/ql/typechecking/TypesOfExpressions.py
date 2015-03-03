@@ -48,7 +48,7 @@ class Checker(Checker.FullChecker):
         )
 
         if typeOfExpression is None:
-            self._result = self._result.withMessage(
+            self._result = self._result.withError(
                 Message.Error(
                     'undeclared identifier '+node,
                     node
@@ -87,7 +87,7 @@ class Checker(Checker.FullChecker):
             )
 
         if typeOfExpression is None:
-            self._result = self._result.withMessage(
+            self._result = self._result.withError(
                 Message.Error(
                     'invalid operands to unary operator `'+node.op\
                    +'`: '+str(node.right),
@@ -115,7 +115,7 @@ class Checker(Checker.FullChecker):
             )
 
         if typeOfExpression is None: 
-            self._result = self._result.withMessage(
+            self._result = self._result.withError(
                 Message.Error(
                     'invalid operands to binary operator `'+node.op\
                    +'`: ('+str(node.left)+','+str(node.right)+')',
@@ -132,7 +132,7 @@ class Checker(Checker.FullChecker):
             effectiveTypes(exprType)
         ))
         if not allowedEffectiveTypeExists:
-            self._result = self._result.withMessage(
+            self._result = self._result.withError(
                 Message.Error(
                     'got an expression of type `'+str(exprType)\
                    +'` which is not castable to any of the '\

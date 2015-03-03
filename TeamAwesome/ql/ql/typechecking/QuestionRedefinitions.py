@@ -10,7 +10,7 @@ class Checker(Checker.StatementChecker):
         )
 
         if myType != expectedType:
-            self._result = self._result.withMessage(
+            self._result = self._result.withError(
                 Message.Error(
                     'Duplicate definition of question `'\
                    +node.identifier+'` with different type `'\
