@@ -3,11 +3,14 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.form.language.ast.values.GenericValue;
+
 public class RuntimeMemory {
 	private Map<String, Integer> intMemory;
 	private Map<String, String> stringMemory;
 	private Map<String, Boolean> boolMemory;
-	
+	private Map<String, GenericValue<?>> genMemory;
+
 	public RuntimeMemory(){
 		this.intMemory = new HashMap<String, Integer>();
 		this.stringMemory = new HashMap<String, String>();
@@ -55,5 +58,9 @@ public class RuntimeMemory {
 	
 	public Integer getInt(String s){
 		return this.intMemory.get(s);
+	}
+	
+	public GenericValue<?> getValue(String s){
+		return this.genMemory.get(s);
 	}
 }

@@ -11,6 +11,7 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.RuntimeMemory;
 
 public class GreaterThanOrEqual extends BinaryExpression implements Expression {
 
@@ -20,8 +21,8 @@ public class GreaterThanOrEqual extends BinaryExpression implements Expression {
 	
 	
 	@Override
-	public BoolValue evaluate() {
-		return new BoolValue(((IntValue)super.left.evaluate()).getValue() >= ((IntValue)super.right.evaluate()).getValue());
+	public BoolValue evaluate(RuntimeMemory mem) {
+		return new BoolValue(((IntValue)super.left.evaluate(mem)).getValue() >= ((IntValue)super.right.evaluate(mem)).getValue());
 	}
 
 	@Override
