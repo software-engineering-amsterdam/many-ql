@@ -12,6 +12,9 @@ class Expressions:
     # bool :: True | False
     bool = Literal("True") | Literal("False")
 
+    # text
+    text = Literal("\"") + OneOrMore(Word(alphanums)) + Literal("\"")
+
     # number :: [0-9]
     number = Word(nums)
 
@@ -19,12 +22,14 @@ class Expressions:
     value = \
         bool.setParseAction(ExpressionFactory.make_bool) | \
         number.setParseAction(ExpressionFactory.make_number) | \
-        id.setParseAction(ExpressionFactory.make_variable)
+        id.setParseAction(ExpressionFactory.make_variable) | \
+        text.setParseAction(ExpressionFactory.make_text)
 
     # operators   :: + | - | / | * | > | >= | < | <= | == | && | || | !
     operator = \
         oneOf('+ - / *').setParseAction(ExpressionFactory.make_calc_operator) | \
-        oneOf(" > >= < <= == and or not").setParseAction(ExpressionFactory.make_comp_operator)
+        oneOf(" > >= < <= == ").setParseAction(ExpressionFactory.make_comp_operator) | \
+        oneOf("and or not").setParseAction(ExpressionFactory.make_extra_operator)
 
     operator_name = 'operator'
 

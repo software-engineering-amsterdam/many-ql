@@ -41,14 +41,20 @@ class FormFormat:
           OneOrMore(statement) + Suppress("}")) + Literal("else") + Suppress("{") + statement + Suppress("}")
          ).setParseAction(FormFactory.make_else)
 
+    # assignment ::
+    assignment = \
+        (Suppress("Assignment") + id + Suppress("(") + answerR + Suppress(")") + Suppress(":") + Expressions.expr
+        ).setParseAction(FormFactory.make_assignment)
+
     # statement :: pIfElse | pIf | statements
     statement <<= \
         pIfElse | \
         pIf | \
-        questions
+        questions | \
+        assignment
 
     # introduction :: Introduction : sentences
     introduction = (Group(Suppress("Introduction" + Literal(":")) + BasicTypes.sentences))
 
     # form :: id _introduction? statement+
-    form = (id + Optional(introduction) + OneOrMore(statement))
+    form = (id + Optional(introduction) + Group(OneOrMore(statement))) + stringEnd()

@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.ql.widgets;
 
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -35,7 +35,7 @@ public class TextBoxWidget {
             }
 
             public void updateField(){
-                headlessFormInterpreter.setField(identifier, new TInteger(Integer.parseInt(textField.getText())));
+                headlessFormInterpreter.setField(identifier, new IntegerValue(Integer.parseInt(textField.getText())));
                 headlessFormInterpreter.interpret();
             }
         });

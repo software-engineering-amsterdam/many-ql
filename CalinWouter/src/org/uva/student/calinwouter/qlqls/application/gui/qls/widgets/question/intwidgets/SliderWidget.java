@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.i
 
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Slider;
 
@@ -26,7 +26,7 @@ public class SliderWidget implements IWidget {
         sliderWidget.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                headlessFormInterpreter.setField(question.getFieldName(), new TInteger(sliderWidget.getValue()));
+                headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(sliderWidget.getValue()));
                 headlessFormInterpreter.interpret();
             }
         });

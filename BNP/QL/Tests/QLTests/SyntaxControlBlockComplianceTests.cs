@@ -35,8 +35,10 @@ namespace Tests.QLTests
             Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
 
-        [TestMethod]
-        public void IfElseIfElseBlock()
+        /*We dumped elseif
+         *         [TestMethod]
+
+         * public void IfElseIfElseBlock()
         {
             string input = @"if (7 == 7) {
                                 
@@ -52,6 +54,7 @@ namespace Tests.QLTests
             Assert.IsNull(unit.exception);
             Assert.AreEqual(0, Parser.NumberOfSyntaxErrors);
         }
+         */
 
 
     }

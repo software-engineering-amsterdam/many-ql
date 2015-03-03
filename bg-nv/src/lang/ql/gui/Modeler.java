@@ -1,6 +1,5 @@
 package lang.ql.gui;
 
-import lang.ql.ast.expression.*;
 import lang.ql.ast.form.Form;
 import lang.ql.ast.form.FormVisitor;
 import lang.ql.ast.statement.*;
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * Created by Nik on 17-2-15.
  */
-public class Modeler implements FormVisitor<GuiElement>, StatVisitor<GuiElement>, ExprVisitor<GuiElement>
+public class Modeler implements FormVisitor<GuiElement>, StatVisitor<GuiElement>
 {
     @Override
     public Canvas visit(Form form)
@@ -55,126 +54,6 @@ public class Modeler implements FormVisitor<GuiElement>, StatVisitor<GuiElement>
             s.accept(this);
         }
 
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(BoolExpr e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(IntExpr e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(DecExpr e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(StrExpr e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Ident e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Neg e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(lang.ql.ast.expression.Pos e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Not e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Add e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Sub e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Mul e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Div e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Gt e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Lt e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(GtEqu e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(LtEqu e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Equ e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(NotEqu e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(And e)
-    {
-        return null;
-    }
-
-    @Override
-    public GuiElement visit(Or e)
-    {
         return null;
     }
 }

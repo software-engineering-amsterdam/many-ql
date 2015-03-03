@@ -3,7 +3,7 @@ package com.form.language.ast.expression;
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.type.ErrorType;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 
 public abstract class UnaryExpression implements Expression{
 	public Token tokenInfo;
@@ -23,7 +23,7 @@ public abstract class UnaryExpression implements Expression{
 		return "line: " + tokenInfo.getLine();
 	}
 	@Override
-	public void fillMemory(Memory memory) {
-		value.fillMemory(memory);
+	public void collectIds(IdCollector idCollector) {
+		value.collectIds(idCollector);
 	}
 }

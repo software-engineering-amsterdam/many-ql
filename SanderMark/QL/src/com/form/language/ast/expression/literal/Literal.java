@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.expression.Expression;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 
 public abstract class Literal implements Expression {
 
@@ -27,7 +27,7 @@ public abstract class Literal implements Expression {
 	}
 	
 	@Override
-	public void fillMemory(Memory memory)
+	public void collectIds(IdCollector idCollector)
 	{
 		return;		
 	}

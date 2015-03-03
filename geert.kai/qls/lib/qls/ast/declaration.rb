@@ -16,9 +16,10 @@ module AST
 	class FontSizeDeclaration < Declaration
 	end
 
-	class WidgitDeclaration < Declaration
+	class WidgetDeclaration < Declaration
 	end
 
 	class WidthDeclaration < Declaration
 	end
 end
+

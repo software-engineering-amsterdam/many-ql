@@ -125,9 +125,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AST\AST.csproj">
-      <Project>{23aa9a43-58a6-4870-a7bc-a3d5d8d5b8ce}</Project>
-      <Name>AST</Name>
+    <ProjectReference Include="..\QL\QL.csproj">
+      <Project>{b564bc9e-45a5-4658-8ffe-bc6929a6566f}</Project>
+      <Name>QL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Runtime\Runtime.csproj">
       <Project>{e0c488e0-e95b-4d3f-b023-6397fa455d96}</Project>

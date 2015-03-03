@@ -1,7 +1,7 @@
 package uva.ql.supporting;
 
 public class Tuple <T,K>{
-	public final T x;
+	public T x;
 	public K y;
 	
 	public Tuple(T _x, K _y){

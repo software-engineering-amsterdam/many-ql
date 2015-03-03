@@ -10,4 +10,5 @@ namespace QL.Model.Operators
     {
         ITerminalType Evaluate();
     }
+    
 }

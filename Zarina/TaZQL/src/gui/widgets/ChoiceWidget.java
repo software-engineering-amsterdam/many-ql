@@ -12,12 +12,12 @@ public class ChoiceWidget implements IWidgetComponent {
 	private final Type widgetType;
 	private JCheckBox widget = new JCheckBox("");;
 	private String value = new String("");
-	//private final ValueRepository valueRepository;
+	private final ValueRepository valueRepository;
 		
-	public ChoiceWidget(String id, String label, Type widgetType) {
+	public ChoiceWidget(String id, String label, Type widgetType, ValueRepository valueRepository) {
 		this.id = id;
 		this.label = label;
-	//	this.valueRepository = valueRepository;
+		this.valueRepository = valueRepository;
 		this.widgetType = widgetType;
 		this.widget.addItemListener(new ChoiceListener());
 	}
@@ -41,13 +41,13 @@ public class ChoiceWidget implements IWidgetComponent {
 	}
 
 	@Override
-	public String getTextValue() {
+	public String getStringValue() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean getChoiceValue() {
+	public boolean getBooleanValue() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -71,7 +71,19 @@ public class ChoiceWidget implements IWidgetComponent {
 	}
 
 	@Override
-	public void addDocListener(ValueRepository val) {
+	public void addDocListener() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getIntegerValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setIntegerValue(int value) {
 		// TODO Auto-generated method stub
 		
 	}
