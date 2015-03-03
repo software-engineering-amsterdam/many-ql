@@ -7,67 +7,30 @@ from ..Visitor import Visitor as GenericVisitor
 # of messages. Maybe something the evaluator can use.
 # It's the Result Object pattern.
 class Result:
-    def __init__(self, messages = []):
-        self._messages = messages
-
-    @property
-    def messages(self):
-        return self._messages
-
-    @property
-    def errors(self):
-        visitor = CollectErrorsVisitor()
-        visitor.visit(self)
-        return visitor.errors
-
-    @property
-    def warnings(self):
-        visitor = CollectWarningsVisitor()
-        visitor.visit(self)
-        return visitor.warnings
-
-    def withMessage(self, message):
-        return Result(self._messages + [message])
-
-    @staticmethod
-    def merge(results):
-        result = Result()
-        for r in results:
-            result = Result(result.messages + r.messages)
-        return result
-
-
-class Visitor(GenericVisitor):
-    def _visitResult(self, result):
-        for message in result.messages:
-            self.visit(message)
-
-    def _visitError(self, error):
-        pass
-
-    def _visitWarning(self, error):
-        pass
-
-
-class CollectErrorsVisitor(Visitor):
-    def __init__(self):
-        self._errors = [] 
+    def __init__(self, errors = [], warnings = []):
+        self._errors = errors
+        self._warnings = warnings
 
     @property
     def errors(self):
         return self._errors
 
-    def _visitError(self, error):
-        self._errors.append(error)
-
-
-class CollectWarningsVisitor(Visitor):
-    def __init__(self):
-        self._warnings = [] 
-
     @property
     def warnings(self):
         return self._warnings
 
-    def _visitWarning(self, warning):
-        self._warnings.append(warning)
+    def withError(self, error):
+        return Result(self.errors + [error], self.warnings)
+
+    def withWarning(self, warning):
+        return Result(self.errors, self.warnings + [warning])
+
+    @staticmethod
+    def merge(results):
+        result = Result()
+        for r in results:
+            result = Result(
+                result.errors + r.errors,
+                result.warnings + r.warnings
+            )
+        return result
