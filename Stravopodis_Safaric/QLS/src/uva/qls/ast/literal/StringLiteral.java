@@ -16,6 +16,10 @@ public class StringLiteral extends Literal {
 		this.value = _value;
 	}
 	
+	public String evaluatedValue(){
+		return this.evaluate().getValue();
+	}
+	
 	@Override
 	public Tuple<Integer, Integer> getLOCTuple() {
 		return this.codeLines.getCodeLocation();
@@ -34,7 +38,6 @@ public class StringLiteral extends Literal {
 	
 	@Override
 	public StringValue evaluate() {
-		
 		return new StringValue(this.value);
 	}
 }

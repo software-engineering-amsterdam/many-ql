@@ -60,12 +60,12 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCtxDefaultValue(QLSParser.CtxDefaultValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code CtxComponenet}
+	 * Visit a parse tree produced by the {@code CtxComponent}
 	 * labeled alternative in {@link QLSParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCtxComponenet(QLSParser.CtxComponenetContext ctx);
+	T visitCtxComponent(QLSParser.CtxComponentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code CtxStyle}
 	 * labeled alternative in {@link QLSParser#statement}.
@@ -92,11 +92,19 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(QLSParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#defaultValue}.
+	 * Visit a parse tree produced by the {@code CtxDefaultComponent}
+	 * labeled alternative in {@link QLSParser#defaultValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefaultValue(QLSParser.DefaultValueContext ctx);
+	T visitCtxDefaultComponent(QLSParser.CtxDefaultComponentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxDefaultStatement}
+	 * labeled alternative in {@link QLSParser#defaultValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxDefaultStatement(QLSParser.CtxDefaultStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code CtxTextbox}
 	 * labeled alternative in {@link QLSParser#component}.

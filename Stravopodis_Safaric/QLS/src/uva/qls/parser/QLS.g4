@@ -15,7 +15,7 @@ statement 	: section		# CtxSection
 			| subsection	# CtxSubsection
 			| question 		# CtxQuestion
 			| defaultValue  # CtxDefaultValue
-			| component 	# CtxComponenet
+			| component 	# CtxComponent
 			| style			# CtxStyle
 			;
 
@@ -25,7 +25,9 @@ subsection 	: 'subsection ' STRING '{' quest = question '}';
 
 question	: 'question' id = Identifier cmp=component?;
 
-defaultValue: 'default' primitiveType ( cmp = component | ('{' stms+=statement* '}')) ;
+defaultValue: 'default' primitiveType cmp = component			# CtxDefaultComponent		
+			| 'default' primitiveType '{' stms+=statement* '}'	# CtxDefaultStatement
+			;		
 
 component	: Widget Textbox 										('{' stls+=style* '}')?							# CtxTextbox										
 			| Widget Spinbox 										('{' stls+=style* '}')?							# CtxSpinbox
@@ -35,11 +37,11 @@ component	: Widget Textbox 										('{' stls+=style* '}')?							# CtxTextbox
 			| Widget Checkbox '(' STRING ')'						('{' stls+=style* '}')?							# CtxCheckbox	
 			;
 
-style		: Width ':' Integer			# CtxWidth
-			| Height ':' Integer		# CtxHeight
-			| Font ':' STRING			# CtxFont
-			| Fontsize ':' Integer		# CtxFontsize
-			| Color ':' HASH Integer	# CtxColor
+style		: Width ':' v = Integer			# CtxWidth
+			| Height ':' v = Integer		# CtxHeight
+			| Font ':' v = STRING			# CtxFont
+			| Fontsize ':' v = Integer		# CtxFontsize
+			| Color ':' HASH v = Integer	# CtxColor
 			;
 
 

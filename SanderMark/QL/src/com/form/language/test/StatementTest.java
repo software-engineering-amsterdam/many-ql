@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
 import com.form.language.ast.values.IntValue;
+import com.form.language.memory.RuntimeMemory;
 
 public class StatementTest {
 	
@@ -29,7 +30,7 @@ public class StatementTest {
 	public void testForm() throws RecognitionException, IOException  {
 		String str="";
 		GrammarParser parser= AstTest.getParser(str);
-		int actual = ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int actual = ((IntValue)(parser.expression().result).evaluate(new RuntimeMemory())).getValue();
 		int exspected = new IntValue(1).getValue();
 		assertEquals(exspected,actual);
 	}
@@ -38,7 +39,7 @@ public class StatementTest {
 	public void testFormWithQuestion() throws RecognitionException, IOException  {
 		String str="1";
 		GrammarParser parser= AstTest.getParser(str);
-		int actual = ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int actual = ((IntValue)(parser.expression().result).evaluate(new RuntimeMemory())).getValue();
 		int exspected = new IntValue(1).getValue();
 		assertEquals(exspected,actual);
 	}
@@ -47,7 +48,7 @@ public class StatementTest {
 	public void testFormWithIf() throws RecognitionException, IOException  {
 		String str="1";
 		GrammarParser parser= AstTest.getParser(str);
-		int actual = ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int actual = ((IntValue)(parser.expression().result).evaluate(new RuntimeMemory())).getValue();
 		int exspected = new IntValue(1).getValue();
 		assertEquals(exspected,actual);
 	}
@@ -56,7 +57,7 @@ public class StatementTest {
 	public void testFormWithStatement() throws RecognitionException, IOException  {
 		String str="1";
 		GrammarParser parser= AstTest.getParser(str);
-		int actual = ((IntValue)(parser.expression().result).evaluate()).getValue();
+		int actual = ((IntValue)(parser.expression().result).evaluate(new RuntimeMemory())).getValue();
 		int exspected = new IntValue(1).getValue();
 		assertEquals(exspected,actual);
 	}

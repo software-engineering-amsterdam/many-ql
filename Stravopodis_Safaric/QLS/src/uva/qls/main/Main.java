@@ -26,7 +26,7 @@ public class Main {
 		QLSMainVisitor visitor = new QLSMainVisitor();
 		ASTNode ast = visitor.visit(tree);
 		
-		System.out.println(ast.toString());
+		System.out.println(((Prog)ast).toString());
 	}
 	
 }

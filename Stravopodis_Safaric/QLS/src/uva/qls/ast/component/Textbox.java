@@ -28,5 +28,9 @@ public class Textbox extends Component {
 	public GenericValue<?> evaluate() {
 		return null;
 	}
+	@Override
+	public String toString(){
+		return "Textbox(" + this.style.toString() + ")";
+	}
 
 }
