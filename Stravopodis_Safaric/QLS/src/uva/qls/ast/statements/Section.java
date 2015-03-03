@@ -1,24 +1,26 @@
-package uva.qls.ast;
+package uva.qls.ast.statements;
 
-import java.util.*;
+import java.util.List;
 
-import uva.qls.ast.literal.Identifier;
-import uva.qls.ast.statements.*;
+import uva.qls.ast.CodeLines;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
-public class Page extends ASTNode {
+
+public class Section extends Statement {
 	
-	private Identifier identifier;
+	private String name;
 	private List<Statement> statement;
 	
-	public Page (Identifier _identifier, List<Statement> _statement, CodeLines _codeLines){
+	
+	public Section (String _name,List<Statement> _statement, CodeLines _codeLines){
 		super(_codeLines);
-		this.identifier=_identifier;
-		this.statement = _statement;
+		this.name=_name;
+		this.statement=_statement;
+		
 	}
-
-	public Identifier getIdentifier(){
-		return this.identifier;
+	
+	public String getName(){
+		return this.name;
 	}
 	public List<Statement> getStatement(){
 		return this.statement;
@@ -37,18 +39,15 @@ public class Page extends ASTNode {
 	public CodeLines getLOC() {
 		return this.codeLines;
 	}
-	
+
 	@Override
 	public GenericValue<?> evaluate() {
 		return null;
 	}
-	
+
 	@Override
 	public String toString(){
-		return "Page(" + this.identifier.toString() + "," + statement.toString() + ")";
+		return "Section(" + this.getName() + "," + this.statement.toString() + ")";
 	}
+	
 }
-
-
-
-

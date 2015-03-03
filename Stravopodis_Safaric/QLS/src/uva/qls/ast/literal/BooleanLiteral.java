@@ -2,6 +2,7 @@ package uva.qls.ast.literal;
 
 import uva.qls.ast.value.BooleanValue;
 import uva.qls.ast.CodeLines;
+import uva.qls.supporting.Tuple;
 
 public class BooleanLiteral extends Literal {
 	
@@ -16,6 +17,16 @@ public class BooleanLiteral extends Literal {
 		super(_codeLines);
 	}
 
+	@Override
+	public Tuple<Integer, Integer> getLOCTuple() {
+		return this.codeLines.getCodeLocation();
+	}
+
+	@Override
+	public CodeLines getLOC() {
+		return this.codeLines;
+	}
+	
 	@Override
 	public BooleanValue evaluate() {
 		return new BooleanValue(this.value);
