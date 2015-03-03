@@ -1,6 +1,7 @@
 package evaluator
 
 import ast._
+
 import scalafx.collections.ObservableMap
 
 class Evaluator {
