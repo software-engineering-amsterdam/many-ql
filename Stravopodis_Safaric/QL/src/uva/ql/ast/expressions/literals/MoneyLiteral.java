@@ -4,16 +4,16 @@ import uva.ql.ast.CodeLines;
 import uva.ql.ast.value.NumberValue;
 import uva.ql.ast.visitor.ExpressionVisitorInterface;
 
-public class DecimalLiteral extends Literal{	
+public class MoneyLiteral extends Literal{	
 	
-	private float value;
+	private int value;
 	
-	public DecimalLiteral(float _value, CodeLines _codeLines){
+	public MoneyLiteral(int _value, CodeLines _codeLines){
 		super(_codeLines);
 		this.value = _value;
 	}
 	
-	public DecimalLiteral(CodeLines _codeLines){
+	public MoneyLiteral(CodeLines _codeLines){
 		super(_codeLines);
 	}
 	
@@ -24,12 +24,12 @@ public class DecimalLiteral extends Literal{
 	
 	@Override
 	public <T> T accept(ExpressionVisitorInterface<T> visitor) {
-		return visitor.visitDecimalLiteral(this);
+		return visitor.visitMoneyLiteral(this);
 	}
 	
 	@Override
 	public String evaluateType() {
-		return DecimalLiteral.class.getName();
+		return MoneyLiteral.class.getName();
 	}
 	
 	@Override

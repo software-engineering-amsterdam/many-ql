@@ -8,18 +8,18 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.ast.values.StringValue;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String _value;
-	public Type _type;
+	private Type _type;
 	
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
 		this._value = value;
 		System.out.println("test1");
 	}
-	public IdLiteral(String value, Type questionType,Memory memory,Token tokenInfo)
+	public IdLiteral(String value, Type questionType,IdCollector idCollector,Token tokenInfo)
 	{
 		super(tokenInfo);
 		this._value = value;
@@ -48,7 +48,7 @@ public class IdLiteral extends Literal implements Expression {
 	}
 	
 	@Override
-	public void fillMemory(Memory memory) {
-		memory.addId(this);
+	public void collectIds(IdCollector idCollector) {
+		idCollector.addId(this);
 	}
 }
