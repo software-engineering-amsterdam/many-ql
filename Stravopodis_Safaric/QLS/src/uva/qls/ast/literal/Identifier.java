@@ -5,6 +5,7 @@ import uva.qls.ast.value.StringValue;
 import uva.qls.supporting.Tuple;
 
 public class Identifier extends Literal {
+	
 	private String identifier;
 	
 	public Identifier (String _identifier, CodeLines _codeLines){
