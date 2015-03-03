@@ -243,8 +243,8 @@ public class FugaziQLVisitor extends QLBaseVisitor<AbstractASTQLNode> {
     }
 
     @Override
-    public BOOL visitBooleanExpression(@NotNull QLParser.BooleanExpressionContext ctx) {
-        Boolean value = Boolean.parseBoolean(ctx.BOOLEAN().getText());
+    public BOOL visitBoolExpression(@NotNull QLParser.BoolExpressionContext ctx) {
+        Boolean value = Boolean.parseBoolean(ctx.BOOL().getText());
         return new BOOL(value, this.getLineNumber(ctx));
     }
     

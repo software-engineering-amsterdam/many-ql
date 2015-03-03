@@ -45,10 +45,10 @@ expression  : '(' expression ')'                                                
             | expression op=('>' | '>=' | '<' | '<=' | '==' | '!=') expression      # comparisonExpression
             | expression '&&' expression                                            # logicalAndExpression
             | expression '||' expression                                            # logicalOrExpression
-            | BOOLEAN                                                               # booleanExpression
-            | ID                                                                    # identifierExpression
+            | BOOL                                                                  # boolExpression
             | INT                                                                   # intExpression
             | STRING                                                                # stringExpression
+            | ID                                                                    # identifierExpression
             ;
 
 /**
@@ -57,21 +57,21 @@ expression  : '(' expression ')'                                                
  * =====================
  */
 
-// identifier definition
-// user to identify variable names
-ID  :   [a-zA-Z]+;
+// boolean value definition
+BOOL   : 'true'
+       | 'false'
+       ;
 
 // string definition
 STRING :  '"' (ESC | ~["\\])* '"' ;
 
-// boolean value definition
-BOOLEAN : 'true'
-        | 'false'
-        ;
-
 // integer definition
 // integer is a sequence of digits of a length that can vary
 INT : DIGIT+ ;
+
+// identifier definition
+// user to identify variable names
+ID  :   [a-zA-Z]+;
 
 // comment matches anything between /* and */
 COMMENT

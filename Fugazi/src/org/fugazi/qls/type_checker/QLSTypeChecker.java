@@ -12,10 +12,10 @@ import org.fugazi.ql.ast.expression.literal.ID;
 
 import java.util.List;
 
-public class TypeChecker {
+public class QLSTypeChecker {
     private final List<ID> qlQuestions;
 
-    public TypeChecker(List<ID> _qlQuestions) {
+    public QLSTypeChecker(List<ID> _qlQuestions) {
         this.qlQuestions = _qlQuestions;
     }
 

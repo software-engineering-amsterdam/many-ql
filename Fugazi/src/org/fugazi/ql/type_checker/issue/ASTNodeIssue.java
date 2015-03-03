@@ -1,20 +1,23 @@
-package org.fugazi.ql.type_checker.error;
+package org.fugazi.ql.type_checker.issue;
 
 import org.fugazi.ql.ast.AbstractASTQLNode;
 
-public class ASTNodeError {
+public class ASTNodeIssue {
 
+    private final ASTNodeIssueType errorType;
+    private final AbstractASTNode node;
     private final ASTNodeErrorType errorType;
     private final AbstractASTQLNode node;
     private final String message;
 
+    public ASTNodeIssue(ASTNodeIssueType _errorType, AbstractASTNode _node, String _message) {
     public ASTNodeError(ASTNodeErrorType _errorType, AbstractASTQLNode _node, String _message) {
         this.errorType = _errorType;
         this.node = _node;
         this.message = _message;
     }
 
-    public ASTNodeErrorType getErrorType() {
+    public ASTNodeIssueType getErrorType() {
         return this.errorType;
     }
 

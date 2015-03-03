@@ -1,10 +1,8 @@
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.gui.UIBuilder;
-import org.fugazi.ql.type_checker.TypeChecker;
-import org.fugazi.ql.type_checker.error.ASTErrorPrinter;
-import org.fugazi.qls.ast.QLSASTBuilder;
-import org.fugazi.qls.ast.stylesheet.StyleSheet;
+import org.fugazi.ql.type_checker.QLTypeChecker;
+import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -33,12 +31,12 @@ public class Main {
         Form form = QLAstBuilder.buildForm();
 
         // Perform type checking.
-        TypeChecker typeChecker = new TypeChecker();
-        boolean isFormTypesCorrect = typeChecker.checkForm(form);
+        QLTypeChecker QLTypeChecker = new QLTypeChecker();
+        boolean isFormTypesCorrect = QLTypeChecker.checkForm(form);
 
         // display warnings and errors and if form is not type-correct, exit
-        ASTErrorPrinter printer = new ASTErrorPrinter(
-                typeChecker.getErrors(), typeChecker.getWarnings()
+        ASTIssuePrinter printer = new ASTIssuePrinter(
+                QLTypeChecker.getErrors(), QLTypeChecker.getWarnings()
         );
         printer.displayWarningsAndErrors();
 
