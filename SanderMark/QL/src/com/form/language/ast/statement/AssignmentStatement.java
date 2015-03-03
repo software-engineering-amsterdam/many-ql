@@ -8,9 +8,11 @@ import org.antlr.v4.runtime.Token;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
+import com.form.language.ast.values.GenericValue;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class AssignmentStatement implements Statement {
 	public String id;
@@ -43,7 +45,7 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public void fillMemory(IdCollector idCollector) {
+	public void collectIds(IdCollector idCollector) {
 		// TODO Auto-generated method stub
 		//this.expression.fillMemory(memory);
 		idCollector.addId(new IdLiteral(id,type,idCollector,null));
@@ -52,5 +54,9 @@ public class AssignmentStatement implements Statement {
 	@Override
 	public void setType(IdTypeTable ids) {
 		this.expression.setType(ids);
+	}
+	
+	public void initMemory(RuntimeMemory mem){
+		expression.evaluate().addToMemory(id, mem);
 	}
 }
