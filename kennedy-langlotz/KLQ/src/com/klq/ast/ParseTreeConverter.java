@@ -1,12 +1,16 @@
 package com.klq.ast;
 import com.klq.ast.impl.*;
-import com.klq.ast.impl.expr.*;
+import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.bool.*;
+import com.klq.ast.impl.expr.literal.DateNode;
+import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.literal.NumberNode;
+import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.expr.math.*;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.misc.NotNull;
 import parser.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -84,7 +88,8 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitNumber(KLQParser.NumberContext ctx) {
-        NumberNode numberNode = new NumberNode(Double.valueOf(ctx.Number().getText()), formatLocation(ctx));
+        BigDecimal value = new BigDecimal(Double.valueOf(ctx.Number().getText()));
+        NumberNode numberNode = new NumberNode(value, formatLocation(ctx));
         return numberNode;
     }
 
@@ -104,8 +109,8 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitAddSub(KLQParser.AddSubContext ctx) {
-        ANode leftChild = visit(ctx.expr(0));
-        ANode rightChild = visit(ctx.expr(1));
+        AExpression leftChild = (AExpression)(visit(ctx.expr(0)));
+        AExpression rightChild = (AExpression)(visit(ctx.expr(1)));
         ANode node;
 
         if(ctx.operator.getType() == KLQParser.ADD) {
@@ -119,8 +124,8 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitMulDiv(KLQParser.MulDivContext ctx) {
-        ANode leftChild = visit(ctx.expr(0));
-        ANode rightChild = visit(ctx.expr(1));
+        AExpression leftChild = (AExpression)(visit(ctx.expr(0)));
+        AExpression rightChild = (AExpression)(visit(ctx.expr(1)));
         ANode node;
 
         if(ctx.operator.getType() == KLQParser.MUL) {
@@ -134,8 +139,8 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitComparators(KLQParser.ComparatorsContext ctx) {
-        ANode leftChild = visit(ctx.expr(0));
-        ANode rightChild = visit(ctx.expr(1));
+        AExpression leftChild = (AExpression)(visit(ctx.expr(0)));
+        AExpression rightChild = (AExpression)(visit(ctx.expr(1)));
 
         switch(ctx.operator.getType()){
             case KLQParser.GT: return new GreaterThanNode(leftChild, rightChild, formatLocation(ctx));
@@ -150,16 +155,16 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
 
     @Override
     public ANode visitOr(KLQParser.OrContext ctx) {
-        ANode leftChild = visit(ctx.expr(0));
-        ANode rightChild = visit(ctx.expr(1));
+        AExpression leftChild = (AExpression)(visit(ctx.expr(0)));
+        AExpression rightChild = (AExpression)(visit(ctx.expr(1)));
 
         return new OrNode(leftChild, rightChild, formatLocation(ctx));
     }
 
     @Override
     public ANode visitAnd(KLQParser.AndContext ctx) {
-        ANode leftChild = visit(ctx.expr(0));
-        ANode rightChild = visit(ctx.expr(1));
+        AExpression leftChild = (AExpression)(visit(ctx.expr(0)));
+        AExpression rightChild = (AExpression)(visit(ctx.expr(1)));
 
         return new AndNode(leftChild, rightChild, formatLocation(ctx));
     }

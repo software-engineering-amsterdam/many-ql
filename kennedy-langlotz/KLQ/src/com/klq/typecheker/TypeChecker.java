@@ -4,6 +4,7 @@ import com.klq.ast.ANode;
 import com.klq.typecheker.error.AError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Juriaan on 28-2-2015.
@@ -44,7 +45,7 @@ public class TypeChecker {
         }
     }
 
-    public ArrayList<AError> getErrors() {
+    public List<AError> getErrors() {
         return errors;
     }
 }

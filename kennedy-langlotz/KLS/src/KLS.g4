@@ -87,7 +87,7 @@ widget
 
 defaultStyle
     : 'default' klqType NEWLINE
-          attribute+    NEWLINE
+          attribute+
       'end' NEWLINE+
     ;
 
