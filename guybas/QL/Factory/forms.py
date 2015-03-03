@@ -1,7 +1,6 @@
 # Factory which expects tokens and uses the ast classes to return a parsed form
 # Everything is static (pipeline style)
 
-import QL.Main.converters as converters
 import QL.AST.Statements.question as question
 import QL.AST.Statements.if_statement as if_statement
 import QL.AST.Statements.else_statement as else_statement
@@ -26,33 +25,25 @@ class FormFactory:
     def make_if(tokens):
         condition = tokens[0]
         questions = []
-        m = converters.Converters.get_md5(str(tokens))
         for i in range(1, len(tokens)):
-            tokens[i].set_parent_id(m)
-            tokens[i].set_parent_condition(condition)
             questions.append(tokens[i])
-        return if_statement.IfBlock(condition, questions, m)
+        return if_statement.IfBlock(condition, questions)
 
     @staticmethod
     def make_else(tokens):
         condition = tokens[0]
         questions = []
         k = 1
-        m = converters.Converters.get_md5(str(tokens))
         for i in range(1, len(tokens) + 1):
             if tokens[i] == "else":
                 break
             else:
-                tokens[i].set_parent_id(m)
-                tokens[i].set_parent_condition(condition)
                 questions.append(tokens[i])
                 k += 1
         else_questions = []
         for i in range(k + 1, len(tokens)):
-            tokens[i].set_parent_id(m)
-            tokens[i].set_parent_condition(condition.not_expression())
             else_questions.append(tokens[i])
-        x = else_statement.IfElseBlock(condition, questions, else_questions, m)
+        x = else_statement.IfElseBlock(condition, questions, else_questions)
         return x
 
     @staticmethod
