@@ -2,7 +2,7 @@ import org.fugazi.ql.ast.ASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.gui.UIBuilder;
 import org.fugazi.ql.type_checker.TypeChecker;
-import org.fugazi.ql.type_checker.error.ASTErrorPrinter;
+import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -32,7 +32,7 @@ public class Main {
         boolean isFormTypesCorrect = typeChecker.checkForm(form);
 
         // display warnings and errors and if form is not type-correct, exit
-        ASTErrorPrinter printer = new ASTErrorPrinter(
+        ASTIssuePrinter printer = new ASTIssuePrinter(
                 typeChecker.getErrors(), typeChecker.getWarnings()
         );
         printer.displayWarningsAndErrors();

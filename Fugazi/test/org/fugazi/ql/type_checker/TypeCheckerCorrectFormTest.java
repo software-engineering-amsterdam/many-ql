@@ -1,7 +1,7 @@
 package org.fugazi.ql.type_checker;
 
 
-import org.fugazi.ql.type_checker.error.ASTNodeError;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,13 +25,13 @@ public class TypeCheckerCorrectFormTest extends TypeCheckerBaseTest {
 
     @Test
     public void testNoErrors() throws Exception {
-        List<ASTNodeError> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = checker.getErrors();
         assertTrue(errors.isEmpty());
     }
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeError> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = checker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }
