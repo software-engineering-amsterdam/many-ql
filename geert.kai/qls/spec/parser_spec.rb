@@ -5,9 +5,11 @@ def source(file_name)
 end
 
 describe "Parsing" do
-  it "parses a stylesheet with one declaration" do
+  it "parses the name of a stylesheet with one declaration" do
     stylesheet = QLS.parse( source("one_declaration") )
-    expect(true).to eq false
+    expect(stylesheet.name).to eq "Trouwerij"
+
+    
   end
 end
 

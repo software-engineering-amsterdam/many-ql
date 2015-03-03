@@ -4,6 +4,8 @@ module AST
 
 		def initialize(name, stylesheet_rules)
 			@name = name
+      # Kan die AST:: weg, omdat we in de module AST zelf zitten?
+      # @children moet niet @pages zijn?
 			@defaults, @children = stylesheet_rules.partition { |rule| rule.class == AST::Default }
 		end
 
