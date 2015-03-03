@@ -1,16 +1,15 @@
 package edu.parser.QL;
 
 import edu.exceptions.TypeCheckException;
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;
-import edu.parser.nodes.QuestionType;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.parser.QL.nodes.expression.Identifier;
+import edu.parser.nodes.QuestionType;
 
 import java.util.*;
 import java.util.logging.Logger;

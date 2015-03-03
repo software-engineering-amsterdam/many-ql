@@ -1,7 +1,7 @@
 package edu.parser.QL.nodes.statement;
 
 import edu.parser.QL.QLVisitor;
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 
 import java.util.List;

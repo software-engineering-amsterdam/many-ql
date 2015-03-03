@@ -1,7 +1,7 @@
 package edu.parser.QL.nodes.question;
 
 import edu.parser.QL.QLVisitor;
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.statement.Statement;

@@ -1,6 +1,6 @@
 package edu.parser.QLS.nodes.statement;
 
-import edu.parser.AbstractNode;
+import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.QLSVisitor;
 import edu.parser.QLS.nodes.styles.Style;
 import edu.parser.nodes.QuestionType;

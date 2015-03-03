@@ -6,7 +6,7 @@ import edu.parser.QL.nodes.expression.Identifier;
 import org.antlr.v4.runtime.misc.NotNull;
 import edu.parser.QL.antlrGenerated.QLBaseVisitor;
 import edu.parser.QL.antlrGenerated.QLParser;
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;

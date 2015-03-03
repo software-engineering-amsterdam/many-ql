@@ -3,7 +3,7 @@ package edu.parser.QLS;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.Widgets;
 import edu.exceptions.ParseException;
-import edu.parser.AbstractNode;
+import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.antlrGenerated.QLSBaseVisitor;
 import edu.parser.QLS.antlrGenerated.QLSParser;
 import edu.parser.QLS.nodes.Identifier;

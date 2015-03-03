@@ -1,6 +1,6 @@
 package edu.parser.QLS.nodes.styles;
 
-import edu.parser.AbstractNode;
+import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.QLSVisitor;
 
 /**

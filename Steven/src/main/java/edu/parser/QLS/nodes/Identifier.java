@@ -1,12 +1,11 @@
 package edu.parser.QLS.nodes;
 
-import edu.parser.AbstractNode;
 import edu.parser.QLS.QLSVisitor;
 
 /**
  * Created by Steven Kok on 28/02/2015.
  */
-public class Identifier implements AbstractNode<QLSVisitor> {
+public class Identifier implements AbstractNode {
 
     private final String identifier;
 

@@ -1,7 +1,7 @@
 package edu.parser.QLS;
 
 import edu.exceptions.TypeCheckException;
-import edu.parser.AbstractNode;
+import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QLS.nodes.Identifier;
 import edu.parser.QLS.nodes.Section;

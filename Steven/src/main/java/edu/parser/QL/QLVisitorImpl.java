@@ -1,6 +1,6 @@
 package edu.parser.QL;
 
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.NotEqual;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.Question;

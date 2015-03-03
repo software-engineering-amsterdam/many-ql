@@ -1,12 +1,12 @@
 package edu.parser.QL.nodes.question;
 
 import edu.parser.QL.QLVisitor;
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Label implements AbstractNode<QLVisitor> {
+public class Label implements AbstractNode {
     private final String label;
 
     public Label(String label) {
