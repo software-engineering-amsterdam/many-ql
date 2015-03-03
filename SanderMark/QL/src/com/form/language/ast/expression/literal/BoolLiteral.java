@@ -25,5 +25,4 @@ public class BoolLiteral extends Literal implements Expression {
 		return new BoolType();
 	}
 
-	
 }
