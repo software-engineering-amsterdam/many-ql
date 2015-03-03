@@ -72,15 +72,6 @@ class QLS:
     # hexacolor :: # [A-F0-9]
     hexacolor = Suppress("#") + Word(hexnums, exact=6)
 
-    # font_prop :: font : word | size : integer | color : hexacolor
-    font_prop = (
-        Literal("font") + col + word |
-        Literal("size") + col + integer |
-        Literal("color") + col+ hexacolor)
-
-    # font :: font_prop+
-    font = OneOrMore(font_prop)
-
     # optionals :: (font | widget)*
     optionals = Optional(Widget.widget)
 
@@ -92,16 +83,26 @@ class QLS:
         (Suppress("Section") + name + obrac + Group(OneOrMore(question_style)) + cbrac
         ).setParseAction(QLSFactory.make_section)
 
+    #
+    default_property = (
+        Literal("font") + col + word |
+        Literal("size") + col + integer |
+        Literal("color") + col + hexacolor |
+        Literal("width") + col + integer)
+
+    #
+    default_properties = OneOrMore(default_property)
+
     # default_settings :: Default answerR widget
-    default_setting = Suppress("Default") + FormFormat.answerR + Widget.widget
+    default_setting = \
+        (Suppress("Default") + FormFormat.answerR + Widget.widget +
+         Optional(Group(obrac + default_properties + cbrac) )
+        ).setParseAction(QLSFactory.make_default)
 
     # page :: page name { section+ }
     page = (Suppress("Page") + name + Group(OneOrMore(section))).setParseAction(QLSFactory.make_page)
 
     # sheet = Sheet name page+
-    sheet = Suppress("Sheet") + name + Group(OneOrMore(page)) + stringEnd()
+    sheet = Suppress("Sheet") + name + Group(OneOrMore(page | default_setting))
 
-
-qls = QLSFactory.make_sheet(QLS.sheet.parseFile("example.qls"))
-print(qls.pretty_print())
 

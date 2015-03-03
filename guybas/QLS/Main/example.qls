@@ -29,3 +29,8 @@ Page Selling
         QuestionValueResidue
             Widget : Spinbox 1 10
     }
+
+Default bool Widget : Radio (yes, no) {
+    width : 1
+    font : times
+}
