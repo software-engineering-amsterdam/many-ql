@@ -6,21 +6,19 @@ stylesheet : 'stylesheet' ID page*;
 // Page, includes default declarations, and/or sections.
 page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
-// Section, includes questions and/or other sections, and/or default declarations.
-section : 'section' STRING question
-        | 'section' STRING '{' (question | section | defaultStyleDeclr)* '}';
+// Section, includes questions and/or other sections.
+section : 'section' STRING (question | section)
+        | 'section' STRING '{' (question | section)* '}';
 
 // question id (zero or one widget)
-question : 'question' ID (widget)?;
+question : 'question' ID (widget | defaultStyleDeclr)?;
 
 // widget
-widget : 'widget' supportedWidget   # simpleWidget
-       | defaultStyleDeclr          # defaultStyleWidget
-       ;
+widget : 'widget' supportedWidget;
 
 // defaultStyle, can be: default boolean widget radio("Yes", "No"), and/or default int { style widget }
-defaultStyleDeclr : 'default' type widget                           # noStylesDefault
-                  | 'default' type '{' styleProperty* widget '}'    # stylesDefault
+defaultStyleDeclr : 'default' type widget                           # noStylesDefaultDeclr
+                  | 'default' type '{' styleProperty+ widget '}'    # stylesDefaultDeclr
                   ;
 
 /**
@@ -29,8 +27,8 @@ defaultStyleDeclr : 'default' type widget                           # noStylesDe
 
 // The supported widgets
 supportedWidget : 'checkbox'                                    # checkboxWidget
-                | 'radio' '(' (yes=STRING ',')* no=STRING  ')'  # radioWidget
-                | 'dropdown'                                    # dropdownWidget
+                | 'radio' '(' yes=STRING ',' no=STRING ')'      # radioWidget
+                | 'dropdown' '(' yes=STRING ',' no=STRING ')'   # dropdownWidget
                 | 'spinbox'                                     # spinboxWidget
                 | 'slider'                                      # sliderWidget
                 | 'text'                                        # textWidget
