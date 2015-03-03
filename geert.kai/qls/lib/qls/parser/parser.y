@@ -14,6 +14,7 @@ rule
   stylesheet_rule
     : default
     | page
+    | question
     ;
 
   page
@@ -29,6 +30,8 @@ rule
   page_rule
     : default
     | section
+    | question
+    ;
 
   section
     : 'section' variable_name '{' section_rules '}' { result = Section.new(val[1], val[3]) }
@@ -43,10 +46,12 @@ rule
   section_rule
     : default
     | question
+    | section
     ;
 
   question
     : 'question' variable_name '{' declarations '}' { result = Question.new(val[1], val[3]) }
+    ;
 
   default
     : 'default' type '{' declarations '}' { result = Default.new(val[1], val[3]) }

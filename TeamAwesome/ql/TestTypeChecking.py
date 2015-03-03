@@ -2,30 +2,29 @@ import argparse
 import glob
 
 from ql.ast.AST import AST
-from ql.evaluator.evaluator import createEvaluator
+from ql.typechecking import typechecking as tc
 
 def runTest(verbose, testFileName):
     ast = AST(testFileName)
-    evaluator = createEvaluator(ast)
-    questions = evaluator.questions()
-    numQuestions = len(questions)
+    typeCheckResult = tc.check(ast)
 
-    expectedNumQuestions = int(
-        testFileName.split('.')[0].split('-')[1]
+    expectedNumMessages = int(
+        testFileName.split('.')[0].split('-')[2]
     )
 
-    success = numQuestions == expectedNumQuestions
+    numMessages = len(typeCheckResult.messages)
+    success = numMessages == expectedNumMessages
 
-    if not success:
-        print(('-' * 10) + 'Evaluator test FAIL')
+    if(not success):
+        print(('-'*10)+'Type check test FAIL')
 
-    if not success or verbose:
-        for question in questions:
-            print(question)
+    if(not success or verbose):
+        for m in typeCheckResult.messages:
+            print(m)
 
-        print( '^' + ('-' * 9) + testFileName + ': '\
-             + 'got '+ str(numQuestions) + ' questions(s), expected '\
-             + str(expectedNumQuestions) + ('-' * 10)
+        print( '^'+('-'*9)+testFileName+': '\
+             + 'got '+str(numMessages)+' message(s), expected '\
+             + str(expectedNumMessages) + ('-'*10)
              ) 
         
     return success
@@ -48,7 +47,7 @@ def main():
     if args.file:
         testFileNames = [args.file]
     else:
-        testFileNames = glob.glob('evaluator-*.ql')
+        testFileNames = glob.glob('testFiles/type-check-*.ql')
 
     for testFileName in testFileNames:
         if(not runTest(args.verbose, testFileName)):

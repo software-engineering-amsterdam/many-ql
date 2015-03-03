@@ -1,4 +1,4 @@
-require_relative "../static_checker/visitor"
+require_relative "../checker/base_visitor"
 
 class Runner < BaseVisitor
 
