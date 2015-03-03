@@ -1,7 +1,8 @@
-from QL.AST.Expressions.expression import *
+import QL.AST.Expressions.expression as e
+
 
 # Expressions with sub-expressions
-class ComplexExpression(Expression):
+class ComplexExpression(e.Expression):
     def __init__(self, expression):
         self.expression = expression
         self.is_else = False
@@ -35,3 +36,10 @@ class ComplexExpression(Expression):
         for e in self.expression:
             types += "( " + (e.return_type(type_dict)) + " )"
         return types
+
+    def not_expression(self):
+        # print(self.expression.pretty_print())
+        #print(self.expression.pretty_print())
+        print("here")
+        print(self.expression)
+        return self.expression.as_list()

@@ -5,24 +5,39 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
+import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class Test {
 	public static void main(String[] args) {
 		
+		String program = "form asf { \n"
+				 +	"question \"asdf\" question1: Boolean \n"
+				 + 	"question \"asdf\" question2: Boolean \n"
+				 +	"if (question2) then asdf := Number 1 end \n"
+				 + "}";
 		CharStream charStream = 
-				new ANTLRInputStream("hasSoldHouse == true && hasBoughtHouse == true");
-	
+				new ANTLRInputStream(program);
+		
+		System.out.println(program);
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
-		Expression evaluator = parser.expression().result;
+		Form evaluator = parser.form().result;
 		//System.out.println((evaluator.getType()));
 		
-		IdCollector m = new IdCollector();		
-		evaluator.collectIds(m);
+		IdCollector ids = new IdCollector();		
+		evaluator.collectIds(ids);
+		IdTypeTable idTable = new IdTypeTable(ids);
+		evaluator.setTypes(idTable);
+		evaluator.showTypes();
+		RuntimeMemory mem = new RuntimeMemory();
+		evaluator.initMemory(mem);
+		System.out.println(mem);
 //		System.out.println(m.showMemory());
 //			
 //		ErrorCollector errors = new ErrorCollector();

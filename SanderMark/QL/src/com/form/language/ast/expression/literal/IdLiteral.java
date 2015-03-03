@@ -13,6 +13,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.ast.values.StringValue;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class IdLiteral extends Literal implements Expression {
 	public final String name;
@@ -39,18 +40,8 @@ public class IdLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public GenericValue<?> evaluate() {
-		if(type.isBoolType()){
-			return new BoolValue(Boolean.parseBoolean(name));
-		};
-		if(type.isIntType()){
-			return new IntValue(Integer.parseInt(name));
-		}
-		if(type.isStringType()){
-			return new StringValue(name);
-		}
-		else 
-			throw new IllegalArgumentException();
+	public GenericValue<?> evaluate(RuntimeMemory mem) {
+		return mem.getValue(name);
 	}
 	
 	public Type getType(){

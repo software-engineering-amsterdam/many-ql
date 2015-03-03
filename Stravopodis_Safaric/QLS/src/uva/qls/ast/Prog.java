@@ -1,6 +1,7 @@
 package uva.qls.ast;
 
 import uva.qls.ast.value.GenericValue;
+import uva.qls.supporting.Tuple;
 
 public class Prog extends ASTNode {
 	
@@ -15,6 +16,16 @@ public class Prog extends ASTNode {
 		return this.styleSheet;
 	}
 
+	@Override
+	public Tuple<Integer, Integer> getLOCTuple() {
+		return this.codeLines.getCodeLocation();
+	}
+
+	@Override
+	public CodeLines getLOC() {
+		return this.codeLines;
+	}
+	
 	@Override
 	public GenericValue<?> evaluate() {
 		

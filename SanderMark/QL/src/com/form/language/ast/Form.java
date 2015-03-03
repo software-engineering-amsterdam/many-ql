@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import com.form.language.ast.statement.Statement;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class Form  {
 	public String id;
@@ -43,10 +45,27 @@ public class Form  {
 			s.getErrors(errs);
 		}
 	}
-	public void fillMemory(IdCollector idCollector){
+	public void collectIds(IdCollector idCollector){
 		for(Statement s: statementList){
-			s.fillMemory(idCollector);			
+			s.collectIds(idCollector);			
 		}
-		
+	}
+	
+	public void initMemory(RuntimeMemory mem){
+		for(Statement s: statementList){
+			s.initMemory(mem);			
+			}
+}
+
+	public void showTypes() {
+		for(Statement s: statementList){
+			System.out.println(s.getType());	
+		}
+	}
+	
+	public void setTypes(IdTypeTable ids){
+		for(Statement s: statementList){
+			s.setType(ids);
+		}
 	}
 }

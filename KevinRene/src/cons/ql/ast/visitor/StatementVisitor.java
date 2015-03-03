@@ -5,6 +5,7 @@ import cons.ql.ast.statement.Block;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
+import cons.ql.ast.statement.IfElse;
 import cons.ql.ast.statement.Question;
 
 public interface StatementVisitor<T> extends Visitor<T> {
@@ -32,6 +33,13 @@ public interface StatementVisitor<T> extends Visitor<T> {
 	default T visit(If ifNode) {
 		ifNode.getExpression().accept(this);
 		ifNode.getBlock().accept(this);
+		return null;
+	}
+	
+	default T visit(IfElse ifElseNode) {
+		ifElseNode.getExpression().accept(this);
+		ifElseNode.getIfBranch().accept(this);
+		ifElseNode.getElseBranch().accept(this);
 		return null;
 	}
 	

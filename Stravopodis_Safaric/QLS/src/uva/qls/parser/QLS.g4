@@ -1,58 +1,63 @@
 
 grammar QLS;
 
+@header{
+	package uva.qls.parser;
+}
 
 prog		: stylesheet EOF;
 
-stylesheet	: 'stylesheet' Identifier pgs+=page*;
+stylesheet	: 'stylesheet' id = Identifier pgs+=page*;
 
-page 		: 'page' Identifier '{' stms+=statement* '}';	// Say that a page has to have sections or not?
+page 		: 'page' id = Identifier '{' stms+=statement* '}';	// Say that a page has to have sections or not?
 
 statement 	: section		# CtxSection
 			| subsection	# CtxSubsection
 			| question 		# CtxQuestion
 			| defaultValue  # CtxDefaultValue
-			| component 	# CtxComponenet
+			| component 	# CtxComponent
 			| style			# CtxStyle
 			;
 
 section		: 'section' STRING '{' stms+=statement* '}';
 
-subsection 	: 'subsection ' STRING '{' question '}';
+subsection 	: 'subsection ' STRING '{' quest = question '}';
 
-question	: 'question' Identifier cmp=component?;
+question	: 'question' id = Identifier cmp=component?;
 
-defaultValue: 'default' primitiveType ( component | ('{' stms+=statement* '}')) ;
+defaultValue: 'default' primitiveType cmp = component			# CtxDefaultComponent		
+			| 'default' primitiveType '{' stms+=statement* '}'	# CtxDefaultStatement
+			;		
 
-component	: Widget Textbox										
-			| Widget Spinbox									
-			| Widget Slider '(' STRING ',' STRING ')'			
-			| Widget Dropdown '(' STRING ',' STRING ')'			
-			| Widget Radio '(' STRING ',' STRING ')'			
-			| Widget Checkbox '(' STRING ')'										
+component	: Widget Textbox 										('{' stls+=style* '}')?							# CtxTextbox										
+			| Widget Spinbox 										('{' stls+=style* '}')?							# CtxSpinbox
+			| Widget Slider '(' v1 = STRING ',' v2 =STRING ')'		('{' stls+=style* '}')?							# CtxSlider
+			| Widget Dropdown '(' v1 = STRING ',' v2 = STRING ')'	('{' stls+=style* '}')? 						# CtxDropdown		
+			| Widget Radio '(' v1 = STRING ',' v2 = STRING ')'		('{' stls+=style* '}')?							# CtxRadio	
+			| Widget Checkbox '(' STRING ')'						('{' stls+=style* '}')?							# CtxCheckbox	
 			;
 
-style		: Width ':' Integer			# CtxWidth
-			| Height ':' Integer		# CtxHeight
-			| Font ':' STRING			# CtxFont
-			| Fontsize ':' Integer		# CtxFontsize
-			| Color ':' HASH Integer	# CtxColor
+style		: Width ':' v = Integer			# CtxWidth
+			| Height ':' v = Integer		# CtxHeight
+			| Font ':' v = STRING			# CtxFont
+			| Fontsize ':' v = Integer		# CtxFontsize
+			| Color ':' HASH v = Integer	# CtxColor
 			;
 
 
 literal		: BooleanLiteral # CtxBooleanLiteral
 			| Integer		 # CtxInteger
-			| Decimal		 # CtxDecimal				
+			| Money			 # CtxMoney				
 			;
 
 BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
-primitiveType	: 'boolean'
-				| 'decimal'
-				| 'string'
-				| 'int'
+primitiveType	: 'boolean'		# CtxPrimitiveBoolean
+				| 'money'		# CtxPrimitiveMoney
+				| 'string'		# CtxPrimitiveString
+				| 'integer'		# CtxPrimitiveInteger
 				;
 
 Width		: 'width';
@@ -72,7 +77,7 @@ Identifier	: ID_LETTER (ID_LETTER | DIGIT)* ;
 
 Integer		: (DIGIT | ('(-'DIGIT')')) ;
 
-Decimal		: ('(''-')? DIGIT+ '.' DIGIT* ')'? ;
+Money		: Integer ;
 
 WS			: (' ' | NEWLINE | TAB) -> skip;
 

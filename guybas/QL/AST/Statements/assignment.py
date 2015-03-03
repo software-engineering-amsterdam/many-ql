@@ -1,6 +1,7 @@
-from QL.AST.Statements.statement import *
+import QL.AST.Statements.statement as statement
 
-class Assignment:
+
+class Assignment(statement.IStatement):
     # init
     def __init__(self, qid, qtype, expression):
         self.id = qid
@@ -8,6 +9,7 @@ class Assignment:
         self.expression = expression
         self.parent_id = None
         self.order = None
+        self.element = None
 
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
@@ -58,6 +60,9 @@ class Assignment:
             print("Warning: order set more than once")
         return self.order + 1
 
+    def set_element(self, gui):
+        ...
+
     # Override
     def id_type_collection(self):
         return {self.id: self.type}
@@ -74,3 +79,9 @@ class Assignment:
 
     def get_label(self):
         return self.expression.pretty_print()
+
+    def get_element(self):
+        return self.element
+
+    def get_statement_dict(self):
+        return {self.id: self}

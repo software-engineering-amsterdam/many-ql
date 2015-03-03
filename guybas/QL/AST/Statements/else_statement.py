@@ -1,13 +1,15 @@
-from QL.AST.Statements.if_statement import *
+import QL.AST.Statements.if_statement as if_statement
+import QL.Main.converters as converters
 
-class IfElseBlock(IfBlock):
+
+class IfElseBlock(if_statement.IfBlock):
 
     # Override
-    def __init__(self, condition, statements, else_statements, tid):
+    def __init__(self, condition, statements, else_statements):
         self.condition = condition
         self.statements = statements
         self.else_statements = else_statements
-        self.parent_id = tid
+        self.element = None
 
     # Override
     def pretty_print(self, level=0):
@@ -66,6 +68,13 @@ class IfElseBlock(IfBlock):
     # Override
     def set_parent_id(self, pid):
         self.parent_id = pid
+        m = converters.Converters.get_md5(str(self))
+        for s in self.statements:
+            s.set_parent_id(m)
+            s.set_parent_condition(self.condition)
+        for s in self.else_statements:
+            s.set_parent_id(m)
+            s.set_parent_condition(self.condition.not_expression())
 
     # Override
     def set_order(self, order_num):
@@ -75,6 +84,12 @@ class IfElseBlock(IfBlock):
         for s in self.else_statements:
             c = s.set_order(c)
         return c
+
+    def set_element(self, gui):
+        ...
+
+    def set_parent_condition(self, condition):
+        ...
 
     # Override
     def id_type_collection(self):
@@ -87,3 +102,15 @@ class IfElseBlock(IfBlock):
 
     def get_e_statements(self):
         return self.else_statements
+
+    def get_element(self):
+        return self.element
+
+    def get_statement_dict(self):
+        d = {}
+        for s in self.statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        for s in self.else_statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+
+        return d
