@@ -17,4 +17,8 @@ public abstract class Widget extends AbstractASTQLSNode {
     }
 
     public abstract void applyStyle(Style _style);
+
+    public boolean isNull() {
+        return false;
+    }
 }

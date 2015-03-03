@@ -74,8 +74,6 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLSNode> {
     @Override public AbstractASTQLSNode visitQuestionWithWidget(@NotNull QLSParser.QuestionWithWidgetContext ctx) {
         String identifier = ctx.ID().getText();
 
-        System.out.println("Visit Question with widget : " + identifier);
-
         Widget widget = (Widget) ctx.widget().accept(this);
         widget.setLabel(identifier);
 
@@ -84,17 +82,14 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLSNode> {
 
     @Override public AbstractASTQLSNode visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx) {
         String identifier = ctx.ID().getText();
-
-        System.out.println("Visit Question without widget : " + identifier);
-
-        return new Question(identifier, null);
+        return new Question(identifier, new NullWidget());
     }
 
     @Override public AbstractASTQLSNode visitQuestionWithStyleDeclr(@NotNull QLSParser.QuestionWithStyleDeclrContext ctx) {
         String identifier = ctx.ID().getText();
-        System.out.println("Visit Question without widget : " + identifier);
 
-        return new Question(identifier, null);
+        // todo get default widget ???
+        return new Question(identifier, new NullWidget());
     }
 
     @Override 

@@ -7,7 +7,7 @@ public class Question extends AbstractASTQLSNode {
 
     private final String identifier;
     private final Widget widget;
-    
+
     public Question(String _identifier, Widget _widget) {
         this.identifier = _identifier;
         this.widget = _widget;
