@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.Label;
@@ -15,11 +16,13 @@ public class QuestionComponent extends JPanel {
 
 	private Question question;
 	private JLabel label;
+	private Expression showCondition;
 
-	public QuestionComponent(Question question) {
+	public QuestionComponent(Question question, Expression showCondition) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS)); 
 		this.question = question;
 		this.label = new Label(question.getText());
+		this.showCondition = showCondition;
 		add(label);
 		createQuestionType();
 	}
@@ -29,19 +32,19 @@ public class QuestionComponent extends JPanel {
 	{
 		if(question.getType().isBoolType())
 		{
-			CheckBox checkbox = new CheckBox(null);
+			CheckBox checkbox = new CheckBox(showCondition);
 			checkbox.setName(question.getId());
 			add(checkbox);			
 		}
 		else if(question.getType().isStringType())
 		{
-			TextField textfield = new TextField(null);
+			TextField textfield = new TextField(showCondition);
 			textfield.setName(question.getId());
 			add(textfield);			
 		}
 		else
 		{
-			TextField textfield = new TextField(null);
+			TextField textfield = new TextField(showCondition);
 			textfield.setName(question.getId());
 			add(textfield);				
 		}

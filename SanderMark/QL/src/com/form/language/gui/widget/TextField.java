@@ -8,15 +8,17 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.values.StringValue;
 
 public class TextField extends JTextField implements Widget {
 	
 	private static final long serialVersionUID = 1L;
-	private WidgetListener widgetListener;
+	//private WidgetListener widgetListener;
+	private Expression showCondition;
 
-	public TextField(WidgetListener listener) {
-		this.widgetListener = listener;
+	public TextField(Expression showCondition) {
+		this.showCondition = showCondition;
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener((DocumentListener) this);
 		setVisible(true);
@@ -26,7 +28,8 @@ public class TextField extends JTextField implements Widget {
 		String s;
 		try {
 			s = e.getDocument().getText(0, e.getDocument().getLength());
-			widgetListener.widgetValueChanged(getIdentifier(), new StringValue(s));
+			//If condition == true then show QUESTION
+			//widgetListener.widgetValueChanged(getIdentifier(), new StringValue(s));
 		} catch (BadLocationException e1) {
 			System.out.println("Something went terribly wrong.");
 		}

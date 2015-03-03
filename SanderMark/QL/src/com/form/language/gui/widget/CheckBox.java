@@ -6,14 +6,16 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
+import com.form.language.ast.expression.Expression;
 import com.form.language.ast.values.BoolValue;
 
 public class CheckBox extends JCheckBox implements Widget {
 	private static final long serialVersionUID = 1L;
-	private WidgetListener widgetListener;
+	//private WidgetListener widgetListener;
+	private Expression showCondition;
 	
-	public CheckBox(WidgetListener listener) {
-		this.widgetListener = listener;
+	public CheckBox(Expression showCondition) {
+		this.showCondition = showCondition;
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		addItemListener((ItemListener) checkboxListener);
 	}
@@ -22,9 +24,11 @@ public class CheckBox extends JCheckBox implements Widget {
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getSource() == CheckBox.this) {
 				if (CheckBox.this.isSelected()) {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
+					//If condition == true then show QUESTION
+					//widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
 				} else {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
+					//If condition == true then show QUESTION
+					//widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
 				}
 			}
 		}
