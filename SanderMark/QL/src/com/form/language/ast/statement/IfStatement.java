@@ -78,11 +78,13 @@ public class IfStatement implements Statement {
 	@Override
 	public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI) {
 		// TODO Auto-generated method stub
-		guiBuilder.createIf(conditions);
+		//guiBuilder.createIf(conditions);
+		guiBuilder.SetShowCondition(conditions);
 		for(Statement s : this.thenStatements)
 		{
 			s.createGUIComponent(guiBuilder, formGUI);
-		}		
+		}	
+		guiBuilder.RemoveShowCondition();
 	};
 		
 }

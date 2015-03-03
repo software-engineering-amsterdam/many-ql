@@ -14,6 +14,7 @@ import com.form.language.ast.type.Type;
 public class GUIBuilder {
 	
 	private FormComponent formGUI;
+	private Expression showCondition;
 	
 	public GUIBuilder(Form form,JFrame frame)
 	{
@@ -26,13 +27,22 @@ public class GUIBuilder {
 		}	
 	}
 
-	public void createIf(Expression conditions) {		
-	}
-
 	public void createGUIQuestion(Question question, FormComponent formGUI2) {
-		QuestionComponent questionCompondent = new QuestionComponent(question);	
+		QuestionComponent questionCompondent = new QuestionComponent(question,showCondition);	
 		formGUI2.add(questionCompondent);
 	}
+	
+	public void SetShowCondition(Expression condition)
+    {
+		showCondition = condition;
+    }
+
+    public void RemoveShowCondition()
+    {
+    	showCondition = null;
+    }
+	
+	
 	
 	
 

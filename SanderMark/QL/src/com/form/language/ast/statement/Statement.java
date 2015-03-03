@@ -1,8 +1,5 @@
 package com.form.language.ast.statement;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
 import com.form.language.gui.components.FormComponent;
