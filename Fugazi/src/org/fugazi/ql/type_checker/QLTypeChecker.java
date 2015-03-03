@@ -1,16 +1,16 @@
 package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.ast.form.Form;
-import org.fugazi.ql.type_checker.error.ASTNodeError;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.visitor.TypeCheckerVisitor;
 
 import java.util.List;
 
 
-public class TypeChecker {
+public class QLTypeChecker {
     private final TypeCheckerVisitor visitor;
 
-    public TypeChecker() {
+    public QLTypeChecker() {
         this.visitor = new TypeCheckerVisitor();
     }
 
@@ -29,11 +29,11 @@ public class TypeChecker {
         return this.visitor.isFormCorrect();
     }
 
-    public List<ASTNodeError> getErrors() {
+    public List<ASTNodeIssue> getErrors() {
         return this.visitor.getErrors();
     }
 
-    public List<ASTNodeError> getWarnings() {
+    public List<ASTNodeIssue> getWarnings() {
         return this.visitor.getWarnings();
     }
 }

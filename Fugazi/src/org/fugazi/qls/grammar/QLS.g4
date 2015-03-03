@@ -6,21 +6,22 @@ stylesheet : 'stylesheet' ID page*;
 // Page, includes default declarations, and/or sections.
 page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
-// Section, includes questions and/or other sections, and/or default declarations.
-section : 'section' STRING question
-        | 'section' STRING '{' (question | section | defaultStyleDeclr)* '}';
+// Section, includes questions and/or other sections, and/or default style.
+section : 'section' STRING (question | section | defaultStyleDeclr)
+        | 'section' STRING '{' (question | section | defaultStyleDeclr)* '}'
+        ;
 
 // question id (zero or one widget)
-question : 'question' ID (widget)?;
+question : 'question' ID widget                 # questionWithWidget
+         | 'question' ID                        # questionWithoutWidget
+         ;
 
 // widget
-widget : 'widget' supportedWidget   # simpleWidget
-       | defaultStyleDeclr          # defaultStyleWidget
-       ;
+widget : 'widget' supportedWidget;
 
 // defaultStyle, can be: default boolean widget radio("Yes", "No"), and/or default int { style widget }
-defaultStyleDeclr : 'default' type widget                           # noStylesDefault
-                  | 'default' type '{' styleProperty* widget '}'    # stylesDefault
+defaultStyleDeclr : 'default' type widget                           # noStylesDefaultDeclr
+                  | 'default' type '{' styleProperty+ widget '}'    # stylesDefaultDeclr
                   ;
 
 /**
@@ -29,8 +30,8 @@ defaultStyleDeclr : 'default' type widget                           # noStylesDe
 
 // The supported widgets
 supportedWidget : 'checkbox'                                    # checkboxWidget
-                | 'radio' '(' (STRING ',')* STRING  ')'         # radioWidget
-                | 'dropdown'                                    # dropdownWidget
+                | 'radio' '(' yes=STRING ',' no=STRING ')'      # radioWidget
+                | 'dropdown' '(' yes=STRING ',' no=STRING ')'   # dropdownWidget
                 | 'spinbox'                                     # spinboxWidget
                 | 'slider'                                      # sliderWidget
                 | 'text'                                        # textWidget
@@ -63,10 +64,7 @@ ID  :   [a-zA-Z]+;
 NUMBER : DIGIT+ ;
 
 // HEX
-// TODO this is ugly but also not.
-// This is the only way to enforce n repetitions of a token with antlr.
 HEX : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT ;
-HEXDIGIT: [0-9a-fA-F] ;
 
 // comment matches anything between /* and */
 COMMENT
@@ -84,5 +82,6 @@ LINE_COMMENT
 
 // Fragments
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
-fragment UNICODE : 'u' HEX HEX HEX HEX ;
-fragment DIGIT   : [0-9] ; // match single digit
+fragment HEXDIGIT: [0-9a-fA-F] ;
+fragment UNICODE : 'u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT ;
+fragment DIGIT   : [0-9] ;
