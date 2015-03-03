@@ -41,7 +41,7 @@ public class ComputedQuestionPanel extends Composite {
 		
 		this.expression = expression;
 		
-		this.valueEnvironment = valueEnvironment;
+		this.valueEnvironment = valueEnvironment;		
 	}
 
 	public Expression getExpression() {
@@ -58,7 +58,7 @@ public class ComputedQuestionPanel extends Composite {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void updateComponent() {
-		Value expressionValue = Evaluator.check(expression, this.valueEnvironment);
+		Value expressionValue = Evaluator.check(expression, valueEnvironment);
 
 		if(expressionValue.isUndefined()) {
 			return;

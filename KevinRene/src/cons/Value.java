@@ -1,5 +1,6 @@
 package cons;
 
+
 @SuppressWarnings("rawtypes")
 public abstract class Value<T> {
 	private T value;
@@ -13,6 +14,10 @@ public abstract class Value<T> {
 	}
 	
 	public boolean isUndefined() {
+		return false;
+	}
+	
+	public boolean isNumeric() {
 		return false;
 	}
 	
@@ -104,6 +109,15 @@ public abstract class Value<T> {
 	
 	public abstract Value and(Value argument);
 	public abstract Value andBoolean(boolean argument);
+	
+	@Override
+	public boolean equals(Object obj) {		
+		if(obj instanceof Value) {
+			return ((Value) obj).getValue().equals(this.value);
+		}
+		
+		return false;
+	};
 	
 	@Override
 	public String toString() {

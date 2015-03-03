@@ -6,9 +6,10 @@ import gui.widget.composite.FormComposite;
 import gui.widget.composite.IfComposite;
 import gui.widget.composite.Panel;
 import gui.widget.composite.QuestionPanel;
-import gui.widget.input.IntegerSpinbox;
 import gui.widget.input.RadioButton;
 import gui.widget.input.TextField;
+import gui.widget.input.spinbox.FloatSpinbox;
+import gui.widget.input.spinbox.IntegerSpinbox;
 
 import javax.swing.JFrame;
 
@@ -17,9 +18,11 @@ import cons.ql.ast.ASTNode;
 import cons.ql.ast.Statement;
 import cons.ql.ast.expression.Identifier;
 import cons.ql.ast.expression.literal.BooleanLiteral;
+import cons.ql.ast.expression.literal.FloatLiteral;
 import cons.ql.ast.expression.literal.IntegerLiteral;
 import cons.ql.ast.expression.literal.StringLiteral;
 import cons.ql.ast.expression.type.QLBoolean;
+import cons.ql.ast.expression.type.QLFloat;
 import cons.ql.ast.expression.type.QLInteger;
 import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.statement.Block;
@@ -57,6 +60,11 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	}
 	
 	@Override
+	public Widget visit(QLFloat floatNode) {
+		return new FloatSpinbox();
+	}
+	
+	@Override
 	public Widget visit(QLInteger integerNode) {
 		return new IntegerSpinbox();
 	}
@@ -67,8 +75,13 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	}
 	
 	@Override
-	public Widget visit(StringLiteral stringNode) {
-		return new Label(stringNode.getValue());
+	public Widget visit(BooleanLiteral booleanLiteral) {
+		return new RadioButton(booleanLiteral.getValue());
+	}
+	
+	@Override
+	public Widget visit(FloatLiteral floatLiteral) {
+		return new FloatSpinbox(floatLiteral.getValue());
 	}
 	
 	@Override
@@ -77,8 +90,8 @@ public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVis
 	}
 	
 	@Override
-	public Widget visit(BooleanLiteral booleanLiteral) {
-		return new RadioButton(booleanLiteral.getValue());
+	public Widget visit(StringLiteral stringNode) {
+		return new Label(stringNode.getValue());
 	}
 	
 	/**
