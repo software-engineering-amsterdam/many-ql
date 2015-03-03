@@ -1,5 +1,7 @@
 package com.form.language.ast.type;
 
+import com.form.language.ast.values.GenericValue;
+
 public abstract class Type {
 	public abstract Type getType();
 	
@@ -19,4 +21,5 @@ public abstract class Type {
 		return false;
 	}
 	
+	public abstract GenericValue<?> defaultValue();
 }

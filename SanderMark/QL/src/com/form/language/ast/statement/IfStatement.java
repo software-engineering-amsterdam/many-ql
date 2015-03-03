@@ -22,6 +22,7 @@ import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -140,8 +141,7 @@ public class IfStatement implements Statement {
 	}
 
 	@Override
-	public void fillMemory(IdCollector idCollector) {
-		// TODO Auto-generated method stub
+	public void collectIds(IdCollector idCollector) {
 		this.conditions.collectIds(idCollector);
 	}
 
@@ -150,7 +150,9 @@ public class IfStatement implements Statement {
 	public void setType(IdTypeTable ids) {
 		this.conditions.setType(ids);
 	}
-	
-	
-	
+
+
+	@Override
+	public void initMemory(RuntimeMemory mem){};
+		
 }

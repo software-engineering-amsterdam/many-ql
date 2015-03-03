@@ -1,5 +1,7 @@
 package com.form.language.ast.values;
 
+import com.form.language.memory.RuntimeMemory;
+
 public class StringValue extends GenericValue<String> {
 	private final String value;
 	
@@ -10,4 +12,8 @@ public class StringValue extends GenericValue<String> {
 		return value;
 	}
 
+	@Override
+	public void addToMemory(String key, RuntimeMemory m) {
+		m.put(key, value);
+	}
 }
