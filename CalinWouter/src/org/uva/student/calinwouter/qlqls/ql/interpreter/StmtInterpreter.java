@@ -4,7 +4,6 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.NotOfTypeException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ExpInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 
 import java.util.LinkedList;

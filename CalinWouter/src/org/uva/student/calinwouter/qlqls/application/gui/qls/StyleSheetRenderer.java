@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Page;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Section;

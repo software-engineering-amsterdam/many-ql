@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql.typechecker;
+package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker;
 
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
