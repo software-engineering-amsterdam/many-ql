@@ -1,19 +1,31 @@
 form sample
 {
+
     /*
     boolean test3 "Mwahaha"
     boolean test "Test question" true
     boolean test2 "Test question 2" test3
-    integer a "label" b + 2 //TODO: fix evaluator, does not work for 2 + b !
+    integer a "label" 2 + b
     integer b "label1"
     string strinput "string input" "test"
+
     */
+
     string name "What is your first name?"
     string surname "What is your last name?"
     integer age "How old are you?"
+    integer a "label" 2+age
     boolean maritalStatus "Are you married?"
 
+    if (maritalStatus)
+        string married "Yey, you are not married!"
+    if (!maritalStatus) {
+        string married "Yey, you are married!"
+    }
+
+    string someinput "wish you were" "here"
     string combinedName "Your name is" name + " " + surname
     integer age2 "Your age is" age
     boolean maritalStatus2 "You are married" maritalStatus
+/*    */
 }
