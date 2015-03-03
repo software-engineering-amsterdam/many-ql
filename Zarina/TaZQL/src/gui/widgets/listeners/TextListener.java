@@ -1,0 +1,45 @@
+package gui.widgets.listeners;
+
+import gui.widgets.IWidgetComponent;
+import interpreter.StringValue;
+import interpreter.ValueRepository;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+public class TextListener implements DocumentListener {
+	private final IWidgetComponent widget;
+	private String value = "";
+	private final ValueRepository valueRepository;
+	
+	public TextListener(IWidgetComponent widget, ValueRepository valueRepository) {
+		this.widget = widget;
+		this.valueRepository = valueRepository;
+	}
+	
+	@Override
+	public void changedUpdate(DocumentEvent arg0) {
+		update();
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent arg0) {
+		update();
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent arg0) {
+		update();
+	}
+	
+	//@Override
+	public void update() {
+		value = widget.getStringValue().toString();
+		StringValue stringValue = new StringValue(value);
+		
+		valueRepository.putID(widget.getIdWidget().toString(), stringValue);
+		widget.getWidget().revalidate();
+		widget.getWidget().repaint();
+		System.out.println("Listener value: " + valueRepository.getValueRepository());
+	}
+}

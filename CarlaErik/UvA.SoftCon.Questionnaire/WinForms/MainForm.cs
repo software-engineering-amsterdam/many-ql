@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 using UvA.SoftCon.Questionnaire.WinForms.Controls;
@@ -141,10 +141,10 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                 Output.WriteLine("------ Parsing started: QL File: {0} ------", qlFile.Name);
                 
 
-                var astController = new ASTController();
+                var qlController = new QLController();
                 var runtimeController = new RuntimeController();
 
-                var form = astController.ParseQLFile(qlFile);
+                var form = qlController.ParseQLFile(qlFile);
 
                 var report = runtimeController.Validate(form);
 

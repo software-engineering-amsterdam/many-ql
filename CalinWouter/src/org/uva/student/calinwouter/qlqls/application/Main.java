@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.QLSTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.StyleSheet;
 
@@ -102,7 +102,7 @@ public class Main {
      * based on the results of QL. */
     public static void main(String[] args) throws IOException {
         printAbout();
-        if (args.length == 1) {
+        if (args.length == 0) {
             String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
             String qls = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/qls.txt");
@@ -113,7 +113,7 @@ public class Main {
             executeQlQls(ql, qls);
         } else if (args.length == 1 && args[0].equals("--help")) {
             printSyntax();
-        } else if (args.length == 0) {
+        } else if (args.length == 1) {
             String currentLocation = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             String ql = readFile(currentLocation + "org/uva/student/calinwouter/qlqls/resources/examples/simple/ql.txt");
             executeQl(ql);

@@ -3,8 +3,7 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.AForm;
 import org.uva.student.calinwouter.qlqls.generated.node.PStmt;
-import org.uva.student.calinwouter.qlqls.ql.model.FormField;
-import org.uva.student.calinwouter.qlqls.ql.types.TypeModel;
+import org.uva.student.calinwouter.qlqls.ql.types.Value;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.FieldInUseException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.InterpretationException;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelInUseException;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public abstract class FormInterpreter extends AnalysisAdapter {
 
-    private Map<String, TypeModel<?>> variableMap;
+    private Map<String, Value<?>> variableMap;
     private Set<String> usedFields;
     private Set<String> usedLabels;
     protected List<InterpretationException> interpretationExceptions;
@@ -36,7 +35,7 @@ public abstract class FormInterpreter extends AnalysisAdapter {
         }
     }
 
-    public TypeModel<?> getField(String key) {
+    public Value<?> getField(String key) {
         return variableMap.get(key);
     }
 
@@ -58,11 +57,11 @@ public abstract class FormInterpreter extends AnalysisAdapter {
 
     protected abstract StmtInterpreter createStmtInterpreter();
 
-    public void setField(String key, TypeModel<?> value) {
+    public void setField(String key, Value<?> value) {
         variableMap.put(key, value);
     }
 
     public FormInterpreter() {
-        variableMap = new HashMap<String, TypeModel<?>>();
+        variableMap = new HashMap<String, Value<?>>();
     }
 }

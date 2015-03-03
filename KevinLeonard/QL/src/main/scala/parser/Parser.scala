@@ -21,7 +21,7 @@ class Parser extends JavaTokenParsers {
     s => Literal(NumberType(), NumberValue(s.toInt))
   }
   def string: Parser[Literal] = stringLiteral ^^ {
-    s => Literal(StringType(), StringValue(s))
+    s => Literal(StringType(), StringValue(s.substring(1, s.length - 1)))
   }
 
   // form parsers
@@ -31,7 +31,7 @@ class Parser extends JavaTokenParsers {
   def statement: Parser[Statement] = "{" ~> rep(question | ifStatement) <~ "}" ^^ Sequence
 
   // question parsers
-  def question: Parser[Question] = positioned("question" ~> variable ~ label ~ questionType ~ opt("is" ~ "(" ~> expression <~ ")") ^^ {
+  def question: Parser[Question] = positioned("question" ~> variable ~ label ~ questionType ~ opt("is" ~> expression) ^^ {
     case v ~ label ~ "boolean" ~ e => Question(BooleanType(), v, label, e)
     case v ~ label ~ "number" ~ e => Question(NumberType(), v, label, e)
     case v ~ label ~ "string" ~ e => Question(StringType(), v, label, e)

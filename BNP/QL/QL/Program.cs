@@ -8,17 +8,19 @@ using System.IO;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
+using QL.Errors;
 using QL.Grammars;
 using QL.Infrastructure;
 using QL.Model;
+using QL.Evaluation;
 
 
 namespace QL
 {
     class Program
     {
-        static void Main(string[] args){
-
+        static void Main(string[] args)
+        {
             while (true)
             {
                 Console.WriteLine("Please enter QL syntax commit by Ctrl+Z. Quit by Ctrl+C");
@@ -34,10 +36,32 @@ namespace QL
                 parser.AddErrorListener(new ParserErrorHandler());
                 QLListener listener = new QLListener();
                 parser.AddParseListener(listener);
-                
+
 
                 // parses the input as a formBlock(cos it's on the top)
-                var result = parser.formBlock();    
+                var result = parser.formBlock();
+                AstHandler ast = listener.GetAst();
+                ast.CheckType();
+
+                if (ast.TypeCheckerErrors.Any())
+                {
+                    foreach (QLError e in ast.TypeCheckerErrors)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                    continue;
+                }
+
+                ast.Evaluate();
+
+                if (ast.EvaluationErrors.Any())
+                {
+                    foreach (QLError e in ast.TypeCheckerErrors)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
+                    continue;
+                }
 
                 Console.Write("Hit <return> to restart");
                 Console.ReadLine();

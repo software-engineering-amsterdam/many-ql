@@ -3,7 +3,7 @@ package com.form.language.ast.expression;
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.type.ErrorType;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 
 public abstract class BinaryExpression implements Expression {
 	public Token tokenInfo;
@@ -24,8 +24,8 @@ public abstract class BinaryExpression implements Expression {
 		return "line: " + tokenInfo.getLine();
 	}	
 	@Override
-	public void fillMemory(Memory memory) {
-		left.fillMemory(memory);
-		right.fillMemory(memory);
+	public void collectIds(IdCollector idCollector) {
+		left.collectIds(idCollector);
+		right.collectIds(idCollector);
 	}
 }

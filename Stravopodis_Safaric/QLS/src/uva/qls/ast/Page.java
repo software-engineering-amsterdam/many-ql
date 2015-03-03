@@ -1,5 +1,10 @@
 package uva.qls.ast;
 
+import java.util.*;
+
+import uva.qls.ast.literal.Identifier;
+import uva.qls.ast.statements.*;
+import uva.qls.ast.value.GenericValue;
 public class Page extends ASTNode {
 	
 	private Identifier identifier;

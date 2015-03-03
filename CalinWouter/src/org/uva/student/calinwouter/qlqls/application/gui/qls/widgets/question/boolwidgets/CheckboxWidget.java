@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.b
 
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ public class CheckboxWidget implements IWidget {
         checkbox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                headlessFormInterpreter.setField(question.getFieldName(), new TBool(checkbox.isSelected()));
+                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(checkbox.isSelected()));
                 headlessFormInterpreter.interpret();
             }
         });

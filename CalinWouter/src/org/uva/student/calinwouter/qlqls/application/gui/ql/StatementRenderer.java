@@ -6,7 +6,7 @@ import org.uva.student.calinwouter.qlqls.generated.node.*;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public class StatementRenderer extends AnalysisAdapter {
     private HeadlessFormInterpreter headlessFormInterpreter;
     private FormTypeChecker formTypeChecker;
-    private JPanel widget;
+    private final JPanel widget;
 
     public StatementRenderer(HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker) {
         widget = new JPanel();
@@ -28,6 +28,7 @@ public class StatementRenderer extends AnalysisAdapter {
     }
 
     public void setVisibility(String identifier) {
+//        widget.setVisible(headlessFormInterpreter.hasField(identifier));
         try {
             headlessFormInterpreter.getLabelForField(identifier);
             widget.setVisible(true);

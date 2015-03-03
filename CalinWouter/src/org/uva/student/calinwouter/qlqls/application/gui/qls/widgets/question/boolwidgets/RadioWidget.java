@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.b
 
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Radio;
 
@@ -33,7 +33,7 @@ public class RadioWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println("true");
-                headlessFormInterpreter.setField(question.getFieldName(), new TBool(true));
+                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(true));
                 headlessFormInterpreter.interpret();
             }
         });
@@ -42,7 +42,7 @@ public class RadioWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println("false");
-                headlessFormInterpreter.setField(question.getFieldName(), new TBool(false));
+                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(false));
                 headlessFormInterpreter.interpret();
             }
         });

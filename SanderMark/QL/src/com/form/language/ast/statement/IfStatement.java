@@ -21,7 +21,7 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -96,8 +96,8 @@ public class IfStatement implements Statement {
 	public void addListener(JPanel panel,final JPanel p)
 	{
 		//Put id's of conditions into memory 		
-		Memory m = new Memory();
-		this.conditions.fillMemory(m);
+		IdCollector m = new IdCollector();
+		this.conditions.collectIds(m);
 
 		//Get all panels of frame
 		Component[] cArray =  panel.getComponents();	
@@ -140,9 +140,9 @@ public class IfStatement implements Statement {
 	}
 
 	@Override
-	public void fillMemory(Memory memory) {
+	public void fillMemory(IdCollector idCollector) {
 		// TODO Auto-generated method stub
-		this.conditions.fillMemory(memory);
+		this.conditions.collectIds(idCollector);
 	}
 	
 }

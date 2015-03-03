@@ -4,9 +4,9 @@ import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.ABoolType;
 import org.uva.student.calinwouter.qlqls.generated.node.AIntType;
 import org.uva.student.calinwouter.qlqls.generated.node.AStringType;
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
-import org.uva.student.calinwouter.qlqls.ql.types.TString;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
+import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 
 /**
  * This ql parses a type production and returns a TypeCallback implementation based on the type.
@@ -17,40 +17,40 @@ public class TypeInterpreter extends AnalysisAdapter {
 
     @Override
     public void caseABoolType(final ABoolType node) {
-        setValue(new TypeDescriptor<TBool>() {
+        setValue(new TypeDescriptor<BoolValue>() {
             @Override
             public void callTypeMethod(TypeCallback typeCallback) {
                 typeCallback.usesBoolean();
             }
 
             @Override
-            public TBool getDefaultValue() {
-                return new TBool(false);
+            public BoolValue getDefaultValue() {
+                return new BoolValue(false);
             }
 
             @Override
             public String toString() {
-                return TBool.TYPE_REFERENCE;
+                return BoolValue.TYPE_REFERENCE;
             }
         });
     }
 
     @Override
     public void caseAIntType(final AIntType node) {
-        setValue(new TypeDescriptor<TInteger>() {
+        setValue(new TypeDescriptor<IntegerValue>() {
             @Override
             public void callTypeMethod(TypeCallback typeCallback) {
                 typeCallback.usesInteger();
             }
 
             @Override
-            public TInteger getDefaultValue() {
-                return new TInteger(null);
+            public IntegerValue getDefaultValue() {
+                return new IntegerValue(null);
             }
 
             @Override
             public String toString() {
-                return TInteger.TYPE_REFERENCE;
+                return IntegerValue.TYPE_REFERENCE;
             }
         });
     }
@@ -64,13 +64,13 @@ public class TypeInterpreter extends AnalysisAdapter {
             }
 
             @Override
-            public TString getDefaultValue() {
-                return new TString("");
+            public StringValue getDefaultValue() {
+                return new StringValue("");
             }
 
             @Override
             public String toString() {
-                return TString.TYPE_REFERENCE;
+                return StringValue.TYPE_REFERENCE;
             }
         });
     }

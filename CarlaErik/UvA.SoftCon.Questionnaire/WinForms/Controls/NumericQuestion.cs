@@ -5,12 +5,12 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class NumericQuestion : UvA.SoftCon.Questionnaire.WinForms.Controls.QuestionControl
+    public partial class NumericQuestion : QuestionControl
     {
         public NumericQuestion(Question astQuestion)
             : base(astQuestion)

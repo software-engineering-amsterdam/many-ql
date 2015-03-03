@@ -1,5 +1,6 @@
 package uva.qls.ast;
 import uva.qls.ast.CodeLines;
+import uva.qls.ast.value.GenericValue;
 public abstract class ASTNode {
 	
 	protected CodeLines codeLines;

@@ -1,7 +1,5 @@
 package gui.widgets;
 
-import interpreter.ValueRepository;
-
 import javax.swing.JComponent;
 
 import ast.type.Type;
@@ -12,13 +10,15 @@ public interface IWidgetComponent {
 	public String getIdWidget();	// id
 	public Type getWidgetType();	// choice/digits/text
 	
-	public String getTextValue();			// inserted text (just for testing)
-	public boolean getChoiceValue();			// for my check box
+	public String getStringValue();			// inserted text (just for testing)
+	public boolean getBooleanValue();			// for my check box
+	public int getIntegerValue();
 	
 	public void setValue(String value);
 	public void setChoiceValue(boolean value);
+	public void setIntegerValue(int value);
 	
 	public void setEnabled(boolean isEnabled);
 	
-	public void addDocListener(ValueRepository valRep);
+	public void addDocListener();
 }

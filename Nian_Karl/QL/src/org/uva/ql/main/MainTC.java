@@ -19,6 +19,7 @@ import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.value.Int;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;
+import org.uva.ql.typecheck.message.Warning;
 
 public class MainTC {
 
@@ -37,22 +38,17 @@ public class MainTC {
 		System.out.println("[Questionnaire] " + questionnaire);
 
 		TypeChecker typeChecker = new TypeChecker();
-		questionnaire.accept(typeChecker);
+//		questionnaire.accept(typeChecker);
 		
-		typeChecker.printMessages();
-//		Error a = new Error(Error.Type.CYCLIC, 37, "hasMoney", "isMarried");
-//		Warning b = new Warning(Warning.Type.DUPLICATE, 74, "hasMoney");
-//		System.out.println(a);
-//		System.out.println(b);
-		
-		
-//		TypeChecker tc = new TypeChecker();
-//		tc.getType(new Identifier("asdsad", new CodePosition(1,1)));
-//		tc.addMessage(a);
-//		tc.addMessage(b);
-//		tc.printMessages();
-		
-		tryEvaluator();
+
+		if (questionnaire.accept(typeChecker)) {
+			System.out.println("OMG!");
+		} else {
+			typeChecker.printMessages();
+			
+		}
+		//typeChecker.printAll();
+		//tryEvaluator();
 	}
 	
 	public static void tryEvaluator() {
@@ -71,4 +67,11 @@ public class MainTC {
 		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2, new CodePosition(0,0))));
 		System.out.println("Test Evaluator ID1 / ID2 = " + e.evaluate(new Divide(id1, id2, new CodePosition(0,0))));
 	}
+	
+//	public static void tryTypeChecker() {
+//		Error a = new Error(Error.Type.CYCLIC, 37, "hasMoney", "isMarried");
+//		Warning b = new Warning(Warning.Type.DUPLICATE, 74, "hasMoney");
+//		System.out.println(a);
+//		System.out.println(b);
+//	}
 }

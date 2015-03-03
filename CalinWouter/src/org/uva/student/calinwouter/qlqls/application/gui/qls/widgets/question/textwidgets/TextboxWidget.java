@@ -4,8 +4,8 @@ import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
-import org.uva.student.calinwouter.qlqls.ql.types.TString;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
+import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import javax.swing.*;
@@ -59,7 +59,7 @@ public class TextboxWidget implements IWidget,TypeCallback {
     @Override
     public void usesInteger() {
         try {
-            headlessFormInterpreter.setField(question.getFieldName(), new TInteger(Integer.parseInt(widget.getText())));
+            headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(Integer.parseInt(widget.getText())));
         }
         catch(NumberFormatException e) {
             headlessFormInterpreter.setField(question.getFieldName(), null);
@@ -68,6 +68,6 @@ public class TextboxWidget implements IWidget,TypeCallback {
 
     @Override
     public void usesString() {
-        headlessFormInterpreter.setField(question.getFieldName(), new TString(widget.getText()));
+        headlessFormInterpreter.setField(question.getFieldName(), new StringValue(widget.getText()));
     }
 }
