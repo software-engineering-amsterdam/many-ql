@@ -50,11 +50,15 @@ public abstract class Input extends GuiElement
     public void passValidation()
     {
         this.validationError = null;
+        setChanged();
+        notifyObservers();
     }
 
     public void failValidation(Message validationError)
     {
         this.validationError = validationError;
+        setChanged();
+        notifyObservers();
     }
 
     public Boolean isValid()

@@ -43,7 +43,7 @@ public class SimpleGui implements ModelVisitor<Node>
 
     // TODO: is there a nicer way?
     private Map<String, GuiObserver> observers = new HashMap<String, GuiObserver>();
-    private Map<String, GuiObservable> observables = new HashMap<String, GuiObservable>();
+    private Map<String, Observable> observables = new HashMap<String, Observable>();
 
     public static void run(Form ast, Stage primaryStage)
     {
@@ -169,6 +169,7 @@ public class SimpleGui implements ModelVisitor<Node>
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
             {
                 valueTable.storeValue(input.getId(), new BooleanValue(newValue));
+                input.passValidation();
 //                rerender();
             }
         });
@@ -225,8 +226,7 @@ public class SimpleGui implements ModelVisitor<Node>
     {
         final TextField textField = this.makeTextField(input);
 
-        final GuiObservable guiObservable = new GuiObservable();
-        this.observables.put(input.getId(), guiObservable);
+        this.observables.put(input.getId(), input);
 
         textField.focusedProperty().addListener(new ChangeListener<Boolean>()
         {
@@ -237,8 +237,7 @@ public class SimpleGui implements ModelVisitor<Node>
                 {
                     valueTable.storeValue(input.getId(), new StringValue(textField.getText()));
 //                    rerender();
-                    guiObservable.updateRevision();
-                    guiObservable.notifyObservers();
+                    input.passValidation();
                 }
             }
         });
@@ -297,11 +296,10 @@ public class SimpleGui implements ModelVisitor<Node>
 
         final TextField textField = this.makeTextField(input);
 
-        GuiObserver observer = new GuiTextObserver(input.getId(), textField, input);
+        GuiObserver observer = new GuiTextObserver(textField, input);
         this.observers.put(input.getId(), observer);
 
-        final GuiObservable guiObservable = new GuiObservable();
-        this.observables.put(input.getId(), guiObservable);
+        this.observables.put(input.getId(), input);
 
         Set<String> dependants = this.dependencyTable.getDependants(input.getId());
         for (String dependant : dependants)
@@ -321,9 +319,8 @@ public class SimpleGui implements ModelVisitor<Node>
             {
 
                 valueTable.storeValue(input.getId(), new StringValue(newValue));
+                input.passValidation();
 //                rerender();
-                guiObservable.updateRevision();
-                guiObservable.notifyObservers();
             }
         });
 
@@ -390,11 +387,9 @@ public class SimpleGui implements ModelVisitor<Node>
     {
         private ExprInput input;
         private TextInputControl control;
-        private String id;
 
-        public GuiTextObserver(String id, TextInputControl control, ExprInput input)
+        public GuiTextObserver(TextInputControl control, ExprInput input)
         {
-            this.id = id;
             this.control = control;
             this.input = input;
         }
@@ -411,18 +406,4 @@ public class SimpleGui implements ModelVisitor<Node>
             }
         }
     }
-
-    private class GuiObservable extends Observable
-    {
-        public GuiObservable()
-        {
-        }
-
-        //dummy method to trigger change
-        public void updateRevision()
-        {
-            setChanged();
-        }
-    }
-
 }
