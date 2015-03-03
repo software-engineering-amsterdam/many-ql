@@ -35,3 +35,10 @@ class ComplexExpression(Expression):
         for e in self.expression:
             types += "( " + (e.return_type(type_dict)) + " )"
         return types
+
+    def not_expression(self):
+        print("ccccccccccccccccccc")
+        # print(self.expression.pretty_print())
+        print(self.expression)
+        # self.expression
+        return self.expression

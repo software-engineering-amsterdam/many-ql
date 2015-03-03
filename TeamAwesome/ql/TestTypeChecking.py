@@ -12,14 +12,14 @@ def runTest(verbose, testFileName):
         testFileName.split('.')[0].split('-')[2]
     )
 
-    numMessages = len(typeCheckResult.messages)
+    numMessages = len(typeCheckResult.errors + typeCheckResult.warnings)
     success = numMessages == expectedNumMessages
 
     if(not success):
         print(('-'*10)+'Type check test FAIL')
 
     if(not success or verbose):
-        for m in typeCheckResult.messages:
+        for m in typeCheckResult.errors + typeCheckResult.warnings:
             print(m)
 
         print( '^'+('-'*9)+testFileName+': '\

@@ -80,6 +80,9 @@ class IfElseBlock(IfBlock):
     def set_element(self, gui):
         ...
 
+    def set_parent_condition(self, condition):
+        ...
+
     # Override
     def id_type_collection(self):
         d = {}

@@ -2,6 +2,7 @@
 
 	package uva.qls.parser;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -97,11 +98,47 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefaultValue(QLSParser.DefaultValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#component}.
+	 * Visit a parse tree produced by the {@code CtxTextbox}
+	 * labeled alternative in {@link QLSParser#component}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitComponent(QLSParser.ComponentContext ctx);
+	T visitCtxTextbox(QLSParser.CtxTextboxContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxSpinbox}
+	 * labeled alternative in {@link QLSParser#component}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxSpinbox(QLSParser.CtxSpinboxContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxSlider}
+	 * labeled alternative in {@link QLSParser#component}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxSlider(QLSParser.CtxSliderContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxDropdown}
+	 * labeled alternative in {@link QLSParser#component}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxDropdown(QLSParser.CtxDropdownContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxRadio}
+	 * labeled alternative in {@link QLSParser#component}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxRadio(QLSParser.CtxRadioContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxCheckbox}
+	 * labeled alternative in {@link QLSParser#component}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxCheckbox(QLSParser.CtxCheckboxContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code CtxWidth}
 	 * labeled alternative in {@link QLSParser#style}.
@@ -159,9 +196,31 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCtxMoney(QLSParser.CtxMoneyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#primitiveType}.
+	 * Visit a parse tree produced by the {@code CtxPrimitiveBoolean}
+	 * labeled alternative in {@link QLSParser#primitiveType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrimitiveType(QLSParser.PrimitiveTypeContext ctx);
+	T visitCtxPrimitiveBoolean(QLSParser.CtxPrimitiveBooleanContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxPrimitiveMoney}
+	 * labeled alternative in {@link QLSParser#primitiveType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxPrimitiveMoney(QLSParser.CtxPrimitiveMoneyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxPrimitiveString}
+	 * labeled alternative in {@link QLSParser#primitiveType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxPrimitiveString(QLSParser.CtxPrimitiveStringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxPrimitiveInteger}
+	 * labeled alternative in {@link QLSParser#primitiveType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxPrimitiveInteger(QLSParser.CtxPrimitiveIntegerContext ctx);
 }

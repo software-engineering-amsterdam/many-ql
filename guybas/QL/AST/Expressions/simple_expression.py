@@ -28,3 +28,10 @@ class SimpleExpression(Expression):
         for v in self.expression:
             l += v.as_list()
         return l
+
+    def not_expression(self):
+        print("bbbbbbbbbbbbbbbbbbbbbbbb")
+        # print(self.expression.pretty_print())
+        print(self.expression)
+        # self.expression
+        return self.expression

@@ -33,18 +33,22 @@ class QuestionnaireGUI:
 
     def draw_statements(self, statements):
         for statement in statements:
-            self.row_counter += 1
-            parent_id = statement.get_parent_id()
-            if parent_id not in self.elementsMap:
-                self.elementsMap[parent_id] = {'statements': [], 'guiElements': []}
             if statement.is_conditional():
-                self.elementsMap[parent_id]['statements'].append(statement)
-                self.draw_conditional_q(statement)
+                self.draw_statements(statement.get_c_statements())
             else:
-                if statement.get_id() not in self.varsCondMap:
-                    # self.elementsMap[parent_id]['statements'] = [statement]
-                    self.varsCondMap[statement.get_id()] = []
                 self.draw_statement(statement)
+            # self.row_counter += 1
+            # parent_id = statement.get_parent_id()
+            # if parent_id not in self.elementsMap:
+            #     self.elementsMap[parent_id] = {'statements': [], 'guiElements': []}
+            # if statement.is_conditional():
+            #     self.elementsMap[parent_id]['statements'].append(statement)
+            #     self.draw_conditional_q(statement)
+            # else:
+            #     if statement.get_id() not in self.varsCondMap:
+            #         self.elementsMap[parent_id]['statements'] = [statement]
+                    # self.varsCondMap[statement.get_id()] = []
+                # self.draw_statement(statement)
 
     def draw_statement(self, statement):
         # parent_id = statement.get_parent_id()
@@ -87,7 +91,19 @@ class QuestionnaireGUI:
         elements = statement.get_element()
         # don't print anything if has no elements (e.g. assignment)
         if elements is None:
-            return None
+            return False
+
+        # check if condition holds
+        condition = statement.get_parent_condition()
+        print(condition)
+        c_results = True
+        if condition is not None:
+            processor = Processor()
+            c_results = processor.eval_expression(condition.pretty_print(), self.answersMap)
+
+        if not c_results:
+            return False
+
         colspan = 1
         if len(elements) is 2:
             colspan = 2
@@ -116,7 +132,7 @@ class QuestionnaireGUI:
             # print(e.grid_info())
             e.destroy()
 
-        # print(statement.get_condition())
+        print(statement.get_parent_condition().pretty_print())
 
         self.draw_statements([statement])
 
@@ -136,25 +152,25 @@ class QuestionnaireGUI:
         # del self.elementsMap[parent_id]
         # self.draw_statements(statements_to_recreate)
 
-    def draw_conditional_q(self, c_question):
-        processor = Processor()
-        condition = processor.eval_expression(c_question.get_str_condition(), self.answersMap)
-
-        # map variables/question id to conditions where they are used
-        variables = c_question.get_condition().get_dependencies()
-        for v in variables:
-            if v in self.varsCondMap:
-                if c_question.get_parent_id() not in self.varsCondMap[v]:
-                    self.varsCondMap[v].append(c_question.get_parent_id())
-            else:
-                self.varsCondMap[v] = [c_question.get_parent_id()]
-
-        # get_dependencies if condition holds
-        if condition:
-            # print condition's - depended statements
-            self.draw_statements(c_question.get_c_statements())
-        else:
-            self.draw_statements(c_question.get_e_statements())
+    # def draw_conditional_q(self, c_question):
+    #     processor = Processor()
+    #     condition = processor.eval_expression(c_question.get_str_condition(), self.answersMap)
+    #
+    #     # map variables/question id to conditions where they are used
+    #     variables = c_question.get_condition().get_dependencies()
+    #     for v in variables:
+    #         if v in self.varsCondMap:
+    #             if c_question.get_parent_id() not in self.varsCondMap[v]:
+    #                 self.varsCondMap[v].append(c_question.get_parent_id())
+    #         else:
+    #             self.varsCondMap[v] = [c_question.get_parent_id()]
+    #
+    #     # get_dependencies if condition holds
+    #     if condition:
+    #         # print condition's - depended statements
+    #         self.draw_statements(c_question.get_c_statements())
+    #     else:
+    #         self.draw_statements(c_question.get_e_statements())
 
     def show(self):
         self.qGui.mainloop()

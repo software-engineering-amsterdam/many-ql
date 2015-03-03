@@ -7,9 +7,9 @@ grammar QLS;
 
 prog		: stylesheet EOF;
 
-stylesheet	: 'stylesheet' Identifier pgs+=page*;
+stylesheet	: 'stylesheet' id = Identifier pgs+=page*;
 
-page 		: 'page' Identifier '{' stms+=statement* '}';	// Say that a page has to have sections or not?
+page 		: 'page' id = Identifier '{' stms+=statement* '}';	// Say that a page has to have sections or not?
 
 statement 	: section		# CtxSection
 			| subsection	# CtxSubsection
@@ -21,18 +21,18 @@ statement 	: section		# CtxSection
 
 section		: 'section' STRING '{' stms+=statement* '}';
 
-subsection 	: 'subsection ' STRING '{' question '}';
+subsection 	: 'subsection ' STRING '{' quest = question '}';
 
-question	: 'question' Identifier cmp=component?;
+question	: 'question' id = Identifier cmp=component?;
 
-defaultValue: 'default' primitiveType ( component | ('{' stms+=statement* '}')) ;
+defaultValue: 'default' primitiveType ( cmp = component | ('{' stms+=statement* '}')) ;
 
-component	: Widget Textbox										
-			| Widget Spinbox									
-			| Widget Slider '(' STRING ',' STRING ')'			
-			| Widget Dropdown '(' STRING ',' STRING ')'			
-			| Widget Radio '(' STRING ',' STRING ')'			
-			| Widget Checkbox '(' STRING ')'										
+component	: Widget Textbox 										('{' stls+=style* '}')?							# CtxTextbox										
+			| Widget Spinbox 										('{' stls+=style* '}')?							# CtxSpinbox
+			| Widget Slider '(' v1 = STRING ',' v2 =STRING ')'		('{' stls+=style* '}')?							# CtxSlider
+			| Widget Dropdown '(' v1 = STRING ',' v2 = STRING ')'	('{' stls+=style* '}')? 						# CtxDropdown		
+			| Widget Radio '(' v1 = STRING ',' v2 = STRING ')'		('{' stls+=style* '}')?							# CtxRadio	
+			| Widget Checkbox '(' STRING ')'						('{' stls+=style* '}')?							# CtxCheckbox	
 			;
 
 style		: Width ':' Integer			# CtxWidth
@@ -52,10 +52,10 @@ BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
-primitiveType	: 'boolean'
-				| 'money'
-				| 'string'
-				| 'integer'
+primitiveType	: 'boolean'		# CtxPrimitiveBoolean
+				| 'money'		# CtxPrimitiveMoney
+				| 'string'		# CtxPrimitiveString
+				| 'integer'		# CtxPrimitiveInteger
 				;
 
 Width		: 'width';

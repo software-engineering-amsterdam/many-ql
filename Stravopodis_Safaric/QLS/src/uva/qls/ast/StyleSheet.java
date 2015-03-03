@@ -11,11 +11,6 @@ public class StyleSheet extends ASTNode {
 	private Identifier identifier;
 	private List<Page> page; 
 	
-	public StyleSheet (Identifier _identifier, CodeLines _codeLines){
-		super(_codeLines);
-		this.identifier=_identifier;
-	}
-	
 	public StyleSheet (Identifier _identifier, List<Page> _page, CodeLines _codeLines) {
 		super(_codeLines);
 		this.identifier=_identifier;

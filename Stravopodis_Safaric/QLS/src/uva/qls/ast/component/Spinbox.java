@@ -1,13 +1,17 @@
 package uva.qls.ast.component;
 
+import java.util.ArrayList;
+
 import uva.qls.ast.CodeLines;
+import uva.qls.ast.style.Style;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
 public class Spinbox extends Component{
 
-	public Spinbox(CodeLines _codeLines) {
+	public Spinbox(CodeLines _codeLines, ArrayList<Style> _style) {
 		super(_codeLines);
+		this.style = _style;
 	}
 
 	@Override
