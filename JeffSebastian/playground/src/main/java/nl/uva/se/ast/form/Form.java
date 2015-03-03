@@ -4,7 +4,8 @@ import java.util.List;
 
 import nl.uva.se.ast.Node;
 import nl.uva.se.ast.statement.Statement;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.visitor.FormVisitor;
+import nl.uva.se.visitor.StatementVisitor;
 
 public class Form extends Node {
 
@@ -25,12 +26,11 @@ public class Form extends Node {
 		return statements;
 	}
 
-	@Override
-	public void accept(Visitor visitor) {
+	public void accept(FormVisitor visitor) {
 		visitor.visit(this);
 	}
 	
-	public void visitChildren(Visitor visitor) {
+	public void visitChildren(StatementVisitor visitor) {
 		for (Statement statement : statements) {
 			statement.accept(visitor);
 		}

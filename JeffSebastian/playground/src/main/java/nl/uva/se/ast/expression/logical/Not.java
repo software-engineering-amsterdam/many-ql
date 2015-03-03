@@ -2,7 +2,7 @@ package nl.uva.se.ast.expression.logical;
 
 import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.ast.expression.Unary;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.visitor.ExpressionVisitor;
 
 public class Not extends Unary{
 
@@ -11,7 +11,7 @@ public class Not extends Unary{
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }
