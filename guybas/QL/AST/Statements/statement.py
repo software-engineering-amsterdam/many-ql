@@ -51,4 +51,5 @@ class IStatement:
     def get_order(self):
         raise NotImplementedError("Not implemented by sub class")
 
-
+    def get_statement_dict(self):
+        raise NotImplementedError("Not implemented by sub class")

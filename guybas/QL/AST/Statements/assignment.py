@@ -74,3 +74,6 @@ class Assignment:
 
     def get_label(self):
         return self.expression.pretty_print()
+
+    def get_statement_dict(self):
+        return {self.id: self}

@@ -94,3 +94,9 @@ class Form:
         c = 0
         for s in self._statements:
             c = s.set_order(c)
+
+    def get_statement_dict(self):
+        d = {}
+        for s in self._statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        return d
