@@ -8,7 +8,6 @@ import java.util.List;
 
 public class FormDataStorage {
     private final Form form;
-    private List<String> questionLabels;
 
     private final QuestionLabelsVisitor questionLabelsVisitor;
 
@@ -18,9 +17,6 @@ public class FormDataStorage {
     }
 
     public List<String> getQuestionLabels() {
-        if (this.questionLabels == null) {
-            this.questionLabels = this.questionLabelsVisitor.getQuestionLabels();
-        }
-        return this.questionLabels;
+        return this.questionLabelsVisitor.getQuestionLabels();
     }
 }
