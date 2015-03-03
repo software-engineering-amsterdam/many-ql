@@ -2,6 +2,7 @@ import tkinter as tk
 
 import QL.Main.processor as processor
 import QL.Main.mapper as mapper
+import sys
 
 
 class QuestionnaireGUI:
@@ -96,6 +97,7 @@ class QuestionnaireGUI:
         c_results = True
         if condition is not None:
             p = processor.Processor()
+            print(condition.pretty_print())
             c_results = p.eval_expression(condition.pretty_print(), self.answersMap)
 
         if not c_results:
@@ -129,7 +131,7 @@ class QuestionnaireGUI:
             # print(e.grid_info())
             e.destroy()
 
-        self.draw_statements([statement])
+        self.draw_statement(statement)
 
         # if parent_id not in self.elementsMap:
         #     raise QException("Fatal Error: no such condition id " + parent_id)
@@ -214,3 +216,4 @@ class QuestionnaireGUI:
         e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, e.get()))
         # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W) # , validate="key" , validatecommand=(vcmd, '%S')
         e_list.append(e)
+        return e_list
