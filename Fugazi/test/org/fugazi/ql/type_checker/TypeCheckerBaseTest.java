@@ -14,7 +14,7 @@ import java.io.File;
 @Ignore("This is a base class.")
 public abstract class TypeCheckerBaseTest {
 
-    protected TypeChecker checker;
+    protected QLTypeChecker checker;
     protected Form form;
 
     protected String inputFile;
@@ -31,7 +31,7 @@ public abstract class TypeCheckerBaseTest {
         }
         this.filePath = this.path.concat(this.fileName);
         this.inputFile = new File("").getAbsolutePath().concat(this.filePath);
-        checker = new TypeChecker();
+        checker = new QLTypeChecker();
         ASTBuilder astBuilder = null;
 
         // load a form

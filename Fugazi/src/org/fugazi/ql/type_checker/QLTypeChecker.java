@@ -7,10 +7,10 @@ import org.fugazi.ql.type_checker.visitor.TypeCheckerVisitor;
 import java.util.List;
 
 
-public class TypeChecker {
+public class QLTypeChecker {
     private final TypeCheckerVisitor visitor;
 
-    public TypeChecker() {
+    public QLTypeChecker() {
         this.visitor = new TypeCheckerVisitor();
     }
 
