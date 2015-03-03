@@ -28,7 +28,7 @@ public class Question extends Statement {
         this.enabled = enabled;
     }
 
-    public boolean isEnabled() {
+    public boolean isEnabled() { //todo: refactor to: getState
         return enabled;
     }
 
