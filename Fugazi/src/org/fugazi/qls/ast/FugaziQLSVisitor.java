@@ -85,7 +85,7 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLNode> {
             defaultStyles.add(defaultStyle);
         }
 
-        return new Section(this.removeStringQuotes(name), sections, questions, defaultStyles);
+        return new Section(this.removeStringQuotes(name), sections, defaultStyles, questions);
 	}
 
     @Override public AbstractASTQLSNode visitQuestionWithWidget(@NotNull QLSParser.QuestionWithWidgetContext ctx) {
