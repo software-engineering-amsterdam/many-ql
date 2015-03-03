@@ -91,6 +91,15 @@ public class Question implements Statement {
 	}
 
 	@Override
-	public void setType(IdTypeTable ids) {}	
+	public void setType(IdTypeTable ids) {}
+
+	public String getText() {
+		return this.questionLabel;
+	}
+
+	public String getId() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}	
 	
 }
