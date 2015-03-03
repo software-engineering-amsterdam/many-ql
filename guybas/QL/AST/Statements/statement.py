@@ -43,6 +43,9 @@ class IStatement:
     def set_order(self, order_num):
         raise NotImplementedError("Not implemented by sub class")
 
+    def set_element(self, gui):
+        raise NotImplementedError("Not implemented by sub class")
+
     # return a dictionary of the ids as keys and types as value in the statement
     def id_type_collection(self):
         raise NotImplementedError("Not implemented by sub class")
@@ -51,4 +54,8 @@ class IStatement:
     def get_order(self):
         raise NotImplementedError("Not implemented by sub class")
 
-
+    def get_element(self):
+        raise NotImplementedError("Not implemented by sub class")    
+        
+    def get_statement_dict(self):
+        raise NotImplementedError("Not implemented by sub class")

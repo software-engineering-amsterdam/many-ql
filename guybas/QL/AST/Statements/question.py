@@ -1,6 +1,6 @@
 # AST format of a question, initializing the IStatement
 from QL.AST.Statements.statement import *
-
+from QL.Main.gui import *
 
 class Question(IStatement):
 
@@ -12,6 +12,8 @@ class Question(IStatement):
         self.answer = []
         self.parent_id = None
         self.order = None
+        self.element = None
+        # self.set_element()
 
     # Override
     def pretty_print(self, level=0):
@@ -62,6 +64,16 @@ class Question(IStatement):
             print("Warning: order set more than once")
         return self.order + 1
 
+    def set_element(self, gui):
+        if self.get_type() is 'bool':
+            self.element = QuestionnaireGUI.e_radio(self, gui)
+        elif self.get_type() is 'number':
+            self.element = QuestionnaireGUI.e_spin(self, gui)
+        elif self.get_type() is 'text':
+            self.element = QuestionnaireGUI.e_entry(self, gui)
+        else:
+            raise QException("Element type does not exists")
+
     # Override
     def id_type_collection(self):
         return {self.id: self.type}
@@ -83,6 +95,11 @@ class Question(IStatement):
     def get_answer(self):
         return self.answer
 
+    def get_element(self):
+        return self.element    
+        
+    def get_statement_dict(self):
+        return {self.id: self}
 
 
 

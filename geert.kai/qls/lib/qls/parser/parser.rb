@@ -29,115 +29,107 @@ module QLS
 ##### State transition tables begin ###
 
 racc_action_table = [
-    50,    35,    49,    27,    50,    13,    49,    27,    50,    13,
-    49,     5,    50,    22,    49,    45,    46,    47,    48,    45,
-    46,    47,    48,    45,    46,    47,    48,    45,    46,    47,
-    48,    50,    66,    49,    18,    19,    20,    30,    31,    32,
-    33,    34,    60,    13,    21,    38,    45,    46,    47,    48,
-    30,    31,    32,    33,    34,    14,    12,     5,     7,    13,
-    30,    31,    32,    33,    34,    30,    31,    32,    33,    34,
-    61,    55,    12,    60,    13,    13,     6,     5,     5,    64,
-     3,     2 ]
+    58,     5,    57,    51,     5,    26,    41,    16,    13,    44,
+    14,    15,    52,    53,    54,    55,    56,    64,    25,    32,
+    14,    15,    38,    24,    32,    14,    15,    13,     5,    14,
+    15,    32,    14,    15,    32,    14,    15,    21,    22,    23,
+     5,     5,     5,     5,     7,    43,     6,    45,     5,     3,
+     2 ]
 
 racc_action_check = [
-    33,    23,    33,    23,    30,    23,    30,    21,    31,    21,
-    31,    27,    34,    17,    34,    33,    33,    33,    33,    30,
-    30,    30,    30,    31,    31,    31,    31,    34,    34,    34,
-    34,    32,    65,    32,    13,    13,    13,    65,    65,    65,
-    65,    65,    55,    55,    16,    28,    32,    32,    32,    32,
-    28,    28,    28,    28,    28,     8,     8,    12,     4,     8,
-    22,    22,    22,    22,    22,    64,    64,    64,    64,    64,
-    56,    37,     7,    56,    56,     7,     3,     2,    60,    63,
-     1,     0 ]
+    43,    33,    43,    43,    37,    20,    33,     8,     8,    37,
+     8,     8,    43,    43,    43,    43,    43,    59,    19,    59,
+    59,    59,    27,    18,    27,    27,    27,     7,    14,     7,
+     7,    45,    45,    45,    24,    24,    24,    15,    15,    15,
+    25,    26,    13,    32,     4,    35,     3,    40,     2,     1,
+     0 ]
 
 racc_action_pointer = [
-    76,    80,    74,    76,    52,   nil,   nil,    64,    48,   nil,
-   nil,   nil,    54,    13,   nil,   nil,    38,     7,   nil,   nil,
-   nil,    -2,    48,    -6,   nil,   nil,   nil,     8,    38,   nil,
-     2,     6,    29,    -2,    10,   nil,   nil,    65,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,    32,    63,   nil,   nil,   nil,
-    75,   nil,   nil,    73,    53,    25,   nil ]
+    44,    49,    45,    46,    37,   nil,   nil,    18,    -1,   nil,
+   nil,   nil,   nil,    39,    25,    18,   nil,   nil,    16,    11,
+    -2,   nil,   nil,   nil,    24,    37,    38,    14,   nil,   nil,
+   nil,   nil,    40,    -2,   nil,    32,   nil,     1,   nil,   nil,
+    40,   nil,   nil,    -2,   nil,    21,   nil,   nil,   nil,   nil,
+   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,     9,
+   nil,   nil,   nil,   nil,   nil,   nil ]
 
 racc_action_default = [
-   -39,   -39,   -39,   -39,   -39,   -33,    67,   -39,   -39,    -3,
-    -4,    -5,   -39,   -39,    -1,    -2,   -39,   -39,   -34,   -35,
-   -36,   -39,   -39,   -39,    -8,    -9,   -10,   -39,   -39,   -19,
-   -39,   -39,   -39,   -39,   -39,    -6,    -7,   -39,   -17,   -18,
-   -20,   -25,   -26,   -27,   -28,   -29,   -30,   -31,   -32,   -37,
-   -38,   -21,   -22,   -23,   -24,   -39,   -39,   -13,   -14,   -15,
-   -39,   -11,   -12,   -39,   -39,   -39,   -16 ]
+   -41,   -41,   -41,   -41,   -41,   -35,    66,   -41,   -41,    -3,
+    -4,    -5,    -6,   -41,   -41,   -41,    -1,    -2,   -41,   -41,
+   -41,   -36,   -37,   -38,   -41,   -41,   -41,   -41,    -9,   -10,
+   -11,   -12,   -41,   -41,   -22,   -41,   -24,   -41,    -7,    -8,
+   -41,   -19,   -21,   -41,   -20,   -41,   -23,   -25,   -26,   -27,
+   -28,   -29,   -30,   -31,   -32,   -33,   -34,   -39,   -40,   -41,
+   -15,   -16,   -17,   -18,   -13,   -14 ]
 
 racc_goto_table = [
-     4,    28,    39,    25,    24,    25,    36,     9,    15,    23,
-    16,    40,    51,    52,    53,    54,    57,    62,    56,    17,
-     8,     1,   nil,   nil,   nil,    37,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,    58,    58,    39,
-   nil,   nil,   nil,    65,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,    63 ]
+    29,    31,     4,    29,    31,    63,    60,    42,    59,    28,
+    27,    42,    39,    18,    19,    33,    37,     9,    17,    63,
+    65,    61,    62,     8,    20,     1,    46,    47,    48,    49,
+    50,   nil,    40,   nil,   nil,    61,    62 ]
 
 racc_goto_check = [
-     2,    13,    15,     5,     8,     5,     8,     4,     4,     7,
-     2,    16,    16,    16,    16,    16,    11,    11,    10,    14,
-     3,     1,   nil,   nil,   nil,     2,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,     5,     5,    15,
-   nil,   nil,   nil,    13,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,     2 ]
+     5,     7,     2,     5,     7,    10,    12,    15,    11,     9,
+     8,    15,     9,     2,     2,    13,    13,     4,     4,    10,
+    12,     5,     7,     3,    14,     1,    17,    18,    19,    20,
+    21,   nil,     2,   nil,   nil,     5,     7 ]
 
 racc_goto_pointer = [
-   nil,    21,    -2,    13,     0,   -18,   nil,   -12,   -17,   nil,
-   -37,   -39,   nil,   -21,     6,   -26,   -19,   nil,   nil,   nil,
-   nil ]
+   nil,    25,     0,    16,    10,   -24,   nil,   -23,   -14,   -15,
+   -40,   -37,   -39,   -10,     9,   -26,   nil,   -17,   -16,   -15,
+   -14,   -13 ]
 
 racc_goto_default = [
-   nil,   nil,   nil,   nil,   nil,    10,    11,   nil,   nil,    26,
-   nil,   nil,    59,   nil,   nil,    29,   nil,    41,    42,    43,
-    44 ]
+   nil,   nil,    36,   nil,   nil,    10,    11,    12,   nil,   nil,
+    30,   nil,   nil,   nil,   nil,    34,    35,   nil,   nil,   nil,
+   nil,   nil ]
 
 racc_reduce_table = [
   0, 0, :racc_error,
-  5, 25, :_reduce_1,
-  2, 27, :_reduce_2,
-  1, 27, :_reduce_3,
-  1, 28, :_reduce_none,
-  1, 28, :_reduce_none,
-  5, 30, :_reduce_6,
-  2, 31, :_reduce_7,
-  1, 31, :_reduce_8,
-  1, 32, :_reduce_none,
-  1, 32, :_reduce_none,
-  5, 33, :_reduce_11,
-  2, 34, :_reduce_12,
-  1, 34, :_reduce_13,
-  1, 35, :_reduce_none,
-  1, 35, :_reduce_none,
-  5, 36, :_reduce_16,
-  5, 29, :_reduce_17,
-  2, 37, :_reduce_18,
-  1, 37, :_reduce_19,
-  2, 39, :_reduce_20,
-  2, 39, :_reduce_21,
-  2, 39, :_reduce_22,
-  2, 39, :_reduce_23,
-  2, 39, :_reduce_24,
-  1, 40, :_reduce_none,
-  1, 40, :_reduce_none,
-  1, 40, :_reduce_none,
-  1, 40, :_reduce_none,
-  1, 43, :_reduce_none,
-  1, 44, :_reduce_none,
-  1, 44, :_reduce_none,
-  1, 44, :_reduce_none,
+  5, 23, :_reduce_1,
+  2, 25, :_reduce_2,
+  1, 25, :_reduce_3,
   1, 26, :_reduce_none,
-  1, 38, :_reduce_34,
-  1, 38, :_reduce_35,
-  1, 38, :_reduce_36,
-  1, 41, :_reduce_37,
-  1, 42, :_reduce_38 ]
+  1, 26, :_reduce_none,
+  1, 26, :_reduce_none,
+  5, 28, :_reduce_7,
+  2, 30, :_reduce_8,
+  1, 30, :_reduce_9,
+  1, 31, :_reduce_none,
+  1, 31, :_reduce_none,
+  1, 31, :_reduce_none,
+  5, 32, :_reduce_13,
+  2, 33, :_reduce_14,
+  1, 33, :_reduce_15,
+  1, 34, :_reduce_none,
+  1, 34, :_reduce_none,
+  1, 34, :_reduce_none,
+  5, 29, :_reduce_19,
+  5, 27, :_reduce_20,
+  2, 35, :_reduce_21,
+  1, 35, :_reduce_22,
+  3, 37, :_reduce_23,
+  1, 38, :_reduce_none,
+  1, 39, :_reduce_none,
+  1, 39, :_reduce_none,
+  1, 39, :_reduce_none,
+  1, 39, :_reduce_none,
+  1, 42, :_reduce_none,
+  1, 43, :_reduce_30,
+  1, 43, :_reduce_31,
+  1, 43, :_reduce_32,
+  1, 43, :_reduce_33,
+  1, 43, :_reduce_34,
+  1, 24, :_reduce_none,
+  1, 36, :_reduce_36,
+  1, 36, :_reduce_37,
+  1, 36, :_reduce_38,
+  1, 40, :_reduce_39,
+  1, 41, :_reduce_40 ]
 
-racc_reduce_n = 39
+racc_reduce_n = 41
 
-racc_shift_n = 67
+racc_shift_n = 66
 
 racc_token_table = {
   false => 0,
@@ -145,27 +137,25 @@ racc_token_table = {
   :STRING => 2,
   :VARIABLE_NAME => 3,
   :INTEGER => 4,
-  "stylesheet" => 5,
-  "{" => 6,
-  "}" => 7,
-  "page" => 8,
-  "section" => 9,
-  "question" => 10,
-  "default" => 11,
-  "color:" => 12,
-  "font:" => 13,
-  "font-size:" => 14,
-  "widget:" => 15,
-  "width:" => 16,
-  "000000" => 17,
-  "checkbox" => 18,
-  "spinbox" => 19,
-  "radio" => 20,
-  "boolean" => 21,
-  "integer" => 22,
-  "string" => 23 }
+  :COLOR => 5,
+  "stylesheet" => 6,
+  "{" => 7,
+  "}" => 8,
+  "page" => 9,
+  "section" => 10,
+  "question" => 11,
+  "default" => 12,
+  ":" => 13,
+  "checkbox" => 14,
+  "spinbox" => 15,
+  "radio" => 16,
+  "dropdown" => 17,
+  "text" => 18,
+  "boolean" => 19,
+  "integer" => 20,
+  "string" => 21 }
 
-racc_nt_base = 24
+racc_nt_base = 22
 
 racc_use_result_var = true
 
@@ -191,6 +181,7 @@ Racc_token_to_s_table = [
   "STRING",
   "VARIABLE_NAME",
   "INTEGER",
+  "COLOR",
   "\"stylesheet\"",
   "\"{\"",
   "\"}\"",
@@ -198,15 +189,12 @@ Racc_token_to_s_table = [
   "\"section\"",
   "\"question\"",
   "\"default\"",
-  "\"color:\"",
-  "\"font:\"",
-  "\"font-size:\"",
-  "\"widget:\"",
-  "\"width:\"",
-  "\"000000\"",
+  "\":\"",
   "\"checkbox\"",
   "\"spinbox\"",
   "\"radio\"",
+  "\"dropdown\"",
+  "\"text\"",
   "\"boolean\"",
   "\"integer\"",
   "\"string\"",
@@ -217,15 +205,16 @@ Racc_token_to_s_table = [
   "stylesheet_rule",
   "default",
   "page",
+  "question",
   "page_rules",
   "page_rule",
   "section",
   "section_rules",
   "section_rule",
-  "question",
   "declarations",
   "type",
   "declaration",
+  "property",
   "value",
   "integer",
   "string",
@@ -257,88 +246,76 @@ end
 
 # reduce 5 omitted
 
-def _reduce_6(val, _values, result)
+# reduce 6 omitted
+
+def _reduce_7(val, _values, result)
  result = Page.new(val[1], val[3]) 
     result
 end
 
-def _reduce_7(val, _values, result)
+def _reduce_8(val, _values, result)
  result = val[0].push(val[1]) 
     result
 end
 
-def _reduce_8(val, _values, result)
+def _reduce_9(val, _values, result)
  result = [ val[0] ] 
     result
 end
 
-# reduce 9 omitted
-
 # reduce 10 omitted
 
-def _reduce_11(val, _values, result)
+# reduce 11 omitted
+
+# reduce 12 omitted
+
+def _reduce_13(val, _values, result)
  result = Section.new(val[1], val[3]) 
     result
 end
 
-def _reduce_12(val, _values, result)
+def _reduce_14(val, _values, result)
  result = val[0].push(val[1]) 
     result
 end
 
-def _reduce_13(val, _values, result)
+def _reduce_15(val, _values, result)
  result = [ val[0] ] 
     result
 end
 
-# reduce 14 omitted
+# reduce 16 omitted
 
-# reduce 15 omitted
+# reduce 17 omitted
 
-def _reduce_16(val, _values, result)
+# reduce 18 omitted
+
+def _reduce_19(val, _values, result)
  result = Question.new(val[1], val[3]) 
     result
 end
 
-def _reduce_17(val, _values, result)
+def _reduce_20(val, _values, result)
  result = Default.new(val[1], val[3]) 
     result
 end
 
-def _reduce_18(val, _values, result)
+def _reduce_21(val, _values, result)
  result = val[0].push(val[1]) 
     result
 end
 
-def _reduce_19(val, _values, result)
+def _reduce_22(val, _values, result)
  result = [ val[0] ] 
     result
 end
 
-def _reduce_20(val, _values, result)
- result = ColorDeclaration.new(val[1]) 
-    result
-end
-
-def _reduce_21(val, _values, result)
- result = FontDeclaration.new(val[1]) 
-    result
-end
-
-def _reduce_22(val, _values, result)
- result = FontSizeDeclaration.new(val[1]) 
-    result
-end
-
 def _reduce_23(val, _values, result)
- result = WidgetDeclaration.new(val[1]) 
+ PropertyDeclaration.new(val[0], val[1]) 
     result
 end
 
-def _reduce_24(val, _values, result)
- result = WidthDeclaration.new(val[1]) 
-    result
-end
+# reduce 24 omitted
 
 # reduce 25 omitted
 
@@ -350,35 +327,54 @@ end
 
 # reduce 29 omitted
 
-# reduce 30 omitted
+def _reduce_30(val, _values, result)
+ result = Checkbox.new 
+    result
+end
 
-# reduce 31 omitted
+def _reduce_31(val, _values, result)
+ result = Spinbox.new 
+    result
+end
 
-# reduce 32 omitted
+def _reduce_32(val, _values, result)
+ result = YesNoRadio.new 
+    result
+end
 
-# reduce 33 omitted
+def _reduce_33(val, _values, result)
+ result = YesNoDropdown.new 
+    result
+end
 
 def _reduce_34(val, _values, result)
+ result = Text.new 
+    result
+end
+
+# reduce 35 omitted
+
+def _reduce_36(val, _values, result)
  result = BooleanType.new 
     result
 end
 
-def _reduce_35(val, _values, result)
+def _reduce_37(val, _values, result)
  result = IntegerType.new 
     result
 end
 
-def _reduce_36(val, _values, result)
+def _reduce_38(val, _values, result)
  result = StringType.new 
     result
 end
 
-def _reduce_37(val, _values, result)
+def _reduce_39(val, _values, result)
  result = IntegerLiteral.new(val[0].to_i) 
     result
 end
 
-def _reduce_38(val, _values, result)
+def _reduce_40(val, _values, result)
  result = StringLiteral.new(val[0][1..-2]) 
     result
 end

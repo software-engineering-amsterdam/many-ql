@@ -37,6 +37,7 @@ import cons.ql.ast.expression.type.QLString;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
+import cons.ql.ast.statement.IfElse;
 import cons.ql.ast.statement.Question;
 import cons.ql.ast.visitor.ExpressionVisitor;
 import cons.ql.ast.visitor.StatementVisitor;
@@ -266,6 +267,21 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 		}		
 			
 		ifNode.getBlock().accept(this);
+		
+		return ifType;
+	}
+	
+	@Override
+	public QLType visit(IfElse ifElseNode) {
+		// The expression must have a boolean type
+		QLType ifType = ifElseNode.getExpression().accept(this);
+		
+		if (!ifType.compatibleWith(new QLBoolean())) {
+			typeErrors.incompatibleType(ifElseNode, new QLBoolean(), ifType);
+		}		
+			
+		ifElseNode.getIfBranch().accept(this);
+		ifElseNode.getElseBranch().accept(this);
 		
 		return ifType;
 	}

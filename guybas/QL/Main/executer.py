@@ -5,6 +5,9 @@ formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_ex
 form = FormFactory.make_form(formAsParseResults)
 # print(form.pretty_print())
 
+d = form.get_statement_dict()
+for dd in d:
+    print(str(dd) + str(d[dd]))
 typeChecker = TypeChecker(form)
 
 gui = QuestionnaireGUI(form)
