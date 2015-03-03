@@ -1,13 +1,14 @@
 package uva.qls.ast.style;
 
 import uva.qls.ast.CodeLines;
+import uva.qls.ast.literal.IntLiteral;
 import uva.qls.ast.value.NumberValue;
 
 public class Height extends Style{
 
-	private Integer value;
+	private IntLiteral value;
 
-	public Height(Integer _value, CodeLines _codeLines) {
+	public Height(IntLiteral _value, CodeLines _codeLines) {
 		super(_codeLines);
 		this.value = _value;
 	}
@@ -18,7 +19,7 @@ public class Height extends Style{
 	
 	@Override
 	public NumberValue evaluate() {
-		return new NumberValue(this.value);
+		return new NumberValue(this.value.evaluatedValue());
 	}
 
 	@Override

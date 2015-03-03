@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.ComputedValueWidgetFetcher;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.QuestionWidgetFetcher;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 

@@ -10,6 +10,7 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.RuntimeMemory;
 
 public class Addition extends BinaryExpression implements Expression {
 	
@@ -18,8 +19,8 @@ public class Addition extends BinaryExpression implements Expression {
 	}
 
 	@Override
-	public IntValue evaluate() {
-		return new IntValue(((IntValue)super.left.evaluate()).getValue() + ((IntValue)super.right.evaluate()).getValue());
+	public IntValue evaluate(RuntimeMemory mem) {
+		return new IntValue(((IntValue)super.left.evaluate(mem)).getValue() + ((IntValue)super.right.evaluate(mem)).getValue());
 	}
 
 	@Override

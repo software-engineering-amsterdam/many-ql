@@ -4,7 +4,7 @@ describe "Type checker" do
   it "detects duplicate labels" do
     question = Question.new("Wat is uw leeftijd?", "leeftijd", "integer")
     form = Form.new("dubbel label", [question, question])
-    expect(DuplicateLabelChecker.new(form).errors.first.message).to match /Warning: Duplicate Label: Wat is uw leeftijd?/
+    expect(DuplicateLabelChecker.new(form).errors.first.message).to match /Duplicate label: Wat is uw leeftijd?/
     expect(DuplicateLabelChecker.new(form).errors.count).to eq 1
   end
 

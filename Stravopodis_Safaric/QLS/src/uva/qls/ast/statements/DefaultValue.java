@@ -44,11 +44,12 @@ public class DefaultValue extends Statement {
 	}
 	@Override
 	public GenericValue<?> evaluate() {
-	return null;
+		return null;
 	}
+	
 	@Override
 	public String toString(){
-		return this.statement 	!= null ? "DefaultValue(" + this.getType().getTypeName() + "," + this.statement.toString()
-								: "DefaultValue(" + this.getType().getTypeName() + "," + this.component.toString() + ")";
+		return this.statement 	!= null ? "DefaultValue(" + this.getType().toString() + "," + this.statement.toString()
+								: "DefaultValue(" + this.getType().toString() + "," + this.component.toString() + ")";
 	}
 }

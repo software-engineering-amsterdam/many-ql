@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
 import uva.qls.ast.*;
-import uva.qls.ast.component.Checkbox;
-import uva.qls.ast.component.Component;
 import uva.qls.ast.component.*;
+import uva.qls.ast.style.*;
+import uva.qls.ast.literal.BooleanLiteral;
 import uva.qls.ast.literal.Identifier;
+import uva.qls.ast.literal.IntLiteral;
+import uva.qls.ast.literal.MoneyLiteral;
 import uva.qls.ast.literal.StringLiteral;
+import uva.qls.ast.primitive.Type;
 import uva.qls.ast.statements.DefaultValue;
 import uva.qls.ast.statements.Question;
 import uva.qls.ast.statements.Section;
@@ -25,17 +24,12 @@ import uva.qls.parser.QLSParser.CtxBooleanLiteralContext;
 import uva.qls.parser.QLSParser.CtxCheckboxContext;
 import uva.qls.parser.QLSParser.CtxColorContext;
 import uva.qls.parser.QLSParser.CtxComponentContext;
-import uva.qls.parser.QLSParser.CtxDefaultValueContext;
 import uva.qls.parser.QLSParser.CtxDropdownContext;
 import uva.qls.parser.QLSParser.CtxFontContext;
 import uva.qls.parser.QLSParser.CtxFontsizeContext;
 import uva.qls.parser.QLSParser.CtxHeightContext;
 import uva.qls.parser.QLSParser.CtxIntegerContext;
 import uva.qls.parser.QLSParser.CtxMoneyContext;
-import uva.qls.parser.QLSParser.CtxPrimitiveBooleanContext;
-import uva.qls.parser.QLSParser.CtxPrimitiveIntegerContext;
-import uva.qls.parser.QLSParser.CtxPrimitiveMoneyContext;
-import uva.qls.parser.QLSParser.CtxPrimitiveStringContext;
 import uva.qls.parser.QLSParser.CtxQuestionContext;
 import uva.qls.parser.QLSParser.CtxRadioContext;
 import uva.qls.parser.QLSParser.CtxSectionContext;
@@ -45,12 +39,12 @@ import uva.qls.parser.QLSParser.CtxStyleContext;
 import uva.qls.parser.QLSParser.CtxSubsectionContext;
 import uva.qls.parser.QLSParser.CtxTextboxContext;
 import uva.qls.parser.QLSParser.CtxWidthContext;
-import uva.qls.parser.QLSParser.DefaultValueContext;
 import uva.qls.parser.QLSParser.PageContext;
 import uva.qls.parser.QLSParser.ProgContext;
 import uva.qls.parser.QLSParser.QuestionContext;
 import uva.qls.parser.QLSParser.SectionContext;
 import uva.qls.parser.QLSParser.StatementContext;
+import uva.qls.parser.QLSParser.StyleContext;
 import uva.qls.parser.QLSParser.StylesheetContext;
 import uva.qls.parser.QLSParser.SubsectionContext;
 
@@ -75,9 +69,7 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 
 	@Override
 	public Section visitCtxSection(CtxSectionContext ctx) {
-		CodeLines codeLines = this.getCodeLines(ctx);
-		return new Section(this.visitString(ctx.section().STRING().getText(),codeLines), this.visitStatement(ctx.section().stms),codeLines);
-	
+		return this.visitSection(ctx.section());	
 	}
 
 	@Override
@@ -87,48 +79,41 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 
 	@Override
 	public Question visitCtxQuestion(CtxQuestionContext ctx) {
-		Component comp = (Component)ctx.question().component().accept(this);
-		
-		return null;
+		return this.visitQuestion(ctx.question());
 	}
 
-	@Override
-	public DefaultValue visitCtxDefaultValue(CtxDefaultValueContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
-	}
-	
 	@Override 
 	public DefaultValue visitCtxDefaultComponent(QLSParser.CtxDefaultComponentContext ctx) { 
-		return null;
+		CodeLines codeLines = this.getCodeLines(ctx);
+		Type type = (Type)ctx.primitiveType().accept(this);
+		Component component = (Component)ctx.component().accept(this);
+		
+		return new DefaultValue(type, component ,codeLines);
 	}
 
 	@Override 
 	public DefaultValue visitCtxDefaultStatement(QLSParser.CtxDefaultStatementContext ctx) { 
-		return null;
+		CodeLines codeLines = this.getCodeLines(ctx);
+		Type type = (Type)ctx.primitiveType().accept(this);
+		
+		return new DefaultValue(type, this.visitStatement(ctx.stms), codeLines);
 	}
-
 
 	@Override
 	public Component visitCtxComponent(CtxComponentContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
+		return (Component)ctx.component().accept(this);
 	}
 
 	@Override
-	public ASTNode visitCtxStyle(CtxStyleContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
+	public Style visitCtxStyle(CtxStyleContext ctx) {
+		return (Style)ctx.style().accept(this);
 	}
 
 	@Override
 	public Section visitSection(SectionContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
+		CodeLines codeLines = this.getCodeLines(ctx);
+		return new Section(this.visitString(ctx.STRING().getText(),codeLines), this.visitStatement(ctx.stms),codeLines);
+	
 	}
 
 	@Override
@@ -139,128 +124,116 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
+		CodeLines codeLines = this.getCodeLines(ctx);
+		Component comp = null;
+		
+		try{
+			comp = (Component)ctx.component().accept(this);
+		}
+		catch (Exception e){
+			System.out.println("Component is null");
+		}
+		
+		return new Question(this.visitIdentifier(ctx.Identifier(), codeLines), comp ,codeLines);
 	}
 
 
 	@Override
 	public Textbox visitCtxTextbox(CtxTextboxContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Textbox(this.getCodeLines(ctx), this.visitStyle(ctx.stls));
 	}
 
 	@Override
 	public Spinbox visitCtxSpinbox(CtxSpinboxContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Spinbox(this.getCodeLines(ctx), this.visitStyle(ctx.stls));
 	}
 
 	@Override
 	public Slider visitCtxSlider(CtxSliderContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Slider(ctx.v1.getText(), ctx.v2.getText(), this.visitStyle(ctx.stls), this.getCodeLines(ctx));
 	}
 
 	@Override
 	public Dropdown visitCtxDropdown(CtxDropdownContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Dropdown(ctx.v1.getText(), ctx.v2.getText(), this.visitStyle(ctx.stls), this.getCodeLines(ctx));
 	}
 
 	@Override
 	public Radio visitCtxRadio(CtxRadioContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Radio(ctx.v1.getText(), ctx.v2.getText(), this.visitStyle(ctx.stls), this.getCodeLines(ctx));
 	}
 
 	@Override
 	public Checkbox visitCtxCheckbox(CtxCheckboxContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+		CodeLines codeLines = this.getCodeLines(ctx);
+		return new Checkbox(this.visitString(ctx.STRING().getText(), codeLines), this.visitStyle(ctx.stls), codeLines);
 	}
 
 	@Override
-	public ASTNode visitCtxWidth(CtxWidthContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public Width visitCtxWidth(CtxWidthContext ctx) {
+		CodeLines codeLines = this.getCodeLines(ctx);
+		return new Width(this.visitCtxInteger(ctx.Integer().getText(), codeLines), this.getCodeLines(ctx));
 	}
 
 	@Override
-	public ASTNode visitCtxHeight(CtxHeightContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public Height visitCtxHeight(CtxHeightContext ctx) {
+		return new Height((IntLiteral)ctx.Integer().accept(this), this.getCodeLines(ctx));
 	}
 
 	@Override
-	public ASTNode visitCtxFont(CtxFontContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public FontName visitCtxFont(CtxFontContext ctx) {
+		CodeLines codeLines = this.getCodeLines(ctx);
+		return new FontName(this.visitString(ctx.STRING().getText(), codeLines), codeLines);
 	}
 
 	@Override
-	public ASTNode visitCtxFontsize(CtxFontsizeContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public FontSize visitCtxFontsize(CtxFontsizeContext ctx) {
+		CodeLines codeLines = this.getCodeLines(ctx);
+		return new FontSize(this.visitCtxInteger(ctx.Integer().getText(), codeLines), codeLines);
 	}
 
 	@Override
-	public ASTNode visitCtxColor(CtxColorContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
+	public Color visitCtxColor(CtxColorContext ctx) {
+		return new Color(Integer.parseInt(ctx.Integer().getText()), this.getCodeLines(ctx));
 	}
 
 	@Override
-	public ASTNode visitCtxBooleanLiteral(CtxBooleanLiteralContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
+	public BooleanLiteral visitCtxBooleanLiteral(CtxBooleanLiteralContext ctx) {
+		return new BooleanLiteral(Boolean.valueOf(ctx.getText()), this.getCodeLines(ctx));
+	}
+
+	private IntLiteral visitCtxInteger(String ctx, CodeLines codeLines){
+		return new IntLiteral(Integer.valueOf(ctx), codeLines);
+	}
+	
+	@Override
+	public IntLiteral visitCtxInteger(CtxIntegerContext ctx) {
+		return new IntLiteral(Integer.valueOf(ctx.Integer().getText()), this.getCodeLines(ctx));
 	}
 
 	@Override
-	public ASTNode visitCtxInteger(CtxIntegerContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
+	public MoneyLiteral visitCtxMoney(CtxMoneyContext ctx) {
+		return new MoneyLiteral(Integer.valueOf(ctx.getText()), this.getCodeLines(ctx));
+	}
+	
+	@Override 
+	public Type visitCtxPrimitiveBoolean(QLSParser.CtxPrimitiveBooleanContext ctx) {
+		return new Type(ctx.getText(), this.getCodeLines(ctx));
+	}
+	
+	@Override 
+	public Type visitCtxPrimitiveMoney(QLSParser.CtxPrimitiveMoneyContext ctx) {
+		return new Type(ctx.getText(), this.getCodeLines(ctx)); 
+	}
+	
+	@Override 
+	public Type visitCtxPrimitiveString(QLSParser.CtxPrimitiveStringContext ctx) { 
+		return new Type(ctx.getText(), this.getCodeLines(ctx));
 	}
 
-	@Override
-	public ASTNode visitCtxMoney(CtxMoneyContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
-	}
-
-	@Override
-	public ASTNode visitCtxPrimitiveBoolean(CtxPrimitiveBooleanContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
-	}
-
-	@Override
-	public ASTNode visitCtxPrimitiveMoney(CtxPrimitiveMoneyContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		// return MoneyLiteral(
-		return null;
-	}
-
-	@Override
-	public ASTNode visitCtxPrimitiveString(CtxPrimitiveStringContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		// return StringLiteral -> this.visitString(ctx.
-		return null;
-	}
-
-	@Override
-	public ASTNode visitCtxPrimitiveInteger(CtxPrimitiveIntegerContext ctx) {
-		// TODO Auto-generated method stub
-		// panos 
-		// return IntLiteral
-		return null;
+	@Override 
+	public Type visitCtxPrimitiveInteger(QLSParser.CtxPrimitiveIntegerContext ctx) { 
+		return new Type(ctx.getText(), this.getCodeLines(ctx)); 
 	}
 	
 	
@@ -270,15 +243,24 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 			pages.add(this.visitPage(page));
 		return pages;
 	}
-	private StringLiteral visitString(String _value, CodeLines _codeLines){
-		return new StringLiteral(_value, _codeLines);
-		
-	}
+	
 	private List<Statement> visitStatement(List<StatementContext> stms){
 		List<Statement> statements = new ArrayList<Statement>();
 		for (StatementContext statement : stms)
 			statements.add((Statement)statement.accept(this));
 		return statements;
+	}
+	
+	private ArrayList<Style> visitStyle(List<StyleContext> stls){
+		ArrayList<Style> styles = new ArrayList<Style>();
+		for (StyleContext s : stls){
+			styles.add((Style)s.accept(this));
+		}
+		return styles;
+	}
+	
+	private StringLiteral visitString(String _value, CodeLines _codeLines){
+		return new StringLiteral(_value, _codeLines);	
 	}
 	
 	private Identifier visitIdentifier(TerminalNode identifier, CodeLines codeLines){

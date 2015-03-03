@@ -1,12 +1,11 @@
-package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
+package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
 import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
-import org.uva.student.calinwouter.qlqls.ql.types.Value;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.VariableNotSetException;
+import org.uva.student.calinwouter.qlqls.ql.types.Value;
 
 public class ExpInterpreter extends AnalysisAdapter {
     private Value<?> value;

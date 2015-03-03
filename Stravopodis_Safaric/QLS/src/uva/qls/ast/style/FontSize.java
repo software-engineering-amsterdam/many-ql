@@ -1,13 +1,14 @@
 package uva.qls.ast.style;
 
 import uva.qls.ast.CodeLines;
+import uva.qls.ast.literal.IntLiteral;
 import uva.qls.ast.value.NumberValue;
 
 public class FontSize extends Font{
 
-	private Integer value;
+	private IntLiteral value;
 	
-	public FontSize(Integer _value, CodeLines _codeLines) {
+	public FontSize(IntLiteral _value, CodeLines _codeLines) {
 		super(_codeLines);
 		this.value = _value;
 	}
@@ -18,7 +19,7 @@ public class FontSize extends Font{
 	
 	@Override
 	public NumberValue evaluate() {
-		return new NumberValue(this.value);
+		return new NumberValue(this.value.evaluatedValue());
 	}
 
 	@Override
