@@ -1,6 +1,19 @@
 package interpreter;
 
-public abstract class Value {
+public abstract class Value<T> {
+	private final T value;
+	
+	public Value(T value) {
+		this.value = value;
+	}
+	
+	public T getValue() {
+		return value;
+	}
+	
+	public String toString() {
+		return value.toString();
+	}
 
 	public Value add(Value value)
 		{ throw new UnsupportedOperationException("Not supported in add()."); }

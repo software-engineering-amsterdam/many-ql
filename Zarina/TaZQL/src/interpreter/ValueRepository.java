@@ -2,24 +2,27 @@ package interpreter;
 
 import java.util.HashMap;
 
-import ast.expression.variables.Id;
-
 public class ValueRepository {
-	private final HashMap<Id, Value> valueRepository = new HashMap<Id, Value>(); 
+	private final HashMap<String, Value> valueRepository; 
 	
-	public void putID(Id id, Value value) {
+	public ValueRepository() {
+		this.valueRepository = new HashMap<String, Value>();
+	}
+	
+	public void putID(String id, Value value) {
 		valueRepository.put(id, value);
 	}
 	
-	public HashMap<Id, Value> getValueRepository() {
+	public HashMap<String, Value> getValueRepository() {
+		System.out.println("Rep"+ valueRepository.toString());
 		return valueRepository;
 	}
 	
-	public boolean isDeclared(Id id) {
+	public boolean isDeclared(String id) {
 		return valueRepository.containsKey(id);
 	}
 	
-	public Value getValue(Id id) {
+	public Value getValue(String id) {
 		if(isDeclared(id)) {
 			return valueRepository.get(id);
 		}

@@ -172,7 +172,7 @@ public class EvaluatorVisitor implements IExpressionVisitor<Value> {
 	
 	@Override
 	public Value visit(Id identifier) {
-		return valueRepository.getValue(identifier);
+		return valueRepository.getValue(identifier.getID());
 	}	
 	
 	//temporary, I think. For my unit tests.

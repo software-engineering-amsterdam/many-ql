@@ -1,15 +1,17 @@
 package interpreter;
 
-public class IntegerValue extends Value  {
-	private final Integer integerValue;
+public class IntegerValue extends Value<Integer>  {
+//	private final Integer integerValue;
 	
 	public IntegerValue(Integer integerValue) {
-		this.integerValue = integerValue;
+		super(integerValue);
+		//this.integerValue = integerValue;
 	}
-	
+	/*
 	public Integer getIntegerValue() {
 		return integerValue;
 	}
+	*/
 	
 	
 	public Value add(Value value) {
@@ -54,57 +56,58 @@ public class IntegerValue extends Value  {
 
 	public Value plus() {
 		// TODO to be tested (for minus too).
-		return new IntegerValue(getIntegerValue());
+		return new IntegerValue(getValue());
 	}
 
 	public Value minus() {
-		return new IntegerValue(-getIntegerValue());
+		return new IntegerValue(-getValue());
 	}
 
 	public Value addInt(IntegerValue value) {
-		return new IntegerValue(value.getIntegerValue() + getIntegerValue());
+		return new IntegerValue(value.getValue() + getValue());
 	}
 
 	public Value substractInt(IntegerValue value) {
-		return new IntegerValue(value.getIntegerValue() - getIntegerValue());
+		return new IntegerValue(value.getValue() - getValue());
 	}
 
 	public Value multiplyInt(IntegerValue value) {
-		return new IntegerValue(value.getIntegerValue() * getIntegerValue());
+		return new IntegerValue(value.getValue() * getValue());
 	}
 
 	public Value divideInt(IntegerValue value) {
-		return new IntegerValue(value.getIntegerValue() / getIntegerValue());
+		return new IntegerValue(value.getValue() / getValue());
 	}
 
 	public Value equalityInt(IntegerValue value) {
-		return new BooleanValue(value.getIntegerValue() == getIntegerValue());
+		return new BooleanValue(value.getValue() == getValue());
 	}
 
 	public Value greaterEqualInt(IntegerValue value) {
-		return new BooleanValue(value.getIntegerValue() >= getIntegerValue());
+		return new BooleanValue(value.getValue() >= getValue());
 	}
 
 	public Value greaterInt(IntegerValue value) {
-		return new BooleanValue(value.getIntegerValue() > getIntegerValue());
+		return new BooleanValue(value.getValue() > getValue());
 	}
 
 	public Value lessEqualInt(IntegerValue value) {
-		return new BooleanValue(value.getIntegerValue() <= getIntegerValue());
+		return new BooleanValue(value.getValue() <= getValue());
 	}
 
 	public Value lessInt(IntegerValue value) {
-		return new BooleanValue(value.getIntegerValue() < getIntegerValue());
+		return new BooleanValue(value.getValue() < getValue());
 	}
 
 	public Value notEqualInt(IntegerValue value) {
-		return new BooleanValue(value.getIntegerValue() != getIntegerValue());
+		return new BooleanValue(value.getValue() != getValue());
 	}
-
+/*
 	public boolean equals(Object object) {
 		if (object instanceof IntegerValue) {	
-			return getIntegerValue().equals(((IntegerValue) object).getIntegerValue());
+			return getValue().equals(((IntegerValue) object).getValue());
 		}
 		return false;
-	}	
+	}
+	*/	
 }
