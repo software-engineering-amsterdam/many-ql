@@ -35,13 +35,10 @@ class Evaluator {
   }
 
   def doIfStatement(i: IfStatement, env: EvalEnvironment): EvalEnvironment = {
-     eval(i.expression, env) match {
-      case BooleanValue(true) => eval(i.ifBlock, env)
-      case BooleanValue(false) => i.optionalElseBlock match {
-        case None => env
-        case Some(elseBlock) => eval(elseBlock, env)
-      }
-      case _ => throw new AssertionError("Error in type checker. If statement expects boolean expression.")
+    eval(i.ifBlock, env)
+    i.optionalElseBlock match {
+      case None => env
+      case Some(elseBlock) => eval(elseBlock, env)
     }
   }
 

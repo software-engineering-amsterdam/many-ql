@@ -1,40 +1,44 @@
 package com.form.language;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.CharStream;
 
 import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
-import com.form.language.ast.statement.Question;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
-import com.form.language.test.AstTest;
-
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
+import com.form.language.memory.IdTypeTable;
 
 public class Test {
 	public static void main(String[] args) {
 		
+		String program = "form asf { \n"
+				 +	"question \"asdf\" question1: Boolean \n"
+				 + 	"question \"asdf\" question2: Boolean \n"
+				 +	"if (question2) then asdf := Number 1 end \n"
+				 + "}";
 		CharStream charStream = 
-				new ANTLRInputStream("hasSoldHouse == true && hasBoughtHouse == true");
-	
+				new ANTLRInputStream(program);
+		
+		System.out.println(program);
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
-		Expression evaluator = parser.expression().result;
+		Form evaluator = parser.form().result;
 		//System.out.println((evaluator.getType()));
 		
-		IdCollector m = new IdCollector();		
-		evaluator.collectIds(m);
-		System.out.println(m.showMemory());
-			
-		ErrorCollector errors = new ErrorCollector();
-		evaluator.getErrors(errors);
-		errors.print();
+		IdCollector ids = new IdCollector();		
+		evaluator.collectIds(ids);
+		IdTypeTable idTable = new IdTypeTable(ids);
+		evaluator.setTypes(idTable);
+		evaluator.showTypes();
+//		System.out.println(m.showMemory());
+//			
+//		ErrorCollector errors = new ErrorCollector();
+//		evaluator.getErrors(errors);
+//		errors.print();
 		
 		
 		

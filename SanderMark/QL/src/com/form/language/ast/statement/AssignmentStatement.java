@@ -10,6 +10,7 @@ import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
 
 public class AssignmentStatement implements Statement {
 	public String id;
@@ -47,6 +48,9 @@ public class AssignmentStatement implements Statement {
 		//this.expression.fillMemory(memory);
 		idCollector.addId(new IdLiteral(id,type,idCollector,null));
 	}
-	
-	
+
+	@Override
+	public void setType(IdTypeTable ids) {
+		this.expression.setType(ids);
+	}
 }

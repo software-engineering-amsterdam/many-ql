@@ -6,7 +6,6 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
-import com.form.language.memory.IdCollector;
 
 public class BoolLiteral extends Literal implements Expression {
 	private final boolean _value;

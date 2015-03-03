@@ -301,6 +301,17 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 		
 		return null;
 	}
+	
+	@Override
+	public Void visit(IfElse ifElseNode) {
+		printNode(ifElseNode);
+		
+		indent();		
+		StatementVisitor.super.visit(ifElseNode);
+		unindent();
+		
+		return null;
+	}
 
 	@Override
 	public Void visit(Question questionNode) {

@@ -9,17 +9,16 @@ import org.uva.ql.antlr.QLLexer;
 import org.uva.ql.antlr.QLParser;
 import org.uva.ql.ast.builder.CodePosition;
 import org.uva.ql.ast.builder.QLImplVisitor;
-import org.uva.ql.ast.expression.binary.Divide;
+import org.uva.ql.ast.expression.binary.Equal;
 import org.uva.ql.ast.expression.binary.Minus;
 import org.uva.ql.ast.expression.binary.Multiply;
 import org.uva.ql.ast.expression.binary.Plus;
 import org.uva.ql.ast.expression.literal.Identifier;
-import org.uva.ql.ast.expression.literal.IntLiteral;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.value.Int;
+import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 import org.uva.ql.typecheck.TypeChecker;
-import org.uva.ql.typecheck.message.Warning;
 
 public class MainTC {
 
@@ -45,18 +44,15 @@ public class MainTC {
 			System.out.println("OMG!");
 		} else {
 			typeChecker.printMessages();
-			
 		}
 		//typeChecker.printAll();
-		//tryEvaluator();
+		tryEvaluator();
 	}
 	
 	public static void tryEvaluator() {
 		Evaluator e = new Evaluator();
 		Identifier id1 = new Identifier("ID1", new CodePosition(0,0));
 		Identifier id2 = new Identifier("ID2", new CodePosition(0,0));
-		IntLiteral i1 = new IntLiteral(5, new CodePosition(0,0));
-		IntLiteral i2 = new IntLiteral(9, new CodePosition(0,0));
 		Int v1 = new Int(11);
 		Int v2 = new Int(7);
 		
@@ -65,7 +61,13 @@ public class MainTC {
 		System.out.println("Test Evaluator ID1 + ID2 = " + e.evaluate(new Plus(id1, id2, new CodePosition(0,0))));
 		System.out.println("Test Evaluator ID1 - ID2 = " + e.evaluate(new Minus(id1, id2, new CodePosition(0,0))));
 		System.out.println("Test Evaluator ID1 * ID2 = " + e.evaluate(new Multiply(id1, id2, new CodePosition(0,0))));
-		System.out.println("Test Evaluator ID1 / ID2 = " + e.evaluate(new Divide(id1, id2, new CodePosition(0,0))));
+		Value a = e.evaluate(new Equal(id1, id2, new CodePosition(0,0)));
+		System.out.println(a.getValue());
+		if ((boolean) a.getValue() == true) {
+			System.out.println("TURE");
+		} else {
+			System.out.println("FALSE");
+		}
 	}
 	
 //	public static void tryTypeChecker() {

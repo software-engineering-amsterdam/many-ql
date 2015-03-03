@@ -145,7 +145,6 @@ public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<
 	}
 	
 	public boolean checkReference(Identifier identifier) {
-		System.out.println(identifier.toString());
 		if (!isDeclared(identifier.toString())) {
 			Error error = new Error(Error.Type.REFERENCE, identifier.getPosition().getStartLine(), identifier.toString());
 			messageManager.addError(error);
@@ -241,7 +240,6 @@ public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<
 	
 	@Override
 	public Boolean visit(Questionnaire questionnaire) {
-		System.out.println("Questionnaire");
 		boolean result = true;
 		for (Form form : questionnaire.getForms()) {
 			if(!form.accept(this)) {
@@ -253,7 +251,6 @@ public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<
 	
 	@Override
 	public Boolean visit(Form form) {
-		System.out.println("Form");
 		//form.getBlock().accept(this);
 		return form.getBlock().accept(this);
 	}
@@ -271,13 +268,11 @@ public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<
 	
 	@Override
 	public Boolean visit(QuestionNormal question) {
-		System.out.println("Question Normal");
 		return checkDeclaration(question) && checkLabel(question);
 	}
 	
 	@Override
 	public Boolean visit(QuestionCompute question) {
-		System.out.println("Question Compute");
 		//checkDeclaration(question);
 		//checkLabel(question);
 		question.getExpression().accept(this);
@@ -288,7 +283,6 @@ public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<
 	
 	@Override
 	public Boolean visit(IfStatement ifStatement) {
-		System.out.println("If Statement");
 		//ifStatement.getExpr().accept(this);
 		//ifStatement.getIfBlock().accept(this);
 		return ifStatement.getExpr().accept(this) && ifStatement.getIfBlock().accept(this);
@@ -296,7 +290,6 @@ public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<
 
 	@Override
 	public Boolean visit(IfElseStatement ifElseStatement) {
-		System.out.println("If Else Statement");
 		//ifElseStatement.getExpr().accept(this);
 		//ifElseStatement.getIfBlock().accept(this);
 		//ifElseStatement.getElseBLock().accept(this);
@@ -403,7 +396,6 @@ public class TypeChecker implements StatementVisitor<Boolean>,ExpressionVisitor<
 
 	@Override
 	public Boolean visit(Identifier node) {
-		System.out.println("Identifier");
 		return checkReference(node);
 	}
 

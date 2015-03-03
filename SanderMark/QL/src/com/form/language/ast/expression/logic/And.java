@@ -10,7 +10,6 @@ import com.form.language.ast.type.Type;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.IdCollector;
 
 public class And extends BinaryExpression implements Expression {
 

@@ -1,7 +1,6 @@
 package com.form.language.ast.statement;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -144,5 +144,13 @@ public class IfStatement implements Statement {
 		// TODO Auto-generated method stub
 		this.conditions.collectIds(idCollector);
 	}
+
+
+	@Override
+	public void setType(IdTypeTable ids) {
+		this.conditions.setType(ids);
+	}
+	
+	
 	
 }

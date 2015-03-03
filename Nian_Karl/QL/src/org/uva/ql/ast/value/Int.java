@@ -123,5 +123,27 @@ public class Int extends Value{
 	public Value intLessEqual(Int arg) {
 		return new Bool(arg.getValue() <= getValue());
 	}
+	
+//Equal
+	@Override
+	public Value equal(Value arg) {
+		return arg.intEqual(this);
+	}
+	
+	@Override
+	public Value intEqual(Int arg) {
+		return new Bool(arg.getValue() == getValue());
+	}
+	
+//Not Equal
+	@Override
+	public Value notEqual(Value arg) {
+		return arg.intNotEqual(this);
+	}
+	
+	@Override
+	public Value intNotEqual(Int arg) {
+		return new Bool(arg.getValue() != getValue());
+	}
 
 }
