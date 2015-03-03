@@ -1,6 +1,9 @@
 
 grammar QLS;
 
+@header{
+	package uva.qls.parser;
+}
 
 prog		: stylesheet EOF;
 
@@ -42,7 +45,7 @@ style		: Width ':' Integer			# CtxWidth
 
 literal		: BooleanLiteral # CtxBooleanLiteral
 			| Integer		 # CtxInteger
-			| Decimal		 # CtxDecimal				
+			| Money			 # CtxMoney				
 			;
 
 BooleanLiteral 	: 'true'
@@ -50,9 +53,9 @@ BooleanLiteral 	: 'true'
 				;
 
 primitiveType	: 'boolean'
-				| 'decimal'
+				| 'money'
 				| 'string'
-				| 'int'
+				| 'integer'
 				;
 
 Width		: 'width';
@@ -72,7 +75,7 @@ Identifier	: ID_LETTER (ID_LETTER | DIGIT)* ;
 
 Integer		: (DIGIT | ('(-'DIGIT')')) ;
 
-Decimal		: ('(''-')? DIGIT+ '.' DIGIT* ')'? ;
+Money		: Integer ;
 
 WS			: (' ' | NEWLINE | TAB) -> skip;
 

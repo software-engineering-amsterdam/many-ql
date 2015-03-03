@@ -1,5 +1,9 @@
 package uva.sc.logic;
 
+import uva.sc.ast.INodeVisitor;
+import uva.sc.atom.ID;
+import uva.sc.types.Type;
+
 
 public class Question extends Statement{
 
@@ -20,11 +24,33 @@ public class Question extends Statement{
 		this.id = id;
 		this.type = type;
 	}
+
+	public String getStr() {
+		return str;
+	}
+
+	public ID getId() {
+		return id;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public Expression getExpr() {
+		return expr;
+	}
 	
 	public String toString() {
-		String result = "[String]: " + this.str + ", " + this.id.toString() + ", " + this.type.toString();
-		if (this.expr != null)
+		String result = "[Question]: [String]: " + this.str + ", " + this.id.toString() + ", " + this.type.toString();
+		if (this.expr != null) {
 			result += this.expr.toString();
+		}
 		return result;		
+	}
+
+	@Override
+	public <T> T accept(INodeVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 }

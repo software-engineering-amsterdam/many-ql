@@ -1,8 +1,8 @@
 package uva.qls.ast.literal;
 
 import uva.qls.ast.CodeLines;
-import uva.qls.ast.value.GenericValue;
 import uva.qls.ast.value.StringValue;
+import uva.qls.supporting.Tuple;
 
 public class StringLiteral extends Literal {
 
@@ -15,11 +15,23 @@ public class StringLiteral extends Literal {
 		super(_codeLines);
 		this.value = _value;
 	}
+	
+	@Override
+	public Tuple<Integer, Integer> getLOCTuple() {
+		return this.codeLines.getCodeLocation();
+	}
+
+	@Override
+	public CodeLines getLOC() {
+		return this.codeLines;
+	}
+	
 	@Override
 	public String toString(){
 		if (this.value != null) return "StringLiteral(" + this.value + ")";
 		else return "StringLiteral()";
 	}
+	
 	@Override
 	public StringValue evaluate() {
 		

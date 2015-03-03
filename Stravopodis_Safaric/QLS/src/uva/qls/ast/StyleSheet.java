@@ -4,6 +4,7 @@ import java.util.List;
 
 import uva.qls.ast.literal.Identifier;
 import uva.qls.ast.value.GenericValue;
+import uva.qls.supporting.Tuple;
 
 public class StyleSheet extends ASTNode {
 	
@@ -27,10 +28,17 @@ public class StyleSheet extends ASTNode {
 	public List<Page> getPage(){
 		return this.page;
 	}
-	public CodeLines getCodeLines(){
-		return this.codeLines;
+
+	@Override
+	public Tuple<Integer, Integer> getLOCTuple() {
+		return this.codeLines.getCodeLocation();
 	}
 
+	@Override
+	public CodeLines getLOC() {
+		return this.codeLines;
+	}
+	
 	@Override
 	public GenericValue<?> evaluate() {
 		return null;
