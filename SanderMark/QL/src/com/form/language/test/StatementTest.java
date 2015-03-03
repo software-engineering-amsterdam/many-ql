@@ -28,6 +28,14 @@ public class StatementTest {
 		return new Question("\"Did you sell a house in 2010?\"","hasHouseSold",	new BoolType());
 	}
 	
+	private String getAssigementString()
+	{
+		return "hasHouseSold := Boolean true";		
+	}
+	private AssigmentStatementObject(){
+		return new AssignementStatement();		
+	}
+	
 	@Test
 	public void testQuestion() throws RecognitionException, IOException  {
 		String str= getQuestionString();
