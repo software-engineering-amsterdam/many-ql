@@ -95,42 +95,42 @@ public class TypeChecker implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Identifier identifier) {
-        return null;
+        return identifier;
     }
 
     @Override
     public AbstractNode visit(Section section) {
-        return null;
+        return section;
     }
 
     @Override
     public AbstractNode visit(Default aDefault) {
-        return null;
+        return aDefault;
     }
 
     @Override
     public AbstractNode visit(Width width) {
-        return null;
+        return width;
     }
 
     @Override
     public AbstractNode visit(Widget widget) {
-        return null;
+        return widget;
     }
 
     @Override
     public AbstractNode visit(Font font) {
-        return null;
+        return font;
     }
 
     @Override
     public AbstractNode visit(Color color) {
-        return null;
+        return color;
     }
 
     @Override
     public AbstractNode visit(QuestionType questionType) {
-        return null;
+        return questionType;
     }
 
 }
