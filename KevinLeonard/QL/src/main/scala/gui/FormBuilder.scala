@@ -88,7 +88,6 @@ class FormBuilder {
     
     env.onChange((map, change) => change match {
       case Replace(key, added, removed) => envChangeCallback(key)
-      case Add(key, value) => envChangeCallback(key)
     })
   }
 
@@ -122,7 +121,6 @@ class FormBuilder {
     
     env.onChange((map, change) => change match {
       case Replace(key, added, removed) => envChangeCallback(key)
-      case Add(key, value) => envChangeCallback(key)
     })
   }
 
@@ -153,7 +151,6 @@ class FormBuilder {
     
     env.onChange((map, change) => change match {
       case Replace(key, added, removed) => envChangeCallback(key)
-      case Add(key, value) => envChangeCallback(key)
     })
   }
   
