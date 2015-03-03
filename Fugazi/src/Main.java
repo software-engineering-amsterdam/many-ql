@@ -13,21 +13,21 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String inputFile = null;
+        String inputQLFile = null;
 
         if (args.length > 0)
-            inputFile = args[0];
+            inputQLFile = args[0];
 
-        InputStream input = System.in;
+        InputStream qlInput = System.in;
 
-        if (inputFile != null)
-            input = new FileInputStream(inputFile);
+        if (inputQLFile != null)
+            qlInput = new FileInputStream(inputQLFile);
 
         /** ---------------------
           * QL
           * --------------------- */
         // Create The AST Builder.
-        QLASTBuilder QLAstBuilder = new QLASTBuilder(input);
+        QLASTBuilder QLAstBuilder = new QLASTBuilder(qlInput);
 
         // Build the AST.
         Form form = QLAstBuilder.buildForm();
@@ -47,17 +47,31 @@ public class Main {
             System.exit(-1);
         }
 
+        // Render GUI.
+        //UIBuilder guiBuilder = new UIBuilder(form);
+        //guiBuilder.renderGUI();
+
         /** ---------------------
          * QLS
          * --------------------- */
-        // Create The AST Builder.
-//        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(input);
-//
-//        // Build the AST.
-//        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
+        String inputQLSFile = null;
 
-         // Render GUI.
-        UIBuilder guiBuilder = new UIBuilder(form);
-        guiBuilder.renderGUI();
+        if (args.length > 1)
+            inputQLSFile = args[1];
+
+        InputStream qlsInput = System.in;
+
+        if (inputQLFile != null)
+            qlsInput = new FileInputStream(inputQLSFile);
+
+         // Create The AST Builder.
+        QLSASTBuilder qlsAstBuilder = new QLSASTBuilder(qlsInput);
+
+        // Build the AST.
+        StyleSheet styleSheet = qlsAstBuilder.buildStyleSheet();
+
+        // todo: type checker.
+        // todo: render gui with stylesheet.
+
     }
 }
