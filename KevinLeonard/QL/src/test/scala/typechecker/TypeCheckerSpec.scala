@@ -7,44 +7,44 @@ import org.specs2.mutable.Specification
 import scala.util.parsing.input.NoPosition
 
 class TypeCheckerSpec extends Specification with ExceptionMatchers {
-  val checkers = new TypeChecker
-  import checkers._
+  val checker = new TypeChecker
+  import checker._
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType())))
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(Question(NumberType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
+      check(Question(NumberType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> NumberType())))
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(Question(StringType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
+      check(Question(StringType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> StringType())))
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType())))
     }
 
     "throw exception, if statement is computed boolean question with invalid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beLeft
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> NumberType()), labels = List("label")))
+      check(Question(NumberType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> NumberType())))
     }
 
     "throw exception, if statement is computed number question with invalid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(false)))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Question(NumberType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(false)))), new TypeEnvironment()) must beLeft
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(Literal(StringType(), StringValue("")))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> StringType()), labels = List("label")))
+      check(Question(StringType(), Variable("X"), "label", Some(Literal(StringType(), StringValue("")))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> StringType())))
     }
 
     "throw exception, if statement is computed string question with invalid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Question(StringType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beLeft
     }
 
     "return empty environment, if valid boolean condition" in {
@@ -52,11 +52,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "throw exception, if invalid boolean condition" in {
-      check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), None), new TypeEnvironment()) must beLeft
     }
 
     "throw exception, if error in if block" in {
-      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), None), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), None), new TypeEnvironment()) must beLeft
     }
 
     "return empty environment, if valid boolean condition (with else block)" in {
@@ -64,23 +64,23 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "throw exception, if invalid boolean condition (with else block)" in {
-      check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(IfStatement(Literal(NumberType(), NumberValue(0)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft
     }
 
     "throw exception, if error in if block (with else block)" in {
-      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), Some(Question(BooleanType(), Variable("X"), "label", None))), new TypeEnvironment()) must beLeft
     }
 
     "throw exception, if error in else block" in {
-      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(IfStatement(Literal(BooleanType(), BooleanValue(true)), Question(BooleanType(), Variable("X"), "label", None), Some(Question(BooleanType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))))), new TypeEnvironment()) must beLeft
     }
 
-    "add variable + type and label to environment " in {
-      check(new Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()), labels = List("label")))
+    "add variable + type to environment " in {
+      check(new Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType())))
     }
 
-    "add variables + types and labels to environment" in {
-      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType()), labels = List("label1", "label2", "label3")))
+    "add variables + types to environment" in {
+      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType())))
     }
   }
 
@@ -114,7 +114,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on other types" in {
-      check(Or(Literal(StringType(), StringValue("Test")), Literal(NumberType(), NumberValue(100))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Or(Literal(StringType(), StringValue("Test")), Literal(NumberType(), NumberValue(100))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -128,7 +128,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on other types" in {
-      check(And(Literal(StringType(), StringValue("Test")), Literal(NumberType(), NumberValue(100))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(And(Literal(StringType(), StringValue("Test")), Literal(NumberType(), NumberValue(100))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -138,7 +138,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on other types" in {
-      check(Not(Literal(StringType(), StringValue(""))), new TypeEnvironment())  must beLeft({e: Error => e.level == Exception()})
+      check(Not(Literal(StringType(), StringValue(""))), new TypeEnvironment())  must beLeft
     }
   }
 
@@ -156,7 +156,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on two different types" in {
-      check(Equal(Literal(StringType(), StringValue("")), Literal(BooleanType(), BooleanValue(true))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Equal(Literal(StringType(), StringValue("")), Literal(BooleanType(), BooleanValue(true))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -174,7 +174,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on two different types" in {
-      check(NotEqual(Literal(StringType(), StringValue("")), Literal(BooleanType(), BooleanValue(true))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(NotEqual(Literal(StringType(), StringValue("")), Literal(BooleanType(), BooleanValue(true))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -184,11 +184,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(LessThan(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(LessThan(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(LessThan(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(LessThan(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -198,11 +198,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(LessThanEqual(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(LessThanEqual(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(LessThanEqual(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(LessThanEqual(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -212,11 +212,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(GreaterThan(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(GreaterThan(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(GreaterThan(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(GreaterThan(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -226,11 +226,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(GreaterThanEqual(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(GreaterThanEqual(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(GreaterThanEqual(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(GreaterThanEqual(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -244,11 +244,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(Add(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Add(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Add(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Add(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -258,11 +258,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(Sub(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Sub(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Sub(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Sub(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -272,11 +272,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(Mul(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Mul(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Mul(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Mul(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -286,11 +286,11 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "not type check on strings" in {
-      check(Div(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Div(Literal(StringType(), StringValue("")), Literal(StringType(), StringValue(""))), new TypeEnvironment()) must beLeft
     }
 
     "not type check on booleans" in {
-      check(Div(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft({e: Error => e.level == Exception()})
+      check(Div(Literal(BooleanType(), BooleanValue(true)), Literal(BooleanType(), BooleanValue(false))), new TypeEnvironment()) must beLeft
     }
   }
 
@@ -310,11 +310,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "type checker" should {
     "detect duplicate question declarations" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()))) must beLeft({e: Error => e.level == Exception()})
-    }
-    
-    "detect duplicate label" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment(labels = List("label"))) must beLeft({e: Error => e.level == Warning()})
+      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()))) must beLeft
     }
   }
 }
