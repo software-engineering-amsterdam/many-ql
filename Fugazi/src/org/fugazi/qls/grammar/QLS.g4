@@ -8,10 +8,14 @@ page    : 'page' ID '{' (defaultStyleDeclr | section)* '}';
 
 // Section, includes questions and/or other sections.
 section : 'section' STRING (question | section)
-        | 'section' STRING '{' (question | section)* '}';
+        | 'section' STRING '{' (question | section)* '}'
+        ;
 
 // question id (zero or one widget)
-question : 'question' ID (widget | defaultStyleDeclr)?;
+question : 'question' ID widget                 # questionWithWidget
+         | 'question' ID                        # questionWithoutWidget
+         | 'question' ID defaultStyleDeclr      # questionWithStyleDeclr
+         ;
 
 // widget
 widget : 'widget' supportedWidget;

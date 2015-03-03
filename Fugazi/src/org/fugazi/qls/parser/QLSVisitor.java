@@ -30,11 +30,26 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSection(@NotNull QLSParser.SectionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#question}.
+	 * Visit a parse tree produced by the {@code questionWithWidget}
+	 * labeled alternative in {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestion(@NotNull QLSParser.QuestionContext ctx);
+	T visitQuestionWithWidget(@NotNull QLSParser.QuestionWithWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code questionWithoutWidget}
+	 * labeled alternative in {@link QLSParser#question}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code questionWithStyleDeclr}
+	 * labeled alternative in {@link QLSParser#question}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuestionWithStyleDeclr(@NotNull QLSParser.QuestionWithStyleDeclrContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#widget}.
 	 * @param ctx the parse tree

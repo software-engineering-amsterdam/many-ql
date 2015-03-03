@@ -5,14 +5,12 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.fugazi.qls.ast.question.Question;
 import org.fugazi.qls.ast.segment.Page;
 import org.fugazi.qls.ast.segment.Section;
-import org.fugazi.qls.ast.style.DefaultTypeStyle;
 import org.fugazi.qls.ast.style.style_property.Color;
 import org.fugazi.qls.ast.style.style_property.Font;
 import org.fugazi.qls.ast.style.style_property.FontSize;
 import org.fugazi.qls.ast.style.style_property.Width;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
-import org.fugazi.qls.ast.widget.Widget;
-import org.fugazi.qls.ast.widget.widget_type.*;
+import org.fugazi.qls.ast.widget.*;
 import org.fugazi.qls.parser.QLSBaseVisitor;
 import org.fugazi.qls.parser.QLSParser;
 
@@ -51,13 +49,7 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLSNode> {
             sections.add(section);
         }
 
-        ArrayList<DefaultTypeStyle> defaultStyles = new ArrayList<>();
-        for (QLSParser.DefaultStyleDeclrContext defaultStyleDeclrContext : ctx.defaultStyleDeclr()) {
-            DefaultTypeStyle style = (DefaultTypeStyle) defaultStyleDeclrContext.accept(this);
-            defaultStyles.add(style);
-        }
-
-		return new Page(name, sections, defaultStyles);
+		return new Page(name, sections);
 	}
 
     @Override 
@@ -78,24 +70,36 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLSNode> {
 
         return new Section(this.removeStringQuotes(name), sections, questions);
 	}
-    
-    @Override 
-	public AbstractASTQLSNode visitQuestion(@NotNull QLSParser.QuestionContext ctx) {
+
+    @Override public AbstractASTQLSNode visitQuestionWithWidget(@NotNull QLSParser.QuestionWithWidgetContext ctx) {
         String identifier = ctx.ID().getText();
+
+        System.out.println("Visit Question with widget : " + identifier);
+
         Widget widget = (Widget) ctx.widget().accept(this);
+        widget.setLabel(identifier);
 
-        //todo: default styles?
+        return new Question(identifier, widget);
+    }
 
-		return new Question(identifier, widget);
-	}
-    
+    @Override public AbstractASTQLSNode visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx) {
+        String identifier = ctx.ID().getText();
+
+        System.out.println("Visit Question without widget : " + identifier);
+
+        return new Question(identifier, null);
+    }
+
+    @Override public AbstractASTQLSNode visitQuestionWithStyleDeclr(@NotNull QLSParser.QuestionWithStyleDeclrContext ctx) {
+        String identifier = ctx.ID().getText();
+        System.out.println("Visit Question without widget : " + identifier);
+
+        return new Question(identifier, null);
+    }
+
     @Override 
 	public AbstractASTQLSNode visitWidget(@NotNull QLSParser.WidgetContext ctx) {
-        WidgetType widgetType = (WidgetType) ctx.supportedWidget().accept(this);
-
-        // todo
-		//return new Widget(widgetType);
-        return null;
+		return ctx.supportedWidget().accept(this);
 	}
     
     @Override 
@@ -106,7 +110,8 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLSNode> {
     
     @Override 
 	public AbstractASTQLSNode visitStylesDefaultDeclr(@NotNull QLSParser.StylesDefaultDeclrContext ctx) {
-		return null; 
+        // todo
+		return null;
 	}
     
     @Override 
@@ -116,12 +121,16 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLSNode> {
     
     @Override 
 	public AbstractASTQLSNode visitRadioWidget(@NotNull QLSParser.RadioWidgetContext ctx) {
-		return new RadioBtn();
+        String yesLabel = ctx.yes.getText();
+        String noLabel = ctx.no.getText();
+		return new RadioBtn(yesLabel, noLabel);
 	}
     
     @Override 
 	public AbstractASTQLSNode visitDropdownWidget(@NotNull QLSParser.DropdownWidgetContext ctx) {
-		return new Dropdown();
+        String yesLabel = ctx.yes.getText();
+        String noLabel = ctx.no.getText();
+        return new Dropdown(yesLabel, noLabel);
 	}
     
     @Override 
