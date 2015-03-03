@@ -33,14 +33,14 @@ public class TypeChecker implements QLSVisitor {
         this.formQuestions = new ArrayList<>();
     }
 
-    //todo: should accept list with Questions (form) not a form
+    //todo: should accept list with (form-) Questions not a form
     public void start(Form form, Stylesheet stylesheet) {
         this.formQuestions.addAll(getQuestions(form));
         visit(stylesheet);
         confirmQuestionsExistInForm(formQuestions);
     }
 
-    private List<edu.parser.QL.nodes.question.Question> getQuestions(Form form) {
+    private List<edu.parser.QL.nodes.question.Question> getQuestions(Form form) { //todo: can be removed when start() does not receive form anymore
         return form.getElements()
                 .stream()
                 .filter(element -> element instanceof edu.parser.QL.nodes.question.Question)
