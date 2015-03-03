@@ -1,7 +1,7 @@
 package com.form.language.ast.expression;
 
-import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.type.Type;
+import com.form.language.ast.values.GenericValue;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 

@@ -11,32 +11,39 @@ import com.form.language.ast.values.StringValue;
 import com.form.language.memory.IdCollector;
 
 public class IdLiteral extends Literal implements Expression {
-	public final String _value;
-	private Type _type;
+	public final String name;
+	private Type type;
 	
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
-		this._value = value;
+		this.name = value;
 		System.out.println("test1");
 	}
-	public IdLiteral(String value, Type questionType,IdCollector idCollector,Token tokenInfo)
+	public IdLiteral(String name, Type questionType,IdCollector idCollector,Token tokenInfo)
 	{
 		super(tokenInfo);
-		this._value = value;
-		this._type = questionType;	
+		this.name = name;
+		this.type = questionType;	
 		System.out.println("test2");
+	}
+	
+	public Boolean IsReference(){
+		if(this.type == null){
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public GenericValue<?> evaluate() {
-		if(_type.isBoolType()){
-			return new BoolValue(Boolean.parseBoolean(_value));
+		if(type.isBoolType()){
+			return new BoolValue(Boolean.parseBoolean(name));
 		};
-		if(_type.isIntType()){
-			return new IntValue(Integer.parseInt(_value));
+		if(type.isIntType()){
+			return new IntValue(Integer.parseInt(name));
 		}
-		if(_type.isStringType()){
-			return new StringValue(_value);
+		if(type.isStringType()){
+			return new StringValue(name);
 		}
 		else 
 			throw new IllegalArgumentException();
@@ -44,7 +51,7 @@ public class IdLiteral extends Literal implements Expression {
 
 	@Override
 	public Type getType() {
-		return _type;
+		return type;
 	}
 	
 	@Override
