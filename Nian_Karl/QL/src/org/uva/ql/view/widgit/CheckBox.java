@@ -4,24 +4,27 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 
 import org.uva.ql.ast.value.Bool;
+import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
-import org.uva.ql.view.observer.Observer;
 
 public class CheckBox extends Widget {
 
 	private JCheckBox checkBox;
-	private static final long serialVersionUID = 1L;
 	private WidgetListener widgetListener;
 
 	public CheckBox(WidgetListener listener) {
+		super();
 		checkBox = new JCheckBox();
 		this.widgetListener = listener;
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		checkBox.setOpaque(false);
-		checkBox.addItemListener(checkboxListener);
+		if (!isDependent()) {
+			checkBox.addItemListener(checkboxListener);
+		}
+
 	}
 
 	private class CheckBoxListener implements ItemListener {
@@ -43,8 +46,15 @@ public class CheckBox extends Widget {
 	}
 
 	@Override
-	public JComponent getWidget() {
+	public JCheckBox getWidget() {
 		return checkBox;
+	}
+
+	@Override
+	public void setWidgetValue(Value value) {
+		if (!value.toString().equals(new Undefined().toString())) {
+			// getWidget().setText(value.toString());
+		}
 	}
 
 }

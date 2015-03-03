@@ -1,6 +1,7 @@
 package org.uva.ql.view;
 
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 
@@ -13,7 +14,7 @@ public class FormFrame extends JFrame {
 		super("QL Form");
 		this.identifier = identifier;
 		setSize(400, 800);
-		setLayout(new FlowLayout());
+		setLayout(new GridLayout());
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}

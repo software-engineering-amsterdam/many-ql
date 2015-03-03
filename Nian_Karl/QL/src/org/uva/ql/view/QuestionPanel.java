@@ -21,7 +21,7 @@ public class QuestionPanel extends Panel {
 		setBackground(Color.LIGHT_GRAY);
 		for (Panel questionPanel : panels) {
 			int width = (int) getSize().getWidth();
-			int height = (int) getSize().getHeight() + 50;
+			int height = (int) getSize().getHeight() + 70;
 			setSize(new Dimension(width, height));
 			setPreferredSize(new Dimension(width, height));
 			add(questionPanel);

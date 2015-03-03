@@ -28,12 +28,9 @@ public class Main {
 
 		TypeChecker typeChecker = new TypeChecker();
 		if (questionnaire.accept(typeChecker)) {
-			Evaluator evaluator = new Evaluator();
-			GUIVisitor guiVisitor = new GUIVisitor(evaluator);
+			GUIVisitor guiVisitor = new GUIVisitor();
 			questionnaire.accept(guiVisitor);	
 		}
 		typeChecker.printMessages();
-		
-
 	}
 }
