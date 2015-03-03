@@ -21,7 +21,7 @@ stylesheet taxOfficeExample {
     section "Selling" {
 
       question hasSoldHouse {
-        widget: yesno-radio("Yes", "No")
+        widget: radio("Yes", "No")
       }
 
       section "You sold a house" {
@@ -30,16 +30,13 @@ stylesheet taxOfficeExample {
           widget: spinbox(0, 100)
         }
 
-        question privateDebt {
-          widget: spinbox(0, 100) 
-        }
-
         question valueResidue
 
         default money {
           width: 400
           font: "Arial" 
           fontsize: 14
+          color: #999999
           widget: spinbox(0, 100)
         }        
 
@@ -48,7 +45,7 @@ stylesheet taxOfficeExample {
     }
 
     default boolean {
-        widget: yesno-radio("Yes", "No")
+        widget: radio("Yes", "No")
     }
 
   }  

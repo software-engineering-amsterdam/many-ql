@@ -4,7 +4,6 @@ class Node(object):
 
 class QLS(object):
     def __init__(self, statements):
-        super().__init__(0)
         self.statements = statements
 
 class StylesheetStatement(Node):
@@ -43,7 +42,7 @@ class SectionStatement(Node):
     def __str__(self):
         return "sectionStatement, line:%d, name:%s" %(self.lineNumber, self.name)
 
-class PageStatement(Node):
+class QuestionStatement(Node):
     def __init__(self, identifier, attributes, lineNumber):
         super().__init__(lineNumber)
         self.identifier = identifier
@@ -59,7 +58,7 @@ class StyleAttribute(Node):
         self.value = value
 
     def __str__(self):
-        return "StyleAttribute, line:%d, name:%s, value:%s" %(self.lineNumber, self.name, self.value)
+        return "StyleAttribute, line:%d, name:%s, value:(%s)" %(self.lineNumber, self.name, self.value)
 
 class Widget(Node):
     def __init__(self, widgetType, options, lineNumber):
@@ -68,7 +67,7 @@ class Widget(Node):
         self.options = options
 
     def __str__(self):
-        return "Wdiget, line:%d, type:%s" %(self.lineNumber, self.type)
+        return "Widget, line:%d, type:%s" %(self.lineNumber, self.type)
 
 
     

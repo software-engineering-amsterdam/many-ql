@@ -1,7 +1,7 @@
 grammar QLS;
 
 qls
-    :   statements=nested_statement*
+    :   statements+=nested_statement*
     ;
 
 nested_statement
