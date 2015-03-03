@@ -65,6 +65,7 @@ class IfBlock(statement.IStatement):
         m = converters.Converters.get_md5(str(self))
         for s in self.statements:
             s.set_parent_id(m)
+            s.set_parent_condition(self.condition)
 
     # Override
     def set_order(self, order_num):

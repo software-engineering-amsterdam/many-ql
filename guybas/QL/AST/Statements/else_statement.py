@@ -71,8 +71,11 @@ class IfElseBlock(if_statement.IfBlock):
         m = converters.Converters.get_md5(str(self))
         for s in self.statements:
             s.set_parent_id(m)
+            s.set_parent_condition(self.condition)
         for s in self.else_statements:
             s.set_parent_id(m)
+            s.set_parent_condition(self.condition.not_expression())
+
     # Override
     def set_order(self, order_num):
         c = order_num
