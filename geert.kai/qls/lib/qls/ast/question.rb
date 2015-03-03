@@ -1,14 +1,25 @@
-module AST
-	class Question
-		attr_reader :name, :rules
+module QLS
+  module AST
 
-		def initialize(name, rules)
-			@name = name
-			@rules = rules
-		end
-	end
+    class Selector
+      attr_reader :declarations
+    end
 
-	class Default < Question
+    class Question < Selector
+      attr_reader :name
 
-	end
-end
+      def initialize(name, declarations)
+        @name = name
+        @declarations = declarations
+      end
+    end
+
+    class Default < Selector
+      attr_reader :type
+
+      def initialize(type, declarations)
+        @type = type
+        @declarations = declarations
+      end
+    end
+  end

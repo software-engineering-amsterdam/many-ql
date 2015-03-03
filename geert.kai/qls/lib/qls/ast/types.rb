@@ -10,6 +10,9 @@ end
 class BooleanType < Type
 end
 
+
+
+
 class Literal
   attr_reader :value
 
