@@ -64,8 +64,10 @@ public class Question implements Statement {
 	}
 
 	@Override
-	public void createGUIComponent(GUIBuilder guiBuilder,FormComponent formGUI) {
-		guiBuilder.createGUIQuestion(this, formGUI);
+	public void createGUIComponent(GUIBuilder guiBuilder,
+			FormComponent formGUI, RuntimeMemory rm) {
+		guiBuilder.createGUIQuestion(this, formGUI,rm);
+		
 	}
 	
 }

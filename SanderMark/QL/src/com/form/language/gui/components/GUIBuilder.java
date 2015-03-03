@@ -28,11 +28,11 @@ public class GUIBuilder {
 		{
 			Statement statement = s.next();
 			//Hier mee geven, want deze komt uiteindelijk terug bij createGUI question etc.
-			statement.createGUIComponent(this,formGUI);
+			statement.createGUIComponent(this,formGUI,rm);
 		}	
 	}
 
-	public void createGUIQuestion(Question question, FormComponent formGUI2) {
+	public void createGUIQuestion(Question question, FormComponent formGUI2, RuntimeMemory rm) {
 		QuestionComponent questionCompondent = new QuestionComponent(question,showCondition);	
 		formGUI2.add(questionCompondent);
 	}

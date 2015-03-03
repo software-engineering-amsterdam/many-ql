@@ -74,15 +74,16 @@ public class IfStatement implements Statement {
 	@Override
 	public void initMemory(RuntimeMemory mem){}
 
-
 	@Override
-	public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI) {
+	public void createGUIComponent(GUIBuilder guiBuilder,
+			FormComponent formGUI, RuntimeMemory rm) {
 		guiBuilder.SetShowCondition(conditions);
 		for(Statement s : this.thenStatements)
 		{
-			s.createGUIComponent(guiBuilder, formGUI);
+			s.createGUIComponent(guiBuilder, formGUI, rm);
 		}	
 		guiBuilder.RemoveShowCondition();
+		
 	};
 		
 }

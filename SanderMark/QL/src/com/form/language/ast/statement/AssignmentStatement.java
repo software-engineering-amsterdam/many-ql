@@ -56,7 +56,8 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI) {
+	public void createGUIComponent(GUIBuilder guiBuilder,
+			FormComponent formGUI, RuntimeMemory rm) {
 		// TODO Auto-generated method stub
 		
 	}
