@@ -4,7 +4,7 @@ Introduction : Welcome to my questionnaire.
 
 Question hummus (bool): Do you love hummus?
 
-if (hummus == True) {
+if ((hummus == True)) {
     Question what (text) : What do you like about hummus?
 
     Question grade (number) : How would you grade it?

@@ -13,6 +13,7 @@ class Question(IStatement):
         self.parent_id = None
         self.order = None
         self.element = None
+        self.parentCondition = None
         # self.set_element()
 
     # Override
@@ -74,6 +75,9 @@ class Question(IStatement):
         else:
             raise QException("Element type does not exists")
 
+    def set_parent_condition(self, condition):
+        self.parentCondition = condition
+
     # Override
     def id_type_collection(self):
         return {self.id: self.type}
@@ -101,6 +105,8 @@ class Question(IStatement):
     def get_statement_dict(self):
         return {self.id: self}
 
+    def get_parent_condition(self):
+        return self.parentCondition
 
 
 

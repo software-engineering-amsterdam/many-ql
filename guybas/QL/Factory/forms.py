@@ -30,13 +30,14 @@ class FormFactory:
         m = Converters.get_md5(str(tokens))
         for i in range(1, len(tokens)):
             tokens[i].set_parent_id(m)
+            tokens[i].set_parent_condition(condition)
             questions.append(tokens[i])
         return IfBlock(condition, questions, m)
 
     @staticmethod
     def make_else(tokens):
         condition = tokens[0]
-        questions = [] 
+        questions = []
         k = 1
         m = Converters.get_md5(str(tokens))
         for i in range(1, len(tokens) + 1):
@@ -44,11 +45,13 @@ class FormFactory:
                 break
             else:
                 tokens[i].set_parent_id(m)
+                tokens[i].set_parent_condition(condition)
                 questions.append(tokens[i])
                 k += 1
         else_questions = []
         for i in range(k + 1, len(tokens)):
             tokens[i].set_parent_id(m)
+            tokens[i].set_parent_condition(condition.not_expression())
             else_questions.append(tokens[i])
         x = IfElseBlock(condition, questions, else_questions, m)
         return x

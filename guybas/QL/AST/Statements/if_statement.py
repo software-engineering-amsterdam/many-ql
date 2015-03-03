@@ -73,6 +73,9 @@ class IfBlock(IStatement):
     def set_element(self, gui):
         ...
 
+    def set_parent_condition(self, condition):
+        ...
+
     # Override
     def id_type_collection(self):
         d = {}
@@ -104,4 +107,3 @@ class IfBlock(IStatement):
 
     def get_element(self):
         return self.element
-    
