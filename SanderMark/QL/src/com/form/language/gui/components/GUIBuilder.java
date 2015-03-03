@@ -10,6 +10,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.statement.Statement;
 import com.form.language.ast.type.Type;
+import com.form.language.memory.RuntimeMemory;
 
 public class GUIBuilder {
 	
@@ -18,11 +19,15 @@ public class GUIBuilder {
 	
 	public GUIBuilder(Form form,JFrame frame)
 	{
+		RuntimeMemory rm = form.initMemory();
+		
 		formGUI = new FormComponent(form,this,frame);	
 		frame.add(formGUI);
+		
 		for(Iterator<Statement> s = form.statementList.iterator(); s.hasNext();)
 		{
 			Statement statement = s.next();
+			//Hier mee geven, want deze komt uiteindelijk terug bij createGUI question etc.
 			statement.createGUIComponent(this,formGUI);
 		}	
 	}

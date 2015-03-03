@@ -38,11 +38,15 @@ public class Form  {
 		}
 	}
 	
-	public void initMemory(RuntimeMemory mem){
-		for(Statement s: statementList){
+	public RuntimeMemory initMemory()
+	{
+		RuntimeMemory mem = new RuntimeMemory();
+		for(Statement s: statementList)
+		{
 			s.initMemory(mem);			
-			}
-}
+		}
+		return mem;		
+	}
 
 	public void showTypes() {
 		for(Statement s: statementList){
