@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TypeCheckerVisitor implements IASTVisitor<Void> {
+public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     private final ASTIssueHandler astIssueHandler;
 
@@ -46,7 +46,7 @@ public class TypeCheckerVisitor implements IASTVisitor<Void> {
     private final DependencyList questionDependencies;
     private ID assignableIdLiteral;
 
-    public TypeCheckerVisitor(){
+    public QLTypeCheckerVisitor(){
         this.astIssueHandler = new ASTIssueHandler();
         this.questionLabels = new ArrayList<String>();
         this.questionTypes = new HashMap<String, Type>();

@@ -2,16 +2,16 @@ package org.fugazi.ql.type_checker;
 
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
-import org.fugazi.ql.type_checker.visitor.TypeCheckerVisitor;
+import org.fugazi.ql.type_checker.visitor.QLTypeCheckerVisitor;
 
 import java.util.List;
 
 
 public class QLTypeChecker {
-    private final TypeCheckerVisitor visitor;
+    private final QLTypeCheckerVisitor visitor;
 
     public QLTypeChecker() {
-        this.visitor = new TypeCheckerVisitor();
+        this.visitor = new QLTypeCheckerVisitor();
     }
 
     /**
