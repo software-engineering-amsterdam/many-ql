@@ -12,13 +12,11 @@ public class DependentQuestionPanel extends QuestionPanel {
 	private static final long serialVersionUID = -4507161988032536469L;
 
 	private Expression expr;
-	private ArrayList<Panel> questionPanels;
 
 	public DependentQuestionPanel(ArrayList<Panel> questionPanels, Expression expr) {
 		super(questionPanels);
-		this.questionPanels = questionPanels;
 		this.expr = expr;
-		for (Panel panel : this.questionPanels) {
+		for (Panel panel : this.panels) {
 			panel.setVisible(false);
 		}
 	}
@@ -29,8 +27,6 @@ public class DependentQuestionPanel extends QuestionPanel {
 
 	public void evaluateAndShow(Evaluator evaluator) {
 		// dirty
-		System.out.println("Yo");
-		System.out.println(evaluateExpressions(evaluator));
 		if (evaluateExpressions(evaluator) instanceof Bool) {
 			Bool value = (Bool) evaluateExpressions(evaluator);
 			if (value.getValue()) {
@@ -46,7 +42,7 @@ public class DependentQuestionPanel extends QuestionPanel {
 	}
 
 	public void showQuestions(boolean show) {
-		for (Panel panel : questionPanels) {
+		for (Panel panel : this.panels) {
 			panel.setVisible(show);
 		}
 	}
