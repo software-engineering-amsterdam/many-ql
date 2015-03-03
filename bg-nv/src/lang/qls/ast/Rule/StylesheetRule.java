@@ -7,5 +7,10 @@ import lang.ql.ast.AstNode;
  */
 public abstract class StylesheetRule extends AstNode
 {
+    public StylesheetRule(int lineNumber)
+    {
+        super(lineNumber);
+    }
 
+    public abstract <T> T accept(RuleVisitor<T> visitor);
 }

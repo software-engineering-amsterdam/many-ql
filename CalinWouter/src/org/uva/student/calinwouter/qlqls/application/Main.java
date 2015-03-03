@@ -23,7 +23,7 @@ public class Main {
             String line = null;
             StringBuilder stringBuilder = new StringBuilder();
             String lineSeparator = System.getProperty("line.separator");
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
                 stringBuilder.append(lineSeparator);
             }
@@ -76,7 +76,7 @@ public class Main {
             StyleSheet styleSheet = (StyleSheet) InterpreterHelper.interpetStylesheetString(qls).getValue().getValue();
             styleSheet.apply(new StyleSheetRenderer(headlessFormInterpreter, formTypeChecker));
             headlessFormInterpreter.interpret();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -93,13 +93,15 @@ public class Main {
             FormRenderer formRenderer = new FormRenderer(headlessFormInterpreter, formTypeChecker);
             headlessFormInterpreter.interpret();
             formRenderer.render();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /** For each change, the QL interpreter is called. The stylesheet's model remains the same, but changes
-     * based on the results of QL. */
+    /**
+     * For each change, the QL interpreter is called. The stylesheet's model remains the same, but changes
+     * based on the results of QL.
+     */
     public static void main(String[] args) throws IOException {
         printAbout();
         if (args.length == 0) {

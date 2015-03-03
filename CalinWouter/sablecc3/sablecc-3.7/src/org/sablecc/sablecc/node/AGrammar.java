@@ -2,12 +2,14 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AGrammar extends PGrammar
-{
+public final class AGrammar extends PGrammar {
     private final LinkedList<TPkgId> _package_ = new LinkedList<TPkgId>();
     private PHelpers _helpers_;
     private PStates _states_;
@@ -16,20 +18,18 @@ public final class AGrammar extends PGrammar
     private PProductions _productions_;
     private PAst _ast_;
 
-    public AGrammar()
-    {
+    public AGrammar() {
         // Constructor
     }
 
     public AGrammar(
-        @SuppressWarnings("hiding") List<?> _package_,
-        @SuppressWarnings("hiding") PHelpers _helpers_,
-        @SuppressWarnings("hiding") PStates _states_,
-        @SuppressWarnings("hiding") PTokens _tokens_,
-        @SuppressWarnings("hiding") PIgnTokens _ignTokens_,
-        @SuppressWarnings("hiding") PProductions _productions_,
-        @SuppressWarnings("hiding") PAst _ast_)
-    {
+            @SuppressWarnings("hiding") List<?> _package_,
+            @SuppressWarnings("hiding") PHelpers _helpers_,
+            @SuppressWarnings("hiding") PStates _states_,
+            @SuppressWarnings("hiding") PTokens _tokens_,
+            @SuppressWarnings("hiding") PIgnTokens _ignTokens_,
+            @SuppressWarnings("hiding") PProductions _productions_,
+            @SuppressWarnings("hiding") PAst _ast_) {
         // Constructor
         setPackage(_package_);
 
@@ -48,42 +48,35 @@ public final class AGrammar extends PGrammar
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AGrammar(
-            cloneList(this._package_),
-            cloneNode(this._helpers_),
-            cloneNode(this._states_),
-            cloneNode(this._tokens_),
-            cloneNode(this._ignTokens_),
-            cloneNode(this._productions_),
-            cloneNode(this._ast_));
+                cloneList(this._package_),
+                cloneNode(this._helpers_),
+                cloneNode(this._states_),
+                cloneNode(this._tokens_),
+                cloneNode(this._ignTokens_),
+                cloneNode(this._productions_),
+                cloneNode(this._ast_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAGrammar(this);
     }
 
-    public LinkedList<TPkgId> getPackage()
-    {
+    public LinkedList<TPkgId> getPackage() {
         return this._package_;
     }
 
-    public void setPackage(List<?> list)
-    {
-        for(TPkgId e : this._package_)
-        {
+    public void setPackage(List<?> list) {
+        for (TPkgId e : this._package_) {
             e.parent(null);
         }
         this._package_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             TPkgId e = (TPkgId) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -92,22 +85,17 @@ public final class AGrammar extends PGrammar
         }
     }
 
-    public PHelpers getHelpers()
-    {
+    public PHelpers getHelpers() {
         return this._helpers_;
     }
 
-    public void setHelpers(PHelpers node)
-    {
-        if(this._helpers_ != null)
-        {
+    public void setHelpers(PHelpers node) {
+        if (this._helpers_ != null) {
             this._helpers_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -117,22 +105,17 @@ public final class AGrammar extends PGrammar
         this._helpers_ = node;
     }
 
-    public PStates getStates()
-    {
+    public PStates getStates() {
         return this._states_;
     }
 
-    public void setStates(PStates node)
-    {
-        if(this._states_ != null)
-        {
+    public void setStates(PStates node) {
+        if (this._states_ != null) {
             this._states_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -142,22 +125,17 @@ public final class AGrammar extends PGrammar
         this._states_ = node;
     }
 
-    public PTokens getTokens()
-    {
+    public PTokens getTokens() {
         return this._tokens_;
     }
 
-    public void setTokens(PTokens node)
-    {
-        if(this._tokens_ != null)
-        {
+    public void setTokens(PTokens node) {
+        if (this._tokens_ != null) {
             this._tokens_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -167,22 +145,17 @@ public final class AGrammar extends PGrammar
         this._tokens_ = node;
     }
 
-    public PIgnTokens getIgnTokens()
-    {
+    public PIgnTokens getIgnTokens() {
         return this._ignTokens_;
     }
 
-    public void setIgnTokens(PIgnTokens node)
-    {
-        if(this._ignTokens_ != null)
-        {
+    public void setIgnTokens(PIgnTokens node) {
+        if (this._ignTokens_ != null) {
             this._ignTokens_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -192,22 +165,17 @@ public final class AGrammar extends PGrammar
         this._ignTokens_ = node;
     }
 
-    public PProductions getProductions()
-    {
+    public PProductions getProductions() {
         return this._productions_;
     }
 
-    public void setProductions(PProductions node)
-    {
-        if(this._productions_ != null)
-        {
+    public void setProductions(PProductions node) {
+        if (this._productions_ != null) {
             this._productions_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -217,22 +185,17 @@ public final class AGrammar extends PGrammar
         this._productions_ = node;
     }
 
-    public PAst getAst()
-    {
+    public PAst getAst() {
         return this._ast_;
     }
 
-    public void setAst(PAst node)
-    {
-        if(this._ast_ != null)
-        {
+    public void setAst(PAst node) {
+        if (this._ast_ != null) {
             this._ast_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -243,59 +206,50 @@ public final class AGrammar extends PGrammar
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._package_)
-            + toString(this._helpers_)
-            + toString(this._states_)
-            + toString(this._tokens_)
-            + toString(this._ignTokens_)
-            + toString(this._productions_)
-            + toString(this._ast_);
+                + toString(this._package_)
+                + toString(this._helpers_)
+                + toString(this._states_)
+                + toString(this._tokens_)
+                + toString(this._ignTokens_)
+                + toString(this._productions_)
+                + toString(this._ast_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._package_.remove(child))
-        {
+        if (this._package_.remove(child)) {
             return;
         }
 
-        if(this._helpers_ == child)
-        {
+        if (this._helpers_ == child) {
             this._helpers_ = null;
             return;
         }
 
-        if(this._states_ == child)
-        {
+        if (this._states_ == child) {
             this._states_ = null;
             return;
         }
 
-        if(this._tokens_ == child)
-        {
+        if (this._tokens_ == child) {
             this._tokens_ = null;
             return;
         }
 
-        if(this._ignTokens_ == child)
-        {
+        if (this._ignTokens_ == child) {
             this._ignTokens_ = null;
             return;
         }
 
-        if(this._productions_ == child)
-        {
+        if (this._productions_ == child) {
             this._productions_ = null;
             return;
         }
 
-        if(this._ast_ == child)
-        {
+        if (this._ast_ == child) {
             this._ast_ = null;
             return;
         }
@@ -304,15 +258,11 @@ public final class AGrammar extends PGrammar
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<TPkgId> i = this._package_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<TPkgId> i = this._package_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((TPkgId) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -325,38 +275,32 @@ public final class AGrammar extends PGrammar
             }
         }
 
-        if(this._helpers_ == oldChild)
-        {
+        if (this._helpers_ == oldChild) {
             setHelpers((PHelpers) newChild);
             return;
         }
 
-        if(this._states_ == oldChild)
-        {
+        if (this._states_ == oldChild) {
             setStates((PStates) newChild);
             return;
         }
 
-        if(this._tokens_ == oldChild)
-        {
+        if (this._tokens_ == oldChild) {
             setTokens((PTokens) newChild);
             return;
         }
 
-        if(this._ignTokens_ == oldChild)
-        {
+        if (this._ignTokens_ == oldChild) {
             setIgnTokens((PIgnTokens) newChild);
             return;
         }
 
-        if(this._productions_ == oldChild)
-        {
+        if (this._productions_ == oldChild) {
             setProductions((PProductions) newChild);
             return;
         }
 
-        if(this._ast_ == oldChild)
-        {
+        if (this._ast_ == oldChild) {
             setAst((PAst) newChild);
             return;
         }

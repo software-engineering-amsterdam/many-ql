@@ -7,19 +7,17 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
+import java.util.Comparator;
 
 @SuppressWarnings("rawtypes")
-public class StringComparator implements Comparator
-{
-  public final static StringComparator instance = new StringComparator();
+public class StringComparator implements Comparator {
+    public final static StringComparator instance = new StringComparator();
 
-  private StringComparator()
-  {}
+    private StringComparator() {
+    }
 
-  @Override
-  public int compare(Object o1, Object o2)
-  {
-    return ((String) o1).compareTo((String) o2);
-  }
+    @Override
+    public int compare(Object o1, Object o2) {
+        return ((String) o1).compareTo((String) o2);
+    }
 }

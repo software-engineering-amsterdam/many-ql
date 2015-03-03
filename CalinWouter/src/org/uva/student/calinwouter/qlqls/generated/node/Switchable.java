@@ -2,7 +2,6 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-public interface Switchable
-{
+public interface Switchable {
     void apply(Switch sw);
 }

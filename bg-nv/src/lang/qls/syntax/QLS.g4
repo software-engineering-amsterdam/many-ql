@@ -1,7 +1,5 @@
 grammar QLS;
 
-import Types, Ident, Comments;
-
 stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
 page : 'page' Identifier '{' (statement)+ '}';
@@ -15,17 +13,59 @@ question : 'question' Identifier ('{' (stylesheetRule)+ '}')?;
 defaultStmt : 'default' QuestionType '{' (stylesheetRule)+ '}';
 
 stylesheetRule
-    : 'width' ':' Integer
-    | 'fontsize' ':' Integer
-    | 'font' ':' String
-    | 'color' ':' Color
-    | 'widget' WidgetType;
+    : label='width' ':' Integer
+    | label='fontsize' ':' Integer
+    | label='font' ':' String
+    | label='color' ':' Color
+    | label='widget' WidgetType ('(' (stringAgrs ) ')')?;
+
+stringAgrs : (String ',')* String;
 
 fragment Hex : [0-9A-F];
+
+fragment Letter : [a-zA-Z];
+
+fragment Digit : ZeroDigit|NonZeroDigit;
+
+fragment NonZeroDigit : [1-9];
+
+fragment ZeroDigit : [0];
+
+fragment StringCharacter : EscapeSequence | ~[\\];
+
+fragment Quote : ["];
+
+fragment EscapeSequence : '\\' Quote;
+
+QuestionType
+   : 'boolean'
+   | 'decimal'
+   | 'integer'
+   | 'string'
+   ;
+
+Boolean
+   : 'true'
+   | 'false'
+   ;
 
 WidgetType
     : 'spinbox'
     | 'checkbox'
-    | 'radio' ;
+    | 'radio';
 
-Color : [#] Hex Hex Hex Hex Hex Hex;
+Color : '#' Hex Hex Hex Hex Hex Hex;
+
+Integer : (ZeroDigit | NonZeroDigit Digit*);
+
+Decimal : (NonZeroDigit Digit* | ZeroDigit?) '.' Digit+ ;
+
+String : Quote StringCharacter*? Quote;
+
+Identifier : (Letter)(Letter|Digit|'_')*;
+
+Comment : '/*' .*? '*/' -> skip;
+
+LineComment : '//' ~[\r\n]* -> skip;
+
+WS : [ \t\r\n]+ -> skip;

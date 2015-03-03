@@ -155,6 +155,8 @@ class QLSParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
+            self._nested_statement = None # Nested_statementContext
+            self.statements = list() # of Nested_statementContexts
 
         def nested_statement(self, i:int=None):
             if i is None:
@@ -195,7 +197,8 @@ class QLSParser ( Parser ):
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__0) | (1 << QLSParser.T__3) | (1 << QLSParser.T__5) | (1 << QLSParser.T__6) | (1 << QLSParser.T__7))) != 0):
                 self.state = 36
-                self.nested_statement()
+                localctx._nested_statement = self.nested_statement()
+                localctx.statements.append(localctx._nested_statement)
                 self.state = 41
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)

@@ -11,7 +11,7 @@ public class QuestionList implements IKLQItem {
     private ArrayList<Question> list;
 
     public QuestionList(){
-        list = new ArrayList<Question>();
+        list = new ArrayList<>();
     }
 
     public Question get(int index){

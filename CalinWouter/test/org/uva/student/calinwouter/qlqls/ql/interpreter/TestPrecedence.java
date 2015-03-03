@@ -3,14 +3,14 @@ package org.uva.student.calinwouter.qlqls.ql.interpreter;
 import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;
 import org.uva.student.calinwouter.qlqls.generated.parser.ParserException;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.helper.InterpreterHelper;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 
 import java.io.IOException;
 
-import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.*;
-
 import static junit.framework.Assert.assertEquals;
+import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.form;
+import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.value;
 
 public class TestPrecedence {
 

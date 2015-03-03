@@ -2,24 +2,24 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import java.util.*;
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
-public final class AIfStmt extends PStmt
-{
+public final class AIfStmt extends PStmt {
     private PExp _exp_;
     private final LinkedList<PStmt> _thenStmtList_ = new LinkedList<PStmt>();
 
-    public AIfStmt()
-    {
+    public AIfStmt() {
         // Constructor
     }
 
     public AIfStmt(
-        @SuppressWarnings("hiding") PExp _exp_,
-        @SuppressWarnings("hiding") List<?> _thenStmtList_)
-    {
+            @SuppressWarnings("hiding") PExp _exp_,
+            @SuppressWarnings("hiding") List<?> _thenStmtList_) {
         // Constructor
         setExp(_exp_);
 
@@ -28,35 +28,28 @@ public final class AIfStmt extends PStmt
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AIfStmt(
-            cloneNode(this._exp_),
-            cloneList(this._thenStmtList_));
+                cloneNode(this._exp_),
+                cloneList(this._thenStmtList_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAIfStmt(this);
     }
 
-    public PExp getExp()
-    {
+    public PExp getExp() {
         return this._exp_;
     }
 
-    public void setExp(PExp node)
-    {
-        if(this._exp_ != null)
-        {
+    public void setExp(PExp node) {
+        if (this._exp_ != null) {
             this._exp_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -66,24 +59,19 @@ public final class AIfStmt extends PStmt
         this._exp_ = node;
     }
 
-    public LinkedList<PStmt> getThenStmtList()
-    {
+    public LinkedList<PStmt> getThenStmtList() {
         return this._thenStmtList_;
     }
 
-    public void setThenStmtList(List<?> list)
-    {
-        for(PStmt e : this._thenStmtList_)
-        {
+    public void setThenStmtList(List<?> list) {
+        for (PStmt e : this._thenStmtList_) {
             e.parent(null);
         }
         this._thenStmtList_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PStmt e = (PStmt) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -93,25 +81,21 @@ public final class AIfStmt extends PStmt
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._exp_)
-            + toString(this._thenStmtList_);
+                + toString(this._exp_)
+                + toString(this._thenStmtList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._exp_ == child)
-        {
+        if (this._exp_ == child) {
             this._exp_ = null;
             return;
         }
 
-        if(this._thenStmtList_.remove(child))
-        {
+        if (this._thenStmtList_.remove(child)) {
             return;
         }
 
@@ -119,21 +103,16 @@ public final class AIfStmt extends PStmt
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._exp_ == oldChild)
-        {
+        if (this._exp_ == oldChild) {
             setExp((PExp) newChild);
             return;
         }
 
-        for(ListIterator<PStmt> i = this._thenStmtList_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PStmt> i = this._thenStmtList_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PStmt) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

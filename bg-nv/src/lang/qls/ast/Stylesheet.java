@@ -28,4 +28,9 @@ public class Stylesheet extends AstNode
     {
         return this.body;
     }
+
+    public <T> T accept(StylesheetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
+    }
 }

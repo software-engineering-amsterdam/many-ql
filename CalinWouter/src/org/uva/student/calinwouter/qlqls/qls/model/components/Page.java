@@ -41,8 +41,7 @@ public class Page extends AbstractComponent<Page> {
         iModel.casePage(this);
     }
 
-    public Page(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
+    public Page() {
         sections = new LinkedList<Section>();
     }
 }

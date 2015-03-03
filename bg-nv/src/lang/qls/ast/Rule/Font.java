@@ -5,8 +5,14 @@ package lang.qls.ast.Rule;
  */
 public class Font extends Rule<String>
 {
-    public Font(String font)
+    public Font(String font, int lineNumber)
     {
-        super(font);
+        super(font, lineNumber);
+    }
+
+    @Override
+    public <T> T accept(RuleVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

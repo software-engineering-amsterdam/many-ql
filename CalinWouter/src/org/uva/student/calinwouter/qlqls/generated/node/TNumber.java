@@ -2,32 +2,27 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TNumber extends Token
-{
-    public TNumber(String text)
-    {
+public final class TNumber extends Token {
+    public TNumber(String text) {
         setText(text);
     }
 
-    public TNumber(String text, int line, int pos)
-    {
+    public TNumber(String text, int line, int pos) {
         setText(text);
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TNumber(getText(), getLine(), getPos());
+    public Object clone() {
+        return new TNumber(getText(), getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTNumber(this);
     }
 }

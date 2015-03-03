@@ -5,20 +5,17 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AUnExp extends PUnExp
-{
+public final class AUnExp extends PUnExp {
     private PBasic _basic_;
     private PUnOp _unOp_;
 
-    public AUnExp()
-    {
+    public AUnExp() {
         // Constructor
     }
 
     public AUnExp(
-        @SuppressWarnings("hiding") PBasic _basic_,
-        @SuppressWarnings("hiding") PUnOp _unOp_)
-    {
+            @SuppressWarnings("hiding") PBasic _basic_,
+            @SuppressWarnings("hiding") PUnOp _unOp_) {
         // Constructor
         setBasic(_basic_);
 
@@ -27,35 +24,28 @@ public final class AUnExp extends PUnExp
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AUnExp(
-            cloneNode(this._basic_),
-            cloneNode(this._unOp_));
+                cloneNode(this._basic_),
+                cloneNode(this._unOp_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAUnExp(this);
     }
 
-    public PBasic getBasic()
-    {
+    public PBasic getBasic() {
         return this._basic_;
     }
 
-    public void setBasic(PBasic node)
-    {
-        if(this._basic_ != null)
-        {
+    public void setBasic(PBasic node) {
+        if (this._basic_ != null) {
             this._basic_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -65,22 +55,17 @@ public final class AUnExp extends PUnExp
         this._basic_ = node;
     }
 
-    public PUnOp getUnOp()
-    {
+    public PUnOp getUnOp() {
         return this._unOp_;
     }
 
-    public void setUnOp(PUnOp node)
-    {
-        if(this._unOp_ != null)
-        {
+    public void setUnOp(PUnOp node) {
+        if (this._unOp_ != null) {
             this._unOp_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -91,25 +76,21 @@ public final class AUnExp extends PUnExp
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._basic_)
-            + toString(this._unOp_);
+                + toString(this._basic_)
+                + toString(this._unOp_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._basic_ == child)
-        {
+        if (this._basic_ == child) {
             this._basic_ = null;
             return;
         }
 
-        if(this._unOp_ == child)
-        {
+        if (this._unOp_ == child) {
             this._unOp_ = null;
             return;
         }
@@ -118,17 +99,14 @@ public final class AUnExp extends PUnExp
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._basic_ == oldChild)
-        {
+        if (this._basic_ == oldChild) {
             setBasic((PBasic) newChild);
             return;
         }
 
-        if(this._unOp_ == oldChild)
-        {
+        if (this._unOp_ == oldChild) {
             setUnOp((PUnOp) newChild);
             return;
         }

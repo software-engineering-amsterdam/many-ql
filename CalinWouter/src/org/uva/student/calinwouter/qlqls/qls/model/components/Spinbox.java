@@ -9,10 +9,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCal
 // TODO
 public class Spinbox extends AbstractWidget<Spinbox> {
 
-    public Spinbox(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     @Override
     public void apply(IModel iModel) {
         iModel.caseSpinbox(this);

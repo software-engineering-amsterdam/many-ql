@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIdBasic extends PBasic
-{
+public final class AIdBasic extends PBasic {
     private TId _id_;
 
-    public AIdBasic()
-    {
+    public AIdBasic() {
         // Constructor
     }
 
     public AIdBasic(
-        @SuppressWarnings("hiding") TId _id_)
-    {
+            @SuppressWarnings("hiding") TId _id_) {
         // Constructor
         setId(_id_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AIdBasic(
-            cloneNode(this._id_));
+                cloneNode(this._id_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAIdBasic(this);
     }
 
-    public TId getId()
-    {
+    public TId getId() {
         return this._id_;
     }
 
-    public void setId(TId node)
-    {
-        if(this._id_ != null)
-        {
+    public void setId(TId node) {
+        if (this._id_ != null) {
             this._id_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AIdBasic extends PBasic
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._id_);
+                + toString(this._id_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._id_ == child)
-        {
+        if (this._id_ == child) {
             this._id_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AIdBasic extends PBasic
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._id_ == oldChild)
-        {
+        if (this._id_ == oldChild) {
             setId((TId) newChild);
             return;
         }

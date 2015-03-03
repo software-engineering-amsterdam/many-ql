@@ -39,7 +39,7 @@ public class TypeRenderer extends AnalysisAdapter {
         widget = textBoxWidget.getWidget();
     }
 
-    public TypeRenderer(String identifier, HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker){
+    public TypeRenderer(String identifier, HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker) {
         this.headlessFormInterpreter = headlessFormInterpreter;
         this.formTypeChecker = formTypeChecker;
         this.identifier = identifier;

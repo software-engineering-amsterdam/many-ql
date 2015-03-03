@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PTokens extends Node
-{
+public abstract class PTokens extends Node {
     // Empty body
 }

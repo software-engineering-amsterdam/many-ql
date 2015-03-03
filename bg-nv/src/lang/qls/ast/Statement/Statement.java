@@ -7,4 +7,10 @@ import lang.ql.ast.AstNode;
  */
 public abstract class Statement extends AstNode
 {
+    public Statement(int lineNumber)
+    {
+        super(lineNumber);
+    }
+
+    public abstract <T> T accept(StatementVisitor<T> visitor);
 }

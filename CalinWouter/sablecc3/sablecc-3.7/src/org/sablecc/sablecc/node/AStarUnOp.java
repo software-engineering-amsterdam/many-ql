@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AStarUnOp extends PUnOp
-{
+public final class AStarUnOp extends PUnOp {
     private TStar _star_;
 
-    public AStarUnOp()
-    {
+    public AStarUnOp() {
         // Constructor
     }
 
     public AStarUnOp(
-        @SuppressWarnings("hiding") TStar _star_)
-    {
+            @SuppressWarnings("hiding") TStar _star_) {
         // Constructor
         setStar(_star_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AStarUnOp(
-            cloneNode(this._star_));
+                cloneNode(this._star_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAStarUnOp(this);
     }
 
-    public TStar getStar()
-    {
+    public TStar getStar() {
         return this._star_;
     }
 
-    public void setStar(TStar node)
-    {
-        if(this._star_ != null)
-        {
+    public void setStar(TStar node) {
+        if (this._star_ != null) {
             this._star_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AStarUnOp extends PUnOp
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._star_);
+                + toString(this._star_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._star_ == child)
-        {
+        if (this._star_ == child) {
             this._star_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AStarUnOp extends PUnOp
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._star_ == oldChild)
-        {
+        if (this._star_ == oldChild) {
             setStar((TStar) newChild);
             return;
         }

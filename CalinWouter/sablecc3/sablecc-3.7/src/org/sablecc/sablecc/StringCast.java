@@ -8,16 +8,14 @@
 package org.sablecc.sablecc;
 
 
-public class StringCast implements Cast
-{
-  public final static StringCast instance = new StringCast();
+public class StringCast implements Cast {
+    public final static StringCast instance = new StringCast();
 
-  private StringCast()
-  {}
+    private StringCast() {
+    }
 
-  @Override
-  public  Object cast(Object o)
-  {
-    return (String) o;
-  }
+    @Override
+    public Object cast(Object o) {
+        return (String) o;
+    }
 }

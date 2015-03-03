@@ -44,7 +44,7 @@ public abstract class StmtInterpreter<T extends FormInterpreter> extends Analysi
             } else {
                 executeStmtList(node.getElseStmtList());
             }
-        } catch(InterpretationException e) {
+        } catch (InterpretationException e) {
             formInterpreter.notifyTypeChecker(e);
         }
     }
@@ -55,7 +55,7 @@ public abstract class StmtInterpreter<T extends FormInterpreter> extends Analysi
             if (testBoolean(node.getExp())) {
                 executeStmtList(node.getThenStmtList());
             }
-        } catch(InterpretationException e) {
+        } catch (InterpretationException e) {
             formInterpreter.notifyTypeChecker(e);
         }
     }

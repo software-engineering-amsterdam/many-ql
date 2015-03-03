@@ -5,8 +5,14 @@ package lang.qls.ast.Rule;
  */
 public class FontSize extends Rule<Integer>
 {
-    public FontSize(int fontSize)
+    public FontSize(int fontSize, int lineNumber)
     {
-        super(fontSize);
+        super(fontSize, lineNumber);
+    }
+
+    @Override
+    public <T> T accept(RuleVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

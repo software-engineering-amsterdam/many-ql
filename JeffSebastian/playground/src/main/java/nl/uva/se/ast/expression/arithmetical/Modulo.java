@@ -2,7 +2,7 @@ package nl.uva.se.ast.expression.arithmetical;
 
 import nl.uva.se.ast.expression.Binary;
 import nl.uva.se.ast.expression.Expression;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.visitor.ExpressionVisitor;
 
 public class Modulo extends Binary{
 
@@ -12,8 +12,8 @@ public class Modulo extends Binary{
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

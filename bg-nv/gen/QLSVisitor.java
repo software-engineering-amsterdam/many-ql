@@ -17,17 +17,17 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStylesheet(@NotNull QLSParser.StylesheetContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStatement(@NotNull QLSParser.StatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link QLSParser#page}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPage(@NotNull QLSParser.PageContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(@NotNull QLSParser.StatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLSParser#section}.
 	 * @param ctx the parse tree
@@ -52,4 +52,22 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStylesheetRule(@NotNull QLSParser.StylesheetRuleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#stringAgrs}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringAgrs(@NotNull QLSParser.StringAgrsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#intArgs}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntArgs(@NotNull QLSParser.IntArgsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#decArgs}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecArgs(@NotNull QLSParser.DecArgsContext ctx);
 }

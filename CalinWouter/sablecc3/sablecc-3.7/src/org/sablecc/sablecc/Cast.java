@@ -7,7 +7,6 @@
 
 package org.sablecc.sablecc;
 
-public interface Cast
-{
-  Object cast(Object o);
+public interface Cast {
+    Object cast(Object o);
 }

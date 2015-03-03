@@ -1,6 +1,9 @@
 package org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless;
 
-import org.uva.student.calinwouter.qlqls.generated.node.*;
+import org.uva.student.calinwouter.qlqls.generated.node.AIfStmt;
+import org.uva.student.calinwouter.qlqls.generated.node.AIfelseStmt;
+import org.uva.student.calinwouter.qlqls.generated.node.AQuestionStmt;
+import org.uva.student.calinwouter.qlqls.generated.node.AValueStmt;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.ExpInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.FormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.StmtInterpreter;
@@ -28,7 +31,7 @@ public class HeadlessStmtInterpreter extends StmtInterpreter {
         // TODO it may crash here if not all fields are correcrly set.
         try {
             node.getExp().apply(expInterpreter);
-        } catch(Exception e) {
+        } catch (Exception e) {
             formInterpreter.setField(node.getIdent().getText(), null);
             return;
         }

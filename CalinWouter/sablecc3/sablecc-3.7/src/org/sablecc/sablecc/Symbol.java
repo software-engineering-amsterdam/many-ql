@@ -7,147 +7,125 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
+import java.util.TreeMap;
+import java.util.Vector;
 
-@SuppressWarnings({"rawtypes","unchecked"})
-final class Symbol implements Comparable
-{
-  private static Vector terminals;
-  private static Vector nonterminals;
-  private static TreeMap names;
+@SuppressWarnings({"rawtypes", "unchecked"})
+final class Symbol implements Comparable {
+    private static Vector terminals;
+    private static Vector nonterminals;
+    private static TreeMap names;
 
-  private static boolean modified_ = true;
-  private static Symbol[] symbols_;
-  private static Symbol[] terminals_;
-  private static Symbol[] nonterminals_;
+    private static boolean modified_ = true;
+    private static Symbol[] symbols_;
+    private static Symbol[] terminals_;
+    private static Symbol[] nonterminals_;
 
-  final String name;
-  final String errorName;
-  final boolean terminal;
-  final int index;
+    final String name;
+    final String errorName;
+    final boolean terminal;
+    final int index;
 
-  static {
-    reinit();
-  }
-
-  Symbol(String name, String errorName, boolean terminal)
-  {
-    if(names.get(name) != null)
-    {
-      throw new IllegalArgumentException("The symbol " + name + " aready exists.");
+    static {
+        reinit();
     }
 
-    if(terminal)
-    {
-      terminals.addElement(this);
-      this.index = terminals.indexOf(this);
-    }
-    else
-    {
-      nonterminals.addElement(this);
-      this.index = nonterminals.indexOf(this);
-    }
+    Symbol(String name, String errorName, boolean terminal) {
+        if (names.get(name) != null) {
+            throw new IllegalArgumentException("The symbol " + name + " aready exists.");
+        }
 
-    this.name = name;
-    this.errorName = errorName;
-    this.terminal = terminal;
-    names.put(name, this);
-    modified_ = true;
-  }
+        if (terminal) {
+            terminals.addElement(this);
+            this.index = terminals.indexOf(this);
+        } else {
+            nonterminals.addElement(this);
+            this.index = nonterminals.indexOf(this);
+        }
 
-  public static void reinit()
-  {
-    terminals = new Vector();
-    nonterminals = new Vector();
-    names = new TreeMap(StringComparator.instance);
-    modified_ = true;
-    symbols_ = null;
-    terminals_ = null;
-    nonterminals_ = null;
-  }
-
-  static Symbol symbol(String name)
-  {
-    return (Symbol) names.get(name);
-  }
-
-  static Symbol symbol(int index, boolean terminal)
-  {
-    if(terminal)
-    {
-      return (Symbol) terminals.elementAt(index);
-    }
-    else
-    {
-      return (Symbol) nonterminals.elementAt(index);
-    }
-  }
-
-  private static void computeArrays()
-  {
-    symbols_ = new Symbol[terminals.size() + nonterminals.size()];
-    terminals_ = new Symbol[terminals.size()];
-    nonterminals_ = new Symbol[nonterminals.size()];
-
-    terminals.copyInto(terminals_);
-    nonterminals.copyInto(nonterminals_);
-    System.arraycopy(terminals_, 0, symbols_, 0, terminals_.length);
-    System.arraycopy(nonterminals_, 0, symbols_, terminals_.length, nonterminals_.length);
-
-    modified_ = false;
-  }
-
-  static Symbol[] symbols()
-  {
-    if(modified_)
-    {
-      computeArrays();
+        this.name = name;
+        this.errorName = errorName;
+        this.terminal = terminal;
+        names.put(name, this);
+        modified_ = true;
     }
 
-    return symbols_;
-  }
-
-  static Symbol[] terminals()
-  {
-    if(modified_)
-    {
-      computeArrays();
+    public static void reinit() {
+        terminals = new Vector();
+        nonterminals = new Vector();
+        names = new TreeMap(StringComparator.instance);
+        modified_ = true;
+        symbols_ = null;
+        terminals_ = null;
+        nonterminals_ = null;
     }
 
-    return terminals_;
-  }
-
-  static Symbol[] nonterminals()
-  {
-    if(modified_)
-    {
-      computeArrays();
+    static Symbol symbol(String name) {
+        return (Symbol) names.get(name);
     }
 
-    return nonterminals_;
-  }
-
-  @Override
-  public String toString()
-  {
-    return name;
-  }
-
-  @Override
-  public int compareTo(Object object)
-  {
-    Symbol symbol = (Symbol) object;
-
-    if(terminal ^ symbol.terminal)
-    {
-      if(terminal)
-      {
-        return 1;
-      }
-
-      return -1;
+    static Symbol symbol(int index, boolean terminal) {
+        if (terminal) {
+            return (Symbol) terminals.elementAt(index);
+        } else {
+            return (Symbol) nonterminals.elementAt(index);
+        }
     }
 
-    return index - symbol.index;
-  }
+    private static void computeArrays() {
+        symbols_ = new Symbol[terminals.size() + nonterminals.size()];
+        terminals_ = new Symbol[terminals.size()];
+        nonterminals_ = new Symbol[nonterminals.size()];
+
+        terminals.copyInto(terminals_);
+        nonterminals.copyInto(nonterminals_);
+        System.arraycopy(terminals_, 0, symbols_, 0, terminals_.length);
+        System.arraycopy(nonterminals_, 0, symbols_, terminals_.length, nonterminals_.length);
+
+        modified_ = false;
+    }
+
+    static Symbol[] symbols() {
+        if (modified_) {
+            computeArrays();
+        }
+
+        return symbols_;
+    }
+
+    static Symbol[] terminals() {
+        if (modified_) {
+            computeArrays();
+        }
+
+        return terminals_;
+    }
+
+    static Symbol[] nonterminals() {
+        if (modified_) {
+            computeArrays();
+        }
+
+        return nonterminals_;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public int compareTo(Object object) {
+        Symbol symbol = (Symbol) object;
+
+        if (terminal ^ symbol.terminal) {
+            if (terminal) {
+                return 1;
+            }
+
+            return -1;
+        }
+
+        return index - symbol.index;
+    }
 }

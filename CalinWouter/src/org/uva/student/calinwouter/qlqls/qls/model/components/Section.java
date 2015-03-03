@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
-import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractComponent;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
@@ -14,7 +13,7 @@ public class Section extends AbstractComponent<Section> {
     private List<Default> defaultSettings;
     private int arg;
 
-    public String getSectionName(){
+    public String getSectionName() {
         return ident;
     }
 
@@ -49,8 +48,7 @@ public class Section extends AbstractComponent<Section> {
         iModel.caseSection(this);
     }
 
-    public Section(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
+    public Section() {
         fields = new LinkedList<AbstractFormField<?>>();
         defaultSettings = new LinkedList<Default>();
     }

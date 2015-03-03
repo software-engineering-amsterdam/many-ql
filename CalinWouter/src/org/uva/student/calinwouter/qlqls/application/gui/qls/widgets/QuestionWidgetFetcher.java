@@ -10,10 +10,10 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFo
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Combo;
+import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Radio;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Slider;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCallback;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import java.awt.*;
 

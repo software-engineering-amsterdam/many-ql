@@ -1,8 +1,9 @@
 stylesheet taxOfficeExample {
   page Housing {
     section "Buying"{
-      question hasBoughtHouse  
+      question hasBoughtHouse {
         widget checkbox
+      }
     }
     section "Loaning" {
       question hasMaintLoan
@@ -11,13 +12,17 @@ stylesheet taxOfficeExample {
 
   page Selling {
       section "Selling" {
-        question hasSoldHouse
+        question hasSoldHouse {
           widget radio("Yes", "No")
+        }
+
         section "You sold a house" {
-          question sellingPrice
+          question sellingPrice {
             widget spinbox
-          question privateDebt
+          }
+          question privateDebt {
             widget spinbox
+          }
           question valueResidue
           default decimal {
             width: 400

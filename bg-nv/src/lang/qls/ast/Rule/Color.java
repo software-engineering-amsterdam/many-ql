@@ -5,8 +5,14 @@ package lang.qls.ast.Rule;
  */
 public class Color extends Rule<String>
 {
-    public Color(String color)
+    public Color(String color, int lineNumber)
     {
-        super(color);
+        super(color, lineNumber);
+    }
+
+    @Override
+    public <T> T accept(RuleVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

@@ -5,7 +5,18 @@ module QLS
 
     class QuestionVisitor < BaseVisitor
       
-      def questions
+      def check(ql_question_names)
+        qls_question_names = question_names
+
+        @errors = (qls_question_names - ql_question_names).map do |question|
+          Exception.new "#{question} found in QLS, not found in QL"
+        end
+        + (ql_question_names - qls_question_names).map do |question|
+          Exception.new "#{question} found in QL, not found in QLS"
+        end
+      end
+
+      def question_names
         (visit @base).flatten
       end
 
@@ -16,7 +27,7 @@ module QLS
       end
 
       def visit_question(question)
-        question
+        question.name
       end
 
       def visit_default(default)

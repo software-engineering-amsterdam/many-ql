@@ -10,7 +10,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTyp
 import java.io.IOException;
 
 import static org.junit.Assert.*;
-import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.*;
+import static org.uva.student.calinwouter.qlqls.ql.helper.QLGeneratorHelper.form;
 
 /**
  * - Reference to undefined questions

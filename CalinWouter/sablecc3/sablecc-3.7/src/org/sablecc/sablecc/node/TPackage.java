@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TPackage extends Token
-{
-    public TPackage()
-    {
+public final class TPackage extends Token {
+    public TPackage() {
         super.setText("Package");
     }
 
-    public TPackage(int line, int pos)
-    {
+    public TPackage(int line, int pos) {
         super.setText("Package");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TPackage(getLine(), getPos());
+    public Object clone() {
+        return new TPackage(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTPackage(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TPackage text.");
     }
 }

@@ -26,9 +26,12 @@ import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.ast.type.Type;
+import nl.uva.se.visitor.ExpressionVisitor;
+import nl.uva.se.visitor.FormVisitor;
+import nl.uva.se.visitor.StatementVisitor;
 
-public class Interpreter implements Visitor {
+public class Interpreter implements FormVisitor, StatementVisitor, ExpressionVisitor<Type> {
 
 	private SymbolTable symbols;
 	
@@ -51,138 +54,137 @@ public class Interpreter implements Visitor {
 	@Override
 	public void visit(Condition condition) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Type visit(Not not) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Not not) {
-		// TODO Auto-generated method stub
+	public Type visit(NotEqual notEqual) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(NotEqual notEqual) {
-		// TODO Auto-generated method stub
+	public Type visit(Or or) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Or or) {
-		// TODO Auto-generated method stub
+	public Type visit(Addition plus) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Addition plus) {
-		// TODO Auto-generated method stub
+	public Type visit(Power power) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Power power) {
-		// TODO Auto-generated method stub
+	public Type visit(Multiply multiply) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Multiply multiply) {
-		// TODO Auto-generated method stub
+	public Type visit(Modulo modulo) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Modulo modulo) {
-		// TODO Auto-generated method stub
+	public Type visit(Negative negative) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Negative negative) {
-		// TODO Auto-generated method stub
+	public Type visit(Positive positive) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Positive positive) {
-		// TODO Auto-generated method stub
+	public Type visit(Substraction minus) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Substraction minus) {
-		// TODO Auto-generated method stub
+	public Type visit(LessThen lessThen) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(LessThen lessThen) {
-		// TODO Auto-generated method stub
+	public Type visit(LessOrEqual lessOrEqual) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(LessOrEqual lessOrEqual) {
-		// TODO Auto-generated method stub
+	public Type visit(GreaterThen greaterThen) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(GreaterThen greaterThen) {
-		// TODO Auto-generated method stub
+	public Type visit(GreaterOrEqual greaterOrEqual) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(GreaterOrEqual greaterOrEqual) {
-		// TODO Auto-generated method stub
+	public Type visit(Equal equal) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Equal equal) {
-		// TODO Auto-generated method stub
+	public Type visit(Divide divide) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(Divide divide) {
-		// TODO Auto-generated method stub
+	public Type visit(And and) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(And and) {
-		// TODO Auto-generated method stub
+	public Type visit(BooleanLiteral booleanLiteral) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(BooleanLiteral booleanLiteral) {
-		// TODO Auto-generated method stub
+	public Type visit(DecimalLiteral decimalLiteral) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(DecimalLiteral decimalLiteral) {
-		// TODO Auto-generated method stub
+	public Type visit(IntegerLiteral integerLiteral) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(IntegerLiteral integerLiteral) {
-		// TODO Auto-generated method stub
+	public Type visit(StringLiteral stringLiteral) {
+		return null;
 
 	}
 
 	@Override
-	public void visit(StringLiteral stringLiteral) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(Reference reference) {
-		// TODO Auto-generated method stub
+	public Type visit(Reference reference) {
+		return null;
 		
 	}
 

@@ -2,23 +2,20 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AObjectEl extends PObjectEl
-{
+public final class AObjectEl extends PObjectEl {
     private PElement _key_;
     private PElement _value_;
 
-    public AObjectEl()
-    {
+    public AObjectEl() {
         // Constructor
     }
 
     public AObjectEl(
-        @SuppressWarnings("hiding") PElement _key_,
-        @SuppressWarnings("hiding") PElement _value_)
-    {
+            @SuppressWarnings("hiding") PElement _key_,
+            @SuppressWarnings("hiding") PElement _value_) {
         // Constructor
         setKey(_key_);
 
@@ -27,35 +24,28 @@ public final class AObjectEl extends PObjectEl
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AObjectEl(
-            cloneNode(this._key_),
-            cloneNode(this._value_));
+                cloneNode(this._key_),
+                cloneNode(this._value_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAObjectEl(this);
     }
 
-    public PElement getKey()
-    {
+    public PElement getKey() {
         return this._key_;
     }
 
-    public void setKey(PElement node)
-    {
-        if(this._key_ != null)
-        {
+    public void setKey(PElement node) {
+        if (this._key_ != null) {
             this._key_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -65,22 +55,17 @@ public final class AObjectEl extends PObjectEl
         this._key_ = node;
     }
 
-    public PElement getValue()
-    {
+    public PElement getValue() {
         return this._value_;
     }
 
-    public void setValue(PElement node)
-    {
-        if(this._value_ != null)
-        {
+    public void setValue(PElement node) {
+        if (this._value_ != null) {
             this._value_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -91,25 +76,21 @@ public final class AObjectEl extends PObjectEl
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._key_)
-            + toString(this._value_);
+                + toString(this._key_)
+                + toString(this._value_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._key_ == child)
-        {
+        if (this._key_ == child) {
             this._key_ = null;
             return;
         }
 
-        if(this._value_ == child)
-        {
+        if (this._value_ == child) {
             this._value_ = null;
             return;
         }
@@ -118,17 +99,14 @@ public final class AObjectEl extends PObjectEl
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._key_ == oldChild)
-        {
+        if (this._key_ == oldChild) {
             setKey((PElement) newChild);
             return;
         }
 
-        if(this._value_ == oldChild)
-        {
+        if (this._value_ == oldChild) {
             setValue((PElement) newChild);
             return;
         }

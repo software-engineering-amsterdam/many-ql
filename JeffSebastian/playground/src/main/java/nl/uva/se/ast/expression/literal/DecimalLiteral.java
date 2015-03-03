@@ -1,16 +1,18 @@
 package nl.uva.se.ast.expression.literal;
 
-import nl.uva.se.visitor.Visitor;
+import java.math.BigDecimal;
 
-public class DecimalLiteral extends AbstractLiteral{
+import nl.uva.se.visitor.ExpressionVisitor;
 
-	public DecimalLiteral(int lineNumber, int offset, String name) {
-		super(lineNumber, offset, name);
+public class DecimalLiteral extends AbstractLiteral<BigDecimal> {
+
+	public DecimalLiteral(int lineNumber, int offset, BigDecimal value) {
+		super(lineNumber, offset, value);
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
-		visitor.visit(this);
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visit(this);
 	}
 
 }

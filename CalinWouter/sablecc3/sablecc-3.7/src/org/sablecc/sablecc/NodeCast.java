@@ -9,16 +9,14 @@ package org.sablecc.sablecc;
 
 import org.sablecc.sablecc.node.*;
 
-public class NodeCast implements Cast
-{
-  public final static NodeCast instance = new NodeCast();
+public class NodeCast implements Cast {
+    public final static NodeCast instance = new NodeCast();
 
-  private NodeCast()
-  {}
+    private NodeCast() {
+    }
 
-  @Override
-  public Object cast(Object o)
-  {
-    return (Node) o;
-  }
+    @Override
+    public Object cast(Object o) {
+        return (Node) o;
+    }
 }
