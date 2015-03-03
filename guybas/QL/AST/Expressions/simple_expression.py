@@ -1,9 +1,10 @@
-from QL.AST.Expressions.expression import *
-from QL.AST.Expressions.complex_expression import *
-from QL.AST.Elements.operators import *
+import QL.AST.Expressions.expression as expression
+import QL.AST.Expressions.complex_expression as complex_expression
+import QL.AST.Elements.operators as operators
+
 
 # Expression without parenthesis
-class SimpleExpression(Expression):
+class SimpleExpression(expression.Expression):
     def __init__(self, expression):
         self.expression = expression
 
@@ -33,5 +34,5 @@ class SimpleExpression(Expression):
 
     def not_expression(self):
         # self.expression
-        x = ComplexExpression([ExtraOperator("not"), self.expression])
+        x = complex_expression.ComplexExpression([operators.ExtraOperator("not"), self.expression])
         return x.expression

@@ -1,7 +1,7 @@
-from QL.AST.Elements.element import *
+import QL.AST.Elements.element as element
 
 
-class Text(Element):
+class Text(element.Element):
     def __init__(self, text):
         self.text = text
 

@@ -75,7 +75,7 @@ class QLS:
     # optionals :: (font | widget)*
     optionals = Optional(Widget.widget)
 
-    # question_style = question : name widget?
+    # question_style = q : name widget?
     question_style = (Suppress("Question") + name + optionals).setParseAction(QLSFactory.make_question_style)
 
     # section :: Section name { question_style+ }

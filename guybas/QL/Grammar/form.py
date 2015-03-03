@@ -1,50 +1,50 @@
 # Grammar of form
 
 import pyparsing as pp
-from QL.Grammar.expressions import *
-from QL.Factory.forms import *
-from QL.Grammar.basic_types import *
+import QL.Grammar.expressions as expressions
+import QL.Factory.forms as forms
+import QL.Grammar.basic_types as basic_types
 
 
 class FormFormat:
 
     # id :: characters
-    id = BasicTypes.characters
+    id = basic_types.BasicTypes.characters
 
     # label :: sentence
-    label = BasicTypes.sentence
+    label = basic_types.BasicTypes.sentence
 
     # answerR :: "bool" | "number" | "text"
-    answerR = pp.Literal(BasicTypes.bool_name) | pp.Literal(BasicTypes.number_name) | pp.Literal(BasicTypes.text_name)
+    answerR = pp.Literal(basic_types.BasicTypes.bool_name) | pp.Literal(basic_types.BasicTypes.number_name) | pp.Literal(basic_types.BasicTypes.text_name)
 
-    # question :: Question id ( answerR ) : label
+    # q :: Question id ( answerR ) : label
     question = \
         (pp.Suppress("Question") + id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + label
-         ).setParseAction(FormFactory.make_question)
+         ).setParseAction(forms.FormFactory.make_question)
 
-    # _statements   :: question+
+    # _statements   :: q+
     questions = pp.OneOrMore(question)
     
     statement = pp.Forward()
 
     # condition :: expr
-    condition = Expressions.expr
+    condition = expressions.Expressions.expr
 
     # pIf :: if ( condition ) { statement+ }
     pIf = \
         (pp.Suppress("if" + pp.Literal("(")) + condition + pp.Suppress(")") + pp.Suppress("{") +
-         pp.OneOrMore(statement) + pp.Suppress("}")).setParseAction(FormFactory.make_if)
+         pp.OneOrMore(statement) + pp.Suppress("}")).setParseAction(forms.FormFactory.make_if)
 
     # pIfElse :: if ( condition ) { statement+ } else { statement+ }
     pIfElse = \
         ((pp.Suppress("if" + pp.Literal("(")) + condition + pp.Suppress(")") + pp.Suppress("{") +
           pp.OneOrMore(statement) + pp.Suppress("}")) + pp.Literal("else") + pp.Suppress("{") + statement + pp.Suppress("}")
-         ).setParseAction(FormFactory.make_else)
+         ).setParseAction(forms.FormFactory.make_else)
 
     # assignment ::
     assignment = \
-        (pp.Suppress("Assignment") + id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + Expressions.expr
-        ).setParseAction(FormFactory.make_assignment)
+        (pp.Suppress("Assignment") + id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + expressions.Expressions.expr
+        ).setParseAction(forms.FormFactory.make_assignment)
 
     # statement :: pIfElse | pIf | statements
     statement <<= \
@@ -54,7 +54,7 @@ class FormFormat:
         assignment
 
     # introduction :: Introduction : sentences
-    introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + BasicTypes.sentences))
+    introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + basic_types.BasicTypes.sentences))
 
     # form :: id _introduction? statement+
     form = (id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()
