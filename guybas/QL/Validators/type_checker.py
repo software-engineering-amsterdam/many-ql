@@ -83,18 +83,18 @@ class TypeChecker:
         :return: True|False|str
         """
         if isinstance(cinput, bool):  # bool class is a subclass of int class
-            type_class = BasicTypes.bool_name
+            type_class = "bool"
         elif isinstance(cinput, (int, float)):  # in python3 int = long
-            type_class = BasicTypes.number_name
+            type_class = "number"
         elif isinstance(cinput, str):  # text str is a subclass of list class
-            type_class = BasicTypes.text_name
+            type_class = "text"
             # str could be int
             if cinput.isdigit():
-                type_class = BasicTypes.number_name
+                type_class = "number"
         elif isinstance(cinput, list):
-            type_class = BasicTypes.list_name
+            type_class = "list"
         elif isinstance(cinput, Operator):
-            type_class = Expressions.operator_name
+            type_class = "operator"
         else:
             raise QException("Undefined input " + str(type(cinput)))
 

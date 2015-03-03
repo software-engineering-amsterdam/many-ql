@@ -10,19 +10,19 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class SpinboxWidget implements IWidget{
+public class SpinboxWidget implements IWidget {
     private JSpinner spinner;
 
     public SpinboxWidget(final Question question, final HeadlessFormInterpreter headlessFormInterpreter) {
-       spinner = new JSpinner(new SpinnerNumberModel());
+        spinner = new JSpinner(new SpinnerNumberModel());
 
-       spinner.addChangeListener(new ChangeListener() {
-           @Override
-           public void stateChanged(ChangeEvent e) {
-               headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
-               headlessFormInterpreter.interpret();
-           }
-       });
+        spinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
+                headlessFormInterpreter.interpret();
+            }
+        });
     }
 
     @Override

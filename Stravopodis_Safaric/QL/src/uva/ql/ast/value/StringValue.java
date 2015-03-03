@@ -6,6 +6,7 @@ public class StringValue extends GenericValue<String> {
 	
 	public StringValue(String _value){
 		this.value = _value;
+		
 	}
 	
 	@Override
@@ -16,6 +17,4 @@ public class StringValue extends GenericValue<String> {
 	@Override
 	public int intValue() {return 0;}
 	
-	@Override
-	public float floatValue() {return 0;}
 }

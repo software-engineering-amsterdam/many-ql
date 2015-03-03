@@ -13,7 +13,7 @@ public class LabelQLWidget {
         return label;
     }
 
-    public LabelQLWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter){
+    public LabelQLWidget(final String identifier, final HeadlessFormInterpreter headlessFormInterpreter) {
         label = new JLabel();
 
         headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {

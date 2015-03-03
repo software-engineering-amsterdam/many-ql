@@ -22,8 +22,4 @@ public class ValueEnvironment {
 	public Map<String, Value> getBindings() {
 		return this.environment;
 	}
-	
-	public void clear() {
-		this.environment.clear();
-	}
 }

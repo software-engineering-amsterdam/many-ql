@@ -12,29 +12,29 @@ import java.util.HashMap;
 
 public class DefaultWidgetSettingsHelper {
 
-    private static WidgetSettingsModel createDefaultBoolWidgetSettings(QLSInterpreter qlsInterpreter) throws NoSuchFieldException,
+    private static WidgetSettingsModel createDefaultBoolWidgetSettings() throws NoSuchFieldException,
             IllegalAccessException {
-        return new WidgetSettingsModel(new Checkbox(qlsInterpreter), "Arial", 12, 0, 400);
+        return new WidgetSettingsModel(new Checkbox(), "Arial", 12, 0, 400);
     }
 
-    private static WidgetSettingsModel createDefaultIntegerWidgetSettings(QLSInterpreter qlsInterpreter) throws NoSuchFieldException,
+    private static WidgetSettingsModel createDefaultIntegerWidgetSettings() throws NoSuchFieldException,
             IllegalAccessException {
-        return new WidgetSettingsModel(new Textbox(qlsInterpreter), "Arial", 12, 0, 400);
+        return new WidgetSettingsModel(new Textbox(), "Arial", 12, 0, 400);
     }
 
-    private static WidgetSettingsModel createDefaultStringWidgetSettings(QLSInterpreter qlsInterpreter) throws NoSuchFieldException,
+    private static WidgetSettingsModel createDefaultStringWidgetSettings() throws NoSuchFieldException,
             IllegalAccessException {
-        return new WidgetSettingsModel(new Textbox(qlsInterpreter), "Arial", 12, 0, 400);
+        return new WidgetSettingsModel(new Textbox(), "Arial", 12, 0, 400);
     }
 
-    public static HashMap<String, WidgetSettingsModel> createDefaultTypeToWidgetSettingsModel(QLSInterpreter qlsInterpreter)
+    public static HashMap<String, WidgetSettingsModel> createDefaultTypeToWidgetSettingsModel()
             throws NoSuchFieldException, IllegalAccessException {
-        HashMap<String,WidgetSettingsModel> defaultTypeToWidgetSettingsModel = new HashMap<String, WidgetSettingsModel>();
-        defaultTypeToWidgetSettingsModel.put(BoolValue.TYPE_REFERENCE, createDefaultBoolWidgetSettings(qlsInterpreter));
+        HashMap<String, WidgetSettingsModel> defaultTypeToWidgetSettingsModel = new HashMap<String, WidgetSettingsModel>();
+        defaultTypeToWidgetSettingsModel.put(BoolValue.TYPE_REFERENCE, createDefaultBoolWidgetSettings());
 
-        defaultTypeToWidgetSettingsModel.put(IntegerValue.TYPE_REFERENCE, createDefaultIntegerWidgetSettings(qlsInterpreter));
+        defaultTypeToWidgetSettingsModel.put(IntegerValue.TYPE_REFERENCE, createDefaultIntegerWidgetSettings());
 
-        defaultTypeToWidgetSettingsModel.put(StringValue.TYPE_REFERENCE, createDefaultStringWidgetSettings(qlsInterpreter));
+        defaultTypeToWidgetSettingsModel.put(StringValue.TYPE_REFERENCE, createDefaultStringWidgetSettings());
         return defaultTypeToWidgetSettingsModel;
     }
 }

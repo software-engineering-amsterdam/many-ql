@@ -5,20 +5,17 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIntervalSet extends PSet
-{
+public final class AIntervalSet extends PSet {
     private PChar _left_;
     private PChar _right_;
 
-    public AIntervalSet()
-    {
+    public AIntervalSet() {
         // Constructor
     }
 
     public AIntervalSet(
-        @SuppressWarnings("hiding") PChar _left_,
-        @SuppressWarnings("hiding") PChar _right_)
-    {
+            @SuppressWarnings("hiding") PChar _left_,
+            @SuppressWarnings("hiding") PChar _right_) {
         // Constructor
         setLeft(_left_);
 
@@ -27,35 +24,28 @@ public final class AIntervalSet extends PSet
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AIntervalSet(
-            cloneNode(this._left_),
-            cloneNode(this._right_));
+                cloneNode(this._left_),
+                cloneNode(this._right_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAIntervalSet(this);
     }
 
-    public PChar getLeft()
-    {
+    public PChar getLeft() {
         return this._left_;
     }
 
-    public void setLeft(PChar node)
-    {
-        if(this._left_ != null)
-        {
+    public void setLeft(PChar node) {
+        if (this._left_ != null) {
             this._left_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -65,22 +55,17 @@ public final class AIntervalSet extends PSet
         this._left_ = node;
     }
 
-    public PChar getRight()
-    {
+    public PChar getRight() {
         return this._right_;
     }
 
-    public void setRight(PChar node)
-    {
-        if(this._right_ != null)
-        {
+    public void setRight(PChar node) {
+        if (this._right_ != null) {
             this._right_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -91,25 +76,21 @@ public final class AIntervalSet extends PSet
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._left_)
-            + toString(this._right_);
+                + toString(this._left_)
+                + toString(this._right_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._left_ == child)
-        {
+        if (this._left_ == child) {
             this._left_ = null;
             return;
         }
 
-        if(this._right_ == child)
-        {
+        if (this._right_ == child) {
             this._right_ = null;
             return;
         }
@@ -118,17 +99,14 @@ public final class AIntervalSet extends PSet
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._left_ == oldChild)
-        {
+        if (this._left_ == oldChild) {
             setLeft((PChar) newChild);
             return;
         }
 
-        if(this._right_ == oldChild)
-        {
+        if (this._right_ == oldChild) {
             setRight((PChar) newChild);
             return;
         }

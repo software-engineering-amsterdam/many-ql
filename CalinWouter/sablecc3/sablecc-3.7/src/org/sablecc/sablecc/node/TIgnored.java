@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TIgnored extends Token
-{
-    public TIgnored()
-    {
+public final class TIgnored extends Token {
+    public TIgnored() {
         super.setText("Ignored");
     }
 
-    public TIgnored(int line, int pos)
-    {
+    public TIgnored(int line, int pos) {
         super.setText("Ignored");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TIgnored(getLine(), getPos());
+    public Object clone() {
+        return new TIgnored(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTIgnored(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TIgnored text.");
     }
 }

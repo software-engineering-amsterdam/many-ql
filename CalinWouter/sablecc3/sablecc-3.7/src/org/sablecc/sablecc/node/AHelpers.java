@@ -2,58 +2,51 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AHelpers extends PHelpers
-{
+public final class AHelpers extends PHelpers {
     private final LinkedList<PHelperDef> _helperDefs_ = new LinkedList<PHelperDef>();
 
-    public AHelpers()
-    {
+    public AHelpers() {
         // Constructor
     }
 
     public AHelpers(
-        @SuppressWarnings("hiding") List<?> _helperDefs_)
-    {
+            @SuppressWarnings("hiding") List<?> _helperDefs_) {
         // Constructor
         setHelperDefs(_helperDefs_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AHelpers(
-            cloneList(this._helperDefs_));
+                cloneList(this._helperDefs_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAHelpers(this);
     }
 
-    public LinkedList<PHelperDef> getHelperDefs()
-    {
+    public LinkedList<PHelperDef> getHelperDefs() {
         return this._helperDefs_;
     }
 
-    public void setHelperDefs(List<?> list)
-    {
-        for(PHelperDef e : this._helperDefs_)
-        {
+    public void setHelperDefs(List<?> list) {
+        for (PHelperDef e : this._helperDefs_) {
             e.parent(null);
         }
         this._helperDefs_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PHelperDef e = (PHelperDef) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -63,18 +56,15 @@ public final class AHelpers extends PHelpers
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._helperDefs_);
+                + toString(this._helperDefs_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._helperDefs_.remove(child))
-        {
+        if (this._helperDefs_.remove(child)) {
             return;
         }
 
@@ -82,15 +72,11 @@ public final class AHelpers extends PHelpers
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<PHelperDef> i = this._helperDefs_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PHelperDef> i = this._helperDefs_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PHelperDef) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

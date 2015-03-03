@@ -2,17 +2,17 @@ form TaxForm {
 
     // SINGLE LINE COMMENT
     question A "How many houses did you sell in 2014?"
-    answer number is (199)
+    answer number is 199
 
     question B "How many houses did you sell in 2015?"
-    answer number is (A / 2)
+    answer number is A / 2
 
     question C "How many houses did you sell in 2016?"
-    answer boolean is (true)
+    answer boolean is true
 
     if A == 2 {
         question D "How many houses did you sell in 2017?"
-        answer string is ("Test")
+        answer string is "Test"
     } else {
         question E "What was the selling price?"
         answer number

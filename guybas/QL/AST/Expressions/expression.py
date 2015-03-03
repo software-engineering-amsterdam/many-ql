@@ -1,7 +1,3 @@
-# AST for expressions
-from QL.Grammar.expressions import *
-
-
 # Expression interface
 class Expression:
     def __init__(self):

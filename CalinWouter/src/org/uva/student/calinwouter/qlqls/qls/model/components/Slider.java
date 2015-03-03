@@ -10,10 +10,6 @@ public class Slider extends AbstractWidget<Slider> {
     private int arg;
     private int min, max;
 
-    public Slider(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     public Integer getMin() {
         return min;
     }
@@ -29,7 +25,7 @@ public class Slider extends AbstractWidget<Slider> {
 
     @Override
     public void caseInteger(Integer i) {
-        switch(arg) {
+        switch (arg) {
             case 0:
                 min = i;
                 break;

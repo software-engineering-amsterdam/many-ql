@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PAltTransform extends Node
-{
+public abstract class PAltTransform extends Node {
     // Empty body
 }

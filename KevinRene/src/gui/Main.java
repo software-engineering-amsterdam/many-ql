@@ -3,6 +3,7 @@ package gui;
 import javax.swing.JFrame;
 
 import cons.TypeEnvironment;
+import cons.ValueEnvironment;
 import cons.ql.ast.ASTNode;
 import cons.ql.ast.visitor.typechecker.TypeChecker;
 import cons.ql.parser.Parser;
@@ -10,32 +11,50 @@ import cons.ql.parser.Parser;
 public class Main {
 	
 	public static final String form = "form taxOfficeExample { "
-			+ "   hasSoldHouse: string {"
-			+ "        \"Did you sell a house in 2010?\""
+			+ "    firstValue: integer {"
+			+ "        \"First value:\""
 			+ "    }"
-			+ "    hasBoughtHouse: boolean {"
-			+ "        \"Did you buy a house in 2010?\""
+			+ "    secondValue: integer {"
+			+ "        \"Second value:\""
 			+ "    }"
-			+ "    hasMaintLoan: boolean {"
-			+ "        \"Did you enter a loan?\""
-			+ "    }"
-			+ "    assignedValue: string {"
-			+ "        \"is the IF visible?\""
-			+ "			assign(hasSoldHouse)"
+			+ "    assignedValue: integer {"
+			+ "        \"Addition of first and second value: \""
+			+ "			assign(firstValue + secondValue)"
 			+ "    }"
 			+ ""
+			+ "    booleanValue: boolean { "
+			+ "        \"Are you awesome?\""
+			+ "    }"
 			+ ""
-			+ "    if (hasSoldHouse == \"yes\") {"
-			+ "        sellingPrice: money {"
+			+ "	   booleanValueCopy: boolean { "
+			+ "        \"Copies the question above\""
+			+ "        assign(booleanValue)"
+			+ "    }"
+			+ ""
+			+ "    if (booleanValue || firstValue == 10) {"
+			+ "        sellingPrice: integer {"
 			+ "            \"What was the selling price?\""
 			+ "        }"
-			+ "        privateDebt: money {"
+			+ "        privateDebt: integer {"
 			+ "            \"Private debts for the sold house:\" "
 			+ "        }"
 			+ ""
-			+ "        valueResidue: money {"
+			+ "        valueResidue: integer {"
 			+ "            \"Value residue:\""
 			+ "            assign(sellingPrice - privateDebt)"
+			+ "        }"
+			+ "        if (firstValue == 100) {"
+			+ "            lol: string {"
+			+ "	               \"is this IF active??\""
+			+ "            }"
+			+ "        }"
+			+ "    }"
+			+ "    else {"
+			+ "        lol2: string {"
+			+ "	           \"This is the else\""
+			+ "        }"
+			+ "        lol3: integer {"
+			+ "	           \"This is the else second\""
 			+ "        }"
 			+ "    }"
 			+ "}";
@@ -54,13 +73,16 @@ public class Main {
         Parser formParser = new Parser();
         ASTNode tree = formParser.parse(form);
 		TypeEnvironment register = new TypeEnvironment();
+		ValueEnvironment valueEnv = new ValueEnvironment();
 		
 		if(!TypeChecker.check(tree, register)) {
 			System.out.println("Type error detected in the form.");
 			System.exit(0);
 		}
 		
-		ComponentCreator.check(frame.getContentPane(), tree);
+		//JScrollPane scrollPane = new JScrollPane(ComponentCreator.check(tree, valueEnv));
+		
+		frame.getContentPane().add(ComponentCreator.check(tree, frame, valueEnv).getComponent());
  
         //Display the window.
         frame.pack();

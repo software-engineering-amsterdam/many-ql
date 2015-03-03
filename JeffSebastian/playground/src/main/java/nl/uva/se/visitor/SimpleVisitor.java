@@ -27,7 +27,7 @@ import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
 
-public class SimpleVisitor implements Visitor {
+public class SimpleVisitor implements FormVisitor, StatementVisitor, ExpressionVisitor<Void> {
 
 	@Override
 	public void visit(Form form) {
@@ -53,133 +53,123 @@ public class SimpleVisitor implements Visitor {
 	}
 
 	@Override
-	public void visit(Not not) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Not not) {
+		return null;
 	}
 
 	@Override
-	public void visit(NotEqual notEqual) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(NotEqual notEqual) {
+		return null;
 	}
 
 	@Override
-	public void visit(Or or) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Or or) {
+		return null;
 	}
 
 	@Override
-	public void visit(Addition plus) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Addition plus) {
+		return null;
 	}
 
 	@Override
-	public void visit(Power power) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Power power) {
+		return null;
 	}
 
 	@Override
-	public void visit(Multiply multiply) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Multiply multiply) {
+		return null;
 	}
 
 	@Override
-	public void visit(Modulo modulo) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Modulo modulo) {
+		return null;
 	}
 
 	@Override
-	public void visit(Substraction minus) {
+	public Void visit(Substraction minus) {
 		System.out.print("(");
 		minus.getLeft().accept(this);
 		System.out.print("-");
 		minus.getRight().accept(this);
 		System.out.print(")");
+		return null;
 	}
 
 	@Override
-	public void visit(LessThen lessThen) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(LessThen lessThen) {
+		return null;
 	}
 
 	@Override
-	public void visit(LessOrEqual lessOrEqual) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(LessOrEqual lessOrEqual) {
+		return null;
 	}
 
 	@Override
-	public void visit(GreaterThen greaterThen) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(GreaterThen greaterThen) {
+		return null;
 	}
 
 	@Override
-	public void visit(GreaterOrEqual greaterOrEqual) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(GreaterOrEqual greaterOrEqual) {
+		return null;
 	}
 
 	@Override
-	public void visit(Equal equal) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Equal equal) {
+		return null;
 	}
 
 	@Override
-	public void visit(Divide divide) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Divide divide) {
+		return null;
 	}
 
 	@Override
-	public void visit(And and) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(And and) {
+		return null;
 	}
 
 	@Override
-	public void visit(BooleanLiteral booleanLiteral) {
-		System.out.println("Boolean: " + booleanLiteral.getName());
+	public Void visit(BooleanLiteral booleanLiteral) {
+		System.out.println("Boolean: " + booleanLiteral.getValue());
+		return null;
 	}
 
 	@Override
-	public void visit(DecimalLiteral decimalLiteral) {
-		System.out.println("Decimal: " + decimalLiteral.getName());
+	public Void visit(DecimalLiteral decimalLiteral) {
+		System.out.println("Decimal: " + decimalLiteral.getValue());
+		return null;
 	}
 
 	@Override
-	public void visit(IntegerLiteral integerLiteral) {
-		System.out.print(integerLiteral.getName());
+	public Void visit(IntegerLiteral integerLiteral) {
+		System.out.print(integerLiteral.getValue());
+		return null;
 	}
 
 	@Override
-	public void visit(StringLiteral stringLiteral) {
-		System.out.println("String: " + stringLiteral.getName());
+	public Void visit(StringLiteral stringLiteral) {
+		System.out.println("String: " + stringLiteral.getValue());
+		return null;
 	}
 
 	@Override
-	public void visit(Negative negative) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Negative negative) {
+		return null;
 	}
 
 	@Override
-	public void visit(Positive positive) {
-		// TODO Auto-generated method stub
-		
+	public Void visit(Positive positive) {
+		return null;
 	}
 
 	@Override
-	public void visit(Reference reference) {
+	public Void visit(Reference reference) {
 		System.out.println("Reference: " + reference.getName());
+		return null;
 	}
 
 }

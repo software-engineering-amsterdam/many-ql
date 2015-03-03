@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TStar extends Token
-{
-    public TStar()
-    {
+public final class TStar extends Token {
+    public TStar() {
         super.setText("*");
     }
 
-    public TStar(int line, int pos)
-    {
+    public TStar(int line, int pos) {
         super.setText("*");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TStar(getLine(), getPos());
+    public Object clone() {
+        return new TStar(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTStar(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TStar text.");
     }
 }

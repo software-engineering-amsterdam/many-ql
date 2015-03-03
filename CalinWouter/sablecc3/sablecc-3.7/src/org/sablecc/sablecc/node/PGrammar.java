@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PGrammar extends Node
-{
+public abstract class PGrammar extends Node {
     // Empty body
 }

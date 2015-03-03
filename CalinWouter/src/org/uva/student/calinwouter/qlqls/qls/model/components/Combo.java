@@ -6,10 +6,6 @@ import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCal
 
 public class Combo extends Radio {
 
-    public Combo(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
-
     @Override
     public void applyWidget(Question question, IQuestionWidgetCallback widgetCallback, WidgetSettingsModel widgetSettingsModel) {
         widgetCallback.caseComboWidget(question, widgetSettingsModel, this);

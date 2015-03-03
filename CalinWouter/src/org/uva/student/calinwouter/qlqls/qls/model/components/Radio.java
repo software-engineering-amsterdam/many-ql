@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractWidget;
@@ -11,10 +10,6 @@ public class Radio extends AbstractWidget<Radio> {
 
     private String yesLbl, noLbl;
     private int arg;
-
-    public Radio(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
-    }
 
     public String getYesLbl() {
         return yesLbl;
@@ -31,7 +26,7 @@ public class Radio extends AbstractWidget<Radio> {
 
     @Override
     public void caseString(String string) {
-        switch(arg) {
+        switch (arg) {
             case 0:
                 yesLbl = string;
                 break;

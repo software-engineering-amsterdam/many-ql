@@ -7,21 +7,18 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
+import java.util.Set;
 
 @SuppressWarnings("rawtypes")
-public class ConflictException extends Exception
-{
-  private Set conflictualProductions;
+public class ConflictException extends Exception {
+    private Set conflictualProductions;
 
-  public ConflictException(Set conflictualProductions, String message)
-  {
-    super(message);
-    this.conflictualProductions = conflictualProductions;
-  }
+    public ConflictException(Set conflictualProductions, String message) {
+        super(message);
+        this.conflictualProductions = conflictualProductions;
+    }
 
-  public Set getConflictualProductions()
-  {
-    return conflictualProductions;
-  }
+    public Set getConflictualProductions() {
+        return conflictualProductions;
+    }
 }

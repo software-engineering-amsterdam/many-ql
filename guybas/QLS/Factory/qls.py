@@ -71,7 +71,13 @@ class QLSFactory:
 
     @staticmethod
     def make_default(tokens):
-        pass
+        print(tokens)
+        if len(tokens) == 2:
+            x = Default(tokens[0], tokens[1], [])
+            print(x)
+            return x
+        else:
+            return Default(tokens[0], tokens[1], tokens[2])
 
     @staticmethod
     def make_page(tokens):

@@ -14,14 +14,14 @@ grammar QL;
 
 prog	: form EOF ;
 
-form	: 'form' Identifier '{' stms+=stat* '}' ;
+form	: 'form' id = Identifier '{' stms+=stat* '}' ;
 
-quest 	: 'question' Identifier 'typeof' primitiveType '{' stms+=stat*'}';
+quest 	: 'question' id = Identifier 'typeof' primitiveType '{' stms+=stat*'}';
 
-stat	: expr
-		| quest
-	 	| ifStatement								
-	 	| assign
+stat	: expr			# CtxExpression
+		| quest			# CtxQuestion
+	 	| ifStatement	# CtxIfStatement					
+	 	| assign		# CtxAssign
 	 	;
 
 assign		: Identifier ':' exp = expr ';' 	# AssignExpr			
@@ -41,22 +41,19 @@ expr 		: LP x = expr RP
 ifStatement		: 'if' '(' expr ')' '{' stms+=stat* '}';
 	
 
-literal		: BooleanLiteral
-			| Integer		
-			| Decimal
-			| Identifier							
+literal		: BooleanLiteral	# CtxBooleanLiteral
+			| Integer			# CtxIntLiteral
+			| Money				# CtxMoneyLiteral
+			| Identifier		# CtxIdentifier	
 			;
 
-QuestionLiteral	: 'OrdinaryQuestion'
-				| 'ComputableQuestion'
-				;
 
 BooleanLiteral 	: 'true'
 				| 'false'
 				;
 
 primitiveType	: 'boolean'
-				| 'decimal'
+				| 'money'
 				| 'string'
 				| 'int'
 				;
@@ -65,7 +62,7 @@ Identifier	: ID_LETTER (ID_LETTER | DIGIT)* ;
 
 Integer		: (DIGIT | ('(-'DIGIT')')) ;
 
-Decimal		: ('(''-')? DIGIT+ '.' DIGIT* ')'? ;
+Money		: Integer;
 
 WS			: (' ' | NL | '\t') -> skip;
 

@@ -5,18 +5,15 @@ package org.sablecc.sablecc.lexer;
 import org.sablecc.sablecc.node.*;
 
 @SuppressWarnings("serial")
-public class LexerException extends Exception
-{
+public class LexerException extends Exception {
     private InvalidToken invalidToken;
-    
-    public LexerException(@SuppressWarnings("hiding") InvalidToken invalidToken, String message)
-    {
+
+    public LexerException(@SuppressWarnings("hiding") InvalidToken invalidToken, String message) {
         super(message);
         this.invalidToken = invalidToken;
     }
 
-    public InvalidToken getToken()
-    {
+    public InvalidToken getToken() {
         return this.invalidToken;
     }
 }

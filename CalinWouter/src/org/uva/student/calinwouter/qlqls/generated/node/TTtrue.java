@@ -2,38 +2,32 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TTtrue extends Token
-{
-    public TTtrue()
-    {
+public final class TTtrue extends Token {
+    public TTtrue() {
         super.setText("true");
     }
 
-    public TTtrue(int line, int pos)
-    {
+    public TTtrue(int line, int pos) {
         super.setText("true");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TTtrue(getLine(), getPos());
+    public Object clone() {
+        return new TTtrue(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTTtrue(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TTtrue text.");
     }
 }

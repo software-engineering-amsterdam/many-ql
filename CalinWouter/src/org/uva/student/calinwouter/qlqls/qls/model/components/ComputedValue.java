@@ -19,8 +19,7 @@ public class ComputedValue extends AbstractFormField<ComputedValue> {
         iModel.caseComputedValue(this);
     }
 
-    public ComputedValue(QLSInterpreter qlsInterpreter) {
-        super(qlsInterpreter);
+    public ComputedValue() {
         stylingArguments = new HashMap<String, Object>();
     }
 }

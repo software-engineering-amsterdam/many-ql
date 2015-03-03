@@ -2,38 +2,32 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.*;
+import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TAnd extends Token
-{
-    public TAnd()
-    {
+public final class TAnd extends Token {
+    public TAnd() {
         super.setText("&&");
     }
 
-    public TAnd(int line, int pos)
-    {
+    public TAnd(int line, int pos) {
         super.setText("&&");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TAnd(getLine(), getPos());
+    public Object clone() {
+        return new TAnd(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTAnd(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TAnd text.");
     }
 }

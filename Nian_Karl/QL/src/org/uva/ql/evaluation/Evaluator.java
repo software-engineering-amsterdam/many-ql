@@ -51,7 +51,6 @@ public class Evaluator implements ExpressionVisitor<Value> {
 		if (contains(name)) {
 			return values.get(name);
 		} else {
-			System.out.println("Question <" + name + "> does not exist.");
 			return new Undefined();
 		}
 	}

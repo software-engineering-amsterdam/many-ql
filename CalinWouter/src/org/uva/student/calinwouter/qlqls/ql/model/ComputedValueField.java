@@ -10,8 +10,7 @@ public class ComputedValueField extends FormField {
         iRenderer.renderComputedValueField(this);
     }
 
-    public ComputedValueField(String lbl, String variable, TypeDescriptor<?> typeDescriptor,
-                              FormInterpreter formInterpreter) {
+    public ComputedValueField(String lbl, String variable, TypeDescriptor<?> typeDescriptor, FormInterpreter formInterpreter) {
         super(lbl, variable, formInterpreter);
     }
 

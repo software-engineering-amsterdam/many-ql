@@ -1,28 +1,71 @@
 grammar QLS;
 
-import Types, Ident, Comments;
+stylesheet :  'stylesheet' Identifier '{' (page)+ '}';
 
-stylesheet :  'stylesheet' Identifier '{'  '}';
+page : 'page' Identifier '{' (statement)+ '}';
 
-page : 'page' Identifier '{' '}';
+statement : section | question | defaultStmt;
 
-section : 'section' String '{' '}';
+section : 'section' String '{' (statement)+ '}';
 
-question : ('question' Identifier) | ('question' Identifier 'widget' WidgetType);
+question : 'question' Identifier ('{' (stylesheetRule)+ '}')?;
 
-default : 'default' Type '{' (style)* '}';
+defaultStmt : 'default' QuestionType '{' (stylesheetRule)+ '}';
 
-style
-    : 'width' ':' Number
-    | 'fontsize' ':' Number
-    | 'font' ':' String
-    | 'color' ':' Color;
+stylesheetRule
+    : label='width' ':' Integer
+    | label='fontsize' ':' Integer
+    | label='font' ':' String
+    | label='color' ':' Color
+    | label='widget' WidgetType ('(' (stringAgrs ) ')')?;
+
+stringAgrs : (String ',')* String;
+
+fragment Hex : [0-9A-F];
+
+fragment Letter : [a-zA-Z];
+
+fragment Digit : ZeroDigit|NonZeroDigit;
+
+fragment NonZeroDigit : [1-9];
+
+fragment ZeroDigit : [0];
+
+fragment StringCharacter : EscapeSequence | ~[\\];
+
+fragment Quote : ["];
+
+fragment EscapeSequence : '\\' Quote;
+
+QuestionType
+   : 'boolean'
+   | 'decimal'
+   | 'integer'
+   | 'string'
+   ;
+
+Boolean
+   : 'true'
+   | 'false'
+   ;
 
 WidgetType
     : 'spinbox'
     | 'checkbox'
-    | 'radio' ;
+    | 'radio';
 
-fragment Hex : [0-9A-F];
+Color : '#' Hex Hex Hex Hex Hex Hex;
 
-Color : [#] Hex Hex Hex Hex Hex Hex;
+Integer : (ZeroDigit | NonZeroDigit Digit*);
+
+Decimal : (NonZeroDigit Digit* | ZeroDigit?) '.' Digit+ ;
+
+String : Quote StringCharacter*? Quote;
+
+Identifier : (Letter)(Letter|Digit|'_')*;
+
+Comment : '/*' .*? '*/' -> skip;
+
+LineComment : '//' ~[\r\n]* -> skip;
+
+WS : [ \t\r\n]+ -> skip;

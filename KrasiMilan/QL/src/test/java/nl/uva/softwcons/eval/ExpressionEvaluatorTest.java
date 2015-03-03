@@ -14,8 +14,7 @@ import nl.uva.softwcons.ast.expression.binary.logical.And;
 import nl.uva.softwcons.ast.expression.binary.logical.Or;
 import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
-import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
-import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
+import nl.uva.softwcons.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.eval.value.BooleanValue;
@@ -24,11 +23,11 @@ import nl.uva.softwcons.eval.value.NumberValue;
 import org.junit.Test;
 
 public class ExpressionEvaluatorTest {
-    private static final IntegerLiteral INT_1 = new IntegerLiteral(1, DUMMY_LINE_INFO);
-    private static final IntegerLiteral INT_2 = new IntegerLiteral(2, DUMMY_LINE_INFO);
+    private static final NumberLiteral INT_1 = new NumberLiteral(1, DUMMY_LINE_INFO);
+    private static final NumberLiteral INT_2 = new NumberLiteral(2, DUMMY_LINE_INFO);
 
-    private static final DecimalLiteral DEC_1_5 = new DecimalLiteral(1.5, DUMMY_LINE_INFO);
-    private static final DecimalLiteral DEC_2_5 = new DecimalLiteral(2.5, DUMMY_LINE_INFO);
+    private static final NumberLiteral DEC_1_5 = new NumberLiteral(1.5, DUMMY_LINE_INFO);
+    private static final NumberLiteral DEC_2_5 = new NumberLiteral(2.5, DUMMY_LINE_INFO);
 
     private static final BooleanLiteral TRUE = new BooleanLiteral(true, DUMMY_LINE_INFO);
     private static final BooleanLiteral FALSE = new BooleanLiteral(false, DUMMY_LINE_INFO);
@@ -117,7 +116,7 @@ public class ExpressionEvaluatorTest {
         assertThat(((BigDecimal) ExpressionEvaluator.evaluate(exprDec, new FormAnswers()).getValue()).compareTo(result))
                 .isEqualTo(0);
 
-        Division exprMixedFromInt = new Division(new IntegerLiteral(3, DUMMY_LINE_INFO), DEC_1_5, DUMMY_LINE_INFO);
+        Division exprMixedFromInt = new Division(new NumberLiteral(3, DUMMY_LINE_INFO), DEC_1_5, DUMMY_LINE_INFO);
         assertThat(ExpressionEvaluator.evaluate(exprMixedFromInt, new FormAnswers())).isExactlyInstanceOf(
                 NumberValue.class);
 

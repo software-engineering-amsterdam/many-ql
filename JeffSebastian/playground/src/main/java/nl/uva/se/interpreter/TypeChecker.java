@@ -1,5 +1,8 @@
 package nl.uva.se.interpreter;
 
+import java.util.Arrays;
+
+import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.ast.expression.arithmetical.Addition;
 import nl.uva.se.ast.expression.arithmetical.Divide;
 import nl.uva.se.ast.expression.arithmetical.Modulo;
@@ -26,176 +29,231 @@ import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.ast.type.BooleanType;
+import nl.uva.se.ast.type.DecimalType;
+import nl.uva.se.ast.type.IntegerType;
+import nl.uva.se.ast.type.StringType;
+import nl.uva.se.ast.type.Type;
+import nl.uva.se.ast.type.TypeFactory;
+import nl.uva.se.ast.type.UndefinedType;
+import nl.uva.se.interpreter.error.ErrorList;
+import nl.uva.se.visitor.ExpressionVisitor;
+import nl.uva.se.visitor.FormVisitor;
+import nl.uva.se.visitor.StatementVisitor;
 
-public class TypeChecker implements Visitor {
+public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVisitor<Type> {
+	
+	private static final Type BOOLEAN = new BooleanType();
+	private static final Type INTEGER = new IntegerType();
+	private static final Type DECIMAL = new DecimalType();
+	private static final Type STRING = new StringType();
 	
 	private SymbolTable symbols;
 	
-	private TypeChecker() {
-		symbols = new SymbolTable();
+	private ErrorList errors;
+	
+	private TypeChecker(SymbolTable symbols) {
+		this.symbols = symbols;
+		this.errors = new ErrorList();
 	}
 	
 	public static SymbolTable run(Form form) {
-		TypeChecker typeChecker = new TypeChecker();
+		SymbolTable symbols = SymbolResolver.resolve(form);
+		TypeChecker typeChecker = new TypeChecker(symbols);
 		typeChecker.visit(form);
 		
 		return typeChecker.symbols;
 	}
-
-	@Override
-	public void visit(Question question) {
-		symbols.addSymbol(question.getId(), question.getType());
-	}
-
-	@Override
-	public void visit(CalculatedQuestion calculatedQuestion) {
-		symbols.addSymbol(calculatedQuestion.getId(),
-				calculatedQuestion.getType());
-	}
-
+	
 	@Override
 	public void visit(Form form) {
 		form.visitChildren(this);
 	}
 
 	@Override
+	public void visit(Question question) {
+	}
+
+	@Override
+	public void visit(CalculatedQuestion calculatedQuestion) {
+		calculatedQuestion.getExpression().accept(this);
+	}
+
+	@Override
 	public void visit(Condition condition) {
-		// TODO Auto-generated method stub
-		
+		condition.getExpression().accept(this);
 	}
 
 	@Override
-	public void visit(Not not) {
-		// TODO Auto-generated method stub
-		not.getSingleExpression().accept(this);
-		
+	public Type visit(Addition plus) {
+		return visitNumericalBinaryExpression(plus.getLeft(), plus.getRight());
 	}
 
 	@Override
-	public void visit(NotEqual notEqual) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Divide divide) {
+		return visitNumericalBinaryExpression(divide.getLeft(), divide.getRight());
 	}
 
 	@Override
-	public void visit(Or or) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Power power) {
+		return visitNumericalBinaryExpression(power.getLeft(), power.getRight());
 	}
 
 	@Override
-	public void visit(Addition plus) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Multiply multiply) {
+		return visitNumericalBinaryExpression(multiply.getLeft(), multiply.getRight());
 	}
 
 	@Override
-	public void visit(Power power) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Modulo modulo) {
+		return visitNumericalBinaryExpression(modulo.getLeft(), modulo.getRight());
 	}
 
 	@Override
-	public void visit(Multiply multiply) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Negative negative) {
+		return visitNumericalUnaryExpression(negative.getSingleExpression());
 	}
 
 	@Override
-	public void visit(Modulo modulo) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Positive positive) {
+		return visitNumericalUnaryExpression(positive.getSingleExpression());
 	}
 
 	@Override
-	public void visit(Negative negative) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Substraction minus) {
+		return visitNumericalBinaryExpression(minus.getLeft(), minus.getRight());
 	}
 
 	@Override
-	public void visit(Positive positive) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Not not) {
+		return visitBooleanUnaryExpression(not.getSingleExpression());
 	}
 
 	@Override
-	public void visit(Substraction minus) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(NotEqual notEqual) {
+		return visitBooleanBinaryExpression(notEqual.getLeft(), notEqual.getRight());
 	}
 
 	@Override
-	public void visit(LessThen lessThen) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Or or) {
+		return visitBooleanBinaryExpression(or.getLeft(), or.getRight());
 	}
 
 	@Override
-	public void visit(LessOrEqual lessOrEqual) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(LessThen lessThen) {
+		return visitBooleanBinaryExpression(lessThen.getLeft(), lessThen.getRight());
 	}
 
 	@Override
-	public void visit(GreaterThen greaterThen) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(LessOrEqual lessOrEqual) {
+		return visitBooleanBinaryExpression(lessOrEqual.getLeft(), lessOrEqual.getRight());
 	}
 
 	@Override
-	public void visit(GreaterOrEqual greaterOrEqual) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(GreaterThen greaterThen) {
+		return visitBooleanBinaryExpression(greaterThen.getLeft(), greaterThen.getRight());
 	}
 
 	@Override
-	public void visit(Equal equal) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(GreaterOrEqual greaterOrEqual) {
+		return visitBooleanBinaryExpression(greaterOrEqual.getLeft(), greaterOrEqual.getRight());
 	}
 
 	@Override
-	public void visit(Divide divide) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(Equal equal) {
+		return visitBooleanBinaryExpression(equal.getLeft(), equal.getRight());
 	}
 
 	@Override
-	public void visit(And and) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(And and) {
+		return visitBooleanBinaryExpression(and.getLeft(), and.getRight());
 	}
 
 	@Override
-	public void visit(BooleanLiteral booleanLiteral) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(BooleanLiteral booleanLiteral) {
+		return new BooleanType();
 	}
 
 	@Override
-	public void visit(DecimalLiteral decimalLiteral) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(DecimalLiteral decimalLiteral) {
+		return new DecimalType();
 	}
 
 	@Override
-	public void visit(IntegerLiteral integerLiteral) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(IntegerLiteral integerLiteral) {
+		return new IntegerType();
 	}
 
 	@Override
-	public void visit(StringLiteral stringLiteral) {
-		// TODO Auto-generated method stub
-		
+	public Type visit(StringLiteral stringLiteral) {
+		return new StringType();
 	}
 
 	@Override
-	public void visit(Reference reference) {
-		// TODO Auto-generated method stub
+	public Type visit(Reference reference) {
+		if (symbols.containsSymbol(reference.getName())) {
+			return symbols.getTypeForSymbol(reference.getName());
+		}
 		
+		errors.addUndefinedTypeError(reference.getLineNumber(), 
+				reference.getOffset(), reference.getName());
+		return new UndefinedType();
+	}
+	
+	private Type getSharedType(Expression left, Expression right) {
+		Type leftType = left.accept(this);
+		Type rightType = right.accept(this);
+		
+		if (leftType.isUndefined() || rightType.isUndefined()) {
+			return new UndefinedType();
+		}
+		
+		if (leftType.equals(rightType)) {
+			return TypeFactory.getTypeForName(leftType.getTypeName());
+		}
+		
+		return new UndefinedType();
+	}
+	
+	private Type visitBooleanBinaryExpression(Expression left, Expression right) {
+		Type sharedType = getSharedType(left, right);
+		if (sharedType.isIn(BOOLEAN, DECIMAL, INTEGER, STRING)) {
+			return new BooleanType();
+		}
+		
+		return new UndefinedType();
+	}
+	
+	private Type visitNumericalBinaryExpression(Expression left, Expression right) {
+		Type sharedType = getSharedType(left, right);
+		if (sharedType.isIn(INTEGER, DECIMAL)) {
+			return TypeFactory.getTypeForName(sharedType.getTypeName());
+		}
+		
+		return new UndefinedType();
+	}
+	
+	private Type visitBooleanUnaryExpression(Expression expr) {
+		Type type = expr.accept(this);
+		
+		if (type.equals(new BooleanType())) {
+			return new BooleanType();
+		}
+		
+		errors.addTypeNotAllowedError(expr.getLineNumber(), 
+				expr.getOffset(), Arrays.asList(BOOLEAN), type);
+		return new UndefinedType();
 	}
 
+	private Type visitNumericalUnaryExpression(Expression expr) {
+		Type type = expr.accept(this);
+		
+		if (type.equals(new IntegerType()) || type.equals(new DecimalType())) {
+			return TypeFactory.getTypeForName(type.getTypeName());
+		}
+		
+		errors.addTypeNotAllowedError(expr.getLineNumber(), 
+				expr.getOffset(), Arrays.asList(INTEGER, DECIMAL), type);
+		return new UndefinedType();
+	}
 }

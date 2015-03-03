@@ -6,6 +6,7 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 /**
  * Value with basic operators. Implementations should support value=null for the typechecker, which basically
  * throws an error in case of an exception or returns the Value with value=null.
+ *
  * @param <T> the type of the value stored internally.
  */
 public abstract class Value<T> {

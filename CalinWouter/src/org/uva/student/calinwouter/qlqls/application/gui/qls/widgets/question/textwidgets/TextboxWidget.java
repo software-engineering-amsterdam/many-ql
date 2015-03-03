@@ -13,7 +13,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
-public class TextboxWidget implements IWidget,TypeCallback {
+public class TextboxWidget implements IWidget, TypeCallback {
     private JTextField widget;
     private HeadlessFormInterpreter headlessFormInterpreter;
     private Question question;
@@ -23,7 +23,7 @@ public class TextboxWidget implements IWidget,TypeCallback {
         this.headlessFormInterpreter = headlessFormInterpreter;
         this.question = question;
 
-        widget.getDocument().addDocumentListener(new DocumentListener(){
+        widget.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateField();
@@ -60,11 +60,10 @@ public class TextboxWidget implements IWidget,TypeCallback {
     public void usesInteger() {
         try {
             headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(Integer.parseInt(widget.getText())));
-        }
-        catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             headlessFormInterpreter.setField(question.getFieldName(), null);
         }
-        }
+    }
 
     @Override
     public void usesString() {

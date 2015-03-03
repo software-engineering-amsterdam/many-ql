@@ -49,6 +49,7 @@ class Spinbox(NumberWidget):
     def pretty_print(self, level=0):
         s = "    " * level + "Spinbox "
         s += self.min + " " + self.max
+        s += "\n"
         return s
 
 

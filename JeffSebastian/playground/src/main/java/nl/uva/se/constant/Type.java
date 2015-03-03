@@ -2,7 +2,9 @@ package nl.uva.se.constant;
 
 public enum Type {
 	BOOLEAN("boolean"),
-	DECIMAL("decimal");
+	DECIMAL("decimal"),
+	INTEGER("integer"),
+	STRING("string");
 	
 	private String name;
 	

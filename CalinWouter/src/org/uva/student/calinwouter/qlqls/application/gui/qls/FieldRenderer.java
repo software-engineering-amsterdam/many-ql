@@ -3,7 +3,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.ComputedValueWidgetFetcher;
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.QuestionWidgetFetcher;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
 import org.uva.student.calinwouter.qlqls.qls.model.components.ComputedValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
@@ -20,7 +20,7 @@ public class FieldRenderer extends AbstractRenderer {
         QuestionWidgetFetcher w = new QuestionWidgetFetcher(headlessFormInterpreter, formTypeChecker);
         try {
             question.applyWidget(w, formTypeChecker.getTypeDescriptor(question.getFieldName()));
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             // This should only occur when the field is used in QLS and not in QL.
             // Checking that there are no references to question
             this.fieldComponent = new JPanel();

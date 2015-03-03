@@ -2,24 +2,24 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AAstAlt extends PAstAlt
-{
+public final class AAstAlt extends PAstAlt {
     private TId _altName_;
     private final LinkedList<PElem> _elems_ = new LinkedList<PElem>();
 
-    public AAstAlt()
-    {
+    public AAstAlt() {
         // Constructor
     }
 
     public AAstAlt(
-        @SuppressWarnings("hiding") TId _altName_,
-        @SuppressWarnings("hiding") List<?> _elems_)
-    {
+            @SuppressWarnings("hiding") TId _altName_,
+            @SuppressWarnings("hiding") List<?> _elems_) {
         // Constructor
         setAltName(_altName_);
 
@@ -28,35 +28,28 @@ public final class AAstAlt extends PAstAlt
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AAstAlt(
-            cloneNode(this._altName_),
-            cloneList(this._elems_));
+                cloneNode(this._altName_),
+                cloneList(this._elems_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAAstAlt(this);
     }
 
-    public TId getAltName()
-    {
+    public TId getAltName() {
         return this._altName_;
     }
 
-    public void setAltName(TId node)
-    {
-        if(this._altName_ != null)
-        {
+    public void setAltName(TId node) {
+        if (this._altName_ != null) {
             this._altName_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -66,24 +59,19 @@ public final class AAstAlt extends PAstAlt
         this._altName_ = node;
     }
 
-    public LinkedList<PElem> getElems()
-    {
+    public LinkedList<PElem> getElems() {
         return this._elems_;
     }
 
-    public void setElems(List<?> list)
-    {
-        for(PElem e : this._elems_)
-        {
+    public void setElems(List<?> list) {
+        for (PElem e : this._elems_) {
             e.parent(null);
         }
         this._elems_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PElem e = (PElem) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -93,25 +81,21 @@ public final class AAstAlt extends PAstAlt
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._altName_)
-            + toString(this._elems_);
+                + toString(this._altName_)
+                + toString(this._elems_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._altName_ == child)
-        {
+        if (this._altName_ == child) {
             this._altName_ = null;
             return;
         }
 
-        if(this._elems_.remove(child))
-        {
+        if (this._elems_.remove(child)) {
             return;
         }
 
@@ -119,21 +103,16 @@ public final class AAstAlt extends PAstAlt
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._altName_ == oldChild)
-        {
+        if (this._altName_ == oldChild) {
             setAltName((TId) newChild);
             return;
         }
 
-        for(ListIterator<PElem> i = this._elems_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PElem> i = this._elems_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PElem) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
