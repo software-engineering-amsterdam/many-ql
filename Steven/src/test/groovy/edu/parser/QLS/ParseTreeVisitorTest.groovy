@@ -14,7 +14,7 @@ import spock.lang.Specification
 /**
  * Created by Steven Kok on 28/02/2015.
  */
-class ParseTreeVisitorTest extends Specification {
+class ParseTreeVisitorTest extends Specification { //todo: create enum with paths to test files; do not call them directly
 
     AntlrParser antlrParser
     ParseTreeVisitor parseTreeVisitor

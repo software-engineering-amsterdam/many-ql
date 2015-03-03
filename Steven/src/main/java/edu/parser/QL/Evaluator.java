@@ -18,7 +18,7 @@ import java.util.Optional;
 /**
  * Created by Steven Kok on 23/02/2015.
  */
-public class Evaluator extends QLVisitorImpl {
+public class Evaluator extends QLVisitorImpl { //todo: should only return list with questions, not a form
 
     private final List<Statement> questions = new ArrayList<>();
 

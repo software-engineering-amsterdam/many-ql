@@ -1,12 +1,12 @@
 stylesheet title{
 
-    question name1
+    question NAME
     page{
         section "section"{
-            question name2
+            question NAME1
         }
         section "another section" {
-            question name3 {
+            question NAME2 {
                 width 40
             }
         }
@@ -15,7 +15,7 @@ stylesheet title{
     page{
     }
 
-    question name4{
+    question NAME2{
         widget SPINBOX
         width 500
         font "arial"

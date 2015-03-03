@@ -18,7 +18,7 @@ public class Question extends Statement {
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private boolean enabled;
+    private boolean enabled; //todo should receive enum State (enabled/disables/unselected)
 
     public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;

@@ -33,6 +33,7 @@ public class TypeChecker implements QLSVisitor {
         this.formQuestions = new ArrayList<>();
     }
 
+    //todo: should accept list with Questions (form) not a form
     public void start(Form form, Stylesheet stylesheet) {
         this.formQuestions.addAll(getQuestions(form));
         visit(stylesheet);

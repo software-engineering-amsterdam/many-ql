@@ -1,10 +1,15 @@
 package edu.parser.QLS
 
+import edu.Main
 import edu.Widgets
 import edu.exceptions.TypeCheckException
+import edu.parser.AntlrParser
+import edu.parser.QL.QLAntlrParser
+import edu.parser.QL.nodes.Form
 import edu.parser.QL.nodes.expression.Identifier
 import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
+import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.styles.Style
 import edu.parser.QLS.nodes.styles.Widget
 import edu.parser.QLS.nodes.styles.Width
@@ -18,9 +23,13 @@ import spock.lang.Specification
 class TypeCheckerTest extends Specification {
 
     TypeChecker typeChecker
+    AntlrParser qlParser
+    AntlrParser qlsParser
 
     def setup() {
         typeChecker = new TypeChecker()
+        qlParser = new QLAntlrParser()
+        qlsParser = new QLSAntlrParser()
     }
 
     def "should throw exception when stylesheet question is not contained in form questions"() {
@@ -71,7 +80,7 @@ class TypeCheckerTest extends Specification {
 
         then:
         def exception = thrown(TypeCheckException.class)
-        Assert.assertEquals(true,exception.message.contains("Widget type is not compatible"))
+        Assert.assertEquals(true, exception.message.contains("Widget type is not compatible"))
     }
 
     def "Should not throw typeCheckException when widget type is compatible"() {
@@ -90,5 +99,19 @@ class TypeCheckerTest extends Specification {
 
         then:
         noExceptionThrown()
+    }
+
+    def "should throw exception for duplicate questions"() {
+        setup:
+
+        Form form = qlParser.parse(Main.PATH_TO_QL_INPUT_FILES + "QL_valid", new edu.parser.QL.ParseTreeVisitor(), Form.class)
+        Stylesheet stylesheet = qlsParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_duplicateQuestions", new ParseTreeVisitor(), Stylesheet.class)
+
+        when:
+        typeChecker.start(form, stylesheet)
+
+        then:
+        def exception = thrown(TypeCheckException.class)
+        true
     }
 }
