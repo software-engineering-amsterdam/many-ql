@@ -10,11 +10,11 @@ import org.fugazi.ql.parser.QLParser;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ASTBuilder {
+public class QLASTBuilder {
 
     private final QLParser parser;
 
-    public ASTBuilder(InputStream inputStream) throws IOException {
+    public QLASTBuilder(InputStream inputStream) throws IOException {
 
         ANTLRInputStream input = new ANTLRInputStream(inputStream);
         QLLexer lexer = new QLLexer(input);
@@ -26,7 +26,7 @@ public class ASTBuilder {
         return (Form) buildFromTree(parser.form());
     }
 
-    private AbstractASTNode buildFromTree(ParseTree tree) {
+    private AbstractASTQLNode buildFromTree(ParseTree tree) {
         return tree.accept(new FugaziQLVisitor());
     }
 }

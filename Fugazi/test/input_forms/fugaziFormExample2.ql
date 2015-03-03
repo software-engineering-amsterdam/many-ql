@@ -7,6 +7,7 @@ form taxOfficeExample {
   bool hasMaintLoan("Did you buy a house in 2010?");
   string name("what is your name");
   int age("How old are you?");
+  bool x("x") = true;
 
   // If a house has been sold.
   if (hasSoldHouse || (age > 15 && age <= 55)) {

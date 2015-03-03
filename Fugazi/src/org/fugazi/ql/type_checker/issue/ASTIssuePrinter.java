@@ -1,13 +1,13 @@
-package org.fugazi.ql.type_checker.error;
+package org.fugazi.ql.type_checker.issue;
 
 import java.util.List;
 
-public class ASTErrorPrinter {
+public class ASTIssuePrinter {
 
-    private List<ASTNodeError> errors;
-    private List<ASTNodeError> warnings;
+    private List<ASTNodeIssue> errors;
+    private List<ASTNodeIssue> warnings;
 
-    public ASTErrorPrinter(List<ASTNodeError> _errors, List<ASTNodeError> _warnings) {
+    public ASTIssuePrinter(List<ASTNodeIssue> _errors, List<ASTNodeIssue> _warnings) {
         this.errors   = _errors;
         this.warnings = _warnings;
     }
@@ -28,7 +28,7 @@ public class ASTErrorPrinter {
      * =======================
      */
 
-    public void displayNodeError(ASTNodeError error) {
+    public void displayNodeError(ASTNodeIssue error) {
         System.err.print(error.getErrorType() + ": ");
         System.err.print(" at line " + error.getLine());
         System.err.println(", expression: " + error.getNode().toString());
@@ -40,7 +40,7 @@ public class ASTErrorPrinter {
         if (this.hasErrors()) {
             System.err.println("\n\n\nFollowing errors found in the form:\n");
         }
-        for (ASTNodeError error : this.errors) {
+        for (ASTNodeIssue error : this.errors) {
             this.displayNodeError(error);
         }
     }
@@ -49,7 +49,7 @@ public class ASTErrorPrinter {
         if (this.hasWarnings()) {
             System.err.println("\n\n\nFollowing warnings found in the form:\n");
         }
-        for (ASTNodeError warning : this.warnings) {
+        for (ASTNodeIssue warning : this.warnings) {
             this.displayNodeError(warning);
         }
     }

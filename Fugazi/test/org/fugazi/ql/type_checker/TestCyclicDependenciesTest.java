@@ -1,7 +1,7 @@
 package org.fugazi.ql.type_checker;
 
-import org.fugazi.ql.type_checker.error.ASTNodeError;
-import org.fugazi.ql.type_checker.error.ASTNodeErrorType;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class TestCyclicDependenciesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeError> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = checker.getErrors();
 
         assertFalse(errors.isEmpty());
         assertEquals(6, errors.size());
@@ -36,21 +36,21 @@ public class TestCyclicDependenciesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testErrorTypes() throws Exception {
-        List<ASTNodeError> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = checker.getErrors();
 
-        List<ASTNodeErrorType> receivedTypes = new ArrayList<>();
+        List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
-        for (ASTNodeError error: errors) {
+        for (ASTNodeIssue error: errors) {
             receivedTypes.add(error.getErrorType());
         }
         // we expect two of each kind
         int cyclicDeps = 0, undefined = 0, wrongAssignment = 0;
-        for (ASTNodeErrorType received : receivedTypes) {
-            if (received.equals(ASTNodeErrorType.ERROR.CYCLIC)) {
+        for (ASTNodeIssueType received : receivedTypes) {
+            if (received.equals(ASTNodeIssueType.ERROR.CYCLIC)) {
                 cyclicDeps++;
-            }  else if (received.equals(ASTNodeErrorType.ERROR.UNDEFINED)) {
+            }  else if (received.equals(ASTNodeIssueType.ERROR.UNDEFINED)) {
                 undefined++;
-            }  else if (received.equals(ASTNodeErrorType.ERROR.TYPE_MISMATCH)) {
+            }  else if (received.equals(ASTNodeIssueType.ERROR.TYPE_MISMATCH)) {
                 wrongAssignment++;
             }
         }
@@ -63,7 +63,7 @@ public class TestCyclicDependenciesTest extends TypeCheckerBaseTest {
 
     @Test
     public void testNoWarnings() throws Exception {
-        List<ASTNodeError> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = checker.getWarnings();
         assertTrue(warnings.isEmpty());
     }
 }
