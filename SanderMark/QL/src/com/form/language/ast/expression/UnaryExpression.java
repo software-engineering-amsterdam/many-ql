@@ -3,6 +3,8 @@ package com.form.language.ast.expression;
 import org.antlr.v4.runtime.Token;
 
 import com.form.language.ast.type.ErrorType;
+import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
 
 public abstract class UnaryExpression implements Expression{
 	public Token tokenInfo;
@@ -21,5 +23,15 @@ public abstract class UnaryExpression implements Expression{
 	public String showTokenInfo(){
 		return "line: " + tokenInfo.getLine();
 	}
+	@Override
+	public void collectIds(IdCollector idCollector) {
+		value.collectIds(idCollector);
+	}
+
+	@Override
+	public void setType(IdTypeTable ids) {
+		value.setType(ids);
+	}
+	
 	
 }

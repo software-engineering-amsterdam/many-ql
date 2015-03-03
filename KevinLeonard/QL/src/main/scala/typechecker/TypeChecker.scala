@@ -50,7 +50,7 @@ class TypeChecker {
           check2 <- check(elseBlock, env).right
         } yield env
       }
-      case Right(_) => Left(new Error(Exception(), "Invalid boolean condition for if statement at line", i.pos))
+      case Right(_) => Left(new Error("Invalid boolean condition for if statement at line", i.pos))
       case Left(e) => Left(e)
     }
   }
@@ -60,34 +60,30 @@ class TypeChecker {
       case None => tryAddQuestionToEnvironment(q, env)
       case Some(e) => check(e, env) match {
         case Right(t: Type) if t == q._type => tryAddQuestionToEnvironment(q, env)
-        case Right(_) => Left(new Error(Exception(), "Invalid expression type for computed question at line", q.pos))
+        case Right(_) => Left(new Error("Invalid expression type for computed question at line", q.pos))
         case Left(e) => Left(e)
       }
     }
   }
 
   def tryAddQuestionToEnvironment(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
-    for {
-      env1 <- env.tryAddVariable(q.variable, q._type).right
-      env2 <- env1.tryAddLabel(q.label, q.pos).right
-    } yield env2
+    env.tryAddVariable(q.variable, q._type)
   }
 
   def checkBooleanExpression(e1: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
     check(e1, env) match {
       case Right(BooleanType()) => Right(BooleanType())
       case Left(e) => Left(e)
-      case _ => Left(new Error(Exception(), "Invalid boolean expression at line", p))
+      case _ => Left(new Error("Invalid boolean expression at line", p))
     }
   }
 
-  // TODO: Fix these (Left, _) and (_, Left) cases
   def checkBooleanExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
     (check(e1, env), check(e2, env)) match {
       case (Right(BooleanType()), Right(BooleanType())) => Right(BooleanType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
-      case _ => Left(new Error(Exception(), "Invalid boolean expression at line", p))
+      case _ => Left(new Error("Invalid boolean expression at line", p))
     }
   }
 
@@ -96,7 +92,7 @@ class TypeChecker {
       case (Right(t1), Right(t2)) if t1 == t2 => Right(BooleanType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
-      case _ => Left(new Error(Exception(), "Invalid equality expression at line", p))
+      case _ => Left(new Error("Invalid equality expression at line", p))
     }
   }
 
@@ -105,7 +101,7 @@ class TypeChecker {
       case (Right(NumberType()), Right(NumberType())) => Right(BooleanType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
-      case _ => Left(new Error(Exception(), "Invalid order expression at line", p))
+      case _ => Left(new Error("Invalid order expression at line", p))
     }
   }
 
@@ -114,7 +110,7 @@ class TypeChecker {
       case (Right(NumberType()), Right(NumberType())) => Right(NumberType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
-      case _ => Left(new Error(Exception(), "Invalid arithmetic expression at line", p))
+      case _ => Left(new Error("Invalid arithmetic expression at line", p))
     }
   }
 }

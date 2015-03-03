@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
     /// <summary>
     /// Checks if variables or questions are defined, not redeclared and used.
     /// </summary>
-    public class VariableUsageCheckingVisitor : ASTVisitor
+    public class VariableUsageCheckingVisitor : QLVisitor
     {
         protected class IdentifierUsageCount
         {
+            public bool IsQuestion
+            {
+                get;
+                private set;
+            }
+
             public Identifier Identifier
             {
                 get;
@@ -28,10 +34,11 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
                 private set;
             }
 
-            public IdentifierUsageCount(Identifier id, int count)
+            public IdentifierUsageCount(Identifier id, bool isQuestion, int count)
             {
                 Identifier = id;
                 UsageCount = count;
+                IsQuestion = isQuestion;
             }
 
             public void Increase() {
@@ -49,7 +56,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         {
             get
             {
-                return DeclaredVariables.Where(dv => dv.Value.UsageCount == 0).Select(dv => dv.Value.Identifier).ToList();
+                return DeclaredVariables.Where(dv => dv.Value.UsageCount == 0 && !dv.Value.IsQuestion).Select(dv => dv.Value.Identifier).ToList();
             }
         }
 
@@ -91,7 +98,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
             if (!DeclaredVariables.Keys.Contains(question.Id.Name))
             {
-                DeclaredVariables.Add(question.Id.Name, new IdentifierUsageCount(question.Id, 0));
+                DeclaredVariables.Add(question.Id.Name, new IdentifierUsageCount(question.Id, true, 0));
             }
             else
             {
@@ -108,7 +115,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
             if (!DeclaredVariables.Keys.Contains(declaration.Id.Name))
             {
-                DeclaredVariables.Add(declaration.Id.Name, new IdentifierUsageCount(declaration.Id, 0));
+                DeclaredVariables.Add(declaration.Id.Name, new IdentifierUsageCount(declaration.Id, false, 0));
             }
             else
             {

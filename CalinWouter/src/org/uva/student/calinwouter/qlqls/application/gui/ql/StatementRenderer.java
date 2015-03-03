@@ -1,10 +1,12 @@
 package org.uva.student.calinwouter.qlqls.application.gui.ql;
 
+import org.uva.student.calinwouter.qlqls.application.gui.ql.widgets.LabelQLWidget;
 import org.uva.student.calinwouter.qlqls.generated.analysis.AnalysisAdapter;
 import org.uva.student.calinwouter.qlqls.generated.node.*;
+import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
-import sun.swing.SwingAccessor;
+import org.uva.student.calinwouter.qlqls.ql.typechecker.FormTypeChecker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +15,7 @@ import java.util.LinkedList;
 public class StatementRenderer extends AnalysisAdapter {
     private HeadlessFormInterpreter headlessFormInterpreter;
     private FormTypeChecker formTypeChecker;
-    private JPanel widget;
+    private final JPanel widget;
 
     public StatementRenderer(HeadlessFormInterpreter headlessFormInterpreter, FormTypeChecker formTypeChecker) {
         widget = new JPanel();
@@ -25,44 +27,61 @@ public class StatementRenderer extends AnalysisAdapter {
         return widget;
     }
 
+    public void setVisibility(String identifier) {
+//        widget.setVisible(headlessFormInterpreter.hasField(identifier));
+        try {
+            headlessFormInterpreter.getLabelForField(identifier);
+            widget.setVisible(true);
+        } catch (LabelNotAvailableException e) {
+            widget.setVisible(false);
+        }
+    }
+
     @Override
     public void caseAQuestionStmt(final AQuestionStmt node) {
         JLabel questLbl = new JLabel(node.getStr().getText());
-        //TODO add widget based on the type (checkbox for bool/textbox for int and string)
         widget.add(questLbl);
-        try {
-            //TODO here is where I should start working on
-            headlessFormInterpreter.getField(node.getIdent().getText());
-            widget.setVisible(true);
-        } catch (NullPointerException e) {
-            widget.setVisible(false);
-            System.out.println("got null exception for " + node.getIdent().getText());
-        }
+        TypeRenderer typeRenderer = new TypeRenderer(node.getIdent().getText(),headlessFormInterpreter,formTypeChecker);
+        node.getType().apply(typeRenderer);
+        widget.add(typeRenderer.getWidget());
+
+        setVisibility(node.getIdent().getText());
+
+        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+            @Override
+            public void onStateChanged() {
+                setVisibility(node.getIdent().getText());
+            }
+        });
     }
 
     @Override
     public void caseAValueStmt(final AValueStmt node) {
         JLabel questLbl = new JLabel(node.getStr().getText());
-        JLabel valueLbl = new JLabel();
-        try {
-            valueLbl.setText(headlessFormInterpreter.getField(node.getIdent().getText()).toString());
-            widget.setVisible(true);
-        }catch (NullPointerException e) {
-            valueLbl.setText("-");
-            widget.setVisible(false);
-        }
+        LabelQLWidget valueLbl = new LabelQLWidget(node.getIdent().getText(), headlessFormInterpreter);
         widget.add(questLbl);
-        widget.add(valueLbl);
+        widget.add(valueLbl.getWidget());
+
+        setVisibility(node.getIdent().getText());
+
+        headlessFormInterpreter.subscribeChangedStateEventListener(new ChangedStateEventListener() {
+            @Override
+            public void onStateChanged() {
+                setVisibility(node.getIdent().getText());
+            }
+        });
     }
 
     @Override
     public void caseAIfelseStmt(AIfelseStmt node) {
+        widget.setLayout(new BoxLayout(widget, BoxLayout.Y_AXIS));
         renderStatements(node.getThenStmtList());
         renderStatements(node.getElseStmtList());
     }
 
     @Override
     public void caseAIfStmt(AIfStmt node) {
+        widget.setLayout(new BoxLayout(widget, BoxLayout.Y_AXIS));
         renderStatements(node.getThenStmtList());
     }
 

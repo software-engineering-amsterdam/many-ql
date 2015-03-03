@@ -37,11 +37,33 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuest(QLParser.QuestContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#stat}.
+	 * Visit a parse tree produced by the {@code CtxExpression}
+	 * labeled alternative in {@link QLParser#stat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStat(QLParser.StatContext ctx);
+	T visitCtxExpression(QLParser.CtxExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxQuestion}
+	 * labeled alternative in {@link QLParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxQuestion(QLParser.CtxQuestionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxIfStatement}
+	 * labeled alternative in {@link QLParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxIfStatement(QLParser.CtxIfStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxAssign}
+	 * labeled alternative in {@link QLParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxAssign(QLParser.CtxAssignContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code AssignExpr}
 	 * labeled alternative in {@link QLParser#assign}.
@@ -69,11 +91,33 @@ public interface QLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(QLParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLParser#literal}.
+	 * Visit a parse tree produced by the {@code CtxBooleanLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLiteral(QLParser.LiteralContext ctx);
+	T visitCtxBooleanLiteral(QLParser.CtxBooleanLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxIntLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxIntLiteral(QLParser.CtxIntLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxMoneyLiteral}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxMoneyLiteral(QLParser.CtxMoneyLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CtxIdentifier}
+	 * labeled alternative in {@link QLParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCtxIdentifier(QLParser.CtxIdentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link QLParser#primitiveType}.
 	 * @param ctx the parse tree

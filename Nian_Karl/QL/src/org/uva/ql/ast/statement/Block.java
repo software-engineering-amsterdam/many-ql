@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.uva.ql.ast.builder.CodePosition;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.StatementVisitor;
 
 public class Block extends Statement {
 
@@ -24,7 +24,7 @@ public class Block extends Statement {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
 

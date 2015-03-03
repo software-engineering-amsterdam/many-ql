@@ -5,7 +5,7 @@ import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.type.Type;
-import org.uva.ql.visitor.Visitor;
+import org.uva.ql.visitor.StatementVisitor;
 
 public class QuestionCompute extends QuestionNormal {
 
@@ -21,10 +21,10 @@ public class QuestionCompute extends QuestionNormal {
 	}
 
 	@Override
-	public <T> T accept(Visitor<T> visitor) {
+	public <T> T accept(StatementVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
+	
 	@Override
 	public String toString() {
 		return super.toString() + "\n\tExpression = " + expression;

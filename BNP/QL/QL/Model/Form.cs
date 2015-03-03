@@ -11,8 +11,11 @@ namespace QL.Model
     {
         public Identifier Identifier { get; set; }
         public Block Block {
-                            get { return Block; }
-                            set{ Children[0]=value;Block = value; }
+                            get { return (Block) Children[0]; }
+                            set {
+                                Children.Clear();
+                                Children.Add(value);
+                                }
                             }
 
         public Form()
@@ -28,5 +31,7 @@ namespace QL.Model
             throw new Exception(identifier+": "+block.ToString()+" is not a block");
             
         }
+
+   
     }
 }

@@ -3,8 +3,7 @@ package nl.uva.softwcons.ast.expression.binary.arithmetic;
 import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.binary.BinaryExpression;
-import nl.uva.softwcons.ast.type.DecimalType;
-import nl.uva.softwcons.ast.type.IntegerType;
+import nl.uva.softwcons.ast.type.NumberType;
 import nl.uva.softwcons.ast.type.Type;
 import nl.uva.softwcons.ast.type.UndefinedType;
 
@@ -14,10 +13,7 @@ import com.google.common.collect.Table;
 public abstract class ArithmeticExpression extends BinaryExpression {
     private static final Table<Type, Type, Type> ARITHMENTIC_OPERATORS_TABLE = HashBasedTable.create();
     static {
-        ARITHMENTIC_OPERATORS_TABLE.put(IntegerType.instance, IntegerType.instance, IntegerType.instance);
-        ARITHMENTIC_OPERATORS_TABLE.put(IntegerType.instance, DecimalType.instance, DecimalType.instance);
-        ARITHMENTIC_OPERATORS_TABLE.put(DecimalType.instance, IntegerType.instance, DecimalType.instance);
-        ARITHMENTIC_OPERATORS_TABLE.put(DecimalType.instance, DecimalType.instance, DecimalType.instance);
+        ARITHMENTIC_OPERATORS_TABLE.put(NumberType.instance, NumberType.instance, NumberType.instance);
     }
     private final LineInfo lineInfo;
 

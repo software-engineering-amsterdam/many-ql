@@ -1,11 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Text;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions.Literals;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
 using UvA.SoftCon.Questionnaire.Runtime.Validation;
 using UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting;
 
@@ -18,20 +14,40 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
     public class VariableUsageCheckingVisitorTest
     {
         [TestMethod]
-        public void TestNoErrors()
+        public void TestUnusedVariable()
         {
             // Arrange
-            var visitor = new VariableUsageCheckingVisitor();
-            var statements = new List<IStatement>() 
-            {
-                new Declaration(DataType.String, new Identifier("age", new TextPosition(1, 6)), new TextPosition(1,1)),
-                new Assignment(new Identifier("age", new TextPosition(2,1)), new IntegerLiteral(36, new TextPosition(2,4)), new TextPosition(2,1))
-            };
+            var ql = new StringBuilder();
+            ql.AppendLine("bool isHappy"); // A declared variable should always be used in an expression.
 
-            var ql = new QuestionForm(statements, new TextPosition(1,1));
+            var controller = new QLController();
+            var form = controller.ParseQLString(ql.ToString());
+
+            var visitor = new VariableUsageCheckingVisitor();
 
             // Act
-            visitor.Visit(ql);
+            visitor.Visit(form);
+
+            // Assert
+            Assert.AreEqual<int>(1, visitor.UnusedVariables.Count);
+            Assert.AreEqual<int>(0, visitor.UndeclaredVariables.Count);
+            Assert.AreEqual<int>(0, visitor.RedeclaredVariables.Count);
+        }
+
+        [TestMethod]
+        public void TestUnusedQuestion()
+        {
+            // Arrange
+            var ql = new StringBuilder();
+            ql.AppendLine("isHappy \"Are you happy?\" bool");  // A question doesn't need to be used in an expression.
+
+            var controller = new QLController();
+            var form = controller.ParseQLString(ql.ToString());
+
+            var visitor = new VariableUsageCheckingVisitor();
+
+            // Act
+            visitor.Visit(form);
 
             // Assert
             Assert.AreEqual<int>(0, visitor.UnusedVariables.Count);
@@ -39,50 +55,28 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Validation
             Assert.AreEqual<int>(0, visitor.RedeclaredVariables.Count);
         }
 
+
         [TestMethod]
         public void TestRedeclaredVariable()
         {
             // Arrange
-            var visitor = new VariableUsageCheckingVisitor();
-            var statements = new List<IStatement>() 
-            {
-                new Declaration(DataType.String, new Identifier("age", new TextPosition(1,7)), new TextPosition(1,1)),
-                new Declaration(DataType.Integer, new Identifier("age", new TextPosition(1,5)), new TextPosition(2,1)),
-            };
-
-            var ql = new QuestionForm(statements, new TextPosition(1,1));
-
-            // Act
-            visitor.Visit(ql);
-
-            // Assert
-            Assert.AreEqual<int>(0, visitor.UnusedVariables.Count);
-            Assert.AreEqual<int>(0, visitor.UndeclaredVariables.Count);
-            Assert.AreEqual<int>(1, visitor.RedeclaredVariables.Count);
-        }
-
-        [TestMethod]
-        public void TestItWhole()
-        {
             // Arrange
             var ql = new StringBuilder();
-            ql.AppendLine("int age = 36");
-            ql.AppendLine("age = age + 5");
-            ql.AppendLine("string name = \"erik\"");
-            ql.AppendLine("hop = 4"); 
+            ql.AppendLine("int age");
+            ql.AppendLine("string age");
 
-            var controller = new ASTController();
+            var controller = new QLController();
             var form = controller.ParseQLString(ql.ToString());
 
             var visitor = new VariableUsageCheckingVisitor();
 
+            // Act
             visitor.Visit(form);
 
-            var errorReportBuilder = new ErrorReport();
-            errorReportBuilder.AddVariableUsageMessages(visitor);
-
-            string report = errorReportBuilder.GetReport();
-
+            // Assert
+            Assert.AreEqual<int>(1, visitor.UnusedVariables.Count);
+            Assert.AreEqual<int>(0, visitor.UndeclaredVariables.Count);
+            Assert.AreEqual<int>(1, visitor.RedeclaredVariables.Count);
         }
     }
 }

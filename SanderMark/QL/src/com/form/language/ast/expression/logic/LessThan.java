@@ -11,7 +11,6 @@ import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
 
 public class LessThan extends BinaryExpression implements Expression {
 
@@ -48,12 +47,5 @@ public class LessThan extends BinaryExpression implements Expression {
 			}
 			return;
 		}
-	}
-
-
-	@Override
-	public void fillMemory(Memory memory) {
-		// TODO Auto-generated method stub
-		
 	}
 }

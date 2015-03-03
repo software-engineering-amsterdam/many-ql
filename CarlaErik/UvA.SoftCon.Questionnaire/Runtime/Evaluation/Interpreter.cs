@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 {
-    public class Interpreter : ASTVisitor
+    public class Interpreter : QLVisitor
     {
         private IDictionary<string, Value> _variables = new Dictionary<string, Value>();
 

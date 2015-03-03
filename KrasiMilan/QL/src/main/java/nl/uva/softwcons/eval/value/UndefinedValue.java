@@ -7,4 +7,10 @@ public class UndefinedValue extends Value {
         return null;
     }
 
+    @Override
+    public Value getValueFromString(String string) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

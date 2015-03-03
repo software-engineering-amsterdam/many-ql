@@ -1,4 +1,4 @@
-package org.uva.student.calinwouter.qlqls.ql;
+package org.uva.student.calinwouter.qlqls.ql.interpreter;
 
 import org.junit.Test;
 import org.uva.student.calinwouter.qlqls.generated.lexer.LexerException;

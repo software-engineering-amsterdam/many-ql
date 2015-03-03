@@ -31,7 +31,5 @@ public class BooleanValue extends GenericValue<Boolean> {
 	}
 
 	@Override
-	public float floatValue() {return 0;}
-	@Override
 	public int intValue() {return 0;}
 }

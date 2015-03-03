@@ -6,9 +6,11 @@ import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractModel;
+import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractWidget;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractPushable;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -22,6 +24,12 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
             QLSInterpreter.class.getPackage().getName().toString() + ".model.components.";
 
     private Stack<AbstractPushable<?>> argumentStack = new Stack<AbstractPushable<?>>();
+
+    HashMap<String, AbstractWidget<?>> fieldToWidgetMap = new HashMap<String, AbstractWidget<?>>();
+
+    public void setWidgetForField(String fieldName, AbstractWidget<?> widget) {
+        fieldToWidgetMap.put(fieldName, widget);
+    }
 
     public AbstractPushable<?> getValue() {
         assert(argumentStack.size() == 1);
@@ -37,18 +45,43 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
         return a;
     }
 
+    private static String createClassPath(String name) {
+        return COMPONENTS_PACKAGE_PREFIX + name;
+    }
+
+    private static String firstCharacterToUpper(String str) {
+        return str.substring(0, 1).toUpperCase()
+                + str.substring(1);
+    }
+
+    /**
+     * This method creates an instance of the class to be found by the specified name, with
+     * this QLSInterpreter as constructor parameter.
+     */
+    private AbstractModel<?> newInstanceForClassPathWithQlsInterpreterAsArgument(String classPath)
+            throws NoSuchMethodException, IllegalAccessException, InstantiationException,
+            InvocationTargetException, ClassNotFoundException {
+        Class<AbstractModel<?>> cls = (Class<AbstractModel<?>>) Class.forName(classPath);
+        Constructor<AbstractModel<?>> constructor = cls.getDeclaredConstructor(this.getClass());
+        AbstractModel<?> model = constructor.newInstance(this);
+        return model;
+    }
+
+    private static void applyArgumentsToModel(AbstractModel<?> model, List<AbstractPushable<?>> args) {
+        for (AbstractPushable arg : args) {
+            arg.apply(model);
+        }
+    }
+
     /**
      * This method creates applies the parameters to the component, returning the model.
      */
     public AbstractModel<?> interopComponent(String componentName, List<AbstractPushable<?>> args)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException,
             InvocationTargetException {
-        String className = COMPONENTS_PACKAGE_PREFIX + componentName.substring(0, 1).toUpperCase()
-                + componentName.substring(1);
-        Class<AbstractModel<?>> cls = (Class<AbstractModel<?>>) Class.forName(className);
-        AbstractModel<?> model = cls.newInstance();
-        for (AbstractPushable arg : args)
-            arg.apply(model);
+        String classPath = createClassPath(firstCharacterToUpper(componentName));
+        AbstractModel<?> model = newInstanceForClassPathWithQlsInterpreterAsArgument(classPath);
+        applyArgumentsToModel(model, args);
         return model;
     }
 
@@ -72,8 +105,9 @@ public class QLSInterpreter extends ReversedDepthFirstAdapter {
     @Override
     public void outAFilledIdentList(AFilledIdentList node) {
         ArrayList<AbstractPushable<?>> values = new ArrayList<AbstractPushable<?>>();
-        for (int i = 0; i < node.getElement().size(); i++)
+        for (int i = 0; i < node.getElement().size(); i++) {
             values.add(pop());
+        }
         try {
             final AbstractModel<?> iModel = interopComponent(node.getIdent().getText(), values);
             AbstractPushable<IModel> abstractPushable = new AbstractPushable<IModel>(iModel) {
