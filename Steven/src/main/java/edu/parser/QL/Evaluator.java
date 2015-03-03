@@ -9,7 +9,6 @@ import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
-import edu.parser.QL.nodes.expression.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Optional;
  * Created by Steven Kok on 23/02/2015.
  */
 public class Evaluator extends QLVisitorImpl { //todo: should only return list with questions, not a form
-
+    //todo: should receive list of questions from gui (optional) with new question states
     private final List<Statement> questions = new ArrayList<>();
 
     @Override
@@ -84,7 +83,7 @@ public class Evaluator extends QLVisitorImpl { //todo: should only return list w
         Optional<Question> foundQuestion = getQuestion(identifier);
 
         if (foundQuestion.isPresent()) {
-            return new Boolean(foundQuestion.get().isEnabled());
+            return new Boolean(foundQuestion.get().isEnabled());//todo: first check if question is in gui-questionlist: get that state, only then check the found question
         } else {
             return new Boolean(false); // if question does not exist, expression cannot be true.
         }
