@@ -6,6 +6,9 @@ import edu.parser.QL.QLVisitor;
 import edu.parser.QLS.QLSVisitor;
 import edu.parser.QLS.nodes.AbstractNode;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Steven Kok on 21/02/2015.
  */
@@ -34,6 +37,9 @@ public enum QuestionType implements AbstractNode, edu.parser.QL.nodes.AbstractNo
         throw new InvalidArgumentException(new String[]{"Cannot find type for input: " + type});
     }
 
+    public List<Widgets> getWidgets() {
+        return Arrays.asList(widgets);
+    }
 
     @Override
     public AbstractNode accept(QLSVisitor visitor) {
