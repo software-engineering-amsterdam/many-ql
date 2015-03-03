@@ -1,6 +1,6 @@
 package com.form.language.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
@@ -13,11 +13,6 @@ import org.junit.Test;
 
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
-import com.form.language.ast.expression.Expression;
-import com.form.language.ast.expression.literal.BoolLiteral;
-import com.form.language.ast.expression.literal.IntLiteral;
-import com.form.language.ast.expression.literal.StringLiteral;
-import com.form.language.ast.expression.math.Negation;
 import com.form.language.ast.values.BoolValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.ast.values.StringValue;

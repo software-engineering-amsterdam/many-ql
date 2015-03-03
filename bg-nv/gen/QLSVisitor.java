@@ -17,6 +17,12 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStylesheet(@NotNull QLSParser.StylesheetContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link QLSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(@NotNull QLSParser.StatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QLSParser#page}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -34,4 +40,16 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitQuestion(@NotNull QLSParser.QuestionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#defaultStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefaultStmt(@NotNull QLSParser.DefaultStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QLSParser#stylesheetRule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStylesheetRule(@NotNull QLSParser.StylesheetRuleContext ctx);
 }

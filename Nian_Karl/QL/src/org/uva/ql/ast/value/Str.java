@@ -18,5 +18,27 @@ public class Str extends Value{
 	public String toString() {
 		return value;
 	}
+	
+//Equal
+	@Override
+	public Value equal(Value arg) {
+		return arg.strEqual(this);
+	}
+	
+	@Override
+	public Value strEqual(Str arg) {
+		return new Bool(arg.getValue() == getValue());
+	}
+	
+//Not Equal
+	@Override
+	public Value notEqual(Value arg) {
+		return arg.strNotEqual(this);
+	}
+	
+	@Override
+	public Value strNotEqual(Str arg) {
+		return new Bool(arg.getValue() != getValue());
+	}
 
 }

@@ -6,6 +6,8 @@ from QL.Main.converters import *
 from QL.AST.Statements.question import *
 from QL.AST.Statements.if_statement import *
 from QL.AST.Statements.else_statement import *
+from QL.AST.Statements.assignment import *
+
 from QL.AST.form import *
 
 
@@ -50,6 +52,10 @@ class FormFactory:
             else_questions.append(tokens[i])
         x = IfElseBlock(condition, questions, else_questions, m)
         return x
+
+    @staticmethod
+    def make_assignment(tokens):
+        return Assignment(tokens[0], tokens[1], tokens[2])
 
     @staticmethod
     def make_form(tokens):

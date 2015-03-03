@@ -3,11 +3,11 @@ package uva.ql.ast.value;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.literals.Identifier;
 
-public class NumberValue extends GenericValue<Number>{
+public class NumberValue extends GenericValue<Integer>{
 
-	private Number value;
+	private int value;
 	
-	public NumberValue(Number _value){
+	public NumberValue(int _value){
 		this.value = _value;
 	}
 	
@@ -16,57 +16,52 @@ public class NumberValue extends GenericValue<Number>{
 	}
 	
 	public static NumberValue numberValueFromExpr(Expression expr){
-		return new NumberValue(expr.evaluate().floatValue());
+		return new NumberValue(expr.evaluate().intValue());
 	}
 	
 	public NumberValue addition(NumberValue _value){
-		return new NumberValue(this.value.floatValue() + _value.floatValue());
+		return new NumberValue(this.value + _value.intValue());
 	}
 	
 	public NumberValue substraction(NumberValue _value){
-		return new NumberValue(this.value.floatValue() - _value.floatValue());
+		return new NumberValue(this.value- _value.value);
 	}
 	
 	public NumberValue exponentiation(NumberValue _value){
-		return new NumberValue((float)Math.pow(this.value.floatValue(), _value.floatValue()));
+		return new NumberValue((int)Math.pow(this.value, _value.value));
 	}
 	
 	public NumberValue multiplication(NumberValue _value){
-		return new NumberValue(this.value.floatValue() * _value.floatValue());
+		return new NumberValue(this.value * _value.value);
 	}
 	
 	public NumberValue division(NumberValue _value){
-		return new NumberValue(this.value.floatValue() / _value.floatValue());
+		return new NumberValue(this.value / _value.value);
 	}
 	
 	public BooleanValue greater(NumberValue _value){
-		return new BooleanValue(this.value.floatValue() > _value.floatValue());
+		return new BooleanValue(this.value > _value.value);
 	}
 	
 	public BooleanValue greaterEqual(NumberValue _value){
-		return new BooleanValue(this.value.floatValue() >= _value.floatValue());
+		return new BooleanValue(this.value >= _value.value);
 	}
 	
 	public BooleanValue less(NumberValue _value){
-		return new BooleanValue(this.value.floatValue() < _value.floatValue());
+		return new BooleanValue(this.value < _value.value);
 	}
 	
 	public BooleanValue lessEqual(NumberValue _value){
-		return new BooleanValue(this.value.floatValue() <= _value.floatValue());
+		return new BooleanValue(this.value <= _value.value);
 	}
 	
 	@Override
-	public Number getValue(){
+	public Integer getValue(){
 		return this.value;
-	}
-	
-	@Override
-	public float floatValue() {
-		return this.value.floatValue();
 	}
 
 	@Override
 	public int intValue() {
-		return this.value.intValue();
+		return this.value;
 	}
 }

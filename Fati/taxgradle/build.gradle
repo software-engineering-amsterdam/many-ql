@@ -1,0 +1,78 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+
+project.ext {
+    antrSrcDir   =  "$projectDir/src/main/java"
+	antlrOutputFolder = "$antrSrcDir/"
+	taxOutputFolder = "$antlrOutputFolder/org/tax/taxgen"
+    taxGrammar      = "$projectDir/grammar/Tax.g4"
+
+    exprGrammar     = "$projectDir/grammar/Expr.g4"
+	exprOutputFolder = "$antlrOutputFolder/org/tax/exprgen"
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+	antlr
+}
+
+dependencies {
+    antlr   files('antlr-4.5-complete.jar')
+	compile 'org.antlr:antlr4:4.5'
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    compile files('antlr-4.5-complete.jar')
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+task tax(type: Exec) {
+	outputs.dir file("$taxOutputFolder")
+	inputs.files file("$taxGrammar")
+
+	executable 'java'
+	args  "-jar", configurations.antlr.asPath 
+	args  "-o", "$taxOutputFolder"
+	args  "$taxGrammar"
+	args  "-visitor", "-listener"
+}
+
+task expr(type: Exec) {
+	outputs.dir file("$exprOutputFolder")
+	inputs.files file("$exprGrammar") 
+
+	executable 'java'
+	args  "-jar", configurations.antlr.asPath
+	args  "-o", "$exprOutputFolder"
+	args  file("$exprGrammar"); 
+	args  "-visitor", "-no-listener"
+}
+
+task cleanAntlr(type: Delete) {
+	delete "$taxOutputFolder", "$exprOutputFolder"
+}
+
+clean.dependsOn cleanAntlr
+compileJava.dependsOn tax
+compileJava.dependsOn expr
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}

@@ -20,12 +20,10 @@ public class Warning extends Message {
 		case DUPLICATE:
 			content = "Label <" + literal + "> is duplicated.";
 			break;
-		
 		default:
 			content = "Unknow error";
 			break;
 		}
-		
 		return "Warning@line" + lineNumber + ": " + content;
 	}
 }

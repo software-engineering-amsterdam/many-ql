@@ -20,8 +20,7 @@ import nl.uva.softwcons.ast.expression.binary.logical.And;
 import nl.uva.softwcons.ast.expression.binary.logical.Or;
 import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
-import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
-import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
+import nl.uva.softwcons.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.ast.form.Form;
@@ -31,8 +30,7 @@ import nl.uva.softwcons.ast.statement.Conditional;
 import nl.uva.softwcons.ast.statement.Question;
 import nl.uva.softwcons.ast.statement.StatementVisitor;
 import nl.uva.softwcons.ast.type.BooleanType;
-import nl.uva.softwcons.ast.type.DecimalType;
-import nl.uva.softwcons.ast.type.IntegerType;
+import nl.uva.softwcons.ast.type.NumberType;
 import nl.uva.softwcons.ast.type.StringType;
 import nl.uva.softwcons.ast.type.Type;
 import nl.uva.softwcons.ast.type.UndefinedType;
@@ -92,7 +90,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final Addition expr) {
         final Type combinedExpressionType = Addition.resolveType(leftOperand(expr), rightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
+        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
     }
@@ -100,7 +98,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final Division expr) {
         final Type combinedExpressionType = Division.resolveType(leftOperand(expr), rightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
+        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
     }
@@ -108,7 +106,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final Multiplication expr) {
         final Type combinedExpressionType = Multiplication.resolveType(leftOperand(expr), rightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
+        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
     }
@@ -116,7 +114,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final Subtraction expr) {
         final Type combinedExpressionType = Subtraction.resolveType(leftOperand(expr), rightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, DecimalType.instance, IntegerType.instance);
+        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
     }
@@ -210,18 +208,13 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     }
 
     @Override
-    public Type visit(final IntegerLiteral expr) {
-        return IntegerType.instance;
-    }
-
-    @Override
     public Type visit(final StringLiteral expr) {
         return StringType.instance;
     }
 
     @Override
-    public Type visit(final DecimalLiteral expr) {
-        return DecimalType.instance;
+    public Type visit(final NumberLiteral expr) {
+        return NumberType.instance;
     }
 
     /**
