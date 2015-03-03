@@ -1,28 +1,20 @@
 module AST
-	class Stylesheet
-		attr_reader :name, :children, :defaults
 
-		def initialize(name, stylesheet_rules)
-			@name = name
-      # Kan die AST:: weg, omdat we in de module AST zelf zitten?
-      # @children moet niet @pages zijn?
-			@defaults, @children = stylesheet_rules.partition { |rule| rule.class == AST::Default }
-		end
+  class StyleGroup
+    attr_reader :name, :rules
 
-		def pages
-			children
-		end
-	end
+    def initialize(name, rules)
+      @name = name
+      @rules = rules
+    end
+  end
 
-	class Page < Stylesheet
-		def sections
-			children
-		end
-	end
+  class Stylesheet < StyleGroup
+  end
 
-	class Section < Stylesheet
-		def questions
-			children
-		end
-	end
+  class Page < StyleGroup
+  end
+
+  class Section < StyleGroup
+  end
 end
