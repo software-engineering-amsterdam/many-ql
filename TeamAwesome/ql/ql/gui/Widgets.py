@@ -1,13 +1,13 @@
 import tkinter as tk
 
-class QLWidget:
+class Widget:
     def _gridIfVisible(self, questionModel):
         if questionModel.isVisible:
             self.grid()
         else:
             self.grid_remove()
 
-class Dropdown(tk.OptionMenu, QLWidget):
+class Dropdown(tk.OptionMenu, Widget):
     def __init__(self, master, questionModel, callback):
         self._value = tk.StringVar()
         tk.OptionMenu.__init__(self, master, self._value, "yes", "no", command = lambda _ : callback(self.value()))
@@ -21,7 +21,7 @@ class Dropdown(tk.OptionMenu, QLWidget):
     def value(self):
         return self._value.get() == "yes"
 
-class RadioButtons(tk.Frame, QLWidget):
+class RadioButtons(tk.Frame, Widget):
     def __init__(self, master, questionModel, callback):
         tk.Frame.__init__(self, master)
         
@@ -46,7 +46,7 @@ class RadioButtons(tk.Frame, QLWidget):
     def value(self):
         return bool(self._value.get())
 
-class CheckBox(tk.Checkbutton, QLWidget):
+class CheckBox(tk.Checkbutton, Widget):
     def __init__(self, master, questionModel, callback):
         self._value = tk.IntVar()
         tk.Checkbutton.__init__(self, master, text = "yes", variable = self._value, onvalue = 1, offvalue = 0, command = lambda : callback(self.value()))
@@ -64,7 +64,7 @@ class CheckBox(tk.Checkbutton, QLWidget):
     def value(self):
         return bool(self._value.get())
 
-class Slider(tk.Scale, QLWidget):
+class Slider(tk.Scale, Widget):
     def __init__(self, master, questionModel, callback, lowerBound = 0, upperBound = 1000, width = 400):
         tk.Scale.__init__(self, master, from_ = lowerBound, to = upperBound, length = width, orient = tk.HORIZONTAL)
         self._defaultValue = lowerBound
@@ -78,7 +78,7 @@ class Slider(tk.Scale, QLWidget):
     def value(self):
         return int(self.get())
 
-class Spinbox(tk.Spinbox, QLWidget):
+class Spinbox(tk.Spinbox, Widget):
     def __init__(self, master, questionModel, callback, lowerBound = 0, upperBound = 1000, width = 80):
         tk.Spinbox.__init__(self, master, from_ = lowerBound, to = upperBound, width = width, command = lambda : callback(self.value()))
         self._defaultValue = lowerBound
@@ -95,7 +95,7 @@ class Spinbox(tk.Spinbox, QLWidget):
     def value(self):
         return int(self.get())
 
-class TextInput(tk.Entry, QLWidget):
+class TextInput(tk.Entry, Widget):
     def __init__(self, master, questionModel, callback, width = 80):
         tk.Entry.__init__(self, master, width = width)
         self.bind("<FocusOut>", lambda event : callback(self.value()))
@@ -113,7 +113,7 @@ class TextInput(tk.Entry, QLWidget):
     def value(self):
         return self.get()
 
-class Label(tk.Label, QLWidget):
+class Label(tk.Label, Widget):
     def __init__(self, master, questionModel, width = 80, height = 1):
         tk.Label.__init__(self, master, width = width, height = height)
         self.update(questionModel)

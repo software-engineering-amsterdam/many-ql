@@ -55,7 +55,7 @@ def main():
     if args.file:
         testFileNames = [args.file]
     else:
-        testFileNames = glob.glob('recognize-as-*.ql')
+        testFileNames = glob.glob('testFiles/recognize-as-*.ql')
 
     for testFileName in testFileNames:
         errors += runTest(args.trees, testFileName)

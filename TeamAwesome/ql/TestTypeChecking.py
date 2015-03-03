@@ -47,7 +47,7 @@ def main():
     if args.file:
         testFileNames = [args.file]
     else:
-        testFileNames = glob.glob('type-check-*.ql')
+        testFileNames = glob.glob('testFiles/type-check-*.ql')
 
     for testFileName in testFileNames:
         if(not runTest(args.verbose, testFileName)):

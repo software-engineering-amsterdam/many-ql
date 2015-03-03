@@ -48,7 +48,7 @@ def main():
     if args.file:
         testFileNames = [args.file]
     else:
-        testFileNames = glob.glob('evaluator-*.ql')
+        testFileNames = glob.glob('testFiles/evaluator-*.ql')
 
     for testFileName in testFileNames:
         if(not runTest(args.verbose, testFileName)):
