@@ -1,0 +1,29 @@
+package test.evaluator.literal;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+import test.evaluator.BaseTest;
+import cons.Value;
+import cons.value.IntegerValue;
+
+@RunWith(value = Parameterized.class)
+public class TestIntegerLiteral extends BaseTest {
+	 @Parameters
+     public static Collection<Object[]> data() {
+    	 return Arrays.asList(new Object[][] {
+    			 { "10", new IntegerValue(10) },
+    			 { "-10", new IntegerValue(-10) },
+    			 { "integerQuestion", new IntegerValue(10) }
+    	 });
+     }
+
+     @SuppressWarnings("rawtypes")
+     public TestIntegerLiteral(String input, Value expected) {
+    	 super(input, expected);
+     }
+}

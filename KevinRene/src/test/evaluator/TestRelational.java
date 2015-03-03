@@ -3,26 +3,26 @@ package test.evaluator;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import test.typechecker.relational.TestAnd;
-import test.typechecker.relational.TestEqual;
-import test.typechecker.relational.TestGreater;
-import test.typechecker.relational.TestGreaterOrEqual;
-import test.typechecker.relational.TestLower;
-import test.typechecker.relational.TestLowerOrEqual;
-import test.typechecker.relational.TestNot;
-import test.typechecker.relational.TestNotEqual;
-import test.typechecker.relational.TestOr;
+import test.evaluator.relational.TestAnd;
+import test.evaluator.relational.TestEqual;
+import test.evaluator.relational.TestGreater;
+import test.evaluator.relational.TestGreaterOrEqual;
+import test.evaluator.relational.TestLower;
+import test.evaluator.relational.TestLowerOrEqual;
+import test.evaluator.relational.TestNot;
+import test.evaluator.relational.TestNotEqual;
+import test.evaluator.relational.TestOr;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	TestAnd.class,
 	TestEqual.class,
-	TestGreaterOrEqual.class,
 	TestGreater.class,
-	TestLowerOrEqual.class,
+	TestGreaterOrEqual.class,
 	TestLower.class,
-	TestNotEqual.class,
+	TestLowerOrEqual.class,
 	TestNot.class,
-	TestOr.class
+	TestNotEqual.class,
+	TestOr.class,
 })
 public class TestRelational {}

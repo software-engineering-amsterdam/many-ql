@@ -17,8 +17,6 @@ import test.evaluator.BaseTest;
 public class TestAddition extends BaseTest {
 	 @Parameters
      public static Collection<Object[]> data() {
-    	 BaseTest.header = "Addition";
-    	 
     	 return Arrays.asList(new Object[][] {
     			// Integers with integers.
 				{ "5 + 10", new IntegerValue(15) },
