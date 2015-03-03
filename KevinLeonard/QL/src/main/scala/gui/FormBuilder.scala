@@ -7,7 +7,7 @@ import scala.collection.immutable.StringOps
 import scala.util.Try
 
 import scalafx.collections.ObservableMap
-import scalafx.collections.ObservableMap.Replace
+import scalafx.collections.ObservableMap.{Replace, Add}
 
 import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
@@ -75,19 +75,22 @@ class FormBuilder {
     field.selected = value
     field.selected.onChange((obs, oldValue, newValue) => { env += (name -> BooleanValue(newValue)) })
 
-    env.onChange((map, change) => change match {
-      case Replace(key, added, removed) => {
-        if (visibilityDeps contains key) {
-          visible = isVisible
-        }
+    def envChangeCallback(key: String) = {
+      if (visibilityDeps contains key) {
+        visible = isVisible
+      }
 
-        // Only evaluate if visible
-        if (visible.value) {
-          if (valueDeps contains key) {
-            field.selected = value
-          }
+      // Only evaluate if visible
+      if (visible.value) {
+        if (valueDeps contains key) {
+          field.selected = value
         }
       }
+    }
+    
+    env.onChange((map, change) => change match {
+      case Replace(key, added, removed) => envChangeCallback(key)
+      case Add(key, value) => envChangeCallback(key)
     })
   }
 
@@ -111,19 +114,22 @@ class FormBuilder {
       env += (name -> NumberValue(newIntV))
     })
 
-    env.onChange((map, change) => change match {
-      case Replace(key, added, removed) => {
-        if (visibilityDeps contains key) {
-          visible = isVisible
-        }
+    def envChangeCallback(key: String) = {
+      if (visibilityDeps contains key) {
+        visible = isVisible
+      }
 
-        // Only evaluate if visible
-        if (visible.value) {
-          if (valueDeps contains key) {
-            field.text = value.toString
-          }
+      // Only evaluate if visible
+      if (visible.value) {
+        if (valueDeps contains key) {
+          field.text = value.toString
         }
       }
+    }
+    
+    env.onChange((map, change) => change match {
+      case Replace(key, added, removed) => envChangeCallback(key)
+      case Add(key, value) => envChangeCallback(key)
     })
   }
 
@@ -144,19 +150,23 @@ class FormBuilder {
     field.text = value
     field.text.onChange((obs, oldValue, newValue) => { env += (name -> StringValue(newValue)) })
 
-    env.onChange((map, change) => change match {
-      case Replace(key, added, removed) => {
-        if (visibilityDeps contains key) {
-          visible = isVisible
-        }
+    def envChangeCallback(key: String) = {
+      if (visibilityDeps contains key) {
+        visible = isVisible
+      }
 
-        // Only evaluate if visible
-        if (visible.value) {
-          if (valueDeps contains key) {
-            field.text = value
-          }
+      // Only evaluate if visible
+      if (visible.value) {
+        if (valueDeps contains key) {
+          field.text = value
         }
       }
+    }
+    
+    env.onChange((map, change) => change match {
+      case Replace(key, added, removed) => envChangeCallback(key)
+      case Add(key, value) => envChangeCallback(key)
     })
   }
+  
 }
