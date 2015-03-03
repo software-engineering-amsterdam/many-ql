@@ -7,7 +7,7 @@ import uva.ql.ast.expressions.BinaryExpressions;
 import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
-import uva.ql.ast.expressions.literals.DecimalLiteral;
+import uva.ql.ast.expressions.literals.MoneyLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.IntLiteral;
 import uva.ql.ast.expressions.literals.StringLiteral;
@@ -209,7 +209,7 @@ public class Visitor<T> implements ExpressionVisitorInterface<T>, StatementVisit
 	}
 
 	@Override
-	public T visitDecimalLiteral(DecimalLiteral decimalLiteral) {
+	public T visitMoneyLiteral(MoneyLiteral moneyLiteral) {
 		return null;
 	}
 
