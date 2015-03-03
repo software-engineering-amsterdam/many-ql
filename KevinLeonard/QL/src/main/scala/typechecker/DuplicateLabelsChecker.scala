@@ -13,7 +13,7 @@ class DuplicateLabelsChecker {
     }).toList
   }
 
-  private def check(s: Statement, labels: List[String] = List()): (List[String]) = s match {
+  private def check(s: Statement, labels: List[String] = List()): List[String] = s match {
     case Sequence(statements) => statements.flatMap(s => check(s, labels))
     case Question(_, _, label, _) => label :: labels
     case _: IfStatement => labels
