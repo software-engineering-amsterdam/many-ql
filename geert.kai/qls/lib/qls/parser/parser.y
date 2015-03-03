@@ -62,7 +62,7 @@ rule
     : 'color:' value      { result = ColorDeclaration.new(val[1]) }
     | 'font:' value       { result = FontDeclaration.new(val[1]) }
     | 'font-size:' value  { result = FontSizeDeclaration.new(val[1]) }
-    | 'widget:' value     { result = WidgitDeclaration.new(val[1]) }
+    | 'widget:' value     { result = WidgetDeclaration.new(val[1]) }
     | 'width:' value      { result = WidthDeclaration.new(val[1]) }
     ;
 
@@ -82,6 +82,7 @@ rule
     | 'spinbox'
     | 'radio'
     ;
+
   variable_name
     : VARIABLE_NAME 
     ;

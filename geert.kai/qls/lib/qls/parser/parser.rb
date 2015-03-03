@@ -331,7 +331,7 @@ def _reduce_22(val, _values, result)
 end
 
 def _reduce_23(val, _values, result)
- result = WidgitDeclaration.new(val[1]) 
+ result = WidgetDeclaration.new(val[1]) 
     result
 end
 
