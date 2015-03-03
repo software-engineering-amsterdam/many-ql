@@ -1,0 +1,99 @@
+%package qls.parser
+%class QLSParser
+%interface QLSTokens
+%semantic cons.ql.ast.ASTNode 
+
+%token <QLInteger> INTEGER
+%token <QLBoolean> BOOLEAN
+%token <QLString> STRING
+%token <QLFloat> MONEY FLOAT
+
+%token <IntegerLiteral> INTEGERLITERAL 
+%token <BooleanLiteral> BOOLEANLITERAL
+%token <StringLiteral> STRINGLITERAL
+%token <FloatLiteral> FLOATLITERAL
+%token <FloatLiteral> MONEYLITERAL
+
+%token <Identifier> IDENTIFIER
+%token STYLESHEET PAGE SECTION WIDGET QUESTION DEFAULT
+%token  '"' ':' '.'
+%token '(' ')' '{' '}'
+
+%type <Expression> literal
+%type <QLType> type
+
+%{
+import cons.ql.ast.*;
+import cons.ql.ast.expression.*;
+import cons.ql.ast.expression.type.*;
+import cons.ql.ast.expression.literal.*;
+
+@SuppressWarnings("all")
+%}
+
+%%
+
+top : stylesheet
+    ;
+
+stylesheet : STYLESHEET IDENTIFIER '{' statements '}'
+           | STYLESHEET IDENTIFIER '{' '}'
+           ;
+
+statements : statement statements
+           | statement 
+           ;
+
+statement : page 
+          | default
+          ;
+
+page : PAGE IDENTIFIER '{' sectionContent '}';
+
+sectionContent : section | question | default;
+
+section : SECTION STRINGLITERAL '{' sectionContent '}';
+
+question : QUESTION IDENTIFIER typeset;
+
+default : WIDGET type typeset;
+
+typeset : WIDGET widget | '{' typerules '}';
+
+typerules : typerule typerules | typerule;
+
+typerule : STRINGLITERAL ':' literal;
+
+
+ type 	: INTEGER	{ $$ = new QLInteger(); }
+ 		| MONEY		{ $$ = new QLFloat(); }
+		| FLOAT		{ $$ = new QLFloat(); }
+		| BOOLEAN	{ $$ = new QLBoolean(); }
+		| STRING 	{ $$ = new QLString(); }
+		;
+
+ literal : INTEGERLITERAL
+		 | MONEYLITERAL
+		 | FLOATLITERAL
+		 | BOOLEANLITERAL
+		 | STRINGLITERAL
+		 ;
+
+ widget : '.';
+
+%%
+private QLSLexer lexer; 
+
+private ASTNode result;
+
+public ASTNode getResult() {
+  return result;
+}
+
+public QLSParser(QLSLexer lexer) { 
+  this.lexer = lexer; 
+}
+
+private void yyerror(String msg) { 
+  System.err.println(yyerrno<0 ? msg : yyerrmsgs[yyerrno]);
+}
