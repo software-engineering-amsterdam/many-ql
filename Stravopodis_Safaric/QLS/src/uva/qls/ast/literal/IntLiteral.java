@@ -16,6 +16,10 @@ public class IntLiteral extends Literal {
 		super(_codeLines);
 	}
 	
+	public Integer evaluatedValue(){
+		return this.evaluate().getValue().intValue();
+	}
+	
 	@Override
 	public Tuple<Integer, Integer> getLOCTuple() {
 		return this.codeLines.getCodeLocation();

@@ -30,4 +30,8 @@ public class Slider extends Component{
 	public Tuple<String, String> evaluate() {
 		return this.minMax;
 	}
+	@Override
+	public String toString(){
+		return "Dropdown(" + this.minMax.toString() + " " + this.style.toString() + ")";
+	}
 }
