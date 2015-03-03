@@ -36,33 +36,25 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuestion(@NotNull QLSParser.QuestionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code simpleWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Visit a parse tree produced by {@link QLSParser#widget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSimpleWidget(@NotNull QLSParser.SimpleWidgetContext ctx);
+	T visitWidget(@NotNull QLSParser.WidgetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code defaultStyleWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefaultStyleWidget(@NotNull QLSParser.DefaultStyleWidgetContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code noStylesDefault}
+	 * Visit a parse tree produced by the {@code noStylesDefaultDeclr}
 	 * labeled alternative in {@link QLSParser#defaultStyleDeclr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNoStylesDefault(@NotNull QLSParser.NoStylesDefaultContext ctx);
+	T visitNoStylesDefaultDeclr(@NotNull QLSParser.NoStylesDefaultDeclrContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code stylesDefault}
+	 * Visit a parse tree produced by the {@code stylesDefaultDeclr}
 	 * labeled alternative in {@link QLSParser#defaultStyleDeclr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStylesDefault(@NotNull QLSParser.StylesDefaultContext ctx);
+	T visitStylesDefaultDeclr(@NotNull QLSParser.StylesDefaultDeclrContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code checkboxWidget}
 	 * labeled alternative in {@link QLSParser#supportedWidget}.

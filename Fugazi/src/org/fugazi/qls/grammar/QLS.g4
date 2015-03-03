@@ -11,16 +11,14 @@ section : 'section' STRING question
         | 'section' STRING '{' (question | section | defaultStyleDeclr)* '}';
 
 // question id (zero or one widget)
-question : 'question' ID (widget)?;
+question : 'question' ID (widget | defaultStyleDeclr)?;
 
 // widget
-widget : 'widget' supportedWidget   # simpleWidget
-       | defaultStyleDeclr          # defaultStyleWidget
-       ;
+widget : 'widget' supportedWidget;
 
 // defaultStyle, can be: default boolean widget radio("Yes", "No"), and/or default int { style widget }
-defaultStyleDeclr : 'default' type widget                           # noStylesDefault
-                  | 'default' type '{' styleProperty* widget '}'    # stylesDefault
+defaultStyleDeclr : 'default' type widget                           # noStylesDefaultDeclr
+                  | 'default' type '{' styleProperty* widget '}'    # stylesDefaultDeclr
                   ;
 
 /**
