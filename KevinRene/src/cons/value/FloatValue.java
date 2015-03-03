@@ -7,6 +7,11 @@ public class FloatValue extends Value<Float> {
 	public FloatValue(float value) {
 		super(value);
 	}
+	
+	@Override
+	public boolean isNumeric() {
+		return true;
+	}
 
 	@Override
 	public Value add(Value argument) {

@@ -16,6 +16,10 @@ public abstract class Value<T> {
 		return false;
 	}
 	
+	public boolean isNumeric() {
+		return false;
+	}
+	
 	/**
 	 * Addition
 	 * 

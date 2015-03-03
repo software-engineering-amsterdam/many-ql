@@ -7,6 +7,11 @@ public class IntegerValue extends Value<Integer> {
 	public IntegerValue(Integer value) {
 		super(value);
 	}
+	
+	@Override
+	public boolean isNumeric() {
+		return true;
+	}
 
 	@Override
 	public Value add(Value argument) {
