@@ -89,6 +89,12 @@ public class QLSLexer implements QLSTokens {
 			    		nextChar();
 			    		continue;
 			    	}
+			    	else if (c == '/') {
+			    		while (c != '\n') {
+							nextChar();
+						}
+			    		continue;
+			    	}
 			    	return token = '/'; 
 			    }
 			    case ':': nextChar(); return token = ':';

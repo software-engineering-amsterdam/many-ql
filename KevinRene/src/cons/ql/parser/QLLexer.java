@@ -90,6 +90,12 @@ public class QLLexer implements QLTokens {
 			    		nextChar();
 			    		continue;
 			    	}
+			    	else if (c == '/') {
+			    		while (c != '\n') {
+							nextChar();
+						}
+			    		continue;
+			    	}
 			    	return token = '/'; 
 			    }
 			    case ':': nextChar(); return token = ':';
