@@ -1,15 +1,12 @@
-require_relative "base_visitor"
+require_relative "../../util/base_visitor"
+require_relative "../../util/array"
 
 module QL
   module Checking
     class DuplicateLabelChecker < BaseVisitor
-
-      def after_initialize(base)
-        @descriptions = []
-      end
-
       def errors
-        (visit @base).flatten
+        labels = (visit @base).flatten
+        labels.duplicates.map { |label| Exception.new("Duplicate label: #{label}.") }
       end
 
       def visit_form(form)
@@ -21,12 +18,7 @@ module QL
       end
 
       def visit_question(question) 
-        if @descriptions.include?(question.description)
-          Exception.new("Warning: Duplicate Label: #{question.description}")
-        else
-          @descriptions << question.description
-          []
-        end
+        question.description
       end
     end
   end
