@@ -3,11 +3,11 @@ package lang.qls.ast.Rule;
 /**
  * Created by bore on 02/03/15.
  */
-public class Font extends Rule<String>
+public class Width extends Rule<Integer>
 {
-    public Font(String font, int lineNumber)
+    public Width(int width, int lineNumber)
     {
-        super(font, lineNumber);
+        super(width, lineNumber);
     }
 
     @Override

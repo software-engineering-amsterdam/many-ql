@@ -13,8 +13,9 @@ public class Page extends AstNode
     private String name;
     private List<Statement> body;
 
-    public Page(String name, List<Statement> body)
+    public Page(String name, List<Statement> body, int lineNumber)
     {
+        super(lineNumber);
         this.name = name;
         this.body = body;
     }
@@ -27,5 +28,10 @@ public class Page extends AstNode
     public List<Statement> getBody()
     {
         return this.body;
+    }
+
+    public <T> T accept(StylesheetVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }

@@ -7,8 +7,9 @@ public abstract class Rule<T> extends StylesheetRule
 {
     private T value;
 
-    public Rule(T value)
+    public Rule(T value, int lineNumber)
     {
+        super(lineNumber);
         this.value = value;
     }
 

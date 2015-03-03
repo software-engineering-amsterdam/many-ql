@@ -11,14 +11,20 @@ public class QuestionWithRules extends Question
 {
     private List<StylesheetRule> body;
 
-    public QuestionWithRules(String id, List<StylesheetRule> body)
+    public QuestionWithRules(String id, int lineNumber, List<StylesheetRule> body)
     {
-        super(id);
+        super(id, lineNumber);
         this.body = body;
     }
 
     public List<StylesheetRule> getBody()
     {
         return this.body;
+    }
+
+    @Override
+    public <T> T accept(StatementVisitor<T> visitor)
+    {
+        return visitor.visit(this);
     }
 }
