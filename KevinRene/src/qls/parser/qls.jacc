@@ -48,13 +48,19 @@ statement : page
           | default
           ;
 
-page : PAGE IDENTIFIER '{' sectionContent '}';
+page      : PAGE IDENTIFIER '{' sectionContent '}'
+          ;
 
-sectionContent : section | question | default;
+sectionContent : section 
+               | question 
+               | default
+               ;
 
-section : SECTION STRINGLITERAL '{' sectionContent '}';
+section : SECTION STRINGLITERAL '{' sectionContent '}'
+        ;
 
-question : QUESTION IDENTIFIER typeset;
+question : QUESTION IDENTIFIER typeset
+         ;
 
 default : WIDGET type typeset;
 
