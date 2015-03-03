@@ -1,7 +1,7 @@
-require_relative "static_checker"
+require_relative "base_visitor"
 require_relative "../ast/ast"
 
-class TypeChecker < StaticChecker
+class TypeChecker < BaseVisitor
   def after_initialize(base)
     @types = {}
   end

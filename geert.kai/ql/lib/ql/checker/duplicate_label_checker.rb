@@ -1,6 +1,6 @@
-require_relative "static_checker"
+require_relative "base_visitor"
 
-class DuplicateLabelChecker < StaticChecker
+class DuplicateLabelChecker < BaseVisitor
 
   def after_initialize(base)
     @descriptions = []
