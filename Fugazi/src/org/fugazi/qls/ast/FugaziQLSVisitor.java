@@ -54,7 +54,13 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLNode> {
             sections.add(section);
         }
 
-		return new Page(name, sections);
+        ArrayList<DefaultStyleDeclaration> defaultStyles = new ArrayList<>();
+        for (QLSParser.DefaultStyleDeclrContext defaultStyleDeclrContext : ctx.defaultStyleDeclr()) {
+            DefaultStyleDeclaration defaultStyle = (DefaultStyleDeclaration) defaultStyleDeclrContext.accept(this);
+            defaultStyles.add(defaultStyle);
+        }
+
+		return new Page(name, sections, defaultStyles);
 	}
 
     @Override 
@@ -92,6 +98,9 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLNode> {
 
     @Override public AbstractASTQLSNode visitQuestionWithStyleDeclr(@NotNull QLSParser.QuestionWithStyleDeclrContext ctx) {
         String identifier = ctx.ID().getText();
+        DefaultStyleDeclaration defaultStyle = (DefaultStyleDeclaration) ctx.defaultStyleDeclr().accept(this);
+        // todo: save it somewhere
+
         return new Question(identifier, new NullWidget());
     }
 
@@ -117,7 +126,6 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLNode> {
         for (QLSParser.StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
             StyleProperty styleProperty = (StyleProperty) stylePropertyContext.accept(this);
             styleProperties.add(styleProperty);
-            System.out.println(styleProperty.getName());
         }
 
         Style style = new Style(styleProperties);

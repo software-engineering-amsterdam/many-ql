@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Section extends AbstractASTQLSNode {
 
-    protected final String name;
-    protected final List<Section> sections;
+    private final String name;
+    private final List<Section> sections;
     private final List<Question> questions;
     
     public Section(String _name, List<Section> _sections, List<Question> _questions) {
