@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QL.Errors;
+using QL.Extensions;
 using QL.Model;
 using QL.Model.Operators;
 
@@ -13,14 +14,14 @@ namespace QL.Evaluation
 {
     class TypeCheckerVisitor: IVisitor
     {
-        Dictionary<Identifier, Type> TypeReferenceDictionary;
+        public readonly IDictionary<Identifier, Type> TypeReferenceDictionary;
 
         public IList<QLError> Errors { get; private set; }
 
         public TypeCheckerVisitor()
         {
             Errors = new List<QLError>();
-            TypeReferenceDictionary = new Dictionary<Identifier, Type>();
+            TypeReferenceDictionary = new SortedDictionary<Identifier, Type>();
         }
 
         #region Regular elements
@@ -41,21 +42,21 @@ namespace QL.Evaluation
 
         public void Visit(StatementUnit node)
         {
-            TypeReferenceDictionary[node.Identifier] = DetermineType(node.DataType);
+            TypeReferenceDictionary.RegisterTypeReference(node.Identifier, DetermineType(node.DataType));
 
             return; // todo check if referenced variable exists
         }
 
         public void Visit(QuestionUnit node)
         {
-            TypeReferenceDictionary[node.Identifier] = DetermineType(node.DataType);
+            TypeReferenceDictionary.RegisterTypeReference(node.Identifier, DetermineType(node.DataType));
 
             return; // nothing to check
         }
 
         public void Visit(Expression node)
         {
-            return; // checking is done on children
+            return; // checking is done on children todo: sure this is the case?
         }
         #endregion
 

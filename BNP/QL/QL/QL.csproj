@@ -54,6 +54,7 @@
     <Compile Include="Errors\QLError.cs" />
     <Compile Include="Errors\RedeclaredVariableWarning.cs" />
     <Compile Include="Errors\TypeError.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
