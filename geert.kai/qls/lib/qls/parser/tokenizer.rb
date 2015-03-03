@@ -3,10 +3,11 @@ require 'strscan'
 module QLS
   class Tokenizer
     WHITESPACE    = /\s+/
-    KEYWORD       = /stylesheet|page|section|default|question|color:|font:|font-size:|widget:|width:|checkbox|spinbox|radio|integer|boolean|string/
+    KEYWORD       = /stylesheet|page|section|default|question|integer|boolean|string|checkbox|radio|dropdown|text|spinbox/
     VARIABLE_NAME = /[a-zA-Z_][a-zA-Z0-9?!_]*/
-    INTEGER      = /[0-9]+/
+    INTEGER       = /[0-9]+/
     STRING        = /"(?:[^"\\]|\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))*"/
+    COLOR         = /#[0-9a-fA-F]{6}/
 
     def initialize io
       @ss = StringScanner.new io.read

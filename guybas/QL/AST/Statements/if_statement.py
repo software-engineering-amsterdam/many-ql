@@ -9,6 +9,7 @@ class IfBlock(IStatement):
         self.condition = condition
         self.statements = statements
         self.parent_id = tid
+        self.element = None
 
     # Override
     def pretty_print(self, level=0):
@@ -69,6 +70,9 @@ class IfBlock(IStatement):
             c = s.set_order(c)
         return c
 
+    def set_element(self, gui):
+        ...
+
     # Override
     def id_type_collection(self):
         d = {}
@@ -98,3 +102,6 @@ class IfBlock(IStatement):
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         return d
 
+    def get_element(self):
+        return self.element
+    
