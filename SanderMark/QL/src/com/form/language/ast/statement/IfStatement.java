@@ -20,6 +20,8 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
+import com.form.language.gui.components.FormComponent;
+import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
@@ -57,89 +59,6 @@ public class IfStatement implements Statement {
 		}
 	}
 
-
-	@Override
-	public JComponent createGUIComponent(JPanel panel) {
-		//Create panel with the statements in there (questions) and show/hide this
-		ArrayList<Component> co = getAllComponents(panel);		
-		
-		JPanel p = new JPanel();
-		createPanel(p);
-		panel.add(p);		
-		
-		addListener(panel,p);
-		return null;
-	}
-	
-	//Get all key components of a question like checkbox / textfield etc.
-	public ArrayList<Component> getAllComponents(JPanel panel)
-	{
-		List<Component> result = new ArrayList<Component>();
-		
-		//Get all panels of frame
-		Component[] cArray =  panel.getComponents();	
-		for(Component c : cArray)
-		{
-			//Get all components of panel
-			Component[] ccArray = ((JPanel) c).getComponents();
-			for(Component cj : ccArray)
-			{
-				//If checkbox add listeren
-				if(cj instanceof JCheckBox || cj instanceof JTextField)	
-				{
-					result.add(cj);
-				}
-			}
-		}
-		return (ArrayList<Component>) result;
-	}
-	
-	public void addListener(JPanel panel,final JPanel p)
-	{
-		//Put id's of conditions into memory 		
-		IdCollector m = new IdCollector();
-		this.conditions.collectIds(m);
-
-		//Get all panels of frame
-		Component[] cArray =  panel.getComponents();	
-		for(Component c : cArray)
-		{
-			//Get all components of panel
-			Component[] ccArray = ((JPanel) c).getComponents();
-			for(Component cj : ccArray)
-			{
-				//If checkbox add listeren
-				if(cj instanceof JCheckBox)	
-				{
-					final JCheckBox jh = (JCheckBox)cj;
-					if(m.containsId(jh.getName()) == true)
-					{
-						ActionListener actionListener = new ActionListener() {
-							public void actionPerformed(ActionEvent actionEvent) {
-								System.out.println(jh.getName());
-								p.setVisible(jh.isSelected());
-							}
-						};
-						jh.addActionListener(actionListener);
-					}
-				}
-			}
-		}					
-	}
-	
-	public void createPanel(JPanel panel)
-	{
-		for(Iterator<Statement> s = this.thenStatements.iterator(); s.hasNext();)
-		{
-			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(panel);
-			if(component != null)
-			{
-				panel.add(component);
-			}
-		}				
-	}
-
 	@Override
 	public void collectIds(IdCollector idCollector) {
 		this.conditions.collectIds(idCollector);
@@ -153,6 +72,17 @@ public class IfStatement implements Statement {
 
 
 	@Override
-	public void initMemory(RuntimeMemory mem){};
+	public void initMemory(RuntimeMemory mem){}
+
+
+	@Override
+	public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI) {
+		// TODO Auto-generated method stub
+		guiBuilder.createIf(conditions);
+		for(Statement s : this.thenStatements)
+		{
+			s.createGUIComponent(guiBuilder, formGUI);
+		}		
+	};
 		
 }

@@ -10,6 +10,8 @@ import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.GenericValue;
 import com.form.language.error.ErrorCollector;
+import com.form.language.gui.components.FormComponent;
+import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
@@ -26,12 +28,6 @@ public class AssignmentStatement implements Statement {
 		this.type = type;
 		this.expression = expression;
 		this.tokenInfo = tokenInfo;
-	}
-
-	@Override
-	public JComponent createGUIComponent(JPanel panel) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -58,5 +54,11 @@ public class AssignmentStatement implements Statement {
 	
 	public void initMemory(RuntimeMemory mem){
 		expression.evaluate(mem).addToMemory(id, mem);
+	}
+
+	@Override
+	public void createGUIComponent(GUIBuilder guiBuilder, FormComponent formGUI) {
+		// TODO Auto-generated method stub
+		
 	}
 }
