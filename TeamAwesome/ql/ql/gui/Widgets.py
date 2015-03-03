@@ -22,15 +22,15 @@ class Dropdown(tk.OptionMenu, Widget):
         return self._value.get() == "yes"
 
 class RadioButtons(tk.Frame, Widget):
-    def __init__(self, master, questionModel, callback):
+    def __init__(self, master, questionModel, callback, trueText = "yes", falseText = "no"):
         tk.Frame.__init__(self, master)
         
         self._value = tk.IntVar()
 
         self._buttons = []
         
-        for answer, value in (("yes", 1), ("no", 0)):
-            self._buttons.append(tk.Radiobutton(self, text = answer, variable = self._value, value = value, command = lambda : callback(self.value())))
+        for text, value in ((trueText, 1), (falseText, 0)):
+            self._buttons.append(tk.Radiobutton(self, text = text, variable = self._value, value = value, command = lambda : callback(self.value())))
             self._buttons[-1].grid()
 
         self.update(questionModel)
