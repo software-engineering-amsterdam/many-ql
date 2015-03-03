@@ -9,15 +9,19 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import com.form.language.ast.expression.Expression;
+import com.form.language.ast.statement.Question;
 import com.form.language.ast.values.StringValue;
+import com.form.language.memory.RuntimeMemory;
 
 public class TextField extends JTextField implements Widget {
 	
 	private static final long serialVersionUID = 1L;
 	//private WidgetListener widgetListener;
 	private Expression showCondition;
+	private RuntimeMemory rm;
+	private Question question;
 
-	public TextField(Expression showCondition) {
+	public TextField(Question question,Expression showCondition, RuntimeMemory rm) {
 		this.showCondition = showCondition;
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener((DocumentListener) this);

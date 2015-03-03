@@ -33,7 +33,7 @@ public class GUIBuilder {
 	}
 
 	public void createGUIQuestion(Question question, FormComponent formGUI2, RuntimeMemory rm) {
-		QuestionComponent questionCompondent = new QuestionComponent(question,showCondition);	
+		QuestionComponent questionCompondent = new QuestionComponent(question,showCondition,rm);	
 		formGUI2.add(questionCompondent);
 	}
 	
