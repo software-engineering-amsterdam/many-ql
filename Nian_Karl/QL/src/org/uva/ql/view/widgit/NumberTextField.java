@@ -32,7 +32,7 @@ public class NumberTextField extends BaseTextField {
 		try {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);
-			if (m.matches()) {
+			if (m.matches() && !input.equals("")) {
 				int i = Integer.parseInt(input);
 				widgetListener.widgetValueChanged(getIdentifier(), new Int(i));
 			}

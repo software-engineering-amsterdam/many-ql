@@ -18,14 +18,13 @@ import org.uva.ql.view.GUIVisitor;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		ANTLRFileStream input = new ANTLRFileStream("scripts/quest4.ql");
+		ANTLRFileStream input = new ANTLRFileStream("scripts/quest1.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
 		ParseTree tree = parser.questionnaire();
 		QLImplVisitor visitor = new QLImplVisitor();
 		Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
-
 		TypeChecker typeChecker = new TypeChecker();
 		if (questionnaire.accept(typeChecker)) {
 			GUIVisitor guiVisitor = new GUIVisitor();
