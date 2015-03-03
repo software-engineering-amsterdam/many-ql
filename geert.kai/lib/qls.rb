@@ -9,6 +9,7 @@ else
 end
 
 require_all "lib/qls"
+require_relative "ql"
 
 
 module QLS
@@ -18,5 +19,12 @@ module QLS
     parser    = Parser.new(tokenizer)
     result    = parser.parse
     result
+  end
+
+  def self.check_qls(ql_ast, qls_ast)
+    ql_question_names = QL::Runner::QuestionVisitor.new(ql_ast).questions.map &:variable_name
+    errors = Checking::QuestionChecker.new(qls_ast).errors(ql_question_names)
+
+    { errors: errors }
   end
 end

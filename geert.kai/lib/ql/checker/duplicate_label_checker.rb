@@ -8,7 +8,7 @@ module QL
         @descriptions = []
       end
 
-      def errors
+      def warnings
         (visit @base).flatten
       end
 
