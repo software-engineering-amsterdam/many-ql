@@ -1,6 +1,8 @@
 package org.fugazi.qls.ast;
 
-public abstract class AbstractASTQLSNode {
+import org.fugazi.ql.ast.AbstractASTQLNode;
+
+public abstract class AbstractASTQLSNode extends AbstractASTQLNode {
 
     protected final int lineNumber;
 
