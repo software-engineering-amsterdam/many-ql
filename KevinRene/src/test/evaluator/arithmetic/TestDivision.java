@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import cons.Value;
-import cons.value.FloatValue;
-import cons.value.IntegerValue;
-import cons.value.UndefinedValue;
+import ql.Value;
+import ql.value.FloatValue;
+import ql.value.IntegerValue;
+import ql.value.UndefinedValue;
 import test.evaluator.BaseTest;
 
 @RunWith(value = Parameterized.class)

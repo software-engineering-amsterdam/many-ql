@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import cons.ql.ast.ASTNode;
+import ql.ast.ASTNode;
 
 public class Parser {
 	/**

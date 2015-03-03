@@ -11,10 +11,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import cons.TypeEnvironment;
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.visitor.typechecker.TypeChecker;
-import cons.ql.parser.Parser;
+import ql.TypeEnvironment;
+import ql.ast.ASTNode;
+import ql.ast.visitor.typechecker.TypeChecker;
+import ql.parser.Parser;
 
 @RunWith(value = Parameterized.class)
 public class TestLowerOrEqual {

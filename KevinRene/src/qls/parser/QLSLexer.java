@@ -5,12 +5,11 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.expression.literal.BooleanLiteral;
-import cons.ql.ast.expression.literal.FloatLiteral;
-import cons.ql.ast.expression.literal.IntegerLiteral;
-import cons.ql.ast.expression.literal.StringLiteral;
+import ql.ast.ASTNode;
+import ql.ast.expression.Identifier;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
 
 public class QLSLexer implements QLSTokens {
 	private static final Map<String, Integer> KEYWORDS;

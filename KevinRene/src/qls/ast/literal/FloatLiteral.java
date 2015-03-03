@@ -1,10 +1,10 @@
 package qls.ast.literal;
 
+import ql.ast.expression.QLType;
+import ql.ast.expression.type.QLFloat;
+import ql.value.FloatValue;
 import qls.ast.Literal;
-import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLFloat;
 import qls.ast.visitor.Visitor;
-import cons.value.FloatValue;
 
 public class FloatLiteral extends Literal<FloatValue> {	
 

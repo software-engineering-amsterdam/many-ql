@@ -1,10 +1,10 @@
 package qls.ast.literal;
 
+import ql.ast.expression.QLType;
+import ql.ast.expression.type.QLInteger;
+import ql.value.IntegerValue;
 import qls.ast.Literal;
-import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLInteger;
 import qls.ast.visitor.Visitor;
-import cons.value.IntegerValue;
 
 public class IntegerLiteral extends Literal<IntegerValue> {	
 

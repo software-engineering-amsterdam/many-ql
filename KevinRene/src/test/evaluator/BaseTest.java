@@ -5,16 +5,16 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import cons.Value;
-import cons.ValueEnvironment;
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.visitor.evaluator.Evaluator;
-import cons.ql.parser.Parser;
-import cons.value.BooleanValue;
-import cons.value.FloatValue;
-import cons.value.IntegerValue;
-import cons.value.StringValue;
+import ql.Value;
+import ql.ValueEnvironment;
+import ql.ast.ASTNode;
+import ql.ast.expression.Identifier;
+import ql.ast.visitor.evaluator.Evaluator;
+import ql.parser.Parser;
+import ql.value.BooleanValue;
+import ql.value.FloatValue;
+import ql.value.IntegerValue;
+import ql.value.StringValue;
 
 @SuppressWarnings("rawtypes")
 public abstract class BaseTest {

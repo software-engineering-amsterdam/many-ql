@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import ql.Value;
+import ql.value.BooleanValue;
+import ql.value.UndefinedValue;
 import test.evaluator.BaseTest;
-import cons.Value;
-import cons.value.BooleanValue;
-import cons.value.UndefinedValue;
 
 @RunWith(value = Parameterized.class)
 public class TestEqual extends BaseTest {

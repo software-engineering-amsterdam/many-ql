@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import ql.Value;
+import ql.value.FloatValue;
 import test.evaluator.BaseTest;
-import cons.Value;
-import cons.value.FloatValue;
 
 @RunWith(value = Parameterized.class)
 public class TestFloatLiteral extends BaseTest {

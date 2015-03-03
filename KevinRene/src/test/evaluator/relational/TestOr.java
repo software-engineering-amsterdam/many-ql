@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import ql.Value;
+import ql.value.BooleanValue;
 import test.evaluator.BaseTest;
-import cons.Value;
-import cons.value.BooleanValue;
 
 @RunWith(value = Parameterized.class)
 public class TestOr extends BaseTest {

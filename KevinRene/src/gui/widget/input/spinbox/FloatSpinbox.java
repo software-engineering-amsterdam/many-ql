@@ -8,10 +8,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
-import com.sun.corba.se.impl.io.TypeMismatchException;
+import ql.Value;
+import ql.value.FloatValue;
 
-import cons.Value;
-import cons.value.FloatValue;
+import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class FloatSpinbox extends Spinbox<FloatValue> implements ChangeListener {
 	private SpinnerNumberModel model;

@@ -1,7 +1,7 @@
 package gui.widget;
 
+import ql.Value;
 import gui.Widget;
-import cons.Value;
 
 @SuppressWarnings("rawtypes")
 public abstract class InputWidget<T extends Value> implements Widget {

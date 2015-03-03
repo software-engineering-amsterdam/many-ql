@@ -1,6 +1,6 @@
 package qls.ast;
 
-import cons.ql.ast.expression.QLType;
+import ql.ast.expression.QLType;
 
 public abstract class Literal<T> implements ASTNode{
 	private final T value;

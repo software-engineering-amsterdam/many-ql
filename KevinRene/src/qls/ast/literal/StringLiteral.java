@@ -1,10 +1,10 @@
 package qls.ast.literal;
 
+import ql.ast.expression.QLType;
+import ql.ast.expression.type.QLString;
+import ql.value.StringValue;
 import qls.ast.Literal;
-import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLString;
 import qls.ast.visitor.Visitor;
-import cons.value.StringValue;
 
 public class StringLiteral extends Literal<StringValue> {	
 	

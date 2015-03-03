@@ -8,11 +8,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import cons.Value;
-import cons.ValueEnvironment;
-import cons.ql.ast.Expression;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.visitor.evaluator.Evaluator;
+import ql.Value;
+import ql.ValueEnvironment;
+import ql.ast.Expression;
+import ql.ast.expression.Identifier;
+import ql.ast.visitor.evaluator.Evaluator;
 
 @SuppressWarnings("rawtypes")
 public class ComputedQuestionPanel extends Composite {

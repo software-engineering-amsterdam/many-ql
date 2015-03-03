@@ -8,10 +8,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 
-import com.sun.corba.se.impl.io.TypeMismatchException;
+import ql.Value;
+import ql.value.IntegerValue;
 
-import cons.Value;
-import cons.value.IntegerValue;
+import com.sun.corba.se.impl.io.TypeMismatchException;
 
 public class IntegerSpinbox extends Spinbox<IntegerValue> implements ChangeListener {
 	private SpinnerNumberModel model;

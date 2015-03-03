@@ -8,10 +8,10 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.visitor.prettyprinter.PrettyPrinter;
-import cons.ql.parser.Parser;
-import cons.ql.parser.QLLexer;
+import ql.ast.ASTNode;
+import ql.ast.visitor.prettyprinter.PrettyPrinter;
+import ql.parser.Parser;
+import ql.parser.QLLexer;
 
 public class TestParser {
 	Parser formParser = new Parser();

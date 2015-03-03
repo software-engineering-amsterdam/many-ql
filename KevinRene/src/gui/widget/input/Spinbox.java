@@ -7,7 +7,7 @@ import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import cons.Value;
+import ql.Value;
 
 @SuppressWarnings("rawtypes")
 public abstract class Spinbox<T extends Value> extends InputWidget<T> implements ChangeListener {

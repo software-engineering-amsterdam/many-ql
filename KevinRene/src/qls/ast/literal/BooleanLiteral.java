@@ -1,10 +1,10 @@
 package qls.ast.literal;
 
+import ql.ast.expression.QLType;
+import ql.ast.expression.type.QLBoolean;
+import ql.value.BooleanValue;
 import qls.ast.Literal;
-import cons.ql.ast.expression.QLType;
-import cons.ql.ast.expression.type.QLBoolean;
 import qls.ast.visitor.Visitor;
-import cons.value.BooleanValue;
 
 public class BooleanLiteral extends Literal<BooleanValue> {
 

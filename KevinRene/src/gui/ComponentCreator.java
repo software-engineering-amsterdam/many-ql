@@ -13,26 +13,26 @@ import gui.widget.input.spinbox.IntegerSpinbox;
 
 import javax.swing.JFrame;
 
-import cons.ValueEnvironment;
-import cons.ql.ast.ASTNode;
-import cons.ql.ast.Statement;
-import cons.ql.ast.expression.Identifier;
-import cons.ql.ast.expression.literal.BooleanLiteral;
-import cons.ql.ast.expression.literal.FloatLiteral;
-import cons.ql.ast.expression.literal.IntegerLiteral;
-import cons.ql.ast.expression.literal.StringLiteral;
-import cons.ql.ast.expression.type.QLBoolean;
-import cons.ql.ast.expression.type.QLFloat;
-import cons.ql.ast.expression.type.QLInteger;
-import cons.ql.ast.expression.type.QLString;
-import cons.ql.ast.statement.Block;
-import cons.ql.ast.statement.ComputedQuestion;
-import cons.ql.ast.statement.Form;
-import cons.ql.ast.statement.If;
-import cons.ql.ast.statement.IfElse;
-import cons.ql.ast.statement.Question;
-import cons.ql.ast.visitor.ExpressionVisitor;
-import cons.ql.ast.visitor.StatementVisitor;
+import ql.ValueEnvironment;
+import ql.ast.ASTNode;
+import ql.ast.Statement;
+import ql.ast.expression.Identifier;
+import ql.ast.expression.literal.BooleanLiteral;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
+import ql.ast.expression.type.QLBoolean;
+import ql.ast.expression.type.QLFloat;
+import ql.ast.expression.type.QLInteger;
+import ql.ast.expression.type.QLString;
+import ql.ast.statement.Block;
+import ql.ast.statement.ComputedQuestion;
+import ql.ast.statement.Form;
+import ql.ast.statement.If;
+import ql.ast.statement.IfElse;
+import ql.ast.statement.Question;
+import ql.ast.visitor.ExpressionVisitor;
+import ql.ast.visitor.StatementVisitor;
 
 public class ComponentCreator implements StatementVisitor<Widget>, ExpressionVisitor<Widget> {	
 	private JFrame frame;
