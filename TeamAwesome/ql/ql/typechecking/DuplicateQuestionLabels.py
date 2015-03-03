@@ -11,7 +11,7 @@ class Checker(Checker.StatementChecker):
         for text, lines in self._labels.items():
             if len(lines) > 1:
                 for l in lines:
-                    self._result = self._result.withMessage(
+                    self._result = self._result.withWarning(
                         Message.Warning(
                             'duplicate question label `'+text+'`',
                             l

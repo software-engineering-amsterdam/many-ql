@@ -10,8 +10,12 @@ import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import uva.qls.ast.*;
+import uva.qls.ast.component.Checkbox;
+import uva.qls.ast.component.Component;
+import uva.qls.ast.component.*;
 import uva.qls.ast.literal.Identifier;
 import uva.qls.ast.literal.StringLiteral;
+import uva.qls.ast.statements.DefaultValue;
 import uva.qls.ast.statements.Question;
 import uva.qls.ast.statements.Section;
 import uva.qls.ast.statements.Statement;
@@ -20,7 +24,7 @@ import uva.qls.parser.*;
 import uva.qls.parser.QLSParser.CtxBooleanLiteralContext;
 import uva.qls.parser.QLSParser.CtxCheckboxContext;
 import uva.qls.parser.QLSParser.CtxColorContext;
-import uva.qls.parser.QLSParser.CtxComponenetContext;
+import uva.qls.parser.QLSParser.CtxComponentContext;
 import uva.qls.parser.QLSParser.CtxDefaultValueContext;
 import uva.qls.parser.QLSParser.CtxDropdownContext;
 import uva.qls.parser.QLSParser.CtxFontContext;
@@ -78,27 +82,36 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 
 	@Override
 	public Subsection visitCtxSubsection(CtxSubsectionContext ctx) {
-		CodeLines codeLines = this.getCodeLines(ctx);
-		//public Subsection (String _name, Question _question, CodeLines _codeLines){
-		
-		return new Subsection(this.visitString(ctx.subsection().STRING().getText(),codeLines),this.visitQuestion(ctx.subsection().quest),codeLines);
+		return this.visitSubsection(ctx.subsection());
 	}
 
 	@Override
-	public ASTNode visitCtxQuestion(CtxQuestionContext ctx) {
-		ctx.question().component().accept(this);
+	public Question visitCtxQuestion(CtxQuestionContext ctx) {
+		Component comp = (Component)ctx.question().component().accept(this);
+		
 		return null;
 	}
 
 	@Override
-	public ASTNode visitCtxDefaultValue(CtxDefaultValueContext ctx) {
+	public DefaultValue visitCtxDefaultValue(CtxDefaultValueContext ctx) {
 		// TODO Auto-generated method stub
 		// panos
 		return null;
 	}
+	
+	@Override 
+	public DefaultValue visitCtxDefaultComponent(QLSParser.CtxDefaultComponentContext ctx) { 
+		return null;
+	}
+
+	@Override 
+	public DefaultValue visitCtxDefaultStatement(QLSParser.CtxDefaultStatementContext ctx) { 
+		return null;
+	}
+
 
 	@Override
-	public ASTNode visitCtxComponenet(CtxComponenetContext ctx) {
+	public Component visitCtxComponent(CtxComponentContext ctx) {
 		// TODO Auto-generated method stub
 		// panos
 		return null;
@@ -112,17 +125,16 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 	}
 
 	@Override
-	public ASTNode visitSection(SectionContext ctx) {
+	public Section visitSection(SectionContext ctx) {
 		// TODO Auto-generated method stub
 		// panos
 		return null;
 	}
 
 	@Override
-	public ASTNode visitSubsection(SubsectionContext ctx) {
-		// TODO Auto-generated method stub
-		// panos
-		return null;
+	public Subsection visitSubsection(SubsectionContext ctx) {
+		CodeLines codeLines = this.getCodeLines(ctx);
+		return new Subsection(this.visitString(ctx.STRING().getText(),codeLines),this.visitQuestion(ctx.quest),codeLines);
 	}
 
 	@Override
@@ -132,44 +144,39 @@ public class QLSMainVisitor extends QLSBaseVisitor<ASTNode>{
 		return null;
 	}
 
+
 	@Override
-	public ASTNode visitDefaultValue(DefaultValueContext ctx) {
+	public Textbox visitCtxTextbox(CtxTextboxContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visitCtxTextbox(CtxTextboxContext ctx) {
+	public Spinbox visitCtxSpinbox(CtxSpinboxContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visitCtxSpinbox(CtxSpinboxContext ctx) {
+	public Slider visitCtxSlider(CtxSliderContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visitCtxSlider(CtxSliderContext ctx) {
+	public Dropdown visitCtxDropdown(CtxDropdownContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visitCtxDropdown(CtxDropdownContext ctx) {
+	public Radio visitCtxRadio(CtxRadioContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ASTNode visitCtxRadio(CtxRadioContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ASTNode visitCtxCheckbox(CtxCheckboxContext ctx) {
+	public Checkbox visitCtxCheckbox(CtxCheckboxContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}

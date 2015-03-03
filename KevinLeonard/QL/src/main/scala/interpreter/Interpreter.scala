@@ -1,7 +1,6 @@
 package interpreter
 
 import ast.Form
-import evaluator.Evaluator
 import gui.FormBuilder
 import parser.Parser
 import typechecker.{DuplicateLabelsChecker, TypeChecker}

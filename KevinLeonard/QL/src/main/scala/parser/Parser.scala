@@ -1,6 +1,7 @@
 package parser
 
 import ast._
+
 import scala.util.parsing.combinator.JavaTokenParsers
 
 class Parser extends JavaTokenParsers {
