@@ -31,7 +31,7 @@ public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
         List<ASTNodeIssue> errors = checker.getErrors();
 
         assertFalse(errors.isEmpty());
-        assertEquals(17, errors.size());
+        assertEquals(15, errors.size());
     }
 
     @Test
@@ -42,8 +42,6 @@ public class TestCheckerInvalidOperandTypesTest extends TypeCheckerBaseTest {
         List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
         for (ASTNodeIssue error: errors) {
-            System.out.println(error.getMessage() +
-            " " + (error.getLine()) + " " + error.getNode());
             receivedTypes.add(error.getErrorType());
         }
         // no custom arrayEquals method

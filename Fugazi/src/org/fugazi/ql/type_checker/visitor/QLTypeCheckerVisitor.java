@@ -236,24 +236,35 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
     /*
        This checks if both sides of the logical comparison are of required type.
     */
-    private Void visitBinaryComparison(Comparison comparison, Type expectedType) {
+    private Void visitBinaryComparison(Comparison comparison, List<Type> expectedTypes) {
         Expression left = comparison.getLeft();
         Expression right = comparison.getRight();
-        boolean leftCorrect = this.checkIfExpressionIsOfType(left, expectedType);
-        boolean rightCorrect = this.checkIfExpressionIsOfType(right, expectedType);
 
-        if (!leftCorrect) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
-                    "Left side of the binary comparison expression not of type "
-                            + expectedType.toString() + "."
-            );
+        // both sides need to be of same supported type
+        // in order for the expression to be correct
+        boolean differentTypes = false;
+        boolean unsupportedTypes = false;
+
+        if (!expectedTypes.contains(left.getReturnedType())
+                || !expectedTypes.contains(right.getReturnedType())) {
+            unsupportedTypes = true;
         }
-        if (!rightCorrect) {
+        if (!left.getReturnedType().equals(right.getReturnedType())) {
+            differentTypes = true;
+        }
+
+        if (unsupportedTypes) {
             this.astIssueHandler.registerNewError(
                     ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
-                    "Right side of the binary comparison expression not of type "
-                            + expectedType.toString() + "."
+                    "Side(s) of the binary comparison not of supported type(s): "
+                            + expectedTypes.toString() + ". " + "Instead received types: "
+                            + left.getReturnedType() + " and " + right.getReturnedType() + "."
+            );
+        } else if (differentTypes) {
+            this.astIssueHandler.registerNewError(
+                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, comparison,
+                    "Two sides of the binary comparison expression of different types: "
+                            + left.getReturnedType() + " and " + right.getReturnedType() + "."
             );
         }
 
@@ -264,49 +275,32 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     @Override
     public Void visitEQ(EQ eq) {
-
-        if (this.checkIfExpressionIsInt(eq)) {
-            this.visitBinaryComparison(eq, new IntType());
-        } else if (this.checkIfExpressionIsString(eq)) {
-            this.visitBinaryComparison(eq, new StringType());
-        } else if (this.checkIfExpressionIsBool(eq)) {
-            this.visitBinaryComparison(eq, new BoolType());
-        }
-
-        return null;
+        return this.visitBinaryComparison(eq, eq.getSupportedTypes());
     }
 
     @Override
     public Void visitGE(GE ge) {
-        return this.visitBinaryComparison(ge, new IntType());
+        return this.visitBinaryComparison(ge, ge.getSupportedTypes());
     }
 
     @Override
     public Void visitGreater(Greater greater) {
-        return this.visitBinaryComparison(greater, new IntType());
+        return this.visitBinaryComparison(greater, greater.getSupportedTypes());
     }
 
     @Override
     public Void visitLE(LE le) {
-        return this.visitBinaryComparison(le, new IntType());
+        return this.visitBinaryComparison(le, le.getSupportedTypes());
     }
 
     @Override
     public Void visitLesser(Less less) {
-        return this.visitBinaryComparison(less, new IntType());
+        return this.visitBinaryComparison(less, less.getSupportedTypes());
     }
 
     @Override
     public Void visitNotEq(NotEq notEq) {
-        if (this.checkIfExpressionIsInt(notEq)) {
-            this.visitBinaryComparison(notEq, new IntType());
-        } else if (this.checkIfExpressionIsString(notEq)) {
-            this.visitBinaryComparison(notEq, new StringType());
-        } else if (this.checkIfExpressionIsBool(notEq)) {
-            this.visitBinaryComparison(notEq, new BoolType());
-        }
-
-        return null;
+        return this.visitBinaryComparison(notEq, notEq.getSupportedTypes());
     }
 
     /**
