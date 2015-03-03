@@ -1,10 +1,10 @@
 package nl.uva.softwcons.ast.type;
 
-public class IntegerType extends Type {
+public class NumberType extends Type {
 
-    public static final IntegerType instance = new IntegerType();
+    public static final NumberType instance = new NumberType();
 
-    private IntegerType() {
+    private NumberType() {
 
     }
 

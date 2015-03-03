@@ -16,8 +16,7 @@ import nl.uva.softwcons.ast.expression.binary.logical.And;
 import nl.uva.softwcons.ast.expression.binary.logical.Or;
 import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
-import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
-import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
+import nl.uva.softwcons.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.eval.value.BooleanValue;
@@ -115,17 +114,12 @@ public final class ExpressionEvaluator implements ExpressionVisitor<Value> {
     }
 
     @Override
-    public NumberValue visit(final IntegerLiteral expr) {
-        return new NumberValue(expr.getValue());
-    }
-
-    @Override
     public StringValue visit(final StringLiteral expr) {
         return new StringValue(expr.getValue());
     }
 
     @Override
-    public NumberValue visit(final DecimalLiteral expr) {
+    public NumberValue visit(final NumberLiteral expr) {
         return new NumberValue(expr.getValue());
     }
 }
