@@ -1,8 +1,8 @@
 package gui;
 
+import evaluator.ValueRepository;
 import gui.questions.SimpleQuestionUI;
 import gui.widgets.IWidgetComponent;
-import interpreter.ValueRepository;
 
 import java.util.LinkedHashMap;
 import java.util.Set;

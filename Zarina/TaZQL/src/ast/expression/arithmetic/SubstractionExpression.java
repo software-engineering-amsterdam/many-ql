@@ -17,7 +17,7 @@ public class SubstractionExpression extends BinaryExpression {
 		
 	@Override
 	public String toString(){
-		return this.getLeftExpression().toString() +  "-" + this.getRightExpression().toString();
+		return this.getLeftExpression().toString() +  " - " + this.getRightExpression().toString();
 	}	
 }
 

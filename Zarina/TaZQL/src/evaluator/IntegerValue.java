@@ -1,4 +1,4 @@
-package interpreter;
+package evaluator;
 
 public class IntegerValue extends Value<Integer>  {
 //	private final Integer integerValue;

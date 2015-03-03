@@ -1,4 +1,4 @@
-package interpreter;
+package evaluator;
 
 public abstract class Value<T> {
 	private final T value;

@@ -1,4 +1,4 @@
-package interpreter;
+package evaluator;
 
 import ast.expression.BracketsExpression;
 import ast.expression.Expression;

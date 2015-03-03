@@ -1,4 +1,4 @@
-package interpreter;
+package evaluator;
 
 public class BooleanValue extends Value<Boolean> {
 	//private final Boolean booleanValue;

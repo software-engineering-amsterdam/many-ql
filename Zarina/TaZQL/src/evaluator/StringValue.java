@@ -1,4 +1,4 @@
-package interpreter;
+package evaluator;
 
 public class StringValue extends Value<String> {
 	//private final String stringValue;
