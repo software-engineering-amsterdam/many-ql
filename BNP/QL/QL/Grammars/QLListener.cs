@@ -109,11 +109,11 @@ namespace QL.Grammars
         public override void ExitQuestionUnit(QLParser.QuestionUnitContext context)
         {
             IList<ElementBase> children = GetChildren();//either call this or remove the InitializeNewLevel above
-            Debug.Assert(!children.Any(), "A unit should syntactically not have any children.");
+            Debug.Assert(!children.Any(), "A question should syntactically not have any children.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            ITerminalType dataType = GetTypeInstance(context.type());
-            dataType.SetValue(context.type().GetText());
+            IResolvableTerminalType dataType = GetTypeInstance(context.type());
+            
             string unitText = context.TEXT().GetText();
             
             QuestionUnit question = new QuestionUnit();
@@ -137,8 +137,7 @@ namespace QL.Grammars
             Debug.Assert(children.Count() == 1, "A statement should have only expression as a child.");
 
             Identifier identifier = new Identifier(context.IDENTIFIER().GetText());
-            ITerminalType dataType = GetTypeInstance(context.type());
-            dataType.SetValue(context.type().GetText());
+            IResolvableTerminalType dataType = GetTypeInstance(context.type());
             string unitText = context.TEXT().GetText();
 
             StatementUnit statement = new StatementUnit();
@@ -152,7 +151,7 @@ namespace QL.Grammars
             AppendToAST(statement);
         }
 
-        public ITerminalType GetTypeInstance(QLParser.TypeContext context)
+        public IResolvableTerminalType GetTypeInstance(QLParser.TypeContext context)
         {
             if (context as QLParser.YesnoContext != null) return new Yesno();
 
