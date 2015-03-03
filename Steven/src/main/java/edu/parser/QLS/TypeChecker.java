@@ -1,8 +1,8 @@
 package edu.parser.QLS;
 
 import edu.exceptions.TypeCheckException;
-import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
+import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.nodes.Identifier;
 import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
@@ -26,14 +26,32 @@ import java.util.stream.Collectors;
 public class TypeChecker implements QLSVisitor {
     public static final String UNIDENTIFIED_STYLESHEET_QUESTION = "Stylesheet contains questions that are not contained in the form. Unknown question identifiers:";
     private final List<Question> stylesheetQuestions;
+    private final List<edu.parser.QL.nodes.question.Question> formQuestions;
 
-    public TypeChecker() {
+    public TypeChecker(Form form) {
+        this.formQuestions = getQuestions(form);
         this.stylesheetQuestions = new ArrayList<>();
     }
 
-    public void start(Stylesheet stylesheet, Form form) {
-        visit(stylesheet);
-        confirmQuestionsExistInForm(getQuestions(form));
+    private List<edu.parser.QL.nodes.question.Question> getQuestions(Form form) {
+        return form.getElements()
+                .stream()
+                .filter(element -> element instanceof edu.parser.QL.nodes.question.Question)
+                .map(statement -> (edu.parser.QL.nodes.question.Question) statement)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public AbstractNode visit(Stylesheet stylesheet) {
+        visitStatements(stylesheet);
+        confirmQuestionsExistInForm(formQuestions);
+        return stylesheet;
+    }
+
+    private void visitStatements(Stylesheet stylesheet) {
+        stylesheet.getStatements()
+                .stream()
+                .forEach(element -> element.accept(this));
     }
 
     private void confirmQuestionsExistInForm(List<edu.parser.QL.nodes.question.Question> formQuestions) {
@@ -59,22 +77,6 @@ public class TypeChecker implements QLSVisitor {
     private Predicate<edu.parser.QL.nodes.question.Question> doesFormQuestionsContainStylesheetQuestion(Question stylesheetQuestion) {
         return formQuestion -> stylesheetQuestion.getIdentifier().getIdentifier()
                 .equals(formQuestion.getIdentifier().getIdentifier());
-    }
-
-    private List<edu.parser.QL.nodes.question.Question> getQuestions(Form form) {
-        return form.getElements()
-                .stream()
-                .filter(element -> element instanceof edu.parser.QL.nodes.question.Question)
-                .map(statement -> (edu.parser.QL.nodes.question.Question) statement)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public AbstractNode visit(Stylesheet stylesheet) {
-        stylesheet.getStatements()
-                .stream()
-                .forEach(element -> element.accept(this));
-        return stylesheet;
     }
 
     @Override

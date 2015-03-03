@@ -17,7 +17,7 @@ class TypeCheckerTest extends Specification {
     TypeChecker typeChecker
 
     def setup() {
-        typeChecker = new TypeChecker()
+        typeChecker = new TypeChecker(formQuestions)
     }
 
     def "should throw exception when stylesheet question is not contained in form questions"() {
