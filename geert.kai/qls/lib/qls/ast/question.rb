@@ -1,14 +1,29 @@
+
 module AST
-	class Question
-		attr_reader :name, :rules
 
-		def initialize(name, rules)
-			@name = name
-			@rules = rules
-		end
-	end
+  class Selector
+    attr_reader :declarations
 
-	class Default < Question
+    def accept(visitor)
+      visitor.visit(self)
+    end
+  end
 
-	end
+  class Question < Selector
+    attr_reader :name
+
+    def initialize(name, declarations)
+      @name = name
+      @declarations = declarations
+    end
+  end
+
+  class Default < Selector
+    attr_reader :type
+
+    def initialize(type, declarations)
+      @type = type
+      @declarations = declarations
+    end
+  end
 end

@@ -1,12 +1,13 @@
-from QL.AST.Expressions.expression import *
-from QL.AST.Expressions.simple_expression import *
-from QL.AST.Expressions.complex_expression import *
-from QL.AST.Elements.element import *
-from QL.AST.Elements.operators import *
-from QL.AST.Elements.variable import *
-from QL.AST.Elements.bool import *
-from QL.AST.Elements.number import *
-from QL.AST.Elements.text import *
+import QL.AST.Expressions.simple_expression as simple_expression
+import QL.AST.Expressions.complex_expression as complex_expression
+
+import QL.AST.Elements.operators as operator
+import QL.AST.Elements.variable as variable
+import QL.AST.Elements.bool as boolean
+import QL.AST.Elements.number as number
+import QL.AST.Elements.text as text
+
+import QL.Factory.forms as f
 
 
 # Factory for creating expressions
@@ -14,41 +15,41 @@ class ExpressionFactory:
 
     @staticmethod
     def make_variable(tokens):
-        return Variable(tokens[0])
+        return variable.Variable(tokens[0])
 
     @staticmethod
     def make_number(tokens):
-        return Number(int(tokens[0]))
+        return number.Number(int(tokens[0]))
 
     @staticmethod
     def make_calc_operator(tokens):
-        return CalcOperator(tokens[0])
+        return operator.CalcOperator(tokens[0])
 
     @staticmethod
     def make_comp_operator(tokens):
-        return CompareOperator(tokens[0])
+        return operator.CompareOperator(tokens[0])
 
     @staticmethod
     def make_extra_operator(tokens):
-        return ExtraOperator(tokens[0])
+        return operator.ExtraOperator(tokens[0])
 
     @staticmethod
     def make_bool(tokens):
         if tokens[0] == "True":
-            return Bool(True)
+            return boolean.Bool(True)
         else:
-            return Bool(False)
+            return boolean.Bool(False)
 
     @staticmethod
     def make_text(tokens):
-        return Text(FormFactory.make_sentence(tokens))
+        return text.Text(f.FormFactory.make_sentence(tokens))
 
     @staticmethod
     def make_sub_expression(tokens):
-        e = SimpleExpression(tokens)
+        e = simple_expression.SimpleExpression(tokens)
         return e
 
     @staticmethod
     def make_expression(tokens):
-        x = ComplexExpression(tokens)
+        x = complex_expression.ComplexExpression(tokens)
         return x

@@ -8,6 +8,7 @@ class IfElseBlock(IfBlock):
         self.statements = statements
         self.else_statements = else_statements
         self.parent_id = tid
+        self.element = None
 
     # Override
     def pretty_print(self, level=0):
@@ -76,6 +77,9 @@ class IfElseBlock(IfBlock):
             c = s.set_order(c)
         return c
 
+    def set_element(self, gui):
+        ...
+
     # Override
     def id_type_collection(self):
         d = {}
@@ -87,3 +91,15 @@ class IfElseBlock(IfBlock):
 
     def get_e_statements(self):
         return self.else_statements
+
+    def get_element(self):
+        return self.element
+
+    def get_statement_dict(self):
+        d = {}
+        for s in self.statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+        for s in self.else_statements:
+            d = dict(list(d.items()) + list(s.get_statement_dict().items()))
+
+        return d

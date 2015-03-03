@@ -2,7 +2,7 @@ package uva.qls.ast.literal;
 
 import uva.qls.ast.value.NumberValue;
 import uva.qls.ast.CodeLines;
-import uva.qls.ast.value.GenericValue;
+import uva.qls.supporting.Tuple;
 
 public class MoneyLiteral extends Literal {
 	
@@ -14,15 +14,23 @@ public class MoneyLiteral extends Literal {
 	}
 
 	@Override
+	public Tuple<Integer, Integer> getLOCTuple() {
+		return this.codeLines.getCodeLocation();
+	}
+
+	@Override
+	public CodeLines getLOC() {
+		return this.codeLines;
+	}
+	
+	@Override
 	public NumberValue evaluate() {
 		return new NumberValue(this.value);
 	}
-	
 
 	@Override
 	public String toString(){
-		
-	return "MoneyLiteral(" + String.valueOf(this.value) + ")";
+		return "MoneyLiteral(" + String.valueOf(this.value) + ")";
 	}	
 	
 	

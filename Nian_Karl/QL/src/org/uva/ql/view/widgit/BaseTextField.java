@@ -13,8 +13,8 @@ import org.uva.ql.view.listener.WidgetListener;
 
 public abstract class BaseTextField extends Widget implements DocumentListener {
 
-	private JTextField jTextField;
-	private WidgetListener widgetListener;
+	private final JTextField jTextField;
+	protected final WidgetListener widgetListener;
 	private static final long serialVersionUID = 1L;
 
 	public BaseTextField(WidgetListener listener) {
@@ -45,7 +45,7 @@ public abstract class BaseTextField extends Widget implements DocumentListener {
 		System.out.println("When does this trigger?..");
 	}
 
-	private void notifyListener(DocumentEvent e) {
+	public void notifyListener(DocumentEvent e) {
 		String s;
 		try {
 			s = e.getDocument().getText(0, e.getDocument().getLength());

@@ -38,6 +38,7 @@
 %type <Form> form
 %type <Statement> statement
 %type <Block> statements
+%type <Block> elseBranch
 
 %{
 import cons.ql.ast.*;
@@ -71,12 +72,13 @@ import cons.ql.ast.statement.*;
 
  statement : IDENTIFIER ':' type '{' STRINGLITERAL '}' 							{ $$ = new Question($1, $3, $5); }
  		   | IDENTIFIER ':' type '{' STRINGLITERAL ASSIGN '(' expression ')' '}'{ $$ = new ComputedQuestion($1, $3, $5, $8); }
- 		   | IF '(' expression ')' '{' statements '}' elseBranch 				{ $$ = new If($3, $6); }
- 		   | IF '(' expression ')' '{' '}' elseBranch 							{ $$ = new If($3, new Block()); }
+ 		   | IF '(' expression ')' '{' statements '}'							{ $$ = new If($3, $6); }
+ 		   | IF '(' expression ')' '{' statements '}' elseBranch			 	{ $$ = new IfElse($3, $6, $8); } 		   
+ 		   | IF '(' expression ')' '{' '}' 			 							{ $$ = new If($3, new Block()); }
+ 		   | IF '(' expression ')' '{' '}' elseBranch							{ $$ = new IfElse($3, new Block(), $7); }
  		   ;
 
- elseBranch : ELSE '{' statements '}' 
- 			| /* empty */
+ elseBranch : ELSE '{' statements '}' { $$ = $3; }
  			;
 
  expression : IDENTIFIER

@@ -22,10 +22,10 @@ class Evaluator {
     case Not(e1) => doBooleanOperation(!_, e1, env)
     case Equal(l, r) => doEqualityOperation(_ == _, l, r, env)
     case NotEqual(l, r) => doEqualityOperation(_ != _, l, r, env)
-    case LessThan(l, r) => doOrderOperation(_ < _, l, r, env)
-    case LessThanEqual(l, r) => doOrderOperation(_ <= _, l, r, env)
-    case GreaterThan(l, r) => doOrderOperation(_ > _, l, r, env)
-    case GreaterThanEqual(l, r) => doOrderOperation(_ >= _, l, r, env)
+    case LessThan(l, r) => doRelationalOperation(_ < _, l, r, env)
+    case LessThanEqual(l, r) => doRelationalOperation(_ <= _, l, r, env)
+    case GreaterThan(l, r) => doRelationalOperation(_ > _, l, r, env)
+    case GreaterThanEqual(l, r) => doRelationalOperation(_ >= _, l, r, env)
     case Add(l, r) => doArithmeticOperation(_ + _, l, r, env)
     case Sub(l, r) => doArithmeticOperation(_ - _, l, r, env)
     case Mul(l, r) => doArithmeticOperation(_ * _, l, r, env)
@@ -35,13 +35,10 @@ class Evaluator {
   }
 
   def doIfStatement(i: IfStatement, env: EvalEnvironment): EvalEnvironment = {
-     eval(i.expression, env) match {
-      case BooleanValue(true) => eval(i.ifBlock, env)
-      case BooleanValue(false) => i.optionalElseBlock match {
-        case None => env
-        case Some(elseBlock) => eval(elseBlock, env)
-      }
-      case _ => throw new AssertionError("Error in type checker. If statement expects boolean expression.")
+    eval(i.ifBlock, env)
+    i.optionalElseBlock match {
+      case None => env
+      case Some(elseBlock) => eval(elseBlock, env)
     }
   }
 
@@ -79,10 +76,10 @@ class Evaluator {
     }
   }
 
-  def doOrderOperation(op: (Int, Int) => Boolean, e1: Expression, e2: Expression, env: EvalEnvironment): BooleanValue = {
+  def doRelationalOperation(op: (Int, Int) => Boolean, e1: Expression, e2: Expression, env: EvalEnvironment): BooleanValue = {
     (eval(e1, env), eval(e2, env)) match {
       case (NumberValue(b1), NumberValue(b2)) => BooleanValue(op(b1, b2))
-      case _ => throw new AssertionError("Error in type checker. Order operator expects two number values.")
+      case _ => throw new AssertionError("Error in type checker. Relational operator expects two number values.")
     }
   }
 

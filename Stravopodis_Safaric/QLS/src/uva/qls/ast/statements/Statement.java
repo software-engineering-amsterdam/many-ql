@@ -8,6 +8,5 @@ public abstract class Statement extends ASTNode {
 	public Statement(CodeLines _codeLines) {
 		super(_codeLines);
 	}
-	
-	
+		
 }
