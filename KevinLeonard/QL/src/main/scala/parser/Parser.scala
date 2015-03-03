@@ -21,7 +21,7 @@ class Parser extends JavaTokenParsers {
     s => Literal(NumberType(), NumberValue(s.toInt))
   }
   def string: Parser[Literal] = stringLiteral ^^ {
-    s => Literal(StringType(), StringValue(s))
+    s => Literal(StringType(), StringValue(s.substring(1, s.length - 1)))
   }
 
   // form parsers
