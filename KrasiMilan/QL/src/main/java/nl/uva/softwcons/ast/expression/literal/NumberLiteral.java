@@ -6,11 +6,11 @@ import nl.uva.softwcons.ast.LineInfo;
 import nl.uva.softwcons.ast.expression.Expression;
 import nl.uva.softwcons.ast.expression.ExpressionVisitor;
 
-public class DecimalLiteral extends Expression {
+public class NumberLiteral extends Expression {
     private BigDecimal value;
     private LineInfo lineInfo;
 
-    public DecimalLiteral(double value, LineInfo lineInfo) {
+    public NumberLiteral(double value, LineInfo lineInfo) {
         this.value = new BigDecimal(value);
         this.lineInfo = lineInfo;
     }
