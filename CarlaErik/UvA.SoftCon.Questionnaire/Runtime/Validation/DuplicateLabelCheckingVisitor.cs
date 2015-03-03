@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
     /// <summary>
     /// Checks for duplicate labels in questions.
     /// </summary>
-    public class DuplicateLabelCheckingVisitor : ASTVisitor
+    public class DuplicateLabelCheckingVisitor : QLVisitor
     {
         private ICollection<Question> _questions;
         

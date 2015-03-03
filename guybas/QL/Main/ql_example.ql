@@ -26,7 +26,7 @@ else {
     Question check (bool) : Will this work?
 }
 
-if (con == True) {
+if (con == True and why == "True") {
     Question trans2 (bool) : Just a test?
 }
 else {
@@ -36,4 +36,6 @@ else {
 if (5 - 3 + (2 / 1) == 4) {
     Question dunno (bool) : Do you know what to write?
 }
+
+Assignment improve (number) : 10 - grade
 

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST;
-using UvA.SoftCon.Questionnaire.AST.Model.Expressions;
-using UvA.SoftCon.Questionnaire.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.QL;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
     /// <summary>
     /// Checks if variables or questions are defined, not redeclared and used.
     /// </summary>
-    public class VariableUsageCheckingVisitor : ASTVisitor
+    public class VariableUsageCheckingVisitor : QLVisitor
     {
         protected class IdentifierUsageCount
         {

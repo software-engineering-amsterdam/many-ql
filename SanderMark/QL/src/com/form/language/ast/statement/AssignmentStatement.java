@@ -9,7 +9,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 
 public class AssignmentStatement implements Statement {
 	public String id;
@@ -42,10 +42,10 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public void fillMemory(Memory memory) {
+	public void fillMemory(IdCollector idCollector) {
 		// TODO Auto-generated method stub
 		//this.expression.fillMemory(memory);
-		memory.addId(new IdLiteral(id,type,memory,null));
+		idCollector.addId(new IdLiteral(id,type,idCollector,null));
 	}
 	
 	

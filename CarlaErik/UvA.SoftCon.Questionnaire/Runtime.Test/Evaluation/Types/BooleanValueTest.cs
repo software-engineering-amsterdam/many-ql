@@ -62,6 +62,5 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Test.Evaluation.Types
             Assert.IsTrue(((BooleanValue)boolFalse.IsNotEqualTo(boolTrue)).Val);
             Assert.IsFalse(((BooleanValue)boolTrue.IsNotEqualTo(boolTrue)).Val);
         }
-    
     }
 }

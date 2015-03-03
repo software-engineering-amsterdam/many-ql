@@ -3,13 +3,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.form.language.ast.statement.Statement;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
 
 public class Form  {
 	public String id;
@@ -27,19 +26,16 @@ public class Form  {
 	}
 
 	public JComponent createGUIComponent(JPanel panel) {
-		fPanel = new JPanel();
-		fPanel.setLayout(new BoxLayout(fPanel, BoxLayout.Y_AXIS));
-		
 		for(Iterator<Statement> s = this.statementList.iterator(); s.hasNext();)
 		{
 			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(fPanel);
+			JComponent component = statement.createGUIComponent(panel);
 			if(component != null)
 			{
-				fPanel.add(component);
+				panel.add(component);
 			}
 		}		
-		return fPanel;
+		return null;
 	}
 	
 	public void getErrors(ErrorCollector errs){
@@ -47,9 +43,9 @@ public class Form  {
 			s.getErrors(errs);
 		}
 	}
-	public void fillMemory(Memory memory){
+	public void fillMemory(IdCollector idCollector){
 		for(Statement s: statementList){
-			s.fillMemory(memory);			
+			s.fillMemory(idCollector);			
 		}
 		
 	}

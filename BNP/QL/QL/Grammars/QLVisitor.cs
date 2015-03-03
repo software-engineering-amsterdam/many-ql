@@ -63,12 +63,6 @@ namespace QL.Grammars
             return base.VisitControlUnit(context);
         }
 
-        public override QLParser.FormBlockContext VisitOperator(QLParser.OperatorContext context)
-        {
-            Console.WriteLine("Operator: {0}", context.GetText());
-            return base.VisitOperator(context);
-        }
-
         public override QLParser.FormBlockContext VisitChildren(Antlr4.Runtime.Tree.IRuleNode node)
         {
             //Console.WriteLine(node.GetText());

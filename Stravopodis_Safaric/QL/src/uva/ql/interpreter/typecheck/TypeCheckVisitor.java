@@ -11,7 +11,7 @@ import uva.ql.ast.expressions.Expression;
 import uva.ql.ast.expressions.PrimitiveType;
 import uva.ql.ast.expressions.Type;
 import uva.ql.ast.expressions.literals.BooleanLiteral;
-import uva.ql.ast.expressions.literals.DecimalLiteral;
+import uva.ql.ast.expressions.literals.MoneyLiteral;
 import uva.ql.ast.expressions.literals.Identifier;
 import uva.ql.ast.expressions.literals.IntLiteral;
 import uva.ql.ast.expressions.literals.StringLiteral;
@@ -53,7 +53,7 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitForm(Form form) {
+	public Form visitForm(Form form) {
 		
 		Symbol symbol = new Symbol("form", form.getClass().getName(), form.getCodeLines());
 		symbols.putValue(form.getIdentifier().evaluate().getValue(), symbol);
@@ -121,11 +121,12 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 		String identifier = assign.getIdentifier().evaluate().getValue();
 		Expression expression = assign.getExpression();
 		
-		TypeCheck.hasDuplicateLabels(this.symbols, expression);
+		Symbol symbol = new Symbol(type.getTypeName(), assign.getClass().getName(), assign.getCodeLines(),
+				expression);
 		
-		symbols.putValue(identifier, 
-				new Symbol(type.getTypeName(), assign.getClass().getName(), assign.getCodeLines(),
-				expression));
+		TypeCheck.hasDuplicateLabels(this.symbols, expression);
+		TypeCheck.declarationWithinQuestionScope(this.symbols, identifier, assign, symbol);
+		symbols.putValue(identifier, symbol);
 		
 		this.visitExpression(expression);
 		assign.getExpression().accept(this);
@@ -235,8 +236,8 @@ public class TypeCheckVisitor implements ExpressionVisitorInterface<Object>, Sta
 	}
 
 	@Override
-	public Object visitDecimalLiteral(DecimalLiteral decimalLiteral) {
-		return decimalLiteral;
+	public Object visitMoneyLiteral(MoneyLiteral moneyLiteral) {
+		return moneyLiteral;
 	}
 
 	@Override

@@ -2,9 +2,10 @@ package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.ql.types.TBool;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
-import org.uva.student.calinwouter.qlqls.ql.types.TString;
+import org.uva.student.calinwouter.qlqls.ql.types.BoolValue;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
+import org.uva.student.calinwouter.qlqls.ql.types.StringValue;
+import org.uva.student.calinwouter.qlqls.qls.QLSInterpreter;
 import org.uva.student.calinwouter.qlqls.qls.model.abstractions.AbstractFormField;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IModel;
 import org.uva.student.calinwouter.qlqls.qls.model.interfaces.IQuestionWidgetCallback;
@@ -23,15 +24,15 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
         iModel.caseQuestion(this);
     }
 
-    public Question() {
-        super();
+    public Question(QLSInterpreter qlsInterpreter) {
+        super(qlsInterpreter);
     }
 
     @Override
     public void usesBoolean() {
         try {
-            getTypeToWidgetSettingsModel().getWidgetSettingsModel(TBool.TYPE_REFERENCE).getWidget()
-                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(TBool.TYPE_REFERENCE));
+            getTypeToWidgetSettingsModel().getWidgetSettingsModel(BoolValue.TYPE_REFERENCE).getWidget()
+                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(BoolValue.TYPE_REFERENCE));
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -40,8 +41,8 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
     @Override
     public void usesInteger() {
         try {
-            getTypeToWidgetSettingsModel().getWidgetSettingsModel(TInteger.TYPE_REFERENCE).getWidget()
-                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(TInteger.TYPE_REFERENCE));
+            getTypeToWidgetSettingsModel().getWidgetSettingsModel(IntegerValue.TYPE_REFERENCE).getWidget()
+                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(IntegerValue.TYPE_REFERENCE));
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -50,8 +51,8 @@ public class Question extends AbstractFormField<Question> implements TypeCallbac
     @Override
     public void usesString() {
         try {
-            getTypeToWidgetSettingsModel().getWidgetSettingsModel(TString.TYPE_REFERENCE).getWidget()
-                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(TString.TYPE_REFERENCE));
+            getTypeToWidgetSettingsModel().getWidgetSettingsModel(StringValue.TYPE_REFERENCE).getWidget()
+                    .applyWidget(this, widgetCallback, getWidgetSettingsModel(StringValue.TYPE_REFERENCE));
         } catch(Exception e) {
             e.printStackTrace();
         }

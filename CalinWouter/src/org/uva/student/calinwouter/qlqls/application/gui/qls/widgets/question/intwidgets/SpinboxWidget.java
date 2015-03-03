@@ -2,7 +2,7 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.i
 
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.IWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.ql.types.TInteger;
+import org.uva.student.calinwouter.qlqls.ql.types.IntegerValue;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class SpinboxWidget implements IWidget{
        spinner.addChangeListener(new ChangeListener() {
            @Override
            public void stateChanged(ChangeEvent e) {
-               headlessFormInterpreter.setField(question.getFieldName(), new TInteger(Integer.parseInt(spinner.getValue().toString())));
+               headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
                headlessFormInterpreter.interpret();
            }
        });

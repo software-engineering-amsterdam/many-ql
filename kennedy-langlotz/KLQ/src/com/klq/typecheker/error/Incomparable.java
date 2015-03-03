@@ -9,7 +9,7 @@ import com.klq.logic.question.Type;
  */
 public class Incomparable extends AError{
     public Incomparable(ABinaryExprNode node, String operator, Type leftChild, Type rightChild) {
-        super(1, true, String.format("The operands of the \"%s\" operator are not of the same type. The left operand is a %s. The right operand is a %s", operator, leftChild, rightChild), node.getLoc());
+        super(5, true, String.format("The operands of the \"%s\" operator are not of the same type. The left operand is a %s. The right operand is a %s", operator, leftChild, rightChild), node.getLoc());
     }
 
 }

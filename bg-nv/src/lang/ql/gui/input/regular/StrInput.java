@@ -1,11 +1,7 @@
 package lang.ql.gui.input.regular;
 
-import javafx.scene.Node;
-import javafx.scene.control.TextField;
-import lang.ql.ast.expression.StrExpr;
-import lang.ql.gui.GuiVisitor;
+import lang.ql.gui.ModelVisitor;
 import lang.ql.gui.input.Input;
-import lang.ql.semantics.values.StringValue;
 
 /**
  * Created by Nik on 22-02-2015
@@ -22,7 +18,7 @@ public class StrInput extends Input
         super(id, visible, disabled);
     }
 
-    public <T> T accept(GuiVisitor<T> visitor)
+    public <T> T accept(ModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

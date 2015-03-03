@@ -10,7 +10,4 @@ public abstract class Literal extends Expression implements ExpressionVisitable{
 		super(pos);
 	}
 
-	public abstract Object getValue();
-
-
 }

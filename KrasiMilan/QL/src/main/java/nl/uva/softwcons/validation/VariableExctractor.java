@@ -21,8 +21,7 @@ import nl.uva.softwcons.ast.expression.binary.logical.And;
 import nl.uva.softwcons.ast.expression.binary.logical.Or;
 import nl.uva.softwcons.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
-import nl.uva.softwcons.ast.expression.literal.DecimalLiteral;
-import nl.uva.softwcons.ast.expression.literal.IntegerLiteral;
+import nl.uva.softwcons.ast.expression.literal.NumberLiteral;
 import nl.uva.softwcons.ast.expression.literal.StringLiteral;
 import nl.uva.softwcons.ast.expression.unary.UnaryExpression;
 import nl.uva.softwcons.ast.expression.unary.logical.Not;
@@ -112,17 +111,12 @@ public final class VariableExctractor implements ExpressionVisitor<Set<Identifie
     }
 
     @Override
-    public Set<Identifier> visit(IntegerLiteral expr) {
-        return new HashSet<>();
-    }
-
-    @Override
     public Set<Identifier> visit(StringLiteral expr) {
         return new HashSet<>();
     }
 
     @Override
-    public Set<Identifier> visit(DecimalLiteral expr) {
+    public Set<Identifier> visit(NumberLiteral expr) {
         return new HashSet<>();
     }
 
