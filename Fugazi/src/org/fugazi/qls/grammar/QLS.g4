@@ -29,7 +29,7 @@ defaultStyleDeclr : 'default' type widget                           # noStylesDe
 
 // The supported widgets
 supportedWidget : 'checkbox'                                    # checkboxWidget
-                | 'radio' '(' (STRING ',')* STRING  ')'         # radioWidget
+                | 'radio' '(' (yes=STRING ',')* no=STRING  ')'  # radioWidget
                 | 'dropdown'                                    # dropdownWidget
                 | 'spinbox'                                     # spinboxWidget
                 | 'slider'                                      # sliderWidget
@@ -63,10 +63,7 @@ ID  :   [a-zA-Z]+;
 NUMBER : DIGIT+ ;
 
 // HEX
-// TODO this is ugly but also not.
-// This is the only way to enforce n repetitions of a token with antlr.
 HEX : '#' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT ;
-HEXDIGIT: [0-9a-fA-F] ;
 
 // comment matches anything between /* and */
 COMMENT
@@ -84,5 +81,6 @@ LINE_COMMENT
 
 // Fragments
 fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
-fragment UNICODE : 'u' HEX HEX HEX HEX ;
-fragment DIGIT   : [0-9] ; // match single digit
+fragment HEXDIGIT: [0-9a-fA-F] ;
+fragment UNICODE : 'u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT ;
+fragment DIGIT   : [0-9] ;
