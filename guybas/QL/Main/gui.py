@@ -28,8 +28,6 @@ class QuestionnaireGUI:
         Label(text=self.intro, height=2).grid(row=0, column=0, sticky=W)
         self.draw_statements(self.statements)
         Button(text="Submit", width=10, command=lambda: Processor.export_answers(self.answersMap, self)).grid(row=999, column=0)
-        print(self.varsCondMap)
-        print(self.elementsMap)
 
     def draw_statements(self, statements):
         for statement in statements:
@@ -95,7 +93,6 @@ class QuestionnaireGUI:
 
         # check if condition holds
         condition = statement.get_parent_condition()
-        print(condition)
         c_results = True
         if condition is not None:
             processor = Processor()
@@ -131,8 +128,6 @@ class QuestionnaireGUI:
         for e in elements:
             # print(e.grid_info())
             e.destroy()
-
-        print(statement.get_parent_condition().pretty_print())
 
         self.draw_statements([statement])
 

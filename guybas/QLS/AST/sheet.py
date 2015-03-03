@@ -87,3 +87,8 @@ class Default(Page):
 
     def id_collection(self):
         return []
+
+
+class Property:
+    def __init__(self, name, value):
+        pass

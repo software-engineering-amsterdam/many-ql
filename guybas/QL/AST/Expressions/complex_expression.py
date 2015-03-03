@@ -37,8 +37,8 @@ class ComplexExpression(Expression):
         return types
 
     def not_expression(self):
-        print("ccccccccccccccccccc")
         # print(self.expression.pretty_print())
+        #print(self.expression.pretty_print())
+        print("here")
         print(self.expression)
-        # self.expression
-        return self.expression
+        return self.expression.as_list()
