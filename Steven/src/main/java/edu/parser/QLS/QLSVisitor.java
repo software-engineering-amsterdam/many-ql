@@ -7,10 +7,7 @@ import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.Question;
-import edu.parser.QLS.nodes.styles.Color;
-import edu.parser.QLS.nodes.styles.Font;
-import edu.parser.QLS.nodes.styles.Widget;
-import edu.parser.QLS.nodes.styles.Width;
+import edu.parser.QLS.nodes.styles.Style;
 import edu.parser.nodes.QuestionType;
 
 /**
@@ -29,13 +26,7 @@ public interface QLSVisitor {
 
     AbstractNode visit(Default aDefault);
 
-    AbstractNode visit(Width width);
-
-    AbstractNode visit(Widget widget);
-
-    AbstractNode visit(Font font);
-
-    AbstractNode visit(Color color);
-
     AbstractNode visit(QuestionType questionType);
+
+    AbstractNode visit(Style style);
 }
