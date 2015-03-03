@@ -1,6 +1,9 @@
 package org.fugazi.qls.ast.widget;
 
-public class Widget {
+import org.fugazi.qls.ast.AbstractASTNode;
+import org.fugazi.qls.ast.widget.widget_type.IWidgetType;
+
+public abstract class Widget extends AbstractASTNode {
     
     private final IWidgetType type;
     

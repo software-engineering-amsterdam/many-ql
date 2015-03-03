@@ -18,7 +18,7 @@ widget : 'widget' supportedWidget;
 
 // defaultStyle, can be: default boolean widget radio("Yes", "No"), and/or default int { style widget }
 defaultStyleDeclr : 'default' type widget                           # noStylesDefaultDeclr
-                  | 'default' type '{' styleProperty* widget '}'    # stylesDefaultDeclr
+                  | 'default' type '{' styleProperty+ widget '}'    # stylesDefaultDeclr
                   ;
 
 /**
@@ -27,7 +27,7 @@ defaultStyleDeclr : 'default' type widget                           # noStylesDe
 
 // The supported widgets
 supportedWidget : 'checkbox'                                    # checkboxWidget
-                | 'radio' '(' (yes=STRING ',')* no=STRING  ')'  # radioWidget
+                | 'radio' '(' yes=STRING ',' no=STRING ')'      # radioWidget
                 | 'dropdown'                                    # dropdownWidget
                 | 'spinbox'                                     # spinboxWidget
                 | 'slider'                                      # sliderWidget
