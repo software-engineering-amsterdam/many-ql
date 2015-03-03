@@ -7,7 +7,7 @@ using QL.Model.Terminals;
 
 namespace QL.Model
 {
-    public class QuestionUnit : UnitBase
+    public class QuestionUnit : UnitBase, ITypeResolvable
     {
         public bool Required;
 
@@ -28,6 +28,6 @@ namespace QL.Model
             Required = required;
             Identifier = identifier;
             DisplayText = displayText.ToString();
-        }
+        }        
     }
 }
