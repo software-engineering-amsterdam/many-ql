@@ -4,8 +4,6 @@ import gui.Widget;
 import gui.widget.Composite;
 import gui.widget.InputWidget;
 
-import java.util.Observable;
-
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -34,11 +32,11 @@ public class ComputedQuestionPanel extends Composite {
 		questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
 		
 		this.questionText = questionText;
-		this.questionText.addObserver(this);		
+		this.questionText.setHandler(this);		
 		questionPanel.add(this.questionText.getComponent());
 		
 		this.inputWidget = (InputWidget) inputWidget;		
-		this.inputWidget.addObserver(this);
+		this.inputWidget.setHandler(this);
 		this.inputWidget.disable();		
 		questionPanel.add(this.inputWidget.getComponent());
 		
@@ -50,28 +48,29 @@ public class ComputedQuestionPanel extends Composite {
 	public Expression getExpression() {
 		return expression;
 	}
-
+	
+	@Override
+	public void handleChange(Value changedValue) {
+		valueEnvironment.store(getIdentifier(), changedValue);
+		
+		super.handleChange(changedValue);
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
-	public JComponent getComponent() {
+	public void updateComponent() {
 		Value expressionValue = Evaluator.check(expression, this.valueEnvironment);
 
 		if(expressionValue instanceof UndefinedValue) {
-			return questionPanel;
+			return;
 		}
 
 		inputWidget.setValue(expressionValue);
-		
-		questionPanel.repaint();
-		
-		return questionPanel;
 	}
 	
+	
 	@Override
-	public void update(Observable o, Object arg) {
-		valueEnvironment.store(getIdentifier(), (Value) arg);
-		
-		setChanged();		
-		notifyObservers();
+	public JComponent getComponent() {
+		return questionPanel;
 	}
 }

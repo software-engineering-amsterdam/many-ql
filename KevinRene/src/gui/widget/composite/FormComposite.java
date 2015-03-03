@@ -4,14 +4,14 @@ import gui.Widget;
 import gui.widget.Composite;
 
 import java.awt.Component;
-import java.util.Observable;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
+import cons.Value;
 import cons.ql.ast.expression.Identifier;
 
 public class FormComposite extends Composite {
@@ -24,27 +24,31 @@ public class FormComposite extends Composite {
 		this.frame = frame;
 		
 		this.widgetPanel = panel;
-		this.widgetPanel.addObserver(this);
+		this.widgetPanel.setHandler(this);
 		
-		this.formPanel = new JPanel();
-		this.formPanel.setLayout(new BoxLayout(this.formPanel, BoxLayout.Y_AXIS));
+		this.formPanel = new JPanel(new MigLayout("insets 0, hidemode 2"));
 		this.formPanel.add(widgetPanel.getComponent());
-		this.formPanel.setLayout(new MigLayout("insets 0, hidemode 2"));
 		this.formPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public void update(Observable changedSubject, Object arguments) {
-		formPanel.removeAll();		
-		formPanel.add(widgetPanel.getComponent());
-		formPanel.repaint();
-		
-		frame.pack();
-		frame.setVisible(true);
+	public void handleChange(Value changedValue) {		
+		updateComponent();
 	}
 
 	@Override
-	public JComponent getComponent() {
-		return formPanel;
+	public void updateComponent() {
+		widgetPanel.updateComponent();
+		
+		formPanel.revalidate();
+		formPanel.repaint();
+		
+		frame.setVisible(true);
 	}
+	
+	@Override
+	public JComponent getComponent() {
+		return new JScrollPane(formPanel);
+	}	
 }

@@ -3,8 +3,6 @@ package gui.widget.composite;
 import gui.Widget;
 import gui.widget.Composite;
 
-import java.util.Observable;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -28,47 +26,63 @@ public class IfComposite extends Composite {
 		this.expression = expression;
 		this.valueEnvironment = valueEnvironment;
 		
+		this.activePanel = new JPanel();
+		
 		this.ifPanel = ifPanel;
-		this.ifPanel.addObserver(this);
+		this.ifPanel.setHandler(this);
+		activePanel.add(this.ifPanel.getComponent());
 		
 		this.elsePanel = elsePanel;
-		this.elsePanel.addObserver(this);
+		this.elsePanel.setHandler(this);
+		activePanel.add(this.elsePanel.getComponent());
 		
-		this.activePanel = new JPanel();
+		activateElsePanel();
 	}
 	
 	public IfComposite(Expression expression, ValueEnvironment valueEnvironment, Panel ifComponent) {
 		this(expression, valueEnvironment, ifComponent, new Panel());
-	}	
+	}
+	
+	public void activateIfPanel() {
+		ifPanel.getComponent().setVisible(true);
+		ifPanel.updateComponent();
+		
+		elsePanel.getComponent().setVisible(false);
+		elsePanel.updateComponent();
+	}
+	
+	public void activateElsePanel() {
+		ifPanel.getComponent().setVisible(false);
+		ifPanel.updateComponent();
+		
+		elsePanel.getComponent().setVisible(true);
+		elsePanel.updateComponent();
+	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public JComponent getComponent() {
+	public void updateComponent() {
 		// Recalculate the value for this computedQuestion
 		Value value = Evaluator.check(expression, valueEnvironment);
 		
 		if(value instanceof UndefinedValue) {
-			activePanel.add(elsePanel.getComponent());	
-			return activePanel;
+			activateElsePanel();
+			return;
 		}
-		
-		activePanel.removeAll();
 		
 		if(((BooleanValue) value).getValue()) {
-			activePanel.add(ifPanel.getComponent());			
+			activateIfPanel();
 		} else {
-			activePanel.add(elsePanel.getComponent());	
+			activateElsePanel();
 		}
 		
+		activePanel.revalidate();
 		activePanel.repaint();
-		
-		return activePanel;
 	}
 	
 	@Override
-	public void update(Observable o, Object arg) {		
-		setChanged();
-		notifyObservers();
+	public JComponent getComponent() {		
+		return activePanel;
 	}
 }
  

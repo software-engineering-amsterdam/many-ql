@@ -40,13 +40,17 @@ public class RadioButton extends InputWidget<BooleanValue> implements ActionList
 	}
 
 	@Override
+	public void updateComponent() {
+		radioButton.repaint();
+	}
+	
+	@Override
 	public JComponent getComponent() {
 		return radioButton;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		setChanged();
-		notifyObservers(getValue());
+		handleChange(getValue());
 	}
 }

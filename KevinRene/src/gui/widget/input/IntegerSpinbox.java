@@ -57,17 +57,19 @@ public class IntegerSpinbox extends InputWidget<IntegerValue> implements ChangeL
 	public void setValue(IntegerValue value) {
 		spinbox.setValue(value.getValue());
 	}
+	
+	@Override
+	public void updateComponent() {
+		spinbox.repaint();
+	}
 
 	@Override
 	public JComponent getComponent() {
-		spinbox.repaint();
-		
 		return spinbox;
 	}
 	
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		setChanged();
-		notifyObservers(getValue());
+		handleChange(getValue());
 	}
 }

@@ -6,7 +6,6 @@ import gui.widget.Composite;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -32,26 +31,22 @@ public class Panel extends Composite {
 		
 		panel.add(component.getComponent());
 		
-		component.addObserver(this);
+		component.setHandler(this);
 		component.getComponent().setAlignmentX(Component.LEFT_ALIGNMENT);
 	}
 	
 	@Override
-	public JComponent getComponent() {
-		panel.removeAll();
-		
+	public void updateComponent() {
 		for(Widget widget : widgets) {
-			panel.add(widget.getComponent());
+			widget.updateComponent();
 		}
 		
+		panel.revalidate();
 		panel.repaint();
-		
-		return panel;
 	}
-
+	
 	@Override
-	public void update(Observable changedSubject, Object arguments) {		
-		setChanged();
-		notifyObservers();
+	public JComponent getComponent() {
+		return panel;
 	}
 }

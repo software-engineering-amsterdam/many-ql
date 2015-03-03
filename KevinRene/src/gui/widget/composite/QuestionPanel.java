@@ -3,8 +3,6 @@ package gui.widget.composite;
 import gui.Widget;
 import gui.widget.Composite;
 
-import java.util.Observable;
-
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -25,34 +23,34 @@ public class QuestionPanel extends Composite {
 		questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
 		
 		this.questionText = questionText;
-		this.questionText.addObserver(this);
+		this.questionText.setHandler(this);
 		questionPanel.add(this.questionText.getComponent());
 		
 		this.questionWidget = widget;
-		this.questionWidget.addObserver(this);
+		this.questionWidget.setHandler(this);
 		questionPanel.add(this.questionWidget.getComponent());
 		
 		this.valueEnvironment = valueEnvironment;
 	}
 	
-	@Override
-	public JComponent getComponent() {
-		questionPanel.removeAll();
-		
-		questionPanel.add(questionText.getComponent());
-		questionPanel.add(questionWidget.getComponent());
-		
-		questionPanel.repaint();
-		
-		return questionPanel;
-	}
-
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void update(Observable o, Object arg) {		
-		valueEnvironment.store(getIdentifier(), (Value) arg);
+	public void handleChange(Value changedValue) {		
+		valueEnvironment.store(getIdentifier(), changedValue);
+		super.handleChange(changedValue);
+	}
+	
+	@Override
+	public void updateComponent() {
+		questionText.updateComponent();
+		questionWidget.updateComponent();
 		
-		setChanged();		
-		notifyObservers();
+		questionPanel.revalidate();
+		questionPanel.repaint();
+	}
+	
+	@Override
+	public JComponent getComponent() {		
+		return questionPanel;
 	}
 }
