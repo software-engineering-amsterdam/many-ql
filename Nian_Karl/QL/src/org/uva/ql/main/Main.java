@@ -24,7 +24,6 @@ public class Main {
 		QLParser parser = new QLParser(tokens);
 		ParseTree tree = parser.questionnaire();
 		QLImplVisitor visitor = new QLImplVisitor();
-		
 		Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
 		
 		TypeChecker checker = new TypeChecker();
