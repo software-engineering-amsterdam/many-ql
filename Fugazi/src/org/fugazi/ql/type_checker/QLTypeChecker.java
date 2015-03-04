@@ -1,16 +1,16 @@
 package org.fugazi.ql.type_checker;
 
+import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.Question;
+import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.form_data.QLFormDataStorage;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.fugazi.ql.type_checker.visitor.QLTypeCheckerVisitor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class QLTypeChecker {
@@ -30,7 +30,7 @@ public class QLTypeChecker {
      * =====================
      */
 
-    private void checkDuplicateLabels () {
+    private void checkDuplicateLabels() {
         List<Question> questions = this.formData.getQuestions();
         List<String> labels = new ArrayList<>();
 
@@ -48,9 +48,28 @@ public class QLTypeChecker {
         return;
     }
 
-//    private void checkForDuplicateLabels(QLFormDataStorage formData) {
-//        List<String> questionLabels = formData.getQuestionLabels();
-//    }
+    private void checkQuestionTypes() {
+        List<Question> questions = this.formData.getQuestions();
+        Map<String, Type> questionTypes = new HashMap<>();
+
+        for (Question question : questions) {
+            ID questionId = question.getIdentifier();
+            Type earlierQuestionType = questionTypes.get(questionId.getName());
+            if (earlierQuestionType != null) {
+                if (!earlierQuestionType.equals(question.getType())) {
+                    this.astIssueHandler.registerNewError(
+                            ASTNodeIssueType.ERROR.DUPLICATE,
+                            question, "Question already defined with different type."
+                    );
+                }
+
+            } else {
+                questionTypes.put(questionId.getName(), question.getType());
+            }
+
+        }
+
+    }
 
     /**
      * =====================
@@ -62,14 +81,15 @@ public class QLTypeChecker {
         this.formData = formData;
         // perform all checks that require storage
         this.checkDuplicateLabels();
+        this.checkQuestionTypes();
 
         // perform all the checks that can be done on the fly
         form.accept(this.visitor);
-        return this.visitor.isFormCorrect();
+        return this.isFormCorrect();
     }
 
     public boolean isFormCorrect() {
-        return this.visitor.isFormCorrect();
+        return (!this.astIssueHandler.hasErrors() && this.visitor.isFormCorrect());
     }
 
     public List<ASTNodeIssue> getErrors() {

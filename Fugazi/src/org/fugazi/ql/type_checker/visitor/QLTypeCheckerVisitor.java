@@ -38,15 +38,12 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     private final ASTIssueHandler astIssueHandler;
 
-    // used to detect duplicate question types
-    private final Map<String, Type> questionTypes;
     // used to detect circular dependencies
     private final DependencyList questionDependencies;
     private ID assignableIdLiteral;
 
     public QLTypeCheckerVisitor(){
         this.astIssueHandler = new ASTIssueHandler();
-        this.questionTypes = new HashMap<String, Type>();
         this.questionDependencies = new DependencyList();
     }
 
@@ -74,20 +71,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
         Type type = question.getType();
         ID identifier = question.getIdentifier();
-
-        // save and check if duplicate question with different type
-        boolean isQuestionDuplicate =
-            this.checkIfQuestionAlreadyDefinedWithDifferentType(
-                    identifier, type
-            );
-        if (isQuestionDuplicate) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.DUPLICATE,
-                    question, "Question already defined with different type."
-            );
-        } else {
-            this.saveQuestionType(identifier, type);
-        }
 
         type.accept(this);
         identifier.accept(this);
@@ -485,15 +468,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         return (idLiteral.getType() != null);
     }
 
-    private boolean checkIfQuestionAlreadyDefinedWithDifferentType(
-            ID questionId, Type questionType){
-        Type earlierQuestionType = this.questionTypes.get(questionId.getName());
-        if (earlierQuestionType != null) {
-            return !this.checkIfTypesEqual(earlierQuestionType, questionType);
-        }
-        return false;
-    }
-
     // a = b, a - depender, b - dependee
     private boolean checkDependency(ID depender, ID dependee) {
         List<String> dependenciesForDepender =
@@ -511,10 +485,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
      * Private data handling functions
      * =======================
      */
-
-    private void saveQuestionType(ID questionId, Type questionType) {
-        this.questionTypes.put(questionId.getName(), questionType);
-    }
 
     private void updateDependencyGraph(ID depender, ID dependee) {
 
