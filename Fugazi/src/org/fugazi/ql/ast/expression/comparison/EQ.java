@@ -20,7 +20,6 @@ public class EQ extends Comparison {
     }
 
     @Override
-    // TODO Alex - why do we have override annotations here?
     public String toString() {
         return this.left.toString() + "==" + this.right.toString();
     }

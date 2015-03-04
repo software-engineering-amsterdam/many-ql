@@ -4,7 +4,6 @@ import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
 import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.IntType;
-import org.fugazi.ql.ast.type.StringType;
 import org.fugazi.ql.ast.type.Type;
 
 import java.util.ArrayList;
