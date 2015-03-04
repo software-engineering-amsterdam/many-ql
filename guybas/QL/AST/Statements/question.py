@@ -1,7 +1,7 @@
 # AST format of a question, initializing the IStatement
 import QL.AST.Statements.statement as statement
 import QL.Main.gui as g
-
+import QL.Grammar.constants as constants
 
 class Question(statement.IStatement):
 
@@ -67,11 +67,11 @@ class Question(statement.IStatement):
         return self.order + 1
 
     def set_element(self, gui):
-        if self.get_type() is 'bool':
+        if self.get_type() is constants.GrammarConstants.BOOL:
             self.element = g.QuestionnaireGUI.e_radio(self, gui)
-        elif self.get_type() is 'number':
+        elif self.get_type() is constants.GrammarConstants.NUMBER:
             self.element = g.QuestionnaireGUI.e_spin(self, gui)
-        elif self.get_type() is 'text':
+        elif self.get_type() is constants.GrammarConstants.TEXT:
             self.element = g.QuestionnaireGUI.e_entry(self, gui)
         else:
             raise g.QException("Element type does not exists")

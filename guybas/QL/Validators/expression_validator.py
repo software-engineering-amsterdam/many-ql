@@ -1,19 +1,19 @@
 # Expression validator
 from pyparsing import *
 from QL.Factory.forms import *
-
+import QL.AST.Elements.constants as econstants
 
 class ExpressionValidator:
 
     @staticmethod
     def validator(expression):
         try:
-            b = Literal("bool")
-            number = Literal("number")
-            text = Literal("text")
-            op = Literal("calc_operator")
-            compare = Literal("comp_operator")
-            extra = Literal("extra_operator")
+            b = Literal(econstants.ElementsConstants.BOOL)
+            number = Literal(econstants.ElementsConstants.NUMBER)
+            text = Literal(econstants.ElementsConstants.TEXT)
+            op = Literal(econstants.ElementsConstants.CALC_OP)
+            compare = Literal(econstants.ElementsConstants.COMP_OP)
+            extra = Literal(econstants.ElementsConstants.EXTRA_OP)
 
             calc_expr = Forward()
 

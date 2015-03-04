@@ -1,12 +1,12 @@
 from QL.AST.Elements.element import *
-
+import QL.Grammar.constants as constants
 
 class Bool(Element):
     def __init__(self, pbool):
         self.bool = pbool
 
     def return_type(self, type_dict):
-        return "bool"
+        return constants.GrammarConstants.BOOL
 
     def pretty_print(self):
         return str(self.bool)
