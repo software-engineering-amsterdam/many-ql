@@ -47,5 +47,13 @@ public class IdCollector {
 	public Iterator<IdLiteral> iterator(){
 		return ids.iterator();
 	}
+	
+	public String toString(){
+		String result = "";
+		for(IdLiteral id: ids){
+			result += id.name + "-->" + id.showTokenInfo() + "\n";
+		}
+		return result;
+	}
 
 }

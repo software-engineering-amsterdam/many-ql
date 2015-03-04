@@ -28,7 +28,7 @@ public class StatementTest {
 	}
 
 	private Question getQuestionObject() {
-		return new Question("\"Did you sell a house in 2010?\"","hasHouseSold",	new BoolType());
+		return new Question("\"Did you sell a house in 2010?\"","hasHouseSold",	new BoolType(), null);
 	}
 	
 	private String getAssigementString()

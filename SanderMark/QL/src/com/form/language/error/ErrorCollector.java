@@ -25,4 +25,8 @@ public class ErrorCollector {
 			System.err.println(iter.next());
 		}
 	}
+	
+	public Boolean isEmpty(){
+		return errorList.isEmpty();
+	}
 }

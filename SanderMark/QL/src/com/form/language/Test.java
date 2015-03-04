@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 
 import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
+import com.form.language.error.CheckVariableErrors;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
@@ -38,18 +39,24 @@ public class Test {
 		IdTypeTable idTable = new IdTypeTable(ids);
 		evaluator.setTypes(idTable);
 		
-
-		if(CheckTypeErrors.containsErrors(evaluator)){
-			System.err.println("there are errors:");
-			ErrorCollector errors = new ErrorCollector();
-			evaluator.getErrors(errors);
-			errors.print();
-		} else{
-			System.out.println("there are no errors:");
-			evaluator.showTypes();
+		System.out.println(ids);
+		System.out.println("\nIdTypeTable:\n" + idTable);
+		ErrorCollector varErrors = CheckVariableErrors.containsUndeclaredVariables(ids, idTable);
+		if(!varErrors.isEmpty()){
+			varErrors.print();
 		}
-		RuntimeMemory mem = evaluator.initMemory();
-		System.out.println(mem);
+
+//		if(CheckTypeErrors.containsErrors(evaluator)){
+//			System.err.println("there are errors:");
+//			ErrorCollector errors = new ErrorCollector();
+//			evaluator.getErrors(errors);
+//			errors.print();
+//		} else{
+//			System.out.println("there are no errors:");
+//			evaluator.showTypes();
+//		}
+//		RuntimeMemory mem = evaluator.initMemory();
+//		System.out.println(mem);
 //		System.out.println(m.showMemory());
 //			
 		

@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
@@ -20,15 +22,17 @@ public class Question implements Statement {
 	private String id;
 	private String questionLabel;
 	private Type questionType;
-	
+	private Token tokenInfo;
+
 	private JPanel qPanel;
 	private JPanel labelContainer;
 	
-	public Question(String questionLabel, String id, Type questionType) {
+	public Question(String questionLabel, String id, Type questionType, Token tokenInfo) {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
 		this.questionType = questionType;
+		this.tokenInfo = tokenInfo;
 	}
 	
 	@Override
@@ -44,7 +48,7 @@ public class Question implements Statement {
 
 	@Override
 	public void collectIds(IdCollector idCollector) {		
-		idCollector.addId(new IdLiteral(this.id,this.questionType,idCollector,null));
+		idCollector.addId(new IdLiteral(this.id,this.questionType,idCollector, tokenInfo));
 	}
 
 	@Override

@@ -31,7 +31,7 @@ statement returns [Statement result]
 ;
 
 question returns [Question result]
-	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result);}
+	: 'question' STRING ID ':' type {$result = new Question($STRING.text, $ID.text, $type.result, $ID);}
 	;
 	
 ifStatement returns [Statement result]
