@@ -12,19 +12,21 @@ namespace QL.Model
         public ElementBase RootNode { get; private set; }//TODO change to form
         public IList<QLError> TypeCheckerErrors { get; private set; }
         public IList<QLError> EvaluationErrors { get; private set; }
-        public IDictionary<Identifier, Type> TypeReference;
+        public IDictionary<Identifier, Type> TypeReference { get; private set; }
+        
+        // todo add lexer listeners here to store parse errors as well
 
         public AstHandler(ElementBase root)
         {
             RootNode = root;
             TypeCheckerErrors = new List<QLError>();
             EvaluationErrors = new List<QLError>();
-            TypeReference = new Dictionary<Identifier, Type>();
+            TypeReference = new SortedDictionary<Identifier, Type>();
         }
         
         public bool CheckType()
         {
-            var typeChecker = new TypeCheckerVisitor(TypeReference);
+            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(TypeReference);
             try
             {
                 RootNode.Accept(typeChecker);
@@ -39,7 +41,7 @@ namespace QL.Model
                 TypeCheckerErrors.Add(q);
                 return true;
             }
-            //why the hell c# does not have try-catch-else?
+            //why the hell c# does not have try-catch-else? because we have finally :) (from which you cannot escape)
             return typeChecker.Errors.Any();
         }
 

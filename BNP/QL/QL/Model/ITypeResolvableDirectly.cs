@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QL.Model
 {
-    public interface ITypeResolvableDirectly:ITypeResolvable
+    public interface ITypeResolvableDirectly : ITypeResolvable
     {
         Type GetReturnType();
     }

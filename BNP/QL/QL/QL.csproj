@@ -48,13 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Errors\DivisionByZeroError.cs" />
+    <Compile Include="Errors\QLException.cs" />
+    <Compile Include="Errors\QLWarning.cs" />
     <Compile Include="Evaluation\EvaluatorVisitor.cs" />
     <Compile Include="Evaluation\IVisitor.cs" />
     <Compile Include="Evaluation\TypeCheckerVisitor.cs" />
     <Compile Include="Errors\QLError.cs" />
     <Compile Include="Errors\RedeclaredVariableWarning.cs" />
     <Compile Include="Errors\TypeError.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Grammars\QL.parser.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>
