@@ -1,20 +1,17 @@
 package org.fugazi.ql.form_data.visitor;
 
-import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.*;
-import org.fugazi.ql.ast.type.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class QuestionTypesVisitor implements IStatementVisitor<Void> {
+public class QuestionsVisitor implements IStatementVisitor<Void> {
     private final Form form;
-    private Map<String, Type> questionTypes;
+    private List<Question> questionLabels;
 
-    public QuestionTypesVisitor(Form _form) {
+    public QuestionsVisitor(Form _form) {
         this.form = _form;
 
     }
@@ -36,7 +33,7 @@ public class QuestionTypesVisitor implements IStatementVisitor<Void> {
     }
 
     public Void visitQuestion(Question question) {
-        this.saveQuestionType(question.getIdentifier(), question.getType());
+        this.saveQuestion(question);
         return null;
     }
 
@@ -49,8 +46,8 @@ public class QuestionTypesVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    private void saveQuestionType(ID questionId, Type questionType) {
-        this.questionTypes.put(questionId.getName(), questionType);
+    private void saveQuestion(Question question) {
+        this.questionLabels.add(question);
     }
 
     /**
@@ -59,13 +56,13 @@ public class QuestionTypesVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    public Map<String, Type> getQuestionTypes() {
-        if (this.questionTypes == null) {
-            this.questionTypes = new HashMap<>();
+    public List<Question> getQuestionLabels() {
+        if (this.questionLabels == null) {
+            this.questionLabels = new ArrayList<>();
             // visit the form
             this.visitForm();
         }
 
-        return this.questionTypes;
+        return this.questionLabels;
     }
 }
