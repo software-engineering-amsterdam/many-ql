@@ -16,6 +16,10 @@ func NewPage(name string) *Page {
 	}
 }
 
+func (v *Page) Name() string {
+	return v.name
+}
+
 func (v *Page) Pages() map[string]*Page {
 	return v.pages
 }
