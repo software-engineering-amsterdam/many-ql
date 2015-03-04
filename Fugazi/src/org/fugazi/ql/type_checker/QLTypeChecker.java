@@ -1,8 +1,12 @@
 package org.fugazi.ql.type_checker;
 
+import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
+import org.fugazi.ql.ast.statement.Statement;
+import org.fugazi.ql.ast.type.BoolType;
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.ql.form_data.QLFormDataStorage;
 import org.fugazi.ql.type_checker.issue.ASTIssueHandler;
@@ -65,6 +69,36 @@ public class QLTypeChecker {
         }
     }
 
+    private void checkIfStatementConditionTypes() {
+        List<IfStatement> statements = this.formData.getIfStatements();
+
+        for (IfStatement ifStatement : statements) {
+            Expression expression = ifStatement.getCondition();
+
+            // check if condition of type bool
+            boolean conditionIsBool = this.checkIfExpressionIsBool(expression);
+            if (!conditionIsBool) {
+                this.astIssueHandler.registerNewError(
+                        ASTNodeIssueType.ERROR.NON_BOOL_CONDITION, ifStatement,
+                        "Expression in if statement not of type bool."
+                );
+            }
+        }
+    }
+
+
+
+//    private void checkCyclicDependencies() {
+//        List<Question> computedQuestions = this.formData.getComputedQuestions();
+//
+//    }
+
+    /**
+     * =====================
+     * Helper check methods
+     * =====================
+     */
+
     private boolean wasQuestionDefinedWithDifferentType(
             Map<String, Type> questionTypes, Question question
     ) {
@@ -77,10 +111,14 @@ public class QLTypeChecker {
         return false;
     }
 
-//    private void checkCyclicDependencies() {
-//        List<Question> computedQuestions = this.formData.getComputedQuestions();
-//
-//    }
+    private boolean checkIfExpressionIsBool(Expression expression) {
+        return this.checkIfExpressionIsOfType(expression, new BoolType());
+    }
+
+    private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
+        return expression.getReturnedType().equals(type);
+    }
+
 
     /**
      * =====================
@@ -94,6 +132,7 @@ public class QLTypeChecker {
         // perform all checks that require storage
         this.checkDuplicateLabels();
         this.checkQuestionTypes();
+        this.checkIfStatementConditionTypes();
 //        this.checkCyclicDependencies();
 
         // perform all the checks that can be done on the fly
