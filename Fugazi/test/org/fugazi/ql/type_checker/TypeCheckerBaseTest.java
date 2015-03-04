@@ -51,7 +51,7 @@ public abstract class TypeCheckerBaseTest {
         // Build the AST.
         form = QLASTBuilder.buildForm();
         QLFormDataStorage formDataStorage = new QLFormDataStorage(form);
-        
+
         // perform type check
         checker.checkForm(form, formDataStorage);
     }

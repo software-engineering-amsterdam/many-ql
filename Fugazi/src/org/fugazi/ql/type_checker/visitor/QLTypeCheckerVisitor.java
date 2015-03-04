@@ -38,8 +38,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     private final ASTIssueHandler astIssueHandler;
 
-    // used to detect duplicate  labels
-    private final List<String> questionLabels;
     // used to detect duplicate question types
     private final Map<String, Type> questionTypes;
     // used to detect circular dependencies
@@ -48,7 +46,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     public QLTypeCheckerVisitor(){
         this.astIssueHandler = new ASTIssueHandler();
-        this.questionLabels = new ArrayList<String>();
         this.questionTypes = new HashMap<String, Type>();
         this.questionDependencies = new DependencyList();
     }
@@ -77,7 +74,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
         Type type = question.getType();
         ID identifier = question.getIdentifier();
-        String label = question.getLabel();
 
         // save and check if duplicate question with different type
         boolean isQuestionDuplicate =
@@ -91,16 +87,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
             );
         } else {
             this.saveQuestionType(identifier, type);
-        }
-
-        // save and check for duplicate labels
-        boolean isLabelDuplicate = this.checkIfLabelAlreadyExists(label);
-        if (isLabelDuplicate) {
-            this.astIssueHandler.registerNewWarning(question,
-                    "Label defined multiple times! Possible confusion."
-            );
-        } else {
-            this.saveQuestionLabel(label);
         }
 
         type.accept(this);
@@ -499,10 +485,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         return (idLiteral.getType() != null);
     }
 
-    private boolean checkIfLabelAlreadyExists(String label){
-        return this.questionLabels.contains(label);
-    }
-
     private boolean checkIfQuestionAlreadyDefinedWithDifferentType(
             ID questionId, Type questionType){
         Type earlierQuestionType = this.questionTypes.get(questionId.getName());
@@ -529,10 +511,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
      * Private data handling functions
      * =======================
      */
-
-    private void saveQuestionLabel(String label) {
-        this.questionLabels.add(label);
-    }
 
     private void saveQuestionType(ID questionId, Type questionType) {
         this.questionTypes.put(questionId.getName(), questionType);
