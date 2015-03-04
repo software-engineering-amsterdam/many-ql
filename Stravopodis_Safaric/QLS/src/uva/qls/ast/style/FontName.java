@@ -2,6 +2,7 @@ package uva.qls.ast.style;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.StringLiteral;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.StringValue;
 
 import java.util.ArrayList;
@@ -22,6 +23,11 @@ public class FontName extends Font{
 		List<Object> availableFonts = new ArrayList<Object>();
 		availableFonts.toArray(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
 		return availableFonts.contains(_value) ? _value : "Arial";
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitFontName(this);
 	}
 	
 	@Override

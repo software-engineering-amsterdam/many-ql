@@ -1,4 +1,5 @@
 package uva.qls.ast.literal;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.*;
 import uva.qls.ast.CodeLines;
 import uva.qls.supporting.Tuple;
@@ -18,6 +19,11 @@ public class IntLiteral extends Literal {
 	
 	public Integer evaluatedValue(){
 		return this.evaluate().getValue().intValue();
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitIntLiteral(this);
 	}
 	
 	@Override
