@@ -29,8 +29,11 @@ func New(fromInterpreter, toInterpreter chan *event.Frontend,
 // Write reads all questions from current state of the interpreter and writes to
 // output stream.
 func (o *Output) Write() {
-	csv := csv.NewWriter(o.stream)
+	o.handshake()
+	o.writeLines()
+}
 
+func (o *Output) handshake() {
 	readyT := &event.Frontend{
 		Type: event.ReadyT,
 	}
@@ -43,7 +46,10 @@ readyTLoop:
 			break readyTLoop
 		}
 	}
+}
 
+func (o *Output) writeLines() {
+	csv := csv.NewWriter(o.stream)
 commLoop:
 	for {
 		select {
