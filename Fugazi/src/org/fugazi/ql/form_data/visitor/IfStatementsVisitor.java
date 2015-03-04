@@ -6,11 +6,11 @@ import org.fugazi.ql.ast.statement.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionsVisitor implements IStatementVisitor<Void> {
+public class IfStatementsVisitor implements IStatementVisitor<Void> {
     private final Form form;
-    private List<Question> questions;
+    private List<IfStatement> statements;
 
-    public QuestionsVisitor(Form _form) {
+    public IfStatementsVisitor(Form _form) {
         this.form = _form;
     }
 
@@ -31,7 +31,6 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
     }
 
     public Void visitQuestion(Question question) {
-        this.saveQuestion(question);
         return null;
     }
 
@@ -39,7 +38,9 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
         return null;
     }
 
-    public Void visitIfStatement(IfStatement ifStatement) {return null;}
+    public Void visitIfStatement(IfStatement ifStatement) {
+        this.saveIfStatement(ifStatement);
+        return null;}
 
     /**
      * =======================
@@ -47,8 +48,8 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    private void saveQuestion(Question question) {
-        this.questions.add(question);
+    private void saveIfStatement(IfStatement statement) {
+        this.statements.add(statement);
     }
 
     /**
@@ -57,13 +58,14 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    public List<Question> getQuestions() {
-        if (this.questions == null) {
-            this.questions = new ArrayList<>();
+    public List<IfStatement> getIfStatement() {
+        if (this.statements == null) {
+            this.statements = new ArrayList<>();
             // visit the form
             this.visitForm();
         }
 
-        return this.questions;
+        return this.statements;
     }
 }
+

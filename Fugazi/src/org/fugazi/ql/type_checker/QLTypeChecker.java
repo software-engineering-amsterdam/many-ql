@@ -77,6 +77,11 @@ public class QLTypeChecker {
         return false;
     }
 
+//    private void checkCyclicDependencies() {
+//        List<Question> computedQuestions = this.formData.getComputedQuestions();
+//
+//    }
+
     /**
      * =====================
      * Exposed global methods
@@ -85,12 +90,15 @@ public class QLTypeChecker {
 
     public boolean checkForm(Form form, QLFormDataStorage formData) {
         this.formData = formData;
+
         // perform all checks that require storage
         this.checkDuplicateLabels();
         this.checkQuestionTypes();
+//        this.checkCyclicDependencies();
 
         // perform all the checks that can be done on the fly
         form.accept(this.visitor);
+
         return this.isFormCorrect();
     }
 
