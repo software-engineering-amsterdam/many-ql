@@ -2,6 +2,7 @@ package graphic
 
 import (
 	"bytes"
+	"log"
 	"text/template"
 )
 
@@ -51,5 +52,6 @@ func renderCradle(appName, tabContainer string) string {
 		AppName      string
 		TabContainer string
 	}{appName, tabContainer})
+	log.Println(b.String())
 	return b.String()
 }

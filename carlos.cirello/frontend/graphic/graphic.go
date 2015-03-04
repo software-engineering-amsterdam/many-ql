@@ -179,20 +179,12 @@ const tabsTemplate = `
 	Tab {
 		title: "{{ .Name }}"
 		objectName: "{{ .Name }}Tab"
-		ScrollView {
-			width: 798
-			height: 600
-			verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
-			contentItem: ColumnLayout {
-				Layout.fillHeight: true
-				width: 797
-				id: mainLayout
-				objectName: "{{ .Name }}Questions"
-
-				{{ .NestedPages }}
-			}
-		}
+		width: 798
+		height: 600
+		Layout.fillHeight: true
 	}
+
+	{{ .NestedPages }}
 `
 
 // func drawTab(win *qml.Window, page *ast.Page) string {
@@ -201,7 +193,13 @@ func drawTab(page *ast.Page) string {
 
 	npgs := ""
 	for _, nestedPage := range nestedPages {
-		npgs = npgs + drawTab(nestedPage)
+		var b bytes.Buffer
+		t := template.Must(template.New("tab").Parse(tabsTemplate))
+		t.Execute(&b, struct {
+			Name        string
+			NestedPages string
+		}{nestedPage.Name(), ""})
+		npgs = npgs + b.String()
 	}
 	var tabs string
 	{
