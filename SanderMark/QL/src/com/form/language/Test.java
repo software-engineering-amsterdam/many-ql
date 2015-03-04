@@ -20,45 +20,44 @@ import com.form.language.error.CheckTypeErrors;
 public class Test {
 	public static void main(String[] args) throws IOException {
 		
-//		String program = "form asf { \n"
-//				 +	"question \"asdf\" question1: Boolean \n"
-//				 + 	"question \"asdf\" question2: Boolean \n"
-//				 +	"if (question2) then asdf := Number 1 end \n"
-//				 + "}";
-//		CharStream charStream = 
-//				new ANTLRInputStream(program);
-			CharStream charStream = 
-					new ANTLRFileStream("Testprograms\\program1.ql");
+		//Initialize ANTLR stuff.
+		CharStream charStream = new ANTLRFileStream("Testprograms\\program1.ql");
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
-		Form evaluator = parser.form().result;
-		//System.out.println((evaluator.getType()));
-		IdCollector ids = new IdCollector();		
-		evaluator.collectIds(ids);
-		IdTypeTable idTable = new IdTypeTable(ids);
-		evaluator.setTypes(idTable);
 		
-		System.out.println(ids);
-		System.out.println("\nIdTypeTable:\n" + idTable);
+		//Parse the form
+		Form form = parser.form().result;
+		
+		//Collect all the variables
+		IdCollector ids = new IdCollector();		
+		form.collectIds(ids);
+		
+		//Set the types of the referencing variables in the form
+		IdTypeTable idTable = new IdTypeTable(ids);
+		form.setTypes(idTable);
+		
+		//Check for undeclared variables, exit program and show errors if any are found.
 		ErrorCollector varErrors = CheckVariableErrors.containsUndeclaredVariables(ids, idTable);
 		if(!varErrors.isEmpty()){
 			varErrors.print();
+			System.err.println("exit program.");
+			System.exit(0);
 		}
-
-//		if(CheckTypeErrors.containsErrors(evaluator)){
-//			System.err.println("there are errors:");
-//			ErrorCollector errors = new ErrorCollector();
-//			evaluator.getErrors(errors);
-//			errors.print();
-//		} else{
-//			System.out.println("there are no errors:");
-//			evaluator.showTypes();
-//		}
-//		RuntimeMemory mem = evaluator.initMemory();
-//		System.out.println(mem);
-//		System.out.println(m.showMemory());
-//			
+		
+		//Check for type errors, exit program and show errors if any are found.
+		if(CheckTypeErrors.containsErrors(form)){
+			System.err.println("there are type errors:");
+			ErrorCollector errors = new ErrorCollector();
+			form.getErrors(errors);
+			errors.print();
+			System.err.println("exit program.");
+			System.exit(0);
+		} 
+		
+		RuntimeMemory mem = form.initMemory();
+		System.out.println(mem);
+			
 		
 		
 		
