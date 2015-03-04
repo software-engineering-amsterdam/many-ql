@@ -10,6 +10,12 @@ public class Segment extends AbstractASTQLSNode {
     protected final List<Section> sections;
     protected final List<DefaultStyleDeclaration> defaultStyles;
 
+    public Segment(int _lineNum, List<Section> _sections, List<DefaultStyleDeclaration> _defaultStyles, String _name) {
+        super(_lineNum);
+        this.sections = _sections;
+        this.defaultStyles = _defaultStyles;
+        this.name = _name;
+    }
     public Segment(List<Section> _sections, List<DefaultStyleDeclaration> _defaultStyles, String _name) {
         this.sections = _sections;
         this.defaultStyles = _defaultStyles;

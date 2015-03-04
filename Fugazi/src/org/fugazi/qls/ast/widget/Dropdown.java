@@ -7,6 +7,12 @@ public class Dropdown extends Widget {
     private final String yesLabel;
     private final String noLabel;
 
+    public Dropdown(int _lineNum, String _yes, String _no) {
+        super(_lineNum);
+        this.yesLabel = _yes;
+        this.noLabel = _no;
+    }
+
     public Dropdown(String _yes, String _no) {
         this.yesLabel = _yes;
         this.noLabel = _no;
@@ -14,6 +20,6 @@ public class Dropdown extends Widget {
 
     @Override
     public void applyStyle(Style _style) {
-
+        // todo
     }
 }

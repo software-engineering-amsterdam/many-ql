@@ -6,12 +6,17 @@ public abstract class StyleProperty<T> extends AbstractASTQLSNode {
     
     protected final String name;
     protected final T value;
-    
+
+    public StyleProperty(int _lineNum, String _name, T _value) {
+        this.name = _name;
+        this.value = _value;
+    }
+
     public StyleProperty(String _name, T _value) {
         this.name = _name;
         this.value = _value;
     }
-    
+
     public String getName() {
         return this.name;        
     }    

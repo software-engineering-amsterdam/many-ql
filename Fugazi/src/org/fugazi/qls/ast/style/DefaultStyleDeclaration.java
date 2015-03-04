@@ -10,6 +10,13 @@ public class DefaultStyleDeclaration extends AbstractASTQLSNode {
     private final Widget widget;
     private final Type questionType;
 
+    public DefaultStyleDeclaration(int _lineNum, Style _style, Widget _widget, Type _questionType) {
+        super(_lineNum);
+        this.style = _style;
+        this.widget = _widget;
+        this.questionType = _questionType;
+    }
+
     public DefaultStyleDeclaration(Style _style, Widget _widget, Type _questionType) {
         this.style = _style;
         this.widget = _widget;
