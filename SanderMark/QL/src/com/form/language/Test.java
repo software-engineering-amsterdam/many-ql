@@ -1,9 +1,12 @@
 package com.form.language;
 
+import java.io.IOException;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.ANTLRFileStream;
 
 import com.form.language.ast.Form;
 import com.form.language.ast.expression.Expression;
@@ -13,30 +16,28 @@ import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
 
 public class Test {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		String program = "form asf { \n"
-				 +	"question \"asdf\" question1: Boolean \n"
-				 + 	"question \"asdf\" question2: Boolean \n"
-				 +	"if (question2) then asdf := Number 1 end \n"
-				 + "}";
-		CharStream charStream = 
-				new ANTLRInputStream(program);
-		
-		System.out.println(program);
+//		String program = "form asf { \n"
+//				 +	"question \"asdf\" question1: Boolean \n"
+//				 + 	"question \"asdf\" question2: Boolean \n"
+//				 +	"if (question2) then asdf := Number 1 end \n"
+//				 + "}";
+//		CharStream charStream = 
+//				new ANTLRInputStream(program);
+			CharStream charStream = 
+					new ANTLRFileStream("Testprograms\\program1.ql");
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
 		Form evaluator = parser.form().result;
 		//System.out.println((evaluator.getType()));
-		
 		IdCollector ids = new IdCollector();		
 		evaluator.collectIds(ids);
 		IdTypeTable idTable = new IdTypeTable(ids);
 		evaluator.setTypes(idTable);
 		evaluator.showTypes();
-		RuntimeMemory mem = new RuntimeMemory();
-		//evaluator.initMemory(mem);
+		RuntimeMemory mem = evaluator.initMemory();
 		System.out.println(mem);
 //		System.out.println(m.showMemory());
 //			
