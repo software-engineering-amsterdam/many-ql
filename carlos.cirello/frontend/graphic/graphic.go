@@ -29,9 +29,8 @@ type render struct {
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
-	renderEvent    chan render
-	appName        string
-	widgetDefaults map[string]string
+	renderEvent chan render
+	appName     string
 
 	mu              sync.Mutex
 	drawStack       []render
@@ -44,10 +43,9 @@ type Gui struct {
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string, widgetDefaults map[string]string) frontend.Inputer {
+func GUI(appName string) frontend.Inputer {
 	driver := &Gui{
-		appName:        appName,
-		widgetDefaults: widgetDefaults,
+		appName: appName,
 
 		renderEvent:     make(chan render),
 		answerStack:     make(map[string]string),

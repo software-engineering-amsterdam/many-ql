@@ -3,22 +3,27 @@ package ast
 // Visitor is the data structure which converts QLS AST into a set of hash maps
 // used by the GUI frontend.
 type Visitor struct {
-	defaults map[string]string
-	visible  map[string]bool
+	pages           map[string]*Page
+	processingStack []*Page
+
+	currentRoute  []string
+	questionIndex map[string][]string
 }
 
 // NewVisitor is the constructor for QLS Visitor
 func NewVisitor() *Visitor {
 	return &Visitor{
-		defaults: make(map[string]string),
-		visible:  make(map[string]bool),
+		pages:         make(map[string]*Page),
+		questionIndex: make(map[string][]string),
 	}
 }
 
-// Defaults returns the processed hashmap of default widgets for each question
-// type.
-func (v *Visitor) Defaults() map[string]string {
-	return v.defaults
+func (v *Visitor) Pages() map[string]*Page {
+	return v.pages
+}
+
+func (v *Visitor) QuestionIndex() map[string][]string {
+	return v.questionIndex
 }
 
 // Visit is the Visitor pattern implementation
@@ -28,12 +33,20 @@ func (v *Visitor) Visit(node Acceptable) {
 
 // StyleNode is the root node for QLS trees
 func (v *Visitor) StyleNode(node *StyleNode) {
+	pageName := "root"
+	v.currentRoute = append(v.currentRoute, pageName)
+	page := NewPage(pageName)
+	v.processingStack = append(v.processingStack, page)
 	if node != nil {
 		actions := node.Stack()
 		for _, action := range actions {
 			v.Visit(action)
 		}
 	}
+	tmp := v.processingStack[len(v.processingStack)-1]
+	v.processingStack = v.processingStack[:len(v.processingStack)-1]
+	v.pages[pageName] = tmp
+	v.currentRoute = v.currentRoute[:len(v.currentRoute)-1]
 }
 
 // ActionNode represents the ambiguous node which define page, section or
@@ -44,11 +57,31 @@ func (v *Visitor) ActionNode(node *ActionNode) {
 
 // DefaultNode defines a default widget for a question type
 func (v *Visitor) DefaultNode(node *DefaultNode) {
-	v.setDefaultFor(node.QuestionType(), node.Widget())
+	tmp := v.processingStack[len(v.processingStack)-1]
+	tmp.setDefaultFor(node.QuestionType(), node.Widget())
 }
 
 // QuestionNode defines a default widget for a question type
 func (v *Visitor) QuestionNode(node *QuestionNode) {
-	// todo(carlos): should there be an option for hidden field?
-	v.setVisibleFor(node.Identifier())
+	tmp := v.processingStack[len(v.processingStack)-1]
+	tmp.setVisibleFor(node.Identifier())
+	v.questionIndex[node.Identifier()] = v.currentRoute
+}
+
+// QuestionNode defines a default widget for a question type
+func (v *Visitor) PageNode(node *PageNode) {
+	v.currentRoute = append(v.currentRoute, node.Label())
+	page := NewPage(node.Label())
+	v.processingStack = append(v.processingStack, page)
+	if node != nil {
+		actions := node.Stack()
+		for _, action := range actions {
+			v.Visit(action)
+		}
+	}
+	tmp := v.processingStack[len(v.processingStack)-1]
+	v.processingStack = v.processingStack[:len(v.processingStack)-1]
+	parent := v.processingStack[len(v.processingStack)-1]
+	parent.addPage(node.Label(), tmp)
+	v.currentRoute = v.currentRoute[:len(v.currentRoute)-1]
 }

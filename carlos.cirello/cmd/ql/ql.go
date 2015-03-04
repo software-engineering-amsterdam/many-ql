@@ -51,7 +51,7 @@ func main() {
 		csvReader.Read()
 	}
 
-	driver := graphic.GUI(aQuestionaire.Label(), vstr.Defaults())
+	driver := graphic.GUI(aQuestionaire.Label())
 	frontend.New(fromInterpreter, toInterpreter, driver)
 	driver.Loop()
 

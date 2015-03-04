@@ -20,6 +20,7 @@ var finalStyle *ast.StyleNode
 	defaultNode *ast.DefaultNode
 	stack []*ast.ActionNode
 	styleNode *ast.StyleNode
+	pageNode *ast.PageNode
 
 	position scanner.Position
 }
@@ -37,7 +38,8 @@ var finalStyle *ast.StyleNode
 top:
 	StylesheetToken TextToken '{' stack '}'
 	{
-		finalStyle = ast.NewStyleNode($2.content, $4.stack)
+		finalStyle = ast.NewStyleNode($4.stack)
+		$4.stack = nil
 	}
 
 stack:
@@ -51,7 +53,7 @@ stack:
 	}
 	| stack page
 	{
-		d := $2.styleNode
+		d := $2.pageNode
 		qs := $$.stack
 		action := ast.NewActionNode(d)
 		qs = append(qs, action)
@@ -69,7 +71,8 @@ stack:
 page:
 	PageToken QuotedStringToken '{' stack '}'
 	{
-		$$.styleNode = ast.NewStyleNode($2.content, $4.stack)
+		$$.pageNode = ast.NewPageNode($2.content, $4.stack)
+		$4.stack = nil
 	}
 	;
 
