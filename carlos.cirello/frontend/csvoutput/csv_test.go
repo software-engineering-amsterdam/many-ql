@@ -5,8 +5,8 @@ import (
 	"testing"
 	"text/scanner"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/ast"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 )
 
 const expectedCsv = `Q1,A question,No
@@ -31,8 +31,11 @@ func fakeInterpreter(receive, send chan *event.Frontend) {
 
 	q := *ast.NewQuestionNode("A question", "Q1", new(ast.BoolQuestion), *new(scanner.Position))
 	receive <- &event.Frontend{
-		Type:     event.UpdateQuestion,
-		Question: q,
+		Type:       event.UpdateQuestion,
+		Identifier: q.Identifier(),
+		Label:      q.Label(),
+		FieldType:  q.Type(),
+		Value:      "No",
 	}
 	receive <- &event.Frontend{
 		Type: event.Flush,
