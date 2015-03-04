@@ -12,29 +12,14 @@ class ResultAlg:
     def empty(self):
         pass
 
-    @property
-    def errors(self):
-        pass
-
-    @property
-    def warnings(self):
-        pass
-
     def withError(self, error):
         pass
 
     def withWarning(self, warning):
         pass
 
-    # naive default implementation
     def merge(self, results):
-        result = self.empty()
-        for r in results:
-            for error in r.errors:
-                result = result.withError(error)
-            for warning in r.warnings:
-                result = result.withWarning(warning)
-        return result
+        pass
 
 
 # Primary implementation
