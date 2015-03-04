@@ -27,10 +27,10 @@ type frontend struct {
 // New instantiates a frontend goroutine, looping all the
 // communications with the VM into the chosen Frontend
 // (GUI, Text, Web).
-func New(fromVM, toVM chan *event.Frontend, driver Inputer) {
+func New(fromInterpreter, toInterpreter chan *event.Frontend, driver Inputer) {
 	f := &frontend{
-		receive: fromVM,
-		send:    toVM,
+		receive: fromInterpreter,
+		send:    toInterpreter,
 		driver:  driver,
 	}
 
