@@ -6,7 +6,7 @@ from . import \
 
 from . import Result
 
-def check(ast, resultAlg = Result.Result()):
+def check(ast, resultAlg = Result.DefaultResult()):
     modules = [
         CyclicQuestionDependencies,
         TypesOfExpressions,
