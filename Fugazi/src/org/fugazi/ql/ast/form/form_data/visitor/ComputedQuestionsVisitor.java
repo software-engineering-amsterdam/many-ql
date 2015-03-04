@@ -1,4 +1,4 @@
-package org.fugazi.ql.form_data.visitor;
+package org.fugazi.ql.ast.form.form_data.visitor;
 
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.*;
@@ -6,11 +6,11 @@ import org.fugazi.ql.ast.statement.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IfStatementsVisitor implements IStatementVisitor<Void> {
+public class ComputedQuestionsVisitor implements IStatementVisitor<Void> {
     private final Form form;
-    private List<IfStatement> statements;
+    private List<ComputedQuestion> computedQuestions;
 
-    public IfStatementsVisitor(Form _form) {
+    public ComputedQuestionsVisitor(Form _form) {
         this.form = _form;
     }
 
@@ -20,7 +20,6 @@ public class IfStatementsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    // TODO why doesn't this.form.accept() work?
     private Void visitForm() {
         List<Statement> statementList = this.form.getBody();
 
@@ -30,17 +29,13 @@ public class IfStatementsVisitor implements IStatementVisitor<Void> {
         return null;
     }
 
-    public Void visitQuestion(Question question) {
-        return null;
-    }
-
     public Void visitComputedQuestion(ComputedQuestion assignQuest) {
+        this.saveComputedQuestion(assignQuest);
         return null;
     }
 
-    public Void visitIfStatement(IfStatement ifStatement) {
-        this.saveIfStatement(ifStatement);
-        return null;}
+    public Void visitQuestion(Question question) {return null;}
+    public Void visitIfStatement(IfStatement ifStatement) {return null;}
 
     /**
      * =======================
@@ -48,8 +43,8 @@ public class IfStatementsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    private void saveIfStatement(IfStatement statement) {
-        this.statements.add(statement);
+    private void saveComputedQuestion(ComputedQuestion question) {
+        this.computedQuestions.add(question);
     }
 
     /**
@@ -58,14 +53,13 @@ public class IfStatementsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    public List<IfStatement> getIfStatement() {
-        if (this.statements == null) {
-            this.statements = new ArrayList<>();
+    public List<ComputedQuestion> getComputedQuestions() {
+        if (this.computedQuestions == null) {
+            this.computedQuestions= new ArrayList<>();
             // visit the form
             this.visitForm();
         }
 
-        return this.statements;
+        return this.computedQuestions;
     }
 }
-

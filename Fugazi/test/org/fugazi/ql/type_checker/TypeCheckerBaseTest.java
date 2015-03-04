@@ -3,7 +3,7 @@ package org.fugazi.ql.type_checker;
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 
-import org.fugazi.ql.form_data.QLFormDataStorage;
+import org.fugazi.ql.ast.form.form_data.QLFormDataStorage;
 import org.junit.Before;
 import org.junit.Ignore;
 

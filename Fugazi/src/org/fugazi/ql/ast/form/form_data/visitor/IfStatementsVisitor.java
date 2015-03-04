@@ -1,4 +1,4 @@
-package org.fugazi.ql.form_data.visitor;
+package org.fugazi.ql.ast.form.form_data.visitor;
 
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.*;
@@ -6,11 +6,11 @@ import org.fugazi.ql.ast.statement.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComputedQuestionsVisitor implements IStatementVisitor<Void> {
+public class IfStatementsVisitor implements IStatementVisitor<Void> {
     private final Form form;
-    private List<ComputedQuestion> computedQuestions;
+    private List<IfStatement> statements;
 
-    public ComputedQuestionsVisitor(Form _form) {
+    public IfStatementsVisitor(Form _form) {
         this.form = _form;
     }
 
@@ -20,7 +20,6 @@ public class ComputedQuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    // TODO why doesn't this.form.accept() work?
     private Void visitForm() {
         List<Statement> statementList = this.form.getBody();
 
@@ -30,13 +29,17 @@ public class ComputedQuestionsVisitor implements IStatementVisitor<Void> {
         return null;
     }
 
-    public Void visitComputedQuestion(ComputedQuestion assignQuest) {
-        this.saveComputedQuestion(assignQuest);
+    public Void visitQuestion(Question question) {
         return null;
     }
 
-    public Void visitQuestion(Question question) {return null;}
-    public Void visitIfStatement(IfStatement ifStatement) {return null;}
+    public Void visitComputedQuestion(ComputedQuestion assignQuest) {
+        return null;
+    }
+
+    public Void visitIfStatement(IfStatement ifStatement) {
+        this.saveIfStatement(ifStatement);
+        return null;}
 
     /**
      * =======================
@@ -44,8 +47,8 @@ public class ComputedQuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    private void saveComputedQuestion(ComputedQuestion question) {
-        this.computedQuestions.add(question);
+    private void saveIfStatement(IfStatement statement) {
+        this.statements.add(statement);
     }
 
     /**
@@ -54,13 +57,14 @@ public class ComputedQuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    public List<ComputedQuestion> getComputedQuestions() {
-        if (this.computedQuestions == null) {
-            this.computedQuestions= new ArrayList<>();
+    public List<IfStatement> getIfStatement() {
+        if (this.statements == null) {
+            this.statements = new ArrayList<>();
             // visit the form
             this.visitForm();
         }
 
-        return this.computedQuestions;
+        return this.statements;
     }
 }
+

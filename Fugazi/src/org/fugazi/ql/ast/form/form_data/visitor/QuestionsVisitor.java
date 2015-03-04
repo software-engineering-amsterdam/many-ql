@@ -1,4 +1,4 @@
-package org.fugazi.ql.form_data.visitor;
+package org.fugazi.ql.ast.form.form_data.visitor;
 
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.*;
@@ -20,7 +20,6 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
      * =======================
      */
 
-    // TODO why doesn't this.form.accept() work?
     private Void visitForm() {
         List<Statement> statementList = this.form.getBody();
 

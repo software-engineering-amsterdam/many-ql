@@ -1,12 +1,12 @@
-package org.fugazi.ql.form_data;
+package org.fugazi.ql.ast.form.form_data;
 
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
-import org.fugazi.ql.form_data.visitor.ComputedQuestionsVisitor;
-import org.fugazi.ql.form_data.visitor.IfStatementsVisitor;
-import org.fugazi.ql.form_data.visitor.QuestionsVisitor;
+import org.fugazi.ql.ast.form.form_data.visitor.ComputedQuestionsVisitor;
+import org.fugazi.ql.ast.form.form_data.visitor.IfStatementsVisitor;
+import org.fugazi.ql.ast.form.form_data.visitor.QuestionsVisitor;
 
 import java.util.List;
 
