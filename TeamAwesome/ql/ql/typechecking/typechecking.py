@@ -4,7 +4,7 @@ from . import \
     DuplicateQuestionLabels,\
     QuestionRedefinitions
 
-from .Result import Result
+from . import Result
 
 
 def check(ast):
@@ -15,6 +15,8 @@ def check(ast):
         QuestionRedefinitions
     ];
 
-    checkers = map(lambda m: m.Checker(ast), modules)
+    resultAlg = Result.Result()
+
+    checkers = map(lambda m: m.Checker(ast, resultAlg), modules)
     results = map(lambda c: c.visit(ast.root), checkers)
-    return Result.merge(list(results))
+    return resultAlg.merge(list(results))
