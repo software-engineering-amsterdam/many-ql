@@ -22,10 +22,11 @@ class ResultAlg:
         pass
 
 
-# Primary implementation
-class Result(ResultAlg):
+# Default implementation.
+# Allows you to extract a list of errors and warnings.
+class DefaultResult(ResultAlg):
     def empty(self):
-        return Result()
+        return DefaultResult()
 
     @property
     def errors(self):
@@ -36,15 +37,15 @@ class Result(ResultAlg):
         return self._warnings
 
     def withError(self, error):
-        return Result(self.errors + [error], self.warnings)
+        return DefaultResult(self.errors + [error], self.warnings)
 
     def withWarning(self, warning):
-        return Result(self.errors, self.warnings + [warning])
+        return DefaultResult(self.errors, self.warnings + [warning])
 
     def merge(self, results):
         result = self.empty()
         for r in results:
-            result = Result(
+            result = DefaultResult(
                 result.errors + r.errors,
                 result.warnings + r.warnings
             )
