@@ -1,10 +1,6 @@
 package main
 
 import (
-	"log"
-	"os"
-	"runtime/pprof"
-
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli/iostream"
@@ -12,17 +8,7 @@ import (
 
 func main() {
 	defer errorHandler()
-	srcFn, inFn, outFn, cpuProfileFn := cli.Args()
-
-	// defer StopCPUProfile must be pegged to main routine
-	if cpuProfileFn != "" {
-		f, err := os.Create(cpuProfileFn)
-		if err != nil {
-			log.Fatal(err)
-		}
-		pprof.StartCPUProfile(f)
-		defer pprof.StopCPUProfile()
-	}
+	srcFn, inFn, outFn := cli.Args()
 
 	srcReader, styleReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
 
