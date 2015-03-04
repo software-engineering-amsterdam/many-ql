@@ -28,7 +28,6 @@ import org.uva.ql.ast.expression.literal.StrLiteral;
 import org.uva.ql.ast.expression.unary.Negative;
 import org.uva.ql.ast.expression.unary.Not;
 import org.uva.ql.ast.expression.unary.Positive;
-import org.uva.ql.ast.expression.unary.Unary;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
@@ -53,11 +52,18 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private final Map<String, Type> types;
 	private final ArrayList<String> labels;
 	private final MessageManager messageManager;
+	private final CyclicChecker cyclicChecker;
+	private boolean isCheckingCyclic;
+	private final ArrayList<Identifier> questionComputes;
+	
 
 	public TypeChecker() {
 		types = new HashMap<String, Type>();
 		labels = new ArrayList<String>();
 		messageManager = new MessageManager();
+		cyclicChecker = new CyclicChecker();
+		isCheckingCyclic = false;
+		questionComputes = new ArrayList<Identifier>();
 	}
 
 	// Name-Type table
@@ -92,7 +98,13 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	// Message Management
-	public void addError(Error error) {
+	public void addError(Error.Type type, Expression expr) {
+		Error error = new Error(type, expr.getPosition().getStartLine(), expr.toString());
+		messageManager.addError(error);
+	}
+	
+	public void addError(Error.Type type, Expression expr, String expectType) {
+		Error error = new Error(type, expr.getPosition().getStartLine(), expr.toString(), expectType);
 		messageManager.addError(error);
 	}
 
@@ -109,10 +121,10 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	public void printMessages() {
-		System.out.println("[ERRORS]");
+		System.out.println("[ERRORS] ("+ countErrors() +" items)");
 		messageManager.printErrors();
 		System.out.println();
-		System.out.println("[WARNINGS]");
+		System.out.println("[WARNINGS] ("+ countWarnings() +" items)");
 		messageManager.printWarnings();
 	}
 
@@ -134,9 +146,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 			Type expectType = getType(question.getIdentifier().toString());
 
 			if (!thisType.isEqual(expectType)) {
-				Error error = new Error(Error.Type.DECLARATION, question.getIdentifier().getPosition().getStartLine(),
-						question.getIdentifier().toString());
-				messageManager.addError(error);
+				addError(Error.Type.DECLARATION, question.getIdentifier());
 				return false;
 			}
 		} else {
@@ -147,118 +157,46 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	public boolean checkReference(Identifier identifier) {
 		if (!isDeclared(identifier.toString())) {
-			Error error = new Error(Error.Type.REFERENCE, identifier.getPosition().getStartLine(),
-					identifier.toString());
-			messageManager.addError(error);
+			addError(Error.Type.REFERENCE, identifier);
 			return false;
 		}
 		return true;
 	}
-
-	public boolean checkSameBinary(Binary binary) {
-		Expression left = binary.getLeftExpression();
-		Expression right = binary.getRightExpression();
+	
+	public boolean checkMatch(Expression expr, Type expectType) {
+		boolean sublevel = expr.accept(this);
+		boolean thislevel = true;
+		if(!expr.getType(this).isEqual(expectType)) {
+			addError(Error.Type.MISMATCH, expr, expectType.toString());
+			thislevel = false;
+		}
+		return thislevel && sublevel;
+	}
+	
+	public boolean checkMatchThisLevel(Expression expr, Type expectType) {
 		boolean result = true;
-		// Makse sure both side will be checked
-		boolean resultLeft = left.accept(this);
-		boolean resultRight = right.accept(this);
-		if (resultLeft && resultRight) {
-			if (!left.getType(this).isEqual(right.getType(this))) {
-				Error error = new Error(Error.Type.CONDITION, right.getPosition().getStartLine(), right.toString());
-				messageManager.addError(error);
-				result = false;
-			}
-		} else {
-			System.out.println("CM: Expression <" + binary.toString() + "> has type error inside it.");
+		if(!expr.getType(this).isEqual(expectType)) {
+			addError(Error.Type.MISMATCH, expr, expectType.toString());
 			result = false;
 		}
 		return result;
 	}
-
-	public boolean checkBool(Expression expr) {
-		boolean result = true;
-		if (expr.accept(this)) {
-			if (!expr.getType(this).isEqual(new BoolType())) {
-				Error error = new Error(Error.Type.CONDITION, expr.getPosition().getStartLine(), expr.toString());
-				messageManager.addError(error);
-				result = false;
-			}
-		} else {
-			System.out.println("CB: Expression <" + expr.toString() + "> has type error inside it.");
-			result = false;
-		}
-		return result;
-	}
-
-	public boolean checkBoolUnary(Unary unary) {
-		Expression expr = unary.getExpression();
-		return checkBool(expr);
-	}
-
-	public boolean checkBoolBinary(Binary binary) {
+	
+	public boolean checkBinaryMatch(Binary binary, Type expectType) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
-		// Make sure both side will be checked
-		boolean resultLeft = checkBool(left);
-		boolean resultRight = checkBool(right);
+		boolean resultLeft = checkMatch(left, expectType);
+		boolean resultRight = checkMatch(right, expectType);
 		return resultLeft && resultRight;
 	}
-
-	public boolean checkInt(Expression expr) {
-		boolean result = true;
-		// this line make sure the reference comes before this check.
-		if (expr.accept(this)) {
-			if (!expr.getType(this).isEqual(new IntType())) {
-				Error error = new Error(Error.Type.OPERAND, expr.getPosition().getStartLine(), expr.toString());
-				messageManager.addError(error);
-				result = false;
-			}
-		} else {
-			System.out.println("CI: Expression <" + expr.toString() + "> has type error inside it.");
-			result = false;
-		}
-		return result;
-	}
-
-	public boolean checkIntUnary(Unary unary) {
-		Expression expr = unary.getExpression();
-		return checkInt(expr);
-	}
-
-	public boolean checkIntBinary(Binary binary) {
+	
+	public boolean checkSame(Binary binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
-		// Make sure both side will be checked
-		boolean resultLeft = checkInt(left);
-		boolean resultRight = checkInt(right);
-		return resultLeft && resultRight;
+		return checkMatch(right, left.getType(this));
 	}
-
-	public boolean checkStr(Expression expr) {
-		boolean result = true;
-		// this line make sure the reference comes before this check.
-		if (expr.accept(this)) {
-			if (!expr.getType(this).isEqual(new StrType())) {
-				Error error = new Error(Error.Type.OPERAND, expr.getPosition().getStartLine(), expr.toString());
-				messageManager.addError(error);
-				result = false;
-			}
-		} else {
-			System.out.println("CI: Expression <" + expr.toString() + "> has type error inside it.");
-			result = false;
-		}
-		return result;
-	}
-
-	public boolean checkStrBinary(Binary binary) {
-		Expression left = binary.getLeftExpression();
-		Expression right = binary.getRightExpression();
-		// Make sure both side will be checked
-		boolean resultLeft = checkStr(left);
-		boolean resultRight = checkStr(right);
-		return resultLeft && resultRight;
-	}
-
+	
+	
 	// Visits
 
 	@Override
@@ -274,7 +212,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Form form) {
-		// form.getBlock().accept(this);
 		return form.getBlock().accept(this);
 	}
 
@@ -291,33 +228,35 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(QuestionNormal question) {
-		return checkDeclaration(question) && checkLabel(question);
+		boolean result1 = checkDeclaration(question);
+		boolean result2 = checkLabel(question);
+		return result1 && result2;
 	}
 
 	@Override
 	public Boolean visit(QuestionCompute question) {
-		// checkDeclaration(question);
-		// checkLabel(question);
-		question.getExpression().accept(this);
-
-		return checkDeclaration(question) && checkLabel(question);
-		// return null;
+		questionComputes.add(question.getIdentifier());
+		boolean result1 = checkDeclaration(question);
+		boolean result2 = checkLabel(question);
+		isCheckingCyclic = true;
+		boolean result3 = question.getExpression().accept(this);
+		isCheckingCyclic = false;
+		return result1 && result2 && result3;
 	}
 
 	@Override
 	public Boolean visit(IfStatement ifStatement) {
-		// ifStatement.getExpr().accept(this);
-		// ifStatement.getIfBlock().accept(this);
-		return ifStatement.getExpr().accept(this) && ifStatement.getIfBlock().accept(this);
+		boolean result1 = ifStatement.getExpr().accept(this);
+		boolean result2 = ifStatement.getIfBlock().accept(this);
+		return result1 && result2;
 	}
 
 	@Override
 	public Boolean visit(IfElseStatement ifElseStatement) {
-		// ifElseStatement.getExpr().accept(this);
-		// ifElseStatement.getIfBlock().accept(this);
-		// ifElseStatement.getElseBLock().accept(this);
-		return ifElseStatement.getExpr().accept(this) && ifElseStatement.getIfBlock().accept(this)
-				&& ifElseStatement.getElseBLock().accept(this);
+		boolean result1 = ifElseStatement.getExpr().accept(this);
+		boolean result2 = ifElseStatement.getIfBlock().accept(this);
+		boolean result3 = ifElseStatement.getElseBLock().accept(this);
+		return result1 && result2 && result3;
 	}
 
 	@Override
@@ -326,97 +265,117 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	@Override
-	public Boolean visit(Not node) {
-		// checkUnaryCondition(node);
-		return checkBoolUnary(node);
+	public Boolean visit(Not unary) {
+		//unary.getExpression().accept(this);
+		return checkMatch(unary.getExpression(), new BoolType());
 	}
 
 	@Override
-	public Boolean visit(Positive node) {
-		// checkUnaryOperand(node);
-		return checkIntUnary(node);
+	public Boolean visit(Positive unary) {
+		//unary.getExpression().accept(this);
+		return checkMatch(unary.getExpression(), new IntType());
 	}
 
 	@Override
-	public Boolean visit(Negative node) {
-		// checkUnaryOperand(node);
-		return checkIntUnary(node);
+	public Boolean visit(Negative unary) {
+		//unary.getExpression().accept(this);
+		return checkMatch(unary.getExpression(), new IntType());
 	}
 
 	@Override
-	public Boolean visit(Plus node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
+	public Boolean visit(Plus binary) {
+		Expression left = binary.getLeftExpression();
+		Expression right = binary.getRightExpression();
+		boolean resultL = left.accept(this);
+		boolean resultR = right.accept(this);
+		boolean result = true;
+		
+		if ((resultL && resultR) == true) {
+			if (left.getType(this).isEqual(new IntType()) || left.getType(this).isEqual(new StrType())) {
+				result = checkMatchThisLevel(right, left.getType(this));
+			} else {
+				if (right.getType(this).isEqual(new BoolType())) {
+					Error errorLeft = new Error(Error.Type.MISMATCH, left.getPosition().getStartLine(), left.toString(), "Int|Str");
+					messageManager.addError(errorLeft);
+					Error errorRight = new Error(Error.Type.MISMATCH, right.getPosition().getStartLine(), right.toString(), "Int|Str");
+					messageManager.addError(errorRight);
+				} else {
+					result = checkMatchThisLevel(left, right.getType(this));
+				}
+				result = false;
+			}
+		} 
+		return result;
 	}
 
 	@Override
-	public Boolean visit(Minus node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
+	public Boolean visit(Minus binary) {
+		return checkBinaryMatch(binary, new IntType());
+	}
+	
+	@Override
+	public Boolean visit(Multiply binary) {
+		return checkBinaryMatch(binary, new IntType());
 	}
 
 	@Override
-	public Boolean visit(Multiply node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
+	public Boolean visit(Divide binary) {
+		return checkBinaryMatch(binary, new IntType());
+	}
+	
+	@Override
+	public Boolean visit(Greater binary) {
+		return checkBinaryMatch(binary, new IntType());
 	}
 
 	@Override
-	public Boolean visit(Divide node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
+	public Boolean visit(GreaterEqual binary) {
+		return checkBinaryMatch(binary, new IntType());
 	}
 
 	@Override
-	public Boolean visit(And node) {
-		// checkBinaryCondition(node);
-		return checkBoolBinary(node);
+	public Boolean visit(Less binary) {
+		return checkBinaryMatch(binary, new IntType());
 	}
 
 	@Override
-	public Boolean visit(Or node) {
-		// checkBinaryCondition(node);
-		return checkBoolBinary(node);
+	public Boolean visit(LessEqual binary) {
+		return checkBinaryMatch(binary, new IntType());
+	}
+	
+
+	@Override
+	public Boolean visit(And binary) {
+		return checkBinaryMatch(binary, new BoolType());
 	}
 
 	@Override
-	public Boolean visit(Equal node) {
-		// checkBinaryCondition(node);
-		return checkSameBinary(node);
+	public Boolean visit(Or binary) {
+		return checkBinaryMatch(binary, new BoolType());
 	}
 
 	@Override
-	public Boolean visit(NotEqual node) {
-		// checkBinaryCondition(node);
-		return checkSameBinary(node);
+	public Boolean visit(Equal binary) {
+		return checkSame(binary);
 	}
 
 	@Override
-	public Boolean visit(Greater node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
-	}
-
-	@Override
-	public Boolean visit(GreaterEqual node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
-	}
-
-	@Override
-	public Boolean visit(Less node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
-	}
-
-	@Override
-	public Boolean visit(LessEqual node) {
-		// checkBinaryOperand(node);
-		return checkIntBinary(node);
+	public Boolean visit(NotEqual binary) {
+		return checkSame(binary);
 	}
 
 	@Override
 	public Boolean visit(Identifier node) {
+		if (isCheckingCyclic) {
+			System.out.println("Pair");
+			System.out.println(node.getText());
+			System.out.println(questionComputes.get(questionComputes.size()-1).getText());
+			if (node.getText() == questionComputes.get(questionComputes.size()-1).getText()) {
+				System.out.println("Here we go");
+			}
+			System.out.println(node);
+			cyclicChecker.add(node, questionComputes.get(questionComputes.size()-1));
+		}
 		return checkReference(node);
 	}
 
@@ -433,5 +392,9 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	@Override
 	public Boolean visit(StrLiteral node) {
 		return true;
+	}
+	
+	public CyclicChecker getCC() {
+		return cyclicChecker;
 	}
 }
