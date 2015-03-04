@@ -1,5 +1,5 @@
-import argparse
-import glob
+import sys, argparse, glob
+sys.path.append('../lib')
 
 from antlr4 import *
 from ql.parser.QLLexer import QLLexer
