@@ -2,7 +2,7 @@ form FamilySurvey {
 	name1: "What is your name?" Str
 	name2: "What is your name?" Str
 	age1: "How old are you?" Int
-	age1: "How old are you?" Int(age1)
+	age2: "How old are you?" Int(age1)
 	age3: "How old are you?" Int(age2)
 	age4: "How old are you?" Int(age2 + age3)
 	age1: "How old are you?" Int(age3)

@@ -42,14 +42,14 @@ public class MainTC {
 		a.add(3);
 		System.out.println(a.get(a.size()-1));
 		
-		if (questionnaire.accept(typeChecker)) {
+		if (typeChecker.check(questionnaire)) {
 			System.out.println("OMG!");
 		}
 		typeChecker.printMessages();
 		
-		typeChecker.getCC().check();
-		typeChecker.getCC().print();
-		typeChecker.getCC().printCyclic();
+//		typeChecker.getCC().check();
+//		typeChecker.getCC().print();
+//		typeChecker.getCC().printCyclic();
 		//typeChecker.printAll();
 		//tryEvaluator();
 	}

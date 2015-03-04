@@ -20,7 +20,7 @@ public class Relation {
 	}
 	
 	public boolean isCyclic() {
-		return first.toString() == second.toString();
+		return first.toString().equals(second.toString());
 	}
 	
 	public void print() {

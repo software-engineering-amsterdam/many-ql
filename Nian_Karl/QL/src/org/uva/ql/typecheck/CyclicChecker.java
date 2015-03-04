@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.typecheck.relation.Relation;
+import org.uva.ql.typecheck.message.Error;
 
 public class CyclicChecker {
 
@@ -23,10 +24,7 @@ public class CyclicChecker {
 	}
 	
 	public boolean hasSameName(Identifier id1, Identifier id2) {
-		String a = id1.toString();
-		String b = id2.toString();
-		System.out.println(a+"|||" + b + "="+(a == b));
-		return (id1.toString() == id2.toString());
+		return id1.toString().equals(id2.toString());
 	}
 	
 	public boolean contains(Relation r) {
@@ -38,27 +36,42 @@ public class CyclicChecker {
 		return false;
 	}
 	
-	public void check() {
+	public void process() {
+		boolean result = true;
 		ArrayList<Relation> copy = new ArrayList<Relation>(relations);
 		
 		for (Relation i : copy) {
 			for (Relation j : copy) {
-				System.out.println(hasSameName(i.getSecond(), j.getFirst()));
 				if (hasSameName(i.getSecond(), j.getFirst())) {
 					Relation t = new Relation(i.getFirst(), j.getSecond());
 					if (!contains(t)) {
-						System.out.println("ADD");
 						relations.add(t);
+						result = false;
 					}
 				}
 			}
 		}
 		
-		if (relations.size() != copy.size()) {
-			check();
+		if (!result) {
+			process();
 		}
-		
+	}
+	
+	public boolean check(MessageManager mm) {
+		boolean result = true;
+		process();
 		System.out.println(relations.size());
+		for (Relation relation : relations) {
+			if (relation.isCyclic()) {
+				int lineNr1 = relation.getFirst().getPosition().getStartLine();
+				//int lineNr2 = relation.getSecond().getPosition().getStartLine();
+				//int lineNr = lineNr1 < lineNr2 ? lineNr1 : lineNr2;
+				String literal = relation.getFirst().toString();
+				mm.addError(new Error(Error.Type.CYCLIC, lineNr1, literal));
+				result = false;
+			}
+		}
+		return result;
 	}
 	
 	public void addErros(MessageManager mm) {
@@ -82,4 +95,5 @@ public class CyclicChecker {
 			relation.print();
 		}
 	}	
+	
 }

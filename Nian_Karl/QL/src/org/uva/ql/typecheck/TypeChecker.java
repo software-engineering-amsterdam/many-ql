@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
@@ -367,13 +366,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	@Override
 	public Boolean visit(Identifier node) {
 		if (isCheckingCyclic) {
-			System.out.println("Pair");
-			System.out.println(node.getText());
-			System.out.println(questionComputes.get(questionComputes.size()-1).getText());
-			if (node.getText() == questionComputes.get(questionComputes.size()-1).getText()) {
-				System.out.println("Here we go");
-			}
-			System.out.println(node);
 			cyclicChecker.add(node, questionComputes.get(questionComputes.size()-1));
 		}
 		return checkReference(node);
@@ -392,6 +384,13 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	@Override
 	public Boolean visit(StrLiteral node) {
 		return true;
+	}
+	
+	public boolean check(Questionnaire q) {
+		boolean result1 = q.accept(this);
+		boolean result2 = cyclicChecker.check(messageManager);
+		
+		return result1 && result2;
 	}
 	
 	public CyclicChecker getCC() {
