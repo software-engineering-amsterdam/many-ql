@@ -53,22 +53,28 @@ public class QLTypeChecker {
         Map<String, Type> questionTypes = new HashMap<>();
 
         for (Question question : questions) {
-            ID questionId = question.getIdentifier();
-            Type earlierQuestionType = questionTypes.get(questionId.getName());
-            if (earlierQuestionType != null) {
-                if (!earlierQuestionType.equals(question.getType())) {
-                    this.astIssueHandler.registerNewError(
-                            ASTNodeIssueType.ERROR.DUPLICATE,
-                            question, "Question already defined with different type."
-                    );
-                }
-
+            if (this.wasQuestionDefinedWithDifferentType(questionTypes, question)) {
+                this.astIssueHandler.registerNewError(
+                        ASTNodeIssueType.ERROR.DUPLICATE,
+                        question, "Question already defined with different type."
+                );
             } else {
+                ID questionId = question.getIdentifier();
                 questionTypes.put(questionId.getName(), question.getType());
             }
-
         }
+    }
 
+    private boolean wasQuestionDefinedWithDifferentType(
+            Map<String, Type> questionTypes, Question question
+    ) {
+        ID questionId = question.getIdentifier();
+        Type earlierQuestionType = questionTypes.get(questionId.getName());
+        if ((earlierQuestionType != null)
+                && (!earlierQuestionType.equals(question.getType()))) {
+            return true;
+        }
+        return false;
     }
 
     /**
