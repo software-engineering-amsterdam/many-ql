@@ -1,6 +1,5 @@
 package org.fugazi.ql.evaluator;
 
-import org.fugazi.ql.ValueStorage;
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.visitor.EvaluationExprVisitor;

@@ -1,6 +1,5 @@
 package org.fugazi.ql.evaluator;
 
-import org.fugazi.ql.ValueStorage;
 import org.fugazi.ql.ast.expression.logical.And;
 import org.fugazi.ql.ast.expression.logical.Or;
 import org.fugazi.ql.ast.expression.unary.Negative;

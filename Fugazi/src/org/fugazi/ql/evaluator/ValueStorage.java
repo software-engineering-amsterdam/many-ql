@@ -1,4 +1,4 @@
-package org.fugazi.ql;
+package org.fugazi.ql.evaluator;
 
 import org.fugazi.ql.evaluator.expression_value.ExpressionValue;
 import org.fugazi.ql.evaluator.expression_value.UndefinedValue;
