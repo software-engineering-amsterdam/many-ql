@@ -1,4 +1,4 @@
-from ..Visitor import Visitor as GenericVisitor
+from patterns.Visitor import Visitor as GenericVisitor
 
 
 class ExpressionVisitor(GenericVisitor):

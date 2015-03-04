@@ -1,5 +1,5 @@
 from . import Message
-from ..Visitor import Visitor as GenericVisitor
+from patterns.Visitor import Visitor as GenericVisitor
 
 
 # Why the vague name? We're not sure that in the future we want

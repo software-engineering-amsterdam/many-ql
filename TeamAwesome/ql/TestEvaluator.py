@@ -1,5 +1,5 @@
-import argparse
-import glob
+import sys, argparse, glob
+sys.path.append('../lib')
 
 from ql.ast.AST import AST
 from ql.evaluator.evaluator import createEvaluator
