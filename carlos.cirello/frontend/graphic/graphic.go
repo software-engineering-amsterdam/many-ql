@@ -1,4 +1,5 @@
-// Package graphic is the GUI interface for Frontend. It does not interact directly with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
+// Package graphic is the GUI interface for Frontend. It does not interact directly
+// with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
 package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
