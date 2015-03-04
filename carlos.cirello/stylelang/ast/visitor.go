@@ -18,10 +18,14 @@ func NewVisitor() *Visitor {
 	}
 }
 
+// Pages returns the tree of pages later to be used by GUI renderer.
 func (v *Visitor) Pages() map[string]*Page {
 	return v.pages
 }
 
+// QuestionIndex returns a hashmap resolving the address from the question
+// within a page up to root GUI node. It is used by GUI to traverse the QML
+// tree faster.
 func (v *Visitor) QuestionIndex() map[string][]string {
 	return v.questionIndex
 }
@@ -68,7 +72,7 @@ func (v *Visitor) QuestionNode(node *QuestionNode) {
 	v.questionIndex[node.Identifier()] = v.currentRoute
 }
 
-// QuestionNode defines a default widget for a question type
+// PageNode defines one page within the form, and its nested pages.
 func (v *Visitor) PageNode(node *PageNode) {
 	v.currentRoute = append(v.currentRoute, node.Label())
 	page := NewPage(node.Label())
