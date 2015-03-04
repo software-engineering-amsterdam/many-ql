@@ -14,6 +14,7 @@ import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.error.CheckTypeErrors;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
@@ -36,14 +37,21 @@ public class Test {
 		evaluator.collectIds(ids);
 		IdTypeTable idTable = new IdTypeTable(ids);
 		evaluator.setTypes(idTable);
-		evaluator.showTypes();
+		
+
+		if(CheckTypeErrors.containsErrors(evaluator)){
+			System.err.println("there are errors:");
+			ErrorCollector errors = new ErrorCollector();
+			evaluator.getErrors(errors);
+			errors.print();
+		} else{
+			System.out.println("there are no errors:");
+			evaluator.showTypes();
+		}
 		RuntimeMemory mem = evaluator.initMemory();
 		System.out.println(mem);
 //		System.out.println(m.showMemory());
 //			
-//		ErrorCollector errors = new ErrorCollector();
-//		evaluator.getErrors(errors);
-//		errors.print();
 		
 		
 		

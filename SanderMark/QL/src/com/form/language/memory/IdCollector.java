@@ -22,7 +22,6 @@ public class IdCollector {
 	public void addId(IdLiteral idLiteral)
 	{
 		ids.add(idLiteral);
-		System.out.println(this);
 	}
 	
 	public int showMemory()

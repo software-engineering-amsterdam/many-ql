@@ -38,6 +38,10 @@ public class Form  {
 		}
 	}
 	
+	public Iterator<Statement> iterator(){
+		return statementList.iterator();
+	}
+	
 	public RuntimeMemory initMemory()
 	{
 		RuntimeMemory mem = new RuntimeMemory();

@@ -11,13 +11,6 @@ public class ErrorCollector {
 		this.errorList = new ArrayList<Error>();
 	}
 	
-	public ErrorCollector(ErrorCollector left, ErrorCollector right){
-		ArrayList<Error> combinedList = new ArrayList<Error>(left.errorList);
-		combinedList.addAll(right.errorList);
-		
-		this.errorList = combinedList;
-	}
-	
 	public void add(Error e){
 		errorList.add(e);
 	}
