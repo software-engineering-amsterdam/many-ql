@@ -3,6 +3,7 @@ package org.fugazi.ql.type_checker;
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.expression.literal.ID;
 import org.fugazi.ql.ast.form.Form;
+import org.fugazi.ql.ast.statement.ComputedQuestion;
 import org.fugazi.ql.ast.statement.IfStatement;
 import org.fugazi.ql.ast.statement.Question;
 import org.fugazi.ql.ast.statement.Statement;
@@ -86,6 +87,25 @@ public class QLTypeChecker {
         }
     }
 
+    private void checkAssignmentTypes() {
+        List<ComputedQuestion> questions = this.formData.getComputedQuestions();
+
+        for (ComputedQuestion question : questions) {
+            Type type = question.getType();
+            Expression computed = question.getComputedExpression();
+
+            // check if assigned types equal
+            boolean typesEqual = this.checkIfTypesEqual(type, computed.getReturnedType());
+            if (!typesEqual) {
+                this.astIssueHandler.registerNewError(
+                        ASTNodeIssueType.ERROR.TYPE_MISMATCH, question,
+                        "Attempted to assign type " + computed.getReturnedType()
+                                + " to variable of type " + type.getClass() + "."
+                );
+            }
+        }
+    }
+
 
 
 //    private void checkCyclicDependencies() {
@@ -116,9 +136,12 @@ public class QLTypeChecker {
     }
 
     private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
-        return expression.getReturnedType().equals(type);
+        return this.checkIfTypesEqual(expression.getReturnedType(), type);
     }
 
+    private boolean checkIfTypesEqual(Type type1, Type type2) {
+        return type1.equals(type2);
+    }
 
     /**
      * =====================
@@ -133,6 +156,7 @@ public class QLTypeChecker {
         this.checkDuplicateLabels();
         this.checkQuestionTypes();
         this.checkIfStatementConditionTypes();
+        this.checkAssignmentTypes();
 //        this.checkCyclicDependencies();
 
         // perform all the checks that can be done on the fly

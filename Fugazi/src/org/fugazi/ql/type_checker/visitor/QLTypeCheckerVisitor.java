@@ -93,18 +93,7 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
     public Void visitComputedQuestion(ComputedQuestion assignQuest) {
 
         ID identifier = assignQuest.getIdentifier();
-        Type type = assignQuest.getType();
         Expression computed = assignQuest.getComputedExpression();
-
-        // check if assigned types equal
-        boolean typesEqual = this.checkIfTypesEqual(type, computed.getReturnedType());
-        if (!typesEqual) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, assignQuest,
-                    "Attempted to assign type " + computed.getReturnedType()
-                            + " to variable of type " + type.getClass() + "."
-            );
-        }
 
         // check if no circular reference
         // is performed while visiting idLiterals
@@ -436,7 +425,7 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
      */
 
     private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
-        return expression.getReturnedType().equals(type);
+        return this.checkIfTypesEqual(expression.getReturnedType(), type);
     }
 
     private boolean checkIfExpressionIsInt(Expression expression) {
