@@ -2,6 +2,7 @@
 import QL.Main.converters as converters
 import QL.AST.Elements.constants as econstants
 
+
 class Form:
     def __init__(self, name, introduction, statements):
         self._name = name
@@ -17,10 +18,10 @@ class Form:
             d = dict(list(d.items()) + list(s.id_type_collection().items()))
 
         # The types and ids of these are the same
-        d["comp_operator"] = econstants.ElementsConstants.COMP_OP
-        d["calc_operator"] = econstants.ElementsConstants.CALC_OP
-        d["bool"] = econstants.ElementsConstants.BOOL
-        d["number"] = econstants.ElementsConstants.NUMBER
+        d[econstants.ElementsConstants.COMP_OP] = econstants.ElementsConstants.COMP_OP
+        d[econstants.ElementsConstants.CALC_OP] = econstants.ElementsConstants.CALC_OP
+        d[econstants.ElementsConstants.BOOL] = econstants.ElementsConstants.BOOL
+        d[econstants.ElementsConstants.NUMBER] = econstants.ElementsConstants.NUMBER
 
         return d
 
