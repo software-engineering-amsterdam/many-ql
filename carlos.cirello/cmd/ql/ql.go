@@ -5,25 +5,16 @@ import (
 	"os"
 	"runtime/pprof"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvinput"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/csvoutput"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend/graphic"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/cli/iostream"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
-	qlsparser "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/parser"
 )
 
 func main() {
-	defer func() {
-		if r := recover(); r != nil {
-			log.Println("error:", r)
-		}
-	}()
+	defer errorHandler()
 	srcFn, inFn, outFn, cpuProfileFn := cli.Args()
+
+	// defer StopCPUProfile must be pegged to main routine
 	if cpuProfileFn != "" {
 		f, err := os.Create(cpuProfileFn)
 		if err != nil {
@@ -34,26 +25,11 @@ func main() {
 	}
 
 	srcReader, styleReader, inReader, outWriter := iostream.New(srcFn, inFn, outFn)
-	aQuestionaire := parser.ReadQL(srcReader, srcFn)
 
-	// todo(carlos): reorganize this part
-	var theStyle *ast.StyleNode
-	if styleReader != nil {
-		theStyle = qlsparser.ReadQLS(styleReader, srcFn+"s")
-	}
-	vstr := ast.NewVisitor()
-	vstr.Visit(theStyle)
-
-	fromInterpreter, toInterpreter := interpreter.New(aQuestionaire)
-
-	if inReader != nil {
-		csvReader := csvinput.New(fromInterpreter, toInterpreter, inReader)
-		csvReader.Read()
-	}
-
-	driver := graphic.GUI(aQuestionaire.Label(), vstr.Pages())
-	frontend.New(fromInterpreter, toInterpreter, driver)
-	driver.Loop()
+	fromInterpreter, toInterpreter, guiAppName := startInterpreter(srcReader, srcFn)
+	readInputCsv(fromInterpreter, toInterpreter, inReader)
+	stylePages := loadStyle(styleReader, srcFn)
+	launchGUI(fromInterpreter, toInterpreter, guiAppName, stylePages)
 
 	csvWriter := csvoutput.New(fromInterpreter, toInterpreter, outWriter)
 	csvWriter.Write()
