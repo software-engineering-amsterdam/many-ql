@@ -6,14 +6,24 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 
+import com.form.language.ast.expression.Expression;
+import com.form.language.ast.statement.Question;
 import com.form.language.ast.values.BoolValue;
+import com.form.language.gui.components.QuestionComponent;
+import com.form.language.memory.RuntimeMemory;
 
 public class CheckBox extends JCheckBox implements Widget {
 	private static final long serialVersionUID = 1L;
-	private WidgetListener widgetListener;
+	private QuestionComponent questionComponent;
+	private Expression showCondition;
+	private RuntimeMemory rm;
+	private Question question;
 	
-	public CheckBox(WidgetListener listener) {
-		this.widgetListener = listener;
+	public CheckBox(Question question, QuestionComponent questionComponent, Expression showCondition, RuntimeMemory rm) {
+		this.showCondition = showCondition;
+		this.rm = rm;
+		this.question = question;
+		this.questionComponent = questionComponent;
 		CheckBoxListener checkboxListener = new CheckBoxListener();
 		addItemListener((ItemListener) checkboxListener);
 	}
@@ -22,17 +32,27 @@ public class CheckBox extends JCheckBox implements Widget {
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getSource() == CheckBox.this) {
 				if (CheckBox.this.isSelected()) {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
+					rm.put(question.getId(), new BoolValue(isSelected()));
 				} else {
-					widgetListener.widgetValueChanged(getIdentifier(), new BoolValue(getValue()));
+					rm.put(question.getId(), new BoolValue(isSelected()));
+					if(showCondition != null)
+					{
+						if(((BoolValue)showCondition.evaluate(rm)).getValue())
+						{
+							System.out.println("lol");
+							//Toon question wel
+							questionComponent.checkVisibility(true);
+						}
+						else
+						{
+							System.out.println("lol2");
+							//Toon question not
+							questionComponent.checkVisibility(false);
+						}
+					}
 				}
 			}
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Boolean getValue() {
-		return isSelected();
 	}
 
 	@Override
@@ -51,5 +71,11 @@ public class CheckBox extends JCheckBox implements Widget {
 	public void setIdentifier(String identifier) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public <T> T getValue() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

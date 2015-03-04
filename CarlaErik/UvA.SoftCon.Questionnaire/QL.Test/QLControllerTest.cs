@@ -10,7 +10,7 @@ using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 namespace UvA.SoftCon.Questionnaire.QL.Test
 {
     /// <summary>
-    /// Provides test methods for the <see cref="UvA.SoftCon.Questionnaire.AST.ASTController"/> class.
+    /// Provides test methods for the <see cref="UvA.SoftCon.Questionnaire.QL.QLController"/> class.
     /// </summary>
     [TestClass]
     public class QLControllerTest

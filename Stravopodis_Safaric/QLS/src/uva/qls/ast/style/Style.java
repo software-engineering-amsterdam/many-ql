@@ -2,6 +2,7 @@ package uva.qls.ast.style;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.statements.Statement;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -11,9 +12,10 @@ public abstract class Style extends Statement{
 		super(_codeLines);
 	}
 
-	public abstract GenericValue<?> evaluate();
 	@Override
 	public abstract String toString();
+	public abstract GenericValue<?> evaluate();
+	public abstract <T> T accept(StatementVisitor<T> visitor);
 	
 	@Override
 	public Tuple<Integer, Integer> getLOCTuple() {

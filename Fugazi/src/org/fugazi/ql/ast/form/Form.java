@@ -1,12 +1,12 @@
 package org.fugazi.ql.ast.form;
 
-import org.fugazi.ql.ast.AbstractASTNode;
+import org.fugazi.ql.ast.AbstractASTQLNode;
 import org.fugazi.ql.ast.IASTVisitor;
 import org.fugazi.ql.ast.statement.Statement;
 
 import java.util.List;
 
-public class Form extends AbstractASTNode {
+public class Form extends AbstractASTQLNode {
 
     private final String name;
 

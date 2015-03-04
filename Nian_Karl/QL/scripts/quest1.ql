@@ -10,7 +10,6 @@ form SalarySurvey{
 				a223ge: "How old are you?" Int
 			}
 		}
-	}
-	
+	}	
 	myAge: "Hello?" Int
 }

@@ -36,7 +36,7 @@ public class Test {
 		evaluator.setTypes(idTable);
 		evaluator.showTypes();
 		RuntimeMemory mem = new RuntimeMemory();
-		evaluator.initMemory(mem);
+		//evaluator.initMemory(mem);
 		System.out.println(mem);
 //		System.out.println(m.showMemory());
 //			

@@ -1,4 +1,4 @@
-// Generated from /Users/Sugar/Documents/Msc/Software-Construction/many-ql/Fugazi/src/org/fugazi/qls/grammar/QLS.g4 by ANTLR 4.5
+// Generated from /home/alex/Develop/Msc/many-ql/Fugazi/src/org/fugazi/qls/grammar/QLS.g4 by ANTLR 4.5
 package org.fugazi.qls.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -30,39 +30,39 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSection(@NotNull QLSParser.SectionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#question}.
+	 * Visit a parse tree produced by the {@code questionWithWidget}
+	 * labeled alternative in {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQuestion(@NotNull QLSParser.QuestionContext ctx);
+	T visitQuestionWithWidget(@NotNull QLSParser.QuestionWithWidgetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code simpleWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Visit a parse tree produced by the {@code questionWithoutWidget}
+	 * labeled alternative in {@link QLSParser#question}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSimpleWidget(@NotNull QLSParser.SimpleWidgetContext ctx);
+	T visitQuestionWithoutWidget(@NotNull QLSParser.QuestionWithoutWidgetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code defaultStyleWidget}
-	 * labeled alternative in {@link QLSParser#widget}.
+	 * Visit a parse tree produced by {@link QLSParser#widget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefaultStyleWidget(@NotNull QLSParser.DefaultStyleWidgetContext ctx);
+	T visitWidget(@NotNull QLSParser.WidgetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code noStylesDefault}
+	 * Visit a parse tree produced by the {@code noStylesDefaultDeclr}
 	 * labeled alternative in {@link QLSParser#defaultStyleDeclr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNoStylesDefault(@NotNull QLSParser.NoStylesDefaultContext ctx);
+	T visitNoStylesDefaultDeclr(@NotNull QLSParser.NoStylesDefaultDeclrContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code stylesDefault}
+	 * Visit a parse tree produced by the {@code stylesDefaultDeclr}
 	 * labeled alternative in {@link QLSParser#defaultStyleDeclr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStylesDefault(@NotNull QLSParser.StylesDefaultContext ctx);
+	T visitStylesDefaultDeclr(@NotNull QLSParser.StylesDefaultDeclrContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code checkboxWidget}
 	 * labeled alternative in {@link QLSParser#supportedWidget}.

@@ -4,6 +4,7 @@ import java.util.*;
 
 import uva.qls.ast.literal.Identifier;
 import uva.qls.ast.statements.*;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 public class Page extends ASTNode {
@@ -26,6 +27,11 @@ public class Page extends ASTNode {
 	
 	public boolean hasStatements(){
 		return this.statement == null ? false : !this.statement.isEmpty();
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitPage(this);
 	}
 
 	@Override

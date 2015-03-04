@@ -6,10 +6,26 @@ from ..Visitor import Visitor as GenericVisitor
 # the type checker to be able to return more than simply a list
 # of messages. Maybe something the evaluator can use.
 # It's the Result Object pattern.
-class Result:
-    def __init__(self, errors = [], warnings = []):
-        self._errors = errors
-        self._warnings = warnings
+
+# It's also an algebraic data type :)
+class ResultAlg:
+    def empty(self):
+        pass
+
+    def withError(self, error):
+        pass
+
+    def withWarning(self, warning):
+        pass
+
+    def merge(self, results):
+        pass
+
+
+# Primary implementation
+class Result(ResultAlg):
+    def empty(self):
+        return Result()
 
     @property
     def errors(self):
@@ -25,12 +41,15 @@ class Result:
     def withWarning(self, warning):
         return Result(self.errors, self.warnings + [warning])
 
-    @staticmethod
-    def merge(results):
-        result = Result()
+    def merge(self, results):
+        result = self.empty()
         for r in results:
             result = Result(
                 result.errors + r.errors,
                 result.warnings + r.warnings
             )
         return result
+
+    def __init__(self, errors = [], warnings = []):
+        self._errors = errors
+        self._warnings = warnings

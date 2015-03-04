@@ -1,16 +1,16 @@
 package ast.expression.variables;
 
-import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
 
-public class IntegerVariable extends Expression {
+public class IntegerVariable extends Variable { //<Integer> {
 	private final Integer intVariable;
 
-	public IntegerVariable (Integer intVariable) {
+	public IntegerVariable (int intVariable) {
 		this.intVariable = intVariable;
+		//super(intVariable);
 	}	
 	
-	public Integer getValue() {
+	public int getVariable() {
 		return intVariable;
 	}
 	
@@ -23,4 +23,5 @@ public class IntegerVariable extends Expression {
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
+
 }

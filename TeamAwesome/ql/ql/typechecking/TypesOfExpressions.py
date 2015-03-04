@@ -8,8 +8,8 @@ from ..ast import Nodes
 
 
 class Checker(Checker.FullChecker):
-    def __init__(self, ast):
-        super().__init__(ast)
+    def __init__(self, ast, resultADT):
+        super().__init__(ast, resultADT)
         self._operatorTable = TypeRules.OperatorTable()
 
 

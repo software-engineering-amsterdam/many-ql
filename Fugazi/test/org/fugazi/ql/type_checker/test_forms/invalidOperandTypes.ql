@@ -1,5 +1,5 @@
 /**
- * Invalid operand types (17).
+ * Invalid operand types (15).
  */
 form taxOfficeExample {
 
@@ -22,16 +22,16 @@ form taxOfficeExample {
   int al("al") = +i;
   string am("am") = s;
 
-  // incorrect - operand types (9 + 3 = 12)
+  // incorrect - operand types (9 + 1 = 10)
   int za("za") = i / b;
   int zb("zb") = i + s;
   int zc("zc") = b - s; // * 2, two incompatible operands
   int zd("zd") = i + b;
   bool ze("ze") = i && b;
   bool zf("zf") = s || b;
-  bool zg("zg") = b == s;  // * 2, two incompatible operands
+  bool zg("zg") = b == s;
   bool zh("zh") = b > i;
-  bool zi("zi") = s < b;  // * 2, two incompatible operands
+  bool zi("zi") = s < b;
 
   // incorrect - assignments (5)
   string zj("zj") = i;

@@ -2,6 +2,7 @@ package uva.qls.ast.style;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.IntLiteral;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.NumberValue;
 
 public class Width extends Style{
@@ -18,6 +19,11 @@ public class Width extends Style{
 	}
 	
 	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitWidth(this);
+	}
+	
+	@Override
 	public NumberValue evaluate() {
 		return new NumberValue(this.width.evaluatedValue());
 	}
@@ -26,7 +32,4 @@ public class Width extends Style{
 	public String toString() {
 		return "Width(" + this.evaluatedValue().toString() + ")";
 	}
-	
-	
-	
 }
