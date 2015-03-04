@@ -15,6 +15,7 @@ import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.AssignmentStatement;
+import com.form.language.ast.statement.IfStatement;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.type.BoolType;
 import com.form.language.ast.values.IntValue;
@@ -43,10 +44,10 @@ public class StatementTest {
 	{
 		return "if hasSoldHouse == true && hasBoughtHouse == true then question" + "\"Test?\"" + "hasTest : Boolean end";		
 	}
-	private void IfStatementObject(){
+	private void IfStatementObject() throws IOException{
 		GrammarParser parser= AstTest.getParser("hasSoldHouse == true && hasBoughtHouse == true");
 		Expression expression= parser.expression().result;
-		return new IfStatement("hasHouseSold", new BoolType(), expression);		
+		//return new IfStatement("hasHouseSold", new BoolType(), expression);		
 		//return new AssignementStatement();		
 	}
 	

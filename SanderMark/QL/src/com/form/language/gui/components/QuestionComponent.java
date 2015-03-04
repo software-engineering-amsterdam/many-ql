@@ -35,25 +35,30 @@ public class QuestionComponent extends JPanel {
 	{
 		if(question.getType().isBoolType())
 		{
-			CheckBox checkbox = new CheckBox(question,showCondition,rm);
+			CheckBox checkbox = new CheckBox(question,this,showCondition,rm);
 			checkbox.setName(question.getId());
 			add(checkbox);			
 		}
 		else if(question.getType().isStringType())
 		{
-			TextField textfield = new TextField(question,showCondition,rm);
+			TextField textfield = new TextField(question,this,showCondition,rm);
 			textfield.setName(question.getId());
 			add(textfield);			
 		}
 		else
 		{
-			TextField textfield = new TextField(question,showCondition,rm);
+			TextField textfield = new TextField(question,this,showCondition,rm);
 			textfield.setName(question.getId());
-			add(textfield);				
+			add(textfield);
 		}
 	}
 	
 	public Question getQuestion() {
 		return question;
 	}
+	
+	public void checkVisibility(boolean visible)
+    {
+		setVisible(visible);
+    }
 }

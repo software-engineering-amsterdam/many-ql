@@ -11,6 +11,7 @@ import javax.swing.text.BadLocationException;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.values.StringValue;
+import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.RuntimeMemory;
 
 public class TextField extends JTextField implements Widget {
@@ -21,7 +22,7 @@ public class TextField extends JTextField implements Widget {
 	private RuntimeMemory rm;
 	private Question question;
 
-	public TextField(Question question,Expression showCondition, RuntimeMemory rm) {
+	public TextField(Question question,QuestionComponent questionComponent, Expression showCondition, RuntimeMemory rm) {
 		this.showCondition = showCondition;
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener((DocumentListener) this);
