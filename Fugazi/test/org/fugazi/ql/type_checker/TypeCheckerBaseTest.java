@@ -3,6 +3,7 @@ package org.fugazi.ql.type_checker;
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
 
+import org.fugazi.ql.form_data.QLFormDataStorage;
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -49,8 +50,9 @@ public abstract class TypeCheckerBaseTest {
 
         // Build the AST.
         form = QLASTBuilder.buildForm();
+        QLFormDataStorage formDataStorage = new QLFormDataStorage(form);
+
         // perform type check
-        // TODO before class
-        checker.checkForm(form);
+        checker.checkForm(form, formDataStorage);
     }
 }
