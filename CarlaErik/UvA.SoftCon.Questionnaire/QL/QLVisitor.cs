@@ -38,6 +38,10 @@ namespace UvA.SoftCon.Questionnaire.QL
         {
         }
 
+        public virtual void Visit(DateLiteral literal)
+        {
+        }
+
         public virtual void Visit(Question question)
         {
             question.Id.Accept(this);
@@ -186,6 +190,11 @@ namespace UvA.SoftCon.Questionnaire.QL
         }
 
         public virtual T Visit(StringLiteral literal)
+        {
+            return default(T);
+        }
+
+        public virtual T Visit(DateLiteral literal)
         {
             return default(T);
         }

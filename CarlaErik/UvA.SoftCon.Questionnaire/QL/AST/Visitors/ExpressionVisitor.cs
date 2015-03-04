@@ -153,5 +153,12 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Visitors
 
             return new StringLiteral(value, context.GetTextPosition());
         }
+
+        public override IExpression VisitDateLiteral(QLParser.DateLiteralContext context)
+        {
+            string date = context.DATE().GetText().Replace("[", "").Replace("]", "");
+
+            return new DateLiteral(date, context.GetTextPosition());
+        }
     }
 }

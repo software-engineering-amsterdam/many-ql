@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\Model\Expressions\Literals\DateLiteral.cs" />
     <Compile Include="QLController.cs" />
     <Compile Include="QLVisitor.cs" />
     <Compile Include="AST\Visitors\ParserRuleContextExtensions.cs" />

@@ -20,16 +20,19 @@ namespace UvA.SoftCon.Questionnaire.Runtime
             var variableUsageVisitor = new VariableUsageCheckingVisitor();
             var duplicateLabelVisitor = new DuplicateLabelCheckingVisitor();
             var typeCheckingVisitor = new TypeCheckingVisitor();
+            var literalCheckingVisitor = new LiteralCheckingVisitor();
 
             variableUsageVisitor.Visit(form);
             duplicateLabelVisitor.Visit(form);
             typeCheckingVisitor.Visit(form);
+            literalCheckingVisitor.Visit(form);
 
             var errorReport = new ErrorReport();
 
             errorReport.AddVariableUsageMessages(variableUsageVisitor);
             errorReport.AddDuplicateLabelMessages(duplicateLabelVisitor);
             errorReport.AddTypeCheckingMessages(typeCheckingVisitor);
+            errorReport.AddLiteralCheckingMessages(literalCheckingVisitor);
 
             return errorReport;
         }

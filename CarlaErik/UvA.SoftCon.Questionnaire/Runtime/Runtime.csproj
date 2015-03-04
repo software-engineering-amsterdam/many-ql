@@ -48,6 +48,7 @@
     <Compile Include="Evaluation\ExpressionInterpreter.cs" />
     <Compile Include="Evaluation\Interpreter.cs" />
     <Compile Include="Evaluation\Types\BooleanValue.cs" />
+    <Compile Include="Evaluation\Types\DateValue.cs" />
     <Compile Include="Evaluation\Types\IntegerValue.cs" />
     <Compile Include="Evaluation\Types\StringValue.cs" />
     <Compile Include="Evaluation\Types\Undefined.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Validation\InvalidAssignment.cs" />
     <Compile Include="Validation\InvalidBinaryExpression.cs" />
     <Compile Include="Validation\InvalidUnaryExpression.cs" />
+    <Compile Include="Validation\LiteralCheckingVisitor.cs" />
     <Compile Include="Validation\TypeCheckingVisitor.cs" />
     <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
   </ItemGroup>
