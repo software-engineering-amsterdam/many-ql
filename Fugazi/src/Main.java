@@ -1,6 +1,6 @@
 import org.fugazi.ql.ast.QLASTBuilder;
 import org.fugazi.ql.ast.form.Form;
-import org.fugazi.ql.form_data.FormDataStorage;
+import org.fugazi.ql.form_data.QLFormDataStorage;
 import org.fugazi.ql.type_checker.QLTypeChecker;
 import org.fugazi.ql.type_checker.issue.ASTIssuePrinter;
 
@@ -29,10 +29,11 @@ public class Main {
 
         // Build the AST.
         Form form = QLAstBuilder.buildForm();
+        QLFormDataStorage formDataStorage = new QLFormDataStorage(form);
 
         // Perform type checking.
         QLTypeChecker QLTypeChecker = new QLTypeChecker();
-        boolean isFormTypesCorrect = QLTypeChecker.checkForm(form);
+        boolean isFormTypesCorrect = QLTypeChecker.checkForm(form, formDataStorage);
 
         // display warnings and errors and if form is not type-correct, exit
         ASTIssuePrinter printer = new ASTIssuePrinter(
@@ -46,12 +47,8 @@ public class Main {
         }
 
         // Render GUI.
-        //UIBuilder guiBuilder = new UIBuilder(form);
-        //guiBuilder.renderGUI();
-
-        FormDataStorage formDataStorage = new FormDataStorage(form);
-
-        System.out.println(formDataStorage.getQuestionLabels());
+//        UIBuilder guiBuilder = new UIBuilder(form);
+//        guiBuilder.renderGUI();
 
         /** ---------------------
          * QLS
