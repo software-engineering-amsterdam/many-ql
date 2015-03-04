@@ -202,7 +202,7 @@ class QuestionnaireGUI:
         e_list = []
         e_list += QuestionnaireGUI.e_label(statement, gui)
         e = tk.Spinbox(from_=0, to_=10000)
-        e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, e.get()))
+        e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, None if e.get() is '' else int(e.get())))
         # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W)
         e_list.append(e)
         return e_list
