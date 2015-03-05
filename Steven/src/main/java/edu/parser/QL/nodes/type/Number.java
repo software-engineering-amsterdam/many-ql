@@ -1,8 +1,8 @@
 package edu.parser.QL.nodes.type;
 
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
-import edu.parser.QL.Visitor;
+import edu.parser.QL.QLVisitor;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -20,8 +20,8 @@ public class Number extends Expression {
     }
 
     @Override
-    public AbstractNode accept(Visitor visitor) {
-        return visitor.visit(this);
+    public AbstractNode accept(QLVisitor QLVisitor) {
+        return QLVisitor.visit(this);
     }
 
     @Override

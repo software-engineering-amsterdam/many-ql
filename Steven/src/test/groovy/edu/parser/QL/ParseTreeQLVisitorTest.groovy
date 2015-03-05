@@ -15,7 +15,7 @@ import spock.lang.Specification
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-class ParseTreeVisitorTest extends Specification {
+class ParseTreeQLVisitorTest extends Specification {
 
     public static final String INPUT_PATH = Main.PATH_TO_QL_INPUT_FILES
     AntlrParser antlrParser;

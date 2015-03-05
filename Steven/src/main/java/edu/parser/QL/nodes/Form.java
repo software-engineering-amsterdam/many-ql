@@ -1,15 +1,14 @@
 package edu.parser.QL.nodes;
 
+import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.parser.QL.Visitor;
-import edu.parser.AbstractNode;
 
 import java.util.List;
 
 /**
  * Created by Steven Kok on 17/02/2015.
  */
-public class Form implements AbstractNode<Visitor> {
+public class Form implements AbstractNode {
 
     private final List<Statement> elements;
 
@@ -22,7 +21,7 @@ public class Form implements AbstractNode<Visitor> {
     }
 
     @Override
-    public AbstractNode accept(Visitor visitor) {
-        return visitor.visit(this);
+    public AbstractNode accept(QLVisitor QLVisitor) {
+        return QLVisitor.visit(this);
     }
 }

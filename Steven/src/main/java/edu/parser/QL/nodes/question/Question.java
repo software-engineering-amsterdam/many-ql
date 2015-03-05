@@ -1,10 +1,11 @@
 package edu.parser.QL.nodes.question;
 
-import edu.parser.QL.Visitor;
-import edu.parser.AbstractNode;
+import edu.parser.QL.QLVisitor;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.statement.Statement;
+import edu.parser.nodes.QuestionType;
 
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class Question extends Statement {
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private boolean enabled;
+    private boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
     public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
@@ -27,7 +28,7 @@ public class Question extends Statement {
         this.enabled = enabled;
     }
 
-    public boolean isEnabled() {
+    public boolean isEnabled() { //todo: refactor to: getState
         return enabled;
     }
 
@@ -56,8 +57,8 @@ public class Question extends Statement {
     }
 
     @Override
-    public AbstractNode accept(Visitor visitor) {
-        return visitor.visit(this);
+    public AbstractNode accept(QLVisitor QLVisitor) {
+        return QLVisitor.visit(this);
     }
 
     @Override
@@ -68,9 +69,8 @@ public class Question extends Statement {
         Question question = (Question) o;
 
         if (enabled != question.enabled) return false;
-        if (expression != null ? !expression.equals(question.expression) : question.expression != null) return false;
-        if (!identifier.equals(question.identifier)) return false;
-        return label.equals(question.label) && questionType == question.questionType;
+        // intellij 'simplified' the next line:
+        return !(expression != null ? !expression.equals(question.expression) : question.expression != null) && identifier.equals(question.identifier) && label.equals(question.label) && questionType == question.questionType;
 
     }
 
