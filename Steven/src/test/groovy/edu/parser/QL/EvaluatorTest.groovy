@@ -148,13 +148,14 @@ class EvaluatorTest extends Specification {
         formStatements.add(inputUnconditionalQuestion)
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
+
         when:
-        Form outputForm = (Form) evaluator.visit(inputForm)
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
 
         then:
-        Assert.assertEquals(2, outputForm.elements.size())
-        Question outputUnconditionalQuestion = (Question) outputForm.elements.get(0)
-        Question outputElseClauseQuestion = (Question) outputForm.elements.get(1)
+        Assert.assertEquals(2, returnedQuestions.size())
+        Question outputUnconditionalQuestion = (Question) returnedQuestions.get(0)
+        Question outputElseClauseQuestion = (Question) returnedQuestions.get(1)
         Assert.assertEquals(inputUnconditionalQuestion, outputUnconditionalQuestion)
         Assert.assertEquals(inputElseClauseQuestion, outputElseClauseQuestion)
     }
