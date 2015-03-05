@@ -48,26 +48,26 @@ class EvaluatorTest extends Specification {
     def "Should return question when if statements condition is true"() {
         when:
         List<Statement> formStatements = new ArrayList<>()
-        List<Statement> questions = new ArrayList<>()
+        List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
         Question inputConditionalQuestion = getQuestion("conditional")
-        questions.add(inputConditionalQuestion)
+        questionsWithinIfStatement.add(inputConditionalQuestion)
 
-        IfStatement ifStatement = new IfStatement(expression, questions, Optional.empty())
+        IfStatement ifStatement = new IfStatement(expression, questionsWithinIfStatement, Optional.empty())
 
         def inputUnconditionalQuestion = getQuestion("unconditional")
         formStatements.add(inputUnconditionalQuestion)
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
 
-        Form outputForm = (Form) evaluator.visit(inputForm)
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
 
         then:
-        Assert.assertEquals(2, outputForm.elements.size())
-        Question outputQuestion1 = (Question) outputForm.elements.get(0);
-        Question outputQuestion2 = (Question) outputForm.elements.get(1);
-        Assert.assertEquals(inputUnconditionalQuestion, outputQuestion1)
-        Assert.assertEquals(inputConditionalQuestion, outputQuestion2)
+        Assert.assertEquals("List should contain only two elements", 2, returnedQuestions.size())
+        Question unconditionalOutputQuestion = returnedQuestions.get(0);
+        Question conditionalOutputQuestion = returnedQuestions.get(1);
+        Assert.assertEquals(inputUnconditionalQuestion, unconditionalOutputQuestion)
+        Assert.assertEquals(inputConditionalQuestion, conditionalOutputQuestion)
 
         where:
         expression                                                                 | _
