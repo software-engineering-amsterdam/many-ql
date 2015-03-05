@@ -1,14 +1,14 @@
 # AST for operators
 from QL.Grammar.basic_types import *
 from QL.AST.Elements.element import *
-
+import QL.AST.Elements.constants as econstants
 
 class Operator(Element):
     def __init__(self, operator):
         self.operator = operator
 
     def return_type(self, type_dict):
-        return " operator "
+        return " " + econstants.ElementsConstants.OPERATOR + " "
 
     def pretty_print(self):
         return " " + str(self.operator) + " "
@@ -26,13 +26,13 @@ class Operator(Element):
 
 class CompareOperator(Operator):
     def return_type(self, type_dict):
-        return " comp_operator "
+        return " " + econstants.ElementsConstants.COMP_OP + " "
 
 class CalcOperator(Operator):
     def return_type(self, type_dict):
-        return " calc_operator "
+        return " " + econstants.ElementsConstants.CALC_OP + " "
 
 
 class ExtraOperator(Operator):
     def return_type(self, type_dict):
-        return " extra_operator "
+        return " " + econstants.ElementsConstants.EXTRA_OP + " "

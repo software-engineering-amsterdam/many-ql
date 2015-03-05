@@ -1,15 +1,32 @@
 from . import Message
-from ..Visitor import Visitor as GenericVisitor
+from patterns.Visitor import Visitor as GenericVisitor
 
 
 # Why the vague name? We're not sure that in the future we want
 # the type checker to be able to return more than simply a list
 # of messages. Maybe something the evaluator can use.
 # It's the Result Object pattern.
-class Result:
-    def __init__(self, errors = [], warnings = []):
-        self._errors = errors
-        self._warnings = warnings
+
+# It's also an algebraic data type :)
+class ResultAlg:
+    def empty(self):
+        pass
+
+    def withError(self, error):
+        pass
+
+    def withWarning(self, warning):
+        pass
+
+    def merge(self, results):
+        pass
+
+
+# Default implementation.
+# Allows you to extract a list of errors and warnings.
+class DefaultResult(ResultAlg):
+    def empty(self):
+        return DefaultResult()
 
     @property
     def errors(self):
@@ -20,17 +37,20 @@ class Result:
         return self._warnings
 
     def withError(self, error):
-        return Result(self.errors + [error], self.warnings)
+        return DefaultResult(self.errors + [error], self.warnings)
 
     def withWarning(self, warning):
-        return Result(self.errors, self.warnings + [warning])
+        return DefaultResult(self.errors, self.warnings + [warning])
 
-    @staticmethod
-    def merge(results):
-        result = Result()
+    def merge(self, results):
+        result = self.empty()
         for r in results:
-            result = Result(
+            result = DefaultResult(
                 result.errors + r.errors,
                 result.warnings + r.warnings
             )
         return result
+
+    def __init__(self, errors = [], warnings = []):
+        self._errors = errors
+        self._warnings = warnings

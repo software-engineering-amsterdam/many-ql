@@ -25,4 +25,11 @@ public class IdTypeTable {
 		return new ErrorType();
 	}
 	
+	public String toString(){
+		String result = "";
+		for(String key: this.idMap.keySet()){
+			result += key + ":" + idMap.get(key).getType() + "\n";
+		}
+		return result;
+	}
 }

@@ -1,5 +1,6 @@
 package uva.qls.ast.literal;
 
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.NumberValue;
 import uva.qls.ast.CodeLines;
 import uva.qls.supporting.Tuple;
@@ -11,6 +12,11 @@ public class MoneyLiteral extends Literal {
 	public MoneyLiteral(Integer _value, CodeLines _codeLines){
 		super(_codeLines);
 		this.value = _value;
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitMoneyLiteral(this);
 	}
 
 	@Override

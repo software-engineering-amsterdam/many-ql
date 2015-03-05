@@ -1,5 +1,6 @@
 # AST format of the Form
 import QL.Main.converters as converters
+import QL.AST.Elements.constants as econstants
 
 
 class Form:
@@ -17,10 +18,10 @@ class Form:
             d = dict(list(d.items()) + list(s.id_type_collection().items()))
 
         # The types and ids of these are the same
-        d["comp_operator"] = "comp_operator"
-        d["calc_operator"] = "calc_operator"
-        d["bool"] = "bool"
-        d["number"] = "number"
+        d[econstants.ElementsConstants.COMP_OP] = econstants.ElementsConstants.COMP_OP
+        d[econstants.ElementsConstants.CALC_OP] = econstants.ElementsConstants.CALC_OP
+        d[econstants.ElementsConstants.BOOL] = econstants.ElementsConstants.BOOL
+        d[econstants.ElementsConstants.NUMBER] = econstants.ElementsConstants.NUMBER
 
         return d
 

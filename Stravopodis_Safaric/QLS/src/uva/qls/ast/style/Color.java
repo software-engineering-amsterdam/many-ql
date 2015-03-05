@@ -1,6 +1,7 @@
 package uva.qls.ast.style;
 
 import uva.qls.ast.CodeLines;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.ColorValue;
 
 public class Color extends Style{
@@ -18,6 +19,11 @@ public class Color extends Style{
 	}
 	
 	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitColor(this);
+	}
+	
+	@Override
 	public ColorValue evaluate() {
 		return new ColorValue(this.colorCode);
 	}
@@ -26,6 +32,4 @@ public class Color extends Style{
 	public String toString() {
 		return "Color(" + this.evaluatedValue().toString() + ")";
 	}
-	
-	
 }

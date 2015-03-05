@@ -1,9 +1,10 @@
 # Type Checker
 import collections
-
+import QL.Grammar.constants as gconstants
+import QL.AST.Elements.constants as econstants
 from QL.Main.exceptions import *
 from QL.Validators.expression_validator import *
-from QL.Grammar.basic_types import *
+from QL.AST.Elements.operators import *
 
 
 class TypeChecker:
@@ -83,18 +84,18 @@ class TypeChecker:
         :return: True|False|str
         """
         if isinstance(cinput, bool):  # bool class is a subclass of int class
-            type_class = "bool"
+            type_class = gconstants.GrammarConstants.BOOL
         elif isinstance(cinput, (int, float)):  # in python3 int = long
-            type_class = "number"
+            type_class = gconstants.GrammarConstants.NUMBER
         elif isinstance(cinput, str):  # text str is a subclass of list class
-            type_class = "text"
+            type_class = gconstants.GrammarConstants.TEXT
             # str could be int
             if cinput.isdigit():
-                type_class = "number"
+                type_class = gconstants.GrammarConstants.NUMBER
         elif isinstance(cinput, list):
-            type_class = "list"
+            type_class = gconstants.GrammarConstants.LIST
         elif isinstance(cinput, Operator):
-            type_class = "operator"
+            type_class = econstants.ElementsConstants.OPERATOR
         else:
             raise QException("Undefined input " + str(type(cinput)))
 
@@ -103,6 +104,6 @@ class TypeChecker:
 
         if ctype is type_class:
             return True
-        elif ctype is BasicTypes.text_name and type_class is BasicTypes.number_name:  # text could be number
+        elif ctype is gconstants.GrammarConstants.TEXT and type_class is gconstants.GrammarConstants.NUMBER:  # text could be number
             return True
         return False

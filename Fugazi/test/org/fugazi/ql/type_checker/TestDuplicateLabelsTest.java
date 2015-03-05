@@ -1,7 +1,7 @@
 package org.fugazi.ql.type_checker;
 
-import org.fugazi.ql.type_checker.error.ASTNodeError;
-import org.fugazi.ql.type_checker.error.ASTNodeErrorType;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
+import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,31 +28,31 @@ public class TestDuplicateLabelsTest extends TypeCheckerBaseTest {
 
     @Test
     public void testErrorCount() throws Exception {
-        List<ASTNodeError> errors = checker.getErrors();
+        List<ASTNodeIssue> errors = checker.getErrors();
 
         assertTrue(errors.isEmpty());
     }
 
     @Test
     public void testWarningsCount() throws Exception {
-        List<ASTNodeError> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = checker.getWarnings();
         assertFalse(warnings.isEmpty());
         assertEquals(1, warnings.size());
     }
 
     @Test
     public void testWarningTypes() throws Exception {
-        List<ASTNodeError> warnings = checker.getWarnings();
+        List<ASTNodeIssue> warnings = checker.getWarnings();
         assertFalse(warnings.isEmpty());
 
-        ASTNodeErrorType expectedType = ASTNodeErrorType.WARNING.DUPLICATE_LABEL;
-        List<ASTNodeErrorType> receivedTypes = new ArrayList<>();
+        ASTNodeIssueType expectedType = ASTNodeIssueType.WARNING.DUPLICATE_LABEL;
+        List<ASTNodeIssueType> receivedTypes = new ArrayList<>();
 
-        for (ASTNodeError warning: warnings) {
+        for (ASTNodeIssue warning: warnings) {
             receivedTypes.add(warning.getErrorType());
         }
         // no custom arrayEquals method
-        for (ASTNodeErrorType received : receivedTypes) {
+        for (ASTNodeIssueType received : receivedTypes) {
             assertTrue(received.equals(expectedType));
         }
     }

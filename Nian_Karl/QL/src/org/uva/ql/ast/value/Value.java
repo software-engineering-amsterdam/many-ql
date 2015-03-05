@@ -44,5 +44,6 @@ public abstract class Value {
 	public Value intNotEqual(Int arg) {return UNDEFINED;}
 	public Value strEqual(Str arg) {return UNDEFINED;}
 	public Value strNotEqual(Str arg) {return UNDEFINED;}
+	public Value StrPlus(Str arg) {return UNDEFINED;}
 	
 }

@@ -51,6 +51,9 @@ class Assignment(statement.IStatement):
     def set_parent_id(self, pid):
         self.parent_id = pid
 
+    def set_parent_condition(self, condition):
+        self.parent_condition = condition
+
     # Override
     def set_order(self, order_num):
         if not self.order:

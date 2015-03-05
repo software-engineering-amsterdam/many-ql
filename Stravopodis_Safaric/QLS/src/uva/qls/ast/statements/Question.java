@@ -3,6 +3,7 @@ package uva.qls.ast.statements;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.component.Component;
 import uva.qls.ast.literal.Identifier;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -22,6 +23,11 @@ public class Question extends Statement {
 	}
 	public Component getComponent(){
 		return this.component;
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitQuestion(this);
 	}
 	
 	@Override

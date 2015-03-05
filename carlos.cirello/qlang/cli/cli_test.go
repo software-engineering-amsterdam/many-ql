@@ -3,7 +3,7 @@ package cli
 import "testing"
 
 func TestArgs(t *testing.T) {
-	srcFn, inFn, outFn, _ := Args()
+	srcFn, inFn, outFn := Args()
 
 	if srcFn != "-" {
 		t.Error("srcFn must be -")

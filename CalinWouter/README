@@ -1,0 +1,2 @@
+We use Project Lombok for automatic getter/setter/... model generation, based on annotations (e.g. @Data)
+Please note that it might be necessary to install the Lombok Plugin.

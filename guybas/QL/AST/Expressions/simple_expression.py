@@ -1,7 +1,6 @@
 import QL.AST.Expressions.expression as expression
-import QL.AST.Expressions.complex_expression as complex_expression
 import QL.AST.Elements.operators as operators
-
+import QL.AST.Expressions.complex_expression as e
 
 # Expression without parenthesis
 class SimpleExpression(expression.Expression):
@@ -16,8 +15,9 @@ class SimpleExpression(expression.Expression):
 
     def pretty_print(self, level = 0):
         s = ""
-        for e in self.expression:
-            s += e.pretty_print()
+        if self.expression:
+            for e in self.expression:
+                s += e.pretty_print()
         return s
 
     def get_dependencies(self):
@@ -32,7 +32,6 @@ class SimpleExpression(expression.Expression):
             l += v.as_list()
         return l
 
-    def not_expression(self):
-        # self.expression
-        x = complex_expression.ComplexExpression([operators.ExtraOperator("not"), self.expression])
-        return x.expression
+    def add_not(self):
+        l = [SimpleExpression(self.expression)]
+        return SimpleExpression([operators.ExtraOperator("not"), e.ComplexExpression(l)])

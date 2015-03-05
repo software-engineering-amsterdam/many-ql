@@ -22,14 +22,12 @@ public class IdLiteral extends Literal implements Expression {
 	public IdLiteral(String value, Token tokenInfo) {
 		super(tokenInfo);
 		this.name = value;
-		System.out.println("test1");
 	}
 	public IdLiteral(String name, Type questionType,IdCollector idCollector,Token tokenInfo)
 	{
 		super(tokenInfo);
 		this.name = name;
 		this.type = questionType;	
-		System.out.println("test2");
 	}
 	
 	public Boolean IsReference(){

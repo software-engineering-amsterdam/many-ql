@@ -6,6 +6,7 @@ import uva.qls.ast.CodeLines;
 import uva.qls.ast.value.StringValue;
 import uva.qls.supporting.Tuple;
 import uva.qls.ast.literal.StringLiteral;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.style.*;
 
 public class Checkbox extends Component{
@@ -16,6 +17,11 @@ public class Checkbox extends Component{
 		super(_codeLines);
 		this.value = _value;
 		this.style = _style;
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitCheckBox(this);
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package uva.qls.ast;
 
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -14,6 +15,11 @@ public class Prog extends ASTNode {
 	
 	public StyleSheet getStyleSheet(){
 		return this.styleSheet;
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitProg(this);
 	}
 
 	@Override

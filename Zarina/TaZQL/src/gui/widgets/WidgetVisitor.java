@@ -1,6 +1,6 @@
 package gui.widgets;
 
-import interpreter.ValueRepository;
+import evaluator.ValueRepository;
 import ast.type.ChoiceType;
 import ast.type.DigitsType;
 import ast.type.ITypeVisitor;

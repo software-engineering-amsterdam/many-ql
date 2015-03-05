@@ -1,6 +1,6 @@
 package org.fugazi.ql.gui;
 
-import org.fugazi.ql.ValueStorage;
+import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.IStatementVisitor;

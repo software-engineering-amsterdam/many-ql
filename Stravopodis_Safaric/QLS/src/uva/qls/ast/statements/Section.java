@@ -4,6 +4,7 @@ import java.util.List;
 
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.literal.StringLiteral;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -31,6 +32,11 @@ public class Section extends Statement {
 		return this.statement == null ? false : !this.statement.isEmpty();
 	}
 
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitSection(this);
+	}
+	
 	@Override
 	public Tuple<Integer, Integer> getLOCTuple() {
 		return this.codeLines.getCodeLocation();

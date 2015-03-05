@@ -68,6 +68,16 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
             }
         }
 
+        public void AddLiteralCheckingMessages(LiteralCheckingVisitor visitor)
+        {
+            foreach (var dateLiteral in visitor.InvalidDateLiterals)
+            {
+                string message = String.Format("Invalid date value '{0}'.", dateLiteral.Value);
+
+                AddErrorMessage(message, dateLiteral.Position);
+            }
+        }
+
         public void AddTypeCheckingMessages(TypeCheckingVisitor visitor)
         {
             foreach (var assignment in visitor.InvalidAssignments)

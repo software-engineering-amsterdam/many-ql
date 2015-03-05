@@ -1,91 +1,75 @@
-from ..Visitor import Visitor as GenericVisitor
-
-
-class ExpressionVisitor(GenericVisitor):
-    def _visitAtomicExpression(self, node):
-        self.visit(node.left)
-
-    def _visitUnaryExpression(self, node):
-        self.visit(node.right)
-
-    def _visitBinaryExpression(self, node):
-        self.visit(node.left)
-        self.visit(node.right)
-
-    def _visitIdentifier(self, node):
-        pass
-
-    def _visitStr(self, node):
-        pass
-
-    def _visitMoney(self, node):
-        pass
-
-    def _visitInt(self, node):
-        pass
-
-    def _visitBool(self, node):
-        pass
+from patterns.Visitor import Visitor as GenericVisitor
 
 
 class StatementVisitor(GenericVisitor):
-    def _visitRoot(self, node):
-        for n in node.getChildren():
-            self.visit(n)
+    def _visitStylesheetStatement(self, node):
+        for statement in node.statements:
+            self.visit(statement)
 
-    def _visitFormStatement(self, node):
-        for n in node.getChildren():
-            self.visit(n)
+    def _visitDefaultStatement(self, node):
+        pass
+
+    def _visitPageStatement(self, node):
+        for statement in node.statements:
+            self.visit(statement)
+
+    def _visitSectionStatement(self, node):
+        for statement in node.statements:
+            self.visit(statement)
 
     def _visitQuestionStatement(self, node):
         pass
 
-    def _visitIfStatement(self, node):
-        for n in node.getChildren():
-            self.visit(n)
 
+class AttributeVisitor(GenericVisitor):
+    def _visitStyleAttribute(self, node):
+        self.visit(node.value)
 
-class FullVisitor(GenericVisitor):
-    def _visitRoot(self, node):
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitFormStatement(self, node):
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitQuestionStatement(self, node):
-        if node.expr is not None:
-            self.visit(node.expr)
-
-    def _visitIfStatement(self, node):
-        self.visit(node.expr)
-        for n in node.getChildren():
-            self.visit(n)
-
-    def _visitAtomicExpression(self, node):
-        self.visit(node.left)
-
-    def _visitUnaryExpression(self, node):
-        self.visit(node.right)
-
-    def _visitBinaryExpression(self, node):
-        self.visit(node.left)
-        self.visit(node.right)
-
-    def _visitIdentifier(self, node):
-        pass
-
-    def _visitStr(self, node):
-        pass
-
-    def _visitMoney(self, node):
+    def _visitWidget(self, node):
         pass
 
     def _visitInt(self, node):
         pass
 
-    def _visitBool(self, node):
+    def _visitStr(self, node):
+        pass
+
+
+class FullVisitor(GenericVisitor):
+    def _visitQls(self, node):
+        for statement in node.statements:
+            self.visit(statement)
+
+    def _visitStylesheetStatement(self, node):
+        for statement in node.statements:
+            self.visit(statement)
+
+    def _visitDefaultStatement(self, node):
+        for attribute in node.attributes:
+            self.visit(attribute)
+
+    def _visitPageStatement(self, node):
+        for statement in node.statements:
+            self.visit(statement)
+
+    def _visitSectionStatement(self, node):
+        for statement in node.statements:
+            self.visit(statement)
+
+    def _visitQuestionStatement(self, node):
+        for attribute in node.attributes:
+            self.visit(attribute)
+
+    def _visitStyleAttribute(self, node):
+        self.visit(node.value)
+
+    def _visitWidget(self, node):
+        pass
+
+    def _visitInt(self, node):
+        pass
+
+    def _visitStr(self, node):
         pass
 
 

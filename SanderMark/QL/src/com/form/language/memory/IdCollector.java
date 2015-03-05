@@ -22,7 +22,6 @@ public class IdCollector {
 	public void addId(IdLiteral idLiteral)
 	{
 		ids.add(idLiteral);
-		System.out.println(this);
 	}
 	
 	public int showMemory()
@@ -47,6 +46,14 @@ public class IdCollector {
 	
 	public Iterator<IdLiteral> iterator(){
 		return ids.iterator();
+	}
+	
+	public String toString(){
+		String result = "";
+		for(IdLiteral id: ids){
+			result += id.name + "-->" + id.showTokenInfo() + "\n";
+		}
+		return result;
 	}
 
 }

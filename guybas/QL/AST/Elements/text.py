@@ -1,5 +1,5 @@
 import QL.AST.Elements.element as element
-
+import QL.Grammar.constants as constants
 
 class Text(element.Element):
     def __init__(self, text):
@@ -9,7 +9,7 @@ class Text(element.Element):
         return "\"" + str(self.text) + "\""
 
     def return_type(self, type_dict):
-        return "text"
+        return constants.GrammarConstants.TEXT
 
     def pretty_print(self):
         return self.text

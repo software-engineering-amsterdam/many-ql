@@ -4,6 +4,7 @@ import pyparsing as pp
 import QL.Grammar.expressions as expressions
 import QL.Factory.forms as forms
 import QL.Grammar.basic_types as basic_types
+import QL.Grammar.constants as constants
 
 
 class FormFormat:
@@ -15,7 +16,8 @@ class FormFormat:
     label = basic_types.BasicTypes.sentence
 
     # answerR :: "bool" | "number" | "text"
-    answerR = pp.Literal(basic_types.BasicTypes.bool_name) | pp.Literal(basic_types.BasicTypes.number_name) | pp.Literal(basic_types.BasicTypes.text_name)
+    answerR = (pp.Literal(constants.GrammarConstants.BOOL) | pp.Literal(constants.GrammarConstants.NUMBER) |
+               pp.Literal(constants.GrammarConstants.TEXT))
 
     # q :: Question id ( answerR ) : label
     question = \

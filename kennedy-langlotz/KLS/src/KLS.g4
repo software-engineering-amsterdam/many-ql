@@ -37,27 +37,35 @@ stylesheet
     ;
 
 page
-    : 'page' STRING NEWLINE
-          (section | question)+
+    : 'page' title=STRING NEWLINE
+         (section | question)+
           defaultStyle?
-      end
+      'end' (NEWLINE+ | EOF)
     ;
 
 section
-    : 'section' STRING NEWLINE
+    : 'section' title=STRING NEWLINE
           question+
           defaultStyle?
-      end
+      'end' (NEWLINE+ | EOF)
     ;
 
 question
-    : ('question' IDENTIFIER NEWLINE
-          attribute+
-      end)
-    | (IDENTIFIER NEWLINE)
+    : full
+    | identifier
     ;
 
-attribute
+full
+    : ('question' id=IDENTIFIER NEWLINE
+                declaration+
+       'end' (NEWLINE+ | EOF))
+    ;
+
+identifier
+    : (id=IDENTIFIER NEWLINE)
+    ;
+
+declaration
     : 'font-family'      ':' fontfamily=STRING   NEWLINE
     | 'font-style'       ':' fontStyles          NEWLINE
     | 'font-size'        ':' fontsize=INT        NEWLINE
@@ -87,7 +95,7 @@ widget
 
 defaultStyle
     : 'default' klqType NEWLINE
-          attribute+
+          declaration+
       'end' NEWLINE+
     ;
 
@@ -97,10 +105,6 @@ klqType
     | 'date'
     | 'string'
     | 'numeral'
-    ;
-
-end
-    : 'end' (NEWLINE+ | EOF)
     ;
 
 IDENTIFIER
