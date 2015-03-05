@@ -53,9 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\Model\Expressions\Literals\DateLiteral.cs" />
+    <Compile Include="AST\Model\IQLNode.cs" />
     <Compile Include="QLController.cs" />
     <Compile Include="QLVisitor.cs" />
-    <Compile Include="AST\Visitors\ParserRuleContextExtensions.cs" />
     <Compile Include="IQLVisitor.cs" />
     <Compile Include="AST\Model\Expressions\Binary\Add.cs" />
     <Compile Include="AST\Model\Expressions\Binary\And.cs" />
@@ -80,8 +80,7 @@
     <Compile Include="AST\Model\Expressions\Unary\Increment.cs" />
     <Compile Include="AST\Model\Expressions\Unary\Negation.cs" />
     <Compile Include="AST\Model\Expressions\Unary\UnaryExpression.cs" />
-    <Compile Include="AST\Model\INode.cs" />
-    <Compile Include="AST\Model\Node.cs" />
+    <Compile Include="AST\Model\QLNode.cs" />
     <Compile Include="AST\Model\QuestionForm.cs" />
     <Compile Include="AST\Model\Statements\Assignment.cs" />
     <Compile Include="AST\Model\Statements\DataType.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="AST\Model\Statements\IfStatement.cs" />
     <Compile Include="AST\Model\Statements\IStatement.cs" />
     <Compile Include="AST\Model\Statements\Question.cs" />
-    <Compile Include="AST\Model\TextPosition.cs" />
     <Compile Include="AST\Visitors\ExpressionVisitor.cs" />
     <Compile Include="AST\Visitors\FormVisitor.cs" />
     <Compile Include="AST\Visitors\StatementVisitor.cs" />

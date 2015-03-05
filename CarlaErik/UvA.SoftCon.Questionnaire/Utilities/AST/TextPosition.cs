@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.QL.AST.Model
+namespace UvA.SoftCon.Questionnaire.Utilities.AST
 {
+    /// <summary>
+    /// Represents a character position in a text file.
+    /// </summary>
     public class TextPosition
     {
         public int Line

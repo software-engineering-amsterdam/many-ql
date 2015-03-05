@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model
 {
     /// <summary>
     /// Represents the root of a questionnaire AST.
     /// </summary>
-    public sealed class QuestionForm : Node
+    public sealed class QuestionForm : QLNode
     {
         public ICollection<IStatement> Statements
         {

@@ -5,6 +5,7 @@ using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Unary;
 using UvA.SoftCon.Questionnaire.QL.Grammar;
 using UvA.SoftCon.Questionnaire.Utilities;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Visitors
 {

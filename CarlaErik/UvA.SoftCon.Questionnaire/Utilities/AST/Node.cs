@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UvA.SoftCon.Questionnaire.QL.AST.Model
+namespace UvA.SoftCon.Questionnaire.Utilities.AST
 {
     public abstract class Node : INode
     {
@@ -18,9 +18,5 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model
         {
             Position = position;
         }
-
-        public abstract void Accept(IQLVisitor visitor);
-
-        public abstract T Accept<T>(IQLVisitor<T> visitor);
     }
 }
