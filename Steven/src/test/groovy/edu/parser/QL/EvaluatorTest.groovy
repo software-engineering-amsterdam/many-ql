@@ -165,23 +165,25 @@ class EvaluatorTest extends Specification {
         List<Statement> formStatements = new ArrayList<>()
         List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
-        def identifier = "identifier"
-        Question inputQuestion = createQuestion(identifier, false)
-        questionsWithinIfStatement.add(inputQuestion)
-        IfStatement ifStatement = new IfStatement(new Identifier(identifier), questionsWithinIfStatement, Optional.empty())
+        def identifierUnconditionalQuestion = "identifierUnconditionalQuestion"
+        questionsWithinIfStatement.add(createQuestion("conditionalQuestion", true))
+        IfStatement ifStatement = new IfStatement(new Identifier(identifierUnconditionalQuestion), questionsWithinIfStatement, Optional.empty())
 
+        formStatements.add(createQuestion(identifierUnconditionalQuestion, false))
         formStatements.add(ifStatement)
         def form = new Form(formStatements)
 
         when:
         List<Question> initialEvaluationReturnedQuestions = evaluator.evaluate(form)
-        Assert.assertEquals(true, initialEvaluationReturnedQuestions.isEmpty())
+        Assert.assertEquals(1, initialEvaluationReturnedQuestions.size())
+        Question initialReturnedQuestion = initialEvaluationReturnedQuestions.get(0)
+        Assert.assertEquals(identifierUnconditionalQuestion, initialReturnedQuestion.getIdentifier().identifier)
 
         then:
         List<Question> updatedQuestions = new ArrayList<>()
-        updatedQuestions.add(createQuestion(identifier, true))
+        updatedQuestions.add(createQuestion(identifierUnconditionalQuestion, true))
         List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
-        Assert.assertEquals(1, evaluationReturnedUpdatedQuestions.size())
+        Assert.assertEquals(2, evaluationReturnedUpdatedQuestions.size())
     }
 
     private Question createQuestion(String identifier, boolean isEnabled) {
