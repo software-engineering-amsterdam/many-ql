@@ -167,15 +167,6 @@ func (g *Gui) loop() error {
 	return nil
 }
 
-const tabsViewTemplate = `
-TabView {
-	width: 799
-	height: 600
-	objectName: "{{ .TabName }}"
-
-	{{ .Tabs }}
-}
-`
 const tabsTemplate = `
 	Tab {
 		title: "{{ .Name }}"
@@ -198,23 +189,30 @@ func drawTab(name, nestedPages string) string {
 	return ret
 }
 
-// func drawTab(win *qml.Window, page *ast.Page) string {
+const tabsViewTemplate = `
+TabView {
+	width: 799
+	height: 600
+	objectName: "{{ .TabName }}"
+
+	{{ .Tabs }}
+}
+`
+
 func drawTabBlock(page *ast.Page) string {
-	pages := page.Pages()
 	qml := ""
+
+	pages := page.Pages()
 	if len(pages) > 0 {
 		for _, p := range pages {
-			nestedPages := ""
+			msg := ""
 			if len(p.Pages()) > 0 {
-				for _, np := range p.Pages() {
-					nestedPages += drawTabBlock(np)
-				}
+				msg = drawTabBlock(p)
 			}
-			tmp := qml + drawTab(p.Name(), nestedPages)
-			qml = tmp
+			qml += drawTab(p.Name(), msg)
 		}
 	} else {
-		qml += drawTab(page.Name(), "")
+		qml = drawTab(page.Name(), "")
 	}
 
 	var b bytes.Buffer
