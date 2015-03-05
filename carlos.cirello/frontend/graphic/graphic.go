@@ -156,8 +156,9 @@ func (g *Gui) Loop() {
 
 func (g *Gui) loop() error {
 	// spew.Dump(g.pages["root"])
-	// fmt.Println(drawTab(g.pages["root"]))
-	win := startQMLengine(g.appName, drawTab(g.pages["root"])).CreateWindow(nil)
+	// fmt.Println(drawTabBlock(g.pages["root"]))
+	// os.Exit(0)
+	win := startQMLengine(g.appName, drawTabBlock(g.pages["root"])).CreateWindow(nil)
 	// g.rows = win.Root().ObjectByName("questions")
 	win.Show()
 	// go g.renderLoop()
@@ -182,34 +183,38 @@ const tabsTemplate = `
 		width: 798
 		height: 600
 		Layout.fillHeight: true
+		{{ .NestedPages }}
 	}
-
-	{{ .NestedPages }}
 `
 
-// func drawTab(win *qml.Window, page *ast.Page) string {
-func drawTab(page *ast.Page) string {
-	nestedPages := page.Pages()
+func drawTab(name, nestedPages string) string {
+	var b bytes.Buffer
+	t := template.Must(template.New("tab").Parse(tabsTemplate))
+	t.Execute(&b, struct {
+		Name        string
+		NestedPages string
+	}{name, nestedPages})
+	ret := b.String()
+	return ret
+}
 
-	npgs := ""
-	for _, nestedPage := range nestedPages {
-		var b bytes.Buffer
-		t := template.Must(template.New("tab").Parse(tabsTemplate))
-		t.Execute(&b, struct {
-			Name        string
-			NestedPages string
-		}{nestedPage.Name(), ""})
-		npgs = npgs + b.String()
-	}
-	var tabs string
-	{
-		var b bytes.Buffer
-		t := template.Must(template.New("tab").Parse(tabsTemplate))
-		t.Execute(&b, struct {
-			Name        string
-			NestedPages string
-		}{page.Name(), npgs})
-		tabs = b.String()
+// func drawTab(win *qml.Window, page *ast.Page) string {
+func drawTabBlock(page *ast.Page) string {
+	pages := page.Pages()
+	qml := ""
+	if len(pages) > 0 {
+		for _, p := range pages {
+			nestedPages := ""
+			if len(p.Pages()) > 0 {
+				for _, np := range p.Pages() {
+					nestedPages += drawTabBlock(np)
+				}
+			}
+			tmp := qml + drawTab(p.Name(), nestedPages)
+			qml = tmp
+		}
+	} else {
+		qml += drawTab(page.Name(), "")
 	}
 
 	var b bytes.Buffer
@@ -217,9 +222,9 @@ func drawTab(page *ast.Page) string {
 	t.Execute(&b, struct {
 		TabName string
 		Tabs    string
-	}{page.Name(), tabs})
-	// fmt.Println(b.String())
-	return b.String()
+	}{page.Name(), qml})
+	ret := b.String()
+	return ret
 }
 
 func (g *Gui) renderLoop() {

@@ -13,5 +13,9 @@ stylesheet TheForm {
 		page "Page 2a" {
 			p2aq1
 		}
+
+		page "Page 2b" {
+			p2bq1
+		}
 	}
 }
