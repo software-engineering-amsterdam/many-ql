@@ -21,6 +21,8 @@ public class Evaluator extends QLVisitorImpl { //todo: should only return list w
     //todo: should receive list of questions from gui (optional) with new question states
     private final List<Statement> questions = new ArrayList<>();
 
+
+
     @Override
     public AbstractNode visit(Form form) {
         visitStatements(form.getElements());
