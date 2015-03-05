@@ -1,4 +1,4 @@
-package ast
+package stylelang
 
 // Page is the strucht that represents one tab (page) in the form
 type Page struct {
@@ -40,17 +40,22 @@ func (v *Page) Defaults() map[string]string {
 	return v.defaults
 }
 
-func (v *Page) addPage(name string, page *Page) {
+// AddPage adds a nested page to the given page
+func (v *Page) AddPage(name string, page *Page) {
 	v.pages[name] = page
 }
 
-func (v *Page) setDefaultFor(t, w string) {
+// SetDefaultFor sets a default (w)idgte for a particular (t)ype of question
+func (v *Page) SetDefaultFor(t, w string) {
 	if _, ok := v.defaults[t]; !ok {
 		v.defaults[t] = w
 	}
 }
 
-func (v *Page) setVisibleFor(t string) {
+// SetVisibleFor sets whether a question is visible or not within the page.
+// Useful for having calculated questions that are not supposed to be view
+// on the screen.
+func (v *Page) SetVisibleFor(t string) {
 	if _, ok := v.visible[t]; !ok {
 		v.visible[t] = true
 	}

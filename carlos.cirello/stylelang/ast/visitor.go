@@ -1,10 +1,12 @@
 package ast
 
+import "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
+
 // Visitor is the data structure which converts QLS AST into a set of hash maps
 // used by the GUI frontend.
 type Visitor struct {
-	pages           map[string]*Page
-	processingStack []*Page
+	pages           map[string]*stylelang.Page
+	processingStack []*stylelang.Page
 
 	currentRoute  []string
 	questionIndex map[string][]string
@@ -13,13 +15,13 @@ type Visitor struct {
 // NewVisitor is the constructor for QLS Visitor
 func NewVisitor() *Visitor {
 	return &Visitor{
-		pages:         make(map[string]*Page),
+		pages:         make(map[string]*stylelang.Page),
 		questionIndex: make(map[string][]string),
 	}
 }
 
 // Pages returns the tree of pages later to be used by GUI renderer.
-func (v *Visitor) Pages() map[string]*Page {
+func (v *Visitor) Pages() map[string]*stylelang.Page {
 	return v.pages
 }
 
@@ -39,7 +41,7 @@ func (v *Visitor) Visit(node Acceptable) {
 func (v *Visitor) StyleNode(node *StyleNode) {
 	pageName := "root"
 	v.currentRoute = append(v.currentRoute, pageName)
-	page := NewPage(pageName)
+	page := stylelang.NewPage(pageName)
 	v.processingStack = append(v.processingStack, page)
 	if node != nil {
 		actions := node.Stack()
@@ -62,20 +64,20 @@ func (v *Visitor) ActionNode(node *ActionNode) {
 // DefaultNode defines a default widget for a question type
 func (v *Visitor) DefaultNode(node *DefaultNode) {
 	tmp := v.processingStack[len(v.processingStack)-1]
-	tmp.setDefaultFor(node.QuestionType(), node.Widget())
+	tmp.SetDefaultFor(node.QuestionType(), node.Widget())
 }
 
 // QuestionNode defines a default widget for a question type
 func (v *Visitor) QuestionNode(node *QuestionNode) {
 	tmp := v.processingStack[len(v.processingStack)-1]
-	tmp.setVisibleFor(node.Identifier())
+	tmp.SetVisibleFor(node.Identifier())
 	v.questionIndex[node.Identifier()] = v.currentRoute
 }
 
 // PageNode defines one page within the form, and its nested pages.
 func (v *Visitor) PageNode(node *PageNode) {
 	v.currentRoute = append(v.currentRoute, node.Label())
-	page := NewPage(node.Label())
+	page := stylelang.NewPage(node.Label())
 	v.processingStack = append(v.processingStack, page)
 	if node != nil {
 		actions := node.Stack()
@@ -86,6 +88,6 @@ func (v *Visitor) PageNode(node *PageNode) {
 	tmp := v.processingStack[len(v.processingStack)-1]
 	v.processingStack = v.processingStack[:len(v.processingStack)-1]
 	parent := v.processingStack[len(v.processingStack)-1]
-	parent.addPage(node.Label(), tmp)
+	parent.AddPage(node.Label(), tmp)
 	v.currentRoute = v.currentRoute[:len(v.currentRoute)-1]
 }

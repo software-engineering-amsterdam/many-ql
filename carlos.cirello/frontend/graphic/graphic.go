@@ -8,7 +8,7 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
 	"gopkg.in/qml.v1"
 )
 
@@ -43,11 +43,11 @@ type Gui struct {
 	rows            qml.Object
 	updateCallbacks map[string]func(v string)
 
-	pages map[string]*ast.Page
+	pages map[string]*stylelang.Page
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string, pages map[string]*ast.Page) frontend.Inputer {
+func GUI(appName string, pages map[string]*stylelang.Page) frontend.Inputer {
 	driver := &Gui{
 		appName: appName,
 

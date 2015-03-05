@@ -10,11 +10,12 @@ import (
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/parser"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
 	qlsparser "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/parser"
 )
 
-func loadStyle(styleReader io.Reader, srcFn string) map[string]*ast.Page {
+func loadStyle(styleReader io.Reader, srcFn string) map[string]*stylelang.Page {
 	var theStyle *ast.StyleNode
 	if styleReader != nil {
 		theStyle = qlsparser.ReadQLS(styleReader, srcFn+"s")
@@ -54,7 +55,7 @@ func launchGUI(
 	fromInterpreter,
 	toInterpreter chan *event.Frontend,
 	guiAppName string,
-	stylePages map[string]*ast.Page,
+	stylePages map[string]*stylelang.Page,
 ) {
 	driver := graphic.GUI(guiAppName, stylePages)
 	frontend.New(fromInterpreter, toInterpreter, driver)

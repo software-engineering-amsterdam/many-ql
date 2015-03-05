@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"text/template"
 
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
 )
 
 const tabsTemplate = `
@@ -39,7 +39,7 @@ TabView {
 }
 `
 
-func drawTabBlock(page *ast.Page) string {
+func drawTabBlock(page *stylelang.Page) string {
 	qml := ""
 
 	pages := page.Pages()
