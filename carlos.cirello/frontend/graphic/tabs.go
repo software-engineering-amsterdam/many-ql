@@ -19,14 +19,13 @@ const tabsTemplate = `
 `
 
 func drawTab(name, nestedPages string) string {
-	var b bytes.Buffer
+	var qml bytes.Buffer
 	t := template.Must(template.New("tab").Parse(tabsTemplate))
-	t.Execute(&b, struct {
+	t.Execute(&qml, struct {
 		Name        string
 		NestedPages string
 	}{name, nestedPages})
-	ret := b.String()
-	return ret
+	return qml.String()
 }
 
 const tabsViewTemplate = `
@@ -40,28 +39,25 @@ TabView {
 `
 
 func drawTabBlock(page *stylelang.Page) string {
-	qml := ""
-
-	pages := page.Pages()
-	if len(pages) > 0 {
-		for _, p := range pages {
+	nestedTabBlock := ""
+	if page.HasNestedPages() {
+		for _, p := range page.Pages() {
 			nestedPages := ""
-			if len(p.Pages()) > 0 {
+			if p.HasNestedPages() {
 				nestedPages = drawTabBlock(p)
 			}
-			tmp := qml + drawTab(p.Name(), nestedPages)
-			qml = tmp
+			tmp := nestedTabBlock + drawTab(p.Name(), nestedPages)
+			nestedTabBlock = tmp
 		}
 	} else {
-		qml = drawTab(page.Name(), "")
+		nestedTabBlock = drawTab(page.Name(), "")
 	}
 
-	var b bytes.Buffer
+	var qml bytes.Buffer
 	t := template.Must(template.New("tabView").Parse(tabsViewTemplate))
-	t.Execute(&b, struct {
+	t.Execute(&qml, struct {
 		TabName string
 		Tabs    string
-	}{page.Name(), qml})
-	ret := b.String()
-	return ret
+	}{page.Name(), nestedTabBlock})
+	return qml.String()
 }

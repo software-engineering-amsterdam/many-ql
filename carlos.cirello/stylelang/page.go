@@ -19,44 +19,48 @@ func NewPage(name string) *Page {
 }
 
 // Name returns the name of the page
-func (v *Page) Name() string {
-	return v.name
+func (p *Page) Name() string {
+	return p.name
 }
 
 // Pages return all nested pages of this page
-func (v *Page) Pages() map[string]*Page {
-	return v.pages
+func (p *Page) Pages() map[string]*Page {
+	return p.pages
+}
+
+func (p *Page) HasNestedPages() bool {
+	return len(p.pages) > 0
 }
 
 // Visibles returns the visibility of all fields belonging to this page, but not
 // its subpages.
-func (v *Page) Visibles() map[string]bool {
-	return v.visible
+func (p *Page) Visibles() map[string]bool {
+	return p.visible
 }
 
 // Defaults returns the default widget configuration for this page, but does not
 // trickle down to subpages.
-func (v *Page) Defaults() map[string]string {
-	return v.defaults
+func (p *Page) Defaults() map[string]string {
+	return p.defaults
 }
 
 // AddPage adds a nested page to the given page
-func (v *Page) AddPage(name string, page *Page) {
-	v.pages[name] = page
+func (p *Page) AddPage(name string, page *Page) {
+	p.pages[name] = page
 }
 
 // SetDefaultFor sets a default (w)idgte for a particular (t)ype of question
-func (v *Page) SetDefaultFor(t, w string) {
-	if _, ok := v.defaults[t]; !ok {
-		v.defaults[t] = w
+func (p *Page) SetDefaultFor(t, w string) {
+	if _, ok := p.defaults[t]; !ok {
+		p.defaults[t] = w
 	}
 }
 
 // SetVisibleFor sets whether a question is visible or not within the page.
 // Useful for having calculated questions that are not supposed to be view
 // on the screen.
-func (v *Page) SetVisibleFor(t string) {
-	if _, ok := v.visible[t]; !ok {
-		v.visible[t] = true
+func (p *Page) SetVisibleFor(t string) {
+	if _, ok := p.visible[t]; !ok {
+		p.visible[t] = true
 	}
 }
