@@ -1,27 +1,15 @@
 package edu.parser.QL
 
 import edu.parser.QL.nodes.Form
-import edu.parser.QL.nodes.expression.Addition
-import edu.parser.QL.nodes.expression.And
-import edu.parser.QL.nodes.expression.Division
-import edu.parser.QL.nodes.expression.Equal
-import edu.parser.QL.nodes.expression.GreaterOrEqual
-import edu.parser.QL.nodes.expression.GreaterThan
-import edu.parser.QL.nodes.expression.Identifier
-import edu.parser.QL.nodes.expression.LessOrEqual
-import edu.parser.QL.nodes.expression.LessThan
-import edu.parser.QL.nodes.expression.Multiplication
-import edu.parser.QL.nodes.expression.Not
-import edu.parser.QL.nodes.expression.NotEqual
-import edu.parser.QL.nodes.expression.Or
+import edu.parser.QL.nodes.expression.*
 import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.Question
-import edu.parser.nodes.QuestionType
 import edu.parser.QL.nodes.statement.ElseClause
 import edu.parser.QL.nodes.statement.IfStatement
 import edu.parser.QL.nodes.statement.Statement
 import edu.parser.QL.nodes.type.Boolean
 import edu.parser.QL.nodes.type.Number
+import edu.parser.nodes.QuestionType
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -48,11 +36,12 @@ class EvaluatorTest extends Specification {
         statements.add(inputQuestion)
         Form inputForm = new Form(statements);
 
-        Form outputForm = (Form) evaluator.visit(inputForm)
-        Question returnQuestion = (Question) outputForm.elements.get(0);
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
+        Question firstElement = returnedQuestions.get(0)
 
         then:
-        Assert.assertEquals(inputQuestion, returnQuestion)
+        Assert.assertEquals(inputQuestion, firstElement)
+        Assert.assertEquals(1, returnedQuestions.size())
 
     }
 

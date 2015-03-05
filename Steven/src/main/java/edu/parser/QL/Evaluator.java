@@ -6,11 +6,11 @@ import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
-import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,14 +19,21 @@ import java.util.Optional;
  */
 public class Evaluator extends QLVisitorImpl { //todo: should only return list with questions, not a form
     //todo: should receive list of questions from gui (optional) with new question states
-    private final List<Statement> questions = new ArrayList<>();
+    private final List<Question> questions = new ArrayList<>();
 
+    public List<Question> evaluate(Form form) {
+        return evaluate(form, Collections.emptyList());
+    }
 
+    public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
+        visit(form);
+        return questions;
+    }
 
     @Override
     public AbstractNode visit(Form form) {
         visitStatements(form.getElements());
-        return new Form(questions);
+        return form;
     }
 
     @Override
@@ -94,7 +101,6 @@ public class Evaluator extends QLVisitorImpl { //todo: should only return list w
     private Optional<Question> getQuestion(Identifier identifier) {
         return questions
                 .stream()
-                .map(question -> (Question) question)
                 .filter(q -> q.getIdentifier().equals(identifier))
                 .findFirst();
     }
