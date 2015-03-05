@@ -4,9 +4,7 @@ package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
-	"bytes"
 	"sync"
-	"text/template"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
@@ -155,74 +153,12 @@ func (g *Gui) Loop() {
 }
 
 func (g *Gui) loop() error {
-	// spew.Dump(g.pages["root"])
-	// fmt.Println(drawTabBlock(g.pages["root"]))
-	// os.Exit(0)
 	win := startQMLengine(g.appName, drawTabBlock(g.pages["root"])).CreateWindow(nil)
-	// g.rows = win.Root().ObjectByName("questions")
+	// g.rows = win.Root().ObjectByName("root")
 	win.Show()
 	// go g.renderLoop()
 	win.Wait()
-	// os.Exit(0)
 	return nil
-}
-
-const tabsTemplate = `
-	Tab {
-		title: "{{ .Name }}"
-		objectName: "{{ .Name }}Tab"
-		width: 798
-		height: 600
-		Layout.fillHeight: true
-		{{ .NestedPages }}
-	}
-`
-
-func drawTab(name, nestedPages string) string {
-	var b bytes.Buffer
-	t := template.Must(template.New("tab").Parse(tabsTemplate))
-	t.Execute(&b, struct {
-		Name        string
-		NestedPages string
-	}{name, nestedPages})
-	ret := b.String()
-	return ret
-}
-
-const tabsViewTemplate = `
-TabView {
-	width: 799
-	height: 600
-	objectName: "{{ .TabName }}"
-
-	{{ .Tabs }}
-}
-`
-
-func drawTabBlock(page *ast.Page) string {
-	qml := ""
-
-	pages := page.Pages()
-	if len(pages) > 0 {
-		for _, p := range pages {
-			msg := ""
-			if len(p.Pages()) > 0 {
-				msg = drawTabBlock(p)
-			}
-			qml += drawTab(p.Name(), msg)
-		}
-	} else {
-		qml = drawTab(page.Name(), "")
-	}
-
-	var b bytes.Buffer
-	t := template.Must(template.New("tabView").Parse(tabsViewTemplate))
-	t.Execute(&b, struct {
-		TabName string
-		Tabs    string
-	}{page.Name(), qml})
-	ret := b.String()
-	return ret
 }
 
 func (g *Gui) renderLoop() {
