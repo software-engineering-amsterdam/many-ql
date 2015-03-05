@@ -1,14 +1,16 @@
 package org.fugazi.qls.ast.style.style_property;
 
-public class Font extends StyleProperty<String> {
+import org.fugazi.qls.ast.style.style_property.type.StringPropertyType;
+
+public class Font extends StyleProperty {
 
     public static final String PROPERTY_NAME = "Font";
 
-    public Font(int _lineNum, String _value) {
+    public Font(int _lineNum, StringPropertyType _value) {
         super(_lineNum, PROPERTY_NAME, _value);
     }
 
-    public Font(String _value) {
+    public Font(StringPropertyType _value) {
         super(PROPERTY_NAME, _value);
     }
 }

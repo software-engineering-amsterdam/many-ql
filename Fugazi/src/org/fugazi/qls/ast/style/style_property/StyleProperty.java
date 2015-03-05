@@ -1,18 +1,19 @@
 package org.fugazi.qls.ast.style.style_property;
 
 import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.qls.ast.style.style_property.type.StylePropertyType;
 
-public abstract class StyleProperty<T> extends AbstractASTQLSNode {
+public abstract class StyleProperty extends AbstractASTQLSNode {
     
     protected final String name;
-    protected final T value;
+    protected final StylePropertyType value;
 
-    public StyleProperty(int _lineNum, String _name, T _value) {
+    public StyleProperty(int _lineNum, String _name, StylePropertyType _value) {
         this.name = _name;
         this.value = _value;
     }
 
-    public StyleProperty(String _name, T _value) {
+    public StyleProperty(String _name, StylePropertyType _value) {
         this.name = _name;
         this.value = _value;
     }
@@ -21,8 +22,7 @@ public abstract class StyleProperty<T> extends AbstractASTQLSNode {
         return this.name;        
     }    
     
-    //todo: think of - Not generic but a StyleValue Class.
-    public T getValue() {
+    public StylePropertyType getValue() {
         return this.value;
     }
 }

@@ -20,7 +20,7 @@ public class Style extends AbstractASTQLSNode {
 
     public Style(int _lineNum, List<StyleProperty> _styleProperties) {
         super(_lineNum);
-        styleProperties = null;
+        styleProperties = _styleProperties;
     }
 
     public Style(List<StyleProperty> _styleProperties) {

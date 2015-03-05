@@ -30,26 +30,18 @@ import org.fugazi.ql.type_checker.issue.ASTNodeIssue;
 import org.fugazi.ql.type_checker.issue.ASTNodeIssueType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
     private final ASTIssueHandler astIssueHandler;
 
-    // used to detect duplicate  labels
-    private final List<String> questionLabels;
-    // used to detect duplicate question types
-    private final Map<String, Type> questionTypes;
     // used to detect circular dependencies
     private final DependencyList questionDependencies;
     private ID assignableIdLiteral;
 
     public QLTypeCheckerVisitor(){
         this.astIssueHandler = new ASTIssueHandler();
-        this.questionLabels = new ArrayList<String>();
-        this.questionTypes = new HashMap<String, Type>();
         this.questionDependencies = new DependencyList();
     }
 
@@ -77,31 +69,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
 
         Type type = question.getType();
         ID identifier = question.getIdentifier();
-        String label = question.getLabel();
-
-        // save and check if duplicate question with different type
-        boolean isQuestionDuplicate =
-            this.checkIfQuestionAlreadyDefinedWithDifferentType(
-                    identifier, type
-            );
-        if (isQuestionDuplicate) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.DUPLICATE,
-                    question, "Question already defined with different type."
-            );
-        } else {
-            this.saveQuestionType(identifier, type);
-        }
-
-        // save and check for duplicate labels
-        boolean isLabelDuplicate = this.checkIfLabelAlreadyExists(label);
-        if (isLabelDuplicate) {
-            this.astIssueHandler.registerNewWarning(question,
-                    "Label defined multiple times! Possible confusion."
-            );
-        } else {
-            this.saveQuestionLabel(label);
-        }
 
         type.accept(this);
         identifier.accept(this);
@@ -112,15 +79,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
     public Void visitIfStatement(IfStatement ifStatement) {
         Expression expression = ifStatement.getCondition();
         List<Statement> statementList = ifStatement.getBody();
-
-        // check if condition of type bool
-        boolean conditionIsBool = this.checkIfExpressionIsBool(expression);
-        if (!conditionIsBool) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.NON_BOOL_CONDITION, ifStatement,
-                    "Expression in if statement not of type bool."
-            );
-        }
 
         expression.accept(this);
         for (Statement statement : statementList) {
@@ -133,18 +91,7 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
     public Void visitComputedQuestion(ComputedQuestion assignQuest) {
 
         ID identifier = assignQuest.getIdentifier();
-        Type type = assignQuest.getType();
         Expression computed = assignQuest.getComputedExpression();
-
-        // check if assigned types equal
-        boolean typesEqual = this.checkIfTypesEqual(type, computed.getReturnedType());
-        if (!typesEqual) {
-            this.astIssueHandler.registerNewError(
-                    ASTNodeIssueType.ERROR.TYPE_MISMATCH, assignQuest,
-                    "Attempted to assign type " + computed.getReturnedType()
-                            + " to variable of type " + type.getClass() + "."
-            );
-        }
 
         // check if no circular reference
         // is performed while visiting idLiterals
@@ -476,7 +423,7 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
      */
 
     private boolean checkIfExpressionIsOfType(Expression expression, Type type) {
-        return expression.getReturnedType().equals(type);
+        return this.checkIfTypesEqual(expression.getReturnedType(), type);
     }
 
     private boolean checkIfExpressionIsInt(Expression expression) {
@@ -499,19 +446,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
         return (idLiteral.getType() != null);
     }
 
-    private boolean checkIfLabelAlreadyExists(String label){
-        return this.questionLabels.contains(label);
-    }
-
-    private boolean checkIfQuestionAlreadyDefinedWithDifferentType(
-            ID questionId, Type questionType){
-        Type earlierQuestionType = this.questionTypes.get(questionId.getName());
-        if (earlierQuestionType != null) {
-            return !this.checkIfTypesEqual(earlierQuestionType, questionType);
-        }
-        return false;
-    }
-
     // a = b, a - depender, b - dependee
     private boolean checkDependency(ID depender, ID dependee) {
         List<String> dependenciesForDepender =
@@ -529,14 +463,6 @@ public class QLTypeCheckerVisitor implements IASTVisitor<Void> {
      * Private data handling functions
      * =======================
      */
-
-    private void saveQuestionLabel(String label) {
-        this.questionLabels.add(label);
-    }
-
-    private void saveQuestionType(ID questionId, Type questionType) {
-        this.questionTypes.put(questionId.getName(), questionType);
-    }
 
     private void updateDependencyGraph(ID depender, ID dependee) {
 
