@@ -10,7 +10,7 @@ func NewQuestionNode(identifier string) *QuestionNode {
 	return &QuestionNode{identifier}
 }
 
-// identifier returns which symbol table identifier which the frontend
+// Identifier returns which symbol table identifier which the frontend
 // renderer must use to display a specific question.
 func (d *QuestionNode) Identifier() string {
 	return d.identifier

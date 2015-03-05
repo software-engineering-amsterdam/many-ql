@@ -1,32 +1,44 @@
 package edu.parser.QL;
 
-import edu.parser.AbstractNode;
+import edu.exceptions.EvaluationException;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
-import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
-import edu.parser.QL.nodes.expression.Identifier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Created by Steven Kok on 23/02/2015.
  */
-public class Evaluator extends VisitorImpl {
+public class Evaluator extends QLVisitorImpl {
+    private final List<Question> questions = new ArrayList<>();
+    private List<Question> updatedQuestions = new ArrayList<>();
 
-    private final List<Statement> questions = new ArrayList<>();
+    public List<Question> evaluate(Form form) {
+        return evaluate(form, Collections.emptyList());
+    }
+
+    public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
+        this.questions.clear();
+        this.updatedQuestions.clear();
+        this.updatedQuestions = updatedQuestions;
+        visit(form);
+        return questions;
+    }
 
     @Override
     public AbstractNode visit(Form form) {
         visitStatements(form.getElements());
-        return new Form(questions);
+        return form;
     }
 
     @Override
@@ -83,18 +95,38 @@ public class Evaluator extends VisitorImpl {
     @Override
     public AbstractNode visit(Identifier identifier) {
         Optional<Question> foundQuestion = getQuestion(identifier);
-
         if (foundQuestion.isPresent()) {
-            return new Boolean(foundQuestion.get().isEnabled());
+            return new Boolean(isQuestionEnabled(foundQuestion.get()));
         } else {
             return new Boolean(false); // if question does not exist, expression cannot be true.
+        }
+    }
+
+    private boolean isQuestionEnabled(Question foundQuestion) {
+        Optional<Question> updatedQuestion = getUpdatedQuestion(foundQuestion);
+        if (updatedQuestion.isPresent()) {
+            return updatedQuestion.get().isEnabled();
+        } else {
+            return foundQuestion.isEnabled();
+        }
+    }
+
+    private Optional<Question> getUpdatedQuestion(Question foundQuestion) {
+        List<Question> updatedQuestions = this.updatedQuestions.stream()
+                .filter(question -> question.getIdentifier().equals(foundQuestion.getIdentifier()))
+                .collect(Collectors.toList());
+        if (updatedQuestions.size() > 1) {
+            throw new EvaluationException("Updated question list contains duplicates.");
+        } else if (!updatedQuestions.isEmpty()) {
+            return Optional.of(updatedQuestions.get(0));
+        } else {
+            return Optional.empty();
         }
     }
 
     private Optional<Question> getQuestion(Identifier identifier) {
         return questions
                 .stream()
-                .map(question -> (Question) question)
                 .filter(q -> q.getIdentifier().equals(identifier))
                 .findFirst();
     }

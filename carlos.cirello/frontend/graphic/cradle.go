@@ -2,6 +2,7 @@ package graphic
 
 import (
 	"bytes"
+	"log"
 	"text/template"
 )
 
@@ -17,7 +18,13 @@ ApplicationWindow {
 	width: 800
 	height: 600
 
-	TabView {
+	{{ .TabContainer }}
+}
+`
+
+/*
+
+TabView {
 		width: 799
 		height: 600
 		Tab {
@@ -36,14 +43,15 @@ ApplicationWindow {
 			}
 		}
 	}
-}
-`
+*/
 
-func renderCradle(appName string) string {
+func renderCradle(appName, tabContainer string) string {
 	var b bytes.Buffer
 	t := template.Must(template.New("cradle").Parse(cradleQMLTemplate))
 	t.Execute(&b, struct {
-		AppName string
-	}{appName})
+		AppName      string
+		TabContainer string
+	}{appName, tabContainer})
+	log.Println(b.String())
 	return b.String()
 }

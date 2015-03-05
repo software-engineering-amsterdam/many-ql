@@ -1,12 +1,16 @@
-// Package graphic is the GUI interface for Frontend. It does not interact directly with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
+// Package graphic is the GUI interface for Frontend. It does not interact directly
+// with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
 package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
 import (
+	"bytes"
 	"sync"
+	"text/template"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/ast"
 	"gopkg.in/qml.v1"
 )
 
@@ -29,9 +33,8 @@ type render struct {
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
-	renderEvent    chan render
-	appName        string
-	widgetDefaults map[string]string
+	renderEvent chan render
+	appName     string
 
 	mu              sync.Mutex
 	drawStack       []render
@@ -41,19 +44,22 @@ type Gui struct {
 	symbolTable     map[string]qml.Object
 	rows            qml.Object
 	updateCallbacks map[string]func(v string)
+
+	pages map[string]*ast.Page
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string, widgetDefaults map[string]string) frontend.Inputer {
+func GUI(appName string, pages map[string]*ast.Page) frontend.Inputer {
 	driver := &Gui{
-		appName:        appName,
-		widgetDefaults: widgetDefaults,
+		appName: appName,
 
 		renderEvent:     make(chan render),
 		answerStack:     make(map[string]string),
 		sweepStack:      make(map[string]bool),
 		symbolTable:     make(map[string]qml.Object),
 		updateCallbacks: make(map[string]func(v string)),
+
+		pages: pages,
 	}
 	return driver
 }
@@ -149,12 +155,71 @@ func (g *Gui) Loop() {
 }
 
 func (g *Gui) loop() error {
-	win := startQMLengine(g.appName).CreateWindow(nil)
-	g.rows = win.Root().ObjectByName("questions")
+	// spew.Dump(g.pages["root"])
+	// fmt.Println(drawTab(g.pages["root"]))
+	win := startQMLengine(g.appName, drawTab(g.pages["root"])).CreateWindow(nil)
+	// g.rows = win.Root().ObjectByName("questions")
 	win.Show()
-	go g.renderLoop()
+	// go g.renderLoop()
 	win.Wait()
+	// os.Exit(0)
 	return nil
+}
+
+const tabsViewTemplate = `
+TabView {
+	width: 799
+	height: 600
+	objectName: "{{ .TabName }}"
+
+	{{ .Tabs }}
+}
+`
+const tabsTemplate = `
+	Tab {
+		title: "{{ .Name }}"
+		objectName: "{{ .Name }}Tab"
+		width: 798
+		height: 600
+		Layout.fillHeight: true
+	}
+
+	{{ .NestedPages }}
+`
+
+// func drawTab(win *qml.Window, page *ast.Page) string {
+func drawTab(page *ast.Page) string {
+	nestedPages := page.Pages()
+
+	npgs := ""
+	for _, nestedPage := range nestedPages {
+		var b bytes.Buffer
+		t := template.Must(template.New("tab").Parse(tabsTemplate))
+		t.Execute(&b, struct {
+			Name        string
+			NestedPages string
+		}{nestedPage.Name(), ""})
+		npgs = npgs + b.String()
+	}
+	var tabs string
+	{
+		var b bytes.Buffer
+		t := template.Must(template.New("tab").Parse(tabsTemplate))
+		t.Execute(&b, struct {
+			Name        string
+			NestedPages string
+		}{page.Name(), npgs})
+		tabs = b.String()
+	}
+
+	var b bytes.Buffer
+	t := template.Must(template.New("tabView").Parse(tabsViewTemplate))
+	t.Execute(&b, struct {
+		TabName string
+		Tabs    string
+	}{page.Name(), tabs})
+	// fmt.Println(b.String())
+	return b.String()
 }
 
 func (g *Gui) renderLoop() {
