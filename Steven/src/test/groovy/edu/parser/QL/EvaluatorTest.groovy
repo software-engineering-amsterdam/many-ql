@@ -92,12 +92,12 @@ class EvaluatorTest extends Specification {
     def "Should not return question when if statements boolean condition is false"() {
         when:
         List<Statement> formStatements = new ArrayList<>()
-        List<Statement> questions = new ArrayList<>()
+        List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
         Question inputConditionalQuestion = getQuestion("conditional")
-        questions.add(inputConditionalQuestion)
+        questionsWithinIfStatement.add(inputConditionalQuestion)
 
-        IfStatement ifStatement = new IfStatement(expression, questions, Optional.empty())
+        IfStatement ifStatement = new IfStatement(expression, questionsWithinIfStatement, Optional.empty())
 
         def inputUnconditionalQuestion = getQuestion("unconditional")
         formStatements.add(inputUnconditionalQuestion)
@@ -133,16 +133,16 @@ class EvaluatorTest extends Specification {
     def "Should return question from elseClause when condition is false"() {
         setup:
         List<Statement> formStatements = new ArrayList<>()
-        List<Statement> questions = new ArrayList<>()
+        List<Statement> questionsWithinIfStatement = new ArrayList<>()
 
         Question inputConditionalQuestion = new Question(new Identifier("conditional"), QuestionType.BOOLEAN, new Label("conditional"), true, Optional.empty())
-        questions.add(inputConditionalQuestion)
+        questionsWithinIfStatement.add(inputConditionalQuestion)
 
         Question inputElseClauseQuestion = new Question(new Identifier("else"), QuestionType.BOOLEAN, new Label("else"), true, Optional.empty())
         List<Statement> elseClauseQuestions = new ArrayList<>();
         elseClauseQuestions.add(inputElseClauseQuestion)
         Optional<ElseClause> elseClause = Optional.of(new ElseClause(elseClauseQuestions))
-        IfStatement ifStatement = new IfStatement(new Boolean(false), questions, elseClause)
+        IfStatement ifStatement = new IfStatement(new Boolean(false), questionsWithinIfStatement, elseClause)
 
         def inputUnconditionalQuestion = new Question(new Identifier("unconditional"), QuestionType.BOOLEAN, new Label("unconditional"), true, Optional.empty())
         formStatements.add(inputUnconditionalQuestion)
@@ -158,5 +158,33 @@ class EvaluatorTest extends Specification {
         Question outputElseClauseQuestion = (Question) returnedQuestions.get(1)
         Assert.assertEquals(inputUnconditionalQuestion, outputUnconditionalQuestion)
         Assert.assertEquals(inputElseClauseQuestion, outputElseClauseQuestion)
+    }
+
+    def "Should show question when if-statement evaluates to 'true' the second time"() {
+        setup:
+        List<Statement> formStatements = new ArrayList<>()
+        List<Statement> questionsWithinIfStatement = new ArrayList<>()
+
+        def identifier = "identifier"
+        Question inputQuestion = createQuestion(identifier, false)
+        questionsWithinIfStatement.add(inputQuestion)
+        IfStatement ifStatement = new IfStatement(new Identifier(identifier), questionsWithinIfStatement, Optional.empty())
+
+        formStatements.add(ifStatement)
+        def form = new Form(formStatements)
+
+        when:
+        List<Question> initialEvaluationReturnedQuestions = evaluator.evaluate(form)
+        Assert.assertEquals(true, initialEvaluationReturnedQuestions.isEmpty())
+
+        then:
+        List<Question> updatedQuestions = new ArrayList<>()
+        updatedQuestions.add(createQuestion(identifier, true))
+        List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
+        Assert.assertEquals(1, evaluationReturnedUpdatedQuestions.size())
+    }
+
+    private Question createQuestion(String identifier, boolean isEnabled) {
+        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), isEnabled, Optional.empty())
     }
 }

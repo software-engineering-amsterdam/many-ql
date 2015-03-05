@@ -17,15 +17,14 @@ import java.util.Optional;
 /**
  * Created by Steven Kok on 23/02/2015.
  */
-public class Evaluator extends QLVisitorImpl { //todo: should only return list with questions, not a form
-    //todo: should receive list of questions from gui (optional) with new question states
+public class Evaluator extends QLVisitorImpl {
     private final List<Question> questions = new ArrayList<>();
 
     public List<Question> evaluate(Form form) {
         return evaluate(form, Collections.emptyList());
     }
 
-    public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
+    public List<Question> evaluate(Form form, List<Question> updatedQuestions) { //todo: use updateQuestions
         visit(form);
         return questions;
     }
