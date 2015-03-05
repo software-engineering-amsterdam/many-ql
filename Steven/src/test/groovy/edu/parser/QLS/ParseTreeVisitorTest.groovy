@@ -47,7 +47,7 @@ class ParseTreeVisitorTest extends Specification { //todo: create enum with path
         Assert.assertEquals("second section contains a question with a style width of 40", 40, secondElement.sections.get(1).statements.get(0).styles.get(0).width)
         Assert.assertEquals("third element is a page", Page.class, thirdElement.class)
         Assert.assertEquals("third element is an empty page", true, thirdElement.sections.isEmpty())
-        Assert.assertEquals("fourth element is a question named name3", "name3", fourthElement.identifier.identifier)
+        Assert.assertEquals("fourth element is a question named name4", "name4", fourthElement.identifier.identifier)
         Assert.assertEquals("fourth element has a widget", Widget.class, fourthElement.styles.get(0).class)
         Assert.assertEquals("fourth element has a widget called SPINBOX", Widgets.SPINBOX, fourthElement.styles.get(0).widget)
         Assert.assertEquals("fourth element has a width", Width.class, fourthElement.styles.get(1).class)
