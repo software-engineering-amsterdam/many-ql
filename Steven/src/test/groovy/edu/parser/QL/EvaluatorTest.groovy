@@ -64,10 +64,10 @@ class EvaluatorTest extends Specification {
 
         then:
         Assert.assertEquals("List should contain only two elements", 2, returnedQuestions.size())
-        Question unconditionalOutputQuestion = returnedQuestions.get(0);
-        Question conditionalOutputQuestion = returnedQuestions.get(1);
-        Assert.assertEquals(inputUnconditionalQuestion, unconditionalOutputQuestion)
-        Assert.assertEquals(inputConditionalQuestion, conditionalOutputQuestion)
+        Question outputUnconditionalQuestion = returnedQuestions.get(0);
+        Question outputConditionalQuestion = returnedQuestions.get(1);
+        Assert.assertEquals(inputUnconditionalQuestion, outputUnconditionalQuestion)
+        Assert.assertEquals(inputConditionalQuestion, outputConditionalQuestion)
 
         where:
         expression                                                                 | _
@@ -104,12 +104,12 @@ class EvaluatorTest extends Specification {
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
 
-        Form outputForm = (Form) evaluator.visit(inputForm)
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
 
         then:
-        Assert.assertEquals(1, outputForm.elements.size())
-        Question outputQuestion1 = (Question) outputForm.elements.get(0);
-        Assert.assertEquals(inputUnconditionalQuestion, outputQuestion1)
+        Assert.assertEquals(1, returnedQuestions.size())
+        Question outputUnconditionalQuestion = returnedQuestions.get(0);
+        Assert.assertEquals(inputUnconditionalQuestion, outputUnconditionalQuestion)
 
         where:
         expression                                                                 | _
