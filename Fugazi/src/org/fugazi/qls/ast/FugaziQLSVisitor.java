@@ -14,6 +14,8 @@ import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 import org.fugazi.qls.ast.style.NullStyle;
 import org.fugazi.qls.ast.style.Style;
 import org.fugazi.qls.ast.style.style_property.*;
+import org.fugazi.qls.ast.style.style_property.type.IntPropertyType;
+import org.fugazi.qls.ast.style.style_property.type.StringPropertyType;
 import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.widget.*;
 import org.fugazi.qls.parser.QLSBaseVisitor;
@@ -167,25 +169,41 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTQLNode> {
     
     @Override 
 	public AbstractASTQLSNode visitWidthStyleProperty(@NotNull QLSParser.WidthStylePropertyContext ctx) {
-        Integer value = Integer.parseInt(ctx.NUMBER().getText());
+        IntPropertyType value = new IntPropertyType(
+                                        this.getLineNumber(ctx),
+                                        Integer.parseInt(
+                                                ctx.NUMBER().getText()
+                                        ));
 		return new Width(this.getLineNumber(ctx), value);
 	}
     
     @Override
 	public AbstractASTQLSNode visitFontStyleProperty(@NotNull QLSParser.FontStylePropertyContext ctx) {
-        String value = ctx.STRING().getText();
-		return new Font(this.getLineNumber(ctx), this.removeStringQuotes(value));
+        StringPropertyType value = new StringPropertyType(
+                this.getLineNumber(ctx),
+                this.removeStringQuotes(
+                        ctx.STRING().getText()
+                ));
+		return new Font(this.getLineNumber(ctx), value);
 	}
     
     @Override 
 	public AbstractASTQLSNode visitFontsizeStyleProperty(@NotNull QLSParser.FontsizeStylePropertyContext ctx) {
-        Integer value = Integer.parseInt(ctx.NUMBER().getText());
+        IntPropertyType value = new IntPropertyType(
+                this.getLineNumber(ctx),
+                Integer.parseInt(
+                        ctx.NUMBER().getText()
+                ));
         return new FontSize(this.getLineNumber(ctx), value);
 	}
     
     @Override 
 	public AbstractASTQLSNode visitColorStyleProperty(@NotNull QLSParser.ColorStylePropertyContext ctx) {
-        String value = ctx.HEX().getText();
+        StringPropertyType value = new StringPropertyType(
+                this.getLineNumber(ctx),
+                this.removeStringQuotes(
+                        ctx.HEX().getText()
+                ));
         return new Color(this.getLineNumber(ctx), value);
 	}
     
