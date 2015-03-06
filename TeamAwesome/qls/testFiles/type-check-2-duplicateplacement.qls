@@ -5,8 +5,10 @@ stylesheet taxOfficeExample {
     section "Buying a house" {
 
       question foo
+
+      question bar
       
-      question hasBoughtHouse 
+      question foo
       
     }
     
