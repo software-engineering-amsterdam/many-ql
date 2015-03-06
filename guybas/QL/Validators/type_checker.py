@@ -72,38 +72,3 @@ class TypeChecker:
             else:
                 messages += e.pretty_print() + " is malformed"
         return messages
-
-    # TODO: try to make this obsolete
-    @staticmethod
-    def type_checker(cinput, ctype=False):
-        """
-        This function allows to return the input type or to compare input type
-        with pre-defined type
-        :param int|str|boolean|list|float|complex cinput: the input to get_dependencies
-        :param str|bool ctype: The expected type to compare with, False to return the input type
-        :return: True|False|str
-        """
-        if isinstance(cinput, bool):  # bool class is a subclass of int class
-            type_class = gconstants.GrammarConstants.BOOL
-        elif isinstance(cinput, (int, float)):  # in python3 int = long
-            type_class = gconstants.GrammarConstants.NUMBER
-        elif isinstance(cinput, str):  # text str is a subclass of list class
-            type_class = gconstants.GrammarConstants.TEXT
-            # str could be int
-            if cinput.isdigit():
-                type_class = gconstants.GrammarConstants.NUMBER
-        elif isinstance(cinput, list):
-            type_class = gconstants.GrammarConstants.LIST
-        elif isinstance(cinput, Operator):
-            type_class = econstants.ElementsConstants.OPERATOR
-        else:
-            raise QException("Undefined input " + str(type(cinput)))
-
-        if not ctype:
-            return type_class
-
-        if ctype is type_class:
-            return True
-        elif ctype is gconstants.GrammarConstants.TEXT and type_class is gconstants.GrammarConstants.NUMBER:  # text could be number
-            return True
-        return False

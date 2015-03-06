@@ -10,8 +10,6 @@ class Mapper:
 
     def update(self, question, answer):
         qid = question.get_id()
-        if answer is not None and not type_checker.TypeChecker.type_checker(answer, question.get_type()):
-            raise exceptions.QException("Answer type has different type than defined in the q properties.")
         self.answers[qid] = answer
 
     def get_answers(self):
