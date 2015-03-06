@@ -2,6 +2,10 @@ from patterns.Visitor import Visitor as GenericVisitor
 
 
 class StatementVisitor(GenericVisitor):
+    def _visitQLS(self, node):
+        for statement in node.statements:
+            self.visit(statement)
+
     def _visitStylesheetStatement(self, node):
         for statement in node.statements:
             self.visit(statement)
@@ -37,11 +41,12 @@ class AttributeVisitor(GenericVisitor):
     def _visitColor(self, node):
         pass
 
+
 class FullVisitor(GenericVisitor):
-    def _visitQls(self, node):
+    def _visitQLS(self, node):
         for statement in node.statements:
             self.visit(statement)
-
+    
     def _visitStylesheetStatement(self, node):
         for statement in node.statements:
             self.visit(statement)
