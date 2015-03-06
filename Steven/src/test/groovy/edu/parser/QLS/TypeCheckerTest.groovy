@@ -39,7 +39,6 @@ class TypeCheckerTest extends Specification {
         List<QLQuestion> formQuestions = new ArrayList<>()
         formQuestions.add(new QLQuestion(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
 
-
         def identifier = "abcdefgh"
         typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
 
@@ -109,6 +108,7 @@ class TypeCheckerTest extends Specification {
         Stylesheet stylesheet = qlsParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_valid", new ParseTreeVisitor(), Stylesheet.class)
         QuestionRetriever questionRetriever = new QuestionRetriever()
         List<QLQuestion> questions = questionRetriever.retrieveQuestions(form)
+
         when:
         typeChecker.start(questions, stylesheet)
 
@@ -122,6 +122,7 @@ class TypeCheckerTest extends Specification {
         Stylesheet stylesheet = qlsParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_duplicateQuestions", new ParseTreeVisitor(), Stylesheet.class)
         QuestionRetriever questionRetriever = new QuestionRetriever()
         List<QLQuestion> questions = questionRetriever.retrieveQuestions(form)
+
         when:
         typeChecker.start(questions, stylesheet)
 
