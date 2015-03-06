@@ -37,7 +37,6 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             Output = new OutputWindow(OutputTextBox);
         }
 
-
         public void InitializeQuestions()
         {
             QuestionFlowLayout.Controls.Clear();
@@ -58,6 +57,9 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                         break;
                     case DataType.String:
                         uiQuestion = new TextQuestion(astQuestion);
+                        break;
+                    case DataType.Date:
+                        uiQuestion = new CalendarControl(astQuestion);
                         break;
                     default:
                         throw new NotSupportedException();
@@ -122,6 +124,8 @@ namespace UvA.SoftCon.Questionnaire.WinForms
             return answers;
         }
 
+        #region Event Handlers
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -169,5 +173,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
         {
             SplitPanel.Panel2Collapsed = !outputWindowToolStripMenuItem.Checked;
         }
+
+        #endregion
     }
 }

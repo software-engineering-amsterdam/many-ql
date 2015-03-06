@@ -56,6 +56,12 @@
     <Compile Include="Controls\BooleanQuestion.Designer.cs">
       <DependentUpon>BooleanQuestion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CalendarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CalendarControl.Designer.cs">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\NumericQuestion.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -85,6 +91,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\BooleanQuestion.resx">
       <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CalendarControl.resx">
+      <DependentUpon>CalendarControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NumericQuestion.resx">
       <DependentUpon>NumericQuestion.cs</DependentUpon>
