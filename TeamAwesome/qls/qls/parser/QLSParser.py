@@ -13,55 +13,57 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\34")
-        buf.write("\u0094\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
+        buf.write("\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\36")
+        buf.write("\u0099\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7")
         buf.write("\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16")
         buf.write("\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23\t\23")
-        buf.write("\3\2\7\2(\n\2\f\2\16\2+\13\2\3\3\3\3\3\3\3\3\3\3\5\3\62")
-        buf.write("\n\3\3\4\3\4\3\4\3\4\7\48\n\4\f\4\16\4;\13\4\3\4\3\4\3")
-        buf.write("\5\3\5\3\5\3\5\7\5C\n\5\f\5\16\5F\13\5\3\5\3\5\3\6\3\6")
-        buf.write("\3\6\3\6\3\7\3\7\3\7\3\7\7\7R\n\7\f\7\16\7U\13\7\3\7\3")
-        buf.write("\7\3\b\3\b\3\b\3\b\7\b]\n\b\f\b\16\b`\13\b\3\b\3\b\3\t")
-        buf.write("\3\t\3\t\3\t\7\th\n\t\f\t\16\tk\13\t\3\t\5\tn\n\t\3\n")
-        buf.write("\3\n\3\13\3\13\3\13\5\13u\n\13\3\f\3\f\3\r\3\r\3\r\3\r")
-        buf.write("\3\r\5\r~\n\r\3\16\3\16\3\17\3\17\3\17\7\17\u0085\n\17")
-        buf.write("\f\17\16\17\u0088\13\17\3\20\3\20\5\20\u008c\n\20\3\21")
-        buf.write("\3\21\3\22\3\22\3\23\3\23\3\23\2\2\24\2\4\6\b\n\f\16\20")
-        buf.write("\22\24\26\30\32\34\36 \"$\2\4\3\2\13\16\3\2\21\26\u0091")
-        buf.write("\2)\3\2\2\2\4\61\3\2\2\2\6\63\3\2\2\2\b>\3\2\2\2\nI\3")
-        buf.write("\2\2\2\fM\3\2\2\2\16X\3\2\2\2\20c\3\2\2\2\22o\3\2\2\2")
-        buf.write("\24t\3\2\2\2\26v\3\2\2\2\30x\3\2\2\2\32\177\3\2\2\2\34")
-        buf.write("\u0081\3\2\2\2\36\u008b\3\2\2\2 \u008d\3\2\2\2\"\u008f")
-        buf.write("\3\2\2\2$\u0091\3\2\2\2&(\5\4\3\2\'&\3\2\2\2(+\3\2\2\2")
-        buf.write(")\'\3\2\2\2)*\3\2\2\2*\3\3\2\2\2+)\3\2\2\2,\62\5\6\4\2")
-        buf.write("-\62\5\b\5\2.\62\5\f\7\2/\62\5\16\b\2\60\62\5\20\t\2\61")
-        buf.write(",\3\2\2\2\61-\3\2\2\2\61.\3\2\2\2\61/\3\2\2\2\61\60\3")
-        buf.write("\2\2\2\62\5\3\2\2\2\63\64\7\3\2\2\64\65\5 \21\2\659\7")
-        buf.write("\4\2\2\668\5\4\3\2\67\66\3\2\2\28;\3\2\2\29\67\3\2\2\2")
-        buf.write("9:\3\2\2\2:<\3\2\2\2;9\3\2\2\2<=\7\5\2\2=\7\3\2\2\2>?")
-        buf.write("\7\6\2\2?@\5\26\f\2@D\7\4\2\2AC\5\n\6\2BA\3\2\2\2CF\3")
-        buf.write("\2\2\2DB\3\2\2\2DE\3\2\2\2EG\3\2\2\2FD\3\2\2\2GH\7\5\2")
-        buf.write("\2H\t\3\2\2\2IJ\5\22\n\2JK\7\7\2\2KL\5\24\13\2L\13\3\2")
-        buf.write("\2\2MN\7\b\2\2NO\5\"\22\2OS\7\4\2\2PR\5\4\3\2QP\3\2\2")
-        buf.write("\2RU\3\2\2\2SQ\3\2\2\2ST\3\2\2\2TV\3\2\2\2US\3\2\2\2V")
-        buf.write("W\7\5\2\2W\r\3\2\2\2XY\7\t\2\2YZ\5\"\22\2Z^\7\4\2\2[]")
-        buf.write("\5\4\3\2\\[\3\2\2\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_a\3")
-        buf.write("\2\2\2`^\3\2\2\2ab\7\5\2\2b\17\3\2\2\2cd\7\n\2\2dm\5 ")
-        buf.write("\21\2ei\7\4\2\2fh\5\n\6\2gf\3\2\2\2hk\3\2\2\2ig\3\2\2")
-        buf.write("\2ij\3\2\2\2jl\3\2\2\2ki\3\2\2\2ln\7\5\2\2me\3\2\2\2m")
-        buf.write("n\3\2\2\2n\21\3\2\2\2op\7\32\2\2p\23\3\2\2\2qu\5$\23\2")
-        buf.write("ru\5\"\22\2su\5\30\r\2tq\3\2\2\2tr\3\2\2\2ts\3\2\2\2u")
-        buf.write("\25\3\2\2\2vw\t\2\2\2w\27\3\2\2\2x}\5\32\16\2yz\7\17\2")
-        buf.write("\2z{\5\34\17\2{|\7\20\2\2|~\3\2\2\2}y\3\2\2\2}~\3\2\2")
-        buf.write("\2~\31\3\2\2\2\177\u0080\t\3\2\2\u0080\33\3\2\2\2\u0081")
-        buf.write("\u0086\5\36\20\2\u0082\u0083\7\27\2\2\u0083\u0085\5\36")
-        buf.write("\20\2\u0084\u0082\3\2\2\2\u0085\u0088\3\2\2\2\u0086\u0084")
-        buf.write("\3\2\2\2\u0086\u0087\3\2\2\2\u0087\35\3\2\2\2\u0088\u0086")
-        buf.write("\3\2\2\2\u0089\u008c\5$\23\2\u008a\u008c\5\"\22\2\u008b")
-        buf.write("\u0089\3\2\2\2\u008b\u008a\3\2\2\2\u008c\37\3\2\2\2\u008d")
-        buf.write("\u008e\7\32\2\2\u008e!\3\2\2\2\u008f\u0090\7\30\2\2\u0090")
-        buf.write("#\3\2\2\2\u0091\u0092\7\31\2\2\u0092%\3\2\2\2\16)\619")
-        buf.write("DS^imt}\u0086\u008b")
+        buf.write("\4\24\t\24\3\2\7\2*\n\2\f\2\16\2-\13\2\3\3\3\3\3\3\3\3")
+        buf.write("\3\3\5\3\64\n\3\3\4\3\4\3\4\3\4\7\4:\n\4\f\4\16\4=\13")
+        buf.write("\4\3\4\3\4\3\5\3\5\3\5\3\5\7\5E\n\5\f\5\16\5H\13\5\3\5")
+        buf.write("\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\7\7T\n\7\f\7\16\7")
+        buf.write("W\13\7\3\7\3\7\3\b\3\b\3\b\3\b\7\b_\n\b\f\b\16\bb\13\b")
+        buf.write("\3\b\3\b\3\t\3\t\3\t\3\t\7\tj\n\t\f\t\16\tm\13\t\3\t\5")
+        buf.write("\tp\n\t\3\n\3\n\3\13\3\13\3\13\3\13\5\13x\n\13\3\f\3\f")
+        buf.write("\3\r\3\r\3\r\3\r\3\r\5\r\u0081\n\r\3\16\3\16\3\17\3\17")
+        buf.write("\3\17\7\17\u0088\n\17\f\17\16\17\u008b\13\17\3\20\3\20")
+        buf.write("\5\20\u008f\n\20\3\21\3\21\3\22\3\22\3\23\3\23\3\24\3")
+        buf.write("\24\3\24\2\2\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36")
+        buf.write(" \"$&\2\4\3\2\13\16\3\2\21\26\u0096\2+\3\2\2\2\4\63\3")
+        buf.write("\2\2\2\6\65\3\2\2\2\b@\3\2\2\2\nK\3\2\2\2\fO\3\2\2\2\16")
+        buf.write("Z\3\2\2\2\20e\3\2\2\2\22q\3\2\2\2\24w\3\2\2\2\26y\3\2")
+        buf.write("\2\2\30{\3\2\2\2\32\u0082\3\2\2\2\34\u0084\3\2\2\2\36")
+        buf.write("\u008e\3\2\2\2 \u0090\3\2\2\2\"\u0092\3\2\2\2$\u0094\3")
+        buf.write("\2\2\2&\u0096\3\2\2\2(*\5\4\3\2)(\3\2\2\2*-\3\2\2\2+)")
+        buf.write("\3\2\2\2+,\3\2\2\2,\3\3\2\2\2-+\3\2\2\2.\64\5\6\4\2/\64")
+        buf.write("\5\b\5\2\60\64\5\f\7\2\61\64\5\16\b\2\62\64\5\20\t\2\63")
+        buf.write(".\3\2\2\2\63/\3\2\2\2\63\60\3\2\2\2\63\61\3\2\2\2\63\62")
+        buf.write("\3\2\2\2\64\5\3\2\2\2\65\66\7\3\2\2\66\67\5 \21\2\67;")
+        buf.write("\7\4\2\28:\5\4\3\298\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2")
+        buf.write("\2\2<>\3\2\2\2=;\3\2\2\2>?\7\5\2\2?\7\3\2\2\2@A\7\6\2")
+        buf.write("\2AB\5\26\f\2BF\7\4\2\2CE\5\n\6\2DC\3\2\2\2EH\3\2\2\2")
+        buf.write("FD\3\2\2\2FG\3\2\2\2GI\3\2\2\2HF\3\2\2\2IJ\7\5\2\2J\t")
+        buf.write("\3\2\2\2KL\5\22\n\2LM\7\7\2\2MN\5\24\13\2N\13\3\2\2\2")
+        buf.write("OP\7\b\2\2PQ\5\"\22\2QU\7\4\2\2RT\5\4\3\2SR\3\2\2\2TW")
+        buf.write("\3\2\2\2US\3\2\2\2UV\3\2\2\2VX\3\2\2\2WU\3\2\2\2XY\7\5")
+        buf.write("\2\2Y\r\3\2\2\2Z[\7\t\2\2[\\\5\"\22\2\\`\7\4\2\2]_\5\4")
+        buf.write("\3\2^]\3\2\2\2_b\3\2\2\2`^\3\2\2\2`a\3\2\2\2ac\3\2\2\2")
+        buf.write("b`\3\2\2\2cd\7\5\2\2d\17\3\2\2\2ef\7\n\2\2fo\5 \21\2g")
+        buf.write("k\7\4\2\2hj\5\n\6\2ih\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3")
+        buf.write("\2\2\2ln\3\2\2\2mk\3\2\2\2np\7\5\2\2og\3\2\2\2op\3\2\2")
+        buf.write("\2p\21\3\2\2\2qr\7\32\2\2r\23\3\2\2\2sx\5$\23\2tx\5\"")
+        buf.write("\22\2ux\5\30\r\2vx\5&\24\2ws\3\2\2\2wt\3\2\2\2wu\3\2\2")
+        buf.write("\2wv\3\2\2\2x\25\3\2\2\2yz\t\2\2\2z\27\3\2\2\2{\u0080")
+        buf.write("\5\32\16\2|}\7\17\2\2}~\5\34\17\2~\177\7\20\2\2\177\u0081")
+        buf.write("\3\2\2\2\u0080|\3\2\2\2\u0080\u0081\3\2\2\2\u0081\31\3")
+        buf.write("\2\2\2\u0082\u0083\t\3\2\2\u0083\33\3\2\2\2\u0084\u0089")
+        buf.write("\5\36\20\2\u0085\u0086\7\27\2\2\u0086\u0088\5\36\20\2")
+        buf.write("\u0087\u0085\3\2\2\2\u0088\u008b\3\2\2\2\u0089\u0087\3")
+        buf.write("\2\2\2\u0089\u008a\3\2\2\2\u008a\35\3\2\2\2\u008b\u0089")
+        buf.write("\3\2\2\2\u008c\u008f\5$\23\2\u008d\u008f\5\"\22\2\u008e")
+        buf.write("\u008c\3\2\2\2\u008e\u008d\3\2\2\2\u008f\37\3\2\2\2\u0090")
+        buf.write("\u0091\7\32\2\2\u0091!\3\2\2\2\u0092\u0093\7\30\2\2\u0093")
+        buf.write("#\3\2\2\2\u0094\u0095\7\31\2\2\u0095%\3\2\2\2\u0096\u0097")
+        buf.write("\7\33\2\2\u0097\'\3\2\2\2\16+\63;FU`kow\u0080\u0089\u008e")
         return buf.getvalue()
 
 
@@ -87,7 +89,7 @@ class QLSParser ( Parser ):
                       u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                       u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                       u"<INVALID>", u"<INVALID>", u"STRING", u"INTEGER", 
-                      u"IDENTIFIER", u"WS", u"COMMENT" ]
+                      u"IDENTIFIER", u"COLOR", u"HEX", u"WS", u"COMMENT" ]
 
     RULE_qls = 0
     RULE_nested_statement = 1
@@ -107,12 +109,13 @@ class QLSParser ( Parser ):
     RULE_identifier = 15
     RULE_string = 16
     RULE_integer = 17
+    RULE_color = 18
 
     ruleNames =  [ "qls", "nested_statement", "stylesheet_statement", "default_statement", 
                    "style_attribute", "page_statement", "section_statement", 
                    "question_statement", "attribute_name", "attribute_value", 
                    "question_type", "widget", "widget_type", "widget_options", 
-                   "widget_option", "identifier", "string", "integer" ]
+                   "widget_option", "identifier", "string", "integer", "color" ]
 
     EOF = Token.EOF
     T__0=1
@@ -139,8 +142,10 @@ class QLSParser ( Parser ):
     STRING=22
     INTEGER=23
     IDENTIFIER=24
-    WS=25
-    COMMENT=26
+    COLOR=25
+    HEX=26
+    WS=27
+    COMMENT=28
 
     def __init__(self, input:TokenStream):
         super().__init__(input)
@@ -192,14 +197,14 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 39
+            self.state = 41
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__0) | (1 << QLSParser.T__3) | (1 << QLSParser.T__5) | (1 << QLSParser.T__6) | (1 << QLSParser.T__7))) != 0):
-                self.state = 36
+                self.state = 38
                 localctx._nested_statement = self.nested_statement()
                 localctx.statements.append(localctx._nested_statement)
-                self.state = 41
+                self.state = 43
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -262,31 +267,31 @@ class QLSParser ( Parser ):
         localctx = QLSParser.Nested_statementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_nested_statement)
         try:
-            self.state = 47
+            self.state = 49
             token = self._input.LA(1)
             if token in [QLSParser.T__0]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 42
+                self.state = 44
                 self.stylesheet_statement()
 
             elif token in [QLSParser.T__3]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 43
+                self.state = 45
                 self.default_statement()
 
             elif token in [QLSParser.T__5]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 44
+                self.state = 46
                 self.page_statement()
 
             elif token in [QLSParser.T__6]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 45
+                self.state = 47
                 self.section_statement()
 
             elif token in [QLSParser.T__7]:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 46
+                self.state = 48
                 self.question_statement()
 
             else:
@@ -347,24 +352,24 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 49
-            self.match(QLSParser.T__0)
-            self.state = 50
-            localctx.name = self.identifier()
             self.state = 51
+            self.match(QLSParser.T__0)
+            self.state = 52
+            localctx.name = self.identifier()
+            self.state = 53
             self.match(QLSParser.T__1)
-            self.state = 55
+            self.state = 57
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__0) | (1 << QLSParser.T__3) | (1 << QLSParser.T__5) | (1 << QLSParser.T__6) | (1 << QLSParser.T__7))) != 0):
-                self.state = 52
+                self.state = 54
                 localctx._nested_statement = self.nested_statement()
                 localctx.statements.append(localctx._nested_statement)
-                self.state = 57
+                self.state = 59
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 58
+            self.state = 60
             self.match(QLSParser.T__2)
         except RecognitionException as re:
             localctx.exception = re
@@ -421,24 +426,24 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 60
-            self.match(QLSParser.T__3)
-            self.state = 61
-            localctx.qtype = self.question_type()
             self.state = 62
+            self.match(QLSParser.T__3)
+            self.state = 63
+            localctx.qtype = self.question_type()
+            self.state = 64
             self.match(QLSParser.T__1)
-            self.state = 66
+            self.state = 68
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==QLSParser.IDENTIFIER:
-                self.state = 63
+                self.state = 65
                 localctx._style_attribute = self.style_attribute()
                 localctx.attributes.append(localctx._style_attribute)
-                self.state = 68
+                self.state = 70
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 69
+            self.state = 71
             self.match(QLSParser.T__2)
         except RecognitionException as re:
             localctx.exception = re
@@ -490,11 +495,11 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 8, self.RULE_style_attribute)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 71
-            localctx.name = self.attribute_name()
-            self.state = 72
-            self.match(QLSParser.T__4)
             self.state = 73
+            localctx.name = self.attribute_name()
+            self.state = 74
+            self.match(QLSParser.T__4)
+            self.state = 75
             localctx.value = self.attribute_value()
         except RecognitionException as re:
             localctx.exception = re
@@ -551,24 +556,24 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 75
-            self.match(QLSParser.T__5)
-            self.state = 76
-            localctx.name = self.string()
             self.state = 77
+            self.match(QLSParser.T__5)
+            self.state = 78
+            localctx.name = self.string()
+            self.state = 79
             self.match(QLSParser.T__1)
-            self.state = 81
+            self.state = 83
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__0) | (1 << QLSParser.T__3) | (1 << QLSParser.T__5) | (1 << QLSParser.T__6) | (1 << QLSParser.T__7))) != 0):
-                self.state = 78
+                self.state = 80
                 localctx._nested_statement = self.nested_statement()
                 localctx.statements.append(localctx._nested_statement)
-                self.state = 83
+                self.state = 85
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 84
+            self.state = 86
             self.match(QLSParser.T__2)
         except RecognitionException as re:
             localctx.exception = re
@@ -625,24 +630,24 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 86
-            self.match(QLSParser.T__6)
-            self.state = 87
-            localctx.name = self.string()
             self.state = 88
+            self.match(QLSParser.T__6)
+            self.state = 89
+            localctx.name = self.string()
+            self.state = 90
             self.match(QLSParser.T__1)
-            self.state = 92
+            self.state = 94
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__0) | (1 << QLSParser.T__3) | (1 << QLSParser.T__5) | (1 << QLSParser.T__6) | (1 << QLSParser.T__7))) != 0):
-                self.state = 89
+                self.state = 91
                 localctx._nested_statement = self.nested_statement()
                 localctx.statements.append(localctx._nested_statement)
-                self.state = 94
+                self.state = 96
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 95
+            self.state = 97
             self.match(QLSParser.T__2)
         except RecognitionException as re:
             localctx.exception = re
@@ -699,27 +704,27 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 97
+            self.state = 99
             self.match(QLSParser.T__7)
-            self.state = 98
+            self.state = 100
             localctx.name = self.identifier()
-            self.state = 107
+            self.state = 109
             _la = self._input.LA(1)
             if _la==QLSParser.T__1:
-                self.state = 99
+                self.state = 101
                 self.match(QLSParser.T__1)
-                self.state = 103
+                self.state = 105
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==QLSParser.IDENTIFIER:
-                    self.state = 100
+                    self.state = 102
                     localctx._style_attribute = self.style_attribute()
                     localctx.attributes.append(localctx._style_attribute)
-                    self.state = 105
+                    self.state = 107
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
-                self.state = 106
+                self.state = 108
                 self.match(QLSParser.T__2)
 
 
@@ -766,7 +771,7 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 16, self.RULE_attribute_name)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 109
+            self.state = 111
             self.match(QLSParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -794,6 +799,10 @@ class QLSParser ( Parser ):
             return self.getTypedRuleContext(QLSParser.WidgetContext,0)
 
 
+        def color(self):
+            return self.getTypedRuleContext(QLSParser.ColorContext,0)
+
+
         def getRuleIndex(self):
             return QLSParser.RULE_attribute_value
 
@@ -819,22 +828,27 @@ class QLSParser ( Parser ):
         localctx = QLSParser.Attribute_valueContext(self, self._ctx, self.state)
         self.enterRule(localctx, 18, self.RULE_attribute_value)
         try:
-            self.state = 114
+            self.state = 117
             token = self._input.LA(1)
             if token in [QLSParser.INTEGER]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 111
+                self.state = 113
                 self.integer()
 
             elif token in [QLSParser.STRING]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 112
+                self.state = 114
                 self.string()
 
             elif token in [QLSParser.T__14, QLSParser.T__15, QLSParser.T__16, QLSParser.T__17, QLSParser.T__18, QLSParser.T__19]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 113
+                self.state = 115
                 self.widget()
+
+            elif token in [QLSParser.COLOR]:
+                self.enterOuterAlt(localctx, 4)
+                self.state = 116
+                self.color()
 
             else:
                 raise NoViableAltException(self)
@@ -881,7 +895,7 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 116
+            self.state = 119
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__8) | (1 << QLSParser.T__9) | (1 << QLSParser.T__10) | (1 << QLSParser.T__11))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -938,16 +952,16 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 118
+            self.state = 121
             localctx.wtype = self.widget_type()
-            self.state = 123
+            self.state = 126
             _la = self._input.LA(1)
             if _la==QLSParser.T__12:
-                self.state = 119
+                self.state = 122
                 self.match(QLSParser.T__12)
-                self.state = 120
+                self.state = 123
                 localctx.options = self.widget_options()
-                self.state = 121
+                self.state = 124
                 self.match(QLSParser.T__13)
 
 
@@ -993,7 +1007,7 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 125
+            self.state = 128
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << QLSParser.T__14) | (1 << QLSParser.T__15) | (1 << QLSParser.T__16) | (1 << QLSParser.T__17) | (1 << QLSParser.T__18) | (1 << QLSParser.T__19))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -1047,17 +1061,17 @@ class QLSParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 127
+            self.state = 130
             self.widget_option()
-            self.state = 132
+            self.state = 135
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==QLSParser.T__20:
-                self.state = 128
+                self.state = 131
                 self.match(QLSParser.T__20)
-                self.state = 129
+                self.state = 132
                 self.widget_option()
-                self.state = 134
+                self.state = 137
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1108,16 +1122,16 @@ class QLSParser ( Parser ):
         localctx = QLSParser.Widget_optionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 28, self.RULE_widget_option)
         try:
-            self.state = 137
+            self.state = 140
             token = self._input.LA(1)
             if token in [QLSParser.INTEGER]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 135
+                self.state = 138
                 self.integer()
 
             elif token in [QLSParser.STRING]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 136
+                self.state = 139
                 self.string()
 
             else:
@@ -1166,7 +1180,7 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 30, self.RULE_identifier)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 139
+            self.state = 142
             self.match(QLSParser.IDENTIFIER)
         except RecognitionException as re:
             localctx.exception = re
@@ -1211,7 +1225,7 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 32, self.RULE_string)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 141
+            self.state = 144
             self.match(QLSParser.STRING)
         except RecognitionException as re:
             localctx.exception = re
@@ -1256,8 +1270,53 @@ class QLSParser ( Parser ):
         self.enterRule(localctx, 34, self.RULE_integer)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 143
+            self.state = 146
             self.match(QLSParser.INTEGER)
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+    class ColorContext(ParserRuleContext):
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def COLOR(self):
+            return self.getToken(QLSParser.COLOR, 0)
+
+        def getRuleIndex(self):
+            return QLSParser.RULE_color
+
+        def enterRule(self, listener:ParseTreeListener):
+            if isinstance( listener, QLSListener ):
+                listener.enterColor(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if isinstance( listener, QLSListener ):
+                listener.exitColor(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if isinstance( visitor, QLSVisitor ):
+                return visitor.visitColor(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def color(self):
+
+        localctx = QLSParser.ColorContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 36, self.RULE_color)
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 148
+            self.match(QLSParser.COLOR)
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

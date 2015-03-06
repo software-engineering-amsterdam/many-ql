@@ -9,3 +9,6 @@ class Identifier(str):
     @property
     def lineNumber(self):
         return self._lineNumber
+
+class Color(str):
+	pass

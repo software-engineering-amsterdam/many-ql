@@ -34,6 +34,8 @@ class AttributeVisitor(GenericVisitor):
     def _visitStr(self, node):
         pass
 
+    def _visitColor(self, node):
+        pass
 
 class FullVisitor(GenericVisitor):
     def _visitQls(self, node):
@@ -70,6 +72,9 @@ class FullVisitor(GenericVisitor):
         pass
 
     def _visitStr(self, node):
+        pass
+
+    def _visitColor(self, node):
         pass
 
 
