@@ -31,4 +31,11 @@ public class QLSQuestion extends Statement {
     public AbstractNode accept(QLSVisitor QLSVisitor) {
         return QLSVisitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "QLSQuestion{" +
+                "identifier=" + identifier +
+                '}';
+    }
 }

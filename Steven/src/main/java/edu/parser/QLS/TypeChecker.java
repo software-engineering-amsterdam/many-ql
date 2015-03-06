@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  */
 public class TypeChecker implements QLSVisitor {
     public static final String UNIDENTIFIED_STYLESHEET_QUESTION = "Stylesheet contains questions that are not contained in the form. Unknown question identifiers:";
+    public static final String FOUND_DUPLICATE_QUESTIONS = "Found duplicate question entries in QLS for: ";
     private final List<QLSQuestion> stylesheetQuestions;
     private final List<QLQuestion> formQuestions;
 
@@ -39,6 +40,21 @@ public class TypeChecker implements QLSVisitor {
         this.formQuestions.addAll(allFormQuestions);
         visit(stylesheet);
         confirmQuestionsExistInForm(formQuestions);
+        confirmNoDuplicateQuestions(stylesheetQuestions);
+    }
+
+    private void confirmNoDuplicateQuestions(List<QLSQuestion> stylesheetQuestions) {
+        List<QLSQuestion> duplicateQuestions = stylesheetQuestions.stream()
+                .filter(a -> stylesheetQuestions.stream()
+                        .filter(b -> a.getIdentifier().equals(b.getIdentifier())).count() > 1)
+                .collect(Collectors.toList());
+
+        if (!duplicateQuestions.isEmpty()) {
+            String duplicateQuestionsString = duplicateQuestions.stream()
+                    .map(QLSQuestion::toString)
+                    .collect(Collectors.joining(", "));
+            throw new TypeCheckException(FOUND_DUPLICATE_QUESTIONS + duplicateQuestionsString);
+        }
     }
 
     @Override
@@ -98,7 +114,7 @@ public class TypeChecker implements QLSVisitor {
         boolean isWidgetTypeCompatible = isWidgetTypeCompatible(stylesheetQuestion.getStyles(), supportedWidgets);
 
         if (!isWidgetTypeCompatible) {
-            throw new TypeCheckException("Widget type is not compatible");
+            throw new TypeCheckException("Widget type is not compatible for: " + stylesheetQuestion.getIdentifier());
         }
     }
 
@@ -130,6 +146,7 @@ public class TypeChecker implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Section section) {
+        visitStatements(section.getStatements());
         return section;
     }
 

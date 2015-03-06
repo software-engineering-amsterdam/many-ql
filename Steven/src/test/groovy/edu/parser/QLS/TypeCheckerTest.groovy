@@ -5,6 +5,7 @@ import edu.Widgets
 import edu.exceptions.TypeCheckException
 import edu.parser.AntlrParser
 import edu.parser.QL.QLAntlrParser
+import edu.parser.QL.QuestionRetriever
 import edu.parser.QL.nodes.Form
 import edu.parser.QL.nodes.expression.Identifier
 import edu.parser.QL.nodes.question.Label
@@ -102,16 +103,30 @@ class TypeCheckerTest extends Specification {
         noExceptionThrown()
     }
 
+    def "Should have collected all questions from QLS grammar"() {
+        setup:
+        Form form = qlParser.parse(Main.PATH_TO_QL_INPUT_FILES + "QL_valid", new edu.parser.QL.ParseTreeVisitor(), Form.class)
+        Stylesheet stylesheet = qlsParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_valid", new ParseTreeVisitor(), Stylesheet.class)
+        QuestionRetriever questionRetriever = new QuestionRetriever()
+        List<QLQuestion> questions = questionRetriever.retrieveQuestions(form)
+        when:
+        typeChecker.start(questions, stylesheet)
+
+        then:
+        Assert.assertEquals(4, typeChecker.stylesheetQuestions.size())
+    }
+
     def "should throw exception for duplicate questions"() {
         setup:
-
         Form form = qlParser.parse(Main.PATH_TO_QL_INPUT_FILES + "QL_valid", new edu.parser.QL.ParseTreeVisitor(), Form.class)
         Stylesheet stylesheet = qlsParser.parse(Main.PATH_TO_QLS_INPUT_FILES + "QLS_duplicateQuestions", new ParseTreeVisitor(), Stylesheet.class)
-
+        QuestionRetriever questionRetriever = new QuestionRetriever()
+        List<QLQuestion> questions = questionRetriever.retrieveQuestions(form)
         when:
-        typeChecker.start(form, stylesheet)
+        typeChecker.start(questions, stylesheet)
 
         then:
         def exception = thrown(TypeCheckException.class)
+        Assert.assertEquals(true, exception.message.contains(TypeChecker.FOUND_DUPLICATE_QUESTIONS))
     }
 }
