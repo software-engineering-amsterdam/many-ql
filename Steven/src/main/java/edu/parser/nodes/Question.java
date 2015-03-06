@@ -43,4 +43,8 @@ public class Question {//todo: evaluator should create this type of question not
         return enabled;
     }
 
+    @Override
+    public String toString() {
+        return "Question, identifier: " + identifier;
+    }
 }

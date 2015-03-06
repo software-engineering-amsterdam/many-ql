@@ -1,6 +1,8 @@
-package edu.parser.QLS;
+package edu.gui;
 
 import edu.exceptions.EvaluationException;
+import edu.parser.QLS.QLSVisitor;
+import edu.parser.QLS.QuestionRetriever;
 import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.nodes.Identifier;
 import edu.parser.QLS.nodes.Section;
@@ -20,25 +22,28 @@ import java.util.stream.Collectors;
 /**
  * Created by Steven Kok on 06/03/2015.
  */
-public class QLSEvaluator implements QLSVisitor {
+public class Renderer implements QLSVisitor {
     public static final String NOT_FOUND_QUESTIONS = "Not all questions are in the stylesheet.";
     private List<Question> questions;
     private final QuestionRetriever questionRetriever;
+    private final MainWindow mainWindow;
 
-    public QLSEvaluator() {
+    public Renderer() {
         questions = new ArrayList<>();
         questionRetriever = new QuestionRetriever();
+        mainWindow = new MainWindow();
     }
 
-    public Stylesheet evaluate(List<Question> questions, Stylesheet stylesheet) {
-        this.questions.clear();
+    public MainWindow evaluate(List<Question> questions, Stylesheet stylesheet) {
         this.questions = questions;
-        Stylesheet evaluatedStylesheet = (Stylesheet) visit(stylesheet);
-        confirmAllQuestionsAreInStylesheet(evaluatedStylesheet, questions);
-        return evaluatedStylesheet;
+
+        mainWindow.initialize();
+        mainWindow.addPage(questions);
+
+        return mainWindow;
     }
 
-    private void confirmAllQuestionsAreInStylesheet(Stylesheet evaluatedStylesheet, List<Question> questions) {
+    private void confirmAllQuestionsAreInStylesheet(Stylesheet evaluatedStylesheet, List<Question> questions) { // todo
         List<QLSQuestion> stylesheetQuestions = questionRetriever.retrieveQuestions(evaluatedStylesheet);
         if (stylesheetQuestions.size() != questions.size()) {
             throw new EvaluationException(NOT_FOUND_QUESTIONS);

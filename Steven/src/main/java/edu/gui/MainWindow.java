@@ -1,50 +1,41 @@
 package edu.gui;
 
 import edu.gui.components.Page;
-import edu.parser.QL.nodes.Form;
-import edu.parser.QL.nodes.question.QLQuestion;
-import edu.parser.QL.nodes.statement.Statement;
+import edu.parser.nodes.Question;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
  * Created by Steven Kok on 24/02/2015.
  */
 public class MainWindow extends JFrame {
+    private final JPanel mainPanel;
+    private int pages = 0;
 
-    public void initialize(Form form) { //todo should not receive form, rather a list of Questions
-        JPanel mainPanel = new JPanel();
+    public MainWindow() {
+        mainPanel = new JPanel();
+    }
 
-        List<QLQuestion> questions = getQuestions(form.getElements());
-        Page page = new Page(questions);
-        Page page2 = new Page(questions.subList(0, 1));
-
+    public void initialize() {
         CardLayout cardLayout = new CardLayout(10, 10);
         mainPanel.setLayout(cardLayout);
-
         add(mainPanel);
-        mainPanel.add(page, "1");
-        mainPanel.add(page2, "2");
+    }
 
+    public void showMainWindow() {
         setTitle("Main window");
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-
         setVisible(true);
-
     }
 
-    private List<QLQuestion> getQuestions(List<Statement> elements) {
-        return elements
-                .stream()
-                .filter(statement -> statement instanceof QLQuestion)
-                .map(question -> (QLQuestion) question)
-                .collect(Collectors.toList());
+    public void addPage(List<Question> questions) {
+        Page page = new Page(questions);
+        mainPanel.add(page, String.valueOf(++pages));
     }
+
 }

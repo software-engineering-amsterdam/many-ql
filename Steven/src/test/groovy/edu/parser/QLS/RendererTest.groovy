@@ -1,6 +1,7 @@
 package edu.parser.QLS
 
 import edu.exceptions.EvaluationException
+import edu.gui.Renderer
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
 import edu.parser.QLS.nodes.statement.Statement
@@ -14,12 +15,12 @@ import spock.lang.Specification
 /**
  * Created by Steven Kok on 06/03/2015.
  */
-class QLSEvaluatorTest extends Specification {
+class RendererTest extends Specification {
 
     QLSVisitor evaluator
 
     def setup() {
-        evaluator = new QLSEvaluator()
+        evaluator = new Renderer()
     }
 
     def "Should throw exception when not all questions are placed in stylesheet"() {
@@ -37,7 +38,7 @@ class QLSEvaluatorTest extends Specification {
 
         then:
         def exception = thrown(EvaluationException.class)
-        Assert.assertEquals(true, exception.message.contains(QLSEvaluator.NOT_FOUND_QUESTIONS))
+        Assert.assertEquals(true, exception.message.contains(Renderer.NOT_FOUND_QUESTIONS))
     }
 
     private Question createQuestion(String identifier) {

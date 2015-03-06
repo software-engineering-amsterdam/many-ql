@@ -2,7 +2,7 @@ package edu.gui.components;
 
 import edu.exceptions.GuiException;
 import edu.gui.QuestionTypeGui;
-import edu.parser.QL.nodes.question.QLQuestion;
+import edu.parser.nodes.Question;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class QuestionsPanel extends JPanel {
 
     private final GridBagConstraints gbc;
 
-    public QuestionsPanel(List<QLQuestion> questions) {
+    public QuestionsPanel(List<Question> questions) {
         gbc = new GridBagConstraints();
         initializeGridBagLayout();
         addQuestionsToGridBagLayout(questions);
@@ -28,12 +28,12 @@ public class QuestionsPanel extends JPanel {
         gbc.insets = new Insets(2, 2, 2, 2);
     }
 
-    private void addQuestionsToGridBagLayout(List<QLQuestion> questions) {
+    private void addQuestionsToGridBagLayout(List<Question> questions) {
         questions.stream()
                 .forEachOrdered(this::addQuestionToGridBagLayout);
     }
 
-    private void addQuestionToGridBagLayout(QLQuestion question) {
+    private void addQuestionToGridBagLayout(Question question) {
         gbc.gridx = 0;
         addLabel(question);
         gbc.gridx++;
@@ -42,12 +42,12 @@ public class QuestionsPanel extends JPanel {
         gbc.gridy++;
     }
 
-    private void addLabel(QLQuestion question) {
+    private void addLabel(Question question) {
         String label = question.getLabel().getLabel();
         add(new JLabel(label), gbc);
     }
 
-    private void addInputField(QLQuestion question) {
+    private void addInputField(Question question) {
         try {
             add(QuestionTypeGui.getComponent(question.getQuestionType()), gbc);
         } catch (IllegalAccessException | InstantiationException e) {

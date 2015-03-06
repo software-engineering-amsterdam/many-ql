@@ -14,4 +14,9 @@ public class Identifier {
     public String getIdentifier() {
         return identifier;
     }
+
+    @Override
+    public String toString() {
+        return identifier;
+    }
 }
