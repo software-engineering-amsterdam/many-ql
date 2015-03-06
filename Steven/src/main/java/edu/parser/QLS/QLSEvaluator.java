@@ -59,7 +59,15 @@ public class QLSEvaluator implements QLSVisitor {
 
     @Override
     public AbstractNode visit(Page page) {
-        return null;
+        List<Section> sections = collectSections(page);
+        return new Page(sections);
+    }
+
+    private List<Section> collectSections(Page page) {
+        return page.getSections()
+                .stream()
+                .map(section -> (Section) section.accept(this))
+                .collect(Collectors.toList());
     }
 
     @Override
