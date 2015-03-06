@@ -113,6 +113,5 @@ class TypeCheckerTest extends Specification {
 
         then:
         def exception = thrown(TypeCheckException.class)
-        true
     }
 }
