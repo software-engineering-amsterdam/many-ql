@@ -2,7 +2,6 @@ package edu.parser.QLS;
 
 import edu.Widgets;
 import edu.exceptions.TypeCheckException;
-import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.nodes.Identifier;
 import edu.parser.QLS.nodes.Section;
@@ -11,9 +10,10 @@ import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.statement.Statement;
+import edu.parser.nodes.Question;
+import edu.parser.nodes.QuestionType;
 import edu.parser.nodes.styles.Style;
 import edu.parser.nodes.styles.Widget;
-import edu.parser.nodes.QuestionType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +27,24 @@ public class TypeChecker implements QLSVisitor {
     public static final String UNIDENTIFIED_STYLESHEET_QUESTION = "Stylesheet contains questions that are not contained in the form. Unknown question identifiers:";
     public static final String FOUND_DUPLICATE_QUESTIONS = "Found duplicate question entries in QLS for: ";
     private final List<QLSQuestion> stylesheetQuestions;
-    private final List<QLQuestion> formQuestions;
+    private final List<Question> allQuestions;
 
     public TypeChecker() {
         this.stylesheetQuestions = new ArrayList<>();
-        this.formQuestions = new ArrayList<>();
+        this.allQuestions = new ArrayList<>();
     }
 
-    public void start(List<QLQuestion> allFormQuestions, Stylesheet stylesheet) {
+    public void start(List<Question> allQuestions, Stylesheet stylesheet) {
         initializeLists();
-        this.formQuestions.addAll(allFormQuestions);
+        this.allQuestions.addAll(allQuestions);
         visit(stylesheet);
-        confirmQuestionsExistInForm(formQuestions);
+        confirmQuestionsExistInForm(this.allQuestions);
         confirmNoDuplicateQuestions(stylesheetQuestions);
     }
 
     private void initializeLists() {
         this.stylesheetQuestions.clear();
-        this.formQuestions.clear();
+        this.allQuestions.clear();
     }
 
     private void confirmNoDuplicateQuestions(List<QLSQuestion> stylesheetQuestions) {
@@ -79,10 +79,10 @@ public class TypeChecker implements QLSVisitor {
                 .forEach(element -> element.accept(this));
     }
 
-    private void confirmQuestionsExistInForm(List<QLQuestion> formQuestions) {
+    private void confirmQuestionsExistInForm(List<Question> questions) {
         List<QLSQuestion> notFoundQuestions = stylesheetQuestions.stream()
                 .filter(stylesheetQuestion ->
-                        formQuestions.stream()
+                        questions.stream()
                                 .noneMatch(doesFormQuestionsContainStylesheetQuestion(stylesheetQuestion)))
                 .collect(Collectors.toList());
 
@@ -92,16 +92,16 @@ public class TypeChecker implements QLSVisitor {
         }
     }
 
+    private Predicate<Question> doesFormQuestionsContainStylesheetQuestion(QLSQuestion stylesheetQuestion) {
+        return question -> stylesheetQuestion.getIdentifier().getIdentifier()
+                .equals(question.getIdentifier().getIdentifier());
+    }
+
     private String listToString(List<QLSQuestion> list) {
         return list
                 .stream()
                 .map(element -> element.getIdentifier().getIdentifier())
                 .collect(Collectors.joining(", "));
-    }
-
-    private Predicate<QLQuestion> doesFormQuestionsContainStylesheetQuestion(QLSQuestion stylesheetQuestion) {
-        return formQuestion -> stylesheetQuestion.getIdentifier().getIdentifier()
-                .equals(formQuestion.getIdentifier().getIdentifier());
     }
 
     @Override
@@ -120,7 +120,7 @@ public class TypeChecker implements QLSVisitor {
     }
 
     private void confirmQuestionHasCompatibleType(QLSQuestion stylesheetQuestion) {
-        QLQuestion formQuestion = getFormQuestion(stylesheetQuestion.getIdentifier().getIdentifier());
+        Question formQuestion = getFormQuestion(stylesheetQuestion.getIdentifier().getIdentifier());
         List<Widgets> supportedWidgets = formQuestion.getQuestionType().getWidgets();
         boolean isWidgetTypeCompatible = isWidgetTypeCompatible(stylesheetQuestion.getStyles(), supportedWidgets);
 
@@ -129,8 +129,8 @@ public class TypeChecker implements QLSVisitor {
         }
     }
 
-    private QLQuestion getFormQuestion(String identifier) {
-        List<QLQuestion> questionList = this.formQuestions.stream()
+    private Question getFormQuestion(String identifier) {
+        List<Question> questionList = this.allQuestions.stream()
                 .filter(formQuestion -> formQuestion.getIdentifier().getIdentifier().equals(identifier))
                 .collect(Collectors.toList());
 

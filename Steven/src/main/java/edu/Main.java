@@ -7,10 +7,12 @@ import edu.parser.QL.QLAntlrParser;
 import edu.parser.QL.ParseTreeVisitor;
 import edu.parser.QL.TypeChecker;
 import edu.parser.QL.nodes.Form;
+import edu.parser.nodes.Question;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * Created by Steven Kok on 24/02/2015.
@@ -28,9 +30,12 @@ public class Main {
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form);
         Evaluator evaluator = new Evaluator();
-        Form evaluatedForm = (Form) evaluator.evaluate(form);
+        List<Question> evaluatedQuestions = evaluator.evaluate(form);
 
-        SwingUtilities.invokeLater(() -> mainWindow.initialize(evaluatedForm));
+
+
+
+        SwingUtilities.invokeLater(() -> mainWindow.initialize(null));
 
     }
 }

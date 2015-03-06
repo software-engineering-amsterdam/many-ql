@@ -9,7 +9,6 @@ import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
-import edu.parser.nodes.Label;
 import edu.parser.nodes.Question;
 
 import java.util.ArrayList;
@@ -71,7 +70,6 @@ public class Evaluator extends QLVisitorImpl {
         Boolean right = (Boolean) and.getRight().accept(this);
         return new Boolean(left.isTrue() && right.isTrue());
     }
-
 
     @Override
     public AbstractNode visit(Equal equal) {
@@ -178,13 +176,6 @@ public class Evaluator extends QLVisitorImpl {
         evaluatedQuestions.add(createQuestion(question));
         return super.visit(question);
     }
-
-    private Question createQuestion(QLQuestion qlQuestion) {
-        edu.parser.nodes.Identifier identifier = new edu.parser.nodes.Identifier(qlQuestion.getIdentifier().getIdentifier());
-        Label label = new Label(qlQuestion.getLabel().getLabel());
-        return new Question(identifier, qlQuestion.getQuestionType(), label, qlQuestion.isEnabled(), Collections.emptyList());
-    }
-
 
     @Override
     public AbstractNode visit(Division division) {

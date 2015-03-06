@@ -5,6 +5,7 @@ import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
+import edu.parser.nodes.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.List;
  */
 public class QuestionRetriever extends QLVisitorImpl {
 
-    private final List<QLQuestion> allQuestions = new ArrayList<>();
+    private final List<Question> allQuestions = new ArrayList<>();
 
-    public List<QLQuestion> retrieveQuestions(Form form) {
+    public List<Question> retrieveQuestions(Form form) {
         allQuestions.clear();
         visit(form);
         return allQuestions;
@@ -46,7 +47,7 @@ public class QuestionRetriever extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(QLQuestion question) {
-        allQuestions.add(question);
+        allQuestions.add(createQuestion(question));
         return question;
     }
 }

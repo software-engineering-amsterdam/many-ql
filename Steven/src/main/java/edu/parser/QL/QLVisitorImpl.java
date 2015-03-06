@@ -5,6 +5,7 @@ import edu.parser.QL.nodes.expression.*;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QL.nodes.statement.Statement;
+import edu.parser.nodes.Question;
 import edu.parser.nodes.QuestionType;
 
 import java.util.Collections;
@@ -23,6 +24,12 @@ public abstract class QLVisitorImpl implements QLVisitor {
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
+    }
+
+    protected Question createQuestion(QLQuestion qlQuestion) {
+        edu.parser.nodes.Identifier identifier = new edu.parser.nodes.Identifier(qlQuestion.getIdentifier().getIdentifier());
+        edu.parser.nodes.Label label = new edu.parser.nodes.Label(qlQuestion.getLabel().getLabel());
+        return new Question(identifier, qlQuestion.getQuestionType(), label, qlQuestion.isEnabled(), Collections.emptyList());
     }
 
     @Override
