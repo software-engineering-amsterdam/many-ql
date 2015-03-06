@@ -9,6 +9,8 @@ import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
+import edu.parser.nodes.Label;
+import edu.parser.nodes.Question;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,19 +22,19 @@ import java.util.stream.Collectors;
  * Created by Steven Kok on 23/02/2015.
  */
 public class Evaluator extends QLVisitorImpl {
-    private final List<QLQuestion> questions = new ArrayList<>();
+    private final List<Question> evaluatedQuestions = new ArrayList<>();
     private List<QLQuestion> updatedQuestions = new ArrayList<>();
 
-    public List<QLQuestion> evaluate(Form form) {
+    public List<Question> evaluate(Form form) {
         return evaluate(form, Collections.emptyList());
     }
 
-    public List<QLQuestion> evaluate(Form form, List<QLQuestion> updatedQuestions) {
-        this.questions.clear();
+    public List<Question> evaluate(Form form, List<QLQuestion> updatedQuestions) {
+        this.evaluatedQuestions.clear();
         this.updatedQuestions.clear();
         this.updatedQuestions = updatedQuestions;
         visit(form);
-        return questions;
+        return evaluatedQuestions;
     }
 
     @Override
@@ -94,7 +96,7 @@ public class Evaluator extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(Identifier identifier) {
-        Optional<QLQuestion> foundQuestion = getQuestion(identifier);
+        Optional<Question> foundQuestion = getQuestion(identifier);
         if (foundQuestion.isPresent()) {
             return new Boolean(isQuestionEnabled(foundQuestion.get()));
         } else {
@@ -102,7 +104,7 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private boolean isQuestionEnabled(QLQuestion foundQuestion) {
+    private boolean isQuestionEnabled(Question foundQuestion) {
         Optional<QLQuestion> updatedQuestion = getUpdatedQuestion(foundQuestion);
         if (updatedQuestion.isPresent()) {
             return updatedQuestion.get().isEnabled();
@@ -111,9 +113,9 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private Optional<QLQuestion> getUpdatedQuestion(QLQuestion foundQuestion) {
+    private Optional<QLQuestion> getUpdatedQuestion(Question foundQuestion) {
         List<QLQuestion> updatedQuestions = this.updatedQuestions.stream()
-                .filter(question -> question.getIdentifier().equals(foundQuestion.getIdentifier()))
+                .filter(question -> question.getIdentifier().getIdentifier().equals(foundQuestion.getIdentifier().getIdentifier()))
                 .collect(Collectors.toList());
         if (updatedQuestions.size() > 1) {
             throw new EvaluationException("Updated question list contains duplicates.");
@@ -124,10 +126,10 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private Optional<QLQuestion> getQuestion(Identifier identifier) {
-        return questions
+    private Optional<Question> getQuestion(Identifier identifier) {
+        return evaluatedQuestions
                 .stream()
-                .filter(q -> q.getIdentifier().equals(identifier))
+                .filter(q -> q.getIdentifier().getIdentifier().equals(identifier.getIdentifier()))
                 .findFirst();
     }
 
@@ -173,9 +175,16 @@ public class Evaluator extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(QLQuestion question) {
-        questions.add(question);
+        evaluatedQuestions.add(createQuestion(question));
         return super.visit(question);
     }
+
+    private Question createQuestion(QLQuestion qlQuestion) {
+        edu.parser.nodes.Identifier identifier = new edu.parser.nodes.Identifier(qlQuestion.getIdentifier().getIdentifier());
+        Label label = new Label(qlQuestion.getLabel().getLabel());
+        return new Question(identifier, qlQuestion.getQuestionType(), label, qlQuestion.isEnabled(), Collections.emptyList());
+    }
+
 
     @Override
     public AbstractNode visit(Division division) {

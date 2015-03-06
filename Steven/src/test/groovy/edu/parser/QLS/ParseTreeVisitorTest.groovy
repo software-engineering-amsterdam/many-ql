@@ -6,8 +6,8 @@ import edu.parser.AntlrParser
 import edu.parser.QLS.nodes.statement.Page
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
-import edu.parser.QLS.nodes.styles.Widget
-import edu.parser.QLS.nodes.styles.Width
+import edu.parser.nodes.styles.Widget
+import edu.parser.nodes.styles.Width
 import junit.framework.Assert
 import spock.lang.Specification
 

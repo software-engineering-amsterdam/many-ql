@@ -1,4 +1,4 @@
-package edu.parser.QLS.nodes.styles;
+package edu.parser.nodes.styles;
 
 import edu.Widgets;
 

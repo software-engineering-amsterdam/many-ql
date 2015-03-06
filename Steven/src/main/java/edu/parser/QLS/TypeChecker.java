@@ -11,8 +11,8 @@ import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.statement.Statement;
-import edu.parser.QLS.nodes.styles.Style;
-import edu.parser.QLS.nodes.styles.Widget;
+import edu.parser.nodes.styles.Style;
+import edu.parser.nodes.styles.Widget;
 import edu.parser.nodes.QuestionType;
 
 import java.util.ArrayList;

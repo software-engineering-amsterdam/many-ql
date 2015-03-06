@@ -1,4 +1,4 @@
-package edu.parser.QLS.nodes.styles;
+package edu.parser.nodes.styles;
 
 /**
  * Created by Steven Kok on 28/02/2015.

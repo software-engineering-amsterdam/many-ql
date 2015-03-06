@@ -13,7 +13,7 @@ import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.statement.Statement;
-import edu.parser.QLS.nodes.styles.*;
+import edu.parser.nodes.styles.*;
 import edu.parser.nodes.QuestionType;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.misc.NotNull;

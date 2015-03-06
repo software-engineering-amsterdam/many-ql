@@ -12,9 +12,9 @@ import edu.parser.QL.nodes.question.Label
 import edu.parser.QL.nodes.question.QLQuestion
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
-import edu.parser.QLS.nodes.styles.Style
-import edu.parser.QLS.nodes.styles.Widget
-import edu.parser.QLS.nodes.styles.Width
+import edu.parser.nodes.styles.Style
+import edu.parser.nodes.styles.Widget
+import edu.parser.nodes.styles.Width
 import edu.parser.nodes.QuestionType
 import junit.framework.Assert
 import spock.lang.Specification

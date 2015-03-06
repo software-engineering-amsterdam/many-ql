@@ -9,6 +9,7 @@ import edu.parser.QL.nodes.statement.IfStatement
 import edu.parser.QL.nodes.statement.Statement
 import edu.parser.QL.nodes.type.Boolean
 import edu.parser.QL.nodes.type.Number
+import edu.parser.nodes.Question
 import edu.parser.nodes.QuestionType
 import junit.framework.Assert
 import spock.lang.Specification
@@ -36,11 +37,11 @@ class EvaluatorTest extends Specification {
         statements.add(inputQuestion)
         Form inputForm = new Form(statements);
 
-        List<QLQuestion> returnedQuestions = evaluator.evaluate(inputForm)
-        QLQuestion firstElement = returnedQuestions.get(0)
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
+        Question firstElement = returnedQuestions.get(0)
 
         then:
-        Assert.assertEquals(inputQuestion, firstElement)
+        Assert.assertEquals(inputQuestion.identifier.identifier, firstElement.identifier.identifier)
         Assert.assertEquals(1, returnedQuestions.size())
 
     }
@@ -60,14 +61,14 @@ class EvaluatorTest extends Specification {
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
 
-        List<QLQuestion> returnedQuestions = evaluator.evaluate(inputForm)
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
 
         then:
         Assert.assertEquals("List should contain only two elements", 2, returnedQuestions.size())
-        QLQuestion outputUnconditionalQuestion = returnedQuestions.get(0);
-        QLQuestion outputConditionalQuestion = returnedQuestions.get(1);
-        Assert.assertEquals(inputUnconditionalQuestion, outputUnconditionalQuestion)
-        Assert.assertEquals(inputConditionalQuestion, outputConditionalQuestion)
+        Question outputUnconditionalQuestion = returnedQuestions.get(0);
+        Question outputConditionalQuestion = returnedQuestions.get(1);
+        Assert.assertEquals(inputUnconditionalQuestion.identifier.identifier, outputUnconditionalQuestion.identifier.identifier)
+        Assert.assertEquals(inputConditionalQuestion.identifier.identifier, outputConditionalQuestion.identifier.identifier)
 
         where:
         expression                                                                 | _
@@ -104,12 +105,12 @@ class EvaluatorTest extends Specification {
         formStatements.add(ifStatement)
         Form inputForm = new Form(formStatements);
 
-        List<QLQuestion> returnedQuestions = evaluator.evaluate(inputForm)
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
 
         then:
         Assert.assertEquals(1, returnedQuestions.size())
-        QLQuestion outputUnconditionalQuestion = returnedQuestions.get(0);
-        Assert.assertEquals(inputUnconditionalQuestion, outputUnconditionalQuestion)
+        Question outputUnconditionalQuestion = returnedQuestions.get(0);
+        Assert.assertEquals(inputUnconditionalQuestion.identifier.identifier, outputUnconditionalQuestion.identifier.identifier)
 
         where:
         expression                                                                 | _
@@ -150,14 +151,14 @@ class EvaluatorTest extends Specification {
         Form inputForm = new Form(formStatements);
 
         when:
-        List<QLQuestion> returnedQuestions = evaluator.evaluate(inputForm)
+        List<Question> returnedQuestions = evaluator.evaluate(inputForm)
 
         then:
         Assert.assertEquals(2, returnedQuestions.size())
-        QLQuestion outputUnconditionalQuestion = (QLQuestion) returnedQuestions.get(0)
-        QLQuestion outputElseClauseQuestion = (QLQuestion) returnedQuestions.get(1)
-        Assert.assertEquals(inputUnconditionalQuestion, outputUnconditionalQuestion)
-        Assert.assertEquals(inputElseClauseQuestion, outputElseClauseQuestion)
+        Question outputUnconditionalQuestion = returnedQuestions.get(0)
+        Question outputElseClauseQuestion = returnedQuestions.get(1)
+        Assert.assertEquals(inputUnconditionalQuestion.identifier.identifier, outputUnconditionalQuestion.identifier.identifier)
+        Assert.assertEquals(inputElseClauseQuestion.identifier.identifier, outputElseClauseQuestion.identifier.identifier)
     }
 
     def "Should show question when if-statement evaluates to 'true' the second time"() {
@@ -174,21 +175,21 @@ class EvaluatorTest extends Specification {
         def form = new Form(formStatements)
 
         when:
-        List<QLQuestion> initialEvaluationReturnedQuestions = evaluator.evaluate(form)
+        List<Question> initialEvaluationReturnedQuestions = evaluator.evaluate(form)
         Assert.assertEquals(1, initialEvaluationReturnedQuestions.size())
-        QLQuestion initialReturnedQuestion = initialEvaluationReturnedQuestions.get(0)
+        Question initialReturnedQuestion = initialEvaluationReturnedQuestions.get(0)
         Assert.assertEquals(identifierUnconditionalQuestion, initialReturnedQuestion.getIdentifier().identifier)
 
         then:
         List<QLQuestion> updatedQuestions = new ArrayList<>()
         updatedQuestions.add(createQuestion(identifierUnconditionalQuestion, true))
-        List<QLQuestion> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
+        List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
         Assert.assertEquals(2, evaluationReturnedUpdatedQuestions.size())
 
         // disable question again
         List<QLQuestion> updatedQuestionsDisabled = new ArrayList<>()
         updatedQuestionsDisabled.add(createQuestion(identifierUnconditionalQuestion, false))
-        List<QLQuestion> evaluationReturnedUpdatedQuestionsDisabled = evaluator.evaluate(form, updatedQuestions)
+        List<Question> evaluationReturnedUpdatedQuestionsDisabled = evaluator.evaluate(form, updatedQuestions)
         Assert.assertEquals(1, evaluationReturnedUpdatedQuestionsDisabled.size())
 
     }
