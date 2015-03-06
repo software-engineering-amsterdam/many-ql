@@ -29,12 +29,15 @@ class ExpressionValidator:
 
             # comp_expr :: bool (comp_operator bool)*
             comp_expr = b + ZeroOrMore((compare | extra) + b)
+            comp_expr_advanced = Literal("(") + comp_expr + Literal(")") | comp_expr
 
-            # condition :: calc_expr comp_operator | comp_expr
+            # _condition :: calc_expr comp_operator | comp_expr
             condition = Forward()
-            condition << (calc_expr + compare + calc_expr | comp_expr | text_expr) + ZeroOrMore(extra + condition)
+            condition << \
+                (calc_expr + compare + calc_expr | \
+                 comp_expr_advanced | text_expr) + ZeroOrMore(extra + condition)
 
-            # final_condition :: condition (full input used)
+            # final_condition :: _condition (full input used)
             final_condition = condition + stringEnd()
 
             final_condition.parseString(expression).asList()

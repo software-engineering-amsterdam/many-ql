@@ -1,7 +1,8 @@
-from QL.AST.Elements.element import *
+import QL.AST.Elements.element as e
 import QL.Grammar.constants as constants
 
-class Number(Element):
+
+class Number(e.Element):
     def __init__(self, number):
         self.number = number
 

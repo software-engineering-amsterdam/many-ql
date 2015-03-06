@@ -36,7 +36,7 @@ class QuestionnaireGUI:
         if elements is None:
             return False
 
-        # check if condition holds
+        # check if _condition holds
         condition = statement.get_parent_condition()
         c_results = True
         if condition is not None:
@@ -62,7 +62,7 @@ class QuestionnaireGUI:
     def elements_recreate(self, qid):
         statements_dict = self.form.get_statement_dict()
         if qid not in statements_dict:
-            raise tk.QException("Fatal Error: no such condition id " + qid)
+            raise tk.QException("Fatal Error: no such _condition id " + qid)
         statement = statements_dict[qid]
         elements = statement.get_element()
         if elements is None:

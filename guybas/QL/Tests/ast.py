@@ -101,7 +101,7 @@ class TestAST(unittest.TestCase):
         self.assertEqual(result[0].label_collection(), ["Will transitive closure work ?", "This is a second q ."])
 
         # Get the dependencies
-        self.assertEqual(result[0].dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
+        self.assertEqual(result[0].get_dependency_collection({}), {"trans" : ["con"], "two" : ["con"]})
 
     @unittest.expectedFailure
     def test_if_question_fail(self):
@@ -126,13 +126,13 @@ class TestAST(unittest.TestCase):
         # The form has 6 questions, and therefore 6 ids
         self.assertEqual(len(form.get_ids()), 6)
 
-        # The form has 2 conditional statements and thus 2 expressions
+        # The form has 2 conditional _statements and thus 2 expressions
         self.assertEqual(len(form.get_expressions()), 2)
 
     def test_dependencies(self):
         form = GenerateStatements.generate_statements()
 
-        # The transitive dependencies of statements
+        # The transitive dependencies of _statements
         self.assertEqual(form.get_dependencies(),
                          {"1a": set(),
                           "2a": {"1a"},
