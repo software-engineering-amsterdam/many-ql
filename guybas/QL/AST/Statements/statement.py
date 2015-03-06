@@ -24,7 +24,7 @@ class IStatement:
         raise NotImplementedError("Not implemented by sub class")
 
     # return all the dependencies in the statement of other _statements
-    def dependency_collection(self, dependencies):
+    def get_dependency_collection(self, dependencies):
         raise NotImplementedError("Not implemented by sub class")
 
     # return all sub (expressions)
@@ -47,7 +47,7 @@ class IStatement:
         raise NotImplementedError("Not implemented by sub class")
 
     # return a dictionary of the ids as keys and types as value in the statement
-    def id_type_collection(self):
+    def get_id_type_collection(self):
         raise NotImplementedError("Not implemented by sub class")
 
     # Get the order of elements in the statement

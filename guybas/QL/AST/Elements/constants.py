@@ -1,4 +1,6 @@
 import QL.Grammar.constants as more_constants
+
+
 class ElementsConstants:
     OPERATOR = "operator"
     CALC_OP = "calc_operator"

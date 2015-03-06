@@ -1,5 +1,8 @@
+import QL.AST.Elements.element as e
+
+
 # Expression interface
-class Expression:
+class Expression(e.Element):
     def __init__(self):
         raise NotImplementedError("Not implemented by sub class")
 

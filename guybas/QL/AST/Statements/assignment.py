@@ -34,7 +34,7 @@ class Assignment(statement.IStatement):
         return False
 
     # return all the dependencies in the statement of other _statements
-    def dependency_collection(self, dependencies):
+    def get_dependency_collection(self, dependencies):
         if self.id not in dependencies:
             dependencies[self.id] = []
         return dependencies
@@ -67,7 +67,7 @@ class Assignment(statement.IStatement):
         ...
 
     # Override
-    def id_type_collection(self):
+    def get_id_type_collection(self):
         return {self.id: self.type}
 
     # Override

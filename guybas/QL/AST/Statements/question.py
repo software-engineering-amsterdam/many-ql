@@ -3,6 +3,7 @@ import QL.AST.Statements.statement as statement
 import QL.Main.gui as g
 import QL.Grammar.constants as constants
 
+
 class Question(statement.IStatement):
 
     # Override
@@ -15,7 +16,6 @@ class Question(statement.IStatement):
         self.order = None
         self.element = None
         self.parentCondition = None
-        # self.set_element()
 
     # Override
     def pretty_print(self, level=0):
@@ -40,7 +40,7 @@ class Question(statement.IStatement):
         return False
 
     # Override
-    def dependency_collection(self, dependencies):
+    def get_dependency_collection(self, dependencies):
         if self.id not in dependencies:
             dependencies[self.id] = []
         return dependencies
@@ -66,6 +66,7 @@ class Question(statement.IStatement):
             print("Warning: order set more than once")
         return self.order + 1
 
+    # set gui _element
     def set_element(self, gui):
         if self.get_type() is constants.GrammarConstants.BOOL:
             self.element = g.QuestionnaireGUI.e_radio(self, gui)
@@ -80,7 +81,7 @@ class Question(statement.IStatement):
         self.parentCondition = condition
 
     # Override
-    def id_type_collection(self):
+    def get_id_type_collection(self):
         return {self.id: self.type}
 
     # Override

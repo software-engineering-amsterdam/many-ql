@@ -1,7 +1,8 @@
-from QL.AST.Elements.element import *
+import QL.AST.Elements.element as e
 import QL.Grammar.constants as constants
 
-class Bool(Element):
+
+class Bool(e.Element):
     def __init__(self, pbool):
         self.bool = pbool
 

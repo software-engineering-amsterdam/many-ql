@@ -6,7 +6,7 @@ import QL.Factory.expressions as e
 
 class Expressions:
 
-    # id :: characters
+    # id :: [1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
     id = pp.Word("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")
 
     # bool :: True | False
@@ -19,19 +19,22 @@ class Expressions:
     number = pp.Word(pp.nums)
 
     # value :: bool | number | id
-    value = \
-        bool.setParseAction(e.ExpressionFactory.make_bool) | \
-        number.setParseAction(e.ExpressionFactory.make_number) | \
-        id.setParseAction(e.ExpressionFactory.make_variable) | \
-        text.setParseAction(e.ExpressionFactory.make_text)
+    value = (bool.setParseAction(e.ExpressionFactory.make_bool) |
+             number.setParseAction(e.ExpressionFactory.make_number) |
+             id.setParseAction(e.ExpressionFactory.make_variable) |
+             text.setParseAction(e.ExpressionFactory.make_text))
 
-    # operators   :: + | - | / | * | > | >= | < | <= | == | && | || | !
-    operator = \
-        pp.oneOf('+ - / *').setParseAction(e.ExpressionFactory.make_calc_operator) | \
-        pp.oneOf(" > >= < <= == ").setParseAction(e.ExpressionFactory.make_comp_operator) | \
-        pp.oneOf("and or not").setParseAction(e.ExpressionFactory.make_extra_operator)
+    # calc_operator :: + | - | / | *
+    calc_operator = pp.oneOf('+ - / *').setParseAction(e.ExpressionFactory.make_calc_operator)
 
-    operator_name = 'operator'
+    # comp_operator :: > | >= | < | <= | ==
+    comp_operator = pp.oneOf(" > >= < <= == ").setParseAction(e.ExpressionFactory.make_comp_operator)
+
+    # extra_operator :: and | or | not
+    extra_operator = pp.oneOf("and or not").setParseAction(e.ExpressionFactory.make_extra_operator)
+
+    # operator :: calc_operator | comp_operator | extra_operator
+    operator = calc_operator | comp_operator | extra_operator
 
     expr = pp.Forward()
 
