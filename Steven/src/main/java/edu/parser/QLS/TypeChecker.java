@@ -2,7 +2,6 @@ package edu.parser.QLS;
 
 import edu.Widgets;
 import edu.exceptions.TypeCheckException;
-import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.nodes.Identifier;
@@ -34,21 +33,12 @@ public class TypeChecker implements QLSVisitor {
         this.formQuestions = new ArrayList<>();
     }
 
-
-
-    //todo: should accept list with (form-) Questions not a form
-    public void start(Form form, Stylesheet stylesheet) {
-        this.formQuestions.addAll(getQuestions(form));
+    public void start(List<QLQuestion> allFormQuestions, Stylesheet stylesheet) {
+        this.stylesheetQuestions.clear();
+        this.formQuestions.clear();
+        this.formQuestions.addAll(allFormQuestions);
         visit(stylesheet);
         confirmQuestionsExistInForm(formQuestions);
-    }
-
-    private List<QLQuestion> getQuestions(Form form) { //todo: can be removed when start() does not receive form anymore
-        return form.getElements()
-                .stream()
-                .filter(element -> element instanceof QLQuestion)
-                .map(statement -> (QLQuestion) statement)
-                .collect(Collectors.toList());
     }
 
     @Override
