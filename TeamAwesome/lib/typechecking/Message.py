@@ -1,5 +1,3 @@
-from ..ast import Nodes
-
 class Message:
     def __init__(self, message, nodeOrLine = None):
         self._message = message
@@ -19,9 +17,11 @@ class Message:
         else:
             return 'line '+str(self.line)+': '+self.message
 
+
 class Warning(Message):
     def __str__(self):
         return '[WARNING] '+super().__str__()
+
 
 class Error(Message):
     def __str__(self):

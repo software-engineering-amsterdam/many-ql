@@ -4,7 +4,7 @@ from . import \
     DuplicateQuestionLabels,\
     QuestionRedefinitions
 
-from . import Result
+from typechecking import Result
 
 def check(ast, resultAlg = Result.DefaultResult()):
     modules = [

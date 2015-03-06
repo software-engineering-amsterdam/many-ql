@@ -1,13 +1,9 @@
-from . import Message
-from patterns.Visitor import Visitor as GenericVisitor
-
-
 # Why the vague name? We're not sure that in the future we want
 # the type checker to be able to return more than simply a list
 # of messages. Maybe something the evaluator can use.
 # It's the Result Object pattern.
 
-# It's also an algebraic data type :)
+# It's also an object algebra! :)
 class ResultAlg:
     def empty(self):
         pass

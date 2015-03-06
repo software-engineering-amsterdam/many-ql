@@ -1,4 +1,6 @@
-from . import Checker, Message
+from typechecking import Message
+
+from . import Checker
 from .Identifier import typeOfIdentifier
 from .Cast import effectiveTypes
 
