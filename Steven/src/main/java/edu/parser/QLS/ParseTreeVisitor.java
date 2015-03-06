@@ -11,7 +11,7 @@ import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
-import edu.parser.QLS.nodes.statement.Question;
+import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.statement.Statement;
 import edu.parser.QLS.nodes.styles.*;
 import edu.parser.nodes.QuestionType;
@@ -134,7 +134,7 @@ public class ParseTreeVisitor extends QLSBaseVisitor<AbstractNode> {
     public AbstractNode visitQuestion(@NotNull QLSParser.QuestionContext ctx) {
         Identifier identifier = (Identifier) visitIdentifier(ctx.identifier());
         List<Style> styles = collectStyles(ctx.style());
-        return new Question(identifier, styles);
+        return new QLSQuestion(identifier, styles);
     }
 
     private List<Style> collectStyles(List<QLSParser.StyleContext> elements) {

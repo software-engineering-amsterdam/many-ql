@@ -10,11 +10,11 @@ import java.util.List;
 /**
  * Created by Steven Kok on 28/02/2015.
  */
-public class Question extends Statement {
+public class QLSQuestion extends Statement {
     private final List<Style> styles;
     private final Identifier identifier;
 
-    public Question(Identifier identifier, List<Style> styles) {
+    public QLSQuestion(Identifier identifier, List<Style> styles) {
         this.styles = styles;
         this.identifier = identifier;
     }

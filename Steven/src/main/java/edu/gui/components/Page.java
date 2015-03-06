@@ -1,6 +1,6 @@
 package edu.gui.components;
 
-import edu.parser.QL.nodes.question.Question;
+import edu.parser.QL.nodes.question.QLQuestion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Page extends JPanel {
 
-    public Page(List<Question> questions) throws HeadlessException {
+    public Page(List<QLQuestion> questions) throws HeadlessException {
         add(new QuestionsPanel(questions));
     }
 }

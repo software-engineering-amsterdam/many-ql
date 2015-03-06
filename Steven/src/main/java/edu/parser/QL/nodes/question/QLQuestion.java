@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Question extends Statement {
+public class QLQuestion extends Statement {
 
     private final Identifier identifier;
     private final QuestionType questionType;
@@ -20,7 +20,7 @@ public class Question extends Statement {
     private final Optional<Expression> expression;
     private final boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
-    public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
+    public QLQuestion(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
         this.identifier = identifier;
         this.questionType = questionType;
@@ -32,12 +32,12 @@ public class Question extends Statement {
         return enabled;
     }
 
-    public Question enable() {
-        return new Question(identifier, questionType, label, true, expression);
+    public QLQuestion enable() {
+        return new QLQuestion(identifier, questionType, label, true, expression);
     }
 
-    public Question disable() {
-        return new Question(identifier, questionType, label, false, expression);
+    public QLQuestion disable() {
+        return new QLQuestion(identifier, questionType, label, false, expression);
     }
 
     public Identifier getIdentifier() {
@@ -66,7 +66,7 @@ public class Question extends Statement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Question question = (Question) o;
+        QLQuestion question = (QLQuestion) o;
 
         if (enabled != question.enabled) return false;
         // intellij 'simplified' the next line:

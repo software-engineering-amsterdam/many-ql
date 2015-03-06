@@ -28,7 +28,7 @@ public class Main {
         TypeChecker typeChecker = new TypeChecker();
         typeChecker.visit(form);
         Evaluator evaluator = new Evaluator();
-        Form evaluatedForm = (Form) evaluator.visit(form);
+        Form evaluatedForm = (Form) evaluator.evaluate(form);
 
         SwingUtilities.invokeLater(() -> mainWindow.initialize(evaluatedForm));
 

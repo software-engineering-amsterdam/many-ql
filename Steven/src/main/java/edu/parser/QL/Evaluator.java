@@ -4,7 +4,7 @@ import edu.exceptions.EvaluationException;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.*;
-import edu.parser.QL.nodes.question.Question;
+import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
  * Created by Steven Kok on 23/02/2015.
  */
 public class Evaluator extends QLVisitorImpl {
-    private final List<Question> questions = new ArrayList<>();
-    private List<Question> updatedQuestions = new ArrayList<>();
+    private final List<QLQuestion> questions = new ArrayList<>();
+    private List<QLQuestion> updatedQuestions = new ArrayList<>();
 
-    public List<Question> evaluate(Form form) {
+    public List<QLQuestion> evaluate(Form form) {
         return evaluate(form, Collections.emptyList());
     }
 
-    public List<Question> evaluate(Form form, List<Question> updatedQuestions) {
+    public List<QLQuestion> evaluate(Form form, List<QLQuestion> updatedQuestions) {
         this.questions.clear();
         this.updatedQuestions.clear();
         this.updatedQuestions = updatedQuestions;
@@ -94,7 +94,7 @@ public class Evaluator extends QLVisitorImpl {
 
     @Override
     public AbstractNode visit(Identifier identifier) {
-        Optional<Question> foundQuestion = getQuestion(identifier);
+        Optional<QLQuestion> foundQuestion = getQuestion(identifier);
         if (foundQuestion.isPresent()) {
             return new Boolean(isQuestionEnabled(foundQuestion.get()));
         } else {
@@ -102,8 +102,8 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private boolean isQuestionEnabled(Question foundQuestion) {
-        Optional<Question> updatedQuestion = getUpdatedQuestion(foundQuestion);
+    private boolean isQuestionEnabled(QLQuestion foundQuestion) {
+        Optional<QLQuestion> updatedQuestion = getUpdatedQuestion(foundQuestion);
         if (updatedQuestion.isPresent()) {
             return updatedQuestion.get().isEnabled();
         } else {
@@ -111,8 +111,8 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private Optional<Question> getUpdatedQuestion(Question foundQuestion) {
-        List<Question> updatedQuestions = this.updatedQuestions.stream()
+    private Optional<QLQuestion> getUpdatedQuestion(QLQuestion foundQuestion) {
+        List<QLQuestion> updatedQuestions = this.updatedQuestions.stream()
                 .filter(question -> question.getIdentifier().equals(foundQuestion.getIdentifier()))
                 .collect(Collectors.toList());
         if (updatedQuestions.size() > 1) {
@@ -124,7 +124,7 @@ public class Evaluator extends QLVisitorImpl {
         }
     }
 
-    private Optional<Question> getQuestion(Identifier identifier) {
+    private Optional<QLQuestion> getQuestion(Identifier identifier) {
         return questions
                 .stream()
                 .filter(q -> q.getIdentifier().equals(identifier))
@@ -172,7 +172,7 @@ public class Evaluator extends QLVisitorImpl {
     }
 
     @Override
-    public AbstractNode visit(Question question) {
+    public AbstractNode visit(QLQuestion question) {
         questions.add(question);
         return super.visit(question);
     }

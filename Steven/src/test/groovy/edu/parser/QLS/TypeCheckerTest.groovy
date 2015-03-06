@@ -8,8 +8,9 @@ import edu.parser.QL.QLAntlrParser
 import edu.parser.QL.nodes.Form
 import edu.parser.QL.nodes.expression.Identifier
 import edu.parser.QL.nodes.question.Label
-import edu.parser.QL.nodes.question.Question
+import edu.parser.QL.nodes.question.QLQuestion
 import edu.parser.QLS.nodes.Stylesheet
+import edu.parser.QLS.nodes.statement.QLSQuestion
 import edu.parser.QLS.nodes.styles.Style
 import edu.parser.QLS.nodes.styles.Widget
 import edu.parser.QLS.nodes.styles.Width
@@ -34,12 +35,12 @@ class TypeCheckerTest extends Specification {
 
     def "should throw exception when stylesheet question is not contained in form questions"() {
         setup:
-        List<Question> formQuestions = new ArrayList<>()
-        formQuestions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        List<QLQuestion> formQuestions = new ArrayList<>()
+        formQuestions.add(new QLQuestion(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
 
 
         def identifier = "abcdefgh"
-        typeChecker.stylesheetQuestions.add(new edu.parser.QLS.nodes.statement.Question(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
+        typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
 
         when:
         typeChecker.confirmQuestionsExistInForm(formQuestions)
@@ -51,12 +52,12 @@ class TypeCheckerTest extends Specification {
 
     def "should not throw exception when stylesheet question is contained in form questions"() {
         setup:
-        List<Question> formQuestions = new ArrayList<>()
+        List<QLQuestion> formQuestions = new ArrayList<>()
 
         def identifier = "identifier"
-        formQuestions.add(new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        formQuestions.add(new QLQuestion(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
 
-        typeChecker.stylesheetQuestions.add(new edu.parser.QLS.nodes.statement.Question(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
+        typeChecker.stylesheetQuestions.add(new QLSQuestion(new edu.parser.QLS.nodes.Identifier(identifier), new ArrayList<Style>()))
 
         when:
         typeChecker.confirmQuestionsExistInForm(formQuestions)
@@ -67,13 +68,13 @@ class TypeCheckerTest extends Specification {
 
     def "Should throw typeCheckException when widget type is not compatible"() {
         setup:
-        List<Question> formQuestions = new ArrayList<>()
-        formQuestions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        List<QLQuestion> formQuestions = new ArrayList<>()
+        formQuestions.add(new QLQuestion(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
         typeChecker.formQuestions.addAll(formQuestions);
 
         def styles = new ArrayList<Style>()
         styles.add(new Widget(Widgets.TEXT))
-        def stylesheetQuestion = new edu.parser.QLS.nodes.statement.Question(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
+        def stylesheetQuestion = new QLSQuestion(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
 
         when:
         typeChecker.confirmQuestionHasCompatibleType(stylesheetQuestion)
@@ -85,14 +86,14 @@ class TypeCheckerTest extends Specification {
 
     def "Should not throw typeCheckException when widget type is compatible"() {
         setup:
-        List<Question> formQuestions = new ArrayList<>()
-        formQuestions.add(new Question(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
+        List<QLQuestion> formQuestions = new ArrayList<>()
+        formQuestions.add(new QLQuestion(new Identifier("identifier"), QuestionType.BOOLEAN, new Label("label"), true, Optional.empty()))
         typeChecker.formQuestions.addAll(formQuestions);
 
         def styles = new ArrayList<Style>()
         styles.add(new Width(40))
         styles.add(new Widget(Widgets.CHECKBOX))
-        def stylesheetQuestion = new edu.parser.QLS.nodes.statement.Question(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
+        def stylesheetQuestion = new QLSQuestion(new edu.parser.QLS.nodes.Identifier("identifier"), styles)
 
         when:
         typeChecker.confirmQuestionHasCompatibleType(stylesheetQuestion)

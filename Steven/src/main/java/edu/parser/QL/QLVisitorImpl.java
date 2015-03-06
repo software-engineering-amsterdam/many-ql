@@ -3,7 +3,7 @@ package edu.parser.QL;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.NotEqual;
 import edu.parser.QL.nodes.question.Label;
-import edu.parser.QL.nodes.question.Question;
+import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.nodes.QuestionType;
 import edu.parser.QL.nodes.statement.Statement;
 
@@ -51,7 +51,7 @@ public abstract class QLVisitorImpl implements QLVisitor {
     }
 
     @Override
-    public AbstractNode visit(Question question) {
+    public AbstractNode visit(QLQuestion question) {
         return question;
     }
 

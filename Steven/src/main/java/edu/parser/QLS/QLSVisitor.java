@@ -6,7 +6,7 @@ import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
-import edu.parser.QLS.nodes.statement.Question;
+import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.styles.Style;
 import edu.parser.nodes.QuestionType;
 
@@ -18,7 +18,7 @@ public interface QLSVisitor {
 
     AbstractNode visit(Page page);
 
-    AbstractNode visit(Question question);
+    AbstractNode visit(QLSQuestion question);
 
     AbstractNode visit(Identifier identifier);
 
