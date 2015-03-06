@@ -1,13 +1,15 @@
 from . import \
     UndefinedQuestions, \
-    MultiplePlacements
+    MultiplePlacements, \
+    UnplacedQuestions
 
 from typechecking import Result
 
 def check(qlAst, qlsAst, resultAlg = Result.DefaultResult()):
     modules = [
         UndefinedQuestions,
-        MultiplePlacements
+        MultiplePlacements,
+        UnplacedQuestions
     ];
 
     checkers = map(
