@@ -8,7 +8,7 @@ public class Question {//todo: evaluator should create this type of question not
     private final Identifier identifier;
     private final QuestionType questionType;
     private final Label label;
-    private boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
+    private final boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
     public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled) {
         this.identifier = identifier;
@@ -32,4 +32,5 @@ public class Question {//todo: evaluator should create this type of question not
     public boolean isEnabled() {
         return enabled;
     }
+
 }

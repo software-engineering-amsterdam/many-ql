@@ -18,7 +18,7 @@ public class Question extends Statement {
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
+    private final boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
     public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
@@ -32,12 +32,12 @@ public class Question extends Statement {
         return enabled;
     }
 
-    public void enable() {
-        this.enabled = true;
+    public Question enable() {
+        return new Question(identifier, questionType, label, true, expression);
     }
 
-    public void disable() {
-        this.enabled = false;
+    public Question disable() {
+        return new Question(identifier, questionType, label, false, expression);
     }
 
     public Identifier getIdentifier() {
