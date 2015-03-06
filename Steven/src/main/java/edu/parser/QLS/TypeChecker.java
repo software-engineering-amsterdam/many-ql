@@ -35,26 +35,37 @@ public class TypeChecker implements QLSVisitor {
     }
 
     public void start(List<QLQuestion> allFormQuestions, Stylesheet stylesheet) {
-        this.stylesheetQuestions.clear();
-        this.formQuestions.clear();
+        initializeLists();
         this.formQuestions.addAll(allFormQuestions);
         visit(stylesheet);
         confirmQuestionsExistInForm(formQuestions);
         confirmNoDuplicateQuestions(stylesheetQuestions);
     }
 
+    private void initializeLists() {
+        this.stylesheetQuestions.clear();
+        this.formQuestions.clear();
+    }
+
     private void confirmNoDuplicateQuestions(List<QLSQuestion> stylesheetQuestions) {
-        List<QLSQuestion> duplicateQuestions = stylesheetQuestions.stream()
+        List<QLSQuestion> duplicateQuestions = getDuplicateQuestions(stylesheetQuestions);
+        if (!duplicateQuestions.isEmpty()) {
+            String duplicateQuestionsString = ListToString(duplicateQuestions);
+            throw new TypeCheckException(FOUND_DUPLICATE_QUESTIONS + duplicateQuestionsString);
+        }
+    }
+
+    private List<QLSQuestion> getDuplicateQuestions(List<QLSQuestion> stylesheetQuestions) {
+        return stylesheetQuestions.stream()
                 .filter(a -> stylesheetQuestions.stream()
                         .filter(b -> a.getIdentifier().equals(b.getIdentifier())).count() > 1)
                 .collect(Collectors.toList());
+    }
 
-        if (!duplicateQuestions.isEmpty()) {
-            String duplicateQuestionsString = duplicateQuestions.stream()
-                    .map(QLSQuestion::toString)
-                    .collect(Collectors.joining(", "));
-            throw new TypeCheckException(FOUND_DUPLICATE_QUESTIONS + duplicateQuestionsString);
-        }
+    private String ListToString(List<QLSQuestion> duplicateQuestions) {
+        return duplicateQuestions.stream()
+                .map(QLSQuestion::toString)
+                .collect(Collectors.joining(", "));
     }
 
     @Override
