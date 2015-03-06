@@ -29,4 +29,6 @@ class QuestionRetrieverTest extends Specification {
         then:
         Assert.assertEquals(4, evaluatedQuestions.size())
     }
+
+
 }
