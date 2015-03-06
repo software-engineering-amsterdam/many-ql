@@ -40,6 +40,7 @@ stylesheet taxOfficeExample {
           width: 400
           font: "Arial" 
           fontsize: 14
+          color: #0000FF
           widget: spinbox(0, 100)
         }        
 

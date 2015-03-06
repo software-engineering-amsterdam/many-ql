@@ -68,6 +68,3 @@ class Widget(Node):
 
     def __str__(self):
         return "Widget, line:%d, type:%s" %(self.lineNumber, self.type)
-
-
-    

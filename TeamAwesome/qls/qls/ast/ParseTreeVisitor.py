@@ -89,3 +89,7 @@ class ParseTreeVisitor(QLSVisitor):
     # Visit a parse tree produced by QLSParser#integer.
     def visitInteger(self, ctx):
         return int(ctx.getText())
+
+    # Visit a parse tree produced by QLSParser#color.
+    def visitColor(self, ctx):
+        return Color(ctx.getText())
