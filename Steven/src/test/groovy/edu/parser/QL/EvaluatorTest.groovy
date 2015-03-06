@@ -184,6 +184,13 @@ class EvaluatorTest extends Specification {
         updatedQuestions.add(createQuestion(identifierUnconditionalQuestion, true))
         List<Question> evaluationReturnedUpdatedQuestions = evaluator.evaluate(form, updatedQuestions)
         Assert.assertEquals(2, evaluationReturnedUpdatedQuestions.size())
+
+        // disable question again
+        List<Question> updatedQuestionsDisabled = new ArrayList<>()
+        updatedQuestionsDisabled.add(createQuestion(identifierUnconditionalQuestion, false))
+        List<Question> evaluationReturnedUpdatedQuestionsDisabled = evaluator.evaluate(form, updatedQuestions)
+        Assert.assertEquals(1, evaluationReturnedUpdatedQuestionsDisabled.size())
+
     }
 
     private Question createQuestion(String identifier, boolean isEnabled) {
