@@ -1,4 +1,4 @@
-from QLS.AST.sheet import *
+import QLS.AST.Sheet.sheet as s
 from QL.AST.form import *
 from collections import Counter
 
