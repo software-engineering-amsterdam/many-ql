@@ -1,7 +1,6 @@
 package org.uva.ql.ast.type;
 
 import org.uva.ql.visitor.TypeVisitor;
-import org.uva.ql.visitor.Visitor;
 
 public class BoolType extends Type {
 

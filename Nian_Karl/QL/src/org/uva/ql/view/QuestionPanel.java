@@ -1,34 +1,42 @@
 package org.uva.ql.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 public class QuestionPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
-	private final Dimension size;
-	protected final ArrayList<Panel> panels;
+	protected final ArrayList<Panel> ifBlockPanels;
+	private int gridCounterY = 0;
 
-	public QuestionPanel(ArrayList<Panel> panels) {
+	public QuestionPanel(ArrayList<Panel> ifBlockPanels) {
 		super();
-		this.panels = panels;
-		size = new Dimension(350, 50);
-		setLayout(new FlowLayout());
-		setSize(size);
-		setPreferredSize(size);
+		GridBagLayout bagLayout = new GridBagLayout();
+		this.ifBlockPanels = ifBlockPanels;
+		setLayout(bagLayout);
 		setBackground(Color.LIGHT_GRAY);
-		for (Panel questionPanel : panels) {
-			int width = (int) getSize().getWidth();
-			int height = (int) getSize().getHeight() + 70;
-			setSize(new Dimension(width, height));
-			setPreferredSize(new Dimension(width, height));
-			add(questionPanel);
-		}
+		initializeBlock(ifBlockPanels);
 	}
 
 	public ArrayList<Panel> getPanels() {
-		return panels;
+		return ifBlockPanels;
+	}
+
+	public void addWithConstraints(Component component) {
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.gridy = gridCounterY;
+		add(component, constraints);
+		gridCounterY++;
+	}
+
+	protected void initializeBlock(ArrayList<Panel> block) {
+		for (Panel panel : block) {
+			addWithConstraints(panel);
+		}
 	}
 }

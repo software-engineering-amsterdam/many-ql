@@ -11,12 +11,6 @@ form SalarySurvey{
 	
 	if((-isBoolean == lastName) == !name){
 		doesWork: "Hey, an Ifstatement Question" Bool
-	} else {
-		statusInt: "How are you doing?" Int
-
-		if ((isBoolean + lastName) < name) {
-		}
-
 	}
 
 	if (isBoolean) {

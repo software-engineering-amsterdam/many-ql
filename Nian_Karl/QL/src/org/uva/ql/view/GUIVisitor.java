@@ -1,5 +1,6 @@
 package org.uva.ql.view;
 
+import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
 import org.uva.ql.ast.expression.Expression;
@@ -77,7 +78,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		FormFrame formView = new FormFrame(form.getIdentifier().toString());
 		ArrayList<Panel> questionPannels = (ArrayList<Panel>) form.getBlock().accept(this);
 		QuestionPanel questionPanel = new QuestionPanel(questionPannels);
-		formView.add(questionPanel);
+		formView.addWithConstraints(questionPanel);
 		formView.setVisible(true);
 		return formView;
 	}
@@ -108,6 +109,12 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 	@Override
 	public Object visit(IfElseStatement ifElseStatement) {
-		return null;
+		ArrayList<Panel> ifQuestions = (ArrayList<Panel>) ifElseStatement.getIfBlock().accept(this);
+
+		ArrayList<Panel> elseQuestions = (ArrayList<Panel>) ifElseStatement.getElseBLock().accept(this);
+		Expression expr = ifElseStatement.getExpr();
+		InDependentQuestionPanel questionPanel = new InDependentQuestionPanel(ifQuestions, elseQuestions, expr);
+		widgetListener.addDependentQuestionPanel(questionPanel);
+		return questionPanel;
 	}
 }

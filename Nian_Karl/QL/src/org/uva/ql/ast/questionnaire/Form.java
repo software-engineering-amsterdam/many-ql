@@ -12,6 +12,7 @@ public class Form implements Node, QuestionnaireVisitable{
 	private Block block;
 	private Identifier identifier;
 	private final CodePosition position;
+	
 	public Form(Identifier identifier, Block block, CodePosition pos) {
 		this.position = pos;
 		this.identifier = identifier;

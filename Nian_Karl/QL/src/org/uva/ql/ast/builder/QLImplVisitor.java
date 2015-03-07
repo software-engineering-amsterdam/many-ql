@@ -117,7 +117,7 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		IfElseStatement ifElseStatement = new IfElseStatement(expr, ifBlock, elseBlock, pos);
 		return ifElseStatement;
 	}
-
+	
 	@Override
 	public Node visitQuestionNormal(QuestionNormalContext ctx) {
 		CodePosition pos = getCodePosition(ctx);
@@ -318,4 +318,5 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		CodePosition pos = getCodePosition(ctx);
 		return new StrLiteral(ctx.StringLiteral().getText().replaceAll("^\"|\"$", ""), pos);
 	}
+	
 }

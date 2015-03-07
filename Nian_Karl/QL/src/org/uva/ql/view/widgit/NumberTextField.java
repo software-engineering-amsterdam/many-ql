@@ -8,7 +8,6 @@ import javax.swing.text.BadLocationException;
 
 import org.uva.ql.ast.value.Int;
 import org.uva.ql.ast.value.Undefined;
-import org.uva.ql.ast.value.Value;
 import org.uva.ql.view.listener.WidgetListener;
 
 public class NumberTextField extends BaseTextField {
@@ -32,13 +31,16 @@ public class NumberTextField extends BaseTextField {
 		try {
 			String input = e.getDocument().getText(0, e.getDocument().getLength());
 			Matcher m = p.matcher(input);
-			if (m.matches() && !input.equals("")) {
+			if (input.equals("") || input == null) {
+				widgetListener.widgetValueChanged(getIdentifier(), new Undefined());
+			} else if (m.matches()) {
 				int i = Integer.parseInt(input);
 				widgetListener.widgetValueChanged(getIdentifier(), new Int(i));
 			}
 		} catch (BadLocationException e1) {
 			System.out.println("Something went terribly wrong.");
 		} catch (NumberFormatException e2) {
+
 			System.out.println("apparently an exception.");
 		}
 	}

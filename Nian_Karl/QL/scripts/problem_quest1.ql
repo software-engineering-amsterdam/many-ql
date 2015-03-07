@@ -8,7 +8,7 @@ form SalarySurvey{
 	}
 	myAge: "Hello?" Int
 	
-	nomnom: "Some Age? " Int
+	// problem dude, it doesn't give a error the whole program just crashes at the typechecker. Run to see.
 	if(nomnom == 10){
 		employeeNr1: "What is your employee number?" Int
 	}

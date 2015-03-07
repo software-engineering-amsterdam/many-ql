@@ -4,29 +4,23 @@ import java.util.ArrayList;
 
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.value.Bool;
-import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 
-public class DependentQuestionPanel extends QuestionPanel {
+public class InDependentQuestionPanel extends DependentQuestionPanel {
 
 	private static final long serialVersionUID = -4507161988032536469L;
 
-	private Expression expr;
+	private final ArrayList<Panel> elseBlockPanels;
 
-	public DependentQuestionPanel(ArrayList<Panel> ifBlockPanels, Expression expr) {
-		super(ifBlockPanels);
-		this.expr = expr;
-		toggleIfBlock(false);
-	}
-
-	public Expression getExpr() {
-		return expr;
+	public InDependentQuestionPanel(ArrayList<Panel> ifBlockPanels, ArrayList<Panel> elseBlockPanels, Expression expr) {
+		super(ifBlockPanels, expr);
+		this.elseBlockPanels = elseBlockPanels;
+		initializeBlock(this.elseBlockPanels);
 	}
 
 	public void evaluateAndShow(Evaluator evaluator) {
 		// dirty
 		if (evaluateExpressions(evaluator) instanceof Bool) {
-
 			Bool value = (Bool) evaluateExpressions(evaluator);
 			if (value.getValue()) {
 				toggleIfBlock(true);
@@ -38,13 +32,17 @@ public class DependentQuestionPanel extends QuestionPanel {
 		}
 	}
 
-	public Value evaluateExpressions(Evaluator evaluator) {
-		return evaluator.evaluate(expr);
+	@Override
+	public void toggleIfBlock(boolean show) {
+		super.toggleIfBlock(show);
+		if (elseBlockPanels != null) {
+			for (Panel panel : elseBlockPanels) {
+				panel.setVisible(!show);
+			}
+		}
 	}
 
-	public void toggleIfBlock(boolean show) {
-		for (Panel panel : this.ifBlockPanels) {
-			panel.setVisible(show);
-		}
+	public ArrayList<Panel> getElseBlockPanels() {
+		return elseBlockPanels;
 	}
 }
