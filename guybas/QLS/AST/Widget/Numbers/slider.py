@@ -1,4 +1,5 @@
 import QLS.AST.Widget.Numbers.number_widget as n
+import QL.Grammar.constants as constants
 
 
 class Slider(n.NumberWidget):
@@ -17,4 +18,4 @@ class Slider(n.NumberWidget):
         raise NotImplementedError("Not implemented by sub class")
 
     def get_range(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return [constants.GrammarConstants.NUMBER]

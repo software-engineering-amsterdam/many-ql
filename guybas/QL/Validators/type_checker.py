@@ -9,7 +9,7 @@ from QL.AST.Elements.operators import *
 
 class TypeChecker:
 
-    # initialize and execute the type checker
+    # initialize and execute the _type checker
     def __init__(self, form):
         ids = form.get_ids()
         id_message = TypeChecker.check_ids(ids)

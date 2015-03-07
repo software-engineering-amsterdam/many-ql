@@ -56,11 +56,11 @@ class IfBlock(statement.IStatement):
     def return_expressions(self):
         return self._expressions
 
-    # Get the parent id of the statement
+    # Get the parent _id of the statement
     def get_parent_id(self):
         return self._parent_id
 
-    # set the parent id, only set once
+    # set the parent _id, only set once
     def set_parent_id(self, pid):
         self._parent_id = pid
         m = converters.Converters.get_md5(str(self))

@@ -91,6 +91,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	public Void visit(SimpleQuestion simpleQuestion) {
 		this.checkQuestion(simpleQuestion);
 		typeRepository.putID(simpleQuestion.getQuestionId(), simpleQuestion.getQuestionType());
+		typeRepository.putIDLabel(simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText());
 		return null;
 	}
 

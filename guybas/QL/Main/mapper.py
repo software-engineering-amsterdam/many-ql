@@ -3,7 +3,7 @@ import QL.Main.exceptions as exceptions
 
 
 class Mapper:
-    # map from id to answers
+    # map from _id to answers
     def __init__(self):
         self.answers = {}  # {qid: {answer: input, pointsTo: List}}
         self.inputObj = {}
@@ -18,7 +18,7 @@ class Mapper:
     def get_answer_by_id(self, qid):
         if qid in self.answers.keys():
             return self.answers[qid]
-        raise exceptions.QException("Answer id " + qid + " does not exist.")
+        raise exceptions.QException("Answer _id " + qid + " does not exist.")
 
     def id_exists(self, qid):
         if qid in self.answers.keys():

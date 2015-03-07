@@ -1,13 +1,29 @@
+import QLS.AST.Sheet.sheet_element as e
+
+
 # Question style AST
-class QuestionStyle:
+class QuestionStyle(e.SheetElement):
+
     def __init__(self, qid, widget):
-        self.id = qid
-        self.widget = widget
+        self._id = qid
+        self._widget = widget
 
     def pretty_print(self, level=0):
-        s = "    " * level + "Question " + self.id + "\n"
-        s += self.widget.pretty_print(level + 1)
+        s = "    " * level + "Question " + self._id + "\n"
+        s += self._widget.pretty_print(level + 1)
         return s
 
-    def id_collection(self):
-        return [self.id]
+    def get_ids(self):
+        return [self._id]
+
+    def get_widget_dict(self):
+        return {self._id : self._widget}
+
+    @staticmethod
+    def id_collection(elements):
+        raise NotImplementedError("Not implemented by sub class")
+
+    @staticmethod
+    def id_widget_dict():
+        raise NotImplementedError("Not implemented by sub class")
+

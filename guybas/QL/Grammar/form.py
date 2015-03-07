@@ -9,7 +9,7 @@ import QL.Grammar.constants as constants
 
 class FormFormat:
 
-    # id :: characters
+    # _id :: characters
     id = basic_types.BasicTypes.characters
 
     # label :: sentence
@@ -20,7 +20,7 @@ class FormFormat:
                pp.Literal(constants.GrammarConstants.NUMBER) |
                pp.Literal(constants.GrammarConstants.TEXT))
 
-    # q :: Question id ( answerR ) : label
+    # q :: Question _id ( answerR ) : label
     question = (pp.Suppress("Question") + id + pp.Suppress("(") + answerR + pp.Suppress(")") + pp.Suppress(":") + label
                 ).setParseAction(forms.FormFactory.make_question)
 
@@ -43,7 +43,7 @@ class FormFormat:
                 statement + pp.Suppress("}")
                ).setParseAction(forms.FormFactory.make_else)
 
-    # assignment :: Assignment id ( answerR ) : expr
+    # assignment :: Assignment _id ( answerR ) : expr
     assignment = (pp.Suppress("Assignment") + id + pp.Suppress("(") + answerR + pp.Suppress(")") +
                   pp.Suppress(":") + expressions.Expressions.expr
                   ).setParseAction(forms.FormFactory.make_assignment)
@@ -57,5 +57,5 @@ class FormFormat:
     # introduction :: Introduction : sentences
     introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + basic_types.BasicTypes.sentences))
 
-    # form :: id _introduction? statement+
+    # form :: _id _introduction? statement+
     form = (id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()

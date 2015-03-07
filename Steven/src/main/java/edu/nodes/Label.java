@@ -1,4 +1,4 @@
-package edu.parser.nodes;
+package edu.nodes;
 
 /**
  * Created by Steven Kok on 05/03/2015.

@@ -20,10 +20,10 @@ class Question(statement.IStatement):
     # Override
     def pretty_print(self, level=0):
         s = "\n" + "   " * level + "Question\n"
-        s += "   " * (level + 1) + "Question id: " + self.id + "\n"
+        s += "   " * (level + 1) + "Question _id: " + self.id + "\n"
         s += "   " * (level + 1) + "Order number: "+ str(self.order) + "\n"
         s += "   " * (level + 1) + "Question itself: " + self.label + "\n"
-        s += "   " * (level + 1) + "Question type: " + str(self.type)
+        s += "   " * (level + 1) + "Question _type: " + str(self.type)
         s += "\n"
         return s
 
@@ -75,7 +75,7 @@ class Question(statement.IStatement):
         elif self.get_type() is constants.GrammarConstants.TEXT:
             self.element = g.QuestionnaireGUI.e_entry(self, gui)
         else:
-            raise g.QException("Element type does not exists")
+            raise g.QException("Element _type does not exists")
 
     def set_parent_condition(self, condition):
         self.parentCondition = condition

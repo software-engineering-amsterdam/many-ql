@@ -7,7 +7,7 @@ import com.sun.javaws.exceptions.InvalidArgumentException;
  */
 public enum Widgets {
 
-    SLIDER("SLIDER"), SPINBOX("SPINBOX"), TEXT("TEXT"), YESNO_RADIO("YESNO_RADIO"), CHECKBOX("CHECKBOX"), YESNO_DROPDOWN("YESNO_DROPDOWN");
+    SLIDER("SLIDER"), SPINBOX("SPINBOX"), TEXT("TEXT"), YESNO_RADIO("YESNORADIO"), CHECKBOX("CHECKBOX"), YESNO_DROPDOWN("YESNODROPDOWN");
 
     private final String widget;
 

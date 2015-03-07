@@ -6,7 +6,7 @@ import QL.Factory.expressions as e
 
 class Expressions:
 
-    # id :: [1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+    # _id :: [1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
     id = pp.Word("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")
 
     # bool :: True | False
@@ -18,7 +18,7 @@ class Expressions:
     # number :: [0-9]
     number = pp.Word(pp.nums)
 
-    # value :: bool | number | id
+    # value :: bool | number | _id
     value = (bool.setParseAction(e.ExpressionFactory.make_bool) |
              number.setParseAction(e.ExpressionFactory.make_number) |
              id.setParseAction(e.ExpressionFactory.make_variable) |

@@ -1,4 +1,5 @@
 import QLS.AST.Widget.widget as w
+import QL.Grammar.constants as constants
 
 
 class Radio(w.Widget):
@@ -13,4 +14,4 @@ class Radio(w.Widget):
         return s
 
     def get_compatible(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return [constants.GrammarConstants.BOOL, constants.GrammarConstants.NUMBER]

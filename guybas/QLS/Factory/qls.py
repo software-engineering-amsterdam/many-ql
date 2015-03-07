@@ -12,30 +12,38 @@ class QLSFactory:
 
     @staticmethod
     def make_question_style(tokens):
+        qid = tokens[0]
         if len(tokens) > 1:
             widget = tokens[1]
         else:
             widget = None
-        return q.QuestionStyle(tokens[0], widget)
+        return q.QuestionStyle(qid, widget)
 
     @staticmethod
     def make_section(tokens):
-        return s.Section(tokens[0], tokens[1])
+        name = tokens[0]
+        question_styles = tokens[1]
+        return s.Section(name, question_styles)
 
     @staticmethod
     def make_default(tokens):
-        print(tokens)
-        if len(tokens) == 2:
-            x = d.Default(tokens[0], tokens[1], [])
-            print(x)
-            return x
+        qtype = tokens[0]
+        widget = tokens[1]
+        if len(tokens) > 2:
+            properties = tokens[2]
         else:
-            return d.Default(tokens[0], tokens[1], tokens[2])
+            properties = []
+        return d.Default(qtype, widget, properties)
+
 
     @staticmethod
     def make_page(tokens):
-        return p.Page(tokens[0], tokens[1])
+        name = tokens[0]
+        sections = tokens[1]
+        return p.Page(name, sections)
 
     @staticmethod
     def make_sheet(tokens):
-        return sh.Sheet(tokens[0], tokens[1])
+        name = tokens[0]
+        pages = tokens[1]
+        return sh.Sheet(name, pages)

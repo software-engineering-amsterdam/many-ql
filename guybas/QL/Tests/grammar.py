@@ -5,7 +5,7 @@ from QL.AST.Elements import *
 
 class TestBasicGrammar(unittest.TestCase):
     def test_id(self):
-        # Test simple id
+        # Test simple _id
         result = BasicTypes.characters.parseString("this_is_an_id").asList()
         self.assertEqual(result, ["this_is_an_id"])
 
@@ -30,7 +30,7 @@ class TestBasicGrammar(unittest.TestCase):
         self.assertEqual(result, ["this is a sentence .", "Is this another one ?", 'Can we escape ? , ! and . ?'])
 
     def test_answer_format(self):
-        # Test the three different type of answer possibilities
+        # Test the three different _type of answer possibilities
         result = FormFormat.answerR.parseString("bool").asList()
         self.assertEqual(result, ["bool"])
 
@@ -50,12 +50,12 @@ class TestBasicGrammar(unittest.TestCase):
 class TestExpressionGrammar(unittest.TestCase):
 
     def test_simple_expression(self):
-        result = Expressions.expr.parseString(" id == True")
+        result = Expressions.expr.parseString(" _id == True")
         result = ExpressionFactory.make_sub_expression(result)
         self.assertIsInstance(result, SimpleExpression)
 
         s = result.as_list()
-        self.assertEqual(s, ["id", "==", True])
+        self.assertEqual(s, ["_id", "==", True])
 
     def test_complex_expression(self):
         result = Expressions.expr.parseString("4 / 2 + (3 - 1) * 4")
@@ -67,7 +67,7 @@ class TestExpressionGrammar(unittest.TestCase):
         self.assertEquals(result[0].as_list(), [4, "*", "-", 1])
 
     def test_expression_malformed(self):
-        # not valid expression, but it is valid syntax
+        # not valid _expression, but it is valid syntax
         result = Expressions.expr.parseString("4 + True")
         self.assertEquals(result[0].as_list(), [4, "+", True])
 
