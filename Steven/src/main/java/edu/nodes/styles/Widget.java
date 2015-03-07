@@ -1,4 +1,4 @@
-package edu.parser.nodes.styles;
+package edu.nodes.styles;
 
 import edu.Widgets;
 
