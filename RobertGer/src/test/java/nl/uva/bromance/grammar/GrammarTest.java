@@ -1,5 +1,6 @@
 package nl.uva.bromance.grammar;
 
+import nl.uva.bromance.ParsingTest;
 import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
@@ -14,29 +15,7 @@ import org.junit.rules.ExpectedException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-public class GrammarTest {
-
-
-    protected static final String CORRECT_FORM = "    Form: \"default\" {\n" +
-            "       Label: \"something\"{" +
-            "           Text: \"something\"" +
-            "      }}";
-
-    protected static final String CORRECT_QUESTIONNAIRE = "Name: \"Tax\" {\n" +
-            CORRECT_FORM +
-            "}";
-    protected static final String CORRECT_QUESTION = "\n     Question: \"question\"{" +
-            "           Text: \"text?\"" +
-            "           Answer: integer" +
-            "       }";
-
-    protected static final String CORRECT_ELSE = "\n     Else:{ Text: \"something\"}";
-    protected static final String CORRECT_IF = "\n     If: something{  Text: \"something\" }";
-    protected static final String CORRECT_ELSE_IF = "Else If: something{ Text: \"something\"}";
-
-    protected static final String CORRECT_CALCULATION = "\n     Calculation: \"calculation\"{" +
-            CORRECT_IF +
-            "    }";
+public class GrammarTest extends ParsingTest {
 
     protected FakeGrammarListener listener;
     protected ParseTreeWalker walker;
