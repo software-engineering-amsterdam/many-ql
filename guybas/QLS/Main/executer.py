@@ -6,7 +6,7 @@ import QL.Grammar.form as f
 qls = q.QLSFactory.make_sheet(q.QLS.sheet.parseFile("example.qls"))
 #print(qls.pretty_print())
 
-formAsParseResults = f.FormFormat.form.ignore(b.BasicTypes.comment).parseFile("ql_example.ql")
+formAsParseResults = f.FormFormat.form.ignore(b.BasicTypes.comment).parseFile("example.ql")
 f = f.forms.FormFactory.make_form(formAsParseResults)
 #print(f.get_type_dict())
 checker = t.TypeChecker(f, qls)

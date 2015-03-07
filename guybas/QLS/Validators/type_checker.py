@@ -6,9 +6,15 @@ class TypeChecker:
         self.form = form
         self.sheet = sheet
         sheet_ids = sheet.get_ids()
-        #print("\nType checker: \n")
-        #print(TypeChecker.check_duplicates(sheet_ids))
-        #print(TypeChecker.check_existent(sheet_ids, form.get_ids()))
+        print("\nType checker: \n")
+
+        print("Doubles:")
+        print(TypeChecker.check_duplicates(sheet_ids))
+
+        print("Not existent:")
+        print(TypeChecker.check_existent(sheet_ids, form.get_ids()))
+
+        print("Not correct widget:")
         print(TypeChecker.check_types_widgets(sheet.get_widget_dict(), form.get_type_dict()))
 
     @staticmethod
@@ -38,6 +44,9 @@ class TypeChecker:
 
     @staticmethod
     def check_types_widgets(widget_dict, type_dict):
-        print(widget_dict)
+        message = ""
         for t in type_dict:
-            ty = type_dict[t]
+            if t in widget_dict:
+                if not type_dict[t] in widget_dict[t].get_compatible():
+                    message += "the type of " + t + " is not supported by widget" +  str(widget_dict[t]) + "\n"
+        return message

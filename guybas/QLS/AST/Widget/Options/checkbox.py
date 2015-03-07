@@ -1,5 +1,5 @@
 import QLS.AST.Widget.widget as w
-
+import QL.Grammar.constants as constants
 
 # Checkbox AST
 class Checkbox(w.Widget):
@@ -13,4 +13,4 @@ class Checkbox(w.Widget):
         return s
 
     def get_compatible(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return [constants.GrammarConstants.BOOL, constants.GrammarConstants.NUMBER]

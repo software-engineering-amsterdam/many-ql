@@ -2,7 +2,7 @@ import QL.Grammar.form as form
 import QL.Main.gui as g
 import QL.Validators.type_checker as type_checker
 
-formAsParseResults = form.FormFormat.form.ignore(form.basic_types.BasicTypes.comment).parseFile("ql_example.ql")
+formAsParseResults = form.FormFormat.form.ignore(form.basic_types.BasicTypes.comment).parseFile("example.ql")
 form = form.forms.FormFactory.make_form(formAsParseResults)
 
 # d = form.get_statement_dict()

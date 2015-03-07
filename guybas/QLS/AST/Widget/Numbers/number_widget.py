@@ -1,4 +1,5 @@
 import QLS.AST.Widget.widget as w
+import QL.Grammar.constants as constants
 
 
 # AST for the number_widget interface

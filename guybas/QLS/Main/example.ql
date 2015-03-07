@@ -2,40 +2,19 @@ Name_of_Questionnaire
 
 Introduction : Welcome to my questionnaire.
 
-Question hummus (bool): Do you love hummus?
+Question hasSoldHouse (bool): Did you sell a house in 2010?
 
-if (hummus == True) {
-    Question what (text) : What do you like about hummus?
+Question hasBoughtHouse (bool) : Did you buy a house in 2010?
 
-    Question grade (number) : How would you grade it?
+Question hasMaintLoan (bool) : Did you enter a loan?
 
-    if (grade < 6) {
-        Question con (bool) : This is quite contradicting isn't it?
 
-    }
+if (hasSoldHouse) {
+    Question sellingPrice (number) : What was the selling price?
 
-}
-else {
-    Question why (text) : Why you don't love it?
+    Question privateDebt (number) : Private debts for the sold house.
+
+    Assignment valueResidue(number) : sellingPrice - privateDebt
 }
 
-if (con == True) {
-    Question trans (bool) : Will transitive closure work?
-}
-else {
-    Question check (bool) : Will this work?
-}
-
-if (con == True and why == "True") {
-    Question trans2 (bool) : Just a test?
-}
-else {
-    Question check2 (bool) : Another one?
-}
-
-if (5 - 3 + (2 / 1) == 4) {
-    Question dunno (bool) : Do you know what to write?
-}
-
-Assignment improve (number) : 10 - grade
 
