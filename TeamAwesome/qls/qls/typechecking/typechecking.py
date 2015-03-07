@@ -1,7 +1,8 @@
 from . import \
     UndefinedQuestions, \
     MultiplePlacements, \
-    UnplacedQuestions
+    UnplacedQuestions, \
+    IncompatibleWidgets
 
 from typechecking import Result
 
@@ -9,7 +10,8 @@ def check(qlAst, qlsAst, resultAlg = Result.DefaultResult()):
     modules = [
         UndefinedQuestions,
         MultiplePlacements,
-        UnplacedQuestions
+        UnplacedQuestions,
+        IncompatibleWidgets
     ];
 
     checkers = map(
