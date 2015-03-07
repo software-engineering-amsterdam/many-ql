@@ -10,7 +10,7 @@ import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
-import edu.parser.nodes.QuestionType;
+import edu.nodes.QuestionType;
 
 /**
  * Created by Steven Kok on 21/02/2015.

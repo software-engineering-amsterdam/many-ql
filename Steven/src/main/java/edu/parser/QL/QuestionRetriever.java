@@ -5,7 +5,7 @@ import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
-import edu.parser.nodes.Question;
+import edu.nodes.Question;
 
 import java.util.ArrayList;
 import java.util.List;

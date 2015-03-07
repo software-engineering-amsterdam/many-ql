@@ -7,7 +7,7 @@ import edu.parser.QL.nodes.Form;
 import edu.parser.QLS.QLSAntlrParser;
 import edu.gui.Renderer;
 import edu.parser.QLS.nodes.Stylesheet;
-import edu.parser.nodes.Question;
+import edu.nodes.Question;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class Main {
         qlsTypeChecker.start(getAllFormQuestions(form), stylesheet);
 
         Renderer renderer = new Renderer();
-        MainWindow mainWindow = renderer.evaluate(evaluatedQuestions, stylesheet);
+        MainWindow mainWindow = renderer.render(evaluatedQuestions, stylesheet);
 
         SwingUtilities.invokeLater(mainWindow::showMainWindow);
 

@@ -2,11 +2,12 @@ package edu.parser.QL;
 
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.*;
+import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.question.Label;
 import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.parser.nodes.Question;
-import edu.parser.nodes.QuestionType;
+import edu.nodes.Question;
+import edu.nodes.QuestionType;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,9 +28,9 @@ public abstract class QLVisitorImpl implements QLVisitor {
     }
 
     protected Question createQuestion(QLQuestion qlQuestion) {
-        edu.parser.nodes.Identifier identifier = new edu.parser.nodes.Identifier(qlQuestion.getIdentifier().getIdentifier());
-        edu.parser.nodes.Label label = new edu.parser.nodes.Label(qlQuestion.getLabel().getLabel());
-        return new Question(identifier, qlQuestion.getQuestionType(), label, qlQuestion.isEnabled(), Collections.emptyList());
+        edu.nodes.Identifier identifier = new edu.nodes.Identifier(qlQuestion.getIdentifier().getIdentifier());
+        edu.nodes.Label label = new edu.nodes.Label(qlQuestion.getLabel().getLabel());
+        return new Question(identifier, qlQuestion.getQuestionType(), label, qlQuestion.isEnabled());
     }
 
     @Override

@@ -5,10 +5,10 @@ import edu.gui.Renderer
 import edu.parser.QLS.nodes.Stylesheet
 import edu.parser.QLS.nodes.statement.QLSQuestion
 import edu.parser.QLS.nodes.statement.Statement
-import edu.parser.nodes.Identifier
-import edu.parser.nodes.Label
-import edu.parser.nodes.Question
-import edu.parser.nodes.QuestionType
+import edu.nodes.Identifier
+import edu.nodes.Label
+import edu.nodes.Question
+import edu.nodes.QuestionType
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -42,7 +42,7 @@ class RendererTest extends Specification {
     }
 
     private Question createQuestion(String identifier) {
-        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true, Collections.emptyList())
+        return new Question(new Identifier(identifier), QuestionType.BOOLEAN, new Label("label"), true)
     }
 
     private QLSQuestion createQLSQuestion(String identifier) {

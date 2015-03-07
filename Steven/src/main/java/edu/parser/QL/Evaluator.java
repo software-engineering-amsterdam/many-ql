@@ -9,7 +9,7 @@ import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.type.Boolean;
 import edu.parser.QL.nodes.type.Number;
-import edu.parser.nodes.Question;
+import edu.nodes.Question;
 
 import java.util.ArrayList;
 import java.util.Collections;

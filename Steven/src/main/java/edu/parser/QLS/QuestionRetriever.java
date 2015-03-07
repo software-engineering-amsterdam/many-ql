@@ -7,8 +7,8 @@ import edu.parser.QLS.nodes.Stylesheet;
 import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
-import edu.parser.nodes.QuestionType;
-import edu.parser.nodes.styles.Style;
+import edu.nodes.QuestionType;
+import edu.nodes.styles.Style;
 
 import java.util.ArrayList;
 import java.util.List;

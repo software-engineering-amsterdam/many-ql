@@ -9,8 +9,8 @@ import edu.parser.QL.nodes.statement.IfStatement
 import edu.parser.QL.nodes.statement.Statement
 import edu.parser.QL.nodes.type.Boolean
 import edu.parser.QL.nodes.type.Number
-import edu.parser.nodes.Question
-import edu.parser.nodes.QuestionType
+import edu.nodes.Question
+import edu.nodes.QuestionType
 import junit.framework.Assert
 import spock.lang.Specification
 

@@ -10,10 +10,10 @@ import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.statement.Statement;
-import edu.parser.nodes.Question;
-import edu.parser.nodes.QuestionType;
-import edu.parser.nodes.styles.Style;
-import edu.parser.nodes.styles.Widget;
+import edu.nodes.Question;
+import edu.nodes.QuestionType;
+import edu.nodes.styles.Style;
+import edu.nodes.styles.Widget;
 
 import java.util.ArrayList;
 import java.util.List;

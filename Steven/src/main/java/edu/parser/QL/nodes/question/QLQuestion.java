@@ -5,7 +5,7 @@ import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.parser.nodes.QuestionType;
+import edu.nodes.QuestionType;
 
 import java.util.Optional;
 

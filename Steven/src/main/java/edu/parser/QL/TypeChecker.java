@@ -9,7 +9,7 @@ import edu.parser.QL.nodes.question.QLQuestion;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.parser.nodes.QuestionType;
+import edu.nodes.QuestionType;
 
 import java.util.*;
 import java.util.logging.Logger;
