@@ -36,7 +36,9 @@ expr : '(' expr ')'                   # PrecedenceOverride
 INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
 STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
-DATE   : '[' DAY '-' MONTH '-' YEAR ']' ;
+DATE   : '[' DAY '-' MONTH '-' YEAR ']' 
+       | '[today]'
+       ;
 
 TYPE : 'int' | 'string' | 'bool' | 'date';
 

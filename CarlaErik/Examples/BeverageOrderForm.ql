@@ -1,6 +1,7 @@
 age "How old are you?" int
 bool isAdult = age >= 18
 
+today "Today is: " date = [22-3-2014]
 
 int nrOfAlcoholicDrinks = 0
 int nrOfSoftDrinks = 0

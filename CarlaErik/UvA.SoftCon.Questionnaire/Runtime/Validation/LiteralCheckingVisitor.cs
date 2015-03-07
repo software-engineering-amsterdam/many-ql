@@ -29,7 +29,8 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
         {
             DateTime date = DateTime.MinValue;
 
-            if (!DateTime.TryParseExact(literal.Value, "d-M-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            if (!literal.Value.Equals("today", StringComparison.OrdinalIgnoreCase)
+                && !DateTime.TryParseExact(literal.Value, "d-M-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
             {
                 InvalidDateLiterals.Add(literal);
             }
