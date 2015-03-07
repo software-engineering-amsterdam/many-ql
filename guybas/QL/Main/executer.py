@@ -9,7 +9,7 @@ form = form.forms.FormFactory.make_form(formAsParseResults)
 # for i in d:
 #     if d[i].get_parent_condition():
 #         print("the key: " + str(i))
-#         print("the expression: " + d[i].get_parent_condition().pretty_print())
+#         print("the _expression: " + d[i].get_parent_condition().pretty_print())
 # print(form.pretty_print())
 typeChecker = type_checker.TypeChecker(form)
 

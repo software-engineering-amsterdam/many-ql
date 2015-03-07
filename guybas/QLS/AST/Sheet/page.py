@@ -1,16 +1,36 @@
-class Page:
+import QLS.AST.Sheet.sheet_element as e
+
+
+class Page(e.SheetElement):
+
     def __init__(self, name, sections):
-        self.name = name
-        self.sections = sections
+        self._name = name
+        self._sections = sections
+        self._ids = Page.id_collection(self._sections)
+        self._widget_dict = Page.id_widget_dict(self._sections)
 
     def pretty_print(self, level=0):
-        s = "\n" + "    " * level + "Page " + self.name + "\n"
-        for p in self.sections:
+        s = "\n" + "    " * level + "Page " + self._name + "\n"
+        for p in self._sections:
             s += p.pretty_print(level+1)
         return s
 
-    def id_collection(self):
+    def get_ids(self):
+        return self._ids
+
+    def get_widget_dict(self):
+        return self._widget_dict
+
+    @staticmethod
+    def id_collection(sections):
         ids = []
-        for q in self.sections:
-            ids += q.id_collection()
+        for q in sections:
+            ids += q.get_ids()
         return ids
+
+    @staticmethod
+    def id_widget_dict(sections):
+        d = {}
+        for s in sections:
+            d = dict(list(d.items()) + list(s.get_widget_dict().items()))
+        return d

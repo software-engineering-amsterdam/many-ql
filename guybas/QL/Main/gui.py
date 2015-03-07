@@ -62,7 +62,7 @@ class QuestionnaireGUI:
     def elements_recreate(self, qid):
         statements_dict = self.form.get_statement_dict()
         if qid not in statements_dict:
-            raise tk.QException("Fatal Error: no such _condition id " + qid)
+            raise tk.QException("Fatal Error: no such _condition _id " + qid)
         statement = statements_dict[qid]
         elements = statement.get_element()
         if elements is None:
