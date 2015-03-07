@@ -18,9 +18,9 @@ import java.util.Stack;
 public class QLParseTreeListener extends QLBaseListener {
 
     private Stack<Node> nodeStack = new Stack<>();
-    private Questionnaire ast = null;
+    private AST ast = null;
 
-    public Questionnaire getAst() {
+    public AST getAst() {
         return ast;
     }
 
@@ -29,7 +29,7 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
-        ast = (Questionnaire) nodeStack.pop();
+        ast = new AST(nodeStack.pop());
         System.out.println("--Printing AST--");
         ast.printDebug();
     }

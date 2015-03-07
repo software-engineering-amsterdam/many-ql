@@ -1,8 +1,8 @@
 package nl.uva.bromance;
 
 import javafx.stage.Stage;
+import nl.uva.bromance.AST.AST;
 import nl.uva.bromance.AST.Conditionals.ExpressionEvaluator;
-import nl.uva.bromance.AST.Questionnaire;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;
@@ -33,12 +33,12 @@ public class Runner {
 
         walker.walk(listener, tree);
 
-        Questionnaire ast = listener.getAst();
+        AST ast = listener.getAst();
         ExpressionEvaluator ee = new ExpressionEvaluator(ast);
         TypeChecker tc = new TypeChecker(ast);
         tc.runChecks();
 
-        new Visualizer().visualize(ast, primaryStage);
+        new Visualizer().visualize(ast.getRoot(), primaryStage);
 
         //show AST in GUI
         JFrame frame = new JFrame("Antlr AST");
