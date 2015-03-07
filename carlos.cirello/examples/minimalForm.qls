@@ -1,20 +1,20 @@
 stylesheet TheForm {
 	default bool radio
 
-	page "Page 1" {
+	page "Page1" {
 		default bool switch
 		p1q1
 	}
 
-	page "Page 2" {
+	page "Page2" {
 		default bool radio
 		p2q1
 
-		page "Page 2a" {
+		page "Page2a" {
 			p2aq1
 		}
 
-		page "Page 2b" {
+		page "Page2b" {
 			p2bq1
 		}
 	}

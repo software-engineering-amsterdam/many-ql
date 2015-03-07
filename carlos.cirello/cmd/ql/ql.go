@@ -14,8 +14,8 @@ func main() {
 
 	fromInterpreter, toInterpreter, guiAppName := startInterpreter(srcReader, srcFn)
 	readInputCsv(fromInterpreter, toInterpreter, inReader)
-	stylePages := loadStyle(styleReader, srcFn)
-	launchGUI(fromInterpreter, toInterpreter, guiAppName, stylePages)
+	stylePages, questionsIndex := loadStyle(styleReader, srcFn)
+	launchGUI(fromInterpreter, toInterpreter, guiAppName, stylePages, questionsIndex)
 
 	csvWriter := csvoutput.New(fromInterpreter, toInterpreter, outWriter)
 	csvWriter.Write()
