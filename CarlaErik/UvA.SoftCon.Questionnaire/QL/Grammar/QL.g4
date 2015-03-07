@@ -1,7 +1,8 @@
-/** Grammars always start with a grammar header. This grammar is called
-*   QL and must match the filename: QL.g4
-*/
 grammar QL;
+
+/*
+ *	  Parser Rules
+ */
 
 /* Start rule */
 form : stat* ;

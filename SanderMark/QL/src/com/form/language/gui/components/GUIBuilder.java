@@ -15,11 +15,12 @@ import com.form.language.memory.RuntimeMemory;
 public class GUIBuilder {
 	
 	private FormComponent formGUI;
+	private RuntimeMemory rm;
 	private Expression showCondition;
 	
 	public GUIBuilder(Form form,JFrame frame)
 	{
-		RuntimeMemory rm = form.initMemory();
+		rm = form.initMemory();
 		
 		formGUI = new FormComponent(form,this,frame);	
 		frame.add(formGUI);
@@ -27,13 +28,14 @@ public class GUIBuilder {
 		for(Iterator<Statement> s = form.statementList.iterator(); s.hasNext();)
 		{
 			Statement statement = s.next();
+			
 			//Hier mee geven, want deze komt uiteindelijk terug bij createGUI question etc.
 			statement.createGUIComponent(this,formGUI,rm);
 		}	
 	}
 
 	public void createGUIQuestion(Question question, FormComponent formGUI2, RuntimeMemory rm) {
-		QuestionComponent questionCompondent = new QuestionComponent(question,showCondition,rm);	
+		QuestionComponent questionCompondent = new QuestionComponent(question,rm,showCondition);	
 		formGUI2.add(questionCompondent);
 	}
 	
@@ -41,14 +43,6 @@ public class GUIBuilder {
     {
 		showCondition = condition;
     }
-
-    public void RemoveShowCondition()
-    {
-    	showCondition = null;
-    }
-	
-	
-	
 	
 
 }

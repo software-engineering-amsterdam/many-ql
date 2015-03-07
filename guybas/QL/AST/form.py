@@ -5,16 +5,33 @@ import QL.AST.Elements.constants as constants
 
 class Form:
     def __init__(self, name, introduction, statements):
+        # initialization variables
         self._name = name
         self._introduction = introduction
-        self._statements = Form.set_question_ordering(statements)
+
+        # set the statement order and the parent id's
+        self._statements = (
+            Form.set_statement_ids(str(self),
+                Form.set_question_ordering(statements))
+        )
+
+        # create dictionary of ids as keys and types as values
         self._type_dict = self.create_statement_dict(self._statements)
+
+        # get all ids
         self._ids = Form.id_collection(self._statements)
+
+        # get all labels
         self._labels = Form.label_collection(self._statements)
+
+        # get all dependencies (variables)
         self._dependencies = Form.dependency_collection(self._statements)
+
+        # get all expressions
         self._expressions = Form.expression_collection(self._statements)
+
+        # get a dictionary of ids as keys and statements as values
         self._statement_dict = Form.id_statement_dict(self._statements)
-        self._parent_id = Form.set_statement_ids(str(self), self._statements)
 
     # Pretty print the form
     def pretty_print(self):
@@ -24,35 +41,31 @@ class Form:
             s += x.pretty_print(1)
         return s
 
-    # Return all _statements
+    #########################
+    # getters of the form   #
+    #########################
+
     def get_statements(self):
         return self._statements
 
-    # Return the name of the form
     def get_name(self):
         return self._name
 
-    # Return the introduction
     def get_introduction(self):
         return self._introduction
 
-    # return all ids in the _statements
     def get_ids(self):
         return self._ids
 
-    # return all labels in the _statements
     def get_labels(self):
         return self._labels
 
-    # Get a dictionary of ids and their dependencies
     def get_dependencies(self):
         return self._dependencies
 
-    # Return all expressions present in the form
     def get_expressions(self):
         return self._expressions
 
-    # Return a dictionary with ids as keys and types as values
     def get_type_dict(self):
         return self._type_dict
 

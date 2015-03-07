@@ -20,13 +20,18 @@ public class QuestionComponent extends JPanel {
 	private Expression showCondition;
 	private RuntimeMemory rm;
 
-	public QuestionComponent(Question question, Expression showCondition,RuntimeMemory rm) {
+	public QuestionComponent(Question question, RuntimeMemory rm, Expression showCondition) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS)); 
 		this.question = question;
 		this.label = new Label(question.getText());
 		this.showCondition = showCondition;
 		this.rm = rm;
 		add(label);
+		if(showCondition != null)
+		{
+			this.setVisible(false);
+			rm.putExp(showCondition, this);
+		}
 		createQuestionType();
 	}
 	
@@ -35,19 +40,22 @@ public class QuestionComponent extends JPanel {
 	{
 		if(question.getType().isBoolType())
 		{
-			CheckBox checkbox = new CheckBox(question,this,showCondition,rm);
+			//CheckBox checkbox = new CheckBox(question,this,showCondition,rm);
+			CheckBox checkbox = new CheckBox(question,this,rm);
 			checkbox.setName(question.getId());
 			add(checkbox);			
 		}
 		else if(question.getType().isStringType())
 		{
-			TextField textfield = new TextField(question,this,showCondition,rm);
+			//TextField textfield = new TextField(question,this,showCondition,rm);
+			TextField textfield = new TextField(question,this,rm);
 			textfield.setName(question.getId());
 			add(textfield);			
 		}
 		else
 		{
-			TextField textfield = new TextField(question,this,showCondition,rm);
+			//TextField textfield = new TextField(question,this,showCondition,rm);
+			TextField textfield = new TextField(question,this,rm);
 			textfield.setName(question.getId());
 			add(textfield);
 		}

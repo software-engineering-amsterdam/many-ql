@@ -5,9 +5,9 @@ import edu.Widgets
 import edu.parser.AntlrParser
 import edu.parser.QLS.nodes.statement.Page
 import edu.parser.QLS.nodes.Stylesheet
-import edu.parser.QLS.nodes.statement.Question
-import edu.parser.QLS.nodes.styles.Widget
-import edu.parser.QLS.nodes.styles.Width
+import edu.parser.QLS.nodes.statement.QLSQuestion
+import edu.nodes.styles.Widget
+import edu.nodes.styles.Width
 import junit.framework.Assert
 import spock.lang.Specification
 
@@ -41,8 +41,8 @@ class ParseTreeVisitorTest extends Specification { //todo: create enum with path
         Assert.assertEquals("first section should be called: 'section'", "section", secondElement.sections.get(0).title)
         Assert.assertEquals("second section should be called: 'another section'", "another section", secondElement.sections.get(1).title)
         Assert.assertEquals("first section contains one element", 1, secondElement.sections.get(0).statements.size())
-        Assert.assertEquals("first section contains a question", Question.class, secondElement.sections.get(0).statements.get(0).class)
-        Assert.assertEquals("second section contains a question", Question.class, secondElement.sections.get(1).statements.get(0).class)
+        Assert.assertEquals("first section contains a question", QLSQuestion.class, secondElement.sections.get(0).statements.get(0).class)
+        Assert.assertEquals("second section contains a question", QLSQuestion.class, secondElement.sections.get(1).statements.get(0).class)
         Assert.assertEquals("second section contains a question with a style width", Width.class, secondElement.sections.get(1).statements.get(0).styles.get(0).class)
         Assert.assertEquals("second section contains a question with a style width of 40", 40, secondElement.sections.get(1).statements.get(0).styles.get(0).width)
         Assert.assertEquals("third element is a page", Page.class, thirdElement.class)

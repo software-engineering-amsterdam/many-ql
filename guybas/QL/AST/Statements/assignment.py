@@ -14,10 +14,10 @@ class Assignment(statement.IStatement):
     # pretty print ast, with level giving the indentation
     def pretty_print(self, level=0):
         s = "\n" + "   " * level + "Assignment\n"
-        s += "   " * (level + 1) + "Assignment id: " + self.id + "\n"
+        s += "   " * (level + 1) + "Assignment _id: " + self.id + "\n"
         s += "   " * (level + 1) + "Assignment number: "+ str(self.order) + "\n"
         s += "   " * (level + 1) + "Assignment itself: " + self.expr + "\n"
-        s += "   " * (level + 1) + "Assignment type: " + str(self.type)
+        s += "   " * (level + 1) + "Assignment _type: " + str(self.type)
         s += "\n"
         return s
 

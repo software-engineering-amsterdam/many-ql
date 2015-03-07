@@ -28,7 +28,7 @@ func (g *Gui) renderNewStringQuestion(fieldName, caption string,
 
 	qml := renderTemplateQuestion(stringQuestionQMLTemplate, fieldName,
 		caption, "")
-	question = renderAndInsertAt(qml, g.rows)
+	question = renderAndInsertAt(qml, g.targetContainer)
 
 	newFieldPtr := question.ObjectByName(fieldName)
 	newFieldPtr.Set("text", content)

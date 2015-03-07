@@ -40,14 +40,16 @@ type Gui struct {
 	answerStack     map[string]string
 	sweepStack      map[string]bool
 	symbolTable     map[string]qml.Object
-	rows            qml.Object
+	root            qml.Object
 	updateCallbacks map[string]func(v string)
+	targetContainer qml.Object
 
-	pages map[string]*stylelang.Page
+	pages         map[string]*stylelang.Page
+	questionIndex map[string][]string
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string, pages map[string]*stylelang.Page) frontend.Inputer {
+func GUI(appName string, pages map[string]*stylelang.Page, questionIndex map[string][]string) frontend.Inputer {
 	driver := &Gui{
 		appName: appName,
 
@@ -57,7 +59,8 @@ func GUI(appName string, pages map[string]*stylelang.Page) frontend.Inputer {
 		symbolTable:     make(map[string]qml.Object),
 		updateCallbacks: make(map[string]func(v string)),
 
-		pages: pages,
+		pages:         pages,
+		questionIndex: questionIndex,
 	}
 	return driver
 }
@@ -154,9 +157,9 @@ func (g *Gui) Loop() {
 
 func (g *Gui) loop() error {
 	win := startQMLengine(g.appName, drawTabBlock(g.pages["root"])).CreateWindow(nil)
-	// g.rows = win.Root().ObjectByName("root")
+	g.root = win.Root().ObjectByName("rootView")
 	win.Show()
-	// go g.renderLoop()
+	go g.renderLoop()
 	win.Wait()
 	return nil
 }

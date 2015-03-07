@@ -1,0 +1,28 @@
+stylesheet title{
+
+    question NAME
+    page{
+        section "section"{
+            question NAME1
+        }
+        section "another section" {
+            question NAME2 {
+                width 40
+            }
+        }
+    }
+
+    page{
+    }
+
+    question NAME3{
+        widget YESNODROPDOWN
+        width 500
+        font "arial"
+        color # 123
+    }
+
+    default STRING{
+        color #456
+    }
+}
