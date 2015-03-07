@@ -3,6 +3,7 @@ package ast.expression.comparison;
 import ast.expression.BinaryExpression;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
+import ast.type.ChoiceType;
 
 // Less than or equal to(<=)
 
@@ -20,6 +21,11 @@ public class LessEqualExpression extends BinaryExpression {
 	@Override
 	public String toString() {
 		return super.getLeftExpression().toString() + " <= " + super.getRightExpression().toString();
+	}
+	
+	@Override
+	public ChoiceType getExpressionType() {
+		return new ChoiceType();
 	}
 }
 
