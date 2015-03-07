@@ -2,8 +2,9 @@ package com.klq.ast.impl.expr.bool;
 
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
-import com.klq.logic.value.*;
+import com.klq.ast.impl.expr.literal.AValueNode;
+import com.klq.ast.impl.expr.literal.BooleanNode;
+import com.klq.ast.impl.expr.literal.NumberNode;
 
 import java.util.Map;
 
@@ -21,11 +22,12 @@ public class LessEqualsNode extends ABooleanNode {
         return visitor.visit(this);
     }
 
+    //TODO Now only works for numbers, make it work for other primitives?
     @Override
-    public Value evaluate(Map<IdentifierValue, Value> variables) {
-        ComparableValue left = (ComparableValue)(getLeftChild().evaluate(variables));
-        ComparableValue right = (ComparableValue)(getRightChild().evaluate(variables));
+    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
+        NumberNode left = (NumberNode) (getLeftChild().evaluate(variableTable));
+        NumberNode right =(NumberNode) (getRightChild().evaluate(variableTable));
 
-        return new BooleanValue(left.compareTo(right) <= 0);
+        return new BooleanNode(left.getValue().compareTo(right.getValue()) <= 0, "");
     }
 }

@@ -2,10 +2,8 @@ package com.klq.ast.impl.expr.bool;
 
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
-import com.klq.logic.value.BooleanValue;
-import com.klq.logic.value.IdentifierValue;
-import com.klq.logic.value.Value;
+import com.klq.ast.impl.expr.literal.AValueNode;
+import com.klq.ast.impl.expr.literal.BooleanNode;
 
 import java.util.Map;
 
@@ -24,10 +22,10 @@ public class EqualsNode extends ABooleanNode {
     }
 
     @Override
-    public Value evaluate(Map<IdentifierValue, Value> variables) {
-        Value left = (getLeftChild().evaluate(variables));
-        Value right =(getRightChild().evaluate(variables));
+    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
+        AValueNode left = (getLeftChild().evaluate(variableTable));
+        AValueNode right =(getRightChild().evaluate(variableTable));
 
-        return new BooleanValue(left.equals(right));
+        return new BooleanNode(left.equals(right), "");
     }
 }
