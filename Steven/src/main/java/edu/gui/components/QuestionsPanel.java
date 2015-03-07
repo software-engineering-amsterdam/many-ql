@@ -2,11 +2,13 @@ package edu.gui.components;
 
 import edu.exceptions.GuiException;
 import edu.gui.QuestionTypeGui;
-import edu.parser.nodes.Question;
+import edu.nodes.Question;
+import edu.nodes.styles.Style;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Steven Kok on 25/02/2015.
@@ -14,11 +16,13 @@ import java.util.List;
 public class QuestionsPanel extends JPanel {
 
     private final GridBagConstraints gbc;
+    private final Map<Question, List<Style>> questions;
 
-    public QuestionsPanel(List<Question> questions) {
+    public QuestionsPanel(Map<Question, List<Style>> questions) {
+        this.questions = questions;
         gbc = new GridBagConstraints();
         initializeGridBagLayout();
-        addQuestionsToGridBagLayout(questions);
+        addQuestionsToGridBagLayout();
     }
 
     private void initializeGridBagLayout() {
@@ -28,8 +32,8 @@ public class QuestionsPanel extends JPanel {
         gbc.insets = new Insets(2, 2, 2, 2);
     }
 
-    private void addQuestionsToGridBagLayout(List<Question> questions) {
-        questions.stream()
+    private void addQuestionsToGridBagLayout() {
+        questions.keySet().stream()
                 .forEachOrdered(this::addQuestionToGridBagLayout);
     }
 
