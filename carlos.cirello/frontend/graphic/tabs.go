@@ -41,7 +41,9 @@ TabView {
 func drawTabBlock(page *stylelang.Page) string {
 	nestedTabBlock := ""
 	if page.HasNestedPages() {
-		for _, p := range page.Pages() {
+		ps := page.Pages()
+		for _, pageIdx := range page.PagesOrder() {
+			p := ps[pageIdx]
 			nestedPages := ""
 			if p.HasNestedPages() {
 				nestedPages = drawTabBlock(p)
