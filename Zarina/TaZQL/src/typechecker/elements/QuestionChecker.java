@@ -1,5 +1,8 @@
 package typechecker.elements;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import typechecker.TypeRepository;
 import typechecker.errors.ErrorCollector;
 import ast.type.Type;
@@ -36,7 +39,20 @@ public class QuestionChecker {
 	
 	//duplicate labels (warning)
 	public void checkDuplicateLabels() {
-		//TODO
-		this.errorCollector.addWarning("Testing my warning");
+		 if(!this.typeRepository.empty()) {
+					
+		for(Map.Entry<String, String> entry : this.typeRepository.getLabelRepository().entrySet()) {
+			String key = entry.getKey();
+			String labelValue = entry.getValue();
+			
+			if(!labelValue.equals(this.label) || key.equals(id)) {
+				continue;
+			}
+			this.errorCollector.addWarning("Warning! Duplicated label *" + labelValue + "* in question *" + key + "*.");	
+		}
+		 }	
+		
+		
+	
 	}
 }
