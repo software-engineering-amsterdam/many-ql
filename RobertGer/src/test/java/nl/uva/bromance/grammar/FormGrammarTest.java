@@ -12,11 +12,8 @@ public class FormGrammarTest extends GrammarTest {
 
     @Test
     public void correctForm() throws IOException {
-        String content = "Name: \"Tax\" {\n" +
-                CORRECT_FORM +
-                "}";
 
-        walker.walk(listener, createTree(content));
+        walker.walk(listener, createTree(CORRECT_FORM_SETUP));
     }
 
 

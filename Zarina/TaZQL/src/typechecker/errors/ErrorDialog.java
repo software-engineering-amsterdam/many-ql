@@ -11,9 +11,11 @@ import javax.swing.JLabel;
 
 public class ErrorDialog {
 	private List<TaZQLError> errorCollection;
+	private List<TaZQLWarning> warningCollection;
 	
-	public ErrorDialog(List<TaZQLError> errorCollection) {
+	public ErrorDialog(List<TaZQLError> errorCollection, List<TaZQLWarning> warningCollection) {
 		this.errorCollection = errorCollection;
+		this.warningCollection = warningCollection;
 		errorDialog();
 	}
 	
@@ -21,8 +23,12 @@ public class ErrorDialog {
 		JDialog dialog = new JDialog();
 		Container contentPane = dialog.getContentPane();
 		
-		for(TaZQLError error : this.errorCollection) {
-			contentPane.add(new JLabel(error.getErrorMessage()));
+		for(TaZQLError errorMessage : this.errorCollection) {
+			contentPane.add(addErrorLabel(errorMessage));
+		}
+		
+		for(TaZQLWarning warningMessage : this.warningCollection) {
+			contentPane.add(addWarningLabel(warningMessage));
 		}
 		
 		contentPane.setBackground(Color.white);
@@ -30,11 +36,16 @@ public class ErrorDialog {
 		dialog.pack();
 		dialog.setLocationRelativeTo(null);
 		dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		dialog.setMinimumSize(new Dimension(150,150));
+		dialog.setMinimumSize(new Dimension(300,100));
 		dialog.setVisible(true);
 	}
 	
 	public JLabel addErrorLabel(TaZQLError error) {
 		return new JLabel(error.getErrorMessage());
 	}
+	
+	public JLabel addWarningLabel(TaZQLWarning warn) {
+		return new JLabel(warn.getWarningMessage());
+	}
+
 }

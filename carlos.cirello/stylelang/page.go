@@ -2,10 +2,11 @@ package stylelang
 
 // Page is the strucht that represents one tab (page) in the form
 type Page struct {
-	name     string
-	defaults map[string]string
-	visible  map[string]bool
-	pages    map[string]*Page
+	name       string
+	defaults   map[string]string
+	visible    map[string]bool
+	pages      map[string]*Page
+	pagesOrder []string
 }
 
 // NewPage is the constructor for Page
@@ -28,6 +29,12 @@ func (p *Page) Pages() map[string]*Page {
 	return p.pages
 }
 
+// PagesOrder return the ordered index of pages, as Go's maps does not guarantee
+// order.
+func (p *Page) PagesOrder() []string {
+	return p.pagesOrder
+}
+
 func (p *Page) HasNestedPages() bool {
 	return len(p.pages) > 0
 }
@@ -47,6 +54,7 @@ func (p *Page) Defaults() map[string]string {
 // AddPage adds a nested page to the given page
 func (p *Page) AddPage(name string, page *Page) {
 	p.pages[name] = page
+	p.pagesOrder = append(p.pagesOrder, name)
 }
 
 // SetDefaultFor sets a default (w)idgte for a particular (t)ype of question

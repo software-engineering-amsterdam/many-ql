@@ -21,6 +21,6 @@ public class TypeChecker {
 	}
 	
 	public void showErrors() {
-		new ErrorDialog(this.typeCheckerVisitor.getError());
+		new ErrorDialog(this.typeCheckerVisitor.getError(), this.typeCheckerVisitor.getWarning());
 	}
 }
