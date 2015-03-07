@@ -10,23 +10,38 @@ import org.uva.sea.ql.encoders.ast.OperatorExpression;
 
 public class ExpressionEvaluator {
 
-	public void evaluateExpressions(RuntimeQuestionnaire runtimeQuestionnaire) {
-		List<RuntimeQuestion> runtimeQuestions = runtimeQuestionnaire.getQuestions();
+	public void evaluateExpression(RuntimeQuestion runtimeQuestion) {
 
-		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
-			// add checks?
+		evaluateCondition(runtimeQuestion);
+	}
+
+	private boolean evaluateCondition(RuntimeQuestion runtimeQuestion) {
+
+		Expression questionCondition = runtimeQuestion.getQuestion().getCondition();
+
+		// How to avoid usage instanceof?
+		// How to deal with other types of Expressions?
+		// How to get the Questionnaire context to modify the UI fields??
+		if (questionCondition instanceof NameExpression) {
+
+			// for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
+			//
+			// if
+			// (questionCondition.toString().equals(runtimeQuestion.getQuestion().getName()))
+			// {
+			// System.out.println(runtimeQuestion.getValue());
+			// }
+			// }
 		}
-	}
-
-	private boolean evaluateCondition() {
 		return false;
 	}
 
-	private boolean evaluateComputation() {
-		return false;
-	}
+	// private boolean evaluateComputation() {
+	// return false;
+	// }
 
 	private DataType determineDataType(Expression expression, List<RuntimeQuestion> runtimeQuestions) {
+
 		if (expression instanceof NameExpression) {
 			String name = ((NameExpression) expression).getName();
 			RuntimeQuestion runtimeQuestion = getRuntimeQuestion(name, runtimeQuestions);
@@ -36,10 +51,12 @@ public class ExpressionEvaluator {
 				return DataType.UNDEFINED;
 			}
 		}
+
 		if (expression instanceof BracedExpression) {
 			Expression innerExpression = ((BracedExpression) expression).getExpression();
 			return determineDataType(innerExpression, runtimeQuestions);
 		}
+
 		if (expression instanceof OperatorExpression) {
 			OperatorExpression operatorExpression = (OperatorExpression) expression;
 			Expression leftHand = operatorExpression.getLeftHand();
@@ -55,16 +72,19 @@ public class ExpressionEvaluator {
 
 			return DataType.UNDEFINED;
 		}
+
 		throw new RuntimeException("Unsupported type " + expression.getClass());
 	}
 
 	private RuntimeQuestion getRuntimeQuestion(String name, List<RuntimeQuestion> runtimeQuestions) {
+
 		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
 			String runtimeQuestionName = runtimeQuestion.getQuestion().getName();
 			if (name.equals(runtimeQuestionName)) {
 				return runtimeQuestion;
 			}
 		}
+
 		return null;
 	}
 }

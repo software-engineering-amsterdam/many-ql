@@ -20,10 +20,13 @@ import javafx.scene.text.Text;
 
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 
 public class QuestionnaireUI {
+
+	public ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator();
 
 	public Control generateUI(RuntimeQuestionnaire questionnaire) {
 		GridPane grid = new GridPane();
@@ -31,14 +34,14 @@ public class QuestionnaireUI {
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		setUpQuestionnaireUI(questionnaire, grid);
+		setupQuestionnaireUI(questionnaire, grid);
 
 		ScrollPane scrollPane = new ScrollPane(grid);
 		scrollPane.setPrefSize(550, 500);
 		return scrollPane;
 	}
 
-	private void setUpQuestionnaireUI(RuntimeQuestionnaire questionnaire, GridPane grid) {
+	private void setupQuestionnaireUI(RuntimeQuestionnaire questionnaire, GridPane grid) {
 		Text scenetitle = new Text(questionnaire.getName());
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
@@ -106,6 +109,7 @@ public class QuestionnaireUI {
 		public void handle(ActionEvent event) {
 			CheckBox checkBox = (CheckBox) event.getSource();
 			question.setValue(checkBox.isSelected());
+			expressionEvaluator.evaluateExpression(question);
 		}
 	}
 }
