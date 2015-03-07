@@ -1,11 +1,11 @@
 package edu.parser.QL.nodes.question;
 
+import edu.nodes.QuestionType;
 import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.nodes.QuestionType;
 
 import java.util.Optional;
 
@@ -65,13 +65,10 @@ public class QLQuestion extends Statement {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         QLQuestion question = (QLQuestion) o;
-
         if (enabled != question.enabled) return false;
         // intellij 'simplified' the next line:
         return !(expression != null ? !expression.equals(question.expression) : question.expression != null) && identifier.equals(question.identifier) && label.equals(question.label) && questionType == question.questionType;
-
     }
 
     @Override

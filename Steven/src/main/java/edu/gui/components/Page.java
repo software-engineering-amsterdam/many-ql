@@ -18,6 +18,13 @@ public class Page extends JPanel {
     public Page(List<Section> sections, Map<Question, List<Style>> questions) throws HeadlessException {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         sections.stream()
-                .forEach(section -> add(new SectionsPanel(section,questions)));
+                .forEach(section -> add(createSectionPanel(questions, section)));
+    }
+
+    private SectionsPanel createSectionPanel(Map<Question, List<Style>> questions, Section section) {
+        SectionsPanel sectionsPanel = new SectionsPanel(section, questions);
+        sectionsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        return sectionsPanel;
     }
 }

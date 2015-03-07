@@ -4,6 +4,7 @@ stylesheet title{
     page{
         section "section"{
             question NAME1
+            question NAME4
         }
         section "another section" {
             question NAME2 {

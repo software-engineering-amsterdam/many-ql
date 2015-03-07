@@ -3,12 +3,10 @@ package edu.gui.components;
 import edu.exceptions.GuiException;
 import edu.gui.QuestionTypeGui;
 import edu.nodes.Question;
-import edu.nodes.styles.Style;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Steven Kok on 25/02/2015.
@@ -16,9 +14,9 @@ import java.util.Map;
 public class QuestionsPanel extends JPanel {
 
     private final GridBagConstraints gbc;
-    private final Map<Question, List<Style>> questions;
+    private final List<Question> questions;
 
-    public QuestionsPanel(Map<Question, List<Style>> questions) {
+    public QuestionsPanel(List<Question> questions) {
         this.questions = questions;
         gbc = new GridBagConstraints();
         initializeGridBagLayout();
@@ -33,7 +31,7 @@ public class QuestionsPanel extends JPanel {
     }
 
     private void addQuestionsToGridBagLayout() {
-        questions.keySet().stream()
+        questions.stream()
                 .forEachOrdered(this::addQuestionToGridBagLayout);
     }
 

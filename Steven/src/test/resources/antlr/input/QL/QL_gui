@@ -9,5 +9,7 @@ form FORMNAME {
     }else{
         NAME3 BOOLEAN "Great!"
     }
+
+    NAME4 STRING "text text text"
 }
 // sdfsf
