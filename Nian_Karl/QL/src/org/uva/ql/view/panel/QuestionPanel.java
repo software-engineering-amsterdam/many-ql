@@ -1,4 +1,4 @@
-package org.uva.ql.view;
+package org.uva.ql.view.panel;
 
 import java.awt.Color;
 import java.awt.Component;

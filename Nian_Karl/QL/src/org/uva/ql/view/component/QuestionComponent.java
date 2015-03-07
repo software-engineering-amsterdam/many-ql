@@ -1,4 +1,4 @@
-package org.uva.ql.view;
+package org.uva.ql.view.component;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 
 import org.uva.ql.ast.statement.QuestionNormal;
+import org.uva.ql.view.panel.Panel;
 import org.uva.ql.view.widgit.Label;
 import org.uva.ql.view.widgit.Widget;
 

@@ -1,4 +1,4 @@
-package org.uva.ql.view;
+package org.uva.ql.view.panel;
 
 import java.util.ArrayList;
 
@@ -7,13 +7,13 @@ import org.uva.ql.ast.value.Bool;
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
 
-public class DependentQuestionPanel extends QuestionPanel {
+public class IfQuestionPanel extends QuestionPanel {
 
 	private static final long serialVersionUID = -4507161988032536469L;
 
 	private Expression expr;
 
-	public DependentQuestionPanel(ArrayList<Panel> ifBlockPanels, Expression expr) {
+	public IfQuestionPanel(ArrayList<Panel> ifBlockPanels, Expression expr) {
 		super(ifBlockPanels);
 		this.expr = expr;
 		toggleIfBlock(false);

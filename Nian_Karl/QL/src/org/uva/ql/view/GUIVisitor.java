@@ -17,7 +17,13 @@ import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.view.component.ExprQuestionComponent;
+import org.uva.ql.view.component.QuestionComponent;
 import org.uva.ql.view.listener.WidgetListener;
+import org.uva.ql.view.panel.IfQuestionPanel;
+import org.uva.ql.view.panel.IfElseQuestionPanel;
+import org.uva.ql.view.panel.Panel;
+import org.uva.ql.view.panel.QuestionPanel;
 import org.uva.ql.view.widgit.CheckBox;
 import org.uva.ql.view.widgit.NumberTextField;
 import org.uva.ql.view.widgit.TextField;
@@ -35,10 +41,10 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	@Override
-	public DependentQuestionPanel visit(IfStatement ifStatement) {
+	public IfQuestionPanel visit(IfStatement ifStatement) {
 		ArrayList<Panel> questionPanels = (ArrayList<Panel>) ifStatement.getIfBlock().accept(this);
 		Expression expr = ifStatement.getExpr();
-		DependentQuestionPanel questionPanel = new DependentQuestionPanel(questionPanels, expr);
+		IfQuestionPanel questionPanel = new IfQuestionPanel(questionPanels, expr);
 		widgetListener.addDependentQuestionPanel(questionPanel);
 		return questionPanel;
 	}
@@ -57,7 +63,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	public Panel visit(QuestionCompute questionComputeStatement) {
 		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
 		widget.setDependent(true);
-		DependentQuestionComponent questionComponent = new DependentQuestionComponent(questionComputeStatement, widget);
+		ExprQuestionComponent questionComponent = new ExprQuestionComponent(questionComputeStatement, widget);
 		Identifier identifier = questionComputeStatement.getIdentifier();
 		widgetListener.initializeValue(identifier.toString(), new Undefined());
 		widgetListener.addDependentQuestionComponent(questionComponent);
@@ -113,7 +119,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 		ArrayList<Panel> elseQuestions = (ArrayList<Panel>) ifElseStatement.getElseBLock().accept(this);
 		Expression expr = ifElseStatement.getExpr();
-		InDependentQuestionPanel questionPanel = new InDependentQuestionPanel(ifQuestions, elseQuestions, expr);
+		IfElseQuestionPanel questionPanel = new IfElseQuestionPanel(ifQuestions, elseQuestions, expr);
 		widgetListener.addDependentQuestionPanel(questionPanel);
 		return questionPanel;
 	}

@@ -5,19 +5,19 @@ import java.util.List;
 
 import org.uva.ql.ast.value.Value;
 import org.uva.ql.evaluation.Evaluator;
-import org.uva.ql.view.DependentQuestionComponent;
-import org.uva.ql.view.DependentQuestionPanel;
+import org.uva.ql.view.component.ExprQuestionComponent;
+import org.uva.ql.view.panel.IfQuestionPanel;
 
 public class WidgetListener implements IWidgetListener {
 
 	private Evaluator evaluator;
-	private List<DependentQuestionPanel> dependentQuestionPanels;
-	private List<DependentQuestionComponent> dependentQuestionComponents;
+	private List<IfQuestionPanel> dependentQuestionPanels;
+	private List<ExprQuestionComponent> dependentQuestionComponents;
 
 	public WidgetListener() {
 		this.evaluator = new Evaluator();
-		this.dependentQuestionPanels = new ArrayList<DependentQuestionPanel>();
-		this.dependentQuestionComponents = new ArrayList<DependentQuestionComponent>();
+		this.dependentQuestionPanels = new ArrayList<IfQuestionPanel>();
+		this.dependentQuestionComponents = new ArrayList<ExprQuestionComponent>();
 	}
 
 	public void initializeValue(String identifier, Value value) {
@@ -27,20 +27,20 @@ public class WidgetListener implements IWidgetListener {
 	@Override
 	public void widgetValueChanged(String identifier, Value value) {
 		evaluator.addValue(identifier, value);
-		for (DependentQuestionPanel pannel : dependentQuestionPanels) {
+		for (IfQuestionPanel pannel : dependentQuestionPanels) {
 			pannel.evaluateAndShow(evaluator);
 		}
 
-		for (DependentQuestionComponent pannel : dependentQuestionComponents) {
+		for (ExprQuestionComponent pannel : dependentQuestionComponents) {
 			pannel.evaluateAndChange(evaluator);
 		}
 	};
 
-	public void addDependentQuestionPanel(DependentQuestionPanel panel) {
+	public void addDependentQuestionPanel(IfQuestionPanel panel) {
 		dependentQuestionPanels.add(panel);
 	}
 
-	public void addDependentQuestionComponent(DependentQuestionComponent panel) {
+	public void addDependentQuestionComponent(ExprQuestionComponent panel) {
 		dependentQuestionComponents.add(panel);
 	}
 }
