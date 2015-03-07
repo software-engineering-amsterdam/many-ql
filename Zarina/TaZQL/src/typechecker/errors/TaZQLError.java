@@ -10,4 +10,8 @@ public class TaZQLError {
 	public String getErrorMessage() {
 		return this.errorMessage;
 	}
+	
+	public String toString() {
+		return errorMessage;
+	}
 }

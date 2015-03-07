@@ -1,23 +1,23 @@
 package nl.uva.bromance.typechecking;
 
+import nl.uva.bromance.AST.AST;
 import nl.uva.bromance.AST.Node;
 import nl.uva.bromance.AST.Question;
-import nl.uva.bromance.AST.Questionnaire;
 
 /**
  * Created by Gerrit Krijnen on 2/17/2015.
  */
 public class TypeChecker {
     private ReferenceMap referenceMap = new ReferenceMap();
-    private Questionnaire ast;
+    private AST ast;
 
-    public TypeChecker(Questionnaire ast) {
+    public TypeChecker(AST ast) {
         this.ast = ast;
     }
 
     public boolean runChecks() {
-        buildReferenceMap(ast);
-        typeCheck(ast);
+        buildReferenceMap(ast.getRoot());
+        typeCheck(ast.getRoot());
         System.out.println("Got questions :");
         for (Node value : referenceMap.values()) {
             if (value instanceof Question) {

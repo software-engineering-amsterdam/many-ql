@@ -1,6 +1,6 @@
 import pyparsing as pp
 import QL.Grammar.basic_types as ql_type
-import QLS.Factory.qls as factory
+import QLS.Factory.widget as factory
 
 class Widget:
     # import pyparsing functions
@@ -41,9 +41,9 @@ class Widget:
     textbox = (Suppress("Textbox") + Optional(number)).setParseAction(factory.WidgetFactory.make_textbox)
 
     # drop_down :: Dropdown
-    drop_down = (Suppress("Dropdown") + options).setParseAction(factory.WidgetFactory.make_dropdown)
+    drop_down = (Suppress("Dropdown") + options).setParseAction(factory.WidgetFactory.make_drop_down)
 
     # widget  :: Widget : (radio | checkbox | spinbox | slider | textbox | drop_down)
     widget = \
         (Suppress("Widget") + Suppress(":") + (radio | checkbox | spinbox | slider | textbox | drop_down)
-        ).setParseAction(factory.WidgetFactory.make_widget)
+        )
