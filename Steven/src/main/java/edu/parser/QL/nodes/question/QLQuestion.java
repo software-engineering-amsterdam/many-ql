@@ -1,26 +1,26 @@
 package edu.parser.QL.nodes.question;
 
+import edu.nodes.QuestionType;
 import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.statement.Statement;
-import edu.parser.nodes.QuestionType;
 
 import java.util.Optional;
 
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class Question extends Statement {
+public class QLQuestion extends Statement {
 
     private final Identifier identifier;
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
+    private final boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
-    public Question(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
+    public QLQuestion(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
         this.expression = expression;
         this.identifier = identifier;
         this.questionType = questionType;
@@ -32,12 +32,12 @@ public class Question extends Statement {
         return enabled;
     }
 
-    public void enable() {
-        this.enabled = true;
+    public QLQuestion enable() {
+        return new QLQuestion(identifier, questionType, label, true, expression);
     }
 
-    public void disable() {
-        this.enabled = false;
+    public QLQuestion disable() {
+        return new QLQuestion(identifier, questionType, label, false, expression);
     }
 
     public Identifier getIdentifier() {
@@ -65,13 +65,10 @@ public class Question extends Statement {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        Question question = (Question) o;
-
+        QLQuestion question = (QLQuestion) o;
         if (enabled != question.enabled) return false;
         // intellij 'simplified' the next line:
         return !(expression != null ? !expression.equals(question.expression) : question.expression != null) && identifier.equals(question.identifier) && label.equals(question.label) && questionType == question.questionType;
-
     }
 
     @Override
