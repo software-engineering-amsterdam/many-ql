@@ -10,37 +10,37 @@ using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class CalendarControl : QuestionControl
+    public partial class CheckBoxControl : QuestionControl
     {
-        public CalendarControl(Question astQuestion)
+        public CheckBoxControl(Question astQuestion)
             :base(astQuestion)
         {
             InitializeComponent();
             QuestionLabel.Text = Label;
-            AnswerDatePicker.Enabled = !astQuestion.IsComputed;
+            YesCheckBox.Enabled = !astQuestion.IsComputed;
         }
 
         public override Value GetValue()
         {
-            return new DateValue(AnswerDatePicker.Value);
+            return new BooleanValue(YesCheckBox.Checked);
         }
 
         public override void SetValue(Value value)
         {
             if (!value.IsUndefined)
             {
-                if (value.DataType == DataType.Date)
+                if (value.DataType == DataType.Boolean)
                 {
-                    AnswerDatePicker.Value = ((DateValue)value).Val;
+                    YesCheckBox.Checked = ((BooleanValue)value).Val; 
                 }
                 else
                 {
-                    throw new ArgumentException("Parameter value must be of datatype 'date'.");
+                    throw new ArgumentException("Parameter value must be of datatype 'bool'.");
                 }
             }
         }
 
-        private void AnswerDatePicker_ValueChanged(object sender, EventArgs e)
+        private void YesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             OnQuestionAnswered(new EventArgs());
         }

@@ -10,37 +10,37 @@ using UvA.SoftCon.Questionnaire.Runtime.Evaluation.Types;
 
 namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
-    public partial class CalendarControl : QuestionControl
+    public partial class TextBoxControl : QuestionControl
     {
-        public CalendarControl(Question astQuestion)
-            :base(astQuestion)
+        public TextBoxControl(Question astQuestion)
+            : base(astQuestion)
         {
             InitializeComponent();
             QuestionLabel.Text = Label;
-            AnswerDatePicker.Enabled = !astQuestion.IsComputed;
+            AnswerTextBox.Enabled = !astQuestion.IsComputed;
         }
 
         public override Value GetValue()
         {
-            return new DateValue(AnswerDatePicker.Value);
+            return new StringValue(AnswerTextBox.Text);
         }
 
         public override void SetValue(Value value)
         {
             if (!value.IsUndefined)
             {
-                if (value.DataType == DataType.Date)
+                if (value.DataType == DataType.String)
                 {
-                    AnswerDatePicker.Value = ((DateValue)value).Val;
+                    AnswerTextBox.Text = ((StringValue)value).Val;
                 }
                 else
                 {
-                    throw new ArgumentException("Parameter value must be of datatype 'date'.");
+                    throw new ArgumentException("Parameter value must be of datatype 'string'.");
                 }
             }
         }
 
-        private void AnswerDatePicker_ValueChanged(object sender, EventArgs e)
+        private void AnswerTextBox_TextChanged(object sender, EventArgs e)
         {
             OnQuestionAnswered(new EventArgs());
         }

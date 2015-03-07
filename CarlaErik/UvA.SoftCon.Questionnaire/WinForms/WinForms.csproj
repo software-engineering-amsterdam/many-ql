@@ -50,11 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\BooleanQuestion.cs">
+    <Compile Include="Controls\DropDownControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\BooleanQuestion.Designer.cs">
-      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    <Compile Include="Controls\DropDownControl.Designer.cs">
+      <DependentUpon>DropDownControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RadioControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RadioControl.Designer.cs">
+      <DependentUpon>RadioControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CalendarControl.cs">
       <SubType>UserControl</SubType>
@@ -62,11 +68,17 @@
     <Compile Include="Controls\CalendarControl.Designer.cs">
       <DependentUpon>CalendarControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NumericQuestion.cs">
+    <Compile Include="Controls\CheckBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\NumericQuestion.Designer.cs">
-      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    <Compile Include="Controls\CheckBoxControl.Designer.cs">
+      <DependentUpon>CheckBoxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SpinBoxControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SpinBoxControl.Designer.cs">
+      <DependentUpon>SpinBoxControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\OutputWindow.cs" />
     <Compile Include="Controls\QuestionControl.cs">
@@ -75,11 +87,11 @@
     <Compile Include="Controls\QuestionControl.Designer.cs">
       <DependentUpon>QuestionControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TextQuestion.cs">
+    <Compile Include="Controls\TextBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TextQuestion.Designer.cs">
-      <DependentUpon>TextQuestion.cs</DependentUpon>
+    <Compile Include="Controls\TextBoxControl.Designer.cs">
+      <DependentUpon>TextBoxControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -89,20 +101,26 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\BooleanQuestion.resx">
-      <DependentUpon>BooleanQuestion.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\CheckBoxControl.resx">
+      <DependentUpon>CheckBoxControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DropDownControl.resx">
+      <DependentUpon>DropDownControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RadioControl.resx">
+      <DependentUpon>RadioControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\CalendarControl.resx">
       <DependentUpon>CalendarControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\NumericQuestion.resx">
-      <DependentUpon>NumericQuestion.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\SpinBoxControl.resx">
+      <DependentUpon>SpinBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\QuestionControl.resx">
       <DependentUpon>QuestionControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TextQuestion.resx">
-      <DependentUpon>TextQuestion.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TextBoxControl.resx">
+      <DependentUpon>TextBoxControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

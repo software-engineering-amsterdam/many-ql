@@ -9,6 +9,9 @@ using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions.Literals;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 {
+    /// <summary>
+    /// Checks whether literal values are valid within the bounds of their types.
+    /// </summary>
     public class LiteralCheckingVisitor : QLVisitor
     {
         public ICollection<DateLiteral> InvalidDateLiterals
