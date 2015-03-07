@@ -5,35 +5,29 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TArrow extends Token
-{
-    public TArrow()
-    {
+public final class TArrow extends Token {
+    public TArrow() {
         super.setText("->");
     }
 
-    public TArrow(int line, int pos)
-    {
+    public TArrow(int line, int pos) {
         super.setText("->");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TArrow(getLine(), getPos());
+    public Object clone() {
+        return new TArrow(getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTArrow(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TArrow text.");
     }
 }

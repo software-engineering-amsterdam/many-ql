@@ -5,29 +5,24 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class THexChar extends Token
-{
-    public THexChar(String text)
-    {
+public final class THexChar extends Token {
+    public THexChar(String text) {
         setText(text);
     }
 
-    public THexChar(String text, int line, int pos)
-    {
+    public THexChar(String text, int line, int pos) {
         setText(text);
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new THexChar(getText(), getLine(), getPos());
+    public Object clone() {
+        return new THexChar(getText(), getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTHexChar(this);
     }
 }

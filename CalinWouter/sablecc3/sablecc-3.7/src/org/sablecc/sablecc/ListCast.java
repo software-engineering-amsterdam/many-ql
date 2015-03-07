@@ -7,19 +7,17 @@
 
 package org.sablecc.sablecc;
 
-import java.util.*;
+import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class ListCast implements Cast
-{
-  public final static ListCast instance = new ListCast();
+public class ListCast implements Cast {
+    public final static ListCast instance = new ListCast();
 
-  private ListCast()
-  {}
+    private ListCast() {
+    }
 
-  @Override
-  public Object cast(Object o)
-  {
-    return (List) o;
-  }
+    @Override
+    public Object cast(Object o) {
+        return (List) o;
+    }
 }

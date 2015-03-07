@@ -10,8 +10,7 @@ import nl.uva.softwcons.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ast.statement.Question;
 import nl.uva.softwcons.ast.type.BooleanType;
 import nl.uva.softwcons.ast.type.DateType;
-import nl.uva.softwcons.ast.type.DecimalType;
-import nl.uva.softwcons.ast.type.IntegerType;
+import nl.uva.softwcons.ast.type.NumberType;
 import nl.uva.softwcons.ast.type.StringType;
 import nl.uva.softwcons.ast.type.Type;
 
@@ -20,7 +19,7 @@ import org.junit.Test;
 public class ASTBuilderVisitorTest {
 
     private static final Type[] ALL_PARSEABLE_TYPES = { BooleanType.instance, StringType.instance, DateType.instance,
-            DecimalType.instance, IntegerType.instance };
+            NumberType.instance };
 
     @Test
     public void testSingleQuestionInForm() {
@@ -96,18 +95,17 @@ public class ASTBuilderVisitorTest {
     public void testAllComputedQuestionTypes() {
         String booleanQuestion = "question: \"Label me\" boolean (1+2)";
         String stringQuestion = "question: \"Label me\" string (true)";
-        String integerQuestion = "question: \"Label me\" integer(1+2)";
+        String numberQuestion = "question: \"Label me\" number(1+2)";
         String dateQuestion = "question: \"Label me\" date(true)";
-        String decimalQuestion = "question: \"Label me\" decimal(1+2)";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
-                dateQuestion, decimalQuestion));
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, numberQuestion,
+                dateQuestion));
 
         assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
     }
 
     @Test
     public void testMultiplicationExpression() {
-        String question = "question: \"Question\" integer(1*2)";
+        String question = "question: \"Question\" number(1*2)";
         Form form = Questionnaire.build(buildForm("form1", question));
         assertThat(((ComputedQuestion) form.getStatements().get(0)).getExpression()).isExactlyInstanceOf(
                 Multiplication.class);

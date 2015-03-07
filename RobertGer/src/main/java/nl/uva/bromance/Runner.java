@@ -1,8 +1,8 @@
 package nl.uva.bromance;
 
 import javafx.stage.Stage;
-import nl.uva.bromance.AST.AST;
 import nl.uva.bromance.AST.Conditionals.ExpressionEvaluator;
+import nl.uva.bromance.AST.Questionnaire;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;
@@ -39,13 +39,23 @@ public class Runner {
         tc.runChecks();
 
         new Visualizer().visualize(ast.getRoot(), primaryStage);
+        
+        QLSLexer qlsLexer = new QLSLexer(new ANTLRInputStream(this.getClass().getResourceAsStream("GrammarTest.qls")));
+        CommonTokenStream qlsTokens = new CommonTokenStream(qlsLexer);
+        QLSParser qlsParser = new QLSParser(qlsTokens);
+        ParseTree qlsTree = qlsParser.stylesheet();
+        QLSParseTreeListener qlsListener = new QLSParseTreeListener();
+        ParseTreeWalker qlsWalker = new ParseTreeWalker();
+        
+
+        qlsWalker.walk(qlsListener, qlsTree);
 
         //show AST in GUI
-        JFrame frame = new JFrame("Antlr AST");
+        JFrame frame = new JFrame("QLS ParseTree");
         JPanel panel = new JPanel();
         JScrollPane pane = new JScrollPane(panel);
         TreeViewer viewer = new TreeViewer(Arrays.asList(
-                parser.getRuleNames()), tree);
+                qlsParser.getRuleNames()), qlsTree);
         viewer.setScale(1.5);//scale a little
         panel.add(viewer);
         frame.getContentPane().add(pane);

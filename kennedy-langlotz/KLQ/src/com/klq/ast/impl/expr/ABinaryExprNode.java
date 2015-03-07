@@ -1,26 +1,28 @@
 package com.klq.ast.impl.expr;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 
 /**
  * Created by Juriaan on 21-2-2015.
  */
-public abstract class ABinaryExprNode extends ANode {
-    private ANode leftChild;
-    private ANode rightChild;
+public abstract class ABinaryExprNode extends AExpression {
+    private AExpression leftChild;
+    private AExpression rightChild;
 
-    public ABinaryExprNode(ANode leftChild, ANode rightChild, String location) {
-        super(location);
+    public ABinaryExprNode(AExpression leftChild, AExpression rightChild, String location) {
+        super(leftChild, rightChild, location);
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }
 
-    public ANode getLeftChild() {
+    //TODO change ANode to something more specific
+    //public abstract AExpression evaluate();
+
+    public AExpression getLeftChild() {
         return leftChild;
     }
 
-    public ANode getRightChild() {
+    public AExpression getRightChild() {
         return rightChild;
     }
 
@@ -29,10 +31,12 @@ public abstract class ABinaryExprNode extends ANode {
         return visitor.visit(this);
     }
 
+    //TODO add equals and hashCode
+
     //for testing purposes, maybe remove later?
     public void printChildren(){
         System.out.printf("Left child: %s", leftChild.getClass());
-        if(leftChild instanceof NumberNode){
+        /*if(leftChild instanceof NumberNode){
             System.out.printf(", Left value: %s", ((NumberNode) leftChild).getNumber());
         }
         System.out.println();
@@ -40,6 +44,6 @@ public abstract class ABinaryExprNode extends ANode {
         if(rightChild instanceof NumberNode){
             System.out.printf(", Right value: %s", ((NumberNode)rightChild).getNumber());
         }
-        System.out.println();
+        System.out.println();*/
     }
 }

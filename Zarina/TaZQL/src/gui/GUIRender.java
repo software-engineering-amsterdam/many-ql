@@ -1,14 +1,10 @@
 package gui;
 
+import evaluator.ValueRepository;
 import gui.questions.SimpleQuestionUI;
-import gui.widgets.ChoiceListener;
 import gui.widgets.IWidgetComponent;
-import gui.widgets.WidgetVisitor;
-import interpreter.ValueRepository;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 
 import javax.swing.JComponent;
@@ -50,24 +46,22 @@ import ast.unary.PlusExpression;
 
 public class GUIRender implements IFormVisitor<JPanel> {
 	private final JPanel panel;
-	WidgetVisitor wv;
-	SimpleQuestionUI simp;
-	ValueRepository valueRepository;
-	ChoiceListener handler;
+	private final ValueRepository valueRepository;
 	private final LinkedHashMap<String, SimpleQuestionUI> widgetsRepository;
 	
+	public GUIRender(ValueRepository valueRepository) {
+		this.panel = new JPanel();
+		this.panel.setLayout(new MigLayout("wrap 2")); 
+		this.valueRepository = valueRepository;
+		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
+	}
 	
-	public static JPanel maker(Form form) {
-		GUIRender visitor = new GUIRender();
+	public static JPanel maker(Form form, ValueRepository valueRepository) {
+		GUIRender visitor = new GUIRender(valueRepository);
 		form.accept(visitor);
 		return visitor.getPanel();
 	}
 	
-	public GUIRender() {
-		this.panel = new JPanel();
-		this.panel.setLayout(new MigLayout("wrap 2")); 
-		this.widgetsRepository = new LinkedHashMap<String, SimpleQuestionUI>();
-	}
 	
 	public JPanel getPanel() {
 		return panel;
@@ -91,12 +85,13 @@ public class GUIRender implements IFormVisitor<JPanel> {
 		return panel;
 	}
 	
+
 	public void addToPanel() {
 		Set<String> keys = widgetsRepository.keySet();
         for(String k:keys){
-            System.out.println(k+" -- "+ widgetsRepository.get(k));
+            System.out.println(k+" <- id of label & widget ");
             this.panel.add(widgetsRepository.get(k).getLabel());
-          //  this.panel.add(widgetsRepository.get(k).getWc());
+            this.panel.add(widgetsRepository.get(k).getWc().getWidget(), "wrap");
         }	
 	}
 	
@@ -109,7 +104,7 @@ public class GUIRender implements IFormVisitor<JPanel> {
 	@Override
 	public JPanel visit(Form form) {
 		for(Question q : form.getQuestionText())
-			q.accept(new GUIVisitor(this));
+			q.accept(new GUIVisitor(this, valueRepository));
 		addToPanel();
 		return panel;
 	}
@@ -119,13 +114,6 @@ public class GUIRender implements IFormVisitor<JPanel> {
 		
 		return null;
 	}
-/*
-	public IWidgetComponent widget(SimpleQuestion simpleQuestion) {
-		return simpleQuestion.getQuestionType().accept(new WidgetVisitor( simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText(), simpleQuestion.getQuestionType(), valueRepository));
-		
-	}
-	
-*/
 
 	@Override
 	public JPanel visit(SimpleQuestion simpleQuestion) {

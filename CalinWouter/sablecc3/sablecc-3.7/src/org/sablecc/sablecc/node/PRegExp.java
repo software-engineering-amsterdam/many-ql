@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PRegExp extends Node
-{
+public abstract class PRegExp extends Node {
     // Empty body
 }

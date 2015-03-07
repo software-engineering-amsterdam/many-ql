@@ -1,28 +1,27 @@
 package lang.ql.gui.input.regular;
 
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import lang.ql.ast.expression.DecExpr;
-import lang.ql.gui.GuiVisitor;
+import javafx.scene.control.TextInputControl;
+import lang.ql.gui.ModelVisitor;
 import lang.ql.gui.input.Input;
-import lang.ql.semantics.values.DecimalValue;
+import lang.ql.semantics.ValueTable;
 
 /**
  * Created by Nik on 22-02-2015
  */
-public class DecInput extends Input
+public class DecInput extends RegularInput<TextInputControl>
 {
     public DecInput(String id)
     {
-        super(id);
+        this(id, true, false);
     }
 
     public DecInput(String id, Boolean visible, Boolean disabled)
     {
-        super(id, visible, disabled);
+        super(id, new TextField(), visible, disabled);
     }
 
-    public <T> T accept(GuiVisitor<T> visitor)
+    public <T> T accept(ModelVisitor<T> visitor)
     {
         return visitor.visit(this);
     }

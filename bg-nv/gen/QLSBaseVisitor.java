@@ -31,6 +31,13 @@ public class QLSBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QL
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitStatement(@NotNull QLSParser.StatementContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitSection(@NotNull QLSParser.SectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -39,4 +46,39 @@ public class QLSBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QL
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitQuestion(@NotNull QLSParser.QuestionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDefaultStmt(@NotNull QLSParser.DefaultStmtContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitStylesheetRule(@NotNull QLSParser.StylesheetRuleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitStringAgrs(@NotNull QLSParser.StringAgrsContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIntArgs(@NotNull QLSParser.IntArgsContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDecArgs(@NotNull QLSParser.DecArgsContext ctx) { return visitChildren(ctx); }
 }

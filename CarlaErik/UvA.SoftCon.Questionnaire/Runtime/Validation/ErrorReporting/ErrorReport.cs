@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UvA.SoftCon.Questionnaire.AST.Model;
+using UvA.SoftCon.Questionnaire.QL.AST.Model;
 using UvA.SoftCon.Questionnaire.Utilities;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 {
@@ -65,6 +66,16 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
                 string message = String.Format("Question '{0}' has a duplicate label.", duplicateLabel.Id.Name);
 
                 AddWarningMessage(message, duplicateLabel.Position);
+            }
+        }
+
+        public void AddLiteralCheckingMessages(LiteralCheckingVisitor visitor)
+        {
+            foreach (var dateLiteral in visitor.InvalidDateLiterals)
+            {
+                string message = String.Format("Invalid date value '{0}'.", dateLiteral.Value);
+
+                AddErrorMessage(message, dateLiteral.Position);
             }
         }
 

@@ -1,10 +1,16 @@
 package com.form.language.ast.statement;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.antlr.v4.runtime.Token;
 
@@ -14,7 +20,11 @@ import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.gui.components.FormComponent;
+import com.form.language.gui.components.GUIBuilder;
+import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class IfStatement implements Statement {
 	public Expression conditions;
@@ -49,25 +59,31 @@ public class IfStatement implements Statement {
 		}
 	}
 
+	@Override
+	public void collectIds(IdCollector idCollector) {
+		this.conditions.collectIds(idCollector);
+	}
+
 
 	@Override
-	public JComponent createGUIComponent(JPanel panel) {
-		
-		Component[] cArray =  panel.getComponents();	
-		for(Component c : cArray)
+	public void setType(IdTypeTable ids) {
+		this.conditions.setType(ids);
+	}
+
+
+	@Override
+	public void initMemory(RuntimeMemory mem){}
+
+	@Override
+	public void createGUIComponent(GUIBuilder guiBuilder,
+			FormComponent formGUI, RuntimeMemory rm) {
+		guiBuilder.SetShowCondition(conditions);
+		for(Statement s : this.thenStatements)
 		{
-			c = new JPanel();
-			//Component[] ccArray = c.getComponents();
-			System.out.println(c.toString());
-		}				
-		return null;
-	}
-
-
-	@Override
-	public void fillMemory(Memory memory) {
-		// TODO Auto-generated method stub
-		this.conditions.fillMemory(memory);
-	}
-	
+			s.createGUIComponent(guiBuilder, formGUI, rm);
+		}	
+		guiBuilder.RemoveShowCondition();
+		
+	};
+		
 }

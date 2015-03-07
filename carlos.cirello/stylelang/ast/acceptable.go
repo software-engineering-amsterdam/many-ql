@@ -24,3 +24,8 @@ func (n *DefaultNode) Accept(v *Visitor) {
 func (n *QuestionNode) Accept(v *Visitor) {
 	v.QuestionNode(n)
 }
+
+// Accept takes the visitor and acts on node type
+func (n *PageNode) Accept(v *Visitor) {
+	v.PageNode(n)
+}

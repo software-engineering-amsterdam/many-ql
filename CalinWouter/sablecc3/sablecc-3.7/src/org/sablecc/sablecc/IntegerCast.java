@@ -8,16 +8,14 @@
 package org.sablecc.sablecc;
 
 
-public class IntegerCast implements Cast
-{
-  public final static IntegerCast instance = new IntegerCast();
+public class IntegerCast implements Cast {
+    public final static IntegerCast instance = new IntegerCast();
 
-  private IntegerCast()
-  {}
+    private IntegerCast() {
+    }
 
-  @Override
-  public  Object cast(Object o)
-  {
-    return (Integer) o;
-  }
+    @Override
+    public Object cast(Object o) {
+        return (Integer) o;
+    }
 }

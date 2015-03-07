@@ -2,58 +2,51 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class ARegExp extends PRegExp
-{
+public final class ARegExp extends PRegExp {
     private final LinkedList<PConcat> _concats_ = new LinkedList<PConcat>();
 
-    public ARegExp()
-    {
+    public ARegExp() {
         // Constructor
     }
 
     public ARegExp(
-        @SuppressWarnings("hiding") List<?> _concats_)
-    {
+            @SuppressWarnings("hiding") List<?> _concats_) {
         // Constructor
         setConcats(_concats_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ARegExp(
-            cloneList(this._concats_));
+                cloneList(this._concats_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseARegExp(this);
     }
 
-    public LinkedList<PConcat> getConcats()
-    {
+    public LinkedList<PConcat> getConcats() {
         return this._concats_;
     }
 
-    public void setConcats(List<?> list)
-    {
-        for(PConcat e : this._concats_)
-        {
+    public void setConcats(List<?> list) {
+        for (PConcat e : this._concats_) {
             e.parent(null);
         }
         this._concats_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PConcat e = (PConcat) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -63,18 +56,15 @@ public final class ARegExp extends PRegExp
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._concats_);
+                + toString(this._concats_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._concats_.remove(child))
-        {
+        if (this._concats_.remove(child)) {
             return;
         }
 
@@ -82,15 +72,11 @@ public final class ARegExp extends PRegExp
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<PConcat> i = this._concats_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PConcat> i = this._concats_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PConcat) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

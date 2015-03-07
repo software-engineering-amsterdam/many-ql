@@ -2,26 +2,26 @@
 
 package org.sablecc.sablecc.node;
 
-import java.util.*;
 import org.sablecc.sablecc.analysis.*;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
 @SuppressWarnings("nls")
-public final class AAltTransform extends PAltTransform
-{
+public final class AAltTransform extends PAltTransform {
     private TLBrace _lBrace_;
     private final LinkedList<PTerm> _terms_ = new LinkedList<PTerm>();
     private TRBrace _rBrace_;
 
-    public AAltTransform()
-    {
+    public AAltTransform() {
         // Constructor
     }
 
     public AAltTransform(
-        @SuppressWarnings("hiding") TLBrace _lBrace_,
-        @SuppressWarnings("hiding") List<?> _terms_,
-        @SuppressWarnings("hiding") TRBrace _rBrace_)
-    {
+            @SuppressWarnings("hiding") TLBrace _lBrace_,
+            @SuppressWarnings("hiding") List<?> _terms_,
+            @SuppressWarnings("hiding") TRBrace _rBrace_) {
         // Constructor
         setLBrace(_lBrace_);
 
@@ -32,36 +32,29 @@ public final class AAltTransform extends PAltTransform
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AAltTransform(
-            cloneNode(this._lBrace_),
-            cloneList(this._terms_),
-            cloneNode(this._rBrace_));
+                cloneNode(this._lBrace_),
+                cloneList(this._terms_),
+                cloneNode(this._rBrace_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAAltTransform(this);
     }
 
-    public TLBrace getLBrace()
-    {
+    public TLBrace getLBrace() {
         return this._lBrace_;
     }
 
-    public void setLBrace(TLBrace node)
-    {
-        if(this._lBrace_ != null)
-        {
+    public void setLBrace(TLBrace node) {
+        if (this._lBrace_ != null) {
             this._lBrace_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -71,24 +64,19 @@ public final class AAltTransform extends PAltTransform
         this._lBrace_ = node;
     }
 
-    public LinkedList<PTerm> getTerms()
-    {
+    public LinkedList<PTerm> getTerms() {
         return this._terms_;
     }
 
-    public void setTerms(List<?> list)
-    {
-        for(PTerm e : this._terms_)
-        {
+    public void setTerms(List<?> list) {
+        for (PTerm e : this._terms_) {
             e.parent(null);
         }
         this._terms_.clear();
 
-        for(Object obj_e : list)
-        {
+        for (Object obj_e : list) {
             PTerm e = (PTerm) obj_e;
-            if(e.parent() != null)
-            {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -97,22 +85,17 @@ public final class AAltTransform extends PAltTransform
         }
     }
 
-    public TRBrace getRBrace()
-    {
+    public TRBrace getRBrace() {
         return this._rBrace_;
     }
 
-    public void setRBrace(TRBrace node)
-    {
-        if(this._rBrace_ != null)
-        {
+    public void setRBrace(TRBrace node) {
+        if (this._rBrace_ != null) {
             this._rBrace_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -123,31 +106,26 @@ public final class AAltTransform extends PAltTransform
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._lBrace_)
-            + toString(this._terms_)
-            + toString(this._rBrace_);
+                + toString(this._lBrace_)
+                + toString(this._terms_)
+                + toString(this._rBrace_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._lBrace_ == child)
-        {
+        if (this._lBrace_ == child) {
             this._lBrace_ = null;
             return;
         }
 
-        if(this._terms_.remove(child))
-        {
+        if (this._terms_.remove(child)) {
             return;
         }
 
-        if(this._rBrace_ == child)
-        {
+        if (this._rBrace_ == child) {
             this._rBrace_ = null;
             return;
         }
@@ -156,21 +134,16 @@ public final class AAltTransform extends PAltTransform
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._lBrace_ == oldChild)
-        {
+        if (this._lBrace_ == oldChild) {
             setLBrace((TLBrace) newChild);
             return;
         }
 
-        for(ListIterator<PTerm> i = this._terms_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PTerm> i = this._terms_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PTerm) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -183,8 +156,7 @@ public final class AAltTransform extends PAltTransform
             }
         }
 
-        if(this._rBrace_ == oldChild)
-        {
+        if (this._rBrace_ == oldChild) {
             setRBrace((TRBrace) newChild);
             return;
         }

@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>S:\StrongName\Questionnaire.snk</AssemblyOriginatorKeyFile>
@@ -48,6 +48,7 @@
     <Compile Include="Evaluation\ExpressionInterpreter.cs" />
     <Compile Include="Evaluation\Interpreter.cs" />
     <Compile Include="Evaluation\Types\BooleanValue.cs" />
+    <Compile Include="Evaluation\Types\DateValue.cs" />
     <Compile Include="Evaluation\Types\IntegerValue.cs" />
     <Compile Include="Evaluation\Types\StringValue.cs" />
     <Compile Include="Evaluation\Types\Undefined.cs" />
@@ -61,23 +62,19 @@
     <Compile Include="Validation\InvalidAssignment.cs" />
     <Compile Include="Validation\InvalidBinaryExpression.cs" />
     <Compile Include="Validation\InvalidUnaryExpression.cs" />
+    <Compile Include="Validation\LiteralCheckingVisitor.cs" />
     <Compile Include="Validation\TypeCheckingVisitor.cs" />
     <Compile Include="Validation\VariableUsageCheckingVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AST\AST.csproj">
-      <Project>{23aa9a43-58a6-4870-a7bc-a3d5d8d5b8ce}</Project>
-      <Name>AST</Name>
+    <ProjectReference Include="..\QL\QL.csproj">
+      <Project>{b564bc9e-45a5-4658-8ffe-bc6929a6566f}</Project>
+      <Name>QL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="S:\StrongName\Questionnaire.snk">
-      <Link>Properties\Questionnaire.snk</Link>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -31,6 +31,7 @@ import cons.ql.ast.statement.Block;
 import cons.ql.ast.statement.ComputedQuestion;
 import cons.ql.ast.statement.Form;
 import cons.ql.ast.statement.If;
+import cons.ql.ast.statement.IfElse;
 import cons.ql.ast.statement.Question;
 
 public interface Visitor<T> {
@@ -70,6 +71,7 @@ public interface Visitor<T> {
 	public T visit(Block block);
 	public T visit(ComputedQuestion computedQuestion);
 	public T visit(Question question);
-	public T visit(If if1);
+	public T visit(If ifThen);
+	public T visit(IfElse ifElse);
 	public T visit(Form form);
 }

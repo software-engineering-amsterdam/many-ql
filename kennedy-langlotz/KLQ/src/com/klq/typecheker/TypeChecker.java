@@ -4,6 +4,7 @@ import com.klq.ast.ANode;
 import com.klq.typecheker.error.AError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Juriaan on 28-2-2015.
@@ -25,7 +26,7 @@ public class TypeChecker {
     }
 
     private void secondPass(){
-        TypeCheckerVisitorNew visitor = new TypeCheckerVisitorNew(errors);
+        TypeCheckerVisitor visitor = new TypeCheckerVisitor(errors, table);
         ast.accept(visitor);
     }
 
@@ -44,7 +45,7 @@ public class TypeChecker {
         }
     }
 
-    public ArrayList<AError> getErrors() {
+    public List<AError> getErrors() {
         return errors;
     }
 }

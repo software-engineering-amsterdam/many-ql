@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class MainWindow extends JFrame {
 
-    public void initialize(Form form) {
+    public void initialize(Form form) { //todo should not receive form, rather a list of Questions
         JPanel mainPanel = new JPanel();
 
         List<Question> questions = getQuestions(form.getElements());

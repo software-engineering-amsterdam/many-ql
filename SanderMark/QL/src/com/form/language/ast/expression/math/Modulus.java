@@ -11,7 +11,7 @@ import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.RuntimeMemory;
 
 public class Modulus extends BinaryExpression implements Expression {
 	
@@ -20,8 +20,8 @@ public class Modulus extends BinaryExpression implements Expression {
 	}
 
 	@Override
-	public GenericValue<Integer> evaluate() {
-		return new IntValue(((IntValue)super.left.evaluate()).getValue() % ((IntValue)super.right.evaluate()).getValue());
+	public GenericValue<Integer> evaluate(RuntimeMemory mem) {
+		return new IntValue(((IntValue)super.left.evaluate(mem)).getValue() % ((IntValue)super.right.evaluate(mem)).getValue());
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class Modulus extends BinaryExpression implements Expression {
 		if(left.getType().isIntType() && right.getType().isIntType()) return new IntType();
 		return new ErrorType();
 	}
-	
+
 	@Override
 	public void getErrors(ErrorCollector errors) {
 		Type leftType = left.getType();

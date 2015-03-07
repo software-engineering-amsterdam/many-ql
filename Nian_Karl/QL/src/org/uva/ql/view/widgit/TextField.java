@@ -1,18 +1,25 @@
 package org.uva.ql.view.widgit;
 
+import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.Value;
+import org.uva.ql.view.listener.WidgetListener;
 
-public class TextField extends BaseTextField implements Widget<String> {
+public class TextField extends BaseTextField {
 
-	private static final long serialVersionUID = -4761288106171787127L;
+	public TextField(WidgetListener listener) {
+		super(listener);
+	}
 
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public String getValue() {
 		return getValue();
 	}
 
 	@Override
-	public void update(Object object) {
+	public void setWidgetValue(Value value) {
+		if (!value.toString().equals(new Undefined().toString())) {
+			getWidget().setText(value.toString());
+		}
 	}
-
 }

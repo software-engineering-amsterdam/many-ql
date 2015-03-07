@@ -6,10 +6,10 @@ import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.QuestionnaireNode;
-import com.klq.ast.impl.expr.DateNode;
-import com.klq.ast.impl.expr.IdentifierNode;
-import com.klq.ast.impl.expr.NumberNode;
-import com.klq.ast.impl.expr.StringNode;
+import com.klq.ast.impl.expr.literal.DateNode;
+import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.literal.NumberNode;
+import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
@@ -24,10 +24,6 @@ public class QuestionMapper implements IVisitor<Void> {
 
     public QuestionMapper(QuestionTable table) {
         this.table = table;
-    }
-
-    public QuestionTable getTable() {
-        return table;
     }
 
     @Override

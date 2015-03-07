@@ -1,4 +1,5 @@
-// Package graphic is the GUI interface for Frontend. It does not interact directly with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
+// Package graphic is the GUI interface for Frontend. It does not interact directly
+// with VM. It is the package gopkg.in/qml.v1. All compilations constraints apply.
 package graphic
 
 //go:generate go get -u gopkg.in/qml.v1
@@ -7,6 +8,7 @@ import (
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/frontend"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
 	"gopkg.in/qml.v1"
 )
 
@@ -29,9 +31,8 @@ type render struct {
 
 // Gui holds the driver which is used by Frontend to execute the application
 type Gui struct {
-	renderEvent    chan render
-	appName        string
-	widgetDefaults map[string]string
+	renderEvent chan render
+	appName     string
 
 	mu              sync.Mutex
 	drawStack       []render
@@ -41,19 +42,22 @@ type Gui struct {
 	symbolTable     map[string]qml.Object
 	rows            qml.Object
 	updateCallbacks map[string]func(v string)
+
+	pages map[string]*stylelang.Page
 }
 
 // GUI creates the driver for Frontend process.
-func GUI(appName string, widgetDefaults map[string]string) frontend.Inputer {
+func GUI(appName string, pages map[string]*stylelang.Page) frontend.Inputer {
 	driver := &Gui{
-		appName:        appName,
-		widgetDefaults: widgetDefaults,
+		appName: appName,
 
 		renderEvent:     make(chan render),
 		answerStack:     make(map[string]string),
 		sweepStack:      make(map[string]bool),
 		symbolTable:     make(map[string]qml.Object),
 		updateCallbacks: make(map[string]func(v string)),
+
+		pages: pages,
 	}
 	return driver
 }
@@ -149,10 +153,10 @@ func (g *Gui) Loop() {
 }
 
 func (g *Gui) loop() error {
-	win := startQMLengine(g.appName).CreateWindow(nil)
-	g.rows = win.Root().ObjectByName("questions")
+	win := startQMLengine(g.appName, drawTabBlock(g.pages["root"])).CreateWindow(nil)
+	// g.rows = win.Root().ObjectByName("root")
 	win.Show()
-	go g.renderLoop()
+	// go g.renderLoop()
 	win.Wait()
 	return nil
 }

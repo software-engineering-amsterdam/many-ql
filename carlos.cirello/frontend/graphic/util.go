@@ -49,9 +49,9 @@ func (g *Gui) hideQuestion(fieldName string) {
 	g.symbolTable[fieldName].Set("visible", "false")
 }
 
-func startQMLengine(appName string) qml.Object {
+func startQMLengine(appName, tabContainer string) qml.Object {
 	engine := qml.NewEngine()
-	cradleQML := renderCradle(appName)
+	cradleQML := renderCradle(appName, tabContainer)
 	cradle, err := engine.LoadString("cradle.qml", cradleQML)
 	if err != nil {
 		log.Fatal("Fatal error while parsing cradle.qml:", err)

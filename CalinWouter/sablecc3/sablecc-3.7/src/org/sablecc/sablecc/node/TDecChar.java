@@ -5,29 +5,24 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TDecChar extends Token
-{
-    public TDecChar(String text)
-    {
+public final class TDecChar extends Token {
+    public TDecChar(String text) {
         setText(text);
     }
 
-    public TDecChar(String text, int line, int pos)
-    {
+    public TDecChar(String text, int line, int pos) {
         setText(text);
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TDecChar(getText(), getLine(), getPos());
+    public Object clone() {
+        return new TDecChar(getText(), getLine(), getPos());
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTDecChar(this);
     }
 }

@@ -24,16 +24,12 @@ public class Main {
 		QLParser parser = new QLParser(tokens);
 		ParseTree tree = parser.questionnaire();
 		QLImplVisitor visitor = new QLImplVisitor();
-		
 		Questionnaire questionnaire = (Questionnaire) tree.accept(visitor);
-		
-		TypeChecker checker = new TypeChecker();
-		// Nian implement typechecker;
-
-		Evaluator evaluator = new Evaluator();
-		
-		GUIVisitor guiVisitor = new GUIVisitor(evaluator);
-		ArrayList<FormFrame> formList = ((ArrayList<FormFrame>) questionnaire.accept(guiVisitor));
-
+		TypeChecker typeChecker = new TypeChecker();
+		if (questionnaire.accept(typeChecker)) {
+			GUIVisitor guiVisitor = new GUIVisitor();
+			questionnaire.accept(guiVisitor);	
+		}
+		typeChecker.printMessages();
 	}
 }

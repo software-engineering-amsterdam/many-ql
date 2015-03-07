@@ -4,7 +4,7 @@ Introduction : Welcome to my questionnaire.
 
 Question hummus (bool): Do you love hummus?
 
-if (hummus == True) {
+if ((hummus == True)) {
     Question what (text) : What do you like about hummus?
 
     Question grade (number) : How would you grade it?
@@ -26,14 +26,16 @@ else {
     Question check (bool) : Will this work?
 }
 
-if (con == True) {
+if (con == True and why == "True") {
     Question trans2 (bool) : Just a test?
 }
 else {
     Question check2 (bool) : Another one?
 }
 
-if (5 - 3 + (2 / 1) == 4) {
+if (5 - (3 + ((2 / 1))) == 4) {
     Question dunno (bool) : Do you know what to write?
 }
+
+// Assignment improve (number) : 10 - grade
 

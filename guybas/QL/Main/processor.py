@@ -1,7 +1,4 @@
-from QL.Main.mapper import *
-from QL.AST.operators import *
-
-
+#
 class Processor:
 
     @staticmethod

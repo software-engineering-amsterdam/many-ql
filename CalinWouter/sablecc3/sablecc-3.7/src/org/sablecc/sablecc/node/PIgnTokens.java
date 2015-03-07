@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PIgnTokens extends Node
-{
+public abstract class PIgnTokens extends Node {
     // Empty body
 }

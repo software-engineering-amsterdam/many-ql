@@ -2,6 +2,8 @@ package org.uva.ql.view;
 
 import java.util.ArrayList;
 
+import org.uva.ql.ast.expression.Expression;
+import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.questionnaire.Form;
 import org.uva.ql.ast.questionnaire.Questionnaire;
 import org.uva.ql.ast.statement.Block;
@@ -13,7 +15,8 @@ import org.uva.ql.ast.statement.Statement;
 import org.uva.ql.ast.type.BoolType;
 import org.uva.ql.ast.type.IntType;
 import org.uva.ql.ast.type.StrType;
-import org.uva.ql.evaluation.Evaluator;
+import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.view.listener.WidgetListener;
 import org.uva.ql.view.widgit.CheckBox;
 import org.uva.ql.view.widgit.NumberTextField;
 import org.uva.ql.view.widgit.TextField;
@@ -24,34 +27,40 @@ import org.uva.ql.visitor.TypeVisitor;
 
 public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>, QuestionnaireVisitor<Object> {
 
-	private final Evaluator evaluator;
-	
-	public GUIVisitor(Evaluator evaluator) {
-		this.evaluator = evaluator;
+	private WidgetListener widgetListener;
+
+	public GUIVisitor() {
+		widgetListener = new WidgetListener();
 	}
-	
+
 	@Override
 	public DependentQuestionPanel visit(IfStatement ifStatement) {
 		ArrayList<Panel> questionPanels = (ArrayList<Panel>) ifStatement.getIfBlock().accept(this);
-		DependentQuestionPanel questionPanel = new DependentQuestionPanel(questionPanels, ifStatement.getExpr());
-		System.out.println("if statement");
+		Expression expr = ifStatement.getExpr();
+		DependentQuestionPanel questionPanel = new DependentQuestionPanel(questionPanels, expr);
+		widgetListener.addDependentQuestionPanel(questionPanel);
 		return questionPanel;
 	}
 
 	@Override
 	public Panel visit(QuestionNormal questionStatement) {
-		System.out.println("normal question");
-		Widget<?> widget = (Widget<?>) questionStatement.getType().accept(this);
+		Widget widget = (Widget) questionStatement.getType().accept(this);
+		widget.setDependent(false);
+		Identifier identifier = questionStatement.getIdentifier();
 		QuestionComponent questionComponent = new QuestionComponent(questionStatement, widget);
+		widgetListener.initializeValue(identifier.toString(), new Undefined());
 		return questionComponent;
 	}
 
 	@Override
 	public Panel visit(QuestionCompute questionComputeStatement) {
-		System.out.println("Question Compute");
-		Widget<?> widget = (Widget<?>) questionComputeStatement.getType().accept(this);
-		DependentQuestionComponent question = new DependentQuestionComponent(questionComputeStatement, widget);
-		return question;
+		Widget widget = (Widget) questionComputeStatement.getType().accept(this);
+		widget.setDependent(true);
+		DependentQuestionComponent questionComponent = new DependentQuestionComponent(questionComputeStatement, widget);
+		Identifier identifier = questionComputeStatement.getIdentifier();
+		widgetListener.initializeValue(identifier.toString(), new Undefined());
+		widgetListener.addDependentQuestionComponent(questionComponent);
+		return questionComponent;
 	}
 
 	@Override
@@ -65,7 +74,7 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 	@Override
 	public FormFrame visit(Form form) {
-		FormFrame formView = new FormFrame(form.getIdentifier().getValue());
+		FormFrame formView = new FormFrame(form.getIdentifier().toString());
 		ArrayList<Panel> questionPannels = (ArrayList<Panel>) form.getBlock().accept(this);
 		QuestionPanel questionPanel = new QuestionPanel(questionPannels);
 		formView.add(questionPanel);
@@ -75,7 +84,6 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 
 	@Override
 	public ArrayList<FormFrame> visit(Questionnaire questionnaire) {
-		System.out.println("Visiting block");
 		ArrayList<FormFrame> formViews = new ArrayList<FormFrame>();
 		for (Form form : questionnaire.getForms()) {
 			formViews.add((FormFrame) form.accept(this));
@@ -84,26 +92,22 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	@Override
-	public Widget<Integer> visit(IntType node) {
-		return new NumberTextField();
+	public Widget visit(IntType node) {
+		return new NumberTextField(widgetListener);
 	}
 
 	@Override
-	public Widget<Boolean> visit(BoolType node) {
-		return new CheckBox();
+	public Widget visit(BoolType node) {
+		return new CheckBox(widgetListener);
 	}
 
 	@Override
-	public Widget<String> visit(StrType node) {
-		return new TextField();
+	public Widget visit(StrType node) {
+		return new TextField(widgetListener);
 	}
 
 	@Override
 	public Object visit(IfElseStatement ifElseStatement) {
 		return null;
-	}
-
-	public Evaluator getEvaluator() {
-		return evaluator;
 	}
 }

@@ -1,0 +1,13 @@
+stylesheet taxOfficeExample {
+
+  page "Housing" {
+
+    section "Buying a house" {
+
+      question foo
+      
+    }
+    
+  }
+
+}

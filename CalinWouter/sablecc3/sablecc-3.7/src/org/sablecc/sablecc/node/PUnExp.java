@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PUnExp extends Node
-{
+public abstract class PUnExp extends Node {
     // Empty body
 }

@@ -7,75 +7,37 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.antlr.v4.runtime.Token;
+
 import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.Type;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.gui.components.FormComponent;
+import com.form.language.gui.components.GUIBuilder;
+import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class Question implements Statement {
 	private String id;
 	private String questionLabel;
 	private Type questionType;
-	
+	private Token tokenInfo;
+
 	private JPanel qPanel;
 	private JPanel labelContainer;
 	
-	public Question(String questionLabel, String id, Type questionType, Memory memory) {
+	public Question(String questionLabel, String id, Type questionType, Token tokenInfo) {
 		super();
 		this.questionLabel = questionLabel;
 		this.id = id;
 		this.questionType = questionType;
+		this.tokenInfo = tokenInfo;
 	}
 	
 	@Override
 	public Type getType() {
 		return this.questionType;
-	}
-
-	private void createQuestion(){		
-		qPanel = new JPanel();
-		qPanel.setLayout(new BoxLayout(qPanel, BoxLayout.X_AXIS)); 
-	}
-	
-	private void createQuestionLabel()
-	{
-		labelContainer = new JPanel();
-        JLabel label = new JLabel();
-        
-        label.setText(questionLabel);
-        labelContainer.add(label);
-        qPanel.add(labelContainer);	
-	}
-	
-	//Type checker implementation to be added
-	private void createQuestionType()
-	{
-		if(questionType.isBoolType())
-		{
-			JCheckBox checkbox = new JCheckBox();
-			checkbox.setName(id);
-			qPanel.add(checkbox);			
-		}
-		else if(questionType.isStringType())
-		{
-			JTextField textfield = new JTextField();
-			textfield.setName(id);
-			qPanel.add(textfield);			
-		}
-		else
-		{
-			JTextField textfield = new JTextField();
-			textfield.setName(id);
-			qPanel.add(textfield);				
-		}
-	}
-
-	@Override
-	public JComponent createGUIComponent(JPanel panel) {
-		createQuestion();
-		createQuestionLabel();
-		createQuestionType();
-		return qPanel;
 	}
 
 	@Override
@@ -85,11 +47,31 @@ public class Question implements Statement {
 	}
 
 	@Override
-	public void fillMemory(Memory memory) {
-		//Check! niet echt netjes?		
+	public void collectIds(IdCollector idCollector) {		
+		idCollector.addId(new IdLiteral(this.id,this.questionType,idCollector, tokenInfo));
+	}
+
+	@Override
+	public void setType(IdTypeTable ids) {}
+
+	public String getText() {
+		return this.questionLabel;
+	}
+
+	public String getId() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}
+
+	public void initMemory(RuntimeMemory mem){
+		questionType.defaultValue().addToMemory(id, mem);
+	}
+
+	@Override
+	public void createGUIComponent(GUIBuilder guiBuilder,
+			FormComponent formGUI, RuntimeMemory rm) {
+		guiBuilder.createGUIQuestion(this, formGUI,rm);
 		
-		new IdLiteral(id,questionType,memory,null);
-	}	
-	
+	}
 	
 }

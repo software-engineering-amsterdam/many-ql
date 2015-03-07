@@ -3,13 +3,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import com.form.language.ast.statement.Statement;
 import com.form.language.error.ErrorCollector;
-import com.form.language.memory.Memory;
+import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class Form  {
 	public String id;
@@ -25,32 +26,41 @@ public class Form  {
 		this.id = id;
 		this.statementList = statementList;
 	}
-
-	public JComponent createGUIComponent(JPanel panel) {
-		fPanel = new JPanel();
-		fPanel.setLayout(new BoxLayout(fPanel, BoxLayout.Y_AXIS));
-		
-		for(Iterator<Statement> s = this.statementList.iterator(); s.hasNext();)
-		{
-			Statement statement = s.next();
-			JComponent component = statement.createGUIComponent(fPanel);
-			if(component != null)
-			{
-				fPanel.add(component);
-			}
-		}		
-		return fPanel;
-	}
 	
 	public void getErrors(ErrorCollector errs){
 		for(Statement s: statementList){
 			s.getErrors(errs);
 		}
 	}
-	public void fillMemory(Memory memory){
+	public void collectIds(IdCollector idCollector){
 		for(Statement s: statementList){
-			s.fillMemory(memory);			
+			s.collectIds(idCollector);			
 		}
-		
+	}
+	
+	public Iterator<Statement> iterator(){
+		return statementList.iterator();
+	}
+	
+	public RuntimeMemory initMemory()
+	{
+		RuntimeMemory mem = new RuntimeMemory();
+		for(Statement s: statementList)
+		{
+			s.initMemory(mem);			
+		}
+		return mem;		
+	}
+
+	public void showTypes() {
+		for(Statement s: statementList){
+			System.out.println(s.getType());	
+		}
+	}
+	
+	public void setTypes(IdTypeTable ids){
+		for(Statement s: statementList){
+			s.setType(ids);
+		}
 	}
 }

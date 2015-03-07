@@ -1,22 +1,28 @@
 form FamilySurvey {
-	name: "What is your name?" Str
-	age: "How old are you?" Int
-	age: "How old are you?" Int
+	name1: "What is your name?" Str
+	name2: "What is your name?" Str
+	age1: "How old are you?" Int
+	age2: "How old are you?" Int(age1)
+	age3: "How old are you?" Int(age2)
+	age4: "How old are you?" Int(age2 + age3)
+	age1: "How old are you?" Int(age3)
+
+
 	isMarried: "Are you married?" Bool
-	if (true == false) {
-	
-	}
-    
+	isMarried1: "Are you married?" Bool
+
 	if (isMarried) {
 		hasChild: "Do you have a child?" Bool	
-		age: "How old are you?" Int
+		age: "How old are you1?" Int
 		if (hasChild) {
 			ageChild: "How old is your oldest child?" Int
-			age: "How old are you?" Int
-			ageDiff: "The difference between the age of you and your child is :" Int(4 + 2)
 		} else {
 			isPlan: "Are you plan to have a child?" Bool
-			age: "How old are you?" Int
 		}
 	}	
+
+	//sex: "name of same" Str(name1 + name2)
+	if (age1 == age1) {
+	
+	}
 }

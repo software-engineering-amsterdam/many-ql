@@ -5,4 +5,17 @@ stylesheet TheForm {
 		default bool switch
 		p1q1
 	}
+
+	page "Page 2" {
+		default bool radio
+		p2q1
+
+		page "Page 2a" {
+			p2aq1
+		}
+
+		page "Page 2b" {
+			p2bq1
+		}
+	}
 }

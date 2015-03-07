@@ -1,5 +1,8 @@
 package gui.widgets;
 
+import gui.widgets.listeners.TextListener;
+import interpreter.ValueRepository;
+
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
@@ -7,26 +10,23 @@ import ast.type.Type;
 
 
 public class TextFieldWidget implements IWidgetComponent {
-	private final String id, label;
+	private final String id; 
 	private final Type variableType;
 	private JTextField widget;
-	private String value;
+	private final ValueRepository valueRepository;
 		
-	public TextFieldWidget(String id, String label, Type variableType) {
+	public TextFieldWidget(String id, String label, Type variableType, ValueRepository valueRepository) {
 		this.id = id;
-		this.label = label;
 		this.variableType = variableType;
+		this.valueRepository = valueRepository;
 		this.widget = new JTextField("", 10);
-		this.widget.setVisible(visibility());
-		this.widget.getDocument().addDocumentListener(new TextDigitsListener(this, id));
 	}
 	
 	@Override
 	public JComponent getWidget() {
 		return this.widget;
 	}
-	
-	
+		
 	@Override
 	public String getIdWidget() {
 		return this.id;
@@ -35,40 +35,28 @@ public class TextFieldWidget implements IWidgetComponent {
 	public Type getWidgetType(){
 		return this.variableType;
 	}
+	
 	@Override
-	public String getLabel() {
-		return label;
-	}
-	@Override
-	public boolean visibility() {
-		return true;
-		//temporary...
-	}
-
-	//@Override
 	public void addDocListener() {
-		widget.getDocument().addDocumentListener(new TextDigitsListener(this, getValue()));
+		widget.getDocument().addDocumentListener(new TextListener(this, valueRepository));
 	}
 
 	@Override
-	public String getValue() {
-		value = "" + widget.getText();
-		//System.out.println("cry" +value);
-		
-		return  value;	
-		
+	public String getStringValue() {
+		return widget.getText();
+	}
+
+	@Override
+	public boolean getBooleanValue() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public void setValue(String value) {
 		// TODO Auto-generated method stub
-		widget.setText(value);
-	}
-
-	@Override
-	public boolean getChoiceValue() {
-		// TODO Auto-generated method stub
-		return false;
+		value = widget.getText();
+		
 	}
 
 	@Override
@@ -79,7 +67,20 @@ public class TextFieldWidget implements IWidgetComponent {
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
-		widget.setEnabled(isEnabled);
+		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public int getIntegerValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setIntegerValue(int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

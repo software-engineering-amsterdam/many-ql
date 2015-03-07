@@ -1,35 +1,39 @@
-from QLS.AST.option import *
+from QLS.AST.options import *
 from QLS.AST.sheet import *
 
 
 class WidgetFactory:
     @staticmethod
+    def make_option(tokens):
+        return Options(tokens)
+
+    @staticmethod
     def make_radio(tokens):
-        if len(tokens > 1):
-            default = tokens[2]
+        if len(tokens) > 1:
+            default = tokens[1]
         else:
             default = ""
         return Radio(tokens[0], default)
 
     @staticmethod
     def make_checkbox(tokens):
-        return Checkbox(tokens)
+        return Checkbox(tokens[0])
 
     @staticmethod
     def make_spinbox(tokens):
-        if len(tokens > 1):
-            default = tokens[2]
+        if len(tokens) > 1:
+            default = tokens[1]
         else:
             default = ""
         return Spinbox(tokens[0], tokens[1], default)
 
     @staticmethod
     def make_slider(tokens):
-        if len(tokens > 1):
-            default = tokens[2]
+        if len(tokens) > 1:
+            default = tokens[1]
         else:
             default = ""
-        return Slider(tokens[0], tokens[1], default)
+        return Slider(tokens[0], tokens[1])
 
     @staticmethod
     def make_textbox(tokens):
@@ -37,15 +41,15 @@ class WidgetFactory:
 
     @staticmethod
     def make_dropdown(tokens):
-        if len(tokens > 1):
-            default = tokens[2]
+        if len(tokens) > 1:
+            default = tokens[1]
         else:
             default = ""
-        return DropDown(tokens[0], default)
+        return DropDown(tokens[0])
 
     @staticmethod
     def make_widget(tokens):
-        pass
+        return Widget(tokens[0])
 
 
 class QLSFactory:
@@ -55,20 +59,30 @@ class QLSFactory:
 
     @staticmethod
     def make_question_style(tokens):
-        pass
+        if len(tokens) > 1:
+            widget = tokens[1]
+        else:
+            widget = None
+        return QuestionStyle(tokens[0], widget)
 
     @staticmethod
     def make_section(tokens):
-        pass
+        return Section(tokens[0], tokens[1])
 
     @staticmethod
     def make_default(tokens):
-        pass
+        print(tokens)
+        if len(tokens) == 2:
+            x = Default(tokens[0], tokens[1], [])
+            print(x)
+            return x
+        else:
+            return Default(tokens[0], tokens[1], tokens[2])
 
     @staticmethod
     def make_page(tokens):
-        pass
+        return Page(tokens[0], tokens[1])
 
     @staticmethod
     def make_sheet(tokens):
-        pass
+        return Sheet(tokens[0], tokens[1])

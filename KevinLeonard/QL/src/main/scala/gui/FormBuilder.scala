@@ -1,112 +1,40 @@
 package gui
 
-//import java.util.concurrent.Callable
-//import java.lang.Boolean
-//import javafx.beans.binding.Bindings
-import javafx.beans.value.ObservableValue
-
 import ast._
 import evaluator.Evaluator
 
-import scala.collection.immutable.Map
-import scalafx.Includes._
-//import scalafx.beans.Observable
-//import scalafx.beans.binding.Bindings
-//import scalafx.collections.ObservableBuffer
-import scalafx.scene.Node
-import scalafx.scene.control.{CheckBox, Label, TextField}
+import scalafx.collections.ObservableMap
 import scalafx.scene.layout.VBox
 
-class FormBuilder {
+class FormBuilder(var env: ObservableMap[String, Value] = ObservableMap.empty[String, Value]) {
 
   val evaluator = new Evaluator()
 
-  type VariableName = String
-  type EvalEnvironment = Map[VariableName, Value]
-
   def build(form: Form): FormGUI = {
-    val env = evaluator.eval(form)
-    new FormGUI(form.label, build(form.s, env))
+    env = evaluator.eval(form)
+    new FormGUI(form.label, build(form.s))
   }
 
-  def build(s: Statement, env: EvalEnvironment): List[VBox] = s match {
-    case Sequence(statements: List[Statement]) => statements.flatMap(s => build(s, env))
-    case i: IfStatement => buildIfStatement(i, env)
-    case q: Question => List(buildQuestion(q, env))
+  def build(s: Statement, visibilityExpressions: List[Expression] = List()): List[VBox] = s match {
+    case Sequence(statements) => statements.flatMap(s => build(s, visibilityExpressions))
+    case i: IfStatement => buildIfStatement(i, visibilityExpressions)
+    case q: Question => List(buildQuestion(q, visibilityExpressions))
   }
 
-  def buildIfStatement(i: IfStatement, env: EvalEnvironment): List[VBox] = evaluator.eval(i.expression, env) match {
-    case BooleanValue(true) => build(i.ifBlock, env)
-    case BooleanValue(false) => i.optionalElseBlock match {
-      case Some(s) => build(i.optionalElseBlock.get, env)
+  def buildIfStatement(i: IfStatement, visibilityExpressions: List[Expression]): List[VBox] = {
+    val ifBlock = build(i.ifBlock, i.expression :: visibilityExpressions)
+    val elseBlock = i.optionalElseBlock match {
+      case Some(s) => build(s, Not(i.expression) :: visibilityExpressions)
       case None => List()
     }
-    case _ =>  throw new AssertionError(s"Error in type checker. If expression is not of type Boolean.")
+    ifBlock ++ elseBlock
   }
 
-  def buildQuestion(q: Question, env: EvalEnvironment): VBox = buildVerticalBox(getFieldElements(q, env))
-
-  def buildVerticalBox(nodes: List[Node]): VBox = {
-    val box = new VBox
-    for (node <- nodes) box.children.add(node)
-    box
-  }
-
-  def getFieldElements(q: Question, env: EvalEnvironment): List[Node] = q._type match {
-    case BooleanType() => getBooleanFieldElements(q.label, q.variable.name, env)
-    case NumberType() => getNumberFieldElements(q.label, q.variable.name, env)
-    case StringType() => getStringFieldElements(q.label, q.variable.name, env)
-  }
-
-  def getStringFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
-    val label = new Label(l)
-    val field = new TextField {
-      text = env get name match {
-        case Some(StringValue(v)) => v
-        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type String.")
-        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
-      }
+  def buildQuestion(q: Question, visibilityExpressions: List[Expression]): VBox = {
+    q._type match {
+      case BooleanType() => new BooleanQuestionBox(q, visibilityExpressions, env)
+      case NumberType() => new NumberQuestionBox(q, visibilityExpressions, env)
+      case StringType() => new StringQuestionBox(q, visibilityExpressions, env)
     }
-    field.text.addListener(
-      (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
-    )
-    List(label, field)
-  }
-
-  def getNumberFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
-    val label = new Label(l)
-    val field = new TextField {
-      text = env get name match {
-        case Some(NumberValue(v)) => v.toString
-        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type Number.")
-        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
-      }
-    }
-
-    // TODO: Add number input validation.
-    field.text.addListener(
-      (obs: ObservableValue[_ <: Object], oldV: Object, newV: Object) => println(newV)
-    )
-    List(label, field)
-  }
-
-  def getBooleanFieldElements(l: String, name: VariableName, env: EvalEnvironment): List[Node] = {
-    val label = new Label(l)
-    val field = new CheckBox {
-      selected = env get name match {
-        case Some(BooleanValue(v)) => v
-        case Some(_) => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
-        case None => throw new AssertionError(s"Error in evaluator. Variable $name not found.")
-      }
-    }
-    // Alternative for text.addListener
-//    field.onAction = (event: ActionEvent) => model.userData += "x"
-
-    // Option 1 (Java way). Create binding (first argument) and pass items to observe (second to nth argument)
-//    field.visible <== Bindings.createBooleanBinding(new Callable[Boolean] { override def call(): Boolean = field.selected.value }, field.selected)
-    // Option 2 (Scala way. Create simple binding between 2 values. But how to pass the items to observe?
-//    field.visible <== field.selected
-
-    List(label, field)
   }
 }

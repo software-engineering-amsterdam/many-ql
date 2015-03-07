@@ -5,38 +5,56 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
-import org.uva.ql.view.observer.Observer;
+import org.uva.ql.ast.value.Bool;
+import org.uva.ql.ast.value.Undefined;
+import org.uva.ql.ast.value.Value;
+import org.uva.ql.view.listener.WidgetListener;
 
-public class CheckBox extends JCheckBox implements Widget<Boolean>, Observer{
+public class CheckBox extends Widget {
 
-	private static final long serialVersionUID = 1L;
+	private JCheckBox checkBox;
+	private WidgetListener widgetListener;
 
-	public CheckBox() {
+	public CheckBox(WidgetListener listener) {
+		super();
+		checkBox = new JCheckBox();
+		this.widgetListener = listener;
 		CheckBoxListener checkboxListener = new CheckBoxListener();
-		setOpaque(false);
-		addItemListener(checkboxListener);
+		checkBox.setOpaque(false);
+		if (!isDependent()) {
+			checkBox.addItemListener(checkboxListener);
+		}
+
 	}
 
+	private class CheckBoxListener implements ItemListener {
+		public void itemStateChanged(ItemEvent e) {
+			if (e.getSource() == CheckBox.this.checkBox) {
+				if (CheckBox.this.checkBox.isSelected()) {
+					widgetListener.widgetValueChanged(getIdentifier(), new Bool(getValue()));
+				} else {
+					widgetListener.widgetValueChanged(getIdentifier(), new Bool(getValue()));
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean getValue() {
-		return getValue();
+		return checkBox.isSelected();
 	}
 
 	@Override
-	public void update(Object object) {
-		
+	public JCheckBox getWidget() {
+		return checkBox;
 	}
-	
-	  private class CheckBoxListener implements ItemListener{
-	        public void itemStateChanged(ItemEvent e) {
-	            if(e.getSource()== CheckBox.this){
-	                if(CheckBox.this.isSelected()) {
-	                    System.out.println("one has been selected");
-	                } else {System.out.println("nothing");}
-	            }
-	        }
-	    }
 
-	
-	
+	@Override
+	public void setWidgetValue(Value value) {
+		if (!value.toString().equals(new Undefined().toString())) {
+			// getWidget().setText(value.toString());
+		}
+	}
+
 }

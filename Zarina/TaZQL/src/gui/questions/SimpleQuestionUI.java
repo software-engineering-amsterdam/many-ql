@@ -1,20 +1,24 @@
 package gui.questions;
 
+import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
-import gui.widgets.TextDigitsListener;
 
 import javax.swing.JLabel;
 
-public class SimpleQuestionUI implements IConnector { 
+public class SimpleQuestionUI implements IQuestionUI { 
 	private final String id;
 	private final JLabel label;
 	private final IWidgetComponent wc;
-	private String value;
+	private ValueRepository valueRepository;
+	//private String value;
 	
-	public SimpleQuestionUI(String id, JLabel label, IWidgetComponent wc) {
+	public SimpleQuestionUI(String id, JLabel label, IWidgetComponent wc, ValueRepository valueRepository) {
 		this.id = id;
 		this.label = label;
 		this.wc = wc;
+		this.valueRepository = valueRepository;
+		this.wc.addDocListener();
+		//this.value = new String("");
 	}
 
 	public String getId() {
@@ -22,21 +26,17 @@ public class SimpleQuestionUI implements IConnector {
 	}
 
 	public JLabel getLabel() {
-		label.setVisible(true);
 		return label;
 	}
 
 	public IWidgetComponent getWc() {
 		return wc;
 	}
-	
 
+	
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
-		this.wc.setValue(value);
-		
+		value = valueRepository.getValue(id).toString();
 	}
-	
+
 }

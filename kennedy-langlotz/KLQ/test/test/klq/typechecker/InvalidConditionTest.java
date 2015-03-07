@@ -2,7 +2,7 @@ package test.klq.typechecker;
 
 import com.klq.ast.ANode;
 import com.klq.ast.impl.*;
-import com.klq.ast.impl.expr.NumberNode;
+import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
@@ -12,7 +12,6 @@ import com.klq.typecheker.TypeChecker;
 import com.klq.typecheker.error.InvalidCondition;
 import org.junit.Before;
 import org.junit.Test;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.util.ArrayList;
 

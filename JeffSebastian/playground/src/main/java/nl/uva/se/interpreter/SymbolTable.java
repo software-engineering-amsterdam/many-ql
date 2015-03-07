@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import nl.uva.se.constant.Type;
+import nl.uva.se.ast.type.Type;
 
 public class SymbolTable {
 
@@ -18,8 +18,12 @@ public class SymbolTable {
 		symbols.put(name, type);
 	}
 	
-	public Map<String, Type> getSymbols() {
-		return symbols;
+	public boolean containsSymbol(String name) {
+		return symbols.containsKey(name);
+	}
+	
+	public Type getTypeForSymbol(String name) {
+		return symbols.get(name);
 	}
 	
 	@Override
@@ -27,7 +31,7 @@ public class SymbolTable {
 		StringBuilder sb = new StringBuilder();
 		
 		for (Entry<String, Type> entry : symbols.entrySet()) {
-			sb.append(entry.getKey() + ": " + entry.getValue().getName());
+			sb.append(entry.getKey() + ": " + entry.getValue().getTypeName());
 			sb.append("\n");
 		}
 		

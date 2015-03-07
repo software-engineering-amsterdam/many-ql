@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PTransition extends Node
-{
+public abstract class PTransition extends Node {
     // Empty body
 }

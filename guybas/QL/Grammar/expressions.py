@@ -1,37 +1,45 @@
 # Grammar of expressions
 
-from pyparsing import *
-from QL.Factory.expressions import *
+import pyparsing as pp
+import QL.Factory.expressions as e
 
 
 class Expressions:
 
-    # id :: characters
-    id = Word("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")
+    # id :: [1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+    id = pp.Word("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")
 
     # bool :: True | False
-    bool = Literal("True") | Literal("False")
+    bool = pp.Literal("True") | pp.Literal("False")
+
+    # text
+    text = pp.Literal("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Literal("\"")
 
     # number :: [0-9]
-    number = Word(nums)
+    number = pp.Word(pp.nums)
 
     # value :: bool | number | id
-    value = \
-        bool.setParseAction(ExpressionFactory.make_bool) | \
-        number.setParseAction(ExpressionFactory.make_number) | \
-        id.setParseAction(ExpressionFactory.make_variable)
+    value = (bool.setParseAction(e.ExpressionFactory.make_bool) |
+             number.setParseAction(e.ExpressionFactory.make_number) |
+             id.setParseAction(e.ExpressionFactory.make_variable) |
+             text.setParseAction(e.ExpressionFactory.make_text))
 
-    # operators   :: + | - | / | * | > | >= | < | <= | == | && | || | !
-    operator = \
-        oneOf('+ - / *').setParseAction(ExpressionFactory.make_calc_operator) | \
-        oneOf(" > >= < <= == and or not").setParseAction(ExpressionFactory.make_comp_operator)
+    # calc_operator :: + | - | / | *
+    calc_operator = pp.oneOf('+ - / *').setParseAction(e.ExpressionFactory.make_calc_operator)
 
-    operator_name = 'operator'
+    # comp_operator :: > | >= | < | <= | ==
+    comp_operator = pp.oneOf(" > >= < <= == ").setParseAction(e.ExpressionFactory.make_comp_operator)
 
-    expr = Forward()
+    # extra_operator :: and | or | not
+    extra_operator = pp.oneOf("and or not").setParseAction(e.ExpressionFactory.make_extra_operator)
+
+    # operator :: calc_operator | comp_operator | extra_operator
+    operator = calc_operator | comp_operator | extra_operator
+
+    expr = pp.Forward()
 
     # atom :: ( expr ) | value
-    atom = (Suppress("(") + expr + Suppress(")")).setParseAction(ExpressionFactory.make_expression) | value
+    atom = (pp.Suppress("(") + expr + pp.Suppress(")")).setParseAction(e.ExpressionFactory.make_expression) | value
 
     # expr :: atom | (operator expr)*
-    expr << (atom + ZeroOrMore(operator + expr)).setParseAction(ExpressionFactory.make_sub_expression)
+    expr << (atom + pp.ZeroOrMore(operator + expr)).setParseAction(e.ExpressionFactory.make_sub_expression)
