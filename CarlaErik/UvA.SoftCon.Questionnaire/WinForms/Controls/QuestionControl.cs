@@ -14,33 +14,18 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
 {
     public partial class QuestionControl : UserControl
     {
-        private Value _answer;
-
         public event EventHandler QuestionAnswered;
 
         public string QuestionName
         {
             get;
-            protected set;
+            private set;
         }
 
         public string Label
         {
             get;
-            protected set;
-        }
-
-        public Value Answer
-        {
-            get
-            {
-                return _answer;
-            }
-            set
-            {
-                _answer = value;
-                SetControls();
-            }
+            private set;
         }
 
         public QuestionControl()
@@ -53,12 +38,16 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
         {
             QuestionName = astQuestion.Id.Name;
             Label = astQuestion.Label;
-            Answer = new Undefined();
         }
 
-        protected virtual void SetControls()
+        public virtual void SetValue(Value value)
         {
+            throw new NotImplementedException("This method must be overriden and implemented in the sub class.");
+        }
 
+        public virtual Value GetValue()
+        {
+            throw new NotImplementedException("This method must be overriden and implemented in the sub class.");
         }
 
         protected virtual void OnQuestionAnswered(EventArgs e)

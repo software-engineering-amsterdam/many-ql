@@ -1,14 +1,9 @@
 package com.klq.ast.impl.expr.bool;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
-import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.literal.AValueNode;
 import com.klq.ast.impl.expr.literal.BooleanNode;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
-import com.klq.logic.value.BooleanValue;
-import com.klq.logic.value.IdentifierValue;
-import com.klq.logic.value.Value;
 
 import java.util.Map;
 
@@ -27,10 +22,10 @@ public class AndNode extends ABooleanNode {
     }
 
     @Override
-    public Value evaluate(Map<IdentifierValue, Value> variables) {
-        BooleanValue left = (BooleanValue)(getLeftChild().evaluate(variables));
-        BooleanValue right =(BooleanValue)(getRightChild().evaluate(variables));
+    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
+        BooleanNode left = (BooleanNode)(getLeftChild().evaluate(variableTable));
+        BooleanNode right = (BooleanNode) (getRightChild().evaluate(variableTable));
 
-        return new BooleanValue(left.getValue() && right.getValue());
+        return new BooleanNode(left.getValue() && right.getValue(), "");
     }
 }

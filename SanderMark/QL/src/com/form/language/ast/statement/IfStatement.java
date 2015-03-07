@@ -81,9 +81,7 @@ public class IfStatement implements Statement {
 		for(Statement s : this.thenStatements)
 		{
 			s.createGUIComponent(guiBuilder, formGUI, rm);
-		}	
-		guiBuilder.RemoveShowCondition();
-		
+		}			
 	};
 		
 }

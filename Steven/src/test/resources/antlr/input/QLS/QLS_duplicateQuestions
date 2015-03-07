@@ -16,7 +16,7 @@ stylesheet title{
     }
 
     question NAME2{
-        widget SPINBOX
+        widget YESNODROPDOWN
         width 500
         font "arial"
         color # 123

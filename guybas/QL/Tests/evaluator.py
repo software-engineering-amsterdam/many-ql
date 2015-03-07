@@ -12,16 +12,16 @@ class TestProcessor(unittest.TestCase):
         e2 = "(1 + 3 - 2 / 1) == 3"
         self.assertEqual(Processor.eval_expression(e2, m), False)
 
-        q1 = Question("id", "number", "Just something.")
+        q1 = Question("_id", "number", "Just something.")
         m.update(q1, 4)
-        e3 = "(1 + id ) == 5"
+        e3 = "(1 + _id ) == 5"
         self.assertEqual(Processor.eval_expression(e3, m), True)
 
         # Types are not valid, the eval function just evaluates to false
-        e4 = "id == True"
+        e4 = "_id == True"
         self.assertEqual(Processor.eval_expression(e4, m), False)
 
-        # This id doesn't exist or is not initialized yet, evaluate to false
+        # This _id doesn't exist or is not initialized yet, evaluate to false
         e5 = "hummus == True"
         self.assertEqual(Processor.eval_expression(e5, m), False)
 
@@ -33,7 +33,7 @@ class TestProcessor(unittest.TestCase):
         e6 = "hummus == True and grade > 5"
         self.assertEqual(Processor.eval_expression(e6, m), True)
 
-        # The id is updated and exists now
+        # The _id is updated and exists now
         e7 = "hummus == True"
         self.assertEqual(Processor.eval_expression(e7, m), True)
 

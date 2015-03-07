@@ -1,13 +1,19 @@
 package com.klq.ast;
 
-import com.klq.ast.impl.*;
-import com.klq.ast.impl.expr.*;
+import com.klq.ast.impl.ComputedQuestionNode;
+import com.klq.ast.impl.ConditionalNode;
+import com.klq.ast.impl.QuestionNode;
+import com.klq.ast.impl.QuestionnaireNode;
+import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
 import com.klq.ast.impl.expr.literal.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.literal.StringNode;
-import com.klq.ast.impl.expr.math.*;
+import com.klq.ast.impl.expr.math.AddNode;
+import com.klq.ast.impl.expr.math.DivideNode;
+import com.klq.ast.impl.expr.math.MultiplyNode;
+import com.klq.ast.impl.expr.math.SubtractNode;
 
 /**
  * Created by Juriaan on 21-2-2015.
@@ -119,7 +125,7 @@ public class ASTPrinter implements IVisitor<Void> {
     @Override
     public Void visit(IdentifierNode node) {
         System.out.println("Identifier Node");
-        System.out.println(node.getIdentifier());
+        //System.out.println(node.getIdentifier());
         printLine();
         return null;
     }
@@ -139,7 +145,7 @@ public class ASTPrinter implements IVisitor<Void> {
     @Override
     public Void visit(StringNode node) {
         System.out.println("String Node");
-        System.out.printf("Value: %s", node.getString());
+        //System.out.printf("Value: %s", node.getString());
         System.out.println();
         printLine();
         return null;
@@ -148,7 +154,7 @@ public class ASTPrinter implements IVisitor<Void> {
     @Override
     public Void visit(NumberNode node) {
         System.out.println("Number Node");
-        System.out.printf("Value: %s", node.getNumber());
+        //System.out.printf("Value: %s", node.getNumber());
         System.out.println();
         printLine();
         return null;
@@ -157,7 +163,7 @@ public class ASTPrinter implements IVisitor<Void> {
     @Override
     public Void visit(DateNode node) {
         System.out.println("Date Node");
-        System.out.printf("Value: %s", node.getDate());
+        //System.out.printf("Value: %s", node.getDate());
         System.out.println();
         printLine();
         return null;

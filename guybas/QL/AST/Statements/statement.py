@@ -31,11 +31,11 @@ class IStatement:
     def return_expressions(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    # Get the parent id of the statement
+    # Get the parent _id of the statement
     def get_parent_id(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    # set the parent id, only set once
+    # set the parent _id, only set once
     def set_parent_id(self, pid):
         raise NotImplementedError("Not implemented by sub class")
 

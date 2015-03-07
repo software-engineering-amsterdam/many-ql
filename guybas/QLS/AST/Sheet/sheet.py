@@ -1,32 +1,37 @@
+import QLS.AST.Sheet.sheet_element as e
+
+
 # AST for sheets
-class Sheet:
+class Sheet(e.SheetElement):
+
     def __init__(self, name, pages):
-        self.name = name
-        self.pages = pages
+        self._name = name
+        self._pages = pages
+        self._widget_dict = Sheet.id_widget_dict(self._pages)
+        self._ids = Sheet.id_collection(self._pages)
 
     def pretty_print(self, level=0):
-        s = "    " * level + "Sheet " + self.name + "\n"
-        for p in self.pages:
+        s = "    " * level + "Sheet " + self._name + "\n"
+        for p in self._pages:
             s += p.pretty_print(level + 1)
         return s
 
     def get_ids(self):
+        return self._ids
+
+    def get_widget_dict(self):
+        return self._widget_dict
+
+    @staticmethod
+    def id_collection(pages):
         ids = []
-        for q in self.pages:
-            ids += q.id_collection()
+        for p in pages:
+            ids += p.get_ids()
         return ids
 
-    def get_id_widget_dict(self):
-        pass
-
-
-
-
-
-
-
-
-
-
-
-
+    @staticmethod
+    def id_widget_dict(pages):
+        d = {}
+        for p in pages:
+            d = dict(list(d.items()) + list(p.get_widget_dict().items()))
+        return d
