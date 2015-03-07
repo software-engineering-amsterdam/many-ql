@@ -15,7 +15,7 @@ stylesheet title{
     page{
     }
 
-    question NAME2{
+    question NAME3{
         widget YESNODROPDOWN
         width 500
         font "arial"

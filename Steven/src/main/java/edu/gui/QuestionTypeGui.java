@@ -1,7 +1,7 @@
 package edu.gui;
 
 
-import edu.parser.nodes.QuestionType;
+import edu.nodes.QuestionType;
 
 import javax.swing.*;
 

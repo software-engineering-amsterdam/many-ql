@@ -3,54 +3,35 @@
 */
 grammar QLS;
 
-
 //Rules
-form : stat* ;
 
-styleSheed:    'StyleSheed' STRING											# LayoutStyle 
-          ;									    
-questionnaire: 'Questionnaire:'  STRING '{'stat*'}'  
-			 ;																# PageName
-
-stat : ID ('widget' expr)?                                                  # Question 
-     | 'if' '(' expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
-	 | 'Section' STRING '{' stat* '}'										# Section
-	 | 'default' TYPE (stat*)?	 											# Default
-	 ;
-
-expr : expr':'expr					  # PropertiesDefault
-	 |'(' expr ')'                    # PrecedenceOverride
-     | expr '++'                      # Increment
-	 | '!' expr                       # Negation
-	 | expr ('*'|'/') expr            # MultiplyDivide
-	 | expr ('+'|'-') expr            # AddSubstract
- 	 | expr ('<'|'>'|'<='|'>=') expr  # Relational
-	 | expr ('=='|'!=') expr          # Equality
-     | expr '&&' expr                 # And
-     | expr '||' expr                 # Or
-	 | ID                             # Identifier
-     | BOOL                           # BooleanLiteral
-	 | INT                            # IntegerLiteral     
-	 | STRING                         # StringLiteral
-	 ;
-
+StyleSheet: 'stylesheet' STRING Page;									    
+Page:		'page' STRING '{' Section | Default '}';
+Section:	'section "' STRING '" {' Question | Section'}';     // who works with definition of STRING itself and the ""? STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
+Question:	'question' STRING  Defaultproperties | Widget;
+Widget:		'widget' STRING('(' STRING+ | INT | BOOL ')')?;		// all default values for widget properties
+Default:	'default' TYPE (Widget)?;
+Defaultproperties: Default	'{'
+							'width:'	INT
+							'font:'		STRING
+							'fontsize:' INT
+							'color:'	HEXACOLOR
+							Widget								// I am not sure, but if is one of the other one, in both cases there is a widget link to question
+							'}'
+							;
 /*
  *   Lexer Rules
  */
 
-INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
+ HEXACOLOR : '#' DIGIT+;										// of better by ql?
+
+
+ // Copied from ql, is there other way?
+INT    : '-'? DIGIT+ ;             
 BOOL   : 'true' | 'false' ;  
-STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
-
-TYPE : 'int' | 'string' | 'bool' ;
-
-ID : LETTER (LETTER | DIGIT)* ;
-
-// Helper tokens; (not vissible to the parser)
+STRING : '"' (ESC|.)*? '"' ;       
 DIGIT  : [0-9] ;
 LETTER : [a-zA-Z] ;
 ESC    : '\\"' | '\\\\' ;
 
-LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;
-COMMENT      : '/*' .*? '*/'       -> skip ;
-WS           : [ \t\r\n]+          -> skip ; // Define whitespace rule, toss it out     
+TYPE : 'int' | 'string' | 'bool' | 'date';

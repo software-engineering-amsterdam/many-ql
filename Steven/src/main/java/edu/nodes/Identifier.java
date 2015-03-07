@@ -1,9 +1,9 @@
-package edu.parser.nodes;
+package edu.nodes;
 
 /**
  * Created by Steven Kok on 05/03/2015.
  */
-public class Identifier {
+public class Identifier  {
 
     private final String identifier;
 
@@ -14,4 +14,10 @@ public class Identifier {
     public String getIdentifier() {
         return identifier;
     }
+
+    @Override
+    public String toString() {
+        return identifier;
+    }
+
 }

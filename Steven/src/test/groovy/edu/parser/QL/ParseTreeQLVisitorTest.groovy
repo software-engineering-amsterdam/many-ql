@@ -4,7 +4,7 @@ import edu.Main
 import edu.parser.AntlrParser
 import edu.parser.QL.nodes.Form
 import edu.parser.QL.nodes.expression.*
-import edu.parser.QL.nodes.question.Question
+import edu.parser.QL.nodes.question.QLQuestion
 import edu.parser.QL.nodes.statement.ElseClause
 import edu.parser.QL.nodes.statement.IfStatement
 import edu.parser.QL.nodes.type.Boolean
@@ -72,7 +72,7 @@ class ParseTreeQLVisitorTest extends Specification {
         then:
         Assert.assertEquals(true, ifStatement.elseClause.present)
         ElseClause elseClause = ifStatement.elseClause.get()
-        Question question = (Question) elseClause.statements.get(0)
+        QLQuestion question = (QLQuestion) elseClause.statements.get(0)
         Assert.assertEquals("name2", question.identifier.identifier);
     }
 }

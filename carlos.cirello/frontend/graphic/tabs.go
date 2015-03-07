@@ -10,10 +10,11 @@ import (
 const tabsTemplate = `
 	Tab {
 		title: "{{ .Name }}"
-		objectName: "{{ .Name }}Tab"
+		objectName: "{{ .Name }}"
 		width: 798
 		height: 600
 		Layout.fillHeight: true
+		active: true
 		{{ .NestedPages }}
 	}
 `
@@ -32,7 +33,7 @@ const tabsViewTemplate = `
 TabView {
 	width: 799
 	height: 600
-	objectName: "{{ .TabName }}"
+	objectName: "{{ .TabName }}View"
 
 	{{ .Tabs }}
 }

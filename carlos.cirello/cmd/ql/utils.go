@@ -15,14 +15,14 @@ import (
 	qlsparser "github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang/parser"
 )
 
-func loadStyle(styleReader io.Reader, srcFn string) map[string]*stylelang.Page {
+func loadStyle(styleReader io.Reader, srcFn string) (map[string]*stylelang.Page, map[string][]string) {
 	var theStyle *ast.StyleNode
 	if styleReader != nil {
 		theStyle = qlsparser.ReadQLS(styleReader, srcFn+"s")
 	}
 	vstr := ast.NewVisitor()
 	vstr.Visit(theStyle)
-	return vstr.Pages()
+	return vstr.Pages(), vstr.QuestionIndex()
 }
 
 func readInputCsv(fromInterpreter, toInterpreter chan *event.Frontend, inReader io.Reader) {
@@ -56,8 +56,9 @@ func launchGUI(
 	toInterpreter chan *event.Frontend,
 	guiAppName string,
 	stylePages map[string]*stylelang.Page,
+	questionIndex map[string][]string,
 ) {
-	driver := graphic.GUI(guiAppName, stylePages)
+	driver := graphic.GUI(guiAppName, stylePages, questionIndex)
 	frontend.New(fromInterpreter, toInterpreter, driver)
 	driver.Loop()
 }

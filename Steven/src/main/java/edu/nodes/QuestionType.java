@@ -1,4 +1,4 @@
-package edu.parser.nodes;
+package edu.nodes;
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.Widgets;

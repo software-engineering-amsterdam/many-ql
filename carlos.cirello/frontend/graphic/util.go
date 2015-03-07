@@ -12,6 +12,21 @@ import (
 func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	newFieldCaption string, invisible bool) {
 
+	container := g.root
+
+	lenIdx := len(g.questionIndex[newFieldName]) - 1
+	for k, v := range g.questionIndex[newFieldName] {
+		if v == "root" {
+			continue
+		}
+		container = container.ObjectByName(v)
+		if k < lenIdx {
+			container = container.ObjectByName(v + "View")
+		}
+	}
+	log.Println(newFieldName, " to ", container.String("objectName"))
+	g.targetContainer = container
+
 	var question qml.Object
 	switch newFieldType {
 	default:

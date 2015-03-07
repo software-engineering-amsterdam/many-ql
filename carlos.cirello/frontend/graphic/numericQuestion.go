@@ -29,7 +29,7 @@ func (g *Gui) renderNewNumericQuestion(fieldName, caption string,
 	validator := `validator: IntValidator {}`
 	qml := renderTemplateQuestion(numericQuestionQMLTemplate, fieldName,
 		caption, validator)
-	question = renderAndInsertAt(qml, g.rows)
+	question = renderAndInsertAt(qml, g.targetContainer)
 
 	newFieldPtr := question.ObjectByName(fieldName)
 	newFieldPtr.Set("text", content)
