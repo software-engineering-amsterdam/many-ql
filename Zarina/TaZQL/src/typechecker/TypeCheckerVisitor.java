@@ -5,6 +5,7 @@ import java.util.List;
 import typechecker.elements.QuestionChecker;
 import typechecker.errors.ErrorCollector;
 import typechecker.errors.TaZQLError;
+import typechecker.errors.TaZQLWarning;
 import ast.expression.BracketsExpression;
 import ast.expression.arithmetic.AdditionExpression;
 import ast.expression.arithmetic.DivisionExpression;
@@ -49,6 +50,10 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	public List<TaZQLError> getError() {
 		return this.errorCollector.getErrorCollection();
 	}
+	
+	public List<TaZQLWarning> getWarning() {
+		return this.errorCollector.getWarningCollection();
+	}
 
 	public boolean isCorrect() {
 		return !this.errorCollector.containsError();
@@ -62,6 +67,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 															  this.errorCollector, this.typeRepository);
 		System.out.println("typerep: " + this.typeRepository.getTypeRepository());
 		questionChecker.checkDuplicateDeclaration();
+		questionChecker.checkDuplicateLabels();
 	}
 	
 	@Override

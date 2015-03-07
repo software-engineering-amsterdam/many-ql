@@ -33,4 +33,10 @@ public class QuestionChecker {
 									+ "It is used with a different type.");
 	  }
 	}
+	
+	//duplicate labels (warning)
+	public void checkDuplicateLabels() {
+		//TODO
+		this.errorCollector.addWarning("Testing my warning");
+	}
 }
