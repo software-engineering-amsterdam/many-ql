@@ -71,7 +71,8 @@ func (v *Visitor) DefaultNode(node *DefaultNode) {
 func (v *Visitor) QuestionNode(node *QuestionNode) {
 	tmp := v.processingStack[len(v.processingStack)-1]
 	tmp.SetVisibleFor(node.Identifier())
-	v.questionIndex[node.Identifier()] = v.currentRoute
+	v.questionIndex[node.Identifier()] = make([]string, len(v.currentRoute))
+	copy(v.questionIndex[node.Identifier()], v.currentRoute)
 }
 
 // PageNode defines one page within the form, and its nested pages.
