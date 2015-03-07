@@ -1,23 +1,30 @@
 package com.kls.ast;
 
+import com.klq.Type;
 import com.kls.ast.node.*;
+import com.kls.ast.node.value.AValue;
+import com.kls.ast.node.value.StringValue;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.NotNull;
 import parser.KLSBaseVisitor;
 import parser.KLSParser;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Timon on 03.03.2015.
  */
-public class ASTGenerator extends KLSBaseVisitor<ANode> {
+public class ASTGenerator extends KLSBaseVisitor<ANodeBase> {
+    private final String inputfile;
+
+    public ASTGenerator(String inputfile) {
+        this.inputfile = inputfile;
+    }
 
     @Override
-    public ANode visitStylesheet(@NotNull KLSParser.StylesheetContext ctx) {
+    public ANodeBase visitStylesheet(@NotNull KLSParser.StylesheetContext ctx) {
         StylesheetNode stylesheetNode = new StylesheetNode(getLocation(ctx));
 
         for (KLSParser.PageContext page : ctx.page()){
@@ -38,7 +45,7 @@ public class ASTGenerator extends KLSBaseVisitor<ANode> {
     }
 
     @Override
-    public ANode visitPage(@NotNull KLSParser.PageContext ctx) {
+    public ANodeBase visitPage(@NotNull KLSParser.PageContext ctx) {
         List<SectionNode> sections = new ArrayList<>();
         for (KLSParser.SectionContext section : ctx.section()) {
             SectionNode sectionNode = (SectionNode) (visitSection(section));
@@ -57,20 +64,25 @@ public class ASTGenerator extends KLSBaseVisitor<ANode> {
     }
 
     @Override
-    public ANode visitSection(@NotNull KLSParser.SectionContext ctx) {
+    public ANodeBase visitSection(@NotNull KLSParser.SectionContext ctx) {
         List<QuestionNode> questions = new ArrayList<>();
         for (KLSParser.QuestionContext question : ctx.question()){
             QuestionNode questionNode = (QuestionNode) (visitQuestion(question));
             questions.add(questionNode);
         }
 
-        DefaultNode def = (DefaultNode) (visitDefaultStyle(ctx.defaultStyle()));
-
-        return new SectionNode(ctx.title.getText(), questions, def, getLocation(ctx));
+        String title = ctx.title.getText();
+        Location location = getLocation(ctx);
+        if (ctx.defaultStyle() != null){
+            DefaultNode def = (DefaultNode) (visitDefaultStyle(ctx.defaultStyle()));
+            return new SectionNode(title, questions, def, location);
+        } else {
+            return new SectionNode(title, questions, null, location);
+        }
     }
 
     @Override
-    public ANode visitQuestion(@NotNull KLSParser.QuestionContext ctx) {
+    public ANodeBase visitQuestion(@NotNull KLSParser.QuestionContext ctx) {
         List<DeclarationNode> declarations = new ArrayList<>();
         if (ctx.full() != null) {
             for (KLSParser.DeclarationContext declarationContext : ctx.full().declaration()) {
@@ -81,32 +93,50 @@ public class ASTGenerator extends KLSBaseVisitor<ANode> {
         } else if (ctx.identifier() != null) {
             return new QuestionNode(ctx.identifier().id.getText(), declarations, getLocation(ctx));
         }
-        System.err.println("Unknown question context!");
-        assert false;
-        return null;
+        throw new IllegalArgumentException("Unknown question context.");
     }
 
     @Override
-    public ANode visitDeclaration(@NotNull KLSParser.DeclarationContext ctx) {
-        return super.visitDeclaration(ctx);
+    public ANodeBase visitDeclaration(@NotNull KLSParser.DeclarationContext ctx) {
+        PropertyNode propertyNode = (PropertyNode) visitProperty(ctx.property());
+        ValueNode valueNode = (ValueNode) visitValue(ctx.value());
+
+        return new DeclarationNode(propertyNode, valueNode, getLocation(ctx));
     }
 
     @Override
-    public ANode visitDefaultStyle(@NotNull KLSParser.DefaultStyleContext ctx) {
-        return super.visitDefaultStyle(ctx);
+    public ANodeBase visitProperty(@NotNull KLSParser.PropertyContext ctx) {
+        PropertyNode.Property property = PropertyNode.Property.getEnum(ctx.getText());
+        return new PropertyNode(property, getLocation(ctx));
+    }
+
+    @Override
+    public ANodeBase visitValue(@NotNull KLSParser.ValueContext ctx) {
+        AValue value = new StringValue(ctx.getText());
+        return new ValueNode(value, getLocation(ctx));
+    }
+
+    @Override
+    public ANodeBase visitDefaultStyle(@NotNull KLSParser.DefaultStyleContext ctx) {
+        List<DeclarationNode> declarations = new ArrayList<>();
+        for (KLSParser.DeclarationContext declarationContext : ctx.declaration()){
+            DeclarationNode declaration = (DeclarationNode) visitDeclaration(declarationContext);
+            declarations.add(declaration);
+        }
+        Type type = Type.getEnum(ctx.klqType().getText());
+        return new DefaultNode(type, declarations, getLocation(ctx));
     }
 
     private Location getLocation(ParserRuleContext context){
-        Token startToken = context.getStart();
-        Token stopToken = context.getStop();
-        URI file = null;
-        int offset = startToken.getStartIndex();
-        int length = startToken.getStopIndex() - startToken.getStartIndex();
-        int beginLine = startToken.getLine();
-        int beginColumn = startToken.getCharPositionInLine();
-        int endLine = stopToken.getLine();
-        int endColumn = stopToken.getCharPositionInLine();
+        Token tokenStart = context.getStart();
+        Token tokenEnd = context.getStop();
+        int offset = tokenStart.getStartIndex();
+        int length = tokenStart.getStopIndex() - tokenStart.getStartIndex();
+        int beginLine = tokenStart.getLine();
+        int beginColumn = tokenStart.getCharPositionInLine();
+        int endLine = tokenEnd.getLine();
+        int endColumn = tokenEnd.getCharPositionInLine();
 
-        return new Location(file, offset, length, beginLine, beginColumn, endLine, endColumn);
+        return new Location(inputfile, offset, length, beginLine, beginColumn, endLine, endColumn);
     }
 }

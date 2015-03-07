@@ -6,7 +6,7 @@ import com.kls.ast.Location;
 /**
  * Created by Timon on 03.03.2015.
  */
-public class DeclarationNode extends ANode {
+public class DeclarationNode extends ANodeBase {
     private final PropertyNode propertyNode;
     private final ValueNode valueNode;
 

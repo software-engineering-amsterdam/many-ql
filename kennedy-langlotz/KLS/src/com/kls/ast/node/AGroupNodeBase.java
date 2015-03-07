@@ -7,12 +7,12 @@ import java.util.List;
 /**
  * Created by Timon on 03.03.2015.
  */
-public abstract class AGroupNode extends ANode {
+public abstract class AGroupNodeBase extends ANodeBase {
     private final String title;
     private final List<QuestionNode> questions;
     private final DefaultNode defaultNode;
 
-    public AGroupNode(String title, List<QuestionNode> questions, DefaultNode def, Location location) {
+    public AGroupNodeBase(String title, List<QuestionNode> questions, DefaultNode def, Location location) {
         super(location);
         this.title = title;
         this.questions = questions;

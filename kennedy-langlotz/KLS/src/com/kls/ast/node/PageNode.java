@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Timon on 03.03.2015.
  */
-public class PageNode extends AGroupNode {
+public class PageNode extends AGroupNodeBase {
     private List<SectionNode> sections;
 
     public PageNode(String title, List<SectionNode> sections, List<QuestionNode> questions, DefaultNode def, Location location) {

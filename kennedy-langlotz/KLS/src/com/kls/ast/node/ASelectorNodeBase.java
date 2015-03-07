@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * Created by Timon on 03.03.2015.
  */
-public abstract class ASelectorNode extends ANode {
+public abstract class ASelectorNodeBase extends ANodeBase {
     private final List<DeclarationNode> declarations;
 
-    public ASelectorNode(List<DeclarationNode> declarations, Location location) {
+    public ASelectorNodeBase(List<DeclarationNode> declarations, Location location) {
         super(location);
         this.declarations = declarations;
     }

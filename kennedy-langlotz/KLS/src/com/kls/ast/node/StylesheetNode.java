@@ -9,15 +9,15 @@ import java.util.List;
 /**
  * Created by Timon on 03.03.2015.
  */
-public class StylesheetNode extends ANode {
-    private final List<AGroupNode> groups;
-    private final List<ASelectorNode> selectors;
+public class StylesheetNode extends ANodeBase {
+    private final List<AGroupNodeBase> groups;
+    private final List<ASelectorNodeBase> selectors;
 
 
     public StylesheetNode(Location location) {
         super(location);
-        groups = new ArrayList<AGroupNode>();
-        selectors = new ArrayList<ASelectorNode>();
+        groups = new ArrayList<AGroupNodeBase>();
+        selectors = new ArrayList<ASelectorNodeBase>();
     }
 
     @Override
@@ -25,11 +25,11 @@ public class StylesheetNode extends ANode {
         return visitor.visit(this);
     }
 
-    public List<AGroupNode> getGroups() {
+    public List<AGroupNodeBase> getGroups() {
         return groups;
     }
 
-    public List<ASelectorNode> getSelectors() {
+    public List<ASelectorNodeBase> getSelectors() {
         return selectors;
     }
 }
