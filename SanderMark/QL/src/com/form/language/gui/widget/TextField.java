@@ -14,16 +14,13 @@ import com.form.language.ast.values.StringValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.RuntimeMemory;
 
-public class TextField extends JTextField implements Widget {
+public class TextField extends JTextField {
 	
 	private static final long serialVersionUID = 1L;
-	//private WidgetListener widgetListener;
-	private Expression showCondition;
 	private RuntimeMemory rm;
 	private Question question;
 
-	public TextField(Question question,QuestionComponent questionComponent, Expression showCondition, RuntimeMemory rm) {
-		this.showCondition = showCondition;
+	public TextField(Question question,QuestionComponent questionComponent, RuntimeMemory rm) {
 		setPreferredSize(new Dimension(100, 25));
 		getDocument().addDocumentListener((DocumentListener) this);
 		setVisible(true);
@@ -39,30 +36,4 @@ public class TextField extends JTextField implements Widget {
 			System.out.println("Something went terribly wrong.");
 		}
 	}
-
-
-	@Override
-	public <T> T getValue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JComponent getWidget() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getIdentifier() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setIdentifier(String identifier) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
