@@ -1,6 +1,7 @@
 package org.uva.sea.ql.encoders.ui;
 
 import java.util.List;
+import java.util.Set;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -19,8 +20,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import org.uva.sea.ql.encoders.ast.DataType;
+import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
+import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 
@@ -51,6 +54,14 @@ public class QuestionnaireUI {
 
 		for (RuntimeQuestion runtimeQuestion : questions) {
 			Question question = runtimeQuestion.getQuestion();
+
+			Expression condition = question.getCondition();
+			if (condition != null) {
+				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
+				Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
+				System.out.println(relatedQuestionNames);
+			}
+
 			DataType dataType = question.getDataType();
 			Label label = new Label(question.getQuestionText());
 			grid.add(label, 0, y);
