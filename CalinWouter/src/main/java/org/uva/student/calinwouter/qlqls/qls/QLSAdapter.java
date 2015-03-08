@@ -45,7 +45,7 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     private Object interopComponent(String componentName, List<Object> args)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException,
             InvocationTargetException {
-        String classPath = createClassPath(firstCharacterToUpper(componentName));
+        String classPath = COMPONENTS_PACKAGE_PREFIX + firstCharacterToUpper(componentName);
         return newInstanceForClassPathWithQlsInterpreterAsArgument(classPath, args);
     }
 
@@ -178,10 +178,6 @@ public class QLSAdapter extends ReversedDepthFirstAdapter {
     @Override
     public void outAObjectEl(AObjectEl node) {
         argumentStack.push(new HashMap.SimpleEntry<String, Object>((String) argumentStack.pop(), argumentStack.pop()));
-    }
-
-    private static String createClassPath(String name) {
-        return COMPONENTS_PACKAGE_PREFIX + name;
     }
 
     private static String firstCharacterToUpper(String str) {
