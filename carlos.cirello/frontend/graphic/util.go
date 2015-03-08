@@ -6,8 +6,26 @@ import (
 	"text/template"
 
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
+	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/stylelang"
 	"gopkg.in/qml.v1"
 )
+
+func (g *Gui) findPageForField(fieldName string) *stylelang.Page {
+	lenIdx := len(g.questionIndex[fieldName]) - 1
+	pages := g.pages["root"].Pages()
+	var final *stylelang.Page
+	for k, v := range g.questionIndex[fieldName] {
+		if v == "root" {
+			continue
+		}
+		if k < lenIdx {
+			pages = pages[v].Pages()
+			continue
+		}
+		final = pages[v]
+	}
+	return final
+}
 
 func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 	newFieldCaption string, invisible bool) {
