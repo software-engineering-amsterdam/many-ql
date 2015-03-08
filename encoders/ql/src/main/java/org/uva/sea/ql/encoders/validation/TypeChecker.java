@@ -20,48 +20,48 @@ public class TypeChecker implements AstVisitor {
 
 	private Set<String> questionNames = new HashSet<String>();
 
-	public List<TypeValidation> checkTypes(List<Question> questions) {
-		List<TypeValidation> typeValidations = new ArrayList<>();
+	public List<Validation> checkTypes(List<Question> questions) {
+		List<Validation> validations = new ArrayList<>();
 		for (Question question : questions) {
 			questionNames.add(question.getName());
-			checkForDuplicateLabel(question, typeValidations);
-			checkDataTypes(questions, typeValidations, question);
+			checkForDuplicateLabel(question, validations);
+			checkDataTypes(questions, validations, question);
 		}
-		return typeValidations;
+		return validations;
 	}
 
 	private void checkDataTypes(List<Question> questions,
-			List<TypeValidation> typeValidations, Question question) {
+			List<Validation> validations, Question question) {
 		Expression condition = question.getCondition();
 		if (condition != null) {
-			DataType dataType = determineDataType(condition, typeValidations,
+			DataType dataType = determineDataType(condition, validations,
 					questions);
 			if (!dataType.equals(DataType.BOOLEAN)) {
 				TextLocation textLocation = condition.getTextLocation();
 				String validationMessage = "Condition has to be of type boolean. Type: "
 						+ dataType;
-				typeValidations.add(new TypeValidation(validationMessage,
+				validations.add(new Validation(validationMessage,
 						textLocation));
 			}
 		}
 		Expression computed = question.getComputed();
 		if (computed != null) {
-			determineDataType(computed, typeValidations, questions);
+			determineDataType(computed, validations, questions);
 		}
 	}
 
 	private void checkForDuplicateLabel(Question question,
-			List<TypeValidation> typeValidations) {
+			List<Validation> validations) {
 		String label = question.getQuestionText();
 		boolean added = questionLabels.add(label);
 		if (!added) {
-			typeValidations.add(new TypeValidation("Duplicate label: " + label,
+			validations.add(new Validation("Duplicate label: " + label,
 					question.getTextLocation()));
 		}
 	}
 
 	private DataType determineDataType(Expression expression,
-			List<TypeValidation> typeValidations, List<Question> questions) {
+			List<Validation> validations, List<Question> questions) {
 		if (expression instanceof NameExpression) {
 			String name = ((NameExpression) expression).getName();
 			Question question = getQuestion(name, questions);
@@ -70,7 +70,7 @@ public class TypeChecker implements AstVisitor {
 					String validationMessage = "Reference may only be listed after the question it references. Question: "
 							+ name;
 					TextLocation textLocation = expression.getTextLocation();
-					typeValidations.add(new TypeValidation(validationMessage,
+					validations.add(new Validation(validationMessage,
 							textLocation));
 				}
 				return question.getDataType();
@@ -78,7 +78,7 @@ public class TypeChecker implements AstVisitor {
 				String validationMessage = "Reference to undefined question: "
 						+ name;
 				TextLocation textLocation = expression.getTextLocation();
-				typeValidations.add(new TypeValidation(validationMessage,
+				validations.add(new Validation(validationMessage,
 						textLocation));
 				return DataType.UNDEFINED;
 			}
@@ -86,7 +86,7 @@ public class TypeChecker implements AstVisitor {
 		if (expression instanceof BracedExpression) {
 			Expression innerExpression = ((BracedExpression) expression)
 					.getExpression();
-			return determineDataType(innerExpression, typeValidations,
+			return determineDataType(innerExpression, validations,
 					questions);
 		}
 		if (expression instanceof OperatorExpression) {
@@ -94,9 +94,9 @@ public class TypeChecker implements AstVisitor {
 			Expression leftHand = operatorExpression.getLeftHand();
 			Expression rightHand = operatorExpression.getRightHand();
 			DataType leftHandDataType = determineDataType(leftHand,
-					typeValidations, questions);
+					validations, questions);
 			DataType rightHandDataType = determineDataType(rightHand,
-					typeValidations, questions);
+					validations, questions);
 			if (leftHandDataType.equals(DataType.UNDEFINED)
 					|| rightHandDataType.equals(DataType.UNDEFINED)) {
 				return DataType.UNDEFINED;
@@ -109,7 +109,7 @@ public class TypeChecker implements AstVisitor {
 					+ leftHandDataType
 					+ " righthand datatype="
 					+ rightHandDataType;
-			typeValidations.add(new TypeValidation(validationMessage,
+			validations.add(new Validation(validationMessage,
 					textLocation));
 			return DataType.UNDEFINED;
 		}

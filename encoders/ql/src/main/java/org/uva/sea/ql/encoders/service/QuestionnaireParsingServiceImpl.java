@@ -13,15 +13,17 @@ import org.uva.sea.ql.encoders.EncodersQLLexer;
 import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.ast.TextLocation;
+import org.uva.sea.ql.encoders.validation.SyntaxValidation;
 import org.uva.sea.ql.encoders.validation.TypeChecker;
-import org.uva.sea.ql.encoders.validation.TypeValidation;
+import org.uva.sea.ql.encoders.validation.Validation;
 
 /**
  * Implementation for {@link QuestionnaireParsingService}.
  */
 public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingService {
 
-	public List<TypeValidation> typeValidations = new ArrayList<TypeValidation>();
+	public List<Validation> validations = new ArrayList<Validation>();
 
 	/**
 	 * {@inheritDoc}
@@ -35,7 +37,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 			@Override
 			public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
 					String msg, RecognitionException e) {
-				throw new IllegalStateException("failed to parse at line " + line + " due to " + msg, e);
+				validations.add(new SyntaxValidation(msg, new TextLocation(line, charPositionInLine)));
 			}
 		});
 
@@ -44,13 +46,13 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
 		TypeChecker typeChecker = new TypeChecker();
-		typeValidations = typeChecker.checkTypes(questionnaire.getQuestions());
+		validations.addAll(typeChecker.checkTypes(questionnaire.getQuestions()));
 
 		return questionnaire;
 	}
 
 	@Override
-	public List<TypeValidation> getTypeValidations() {
-		return typeValidations;
+	public List<Validation> getTypeValidations() {
+		return validations;
 	}
 }

@@ -11,11 +11,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 
 import org.uva.sea.ql.encoders.ast.TextLocation;
-import org.uva.sea.ql.encoders.validation.TypeValidation;
+import org.uva.sea.ql.encoders.validation.Validation;
 
 public class ValidationsUI {
 
-	public Control generateUI(List<TypeValidation> typeValidations) {
+	public Control generateUI(List<Validation> validations) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -28,12 +28,12 @@ public class ValidationsUI {
 		typeCheckerMessages.setEditable(false);
 		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 
-		for (TypeValidation typeValidation : typeValidations) {
-			TextLocation textLocation = typeValidation.getTextLocation();
+		for (Validation validation : validations) {
+			TextLocation textLocation = validation.getTextLocation();
 			typeCheckerMessages.appendText("line " + textLocation.getLine());
 			typeCheckerMessages.appendText(":" + textLocation.getCharPositionInLine());
 			typeCheckerMessages.appendText(" ");
-			typeCheckerMessages.appendText(typeValidation.getValidationMessage());
+			typeCheckerMessages.appendText(validation.getValidationMessage());
 			typeCheckerMessages.appendText("\n");
 		}
 		ScrollPane scrollPane = new ScrollPane(grid);

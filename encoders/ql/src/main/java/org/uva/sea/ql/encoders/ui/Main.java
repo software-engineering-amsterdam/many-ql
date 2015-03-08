@@ -22,7 +22,7 @@ import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingService;
 import org.uva.sea.ql.encoders.service.QuestionnaireParsingServiceImpl;
-import org.uva.sea.ql.encoders.validation.TypeValidation;
+import org.uva.sea.ql.encoders.validation.Validation;
 
 public class Main extends Application {
 
@@ -73,10 +73,10 @@ public class Main extends Application {
 					QuestionnaireParsingService questionnaireParsingService = new QuestionnaireParsingServiceImpl();
 					Questionnaire questionnaire = questionnaireParsingService.parse(textField.getText());
 					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
-					List<TypeValidation> typeValidations = questionnaireParsingService.getTypeValidations();
-					if (!typeValidations.isEmpty()) {
+					List<Validation> validations = questionnaireParsingService.getTypeValidations();
+					if (!validations.isEmpty()) {
 						ValidationsUI validationsUIFactory = new ValidationsUI();
-						Control validationsUI = validationsUIFactory.generateUI(typeValidations);
+						Control validationsUI = validationsUIFactory.generateUI(validations);
 						stackPane.getChildren().add(validationsUI);
 					} else {
 						QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
