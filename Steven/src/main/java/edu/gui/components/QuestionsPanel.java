@@ -21,7 +21,6 @@ public class QuestionsPanel extends JPanel {
         gbc = new GridBagConstraints();
         initializeGridBagLayout();
         addQuestionsToGridBagLayout();
-        setBorder(BorderFactory.createLineBorder(Color.green));
     }
 
     private void initializeGridBagLayout() {
@@ -29,6 +28,7 @@ public class QuestionsPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(2, 5, 2, 5);
+        gbc.weightx = gbc.weighty = 1.0;
     }
 
     private void addQuestionsToGridBagLayout() {
@@ -38,9 +38,10 @@ public class QuestionsPanel extends JPanel {
 
     private void addQuestionToGridBagLayout(Question question) {
         gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.WEST;
         addLabel(question);
         gbc.gridx++;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.EAST;
         addInputField(question);
         gbc.gridy++;
     }

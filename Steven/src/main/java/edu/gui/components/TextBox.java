@@ -7,6 +7,6 @@ import javax.swing.*;
  */
 public class TextBox extends JTextField {
     public TextBox() {
-        setColumns(20);
+        setColumns(15);
     }
 }

@@ -7,6 +7,7 @@ import edu.parser.QLS.nodes.Section;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class SectionsPanel extends JPanel {
         List<QLSQuestion> qlsSectionQuestions = getQLSSectionQuestions(section);
         List<Question> sectionQuestions = getSectionQuestions(questions, qlsSectionQuestions);
         QuestionsPanel questionsPanel = new QuestionsPanel(sectionQuestions);
+
         add(questionsPanel);
 
     }

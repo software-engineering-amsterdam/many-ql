@@ -31,7 +31,6 @@ public class MainWindow extends JFrame {
 
     public void initialize() {
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
         CardLayout cardLayout = new CardLayout(10, 10);
         questionPanel.setLayout(cardLayout);
         mainPanel.add(questionPanel, BorderLayout.CENTER);
