@@ -3,6 +3,8 @@ package org.uva.ql.view;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.literal.Identifier;
 import org.uva.ql.ast.questionnaire.Form;
@@ -19,6 +21,7 @@ import org.uva.ql.ast.type.StrType;
 import org.uva.ql.ast.value.Undefined;
 import org.uva.ql.view.component.ExprQuestionComponent;
 import org.uva.ql.view.component.QuestionComponent;
+import org.uva.ql.view.listener.ButtonWidgetListener;
 import org.uva.ql.view.listener.WidgetListener;
 import org.uva.ql.view.panel.IfQuestionPanel;
 import org.uva.ql.view.panel.IfElseQuestionPanel;
@@ -34,10 +37,10 @@ import org.uva.ql.visitor.TypeVisitor;
 
 public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>, QuestionnaireVisitor<Object> {
 
-	private WidgetListener widgetListener;
+	private ButtonWidgetListener widgetListener;
 
 	public GUIVisitor() {
-		widgetListener = new WidgetListener();
+		widgetListener = new ButtonWidgetListener();
 	}
 
 	@Override
@@ -85,6 +88,9 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 		ArrayList<Panel> questionPannels = (ArrayList<Panel>) form.getBlock().accept(this);
 		QuestionPanel questionPanel = new QuestionPanel(questionPannels);
 		formView.addWithConstraints(questionPanel);
+		JButton button = new JButton("Done");
+		button.addActionListener(widgetListener);
+		formView.addWithConstraints(button);
 		formView.setVisible(true);
 		return formView;
 	}
@@ -114,13 +120,13 @@ public class GUIVisitor implements StatementVisitor<Object>, TypeVisitor<Object>
 	}
 
 	@Override
-	public Object visit(IfElseStatement ifElseStatement) {
+	public IfElseQuestionPanel visit(IfElseStatement ifElseStatement) {
 		ArrayList<Panel> ifQuestions = (ArrayList<Panel>) ifElseStatement.getIfBlock().accept(this);
-
 		ArrayList<Panel> elseQuestions = (ArrayList<Panel>) ifElseStatement.getElseBLock().accept(this);
 		Expression expr = ifElseStatement.getExpr();
 		IfElseQuestionPanel questionPanel = new IfElseQuestionPanel(ifQuestions, elseQuestions, expr);
 		widgetListener.addDependentQuestionPanel(questionPanel);
 		return questionPanel;
 	}
+
 }

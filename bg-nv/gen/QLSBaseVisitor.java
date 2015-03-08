@@ -66,19 +66,5 @@ public class QLSBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements QL
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStringAgrs(@NotNull QLSParser.StringAgrsContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitIntArgs(@NotNull QLSParser.IntArgsContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitDecArgs(@NotNull QLSParser.DecArgsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWidgetValue(@NotNull QLSParser.WidgetValueContext ctx) { return visitChildren(ctx); }
 }

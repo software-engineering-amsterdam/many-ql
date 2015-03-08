@@ -15,7 +15,18 @@ const tabsTemplate = `
 		height: 600
 		Layout.fillHeight: true
 		active: true
-		{{ .NestedPages }}
+		ScrollView {
+			objectName: "scroll"
+			width: 798
+			height: 400
+			verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+			contentItem: ColumnLayout {
+				Layout.fillHeight: true
+				width: 797
+				objectName: "questions"
+				{{ .NestedPages }}
+			}
+		}
 	}
 `
 
@@ -34,6 +45,8 @@ TabView {
 	width: 799
 	height: 600
 	objectName: "{{ .TabName }}View"
+	Layout.fillHeight: true
+	Layout.fillWidth: true
 
 	{{ .Tabs }}
 }

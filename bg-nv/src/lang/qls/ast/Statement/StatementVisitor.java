@@ -8,6 +8,6 @@ public interface StatementVisitor<T>
     T visit(Section s);
     T visit(Question q);
     T visit(QuestionWithRules q);
-    T visit(DefaultStmt d);
+    T visit(DefaultStat d);
 }
 
