@@ -1,6 +1,9 @@
 package com.klq.ast.impl.expr.literal;
 
 import com.klq.ast.IVisitor;
+import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.value.NumberValue;
+import com.klq.ast.impl.expr.value.Value;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -8,9 +11,12 @@ import java.util.Map;
 /**
  * Created by juriaan on 17-2-15.
  */
-public class NumberNode extends AValueNode<BigDecimal> {
+public class NumberNode extends AExpression {
+    private BigDecimal number;
+
     public NumberNode(BigDecimal number, String location) {
-        super(number, location);
+        super(null, null, location);
+        this.number = number;
     }
 
     @Override
@@ -19,7 +25,11 @@ public class NumberNode extends AValueNode<BigDecimal> {
     }
 
     @Override
-    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
-        return this;
+    public Value evaluate(Map<String, Value> variables) {
+        return new NumberValue(number);
+    }
+
+    public BigDecimal getNumber() {
+        return number;
     }
 }

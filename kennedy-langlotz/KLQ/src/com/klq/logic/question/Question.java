@@ -1,10 +1,9 @@
 package com.klq.logic.question;
 
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.value.*;
 import com.klq.logic.IKLQItem;
-import com.klq.logic.value.IdentifierValue;
-import com.klq.logic.value.Value;
+import com.klq.ast.impl.expr.value.Value;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;

@@ -5,7 +5,7 @@ import com.klq.logic.controller.Store;
 import com.klq.logic.question.OptionSet;
 import com.klq.logic.question.Question;
 import com.klq.logic.question.Type;
-import com.klq.logic.value.Value;
+import com.klq.ast.impl.expr.value.Value;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;

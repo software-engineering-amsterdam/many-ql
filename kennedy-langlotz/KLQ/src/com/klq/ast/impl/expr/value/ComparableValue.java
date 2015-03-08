@@ -1,4 +1,4 @@
-package com.klq.logic.value;
+package com.klq.ast.impl.expr.value;
 
 /**
  * Created by Timon on 03.03.2015.
@@ -7,6 +7,10 @@ public abstract class ComparableValue<T extends Comparable<T>> extends Value<T> 
 
     public ComparableValue(T value) {
         super(value);
+    }
+
+    public ComparableValue(T value, boolean undefined) {
+        super(value, undefined);
     }
 
     @Override

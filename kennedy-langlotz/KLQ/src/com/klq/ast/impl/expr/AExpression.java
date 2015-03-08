@@ -1,7 +1,8 @@
 package com.klq.ast.impl.expr;
 
 import com.klq.ast.ANode;
-import com.klq.ast.impl.expr.literal.AValueNode;
+import com.klq.ast.impl.expr.value.IdentifierValue;
+import com.klq.ast.impl.expr.value.Value;
 
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public abstract class AExpression extends ANode {
         this.right = right;
     }
 
-    public abstract AValueNode evaluate(Map<String, AValueNode> variableTable);
+    public abstract Value evaluate(Map<String, Value> variableTable);
 
     public AExpression getLeft() {
         return left;

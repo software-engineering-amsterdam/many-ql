@@ -24,6 +24,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -51,10 +52,10 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
             questionNode = new QuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), formatLocation(ctx));
         }
         else {
-            ArrayList<ANode> children = new ArrayList<ANode>();
+            List<AExpression> children = new ArrayList<AExpression>();
 
             for(KLQParser.ExprContext child : ctx.answerOptions().expr()){
-                children.add(visit(child));
+                children.add((AExpression) visit(child));
             }
             questionNode = new ComputedQuestionNode(ctx.id.getText(), ctx.type.getText(), stripQuotes(ctx.text.getText()), children, formatLocation(ctx));
         }

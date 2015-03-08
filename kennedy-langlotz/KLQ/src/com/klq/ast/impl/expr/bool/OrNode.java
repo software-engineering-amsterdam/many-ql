@@ -2,8 +2,10 @@ package com.klq.ast.impl.expr.bool;
 
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.AValueNode;
-import com.klq.ast.impl.expr.literal.BooleanNode;
+import com.klq.ast.impl.expr.value.BooleanValue;
+import com.klq.ast.impl.expr.value.ComparableValue;
+import com.klq.ast.impl.expr.value.UndefinedValue;
+import com.klq.ast.impl.expr.value.Value;
 
 import java.util.Map;
 
@@ -22,10 +24,16 @@ public class OrNode extends ABooleanNode {
     }
 
     @Override
-    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
-        BooleanNode left = (BooleanNode)(getLeftChild().evaluate(variableTable));
-        BooleanNode right = (BooleanNode) (getRightChild().evaluate(variableTable));
+    public Value evaluate(Map<String, Value> variables) {
+        ComparableValue left = (ComparableValue)(getLeftChild().evaluate(variables));
+        ComparableValue right = (ComparableValue)(getRightChild().evaluate(variables));
 
-        return new BooleanNode(left.getValue() || right.getValue(), "");
+        if(left.isUndefined() || right.isUndefined())
+        {
+            return new UndefinedValue();
+        }
+        else {
+            return new BooleanValue((boolean) left.getValue() || (boolean) right.getValue());
+        }
     }
 }

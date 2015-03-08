@@ -2,7 +2,6 @@ package test.klq.ast;
 
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.bool.*;
-import com.klq.ast.impl.expr.literal.AValueNode;
 import com.klq.ast.impl.expr.literal.BooleanNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.math.*;
@@ -17,8 +16,8 @@ import java.math.BigDecimal;
  * Created by Juriaan on 7-3-2015.
  */
 public class EvaluationTest {
-    private AValueNode left;
-    private AValueNode right;
+    private AExpression left;
+    private AExpression right;
 
     @Before
     public void setUp() throws Exception {
@@ -142,10 +141,10 @@ public class EvaluationTest {
 
     @Test
     public void testDeepEvaluation() throws Exception {
-        AValueNode child1 = new NumberNode(new BigDecimal("10"), "");
-        AValueNode child2 = new NumberNode(new BigDecimal("20"), "");
-        AValueNode child3 = new NumberNode(new BigDecimal("35"), "");
-        AValueNode child4 = new NumberNode(new BigDecimal("7"), "");
+        AExpression child1 = new NumberNode(new BigDecimal("10"), "");
+        AExpression child2 = new NumberNode(new BigDecimal("20"), "");
+        AExpression child3 = new NumberNode(new BigDecimal("35"), "");
+        AExpression child4 = new NumberNode(new BigDecimal("7"), "");
 
         AddNode add = new AddNode(child1, child2, ""); //30
         SubtractNode sub = new SubtractNode(child3, child4, ""); //28
@@ -153,5 +152,14 @@ public class EvaluationTest {
         GreaterThanNode gt = new GreaterThanNode(add, sub, "");
 
         assertEquals(true, gt.evaluate(null).getValue());
+    }
+
+    @Test
+    public void testUndefined() throws Exception {
+//        AValueNode child1 = new BooleanNode(true, "");
+//        AValueNode child2 = new UndefinedNode();
+//
+//        AndNode and = new AndNode(child1, child2, "");
+//        assertEquals("Undefined", and.evaluate(null).getValue());
     }
 }

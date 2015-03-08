@@ -1,11 +1,13 @@
-package com.klq.logic.value;
+package com.klq.ast.impl.expr.value;
+
+import java.util.Date;
 
 /**
  * Created by Timon on 03.03.2015.
  */
-public class IdentifierValue extends Value<String> {
+public class DateValue extends ComparableValue<Date> {
 
-    public IdentifierValue(String value) {
+    public DateValue(Date value) {
         super(value);
     }
 

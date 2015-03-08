@@ -1,16 +1,9 @@
 package com.klq.logic.controller;
 
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.ExpressionUtil;
-import com.klq.ast.impl.expr.literal.BooleanNode;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
 import com.klq.logic.IKLQItem;
 import com.klq.logic.question.Question;
-import com.klq.logic.value.BooleanValue;
-import com.klq.logic.value.IdentifierValue;
-import com.klq.logic.value.UndefinedValue;
-import com.klq.logic.value.Value;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.klq.ast.impl.expr.value.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -30,7 +23,7 @@ public class Store implements IKLQItem {
     private final DateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
     private final List<IdentifierValue> order;
     private final Map<IdentifierValue, Question> store;
-    private final Map<IdentifierValue, Value> variables;
+    private final Map<String, Value> variables;
 
     private final String NO_SUCH_QUESTION = "Question with ID \"%s\" does not exist!";
 
@@ -54,10 +47,9 @@ public class Store implements IKLQItem {
 
         if (!question.isComputedQuestion()) {
             UndefinedValue undefined = new UndefinedValue();
-            variables.put(id, undefined);
+            variables.put(id.getValue(), undefined);
         } else {
-
-            variables.put(id, question.getComputedValue());
+            variables.put(id.getValue(), question.getComputedValue());
             computedCount++;
         }
     }
@@ -84,16 +76,20 @@ public class Store implements IKLQItem {
     }
 
     private boolean isSatisfied(AExpression expression){
-        BooleanValue result = (BooleanValue)(expression.evaluate(variables));
-        if (result.getValue())
-            return true;
-        return false;
+        Value result = expression.evaluate(variables);
+
+        if (result.isUndefined()) {
+            return false;
+        }
+        else {
+            return (boolean) result.getValue();
+        }
 
     }
 
     public void updateAnswer(IdentifierValue questionId, Value answer) {
         if (variables.containsKey(questionId))
-            variables.put(questionId, answer);
+            variables.put(questionId.getValue(), answer);
         else
             assert false;
         updateVisibilities();
@@ -127,9 +123,10 @@ public class Store implements IKLQItem {
     private void updateProgress(){
         double count = variables.size() - computedCount - invisibleCount;
         double answered = 0;
-        for (IdentifierValue expr : variables.keySet()) {
+        for (String expr : variables.keySet()) {
             Value assignedValue = variables.get(expr);
-            if (!(assignedValue.equals(new UndefinedValue())))
+            System.out.println(assignedValue.toString());
+            if (!(assignedValue.isUndefined()))
                 answered++;
         }
         progressProperty.set((answered)/count);
