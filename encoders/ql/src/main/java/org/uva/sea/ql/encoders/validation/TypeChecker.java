@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.uva.sea.ql.encoders.ast.AstVisitor;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
@@ -14,7 +13,7 @@ import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 
-public class TypeChecker implements AstVisitor {
+public class TypeChecker {
 
 	private Set<String> questionLabels = new HashSet<>();
 
@@ -30,18 +29,14 @@ public class TypeChecker implements AstVisitor {
 		return validations;
 	}
 
-	private void checkDataTypes(List<Question> questions,
-			List<Validation> validations, Question question) {
+	private void checkDataTypes(List<Question> questions, List<Validation> validations, Question question) {
 		Expression condition = question.getCondition();
 		if (condition != null) {
-			DataType dataType = determineDataType(condition, validations,
-					questions);
+			DataType dataType = determineDataType(condition, validations, questions);
 			if (!dataType.equals(DataType.BOOLEAN)) {
 				TextLocation textLocation = condition.getTextLocation();
-				String validationMessage = "Condition has to be of type boolean. Type: "
-						+ dataType;
-				validations.add(new Validation(validationMessage,
-						textLocation));
+				String validationMessage = "Condition has to be of type boolean. Type: " + dataType;
+				validations.add(new Validation(validationMessage, textLocation));
 			}
 		}
 		Expression computed = question.getComputed();
@@ -50,67 +45,52 @@ public class TypeChecker implements AstVisitor {
 		}
 	}
 
-	private void checkForDuplicateLabel(Question question,
-			List<Validation> validations) {
+	private void checkForDuplicateLabel(Question question, List<Validation> validations) {
 		String label = question.getQuestionText();
 		boolean added = questionLabels.add(label);
 		if (!added) {
-			validations.add(new Validation("Duplicate label: " + label,
-					question.getTextLocation()));
+			validations.add(new Validation("Duplicate label: " + label, question.getTextLocation()));
 		}
 	}
 
-	private DataType determineDataType(Expression expression,
-			List<Validation> validations, List<Question> questions) {
+	private DataType determineDataType(Expression expression, List<Validation> validations, List<Question> questions) {
 		if (expression instanceof NameExpression) {
 			String name = ((NameExpression) expression).getName();
 			Question question = getQuestion(name, questions);
 			if (question != null) {
 				if (!questionNames.contains(name)) {
-					String validationMessage = "Reference may only be listed after the question it references. Question: "
-							+ name;
+					String validationMessage = "Reference may only be listed after the question it references. Question: " + name;
 					TextLocation textLocation = expression.getTextLocation();
-					validations.add(new Validation(validationMessage,
-							textLocation));
+					validations.add(new Validation(validationMessage, textLocation));
 				}
 				return question.getDataType();
 			} else {
-				String validationMessage = "Reference to undefined question: "
-						+ name;
+				String validationMessage = "Reference to undefined question: " + name;
 				TextLocation textLocation = expression.getTextLocation();
-				validations.add(new Validation(validationMessage,
-						textLocation));
+				validations.add(new Validation(validationMessage, textLocation));
 				return DataType.UNDEFINED;
 			}
 		}
 		if (expression instanceof BracedExpression) {
-			Expression innerExpression = ((BracedExpression) expression)
-					.getExpression();
-			return determineDataType(innerExpression, validations,
-					questions);
+			Expression innerExpression = ((BracedExpression) expression).getExpression();
+			return determineDataType(innerExpression, validations, questions);
 		}
 		if (expression instanceof OperatorExpression) {
 			OperatorExpression operatorExpression = (OperatorExpression) expression;
 			Expression leftHand = operatorExpression.getLeftHand();
 			Expression rightHand = operatorExpression.getRightHand();
-			DataType leftHandDataType = determineDataType(leftHand,
-					validations, questions);
-			DataType rightHandDataType = determineDataType(rightHand,
-					validations, questions);
-			if (leftHandDataType.equals(DataType.UNDEFINED)
-					|| rightHandDataType.equals(DataType.UNDEFINED)) {
+			DataType leftHandDataType = determineDataType(leftHand, validations, questions);
+			DataType rightHandDataType = determineDataType(rightHand, validations, questions);
+			if (leftHandDataType.equals(DataType.UNDEFINED) || rightHandDataType.equals(DataType.UNDEFINED)) {
 				return DataType.UNDEFINED;
 			}
 			if (leftHandDataType.equals(rightHandDataType)) {
 				return leftHandDataType;
 			}
 			TextLocation textLocation = expression.getTextLocation();
-			String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype="
-					+ leftHandDataType
-					+ " righthand datatype="
-					+ rightHandDataType;
-			validations.add(new Validation(validationMessage,
-					textLocation));
+			String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType
+					+ " righthand datatype=" + rightHandDataType;
+			validations.add(new Validation(validationMessage, textLocation));
 			return DataType.UNDEFINED;
 		}
 		throw new RuntimeException("Unsupported type " + expression.getClass());
