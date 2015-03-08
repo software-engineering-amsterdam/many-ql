@@ -26,13 +26,13 @@ conditionalBlock:
     
 expression:
     '(' expr=expression ')'                                         #BracedExpression
-    | operator=NOT expr=expression                                  #Not
+    |                      operator=NOT             expr=expression          #Not
     | leftHand=expression  operator=MULDIV rightHand=expression     #MulDiv
     | leftHand=expression  operator=ADDSUB rightHand=expression     #AddSub
     | leftHand=expression  operator=AND rightHand=expression        #And
     | leftHand=expression  operator=OR rightHand=expression         #Or
     | leftHand=expression  operator=LTGTLEGE rightHand=expression   #LtGtLeGe
     | leftHand=expression  operator=NEEQ rightHand=expression       #NeEq
-    | name=NAME                                                     #Name
+    | name=NAME                                                     #NameExpression
     ;
     

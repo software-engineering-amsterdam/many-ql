@@ -1,5 +1,7 @@
 package org.uva.sea.ql.encoders.ast;
 
+import org.uva.sea.ql.encoders.ast.type.DataType;
+
 /**
  * Represents a question in the {@link Questionnaire}
  */
@@ -7,7 +9,7 @@ public class Question extends AstNode {
 
 	private final String name;
 
-	private final DataType type;
+	private final DataType<?> type;
 
 	private final String questionText;
 
@@ -15,7 +17,7 @@ public class Question extends AstNode {
 
 	private Expression computed = null;
 
-	public Question(TextLocation textLocation, String name, DataType dataType, String questionText) {
+	public Question(TextLocation textLocation, String name, DataType<?> dataType, String questionText) {
 		super(textLocation);
 		this.name = name;
 		this.type = dataType;
@@ -26,7 +28,7 @@ public class Question extends AstNode {
 		return name;
 	}
 
-	public DataType getDataType() {
+	public DataType<?> getDataType() {
 		return type;
 	}
 

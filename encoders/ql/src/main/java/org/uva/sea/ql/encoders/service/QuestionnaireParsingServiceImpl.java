@@ -2,7 +2,9 @@ package org.uva.sea.ql.encoders.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -14,6 +16,13 @@ import org.uva.sea.ql.encoders.EncodersQLParser;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
+import org.uva.sea.ql.encoders.ast.operator.AddOperator;
+import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.ast.operator.MulOperator;
+import org.uva.sea.ql.encoders.ast.type.DataType;
+import org.uva.sea.ql.encoders.ast.type.QLBoolean;
+import org.uva.sea.ql.encoders.ast.type.QLInteger;
+import org.uva.sea.ql.encoders.ast.type.QLString;
 import org.uva.sea.ql.encoders.validation.SyntaxValidation;
 import org.uva.sea.ql.encoders.validation.TypeCheckerVisitor;
 import org.uva.sea.ql.encoders.validation.Validation;
@@ -42,13 +51,30 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		});
 
 		QuestionnaireContext parseTree = parser.questionnaire();
-		QuestionnaireVisitor visitor = new QuestionnaireVisitor();
+		Map<String, BinaryOperator> operatorTable = getOperatorTable();
+		Map<String, DataType<?>> dataTypeTable = getDataTypeTable();
+		QuestionnaireVisitor visitor = new QuestionnaireVisitor(operatorTable, dataTypeTable);
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
 		TypeCheckerVisitor typeChecker = new TypeCheckerVisitor(questionnaire.getQuestions());
 		validations.addAll(typeChecker.checkTypes());
 
 		return questionnaire;
+	}
+
+	private Map<String, DataType<?>> getDataTypeTable() {
+		Map<String, DataType<?>> operatorTable = new HashMap<>();
+		operatorTable.put("boolean", new QLBoolean(null));
+		operatorTable.put("string", new QLString(null));
+		operatorTable.put("int", new QLInteger(null));
+		return operatorTable;
+	}
+
+	private Map<String, BinaryOperator> getOperatorTable() {
+		Map<String, BinaryOperator> operatorTable = new HashMap<>();
+		operatorTable.put("*", new MulOperator());
+		operatorTable.put("+", new AddOperator());
+		return operatorTable;
 	}
 
 	@Override

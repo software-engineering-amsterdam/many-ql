@@ -1,18 +1,20 @@
 package org.uva.sea.ql.encoders.ast;
 
+import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
+
 public class BinaryExpression extends Expression {
 
-	private String operator;
+	private BinaryOperator binaryOperator;
 
 	private Expression leftHand;
 
 	private Expression rightHand;
 
-	public BinaryExpression(TextLocation textLocation, Expression leftHand, Expression rightHand, String operator) {
+	public BinaryExpression(TextLocation textLocation, Expression leftHand, Expression rightHand, BinaryOperator binaryOperator) {
 		super(textLocation);
 		this.leftHand = leftHand;
 		this.rightHand = rightHand;
-		this.operator = operator;
+		this.binaryOperator = binaryOperator;
 	}
 
 	public Expression getLeftHand() {
@@ -23,8 +25,8 @@ public class BinaryExpression extends Expression {
 		return rightHand;
 	}
 
-	public String getOperator() {
-		return operator;
+	public BinaryOperator getOperator() {
+		return binaryOperator;
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class BinaryExpression extends Expression {
 		StringBuilder builder = new StringBuilder();
 		builder.append(leftHand);
 		builder.append(" ");
-		builder.append(operator);
+		builder.append(binaryOperator);
 		builder.append(" ");
 		builder.append(rightHand);
 		return builder.toString();

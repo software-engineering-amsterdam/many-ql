@@ -10,7 +10,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -21,9 +20,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.Question;
+import org.uva.sea.ql.encoders.ast.type.DataType;
+import org.uva.sea.ql.encoders.ast.type.QLBoolean;
+import org.uva.sea.ql.encoders.runtime.ConditionEvaluator;
 import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
@@ -52,35 +53,23 @@ public class QuestionnaireUI {
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		List<RuntimeQuestion> runtimeQuestions = questionnaire.getQuestions();
+		final List<RuntimeQuestion> runtimeQuestions = questionnaire.getQuestions();
 		int y = 1;
 
 		for (final RuntimeQuestion runtimeQuestion : runtimeQuestions) {
 			Question question = runtimeQuestion.getQuestion();
 
 			DataType dataType = question.getDataType();
-			Label label = new Label(question.getQuestionText());
+			final Label label = new Label(question.getQuestionText());
 			grid.add(label, 0, y);
 			boolean visible = question.getCondition() == null;
 			label.setVisible(visible);
-			final Control control;
-			switch (dataType) {
-			case BOOLEAN:
-				control = new CheckBox("Yes");
-				CheckBoxEventHandler checkBoxEventHandler = new CheckBoxEventHandler(runtimeQuestion);
-				((ButtonBase) control).setOnAction(checkBoxEventHandler);
-				break;
-			case STRING:
-			case INT:
-				control = new TextField();
-				control.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
-				break;
-			default:
-				throw new IllegalStateException("Unsupported type: " + dataType);
-			}
+			ControlGenerator controlGenerator = new ControlGenerator(runtimeQuestion);
+			final Control control = (Control) dataType.accept(controlGenerator);
+
 			control.setVisible(visible);
 
-			Expression condition = question.getCondition();
+			final Expression condition = question.getCondition();
 			if (condition != null) {
 				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 				Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
@@ -91,8 +80,11 @@ public class QuestionnaireUI {
 
 						@Override
 						public void update(Observable o, Object arg) {
-							boolean result = (boolean) expressionEvaluator.evaluateExpression(runtimeQuestion);
-							control.setVisible(result);
+							ConditionEvaluator conditionEvaluator = new ConditionEvaluator(runtimeQuestions);
+							QLBoolean qlBoolean = condition.accept(conditionEvaluator);
+							Boolean visible = qlBoolean.getValue();
+							control.setVisible(visible);
+							label.setVisible(visible);
 							System.out.println("Waarde is nu: " + arg);
 						}
 					});

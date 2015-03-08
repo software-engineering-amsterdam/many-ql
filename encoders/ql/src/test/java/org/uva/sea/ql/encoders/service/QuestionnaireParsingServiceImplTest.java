@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.Question;
@@ -45,7 +44,6 @@ public class QuestionnaireParsingServiceImplTest {
 		Question question = questionnaire.getQuestion(hasSoldHouse);
 		assertThat(question, is(notNullValue()));
 		assertThat(question.getName(), is(hasSoldHouse));
-		assertThat(question.getDataType(), is(DataType.BOOLEAN));
 		assertThat(question.getCondition(), is((Expression) null));
 	}
 
@@ -60,7 +58,6 @@ public class QuestionnaireParsingServiceImplTest {
 		Question question = questionnaire.getQuestion(questionName);
 		assertThat(question, is(notNullValue()));
 		assertThat(question.getName(), is(questionName));
-		assertThat(question.getDataType(), is(DataType.INT));
 		Expression condition = question.getCondition();
 		assertThat(condition, is(instanceOf(NameExpression.class)));
 		NameExpression nameExpression = (NameExpression) condition;

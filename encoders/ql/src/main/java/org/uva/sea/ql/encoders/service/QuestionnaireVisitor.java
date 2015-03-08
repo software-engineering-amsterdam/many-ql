@@ -1,6 +1,7 @@
 package org.uva.sea.ql.encoders.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -12,7 +13,7 @@ import org.uva.sea.ql.encoders.EncodersQLParser.ConditionalBlockContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.ExpressionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.LtGtLeGeContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.MulDivContext;
-import org.uva.sea.ql.encoders.EncodersQLParser.NameContext;
+import org.uva.sea.ql.encoders.EncodersQLParser.NameExpressionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.NeEqContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.NotContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.OrContext;
@@ -23,15 +24,25 @@ import org.uva.sea.ql.encoders.ast.AstNode;
 import org.uva.sea.ql.encoders.ast.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
-import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.UnaryExpression;
+import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
+import org.uva.sea.ql.encoders.ast.type.DataType;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
+
+	private final Map<String, BinaryOperator> operatorTable;
+
+	private final Map<String, DataType<?>> dataTypeTable;
+
+	public QuestionnaireVisitor(Map<String, BinaryOperator> operatorTable, Map<String, DataType<?>> dataTypeTable) {
+		this.operatorTable = operatorTable;
+		this.dataTypeTable = dataTypeTable;
+	}
 
 	@Override
 	public Questionnaire visitQuestionnaire(QuestionnaireContext ctx) {
@@ -67,7 +78,10 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
 		String questionName = ctx.questionName.getText();
-		DataType dataType = DataType.valueOf(ctx.type.getText().toUpperCase());
+		DataType<?> dataType = dataTypeTable.get(ctx.type.getText());
+		if (dataType == null) {
+			throw new IllegalStateException("Unknown dataType " + ctx.type.getText());
+		}
 		String questionString = ctx.questionString.getText();
 		questionString = questionString.replaceAll("\"", "");
 
@@ -89,8 +103,22 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	}
 
 	@Override
+	public Expression visitBracedExpression(BracedExpressionContext ctx) {
+		Expression expression = (Expression) visit(ctx.expression());
+		TextLocation textLocation = getTextLocation(ctx);
+		return new BracedExpression(textLocation, expression);
+	}
+
+	@Override
+	public Expression visitNameExpression(NameExpressionContext ctx) {
+		TextLocation textLocation = getTextLocation(ctx);
+		String text = ctx.name.getText();
+		return new NameExpression(textLocation, text);
+	}
+
+	@Override
 	public Expression visitNeEq(NeEqContext ctx) {
-		String operator = ctx.operator.getText();
+		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -99,7 +127,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitMulDiv(MulDivContext ctx) {
-		String operator = ctx.operator.getText();
+		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -108,7 +136,34 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
 	@Override
 	public Expression visitLtGtLeGe(LtGtLeGeContext ctx) {
-		String operator = ctx.operator.getText();
+		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		Expression leftHand = (Expression) visit(ctx.leftHand);
+		Expression rightHand = (Expression) visit(ctx.rightHand);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+	}
+
+	@Override
+	public Expression visitOr(OrContext ctx) {
+		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		Expression leftHand = (Expression) visit(ctx.leftHand);
+		Expression rightHand = (Expression) visit(ctx.rightHand);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+	}
+
+	@Override
+	public Expression visitAddSub(AddSubContext ctx) {
+		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
+		Expression leftHand = (Expression) visit(ctx.leftHand);
+		Expression rightHand = (Expression) visit(ctx.rightHand);
+		TextLocation textLocation = getTextLocation(ctx);
+		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+	}
+
+	@Override
+	public Expression visitAnd(AndContext ctx) {
+		BinaryOperator operator = operatorTable.get(ctx.operator.getText());
 		Expression leftHand = (Expression) visit(ctx.leftHand);
 		Expression rightHand = (Expression) visit(ctx.rightHand);
 		TextLocation textLocation = getTextLocation(ctx);
@@ -121,47 +176,6 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 		Expression expression = (Expression) visit(ctx.expr);
 		TextLocation textLocation = getTextLocation(ctx);
 		return new UnaryExpression(textLocation, operator, expression);
-	}
-
-	@Override
-	public Expression visitOr(OrContext ctx) {
-		String operator = ctx.operator.getText();
-		Expression leftHand = (Expression) visit(ctx.leftHand);
-		Expression rightHand = (Expression) visit(ctx.rightHand);
-		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
-	}
-
-	@Override
-	public Expression visitAddSub(AddSubContext ctx) {
-		String operator = ctx.operator.getText();
-		Expression leftHand = (Expression) visit(ctx.leftHand);
-		Expression rightHand = (Expression) visit(ctx.rightHand);
-		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
-	}
-
-	@Override
-	public Expression visitAnd(AndContext ctx) {
-		String operator = ctx.operator.getText();
-		Expression leftHand = (Expression) visit(ctx.leftHand);
-		Expression rightHand = (Expression) visit(ctx.rightHand);
-		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
-	}
-
-	@Override
-	public Expression visitBracedExpression(BracedExpressionContext ctx) {
-		Expression expression = (Expression) visit(ctx.expression());
-		TextLocation textLocation = getTextLocation(ctx);
-		return new BracedExpression(textLocation, expression);
-	}
-
-	@Override
-	public Expression visitName(NameContext ctx) {
-		TextLocation textLocation = getTextLocation(ctx);
-		String text = ctx.name.getText();
-		return new NameExpression(textLocation, text);
 	}
 
 	private TextLocation getTextLocation(ParserRuleContext ctx) {
