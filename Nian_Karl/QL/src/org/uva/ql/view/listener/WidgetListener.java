@@ -43,4 +43,8 @@ public class WidgetListener implements IWidgetListener {
 	public void addDependentQuestionComponent(ExprQuestionComponent panel) {
 		dependentQuestionComponents.add(panel);
 	}
+
+	public Evaluator getEvaluator() {
+		return evaluator;
+	}
 }

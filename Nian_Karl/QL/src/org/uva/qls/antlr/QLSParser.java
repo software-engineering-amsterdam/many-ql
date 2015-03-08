@@ -1,4 +1,4 @@
-// Generated from QLS.g4 by ANTLR 4.5
+// Generated from QLS.g4 by ANTLR 4.4
 package org.uva.qls.antlr;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class QLSParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -23,6 +23,14 @@ public class QLSParser extends Parser {
 		LEFT_BRACE=22, RIGHT_BRACE=23, LEFT_BRACKET=24, RIGHT_BRACKET=25, NewLine=26, 
 		IntegerLiteral=27, BooleanLiteral=28, StringLiteral=29, WhiteSpace=30, 
 		MultiComment=31, SingleComment=32, Identifier=33, RgbValue=34;
+	public static final String[] tokenNames = {
+		"<INVALID>", "'style'", "'page'", "'section'", "'question'", "'widget'", 
+		"'slider'", "'spinbox'", "'text'", "'radiobutton'", "'dropdown'", "'checkbox'", 
+		"'width'", "'height'", "'fontSize'", "'font'", "'color'", "'arial'", "':'", 
+		"','", "'('", "')'", "'{'", "'}'", "'['", "']'", "NewLine", "IntegerLiteral", 
+		"BooleanLiteral", "StringLiteral", "WhiteSpace", "MultiComment", "SingleComment", 
+		"Identifier", "RgbValue"
+	};
 	public static final int
 		RULE_style = 0, RULE_page = 1, RULE_block = 2, RULE_section = 3, RULE_questionIdent = 4, 
 		RULE_styling = 5, RULE_font = 6, RULE_widget = 7, RULE_trueFalseIdentifier = 8;
@@ -31,55 +39,11 @@ public class QLSParser extends Parser {
 		"widget", "trueFalseIdentifier"
 	};
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "'style'", "'page'", "'section'", "'question'", "'widget'", "'slider'", 
-		"'spinbox'", "'text'", "'radiobutton'", "'dropdown'", "'checkbox'", "'width'", 
-		"'height'", "'fontSize'", "'font'", "'color'", "'arial'", "':'", "','", 
-		"'('", "')'", "'{'", "'}'", "'['", "']'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, "STYLE", "PAGE", "SECTION", "QUESTION", "WIDGET", "SLIDER", "SPINBOX", 
-		"TEXT", "RADIO", "DROPDOWN", "CHECKBOX", "WIDTH", "HEIGHT", "FONTSIZE", 
-		"FONT", "COLOR", "ARIAL", "COLON", "COMMA", "LEFT_PAREN", "RIGHT_PAREN", 
-		"LEFT_BRACE", "RIGHT_BRACE", "LEFT_BRACKET", "RIGHT_BRACKET", "NewLine", 
-		"IntegerLiteral", "BooleanLiteral", "StringLiteral", "WhiteSpace", "MultiComment", 
-		"SingleComment", "Identifier", "RgbValue"
-	};
-	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
-
-	/**
-	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
-	@Deprecated
-	public static final String[] tokenNames;
-	static {
-		tokenNames = new String[_SYMBOLIC_NAMES.length];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = VOCABULARY.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = VOCABULARY.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-	}
-
-	@Override
-	@Deprecated
-	public String[] getTokenNames() {
-		return tokenNames;
-	}
-
-	@Override
-
-	public Vocabulary getVocabulary() {
-		return VOCABULARY;
-	}
-
 	@Override
 	public String getGrammarFileName() { return "QLS.g4"; }
+
+	@Override
+	public String[] getTokenNames() { return tokenNames; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -97,11 +61,11 @@ public class QLSParser extends Parser {
 	public static class StyleContext extends ParserRuleContext {
 		public TerminalNode STYLE() { return getToken(QLSParser.STYLE, 0); }
 		public TerminalNode Identifier() { return getToken(QLSParser.Identifier, 0); }
-		public List<PageContext> page() {
-			return getRuleContexts(PageContext.class);
-		}
 		public PageContext page(int i) {
 			return getRuleContext(PageContext.class,i);
+		}
+		public List<PageContext> page() {
+			return getRuleContexts(PageContext.class);
 		}
 		public StyleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -129,18 +93,15 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(18);
-			match(STYLE);
-			setState(19);
-			match(Identifier);
+			setState(18); match(STYLE);
+			setState(19); match(Identifier);
 			setState(23);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==PAGE) {
 				{
 				{
-				setState(20);
-				page();
+				setState(20); page();
 				}
 				}
 				setState(25);
@@ -161,8 +122,8 @@ public class QLSParser extends Parser {
 	}
 
 	public static class PageContext extends ParserRuleContext {
-		public TerminalNode PAGE() { return getToken(QLSParser.PAGE, 0); }
 		public TerminalNode Identifier() { return getToken(QLSParser.Identifier, 0); }
+		public TerminalNode PAGE() { return getToken(QLSParser.PAGE, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -191,12 +152,9 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(26);
-			match(PAGE);
-			setState(27);
-			match(Identifier);
-			setState(28);
-			block();
+			setState(26); match(PAGE);
+			setState(27); match(Identifier);
+			setState(28); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -211,14 +169,14 @@ public class QLSParser extends Parser {
 	}
 
 	public static class BlockContext extends ParserRuleContext {
-		public TerminalNode LEFT_PAREN() { return getToken(QLSParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(QLSParser.RIGHT_PAREN, 0); }
 		public List<SectionContext> section() {
 			return getRuleContexts(SectionContext.class);
 		}
 		public SectionContext section(int i) {
 			return getRuleContext(SectionContext.class,i);
 		}
+		public TerminalNode RIGHT_PAREN() { return getToken(QLSParser.RIGHT_PAREN, 0); }
+		public TerminalNode LEFT_PAREN() { return getToken(QLSParser.LEFT_PAREN, 0); }
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -245,24 +203,21 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(30);
-			match(LEFT_PAREN);
+			setState(30); match(LEFT_PAREN);
 			setState(34);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==SECTION) {
 				{
 				{
-				setState(31);
-				section();
+				setState(31); section();
 				}
 				}
 				setState(36);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(37);
-			match(RIGHT_PAREN);
+			setState(37); match(RIGHT_PAREN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -277,13 +232,13 @@ public class QLSParser extends Parser {
 	}
 
 	public static class SectionContext extends ParserRuleContext {
-		public TerminalNode SECTION() { return getToken(QLSParser.SECTION, 0); }
 		public TerminalNode Identifier() { return getToken(QLSParser.Identifier, 0); }
+		public TerminalNode SECTION() { return getToken(QLSParser.SECTION, 0); }
+		public TerminalNode RIGHT_PAREN() { return getToken(QLSParser.RIGHT_PAREN, 0); }
 		public TerminalNode LEFT_PAREN() { return getToken(QLSParser.LEFT_PAREN, 0); }
 		public QuestionIdentContext questionIdent() {
 			return getRuleContext(QuestionIdentContext.class,0);
 		}
-		public TerminalNode RIGHT_PAREN() { return getToken(QLSParser.RIGHT_PAREN, 0); }
 		public SectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -309,16 +264,11 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
-			match(SECTION);
-			setState(40);
-			match(Identifier);
-			setState(41);
-			match(LEFT_PAREN);
-			setState(42);
-			questionIdent();
-			setState(43);
-			match(RIGHT_PAREN);
+			setState(39); match(SECTION);
+			setState(40); match(Identifier);
+			setState(41); match(LEFT_PAREN);
+			setState(42); questionIdent();
+			setState(43); match(RIGHT_PAREN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -335,14 +285,14 @@ public class QLSParser extends Parser {
 	public static class QuestionIdentContext extends ParserRuleContext {
 		public TerminalNode QUESTION() { return getToken(QLSParser.QUESTION, 0); }
 		public TerminalNode Identifier() { return getToken(QLSParser.Identifier, 0); }
-		public TerminalNode LEFT_PAREN() { return getToken(QLSParser.LEFT_PAREN, 0); }
-		public TerminalNode RIGHT_PAREN() { return getToken(QLSParser.RIGHT_PAREN, 0); }
 		public List<StylingContext> styling() {
 			return getRuleContexts(StylingContext.class);
 		}
+		public TerminalNode RIGHT_PAREN() { return getToken(QLSParser.RIGHT_PAREN, 0); }
 		public StylingContext styling(int i) {
 			return getRuleContext(StylingContext.class,i);
 		}
+		public TerminalNode LEFT_PAREN() { return getToken(QLSParser.LEFT_PAREN, 0); }
 		public QuestionIdentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -372,39 +322,31 @@ public class QLSParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(45);
-				match(QUESTION);
-				setState(46);
-				match(Identifier);
-				setState(47);
-				match(LEFT_PAREN);
+				setState(45); match(QUESTION);
+				setState(46); match(Identifier);
+				setState(47); match(LEFT_PAREN);
 				setState(51);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WIDGET) | (1L << WIDTH) | (1L << HEIGHT) | (1L << FONTSIZE) | (1L << FONT) | (1L << COLOR))) != 0)) {
 					{
 					{
-					setState(48);
-					styling();
+					setState(48); styling();
 					}
 					}
 					setState(53);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(54);
-				match(RIGHT_PAREN);
+				setState(54); match(RIGHT_PAREN);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(55);
-				match(QUESTION);
-				setState(56);
-				match(Identifier);
-				setState(57);
-				styling();
+				setState(55); match(QUESTION);
+				setState(56); match(Identifier);
+				setState(57); styling();
 				}
 				break;
 			}
@@ -421,21 +363,21 @@ public class QLSParser extends Parser {
 	}
 
 	public static class StylingContext extends ParserRuleContext {
-		public TerminalNode WIDGET() { return getToken(QLSParser.WIDGET, 0); }
-		public TerminalNode COLON() { return getToken(QLSParser.COLON, 0); }
-		public WidgetContext widget() {
-			return getRuleContext(WidgetContext.class,0);
-		}
-		public TerminalNode WIDTH() { return getToken(QLSParser.WIDTH, 0); }
-		public TerminalNode IntegerLiteral() { return getToken(QLSParser.IntegerLiteral, 0); }
-		public TerminalNode HEIGHT() { return getToken(QLSParser.HEIGHT, 0); }
-		public TerminalNode FONTSIZE() { return getToken(QLSParser.FONTSIZE, 0); }
-		public TerminalNode FONT() { return getToken(QLSParser.FONT, 0); }
 		public FontContext font() {
 			return getRuleContext(FontContext.class,0);
 		}
-		public TerminalNode COLOR() { return getToken(QLSParser.COLOR, 0); }
+		public TerminalNode WIDTH() { return getToken(QLSParser.WIDTH, 0); }
+		public WidgetContext widget() {
+			return getRuleContext(WidgetContext.class,0);
+		}
+		public TerminalNode FONT() { return getToken(QLSParser.FONT, 0); }
+		public TerminalNode WIDGET() { return getToken(QLSParser.WIDGET, 0); }
+		public TerminalNode FONTSIZE() { return getToken(QLSParser.FONTSIZE, 0); }
+		public TerminalNode IntegerLiteral() { return getToken(QLSParser.IntegerLiteral, 0); }
 		public TerminalNode RgbValue() { return getToken(QLSParser.RgbValue, 0); }
+		public TerminalNode COLOR() { return getToken(QLSParser.COLOR, 0); }
+		public TerminalNode COLON() { return getToken(QLSParser.COLON, 0); }
+		public TerminalNode HEIGHT() { return getToken(QLSParser.HEIGHT, 0); }
 		public StylingContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -464,67 +406,49 @@ public class QLSParser extends Parser {
 			case WIDGET:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(60);
-				match(WIDGET);
-				setState(61);
-				match(COLON);
-				setState(62);
-				widget();
+				setState(60); match(WIDGET);
+				setState(61); match(COLON);
+				setState(62); widget();
 				}
 				break;
 			case WIDTH:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(63);
-				match(WIDTH);
-				setState(64);
-				match(COLON);
-				setState(65);
-				match(IntegerLiteral);
+				setState(63); match(WIDTH);
+				setState(64); match(COLON);
+				setState(65); match(IntegerLiteral);
 				}
 				break;
 			case HEIGHT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(66);
-				match(HEIGHT);
-				setState(67);
-				match(COLON);
-				setState(68);
-				match(IntegerLiteral);
+				setState(66); match(HEIGHT);
+				setState(67); match(COLON);
+				setState(68); match(IntegerLiteral);
 				}
 				break;
 			case FONTSIZE:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(69);
-				match(FONTSIZE);
-				setState(70);
-				match(COLON);
-				setState(71);
-				match(IntegerLiteral);
+				setState(69); match(FONTSIZE);
+				setState(70); match(COLON);
+				setState(71); match(IntegerLiteral);
 				}
 				break;
 			case FONT:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(72);
-				match(FONT);
-				setState(73);
-				match(COLON);
-				setState(74);
-				font();
+				setState(72); match(FONT);
+				setState(73); match(COLON);
+				setState(74); font();
 				}
 				break;
 			case COLOR:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(75);
-				match(COLOR);
-				setState(76);
-				match(COLON);
-				setState(77);
-				match(RgbValue);
+				setState(75); match(COLOR);
+				setState(76); match(COLON);
+				setState(77); match(RgbValue);
 				}
 				break;
 			default:
@@ -569,8 +493,7 @@ public class QLSParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(80);
-			match(ARIAL);
+			setState(80); match(ARIAL);
 			}
 		}
 		catch (RecognitionException re) {
@@ -585,26 +508,26 @@ public class QLSParser extends Parser {
 	}
 
 	public static class WidgetContext extends ParserRuleContext {
-		public TerminalNode TEXT() { return getToken(QLSParser.TEXT, 0); }
-		public TerminalNode CHECKBOX() { return getToken(QLSParser.CHECKBOX, 0); }
 		public TerminalNode SPINBOX() { return getToken(QLSParser.SPINBOX, 0); }
-		public TerminalNode COLON() { return getToken(QLSParser.COLON, 0); }
-		public TerminalNode LEFT_BRACKET() { return getToken(QLSParser.LEFT_BRACKET, 0); }
-		public List<TerminalNode> IntegerLiteral() { return getTokens(QLSParser.IntegerLiteral); }
-		public TerminalNode IntegerLiteral(int i) {
-			return getToken(QLSParser.IntegerLiteral, i);
-		}
-		public TerminalNode RIGHT_BRACKET() { return getToken(QLSParser.RIGHT_BRACKET, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(QLSParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(QLSParser.COMMA, i);
-		}
-		public TerminalNode SLIDER() { return getToken(QLSParser.SLIDER, 0); }
-		public TerminalNode DROPDOWN() { return getToken(QLSParser.DROPDOWN, 0); }
 		public TrueFalseIdentifierContext trueFalseIdentifier() {
 			return getRuleContext(TrueFalseIdentifierContext.class,0);
 		}
 		public TerminalNode RADIO() { return getToken(QLSParser.RADIO, 0); }
+		public TerminalNode SLIDER() { return getToken(QLSParser.SLIDER, 0); }
+		public TerminalNode TEXT() { return getToken(QLSParser.TEXT, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(QLSParser.COMMA); }
+		public TerminalNode IntegerLiteral(int i) {
+			return getToken(QLSParser.IntegerLiteral, i);
+		}
+		public List<TerminalNode> IntegerLiteral() { return getTokens(QLSParser.IntegerLiteral); }
+		public TerminalNode CHECKBOX() { return getToken(QLSParser.CHECKBOX, 0); }
+		public TerminalNode LEFT_BRACKET() { return getToken(QLSParser.LEFT_BRACKET, 0); }
+		public TerminalNode COLON() { return getToken(QLSParser.COLON, 0); }
+		public TerminalNode COMMA(int i) {
+			return getToken(QLSParser.COMMA, i);
+		}
+		public TerminalNode DROPDOWN() { return getToken(QLSParser.DROPDOWN, 0); }
+		public TerminalNode RIGHT_BRACKET() { return getToken(QLSParser.RIGHT_BRACKET, 0); }
 		public WidgetContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -634,99 +557,77 @@ public class QLSParser extends Parser {
 			case TEXT:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(82);
-				match(TEXT);
+				setState(82); match(TEXT);
 				}
 				break;
 			case CHECKBOX:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(83);
-				match(CHECKBOX);
+				setState(83); match(CHECKBOX);
 				}
 				break;
 			case SPINBOX:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(84);
-				match(SPINBOX);
-				setState(85);
-				match(COLON);
-				setState(86);
-				match(LEFT_BRACKET);
-				setState(87);
-				match(IntegerLiteral);
+				setState(84); match(SPINBOX);
+				setState(85); match(COLON);
+				setState(86); match(LEFT_BRACKET);
+				setState(87); match(IntegerLiteral);
 				setState(90); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(88);
-					match(COMMA);
-					setState(89);
-					match(IntegerLiteral);
+					setState(88); match(COMMA);
+					setState(89); match(IntegerLiteral);
 					}
 					}
 					setState(92); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==COMMA );
-				setState(94);
-				match(RIGHT_BRACKET);
+				setState(94); match(RIGHT_BRACKET);
 				}
 				break;
 			case SLIDER:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(95);
-				match(SLIDER);
-				setState(96);
-				match(COLON);
-				setState(97);
-				match(LEFT_BRACKET);
-				setState(98);
-				match(IntegerLiteral);
+				setState(95); match(SLIDER);
+				setState(96); match(COLON);
+				setState(97); match(LEFT_BRACKET);
+				setState(98); match(IntegerLiteral);
 				setState(101); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(99);
-					match(COMMA);
-					setState(100);
-					match(IntegerLiteral);
+					setState(99); match(COMMA);
+					setState(100); match(IntegerLiteral);
 					}
 					}
 					setState(103); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==COMMA );
-				setState(105);
-				match(RIGHT_BRACKET);
+				setState(105); match(RIGHT_BRACKET);
 				}
 				break;
 			case DROPDOWN:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(106);
-				match(DROPDOWN);
-				setState(107);
-				match(COLON);
-				setState(108);
-				trueFalseIdentifier();
+				setState(106); match(DROPDOWN);
+				setState(107); match(COLON);
+				setState(108); trueFalseIdentifier();
 				}
 				break;
 			case RADIO:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(109);
-				match(RADIO);
-				setState(110);
-				match(COLON);
-				setState(111);
-				trueFalseIdentifier();
+				setState(109); match(RADIO);
+				setState(110); match(COLON);
+				setState(111); trueFalseIdentifier();
 				}
 				break;
 			default:
@@ -747,8 +648,8 @@ public class QLSParser extends Parser {
 	public static class TrueFalseIdentifierContext extends ParserRuleContext {
 		public Token trueLabel;
 		public Token falseLabel;
-		public TerminalNode NewLine() { return getToken(QLSParser.NewLine, 0); }
 		public TerminalNode Identifier() { return getToken(QLSParser.Identifier, 0); }
+		public TerminalNode NewLine() { return getToken(QLSParser.NewLine, 0); }
 		public TrueFalseIdentifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -778,19 +679,16 @@ public class QLSParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				{
-				setState(114);
-				((TrueFalseIdentifierContext)_localctx).trueLabel = match(Identifier);
+				setState(114); ((TrueFalseIdentifierContext)_localctx).trueLabel = match(Identifier);
 				}
 				break;
 			case 2:
 				{
-				setState(115);
-				((TrueFalseIdentifierContext)_localctx).falseLabel = match(Identifier);
+				setState(115); ((TrueFalseIdentifierContext)_localctx).falseLabel = match(Identifier);
 				}
 				break;
 			}
-			setState(118);
-			match(NewLine);
+			setState(118); match(NewLine);
 			}
 		}
 		catch (RecognitionException re) {
