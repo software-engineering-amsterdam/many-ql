@@ -46,7 +46,7 @@ The type checker detects:
       reference to undefined questions
     + duplicate question declarations with different types
       conditions that are not of the type boolean
-    + operands of invalid type to operators (works for arithmetical operations & brackets)
+    + operands of invalid type to operators 
       cyclic dependencies between questions
     + duplicate labels (warning)
  */
@@ -197,68 +197,57 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 
 	@Override
 	public Void visit(EqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(NotEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(LessThanExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(GreaterThanExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(LessEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(GreaterEqualExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(NotExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
 	public Void visit(PlusExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
 	public Void visit(MinusExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkUnaryExpression(expr);
 	}
 
 	@Override
 	public Void visit(AndExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
 	public Void visit(OrExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
