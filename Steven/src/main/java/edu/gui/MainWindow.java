@@ -15,16 +15,31 @@ import java.util.Map;
  */
 public class MainWindow extends JFrame {
     private final JPanel mainPanel;
+    private final JPanel questionPanel;
+    private final JPanel paginationPanel;
     private int pages = 0;
 
     public MainWindow() {
         mainPanel = new JPanel();
+        questionPanel = new JPanel();
+        paginationPanel = new JPanel();
     }
 
     public void initialize() {
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
         CardLayout cardLayout = new CardLayout(10, 10);
-        mainPanel.setLayout(cardLayout);
+        questionPanel.setLayout(cardLayout);
+        mainPanel.add(questionPanel, BorderLayout.CENTER);
+        mainPanel.add(paginationPanel,BorderLayout.PAGE_END);
         add(mainPanel);
+        addPaginationButtons(cardLayout);
+    }
+
+    private void addPaginationButtons(CardLayout cardLayout) {
+        JButton next = new JButton("Next");
+        paginationPanel.add(next);
+        next.addActionListener(e -> cardLayout.show(questionPanel, "2"));
     }
 
     public void showMainWindow() {
@@ -36,8 +51,8 @@ public class MainWindow extends JFrame {
     }
 
     public void addPage(List<Section> sections, Map<Question, List<Style>> questions) {
-        Page page = new Page(sections,questions);
-        mainPanel.add(page, String.valueOf(++pages));
+        Page page = new Page(sections, questions);
+        questionPanel.add(page, String.valueOf(++pages));
     }
 
 }

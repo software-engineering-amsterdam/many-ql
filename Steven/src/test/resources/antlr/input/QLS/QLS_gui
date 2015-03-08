@@ -14,6 +14,9 @@ stylesheet title{
     }
 
     page{
+        section "page2"{
+            question NAME5
+        }
     }
 
     question NAME3{
