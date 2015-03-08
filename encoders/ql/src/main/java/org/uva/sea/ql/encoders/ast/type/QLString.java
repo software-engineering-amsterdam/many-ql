@@ -1,19 +1,25 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class QLString extends DataType<String> {
+public class QLString extends DataType {
+
+	private String value;
 
 	public QLString(String value) {
-		super(value);
+		this.value = value;
 	}
 
 	@Override
-	public DataType<String> add(DataType<String> leftValue, DataType<String> rightValue) {
-		String value = leftValue.getValue() + rightValue.getValue();
-		return new QLString(value);
+	public <T extends DataType> T add(T rightValue) {
+		String result = value + ((QLString) rightValue).getValue();
+		return (T) new QLString(result);
 	}
 
 	@Override
 	public <C> C accept(DataTypeVisitor<C> dataTypeVisitor) {
 		return dataTypeVisitor.visit(this);
+	}
+
+	public String getValue() {
+		return value;
 	}
 }

@@ -6,7 +6,7 @@ public class AddOperator implements BinaryOperator {
 
 	@Override
 	public <T extends DataType> T calculate(T leftValue, T rightValue) {
-		return null;
+		return leftValue.add(rightValue);
 	}
 
 }

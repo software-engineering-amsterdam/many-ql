@@ -1,13 +1,19 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class QLBoolean extends DataType<Boolean> {
+public class QLBoolean extends DataType {
+
+	private Boolean value;
 
 	public QLBoolean(Boolean value) {
-		super(value);
+		this.value = value;
 	}
 
 	@Override
-	public <C> C accept(DataTypeVisitor<C> dataTypeVisitor) {
+	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {
 		return dataTypeVisitor.visit(this);
+	}
+
+	public Boolean getValue() {
+		return value;
 	}
 }
