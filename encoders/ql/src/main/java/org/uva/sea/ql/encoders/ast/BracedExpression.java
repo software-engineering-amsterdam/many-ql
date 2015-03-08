@@ -22,4 +22,8 @@ public class BracedExpression extends Expression {
 		return builder.toString();
 	}
 
+	@Override
+	public <T> T accept(AstVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

@@ -28,6 +28,11 @@ public class OperatorExpression extends Expression {
 	}
 
 	@Override
+	public <T> T accept(AstVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(leftHand);

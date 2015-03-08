@@ -18,4 +18,9 @@ public class ConditionalBlock extends AstNode {
 	public List<Question> getQuestions() {
 		return questions;
 	}
+
+	@Override
+	public <T> T accept(AstVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

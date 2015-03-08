@@ -1,6 +1,5 @@
 package org.uva.sea.ql.encoders.ast;
 
-
 public class NameExpression extends Expression {
 
 	private String name;
@@ -19,4 +18,8 @@ public class NameExpression extends Expression {
 		return name;
 	}
 
+	@Override
+	public <T> T accept(AstVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

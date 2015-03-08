@@ -44,4 +44,9 @@ public class Questionnaire extends AstNode {
 	public void addQuestions(List<Question> questionsToAdd) {
 		questions.addAll(questionsToAdd);
 	}
+
+	@Override
+	public <T> T accept(AstVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }

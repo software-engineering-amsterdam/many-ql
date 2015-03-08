@@ -49,4 +49,9 @@ public class Question extends AstNode {
 	public void setComputed(Expression expression) {
 		this.computed = expression;
 	}
+
+	@Override
+	public <T> T accept(AstVisitor<T> visitor) {
+		return visitor.visit(this);
+	}
 }
