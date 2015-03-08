@@ -46,7 +46,6 @@ namespace QL.Evaluation
             IdentifierReference = new Dictionary<Identifier, ITypeResolvable>();
 
         }
-        public 
         IResolvableTerminalType GetValue(IResolvableTerminalType node)
         {
 
