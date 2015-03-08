@@ -13,6 +13,7 @@ import org.uva.sea.ql.encoders.ast.NameExpression;
 import org.uva.sea.ql.encoders.ast.OperatorExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
+import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 
@@ -23,6 +24,8 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 	private List<Validation> validations = new ArrayList<>();
 
 	private List<Question> questions = new ArrayList<>();
+
+	private QuestionByName questionByName = new QuestionByName();
 
 	public TypeCheckerVisitor(List<Question> questions) {
 		this.questions = questions;
@@ -70,7 +73,8 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 	@Override
 	public DataType visit(NameExpression nameExpression) {
 		String name = nameExpression.getName();
-		Question question = getQuestion(name);
+
+		Question question = questionByName.getQuestion(name, questions);
 		if (question != null) {
 			if (!questionNames.contains(name)) {
 				String validationMessage = "Reference may only be listed after the question it references. Question: " + name;
@@ -103,16 +107,6 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 				+ " righthand datatype=" + rightHandDataType;
 		validations.add(new Validation(validationMessage, textLocation));
 		return DataType.UNDEFINED;
-	}
-
-	private Question getQuestion(String name) {
-		for (Question question : questions) {
-			String questionName = question.getName();
-			if (name.equals(questionName)) {
-				return question;
-			}
-		}
-		return null;
 	}
 
 }
