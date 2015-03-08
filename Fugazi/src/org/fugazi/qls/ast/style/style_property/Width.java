@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast.style.style_property;
 
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.style_property.type.IntPropertyType;
 
 public class Width extends StyleProperty {
@@ -12,5 +13,9 @@ public class Width extends StyleProperty {
 
     public Width(IntPropertyType _value) {
         super(PROPERTY_NAME, _value);
+    }
+
+    public <T> T accept(IQLSASTVisitor<T> _visitor) {
+        return _visitor.visitWidthProperty(this);
     }
 }
