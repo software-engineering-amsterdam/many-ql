@@ -23,12 +23,12 @@ public class Page extends JPanel {
 
     private void addSectionsPanel(Map<Question, List<Style>> questions, Section section) {
         add(createSectionPanel(questions, section));
-        add(Box.createRigidArea(new Dimension(0,10)));
+        add(Box.createRigidArea(new Dimension(0, 10)));
     }
 
     private SectionsPanel createSectionPanel(Map<Question, List<Style>> questions, Section section) {
         SectionsPanel sectionsPanel = new SectionsPanel(section, questions);
-        sectionsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        sectionsPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(section.getTitle()), BorderFactory.createEmptyBorder()));
 
         return sectionsPanel;
     }

@@ -18,7 +18,6 @@ public class SectionsPanel extends JPanel {
 
     public SectionsPanel(Section section, Map<Question, List<Style>> questions) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel(section.getTitle()));
         List<QLSQuestion> qlsSectionQuestions = getQLSSectionQuestions(section);
         List<Question> sectionQuestions = getSectionQuestions(questions, qlsSectionQuestions);
         QuestionsPanel questionsPanel = new QuestionsPanel(sectionQuestions);

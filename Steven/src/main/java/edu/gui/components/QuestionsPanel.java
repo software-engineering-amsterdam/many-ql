@@ -21,13 +21,14 @@ public class QuestionsPanel extends JPanel {
         gbc = new GridBagConstraints();
         initializeGridBagLayout();
         addQuestionsToGridBagLayout();
+        setBorder(BorderFactory.createLineBorder(Color.green));
     }
 
     private void initializeGridBagLayout() {
         setLayout(new GridBagLayout());
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(2, 2, 2, 2);
+        gbc.insets = new Insets(2, 5, 2, 5);
     }
 
     private void addQuestionsToGridBagLayout() {
