@@ -58,7 +58,7 @@ class Question(statement.IStatement):
 
     # Override
     def set_order(self, order_num):
-        if not self._order and order_num != self._order:
+        if not self._order:
             self._order = order_num
             return self._order + 1
         else:
@@ -87,7 +87,7 @@ class Question(statement.IStatement):
     def get_order(self):
         return self._order
 
-    # Getters of the question question
+    # Getters of the question statement
     def get_label(self):
         return self._label
 

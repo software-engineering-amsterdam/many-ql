@@ -6,8 +6,7 @@ import QL.AST.Statements.question as q
 class RQuestion(q.Question):
     def __init__(self, qid, qtype, label):
         super(RQuestion, self).__init__(qid, qtype, label)
-        self._element = None
-        self._order = None
+
 
     # set gui _element
     def set_element(self, gui):

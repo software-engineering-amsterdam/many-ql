@@ -9,8 +9,11 @@ class Form:
         self._name = name
         self._introduction = introduction
 
-        # set the question _order and the parent _id's
-        self._statements = statements
+        # set the statement _order and the parent _id's
+        self._statements = (
+            Form.set_statement_ids(str(self),
+                Form.set_question_ordering(statements))
+        )
 
         # create dictionary of ids as keys and types as values
         self._type_dict = self.create_statement_dict(self._statements)
