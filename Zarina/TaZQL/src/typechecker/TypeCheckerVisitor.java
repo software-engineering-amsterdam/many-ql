@@ -2,10 +2,12 @@ package typechecker;
 
 import java.util.List;
 
+import typechecker.elements.ExpressionChecker;
 import typechecker.elements.QuestionChecker;
 import typechecker.errors.ErrorCollector;
 import typechecker.errors.TaZQLError;
 import typechecker.errors.TaZQLWarning;
+import ast.expression.BinaryExpression;
 import ast.expression.BracketsExpression;
 import ast.expression.arithmetic.AdditionExpression;
 import ast.expression.arithmetic.DivisionExpression;
@@ -38,6 +40,15 @@ import ast.unary.MinusExpression;
 import ast.unary.NotExpression;
 import ast.unary.PlusExpression;
 
+/*
+The type checker detects:
+      reference to undefined questions
+    + duplicate question declarations with different types
+      conditions that are not of the type boolean
+    + operands of invalid type to operators (works for multiplication..)
+      cyclic dependencies between questions
+    + duplicate labels (warning)
+ */
 public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	private final ErrorCollector errorCollector;
 	private final TypeRepository typeRepository;
@@ -60,14 +71,30 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	}
 	
 	
-	public void checkQuestion(SimpleQuestion simpleQuestion) {
-		QuestionChecker questionChecker = new QuestionChecker(simpleQuestion.getQuestionId(),
-															  simpleQuestion.getQuestionText(),
-															  simpleQuestion.getQuestionType(),
+	public void checkQuestion(SimpleQuestion question) {
+		QuestionChecker questionChecker = new QuestionChecker(question.getQuestionId().getID(),
+															  question.getQuestionText(),
+															  question.getQuestionType(),
 															  this.errorCollector, this.typeRepository);
-		System.out.println("typerep: " + this.typeRepository.getTypeRepository());
 		questionChecker.checkDuplicateDeclaration();
 		questionChecker.checkDuplicateLabels();
+	}
+	
+	
+	public Void checkExpression(BinaryExpression expression) {
+		expression.getLeftExpression().accept(this);
+		expression.getRightExpression().accept(this);
+		
+		ExpressionChecker expressionCheckerLeft = new ExpressionChecker(this.errorCollector,
+																		this.typeRepository,
+																		expression.getLeftExpression());
+		ExpressionChecker expressionCheckerRight = new ExpressionChecker(this.errorCollector,
+																		 this.typeRepository,
+																		 expression.getRightExpression());
+
+		expressionCheckerLeft.checkType(expression.getExpressionType());
+		expressionCheckerRight.checkType(expression.getExpressionType());
+		return null;
 	}
 	
 	@Override
@@ -90,14 +117,30 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 	@Override
 	public Void visit(SimpleQuestion simpleQuestion) {
 		this.checkQuestion(simpleQuestion);
-		typeRepository.putID(simpleQuestion.getQuestionId(), simpleQuestion.getQuestionType());
-		typeRepository.putIDLabel(simpleQuestion.getQuestionId(), simpleQuestion.getQuestionText());
+		typeRepository.putID(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionType());
+		typeRepository.putIDLabel(simpleQuestion.getQuestionId().getID(), simpleQuestion.getQuestionText());
+		
+		System.out.println("typerep: " + this.typeRepository.getTypeRepository());
+		
 		return null;
 	}
 
 	@Override
 	public Void visit(ComputationQuestion calQuestion) {
-		// TODO Auto-generated method stub
+		this.checkQuestion(calQuestion);
+		calQuestion.getExpression().accept(this);
+		
+		typeRepository.putID(calQuestion.getQuestionId().getID(), calQuestion.getQuestionType());
+		typeRepository.putIDLabel(calQuestion.getQuestionId().getID(), calQuestion.getQuestionText());
+		
+		System.out.println("typerep2: " + this.typeRepository.getTypeRepository());
+		
+		ExpressionChecker expressionChecker = new ExpressionChecker(this.errorCollector,
+																	this.typeRepository,
+																	calQuestion.getExpression());
+
+		expressionChecker.checkType(calQuestion.getQuestionType());
+		
 		return null;
 	}
 
@@ -121,8 +164,7 @@ public class TypeCheckerVisitor implements IFormVisitor<Void> {
 
 	@Override
 	public Void visit(MultiplicationExpression expr) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.checkExpression(expr);
 	}
 
 	@Override
