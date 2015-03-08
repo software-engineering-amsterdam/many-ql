@@ -48,20 +48,19 @@ public class QuestionnaireUI {
 
 		List<RuntimeQuestion> questions = questionnaire.getQuestions();
 		int y = 1;
-		boolean initializeDisabled = false;
 
 		for (RuntimeQuestion runtimeQuestion : questions) {
 			Question question = runtimeQuestion.getQuestion();
 			DataType dataType = question.getDataType();
-			grid.add(new Label(question.getQuestionText()), 0, y);
-			if (question.getCondition() != null) {
-				initializeDisabled = true;
-			}
+			Label label = new Label(question.getQuestionText());
+			grid.add(label, 0, y);
+			boolean visible = question.getCondition() == null;
+			label.setVisible(visible);
 			switch (dataType) {
 			case BOOLEAN:
 				CheckBox checkBox = new CheckBox("Yes");
 				checkBox.setOnAction(new CheckBoxEventHandler(runtimeQuestion));
-				checkBox.setDisable(initializeDisabled);
+				checkBox.setVisible(visible);
 				grid.add(checkBox, 1, y);
 				break;
 			case DATUM:
@@ -74,7 +73,7 @@ public class QuestionnaireUI {
 			case MONEY:
 				TextField textField = new TextField();
 				textField.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
-				textField.setDisable(initializeDisabled);
+				textField.setVisible(visible);
 				grid.add(textField, 1, y);
 				break;
 			default:
