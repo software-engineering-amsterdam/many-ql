@@ -27,8 +27,8 @@ public class QuestionsPanel extends JPanel {
         setLayout(new GridBagLayout());
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(2, 5, 2, 5);
-        gbc.weightx = gbc.weighty = 1.0;
+        gbc.insets = new Insets(2, 5, 2, 5); // padding
+        gbc.weightx = gbc.weighty = 1.0; // fill available space
     }
 
     private void addQuestionsToGridBagLayout() {
