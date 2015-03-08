@@ -33,7 +33,7 @@ public class RadioWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println("true");
-                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(true));
+                headlessFormInterpreter.setField(question.getIdent(), new BoolValue(true));
                 headlessFormInterpreter.interpret();
             }
         });
@@ -42,7 +42,7 @@ public class RadioWidget implements IWidget {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println("false");
-                headlessFormInterpreter.setField(question.getFieldName(), new BoolValue(false));
+                headlessFormInterpreter.setField(question.getIdent(), new BoolValue(false));
                 headlessFormInterpreter.interpret();
             }
         });

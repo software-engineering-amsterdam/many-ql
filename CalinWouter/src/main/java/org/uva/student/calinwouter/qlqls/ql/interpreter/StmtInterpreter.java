@@ -21,7 +21,7 @@ public abstract class StmtInterpreter<T extends FormInterpreter> extends Analysi
         ExpInterpreter expI = new ExpInterpreter(formInterpreter);
         nExp.apply(expI);
         if (!(expI.getValue().getValue() instanceof Boolean)) {
-            throw new NotOfTypeException(BoolValue.TYPE_REFERENCE);
+            throw new NotOfTypeException(BoolValue.BOOL_VALUE_TYPE_DESCRIPTOR.toString());
         } else if ((Boolean) expI.getValue().getValue()) {
             return true;
         }

@@ -19,7 +19,7 @@ public class SpinboxWidget implements IWidget {
         spinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                headlessFormInterpreter.setField(question.getFieldName(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
+                headlessFormInterpreter.setField(question.getIdent(), new IntegerValue(Integer.parseInt(spinner.getValue().toString())));
                 headlessFormInterpreter.interpret();
             }
         });

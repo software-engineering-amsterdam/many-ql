@@ -26,7 +26,7 @@ public class LabelWidget implements IWidget {
             public void onStateChanged() {
                 try {
                     valueLabel.setText(headlessFormInterpreter
-                            .getField(computedValue.getFieldName()).getValue().toString());
+                            .getField(computedValue.getIdent()).getValue().toString());
                 } catch (NullPointerException e) {
                     valueLabel.setText("-");
                 }

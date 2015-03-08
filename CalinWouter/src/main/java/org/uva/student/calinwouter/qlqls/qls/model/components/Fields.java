@@ -13,13 +13,4 @@ public class Fields {
     public Fields(AbstractFormField... fields) {
         this.fields = Arrays.asList(fields);
     }
-
-    protected Map<String, Object> findFieldStylingSettings(final String ident) throws FieldNotFoundException {
-        for (AbstractFormField f : fields) {
-            if (f.getIdent().equals(ident)) {
-                return f.getStylingArguments();
-            }
-        }
-        throw new FieldNotFoundException();
-    }
 }
