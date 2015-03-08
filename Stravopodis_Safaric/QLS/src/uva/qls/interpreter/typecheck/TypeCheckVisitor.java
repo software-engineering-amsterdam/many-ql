@@ -1,6 +1,7 @@
-package uva.qls.ast.visitor;
+package uva.qls.interpreter.typecheck;
 
 import uva.qls.ast.ASTNode;
+import uva.qls.interpreter.typecheck.CheckWidget;
 import uva.qls.ast.Page;
 import uva.qls.ast.Prog;
 import uva.qls.ast.StyleSheet;
@@ -30,8 +31,21 @@ import uva.qls.ast.style.FontSize;
 import uva.qls.ast.style.Height;
 import uva.qls.ast.style.Style;
 import uva.qls.ast.style.Width;
+import uva.qls.interpreter.typecheck.table.SymbolTable;
+import uva.qls.interpreter.typecheck.table.SymbolTableValue;
 
-public class Visitor implements StatementVisitor<Object>{
+public class TypeCheckVisitor implements StatementVisitor<Object>{
+	
+	private TypeCheckQLS typeCheck;
+	protected uva.qls.interpreter.typecheck.table.SymbolTable symbolTable;
+	protected CheckWidget widget;
+	
+	public TypeCheckVisitor (TypeCheckQLS _typeCheck, uva.qls.interpreter.typecheck.table.SymbolTable table){
+		
+		this.typeCheck = _typeCheck;
+		this.symbolTable= table;
+	}
+	
 
 	@Override
 	public Style visitStyle(Style style) {
@@ -160,7 +174,7 @@ public class Visitor implements StatementVisitor<Object>{
 	}
 
 	@Override
-	public Prog visitProg(Prog prog) {
+	public Object visitProg(Prog prog) {
 		prog.getStyleSheet().accept(this);
 		return null;
 	}
@@ -203,6 +217,54 @@ public class Visitor implements StatementVisitor<Object>{
 	@Override
 	public Object visitQuestion(Question question) {
 		// TODO Auto-generated method stub
+		//List<Identifier> names = new ArrayList(question.getIdentifier(), question.getLOC());
+		//for (SymbolTableValue s : value){
+			
+	//	}
+			
+		this.typeCheck.getSymbolTable().getTable().containsKey(question.getIdentifier());
+		//(this.symbolTable.keyExists(question.getIdentifier())) ? 
+		 
+		this.typeCheck.isMultiple(question.getIdentifier());
+		// no references to questions that are not in the QL program
+		// Create a TypeCheck class like we have in QL
+			// Check if key exists, if does -> add this to the error table
+				// when you start type checking for the QLS, create an instance of the ErrorTable
+				// Create TypeCheck class as exists (similar) within QL, but only in QLS
+		
+		//this.symbolTable.keyExists(identifier);
+		// add this question.identifier() to the symbol table
+		
+		// all questions of the QL program are placed by the QLS program.
+		
+		
+		// all questions of the QL program are placed by the QLS program.
+			// iterate through all the keys of the QL symbol table
+				// set condition that for each key of QL symbol table, this instance (question) exists in the QLS
+					// something like 
+					/*
+					 * for (String (or Identifier) : QL.symbolTable)
+					 * 	if (! qls.symbolTable.exists(from this id))
+					 * 		// add to the error table some message and code lines
+					 */
+		
+		// you cannot place a single question multiple times.
+			// referecence yourself here with the this.qls.symboltable.exists(this question -> identifier)
+				// if the identifier is already in the symbol table, 
+					// then go to the error table
+		
+		/*
+		 * (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
+		 * define an enumurator
+		 * 	define objects such as
+		 * 			enum ComponentTypes {
+		 * 
+		 * 				radioButton("boolean")
+		 * 
+		 * 
+		 */ 
+		this.typeCheck.correctWidget(question.getClass().getName().toString(), widget.detectType(question.getComponent().getClass().toString()).toString(), question.getLOC());
+		
 		return null;
 	}
 
