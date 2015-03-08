@@ -2,17 +2,16 @@ package org.uva.sea.ql.encoders.runtime;
 
 import java.util.List;
 
+import org.uva.sea.ql.encoders.ast.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
-import org.uva.sea.ql.encoders.ast.BinaryExpression;
 
 public class ExpressionEvaluator {
 
-	public void evaluateExpression(RuntimeQuestion runtimeQuestion) {
-
-		evaluateCondition(runtimeQuestion);
+	public Object evaluateExpression(RuntimeQuestion runtimeQuestion) {
+		return evaluateCondition(runtimeQuestion);
 	}
 
 	private boolean evaluateCondition(RuntimeQuestion runtimeQuestion) {

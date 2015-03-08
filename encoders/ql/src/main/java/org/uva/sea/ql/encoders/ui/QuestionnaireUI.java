@@ -10,6 +10,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -54,8 +55,30 @@ public class QuestionnaireUI {
 		List<RuntimeQuestion> runtimeQuestions = questionnaire.getQuestions();
 		int y = 1;
 
-		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
+		for (final RuntimeQuestion runtimeQuestion : runtimeQuestions) {
 			Question question = runtimeQuestion.getQuestion();
+
+			DataType dataType = question.getDataType();
+			Label label = new Label(question.getQuestionText());
+			grid.add(label, 0, y);
+			boolean visible = question.getCondition() == null;
+			label.setVisible(visible);
+			final Control control;
+			switch (dataType) {
+			case BOOLEAN:
+				control = new CheckBox("Yes");
+				CheckBoxEventHandler checkBoxEventHandler = new CheckBoxEventHandler(runtimeQuestion);
+				((ButtonBase) control).setOnAction(checkBoxEventHandler);
+				break;
+			case STRING:
+			case INT:
+				control = new TextField();
+				control.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
+				break;
+			default:
+				throw new IllegalStateException("Unsupported type: " + dataType);
+			}
+			control.setVisible(visible);
 
 			Expression condition = question.getCondition();
 			if (condition != null) {
@@ -65,8 +88,11 @@ public class QuestionnaireUI {
 				for (String relatedQuestionName : relatedQuestionNames) {
 					RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
 					relatedQuestion.addObserver(new Observer() {
+
 						@Override
 						public void update(Observable o, Object arg) {
+							boolean result = (boolean) expressionEvaluator.evaluateExpression(runtimeQuestion);
+							control.setVisible(result);
 							System.out.println("Waarde is nu: " + arg);
 						}
 					});
@@ -74,28 +100,25 @@ public class QuestionnaireUI {
 				System.out.println(relatedQuestionNames);
 			}
 
-			DataType dataType = question.getDataType();
-			Label label = new Label(question.getQuestionText());
-			grid.add(label, 0, y);
-			boolean visible = question.getCondition() == null;
-			label.setVisible(visible);
-			switch (dataType) {
-			case BOOLEAN:
-				CheckBox checkBox = new CheckBox("Yes");
-				checkBox.setOnAction(new CheckBoxEventHandler(runtimeQuestion));
-				checkBox.setVisible(visible);
-				grid.add(checkBox, 1, y);
-				break;
-			case STRING:
-			case INT:
-				TextField textField = new TextField();
-				textField.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
-				textField.setVisible(visible);
-				grid.add(textField, 1, y);
-				break;
-			default:
-				throw new IllegalStateException("Unsupported type: " + dataType);
+			Expression computed = question.getComputed();
+			if (computed != null) {
+				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
+				Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
+				QuestionByName questionByName = new QuestionByName();
+				for (String relatedQuestionName : relatedQuestionNames) {
+					RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
+					relatedQuestion.addObserver(new Observer() {
+
+						@Override
+						public void update(Observable o, Object arg) {
+							boolean result = (boolean) expressionEvaluator.evaluateExpression(runtimeQuestion);
+							System.out.println("Waarde is nu: " + arg);
+						}
+					});
+				}
+				System.out.println(relatedQuestionNames);
 			}
+			grid.add(control, 1, y);
 			y++;
 		}
 	}
