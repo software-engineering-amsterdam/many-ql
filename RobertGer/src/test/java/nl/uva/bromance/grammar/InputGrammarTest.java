@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InputTest extends GrammarTest {
+public class InputGrammarTest extends GrammarTest {
 
     private static final String CORRECT_INPUT = "Input: expression";
 
