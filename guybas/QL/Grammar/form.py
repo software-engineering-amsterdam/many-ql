@@ -32,12 +32,12 @@ class FormFormat:
     # _condition :: expr
     condition = expressions.Expressions.expr
 
-    # pIf :: if ( _condition ) { question+ }
+    # pIf :: if ( _condition ) { statement+ }
     pIf = (pp.Suppress("if" + pp.Literal("(")) + condition + pp.Suppress(")") + pp.Suppress("{") +
            pp.OneOrMore(statement) + pp.Suppress("}")
            ).setParseAction(forms.FormFactory.make_if)
 
-    # pIfElse :: if ( _condition ) { question+ } else { question+ }
+    # pIfElse :: if ( _condition ) { statement+ } else { statement+ }
     pIfElse = ((pp.Suppress("if" + pp.Literal("(")) + condition + pp.Suppress(")") + pp.Suppress("{") +
                 pp.OneOrMore(statement) + pp.Suppress("}")) + pp.Literal("else") + pp.Suppress("{") +
                 statement + pp.Suppress("}")
@@ -48,7 +48,7 @@ class FormFormat:
                   pp.Suppress(":") + expressions.Expressions.expr
                   ).setParseAction(forms.FormFactory.make_assignment)
 
-    # question :: pIfElse | pIf | questions | assignment
+    # statement :: pIfElse | pIf | questions | assignment
     statement <<= (pIfElse |
                    pIf |
                    questions |
@@ -57,5 +57,5 @@ class FormFormat:
     # introduction :: Introduction : sentences
     introduction = (pp.Group(pp.Suppress("Introduction" + pp.Literal(":")) + basic_types.BasicTypes.sentences))
 
-    # _form :: _id _introduction? question+
+    # _form :: _id _introduction? statement+
     form = (id + pp.Optional(introduction) + pp.Group(pp.OneOrMore(statement))) + pp.StringEnd()

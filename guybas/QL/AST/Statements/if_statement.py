@@ -22,25 +22,25 @@ class IfBlock(statement.IStatement):
             s += "   " * level + x.pretty_print(level + 1)
         return s
 
-    # return all ids in the question
+    # return all ids in the statement
     def id_collection(self):
         ids = []
         for x in self._statements:
             ids += x.id_collection()
         return ids
 
-    # return all labels in the question
+    # return all labels in the statement
     def label_collection(self):
         labels = []
         for x in self._statements:
             labels += x.label_collection()
         return labels
 
-    # return if the question is a conditional
+    # return if the statement is a conditional
     def is_conditional(self):
         return True
 
-    # return all the _dependencies in the question of other _statements
+    # return all the _dependencies in the statement of other _statements
     def get_dependency_collection(self, dependencies):
         ids = self.id_collection()
         for i in ids:
@@ -56,7 +56,7 @@ class IfBlock(statement.IStatement):
     def return_expressions(self):
         return self._expressions
 
-    # Get the parent _id of the question
+    # Get the parent _id of the statement
     def get_parent_id(self):
         return self._parent_id
 
@@ -68,7 +68,7 @@ class IfBlock(statement.IStatement):
             s.set_parent_id(m)
             s.set_parent_condition(self._condition)
 
-    # set the _order number of the question, only set once
+    # set the _order number of the statement, only set once
     def set_order(self, order_num):
         c = order_num
         for s in self._statements:
@@ -78,11 +78,11 @@ class IfBlock(statement.IStatement):
     def set_element(self, gui):
         pass
 
-    # return a dictionary of the ids as keys and types as value in the question
+    # return a dictionary of the ids as keys and types as value in the statement
     def get_id_type_collection(self):
         return self._id_type_dict
 
-    # Get the _order of elements in the question
+    # Get the _order of elements in the statement
     def get_order(self):
         return -1
 
@@ -96,7 +96,7 @@ class IfBlock(statement.IStatement):
         pass
 
     # Getters of if _statements
-    def get_statements(self):
+    def get_c_statements(self):
         return self._statements
 
     def get_id(self):
@@ -107,6 +107,9 @@ class IfBlock(statement.IStatement):
 
     def get_str_condition(self):
         return self._condition.pretty_print()
+
+    def get_e_statements(self):
+        return []
 
     @staticmethod
     def expression_collection(condition, statements):
