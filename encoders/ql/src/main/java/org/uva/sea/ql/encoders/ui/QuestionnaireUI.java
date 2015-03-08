@@ -37,7 +37,7 @@ public class QuestionnaireUI {
 		setupQuestionnaireUI(questionnaire, grid);
 
 		ScrollPane scrollPane = new ScrollPane(grid);
-		scrollPane.setPrefSize(550, 500);
+		scrollPane.setPrefSize(650, 500);
 		return scrollPane;
 	}
 

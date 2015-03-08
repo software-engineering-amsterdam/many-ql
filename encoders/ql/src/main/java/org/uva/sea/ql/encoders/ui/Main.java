@@ -8,9 +8,9 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
@@ -74,13 +74,14 @@ public class Main extends Application {
 					Questionnaire questionnaire = questionnaireParsingService.parse(textField.getText());
 					RuntimeQuestionnaire runtimeQuestionnaire = astTransformer.transform(questionnaire);
 					List<Validation> validations = questionnaireParsingService.getTypeValidations();
+					stackPane.getChildren().clear();
 					if (!validations.isEmpty()) {
 						ValidationsUI validationsUIFactory = new ValidationsUI();
-						Control validationsUI = validationsUIFactory.generateUI(validations);
+						Node validationsUI = validationsUIFactory.generateUI(validations);
 						stackPane.getChildren().add(validationsUI);
 					} else {
 						QuestionnaireUI questionnaireUIFactory = new QuestionnaireUI();
-						Control questionnaireUI = questionnaireUIFactory.generateUI(runtimeQuestionnaire);
+						Node questionnaireUI = questionnaireUIFactory.generateUI(runtimeQuestionnaire);
 						stackPane.getChildren().add(questionnaireUI);
 					}
 
@@ -92,7 +93,7 @@ public class Main extends Application {
 
 		grid.add(stackPane, 0, 1, 3, 1);
 
-		Scene scene = new Scene(grid, 700, 600);
+		Scene scene = new Scene(grid, 750, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
