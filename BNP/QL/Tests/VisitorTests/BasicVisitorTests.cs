@@ -39,32 +39,6 @@ namespace Tests.VisitorTests
             x.ToString();
         }
 
-        [TestMethod]
-        public void EvaluationBasicTest()
-        {
-            string input = @"form ExampleBlock {
-                statement S1 (text, ""abc"") ""You've failed to answer:"";
-                statement S2 (yesno, yes) ""You've failed to answer:"";
-
-                if (yes){}
-	            else {
-                     if (S2)
-                        {}
-                     else {};
-                     };
-                }
-            ";
-            Build(input);
-
-            QLListener Listener = new QLListener();
-
-            Parser.AddParseListener(Listener);
-            Parser.formBlock();
-
-            Assert.IsTrue(Listener.AstExists);
-
-            AstHandler ast = Listener.GetAst();
-            ast.Evaluate();
-        }
+       
     }
 }

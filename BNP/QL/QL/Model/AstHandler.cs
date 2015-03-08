@@ -13,7 +13,8 @@ namespace QL.Model
         public IList<QLError> TypeCheckerErrors { get; private set; }
         public IList<QLError> EvaluationErrors { get; private set; }
         public IDictionary<Identifier, Type> TypeReference { get; private set; }
-        
+        public IDictionary<ITypeResolvable, IResolvableTerminalType> Values; 
+
         // todo add lexer listeners here to store parse errors as well
 
         public AstHandler(ElementBase root)
@@ -41,7 +42,6 @@ namespace QL.Model
                 TypeCheckerErrors.Add(q);
                 return true;
             }
-            //why the hell c# does not have try-catch-else? because we have finally :) (from which you cannot escape)
             return typeChecker.Errors.Any();
         }
 
@@ -51,7 +51,9 @@ namespace QL.Model
             RootNode.Accept(evaluator);
 
             EvaluationErrors = evaluator.Errors;
+            Values = evaluator.GetValuesIfNoErrors();
             return evaluator.Errors.Any();
+
         }
     }
 }

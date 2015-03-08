@@ -13,26 +13,65 @@ namespace QL.Evaluation
     public class EvaluatorVisitor : IVisitor
     {
         public IList<QLError> Errors { get; private set; }
-        public IList<QLWarning> Warnings { get; private set; }
-        public Dictionary<int, IVisitable> References; //change  ivisitable to ievaluatable
-        public Dictionary<string, IVisitable> TypeReferenceDictionary;
+        IDictionary<Identifier,Type> TypeReference;  //reference for types
+        IDictionary<ITypeResolvable,IResolvableTerminalType> Values;   //storage of values         
+        IDictionary<Identifier, ITypeResolvable> IdentifierReference;    // storage of ID references
+
+        public IDictionary<ITypeResolvable, IResolvableTerminalType>  GetValuesIfNoErrors()
+        {
+            if (Errors.Any())
+            {
+                return null;
+            }
+            else{
+                return Values;
+            }
+        }
+
+        public EvaluatorVisitor(IDictionary<Identifier, Type> typeReference)//im not sure about this
+        
+        {
+            TypeReference = typeReference;//im not sure about this
+            Errors = new List<QLError>();
+            Values = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
+            IdentifierReference = new Dictionary<Identifier, ITypeResolvable>();
+
+        }
 
         public EvaluatorVisitor()
         {
+            TypeReference = new Dictionary<Identifier,Type>();//im not sure about this
             Errors = new List<QLError>();
-            Warnings = new List<QLWarning>();
-            References = new Dictionary<int, IVisitable>();
-            TypeReferenceDictionary = new Dictionary<string, IVisitable>();
+            Values = new Dictionary<ITypeResolvable, IResolvableTerminalType>();
+            IdentifierReference = new Dictionary<Identifier, ITypeResolvable>();
+
+        }
+        public 
+        IResolvableTerminalType GetValue(IResolvableTerminalType node)
+        {
+
+            return node;
+            
+        }
+        IResolvableTerminalType GetValue(Expression node)
+        {
+
+            return GetValue((dynamic)node.Children[0]);
+
         }
 
-        private void DeclareNewVariable(string key, IVisitable value)
+        IResolvableTerminalType GetValue(Identifier node)
         {
-            if (TypeReferenceDictionary.ContainsKey(key))
+            if (!IdentifierReference.ContainsKey(node))
             {
-                Warnings.Add(new RedeclaredVariableWarning("Redeclared variable: " + key));
+                throw new QLError("Undeclared variable");
             }
-            TypeReferenceDictionary[key] = value;
+            if (!Values.ContainsKey(IdentifierReference[node])){
+                throw new QLError("Variable not assigned");//this is bullshit, cannot happen?
+            }
+            return Values[IdentifierReference[node]];            
         }
+
 
         #region Regular elements
         public void Visit(Form node)
@@ -45,28 +84,32 @@ namespace QL.Evaluation
 
         public void Visit(ControlUnit node)
         {
+            Values[node.Expression] = GetValue(node.Expression);
         }
 
         public void Visit(StatementUnit node)
         {
-            DeclareNewVariable(node.Identifier.Value, node);
+            IdentifierReference[node.Identifier] = node.Expression;//NOT node.DataType, that is used only for type checking(arbitrary decision)
+            Values[node.Expression] = GetValue(node.Expression);
+        
         }
 
         public void Visit(QuestionUnit node)
         {
-            DeclareNewVariable(node.Identifier.Value, node);
+            IdentifierReference[node.Identifier] = node.DataType;
+            Values[node.DataType]=GetValue(node.DataType);
         }
 
         public void Visit(Expression node)
         {
-            References[node.GetHashCode()] = References[node.Children[0].GetHashCode()];
         }
         #endregion
 
         #region Operators
         public void Visit(EqualsOperator node)
         {
-            //todo bool returnvalue= (References[node.Left.GetHashCode()].Value == References[node.Right.GetHashCode()].Value);
+
+            //Values[node] = Values[(ITypeResolvable)node.Left] == Values[(ITypeResolvable)node.Right];
         }
 
         public void Visit(NotEqualsOperator node)
@@ -113,35 +156,30 @@ namespace QL.Evaluation
         {
         }
         #endregion
-
+       
         #region Terminals
         public void Visit(Number node)
         {
-            References[node.GetHashCode()] = node;
         }
 
         public void Visit(Yesno node)
         {
-            References[node.GetHashCode()] = node;
         }
 
         public void Visit(Text node)
         {
-            References[node.GetHashCode()] = node;
         }
 
         public void Visit(Identifier node)
         {
-            if (TypeReferenceDictionary.ContainsKey(node.Value))
-            {
-                References[node.Value.GetHashCode()] = TypeReferenceDictionary[node.Value];
-            }
         }
-        #endregion
 
         public void Visit(ElementBase node)
         {
             throw new QLError("Not implemented: " + node.GetType().ToString());
         }
+        #endregion
+
+        
     }
 }

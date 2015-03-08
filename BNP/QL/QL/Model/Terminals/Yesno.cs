@@ -32,7 +32,7 @@ namespace QL.Model.Terminals
                 throw new Exception();
             }
 
-            return Value.Value ? "Yes" : "No";
+            return Value.Value ? "yes" : "no";
         }
         
 
