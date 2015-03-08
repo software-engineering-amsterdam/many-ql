@@ -1,9 +1,20 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
 public class BoolValue extends Value<Boolean> {
-    public static final String TYPE_REFERENCE = "boolean";
+    public static final TypeDescriptor<BoolValue> BOOL_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor<BoolValue>() {
+        @Override
+        public void callTypeMethod(final TypeCallback typeCallback) {
+            typeCallback.usesBoolean();
+        }
+
+        @Override
+        public BoolValue getDefaultValue() {
+            return new BoolValue(false);
+        }
+    };
 
     @Override
     public Value<?> or(Value<?> value) {

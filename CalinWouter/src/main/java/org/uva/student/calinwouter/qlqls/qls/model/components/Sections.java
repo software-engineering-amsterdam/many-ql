@@ -1,27 +1,25 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.qls.model.FieldWidget;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Data
-public class Sections extends LinkedList<Section> {
+public class Sections {
     private final List<Section> sections;
 
     public Sections(Section... sections) {
         this.sections = Arrays.asList(sections);
     }
 
-    public Collection<FieldWidget> collectFieldWidgets() {
-        List<FieldWidget> fieldWidgets = new LinkedList<FieldWidget>();
+    protected Map<String, Object> findFieldStylingSettings(final String ident, final TypeDescriptor type) throws FieldNotFoundException {
         for (Section section : sections) {
-            fieldWidgets.addAll(section.collectFieldWidgets());
+            if (section.collectFields().contains(ident)) {
+                return section.findFieldStylingSettings(ident, type);
+            }
         }
-        return fieldWidgets;
+        throw new FieldNotFoundException();
     }
 }

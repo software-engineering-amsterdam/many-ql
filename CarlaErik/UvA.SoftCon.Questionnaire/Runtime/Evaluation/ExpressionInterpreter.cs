@@ -45,9 +45,15 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Evaluation
 
         public override Value Visit(DateLiteral literal)
         {
-            DateTime date = DateTime.ParseExact(literal.Value, "d-M-yyyy", CultureInfo.InvariantCulture);
-
-            return new DateValue(date);
+            if (literal.Value.Equals("today", StringComparison.OrdinalIgnoreCase))
+            {
+                return new DateValue(DateTime.Today);
+            }
+            else
+            {
+                DateTime date = DateTime.ParseExact(literal.Value, "d-M-yyyy", CultureInfo.InvariantCulture);
+                return new DateValue(date);
+            }
         }
 
         #endregion 

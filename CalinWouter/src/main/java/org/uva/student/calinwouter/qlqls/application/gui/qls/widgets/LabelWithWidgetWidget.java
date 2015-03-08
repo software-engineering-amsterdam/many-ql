@@ -3,8 +3,8 @@ package org.uva.student.calinwouter.qlqls.application.gui.qls.widgets;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.LabelNotAvailableException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.ChangedStateEventListener;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
-import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
+import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 
 import javax.swing.*;
 import java.awt.*;

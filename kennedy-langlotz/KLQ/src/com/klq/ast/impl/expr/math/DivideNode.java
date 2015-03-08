@@ -1,14 +1,10 @@
 package com.klq.ast.impl.expr.math;
 
-import com.klq.ast.ANode;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.ast.impl.expr.AExpression;
-import com.klq.ast.impl.expr.literal.IdentifierNode;
+import com.klq.ast.impl.expr.literal.AValueNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
-import com.klq.logic.value.IdentifierValue;
-import com.klq.logic.value.NumberValue;
-import com.klq.logic.value.Value;
 
 import java.math.MathContext;
 import java.util.Map;
@@ -29,10 +25,10 @@ public class DivideNode extends ABinaryExprNode {
     }
 
     @Override
-    public Value evaluate(Map<IdentifierValue, Value> variables) {
-        NumberValue left = (NumberValue) (getLeftChild().evaluate(variables));
-        NumberValue right = (NumberValue) (getRightChild().evaluate(variables));
+    public AValueNode evaluate(Map<String, AValueNode> variableTable) {
+        NumberNode left = (NumberNode)(getLeftChild().evaluate(variableTable));
+        NumberNode right = (NumberNode) (getRightChild().evaluate(variableTable));
 
-        return new NumberValue(left.getValue().divide(right.getValue(), MATH_CONTEXT));
+        return new NumberNode(left.getValue().divide(right.getValue()), "");
     }
 }

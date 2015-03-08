@@ -17,7 +17,7 @@ using UvA.SoftCon.Questionnaire.WinForms.Controls;
 
 namespace UvA.SoftCon.Questionnaire.WinForms
 {
-    public partial class MainForm : System.Windows.Forms.Form
+    public partial class MainForm : Form
     {
         protected OutputWindow Output
         {
@@ -50,13 +50,13 @@ namespace UvA.SoftCon.Questionnaire.WinForms
                 switch (astQuestion.DataType)
                 {
                     case DataType.Boolean:
-                        uiQuestion = new BooleanQuestion(astQuestion);
+                        uiQuestion = new RadioControl(astQuestion);
                         break;
                     case DataType.Integer:
-                        uiQuestion = new NumericQuestion(astQuestion);
+                        uiQuestion = new SpinBoxControl(astQuestion);
                         break;
                     case DataType.String:
-                        uiQuestion = new TextQuestion(astQuestion);
+                        uiQuestion = new TextBoxControl(astQuestion);
                         break;
                     case DataType.Date:
                         uiQuestion = new CalendarControl(astQuestion);
@@ -100,7 +100,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
                         if (!result.IsUndefined)
                         {
-                            uiQuestion.Answer = result;
+                            uiQuestion.SetValue(result);
                         }
                     }
                 }
@@ -118,7 +118,7 @@ namespace UvA.SoftCon.Questionnaire.WinForms
 
             foreach (QuestionControl uiQuestion in QuestionFlowLayout.Controls)
             {
-                answers.Add(uiQuestion.QuestionName, uiQuestion.Answer);
+                answers.Add(uiQuestion.QuestionName, uiQuestion.GetValue());
             }
 
             return answers;

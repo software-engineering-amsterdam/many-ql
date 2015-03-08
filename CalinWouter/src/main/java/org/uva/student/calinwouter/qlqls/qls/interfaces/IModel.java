@@ -15,7 +15,7 @@ public interface IModel {
 
     void caseStyleSheet(StyleSheet styleSheet);
 
-    void caseDefault(Default defaultSetting);
+    void caseDefaults(Defaults defaultSetting);
 
     void casePage(Page page);
 

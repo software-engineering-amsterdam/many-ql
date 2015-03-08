@@ -1,9 +1,20 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
 public class IntegerValue extends Value<Integer> {
-    public static final String TYPE_REFERENCE = "int";
+    public static final TypeDescriptor<IntegerValue> INTEGER_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor<IntegerValue>() {
+        @Override
+        public void callTypeMethod(final TypeCallback typeCallback) {
+            typeCallback.usesInteger();
+        }
+
+        @Override
+        public IntegerValue getDefaultValue() {
+            return new IntegerValue(0);
+        }
+    };
 
     @Override
     public Value<?> add(Value<?> value) {

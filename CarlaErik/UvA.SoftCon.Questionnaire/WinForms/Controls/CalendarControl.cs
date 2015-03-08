@@ -20,32 +20,29 @@ namespace UvA.SoftCon.Questionnaire.WinForms.Controls
             AnswerDatePicker.Enabled = !astQuestion.IsComputed;
         }
 
-        private void AnswerDatePicker_ValueChanged(object sender, EventArgs e)
+        public override Value GetValue()
         {
-            SetAnswer();
-            OnQuestionAnswered(new EventArgs());
+            return new DateValue(AnswerDatePicker.Value);
         }
 
-        private void SetAnswer() 
+        public override void SetValue(Value value)
         {
-            Answer = new DateValue(AnswerDatePicker.Value);
-        }
-
-        protected override void SetControls()
-        {
-            if (!Answer.IsUndefined)
+            if (!value.IsUndefined)
             {
-                if (Answer.DataType == DataType.Date)
+                if (value.DataType == DataType.Date)
                 {
-                    DateTime answer = ((DateValue)Answer).Val;
-
-                    AnswerDatePicker.Value = answer;
+                    AnswerDatePicker.Value = ((DateValue)value).Val;
                 }
                 else
                 {
-                    throw new InvalidOperationException("Property Answer must be of datatype 'date'.");
+                    throw new ArgumentException("Parameter value must be of datatype 'date'.");
                 }
             }
+        }
+
+        private void AnswerDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            OnQuestionAnswered(new EventArgs());
         }
     }
 }

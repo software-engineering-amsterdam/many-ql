@@ -66,12 +66,24 @@ identifier
     ;
 
 declaration
-    : 'font-family'      ':' fontfamily=STRING   NEWLINE
-    | 'font-style'       ':' fontStyles          NEWLINE
-    | 'font-size'        ':' fontsize=INT        NEWLINE
-    | 'font-color'       ':' fontcolor=HEXCOLOR  NEWLINE
-    | 'background-color' ':' bgcolor=HEXCOLOR    NEWLINE
-    | 'widget'           ':' widget              NEWLINE
+    : property ':' value NEWLINE
+    ;
+
+property
+    : 'font-family'
+    | 'font-style'
+    | 'font-size'
+    | 'font-color'
+    | 'background-color'
+    | 'widget'
+    ;
+
+value
+    : STRING
+    | INT
+    | HEXCOLOR
+    | fontStyles
+    | widget
     ;
 
 fontStyles

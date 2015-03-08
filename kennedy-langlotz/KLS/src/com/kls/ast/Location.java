@@ -6,7 +6,7 @@ import java.net.URI;
  * Created by Timon on 03.03.2015.
  */
 public class Location {
-    private final URI file;
+    private final String file;
     private final int offset;
     private final int length;
     private final int beginLine;
@@ -14,7 +14,7 @@ public class Location {
     private final int endLine;
     private final int endColumn;
 
-    public Location(URI file, int offset, int length, int beginLine, int beginColumn, int endLine, int endColumn) {
+    public Location(String file, int offset, int length, int beginLine, int beginColumn, int endLine, int endColumn) {
         this.file = file;
         this.offset = offset;
         this.length = length;
@@ -24,7 +24,7 @@ public class Location {
         this.endColumn = endColumn;
     }
 
-    public URI getFile() {
+    public String getFile() {
         return file;
     }
 

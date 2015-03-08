@@ -1,9 +1,20 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
 
 public class StringValue extends Value<String> {
-    public static final String TYPE_REFERENCE = "string";
+    public static final TypeDescriptor<StringValue> STRING_VALUE_TYPE_DESCRIPTOR = new TypeDescriptor<StringValue>() {
+        @Override
+        public void callTypeMethod(final TypeCallback typeCallback) {
+            typeCallback.usesString();
+        }
+
+        @Override
+        public StringValue getDefaultValue() {
+            return new StringValue("");
+        }
+    };
 
     @Override
     public Value<?> add(Value<?> value) {

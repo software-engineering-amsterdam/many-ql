@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Timon on 03.03.2015.
  */
-public class SectionNode extends AGroupNode {
+public class SectionNode extends AGroupNodeBase {
 
     public SectionNode(String title, List<QuestionNode> questions, DefaultNode def, Location location) {
         super(title, questions, def, location);

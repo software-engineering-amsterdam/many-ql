@@ -1,19 +1,29 @@
 package com.klq.ast;
-import com.klq.ast.impl.*;
+
+import com.klq.ast.impl.ComputedQuestionNode;
+import com.klq.ast.impl.ConditionalNode;
+import com.klq.ast.impl.QuestionNode;
+import com.klq.ast.impl.QuestionnaireNode;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.bool.*;
 import com.klq.ast.impl.expr.literal.DateNode;
 import com.klq.ast.impl.expr.literal.IdentifierNode;
 import com.klq.ast.impl.expr.literal.NumberNode;
 import com.klq.ast.impl.expr.literal.StringNode;
-import com.klq.ast.impl.expr.math.*;
+import com.klq.ast.impl.expr.math.AddNode;
+import com.klq.ast.impl.expr.math.DivideNode;
+import com.klq.ast.impl.expr.math.MultiplyNode;
+import com.klq.ast.impl.expr.math.SubtractNode;
 import org.antlr.v4.runtime.ParserRuleContext;
-import parser.*;
+import parser.KLQBaseVisitor;
+import parser.KLQParser;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -82,7 +92,8 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
             formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
         }
 
-        DateNode dateNode = new DateNode(LocalDate.parse(dateString, formatter), formatLocation(ctx));
+        //TODO discuss with Timon localdate vs date and refactor
+        DateNode dateNode = new DateNode(Date.from(LocalDate.parse(dateString, formatter).atStartOfDay(ZoneId.systemDefault()).toInstant()), formatLocation(ctx));
         return dateNode;
     }
 

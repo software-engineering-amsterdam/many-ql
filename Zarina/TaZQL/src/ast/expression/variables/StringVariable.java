@@ -1,8 +1,9 @@
 package ast.expression.variables;
 
 import ast.expression.IExpressionVisitor;
+import ast.type.TextType;
 
-public class StringVariable extends Variable { //<String> {
+public class StringVariable extends Variable { 
 	private final String stringVariable;
 	
 	public StringVariable (String stringVariable) {
@@ -23,5 +24,10 @@ public class StringVariable extends Variable { //<String> {
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+
+	@Override
+	public TextType getExpressionType() {
+		return new TextType();
 	}
 }

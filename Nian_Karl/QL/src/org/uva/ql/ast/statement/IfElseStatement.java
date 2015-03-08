@@ -7,7 +7,6 @@ import org.uva.ql.visitor.StatementVisitor;
 
 public class IfElseStatement extends IfStatement {
 
-	//private Block elseBlock;
 	private final Block elseBlock;
 
 	public IfElseStatement(Expression expr, Block ifBlock, Block elseBlock, CodePosition pos) {

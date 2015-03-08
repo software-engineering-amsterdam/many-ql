@@ -2,13 +2,10 @@ package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractComponent;
-import org.uva.student.calinwouter.qlqls.qls.interfaces.IModel;
-import org.uva.student.calinwouter.qlqls.qls.model.FieldWidget;
+import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
+import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -20,8 +17,7 @@ public class Page {
     public Page(String ident, Section... sections) {
         this(ident, new Sections(sections), null);
     }
-
-    public Collection<FieldWidget> collectFieldWidgets() {
-        return sections.collectFieldWidgets();
+    protected Map<String, Object> findFieldStylingSettings(final String ident, final TypeDescriptor type) throws FieldNotFoundException {
+        return defaults.createNewStylingSettingsMapUsingOverriding(type, sections.findFieldStylingSettings(ident, type));
     }
 }

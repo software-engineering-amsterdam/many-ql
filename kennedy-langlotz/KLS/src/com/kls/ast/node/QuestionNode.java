@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Timon on 03.03.2015.
  */
-public class QuestionNode extends ASelectorNode {
+public class QuestionNode extends ASelectorNodeBase {
     private final String identifier;
 
     public QuestionNode(String identifier, List<DeclarationNode> declarations, Location location) {

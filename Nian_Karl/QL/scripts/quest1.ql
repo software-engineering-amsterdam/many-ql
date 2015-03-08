@@ -3,13 +3,13 @@ form SalarySurvey{
 	isMarried: "Are you married?" Bool	
 	if(age == 25){
 		employeeNr1: "What is your employee number?" Int
-		if(isMarried){
-			Jeff: "Hoi Jef" Str
-			employeeNr2: "What is your employee number?" Bool
-			if(employeeNr2){
-				a223ge: "How old are you?" Int
-			}
-		}
-	}	
+	}else{
+		howAreYou: "How Are you ?" Str
+	}
 	myAge: "Hello?" Int
+	
+	nomnom: "Some Age? " Int
+	if(nomnom == 10){
+		employeeNr1: "What is your employee number?" Int
+	}
 }

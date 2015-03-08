@@ -2,13 +2,14 @@ package org.uva.student.calinwouter.qlqls.qls.abstractions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.uva.student.calinwouter.qlqls.qls.model.FieldWidget;
-import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Form fields are either questions or computed values, always consisting of an identifier and a set of
+ * styling arguments.
+ */
 @Data
 @AllArgsConstructor
 public abstract class AbstractFormField {
@@ -17,9 +18,5 @@ public abstract class AbstractFormField {
 
     public AbstractFormField(String ident) {
         this(ident, new HashMap<String, Object>());
-    }
-
-    public FieldWidget collectFieldWidget() {
-        return new FieldWidget(ident, (AbstractWidget) stylingArguments.get("widget"));
     }
 }

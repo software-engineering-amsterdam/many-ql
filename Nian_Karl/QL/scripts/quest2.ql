@@ -9,8 +9,6 @@ form FamilySurvey {
 		if (hasChild) {
 			ageChild: "How old is your oldest child?" Int
 			ageDiff: "The difference between the age of you and your child is :" Int(4 + 2)
-		} else {
-			isPlan: "Are you plan to have a child?" Bool
 		}
 	}
 	

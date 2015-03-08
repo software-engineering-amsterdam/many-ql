@@ -1,5 +1,6 @@
 import com.kls.ast.ASTGenerator;
-import com.kls.ast.node.ANode;
+import com.kls.ast.node.ANodeBase;
+import com.kls.ast.node.StylesheetNode;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -36,7 +37,7 @@ public class Main {
         KLSParser parser = new KLSParser(tokens);
         ParseTree tree = parser.stylesheet();
 
-        ASTGenerator astGenerator = new ASTGenerator();
-        ANode ast = astGenerator.visit(tree);
+        ASTGenerator astGenerator = new ASTGenerator(file.toString());
+        StylesheetNode ast = (StylesheetNode) astGenerator.visit(tree);
     }
 }

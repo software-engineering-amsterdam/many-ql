@@ -1,8 +1,9 @@
 package ast.expression.variables;
 
 import ast.expression.IExpressionVisitor;
+import ast.type.ChoiceType;
 
-public class BooleanVariable extends Variable { //<Boolean> {
+public class BooleanVariable extends Variable { 
 	private final Boolean booleanVariable;
 
 	public BooleanVariable (boolean booleanVariable) {
@@ -22,5 +23,10 @@ public class BooleanVariable extends Variable { //<Boolean> {
 	@Override
 	public <T> T accept(IExpressionVisitor<T> visitor) {
 		return visitor.visit(this);
+	}
+
+	@Override
+	public ChoiceType getExpressionType() {
+		return new ChoiceType();
 	}
 }

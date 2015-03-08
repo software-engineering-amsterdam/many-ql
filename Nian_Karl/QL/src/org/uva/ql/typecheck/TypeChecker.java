@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 import org.uva.ql.ast.expression.Expression;
 import org.uva.ql.ast.expression.association.Parenthese;
 import org.uva.ql.ast.expression.binary.And;
@@ -54,7 +55,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	private final CyclicChecker cyclicChecker;
 	private boolean isCheckingCyclic;
 	private final ArrayList<Identifier> questionComputes;
-	
 
 	public TypeChecker() {
 		types = new HashMap<String, Type>();
@@ -79,8 +79,8 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	public void printAll() {
-		Set keys = types.keySet();
-		for (Iterator i = keys.iterator(); i.hasNext();) {
+		Set<String> keys = types.keySet();
+		for (Iterator<String> i = keys.iterator(); i.hasNext();) {
 			String name = (String) i.next();
 			String type = types.get(name).toString();
 			System.out.println(name + " " + type);
@@ -101,7 +101,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		Error error = new Error(type, expr.getPosition().getStartLine(), expr.toString());
 		messageManager.addError(error);
 	}
-	
+
 	public void addError(Error.Type type, Expression expr, String expectType) {
 		Error error = new Error(type, expr.getPosition().getStartLine(), expr.toString(), expectType);
 		messageManager.addError(error);
@@ -120,10 +120,10 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	}
 
 	public void printMessages() {
-		System.out.println("[ERRORS] ("+ countErrors() +" items)");
+		System.out.println("[ERRORS] (" + countErrors() + " items)");
 		messageManager.printErrors();
 		System.out.println();
-		System.out.println("[WARNINGS] ("+ countWarnings() +" items)");
+		System.out.println("[WARNINGS] (" + countWarnings() + " items)");
 		messageManager.printWarnings();
 	}
 
@@ -161,26 +161,26 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		}
 		return true;
 	}
-	
+
 	public boolean checkMatch(Expression expr, Type expectType) {
 		boolean sublevel = expr.accept(this);
 		boolean thislevel = true;
-		if(!expr.getType(this).isEqual(expectType)) {
+		if (!expr.getType(this).isEqual(expectType)) {
 			addError(Error.Type.MISMATCH, expr, expectType.toString());
 			thislevel = false;
 		}
 		return thislevel && sublevel;
 	}
-	
+
 	public boolean checkMatchThisLevel(Expression expr, Type expectType) {
 		boolean result = true;
-		if(!expr.getType(this).isEqual(expectType)) {
+		if (!expr.getType(this).isEqual(expectType)) {
 			addError(Error.Type.MISMATCH, expr, expectType.toString());
 			result = false;
 		}
 		return result;
 	}
-	
+
 	public boolean checkBinaryMatch(Binary binary, Type expectType) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
@@ -188,14 +188,13 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		boolean resultRight = checkMatch(right, expectType);
 		return resultLeft && resultRight;
 	}
-	
+
 	public boolean checkSame(Binary binary) {
 		Expression left = binary.getLeftExpression();
 		Expression right = binary.getRightExpression();
 		return checkMatch(right, left.getType(this));
 	}
-	
-	
+
 	// Visits
 
 	@Override
@@ -265,19 +264,19 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 
 	@Override
 	public Boolean visit(Not unary) {
-		//unary.getExpression().accept(this);
+		// unary.getExpression().accept(this);
 		return checkMatch(unary.getExpression(), new BoolType());
 	}
 
 	@Override
 	public Boolean visit(Positive unary) {
-		//unary.getExpression().accept(this);
+		// unary.getExpression().accept(this);
 		return checkMatch(unary.getExpression(), new IntType());
 	}
 
 	@Override
 	public Boolean visit(Negative unary) {
-		//unary.getExpression().accept(this);
+		// unary.getExpression().accept(this);
 		return checkMatch(unary.getExpression(), new IntType());
 	}
 
@@ -288,22 +287,24 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 		boolean resultL = left.accept(this);
 		boolean resultR = right.accept(this);
 		boolean result = true;
-		
+
 		if ((resultL && resultR) == true) {
 			if (left.getType(this).isEqual(new IntType()) || left.getType(this).isEqual(new StrType())) {
 				result = checkMatchThisLevel(right, left.getType(this));
 			} else {
 				if (right.getType(this).isEqual(new BoolType())) {
-					Error errorLeft = new Error(Error.Type.MISMATCH, left.getPosition().getStartLine(), left.toString(), "Int|Str");
+					Error errorLeft = new Error(Error.Type.MISMATCH, left.getPosition().getStartLine(),
+							left.toString(), "Int|Str");
 					messageManager.addError(errorLeft);
-					Error errorRight = new Error(Error.Type.MISMATCH, right.getPosition().getStartLine(), right.toString(), "Int|Str");
+					Error errorRight = new Error(Error.Type.MISMATCH, right.getPosition().getStartLine(),
+							right.toString(), "Int|Str");
 					messageManager.addError(errorRight);
 				} else {
 					result = checkMatchThisLevel(left, right.getType(this));
 				}
 				result = false;
 			}
-		} 
+		}
 		return result;
 	}
 
@@ -311,7 +312,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	public Boolean visit(Minus binary) {
 		return checkBinaryMatch(binary, new IntType());
 	}
-	
+
 	@Override
 	public Boolean visit(Multiply binary) {
 		return checkBinaryMatch(binary, new IntType());
@@ -321,7 +322,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	public Boolean visit(Divide binary) {
 		return checkBinaryMatch(binary, new IntType());
 	}
-	
+
 	@Override
 	public Boolean visit(Greater binary) {
 		return checkBinaryMatch(binary, new IntType());
@@ -341,7 +342,6 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	public Boolean visit(LessEqual binary) {
 		return checkBinaryMatch(binary, new IntType());
 	}
-	
 
 	@Override
 	public Boolean visit(And binary) {
@@ -366,7 +366,7 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	@Override
 	public Boolean visit(Identifier node) {
 		if (isCheckingCyclic) {
-			cyclicChecker.add(node, questionComputes.get(questionComputes.size()-1));
+			cyclicChecker.add(node, questionComputes.get(questionComputes.size() - 1));
 		}
 		return checkReference(node);
 	}
@@ -385,14 +385,13 @@ public class TypeChecker implements StatementVisitor<Boolean>, ExpressionVisitor
 	public Boolean visit(StrLiteral node) {
 		return true;
 	}
-	
+
 	public boolean check(Questionnaire q) {
 		boolean result1 = q.accept(this);
 		boolean result2 = cyclicChecker.check(messageManager);
-		
 		return result1 && result2;
 	}
-	
+
 	public CyclicChecker getCC() {
 		return cyclicChecker;
 	}
