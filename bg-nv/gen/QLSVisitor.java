@@ -53,21 +53,9 @@ public interface QLSVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStylesheetRule(@NotNull QLSParser.StylesheetRuleContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link QLSParser#stringAgrs}.
+	 * Visit a parse tree produced by {@link QLSParser#widgetValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStringAgrs(@NotNull QLSParser.StringAgrsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLSParser#intArgs}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIntArgs(@NotNull QLSParser.IntArgsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QLSParser#decArgs}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDecArgs(@NotNull QLSParser.DecArgsContext ctx);
+	T visitWidgetValue(@NotNull QLSParser.WidgetValueContext ctx);
 }
