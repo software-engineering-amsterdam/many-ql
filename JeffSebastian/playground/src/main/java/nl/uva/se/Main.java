@@ -7,7 +7,6 @@ import nl.uva.se.interpreter.Interpreter;
 import nl.uva.se.parser.QLLexer;
 import nl.uva.se.parser.QLParser;
 import nl.uva.se.parser.QLVisitorImpl;
-import nl.uva.se.visitor.SimpleVisitor;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -27,14 +26,9 @@ public class Main {
 			QLVisitorImpl visitor = new QLVisitorImpl();
 			Form ast = (Form) visitor.visit(tree);
 			
-			Interpreter interpreter = new Interpreter();
-			ast.accept(interpreter);
-			
-			SimpleVisitor myVisitor = new SimpleVisitor();
-			ast.accept(myVisitor);
+			Interpreter.interpret(ast);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

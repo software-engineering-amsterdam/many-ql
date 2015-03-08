@@ -4,18 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import nl.uva.se.ast.statement.Question;
 import nl.uva.se.ast.type.Type;
 
 public class SymbolTable {
 
-	private Map<String, Type> symbols;
+	private Map<String, Question> symbols;
 	
 	public SymbolTable() {
-		symbols = new HashMap<String, Type>();
+		symbols = new HashMap<String, Question>();
 	}
 	
-	public void addSymbol(String name, Type type) {
-		symbols.put(name, type);
+	public void addSymbol(String name, Question question) {
+		symbols.put(name, question);
 	}
 	
 	public boolean containsSymbol(String name) {
@@ -23,6 +24,10 @@ public class SymbolTable {
 	}
 	
 	public Type getTypeForSymbol(String name) {
+		return symbols.get(name).getType();
+	}
+	
+	public Question getQuestionForSymbol(String name) {
 		return symbols.get(name);
 	}
 	
@@ -30,8 +35,8 @@ public class SymbolTable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (Entry<String, Type> entry : symbols.entrySet()) {
-			sb.append(entry.getKey() + ": " + entry.getValue().getTypeName());
+		for (Entry<String, Question> entry : symbols.entrySet()) {
+			sb.append(entry.getKey() + ": " + entry.getValue().getType());
 			sb.append("\n");
 		}
 		

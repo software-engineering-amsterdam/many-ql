@@ -1,7 +1,5 @@
 package nl.uva.se.interpreter;
 
-import java.util.Arrays;
-
 import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.ast.expression.arithmetical.Addition;
 import nl.uva.se.ast.expression.arithmetical.Divide;
@@ -37,34 +35,44 @@ import nl.uva.se.ast.type.Type;
 import nl.uva.se.ast.type.TypeFactory;
 import nl.uva.se.ast.type.UndefinedType;
 import nl.uva.se.interpreter.error.ErrorList;
+import nl.uva.se.interpreter.error.InvalidConditionType;
+import nl.uva.se.interpreter.error.InvalidOperandType;
+import nl.uva.se.interpreter.error.TypeMismatch;
+import nl.uva.se.interpreter.error.TypeNotAllowed;
+import nl.uva.se.interpreter.error.UndefinedReference;
 import nl.uva.se.visitor.ExpressionVisitor;
 import nl.uva.se.visitor.FormVisitor;
 import nl.uva.se.visitor.StatementVisitor;
 
-public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVisitor<Type> {
-	
+public class TypeChecker implements FormVisitor, StatementVisitor,
+		ExpressionVisitor<Type> {
+
 	private static final Type BOOLEAN = new BooleanType();
 	private static final Type INTEGER = new IntegerType();
 	private static final Type DECIMAL = new DecimalType();
 	private static final Type STRING = new StringType();
-	
+
 	private SymbolTable symbols;
-	
 	private ErrorList errors;
-	
-	private TypeChecker(SymbolTable symbols) {
-		this.symbols = symbols;
-		this.errors = new ErrorList();
+
+	private TypeChecker(Result<SymbolTable> symbolResult) {
+		this.symbols = symbolResult.getResult();
+		this.errors = symbolResult.getErrorList();
 	}
-	
-	public static SymbolTable run(Form form) {
-		SymbolTable symbols = SymbolResolver.resolve(form);
-		TypeChecker typeChecker = new TypeChecker(symbols);
-		typeChecker.visit(form);
-		
-		return typeChecker.symbols;
+
+	public static Result<SymbolTable> check(Form form) {
+		Result<SymbolTable> symbolResult = SymbolResolver.resolve(form);
+
+		if (!symbolResult.getErrorList().hasErrors()) {
+			TypeChecker typeChecker = new TypeChecker(symbolResult);
+			typeChecker.visit(form);
+			return new Result<SymbolTable>(typeChecker.errors,
+					typeChecker.symbols);
+		}
+
+		return symbolResult;
 	}
-	
+
 	@Override
 	public void visit(Form form) {
 		form.visitChildren(this);
@@ -76,97 +84,134 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 
 	@Override
 	public void visit(CalculatedQuestion calculatedQuestion) {
-		calculatedQuestion.getExpression().accept(this);
+		Type type = calculatedQuestion.getExpression().accept(this);
+		if (!type.equals(calculatedQuestion.getType())) {
+			errors.addError(new TypeMismatch(
+					calculatedQuestion.getLineNumber(), calculatedQuestion
+					.getOffset(), calculatedQuestion.getType(), type));
+		}
 	}
 
 	@Override
 	public void visit(Condition condition) {
-		condition.getExpression().accept(this);
+		Type conditionType = condition.getExpression().accept(this);
+		if (!conditionType.equals(BOOLEAN)) {
+			errors.addError(new InvalidConditionType(condition.getLineNumber(),
+					condition.getOffset(), conditionType));
+		}
+
+		condition.visitChildren(this);
 	}
 
 	@Override
 	public Type visit(Addition plus) {
-		return visitNumericalBinaryExpression(plus.getLeft(), plus.getRight());
+		Type sharedType = getSharedType(plus.getLeft(), plus.getRight());
+		return getTypeForExpression(sharedType, plus, INTEGER, DECIMAL, STRING);
 	}
 
 	@Override
 	public Type visit(Divide divide) {
-		return visitNumericalBinaryExpression(divide.getLeft(), divide.getRight());
+		Type sharedType = getSharedType(divide.getLeft(), divide.getRight());
+		return getTypeForExpression(sharedType, divide, INTEGER, DECIMAL);
 	}
 
 	@Override
 	public Type visit(Power power) {
-		return visitNumericalBinaryExpression(power.getLeft(), power.getRight());
+		Type sharedType = getSharedType(power.getLeft(), power.getRight());
+		return getTypeForExpression(sharedType, power, INTEGER, DECIMAL);
 	}
 
 	@Override
 	public Type visit(Multiply multiply) {
-		return visitNumericalBinaryExpression(multiply.getLeft(), multiply.getRight());
+		Type sharedType = getSharedType(multiply.getLeft(), multiply.getRight());
+		return getTypeForExpression(sharedType, multiply, INTEGER, DECIMAL);
 	}
 
 	@Override
 	public Type visit(Modulo modulo) {
-		return visitNumericalBinaryExpression(modulo.getLeft(), modulo.getRight());
+		Type sharedType = getSharedType(modulo.getLeft(), modulo.getRight());
+		return getTypeForExpression(sharedType, modulo, INTEGER, DECIMAL);
 	}
 
 	@Override
 	public Type visit(Negative negative) {
-		return visitNumericalUnaryExpression(negative.getSingleExpression());
+		Type type = negative.getSingleExpression().accept(this);
+		return getTypeForExpression(type, negative, INTEGER, DECIMAL);
 	}
 
 	@Override
 	public Type visit(Positive positive) {
-		return visitNumericalUnaryExpression(positive.getSingleExpression());
+		Type type = positive.getSingleExpression().accept(this);
+		return getTypeForExpression(type, positive, INTEGER, DECIMAL);
 	}
 
 	@Override
 	public Type visit(Substraction minus) {
-		return visitNumericalBinaryExpression(minus.getLeft(), minus.getRight());
+		Type sharedType = getSharedType(minus.getLeft(), minus.getRight());
+		return getTypeForExpression(sharedType, minus, INTEGER, DECIMAL);
 	}
 
 	@Override
 	public Type visit(Not not) {
-		return visitBooleanUnaryExpression(not.getSingleExpression());
+		Type type = not.getSingleExpression().accept(this);
+		return getTypeForBooleanExpression(type, not, BOOLEAN);
 	}
 
 	@Override
 	public Type visit(NotEqual notEqual) {
-		return visitBooleanBinaryExpression(notEqual.getLeft(), notEqual.getRight());
+		Type sharedType = getSharedType(notEqual.getLeft(), notEqual.getRight());
+		return getTypeForBooleanExpression(sharedType, notEqual, INTEGER,
+				DECIMAL, STRING, BOOLEAN);
 	}
 
 	@Override
 	public Type visit(Or or) {
-		return visitBooleanBinaryExpression(or.getLeft(), or.getRight());
+		Type sharedType = getSharedType(or.getLeft(), or.getRight());
+		return getTypeForBooleanExpression(sharedType, or, BOOLEAN);
 	}
 
 	@Override
 	public Type visit(LessThen lessThen) {
-		return visitBooleanBinaryExpression(lessThen.getLeft(), lessThen.getRight());
+		Type sharedType = getSharedType(lessThen.getLeft(), lessThen.getRight());
+		return getTypeForBooleanExpression(sharedType, lessThen, INTEGER,
+				DECIMAL, STRING);
 	}
 
 	@Override
 	public Type visit(LessOrEqual lessOrEqual) {
-		return visitBooleanBinaryExpression(lessOrEqual.getLeft(), lessOrEqual.getRight());
+		Type sharedType = getSharedType(lessOrEqual.getLeft(),
+				lessOrEqual.getRight());
+		return getTypeForBooleanExpression(sharedType, lessOrEqual, INTEGER,
+				DECIMAL, STRING);
 	}
 
 	@Override
 	public Type visit(GreaterThen greaterThen) {
-		return visitBooleanBinaryExpression(greaterThen.getLeft(), greaterThen.getRight());
+		Type sharedType = getSharedType(greaterThen.getLeft(),
+				greaterThen.getRight());
+		return getTypeForBooleanExpression(sharedType, greaterThen, INTEGER,
+				DECIMAL, STRING);
 	}
 
 	@Override
 	public Type visit(GreaterOrEqual greaterOrEqual) {
-		return visitBooleanBinaryExpression(greaterOrEqual.getLeft(), greaterOrEqual.getRight());
+		Type sharedType = getSharedType(greaterOrEqual.getLeft(),
+				greaterOrEqual.getRight());
+		return getTypeForBooleanExpression(sharedType, greaterOrEqual, INTEGER,
+				DECIMAL, STRING);
 	}
 
 	@Override
 	public Type visit(Equal equal) {
-		return visitBooleanBinaryExpression(equal.getLeft(), equal.getRight());
+		Type sharedType = getSharedType(equal.getLeft(), equal.getRight());
+		return getTypeForBooleanExpression(sharedType, equal, INTEGER, DECIMAL,
+				STRING, BOOLEAN);
 	}
 
 	@Override
 	public Type visit(And and) {
-		return visitBooleanBinaryExpression(and.getLeft(), and.getRight());
+		Type sharedType = getSharedType(and.getLeft(), and.getRight());
+		return getTypeForBooleanExpression(sharedType, and, BOOLEAN);
 	}
 
 	@Override
@@ -194,66 +239,58 @@ public class TypeChecker implements FormVisitor, StatementVisitor, ExpressionVis
 		if (symbols.containsSymbol(reference.getName())) {
 			return symbols.getTypeForSymbol(reference.getName());
 		}
-		
-		errors.addUndefinedTypeError(reference.getLineNumber(), 
-				reference.getOffset(), reference.getName());
-		return new UndefinedType();
-	}
-	
-	private Type getSharedType(Expression left, Expression right) {
-		Type leftType = left.accept(this);
-		Type rightType = right.accept(this);
-		
-		if (leftType.isUndefined() || rightType.isUndefined()) {
-			return new UndefinedType();
-		}
-		
-		if (leftType.equals(rightType)) {
-			return TypeFactory.getTypeForName(leftType.getTypeName());
-		}
-		
-		return new UndefinedType();
-	}
-	
-	private Type visitBooleanBinaryExpression(Expression left, Expression right) {
-		Type sharedType = getSharedType(left, right);
-		if (sharedType.isIn(BOOLEAN, DECIMAL, INTEGER, STRING)) {
-			return new BooleanType();
-		}
-		
-		return new UndefinedType();
-	}
-	
-	private Type visitNumericalBinaryExpression(Expression left, Expression right) {
-		Type sharedType = getSharedType(left, right);
-		if (sharedType.isIn(INTEGER, DECIMAL)) {
-			return TypeFactory.getTypeForName(sharedType.getTypeName());
-		}
-		
-		return new UndefinedType();
-	}
-	
-	private Type visitBooleanUnaryExpression(Expression expr) {
-		Type type = expr.accept(this);
-		
-		if (type.equals(new BooleanType())) {
-			return new BooleanType();
-		}
-		
-		errors.addTypeNotAllowedError(expr.getLineNumber(), 
-				expr.getOffset(), Arrays.asList(BOOLEAN), type);
+
+		errors.addError(new UndefinedReference(reference.getLineNumber(),
+				reference.getOffset(), reference.getName()));
+
 		return new UndefinedType();
 	}
 
-	private Type visitNumericalUnaryExpression(Expression expr) {
-		Type type = expr.accept(this);
-		
-		if (type.equals(new IntegerType()) || type.equals(new DecimalType())) {
+	private Type getSharedType(Expression left, Expression right) {
+		Type leftType = left.accept(this);
+		Type rightType = right.accept(this);
+
+		if (leftType.isUndefined()) {
+			errors.addError(new UndefinedReference(left.getLineNumber(), 
+					left.getOffset(), left.toString()));
+			return new UndefinedType();
+		}
+
+		if (rightType.isUndefined()) {
+			errors.addError(new UndefinedReference(right.getLineNumber(), 
+					right.getOffset(), right.toString()));
+			return new UndefinedType();
+		}
+
+		if (leftType.equals(rightType)) {
+			return TypeFactory.getTypeForName(leftType.getTypeName());
+		}
+
+		errors.addError(new InvalidOperandType(left.getLineNumber(), 
+				left.getOffset(), leftType, leftType, rightType));
+
+		return new UndefinedType();
+	}
+
+	private Type getTypeForExpression(Type type, Expression expr, Type... types) {
+		if (type.isIn(types)) {
 			return TypeFactory.getTypeForName(type.getTypeName());
 		}
-		
-		errors.addTypeNotAllowedError(expr.getLineNumber(), 
-				expr.getOffset(), Arrays.asList(INTEGER, DECIMAL), type);
+
+		errors.addError(new TypeNotAllowed(expr.getLineNumber(), 
+				expr.getOffset(), type, expr.getClass().getName()));
+
+		return new UndefinedType();
+	}
+
+	private Type getTypeForBooleanExpression(Type type, Expression expr, Type... types) {
+		if (type.isIn(types)) {
+			return new BooleanType();
+		}
+
+		errors.addError(new TypeNotAllowed(expr.getLineNumber(), 
+				expr.getOffset(), type, expr.getClass().getName()));
+
 		return new UndefinedType();
 	}
 }
