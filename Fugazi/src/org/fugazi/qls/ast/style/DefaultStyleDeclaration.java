@@ -2,6 +2,7 @@ package org.fugazi.qls.ast.style;
 
 import org.fugazi.ql.ast.type.Type;
 import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.widget.Widget;
 
 public class DefaultStyleDeclaration extends AbstractASTQLSNode {
@@ -21,5 +22,9 @@ public class DefaultStyleDeclaration extends AbstractASTQLSNode {
         this.style = _style;
         this.widget = _widget;
         this.questionType = _questionType;
+    }
+
+    public <T> T accept(IQLSASTVisitor<T> _visitor) {
+        return _visitor.visitDefaultStyleDeclr(this);
     }
 }

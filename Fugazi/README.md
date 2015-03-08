@@ -285,6 +285,99 @@ form taxOfficeExample {
 
 ## QLS Grammar
 
+## Stylesheet
+
+Declares a set of pages that constructs a full stylesheet which can be use in a QL program.
+
+example:
+
+`stylesheet taxOfficeExample`
+
+### Page
+
+Separates segments of the form in to pages, pages may include sections and default style declarations.
+
+example:
+
+```
+page Housing {
+...
+}
+```
+
+## Section
+
+Separates segments of the form in to sections, sections may include other sections, questions and default style declarations.
+
+example:
+
+```
+section "Selling" {
+...
+}
+```
+
+## Question
+
+Declares a style for a specific QL question.
+
+example:
+
+```
+question hasBoughtHouse
+        widget checkbox
+```
+
+## Default Style Declaration
+
+Declares a default style for a set of QL question types.
+The default style declarations may be inserted in Pages or Sections level.
+The style declarations can be inherited from parent segments (Pages, Sections), or overwritten form child segments (Sections).
+
+The structure is: `default <ql_type_name> widget <qls_widget>`
+also you can se widget properties:
+
+```
+default int {
+  width: 400
+  font: "Arial"
+  fontsize: 14
+  color: #999999
+  widget spinbox
+}
+```
+
+## Supported widgets
+
+QLS supports the following widgets:
+- Checkbox
+- TextBox
+- SpinBox
+- RadioButton
+- Slider
+- DropDown
+
+## Supported widget style properties
+
+QLS supports the following style properties:
+- Width (in pixels)
+- Font (string of the font's name)
+- Fontsize (A number)
+- Color (Hex)
+
+### Comments
+
+QLS supports both multiline and single line comments:
+
+```
+// This is a single line comment.
+/*
+This is a multiline comment
+...
+...
+*/
+```
+
 ### A complete example
 
 ```
