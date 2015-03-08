@@ -3,18 +3,27 @@ package graphic
 import "gopkg.in/qml.v1"
 
 func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
-	content bool) (question qml.Object) {
+	content bool) qml.Object {
 
-	// t, ok := g.widgetDefaults["bool"]
-	// if !ok {
-	question = g.renderCheckbox(fieldName, caption, content)
-	// }
+	var question qml.Object
+	page, err := g.findPageForField(fieldName)
+	if err != nil {
+		question := g.renderCheckbox(fieldName, caption, content)
+		return question
+	}
 
-	// if t == "radio" {
-	// question = g.renderRadio(fieldName, caption, content)
-	// } else if t == "switch" {
-	// question = g.renderSwitch(fieldName, caption, content)
-	// }
+	widgetDefaults := page.Defaults()
+
+	t, ok := widgetDefaults["bool"]
+	if !ok {
+		question = g.renderCheckbox(fieldName, caption, content)
+	}
+
+	if t == "radio" {
+		question = g.renderRadio(fieldName, caption, content)
+	} else if t == "switch" {
+		question = g.renderSwitch(fieldName, caption, content)
+	}
 
 	return question
 }

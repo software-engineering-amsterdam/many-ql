@@ -1,5 +1,6 @@
 package org.fugazi.qls.ast.style.style_property;
 
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.style_property.type.StringPropertyType;
 
 public class Color extends StyleProperty {
@@ -12,5 +13,9 @@ public class Color extends StyleProperty {
 
     public Color(StringPropertyType _value) {
         super(PROPERTY_NAME, _value);
+    }
+
+    public <T> T accept(IQLSASTVisitor<T> _visitor) {
+        return _visitor.visitColorProperty(this);
     }
 }

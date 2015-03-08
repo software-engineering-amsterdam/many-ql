@@ -5,7 +5,7 @@ import QL.Main.exceptions as exceptions
 class Mapper:
     # map from _id to answers
     def __init__(self):
-        self.answers = {}  # {qid: {answer: input, pointsTo: List}}
+        self.answers = {}  # {qid: {_answer: input, pointsTo: List}}
         self.inputObj = {}
 
     def update(self, question, answer):

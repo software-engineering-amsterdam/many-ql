@@ -76,15 +76,13 @@ IF : 'if' ;
 // Identifiers
 ID : [a-zA-Z][a-zA-Z0-9]*;
 
-// Numbers, stolen from JSON.g4 in antlr/grammars-v4/ repository
-INT : '-'? INT_FRAG;
-
+// Numbers, inspired by JSON.g4 in antlr/grammars-v4/ repository
 NUMBER :  '-'? INT_FRAG
     |     '-'? INT_FRAG '.' [0-9]+ EXP? // 1.35, 1.35E-9, 0.3, -4.5
     |     '-'? INT_FRAG EXP // 1e10 -3e4
     ;
 
-fragment EXP : [Ee] [+\-]? INT ; // \- since - means "range" inside [...]
+fragment EXP : [Ee] [+\-]? INT_FRAG ; // \- since - means "range" inside [...]
 fragment INT_FRAG : '0' | [1-9] [0-9]* ; // no leading zeros
 
 // Strings

@@ -1,6 +1,7 @@
 package org.fugazi.qls.ast.widget;
 
 import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.Style;
 
 public abstract class Widget extends AbstractASTQLSNode {
@@ -26,4 +27,6 @@ public abstract class Widget extends AbstractASTQLSNode {
     public boolean isNull() {
         return false;
     }
+
+    public abstract <T> T accept(IQLSASTVisitor<T> visitor);
 }

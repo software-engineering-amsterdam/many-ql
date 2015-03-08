@@ -11,9 +11,9 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 public abstract class ArithmeticExpression extends BinaryExpression {
-    private static final Table<Type, Type, Type> ARITHMENTIC_OPERATORS_TABLE = HashBasedTable.create();
+    private static final Table<Type, Type, Type> ARITHMETIC_OPERATORS_TABLE = HashBasedTable.create();
     static {
-        ARITHMENTIC_OPERATORS_TABLE.put(NumberType.instance, NumberType.instance, NumberType.instance);
+        ARITHMETIC_OPERATORS_TABLE.put(NumberType.instance, NumberType.instance, NumberType.instance);
     }
     private final LineInfo lineInfo;
 
@@ -24,7 +24,7 @@ public abstract class ArithmeticExpression extends BinaryExpression {
     }
 
     public static Type resolveType(final Type type, final Type otherType) {
-        final Type resolvedType = ARITHMENTIC_OPERATORS_TABLE.get(type, otherType);
+        final Type resolvedType = ARITHMETIC_OPERATORS_TABLE.get(type, otherType);
         return resolvedType != null ? resolvedType : UndefinedType.instance;
     }
 

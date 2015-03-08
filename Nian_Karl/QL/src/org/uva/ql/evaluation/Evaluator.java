@@ -58,6 +58,10 @@ public class Evaluator implements ExpressionVisitor<Value> {
 	public int countValues() {
 		return values.size();
 	}
+	
+	public Map<String, Value> getMap() {
+		return values;
+	}
 
 	public Value evaluate(Expression expr) {
 		return expr.accept(this);

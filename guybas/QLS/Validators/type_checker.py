@@ -48,5 +48,5 @@ class TypeChecker:
         for t in type_dict:
             if t in widget_dict:
                 if not type_dict[t] in widget_dict[t].get_compatible():
-                    message += "the type of " + t + " is not supported by widget" +  str(widget_dict[t]) + "\n"
+                    message += "the _type of " + t + " is not supported by widget" +  str(widget_dict[t]) + "\n"
         return message

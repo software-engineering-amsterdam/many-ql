@@ -7,7 +7,7 @@ class Expression(e.Element):
     def __init__(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    # get the return type of the _expression
+    # get the return _type of the _expression
     def return_type(self, type_dict):
         raise NotImplementedError("Not implemented by sub class")
 
@@ -23,7 +23,7 @@ class Expression(e.Element):
     def as_list(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    # static helper method to get the dependencies once
+    # static helper method to get the _dependencies once
     @staticmethod
     def dependency_collection(expression):
         raise NotImplementedError("Not implemented by sub class")

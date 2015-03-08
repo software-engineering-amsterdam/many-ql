@@ -1,6 +1,7 @@
 package org.fugazi.qls.ast.stylesheet;
 
 import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.segment.Page;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class StyleSheet extends AbstractASTQLSNode {
 
     public String getName() {
         return this.name;
+    }
+
+    public <T> T accept(IQLSASTVisitor<T> _visitor) {
+        return _visitor.visitStyleSheet(this);
     }
 }

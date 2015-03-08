@@ -1,6 +1,7 @@
 package org.fugazi.qls.ast.question;
 
 import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.widget.Widget;
 
 public class Question extends AbstractASTQLSNode { // todo Create A UIQuestion?
@@ -21,5 +22,9 @@ public class Question extends AbstractASTQLSNode { // todo Create A UIQuestion?
 
     public String getId() {
         return this.identifier;
+    }
+
+    public <T> T accept(IQLSASTVisitor<T> _visitor) {
+        return _visitor.visitQuestion(this);
     }
 }

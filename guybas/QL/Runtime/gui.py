@@ -1,23 +1,24 @@
 import tkinter as tk
-import QL.Main.processor as processor
-import QL.Main.mapper as mapper
+
+import QL.Runtime.processor as processor
+import QL.Runtime.mapper as mapper
 
 
 class QuestionnaireGUI:
     def __init__(self, form):
-        self.qGui = tk.Tk()
-        self.form = form
-        self.statements = self.form.get_statements()
-        self.dependencies = self.form.get_dependencies()
-        self.answersMap = mapper.Mapper()
+        self._qGui = tk.Tk()
+        self._form = form
+        self._statements = self._form.get_statements()
+        self._dependencies = self._form.get_dependencies()
+        self._answersMap = mapper.Mapper()
 
     def generate_gui(self):
         print("_" * 50)
-        # self.qGui.geometry('450x450')
-        self.qGui.title(self.form.get_name())
-        tk.Label(text=self.form.get_introduction(), height=2).grid(row=0, column=0, sticky=tk.W)
-        self.draw_statements(self.statements)
-        tk.Button(text="Submit", width=10, command=lambda: processor.export_answers(self.answersMap, self)
+        # self._qGui.geometry('450x450')
+        self._qGui.title(self._form.get_name())
+        tk.Label(text=self._form.get_introduction(), height=2).grid(row=0, column=0, sticky=tk.W)
+        self.draw_statements(self._statements)
+        tk.Button(text="Submit", width=10, command=lambda: processor.export_answers(self._answersMap, self)
                   ).grid(row=999, column=0)
 
     def draw_statements(self, statements):
@@ -29,7 +30,7 @@ class QuestionnaireGUI:
                 self.draw_statement(statement)
 
     def draw_statement(self, statement):
-        self.answersMap.update(statement, None)
+        self._answersMap.update(statement, None)
         statement.set_element(self)
         elements = statement.get_element()
         # don't print anything if has no elements (e.g. assignment)
@@ -41,8 +42,7 @@ class QuestionnaireGUI:
         c_results = True
         if condition is not None:
             p = processor.Processor()
-            print(condition.pretty_print())
-            c_results = p.eval_expression(condition.pretty_print(), self.answersMap)
+            c_results = p.eval_expression(condition.pretty_print(), self._answersMap)
 
         if not c_results:
             return False
@@ -54,13 +54,13 @@ class QuestionnaireGUI:
             elements[i].grid(row=statement.get_order() + 1, column=i, columnspan=colspan, sticky=tk.W)
 
     def update(self, question, new_answer):
-        self.answersMap.update(question, new_answer)
-        for qid in self.dependencies:
-            if question.get_id() in self.dependencies[qid]:
+        self._answersMap.update(question, new_answer)
+        for qid in self._dependencies:
+            if question.get_id() in self._dependencies[qid]:
                 self.elements_recreate(qid)
 
     def elements_recreate(self, qid):
-        statements_dict = self.form.get_statement_dict()
+        statements_dict = self._form.get_statement_dict()
         if qid not in statements_dict:
             raise tk.QException("Fatal Error: no such _condition _id " + qid)
         statement = statements_dict[qid]
@@ -74,10 +74,10 @@ class QuestionnaireGUI:
         self.draw_statement(statement)
 
     def show(self):
-        self.qGui.mainloop()
+        self._qGui.mainloop()
 
     def close(self):
-        self.qGui.destroy()
+        self._qGui.destroy()
 
     @staticmethod
     def e_label(statement, gui):

@@ -31,7 +31,7 @@ class TypeChecker:
         if expression_message != "":
             print(expression_message)
 
-    # All static methods to check if ids and labels contain duplicates, there are no circle dependencies,
+    # All static methods to check if ids and labels contain duplicates, there are no circle _dependencies,
     # and expressions are well formed
     @staticmethod
     def check_duplicates(l):

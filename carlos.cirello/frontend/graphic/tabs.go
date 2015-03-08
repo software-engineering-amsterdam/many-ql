@@ -39,6 +39,20 @@ TabView {
 }
 `
 
+const ScrollView = `
+ScrollView {
+	width: 798
+	height: 400
+	verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
+	contentItem: ColumnLayout {
+		Layout.fillHeight: true
+		width: 797
+		id: mainLayout
+		objectName: "questions"
+	}
+}
+`
+
 func drawTabBlock(page *stylelang.Page) string {
 	nestedTabBlock := ""
 	if page.HasNestedPages() {
@@ -53,7 +67,7 @@ func drawTabBlock(page *stylelang.Page) string {
 			nestedTabBlock = tmp
 		}
 	} else {
-		nestedTabBlock = drawTab(page.Name(), "")
+		nestedTabBlock = drawTab(page.Name(), ScrollView)
 	}
 
 	var qml bytes.Buffer

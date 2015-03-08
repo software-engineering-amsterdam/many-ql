@@ -32,22 +32,23 @@ public class UiBuilder extends Application implements StatementVisitor<Node>, Fo
     }
 
     @Override
-    public Node visit(ComputedQuestion statement) {
-        ComputedQuestionLayout layout = new ComputedQuestionLayout(statement);
-        layout.add(statement.getType().accept(renderer).getWidget());
-        return layout.getNode();
-    }
-
-    @Override
-    public Node visit(Question statement) {
-        QuestionLayout layout = new QuestionLayout(statement);
-        Widget questionWidget = statement.getType().accept(renderer);
+    public Node visit(final ComputedQuestion question) {
+        ComputedQuestionLayout layout = new ComputedQuestionLayout(question);
+        Widget questionWidget = question.getType().accept(renderer);
         layout.add(questionWidget.getWidget());
         return layout.getNode();
     }
 
     @Override
-    public Node visit(Conditional statement) {
+    public Node visit(final Question question) {
+        QuestionLayout layout = new QuestionLayout(question);
+        Widget questionWidget = question.getType().accept(renderer);
+        layout.add(questionWidget.getWidget());
+        return layout.getNode();
+    }
+
+    @Override
+    public Node visit(final Conditional conditional) {
         return null;
     }
 

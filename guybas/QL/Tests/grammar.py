@@ -30,7 +30,7 @@ class TestBasicGrammar(unittest.TestCase):
         self.assertEqual(result, ["this is a sentence .", "Is this another one ?", 'Can we escape ? , ! and . ?'])
 
     def test_answer_format(self):
-        # Test the three different _type of answer possibilities
+        # Test the three different _type of _answer possibilities
         result = FormFormat.answerR.parseString("bool").asList()
         self.assertEqual(result, ["bool"])
 
@@ -42,7 +42,7 @@ class TestBasicGrammar(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_answer_format_fail(self):
-        # Not an answer possibility
+        # Not an _answer possibility
         result = FormFormat.answerR.parseString("set").asList()
         self.assertEqual(result, ["set"])
 
