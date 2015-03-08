@@ -61,15 +61,15 @@ public interface ExpressionVisitor<T> {
 
     T visit(NumberLiteral expr);
 
-    default T leftOperandVisited(BinaryExpression expr) {
+    default T leftOperandVisit(BinaryExpression expr) {
         return expr.getLeftExpression().accept(this);
     }
 
-    default T rightOperandVisited(BinaryExpression expr) {
+    default T rightOperandVisit(BinaryExpression expr) {
         return expr.getRightExpression().accept(this);
     }
 
-    default T unaryOperandVisited(UnaryExpression expr) {
+    default T unaryOperandVisit(UnaryExpression expr) {
         return expr.getExpression().accept(this);
     }
 
