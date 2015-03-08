@@ -5,20 +5,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
-import nl.uva.softwcons.ast.expression.binary.arithmetic.Addition;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.Division;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.Multiplication;
-import nl.uva.softwcons.ast.expression.binary.arithmetic.Subtraction;
-import nl.uva.softwcons.ast.expression.binary.comparison.GreaterOrEqual;
-import nl.uva.softwcons.ast.expression.binary.logical.And;
-import nl.uva.softwcons.ast.expression.binary.logical.Or;
-import nl.uva.softwcons.ast.expression.identifier.Identifier;
-import nl.uva.softwcons.ast.expression.literal.BooleanLiteral;
-import nl.uva.softwcons.ast.expression.literal.NumberLiteral;
-import nl.uva.softwcons.ast.expression.literal.StringLiteral;
-import nl.uva.softwcons.ast.expression.unary.logical.Not;
 import nl.uva.softwcons.eval.value.BooleanValue;
 import nl.uva.softwcons.eval.value.NumberValue;
+import nl.uva.softwcons.eval.value.UndefinedValue;
+import nl.uva.softwcons.ql.ast.expression.binary.arithmetic.Addition;
+import nl.uva.softwcons.ql.ast.expression.binary.arithmetic.Division;
+import nl.uva.softwcons.ql.ast.expression.binary.arithmetic.Multiplication;
+import nl.uva.softwcons.ql.ast.expression.binary.arithmetic.Subtraction;
+import nl.uva.softwcons.ql.ast.expression.binary.comparison.GreaterOrEqual;
+import nl.uva.softwcons.ql.ast.expression.binary.logical.And;
+import nl.uva.softwcons.ql.ast.expression.binary.logical.Or;
+import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
+import nl.uva.softwcons.ql.ast.expression.literal.BooleanLiteral;
+import nl.uva.softwcons.ql.ast.expression.literal.NumberLiteral;
+import nl.uva.softwcons.ql.ast.expression.literal.StringLiteral;
+import nl.uva.softwcons.ql.ast.expression.unary.logical.Not;
+import nl.uva.softwcons.ql.eval.ExpressionEvaluator;
+import nl.uva.softwcons.ql.eval.FormAnswers;
 
 import org.junit.Test;
 
@@ -230,4 +233,133 @@ public class ExpressionEvaluatorTest {
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(NumberValue.class);
         assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asDecimal()).isEqualTo("3");
     }
+
+    @Test
+    public void testEvaluateUnknownIdentifierAsUndefined() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final FormAnswers answers = new FormAnswers();
+
+        assertThat(ExpressionEvaluator.evaluate(id1, answers)).isExactlyInstanceOf(UndefinedValue.class);
+    }
+
+    @Test
+    public void testUndefinedAsLeftOperandAdition() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Identifier id2 = new Identifier("id2", DUMMY_LINE_INFO);
+        final Addition exprWithVariables = new Addition(id1, id2, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id2, new NumberValue(2));
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
+    }
+
+    @Test
+    public void testUndefinedAsRightOperandAdition() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Identifier id2 = new Identifier("id2", DUMMY_LINE_INFO);
+        final Addition exprWithVariables = new Addition(id1, id2, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id1, new NumberValue(2));
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
+    }
+
+    @Test
+    public void testUndefinedAsLeftOperandSubtraction() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Identifier id2 = new Identifier("id2", DUMMY_LINE_INFO);
+        final Subtraction exprWithVariables = new Subtraction(id1, id2, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id2, new NumberValue(2));
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
+    }
+
+    @Test
+    public void testUndefinedAsRightOperandSubtraction() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Identifier id2 = new Identifier("id2", DUMMY_LINE_INFO);
+        final Subtraction exprWithVariables = new Subtraction(id1, id2, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id1, new NumberValue(2));
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
+        answers.setValue(id2, new NumberValue(1));
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(NumberValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asDecimal()).isEqualTo("1");
+
+    }
+
+    @Test
+    public void testUndefinedAsLeftOperandAnd() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Identifier id2 = new Identifier("id2", DUMMY_LINE_INFO);
+        final And exprWithVariables = new And(id1, id2, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id2, new BooleanValue(true));
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
+
+        answers.setValue(id1, new BooleanValue(true));
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(BooleanValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asBoolean()).isEqualTo(true);
+
+    }
+
+    @Test
+    public void testUndefinedAsRightOperandOr() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Identifier id2 = new Identifier("id2", DUMMY_LINE_INFO);
+        final Or exprWithVariables = new Or(id1, id2, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id1, new BooleanValue(false));
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
+        answers.setValue(id2, new BooleanValue(false));
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(BooleanValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asBoolean()).isEqualTo(false);
+    }
+
+    @Test
+    public void testUndefinedNot() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Not exprWithVariables = new Not(id1, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(UndefinedValue.class);
+        answers.setValue(id1, new BooleanValue(false));
+
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers)).isExactlyInstanceOf(BooleanValue.class);
+        assertThat(ExpressionEvaluator.evaluate(exprWithVariables, answers).asBoolean()).isEqualTo(true);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testNumberBooleanAddition() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Addition exprWithVariables = new Addition(INT_1, id1, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id1, new BooleanValue(false));
+
+        ExpressionEvaluator.evaluate(exprWithVariables, answers);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testStringBooleanAddition() {
+        final Identifier id1 = new Identifier("id1", DUMMY_LINE_INFO);
+        final Addition exprWithVariables = new Addition(STR_BAR, id1, DUMMY_LINE_INFO);
+
+        final FormAnswers answers = new FormAnswers();
+        answers.setValue(id1, new BooleanValue(false));
+
+        ExpressionEvaluator.evaluate(exprWithVariables, answers);
+    }
+
 }

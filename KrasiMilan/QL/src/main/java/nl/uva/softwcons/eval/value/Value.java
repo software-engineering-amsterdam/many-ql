@@ -23,35 +23,35 @@ public abstract class Value {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue isEqual(Value otherValue) {
+    public Value isEqual(Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue isGreater(Value otherValue) {
+    public Value isGreater(Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue isLower(Value otherValue) {
+    public Value isLower(Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue isGreaterOrEqual(Value otherValue) {
+    public Value isGreaterOrEqual(Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue isLowerOrEqual(Value otherValue) {
+    public Value isLowerOrEqual(Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue and(Value otherValue) {
+    public Value and(Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue or(Value otherValue) {
+    public Value or(Value otherValue) {
         throw new UnsupportedOperationException();
     }
 
-    public BooleanValue not() {
+    public Value not() {
         throw new UnsupportedOperationException();
     }
 
@@ -72,5 +72,49 @@ public abstract class Value {
     }
 
     public abstract Value getValueFromString(String string);
+
+    protected Value addNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value subtractNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value multiplyNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value divideNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value isGreaterNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value isGreaterOrEqualNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value isLowerNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value isLowerOrEqualNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value isEqualNumber(NumberValue value) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value andBoolean(BooleanValue otherValue) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected Value orBoolean(BooleanValue otherValue) {
+        throw new UnsupportedOperationException();
+    }
 
 }

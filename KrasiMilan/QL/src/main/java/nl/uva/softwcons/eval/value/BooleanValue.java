@@ -24,28 +24,38 @@ public class BooleanValue extends Value {
     }
 
     @Override
-    public BooleanValue isEqual(Value otherValue) {
+    public Value isEqual(Value otherValue) {
         return new BooleanValue(this.value.equals(otherValue.asBoolean()));
     }
 
     @Override
-    public BooleanValue and(Value otherValue) {
-        return new BooleanValue(this.value && otherValue.asBoolean());
+    public Value and(Value otherValue) {
+        return otherValue.andBoolean(this);
     }
 
     @Override
-    public BooleanValue or(Value otherValue) {
-        return new BooleanValue(this.value || otherValue.asBoolean());
+    public Value or(Value otherValue) {
+        return otherValue.orBoolean(this);
     }
 
     @Override
-    public BooleanValue not() {
+    public Value not() {
         return new BooleanValue(!this.value);
     }
 
     @Override
     public Value getValueFromString(String string) {
         return new BooleanValue(Boolean.valueOf(string));
+    }
+
+    @Override
+    protected Value andBoolean(BooleanValue otherValue) {
+        return new BooleanValue(this.value && otherValue.asBoolean());
+    }
+
+    @Override
+    protected Value orBoolean(BooleanValue otherValue) {
+        return new BooleanValue(this.value || otherValue.asBoolean());
     }
 
 }

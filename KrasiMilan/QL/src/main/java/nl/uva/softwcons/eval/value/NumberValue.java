@@ -39,52 +39,97 @@ public class NumberValue extends Value {
     }
 
     @Override
-    public NumberValue add(Value otherValue) {
-        return new NumberValue(this.value.add(otherValue.asDecimal()));
+    public Value add(Value otherValue) {
+        return otherValue.addNumber(this);
     }
 
     @Override
-    public NumberValue subtract(Value otherValue) {
-        return new NumberValue(this.value.subtract(otherValue.asDecimal()));
+    public Value subtract(Value otherValue) {
+        return otherValue.subtractNumber(this);
     }
 
     @Override
-    public NumberValue multiply(Value otherValue) {
-        return new NumberValue(this.value.multiply(otherValue.asDecimal()));
+    public Value multiply(Value otherValue) {
+        return otherValue.multiplyNumber(this);
     }
 
     @Override
-    public NumberValue divide(Value otherValue) {
-        return new NumberValue(this.value.divide(otherValue.asDecimal()));
+    public Value divide(Value otherValue) {
+        return otherValue.divideNumber(this);
     }
 
     @Override
-    public BooleanValue isEqual(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) == 0);
+    public Value isEqual(Value otherValue) {
+        return otherValue.isEqualNumber(this);
     }
 
     @Override
-    public BooleanValue isGreater(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) > 0);
+    public Value isGreater(Value otherValue) {
+        return otherValue.isGreaterNumber(this);
     }
 
     @Override
-    public BooleanValue isLower(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) < 0);
+    public Value isLower(Value otherValue) {
+        return otherValue.isLowerNumber(this);
     }
 
     @Override
-    public BooleanValue isGreaterOrEqual(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) >= 0);
+    public Value isGreaterOrEqual(Value otherValue) {
+        return otherValue.isGreaterOrEqualNumber(this);
     }
 
     @Override
-    public BooleanValue isLowerOrEqual(Value otherValue) {
-        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) <= 0);
+    public Value isLowerOrEqual(Value otherValue) {
+        return otherValue.isLowerNumber(this);
     }
 
     @Override
     public Value getValueFromString(String string) {
         return new NumberValue(new BigDecimal(string));
+    }
+
+    @Override
+    protected Value addNumber(NumberValue otherValue) {
+        return new NumberValue(this.value.add(otherValue.asDecimal()));
+    }
+
+    @Override
+    protected Value subtractNumber(NumberValue otherValue) {
+        return new NumberValue(otherValue.asDecimal().subtract(this.value));
+    }
+
+    @Override
+    protected Value multiplyNumber(NumberValue otherValue) {
+        return new NumberValue(this.value.multiply(otherValue.asDecimal()));
+    }
+
+    @Override
+    protected Value divideNumber(NumberValue otherValue) {
+        return new NumberValue(otherValue.asDecimal().divide(this.value));
+    }
+
+    @Override
+    protected BooleanValue isEqualNumber(NumberValue otherValue) {
+        return new BooleanValue(this.value.compareTo(otherValue.asDecimal()) == 0);
+    }
+
+    @Override
+    protected BooleanValue isGreaterNumber(NumberValue otherValue) {
+        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) > 0);
+    }
+
+    @Override
+    protected BooleanValue isLowerNumber(NumberValue otherValue) {
+        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) < 0);
+    }
+
+    @Override
+    protected BooleanValue isGreaterOrEqualNumber(NumberValue otherValue) {
+        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) >= 0);
+    }
+
+    @Override
+    protected BooleanValue isLowerOrEqualNumber(NumberValue otherValue) {
+        return new BooleanValue(otherValue.asDecimal().compareTo(this.value) <= 0);
     }
 }
