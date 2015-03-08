@@ -77,7 +77,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Void visit(final Conditional conditional) {
-        final Type conditionExprType = conditional.getCondition().accept(this);
+        final Type conditionExprType = conditional.getExpression().accept(this);
         if (conditionExprType != BooleanType.instance) {
             this.errorsFound.add(new InvalidConditionType(conditional.getLineInfo()));
         }

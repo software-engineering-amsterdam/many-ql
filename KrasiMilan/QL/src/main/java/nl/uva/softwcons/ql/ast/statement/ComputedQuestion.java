@@ -4,7 +4,7 @@ import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.expression.identifier.Identifier;
 import nl.uva.softwcons.ql.ast.type.Type;
 
-public class ComputedQuestion extends Question {
+public class ComputedQuestion extends Question implements Computable {
     private Expression expression;
 
     public ComputedQuestion(final Identifier id, final String label, final Type type, final Expression value) {
@@ -13,6 +13,7 @@ public class ComputedQuestion extends Question {
         this.expression = value;
     }
 
+    @Override
     public Expression getExpression() {
         return expression;
     }
