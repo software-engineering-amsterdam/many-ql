@@ -1,5 +1,6 @@
 package edu.gui;
 
+import edu.exceptions.GuiException;
 import edu.gui.components.Page;
 import edu.nodes.Question;
 import edu.nodes.styles.Style;
@@ -17,7 +18,8 @@ public class MainWindow extends JFrame {
     private final JPanel mainPanel;
     private final JPanel questionPanel;
     private final JPanel paginationPanel;
-    private int pages = 0;
+    private int totalPages = 0;
+    private int currentPage = 1;
 
     public MainWindow() {
         mainPanel = new JPanel();
@@ -31,15 +33,34 @@ public class MainWindow extends JFrame {
         CardLayout cardLayout = new CardLayout(10, 10);
         questionPanel.setLayout(cardLayout);
         mainPanel.add(questionPanel, BorderLayout.CENTER);
-        mainPanel.add(paginationPanel,BorderLayout.PAGE_END);
+        mainPanel.add(paginationPanel, BorderLayout.PAGE_END);
         add(mainPanel);
         addPaginationButtons(cardLayout);
     }
 
     private void addPaginationButtons(CardLayout cardLayout) {
         JButton next = new JButton("Next");
+        next.addActionListener(e -> nextPage(cardLayout));
+        JButton back = new JButton("Back");
+        back.addActionListener(e -> previousPage(cardLayout));
+        paginationPanel.add(back);
         paginationPanel.add(next);
-        next.addActionListener(e -> cardLayout.show(questionPanel, "2"));
+    }
+
+    private void nextPage(CardLayout cardLayout) {
+        if (currentPage >= totalPages) {
+            throw new GuiException(String.format("Cannot switch to next page. totalpages: [%d] currentpage: [%d]", totalPages, currentPage));
+        } else {
+            cardLayout.show(questionPanel, String.valueOf(++currentPage));
+        }
+    }
+
+    private void previousPage(CardLayout cardLayout) {
+        if (currentPage <= 1) {
+            throw new GuiException(String.format("Cannot switch to previous page. currentpage: [%d]", currentPage));
+        } else {
+            cardLayout.show(questionPanel, String.valueOf(--currentPage));
+        }
     }
 
     public void showMainWindow() {
@@ -52,7 +73,7 @@ public class MainWindow extends JFrame {
 
     public void addPage(List<Section> sections, Map<Question, List<Style>> questions) {
         Page page = new Page(sections, questions);
-        questionPanel.add(page, String.valueOf(++pages));
+        questionPanel.add(page, String.valueOf(++totalPages));
     }
 
 }
