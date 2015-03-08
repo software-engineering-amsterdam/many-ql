@@ -62,19 +62,17 @@ public class TestRigGui extends JFrame implements ActionListener {
 	public static void main(String[] args) throws Exception {
 		String grammarName = TestRigGui.class.getPackage().getName() + ".EncodersQL";
 		String startName = "questionnaire";
-		String inputLocation = "input_form.ql";
+		String inputLocation = "ql/input_form.ql";
 		if (args.length == 3) {
 			grammarName = args[0];
 			startName = args[1];
 			inputLocation = args[2];
 		}
-		TestRigGui testRigGui = new TestRigGui(grammarName, startName,
-				inputLocation);
+		TestRigGui testRigGui = new TestRigGui(grammarName, startName, inputLocation);
 		testRigGui.setUpGui();
 	}
 
-	public TestRigGui(String grammarName, String startName, String inputLocation)
-			throws HeadlessException {
+	public TestRigGui(String grammarName, String startName, String inputLocation) throws HeadlessException {
 		super("TestRigGui");
 		this.grammarName = grammarName;
 		this.startName = startName;
@@ -156,8 +154,7 @@ public class TestRigGui extends JFrame implements ActionListener {
 		}
 
 		try {
-			TestRig testRig = new TestRig(getArguments().toArray(
-					new String[] {}));
+			TestRig testRig = new TestRig(getArguments().toArray(new String[] {}));
 			testRig.process();
 			tmpFile.delete();
 		} catch (Exception e) {
@@ -166,9 +163,7 @@ public class TestRigGui extends JFrame implements ActionListener {
 	}
 
 	private List<String> getArguments() {
-		List<String> argList = new ArrayList<String>(
-				Arrays.asList(grammarNameText.getText(),
-						startNameText.getText(), TMPFILE_TXT));
+		List<String> argList = new ArrayList<String>(Arrays.asList(grammarNameText.getText(), startNameText.getText(), TMPFILE_TXT));
 
 		if (treeCb.isSelected()) {
 			argList.add("-tree");
