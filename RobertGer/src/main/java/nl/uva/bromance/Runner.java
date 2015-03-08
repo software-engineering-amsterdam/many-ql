@@ -1,9 +1,8 @@
 package nl.uva.bromance;
 
 import javafx.stage.Stage;
-import nl.uva.bromance.AST.AST;
-import nl.uva.bromance.AST.Conditionals.ExpressionEvaluator;
-import nl.uva.bromance.AST.Questionnaire;
+import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.conditionals.ExpressionEvaluator;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.listeners.QLSParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
@@ -54,7 +53,7 @@ public class Runner {
 
         qlsWalker.walk(qlsListener, qlsTree);
 
-        //show AST in GUI
+        //show ast in GUI
         JFrame frame = new JFrame("QLS ParseTree");
         JPanel panel = new JPanel();
         JScrollPane pane = new JScrollPane(panel);

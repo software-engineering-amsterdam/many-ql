@@ -4,8 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import nl.uva.bromance.AST.Node;
-import nl.uva.bromance.AST.Questionnaire;
+import nl.uva.bromance.ast.Node;
 
 import java.util.Optional;
 
