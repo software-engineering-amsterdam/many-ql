@@ -1,4 +1,4 @@
-package nl.uva.se.interpreter.error;
+package nl.uva.se.interpretation.error;
 
 public class CyclicDependency extends Error {
 

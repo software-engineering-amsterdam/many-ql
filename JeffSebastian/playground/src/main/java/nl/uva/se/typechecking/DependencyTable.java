@@ -1,4 +1,4 @@
-package nl.uva.se.interpreter;
+package nl.uva.se.typechecking;
 
 import java.util.Collections;
 import java.util.HashMap;

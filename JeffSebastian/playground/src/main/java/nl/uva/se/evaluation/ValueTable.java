@@ -1,12 +1,12 @@
-package nl.uva.se.interpreter;
+package nl.uva.se.evaluation;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import nl.uva.se.ast.statement.Question;
-import nl.uva.se.interpreter.value.UndefinedValue;
-import nl.uva.se.interpreter.value.Value;
+import nl.uva.se.evaluation.value.UndefinedValue;
+import nl.uva.se.evaluation.value.Value;
 
 public class ValueTable {
 

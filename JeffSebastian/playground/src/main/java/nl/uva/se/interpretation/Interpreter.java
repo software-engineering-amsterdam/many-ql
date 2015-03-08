@@ -1,7 +1,11 @@
-package nl.uva.se.interpreter;
+package nl.uva.se.interpretation;
 
 import nl.uva.se.ast.form.Form;
-import nl.uva.se.interpreter.error.ErrorList;
+import nl.uva.se.evaluation.Evaluator;
+import nl.uva.se.evaluation.ValueTable;
+import nl.uva.se.interpretation.error.ErrorList;
+import nl.uva.se.typechecking.SymbolTable;
+import nl.uva.se.typechecking.TypeChecker;
 
 public class Interpreter {
 	

@@ -1,4 +1,4 @@
-package nl.uva.se.interpreter;
+package nl.uva.se.evaluation;
 
 import nl.uva.se.ast.expression.arithmetical.Addition;
 import nl.uva.se.ast.expression.arithmetical.Divide;
@@ -26,11 +26,11 @@ import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
-import nl.uva.se.interpreter.value.BooleanValue;
-import nl.uva.se.interpreter.value.DecimalValue;
-import nl.uva.se.interpreter.value.IntegerValue;
-import nl.uva.se.interpreter.value.StringValue;
-import nl.uva.se.interpreter.value.Value;
+import nl.uva.se.evaluation.value.BooleanValue;
+import nl.uva.se.evaluation.value.DecimalValue;
+import nl.uva.se.evaluation.value.IntegerValue;
+import nl.uva.se.evaluation.value.StringValue;
+import nl.uva.se.evaluation.value.Value;
 import nl.uva.se.visitor.ExpressionVisitor;
 import nl.uva.se.visitor.FormVisitor;
 import nl.uva.se.visitor.StatementVisitor;

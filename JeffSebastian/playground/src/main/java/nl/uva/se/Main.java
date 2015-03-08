@@ -3,7 +3,7 @@ package nl.uva.se;
 import java.io.IOException;
 
 import nl.uva.se.ast.form.Form;
-import nl.uva.se.interpreter.Interpreter;
+import nl.uva.se.interpretation.Interpreter;
 import nl.uva.se.parser.QLLexer;
 import nl.uva.se.parser.QLParser;
 import nl.uva.se.parser.QLVisitorImpl;

@@ -1,4 +1,4 @@
-package nl.uva.se.interpreter.error;
+package nl.uva.se.interpretation.error;
 
 import nl.uva.se.ast.statement.Question;
 

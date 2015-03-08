@@ -1,12 +1,13 @@
-package nl.uva.se.interpreter;
+package nl.uva.se.typechecking;
 
 import nl.uva.se.ast.form.Form;
 import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
-import nl.uva.se.interpreter.error.DuplicateLabels;
-import nl.uva.se.interpreter.error.ErrorList;
-import nl.uva.se.interpreter.error.IncompatibleTypeDeclaration;
+import nl.uva.se.interpretation.Result;
+import nl.uva.se.interpretation.error.DuplicateLabels;
+import nl.uva.se.interpretation.error.ErrorList;
+import nl.uva.se.interpretation.error.IncompatibleTypeDeclaration;
 import nl.uva.se.visitor.FormVisitor;
 import nl.uva.se.visitor.StatementVisitor;
 

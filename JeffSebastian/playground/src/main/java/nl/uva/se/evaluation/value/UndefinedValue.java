@@ -1,4 +1,4 @@
-package nl.uva.se.interpreter.value;
+package nl.uva.se.evaluation.value;
 
 public class UndefinedValue extends Value<Void> {
 

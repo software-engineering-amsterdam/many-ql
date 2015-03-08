@@ -1,6 +1,6 @@
-package nl.uva.se.interpreter;
+package nl.uva.se.interpretation;
 
-import nl.uva.se.interpreter.error.ErrorList;
+import nl.uva.se.interpretation.error.ErrorList;
 
 public class Result<T> {
 

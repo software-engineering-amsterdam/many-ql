@@ -1,4 +1,4 @@
-package nl.uva.se.interpreter.error;
+package nl.uva.se.interpretation.error;
 
 import java.util.ArrayList;
 import java.util.List;

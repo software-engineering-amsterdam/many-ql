@@ -1,4 +1,4 @@
-package nl.uva.se.interpreter;
+package nl.uva.se.typechecking;
 
 import nl.uva.se.ast.expression.Expression;
 import nl.uva.se.ast.expression.arithmetical.Addition;
@@ -34,12 +34,13 @@ import nl.uva.se.ast.type.StringType;
 import nl.uva.se.ast.type.Type;
 import nl.uva.se.ast.type.TypeFactory;
 import nl.uva.se.ast.type.UndefinedType;
-import nl.uva.se.interpreter.error.ErrorList;
-import nl.uva.se.interpreter.error.InvalidConditionType;
-import nl.uva.se.interpreter.error.InvalidOperandType;
-import nl.uva.se.interpreter.error.TypeMismatch;
-import nl.uva.se.interpreter.error.TypeNotAllowed;
-import nl.uva.se.interpreter.error.UndefinedReference;
+import nl.uva.se.interpretation.Result;
+import nl.uva.se.interpretation.error.ErrorList;
+import nl.uva.se.interpretation.error.InvalidConditionType;
+import nl.uva.se.interpretation.error.InvalidOperandType;
+import nl.uva.se.interpretation.error.TypeMismatch;
+import nl.uva.se.interpretation.error.TypeNotAllowed;
+import nl.uva.se.interpretation.error.UndefinedReference;
 import nl.uva.se.visitor.ExpressionVisitor;
 import nl.uva.se.visitor.FormVisitor;
 import nl.uva.se.visitor.StatementVisitor;
