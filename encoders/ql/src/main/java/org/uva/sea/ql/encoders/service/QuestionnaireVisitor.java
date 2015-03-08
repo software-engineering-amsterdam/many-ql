@@ -20,15 +20,16 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.EncodersQLParser.StatementContext;
 import org.uva.sea.ql.encoders.ast.AstNode;
+import org.uva.sea.ql.encoders.ast.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.ConditionalBlock;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
-import org.uva.sea.ql.encoders.ast.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
+import org.uva.sea.ql.encoders.ast.UnaryExpression;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
@@ -117,10 +118,9 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Expression visitNot(NotContext ctx) {
 		String operator = ctx.operator.getText();
-		Expression leftHand = (Expression) visit(ctx.leftHand);
-		Expression rightHand = (Expression) visit(ctx.rightHand);
+		Expression expression = (Expression) visit(ctx.expr);
 		TextLocation textLocation = getTextLocation(ctx);
-		return new BinaryExpression(textLocation, leftHand, rightHand, operator);
+		return new UnaryExpression(textLocation, operator, expression);
 	}
 
 	@Override
