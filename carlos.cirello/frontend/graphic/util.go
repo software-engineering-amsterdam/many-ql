@@ -46,10 +46,13 @@ func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 		}
 		container = container.ObjectByName(v)
 		if k < lenIdx {
+			container = container.ObjectByName("scroll")
+			container = container.Object("contentItem")
 			container = container.ObjectByName(v + "View")
 		}
 	}
-	container = container.ObjectByName("questions")
+	container = container.ObjectByName("scroll")
+	container = container.Object("contentItem")
 	g.targetContainer = container
 
 	var question qml.Object
