@@ -1,23 +1,23 @@
 form taxOfficeExample { 
   "Did you sell a house in 2010?"
-    hasSoldHouse: money
+    hasSoldHouse: int
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
     hasMaintLoan: boolean
   "What is the percentage?"
-    percentage: money
+    percentage: int
   "What is the commissioning?"
     commissioning: boolean
 
 
   if (hasSoldHouse) {
     "What was the selling price?"
-      sellingPrice: money
+      sellingPrice: int
     "Private debts for the sold house:"
-      privateDebt: money
+      privateDebt: int
     "Value residue:"
-      valueResidue: money = 
+      valueResidue: int = 
         (sellingPrice - privateDebt * ( percentage - commissioning ) )
   }
   
@@ -38,7 +38,7 @@ form taxOfficeExample {
     hasContract2: boolean
     
   "Do you have a duplicate contract with another datatype?"
-    hasContract: money
+    hasContract: int
     
   if(nonExistingQuestion) {
       "Are you happy with this questionnaire?"

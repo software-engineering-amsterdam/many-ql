@@ -6,19 +6,19 @@ fom taxOfficeExample {
   "Did you enter a loan?"
     hasMaintLoan: boolean
   "What is the percentage?"
-    percentage: money
+    percentage: int
   "What is the commissioning?"
-    commissioning: money
+    commissioning: int
   "Do you have a contract?"
     hasContract: boolean
 
   if (hasSoldHouse) {
     "What was the selling price?"
-      sellingPrice: money
+      sellingPrice: int
     "Private debts for the sold house:"
-      privateDebt: money
+      privateDebt: int
     "Value residue:"
-      valueResidue: money = 
+      valueResidue: int = 
         (sellingPrice - privateDebt * ( percentage - commissioning ) )
   
   

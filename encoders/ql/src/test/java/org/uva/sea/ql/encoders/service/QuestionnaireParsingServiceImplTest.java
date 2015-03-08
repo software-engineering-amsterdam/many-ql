@@ -17,7 +17,7 @@ public class QuestionnaireParsingServiceImplTest {
 
 	private QuestionnaireParsingService questionnaireParsingService;
 
-	private static final String RESOURCE_ROOT = "src/main/resources/";
+	private static final String RESOURCE_ROOT = "src/main/resources/ql/";
 
 	@Before
 	public void setUp() throws Exception {
@@ -29,8 +29,7 @@ public class QuestionnaireParsingServiceImplTest {
 	public void testQuestionnaireNameIsParsed() throws Exception {
 		String location = RESOURCE_ROOT + "input_form.ql";
 
-		Questionnaire questionnaire = questionnaireParsingService
-				.parse(location);
+		Questionnaire questionnaire = questionnaireParsingService.parse(location);
 
 		assertThat(questionnaire.getName(), is("taxOfficeExample"));
 	}
@@ -41,8 +40,7 @@ public class QuestionnaireParsingServiceImplTest {
 		String location = RESOURCE_ROOT + "input_form.ql";
 
 		String hasSoldHouse = "hasSoldHouse";
-		Questionnaire questionnaire = questionnaireParsingService
-				.parse(location);
+		Questionnaire questionnaire = questionnaireParsingService.parse(location);
 
 		Question question = questionnaire.getQuestion(hasSoldHouse);
 		assertThat(question, is(notNullValue()));
@@ -57,13 +55,12 @@ public class QuestionnaireParsingServiceImplTest {
 		String location = RESOURCE_ROOT + "input_form.ql";
 
 		String questionName = "sellingPrice";
-		Questionnaire questionnaire = questionnaireParsingService
-				.parse(location);
+		Questionnaire questionnaire = questionnaireParsingService.parse(location);
 
 		Question question = questionnaire.getQuestion(questionName);
 		assertThat(question, is(notNullValue()));
 		assertThat(question.getName(), is(questionName));
-		assertThat(question.getDataType(), is(DataType.MONEY));
+		assertThat(question.getDataType(), is(DataType.INT));
 		Expression condition = question.getCondition();
 		assertThat(condition, is(instanceOf(NameExpression.class)));
 		NameExpression nameExpression = (NameExpression) condition;

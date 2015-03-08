@@ -12,7 +12,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -87,14 +86,8 @@ public class QuestionnaireUI {
 				checkBox.setVisible(visible);
 				grid.add(checkBox, 1, y);
 				break;
-			case DATUM:
-				DatePicker datePicker = new DatePicker();
-				grid.add(datePicker, 1, y);
-				break;
 			case STRING:
 			case INT:
-			case DECIMAL:
-			case MONEY:
 				TextField textField = new TextField();
 				textField.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
 				textField.setVisible(visible);

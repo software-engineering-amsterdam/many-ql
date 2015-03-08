@@ -2,17 +2,12 @@ lexer grammar EncodersQLLexerRules;
 
 DATATYPE      : ( BOOLEAN 
                 | INTEGER 
-                | STRING 
-                | MONEY
-                | DATE
+                | STRING
                 );
 
 BOOLEAN       : 'boolean';
 INTEGER       : 'int';
-DECIMAL       : 'decimal';
 STRING        : 'string';
-MONEY         : 'money';
-DATE          : 'datum';
 
 MULDIV: MUL | DIV;
 ADDSUB: ADD | SUB;
