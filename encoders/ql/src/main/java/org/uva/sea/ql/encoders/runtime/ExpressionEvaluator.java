@@ -6,7 +6,7 @@ import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
-import org.uva.sea.ql.encoders.ast.OperatorExpression;
+import org.uva.sea.ql.encoders.ast.BinaryExpression;
 
 public class ExpressionEvaluator {
 
@@ -57,10 +57,10 @@ public class ExpressionEvaluator {
 			return determineDataType(innerExpression, runtimeQuestions);
 		}
 
-		if (expression instanceof OperatorExpression) {
-			OperatorExpression operatorExpression = (OperatorExpression) expression;
-			Expression leftHand = operatorExpression.getLeftHand();
-			Expression rightHand = operatorExpression.getRightHand();
+		if (expression instanceof BinaryExpression) {
+			BinaryExpression binaryExpression = (BinaryExpression) expression;
+			Expression leftHand = binaryExpression.getLeftHand();
+			Expression rightHand = binaryExpression.getRightHand();
 			DataType leftHandDataType = determineDataType(leftHand, runtimeQuestions);
 			DataType rightHandDataType = determineDataType(rightHand, runtimeQuestions);
 			if (leftHandDataType.equals(DataType.UNDEFINED) || rightHandDataType.equals(DataType.UNDEFINED)) {

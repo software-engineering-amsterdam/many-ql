@@ -7,7 +7,7 @@ import org.uva.sea.ql.encoders.ast.BaseAstVisitor;
 import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
-import org.uva.sea.ql.encoders.ast.OperatorExpression;
+import org.uva.sea.ql.encoders.ast.BinaryExpression;
 
 public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
 
@@ -18,9 +18,9 @@ public class RelatedQuestionVisitor extends BaseAstVisitor<Set<String>> {
 	}
 
 	@Override
-	public Set<String> visit(OperatorExpression operatorExpression) {
-		Expression leftHand = operatorExpression.getLeftHand();
-		Expression rightHand = operatorExpression.getRightHand();
+	public Set<String> visit(BinaryExpression binaryExpression) {
+		Expression leftHand = binaryExpression.getLeftHand();
+		Expression rightHand = binaryExpression.getRightHand();
 		Set<String> result = new HashSet<>();
 		result.addAll(leftHand.accept(this));
 		result.addAll(rightHand.accept(this));

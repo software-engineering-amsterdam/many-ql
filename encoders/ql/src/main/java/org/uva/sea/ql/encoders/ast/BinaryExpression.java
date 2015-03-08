@@ -1,6 +1,6 @@
 package org.uva.sea.ql.encoders.ast;
 
-public class OperatorExpression extends Expression {
+public class BinaryExpression extends Expression {
 
 	private String operator;
 
@@ -8,7 +8,7 @@ public class OperatorExpression extends Expression {
 
 	private Expression rightHand;
 
-	public OperatorExpression(TextLocation textLocation, Expression leftHand, Expression rightHand, String operator) {
+	public BinaryExpression(TextLocation textLocation, Expression leftHand, Expression rightHand, String operator) {
 		super(textLocation);
 		this.leftHand = leftHand;
 		this.rightHand = rightHand;

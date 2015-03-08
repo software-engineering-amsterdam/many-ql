@@ -3,7 +3,7 @@ package org.uva.sea.ql.encoders.ast;
 public class BaseAstVisitor<T> implements AstVisitor<T> {
 
 	@Override
-	public T visit(OperatorExpression operatorExpression) {
+	public T visit(BinaryExpression binaryExpression) {
 		return null;
 	}
 
@@ -29,6 +29,11 @@ public class BaseAstVisitor<T> implements AstVisitor<T> {
 
 	@Override
 	public T visit(ConditionalBlock conditionalBlock) {
+		return null;
+	}
+
+	@Override
+	public T visit(UnaryExpression unaryExpression) {
 		return null;
 	}
 }

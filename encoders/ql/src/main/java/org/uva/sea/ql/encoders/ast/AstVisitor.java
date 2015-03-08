@@ -2,7 +2,9 @@ package org.uva.sea.ql.encoders.ast;
 
 public interface AstVisitor<T> {
 
-	T visit(OperatorExpression operatorExpression);
+	T visit(UnaryExpression unaryExpression);
+
+	T visit(BinaryExpression binaryExpression);
 
 	T visit(BracedExpression bracedExpression);
 
@@ -13,4 +15,5 @@ public interface AstVisitor<T> {
 	T visit(Questionnaire questionnaire);
 
 	T visit(ConditionalBlock conditionalBlock);
+
 }

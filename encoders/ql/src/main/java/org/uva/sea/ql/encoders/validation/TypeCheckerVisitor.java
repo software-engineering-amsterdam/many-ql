@@ -10,7 +10,7 @@ import org.uva.sea.ql.encoders.ast.BracedExpression;
 import org.uva.sea.ql.encoders.ast.DataType;
 import org.uva.sea.ql.encoders.ast.Expression;
 import org.uva.sea.ql.encoders.ast.NameExpression;
-import org.uva.sea.ql.encoders.ast.OperatorExpression;
+import org.uva.sea.ql.encoders.ast.BinaryExpression;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.service.QuestionByName;
@@ -91,9 +91,9 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 	}
 
 	@Override
-	public DataType visit(OperatorExpression operatorExpression) {
-		Expression leftHand = operatorExpression.getLeftHand();
-		Expression rightHand = operatorExpression.getRightHand();
+	public DataType visit(BinaryExpression binaryExpression) {
+		Expression leftHand = binaryExpression.getLeftHand();
+		Expression rightHand = binaryExpression.getRightHand();
 		DataType leftHandDataType = leftHand.accept(this);
 		DataType rightHandDataType = rightHand.accept(this);
 		if (leftHandDataType.equals(DataType.UNDEFINED) || rightHandDataType.equals(DataType.UNDEFINED)) {
@@ -102,7 +102,7 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 		if (leftHandDataType.equals(rightHandDataType)) {
 			return leftHandDataType;
 		}
-		TextLocation textLocation = operatorExpression.getTextLocation();
+		TextLocation textLocation = binaryExpression.getTextLocation();
 		String validationMessage = "DataTypes of OperatorExpression do not match! lefthand datatype=" + leftHandDataType
 				+ " righthand datatype=" + rightHandDataType;
 		validations.add(new Validation(validationMessage, textLocation));
