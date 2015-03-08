@@ -2,5 +2,5 @@ package gui.questions;
 
 public interface IQuestionUI {
 
-	//public void setValue(String value);
+	public void setValue(String value);
 }

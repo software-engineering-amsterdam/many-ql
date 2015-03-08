@@ -19,9 +19,13 @@ public abstract class LogicalExpression extends BinaryExpression {
     /**
      * {@inheritDoc}
      *
-     * Resolves types for comparison expressions - {@link And}, {@link Or}
+     * Resolves types for comparison expressions - {@link And}, {@link Or}.
+     * These expressions resolve to boolean type only if both their operands are
+     * of boolean type. All other given types result in an undefined type for
+     * the whole expression.
      */
-    public static Type resolveType(final Type type, final Type otherType) {
+    @Override
+    public Type resolveType(final Type type, final Type otherType) {
         if (type == BOOLEAN_TYPE && otherType == BOOLEAN_TYPE) {
             return BOOLEAN_TYPE;
         }

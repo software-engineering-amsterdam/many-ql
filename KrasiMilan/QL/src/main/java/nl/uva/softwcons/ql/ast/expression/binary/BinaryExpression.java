@@ -28,9 +28,8 @@ public abstract class BinaryExpression extends Expression {
     }
 
     /**
-     * An "abstract" static method (in the sense in which Java doesn't support
-     * abstract static methods) that resolves the resulting type of carrying on
-     * the concrete expression with the two given types.
+     * An method that resolves the resulting type of carrying on the concrete
+     * expression with the two given types.
      * 
      * @param type
      *            The type of the one expression
@@ -39,8 +38,6 @@ public abstract class BinaryExpression extends Expression {
      * @return The resulting type when the operation is allowed and Undefined
      *         otherwise
      */
-    public static Type resolveType(final Type type, final Type otherType) {
-        throw new AssertionError("This method should be overriden by subclasses!");
-    }
+    public abstract Type resolveType(Type type, Type otherType);
 
 }
