@@ -15,7 +15,7 @@ import org.uva.ql.view.GUIVisitor;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		ANTLRFileStream input = new ANTLRFileStream("scripts/problem_quest1.ql");
+		ANTLRFileStream input = new ANTLRFileStream("scripts/quest1.ql");
 		QLLexer lexer = new QLLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		QLParser parser = new QLParser(tokens);
