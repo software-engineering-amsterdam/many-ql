@@ -33,7 +33,7 @@ class Assignment(statement.IStatement):
     def is_conditional(self):
         return False
 
-    # return all the dependencies in the statement of other _statements
+    # return all the _dependencies in the statement of other _statements
     def get_dependency_collection(self, dependencies):
         if self.id not in dependencies:
             dependencies[self.id] = []
@@ -60,7 +60,7 @@ class Assignment(statement.IStatement):
             self.order = order_num
             return self.order + 1
         else:
-            print("Warning: order set more than once")
+            print("Warning: _order set more than once")
         return self.order + 1
 
     def set_element(self, gui):

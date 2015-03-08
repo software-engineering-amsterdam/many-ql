@@ -40,7 +40,7 @@ class IfBlock(statement.IStatement):
     def is_conditional(self):
         return True
 
-    # return all the dependencies in the statement of other _statements
+    # return all the _dependencies in the statement of other _statements
     def get_dependency_collection(self, dependencies):
         ids = self.id_collection()
         for i in ids:
@@ -68,7 +68,7 @@ class IfBlock(statement.IStatement):
             s.set_parent_id(m)
             s.set_parent_condition(self._condition)
 
-    # set the order number of the statement, only set once
+    # set the _order number of the statement, only set once
     def set_order(self, order_num):
         c = order_num
         for s in self._statements:
@@ -82,9 +82,9 @@ class IfBlock(statement.IStatement):
     def get_id_type_collection(self):
         return self._id_type_dict
 
-    # Get the order of elements in the statement
+    # Get the _order of elements in the statement
     def get_order(self):
-        raise NotImplementedError("Not implemented by sub class")
+        return -1
 
     def get_element(self):
         return self._element

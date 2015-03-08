@@ -10,7 +10,7 @@ class SimpleExpression(e.Expression):
         self._expression = expression
         self._dependencies = SimpleExpression.dependency_collection(self._expression)
 
-    # get the return type of the _expression
+    # get the return _type of the _expression
     def return_type(self, type_dict):
         types = ""
         for x in self._expression:
@@ -36,7 +36,7 @@ class SimpleExpression(e.Expression):
             l += x.as_list()
         return l
 
-    # static helper method to get the dependencies once
+    # static helper method to get the _dependencies once
     @staticmethod
     def dependency_collection(expression):
         dependencies = []

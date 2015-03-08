@@ -9,7 +9,7 @@ class Form:
         self._name = name
         self._introduction = introduction
 
-        # set the statement order and the parent id's
+        # set the statement _order and the parent _id's
         self._statements = (
             Form.set_statement_ids(str(self),
                 Form.set_question_ordering(statements))
@@ -24,16 +24,16 @@ class Form:
         # get all labels
         self._labels = Form.label_collection(self._statements)
 
-        # get all dependencies (variables)
+        # get all _dependencies (variables)
         self._dependencies = Form.dependency_collection(self._statements)
 
         # get all expressions
         self._expressions = Form.expression_collection(self._statements)
 
-        # get a dictionary of ids as keys and statements as values
+        # get a dictionary of ids as keys and _statements as values
         self._statement_dict = Form.id_statement_dict(self._statements)
 
-    # Pretty print the form
+    # Pretty print the _form
     def pretty_print(self):
         s = self._name + "\n"
         s += self._introduction + "\n"
@@ -42,7 +42,7 @@ class Form:
         return s
 
     #########################
-    # getters of the form   #
+    # getters of the _form   #
     #########################
 
     def get_statements(self):
@@ -118,7 +118,7 @@ class Form:
         for s in statements:
             new_dependencies = s.get_dependency_collection({})
             dependencies = dict(list(dependencies.items()) + list(new_dependencies.items()))
-        # Get transitive dependencies
+        # Get transitive _dependencies
         transitive_dependencies = {}
         for k in dependencies:
             transitive_dependencies[k] = Form.transitive_dependencies_key(k, set([]), set([]), dependencies)

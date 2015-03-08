@@ -1,5 +1,6 @@
 import unittest
-from QL.Main.processor import *
+
+from QL.Runtime.processor import *
 
 
 class TestProcessor(unittest.TestCase):
