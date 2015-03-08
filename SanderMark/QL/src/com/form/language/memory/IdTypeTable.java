@@ -2,7 +2,7 @@ package com.form.language.memory;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.form.language.ast.expression.literal.*;
+import com.form.language.ast.expression.literal.IdLiteral;
 import com.form.language.ast.type.ErrorType;
 import com.form.language.ast.type.Type;
 

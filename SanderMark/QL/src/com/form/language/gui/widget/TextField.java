@@ -2,15 +2,12 @@ package com.form.language.gui.widget;
 
 import java.awt.Dimension;
 
-import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
-import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.Question;
-import com.form.language.ast.values.StringValue;
 import com.form.language.gui.components.QuestionComponent;
 import com.form.language.memory.RuntimeMemory;
 

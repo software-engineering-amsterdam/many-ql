@@ -1,25 +1,17 @@
 package com.form.language.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.TokenStream;
 import org.junit.Test;
 
-import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
 import com.form.language.ast.expression.Expression;
 import com.form.language.ast.statement.AssignmentStatement;
-import com.form.language.ast.statement.IfStatement;
 import com.form.language.ast.statement.Question;
 import com.form.language.ast.type.BoolType;
-import com.form.language.ast.values.IntValue;
-import com.form.language.memory.RuntimeMemory;
 
 public class StatementTest {
 	
