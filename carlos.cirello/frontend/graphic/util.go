@@ -2,6 +2,7 @@ package graphic
 
 import (
 	"bytes"
+	"errors"
 	"log"
 	"text/template"
 
@@ -10,10 +11,11 @@ import (
 	"gopkg.in/qml.v1"
 )
 
-func (g *Gui) findPageForField(fieldName string) *stylelang.Page {
+func (g *Gui) findPageForField(fieldName string) (*stylelang.Page, error) {
 	lenIdx := len(g.questionIndex[fieldName]) - 1
 	pages := g.pages["root"].Pages()
 	var final *stylelang.Page
+	foundPage := false
 	for k, v := range g.questionIndex[fieldName] {
 		if v == "root" {
 			continue
@@ -23,8 +25,13 @@ func (g *Gui) findPageForField(fieldName string) *stylelang.Page {
 			continue
 		}
 		final = pages[v]
+		foundPage = true
 	}
-	return final
+	var err error = nil
+	if !foundPage {
+		err = errors.New("layout page not found")
+	}
+	return final, err
 }
 
 func (g *Gui) addNewQuestion(newFieldType, newFieldName,

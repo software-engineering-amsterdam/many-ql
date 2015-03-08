@@ -3,9 +3,15 @@ package graphic
 import "gopkg.in/qml.v1"
 
 func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
-	content bool) (question qml.Object) {
+	content bool) qml.Object {
 
-	page := g.findPageForField(fieldName)
+	var question qml.Object
+	page, err := g.findPageForField(fieldName)
+	if err != nil {
+		question := g.renderCheckbox(fieldName, caption, content)
+		return question
+	}
+
 	widgetDefaults := page.Defaults()
 
 	t, ok := widgetDefaults["bool"]
