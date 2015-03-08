@@ -26,7 +26,7 @@ import org.uva.sea.ql.encoders.validation.Validation;
 
 public class Main extends Application {
 
-	private static final String DEFAULT_INPUT_FILE_DIRECTORY = "src/main/resources/";
+	private static final String DEFAULT_INPUT_FILE_DIRECTORY = "src/main/resources/ql/";
 
 	private static final String DEFAULT_INPUT_FILE_NAME = "input_form.ql";
 
