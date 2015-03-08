@@ -1,6 +1,6 @@
 form taxOfficeExample { 
   "Did you sell a house in 2010?"
-    hasSoldHouse: boolean
+    hasSoldHouse: money
   "Did you buy a house in 2010?"
     hasBoughtHouse: boolean
   "Did you enter a loan?"
@@ -8,9 +8,8 @@ form taxOfficeExample {
   "What is the percentage?"
     percentage: money
   "What is the commissioning?"
-    commissioning: money
-  "Do you have a contract?"
-    hasContract: boolean
+    commissioning: boolean
+
 
   if (hasSoldHouse) {
     "What was the selling price?"
@@ -31,5 +30,18 @@ form taxOfficeExample {
       rulesFollowed: boolean =
         yearContract >= unlimitedContract 
   }
-
+  
+  "Do you have a contract?"
+    hasContract: boolean
+    
+  "Do you have a contract?"
+    hasContract2: boolean
+    
+  "Do you have a duplicate contract with another datatype?"
+    hasContract: money
+    
+  if(nonExistingQuestion) {
+      "Are you happy with this questionnaire?"
+      happy: boolean
+  }
 }
