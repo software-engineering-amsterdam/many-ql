@@ -13,6 +13,13 @@ public class QLBoolean extends DataType {
 		return dataTypeVisitor.visit(this);
 	}
 
+	@Override
+	public <T extends DataType> T and(T rightValue) {
+		boolean result = value && ((QLBoolean) rightValue).getValue();
+		System.out.println("!!!" + result + "!!!");
+		return (T) new QLBoolean(result);
+	}
+
 	public Boolean getValue() {
 		return value;
 	}

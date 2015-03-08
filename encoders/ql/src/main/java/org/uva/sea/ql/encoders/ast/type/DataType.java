@@ -6,6 +6,10 @@ public abstract class DataType {
 		throw new IllegalStateException("Not supported operation");
 	}
 
+	public <T extends DataType> T and(T rightValue) {
+		throw new IllegalStateException("Not supported operation");
+	}
+
 	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {
 		throw new IllegalStateException("Not supported operation");
 	}

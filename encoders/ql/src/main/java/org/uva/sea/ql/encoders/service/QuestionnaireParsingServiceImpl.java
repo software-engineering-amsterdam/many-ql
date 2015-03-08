@@ -17,6 +17,7 @@ import org.uva.sea.ql.encoders.EncodersQLParser.QuestionnaireContext;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
 import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.ast.operator.AddOperator;
+import org.uva.sea.ql.encoders.ast.operator.AndOperator;
 import org.uva.sea.ql.encoders.ast.operator.BinaryOperator;
 import org.uva.sea.ql.encoders.ast.operator.MulOperator;
 import org.uva.sea.ql.encoders.ast.type.DataType;
@@ -64,7 +65,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 	private Map<String, DataType> getDataTypeTable() {
 		Map<String, DataType> operatorTable = new HashMap<>();
-		operatorTable.put("boolean", new QLBoolean(null));
+		operatorTable.put("boolean", new QLBoolean(false));
 		operatorTable.put("string", new QLString(null));
 		operatorTable.put("int", new QLInteger(null));
 		return operatorTable;
@@ -74,6 +75,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		Map<String, BinaryOperator> operatorTable = new HashMap<>();
 		operatorTable.put("*", new MulOperator());
 		operatorTable.put("+", new AddOperator());
+		operatorTable.put("&&", new AndOperator());
 		return operatorTable;
 	}
 
