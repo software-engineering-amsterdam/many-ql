@@ -21,19 +21,19 @@ class Assignment(statement.IStatement):
         s += "\n"
         return s
 
-    # return all ids in the statement
+    # return all ids in the question
     def id_collection(self):
         return [self.id]
 
-    # return all labels in the statement
+    # return all labels in the question
     def label_collection(self):
         return []
 
-    # return if the statement is a conditional
+    # return if the question is a conditional
     def is_conditional(self):
         return False
 
-    # return all the _dependencies in the statement of other _statements
+    # return all the _dependencies in the question of other _statements
     def get_dependency_collection(self, dependencies):
         if self.id not in dependencies:
             dependencies[self.id] = []

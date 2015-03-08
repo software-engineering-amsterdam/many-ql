@@ -103,6 +103,9 @@ class IfElseBlock(if_statement.IfBlock):
     def get_e_statements(self):
         return self.else_statements
 
+    def get_statements(self):
+        return self._statements
+
     def get_element(self):
         return self._element
 

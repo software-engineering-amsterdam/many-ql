@@ -24,8 +24,7 @@ class QuestionnaireGUI:
     def draw_statements(self, statements):
         for statement in statements:
             if statement.is_conditional():
-                self.draw_statements(statement.get_c_statements())
-                self.draw_statements(statement.get_e_statements())
+                self.draw_statements(statement.get_statements())
             else:
                 self.draw_statement(statement)
 
@@ -38,6 +37,7 @@ class QuestionnaireGUI:
             return False
 
         # check if _condition holds
+
         condition = statement.get_parent_condition()
         c_results = True
         if condition is not None:
@@ -82,7 +82,7 @@ class QuestionnaireGUI:
     @staticmethod
     def e_label(statement, gui):
         l = tk.Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
-        # l.grid(row=statement.get_order(), column=0, sticky=W)
+        # l.grid(row=question.get_order(), column=0, sticky=W)
         return [l]
 
     @staticmethod
@@ -95,9 +95,9 @@ class QuestionnaireGUI:
                          command=lambda: gui.update(statement, False))
         # e2.select()  # set default as False
         # e2.deselect()  # clean selection
-        # e1.grid(row=statement.get_order(), column=1, sticky=W)
+        # e1.grid(row=question.get_order(), column=1, sticky=W)
         e_list.append(e1)
-        # e2.grid(row=statement.get_order(), column=2, sticky=W)
+        # e2.grid(row=question.get_order(), column=2, sticky=W)
         e_list.append(e2)
         return e_list
 
@@ -107,7 +107,7 @@ class QuestionnaireGUI:
         e_list += QuestionnaireGUI.e_label(statement, gui)
         e = tk.Spinbox(from_=0, to_=10000, command=lambda: gui.update(statement, None if e.get() is '' else int(e.get())))
         e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, None if e.get() is '' else int(e.get())))
-        # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W)
+        # e.grid(row=question.get_order(), column=1, columnspan=2, sticky=W)
         e_list.append(e)
         return e_list
 
@@ -118,6 +118,6 @@ class QuestionnaireGUI:
         str_var = tk.StringVar()
         e = tk.Entry(textvariable=str_var)
         e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, e.get()))
-        # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W) #validate="key" ,validatecommand=(vcmd, '%S')
+        # e.grid(row=question.get_order(), column=1, columnspan=2, sticky=W) #validate="key" ,validatecommand=(vcmd, '%S')
         e_list.append(e)
         return e_list
