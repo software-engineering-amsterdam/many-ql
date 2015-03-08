@@ -49,6 +49,7 @@ func (g *Gui) addNewQuestion(newFieldType, newFieldName,
 			container = container.ObjectByName(v + "View")
 		}
 	}
+	container = container.ObjectByName("questions")
 	g.targetContainer = container
 
 	var question qml.Object
