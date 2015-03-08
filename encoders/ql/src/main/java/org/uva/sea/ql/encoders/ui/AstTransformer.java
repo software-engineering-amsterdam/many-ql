@@ -1,6 +1,7 @@
 package org.uva.sea.ql.encoders.ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.Question;
@@ -20,11 +21,19 @@ public class AstTransformer {
 		return uiQuestionnaire;
 	}
 
-	private List<RuntimeQuestion> createUIQuestions(List<Question> questions) {
+	private List<RuntimeQuestion> createUIQuestions(Collection<Question> questions) {
 		List<RuntimeQuestion> uiQuestions = new ArrayList<RuntimeQuestion>();
 		for (Question question : questions) {
 			uiQuestions.add(new RuntimeQuestion(question));
 		}
 		return uiQuestions;
+	}
+
+	public List<Question> transform(Collection<RuntimeQuestion> runtimeQuestions) {
+		List<Question> questions = new ArrayList<>();
+		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
+			questions.add(runtimeQuestion.getQuestion());
+		}
+		return questions;
 	}
 }

@@ -26,6 +26,7 @@ import org.uva.sea.ql.encoders.runtime.ExpressionEvaluator;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
+import org.uva.sea.ql.encoders.service.QuestionByName;
 
 public class QuestionnaireUI {
 
@@ -49,16 +50,22 @@ public class QuestionnaireUI {
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		List<RuntimeQuestion> questions = questionnaire.getQuestions();
+		List<RuntimeQuestion> runtimeQuestions = questionnaire.getQuestions();
 		int y = 1;
 
-		for (RuntimeQuestion runtimeQuestion : questions) {
+		for (RuntimeQuestion runtimeQuestion : runtimeQuestions) {
 			Question question = runtimeQuestion.getQuestion();
 
 			Expression condition = question.getCondition();
 			if (condition != null) {
 				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 				Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
+				List<Question> questions = new AstTransformer().transform(runtimeQuestions);
+				QuestionByName questionByName = new QuestionByName();
+				for (String relatedQuestionName : relatedQuestionNames) {
+					Question relatedQuestion = questionByName.getQuestion(relatedQuestionName, questions);
+					System.out.println(question.getName() + " depends on " + relatedQuestion.getName());
+				}
 				System.out.println(relatedQuestionNames);
 			}
 
