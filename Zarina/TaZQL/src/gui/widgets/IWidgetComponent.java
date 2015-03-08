@@ -1,5 +1,7 @@
 package gui.widgets;
 
+import gui.widgets.listeners.EvaluateExpression;
+
 import javax.swing.JComponent;
 
 import ast.type.Type;
@@ -20,5 +22,5 @@ public interface IWidgetComponent {
 	
 	public void setEnabled(boolean isEnabled);
 	
-	public void addDocListener();
+	public void addDocListener(); //EvaluateExpression evaluator);
 }

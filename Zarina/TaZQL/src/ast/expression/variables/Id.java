@@ -8,14 +8,19 @@ import ast.type.Type;
 public class Id extends Expression {
 
 	private final String id;
+	private final Type type;
 	
-	public Id(String id) {
+	
+	public Id(String id, Type type) {
 		this.id = id;
+		this.type = type;
 	}
 	
+
 	public String getID() {
 		return id;
 	}
+
 
 	@Override
 	public String toString() {
@@ -27,23 +32,12 @@ public class Id extends Expression {
 		 return visitor.visit(this);
 	 }
 	 
-	 @Override
-	 public int hashCode(){
-		 return id.hashCode();
-	 }
-	 
-	 @Override
-	 public boolean equals(Object object) {
-		 if (object instanceof Id) {
-			 return id.equals(((Id) object).getID());
-		 }
-		 return false;
-	 }
 
 	@Override
 	public Type getExpressionType() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.type;
 	}
+	
 }
 

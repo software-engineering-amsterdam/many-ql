@@ -1,12 +1,13 @@
 package ast.question;
 
 import ast.expression.Expression;
+import ast.expression.variables.Id;
 import ast.type.Type;
 
 public class ComputationQuestion extends SimpleQuestion {
 	private final Expression expression;
 		
-	public ComputationQuestion (String questionID, String questionText, Type questionType, Expression expression) {
+	public ComputationQuestion (Id questionID, String questionText, Type questionType, Expression expression) {
 		super(questionID, questionText, questionType);
 		this.expression = expression;
 	}	
@@ -22,7 +23,7 @@ public class ComputationQuestion extends SimpleQuestion {
 	
 	@Override
 	public String toString() {
-		return super.getQuestionId() + " \"" + super.getQuestionText() + "\" " 
+		return super.getQuestionId().toString() + " \"" + super.getQuestionText() + "\" " 
 			 + super.getQuestionType().toString() + " ( " + this.expression.toString() + " )" ;
 	}
 }
