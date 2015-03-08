@@ -89,7 +89,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Addition expr) {
-        final Type combinedExpressionType = Addition.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = Addition.resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
@@ -97,7 +97,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Division expr) {
-        final Type combinedExpressionType = Division.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = Division.resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
@@ -105,7 +105,8 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Multiplication expr) {
-        final Type combinedExpressionType = Multiplication.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = Multiplication.resolveType(leftOperandVisited(expr),
+                rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
@@ -113,7 +114,8 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Subtraction expr) {
-        final Type combinedExpressionType = Subtraction.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = Subtraction
+                .resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, NumberType.instance);
 
         return combinedExpressionType;
@@ -121,7 +123,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Equal expr) {
-        final Type combinedExpressionType = Equal.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = Equal.resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -129,7 +131,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final NotEqual expr) {
-        final Type combinedExpressionType = NotEqual.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = NotEqual.resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -137,7 +139,8 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final GreaterOrEqual expr) {
-        final Type combinedExpressionType = GreaterOrEqual.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = GreaterOrEqual.resolveType(leftOperandVisited(expr),
+                rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -145,7 +148,8 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final GreaterThan expr) {
-        final Type combinedExpressionType = GreaterThan.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = GreaterThan
+                .resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -153,7 +157,8 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final LowerOrEqual expr) {
-        final Type combinedExpressionType = LowerOrEqual.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = LowerOrEqual.resolveType(leftOperandVisited(expr),
+                rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -161,7 +166,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final LowerThan expr) {
-        final Type combinedExpressionType = LowerThan.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = LowerThan.resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -169,7 +174,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final And expr) {
-        final Type combinedExpressionType = And.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = And.resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -177,7 +182,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Or expr) {
-        final Type combinedExpressionType = Or.resolveType(leftOperand(expr), rightOperand(expr));
+        final Type combinedExpressionType = Or.resolveType(leftOperandVisited(expr), rightOperandVisited(expr));
         validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
 
         return BooleanType.instance;
@@ -185,7 +190,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final Not expr) {
-        final Type expressionType = unaryOperand(expr);
+        final Type expressionType = unaryOperandVisited(expr);
         validateExpressionType(expr, expressionType, BooleanType.instance);
 
         return BooleanType.instance;
