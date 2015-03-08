@@ -1,8 +1,8 @@
 package org.uva.student.calinwouter.qlqls.application.gui.qls;
 
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;
-import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 import org.uva.student.calinwouter.qlqls.qls.interfaces.IModel;
+import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 
 import java.util.HashMap;
 

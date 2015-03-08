@@ -2,12 +2,9 @@ package org.uva.student.calinwouter.qlqls.qls.model.components;
 
 import lombok.Data;
 import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractFormField;
-import org.uva.student.calinwouter.qlqls.qls.model.FieldWidget;
+import org.uva.student.calinwouter.qlqls.qls.exceptions.FieldNotFoundException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Data
 public class Fields {
@@ -17,11 +14,12 @@ public class Fields {
         this.fields = Arrays.asList(fields);
     }
 
-    public Collection<FieldWidget> collectFieldWidgets() {
-        List<FieldWidget> fieldWidgets = new LinkedList<FieldWidget>();
-        for (AbstractFormField field : fields) {
-            fieldWidgets.add(field.collectFieldWidget());
+    protected Map<String, Object> findFieldStylingSettings(final String ident) throws FieldNotFoundException {
+        for (AbstractFormField f : fields) {
+            if (f.getIdent().equals(ident)) {
+                return f.getStylingArguments();
+            }
         }
-        return fieldWidgets;
+        throw new FieldNotFoundException();
     }
 }

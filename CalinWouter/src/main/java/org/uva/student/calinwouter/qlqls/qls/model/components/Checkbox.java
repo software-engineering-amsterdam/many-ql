@@ -1,5 +1,12 @@
 package org.uva.student.calinwouter.qlqls.qls.model.components;
 
-public class Checkbox {
+import org.uva.student.calinwouter.qlqls.qls.abstractions.AbstractWidget;
+import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 
+public class Checkbox extends AbstractWidget {
+
+    @Override
+    public void applyWidget(final IQuestionWidgetCallback widgetCallback) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

@@ -8,12 +8,12 @@ import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.in
 import org.uva.student.calinwouter.qlqls.application.gui.qls.widgets.question.textwidgets.TextboxWidget;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.headless.HeadlessFormInterpreter;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.impl.typechecker.FormTypeChecker;
+import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Combo;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Radio;
 import org.uva.student.calinwouter.qlqls.qls.model.components.Slider;
-import org.uva.student.calinwouter.qlqls.qls.interfaces.IQuestionWidgetCallback;
 
 import java.awt.*;
 

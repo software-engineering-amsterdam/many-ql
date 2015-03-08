@@ -1,22 +1,18 @@
 package org.uva.student.calinwouter.qlqls.qls.interfaces;
 
-import org.uva.student.calinwouter.qlqls.qls.model.WidgetSettingsModel;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Combo;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Question;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Radio;
-import org.uva.student.calinwouter.qlqls.qls.model.components.Slider;
+import org.uva.student.calinwouter.qlqls.qls.model.components.*;
 
 public interface IQuestionWidgetCallback {
 
-    void caseCheckboxWidget(Question question, WidgetSettingsModel widgetSettingsModel);
+    void widgetIsCheckboxWidget(Checkbox checkbox);
 
-    void caseRadioWidget(Question question, WidgetSettingsModel widgetSettingsModel, Radio radio);
+    void widgetIsRadioWidget(Radio radio);
 
-    void caseSpinboxWidget(Question question, WidgetSettingsModel widgetSettingsModel);
+    void widgetIsSpinboxWidget(Spinbox spinbox);
 
-    void caseSliderWidget(Question question, WidgetSettingsModel widgetSettingsModel, Slider slider);
+    void widgetIsSliderWidget(Slider slider);
 
-    void caseTextboxWidget(Question question, WidgetSettingsModel widgetSettingsModel);
+    void widgetIsTextboxWidget(Textbox textbox);
 
-    void caseComboWidget(Question question, WidgetSettingsModel widgetSettingsModel, Combo combo);
+    void widgetIsComboWidget(Combo combo);
 }
