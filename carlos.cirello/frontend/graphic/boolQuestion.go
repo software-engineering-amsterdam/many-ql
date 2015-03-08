@@ -23,6 +23,8 @@ func (g *Gui) renderNewBooleanQuestion(fieldName, caption string,
 		question = g.renderRadio(fieldName, caption, content)
 	} else if t == "switch" {
 		question = g.renderSwitch(fieldName, caption, content)
+	} else {
+		question = g.renderCheckbox(fieldName, caption, content)
 	}
 
 	return question
