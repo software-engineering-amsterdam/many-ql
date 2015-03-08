@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * This model is used for storing the typechecker's results.
+ * This model is used for storing the type checker's results.
  */
 @Data
 @AllArgsConstructor
