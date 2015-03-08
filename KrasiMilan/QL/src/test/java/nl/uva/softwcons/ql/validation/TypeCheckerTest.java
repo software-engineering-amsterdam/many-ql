@@ -7,7 +7,6 @@ import java.util.List;
 
 import nl.uva.softwcons.ql.Questionnaire;
 import nl.uva.softwcons.ql.ast.form.Form;
-import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.typechecker.TypeChecker;
 import nl.uva.softwcons.ql.validation.typechecker.error.DuplicateQuestionIdentifier;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidConditionType;
@@ -88,16 +87,8 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testValidQuestionWithIntegerType() {
-        final String question = "question: \"Label 1\" integer (6 * 5)";
-        final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
-
-        assertThat(validationErrors).isEmpty();
-    }
-
-    @Test
-    public void testValidQuestionWithDecimalType() {
-        final String question = "question: \"Label 1\" decimal (3.0 / 3)";
+    public void testValidQuestionWithNumberType() {
+        final String question = "question: \"Label 1\" number (6 * 5.0)";
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
 
         assertThat(validationErrors).isEmpty();
@@ -129,17 +120,8 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testInvalidQuestionWithIntegerType() {
-        final String question = "question: \"Label 1\" integer (true && false)";
-        final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
-
-        assertThat(validationErrors).hasSize(1);
-        assertThat(validationErrors).hasOnlyElementsOfType(InvalidQuestionExpressionType.class);
-    }
-
-    @Test
-    public void testInvalidQuestionWithDecimalType() {
-        final String question = "question: \"Label 1\" decimal (true && false)";
+    public void testInvalidQuestionWithNumberType() {
+        final String question = "question: \"Label 1\" number (true && false)";
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
 
         assertThat(validationErrors).hasSize(1);
@@ -165,7 +147,7 @@ public class TypeCheckerTest {
     }
 
     @Test
-    public void testInvalidConditionalWithIntegerExpressionType() {
+    public void testInvalidConditionalWithNumberExpressionType() {
         final String question = "if (4 * 5) { question: \"Label 1\" boolean }";
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
 
@@ -202,9 +184,9 @@ public class TypeCheckerTest {
 
     @Test
     public void testInvalidArithmeticExpressionOperands() {
-        final String[] questions = { "question: \"Label 1\" integer(6 + false)",
-                "question: \"Label 1\" integer(6 - false)", "question: \"Label 1\" integer(6 * false)",
-                "question: \"Label 1\" integer(6 / false)" };
+        final String[] questions = { "question: \"Label 1\" number(6 + false)",
+                "question: \"Label 1\" number(6 - false)", "question: \"Label 1\" number(6 * false)",
+                "question: \"Label 1\" number(6 / false)" };
 
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
@@ -217,9 +199,9 @@ public class TypeCheckerTest {
 
     @Test
     public void testInvalidComparisonExpressionOperands() {
-        final String[] questions = { "question: \"Label 1\" integer(6 < false)",
-                "question: \"Label 1\" integer(6 > false)", "question: \"Label 1\" integer(6 >= false)",
-                "question: \"Label 1\" integer(6 <= false)" };
+        final String[] questions = { "question: \"Label 1\" number(6 < false)",
+                "question: \"Label 1\" number(6 > false)", "question: \"Label 1\" number(6 >= false)",
+                "question: \"Label 1\" number(6 <= false)" };
 
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
@@ -232,8 +214,8 @@ public class TypeCheckerTest {
 
     @Test
     public void testInvalidLogicalExpressionOperands() {
-        final String[] questions = { "question: \"Label 1\" integer(6 && false)",
-                "question: \"Label 1\" integer(6 || false)", "question: \"Label 1\" integer(!6)" };
+        final String[] questions = { "question: \"Label 1\" number(6 && false)",
+                "question: \"Label 1\" number(6 || false)", "question: \"Label 1\" number(!6)" };
 
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
@@ -246,8 +228,8 @@ public class TypeCheckerTest {
 
     @Test
     public void testInvalidEqualityExpressionOperands() {
-        final String[] questions = { "question: \"Label 1\" integer(6 == false)",
-                "question: \"Label 1\" integer(6 != false)" };
+        final String[] questions = { "question: \"Label 1\" number(6 == false)",
+                "question: \"Label 1\" number(6 != false)" };
 
         for (final String question : questions) {
             final List<Error> validationErrors = getTypeCheckerValidationErrors(question);
@@ -261,7 +243,7 @@ public class TypeCheckerTest {
     @Test
     public void testInvalidExpressionOperandsReferringAQuestion() {
         final String question1 = "question1: \"Label 1\" boolean";
-        final String question2 = "question2: \"Label 2\" integer(6 + question1)";
+        final String question2 = "question2: \"Label 2\" number(6 + question1)";
 
         final List<Error> validationErrors = getTypeCheckerValidationErrors(question1, question2);
 
@@ -304,7 +286,7 @@ public class TypeCheckerTest {
 
         // reference to an undefined question, invalid operands in the division
         // expression, whole expression type not matching the question type
-        final String question2 = "question2: \"Label 2\" integer(question11 / 2)";
+        final String question2 = "question2: \"Label 2\" number(question11 / 2)";
 
         // invalid operands in the addition expression, invalid type for the
         // conditional and duplicate questions inside

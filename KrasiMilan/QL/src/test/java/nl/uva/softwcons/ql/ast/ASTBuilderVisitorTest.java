@@ -52,11 +52,10 @@ public class ASTBuilderVisitorTest {
     public void testAllQuestionTypes() {
         String booleanQuestion = "question: \"Label me\" boolean";
         String stringQuestion = "question: \"Label me\" string";
-        String integerQuestion = "question: \"Label me\" integer";
         String dateQuestion = "question: \"Label me\" date";
-        String decimalQuestion = "question: \"Label me\" decimal";
-        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, integerQuestion,
-                dateQuestion, decimalQuestion));
+        String numberQuestion = "question: \"Label me\" number";
+        Form form = Questionnaire.build(TestHelper.buildForm("form1", booleanQuestion, stringQuestion, dateQuestion,
+                numberQuestion));
 
         assertThat(form.getStatements()).extracting("type").contains((Object[]) ALL_PARSEABLE_TYPES);
     }
