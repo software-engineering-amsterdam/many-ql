@@ -19,6 +19,12 @@ stylesheet title{
         }
     }
 
+    page{
+        section "page3"{
+            question NAME6
+        }
+    }
+
     question NAME3{
         widget YESNODROPDOWN
         width 500

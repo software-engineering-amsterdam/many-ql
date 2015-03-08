@@ -20,6 +20,8 @@ public class MainWindow extends JFrame {
     private final JPanel paginationPanel;
     private int totalPages = 0;
     private int currentPage = 1;
+    private JButton nextButton;
+    private JButton backButton;
 
     public MainWindow() {
         mainPanel = new JPanel();
@@ -39,12 +41,15 @@ public class MainWindow extends JFrame {
     }
 
     private void addPaginationButtons(CardLayout cardLayout) {
-        JButton next = new JButton("Next");
-        next.addActionListener(e -> nextPage(cardLayout));
-        JButton back = new JButton("Back");
-        back.addActionListener(e -> previousPage(cardLayout));
-        paginationPanel.add(back);
-        paginationPanel.add(next);
+        nextButton = new JButton("Next");
+        nextButton.addActionListener(e -> nextPage(cardLayout));
+
+        backButton = new JButton("Back");
+        backButton.setVisible(false);
+        backButton.addActionListener(e -> previousPage(cardLayout));
+
+        paginationPanel.add(backButton);
+        paginationPanel.add(nextButton);
     }
 
     private void nextPage(CardLayout cardLayout) {
@@ -52,6 +57,14 @@ public class MainWindow extends JFrame {
             throw new GuiException(String.format("Cannot switch to next page. totalpages: [%d] currentpage: [%d]", totalPages, currentPage));
         } else {
             cardLayout.show(questionPanel, String.valueOf(++currentPage));
+        }
+
+        if (!atFirstPage()){
+            backButton.setVisible(true);
+        }
+
+        if(atLastPage()){
+            nextButton.setVisible(false);
         }
     }
 
@@ -61,6 +74,22 @@ public class MainWindow extends JFrame {
         } else {
             cardLayout.show(questionPanel, String.valueOf(--currentPage));
         }
+
+        if (atFirstPage()) {
+            backButton.setVisible(false);
+        }
+
+        if (!atLastPage()) {
+            nextButton.setVisible(true);
+        }
+    }
+
+    private boolean atLastPage() {
+        return currentPage >= totalPages;
+    }
+
+    private boolean atFirstPage() {
+        return currentPage <= 1;
     }
 
     public void showMainWindow() {
