@@ -1,6 +1,7 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 import nl.uva.bromance.ParsingTest;
+import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;
@@ -14,6 +15,8 @@ import java.io.IOException;
 /**
  * Created by Robert on 3/1/2015.
  */
+/*We don't test faulty syntax in the ASTTests
+ * */
 public class ASTTest extends ParsingTest {
 
 
@@ -22,7 +25,11 @@ public class ASTTest extends ParsingTest {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParseTreeListener listener = new QLParseTreeListener();
 
-        new ParseTreeWalker().walk(listener, new QLParser(tokens).questionnaire());
+        QLParser qlParser = new QLParser(tokens);
+        qlParser.removeErrorListeners();
+        qlParser.addErrorListener(new GrammarErrorListener());
+
+        new ParseTreeWalker().walk(listener, qlParser.questionnaire());
 
         return listener.getAst();
     }

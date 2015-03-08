@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST.Conditionals;
+package nl.uva.bromance.ast.conditionals;
 
 /**
  * Created by Robert on 2/22/2015.

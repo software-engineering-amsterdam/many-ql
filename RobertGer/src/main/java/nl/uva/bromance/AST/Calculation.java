@@ -1,9 +1,9 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
-import nl.uva.bromance.AST.Conditionals.CanContainConditionals;
-import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
-import nl.uva.bromance.AST.Conditionals.ElseStatement;
-import nl.uva.bromance.AST.Conditionals.IfStatement;
+import nl.uva.bromance.ast.conditionals.CanContainConditionals;
+import nl.uva.bromance.ast.conditionals.ElseIfStatement;
+import nl.uva.bromance.ast.conditionals.ElseStatement;
+import nl.uva.bromance.ast.conditionals.IfStatement;
 
 import java.util.ArrayList;
 import java.util.Arrays;

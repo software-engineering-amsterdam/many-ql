@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;

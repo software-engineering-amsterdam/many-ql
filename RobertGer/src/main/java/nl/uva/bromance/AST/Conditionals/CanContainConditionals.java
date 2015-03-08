@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST.Conditionals;
+package nl.uva.bromance.ast.conditionals;
 
 import java.util.List;
 import java.util.Optional;

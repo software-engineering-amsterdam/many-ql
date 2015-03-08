@@ -1,4 +1,4 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 public class Questionnaire extends Node {
     private String identifier;

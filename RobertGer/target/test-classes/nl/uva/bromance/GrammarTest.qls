@@ -1,0 +1,9 @@
+Page: "General Information" {
+	Question: "age" {}
+	Section: "Employment" {
+		Question: "employment" { }
+	}
+	Section: "Marital Status" {
+		Question: "partner" { }
+	}
+}

@@ -1,9 +1,9 @@
-package nl.uva.bromance.AST.Conditionals;
+package nl.uva.bromance.ast.conditionals;
 
-import nl.uva.bromance.AST.Calculation;
-import nl.uva.bromance.AST.Form;
-import nl.uva.bromance.AST.Label;
-import nl.uva.bromance.AST.Node;
+import nl.uva.bromance.ast.Calculation;
+import nl.uva.bromance.ast.Form;
+import nl.uva.bromance.ast.Label;
+import nl.uva.bromance.ast.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;

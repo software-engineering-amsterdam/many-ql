@@ -13,7 +13,7 @@ question: 'Question:' name=STRING questionBody;
 
 questionBody: '{'questionText       //Question text is not optional
                  questionAnswer     // Question should always have an answer type defined
-                 questionRange?'}'; // Typechecker will point out when a Range is necessary so it is optional
+                 questionRange?'}'; // Typechecker will point out when a range is necessary so it is optional
 
 questionText: 'Text:' text=STRING;
 //QuestionAnser abstractions
@@ -69,7 +69,7 @@ expression
     | expression operator=AND expression
     | expression operator=OR expression;
 
-//TODO: Consider doing something about this. id suggests identifier but this is not really an identifier. Would help with the AST as well.
+//TODO: Consider doing something about this. id suggests identifier but this is not really an identifier. Would help with the ast as well.
 id
     : '['id']'
     | STRING
