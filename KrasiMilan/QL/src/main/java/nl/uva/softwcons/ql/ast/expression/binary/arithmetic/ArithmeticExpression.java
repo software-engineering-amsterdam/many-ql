@@ -7,14 +7,7 @@ import nl.uva.softwcons.ql.ast.expression.Expression;
 import nl.uva.softwcons.ql.ast.expression.binary.BinaryExpression;
 import nl.uva.softwcons.ql.ast.type.Type;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
-
 public abstract class ArithmeticExpression extends BinaryExpression {
-    private static final Table<Type, Type, Type> ARITHMETIC_OPERATORS_TABLE = HashBasedTable.create();
-    static {
-        ARITHMETIC_OPERATORS_TABLE.put(NUMBER_TYPE, NUMBER_TYPE, NUMBER_TYPE);
-    }
     private final LineInfo lineInfo;
 
     public ArithmeticExpression(final Expression left, final Expression right, final LineInfo lineInfo) {
@@ -23,9 +16,22 @@ public abstract class ArithmeticExpression extends BinaryExpression {
         this.lineInfo = lineInfo;
     }
 
-    public static Type resolveType(final Type type, final Type otherType) {
-        final Type resolvedType = ARITHMETIC_OPERATORS_TABLE.get(type, otherType);
-        return resolvedType != null ? resolvedType : UNDEFINED_TYPE;
+    /**
+     * {@inheritDoc}
+     *
+     * Resolves types for comparison expressions - {@link Addition},
+     * {@link Division}, {@link Multiplication}, {@link Subtraction}. These
+     * expressions resolve to number type only if both their operands are of
+     * number type. All other given types result in an undefined type for the
+     * whole expression.
+     */
+    @Override
+    public Type resolveType(final Type type, final Type otherType) {
+        if (type == NUMBER_TYPE && otherType == NUMBER_TYPE) {
+            return NUMBER_TYPE;
+        }
+
+        return UNDEFINED_TYPE;
     }
 
     @Override
