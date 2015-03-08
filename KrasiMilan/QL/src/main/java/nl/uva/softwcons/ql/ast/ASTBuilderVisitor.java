@@ -1,5 +1,11 @@
 package nl.uva.softwcons.ql.ast;
 
+import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
+import static nl.uva.softwcons.ql.ast.type.DateType.DATE_TYPE;
+import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
+import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
+import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,12 +46,7 @@ import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.Statement;
-import nl.uva.softwcons.ql.ast.type.BooleanType;
-import nl.uva.softwcons.ql.ast.type.DateType;
-import nl.uva.softwcons.ql.ast.type.NumberType;
-import nl.uva.softwcons.ql.ast.type.StringType;
 import nl.uva.softwcons.ql.ast.type.Type;
-import nl.uva.softwcons.ql.ast.type.UndefinedType;
 import nl.uva.softwcons.ql.util.Utils;
 
 import org.antlr.v4.runtime.Token;
@@ -146,7 +147,7 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
 
     @Override
     public ASTNode visitNumber(NumberContext ctx) {
-        return new NumberLiteral(new Double(ctx.NUMBER().getText()), extractLineInfo(ctx.NUMBER().getSymbol()));
+        return new NumberLiteral(Double.valueOf(ctx.NUMBER().getText()), extractLineInfo(ctx.NUMBER().getSymbol()));
     }
 
     @Override
@@ -163,15 +164,15 @@ public class ASTBuilderVisitor extends QLBaseVisitor<ASTNode> {
         switch (typeName) {
 
         case "boolean":
-            return BooleanType.instance;
+            return BOOLEAN_TYPE;
         case "number":
-            return NumberType.instance;
+            return NUMBER_TYPE;
         case "date":
-            return DateType.instance;
+            return DATE_TYPE;
         case "string":
-            return StringType.instance;
+            return STRING_TYPE;
         default:
-            return UndefinedType.instance;
+            return UNDEFINED_TYPE;
         }
     }
 }

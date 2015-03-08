@@ -14,18 +14,18 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 public class Questionnaire {
 
-    public static Form build(String input) {
+    public static Form build(final String input) {
         return parseForm(new ANTLRInputStream(input));
     }
 
-    public static Form build(InputStream input) throws IOException {
+    public static Form build(final InputStream input) throws IOException {
         return parseForm(new ANTLRInputStream(input));
     }
 
-    private static Form parseForm(ANTLRInputStream input) {
-        QLLexer lexer = new QLLexer(input);
-        QLParser parser = new QLParser(new CommonTokenStream(lexer));
-        ParseTree tree = parser.form();
+    private static Form parseForm(final ANTLRInputStream input) {
+        final QLLexer lexer = new QLLexer(input);
+        final QLParser parser = new QLParser(new CommonTokenStream(lexer));
+        final ParseTree tree = parser.form();
 
         return (Form) new ASTBuilderVisitor().visit(tree);
     }

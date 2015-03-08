@@ -1,5 +1,10 @@
 package nl.uva.softwcons.ql.validation.typechecker;
 
+import static nl.uva.softwcons.ql.ast.type.BooleanType.BOOLEAN_TYPE;
+import static nl.uva.softwcons.ql.ast.type.NumberType.NUMBER_TYPE;
+import static nl.uva.softwcons.ql.ast.type.StringType.STRING_TYPE;
+import static nl.uva.softwcons.ql.ast.type.UndefinedType.UNDEFINED_TYPE;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,11 +34,7 @@ import nl.uva.softwcons.ql.ast.statement.ComputedQuestion;
 import nl.uva.softwcons.ql.ast.statement.Conditional;
 import nl.uva.softwcons.ql.ast.statement.Question;
 import nl.uva.softwcons.ql.ast.statement.StatementVisitor;
-import nl.uva.softwcons.ql.ast.type.BooleanType;
-import nl.uva.softwcons.ql.ast.type.NumberType;
-import nl.uva.softwcons.ql.ast.type.StringType;
 import nl.uva.softwcons.ql.ast.type.Type;
-import nl.uva.softwcons.ql.ast.type.UndefinedType;
 import nl.uva.softwcons.ql.validation.Error;
 import nl.uva.softwcons.ql.validation.typechecker.error.DuplicateQuestionIdentifier;
 import nl.uva.softwcons.ql.validation.typechecker.error.InvalidConditionType;
@@ -78,7 +79,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Void visit(final Conditional conditional) {
         final Type conditionExprType = conditional.getExpression().accept(this);
-        if (conditionExprType != BooleanType.instance) {
+        if (conditionExprType != BOOLEAN_TYPE) {
             this.errorsFound.add(new InvalidConditionType(conditional.getLineInfo()));
         }
 
@@ -90,7 +91,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final Addition expr) {
         final Type combinedExpressionType = Addition.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
+        validateExpressionType(expr, combinedExpressionType, NUMBER_TYPE);
 
         return combinedExpressionType;
     }
@@ -98,25 +99,23 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final Division expr) {
         final Type combinedExpressionType = Division.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
+        validateExpressionType(expr, combinedExpressionType, NUMBER_TYPE);
 
         return combinedExpressionType;
     }
 
     @Override
     public Type visit(final Multiplication expr) {
-        final Type combinedExpressionType = Multiplication.resolveType(visitLeftOperand(expr),
-                visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
+        final Type combinedExpressionType = Multiplication.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
+        validateExpressionType(expr, combinedExpressionType, NUMBER_TYPE);
 
         return combinedExpressionType;
     }
 
     @Override
     public Type visit(final Subtraction expr) {
-        final Type combinedExpressionType = Subtraction
-                .resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, NumberType.instance);
+        final Type combinedExpressionType = Subtraction.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
+        validateExpressionType(expr, combinedExpressionType, NUMBER_TYPE);
 
         return combinedExpressionType;
     }
@@ -124,83 +123,80 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
     @Override
     public Type visit(final Equal expr) {
         final Type combinedExpressionType = Equal.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final NotEqual expr) {
         final Type combinedExpressionType = NotEqual.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final GreaterOrEqual expr) {
-        final Type combinedExpressionType = GreaterOrEqual.resolveType(visitLeftOperand(expr),
-                visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        final Type combinedExpressionType = GreaterOrEqual.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final GreaterThan expr) {
-        final Type combinedExpressionType = GreaterThan
-                .resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        final Type combinedExpressionType = GreaterThan.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final LowerOrEqual expr) {
-        final Type combinedExpressionType = LowerOrEqual.resolveType(visitLeftOperand(expr),
-                visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        final Type combinedExpressionType = LowerOrEqual.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final LowerThan expr) {
         final Type combinedExpressionType = LowerThan.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final And expr) {
         final Type combinedExpressionType = And.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final Or expr) {
         final Type combinedExpressionType = Or.resolveType(visitLeftOperand(expr), visitRightOperand(expr));
-        validateExpressionType(expr, combinedExpressionType, BooleanType.instance);
+        validateExpressionType(expr, combinedExpressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final Not expr) {
         final Type expressionType = visitUnaryOperand(expr);
-        validateExpressionType(expr, expressionType, BooleanType.instance);
+        validateExpressionType(expr, expressionType, BOOLEAN_TYPE);
 
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final Identifier questionId) {
         final Type variableType = this.env.resolveVariable(questionId);
 
-        if (variableType == UndefinedType.instance) {
+        if (variableType == UNDEFINED_TYPE) {
             this.errorsFound.add(new UndefinedReference(questionId.getLineInfo()));
         }
 
@@ -209,17 +205,17 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
 
     @Override
     public Type visit(final BooleanLiteral expr) {
-        return BooleanType.instance;
+        return BOOLEAN_TYPE;
     }
 
     @Override
     public Type visit(final StringLiteral expr) {
-        return StringType.instance;
+        return STRING_TYPE;
     }
 
     @Override
     public Type visit(final NumberLiteral expr) {
-        return NumberType.instance;
+        return NUMBER_TYPE;
     }
 
     /**
@@ -232,7 +228,7 @@ public class TypeChecker implements FormVisitor<Void>, StatementVisitor<Void>, E
      *            environment
      */
     private void defineQuestionInEnvironment(final Question question) {
-        if (this.env.resolveVariable(question.getId()) == UndefinedType.instance) {
+        if (this.env.resolveVariable(question.getId()) == UNDEFINED_TYPE) {
             this.env.defineVariable(question.getId(), question.getType());
         } else {
             this.errorsFound.add(new DuplicateQuestionIdentifier(question.getLineInfo()));

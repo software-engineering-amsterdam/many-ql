@@ -1,11 +1,9 @@
 package nl.uva.softwcons.ql.ast.type;
 
-public class UndefinedType extends Type {
-
-    public static final UndefinedType instance = new UndefinedType();
+public final class UndefinedType extends Type {
+    public static final UndefinedType UNDEFINED_TYPE = new UndefinedType();
 
     private UndefinedType() {
-
     }
 
     @Override
