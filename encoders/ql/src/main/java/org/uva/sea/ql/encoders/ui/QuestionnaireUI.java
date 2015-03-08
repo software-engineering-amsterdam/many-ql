@@ -1,6 +1,8 @@
 package org.uva.sea.ql.encoders.ui;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import javafx.event.ActionEvent;
@@ -60,11 +62,15 @@ public class QuestionnaireUI {
 			if (condition != null) {
 				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 				Set<String> relatedQuestionNames = condition.accept(relatedQuestionVisitor);
-				List<Question> questions = new AstTransformer().transform(runtimeQuestions);
 				QuestionByName questionByName = new QuestionByName();
 				for (String relatedQuestionName : relatedQuestionNames) {
-					Question relatedQuestion = questionByName.getQuestion(relatedQuestionName, questions);
-					System.out.println(question.getName() + " depends on " + relatedQuestion.getName());
+					RuntimeQuestion relatedQuestion = questionByName.getRuntimeQuestion(relatedQuestionName, runtimeQuestions);
+					relatedQuestion.addObserver(new Observer() {
+						@Override
+						public void update(Observable o, Object arg) {
+							System.out.println("Waarde is nu: " + arg);
+						}
+					});
 				}
 				System.out.println(relatedQuestionNames);
 			}
