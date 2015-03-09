@@ -2,21 +2,19 @@ package ql.gui
 
 import ql.ast._
 import ql.evaluator.Evaluator
+import ql.types.{Dependencies, VariableName}
 
 import scala.collection.immutable.StringOps
 import scala.util.Try
 import scalafx.beans.value.ObservableValue
 import scalafx.collections.ObservableMap
-import scalafx.collections.ObservableMap.Replace
+import scalafx.collections.ObservableMap.{Add, Replace}
 import scalafx.geometry.Insets
 import scalafx.scene.control.{CheckBox, Label, TextField}
 import scalafx.scene.layout.VBox
 
 abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value])
   extends VBox {
-
-  type VariableName = String
-  type Dependencies = List[VariableName]
 
   val evaluator = new Evaluator()
   val dependencyResolver = new DependencyResolver()
@@ -48,26 +46,22 @@ class BooleanQuestionBox(q: Question, visibilityExpressions: List[Expression], e
   extends QuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value]) {
 
   type UpdateFunction = (ObservableValue[Boolean, java.lang.Boolean], java.lang.Boolean, java.lang.Boolean) => Unit
+
+  // Initialize
+  val field = addCheckBoxElement(evalValue, (_, _, newValue) => { env += (name -> BooleanValue(newValue))})
   def addCheckBoxElement(value: Boolean, updateEnvironment: UpdateFunction): CheckBox = {
+    env += (name -> BooleanValue(value))
     val checkbox = new CheckBox
     checkbox.selected = value
     checkbox.selected.onChange(updateEnvironment)
     checkbox
   }
-
-  def evalValue: Boolean = q.optionalExpression match {
-    case Some(e) => evaluator.eval(e, env) match {
-      case BooleanValue(v) => v
-      case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
-    }
-    case None => false
-  }
-
-  val field = addCheckBoxElement(evalValue, (_, _, newValue) => { env += (name -> BooleanValue(newValue))})
   children.add(field)
 
+  // On change functions
   env.onChange((map, change) => change match {
-    case Replace(key, added, removed) => updateProperties(field, key)
+    case Add(key, _) => updateProperties(field, key)
+    case Replace(key, _, _) => updateProperties(field, key)
   })
 
   def updateProperties(field: CheckBox, key: String): Unit = {
@@ -78,34 +72,39 @@ class BooleanQuestionBox(q: Question, visibilityExpressions: List[Expression], e
   }
 
   def updateValue(field: CheckBox, key: String, value: Boolean): Unit =  if (valueDependencies contains key) field.selected = value
+
+  // Evaluation function
+  def evalValue: Boolean = q.optionalExpression match {
+    case Some(e) => evaluator.eval(e, env) match {
+      case BooleanValue(v) => v
+      case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type Boolean.")
+    }
+    case None => false
+  }
 }
 
 class NumberQuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value])
   extends QuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value]) {
 
   type UpdateFunction = (ObservableValue[String, java.lang.String], java.lang.String, java.lang.String) => Unit
-  def addTextFieldElement(value: Integer, updateEnvironment: UpdateFunction): TextField = {
+
+  // Initialize
+  val field = addTextFieldElement(evalValue, (obs, oldValue, newValue) => {
+    val newIntV = Try(new StringOps(newValue).toInt).toOption.getOrElse(0)
+    env += (name -> NumberValue(newIntV))
+  })
+  def addTextFieldElement(value: Int, updateEnvironment: UpdateFunction): TextField = {
+    env += (name -> NumberValue(value))
     val textField = new TextField
     textField.text = value.toString
     textField.text.onChange(updateEnvironment)
     textField
   }
-
-  def evalValue: Int = q.optionalExpression match {
-    case Some(e) => evaluator.eval(e, env) match {
-      case NumberValue(v) => v
-      case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type Number.")
-    }
-    case None => 0
-  }
-
-  val field = addTextFieldElement(evalValue, (obs, oldValue, newValue) => {
-    val newIntV = Try(new StringOps(newValue).toInt).toOption.getOrElse(0)
-    env += (name -> NumberValue(newIntV))
-  })
   children.add(field)
 
+  // On change functions
   env.onChange((map, change) => change match {
+    case Add(key, _) => updateProperties(field, key)
     case Replace(key, added, removed) => updateProperties(field, key)
   })
 
@@ -117,31 +116,36 @@ class NumberQuestionBox(q: Question, visibilityExpressions: List[Expression], en
   }
 
   def updateValue(field: TextField, key: String, value: Int): Unit =  if (valueDependencies contains key) field.text = value.toString
+
+  // Evaluation function
+  def evalValue: Int = q.optionalExpression match {
+    case Some(e) => evaluator.eval(e, env) match {
+      case NumberValue(v) => v
+      case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type Number.")
+    }
+    case None => 0
+  }
 }
 
 class StringQuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value])
   extends QuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value]) {
 
   type UpdateFunction = (ObservableValue[String, java.lang.String], java.lang.String, java.lang.String) => Unit
+
+  // Initialize
+  val field = addTextFieldElement(evalValue, (obs, oldValue, newValue) => { env += (name -> StringValue(newValue)) })
   def addTextFieldElement(value: String, updateEnvironment: UpdateFunction): TextField = {
+    env += (name -> StringValue(value))
     val textField = new TextField
-    textField.text = value.toString
+    textField.text = value
     textField.text.onChange(updateEnvironment)
     textField
   }
-
-  def evalValue: String = q.optionalExpression match {
-    case Some(e) => evaluator.eval(e, env) match {
-      case StringValue(v) => v
-      case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type String.")
-    }
-    case None => ""
-  }
-
-  val field = addTextFieldElement(evalValue, (obs, oldValue, newValue) => { env += (name -> StringValue(newValue)) })
   children.add(field)
 
+  // On change functions
   env.onChange((map, change) => change match {
+    case Add(key, _) => updateProperties(field, key)
     case Replace(key, added, removed) => updateProperties(field, key)
   })
 
@@ -153,4 +157,13 @@ class StringQuestionBox(q: Question, visibilityExpressions: List[Expression], en
   }
 
   def updateValue(field: TextField, key: String, value: String): Unit =  if (valueDependencies contains key) field.text = value
+
+  // Evaluation function
+  def evalValue: String = q.optionalExpression match {
+    case Some(e) => evaluator.eval(e, env) match {
+      case StringValue(v) => v
+      case _ => throw new AssertionError(s"Error in type checker. Variable $name not of type String.")
+    }
+    case None => ""
+  }
 }

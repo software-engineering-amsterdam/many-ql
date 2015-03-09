@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class Visualizer {
 
-    public void visualize(Node ast, Stage stage) {
+    public void visualize(Node ast, Node qlsAST, Stage stage) {
         VBox rootBox = new VBox();
         rootBox.getStyleClass().add("questionnaire");
         Optional<? extends Pane> root = Optional.of(rootBox);
