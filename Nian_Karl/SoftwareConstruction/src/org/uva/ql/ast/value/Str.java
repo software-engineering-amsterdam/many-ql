@@ -28,7 +28,9 @@ public class Str extends Value {
 
 	@Override
 	public Value strEqual(Str arg) {
-		return new Bool(arg.getValue() == getValue());
+		System.out.println("Compare 1: "  + value);
+		System.out.println("Compare 2: "  + arg.getValue());
+		return new Bool(arg.getValue().equals(getValue()));
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class Str extends Value {
 
 	@Override
 	public Value strNotEqual(Str arg) {
-		return new Bool(arg.getValue() != getValue());
+		return new Bool(!arg.getValue().equals(getValue()));
 	}
 
 	@Override

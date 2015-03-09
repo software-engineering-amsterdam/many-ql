@@ -14,4 +14,5 @@ form SalarySurvey{
 		employeeNr1: "What is your employee numbe12312312r?" Int
 	}
 	isYOLO: "Are you yolo?" Bool(age == 5)
+	someDependentQuestion: "Hi Nian?" Bool(howAreYou == "Good")
 }
