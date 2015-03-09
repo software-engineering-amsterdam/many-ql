@@ -4,10 +4,12 @@ import edu.exceptions.GuiException;
 import edu.gui.Observer;
 import edu.gui.QuestionTypeGui;
 import edu.gui.Subject;
+import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.question.Question;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -56,12 +58,18 @@ public class QuestionsPanel extends JPanel {
     }
 
     private void addInputField(Question question) {
+        Subject component = getComponent(question);
+        component.registerObserver(questionState);
+        add((JComponent) component, gbc);
+
+    }
+
+    private Subject getComponent(Question question) {
         try {
-            Subject component = QuestionTypeGui.getComponent(question.getQuestionType());
-            component.registerObserver(questionState);
-            add((JComponent) component, gbc);
-        } catch (IllegalAccessException | InstantiationException e) {
-            throw new GuiException("Could not create input field for: " + question, e);
+            Class<Subject> component = QuestionTypeGui.getComponent(question.getQuestionType());
+            return component.getDeclaredConstructor(Identifier.class).newInstance(question.getIdentifier());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new GuiException(e);
         }
     }
 }

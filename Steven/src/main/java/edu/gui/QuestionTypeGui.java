@@ -18,10 +18,10 @@ public enum QuestionTypeGui {
         this.questionType = questionType;
     }
 
-    public static Subject getComponent(QuestionType questionType) throws IllegalAccessException, InstantiationException {
+    public static Class<Subject> getComponent(QuestionType questionType) throws IllegalAccessException, InstantiationException {
         for (QuestionTypeGui questionTypeGui : values()) {
             if (questionTypeGui.getQuestionType().equals(questionType)) {
-                return (Subject) questionTypeGui.component.newInstance();
+                return questionTypeGui.component;
             }
         }
         throw new IllegalArgumentException("Unknown component for argument: " + questionType);
