@@ -1,13 +1,13 @@
 package nl.uva.se.interpretation.error;
 
-public abstract class AbstractFailure {
+public abstract class AbstractError {
 
 	private final int line;
 	private final int offset;
 	private final String name;
 	private final String description;
 	
-	public AbstractFailure(int line, int offset, String name, String description) {
+	public AbstractError(int line, int offset, String name, String description) {
 		this.line = line;
 		this.offset = offset;
 		this.name = name;
