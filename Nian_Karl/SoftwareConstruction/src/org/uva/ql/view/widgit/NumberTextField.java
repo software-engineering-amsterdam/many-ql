@@ -1,5 +1,6 @@
 package org.uva.ql.view.widgit;
 
+import java.awt.Color;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +19,6 @@ public class NumberTextField extends BaseTextField {
 	public NumberTextField(WidgetListener listener) {
 		super(listener);
 		p = Pattern.compile(NUMBER_REGEX);
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -34,13 +34,15 @@ public class NumberTextField extends BaseTextField {
 			if (input.equals("") || input == null) {
 				widgetListener.widgetValueChanged(getIdentifier(), new Undefined());
 			} else if (m.matches()) {
+				textField.setForeground(Color.black);
 				int i = Integer.parseInt(input);
 				widgetListener.widgetValueChanged(getIdentifier(), new Int(i));
+			} else {
+				textField.setForeground(Color.red);
 			}
 		} catch (BadLocationException e1) {
 			System.out.println("Something went terribly wrong.");
 		} catch (NumberFormatException e2) {
-
 			System.out.println("apparently an exception.");
 		}
 	}
