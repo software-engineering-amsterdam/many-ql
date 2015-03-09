@@ -9,7 +9,6 @@ import java.io.StringReader;
 import org.junit.Test;
 
 import ql.ast.QLNode;
-import ql.ast.visitor.prettyprinter.PrettyPrinter;
 import ql.parser.Parser;
 import ql.parser.QLLexer;
 
@@ -82,9 +81,6 @@ public class TestParser {
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
 				+ "Did you sell a house in 2010?), IfThen(5 == 5, "
 				+ "Block(Question(houseValue, QLFloat, Lol I dont care)))))", result.toString());
-		
-		PrettyPrinter printer = new PrettyPrinter();
-		result.accept(printer);
 	}
 	
 	@Test

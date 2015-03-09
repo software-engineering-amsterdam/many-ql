@@ -33,9 +33,9 @@ public abstract class BaseTest {
      
      @BeforeClass
      public static void setupEnvironment() {
-    	 System.out.println("================");
-    	 System.out.println("*** Testing  ***");
-    	 System.out.println("================");
+    	 System.out.println("=========================");
+    	 System.out.println("*** Testing Evaluator ***");
+    	 System.out.println("=========================");
     	 
     	 register.store(new Identifier("integerQuestion"), new IntegerValue(10));
     	 register.store(new Identifier("floatQuestion"), new FloatValue((float) 10.5));
