@@ -4,7 +4,7 @@ import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.expression.Identifier;
 import edu.parser.QL.nodes.question.Label;
-import edu.parser.QL.nodes.question.QLQuestion;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
@@ -21,7 +21,7 @@ public interface QLVisitor {
 
     AbstractNode visit(IfStatement ifStatement);
 
-    AbstractNode visit(QLQuestion question);
+    AbstractNode visit(Question question);
 
     AbstractNode visit(edu.parser.QL.nodes.expression.Addition addition);
 

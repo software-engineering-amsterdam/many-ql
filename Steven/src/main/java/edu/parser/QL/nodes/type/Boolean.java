@@ -1,8 +1,8 @@
 package edu.parser.QL.nodes.type;
 
+import edu.parser.QL.QLVisitor;
 import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.expression.Expression;
-import edu.parser.QL.QLVisitor;
 
 /**
  * Created by Steven Kok on 21/02/2015.
@@ -27,5 +27,10 @@ public class Boolean extends Expression {
     @Override
     public boolean hasBooleanOperands() {
         return true;
+    }
+
+    @Override
+    public Expression clone() throws CloneNotSupportedException {
+        return new Boolean(state);
     }
 }

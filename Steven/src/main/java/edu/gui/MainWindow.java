@@ -1,8 +1,9 @@
 package edu.gui;
 
+import edu.exceptions.GuiException;
 import edu.gui.components.Page;
-import edu.nodes.Question;
 import edu.nodes.styles.Style;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.Section;
 
 import javax.swing.*;
@@ -15,16 +16,81 @@ import java.util.Map;
  */
 public class MainWindow extends JFrame {
     private final JPanel mainPanel;
-    private int pages = 0;
+    private final JPanel questionPanel;
+    private final JPanel paginationPanel;
+    private int totalPages = 0;
+    private int currentPage = 1;
+    private JButton nextButton;
+    private JButton backButton;
+    private final Observer questionState;
 
-    public MainWindow() {
+    public MainWindow(Observer questionState) {
         mainPanel = new JPanel();
+        questionPanel = new JPanel();
+        paginationPanel = new JPanel();
+        this.questionState = questionState;
     }
 
     public void initialize() {
+        mainPanel.setLayout(new BorderLayout());
         CardLayout cardLayout = new CardLayout(10, 10);
-        mainPanel.setLayout(cardLayout);
+        questionPanel.setLayout(cardLayout);
+        mainPanel.add(questionPanel, BorderLayout.CENTER);
+        mainPanel.add(paginationPanel, BorderLayout.PAGE_END);
         add(mainPanel);
+        addPaginationButtons(cardLayout);
+    }
+
+    private void addPaginationButtons(CardLayout cardLayout) {
+        nextButton = new JButton("Next");
+        nextButton.addActionListener(e -> nextPage(cardLayout));
+
+        backButton = new JButton("Back");
+        backButton.setVisible(false);
+        backButton.addActionListener(e -> previousPage(cardLayout));
+
+        paginationPanel.add(backButton);
+        paginationPanel.add(nextButton);
+    }
+
+    private void nextPage(CardLayout cardLayout) {
+        if (currentPage >= totalPages) {
+            throw new GuiException(String.format("Cannot switch to next page. totalpages: [%d] currentpage: [%d]", totalPages, currentPage));
+        } else {
+            cardLayout.show(questionPanel, String.valueOf(++currentPage));
+        }
+
+        if (!atFirstPage()) {
+            backButton.setVisible(true);
+        }
+
+        if (atLastPage()) {
+            nextButton.setVisible(false);
+        }
+    }
+
+    private void previousPage(CardLayout cardLayout) {
+        if (currentPage <= 1) {
+            throw new GuiException(String.format("Cannot switch to previous page. currentpage: [%d]", currentPage));
+        } else {
+            cardLayout.show(questionPanel, String.valueOf(--currentPage));
+        }
+
+        if (atFirstPage()) {
+            backButton.setVisible(false);
+        }
+
+        if (!atLastPage()) {
+            nextButton.setVisible(true);
+        }
+    }
+
+    private boolean atLastPage() {
+        return currentPage >= totalPages;
+    }
+
+    private boolean atFirstPage() {
+        return currentPage <= 1;
     }
 
     public void showMainWindow() {
@@ -36,8 +102,8 @@ public class MainWindow extends JFrame {
     }
 
     public void addPage(List<Section> sections, Map<Question, List<Style>> questions) {
-        Page page = new Page(sections,questions);
-        mainPanel.add(page, String.valueOf(++pages));
+        Page page = new Page(sections, questions, questionState);
+        questionPanel.add(page, String.valueOf(++totalPages));
     }
 
 }

@@ -12,32 +12,24 @@ import java.util.Optional;
 /**
  * Created by Steven Kok on 21/02/2015.
  */
-public class QLQuestion extends Statement {
+public class Question extends Statement implements Cloneable {
 
     private final Identifier identifier;
     private final QuestionType questionType;
     private final Label label;
     private final Optional<Expression> expression;
-    private final boolean enabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
+    private final boolean isEnabled; //todo should receive enum State (enabled/disables/unselected/non-boolean)
 
-    public QLQuestion(Identifier identifier, QuestionType questionType, Label label, boolean enabled, Optional<Expression> expression) {
+    public Question(Identifier identifier, QuestionType questionType, Label label, boolean isEnabled, Optional<Expression> expression) {
         this.expression = expression;
         this.identifier = identifier;
         this.questionType = questionType;
         this.label = label;
-        this.enabled = enabled;
+        this.isEnabled = isEnabled;
     }
 
     public boolean isEnabled() { //todo: refactor to: getState
-        return enabled;
-    }
-
-    public QLQuestion enable() {
-        return new QLQuestion(identifier, questionType, label, true, expression);
-    }
-
-    public QLQuestion disable() {
-        return new QLQuestion(identifier, questionType, label, false, expression);
+        return isEnabled;
     }
 
     public Identifier getIdentifier() {
@@ -65,8 +57,8 @@ public class QLQuestion extends Statement {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        QLQuestion question = (QLQuestion) o;
-        if (enabled != question.enabled) return false;
+        Question question = (Question) o;
+        if (isEnabled != question.isEnabled) return false;
         // intellij 'simplified' the next line:
         return !(expression != null ? !expression.equals(question.expression) : question.expression != null) && identifier.equals(question.identifier) && label.equals(question.label) && questionType == question.questionType;
     }
@@ -77,7 +69,21 @@ public class QLQuestion extends Statement {
         result = 31 * result + questionType.hashCode();
         result = 31 * result + label.hashCode();
         result = 31 * result + (expression != null ? expression.hashCode() : 0);
-        result = 31 * result + (enabled ? 1 : 0);
+        result = 31 * result + (isEnabled ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public Question clone() throws CloneNotSupportedException {
+        return clone(isEnabled);
+    }
+
+    public Question clone(boolean isEnabled) throws CloneNotSupportedException {
+        Optional<Expression> expression = Optional.empty();
+        if (this.expression.isPresent()) {
+            expression.of(this.expression.get().clone());
+        }
+
+        return new Question(identifier.clone(), questionType, label.clone(), isEnabled, expression);
     }
 }

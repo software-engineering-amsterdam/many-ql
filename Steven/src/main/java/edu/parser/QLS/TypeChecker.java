@@ -2,6 +2,10 @@ package edu.parser.QLS;
 
 import edu.Widgets;
 import edu.exceptions.TypeCheckException;
+import edu.nodes.QuestionType;
+import edu.nodes.styles.Style;
+import edu.nodes.styles.Widget;
+import edu.parser.QL.nodes.question.Question;
 import edu.parser.QLS.nodes.AbstractNode;
 import edu.parser.QLS.nodes.Identifier;
 import edu.parser.QLS.nodes.Section;
@@ -10,10 +14,6 @@ import edu.parser.QLS.nodes.statement.Default;
 import edu.parser.QLS.nodes.statement.Page;
 import edu.parser.QLS.nodes.statement.QLSQuestion;
 import edu.parser.QLS.nodes.statement.Statement;
-import edu.nodes.Question;
-import edu.nodes.QuestionType;
-import edu.nodes.styles.Style;
-import edu.nodes.styles.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
