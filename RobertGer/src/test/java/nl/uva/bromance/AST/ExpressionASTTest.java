@@ -28,7 +28,7 @@ public class ExpressionASTTest extends ASTTest {
 
         assertThat(expressionList).hasSize(1);
         assertThat(expression.getLineNumber()).isEqualTo(3);
-        assertThat(expression.getId().isPresent());
+        assertThat(expression.getTerminal().isPresent());
     }
 
     @Test

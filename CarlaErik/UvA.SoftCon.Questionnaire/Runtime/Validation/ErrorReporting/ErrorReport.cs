@@ -82,12 +82,12 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation.ErrorReporting
 
         public void AddTypeCheckingMessages(TypeCheckingVisitor visitor)
         {
-            foreach (var assignment in visitor.InvalidAssignments)
+            foreach (var definition in visitor.InvalidDefinitions)
             {
-                string message = String.Format("Cannot assign a value of type '{0}' to variable '{1}' of type '{2}'.",
-                    StringEnum.GetStringValue(assignment.ExpressionType), assignment.Id.Name, StringEnum.GetStringValue(assignment.TargetType));
+                string message = String.Format("Cannot assign a value of type '{0}' to definition '{1}' of type '{2}'.",
+                    StringEnum.GetStringValue(definition.ExpressionType), definition.Id.Name, StringEnum.GetStringValue(definition.TargetType));
 
-                AddErrorMessage(message, assignment.Id.Position);
+                AddErrorMessage(message, definition.Id.Position);
             }
 
             foreach (var ifStatement in visitor.InvalidIfStatements)

@@ -9,8 +9,7 @@ form : stat* ;
 
 stat : ID STRING TYPE ('=' expr)?                                           # Question
      | 'if' '(' expr ')' '{' then+=stat* '}' ('else' '{' else+=stat* '}')?  # IfStatement
-	 | TYPE ID ('=' expr)?                                                  # Declaration
-	 | ID '=' expr                                                          # Assignment
+	 | TYPE ID '=' expr                                                     # Definition
 	 ;
 
 expr : '(' expr ')'                   # PrecedenceOverride

@@ -6,6 +6,7 @@ package com.klq.ast.impl.expr.value;
  */
 public abstract class Value<T> {
     private final T value;
+    //TODO WTF?
     private boolean undefined;
 
     public Value(T value){

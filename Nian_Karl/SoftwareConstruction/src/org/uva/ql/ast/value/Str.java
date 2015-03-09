@@ -28,7 +28,7 @@ public class Str extends Value {
 
 	@Override
 	public Value strEqual(Str arg) {
-		return new Bool(arg.getValue() == getValue());
+		return new Bool(arg.getValue().equals(getValue()));
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class Str extends Value {
 
 	@Override
 	public Value strNotEqual(Str arg) {
-		return new Bool(arg.getValue() != getValue());
+		return new Bool(!arg.getValue().equals(getValue()));
 	}
 
 	@Override

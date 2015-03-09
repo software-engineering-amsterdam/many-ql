@@ -10,6 +10,11 @@ public class UndefinedValue extends ComparableValue {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof UndefinedValue;
+    }
+
+    @Override
     public String toString() {
         return "---";
     }

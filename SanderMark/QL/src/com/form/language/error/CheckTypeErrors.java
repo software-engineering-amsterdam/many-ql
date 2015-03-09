@@ -1,17 +1,14 @@
 package com.form.language.error;
 
-import java.util.Iterator;
-
 import com.form.language.ast.Form;
-import com.form.language.ast.statement.Statement;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class CheckTypeErrors {
 	//TODO: change flow to enforce checked types
 	public static Boolean containsErrors(Form form){
-		TypeMemory mem = new TypeMemory();
-		form.getTypes(mem);
-		return mem.hasErrors();
+		Context context = new Context();
+		form.getTypes(context);
+		return context.hasErrors();
 //	    Iterator<Statement> formIter = form.iterator();
 //		while(formIter.hasNext()){
 //			Boolean hasErrors = formIter.next().getType().isErrorType();
