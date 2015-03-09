@@ -4,9 +4,9 @@ sheet: STYLE Identifier page*;
 
 page: PAGE Identifier pageBlock;
 
-pageBlock: LEFT_BRACE section* style RIGHT_BRACE;
+pageBlock: LEFT_BRACE section* style* RIGHT_BRACE;
 
-section: SECTION StringLiteral LEFT_BRACE question* style RIGHT_BRACE ;
+section: SECTION StringLiteral LEFT_BRACE question* style* RIGHT_BRACE ;
 
 question: QUESTION Identifier widget
 		|QUESTION Identifier;
@@ -58,13 +58,13 @@ BOOL:          'Bool';
 WIDGET:			'widget';
 SLIDER:			'slider';
 SPINBOX: 		'spinbox';
-TEXTBOX:		'text';
-RADIO:			'radiobutton';
+TEXTBOX:		'textbox';
+RADIO:			'radio';
 DROPDOWN:		'dropdown';
 CHECKBOX:		'checkbox';
 WIDTH: 			'width';
 HEIGHT: 		'height';
-FONTSIZE: 		'fontSize';
+FONTSIZE: 		'fontsize';
 FONT: 			'font';
 COLOR:			'color';
 
