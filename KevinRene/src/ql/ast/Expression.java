@@ -5,7 +5,7 @@ import java.util.List;
 import ql.ast.expression.QLType;
 import ql.ast.visitor.Visitor;
 
-public abstract class Expression implements ASTNode {	
+public abstract class Expression implements QLNode {	
 	private final List<Expression> operands;
 	
 	public Expression(List<Expression> operands) {
@@ -25,6 +25,6 @@ public abstract class Expression implements ASTNode {
 	
 	public abstract QLType getType();
 
-	public abstract <T> T accept(Visitor<T> visitor);
+	public abstract <T> T accept(ExpressionVisitor<T> visitor);
 
 }

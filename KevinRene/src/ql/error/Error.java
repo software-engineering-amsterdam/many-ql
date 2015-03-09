@@ -1,17 +1,17 @@
 package ql.error;
 
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 
 public class Error {
-	private ASTNode origin;
+	private QLNode origin;
 	private String errorMessage;
 	
-	public Error(ASTNode origin, String errorMessage) {
+	public Error(QLNode origin, String errorMessage) {
 		this.origin = origin;
 		this.errorMessage = errorMessage;
 	}
 	
-	public ASTNode getErrorOrigin() {
+	public QLNode getErrorOrigin() {
 		return origin;
 	}
 	

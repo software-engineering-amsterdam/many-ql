@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
 import ql.ast.visitor.typechecker.TypeChecker;
@@ -43,7 +43,7 @@ public class FormCreator {
 					}
 				}
 				else {
-					ASTNode tree = formParser.parse(str);
+					QLNode tree = formParser.parse(str);
 					TypeEnvironment register = new TypeEnvironment();
 					ValueEnvironment valueEnv = new ValueEnvironment();
 					

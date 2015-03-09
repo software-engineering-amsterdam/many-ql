@@ -12,7 +12,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import ql.TypeEnvironment;
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.visitor.typechecker.TypeChecker;
 import ql.parser.Parser;
 
@@ -43,7 +43,7 @@ public class TestNot {
 			});
 	}
 
-	private ASTNode inputNode;
+	private QLNode inputNode;
 	private boolean expected;
 
 	private Parser formParser = new Parser();

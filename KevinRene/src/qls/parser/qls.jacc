@@ -1,12 +1,12 @@
 %package qls.parser
 %class QLSParser
 %interface QLSTokens
-%semantic qls.ast.QLSNode 
+%semantic qls.QLSNode
 
-%token <QLInteger> INTEGER
-%token <QLBoolean> BOOLEAN
-%token <QLString> STRING
-%token <QLFloat> MONEY FLOAT
+%token <QLSInteger> INTEGER
+%token <QLSBoolean> BOOLEAN
+%token <QLSString> STRING
+%token <QLSFloat> MONEY FLOAT
 
 %token <IntegerLiteral> INTEGERLITERAL 
 %token <BooleanLiteral> BOOLEANLITERAL
@@ -17,35 +17,31 @@
 %token <Identifier> IDENTIFIER
 %token STYLESHEET PAGE SECTION WIDGET QUESTION DEFAULT 
 %token FONT FONTSIZE WIDTH HEIGHT COLOUR
-%token RADIO DROPDOWN SLIDER SPINNER TEXT CHECKBOX
+%token RADIO DROPDOWN SLIDER SPINBOX TEXT CHECKBOX
 %token  '"' ':' '.' ','
 %token '(' ')' '{' '}'
 
 %type <Expression> literal
 %type <QLType> type
-%type <Block> statements
-%type <Statement> statement
-%type <Widget> widget
+%type <Block> block
 
 %{
-import qls.ast.QLSNode;
-import qls.ast.Identifier;
-import qls.ast.statement.*;
-import qls.ast.widget.*;
-import qls.ast.Statement;
+import ql.ast.*;
+import ql.ast.expression.*;
+import ql.ast.expression.type.*;
+import ql.ast.expression.literal.*;
 
 @SuppressWarnings("all")
 %}
 
 %%
-  top : stylesheet { result = $1; }
-      ;
+  top : stylesheet { result = $i; }
 
-	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new Stylesheet($2, $4); }
+	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}' { $$ = new StyleSheet($2, $4); }
 				;
 				
 	statements 	: statement statements { $$ = new Block($1, $2); }
-				| statement                 { $$ = new Block($1); }
+				| statements                 { $$ = new Block($1); }
 				;
 				
 	statement 	: PAGE IDENTIFIER '{' statements '}'
@@ -73,12 +69,12 @@ import qls.ast.Statement;
 	widget 	: WIDGET widgetType
 			;
 			
-	widgetType	: SPINNER           { $$ = new Spinner(); }
-				| RADIO '(' values ')'    { $$ = new RadioButton(); }
-				| SLIDER '(' values ')'   { $$ = new Slider(); }
-				| DROPDOWN '(' values ')' { $$ = new Dropdown(); }
-				| TEXT                    { $$ = new TextField(); }
-				| CHECKBOX                { $$ = new Checkbox(); }
+	widgetType	: SPINBOX
+				| RADIO '(' values ')'
+				| SLIDER '(' values ')'
+				| DROPDOWN '(' values ')'
+				| TEXT
+				| CHECKBOX
 				;
 	
 	values 	: literal ',' values
@@ -103,9 +99,9 @@ import qls.ast.Statement;
 %%
 private QLSLexer lexer; 
 
-private QLSNode result;
+private ASTNode result;
 
-public QLSNode getResult() {
+public ASTNode getResult() {
   return result;
 }
 

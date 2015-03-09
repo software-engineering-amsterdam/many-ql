@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 import ql.TypeEnvironment;
 import ql.ValueEnvironment;
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.visitor.typechecker.TypeChecker;
 import ql.parser.Parser;
 
@@ -71,7 +71,7 @@ public class Main {
         
         // Load and parse the entire form and what not.
         Parser formParser = new Parser();
-        ASTNode tree = formParser.parse(form);
+        QLNode tree = formParser.parse(form);
 		TypeEnvironment register = new TypeEnvironment();
 		ValueEnvironment valueEnv = new ValueEnvironment();
 		

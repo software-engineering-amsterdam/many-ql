@@ -4,7 +4,7 @@ import qls.ast.QLSType;
 import qls.ast.visitor.Visitor;
 
 public class QLSBoolean extends QLSType {
-	public QLSBoolean() {	}
+	public QLSBoolean() {}
 
 	@Override
 	public QLSType getType() {

@@ -14,6 +14,7 @@ public abstract class Literal<T> implements QLSNode {
 		return this.value;
 	}	
 	
+	@Override
 	public String toString() {
 		return value.toString();
 	}

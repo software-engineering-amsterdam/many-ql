@@ -8,7 +8,7 @@ import java.io.StringReader;
 
 import org.junit.Test;
 
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.visitor.prettyprinter.PrettyPrinter;
 import ql.parser.Parser;
 import ql.parser.QLLexer;
@@ -28,7 +28,7 @@ public class TestParser {
 	public void testParsableString() {
 		String myExpression = "5 + 5";
 		
-		ASTNode result = formParser.parse(myExpression);
+		QLNode result = formParser.parse(myExpression);
 		assertNotNull(result);
 		
 		assertEquals("5 + 5", result.toString());
@@ -43,7 +43,7 @@ public class TestParser {
 				+ "}"
 				+ "}";
 
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
@@ -55,7 +55,7 @@ public class TestParser {
 		String myForm =
 				"form newForm { houseValue : money { \"what is your house?\" assign(105050*238482/2342)} }";
 
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(newForm, Block(ComputedQuestion(houseValue, QLFloat, "
@@ -76,7 +76,7 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 		
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "
@@ -100,7 +100,7 @@ public class TestParser {
 				+ 	"}"
 				+ "}";
 
-		ASTNode result = formParser.parse(myForm);
+		QLNode result = formParser.parse(myForm);
 		assertNotNull(result);
 		
 		assertEquals("Form(taxOfficeExample, Block(Question(hasSoldHouse, QLBoolean, "

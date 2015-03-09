@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import ql.Value;
 import ql.ValueEnvironment;
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import ql.ast.visitor.evaluator.Evaluator;
 import ql.parser.Parser;
@@ -18,7 +18,7 @@ import ql.value.StringValue;
 
 @SuppressWarnings("rawtypes")
 public abstract class BaseTest {
-     private ASTNode inputNode;
+     private QLNode inputNode;
      private Value expected;
      
      private Parser formParser = new Parser();

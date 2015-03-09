@@ -5,7 +5,7 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.literal.BooleanLiteral;
 import ql.ast.expression.literal.FloatLiteral;
@@ -34,7 +34,7 @@ public class QLLexer implements QLTokens {
 	private int token;
 	private int c = ' ';
 	
-	private ASTNode yylval;
+	private QLNode yylval;
 	private final Reader input;
 
 	public QLLexer(Reader input) {
@@ -254,7 +254,7 @@ public class QLLexer implements QLTokens {
 		return token;
 	}
 
-	public ASTNode getSemantic() {
+	public QLNode getSemantic() {
 		return yylval;
 	}
 

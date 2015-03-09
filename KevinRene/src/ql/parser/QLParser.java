@@ -18,14 +18,14 @@ class QLParser implements QLTokens {
     private int yysp = 0;
     private int[] yyst;
     protected int yyerrno = (-1);
-    private ql.ast.ASTNode[] yysv;
-    private ql.ast.ASTNode yyrv;
+    private ql.ast.QLNode[] yysv;
+    private ql.ast.QLNode yyrv;
 
     public boolean parse() {
         int yyn = 0;
         yysp = 0;
         yyst = new int[yyss];
-        yysv = new ql.ast.ASTNode[yyss];
+        yysv = new ql.ast.QLNode[yyss];
         yytok = (lexer.getToken()
                  );
     loop:
@@ -1283,7 +1283,7 @@ class QLParser implements QLTokens {
 
     protected void yyexpand() {
         int[] newyyst = new int[2*yyst.length];
-        ql.ast.ASTNode[] newyysv = new ql.ast.ASTNode[2*yyst.length];
+        ql.ast.QLNode[] newyysv = new ql.ast.QLNode[2*yyst.length];
         for (int i=0; i<yyst.length; i++) {
             newyyst[i] = yyst[i];
             newyysv[i] = yysv[i];
@@ -3179,9 +3179,9 @@ class QLParser implements QLTokens {
 
 private QLLexer lexer; 
 
-private ASTNode result;
+private QLNode result;
 
-public ASTNode getResult() {
+public QLNode getResult() {
   return result;
 }
 

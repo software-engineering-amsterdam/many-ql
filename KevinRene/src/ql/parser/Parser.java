@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 
 public class Parser {
 	/**
@@ -14,7 +14,7 @@ public class Parser {
 	 * @param filepath
 	 * @return
 	 */
-	public ASTNode parseFile (String filepath) {
+	public QLNode parseFile (String filepath) {
 		try {
 			Reader reader = new BufferedReader(new FileReader(filepath));
 			QLLexer lexer = new QLLexer(reader);
@@ -36,7 +36,7 @@ public class Parser {
 	 * @param input The string to parse
 	 * @return ASTNode of the root
 	 */
-	public ASTNode parse (String input) {
+	public QLNode parse (String input) {
 		Reader reader = new StringReader(input);
 		QLLexer lexer = new QLLexer(reader);
 		QLParser parser = new QLParser(lexer);

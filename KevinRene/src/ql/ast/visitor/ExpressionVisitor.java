@@ -30,7 +30,7 @@ import ql.ast.expression.type.QLInteger;
 import ql.ast.expression.type.QLNumeric;
 import ql.ast.expression.type.QLString;
 
-public interface ExpressionVisitor<T> extends Visitor<T> {
+public interface ExpressionVisitor<T> {
 	
 	default T visit(Unary unaryNode) {
 		unaryNode.getExpression().accept(this);

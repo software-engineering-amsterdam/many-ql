@@ -5,11 +5,11 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-import qls.ast.Identifier;
-import qls.ast.QLSNode;
-import qls.ast.literal.FloatLiteral;
-import qls.ast.literal.IntegerLiteral;
-import qls.ast.literal.StringLiteral;
+import ql.ast.QLNode;
+import ql.ast.expression.Identifier;
+import ql.ast.expression.literal.FloatLiteral;
+import ql.ast.expression.literal.IntegerLiteral;
+import ql.ast.expression.literal.StringLiteral;
 
 public class QLSLexer implements QLSTokens {
 	private static final Map<String, Integer> KEYWORDS;
@@ -33,7 +33,7 @@ public class QLSLexer implements QLSTokens {
 	private int token;
 	private int c = ' ';
 	
-	private QLSNode yylval;
+	private QLNode yylval;
 	private final Reader input;
 
 	public QLSLexer(Reader input) {
@@ -186,7 +186,7 @@ public class QLSLexer implements QLSTokens {
 		return token;
 	}
 
-	public QLSNode getSemantic() {
+	public QLNode getSemantic() {
 		return yylval;
 	}
 

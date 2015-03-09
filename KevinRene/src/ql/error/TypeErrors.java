@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.QLType;
 import ql.ast.statement.Question;
@@ -29,13 +29,13 @@ public class TypeErrors {
 		errors.add(new Error(identifier, identifier + " is defined multiple times."));
 	}
 	
-	public void incompatibleType(ASTNode node,
+	public void incompatibleType(QLNode node,
 			QLType expectedType, QLType actualType) {
 		errors.add(new Error(node, "Expected " + expectedType + ", got " 
 				+ actualType + "."));
 	}
 	
-	public void incompatibleTypes(ASTNode node, 
+	public void incompatibleTypes(QLNode node, 
 			List<QLType> operandTypes, QLType compatibleTo) {		
 		// Create string of actual types
 		String actualTypes = operandTypes

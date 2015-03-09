@@ -1,6 +1,6 @@
 package ql.ast.visitor.prettyprinter;
 
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.expression.*;
 import ql.ast.expression.arithmetic.*;
 import ql.ast.expression.literal.*;
@@ -37,7 +37,7 @@ public class PrettyPrinter implements StatementVisitor<Void>, ExpressionVisitor<
 	 * 
 	 * @param node - The node to print.
 	 */
-	private void printNode(ASTNode node) {
+	private void printNode(QLNode node) {
 		String type = node.getClass().getSimpleName();
 		// Strip the string until only the name of the node is left.
 		String nodeString = node.toString().split("\\(")[0];

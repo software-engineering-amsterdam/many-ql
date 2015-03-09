@@ -2,7 +2,7 @@ package ql.ast.visitor.evaluator;
 
 import ql.Value;
 import ql.ValueEnvironment;
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.arithmetic.Add;
 import ql.ast.expression.arithmetic.Div;
@@ -35,7 +35,7 @@ public class Evaluator implements ExpressionVisitor<Value>, StatementVisitor<Val
 		this.valueEnv = valueEnv;
 	}
 	
-	public static Value check(ASTNode tree, ValueEnvironment valueEnvironment) {
+	public static Value check(QLNode tree, ValueEnvironment valueEnvironment) {
 		Evaluator evaluator = new Evaluator(valueEnvironment);
 		
 		return tree.accept(evaluator);

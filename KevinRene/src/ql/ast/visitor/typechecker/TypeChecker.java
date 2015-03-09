@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ql.TypeEnvironment;
-import ql.ast.ASTNode;
+import ql.ast.QLNode;
 import ql.ast.Expression;
 import ql.ast.expression.Identifier;
 import ql.ast.expression.QLType;
@@ -56,7 +56,7 @@ public class TypeChecker implements ExpressionVisitor<QLType>, StatementVisitor<
 	 * Entry point, static type checks the supplied tree
 	 * @return a boolean indicating pass or fail
 	 */
-	public static boolean check(ASTNode tree, TypeEnvironment register) {
+	public static boolean check(QLNode tree, TypeEnvironment register) {
 		TypeChecker typeChecker = new TypeChecker(register);
 		typeErrors = new TypeErrors();
 		
