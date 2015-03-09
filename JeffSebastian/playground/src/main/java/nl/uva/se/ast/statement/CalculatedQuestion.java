@@ -1,8 +1,8 @@
 package nl.uva.se.ast.statement;
 
 import nl.uva.se.ast.expression.Expression;
-import nl.uva.se.constant.Type;
-import nl.uva.se.visitor.Visitor;
+import nl.uva.se.ast.type.Type;
+import nl.uva.se.visitor.StatementVisitor;
 
 public class CalculatedQuestion extends Question {
 
@@ -19,7 +19,7 @@ public class CalculatedQuestion extends Question {
 	}
 
 	@Override
-	public void accept(Visitor visitor) {
+	public void accept(StatementVisitor visitor) {
 		visitor.visit(this);
 	}
 	

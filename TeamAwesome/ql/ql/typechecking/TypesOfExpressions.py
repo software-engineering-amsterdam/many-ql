@@ -1,4 +1,6 @@
-from . import Checker, Message
+from typechecking import Message
+
+from . import Checker
 from .Identifier import typeOfIdentifier
 from .Cast import effectiveTypes
 
@@ -8,8 +10,8 @@ from ..ast import Nodes
 
 
 class Checker(Checker.FullChecker):
-    def __init__(self, ast):
-        super().__init__(ast)
+    def __init__(self, ast, resultADT):
+        super().__init__(ast, resultADT)
         self._operatorTable = TypeRules.OperatorTable()
 
 

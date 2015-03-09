@@ -5,6 +5,7 @@ import java.util.List;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.component.Component;
 import uva.qls.ast.primitive.Type;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -33,6 +34,13 @@ public class DefaultValue extends Statement {
 	public List<Statement> getStatement(){
 		return this.statement;
 	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return this.component != null 	? visitor.visitDefaultValueComponent(this)
+										: visitor.visitDefaultValueStatements(this);
+	}
+	
 	@Override
 	public Tuple<Integer, Integer> getLOCTuple() {
 		return this.codeLines.getCodeLocation();
@@ -44,11 +52,12 @@ public class DefaultValue extends Statement {
 	}
 	@Override
 	public GenericValue<?> evaluate() {
-	return null;
+		return null;
 	}
+	
 	@Override
 	public String toString(){
-		return this.statement 	!= null ? "DefaultValue(" + this.getType().getTypeName() + "," + this.statement.toString()
-								: "DefaultValue(" + this.getType().getTypeName() + "," + this.component.toString() + ")";
+		return this.statement 	!= null ? "DefaultValue(" + this.getType().toString() + "," + this.statement.toString()
+								: "DefaultValue(" + this.getType().toString() + "," + this.component.toString() + ")";
 	}
 }

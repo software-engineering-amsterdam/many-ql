@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AStringBasic extends PBasic
-{
+public final class AStringBasic extends PBasic {
     private TString _string_;
 
-    public AStringBasic()
-    {
+    public AStringBasic() {
         // Constructor
     }
 
     public AStringBasic(
-        @SuppressWarnings("hiding") TString _string_)
-    {
+            @SuppressWarnings("hiding") TString _string_) {
         // Constructor
         setString(_string_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AStringBasic(
-            cloneNode(this._string_));
+                cloneNode(this._string_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAStringBasic(this);
     }
 
-    public TString getString()
-    {
+    public TString getString() {
         return this._string_;
     }
 
-    public void setString(TString node)
-    {
-        if(this._string_ != null)
-        {
+    public void setString(TString node) {
+        if (this._string_ != null) {
             this._string_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AStringBasic extends PBasic
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._string_);
+                + toString(this._string_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._string_ == child)
-        {
+        if (this._string_ == child) {
             this._string_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AStringBasic extends PBasic
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._string_ == oldChild)
-        {
+        if (this._string_ == oldChild) {
             setString((TString) newChild);
             return;
         }

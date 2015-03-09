@@ -1,36 +1,32 @@
-package nl.uva.bromance.AST.Conditionals;
+package nl.uva.bromance.ast.conditionals;
 
-import javafx.scene.layout.Pane;
-import nl.uva.bromance.AST.Node;
+import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.ast.Node;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-/**
- * Created by Robert on 23-2-2015.
- */
 public class ExpressionEvaluator {
     private List<Node> expressionList;
 
-    public ExpressionEvaluator(Node ast) {
-        expressionList = buildExpressionList(ast,null);
+    public ExpressionEvaluator(AST ast) {
+        expressionList = buildExpressionList(ast.getRoot(), null);
         evaluateExpressions();
     }
 
-    public void evaluateExpressions(){
-        for (Node node : expressionList){
+    public void evaluateExpressions() {
+        for (Node node : expressionList) {
             Expression e = (Expression) node;
             Result r = e.evaluate();
-            if (r instanceof  BooleanResult)
+            if (r instanceof BooleanResult)
                 System.out.println("Expression @line" + node.getLineNumber() + " evaluates to :" + ((BooleanResult) r).getResult());
             else if (r instanceof IntResult)
                 System.out.println("Expression @line" + node.getLineNumber() + " evaluates to :" + ((IntResult) r).getResult());
         }
     }
 
-    private static List buildExpressionList(Node node, List l){
-        if (l == null){
+    private static List buildExpressionList(Node node, List l) {
+        if (l == null) {
             l = new ArrayList<Node>();
         }
         if (node instanceof Expression) {

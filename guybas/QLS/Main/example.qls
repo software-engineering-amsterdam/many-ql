@@ -9,7 +9,7 @@ Page Housing
 
     Section Loaning {
         Question hasMaintLoan
-        Widget : Textbox
+        Widget : Radio (yes, no)
     }
 
 Page Selling
@@ -20,14 +20,19 @@ Page Selling
     }
 
     Section You_Sold_A_House {
-        Question SellingPrice
+        Question sellingPrice
             Widget : Textbox 100
 
-        Question PrivateDept
+        Question privateDebt
             Widget : Checkbox (yes, no)
 
         QuestionValueResidue
             Widget : Spinbox 1 10
+    }
+
+    Section Check {
+        Question sellingPrice
+            Widget : Radio(yes, no)
     }
 
 Default bool Widget : Radio (yes, no) {

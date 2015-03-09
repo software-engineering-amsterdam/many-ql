@@ -23,5 +23,4 @@ public class IntType extends Type {
 	public <T> T accept(TypeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
 }

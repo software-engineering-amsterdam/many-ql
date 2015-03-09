@@ -1,47 +1,47 @@
 # AST format of a question, initializing the IStatement
-from QL.AST.Statements.statement import *
-from QL.Main.gui import *
+import QL.AST.Statements.statement as statement
+import QL.Runtime.gui as g
+import QL.Grammar.constants as constants
 
-class Question(IStatement):
+
+class Question(statement.IStatement):
 
     # Override
     def __init__(self, qid, qtype, label):
-        self.id = qid
-        self.label = label
-        self.type = qtype
-        self.answer = []
-        self.parent_id = None
-        self.order = None
+        self._id = qid
+        self._label = label
+        self._type = qtype
+        self._parent_id = None
+        self._order = None
         self.element = None
         self.parentCondition = None
-        # self.set_element()
 
     # Override
     def pretty_print(self, level=0):
         s = "\n" + "   " * level + "Question\n"
-        s += "   " * (level + 1) + "Question id: " + self.id + "\n"
-        s += "   " * (level + 1) + "Order number: "+ str(self.order) + "\n"
-        s += "   " * (level + 1) + "Question itself: " + self.label + "\n"
-        s += "   " * (level + 1) + "Question type: " + str(self.type)
+        s += "   " * (level + 1) + "Question _id: " + self._id + "\n"
+        s += "   " * (level + 1) + "Order number: "+ str(self._order) + "\n"
+        s += "   " * (level + 1) + "Question itself: " + self._label + "\n"
+        s += "   " * (level + 1) + "Question _type: " + str(self._type)
         s += "\n"
         return s
 
     # Override
     def id_collection(self):
-        return [self.id]
+        return [self._id]
 
     # Override
     def label_collection(self):
-        return [self.label]
+        return [self._label]
 
     # Override
     def is_conditional(self):
         return False
 
     # Override
-    def dependency_collection(self, dependencies):
-        if self.id not in dependencies:
-            dependencies[self.id] = []
+    def get_dependency_collection(self, dependencies):
+        if self._id not in dependencies:
+            dependencies[self._id] = []
         return dependencies
 
     # Override
@@ -50,60 +50,58 @@ class Question(IStatement):
 
     # Override
     def get_parent_id(self):
-        return self.parent_id
+        return self._parent_id
 
     # Override
     def set_parent_id(self, pid):
-        self.parent_id = pid
+        self._parent_id = pid
 
     # Override
     def set_order(self, order_num):
-        if not self.order:
-            self.order = order_num
-            return self.order + 1
+        if not self._order:
+            self._order = order_num
+            return self._order + 1
         else:
-            print("Warning: order set more than once")
-        return self.order + 1
+            print("Warning: _order set more than once")
+        return self._order + 1
 
+    # set gui _element
     def set_element(self, gui):
-        if self.get_type() is 'bool':
-            self.element = QuestionnaireGUI.e_radio(self, gui)
-        elif self.get_type() is 'number':
-            self.element = QuestionnaireGUI.e_spin(self, gui)
-        elif self.get_type() is 'text':
-            self.element = QuestionnaireGUI.e_entry(self, gui)
+        if self.get_type() is constants.GrammarConstants.BOOL:
+            self.element = g.QuestionnaireGUI.e_radio(self, gui)
+        elif self.get_type() is constants.GrammarConstants.NUMBER:
+            self.element = g.QuestionnaireGUI.e_spin(self, gui)
+        elif self.get_type() is constants.GrammarConstants.TEXT:
+            self.element = g.QuestionnaireGUI.e_entry(self, gui)
         else:
-            raise QException("Element type does not exists")
+            raise g.QException("Element _type does not exists")
 
     def set_parent_condition(self, condition):
         self.parentCondition = condition
 
     # Override
-    def id_type_collection(self):
-        return {self.id: self.type}
+    def get_id_type_collection(self):
+        return {self._id: self._type}
 
     # Override
     def get_order(self):
-        return self.order
+        return self._order
 
     # Getters of the question statement
     def get_label(self):
-        return self.label
+        return self._label
 
     def get_type(self):
-        return self.type
+        return self._type
 
     def get_id(self):
-        return self.id
-
-    def get_answer(self):
-        return self.answer
+        return self._id
 
     def get_element(self):
-        return self.element    
+        return self.element
         
     def get_statement_dict(self):
-        return {self.id: self}
+        return {self._id: self}
 
     def get_parent_condition(self):
         return self.parentCondition

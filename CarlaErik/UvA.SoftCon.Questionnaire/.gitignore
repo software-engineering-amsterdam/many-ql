@@ -187,13 +187,3 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-
-# Antlr generated files (added by Erik)
-QL.tokens
-QLBaseListener.cs
-QLLexer.cs
-QLLexer.tokens
-QLListener.cs
-QLParser.cs
-QLBaseVisitor.cs
-QLVisitor.cs

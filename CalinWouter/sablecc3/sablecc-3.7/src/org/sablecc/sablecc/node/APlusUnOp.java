@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APlusUnOp extends PUnOp
-{
+public final class APlusUnOp extends PUnOp {
     private TPlus _plus_;
 
-    public APlusUnOp()
-    {
+    public APlusUnOp() {
         // Constructor
     }
 
     public APlusUnOp(
-        @SuppressWarnings("hiding") TPlus _plus_)
-    {
+            @SuppressWarnings("hiding") TPlus _plus_) {
         // Constructor
         setPlus(_plus_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new APlusUnOp(
-            cloneNode(this._plus_));
+                cloneNode(this._plus_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAPlusUnOp(this);
     }
 
-    public TPlus getPlus()
-    {
+    public TPlus getPlus() {
         return this._plus_;
     }
 
-    public void setPlus(TPlus node)
-    {
-        if(this._plus_ != null)
-        {
+    public void setPlus(TPlus node) {
+        if (this._plus_ != null) {
             this._plus_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class APlusUnOp extends PUnOp
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._plus_);
+                + toString(this._plus_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._plus_ == child)
-        {
+        if (this._plus_ == child) {
             this._plus_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class APlusUnOp extends PUnOp
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._plus_ == oldChild)
-        {
+        if (this._plus_ == oldChild) {
             setPlus((TPlus) newChild);
             return;
         }

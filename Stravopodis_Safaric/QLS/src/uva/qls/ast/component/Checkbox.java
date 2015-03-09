@@ -5,18 +5,25 @@ import java.util.ArrayList;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.value.StringValue;
 import uva.qls.supporting.Tuple;
+import uva.qls.ast.literal.StringLiteral;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.style.*;
 
 public class Checkbox extends Component{
 	
-	private String value;
+	private StringLiteral value;
 	
-	public Checkbox(String _value, ArrayList<Style> _style, CodeLines _codeLines) {
+	public Checkbox(StringLiteral _value, ArrayList<Style> _style, CodeLines _codeLines) {
 		super(_codeLines);
 		this.value = _value;
 		this.style = _style;
 	}
-
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitCheckBox(this);
+	}
+	
 	@Override
 	public Tuple<Integer, Integer> getLOCTuple() {
 		return this.codeLines.getCodeLocation();
@@ -29,6 +36,10 @@ public class Checkbox extends Component{
 
 	@Override
 	public StringValue evaluate() {
-		return new StringValue(this.value);
+		return new StringValue(this.value.evaluatedValue());
+	}
+	@Override
+	public String toString(){
+		return "Checkbox(" + this.value.evaluatedValue() + " " + this.style.toString() + ")";
 	}
 }

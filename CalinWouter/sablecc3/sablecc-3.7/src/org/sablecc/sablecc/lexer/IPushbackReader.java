@@ -2,11 +2,11 @@
 
 package org.sablecc.sablecc.lexer;
 
-import java.io.*;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
-public interface IPushbackReader
-{
+public interface IPushbackReader {
     public int read() throws IOException;
+
     public void unread(int c) throws IOException;
 }

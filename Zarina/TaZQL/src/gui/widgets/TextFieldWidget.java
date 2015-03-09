@@ -1,7 +1,8 @@
 package gui.widgets;
 
+import evaluator.ValueRepository;
+import gui.widgets.listeners.EvaluateExpression;
 import gui.widgets.listeners.TextListener;
-import interpreter.ValueRepository;
 
 import javax.swing.JComponent;
 import javax.swing.JTextField;
@@ -37,7 +38,7 @@ public class TextFieldWidget implements IWidgetComponent {
 	}
 	
 	@Override
-	public void addDocListener() {
+	public void addDocListener() { //EvaluateExpression evaluator) {
 		widget.getDocument().addDocumentListener(new TextListener(this, valueRepository));
 	}
 

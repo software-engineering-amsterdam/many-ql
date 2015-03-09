@@ -1,10 +1,12 @@
-from QLS.Grammar.qls import *
-from QLS.Validtors.type_checker import *
-from QL.AST.form import *
+import QLS.Grammar.qls as q
+import QLS.Validators.type_checker as t
+import QL.Grammar.basic_types as b
+import QL.Grammar.form as f
 
-qls = QLSFactory.make_sheet(QLS.sheet.parseFile("example.qls"))
-print(qls.pretty_print())
+qls = q.QLSFactory.make_sheet(q.QLS.sheet.parseFile("example.qls"))
+#print(qls.pretty_print())
 
-formAsParseResults = FormFormat.form.ignore(BasicTypes.comment).parseFile("ql_example.ql")
-#form = FormFactory.make_form(formAsParseResults)
-t = TypeChecker([], qls)
+formAsParseResults = f.FormFormat.form.ignore(b.BasicTypes.comment).parseFile("example.ql")
+f = f.forms.FormFactory.make_form(formAsParseResults)
+#print(f.get_type_dict())
+checker = t.TypeChecker(f, qls)

@@ -1,6 +1,6 @@
 package org.fugazi.ql.gui;
 
-import org.fugazi.ql.ValueStorage;
+import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.ast.expression.Expression;
 import org.fugazi.ql.ast.form.Form;
 import org.fugazi.ql.ast.statement.IStatementVisitor;
@@ -30,7 +30,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     private final Evaluator evaluator;
     private final ValueStorage storage;
 
-    private ArrayList<ComputedQuestion> computedQuestions = new ArrayList<>(); // used for their re-evaluation
+    private ArrayList<ComputedQuestion> computedQuestions = new ArrayList<>(); // used for their re-computation
 
     // if statements by block.
     private HashMap<String, ArrayList<IfStatement>> ifStatements = new HashMap<>(); // used for their re-evaluation
@@ -45,7 +45,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         this.blockHandler = new BlockHandler();
 
         FormBlock formBlock = new FormBlock(_astForm.getName());
-        blockHandler.addBlock(formBlock);
+        this.blockHandler.addBlock(formBlock);
     }
 
     public void renderGUI() {
@@ -60,6 +60,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
     private void addIfStatement(IfStatement _ifStatement) {
         if (!blockHandler.isBlockExists(_ifStatement.getCondition().toString())) {
             ifStatements.put(blockHandler.getCurrentBlock().getName(), new ArrayList<>());
+
             if (!ifStatements.get(blockHandler.getCurrentBlock().getName()).contains(_ifStatement)) {
                 ifStatements.get(blockHandler.getCurrentBlock().getName()).add(_ifStatement);
             }
@@ -72,28 +73,28 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         }
     }
 
-    private void addQuestionToTheForm(UIQuestion _quest) {
+    private void renderQuestionToTheForm(UIQuestion _quest) {
         this.storage.saveValue(_quest.getId(), _quest.getState());
         this.uiForm.addQuestion(_quest);
     }
 
-    private void removeQuestionFromTheForm(UIQuestion _quest) {
+    private void deleteQuestionFromTheForm(UIQuestion _quest) {
         this.uiForm.removeQuestion(_quest);
     }
 
     private void removeBlockFromForm(String _blockName) {
         for (Block block : blockHandler.getBlocks()) {
             if (block.getName().equals(_blockName)) {
-                block.getBody().values().forEach(quest -> this.removeQuestionFromTheForm(quest));
+                block.getBody().values().forEach(quest -> this.deleteQuestionFromTheForm(quest));
                 block.clearBlock();
                 blockHandler.previousBlock();
             }
         }
     }
 
-    private void addQuestionToBlock(UIQuestion _quest) {
-        blockHandler.getCurrentBlock().add(_quest);
-        addQuestionToTheForm(_quest);
+    private void addQuestionCurrentToBlock(UIQuestion _quest) {
+        this.blockHandler.getCurrentBlock().add(_quest);
+        this.renderQuestionToTheForm(_quest);
     }
 
     /**
@@ -103,7 +104,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         // save the new value.
         this.storage.saveValue(_origin.getId(), _origin.getState());
 
-        // re-evaluate the computed questions.
+        // re-compute the computed questions.
         computedQuestions.forEach(quest -> this.evaluateComputedExpression(quest));
 
         // re-visit the conditions of the root block.
@@ -113,9 +114,7 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         blockHandler.resetCurrentBlock();
     }
 
-    /**
-     * Evaluation
-     */
+    // Evaluation
     private boolean evaluateIfStatement(IfStatement _ifStatement) {
         Expression condition = _ifStatement.getCondition();
         BoolValue result = (BoolValue) this.evaluator.evaluateExpression(condition);
@@ -133,14 +132,12 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
         return result;
     }
 
-    /**
-     * Statement Visitor
-     */
+    //Statement Visitor
     public Void visitQuestion(Question _question) {
         if (!blockHandler.isQuestionExists(_question.getIdName())) {
             UITypeVisitor typeVisitor = new UITypeVisitor(this, _question);
             UIQuestion uiQuestion = _question.getType().accept(typeVisitor);
-            this.addQuestionToBlock(uiQuestion);
+            this.addQuestionCurrentToBlock(uiQuestion);
         }
         return null;
     }
@@ -170,14 +167,11 @@ public class UIBuilder implements IMediator, IStatementVisitor<Void> {
 
         if (!blockHandler.isQuestionExists(_computedQuest.getIdName())) {
             this.addComputedQuestion(_computedQuest);
-
             UIComputedQuestion uiComputedQuestion = new UIComputedQuestion(this, _computedQuest, result);
-            this.addQuestionToBlock(uiComputedQuestion);
-
+            this.addQuestionCurrentToBlock(uiComputedQuestion);
         } else {
             UIComputedQuestion uiComputedQuestion = (UIComputedQuestion) blockHandler.getExistingQuestion(_computedQuest.getIdName());
-            if (uiComputedQuestion != null)
-                uiComputedQuestion.setComputedValue(result);
+            if (uiComputedQuestion != null) uiComputedQuestion.setComputedValue(result);
         }
         return null;
     }

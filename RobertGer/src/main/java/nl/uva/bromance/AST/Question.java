@@ -1,12 +1,12 @@
-package nl.uva.bromance.AST;
+package nl.uva.bromance.ast;
 
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import nl.uva.bromance.AST.Conditionals.ElseIfStatement;
-import nl.uva.bromance.AST.Conditionals.ElseStatement;
-import nl.uva.bromance.AST.Conditionals.IfStatement;
-import nl.uva.bromance.AST.Range.Range;
+import nl.uva.bromance.ast.conditionals.ElseIfStatement;
+import nl.uva.bromance.ast.conditionals.ElseStatement;
+import nl.uva.bromance.ast.conditionals.IfStatement;
+import nl.uva.bromance.ast.range.Range;
 import nl.uva.bromance.typechecking.ReferenceMap;
 import nl.uva.bromance.typechecking.TypeCheckingException;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -73,7 +73,7 @@ public class Question extends Node {
         for (int j = 0; j < i; j++) {
             System.out.print("\t");
         }
-        System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , Range: " + this.questionRange + " }\n");
+        System.out.print("[Question] { Name : " + this.identifier + " , QuestionString: " + this.questionString + " , Type: " + this.questionType + " , range: " + this.questionRange + " }\n");
         for (Node n : getChildren()) {
             n.printDebug(i + 1);
         }

@@ -21,7 +21,7 @@ stylesheet taxOfficeExample {
     section "Selling" {
 
       question hasSoldHouse {
-        widget: radio("Yes", "No")
+        widget: yesno-radio("Yes", "No")
       }
 
       section "You sold a house" {
@@ -40,7 +40,7 @@ stylesheet taxOfficeExample {
           width: 400
           font: "Arial" 
           fontsize: 14
-          color: #999999
+          color: #0000FF
           widget: spinbox(0, 100)
         }        
 
@@ -49,7 +49,7 @@ stylesheet taxOfficeExample {
     }
 
     default boolean {
-        widget: radio("Yes", "No")
+        widget: yesno-radio("Yes", "No")
     }
 
   }  

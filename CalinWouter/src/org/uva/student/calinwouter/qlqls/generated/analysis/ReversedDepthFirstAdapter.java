@@ -734,7 +734,8 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         defaultIn(node);
     }
 
-    public void outAFilledIdentList(AFilledIdentList node) {
+    public void outAFilledIdentList(AFilledIdentList node)
+    {
         defaultOut(node);
     }
 

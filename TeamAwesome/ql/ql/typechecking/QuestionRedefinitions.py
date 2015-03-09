@@ -1,6 +1,8 @@
+from typechecking import Message
+
 from .Identifier import typeOfIdentifier
 from ..TypeRules import nativeQuestionType
-from . import Checker, Message
+from . import Checker
 
 class Checker(Checker.StatementChecker):
     def _visitQuestionStatement(self, node):

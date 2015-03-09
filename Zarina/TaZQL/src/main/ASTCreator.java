@@ -27,7 +27,7 @@ public class ASTCreator {
 		Form form = (Form) v.visit(tree);
 			
 		// Print my AST in console
-		System.out.println("AST: \n" + form.toString());
+	//	System.out.println("AST: \n" + form.toString());
 		
 		return form;
 	}
@@ -50,7 +50,7 @@ public class ASTCreator {
 	}
 	
 	public String fileName() {
-		String fileName = "./questionnaires/test2.ql";
+		String fileName = "./questionnaires/test.ql";
 		return fileName;
 	}
 }

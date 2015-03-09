@@ -2,18 +2,20 @@
 
 package org.sablecc.sablecc.parser;
 
+import org.sablecc.sablecc.analysis.*;
 import org.sablecc.sablecc.lexer.*;
 import org.sablecc.sablecc.node.*;
-import org.sablecc.sablecc.analysis.*;
-import java.util.*;
 
-import java.io.DataInputStream;
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
-public class Parser
-{
+public class Parser {
     public final Analysis ignoredTokens = new AnalysisAdapter();
 
     protected ArrayList<Object> nodeList;
@@ -31,18 +33,15 @@ public class Parser
     private final static int ACCEPT = 2;
     private final static int ERROR = 3;
 
-    public Parser(@SuppressWarnings("hiding") Lexer lexer)
-    {
+    public Parser(@SuppressWarnings("hiding") Lexer lexer) {
         this.lexer = lexer;
     }
 
-    @SuppressWarnings({"unchecked","unused"})
-    private void push(int numstate, ArrayList<Object> listNode) throws ParserException, LexerException, IOException
-    {
+    @SuppressWarnings({"unchecked", "unused"})
+    private void push(int numstate, ArrayList<Object> listNode) throws ParserException, LexerException, IOException {
         this.nodeList = listNode;
 
-        if(!this.stack.hasNext())
-        {
+        if (!this.stack.hasNext()) {
             this.stack.add(new State(numstate, this.nodeList));
             return;
         }
@@ -52,28 +51,21 @@ public class Parser
         s.nodes = this.nodeList;
     }
 
-    private int goTo(int index)
-    {
+    private int goTo(int index) {
         int state = state();
         int low = 1;
         int high = gotoTable[index].length - 1;
         int value = gotoTable[index][0][1];
 
-        while(low <= high)
-        {
+        while (low <= high) {
             // int middle = (low + high) / 2;
             int middle = (low + high) >>> 1;
 
-            if(state < gotoTable[index][middle][0])
-            {
+            if (state < gotoTable[index][middle][0]) {
                 high = middle - 1;
-            }
-            else if(state > gotoTable[index][middle][0])
-            {
+            } else if (state > gotoTable[index][middle][0]) {
                 low = middle + 1;
-            }
-            else
-            {
+            } else {
                 value = gotoTable[index][middle][1];
                 break;
             }
@@ -82,44 +74,36 @@ public class Parser
         return value;
     }
 
-    private int state()
-    {
+    private int state() {
         State s = (State) this.stack.previous();
         this.stack.next();
         return s.state;
     }
 
-    private ArrayList<Object> pop()
-    {
+    private ArrayList<Object> pop() {
         return ((State) this.stack.previous()).nodes;
     }
 
-    private int index(Switchable token)
-    {
+    private int index(Switchable token) {
         this.converter.index = -1;
         token.apply(this.converter);
         return this.converter.index;
     }
 
     @SuppressWarnings("unchecked")
-    public Start parse() throws ParserException, LexerException, IOException
-    {
+    public Start parse() throws ParserException, LexerException, IOException {
         push(0, null);
         List<Node> ign = null;
-        while(true)
-        {
-            while(index(this.lexer.peek()) == -1)
-            {
-                if(ign == null)
-                {
+        while (true) {
+            while (index(this.lexer.peek()) == -1) {
+                if (ign == null) {
                     ign = new LinkedList<Node>();
                 }
 
                 ign.add(this.lexer.next());
             }
 
-            if(ign != null)
-            {
+            if (ign != null) {
                 this.ignoredTokens.setIn(this.lexer.peek(), ign);
                 ign = null;
             }
@@ -135,1670 +119,1389 @@ public class Parser
             int low = 1;
             int high = Parser.actionTable[state()].length - 1;
 
-            while(low <= high)
-            {
+            while (low <= high) {
                 int middle = (low + high) / 2;
 
-                if(index < Parser.actionTable[state()][middle][0])
-                {
+                if (index < Parser.actionTable[state()][middle][0]) {
                     high = middle - 1;
-                }
-                else if(index > Parser.actionTable[state()][middle][0])
-                {
+                } else if (index > Parser.actionTable[state()][middle][0]) {
                     low = middle + 1;
-                }
-                else
-                {
+                } else {
                     this.action[0] = Parser.actionTable[state()][middle][1];
                     this.action[1] = Parser.actionTable[state()][middle][2];
                     break;
                 }
             }
 
-            switch(this.action[0])
-            {
-                case SHIFT:
-		    {
-		        ArrayList<Object> list = new ArrayList<Object>();
-		        list.add(this.lexer.next());
-                        push(this.action[1], list);
-                    }
-		    break;
-                case REDUCE:
-                    {
-                        int reduction = this.action[1];
-                        if(reduction < 500) reduce_0(reduction);
-                    }
-                    break;
-                case ACCEPT:
-                    {
-                        EOF node2 = (EOF) this.lexer.next();
-                        PGrammar node1 = (PGrammar) pop().get(0);
-                        Start node = new Start(node1, node2);
-                        return node;
-                    }
+            switch (this.action[0]) {
+                case SHIFT: {
+                    ArrayList<Object> list = new ArrayList<Object>();
+                    list.add(this.lexer.next());
+                    push(this.action[1], list);
+                }
+                break;
+                case REDUCE: {
+                    int reduction = this.action[1];
+                    if (reduction < 500) reduce_0(reduction);
+                }
+                break;
+                case ACCEPT: {
+                    EOF node2 = (EOF) this.lexer.next();
+                    PGrammar node1 = (PGrammar) pop().get(0);
+                    Start node = new Start(node1, node2);
+                    return node;
+                }
                 case ERROR:
                     throw new ParserException(this.last_token,
-                        "[" + this.last_line + "," + this.last_pos + "] " +
-                        Parser.errorMessages[Parser.errors[this.action[1]]]);
+                            "[" + this.last_line + "," + this.last_pos + "] " +
+                                    Parser.errorMessages[Parser.errors[this.action[1]]]);
             }
         }
     }
 
-    private void reduce_0(int reduction) throws IOException, LexerException, ParserException
-    {
-        switch(reduction)
-        {
-            case 0: /* reduce AAgrammar1Grammar */
-            {
+    private void reduce_0(int reduction) throws IOException, LexerException, ParserException {
+        switch (reduction) {
+            case 0: /* reduce AAgrammar1Grammar */ {
                 ArrayList<Object> list = new0();
                 push(goTo(0), list);
             }
             break;
-            case 1: /* reduce AAgrammar2Grammar */
-            {
+            case 1: /* reduce AAgrammar2Grammar */ {
                 ArrayList<Object> list = new1();
                 push(goTo(0), list);
             }
             break;
-            case 2: /* reduce AAgrammar3Grammar */
-            {
+            case 2: /* reduce AAgrammar3Grammar */ {
                 ArrayList<Object> list = new2();
                 push(goTo(0), list);
             }
             break;
-            case 3: /* reduce AAgrammar4Grammar */
-            {
+            case 3: /* reduce AAgrammar4Grammar */ {
                 ArrayList<Object> list = new3();
                 push(goTo(0), list);
             }
             break;
-            case 4: /* reduce AAgrammar5Grammar */
-            {
+            case 4: /* reduce AAgrammar5Grammar */ {
                 ArrayList<Object> list = new4();
                 push(goTo(0), list);
             }
             break;
-            case 5: /* reduce AAgrammar6Grammar */
-            {
+            case 5: /* reduce AAgrammar6Grammar */ {
                 ArrayList<Object> list = new5();
                 push(goTo(0), list);
             }
             break;
-            case 6: /* reduce AAgrammar7Grammar */
-            {
+            case 6: /* reduce AAgrammar7Grammar */ {
                 ArrayList<Object> list = new6();
                 push(goTo(0), list);
             }
             break;
-            case 7: /* reduce AAgrammar8Grammar */
-            {
+            case 7: /* reduce AAgrammar8Grammar */ {
                 ArrayList<Object> list = new7();
                 push(goTo(0), list);
             }
             break;
-            case 8: /* reduce AAgrammar9Grammar */
-            {
+            case 8: /* reduce AAgrammar9Grammar */ {
                 ArrayList<Object> list = new8();
                 push(goTo(0), list);
             }
             break;
-            case 9: /* reduce AAgrammar10Grammar */
-            {
+            case 9: /* reduce AAgrammar10Grammar */ {
                 ArrayList<Object> list = new9();
                 push(goTo(0), list);
             }
             break;
-            case 10: /* reduce AAgrammar11Grammar */
-            {
+            case 10: /* reduce AAgrammar11Grammar */ {
                 ArrayList<Object> list = new10();
                 push(goTo(0), list);
             }
             break;
-            case 11: /* reduce AAgrammar12Grammar */
-            {
+            case 11: /* reduce AAgrammar12Grammar */ {
                 ArrayList<Object> list = new11();
                 push(goTo(0), list);
             }
             break;
-            case 12: /* reduce AAgrammar13Grammar */
-            {
+            case 12: /* reduce AAgrammar13Grammar */ {
                 ArrayList<Object> list = new12();
                 push(goTo(0), list);
             }
             break;
-            case 13: /* reduce AAgrammar14Grammar */
-            {
+            case 13: /* reduce AAgrammar14Grammar */ {
                 ArrayList<Object> list = new13();
                 push(goTo(0), list);
             }
             break;
-            case 14: /* reduce AAgrammar15Grammar */
-            {
+            case 14: /* reduce AAgrammar15Grammar */ {
                 ArrayList<Object> list = new14();
                 push(goTo(0), list);
             }
             break;
-            case 15: /* reduce AAgrammar16Grammar */
-            {
+            case 15: /* reduce AAgrammar16Grammar */ {
                 ArrayList<Object> list = new15();
                 push(goTo(0), list);
             }
             break;
-            case 16: /* reduce AAgrammar17Grammar */
-            {
+            case 16: /* reduce AAgrammar17Grammar */ {
                 ArrayList<Object> list = new16();
                 push(goTo(0), list);
             }
             break;
-            case 17: /* reduce AAgrammar18Grammar */
-            {
+            case 17: /* reduce AAgrammar18Grammar */ {
                 ArrayList<Object> list = new17();
                 push(goTo(0), list);
             }
             break;
-            case 18: /* reduce AAgrammar19Grammar */
-            {
+            case 18: /* reduce AAgrammar19Grammar */ {
                 ArrayList<Object> list = new18();
                 push(goTo(0), list);
             }
             break;
-            case 19: /* reduce AAgrammar20Grammar */
-            {
+            case 19: /* reduce AAgrammar20Grammar */ {
                 ArrayList<Object> list = new19();
                 push(goTo(0), list);
             }
             break;
-            case 20: /* reduce AAgrammar21Grammar */
-            {
+            case 20: /* reduce AAgrammar21Grammar */ {
                 ArrayList<Object> list = new20();
                 push(goTo(0), list);
             }
             break;
-            case 21: /* reduce AAgrammar22Grammar */
-            {
+            case 21: /* reduce AAgrammar22Grammar */ {
                 ArrayList<Object> list = new21();
                 push(goTo(0), list);
             }
             break;
-            case 22: /* reduce AAgrammar23Grammar */
-            {
+            case 22: /* reduce AAgrammar23Grammar */ {
                 ArrayList<Object> list = new22();
                 push(goTo(0), list);
             }
             break;
-            case 23: /* reduce AAgrammar24Grammar */
-            {
+            case 23: /* reduce AAgrammar24Grammar */ {
                 ArrayList<Object> list = new23();
                 push(goTo(0), list);
             }
             break;
-            case 24: /* reduce AAgrammar25Grammar */
-            {
+            case 24: /* reduce AAgrammar25Grammar */ {
                 ArrayList<Object> list = new24();
                 push(goTo(0), list);
             }
             break;
-            case 25: /* reduce AAgrammar26Grammar */
-            {
+            case 25: /* reduce AAgrammar26Grammar */ {
                 ArrayList<Object> list = new25();
                 push(goTo(0), list);
             }
             break;
-            case 26: /* reduce AAgrammar27Grammar */
-            {
+            case 26: /* reduce AAgrammar27Grammar */ {
                 ArrayList<Object> list = new26();
                 push(goTo(0), list);
             }
             break;
-            case 27: /* reduce AAgrammar28Grammar */
-            {
+            case 27: /* reduce AAgrammar28Grammar */ {
                 ArrayList<Object> list = new27();
                 push(goTo(0), list);
             }
             break;
-            case 28: /* reduce AAgrammar29Grammar */
-            {
+            case 28: /* reduce AAgrammar29Grammar */ {
                 ArrayList<Object> list = new28();
                 push(goTo(0), list);
             }
             break;
-            case 29: /* reduce AAgrammar30Grammar */
-            {
+            case 29: /* reduce AAgrammar30Grammar */ {
                 ArrayList<Object> list = new29();
                 push(goTo(0), list);
             }
             break;
-            case 30: /* reduce AAgrammar31Grammar */
-            {
+            case 30: /* reduce AAgrammar31Grammar */ {
                 ArrayList<Object> list = new30();
                 push(goTo(0), list);
             }
             break;
-            case 31: /* reduce AAgrammar32Grammar */
-            {
+            case 31: /* reduce AAgrammar32Grammar */ {
                 ArrayList<Object> list = new31();
                 push(goTo(0), list);
             }
             break;
-            case 32: /* reduce AAgrammar33Grammar */
-            {
+            case 32: /* reduce AAgrammar33Grammar */ {
                 ArrayList<Object> list = new32();
                 push(goTo(0), list);
             }
             break;
-            case 33: /* reduce AAgrammar34Grammar */
-            {
+            case 33: /* reduce AAgrammar34Grammar */ {
                 ArrayList<Object> list = new33();
                 push(goTo(0), list);
             }
             break;
-            case 34: /* reduce AAgrammar35Grammar */
-            {
+            case 34: /* reduce AAgrammar35Grammar */ {
                 ArrayList<Object> list = new34();
                 push(goTo(0), list);
             }
             break;
-            case 35: /* reduce AAgrammar36Grammar */
-            {
+            case 35: /* reduce AAgrammar36Grammar */ {
                 ArrayList<Object> list = new35();
                 push(goTo(0), list);
             }
             break;
-            case 36: /* reduce AAgrammar37Grammar */
-            {
+            case 36: /* reduce AAgrammar37Grammar */ {
                 ArrayList<Object> list = new36();
                 push(goTo(0), list);
             }
             break;
-            case 37: /* reduce AAgrammar38Grammar */
-            {
+            case 37: /* reduce AAgrammar38Grammar */ {
                 ArrayList<Object> list = new37();
                 push(goTo(0), list);
             }
             break;
-            case 38: /* reduce AAgrammar39Grammar */
-            {
+            case 38: /* reduce AAgrammar39Grammar */ {
                 ArrayList<Object> list = new38();
                 push(goTo(0), list);
             }
             break;
-            case 39: /* reduce AAgrammar40Grammar */
-            {
+            case 39: /* reduce AAgrammar40Grammar */ {
                 ArrayList<Object> list = new39();
                 push(goTo(0), list);
             }
             break;
-            case 40: /* reduce AAgrammar41Grammar */
-            {
+            case 40: /* reduce AAgrammar41Grammar */ {
                 ArrayList<Object> list = new40();
                 push(goTo(0), list);
             }
             break;
-            case 41: /* reduce AAgrammar42Grammar */
-            {
+            case 41: /* reduce AAgrammar42Grammar */ {
                 ArrayList<Object> list = new41();
                 push(goTo(0), list);
             }
             break;
-            case 42: /* reduce AAgrammar43Grammar */
-            {
+            case 42: /* reduce AAgrammar43Grammar */ {
                 ArrayList<Object> list = new42();
                 push(goTo(0), list);
             }
             break;
-            case 43: /* reduce AAgrammar44Grammar */
-            {
+            case 43: /* reduce AAgrammar44Grammar */ {
                 ArrayList<Object> list = new43();
                 push(goTo(0), list);
             }
             break;
-            case 44: /* reduce AAgrammar45Grammar */
-            {
+            case 44: /* reduce AAgrammar45Grammar */ {
                 ArrayList<Object> list = new44();
                 push(goTo(0), list);
             }
             break;
-            case 45: /* reduce AAgrammar46Grammar */
-            {
+            case 45: /* reduce AAgrammar46Grammar */ {
                 ArrayList<Object> list = new45();
                 push(goTo(0), list);
             }
             break;
-            case 46: /* reduce AAgrammar47Grammar */
-            {
+            case 46: /* reduce AAgrammar47Grammar */ {
                 ArrayList<Object> list = new46();
                 push(goTo(0), list);
             }
             break;
-            case 47: /* reduce AAgrammar48Grammar */
-            {
+            case 47: /* reduce AAgrammar48Grammar */ {
                 ArrayList<Object> list = new47();
                 push(goTo(0), list);
             }
             break;
-            case 48: /* reduce AAgrammar49Grammar */
-            {
+            case 48: /* reduce AAgrammar49Grammar */ {
                 ArrayList<Object> list = new48();
                 push(goTo(0), list);
             }
             break;
-            case 49: /* reduce AAgrammar50Grammar */
-            {
+            case 49: /* reduce AAgrammar50Grammar */ {
                 ArrayList<Object> list = new49();
                 push(goTo(0), list);
             }
             break;
-            case 50: /* reduce AAgrammar51Grammar */
-            {
+            case 50: /* reduce AAgrammar51Grammar */ {
                 ArrayList<Object> list = new50();
                 push(goTo(0), list);
             }
             break;
-            case 51: /* reduce AAgrammar52Grammar */
-            {
+            case 51: /* reduce AAgrammar52Grammar */ {
                 ArrayList<Object> list = new51();
                 push(goTo(0), list);
             }
             break;
-            case 52: /* reduce AAgrammar53Grammar */
-            {
+            case 52: /* reduce AAgrammar53Grammar */ {
                 ArrayList<Object> list = new52();
                 push(goTo(0), list);
             }
             break;
-            case 53: /* reduce AAgrammar54Grammar */
-            {
+            case 53: /* reduce AAgrammar54Grammar */ {
                 ArrayList<Object> list = new53();
                 push(goTo(0), list);
             }
             break;
-            case 54: /* reduce AAgrammar55Grammar */
-            {
+            case 54: /* reduce AAgrammar55Grammar */ {
                 ArrayList<Object> list = new54();
                 push(goTo(0), list);
             }
             break;
-            case 55: /* reduce AAgrammar56Grammar */
-            {
+            case 55: /* reduce AAgrammar56Grammar */ {
                 ArrayList<Object> list = new55();
                 push(goTo(0), list);
             }
             break;
-            case 56: /* reduce AAgrammar57Grammar */
-            {
+            case 56: /* reduce AAgrammar57Grammar */ {
                 ArrayList<Object> list = new56();
                 push(goTo(0), list);
             }
             break;
-            case 57: /* reduce AAgrammar58Grammar */
-            {
+            case 57: /* reduce AAgrammar58Grammar */ {
                 ArrayList<Object> list = new57();
                 push(goTo(0), list);
             }
             break;
-            case 58: /* reduce AAgrammar59Grammar */
-            {
+            case 58: /* reduce AAgrammar59Grammar */ {
                 ArrayList<Object> list = new58();
                 push(goTo(0), list);
             }
             break;
-            case 59: /* reduce AAgrammar60Grammar */
-            {
+            case 59: /* reduce AAgrammar60Grammar */ {
                 ArrayList<Object> list = new59();
                 push(goTo(0), list);
             }
             break;
-            case 60: /* reduce AAgrammar61Grammar */
-            {
+            case 60: /* reduce AAgrammar61Grammar */ {
                 ArrayList<Object> list = new60();
                 push(goTo(0), list);
             }
             break;
-            case 61: /* reduce AAgrammar62Grammar */
-            {
+            case 61: /* reduce AAgrammar62Grammar */ {
                 ArrayList<Object> list = new61();
                 push(goTo(0), list);
             }
             break;
-            case 62: /* reduce AAgrammar63Grammar */
-            {
+            case 62: /* reduce AAgrammar63Grammar */ {
                 ArrayList<Object> list = new62();
                 push(goTo(0), list);
             }
             break;
-            case 63: /* reduce AAgrammar64Grammar */
-            {
+            case 63: /* reduce AAgrammar64Grammar */ {
                 ArrayList<Object> list = new63();
                 push(goTo(0), list);
             }
             break;
-            case 64: /* reduce AAgrammar65Grammar */
-            {
+            case 64: /* reduce AAgrammar65Grammar */ {
                 ArrayList<Object> list = new64();
                 push(goTo(0), list);
             }
             break;
-            case 65: /* reduce AAgrammar66Grammar */
-            {
+            case 65: /* reduce AAgrammar66Grammar */ {
                 ArrayList<Object> list = new65();
                 push(goTo(0), list);
             }
             break;
-            case 66: /* reduce AAgrammar67Grammar */
-            {
+            case 66: /* reduce AAgrammar67Grammar */ {
                 ArrayList<Object> list = new66();
                 push(goTo(0), list);
             }
             break;
-            case 67: /* reduce AAgrammar68Grammar */
-            {
+            case 67: /* reduce AAgrammar68Grammar */ {
                 ArrayList<Object> list = new67();
                 push(goTo(0), list);
             }
             break;
-            case 68: /* reduce AAgrammar69Grammar */
-            {
+            case 68: /* reduce AAgrammar69Grammar */ {
                 ArrayList<Object> list = new68();
                 push(goTo(0), list);
             }
             break;
-            case 69: /* reduce AAgrammar70Grammar */
-            {
+            case 69: /* reduce AAgrammar70Grammar */ {
                 ArrayList<Object> list = new69();
                 push(goTo(0), list);
             }
             break;
-            case 70: /* reduce AAgrammar71Grammar */
-            {
+            case 70: /* reduce AAgrammar71Grammar */ {
                 ArrayList<Object> list = new70();
                 push(goTo(0), list);
             }
             break;
-            case 71: /* reduce AAgrammar72Grammar */
-            {
+            case 71: /* reduce AAgrammar72Grammar */ {
                 ArrayList<Object> list = new71();
                 push(goTo(0), list);
             }
             break;
-            case 72: /* reduce AAgrammar73Grammar */
-            {
+            case 72: /* reduce AAgrammar73Grammar */ {
                 ArrayList<Object> list = new72();
                 push(goTo(0), list);
             }
             break;
-            case 73: /* reduce AAgrammar74Grammar */
-            {
+            case 73: /* reduce AAgrammar74Grammar */ {
                 ArrayList<Object> list = new73();
                 push(goTo(0), list);
             }
             break;
-            case 74: /* reduce AAgrammar75Grammar */
-            {
+            case 74: /* reduce AAgrammar75Grammar */ {
                 ArrayList<Object> list = new74();
                 push(goTo(0), list);
             }
             break;
-            case 75: /* reduce AAgrammar76Grammar */
-            {
+            case 75: /* reduce AAgrammar76Grammar */ {
                 ArrayList<Object> list = new75();
                 push(goTo(0), list);
             }
             break;
-            case 76: /* reduce AAgrammar77Grammar */
-            {
+            case 76: /* reduce AAgrammar77Grammar */ {
                 ArrayList<Object> list = new76();
                 push(goTo(0), list);
             }
             break;
-            case 77: /* reduce AAgrammar78Grammar */
-            {
+            case 77: /* reduce AAgrammar78Grammar */ {
                 ArrayList<Object> list = new77();
                 push(goTo(0), list);
             }
             break;
-            case 78: /* reduce AAgrammar79Grammar */
-            {
+            case 78: /* reduce AAgrammar79Grammar */ {
                 ArrayList<Object> list = new78();
                 push(goTo(0), list);
             }
             break;
-            case 79: /* reduce AAgrammar80Grammar */
-            {
+            case 79: /* reduce AAgrammar80Grammar */ {
                 ArrayList<Object> list = new79();
                 push(goTo(0), list);
             }
             break;
-            case 80: /* reduce AAgrammar81Grammar */
-            {
+            case 80: /* reduce AAgrammar81Grammar */ {
                 ArrayList<Object> list = new80();
                 push(goTo(0), list);
             }
             break;
-            case 81: /* reduce AAgrammar82Grammar */
-            {
+            case 81: /* reduce AAgrammar82Grammar */ {
                 ArrayList<Object> list = new81();
                 push(goTo(0), list);
             }
             break;
-            case 82: /* reduce AAgrammar83Grammar */
-            {
+            case 82: /* reduce AAgrammar83Grammar */ {
                 ArrayList<Object> list = new82();
                 push(goTo(0), list);
             }
             break;
-            case 83: /* reduce AAgrammar84Grammar */
-            {
+            case 83: /* reduce AAgrammar84Grammar */ {
                 ArrayList<Object> list = new83();
                 push(goTo(0), list);
             }
             break;
-            case 84: /* reduce AAgrammar85Grammar */
-            {
+            case 84: /* reduce AAgrammar85Grammar */ {
                 ArrayList<Object> list = new84();
                 push(goTo(0), list);
             }
             break;
-            case 85: /* reduce AAgrammar86Grammar */
-            {
+            case 85: /* reduce AAgrammar86Grammar */ {
                 ArrayList<Object> list = new85();
                 push(goTo(0), list);
             }
             break;
-            case 86: /* reduce AAgrammar87Grammar */
-            {
+            case 86: /* reduce AAgrammar87Grammar */ {
                 ArrayList<Object> list = new86();
                 push(goTo(0), list);
             }
             break;
-            case 87: /* reduce AAgrammar88Grammar */
-            {
+            case 87: /* reduce AAgrammar88Grammar */ {
                 ArrayList<Object> list = new87();
                 push(goTo(0), list);
             }
             break;
-            case 88: /* reduce AAgrammar89Grammar */
-            {
+            case 88: /* reduce AAgrammar89Grammar */ {
                 ArrayList<Object> list = new88();
                 push(goTo(0), list);
             }
             break;
-            case 89: /* reduce AAgrammar90Grammar */
-            {
+            case 89: /* reduce AAgrammar90Grammar */ {
                 ArrayList<Object> list = new89();
                 push(goTo(0), list);
             }
             break;
-            case 90: /* reduce AAgrammar91Grammar */
-            {
+            case 90: /* reduce AAgrammar91Grammar */ {
                 ArrayList<Object> list = new90();
                 push(goTo(0), list);
             }
             break;
-            case 91: /* reduce AAgrammar92Grammar */
-            {
+            case 91: /* reduce AAgrammar92Grammar */ {
                 ArrayList<Object> list = new91();
                 push(goTo(0), list);
             }
             break;
-            case 92: /* reduce AAgrammar93Grammar */
-            {
+            case 92: /* reduce AAgrammar93Grammar */ {
                 ArrayList<Object> list = new92();
                 push(goTo(0), list);
             }
             break;
-            case 93: /* reduce AAgrammar94Grammar */
-            {
+            case 93: /* reduce AAgrammar94Grammar */ {
                 ArrayList<Object> list = new93();
                 push(goTo(0), list);
             }
             break;
-            case 94: /* reduce AAgrammar95Grammar */
-            {
+            case 94: /* reduce AAgrammar95Grammar */ {
                 ArrayList<Object> list = new94();
                 push(goTo(0), list);
             }
             break;
-            case 95: /* reduce AAgrammar96Grammar */
-            {
+            case 95: /* reduce AAgrammar96Grammar */ {
                 ArrayList<Object> list = new95();
                 push(goTo(0), list);
             }
             break;
-            case 96: /* reduce AAgrammar97Grammar */
-            {
+            case 96: /* reduce AAgrammar97Grammar */ {
                 ArrayList<Object> list = new96();
                 push(goTo(0), list);
             }
             break;
-            case 97: /* reduce AAgrammar98Grammar */
-            {
+            case 97: /* reduce AAgrammar98Grammar */ {
                 ArrayList<Object> list = new97();
                 push(goTo(0), list);
             }
             break;
-            case 98: /* reduce AAgrammar99Grammar */
-            {
+            case 98: /* reduce AAgrammar99Grammar */ {
                 ArrayList<Object> list = new98();
                 push(goTo(0), list);
             }
             break;
-            case 99: /* reduce AAgrammar100Grammar */
-            {
+            case 99: /* reduce AAgrammar100Grammar */ {
                 ArrayList<Object> list = new99();
                 push(goTo(0), list);
             }
             break;
-            case 100: /* reduce AAgrammar101Grammar */
-            {
+            case 100: /* reduce AAgrammar101Grammar */ {
                 ArrayList<Object> list = new100();
                 push(goTo(0), list);
             }
             break;
-            case 101: /* reduce AAgrammar102Grammar */
-            {
+            case 101: /* reduce AAgrammar102Grammar */ {
                 ArrayList<Object> list = new101();
                 push(goTo(0), list);
             }
             break;
-            case 102: /* reduce AAgrammar103Grammar */
-            {
+            case 102: /* reduce AAgrammar103Grammar */ {
                 ArrayList<Object> list = new102();
                 push(goTo(0), list);
             }
             break;
-            case 103: /* reduce AAgrammar104Grammar */
-            {
+            case 103: /* reduce AAgrammar104Grammar */ {
                 ArrayList<Object> list = new103();
                 push(goTo(0), list);
             }
             break;
-            case 104: /* reduce AAgrammar105Grammar */
-            {
+            case 104: /* reduce AAgrammar105Grammar */ {
                 ArrayList<Object> list = new104();
                 push(goTo(0), list);
             }
             break;
-            case 105: /* reduce AAgrammar106Grammar */
-            {
+            case 105: /* reduce AAgrammar106Grammar */ {
                 ArrayList<Object> list = new105();
                 push(goTo(0), list);
             }
             break;
-            case 106: /* reduce AAgrammar107Grammar */
-            {
+            case 106: /* reduce AAgrammar107Grammar */ {
                 ArrayList<Object> list = new106();
                 push(goTo(0), list);
             }
             break;
-            case 107: /* reduce AAgrammar108Grammar */
-            {
+            case 107: /* reduce AAgrammar108Grammar */ {
                 ArrayList<Object> list = new107();
                 push(goTo(0), list);
             }
             break;
-            case 108: /* reduce AAgrammar109Grammar */
-            {
+            case 108: /* reduce AAgrammar109Grammar */ {
                 ArrayList<Object> list = new108();
                 push(goTo(0), list);
             }
             break;
-            case 109: /* reduce AAgrammar110Grammar */
-            {
+            case 109: /* reduce AAgrammar110Grammar */ {
                 ArrayList<Object> list = new109();
                 push(goTo(0), list);
             }
             break;
-            case 110: /* reduce AAgrammar111Grammar */
-            {
+            case 110: /* reduce AAgrammar111Grammar */ {
                 ArrayList<Object> list = new110();
                 push(goTo(0), list);
             }
             break;
-            case 111: /* reduce AAgrammar112Grammar */
-            {
+            case 111: /* reduce AAgrammar112Grammar */ {
                 ArrayList<Object> list = new111();
                 push(goTo(0), list);
             }
             break;
-            case 112: /* reduce AAgrammar113Grammar */
-            {
+            case 112: /* reduce AAgrammar113Grammar */ {
                 ArrayList<Object> list = new112();
                 push(goTo(0), list);
             }
             break;
-            case 113: /* reduce AAgrammar114Grammar */
-            {
+            case 113: /* reduce AAgrammar114Grammar */ {
                 ArrayList<Object> list = new113();
                 push(goTo(0), list);
             }
             break;
-            case 114: /* reduce AAgrammar115Grammar */
-            {
+            case 114: /* reduce AAgrammar115Grammar */ {
                 ArrayList<Object> list = new114();
                 push(goTo(0), list);
             }
             break;
-            case 115: /* reduce AAgrammar116Grammar */
-            {
+            case 115: /* reduce AAgrammar116Grammar */ {
                 ArrayList<Object> list = new115();
                 push(goTo(0), list);
             }
             break;
-            case 116: /* reduce AAgrammar117Grammar */
-            {
+            case 116: /* reduce AAgrammar117Grammar */ {
                 ArrayList<Object> list = new116();
                 push(goTo(0), list);
             }
             break;
-            case 117: /* reduce AAgrammar118Grammar */
-            {
+            case 117: /* reduce AAgrammar118Grammar */ {
                 ArrayList<Object> list = new117();
                 push(goTo(0), list);
             }
             break;
-            case 118: /* reduce AAgrammar119Grammar */
-            {
+            case 118: /* reduce AAgrammar119Grammar */ {
                 ArrayList<Object> list = new118();
                 push(goTo(0), list);
             }
             break;
-            case 119: /* reduce AAgrammar120Grammar */
-            {
+            case 119: /* reduce AAgrammar120Grammar */ {
                 ArrayList<Object> list = new119();
                 push(goTo(0), list);
             }
             break;
-            case 120: /* reduce AAgrammar121Grammar */
-            {
+            case 120: /* reduce AAgrammar121Grammar */ {
                 ArrayList<Object> list = new120();
                 push(goTo(0), list);
             }
             break;
-            case 121: /* reduce AAgrammar122Grammar */
-            {
+            case 121: /* reduce AAgrammar122Grammar */ {
                 ArrayList<Object> list = new121();
                 push(goTo(0), list);
             }
             break;
-            case 122: /* reduce AAgrammar123Grammar */
-            {
+            case 122: /* reduce AAgrammar123Grammar */ {
                 ArrayList<Object> list = new122();
                 push(goTo(0), list);
             }
             break;
-            case 123: /* reduce AAgrammar124Grammar */
-            {
+            case 123: /* reduce AAgrammar124Grammar */ {
                 ArrayList<Object> list = new123();
                 push(goTo(0), list);
             }
             break;
-            case 124: /* reduce AAgrammar125Grammar */
-            {
+            case 124: /* reduce AAgrammar125Grammar */ {
                 ArrayList<Object> list = new124();
                 push(goTo(0), list);
             }
             break;
-            case 125: /* reduce AAgrammar126Grammar */
-            {
+            case 125: /* reduce AAgrammar126Grammar */ {
                 ArrayList<Object> list = new125();
                 push(goTo(0), list);
             }
             break;
-            case 126: /* reduce AAgrammar127Grammar */
-            {
+            case 126: /* reduce AAgrammar127Grammar */ {
                 ArrayList<Object> list = new126();
                 push(goTo(0), list);
             }
             break;
-            case 127: /* reduce AAgrammar128Grammar */
-            {
+            case 127: /* reduce AAgrammar128Grammar */ {
                 ArrayList<Object> list = new127();
                 push(goTo(0), list);
             }
             break;
-            case 128: /* reduce APackage */
-            {
+            case 128: /* reduce APackage */ {
                 ArrayList<Object> list = new128();
                 push(goTo(1), list);
             }
             break;
-            case 129: /* reduce AApkgname1PkgName */
-            {
+            case 129: /* reduce AApkgname1PkgName */ {
                 ArrayList<Object> list = new129();
                 push(goTo(2), list);
             }
             break;
-            case 130: /* reduce AApkgname2PkgName */
-            {
+            case 130: /* reduce AApkgname2PkgName */ {
                 ArrayList<Object> list = new130();
                 push(goTo(2), list);
             }
             break;
-            case 131: /* reduce APkgNameTail */
-            {
+            case 131: /* reduce APkgNameTail */ {
                 ArrayList<Object> list = new131();
                 push(goTo(3), list);
             }
             break;
-            case 132: /* reduce AHelpers */
-            {
+            case 132: /* reduce AHelpers */ {
                 ArrayList<Object> list = new132();
                 push(goTo(4), list);
             }
             break;
-            case 133: /* reduce AHelperDef */
-            {
+            case 133: /* reduce AHelperDef */ {
                 ArrayList<Object> list = new133();
                 push(goTo(5), list);
             }
             break;
-            case 134: /* reduce AStates */
-            {
+            case 134: /* reduce AStates */ {
                 ArrayList<Object> list = new134();
                 push(goTo(6), list);
             }
             break;
-            case 135: /* reduce AAidlist1IdList */
-            {
+            case 135: /* reduce AAidlist1IdList */ {
                 ArrayList<Object> list = new135();
                 push(goTo(7), list);
             }
             break;
-            case 136: /* reduce AAidlist2IdList */
-            {
+            case 136: /* reduce AAidlist2IdList */ {
                 ArrayList<Object> list = new136();
                 push(goTo(7), list);
             }
             break;
-            case 137: /* reduce AIdListTail */
-            {
+            case 137: /* reduce AIdListTail */ {
                 ArrayList<Object> list = new137();
                 push(goTo(8), list);
             }
             break;
-            case 138: /* reduce ATokens */
-            {
+            case 138: /* reduce ATokens */ {
                 ArrayList<Object> list = new138();
                 push(goTo(9), list);
             }
             break;
-            case 139: /* reduce AAtokendef1TokenDef */
-            {
+            case 139: /* reduce AAtokendef1TokenDef */ {
                 ArrayList<Object> list = new139();
                 push(goTo(10), list);
             }
             break;
-            case 140: /* reduce AAtokendef2TokenDef */
-            {
+            case 140: /* reduce AAtokendef2TokenDef */ {
                 ArrayList<Object> list = new140();
                 push(goTo(10), list);
             }
             break;
-            case 141: /* reduce AAtokendef3TokenDef */
-            {
+            case 141: /* reduce AAtokendef3TokenDef */ {
                 ArrayList<Object> list = new141();
                 push(goTo(10), list);
             }
             break;
-            case 142: /* reduce AAtokendef4TokenDef */
-            {
+            case 142: /* reduce AAtokendef4TokenDef */ {
                 ArrayList<Object> list = new142();
                 push(goTo(10), list);
             }
             break;
-            case 143: /* reduce AAstatelist1StateList */
-            {
+            case 143: /* reduce AAstatelist1StateList */ {
                 ArrayList<Object> list = new143();
                 push(goTo(11), list);
             }
             break;
-            case 144: /* reduce AAstatelist2StateList */
-            {
+            case 144: /* reduce AAstatelist2StateList */ {
                 ArrayList<Object> list = new144();
                 push(goTo(11), list);
             }
             break;
-            case 145: /* reduce AAstatelist3StateList */
-            {
+            case 145: /* reduce AAstatelist3StateList */ {
                 ArrayList<Object> list = new145();
                 push(goTo(11), list);
             }
             break;
-            case 146: /* reduce AAstatelist4StateList */
-            {
+            case 146: /* reduce AAstatelist4StateList */ {
                 ArrayList<Object> list = new146();
                 push(goTo(11), list);
             }
             break;
-            case 147: /* reduce AAstatelisttail1StateListTail */
-            {
+            case 147: /* reduce AAstatelisttail1StateListTail */ {
                 ArrayList<Object> list = new147();
                 push(goTo(12), list);
             }
             break;
-            case 148: /* reduce AAstatelisttail2StateListTail */
-            {
+            case 148: /* reduce AAstatelisttail2StateListTail */ {
                 ArrayList<Object> list = new148();
                 push(goTo(12), list);
             }
             break;
-            case 149: /* reduce ATransition */
-            {
+            case 149: /* reduce ATransition */ {
                 ArrayList<Object> list = new149();
                 push(goTo(13), list);
             }
             break;
-            case 150: /* reduce AAigntokens1IgnTokens */
-            {
+            case 150: /* reduce AAigntokens1IgnTokens */ {
                 ArrayList<Object> list = new150();
                 push(goTo(14), list);
             }
             break;
-            case 151: /* reduce AAigntokens2IgnTokens */
-            {
+            case 151: /* reduce AAigntokens2IgnTokens */ {
                 ArrayList<Object> list = new151();
                 push(goTo(14), list);
             }
             break;
-            case 152: /* reduce ALookAhead */
-            {
+            case 152: /* reduce ALookAhead */ {
                 ArrayList<Object> list = new152();
                 push(goTo(15), list);
             }
             break;
-            case 153: /* reduce AAregexp1RegExp */
-            {
+            case 153: /* reduce AAregexp1RegExp */ {
                 ArrayList<Object> list = new153();
                 push(goTo(16), list);
             }
             break;
-            case 154: /* reduce AAregexp2RegExp */
-            {
+            case 154: /* reduce AAregexp2RegExp */ {
                 ArrayList<Object> list = new154();
                 push(goTo(16), list);
             }
             break;
-            case 155: /* reduce ARegExpTail */
-            {
+            case 155: /* reduce ARegExpTail */ {
                 ArrayList<Object> list = new155();
                 push(goTo(17), list);
             }
             break;
-            case 156: /* reduce AAconcat1Concat */
-            {
+            case 156: /* reduce AAconcat1Concat */ {
                 ArrayList<Object> list = new156();
                 push(goTo(18), list);
             }
             break;
-            case 157: /* reduce AAconcat2Concat */
-            {
+            case 157: /* reduce AAconcat2Concat */ {
                 ArrayList<Object> list = new157();
                 push(goTo(18), list);
             }
             break;
-            case 158: /* reduce AAunexp1UnExp */
-            {
+            case 158: /* reduce AAunexp1UnExp */ {
                 ArrayList<Object> list = new158();
                 push(goTo(19), list);
             }
             break;
-            case 159: /* reduce AAunexp2UnExp */
-            {
+            case 159: /* reduce AAunexp2UnExp */ {
                 ArrayList<Object> list = new159();
                 push(goTo(19), list);
             }
             break;
-            case 160: /* reduce ACharBasic */
-            {
+            case 160: /* reduce ACharBasic */ {
                 ArrayList<Object> list = new160();
                 push(goTo(20), list);
             }
             break;
-            case 161: /* reduce ASetBasic */
-            {
+            case 161: /* reduce ASetBasic */ {
                 ArrayList<Object> list = new161();
                 push(goTo(20), list);
             }
             break;
-            case 162: /* reduce AStringBasic */
-            {
+            case 162: /* reduce AStringBasic */ {
                 ArrayList<Object> list = new162();
                 push(goTo(20), list);
             }
             break;
-            case 163: /* reduce AIdBasic */
-            {
+            case 163: /* reduce AIdBasic */ {
                 ArrayList<Object> list = new163();
                 push(goTo(20), list);
             }
             break;
-            case 164: /* reduce ARegExpBasic */
-            {
+            case 164: /* reduce ARegExpBasic */ {
                 ArrayList<Object> list = new164();
                 push(goTo(20), list);
             }
             break;
-            case 165: /* reduce ACharChar */
-            {
+            case 165: /* reduce ACharChar */ {
                 ArrayList<Object> list = new165();
                 push(goTo(21), list);
             }
             break;
-            case 166: /* reduce ADecChar */
-            {
+            case 166: /* reduce ADecChar */ {
                 ArrayList<Object> list = new166();
                 push(goTo(21), list);
             }
             break;
-            case 167: /* reduce AHexChar */
-            {
+            case 167: /* reduce AHexChar */ {
                 ArrayList<Object> list = new167();
                 push(goTo(21), list);
             }
             break;
-            case 168: /* reduce AOperationSet */
-            {
+            case 168: /* reduce AOperationSet */ {
                 ArrayList<Object> list = new168();
                 push(goTo(22), list);
             }
             break;
-            case 169: /* reduce AIntervalSet */
-            {
+            case 169: /* reduce AIntervalSet */ {
                 ArrayList<Object> list = new169();
                 push(goTo(22), list);
             }
             break;
-            case 170: /* reduce AStarUnOp */
-            {
+            case 170: /* reduce AStarUnOp */ {
                 ArrayList<Object> list = new170();
                 push(goTo(23), list);
             }
             break;
-            case 171: /* reduce AQMarkUnOp */
-            {
+            case 171: /* reduce AQMarkUnOp */ {
                 ArrayList<Object> list = new171();
                 push(goTo(23), list);
             }
             break;
-            case 172: /* reduce APlusUnOp */
-            {
+            case 172: /* reduce APlusUnOp */ {
                 ArrayList<Object> list = new172();
                 push(goTo(23), list);
             }
             break;
-            case 173: /* reduce APlusBinOp */
-            {
+            case 173: /* reduce APlusBinOp */ {
                 ArrayList<Object> list = new173();
                 push(goTo(24), list);
             }
             break;
-            case 174: /* reduce AMinusBinOp */
-            {
+            case 174: /* reduce AMinusBinOp */ {
                 ArrayList<Object> list = new174();
                 push(goTo(24), list);
             }
             break;
-            case 175: /* reduce AProductions */
-            {
+            case 175: /* reduce AProductions */ {
                 ArrayList<Object> list = new175();
                 push(goTo(25), list);
             }
             break;
-            case 176: /* reduce AAprod1Prod */
-            {
+            case 176: /* reduce AAprod1Prod */ {
                 ArrayList<Object> list = new176();
                 push(goTo(26), list);
             }
             break;
-            case 177: /* reduce AAprod2Prod */
-            {
+            case 177: /* reduce AAprod2Prod */ {
                 ArrayList<Object> list = new177();
                 push(goTo(26), list);
             }
             break;
-            case 178: /* reduce AAprodtransform1ProdTransform */
-            {
+            case 178: /* reduce AAprodtransform1ProdTransform */ {
                 ArrayList<Object> list = new178();
                 push(goTo(27), list);
             }
             break;
-            case 179: /* reduce AAprodtransform2ProdTransform */
-            {
+            case 179: /* reduce AAprodtransform2ProdTransform */ {
                 ArrayList<Object> list = new179();
                 push(goTo(27), list);
             }
             break;
-            case 180: /* reduce AAalts1Alts */
-            {
+            case 180: /* reduce AAalts1Alts */ {
                 ArrayList<Object> list = new180();
                 push(goTo(28), list);
             }
             break;
-            case 181: /* reduce AAalts2Alts */
-            {
+            case 181: /* reduce AAalts2Alts */ {
                 ArrayList<Object> list = new181();
                 push(goTo(28), list);
             }
             break;
-            case 182: /* reduce AAltsTail */
-            {
+            case 182: /* reduce AAltsTail */ {
                 ArrayList<Object> list = new182();
                 push(goTo(29), list);
             }
             break;
-            case 183: /* reduce AAalt1Alt */
-            {
+            case 183: /* reduce AAalt1Alt */ {
                 ArrayList<Object> list = new183();
                 push(goTo(30), list);
             }
             break;
-            case 184: /* reduce AAalt2Alt */
-            {
+            case 184: /* reduce AAalt2Alt */ {
                 ArrayList<Object> list = new184();
                 push(goTo(30), list);
             }
             break;
-            case 185: /* reduce AAalt3Alt */
-            {
+            case 185: /* reduce AAalt3Alt */ {
                 ArrayList<Object> list = new185();
                 push(goTo(30), list);
             }
             break;
-            case 186: /* reduce AAalt4Alt */
-            {
+            case 186: /* reduce AAalt4Alt */ {
                 ArrayList<Object> list = new186();
                 push(goTo(30), list);
             }
             break;
-            case 187: /* reduce AAalt5Alt */
-            {
+            case 187: /* reduce AAalt5Alt */ {
                 ArrayList<Object> list = new187();
                 push(goTo(30), list);
             }
             break;
-            case 188: /* reduce AAalt6Alt */
-            {
+            case 188: /* reduce AAalt6Alt */ {
                 ArrayList<Object> list = new188();
                 push(goTo(30), list);
             }
             break;
-            case 189: /* reduce AAalt7Alt */
-            {
+            case 189: /* reduce AAalt7Alt */ {
                 ArrayList<Object> list = new189();
                 push(goTo(30), list);
             }
             break;
-            case 190: /* reduce AAalt8Alt */
-            {
+            case 190: /* reduce AAalt8Alt */ {
                 ArrayList<Object> list = new190();
                 push(goTo(30), list);
             }
             break;
-            case 191: /* reduce AAalttransform1AltTransform */
-            {
+            case 191: /* reduce AAalttransform1AltTransform */ {
                 ArrayList<Object> list = new191();
                 push(goTo(31), list);
             }
             break;
-            case 192: /* reduce AAalttransform2AltTransform */
-            {
+            case 192: /* reduce AAalttransform2AltTransform */ {
                 ArrayList<Object> list = new192();
                 push(goTo(31), list);
             }
             break;
-            case 193: /* reduce AAnewterm1Term */
-            {
+            case 193: /* reduce AAnewterm1Term */ {
                 ArrayList<Object> list = new193();
                 push(goTo(32), list);
             }
             break;
-            case 194: /* reduce AAnewterm2Term */
-            {
+            case 194: /* reduce AAnewterm2Term */ {
                 ArrayList<Object> list = new194();
                 push(goTo(32), list);
             }
             break;
-            case 195: /* reduce AAlistterm1Term */
-            {
+            case 195: /* reduce AAlistterm1Term */ {
                 ArrayList<Object> list = new195();
                 push(goTo(32), list);
             }
             break;
-            case 196: /* reduce AAlistterm2Term */
-            {
+            case 196: /* reduce AAlistterm2Term */ {
                 ArrayList<Object> list = new196();
                 push(goTo(32), list);
             }
             break;
-            case 197: /* reduce AAsimpleterm1Term */
-            {
+            case 197: /* reduce AAsimpleterm1Term */ {
                 ArrayList<Object> list = new197();
                 push(goTo(32), list);
             }
             break;
-            case 198: /* reduce AAsimpleterm2Term */
-            {
+            case 198: /* reduce AAsimpleterm2Term */ {
                 ArrayList<Object> list = new198();
                 push(goTo(32), list);
             }
             break;
-            case 199: /* reduce AAsimpleterm3Term */
-            {
+            case 199: /* reduce AAsimpleterm3Term */ {
                 ArrayList<Object> list = new199();
                 push(goTo(32), list);
             }
             break;
-            case 200: /* reduce AAsimpleterm4Term */
-            {
+            case 200: /* reduce AAsimpleterm4Term */ {
                 ArrayList<Object> list = new200();
                 push(goTo(32), list);
             }
             break;
-            case 201: /* reduce ANullTerm */
-            {
+            case 201: /* reduce ANullTerm */ {
                 ArrayList<Object> list = new201();
                 push(goTo(32), list);
             }
             break;
-            case 202: /* reduce AAlistoflistterm1ListOfListTerm */
-            {
+            case 202: /* reduce AAlistoflistterm1ListOfListTerm */ {
                 ArrayList<Object> list = new202();
                 push(goTo(33), list);
             }
             break;
-            case 203: /* reduce AAlistoflistterm2ListOfListTerm */
-            {
+            case 203: /* reduce AAlistoflistterm2ListOfListTerm */ {
                 ArrayList<Object> list = new203();
                 push(goTo(33), list);
             }
             break;
-            case 204: /* reduce AAnewlistterm1ListTerm */
-            {
+            case 204: /* reduce AAnewlistterm1ListTerm */ {
                 ArrayList<Object> list = new204();
                 push(goTo(34), list);
             }
             break;
-            case 205: /* reduce AAnewlistterm2ListTerm */
-            {
+            case 205: /* reduce AAnewlistterm2ListTerm */ {
                 ArrayList<Object> list = new205();
                 push(goTo(34), list);
             }
             break;
-            case 206: /* reduce AAsimplelistterm1ListTerm */
-            {
+            case 206: /* reduce AAsimplelistterm1ListTerm */ {
                 ArrayList<Object> list = new206();
                 push(goTo(34), list);
             }
             break;
-            case 207: /* reduce AAsimplelistterm2ListTerm */
-            {
+            case 207: /* reduce AAsimplelistterm2ListTerm */ {
                 ArrayList<Object> list = new207();
                 push(goTo(34), list);
             }
             break;
-            case 208: /* reduce AAsimplelistterm3ListTerm */
-            {
+            case 208: /* reduce AAsimplelistterm3ListTerm */ {
                 ArrayList<Object> list = new208();
                 push(goTo(34), list);
             }
             break;
-            case 209: /* reduce AAsimplelistterm4ListTerm */
-            {
+            case 209: /* reduce AAsimplelistterm4ListTerm */ {
                 ArrayList<Object> list = new209();
                 push(goTo(34), list);
             }
             break;
-            case 210: /* reduce AListTermTail */
-            {
+            case 210: /* reduce AListTermTail */ {
                 ArrayList<Object> list = new210();
                 push(goTo(35), list);
             }
             break;
-            case 211: /* reduce ASimpleTermTail */
-            {
+            case 211: /* reduce ASimpleTermTail */ {
                 ArrayList<Object> list = new211();
                 push(goTo(36), list);
             }
             break;
-            case 212: /* reduce AAprodname1ProdName */
-            {
+            case 212: /* reduce AAprodname1ProdName */ {
                 ArrayList<Object> list = new212();
                 push(goTo(37), list);
             }
             break;
-            case 213: /* reduce AAprodname2ProdName */
-            {
+            case 213: /* reduce AAprodname2ProdName */ {
                 ArrayList<Object> list = new213();
                 push(goTo(37), list);
             }
             break;
-            case 214: /* reduce AProdNameTail */
-            {
+            case 214: /* reduce AProdNameTail */ {
                 ArrayList<Object> list = new214();
                 push(goTo(38), list);
             }
             break;
-            case 215: /* reduce AAparams1Params */
-            {
+            case 215: /* reduce AAparams1Params */ {
                 ArrayList<Object> list = new215();
                 push(goTo(39), list);
             }
             break;
-            case 216: /* reduce AAparams2Params */
-            {
+            case 216: /* reduce AAparams2Params */ {
                 ArrayList<Object> list = new216();
                 push(goTo(39), list);
             }
             break;
-            case 217: /* reduce AParamsTail */
-            {
+            case 217: /* reduce AParamsTail */ {
                 ArrayList<Object> list = new217();
                 push(goTo(40), list);
             }
             break;
-            case 218: /* reduce AAltName */
-            {
+            case 218: /* reduce AAltName */ {
                 ArrayList<Object> list = new218();
                 push(goTo(41), list);
             }
             break;
-            case 219: /* reduce AAelem1Elem */
-            {
+            case 219: /* reduce AAelem1Elem */ {
                 ArrayList<Object> list = new219();
                 push(goTo(42), list);
             }
             break;
-            case 220: /* reduce AAelem2Elem */
-            {
+            case 220: /* reduce AAelem2Elem */ {
                 ArrayList<Object> list = new220();
                 push(goTo(42), list);
             }
             break;
-            case 221: /* reduce AAelem3Elem */
-            {
+            case 221: /* reduce AAelem3Elem */ {
                 ArrayList<Object> list = new221();
                 push(goTo(42), list);
             }
             break;
-            case 222: /* reduce AAelem4Elem */
-            {
+            case 222: /* reduce AAelem4Elem */ {
                 ArrayList<Object> list = new222();
                 push(goTo(42), list);
             }
             break;
-            case 223: /* reduce AAelem5Elem */
-            {
+            case 223: /* reduce AAelem5Elem */ {
                 ArrayList<Object> list = new223();
                 push(goTo(42), list);
             }
             break;
-            case 224: /* reduce AAelem6Elem */
-            {
+            case 224: /* reduce AAelem6Elem */ {
                 ArrayList<Object> list = new224();
                 push(goTo(42), list);
             }
             break;
-            case 225: /* reduce AAelem7Elem */
-            {
+            case 225: /* reduce AAelem7Elem */ {
                 ArrayList<Object> list = new225();
                 push(goTo(42), list);
             }
             break;
-            case 226: /* reduce AAelem8Elem */
-            {
+            case 226: /* reduce AAelem8Elem */ {
                 ArrayList<Object> list = new226();
                 push(goTo(42), list);
             }
             break;
-            case 227: /* reduce AElemName */
-            {
+            case 227: /* reduce AElemName */ {
                 ArrayList<Object> list = new227();
                 push(goTo(43), list);
             }
             break;
-            case 228: /* reduce ATokenSpecifier */
-            {
+            case 228: /* reduce ATokenSpecifier */ {
                 ArrayList<Object> list = new228();
                 push(goTo(44), list);
             }
             break;
-            case 229: /* reduce AProductionSpecifier */
-            {
+            case 229: /* reduce AProductionSpecifier */ {
                 ArrayList<Object> list = new229();
                 push(goTo(44), list);
             }
             break;
-            case 230: /* reduce AAst */
-            {
+            case 230: /* reduce AAst */ {
                 ArrayList<Object> list = new230();
                 push(goTo(45), list);
             }
             break;
-            case 231: /* reduce AAstProd */
-            {
+            case 231: /* reduce AAstProd */ {
                 ArrayList<Object> list = new231();
                 push(goTo(46), list);
             }
             break;
-            case 232: /* reduce AAastalts1AstAlts */
-            {
+            case 232: /* reduce AAastalts1AstAlts */ {
                 ArrayList<Object> list = new232();
                 push(goTo(47), list);
             }
             break;
-            case 233: /* reduce AAastalts2AstAlts */
-            {
+            case 233: /* reduce AAastalts2AstAlts */ {
                 ArrayList<Object> list = new233();
                 push(goTo(47), list);
             }
             break;
-            case 234: /* reduce AAstAltsTail */
-            {
+            case 234: /* reduce AAstAltsTail */ {
                 ArrayList<Object> list = new234();
                 push(goTo(48), list);
             }
             break;
-            case 235: /* reduce AAastalt1AstAlt */
-            {
+            case 235: /* reduce AAastalt1AstAlt */ {
                 ArrayList<Object> list = new235();
                 push(goTo(49), list);
             }
             break;
-            case 236: /* reduce AAastalt2AstAlt */
-            {
+            case 236: /* reduce AAastalt2AstAlt */ {
                 ArrayList<Object> list = new236();
                 push(goTo(49), list);
             }
             break;
-            case 237: /* reduce AAastalt3AstAlt */
-            {
+            case 237: /* reduce AAastalt3AstAlt */ {
                 ArrayList<Object> list = new237();
                 push(goTo(49), list);
             }
             break;
-            case 238: /* reduce AAastalt4AstAlt */
-            {
+            case 238: /* reduce AAastalt4AstAlt */ {
                 ArrayList<Object> list = new238();
                 push(goTo(49), list);
             }
             break;
-            case 239: /* reduce ATerminal$PkgNameTail */
-            {
+            case 239: /* reduce ATerminal$PkgNameTail */ {
                 ArrayList<Object> list = new239();
                 push(goTo(50), list);
             }
             break;
-            case 240: /* reduce ANonTerminal$PkgNameTail */
-            {
+            case 240: /* reduce ANonTerminal$PkgNameTail */ {
                 ArrayList<Object> list = new240();
                 push(goTo(50), list);
             }
             break;
-            case 241: /* reduce ATerminal$HelperDef */
-            {
+            case 241: /* reduce ATerminal$HelperDef */ {
                 ArrayList<Object> list = new241();
                 push(goTo(51), list);
             }
             break;
-            case 242: /* reduce ANonTerminal$HelperDef */
-            {
+            case 242: /* reduce ANonTerminal$HelperDef */ {
                 ArrayList<Object> list = new242();
                 push(goTo(51), list);
             }
             break;
-            case 243: /* reduce ATerminal$IdListTail */
-            {
+            case 243: /* reduce ATerminal$IdListTail */ {
                 ArrayList<Object> list = new243();
                 push(goTo(52), list);
             }
             break;
-            case 244: /* reduce ANonTerminal$IdListTail */
-            {
+            case 244: /* reduce ANonTerminal$IdListTail */ {
                 ArrayList<Object> list = new244();
                 push(goTo(52), list);
             }
             break;
-            case 245: /* reduce ATerminal$TokenDef */
-            {
+            case 245: /* reduce ATerminal$TokenDef */ {
                 ArrayList<Object> list = new245();
                 push(goTo(53), list);
             }
             break;
-            case 246: /* reduce ANonTerminal$TokenDef */
-            {
+            case 246: /* reduce ANonTerminal$TokenDef */ {
                 ArrayList<Object> list = new246();
                 push(goTo(53), list);
             }
             break;
-            case 247: /* reduce ATerminal$StateListTail */
-            {
+            case 247: /* reduce ATerminal$StateListTail */ {
                 ArrayList<Object> list = new247();
                 push(goTo(54), list);
             }
             break;
-            case 248: /* reduce ANonTerminal$StateListTail */
-            {
+            case 248: /* reduce ANonTerminal$StateListTail */ {
                 ArrayList<Object> list = new248();
                 push(goTo(54), list);
             }
             break;
-            case 249: /* reduce ATerminal$RegExpTail */
-            {
+            case 249: /* reduce ATerminal$RegExpTail */ {
                 ArrayList<Object> list = new249();
                 push(goTo(55), list);
             }
             break;
-            case 250: /* reduce ANonTerminal$RegExpTail */
-            {
+            case 250: /* reduce ANonTerminal$RegExpTail */ {
                 ArrayList<Object> list = new250();
                 push(goTo(55), list);
             }
             break;
-            case 251: /* reduce ATerminal$UnExp */
-            {
+            case 251: /* reduce ATerminal$UnExp */ {
                 ArrayList<Object> list = new251();
                 push(goTo(56), list);
             }
             break;
-            case 252: /* reduce ANonTerminal$UnExp */
-            {
+            case 252: /* reduce ANonTerminal$UnExp */ {
                 ArrayList<Object> list = new252();
                 push(goTo(56), list);
             }
             break;
-            case 253: /* reduce ATerminal$Prod */
-            {
+            case 253: /* reduce ATerminal$Prod */ {
                 ArrayList<Object> list = new253();
                 push(goTo(57), list);
             }
             break;
-            case 254: /* reduce ANonTerminal$Prod */
-            {
+            case 254: /* reduce ANonTerminal$Prod */ {
                 ArrayList<Object> list = new254();
                 push(goTo(57), list);
             }
             break;
-            case 255: /* reduce ATerminal$Elem */
-            {
+            case 255: /* reduce ATerminal$Elem */ {
                 ArrayList<Object> list = new255();
                 push(goTo(58), list);
             }
             break;
-            case 256: /* reduce ANonTerminal$Elem */
-            {
+            case 256: /* reduce ANonTerminal$Elem */ {
                 ArrayList<Object> list = new256();
                 push(goTo(58), list);
             }
             break;
-            case 257: /* reduce ATerminal$AltsTail */
-            {
+            case 257: /* reduce ATerminal$AltsTail */ {
                 ArrayList<Object> list = new257();
                 push(goTo(59), list);
             }
             break;
-            case 258: /* reduce ANonTerminal$AltsTail */
-            {
+            case 258: /* reduce ANonTerminal$AltsTail */ {
                 ArrayList<Object> list = new258();
                 push(goTo(59), list);
             }
             break;
-            case 259: /* reduce ATerminal$Term */
-            {
+            case 259: /* reduce ATerminal$Term */ {
                 ArrayList<Object> list = new259();
                 push(goTo(60), list);
             }
             break;
-            case 260: /* reduce ANonTerminal$Term */
-            {
+            case 260: /* reduce ANonTerminal$Term */ {
                 ArrayList<Object> list = new260();
                 push(goTo(60), list);
             }
             break;
-            case 261: /* reduce ATerminal$ListTermTail */
-            {
+            case 261: /* reduce ATerminal$ListTermTail */ {
                 ArrayList<Object> list = new261();
                 push(goTo(61), list);
             }
             break;
-            case 262: /* reduce ANonTerminal$ListTermTail */
-            {
+            case 262: /* reduce ANonTerminal$ListTermTail */ {
                 ArrayList<Object> list = new262();
                 push(goTo(61), list);
             }
             break;
-            case 263: /* reduce ATerminal$ParamsTail */
-            {
+            case 263: /* reduce ATerminal$ParamsTail */ {
                 ArrayList<Object> list = new263();
                 push(goTo(62), list);
             }
             break;
-            case 264: /* reduce ANonTerminal$ParamsTail */
-            {
+            case 264: /* reduce ANonTerminal$ParamsTail */ {
                 ArrayList<Object> list = new264();
                 push(goTo(62), list);
             }
             break;
-            case 265: /* reduce ATerminal$AstProd */
-            {
+            case 265: /* reduce ATerminal$AstProd */ {
                 ArrayList<Object> list = new265();
                 push(goTo(63), list);
             }
             break;
-            case 266: /* reduce ANonTerminal$AstProd */
-            {
+            case 266: /* reduce ANonTerminal$AstProd */ {
                 ArrayList<Object> list = new266();
                 push(goTo(63), list);
             }
             break;
-            case 267: /* reduce ATerminal$AstAltsTail */
-            {
+            case 267: /* reduce ATerminal$AstAltsTail */ {
                 ArrayList<Object> list = new267();
                 push(goTo(64), list);
             }
             break;
-            case 268: /* reduce ANonTerminal$AstAltsTail */
-            {
+            case 268: /* reduce ANonTerminal$AstAltsTail */ {
                 ArrayList<Object> list = new268();
                 push(goTo(64), list);
             }
@@ -1807,100 +1510,91 @@ public class Parser
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new0() /* reduce AAgrammar1Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new0() /* reduce AAgrammar1Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new1() /* reduce AAgrammar2Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new1() /* reduce AAgrammar2Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new2() /* reduce AAgrammar3Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new2() /* reduce AAgrammar3Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new3() /* reduce AAgrammar4Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new3() /* reduce AAgrammar4Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -1908,64 +1602,59 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new4() /* reduce AAgrammar5Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new4() /* reduce AAgrammar5Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new5() /* reduce AAgrammar6Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new5() /* reduce AAgrammar6Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -1973,35 +1662,32 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new6() /* reduce AAgrammar7Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new6() /* reduce AAgrammar7Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2009,30 +1695,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new7() /* reduce AAgrammar8Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new7() /* reduce AAgrammar8Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2041,65 +1725,60 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new8() /* reduce AAgrammar9Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new8() /* reduce AAgrammar9Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new9() /* reduce AAgrammar10Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new9() /* reduce AAgrammar10Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2107,35 +1786,32 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new10() /* reduce AAgrammar11Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new10() /* reduce AAgrammar11Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2143,30 +1819,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new11() /* reduce AAgrammar12Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new11() /* reduce AAgrammar12Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2175,36 +1849,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new12() /* reduce AAgrammar13Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new12() /* reduce AAgrammar13Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2212,30 +1883,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new13() /* reduce AAgrammar14Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new13() /* reduce AAgrammar14Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2244,36 +1913,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new14() /* reduce AAgrammar15Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new14() /* reduce AAgrammar15Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2282,31 +1948,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new15() /* reduce AAgrammar16Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new15() /* reduce AAgrammar16Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -2316,66 +1980,61 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new16() /* reduce AAgrammar17Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new16() /* reduce AAgrammar17Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pigntokensNode6 = (PIgnTokens)nodeArrayList1.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pigntokensNode6 = (PIgnTokens) nodeArrayList1.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new17() /* reduce AAgrammar18Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new17() /* reduce AAgrammar18Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2383,35 +2042,32 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pigntokensNode7 = (PIgnTokens)nodeArrayList2.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pigntokensNode7 = (PIgnTokens) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new18() /* reduce AAgrammar19Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new18() /* reduce AAgrammar19Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2419,30 +2075,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new19() /* reduce AAgrammar20Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new19() /* reduce AAgrammar20Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2451,36 +2105,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new20() /* reduce AAgrammar21Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new20() /* reduce AAgrammar21Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2488,30 +2139,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new21() /* reduce AAgrammar22Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new21() /* reduce AAgrammar22Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2520,36 +2169,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new22() /* reduce AAgrammar23Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new22() /* reduce AAgrammar23Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2558,31 +2204,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new23() /* reduce AAgrammar24Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new23() /* reduce AAgrammar24Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -2592,37 +2236,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new24() /* reduce AAgrammar25Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new24() /* reduce AAgrammar25Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2630,30 +2271,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new25() /* reduce AAgrammar26Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new25() /* reduce AAgrammar26Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2662,36 +2301,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new26() /* reduce AAgrammar27Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new26() /* reduce AAgrammar27Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2700,31 +2336,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new27() /* reduce AAgrammar28Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new27() /* reduce AAgrammar28Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -2734,37 +2368,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new28() /* reduce AAgrammar29Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new28() /* reduce AAgrammar29Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -2773,31 +2404,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new29() /* reduce AAgrammar30Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new29() /* reduce AAgrammar30Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -2807,37 +2436,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new30() /* reduce AAgrammar31Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new30() /* reduce AAgrammar31Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -2847,32 +2473,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, null, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new31() /* reduce AAgrammar32Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new31() /* reduce AAgrammar32Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -2883,67 +2507,62 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, null, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, null, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new32() /* reduce AAgrammar33Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new32() /* reduce AAgrammar33Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pproductionsNode7 = (PProductions)nodeArrayList1.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pproductionsNode7 = (PProductions) nodeArrayList1.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new33() /* reduce AAgrammar34Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new33() /* reduce AAgrammar34Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2951,35 +2570,32 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pproductionsNode8 = (PProductions)nodeArrayList2.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pproductionsNode8 = (PProductions) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new34() /* reduce AAgrammar35Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new34() /* reduce AAgrammar35Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -2987,30 +2603,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new35() /* reduce AAgrammar36Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new35() /* reduce AAgrammar36Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3019,36 +2633,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new36() /* reduce AAgrammar37Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new36() /* reduce AAgrammar37Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -3056,30 +2667,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new37() /* reduce AAgrammar38Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new37() /* reduce AAgrammar38Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3088,36 +2697,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new38() /* reduce AAgrammar39Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new38() /* reduce AAgrammar39Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3126,31 +2732,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new39() /* reduce AAgrammar40Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new39() /* reduce AAgrammar40Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3160,37 +2764,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new40() /* reduce AAgrammar41Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new40() /* reduce AAgrammar41Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -3198,30 +2799,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new41() /* reduce AAgrammar42Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new41() /* reduce AAgrammar42Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3230,36 +2829,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new42() /* reduce AAgrammar43Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new42() /* reduce AAgrammar43Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3268,31 +2864,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new43() /* reduce AAgrammar44Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new43() /* reduce AAgrammar44Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3302,37 +2896,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new44() /* reduce AAgrammar45Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new44() /* reduce AAgrammar45Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3341,31 +2932,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new45() /* reduce AAgrammar46Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new45() /* reduce AAgrammar46Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3375,37 +2964,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new46() /* reduce AAgrammar47Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new46() /* reduce AAgrammar47Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3415,32 +3001,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new47() /* reduce AAgrammar48Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new47() /* reduce AAgrammar48Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -3451,38 +3035,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new48() /* reduce AAgrammar49Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new48() /* reduce AAgrammar49Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -3490,30 +3071,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pigntokensNode6 = (PIgnTokens)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pigntokensNode6 = (PIgnTokens) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new49() /* reduce AAgrammar50Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new49() /* reduce AAgrammar50Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3522,36 +3101,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pigntokensNode7 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pigntokensNode7 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new50() /* reduce AAgrammar51Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new50() /* reduce AAgrammar51Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3560,31 +3136,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new51() /* reduce AAgrammar52Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new51() /* reduce AAgrammar52Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3594,37 +3168,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new52() /* reduce AAgrammar53Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new52() /* reduce AAgrammar53Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3633,31 +3204,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new53() /* reduce AAgrammar54Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new53() /* reduce AAgrammar54Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3667,37 +3236,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new54() /* reduce AAgrammar55Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new54() /* reduce AAgrammar55Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3707,32 +3273,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new55() /* reduce AAgrammar56Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new55() /* reduce AAgrammar56Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -3743,38 +3307,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new56() /* reduce AAgrammar57Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new56() /* reduce AAgrammar57Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -3783,31 +3344,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new57() /* reduce AAgrammar58Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new57() /* reduce AAgrammar58Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3817,37 +3376,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new58() /* reduce AAgrammar59Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new58() /* reduce AAgrammar59Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3857,32 +3413,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new59() /* reduce AAgrammar60Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new59() /* reduce AAgrammar60Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -3893,38 +3447,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new60() /* reduce AAgrammar61Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new60() /* reduce AAgrammar61Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -3934,32 +3485,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new61() /* reduce AAgrammar62Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new61() /* reduce AAgrammar62Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -3970,38 +3519,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new62() /* reduce AAgrammar63Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new62() /* reduce AAgrammar63Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -4012,33 +3558,31 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList5.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new63() /* reduce AAgrammar64Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new63() /* reduce AAgrammar64Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -4050,68 +3594,63 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        @SuppressWarnings("unused") Object nullNode9 = null;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList5.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList6.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            @SuppressWarnings("unused") Object nullNode9 = null;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList5.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList6.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, null);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new64() /* reduce AAgrammar65Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new64() /* reduce AAgrammar65Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pastNode8 = (PAst)nodeArrayList1.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pastNode8 = (PAst) nodeArrayList1.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new65() /* reduce AAgrammar66Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new65() /* reduce AAgrammar66Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -4119,35 +3658,32 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pastNode9 = (PAst)nodeArrayList2.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pastNode9 = (PAst) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new66() /* reduce AAgrammar67Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new66() /* reduce AAgrammar67Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -4155,30 +3691,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pastNode8 = (PAst)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pastNode8 = (PAst) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new67() /* reduce AAgrammar68Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new67() /* reduce AAgrammar68Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4187,36 +3721,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pastNode9 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pastNode9 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new68() /* reduce AAgrammar69Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new68() /* reduce AAgrammar69Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -4224,30 +3755,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        pastNode8 = (PAst)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            pastNode8 = (PAst) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new69() /* reduce AAgrammar70Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new69() /* reduce AAgrammar70Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4256,36 +3785,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        pastNode9 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            pastNode9 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new70() /* reduce AAgrammar71Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new70() /* reduce AAgrammar71Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4294,31 +3820,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new71() /* reduce AAgrammar72Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new71() /* reduce AAgrammar72Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4328,37 +3852,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new72() /* reduce AAgrammar73Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new72() /* reduce AAgrammar73Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -4366,30 +3887,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
-        pastNode8 = (PAst)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
+            pastNode8 = (PAst) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new73() /* reduce AAgrammar74Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new73() /* reduce AAgrammar74Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4398,36 +3917,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
-        pastNode9 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
+            pastNode9 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new74() /* reduce AAgrammar75Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new74() /* reduce AAgrammar75Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4436,31 +3952,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new75() /* reduce AAgrammar76Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new75() /* reduce AAgrammar76Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4470,37 +3984,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new76() /* reduce AAgrammar77Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new76() /* reduce AAgrammar77Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4509,31 +4020,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new77() /* reduce AAgrammar78Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new77() /* reduce AAgrammar78Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4543,37 +4052,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new78() /* reduce AAgrammar79Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new78() /* reduce AAgrammar79Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4583,32 +4089,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new79() /* reduce AAgrammar80Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new79() /* reduce AAgrammar80Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -4619,38 +4123,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new80() /* reduce AAgrammar81Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new80() /* reduce AAgrammar81Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -4658,30 +4159,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pigntokensNode6 = (PIgnTokens)nodeArrayList1.get(0);
-        pastNode8 = (PAst)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pigntokensNode6 = (PIgnTokens) nodeArrayList1.get(0);
+            pastNode8 = (PAst) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new81() /* reduce AAgrammar82Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new81() /* reduce AAgrammar82Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4690,36 +4189,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pigntokensNode7 = (PIgnTokens)nodeArrayList2.get(0);
-        pastNode9 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pigntokensNode7 = (PIgnTokens) nodeArrayList2.get(0);
+            pastNode9 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new82() /* reduce AAgrammar83Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new82() /* reduce AAgrammar83Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4728,31 +4224,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new83() /* reduce AAgrammar84Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new83() /* reduce AAgrammar84Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4762,37 +4256,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new84() /* reduce AAgrammar85Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new84() /* reduce AAgrammar85Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4801,31 +4292,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new85() /* reduce AAgrammar86Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new85() /* reduce AAgrammar86Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4835,37 +4324,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new86() /* reduce AAgrammar87Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new86() /* reduce AAgrammar87Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4875,32 +4361,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new87() /* reduce AAgrammar88Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new87() /* reduce AAgrammar88Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -4911,38 +4395,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new88() /* reduce AAgrammar89Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new88() /* reduce AAgrammar89Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -4951,31 +4432,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new89() /* reduce AAgrammar90Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new89() /* reduce AAgrammar90Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -4985,37 +4464,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new90() /* reduce AAgrammar91Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new90() /* reduce AAgrammar91Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5025,32 +4501,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new91() /* reduce AAgrammar92Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new91() /* reduce AAgrammar92Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5061,38 +4535,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new92() /* reduce AAgrammar93Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new92() /* reduce AAgrammar93Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5102,32 +4573,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new93() /* reduce AAgrammar94Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new93() /* reduce AAgrammar94Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5138,38 +4607,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new94() /* reduce AAgrammar95Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new94() /* reduce AAgrammar95Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5180,33 +4646,31 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList4.get(0);
-        pastNode8 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList4.get(0);
+            pastNode8 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, null, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, null, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new95() /* reduce AAgrammar96Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new95() /* reduce AAgrammar96Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -5218,39 +4682,36 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        @SuppressWarnings("unused") Object nullNode8 = null;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList5.get(0);
-        pastNode9 = (PAst)nodeArrayList6.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            @SuppressWarnings("unused") Object nullNode8 = null;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList5.get(0);
+            pastNode9 = (PAst) nodeArrayList6.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, null, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, null, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new96() /* reduce AAgrammar97Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new96() /* reduce AAgrammar97Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -5258,30 +4719,28 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pproductionsNode7 = (PProductions)nodeArrayList1.get(0);
-        pastNode8 = (PAst)nodeArrayList2.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pproductionsNode7 = (PProductions) nodeArrayList1.get(0);
+            pastNode8 = (PAst) nodeArrayList2.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new97() /* reduce AAgrammar98Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new97() /* reduce AAgrammar98Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -5290,36 +4749,33 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pproductionsNode8 = (PProductions)nodeArrayList2.get(0);
-        pastNode9 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pproductionsNode8 = (PProductions) nodeArrayList2.get(0);
+            pastNode9 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new98() /* reduce AAgrammar99Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new98() /* reduce AAgrammar99Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -5328,31 +4784,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new99() /* reduce AAgrammar100Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new99() /* reduce AAgrammar100Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5362,37 +4816,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new100() /* reduce AAgrammar101Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new100() /* reduce AAgrammar101Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -5401,31 +4852,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new101() /* reduce AAgrammar102Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new101() /* reduce AAgrammar102Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5435,37 +4884,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new102() /* reduce AAgrammar103Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new102() /* reduce AAgrammar103Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5475,32 +4921,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new103() /* reduce AAgrammar104Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new103() /* reduce AAgrammar104Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5511,38 +4955,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new104() /* reduce AAgrammar105Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new104() /* reduce AAgrammar105Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -5551,31 +4992,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new105() /* reduce AAgrammar106Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new105() /* reduce AAgrammar106Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5585,37 +5024,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new106() /* reduce AAgrammar107Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new106() /* reduce AAgrammar107Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5625,32 +5061,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new107() /* reduce AAgrammar108Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new107() /* reduce AAgrammar108Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5661,38 +5095,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new108() /* reduce AAgrammar109Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new108() /* reduce AAgrammar109Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5702,32 +5133,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new109() /* reduce AAgrammar110Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new109() /* reduce AAgrammar110Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5738,38 +5167,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new110() /* reduce AAgrammar111Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new110() /* reduce AAgrammar111Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5780,33 +5206,31 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
-        pastNode8 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
+            pastNode8 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, null, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new111() /* reduce AAgrammar112Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new111() /* reduce AAgrammar112Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -5818,39 +5242,36 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        @SuppressWarnings("unused") Object nullNode7 = null;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
-        pastNode9 = (PAst)nodeArrayList6.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            @SuppressWarnings("unused") Object nullNode7 = null;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
+            pastNode9 = (PAst) nodeArrayList6.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, null, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new112() /* reduce AAgrammar113Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new112() /* reduce AAgrammar113Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -5859,31 +5280,29 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pigntokensNode6 = (PIgnTokens)nodeArrayList1.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList2.get(0);
-        pastNode8 = (PAst)nodeArrayList3.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pigntokensNode6 = (PIgnTokens) nodeArrayList1.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList2.get(0);
+            pastNode8 = (PAst) nodeArrayList3.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, null, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new113() /* reduce AAgrammar114Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new113() /* reduce AAgrammar114Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5893,37 +5312,34 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pigntokensNode7 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList3.get(0);
-        pastNode9 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pigntokensNode7 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList3.get(0);
+            pastNode9 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, null, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new114() /* reduce AAgrammar115Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new114() /* reduce AAgrammar115Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -5933,32 +5349,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, null, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new115() /* reduce AAgrammar116Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new115() /* reduce AAgrammar116Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -5969,38 +5383,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, null, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new116() /* reduce AAgrammar117Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new116() /* reduce AAgrammar117Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -6010,32 +5421,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, null, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new117() /* reduce AAgrammar118Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new117() /* reduce AAgrammar118Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6046,38 +5455,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, null, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new118() /* reduce AAgrammar119Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new118() /* reduce AAgrammar119Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6088,33 +5494,31 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
-        pastNode8 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
+            pastNode8 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, null, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new119() /* reduce AAgrammar120Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new119() /* reduce AAgrammar120Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -6126,39 +5530,36 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
-        pastNode9 = (PAst)nodeArrayList6.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
+            pastNode9 = (PAst) nodeArrayList6.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, null, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new120() /* reduce AAgrammar121Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new120() /* reduce AAgrammar121Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -6168,32 +5569,30 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        ptokensNode5 = (PTokens)nodeArrayList1.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList2.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList3.get(0);
-        pastNode8 = (PAst)nodeArrayList4.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            ptokensNode5 = (PTokens) nodeArrayList1.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList2.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList3.get(0);
+            pastNode8 = (PAst) nodeArrayList4.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, null, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new121() /* reduce AAgrammar122Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new121() /* reduce AAgrammar122Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6204,38 +5603,35 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        ptokensNode6 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList4.get(0);
-        pastNode9 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            ptokensNode6 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList4.get(0);
+            pastNode9 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, null, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new122() /* reduce AAgrammar123Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new122() /* reduce AAgrammar123Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6246,33 +5642,31 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
-        pastNode8 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
+            pastNode8 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, null, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new123() /* reduce AAgrammar124Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new123() /* reduce AAgrammar124Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -6284,39 +5678,36 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
-        pastNode9 = (PAst)nodeArrayList6.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
+            pastNode9 = (PAst) nodeArrayList6.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, null, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new124() /* reduce AAgrammar125Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new124() /* reduce AAgrammar125Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6327,33 +5718,31 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        pstatesNode4 = (PStates)nodeArrayList1.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList2.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList3.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList4.get(0);
-        pastNode8 = (PAst)nodeArrayList5.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            pstatesNode4 = (PStates) nodeArrayList1.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList2.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList3.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList4.get(0);
+            pastNode8 = (PAst) nodeArrayList5.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, null, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new125() /* reduce AAgrammar126Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new125() /* reduce AAgrammar126Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -6365,39 +5754,36 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        pstatesNode5 = (PStates)nodeArrayList2.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList5.get(0);
-        pastNode9 = (PAst)nodeArrayList6.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            pstatesNode5 = (PStates) nodeArrayList2.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList5.get(0);
+            pastNode9 = (PAst) nodeArrayList6.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, null, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new126() /* reduce AAgrammar127Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new126() /* reduce AAgrammar127Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -6409,34 +5795,32 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        PHelpers phelpersNode3;
-        PStates pstatesNode4;
-        PTokens ptokensNode5;
-        PIgnTokens pigntokensNode6;
-        PProductions pproductionsNode7;
-        PAst pastNode8;
-        {
-            // Block
-        }
-        phelpersNode3 = (PHelpers)nodeArrayList1.get(0);
-        pstatesNode4 = (PStates)nodeArrayList2.get(0);
-        ptokensNode5 = (PTokens)nodeArrayList3.get(0);
-        pigntokensNode6 = (PIgnTokens)nodeArrayList4.get(0);
-        pproductionsNode7 = (PProductions)nodeArrayList5.get(0);
-        pastNode8 = (PAst)nodeArrayList6.get(0);
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            PHelpers phelpersNode3;
+            PStates pstatesNode4;
+            PTokens ptokensNode5;
+            PIgnTokens pigntokensNode6;
+            PProductions pproductionsNode7;
+            PAst pastNode8;
+            {
+                // Block
+            }
+            phelpersNode3 = (PHelpers) nodeArrayList1.get(0);
+            pstatesNode4 = (PStates) nodeArrayList2.get(0);
+            ptokensNode5 = (PTokens) nodeArrayList3.get(0);
+            pigntokensNode6 = (PIgnTokens) nodeArrayList4.get(0);
+            pproductionsNode7 = (PProductions) nodeArrayList5.get(0);
+            pastNode8 = (PAst) nodeArrayList6.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
+            pgrammarNode1 = new AGrammar(listNode2, phelpersNode3, pstatesNode4, ptokensNode5, pigntokensNode6, pproductionsNode7, pastNode8);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new127() /* reduce AAgrammar128Grammar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new127() /* reduce AAgrammar128Grammar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList7 = pop();
@@ -6449,40 +5833,37 @@ public class Parser
         PGrammar pgrammarNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PHelpers phelpersNode4;
-        PStates pstatesNode5;
-        PTokens ptokensNode6;
-        PIgnTokens pigntokensNode7;
-        PProductions pproductionsNode8;
-        PAst pastNode9;
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
-        phelpersNode4 = (PHelpers)nodeArrayList2.get(0);
-        pstatesNode5 = (PStates)nodeArrayList3.get(0);
-        ptokensNode6 = (PTokens)nodeArrayList4.get(0);
-        pigntokensNode7 = (PIgnTokens)nodeArrayList5.get(0);
-        pproductionsNode8 = (PProductions)nodeArrayList6.get(0);
-        pastNode9 = (PAst)nodeArrayList7.get(0);
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PHelpers phelpersNode4;
+            PStates pstatesNode5;
+            PTokens ptokensNode6;
+            PIgnTokens pigntokensNode7;
+            PProductions pproductionsNode8;
+            PAst pastNode9;
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
+            phelpersNode4 = (PHelpers) nodeArrayList2.get(0);
+            pstatesNode5 = (PStates) nodeArrayList3.get(0);
+            ptokensNode6 = (PTokens) nodeArrayList4.get(0);
+            pigntokensNode7 = (PIgnTokens) nodeArrayList5.get(0);
+            pproductionsNode8 = (PProductions) nodeArrayList6.get(0);
+            pastNode9 = (PAst) nodeArrayList7.get(0);
 
-        pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
+            pgrammarNode1 = new AGrammar(listNode3, phelpersNode4, pstatesNode5, ptokensNode6, pigntokensNode7, pproductionsNode8, pastNode9);
         }
-	nodeList.add(pgrammarNode1);
+        nodeList.add(pgrammarNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new128() /* reduce APackage */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new128() /* reduce APackage */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -6490,22 +5871,19 @@ public class Parser
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        listNode1 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode2.addAll(listNode1);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            listNode1 = (LinkedList) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode2.addAll(listNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new129() /* reduce AApkgname1PkgName */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new129() /* reduce AApkgname1PkgName */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -6513,22 +5891,19 @@ public class Parser
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        TPkgId tpkgidNode1;
-        tpkgidNode1 = (TPkgId)nodeArrayList1.get(0);
-	if(tpkgidNode1 != null)
-	{
-	  listNode2.add(tpkgidNode1);
-	}
+            TPkgId tpkgidNode1;
+            tpkgidNode1 = (TPkgId) nodeArrayList1.get(0);
+            if (tpkgidNode1 != null) {
+                listNode2.add(tpkgidNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new130() /* reduce AApkgname2PkgName */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new130() /* reduce AApkgname2PkgName */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -6537,43 +5912,37 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        TPkgId tpkgidNode1;
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        tpkgidNode1 = (TPkgId)nodeArrayList1.get(0);
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(tpkgidNode1 != null)
-	{
-	  listNode3.add(tpkgidNode1);
-	}
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
+            TPkgId tpkgidNode1;
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            tpkgidNode1 = (TPkgId) nodeArrayList1.get(0);
+            listNode2 = (LinkedList) nodeArrayList2.get(0);
+            if (tpkgidNode1 != null) {
+                listNode3.add(tpkgidNode1);
+            }
+            if (listNode2 != null) {
+                listNode3.addAll(listNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new131() /* reduce APkgNameTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new131() /* reduce APkgNameTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TPkgId tpkgidNode1;
-        tpkgidNode1 = (TPkgId)nodeArrayList2.get(0);
-	nodeList.add(tpkgidNode1);
+        tpkgidNode1 = (TPkgId) nodeArrayList2.get(0);
+        nodeList.add(tpkgidNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new132() /* reduce AHelpers */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new132() /* reduce AHelpers */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -6581,28 +5950,25 @@ public class Parser
         PHelpers phelpersNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        phelpersNode1 = new AHelpers(listNode3);
+            phelpersNode1 = new AHelpers(listNode3);
         }
-	nodeList.add(phelpersNode1);
+        nodeList.add(phelpersNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new133() /* reduce AHelperDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new133() /* reduce AHelperDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -6612,22 +5978,20 @@ public class Parser
         PHelperDef phelperdefNode1;
         {
             // Block
-        TId tidNode2;
-        PRegExp pregexpNode3;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        pregexpNode3 = (PRegExp)nodeArrayList3.get(0);
+            TId tidNode2;
+            PRegExp pregexpNode3;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            pregexpNode3 = (PRegExp) nodeArrayList3.get(0);
 
-        phelperdefNode1 = new AHelperDef(tidNode2, pregexpNode3);
+            phelperdefNode1 = new AHelperDef(tidNode2, pregexpNode3);
         }
-	nodeList.add(phelperdefNode1);
+        nodeList.add(phelperdefNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new134() /* reduce AStates */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new134() /* reduce AStates */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -6636,50 +6000,44 @@ public class Parser
         PStates pstatesNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        pstatesNode1 = new AStates(listNode3);
+            pstatesNode1 = new AStates(listNode3);
         }
-	nodeList.add(pstatesNode1);
+        nodeList.add(pstatesNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new135() /* reduce AAidlist1IdList */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new135() /* reduce AAidlist1IdList */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        TId tidNode1;
-        tidNode1 = (TId)nodeArrayList1.get(0);
-	if(tidNode1 != null)
-	{
-	  listNode2.add(tidNode1);
-	}
+            TId tidNode1;
+            tidNode1 = (TId) nodeArrayList1.get(0);
+            if (tidNode1 != null) {
+                listNode2.add(tidNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new136() /* reduce AAidlist2IdList */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new136() /* reduce AAidlist2IdList */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -6687,43 +6045,37 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        TId tidNode1;
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        tidNode1 = (TId)nodeArrayList1.get(0);
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(tidNode1 != null)
-	{
-	  listNode3.add(tidNode1);
-	}
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
+            TId tidNode1;
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            tidNode1 = (TId) nodeArrayList1.get(0);
+            listNode2 = (LinkedList) nodeArrayList2.get(0);
+            if (tidNode1 != null) {
+                listNode3.add(tidNode1);
+            }
+            if (listNode2 != null) {
+                listNode3.addAll(listNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new137() /* reduce AIdListTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new137() /* reduce AIdListTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TId tidNode1;
-        tidNode1 = (TId)nodeArrayList2.get(0);
-	nodeList.add(tidNode1);
+        tidNode1 = (TId) nodeArrayList2.get(0);
+        nodeList.add(tidNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new138() /* reduce ATokens */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new138() /* reduce ATokens */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -6731,28 +6083,25 @@ public class Parser
         PTokens ptokensNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        ptokensNode1 = new ATokens(listNode3);
+            ptokensNode1 = new ATokens(listNode3);
         }
-	nodeList.add(ptokensNode1);
+        nodeList.add(ptokensNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new139() /* reduce AAtokendef1TokenDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new139() /* reduce AAtokendef1TokenDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -6762,25 +6111,23 @@ public class Parser
         PTokenDef ptokendefNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        TId tidNode3;
-        PRegExp pregexpNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        tidNode3 = (TId)nodeArrayList1.get(0);
-        pregexpNode4 = (PRegExp)nodeArrayList3.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            TId tidNode3;
+            PRegExp pregexpNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            tidNode3 = (TId) nodeArrayList1.get(0);
+            pregexpNode4 = (PRegExp) nodeArrayList3.get(0);
 
-        ptokendefNode1 = new ATokenDef(null, tidNode3, pregexpNode4, null, null);
+            ptokendefNode1 = new ATokenDef(null, tidNode3, pregexpNode4, null, null);
         }
-	nodeList.add(ptokendefNode1);
+        nodeList.add(ptokendefNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new140() /* reduce AAtokendef2TokenDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new140() /* reduce AAtokendef2TokenDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6791,26 +6138,24 @@ public class Parser
         PTokenDef ptokendefNode1;
         {
             // Block
-        PStateList pstatelistNode2;
-        TId tidNode3;
-        PRegExp pregexpNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        @SuppressWarnings("unused") Object nullNode6 = null;
-        pstatelistNode2 = (PStateList)nodeArrayList1.get(0);
-        tidNode3 = (TId)nodeArrayList2.get(0);
-        pregexpNode4 = (PRegExp)nodeArrayList4.get(0);
+            PStateList pstatelistNode2;
+            TId tidNode3;
+            PRegExp pregexpNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            @SuppressWarnings("unused") Object nullNode6 = null;
+            pstatelistNode2 = (PStateList) nodeArrayList1.get(0);
+            tidNode3 = (TId) nodeArrayList2.get(0);
+            pregexpNode4 = (PRegExp) nodeArrayList4.get(0);
 
-        ptokendefNode1 = new ATokenDef(pstatelistNode2, tidNode3, pregexpNode4, null, null);
+            ptokendefNode1 = new ATokenDef(pstatelistNode2, tidNode3, pregexpNode4, null, null);
         }
-	nodeList.add(ptokendefNode1);
+        nodeList.add(ptokendefNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new141() /* reduce AAtokendef3TokenDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new141() /* reduce AAtokendef3TokenDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6821,27 +6166,25 @@ public class Parser
         PTokenDef ptokendefNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        TId tidNode3;
-        PRegExp pregexpNode4;
-        TSlash tslashNode5;
-        PRegExp pregexpNode6;
-        tidNode3 = (TId)nodeArrayList1.get(0);
-        pregexpNode4 = (PRegExp)nodeArrayList3.get(0);
-        tslashNode5 = (TSlash)nodeArrayList4.get(0);
-        pregexpNode6 = (PRegExp)nodeArrayList4.get(1);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            TId tidNode3;
+            PRegExp pregexpNode4;
+            TSlash tslashNode5;
+            PRegExp pregexpNode6;
+            tidNode3 = (TId) nodeArrayList1.get(0);
+            pregexpNode4 = (PRegExp) nodeArrayList3.get(0);
+            tslashNode5 = (TSlash) nodeArrayList4.get(0);
+            pregexpNode6 = (PRegExp) nodeArrayList4.get(1);
 
-        ptokendefNode1 = new ATokenDef(null, tidNode3, pregexpNode4, tslashNode5, pregexpNode6);
+            ptokendefNode1 = new ATokenDef(null, tidNode3, pregexpNode4, tslashNode5, pregexpNode6);
         }
-	nodeList.add(ptokendefNode1);
+        nodeList.add(ptokendefNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new142() /* reduce AAtokendef4TokenDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new142() /* reduce AAtokendef4TokenDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList6 = pop();
@@ -6853,28 +6196,26 @@ public class Parser
         PTokenDef ptokendefNode1;
         {
             // Block
-        PStateList pstatelistNode2;
-        TId tidNode3;
-        PRegExp pregexpNode4;
-        TSlash tslashNode5;
-        PRegExp pregexpNode6;
-        pstatelistNode2 = (PStateList)nodeArrayList1.get(0);
-        tidNode3 = (TId)nodeArrayList2.get(0);
-        pregexpNode4 = (PRegExp)nodeArrayList4.get(0);
-        tslashNode5 = (TSlash)nodeArrayList5.get(0);
-        pregexpNode6 = (PRegExp)nodeArrayList5.get(1);
+            PStateList pstatelistNode2;
+            TId tidNode3;
+            PRegExp pregexpNode4;
+            TSlash tslashNode5;
+            PRegExp pregexpNode6;
+            pstatelistNode2 = (PStateList) nodeArrayList1.get(0);
+            tidNode3 = (TId) nodeArrayList2.get(0);
+            pregexpNode4 = (PRegExp) nodeArrayList4.get(0);
+            tslashNode5 = (TSlash) nodeArrayList5.get(0);
+            pregexpNode6 = (PRegExp) nodeArrayList5.get(1);
 
-        ptokendefNode1 = new ATokenDef(pstatelistNode2, tidNode3, pregexpNode4, tslashNode5, pregexpNode6);
+            ptokendefNode1 = new ATokenDef(pstatelistNode2, tidNode3, pregexpNode4, tslashNode5, pregexpNode6);
         }
-	nodeList.add(ptokendefNode1);
+        nodeList.add(ptokendefNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new143() /* reduce AAstatelist1StateList */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new143() /* reduce AAstatelist1StateList */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -6883,25 +6224,23 @@ public class Parser
         PStateList pstatelistNode1;
         {
             // Block
-        TId tidNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList2.get(0);
-        {
-            // Block
-        }
+            TId tidNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList2.get(0);
+            {
+                // Block
+            }
 
-        pstatelistNode1 = new AStateList(tidNode2, null, listNode4);
+            pstatelistNode1 = new AStateList(tidNode2, null, listNode4);
         }
-	nodeList.add(pstatelistNode1);
+        nodeList.add(pstatelistNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new144() /* reduce AAstatelist2StateList */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new144() /* reduce AAstatelist2StateList */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -6911,26 +6250,24 @@ public class Parser
         PStateList pstatelistNode1;
         {
             // Block
-        TId tidNode2;
-        PTransition ptransitionNode3;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList2.get(0);
-        ptransitionNode3 = (PTransition)nodeArrayList3.get(0);
-        {
-            // Block
-        }
+            TId tidNode2;
+            PTransition ptransitionNode3;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList2.get(0);
+            ptransitionNode3 = (PTransition) nodeArrayList3.get(0);
+            {
+                // Block
+            }
 
-        pstatelistNode1 = new AStateList(tidNode2, ptransitionNode3, listNode4);
+            pstatelistNode1 = new AStateList(tidNode2, ptransitionNode3, listNode4);
         }
-	nodeList.add(pstatelistNode1);
+        nodeList.add(pstatelistNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new145() /* reduce AAstatelist3StateList */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new145() /* reduce AAstatelist3StateList */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -6940,31 +6277,28 @@ public class Parser
         PStateList pstatelistNode1;
         {
             // Block
-        TId tidNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        LinkedList<Object> listNode5 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList2.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        listNode4 = (LinkedList)nodeArrayList3.get(0);
-	if(listNode4 != null)
-	{
-	  listNode5.addAll(listNode4);
-	}
-        }
+            TId tidNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            LinkedList<Object> listNode5 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList2.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode4 = new LinkedList<Object>();
+                listNode4 = (LinkedList) nodeArrayList3.get(0);
+                if (listNode4 != null) {
+                    listNode5.addAll(listNode4);
+                }
+            }
 
-        pstatelistNode1 = new AStateList(tidNode2, null, listNode5);
+            pstatelistNode1 = new AStateList(tidNode2, null, listNode5);
         }
-	nodeList.add(pstatelistNode1);
+        nodeList.add(pstatelistNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new146() /* reduce AAstatelist4StateList */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new146() /* reduce AAstatelist4StateList */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -6975,32 +6309,29 @@ public class Parser
         PStateList pstatelistNode1;
         {
             // Block
-        TId tidNode2;
-        PTransition ptransitionNode3;
-        LinkedList<Object> listNode5 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList2.get(0);
-        ptransitionNode3 = (PTransition)nodeArrayList3.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        listNode4 = (LinkedList)nodeArrayList4.get(0);
-	if(listNode4 != null)
-	{
-	  listNode5.addAll(listNode4);
-	}
-        }
+            TId tidNode2;
+            PTransition ptransitionNode3;
+            LinkedList<Object> listNode5 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList2.get(0);
+            ptransitionNode3 = (PTransition) nodeArrayList3.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode4 = new LinkedList<Object>();
+                listNode4 = (LinkedList) nodeArrayList4.get(0);
+                if (listNode4 != null) {
+                    listNode5.addAll(listNode4);
+                }
+            }
 
-        pstatelistNode1 = new AStateList(tidNode2, ptransitionNode3, listNode5);
+            pstatelistNode1 = new AStateList(tidNode2, ptransitionNode3, listNode5);
         }
-	nodeList.add(pstatelistNode1);
+        nodeList.add(pstatelistNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new147() /* reduce AAstatelisttail1StateListTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new147() /* reduce AAstatelisttail1StateListTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7008,21 +6339,19 @@ public class Parser
         PStateListTail pstatelisttailNode1;
         {
             // Block
-        TId tidNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        tidNode2 = (TId)nodeArrayList2.get(0);
+            TId tidNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            tidNode2 = (TId) nodeArrayList2.get(0);
 
-        pstatelisttailNode1 = new AStateListTail(tidNode2, null);
+            pstatelisttailNode1 = new AStateListTail(tidNode2, null);
         }
-	nodeList.add(pstatelisttailNode1);
+        nodeList.add(pstatelisttailNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new148() /* reduce AAstatelisttail2StateListTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new148() /* reduce AAstatelisttail2StateListTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -7031,22 +6360,20 @@ public class Parser
         PStateListTail pstatelisttailNode1;
         {
             // Block
-        TId tidNode2;
-        PTransition ptransitionNode3;
-        tidNode2 = (TId)nodeArrayList2.get(0);
-        ptransitionNode3 = (PTransition)nodeArrayList3.get(0);
+            TId tidNode2;
+            PTransition ptransitionNode3;
+            tidNode2 = (TId) nodeArrayList2.get(0);
+            ptransitionNode3 = (PTransition) nodeArrayList3.get(0);
 
-        pstatelisttailNode1 = new AStateListTail(tidNode2, ptransitionNode3);
+            pstatelisttailNode1 = new AStateListTail(tidNode2, ptransitionNode3);
         }
-	nodeList.add(pstatelisttailNode1);
+        nodeList.add(pstatelisttailNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new149() /* reduce ATransition */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new149() /* reduce ATransition */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7054,20 +6381,18 @@ public class Parser
         PTransition ptransitionNode1;
         {
             // Block
-        TId tidNode2;
-        tidNode2 = (TId)nodeArrayList2.get(0);
+            TId tidNode2;
+            tidNode2 = (TId) nodeArrayList2.get(0);
 
-        ptransitionNode1 = new ATransition(tidNode2);
+            ptransitionNode1 = new ATransition(tidNode2);
         }
-	nodeList.add(ptransitionNode1);
+        nodeList.add(ptransitionNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new150() /* reduce AAigntokens1IgnTokens */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new150() /* reduce AAigntokens1IgnTokens */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -7076,22 +6401,20 @@ public class Parser
         PIgnTokens pigntokensNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        {
-            // Block
-        }
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            {
+                // Block
+            }
 
-        pigntokensNode1 = new AIgnTokens(listNode2);
+            pigntokensNode1 = new AIgnTokens(listNode2);
         }
-	nodeList.add(pigntokensNode1);
+        nodeList.add(pigntokensNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new151() /* reduce AAigntokens2IgnTokens */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new151() /* reduce AAigntokens2IgnTokens */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -7101,74 +6424,66 @@ public class Parser
         PIgnTokens pigntokensNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList3.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList3.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        pigntokensNode1 = new AIgnTokens(listNode3);
+            pigntokensNode1 = new AIgnTokens(listNode3);
         }
-	nodeList.add(pigntokensNode1);
+        nodeList.add(pigntokensNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new152() /* reduce ALookAhead */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new152() /* reduce ALookAhead */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TSlash tslashNode1;
         PRegExp pregexpNode2;
-        tslashNode1 = (TSlash)nodeArrayList1.get(0);
-        pregexpNode2 = (PRegExp)nodeArrayList2.get(0);
-	nodeList.add(tslashNode1);
-	nodeList.add(pregexpNode2);
+        tslashNode1 = (TSlash) nodeArrayList1.get(0);
+        pregexpNode2 = (PRegExp) nodeArrayList2.get(0);
+        nodeList.add(tslashNode1);
+        nodeList.add(pregexpNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new153() /* reduce AAregexp1RegExp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new153() /* reduce AAregexp1RegExp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PRegExp pregexpNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        PConcat pconcatNode2;
-        pconcatNode2 = (PConcat)nodeArrayList1.get(0);
-	if(pconcatNode2 != null)
-	{
-	  listNode3.add(pconcatNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                PConcat pconcatNode2;
+                pconcatNode2 = (PConcat) nodeArrayList1.get(0);
+                if (pconcatNode2 != null) {
+                    listNode3.add(pconcatNode2);
+                }
+            }
 
-        pregexpNode1 = new ARegExp(listNode3);
+            pregexpNode1 = new ARegExp(listNode3);
         }
-	nodeList.add(pregexpNode1);
+        nodeList.add(pregexpNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new154() /* reduce AAregexp2RegExp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new154() /* reduce AAregexp2RegExp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7176,119 +6491,106 @@ public class Parser
         PRegExp pregexpNode1;
         {
             // Block
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        {
-            // Block
-        PConcat pconcatNode2;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        pconcatNode2 = (PConcat)nodeArrayList1.get(0);
-        listNode3 = (LinkedList)nodeArrayList2.get(0);
-	if(pconcatNode2 != null)
-	{
-	  listNode4.add(pconcatNode2);
-	}
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            {
+                // Block
+                PConcat pconcatNode2;
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                pconcatNode2 = (PConcat) nodeArrayList1.get(0);
+                listNode3 = (LinkedList) nodeArrayList2.get(0);
+                if (pconcatNode2 != null) {
+                    listNode4.add(pconcatNode2);
+                }
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
 
-        pregexpNode1 = new ARegExp(listNode4);
+            pregexpNode1 = new ARegExp(listNode4);
         }
-	nodeList.add(pregexpNode1);
+        nodeList.add(pregexpNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new155() /* reduce ARegExpTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new155() /* reduce ARegExpTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PConcat pconcatNode1;
-        pconcatNode1 = (PConcat)nodeArrayList2.get(0);
-	nodeList.add(pconcatNode1);
+        pconcatNode1 = (PConcat) nodeArrayList2.get(0);
+        nodeList.add(pconcatNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new156() /* reduce AAconcat1Concat */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new156() /* reduce AAconcat1Concat */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         PConcat pconcatNode1;
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        {
-            // Block
-        }
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            {
+                // Block
+            }
 
-        pconcatNode1 = new AConcat(listNode2);
+            pconcatNode1 = new AConcat(listNode2);
         }
-	nodeList.add(pconcatNode1);
+        nodeList.add(pconcatNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new157() /* reduce AAconcat2Concat */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new157() /* reduce AAconcat2Concat */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PConcat pconcatNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        pconcatNode1 = new AConcat(listNode3);
+            pconcatNode1 = new AConcat(listNode3);
         }
-	nodeList.add(pconcatNode1);
+        nodeList.add(pconcatNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new158() /* reduce AAunexp1UnExp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new158() /* reduce AAunexp1UnExp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PUnExp punexpNode1;
         {
             // Block
-        PBasic pbasicNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        pbasicNode2 = (PBasic)nodeArrayList1.get(0);
+            PBasic pbasicNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            pbasicNode2 = (PBasic) nodeArrayList1.get(0);
 
-        punexpNode1 = new AUnExp(pbasicNode2, null);
+            punexpNode1 = new AUnExp(pbasicNode2, null);
         }
-	nodeList.add(punexpNode1);
+        nodeList.add(punexpNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new159() /* reduce AAunexp2UnExp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new159() /* reduce AAunexp2UnExp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7296,102 +6598,92 @@ public class Parser
         PUnExp punexpNode1;
         {
             // Block
-        PBasic pbasicNode2;
-        PUnOp punopNode3;
-        pbasicNode2 = (PBasic)nodeArrayList1.get(0);
-        punopNode3 = (PUnOp)nodeArrayList2.get(0);
+            PBasic pbasicNode2;
+            PUnOp punopNode3;
+            pbasicNode2 = (PBasic) nodeArrayList1.get(0);
+            punopNode3 = (PUnOp) nodeArrayList2.get(0);
 
-        punexpNode1 = new AUnExp(pbasicNode2, punopNode3);
+            punexpNode1 = new AUnExp(pbasicNode2, punopNode3);
         }
-	nodeList.add(punexpNode1);
+        nodeList.add(punexpNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new160() /* reduce ACharBasic */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new160() /* reduce ACharBasic */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PBasic pbasicNode1;
         {
             // Block
-        PChar pcharNode2;
-        pcharNode2 = (PChar)nodeArrayList1.get(0);
+            PChar pcharNode2;
+            pcharNode2 = (PChar) nodeArrayList1.get(0);
 
-        pbasicNode1 = new ACharBasic(pcharNode2);
+            pbasicNode1 = new ACharBasic(pcharNode2);
         }
-	nodeList.add(pbasicNode1);
+        nodeList.add(pbasicNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new161() /* reduce ASetBasic */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new161() /* reduce ASetBasic */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PBasic pbasicNode1;
         {
             // Block
-        PSet psetNode2;
-        psetNode2 = (PSet)nodeArrayList1.get(0);
+            PSet psetNode2;
+            psetNode2 = (PSet) nodeArrayList1.get(0);
 
-        pbasicNode1 = new ASetBasic(psetNode2);
+            pbasicNode1 = new ASetBasic(psetNode2);
         }
-	nodeList.add(pbasicNode1);
+        nodeList.add(pbasicNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new162() /* reduce AStringBasic */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new162() /* reduce AStringBasic */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PBasic pbasicNode1;
         {
             // Block
-        TString tstringNode2;
-        tstringNode2 = (TString)nodeArrayList1.get(0);
+            TString tstringNode2;
+            tstringNode2 = (TString) nodeArrayList1.get(0);
 
-        pbasicNode1 = new AStringBasic(tstringNode2);
+            pbasicNode1 = new AStringBasic(tstringNode2);
         }
-	nodeList.add(pbasicNode1);
+        nodeList.add(pbasicNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new163() /* reduce AIdBasic */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new163() /* reduce AIdBasic */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PBasic pbasicNode1;
         {
             // Block
-        TId tidNode2;
-        tidNode2 = (TId)nodeArrayList1.get(0);
+            TId tidNode2;
+            tidNode2 = (TId) nodeArrayList1.get(0);
 
-        pbasicNode1 = new AIdBasic(tidNode2);
+            pbasicNode1 = new AIdBasic(tidNode2);
         }
-	nodeList.add(pbasicNode1);
+        nodeList.add(pbasicNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new164() /* reduce ARegExpBasic */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new164() /* reduce ARegExpBasic */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -7400,80 +6692,72 @@ public class Parser
         PBasic pbasicNode1;
         {
             // Block
-        PRegExp pregexpNode2;
-        pregexpNode2 = (PRegExp)nodeArrayList2.get(0);
+            PRegExp pregexpNode2;
+            pregexpNode2 = (PRegExp) nodeArrayList2.get(0);
 
-        pbasicNode1 = new ARegExpBasic(pregexpNode2);
+            pbasicNode1 = new ARegExpBasic(pregexpNode2);
         }
-	nodeList.add(pbasicNode1);
+        nodeList.add(pbasicNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new165() /* reduce ACharChar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new165() /* reduce ACharChar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PChar pcharNode1;
         {
             // Block
-        TChar tcharNode2;
-        tcharNode2 = (TChar)nodeArrayList1.get(0);
+            TChar tcharNode2;
+            tcharNode2 = (TChar) nodeArrayList1.get(0);
 
-        pcharNode1 = new ACharChar(tcharNode2);
+            pcharNode1 = new ACharChar(tcharNode2);
         }
-	nodeList.add(pcharNode1);
+        nodeList.add(pcharNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new166() /* reduce ADecChar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new166() /* reduce ADecChar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PChar pcharNode1;
         {
             // Block
-        TDecChar tdeccharNode2;
-        tdeccharNode2 = (TDecChar)nodeArrayList1.get(0);
+            TDecChar tdeccharNode2;
+            tdeccharNode2 = (TDecChar) nodeArrayList1.get(0);
 
-        pcharNode1 = new ADecChar(tdeccharNode2);
+            pcharNode1 = new ADecChar(tdeccharNode2);
         }
-	nodeList.add(pcharNode1);
+        nodeList.add(pcharNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new167() /* reduce AHexChar */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new167() /* reduce AHexChar */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PChar pcharNode1;
         {
             // Block
-        THexChar thexcharNode2;
-        thexcharNode2 = (THexChar)nodeArrayList1.get(0);
+            THexChar thexcharNode2;
+            thexcharNode2 = (THexChar) nodeArrayList1.get(0);
 
-        pcharNode1 = new AHexChar(thexcharNode2);
+            pcharNode1 = new AHexChar(thexcharNode2);
         }
-	nodeList.add(pcharNode1);
+        nodeList.add(pcharNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new168() /* reduce AOperationSet */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new168() /* reduce AOperationSet */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -7484,24 +6768,22 @@ public class Parser
         PSet psetNode1;
         {
             // Block
-        PBasic pbasicNode2;
-        PBinOp pbinopNode3;
-        PBasic pbasicNode4;
-        pbasicNode2 = (PBasic)nodeArrayList2.get(0);
-        pbinopNode3 = (PBinOp)nodeArrayList3.get(0);
-        pbasicNode4 = (PBasic)nodeArrayList4.get(0);
+            PBasic pbasicNode2;
+            PBinOp pbinopNode3;
+            PBasic pbasicNode4;
+            pbasicNode2 = (PBasic) nodeArrayList2.get(0);
+            pbinopNode3 = (PBinOp) nodeArrayList3.get(0);
+            pbasicNode4 = (PBasic) nodeArrayList4.get(0);
 
-        psetNode1 = new AOperationSet(pbasicNode2, pbinopNode3, pbasicNode4);
+            psetNode1 = new AOperationSet(pbasicNode2, pbinopNode3, pbasicNode4);
         }
-	nodeList.add(psetNode1);
+        nodeList.add(psetNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new169() /* reduce AIntervalSet */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new169() /* reduce AIntervalSet */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -7512,82 +6794,74 @@ public class Parser
         PSet psetNode1;
         {
             // Block
-        PChar pcharNode2;
-        PChar pcharNode3;
-        pcharNode2 = (PChar)nodeArrayList2.get(0);
-        pcharNode3 = (PChar)nodeArrayList4.get(0);
+            PChar pcharNode2;
+            PChar pcharNode3;
+            pcharNode2 = (PChar) nodeArrayList2.get(0);
+            pcharNode3 = (PChar) nodeArrayList4.get(0);
 
-        psetNode1 = new AIntervalSet(pcharNode2, pcharNode3);
+            psetNode1 = new AIntervalSet(pcharNode2, pcharNode3);
         }
-	nodeList.add(psetNode1);
+        nodeList.add(psetNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new170() /* reduce AStarUnOp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new170() /* reduce AStarUnOp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PUnOp punopNode1;
         {
             // Block
-        TStar tstarNode2;
-        tstarNode2 = (TStar)nodeArrayList1.get(0);
+            TStar tstarNode2;
+            tstarNode2 = (TStar) nodeArrayList1.get(0);
 
-        punopNode1 = new AStarUnOp(tstarNode2);
+            punopNode1 = new AStarUnOp(tstarNode2);
         }
-	nodeList.add(punopNode1);
+        nodeList.add(punopNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new171() /* reduce AQMarkUnOp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new171() /* reduce AQMarkUnOp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PUnOp punopNode1;
         {
             // Block
-        TQMark tqmarkNode2;
-        tqmarkNode2 = (TQMark)nodeArrayList1.get(0);
+            TQMark tqmarkNode2;
+            tqmarkNode2 = (TQMark) nodeArrayList1.get(0);
 
-        punopNode1 = new AQMarkUnOp(tqmarkNode2);
+            punopNode1 = new AQMarkUnOp(tqmarkNode2);
         }
-	nodeList.add(punopNode1);
+        nodeList.add(punopNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new172() /* reduce APlusUnOp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new172() /* reduce APlusUnOp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PUnOp punopNode1;
         {
             // Block
-        TPlus tplusNode2;
-        tplusNode2 = (TPlus)nodeArrayList1.get(0);
+            TPlus tplusNode2;
+            tplusNode2 = (TPlus) nodeArrayList1.get(0);
 
-        punopNode1 = new APlusUnOp(tplusNode2);
+            punopNode1 = new APlusUnOp(tplusNode2);
         }
-	nodeList.add(punopNode1);
+        nodeList.add(punopNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new173() /* reduce APlusBinOp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new173() /* reduce APlusBinOp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
@@ -7595,17 +6869,15 @@ public class Parser
         {
             // Block
 
-        pbinopNode1 = new APlusBinOp();
+            pbinopNode1 = new APlusBinOp();
         }
-	nodeList.add(pbinopNode1);
+        nodeList.add(pbinopNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new174() /* reduce AMinusBinOp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new174() /* reduce AMinusBinOp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
@@ -7613,17 +6885,15 @@ public class Parser
         {
             // Block
 
-        pbinopNode1 = new AMinusBinOp();
+            pbinopNode1 = new AMinusBinOp();
         }
-	nodeList.add(pbinopNode1);
+        nodeList.add(pbinopNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new175() /* reduce AProductions */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new175() /* reduce AProductions */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7631,28 +6901,25 @@ public class Parser
         PProductions pproductionsNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        pproductionsNode1 = new AProductions(listNode3);
+            pproductionsNode1 = new AProductions(listNode3);
         }
-	nodeList.add(pproductionsNode1);
+        nodeList.add(pproductionsNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new176() /* reduce AAprod1Prod */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new176() /* reduce AAprod1Prod */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -7662,35 +6929,32 @@ public class Parser
         PProd pprodNode1;
         {
             // Block
-        TId tidNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        LinkedList<Object> listNode6 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        }
-        {
-            // Block
-        LinkedList<Object> listNode5 = new LinkedList<Object>();
-        listNode5 = (LinkedList)nodeArrayList3.get(0);
-	if(listNode5 != null)
-	{
-	  listNode6.addAll(listNode5);
-	}
-        }
+            TId tidNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            LinkedList<Object> listNode6 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+            }
+            {
+                // Block
+                LinkedList<Object> listNode5 = new LinkedList<Object>();
+                listNode5 = (LinkedList) nodeArrayList3.get(0);
+                if (listNode5 != null) {
+                    listNode6.addAll(listNode5);
+                }
+            }
 
-        pprodNode1 = new AProd(tidNode2, null, listNode4, listNode6);
+            pprodNode1 = new AProd(tidNode2, null, listNode4, listNode6);
         }
-	nodeList.add(pprodNode1);
+        nodeList.add(pprodNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new177() /* reduce AAprod2Prod */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new177() /* reduce AAprod2Prod */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -7701,42 +6965,38 @@ public class Parser
         PProd pprodNode1;
         {
             // Block
-        TId tidNode2;
-        TArrow tarrowNode3;
-        LinkedList<Object> listNode5 = new LinkedList<Object>();
-        LinkedList<Object> listNode7 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        tarrowNode3 = (TArrow)nodeArrayList2.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        listNode4 = (LinkedList)nodeArrayList2.get(1);
-	if(listNode4 != null)
-	{
-	  listNode5.addAll(listNode4);
-	}
-        }
-        {
-            // Block
-        LinkedList<Object> listNode6 = new LinkedList<Object>();
-        listNode6 = (LinkedList)nodeArrayList4.get(0);
-	if(listNode6 != null)
-	{
-	  listNode7.addAll(listNode6);
-	}
-        }
+            TId tidNode2;
+            TArrow tarrowNode3;
+            LinkedList<Object> listNode5 = new LinkedList<Object>();
+            LinkedList<Object> listNode7 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            tarrowNode3 = (TArrow) nodeArrayList2.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode4 = new LinkedList<Object>();
+                listNode4 = (LinkedList) nodeArrayList2.get(1);
+                if (listNode4 != null) {
+                    listNode5.addAll(listNode4);
+                }
+            }
+            {
+                // Block
+                LinkedList<Object> listNode6 = new LinkedList<Object>();
+                listNode6 = (LinkedList) nodeArrayList4.get(0);
+                if (listNode6 != null) {
+                    listNode7.addAll(listNode6);
+                }
+            }
 
-        pprodNode1 = new AProd(tidNode2, tarrowNode3, listNode5, listNode7);
+            pprodNode1 = new AProd(tidNode2, tarrowNode3, listNode5, listNode7);
         }
-	nodeList.add(pprodNode1);
+        nodeList.add(pprodNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new178() /* reduce AAprodtransform1ProdTransform */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new178() /* reduce AAprodtransform1ProdTransform */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -7744,20 +7004,18 @@ public class Parser
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TArrow tarrowNode1;
         LinkedList<Object> listNode2 = new LinkedList<Object>();
-        tarrowNode1 = (TArrow)nodeArrayList2.get(0);
+        tarrowNode1 = (TArrow) nodeArrayList2.get(0);
         {
             // Block
         }
-	nodeList.add(tarrowNode1);
-	nodeList.add(listNode2);
+        nodeList.add(tarrowNode1);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new179() /* reduce AAprodtransform2ProdTransform */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new179() /* reduce AAprodtransform2ProdTransform */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -7766,48 +7024,42 @@ public class Parser
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TArrow tarrowNode1;
         LinkedList<Object> listNode3 = new LinkedList<Object>();
-        tarrowNode1 = (TArrow)nodeArrayList2.get(0);
+        tarrowNode1 = (TArrow) nodeArrayList2.get(0);
         {
             // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList3.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            listNode2 = (LinkedList) nodeArrayList3.get(0);
+            if (listNode2 != null) {
+                listNode3.addAll(listNode2);
+            }
         }
-	nodeList.add(tarrowNode1);
-	nodeList.add(listNode3);
+        nodeList.add(tarrowNode1);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new180() /* reduce AAalts1Alts */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new180() /* reduce AAalts1Alts */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PAlt paltNode1;
-        paltNode1 = (PAlt)nodeArrayList1.get(0);
-	if(paltNode1 != null)
-	{
-	  listNode2.add(paltNode1);
-	}
+            PAlt paltNode1;
+            paltNode1 = (PAlt) nodeArrayList1.get(0);
+            if (paltNode1 != null) {
+                listNode2.add(paltNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new181() /* reduce AAalts2Alts */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new181() /* reduce AAalts2Alts */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7815,121 +7067,108 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        PAlt paltNode1;
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        paltNode1 = (PAlt)nodeArrayList1.get(0);
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(paltNode1 != null)
-	{
-	  listNode3.add(paltNode1);
-	}
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
+            PAlt paltNode1;
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            paltNode1 = (PAlt) nodeArrayList1.get(0);
+            listNode2 = (LinkedList) nodeArrayList2.get(0);
+            if (paltNode1 != null) {
+                listNode3.add(paltNode1);
+            }
+            if (listNode2 != null) {
+                listNode3.addAll(listNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new182() /* reduce AAltsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new182() /* reduce AAltsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAlt paltNode1;
-        paltNode1 = (PAlt)nodeArrayList2.get(0);
-	nodeList.add(paltNode1);
+        paltNode1 = (PAlt) nodeArrayList2.get(0);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new183() /* reduce AAalt1Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new183() /* reduce AAalt1Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         PAlt paltNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        {
-            // Block
-        }
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            {
+                // Block
+            }
 
-        paltNode1 = new AAlt(null, listNode3, null);
+            paltNode1 = new AAlt(null, listNode3, null);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new184() /* reduce AAalt2Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new184() /* reduce AAalt2Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAlt paltNode1;
         {
             // Block
-        TId tidNode2;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        }
+            TId tidNode2;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+            }
 
-        paltNode1 = new AAlt(tidNode2, listNode3, null);
+            paltNode1 = new AAlt(tidNode2, listNode3, null);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new185() /* reduce AAalt3Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new185() /* reduce AAalt3Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAlt paltNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
 
-        paltNode1 = new AAlt(null, listNode4, null);
+            paltNode1 = new AAlt(null, listNode4, null);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new186() /* reduce AAalt4Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new186() /* reduce AAalt4Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7937,56 +7176,51 @@ public class Parser
         PAlt paltNode1;
         {
             // Block
-        TId tidNode2;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
+            TId tidNode2;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
 
-        paltNode1 = new AAlt(tidNode2, listNode4, null);
+            paltNode1 = new AAlt(tidNode2, listNode4, null);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new187() /* reduce AAalt5Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new187() /* reduce AAalt5Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAlt paltNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PAltTransform palttransformNode4;
-        {
-            // Block
-        }
-        palttransformNode4 = (PAltTransform)nodeArrayList1.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PAltTransform palttransformNode4;
+            {
+                // Block
+            }
+            palttransformNode4 = (PAltTransform) nodeArrayList1.get(0);
 
-        paltNode1 = new AAlt(null, listNode3, palttransformNode4);
+            paltNode1 = new AAlt(null, listNode3, palttransformNode4);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new188() /* reduce AAalt6Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new188() /* reduce AAalt6Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -7994,26 +7228,24 @@ public class Parser
         PAlt paltNode1;
         {
             // Block
-        TId tidNode2;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        PAltTransform palttransformNode4;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        }
-        palttransformNode4 = (PAltTransform)nodeArrayList2.get(0);
+            TId tidNode2;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            PAltTransform palttransformNode4;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+            }
+            palttransformNode4 = (PAltTransform) nodeArrayList2.get(0);
 
-        paltNode1 = new AAlt(tidNode2, listNode3, palttransformNode4);
+            paltNode1 = new AAlt(tidNode2, listNode3, palttransformNode4);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new189() /* reduce AAalt7Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new189() /* reduce AAalt7Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8021,31 +7253,28 @@ public class Parser
         PAlt paltNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        PAltTransform palttransformNode5;
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
-        palttransformNode5 = (PAltTransform)nodeArrayList2.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            PAltTransform palttransformNode5;
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
+            palttransformNode5 = (PAltTransform) nodeArrayList2.get(0);
 
-        paltNode1 = new AAlt(null, listNode4, palttransformNode5);
+            paltNode1 = new AAlt(null, listNode4, palttransformNode5);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new190() /* reduce AAalt8Alt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new190() /* reduce AAalt8Alt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8054,32 +7283,29 @@ public class Parser
         PAlt paltNode1;
         {
             // Block
-        TId tidNode2;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        PAltTransform palttransformNode5;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
-        palttransformNode5 = (PAltTransform)nodeArrayList3.get(0);
+            TId tidNode2;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            PAltTransform palttransformNode5;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
+            palttransformNode5 = (PAltTransform) nodeArrayList3.get(0);
 
-        paltNode1 = new AAlt(tidNode2, listNode4, palttransformNode5);
+            paltNode1 = new AAlt(tidNode2, listNode4, palttransformNode5);
         }
-	nodeList.add(paltNode1);
+        nodeList.add(paltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new191() /* reduce AAalttransform1AltTransform */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new191() /* reduce AAalttransform1AltTransform */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8088,26 +7314,24 @@ public class Parser
         PAltTransform palttransformNode1;
         {
             // Block
-        TLBrace tlbraceNode2;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        TRBrace trbraceNode4;
-        tlbraceNode2 = (TLBrace)nodeArrayList1.get(0);
-        {
-            // Block
-        }
-        trbraceNode4 = (TRBrace)nodeArrayList3.get(0);
+            TLBrace tlbraceNode2;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            TRBrace trbraceNode4;
+            tlbraceNode2 = (TLBrace) nodeArrayList1.get(0);
+            {
+                // Block
+            }
+            trbraceNode4 = (TRBrace) nodeArrayList3.get(0);
 
-        palttransformNode1 = new AAltTransform(tlbraceNode2, listNode3, trbraceNode4);
+            palttransformNode1 = new AAltTransform(tlbraceNode2, listNode3, trbraceNode4);
         }
-	nodeList.add(palttransformNode1);
+        nodeList.add(palttransformNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new192() /* reduce AAalttransform2AltTransform */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new192() /* reduce AAalttransform2AltTransform */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -8117,32 +7341,29 @@ public class Parser
         PAltTransform palttransformNode1;
         {
             // Block
-        TLBrace tlbraceNode2;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        TRBrace trbraceNode5;
-        tlbraceNode2 = (TLBrace)nodeArrayList1.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList3.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
-        trbraceNode5 = (TRBrace)nodeArrayList4.get(0);
+            TLBrace tlbraceNode2;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            TRBrace trbraceNode5;
+            tlbraceNode2 = (TLBrace) nodeArrayList1.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList3.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
+            trbraceNode5 = (TRBrace) nodeArrayList4.get(0);
 
-        palttransformNode1 = new AAltTransform(tlbraceNode2, listNode4, trbraceNode5);
+            palttransformNode1 = new AAltTransform(tlbraceNode2, listNode4, trbraceNode5);
         }
-	nodeList.add(palttransformNode1);
+        nodeList.add(palttransformNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new193() /* reduce AAnewterm1Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new193() /* reduce AAnewterm1Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -8152,26 +7373,24 @@ public class Parser
         PTerm ptermNode1;
         {
             // Block
-        PProdName pprodnameNode2;
-        TLPar tlparNode3;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        pprodnameNode2 = (PProdName)nodeArrayList2.get(0);
-        tlparNode3 = (TLPar)nodeArrayList3.get(0);
-        {
-            // Block
-        }
+            PProdName pprodnameNode2;
+            TLPar tlparNode3;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            pprodnameNode2 = (PProdName) nodeArrayList2.get(0);
+            tlparNode3 = (TLPar) nodeArrayList3.get(0);
+            {
+                // Block
+            }
 
-        ptermNode1 = new ANewTerm(pprodnameNode2, tlparNode3, listNode4);
+            ptermNode1 = new ANewTerm(pprodnameNode2, tlparNode3, listNode4);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new194() /* reduce AAnewterm2Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new194() /* reduce AAnewterm2Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -8182,32 +7401,29 @@ public class Parser
         PTerm ptermNode1;
         {
             // Block
-        PProdName pprodnameNode2;
-        TLPar tlparNode3;
-        LinkedList<Object> listNode5 = new LinkedList<Object>();
-        pprodnameNode2 = (PProdName)nodeArrayList2.get(0);
-        tlparNode3 = (TLPar)nodeArrayList3.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        listNode4 = (LinkedList)nodeArrayList4.get(0);
-	if(listNode4 != null)
-	{
-	  listNode5.addAll(listNode4);
-	}
-        }
+            PProdName pprodnameNode2;
+            TLPar tlparNode3;
+            LinkedList<Object> listNode5 = new LinkedList<Object>();
+            pprodnameNode2 = (PProdName) nodeArrayList2.get(0);
+            tlparNode3 = (TLPar) nodeArrayList3.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode4 = new LinkedList<Object>();
+                listNode4 = (LinkedList) nodeArrayList4.get(0);
+                if (listNode4 != null) {
+                    listNode5.addAll(listNode4);
+                }
+            }
 
-        ptermNode1 = new ANewTerm(pprodnameNode2, tlparNode3, listNode5);
+            ptermNode1 = new ANewTerm(pprodnameNode2, tlparNode3, listNode5);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new195() /* reduce AAlistterm1Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new195() /* reduce AAlistterm1Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8215,24 +7431,22 @@ public class Parser
         PTerm ptermNode1;
         {
             // Block
-        TLBkt tlbktNode2;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        tlbktNode2 = (TLBkt)nodeArrayList1.get(0);
-        {
-            // Block
-        }
+            TLBkt tlbktNode2;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            tlbktNode2 = (TLBkt) nodeArrayList1.get(0);
+            {
+                // Block
+            }
 
-        ptermNode1 = new AListTerm(tlbktNode2, listNode3);
+            ptermNode1 = new AListTerm(tlbktNode2, listNode3);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new196() /* reduce AAlistterm2Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new196() /* reduce AAlistterm2Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8241,52 +7455,47 @@ public class Parser
         PTerm ptermNode1;
         {
             // Block
-        TLBkt tlbktNode2;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        tlbktNode2 = (TLBkt)nodeArrayList1.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
+            TLBkt tlbktNode2;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            tlbktNode2 = (TLBkt) nodeArrayList1.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
 
-        ptermNode1 = new AListTerm(tlbktNode2, listNode4);
+            ptermNode1 = new AListTerm(tlbktNode2, listNode4);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new197() /* reduce AAsimpleterm1Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new197() /* reduce AAsimpleterm1Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PTerm ptermNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        TId tidNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        tidNode3 = (TId)nodeArrayList1.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            TId tidNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            tidNode3 = (TId) nodeArrayList1.get(0);
 
-        ptermNode1 = new ASimpleTerm(null, tidNode3, null);
+            ptermNode1 = new ASimpleTerm(null, tidNode3, null);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new198() /* reduce AAsimpleterm2Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new198() /* reduce AAsimpleterm2Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8294,23 +7503,21 @@ public class Parser
         PTerm ptermNode1;
         {
             // Block
-        PSpecifier pspecifierNode2;
-        TId tidNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        pspecifierNode2 = (PSpecifier)nodeArrayList1.get(0);
-        tidNode3 = (TId)nodeArrayList2.get(0);
+            PSpecifier pspecifierNode2;
+            TId tidNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            pspecifierNode2 = (PSpecifier) nodeArrayList1.get(0);
+            tidNode3 = (TId) nodeArrayList2.get(0);
 
-        ptermNode1 = new ASimpleTerm(pspecifierNode2, tidNode3, null);
+            ptermNode1 = new ASimpleTerm(pspecifierNode2, tidNode3, null);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new199() /* reduce AAsimpleterm3Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new199() /* reduce AAsimpleterm3Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8318,23 +7525,21 @@ public class Parser
         PTerm ptermNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        TId tidNode3;
-        TId tidNode4;
-        tidNode3 = (TId)nodeArrayList1.get(0);
-        tidNode4 = (TId)nodeArrayList2.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            TId tidNode3;
+            TId tidNode4;
+            tidNode3 = (TId) nodeArrayList1.get(0);
+            tidNode4 = (TId) nodeArrayList2.get(0);
 
-        ptermNode1 = new ASimpleTerm(null, tidNode3, tidNode4);
+            ptermNode1 = new ASimpleTerm(null, tidNode3, tidNode4);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new200() /* reduce AAsimpleterm4Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new200() /* reduce AAsimpleterm4Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8343,24 +7548,22 @@ public class Parser
         PTerm ptermNode1;
         {
             // Block
-        PSpecifier pspecifierNode2;
-        TId tidNode3;
-        TId tidNode4;
-        pspecifierNode2 = (PSpecifier)nodeArrayList1.get(0);
-        tidNode3 = (TId)nodeArrayList2.get(0);
-        tidNode4 = (TId)nodeArrayList3.get(0);
+            PSpecifier pspecifierNode2;
+            TId tidNode3;
+            TId tidNode4;
+            pspecifierNode2 = (PSpecifier) nodeArrayList1.get(0);
+            tidNode3 = (TId) nodeArrayList2.get(0);
+            tidNode4 = (TId) nodeArrayList3.get(0);
 
-        ptermNode1 = new ASimpleTerm(pspecifierNode2, tidNode3, tidNode4);
+            ptermNode1 = new ASimpleTerm(pspecifierNode2, tidNode3, tidNode4);
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new201() /* reduce ANullTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new201() /* reduce ANullTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
@@ -8368,39 +7571,34 @@ public class Parser
         {
             // Block
 
-        ptermNode1 = new ANullTerm();
+            ptermNode1 = new ANullTerm();
         }
-	nodeList.add(ptermNode1);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new202() /* reduce AAlistoflistterm1ListOfListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new202() /* reduce AAlistoflistterm1ListOfListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PListTerm plisttermNode1;
-        plisttermNode1 = (PListTerm)nodeArrayList1.get(0);
-	if(plisttermNode1 != null)
-	{
-	  listNode2.add(plisttermNode1);
-	}
+            PListTerm plisttermNode1;
+            plisttermNode1 = (PListTerm) nodeArrayList1.get(0);
+            if (plisttermNode1 != null) {
+                listNode2.add(plisttermNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new203() /* reduce AAlistoflistterm2ListOfListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new203() /* reduce AAlistoflistterm2ListOfListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8408,28 +7606,24 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        PListTerm plisttermNode1;
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        plisttermNode1 = (PListTerm)nodeArrayList1.get(0);
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(plisttermNode1 != null)
-	{
-	  listNode3.add(plisttermNode1);
-	}
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
+            PListTerm plisttermNode1;
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            plisttermNode1 = (PListTerm) nodeArrayList1.get(0);
+            listNode2 = (LinkedList) nodeArrayList2.get(0);
+            if (plisttermNode1 != null) {
+                listNode3.add(plisttermNode1);
+            }
+            if (listNode2 != null) {
+                listNode3.addAll(listNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new204() /* reduce AAnewlistterm1ListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new204() /* reduce AAnewlistterm1ListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -8439,26 +7633,24 @@ public class Parser
         PListTerm plisttermNode1;
         {
             // Block
-        PProdName pprodnameNode2;
-        TLPar tlparNode3;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        pprodnameNode2 = (PProdName)nodeArrayList2.get(0);
-        tlparNode3 = (TLPar)nodeArrayList3.get(0);
-        {
-            // Block
-        }
+            PProdName pprodnameNode2;
+            TLPar tlparNode3;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            pprodnameNode2 = (PProdName) nodeArrayList2.get(0);
+            tlparNode3 = (TLPar) nodeArrayList3.get(0);
+            {
+                // Block
+            }
 
-        plisttermNode1 = new ANewListTerm(pprodnameNode2, tlparNode3, listNode4);
+            plisttermNode1 = new ANewListTerm(pprodnameNode2, tlparNode3, listNode4);
         }
-	nodeList.add(plisttermNode1);
+        nodeList.add(plisttermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new205() /* reduce AAnewlistterm2ListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new205() /* reduce AAnewlistterm2ListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList5 = pop();
@@ -8469,54 +7661,49 @@ public class Parser
         PListTerm plisttermNode1;
         {
             // Block
-        PProdName pprodnameNode2;
-        TLPar tlparNode3;
-        LinkedList<Object> listNode5 = new LinkedList<Object>();
-        pprodnameNode2 = (PProdName)nodeArrayList2.get(0);
-        tlparNode3 = (TLPar)nodeArrayList3.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        listNode4 = (LinkedList)nodeArrayList4.get(0);
-	if(listNode4 != null)
-	{
-	  listNode5.addAll(listNode4);
-	}
-        }
+            PProdName pprodnameNode2;
+            TLPar tlparNode3;
+            LinkedList<Object> listNode5 = new LinkedList<Object>();
+            pprodnameNode2 = (PProdName) nodeArrayList2.get(0);
+            tlparNode3 = (TLPar) nodeArrayList3.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode4 = new LinkedList<Object>();
+                listNode4 = (LinkedList) nodeArrayList4.get(0);
+                if (listNode4 != null) {
+                    listNode5.addAll(listNode4);
+                }
+            }
 
-        plisttermNode1 = new ANewListTerm(pprodnameNode2, tlparNode3, listNode5);
+            plisttermNode1 = new ANewListTerm(pprodnameNode2, tlparNode3, listNode5);
         }
-	nodeList.add(plisttermNode1);
+        nodeList.add(plisttermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new206() /* reduce AAsimplelistterm1ListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new206() /* reduce AAsimplelistterm1ListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PListTerm plisttermNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        TId tidNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        tidNode3 = (TId)nodeArrayList1.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            TId tidNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            tidNode3 = (TId) nodeArrayList1.get(0);
 
-        plisttermNode1 = new ASimpleListTerm(null, tidNode3, null);
+            plisttermNode1 = new ASimpleListTerm(null, tidNode3, null);
         }
-	nodeList.add(plisttermNode1);
+        nodeList.add(plisttermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new207() /* reduce AAsimplelistterm2ListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new207() /* reduce AAsimplelistterm2ListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8524,23 +7711,21 @@ public class Parser
         PListTerm plisttermNode1;
         {
             // Block
-        PSpecifier pspecifierNode2;
-        TId tidNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        pspecifierNode2 = (PSpecifier)nodeArrayList1.get(0);
-        tidNode3 = (TId)nodeArrayList2.get(0);
+            PSpecifier pspecifierNode2;
+            TId tidNode3;
+            @SuppressWarnings("unused") Object nullNode4 = null;
+            pspecifierNode2 = (PSpecifier) nodeArrayList1.get(0);
+            tidNode3 = (TId) nodeArrayList2.get(0);
 
-        plisttermNode1 = new ASimpleListTerm(pspecifierNode2, tidNode3, null);
+            plisttermNode1 = new ASimpleListTerm(pspecifierNode2, tidNode3, null);
         }
-	nodeList.add(plisttermNode1);
+        nodeList.add(plisttermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new208() /* reduce AAsimplelistterm3ListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new208() /* reduce AAsimplelistterm3ListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8548,23 +7733,21 @@ public class Parser
         PListTerm plisttermNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        TId tidNode3;
-        TId tidNode4;
-        tidNode3 = (TId)nodeArrayList1.get(0);
-        tidNode4 = (TId)nodeArrayList2.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            TId tidNode3;
+            TId tidNode4;
+            tidNode3 = (TId) nodeArrayList1.get(0);
+            tidNode4 = (TId) nodeArrayList2.get(0);
 
-        plisttermNode1 = new ASimpleListTerm(null, tidNode3, tidNode4);
+            plisttermNode1 = new ASimpleListTerm(null, tidNode3, tidNode4);
         }
-	nodeList.add(plisttermNode1);
+        nodeList.add(plisttermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new209() /* reduce AAsimplelistterm4ListTerm */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new209() /* reduce AAsimplelistterm4ListTerm */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8573,75 +7756,67 @@ public class Parser
         PListTerm plisttermNode1;
         {
             // Block
-        PSpecifier pspecifierNode2;
-        TId tidNode3;
-        TId tidNode4;
-        pspecifierNode2 = (PSpecifier)nodeArrayList1.get(0);
-        tidNode3 = (TId)nodeArrayList2.get(0);
-        tidNode4 = (TId)nodeArrayList3.get(0);
+            PSpecifier pspecifierNode2;
+            TId tidNode3;
+            TId tidNode4;
+            pspecifierNode2 = (PSpecifier) nodeArrayList1.get(0);
+            tidNode3 = (TId) nodeArrayList2.get(0);
+            tidNode4 = (TId) nodeArrayList3.get(0);
 
-        plisttermNode1 = new ASimpleListTerm(pspecifierNode2, tidNode3, tidNode4);
+            plisttermNode1 = new ASimpleListTerm(pspecifierNode2, tidNode3, tidNode4);
         }
-	nodeList.add(plisttermNode1);
+        nodeList.add(plisttermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new210() /* reduce AListTermTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new210() /* reduce AListTermTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PListTerm plisttermNode1;
-        plisttermNode1 = (PListTerm)nodeArrayList2.get(0);
-	nodeList.add(plisttermNode1);
+        plisttermNode1 = (PListTerm) nodeArrayList2.get(0);
+        nodeList.add(plisttermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new211() /* reduce ASimpleTermTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new211() /* reduce ASimpleTermTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TId tidNode1;
-        tidNode1 = (TId)nodeArrayList2.get(0);
-	nodeList.add(tidNode1);
+        tidNode1 = (TId) nodeArrayList2.get(0);
+        nodeList.add(tidNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new212() /* reduce AAprodname1ProdName */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new212() /* reduce AAprodname1ProdName */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PProdName pprodnameNode1;
         {
             // Block
-        TId tidNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        tidNode2 = (TId)nodeArrayList1.get(0);
+            TId tidNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            tidNode2 = (TId) nodeArrayList1.get(0);
 
-        pprodnameNode1 = new AProdName(tidNode2, null);
+            pprodnameNode1 = new AProdName(tidNode2, null);
         }
-	nodeList.add(pprodnameNode1);
+        nodeList.add(pprodnameNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new213() /* reduce AAprodname2ProdName */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new213() /* reduce AAprodname2ProdName */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8649,59 +7824,52 @@ public class Parser
         PProdName pprodnameNode1;
         {
             // Block
-        TId tidNode2;
-        TId tidNode3;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        tidNode3 = (TId)nodeArrayList2.get(0);
+            TId tidNode2;
+            TId tidNode3;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            tidNode3 = (TId) nodeArrayList2.get(0);
 
-        pprodnameNode1 = new AProdName(tidNode2, tidNode3);
+            pprodnameNode1 = new AProdName(tidNode2, tidNode3);
         }
-	nodeList.add(pprodnameNode1);
+        nodeList.add(pprodnameNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new214() /* reduce AProdNameTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new214() /* reduce AProdNameTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TId tidNode1;
-        tidNode1 = (TId)nodeArrayList2.get(0);
-	nodeList.add(tidNode1);
+        tidNode1 = (TId) nodeArrayList2.get(0);
+        nodeList.add(tidNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new215() /* reduce AAparams1Params */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new215() /* reduce AAparams1Params */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PTerm ptermNode1;
-        ptermNode1 = (PTerm)nodeArrayList1.get(0);
-	if(ptermNode1 != null)
-	{
-	  listNode2.add(ptermNode1);
-	}
+            PTerm ptermNode1;
+            ptermNode1 = (PTerm) nodeArrayList1.get(0);
+            if (ptermNode1 != null) {
+                listNode2.add(ptermNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new216() /* reduce AAparams2Params */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new216() /* reduce AAparams2Params */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8709,82 +7877,72 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        PTerm ptermNode1;
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        ptermNode1 = (PTerm)nodeArrayList1.get(0);
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(ptermNode1 != null)
-	{
-	  listNode3.add(ptermNode1);
-	}
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
+            PTerm ptermNode1;
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            ptermNode1 = (PTerm) nodeArrayList1.get(0);
+            listNode2 = (LinkedList) nodeArrayList2.get(0);
+            if (ptermNode1 != null) {
+                listNode3.add(ptermNode1);
+            }
+            if (listNode2 != null) {
+                listNode3.addAll(listNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new217() /* reduce AParamsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new217() /* reduce AParamsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PTerm ptermNode1;
-        ptermNode1 = (PTerm)nodeArrayList2.get(0);
-	nodeList.add(ptermNode1);
+        ptermNode1 = (PTerm) nodeArrayList2.get(0);
+        nodeList.add(ptermNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new218() /* reduce AAltName */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new218() /* reduce AAltName */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TId tidNode1;
-        tidNode1 = (TId)nodeArrayList2.get(0);
-	nodeList.add(tidNode1);
+        tidNode1 = (TId) nodeArrayList2.get(0);
+        nodeList.add(tidNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new219() /* reduce AAelem1Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new219() /* reduce AAelem1Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PElem pelemNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        TId tidNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        tidNode4 = (TId)nodeArrayList1.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            TId tidNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            tidNode4 = (TId) nodeArrayList1.get(0);
 
-        pelemNode1 = new AElem(null, null, tidNode4, null);
+            pelemNode1 = new AElem(null, null, tidNode4, null);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new220() /* reduce AAelem2Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new220() /* reduce AAelem2Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8792,24 +7950,22 @@ public class Parser
         PElem pelemNode1;
         {
             // Block
-        TId tidNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        TId tidNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        tidNode4 = (TId)nodeArrayList2.get(0);
+            TId tidNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            TId tidNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            tidNode4 = (TId) nodeArrayList2.get(0);
 
-        pelemNode1 = new AElem(tidNode2, null, tidNode4, null);
+            pelemNode1 = new AElem(tidNode2, null, tidNode4, null);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new221() /* reduce AAelem3Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new221() /* reduce AAelem3Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8817,24 +7973,22 @@ public class Parser
         PElem pelemNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        PSpecifier pspecifierNode3;
-        TId tidNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        pspecifierNode3 = (PSpecifier)nodeArrayList1.get(0);
-        tidNode4 = (TId)nodeArrayList2.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            PSpecifier pspecifierNode3;
+            TId tidNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            pspecifierNode3 = (PSpecifier) nodeArrayList1.get(0);
+            tidNode4 = (TId) nodeArrayList2.get(0);
 
-        pelemNode1 = new AElem(null, pspecifierNode3, tidNode4, null);
+            pelemNode1 = new AElem(null, pspecifierNode3, tidNode4, null);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new222() /* reduce AAelem4Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new222() /* reduce AAelem4Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8843,25 +7997,23 @@ public class Parser
         PElem pelemNode1;
         {
             // Block
-        TId tidNode2;
-        PSpecifier pspecifierNode3;
-        TId tidNode4;
-        @SuppressWarnings("unused") Object nullNode5 = null;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        pspecifierNode3 = (PSpecifier)nodeArrayList2.get(0);
-        tidNode4 = (TId)nodeArrayList3.get(0);
+            TId tidNode2;
+            PSpecifier pspecifierNode3;
+            TId tidNode4;
+            @SuppressWarnings("unused") Object nullNode5 = null;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            pspecifierNode3 = (PSpecifier) nodeArrayList2.get(0);
+            tidNode4 = (TId) nodeArrayList3.get(0);
 
-        pelemNode1 = new AElem(tidNode2, pspecifierNode3, tidNode4, null);
+            pelemNode1 = new AElem(tidNode2, pspecifierNode3, tidNode4, null);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new223() /* reduce AAelem5Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new223() /* reduce AAelem5Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8869,24 +8021,22 @@ public class Parser
         PElem pelemNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        TId tidNode4;
-        PUnOp punopNode5;
-        tidNode4 = (TId)nodeArrayList1.get(0);
-        punopNode5 = (PUnOp)nodeArrayList2.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            TId tidNode4;
+            PUnOp punopNode5;
+            tidNode4 = (TId) nodeArrayList1.get(0);
+            punopNode5 = (PUnOp) nodeArrayList2.get(0);
 
-        pelemNode1 = new AElem(null, null, tidNode4, punopNode5);
+            pelemNode1 = new AElem(null, null, tidNode4, punopNode5);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new224() /* reduce AAelem6Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new224() /* reduce AAelem6Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8895,25 +8045,23 @@ public class Parser
         PElem pelemNode1;
         {
             // Block
-        TId tidNode2;
-        @SuppressWarnings("unused") Object nullNode3 = null;
-        TId tidNode4;
-        PUnOp punopNode5;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        tidNode4 = (TId)nodeArrayList2.get(0);
-        punopNode5 = (PUnOp)nodeArrayList3.get(0);
+            TId tidNode2;
+            @SuppressWarnings("unused") Object nullNode3 = null;
+            TId tidNode4;
+            PUnOp punopNode5;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            tidNode4 = (TId) nodeArrayList2.get(0);
+            punopNode5 = (PUnOp) nodeArrayList3.get(0);
 
-        pelemNode1 = new AElem(tidNode2, null, tidNode4, punopNode5);
+            pelemNode1 = new AElem(tidNode2, null, tidNode4, punopNode5);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new225() /* reduce AAelem7Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new225() /* reduce AAelem7Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
@@ -8922,25 +8070,23 @@ public class Parser
         PElem pelemNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        PSpecifier pspecifierNode3;
-        TId tidNode4;
-        PUnOp punopNode5;
-        pspecifierNode3 = (PSpecifier)nodeArrayList1.get(0);
-        tidNode4 = (TId)nodeArrayList2.get(0);
-        punopNode5 = (PUnOp)nodeArrayList3.get(0);
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            PSpecifier pspecifierNode3;
+            TId tidNode4;
+            PUnOp punopNode5;
+            pspecifierNode3 = (PSpecifier) nodeArrayList1.get(0);
+            tidNode4 = (TId) nodeArrayList2.get(0);
+            punopNode5 = (PUnOp) nodeArrayList3.get(0);
 
-        pelemNode1 = new AElem(null, pspecifierNode3, tidNode4, punopNode5);
+            pelemNode1 = new AElem(null, pspecifierNode3, tidNode4, punopNode5);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new226() /* reduce AAelem8Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new226() /* reduce AAelem8Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -8950,26 +8096,24 @@ public class Parser
         PElem pelemNode1;
         {
             // Block
-        TId tidNode2;
-        PSpecifier pspecifierNode3;
-        TId tidNode4;
-        PUnOp punopNode5;
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        pspecifierNode3 = (PSpecifier)nodeArrayList2.get(0);
-        tidNode4 = (TId)nodeArrayList3.get(0);
-        punopNode5 = (PUnOp)nodeArrayList4.get(0);
+            TId tidNode2;
+            PSpecifier pspecifierNode3;
+            TId tidNode4;
+            PUnOp punopNode5;
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            pspecifierNode3 = (PSpecifier) nodeArrayList2.get(0);
+            tidNode4 = (TId) nodeArrayList3.get(0);
+            punopNode5 = (PUnOp) nodeArrayList4.get(0);
 
-        pelemNode1 = new AElem(tidNode2, pspecifierNode3, tidNode4, punopNode5);
+            pelemNode1 = new AElem(tidNode2, pspecifierNode3, tidNode4, punopNode5);
         }
-	nodeList.add(pelemNode1);
+        nodeList.add(pelemNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new227() /* reduce AElemName */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new227() /* reduce AElemName */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -8977,16 +8121,14 @@ public class Parser
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         TId tidNode1;
-        tidNode1 = (TId)nodeArrayList2.get(0);
-	nodeList.add(tidNode1);
+        tidNode1 = (TId) nodeArrayList2.get(0);
+        nodeList.add(tidNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new228() /* reduce ATokenSpecifier */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new228() /* reduce ATokenSpecifier */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -8995,17 +8137,15 @@ public class Parser
         {
             // Block
 
-        pspecifierNode1 = new ATokenSpecifier();
+            pspecifierNode1 = new ATokenSpecifier();
         }
-	nodeList.add(pspecifierNode1);
+        nodeList.add(pspecifierNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new229() /* reduce AProductionSpecifier */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new229() /* reduce AProductionSpecifier */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9014,17 +8154,15 @@ public class Parser
         {
             // Block
 
-        pspecifierNode1 = new AProductionSpecifier();
+            pspecifierNode1 = new AProductionSpecifier();
         }
-	nodeList.add(pspecifierNode1);
+        nodeList.add(pspecifierNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new230() /* reduce AAst */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new230() /* reduce AAst */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -9034,28 +8172,25 @@ public class Parser
         PAst pastNode1;
         {
             // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        listNode2 = (LinkedList)nodeArrayList4.get(0);
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
-        }
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode2 = new LinkedList<Object>();
+                listNode2 = (LinkedList) nodeArrayList4.get(0);
+                if (listNode2 != null) {
+                    listNode3.addAll(listNode2);
+                }
+            }
 
-        pastNode1 = new AAst(listNode3);
+            pastNode1 = new AAst(listNode3);
         }
-	nodeList.add(pastNode1);
+        nodeList.add(pastNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new231() /* reduce AAstProd */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new231() /* reduce AAstProd */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
@@ -9065,52 +8200,46 @@ public class Parser
         PAstProd pastprodNode1;
         {
             // Block
-        TId tidNode2;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList3.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
+            TId tidNode2;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList3.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
 
-        pastprodNode1 = new AAstProd(tidNode2, listNode4);
+            pastprodNode1 = new AAstProd(tidNode2, listNode4);
         }
-	nodeList.add(pastprodNode1);
+        nodeList.add(pastprodNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new232() /* reduce AAastalts1AstAlts */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new232() /* reduce AAastalts1AstAlts */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PAstAlt pastaltNode1;
-        pastaltNode1 = (PAstAlt)nodeArrayList1.get(0);
-	if(pastaltNode1 != null)
-	{
-	  listNode2.add(pastaltNode1);
-	}
+            PAstAlt pastaltNode1;
+            pastaltNode1 = (PAstAlt) nodeArrayList1.get(0);
+            if (pastaltNode1 != null) {
+                listNode2.add(pastaltNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new233() /* reduce AAastalts2AstAlts */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new233() /* reduce AAastalts2AstAlts */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9118,118 +8247,105 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        PAstAlt pastaltNode1;
-        LinkedList<Object> listNode2 = new LinkedList<Object>();
-        pastaltNode1 = (PAstAlt)nodeArrayList1.get(0);
-        listNode2 = (LinkedList)nodeArrayList2.get(0);
-	if(pastaltNode1 != null)
-	{
-	  listNode3.add(pastaltNode1);
-	}
-	if(listNode2 != null)
-	{
-	  listNode3.addAll(listNode2);
-	}
+            PAstAlt pastaltNode1;
+            LinkedList<Object> listNode2 = new LinkedList<Object>();
+            pastaltNode1 = (PAstAlt) nodeArrayList1.get(0);
+            listNode2 = (LinkedList) nodeArrayList2.get(0);
+            if (pastaltNode1 != null) {
+                listNode3.add(pastaltNode1);
+            }
+            if (listNode2 != null) {
+                listNode3.addAll(listNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new234() /* reduce AAstAltsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new234() /* reduce AAstAltsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAstAlt pastaltNode1;
-        pastaltNode1 = (PAstAlt)nodeArrayList2.get(0);
-	nodeList.add(pastaltNode1);
+        pastaltNode1 = (PAstAlt) nodeArrayList2.get(0);
+        nodeList.add(pastaltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new235() /* reduce AAastalt1AstAlt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new235() /* reduce AAastalt1AstAlt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         PAstAlt pastaltNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        {
-            // Block
-        }
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            {
+                // Block
+            }
 
-        pastaltNode1 = new AAstAlt(null, listNode3);
+            pastaltNode1 = new AAstAlt(null, listNode3);
         }
-	nodeList.add(pastaltNode1);
+        nodeList.add(pastaltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new236() /* reduce AAastalt2AstAlt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new236() /* reduce AAastalt2AstAlt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAstAlt pastaltNode1;
         {
             // Block
-        TId tidNode2;
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        }
+            TId tidNode2;
+            LinkedList<Object> listNode3 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+            }
 
-        pastaltNode1 = new AAstAlt(tidNode2, listNode3);
+            pastaltNode1 = new AAstAlt(tidNode2, listNode3);
         }
-	nodeList.add(pastaltNode1);
+        nodeList.add(pastaltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new237() /* reduce AAastalt3AstAlt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new237() /* reduce AAastalt3AstAlt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PAstAlt pastaltNode1;
         {
             // Block
-        @SuppressWarnings("unused") Object nullNode2 = null;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList1.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
+            @SuppressWarnings("unused") Object nullNode2 = null;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList1.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
 
-        pastaltNode1 = new AAstAlt(null, listNode4);
+            pastaltNode1 = new AAstAlt(null, listNode4);
         }
-	nodeList.add(pastaltNode1);
+        nodeList.add(pastaltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new238() /* reduce AAastalt4AstAlt */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new238() /* reduce AAastalt4AstAlt */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9237,52 +8353,46 @@ public class Parser
         PAstAlt pastaltNode1;
         {
             // Block
-        TId tidNode2;
-        LinkedList<Object> listNode4 = new LinkedList<Object>();
-        tidNode2 = (TId)nodeArrayList1.get(0);
-        {
-            // Block
-        LinkedList<Object> listNode3 = new LinkedList<Object>();
-        listNode3 = (LinkedList)nodeArrayList2.get(0);
-	if(listNode3 != null)
-	{
-	  listNode4.addAll(listNode3);
-	}
-        }
+            TId tidNode2;
+            LinkedList<Object> listNode4 = new LinkedList<Object>();
+            tidNode2 = (TId) nodeArrayList1.get(0);
+            {
+                // Block
+                LinkedList<Object> listNode3 = new LinkedList<Object>();
+                listNode3 = (LinkedList) nodeArrayList2.get(0);
+                if (listNode3 != null) {
+                    listNode4.addAll(listNode3);
+                }
+            }
 
-        pastaltNode1 = new AAstAlt(tidNode2, listNode4);
+            pastaltNode1 = new AAstAlt(tidNode2, listNode4);
         }
-	nodeList.add(pastaltNode1);
+        nodeList.add(pastaltNode1);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new239() /* reduce ATerminal$PkgNameTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new239() /* reduce ATerminal$PkgNameTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        TPkgId tpkgidNode1;
-        tpkgidNode1 = (TPkgId)nodeArrayList1.get(0);
-	if(tpkgidNode1 != null)
-	{
-	  listNode2.add(tpkgidNode1);
-	}
+            TPkgId tpkgidNode1;
+            tpkgidNode1 = (TPkgId) nodeArrayList1.get(0);
+            if (tpkgidNode1 != null) {
+                listNode2.add(tpkgidNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new240() /* reduce ANonTerminal$PkgNameTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new240() /* reduce ANonTerminal$PkgNameTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9290,50 +8400,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        TPkgId tpkgidNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        tpkgidNode2 = (TPkgId)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(tpkgidNode2 != null)
-	{
-	  listNode3.add(tpkgidNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            TPkgId tpkgidNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            tpkgidNode2 = (TPkgId) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (tpkgidNode2 != null) {
+                listNode3.add(tpkgidNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new241() /* reduce ATerminal$HelperDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new241() /* reduce ATerminal$HelperDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PHelperDef phelperdefNode1;
-        phelperdefNode1 = (PHelperDef)nodeArrayList1.get(0);
-	if(phelperdefNode1 != null)
-	{
-	  listNode2.add(phelperdefNode1);
-	}
+            PHelperDef phelperdefNode1;
+            phelperdefNode1 = (PHelperDef) nodeArrayList1.get(0);
+            if (phelperdefNode1 != null) {
+                listNode2.add(phelperdefNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new242() /* reduce ANonTerminal$HelperDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new242() /* reduce ANonTerminal$HelperDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9341,50 +8444,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PHelperDef phelperdefNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        phelperdefNode2 = (PHelperDef)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(phelperdefNode2 != null)
-	{
-	  listNode3.add(phelperdefNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PHelperDef phelperdefNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            phelperdefNode2 = (PHelperDef) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (phelperdefNode2 != null) {
+                listNode3.add(phelperdefNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new243() /* reduce ATerminal$IdListTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new243() /* reduce ATerminal$IdListTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        TId tidNode1;
-        tidNode1 = (TId)nodeArrayList1.get(0);
-	if(tidNode1 != null)
-	{
-	  listNode2.add(tidNode1);
-	}
+            TId tidNode1;
+            tidNode1 = (TId) nodeArrayList1.get(0);
+            if (tidNode1 != null) {
+                listNode2.add(tidNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new244() /* reduce ANonTerminal$IdListTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new244() /* reduce ANonTerminal$IdListTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9392,50 +8488,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        TId tidNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        tidNode2 = (TId)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(tidNode2 != null)
-	{
-	  listNode3.add(tidNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            TId tidNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            tidNode2 = (TId) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (tidNode2 != null) {
+                listNode3.add(tidNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new245() /* reduce ATerminal$TokenDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new245() /* reduce ATerminal$TokenDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PTokenDef ptokendefNode1;
-        ptokendefNode1 = (PTokenDef)nodeArrayList1.get(0);
-	if(ptokendefNode1 != null)
-	{
-	  listNode2.add(ptokendefNode1);
-	}
+            PTokenDef ptokendefNode1;
+            ptokendefNode1 = (PTokenDef) nodeArrayList1.get(0);
+            if (ptokendefNode1 != null) {
+                listNode2.add(ptokendefNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new246() /* reduce ANonTerminal$TokenDef */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new246() /* reduce ANonTerminal$TokenDef */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9443,50 +8532,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PTokenDef ptokendefNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        ptokendefNode2 = (PTokenDef)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(ptokendefNode2 != null)
-	{
-	  listNode3.add(ptokendefNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PTokenDef ptokendefNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            ptokendefNode2 = (PTokenDef) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (ptokendefNode2 != null) {
+                listNode3.add(ptokendefNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new247() /* reduce ATerminal$StateListTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new247() /* reduce ATerminal$StateListTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PStateListTail pstatelisttailNode1;
-        pstatelisttailNode1 = (PStateListTail)nodeArrayList1.get(0);
-	if(pstatelisttailNode1 != null)
-	{
-	  listNode2.add(pstatelisttailNode1);
-	}
+            PStateListTail pstatelisttailNode1;
+            pstatelisttailNode1 = (PStateListTail) nodeArrayList1.get(0);
+            if (pstatelisttailNode1 != null) {
+                listNode2.add(pstatelisttailNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new248() /* reduce ANonTerminal$StateListTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new248() /* reduce ANonTerminal$StateListTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9494,50 +8576,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PStateListTail pstatelisttailNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        pstatelisttailNode2 = (PStateListTail)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(pstatelisttailNode2 != null)
-	{
-	  listNode3.add(pstatelisttailNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PStateListTail pstatelisttailNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            pstatelisttailNode2 = (PStateListTail) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (pstatelisttailNode2 != null) {
+                listNode3.add(pstatelisttailNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new249() /* reduce ATerminal$RegExpTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new249() /* reduce ATerminal$RegExpTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PConcat pconcatNode1;
-        pconcatNode1 = (PConcat)nodeArrayList1.get(0);
-	if(pconcatNode1 != null)
-	{
-	  listNode2.add(pconcatNode1);
-	}
+            PConcat pconcatNode1;
+            pconcatNode1 = (PConcat) nodeArrayList1.get(0);
+            if (pconcatNode1 != null) {
+                listNode2.add(pconcatNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new250() /* reduce ANonTerminal$RegExpTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new250() /* reduce ANonTerminal$RegExpTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9545,50 +8620,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PConcat pconcatNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        pconcatNode2 = (PConcat)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(pconcatNode2 != null)
-	{
-	  listNode3.add(pconcatNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PConcat pconcatNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            pconcatNode2 = (PConcat) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (pconcatNode2 != null) {
+                listNode3.add(pconcatNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new251() /* reduce ATerminal$UnExp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new251() /* reduce ATerminal$UnExp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PUnExp punexpNode1;
-        punexpNode1 = (PUnExp)nodeArrayList1.get(0);
-	if(punexpNode1 != null)
-	{
-	  listNode2.add(punexpNode1);
-	}
+            PUnExp punexpNode1;
+            punexpNode1 = (PUnExp) nodeArrayList1.get(0);
+            if (punexpNode1 != null) {
+                listNode2.add(punexpNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new252() /* reduce ANonTerminal$UnExp */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new252() /* reduce ANonTerminal$UnExp */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9596,50 +8664,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PUnExp punexpNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        punexpNode2 = (PUnExp)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(punexpNode2 != null)
-	{
-	  listNode3.add(punexpNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PUnExp punexpNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            punexpNode2 = (PUnExp) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (punexpNode2 != null) {
+                listNode3.add(punexpNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new253() /* reduce ATerminal$Prod */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new253() /* reduce ATerminal$Prod */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PProd pprodNode1;
-        pprodNode1 = (PProd)nodeArrayList1.get(0);
-	if(pprodNode1 != null)
-	{
-	  listNode2.add(pprodNode1);
-	}
+            PProd pprodNode1;
+            pprodNode1 = (PProd) nodeArrayList1.get(0);
+            if (pprodNode1 != null) {
+                listNode2.add(pprodNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new254() /* reduce ANonTerminal$Prod */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new254() /* reduce ANonTerminal$Prod */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9647,50 +8708,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PProd pprodNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        pprodNode2 = (PProd)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(pprodNode2 != null)
-	{
-	  listNode3.add(pprodNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PProd pprodNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            pprodNode2 = (PProd) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (pprodNode2 != null) {
+                listNode3.add(pprodNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new255() /* reduce ATerminal$Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new255() /* reduce ATerminal$Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PElem pelemNode1;
-        pelemNode1 = (PElem)nodeArrayList1.get(0);
-	if(pelemNode1 != null)
-	{
-	  listNode2.add(pelemNode1);
-	}
+            PElem pelemNode1;
+            pelemNode1 = (PElem) nodeArrayList1.get(0);
+            if (pelemNode1 != null) {
+                listNode2.add(pelemNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new256() /* reduce ANonTerminal$Elem */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new256() /* reduce ANonTerminal$Elem */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9698,50 +8752,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PElem pelemNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        pelemNode2 = (PElem)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(pelemNode2 != null)
-	{
-	  listNode3.add(pelemNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PElem pelemNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            pelemNode2 = (PElem) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (pelemNode2 != null) {
+                listNode3.add(pelemNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new257() /* reduce ATerminal$AltsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new257() /* reduce ATerminal$AltsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PAlt paltNode1;
-        paltNode1 = (PAlt)nodeArrayList1.get(0);
-	if(paltNode1 != null)
-	{
-	  listNode2.add(paltNode1);
-	}
+            PAlt paltNode1;
+            paltNode1 = (PAlt) nodeArrayList1.get(0);
+            if (paltNode1 != null) {
+                listNode2.add(paltNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new258() /* reduce ANonTerminal$AltsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new258() /* reduce ANonTerminal$AltsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9749,50 +8796,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PAlt paltNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        paltNode2 = (PAlt)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(paltNode2 != null)
-	{
-	  listNode3.add(paltNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PAlt paltNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            paltNode2 = (PAlt) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (paltNode2 != null) {
+                listNode3.add(paltNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new259() /* reduce ATerminal$Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new259() /* reduce ATerminal$Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PTerm ptermNode1;
-        ptermNode1 = (PTerm)nodeArrayList1.get(0);
-	if(ptermNode1 != null)
-	{
-	  listNode2.add(ptermNode1);
-	}
+            PTerm ptermNode1;
+            ptermNode1 = (PTerm) nodeArrayList1.get(0);
+            if (ptermNode1 != null) {
+                listNode2.add(ptermNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new260() /* reduce ANonTerminal$Term */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new260() /* reduce ANonTerminal$Term */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9800,50 +8840,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PTerm ptermNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        ptermNode2 = (PTerm)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(ptermNode2 != null)
-	{
-	  listNode3.add(ptermNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PTerm ptermNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            ptermNode2 = (PTerm) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (ptermNode2 != null) {
+                listNode3.add(ptermNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new261() /* reduce ATerminal$ListTermTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new261() /* reduce ATerminal$ListTermTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PListTerm plisttermNode1;
-        plisttermNode1 = (PListTerm)nodeArrayList1.get(0);
-	if(plisttermNode1 != null)
-	{
-	  listNode2.add(plisttermNode1);
-	}
+            PListTerm plisttermNode1;
+            plisttermNode1 = (PListTerm) nodeArrayList1.get(0);
+            if (plisttermNode1 != null) {
+                listNode2.add(plisttermNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new262() /* reduce ANonTerminal$ListTermTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new262() /* reduce ANonTerminal$ListTermTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9851,50 +8884,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PListTerm plisttermNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        plisttermNode2 = (PListTerm)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(plisttermNode2 != null)
-	{
-	  listNode3.add(plisttermNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PListTerm plisttermNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            plisttermNode2 = (PListTerm) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (plisttermNode2 != null) {
+                listNode3.add(plisttermNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new263() /* reduce ATerminal$ParamsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new263() /* reduce ATerminal$ParamsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PTerm ptermNode1;
-        ptermNode1 = (PTerm)nodeArrayList1.get(0);
-	if(ptermNode1 != null)
-	{
-	  listNode2.add(ptermNode1);
-	}
+            PTerm ptermNode1;
+            ptermNode1 = (PTerm) nodeArrayList1.get(0);
+            if (ptermNode1 != null) {
+                listNode2.add(ptermNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new264() /* reduce ANonTerminal$ParamsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new264() /* reduce ANonTerminal$ParamsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9902,50 +8928,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PTerm ptermNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        ptermNode2 = (PTerm)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(ptermNode2 != null)
-	{
-	  listNode3.add(ptermNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PTerm ptermNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            ptermNode2 = (PTerm) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (ptermNode2 != null) {
+                listNode3.add(ptermNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new265() /* reduce ATerminal$AstProd */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new265() /* reduce ATerminal$AstProd */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PAstProd pastprodNode1;
-        pastprodNode1 = (PAstProd)nodeArrayList1.get(0);
-	if(pastprodNode1 != null)
-	{
-	  listNode2.add(pastprodNode1);
-	}
+            PAstProd pastprodNode1;
+            pastprodNode1 = (PAstProd) nodeArrayList1.get(0);
+            if (pastprodNode1 != null) {
+                listNode2.add(pastprodNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new266() /* reduce ANonTerminal$AstProd */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new266() /* reduce ANonTerminal$AstProd */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -9953,50 +8972,43 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PAstProd pastprodNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        pastprodNode2 = (PAstProd)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(pastprodNode2 != null)
-	{
-	  listNode3.add(pastprodNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PAstProd pastprodNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            pastprodNode2 = (PAstProd) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (pastprodNode2 != null) {
+                listNode3.add(pastprodNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new267() /* reduce ATerminal$AstAltsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new267() /* reduce ATerminal$AstAltsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         LinkedList<Object> listNode2 = new LinkedList<Object>();
         {
             // Block
-        PAstAlt pastaltNode1;
-        pastaltNode1 = (PAstAlt)nodeArrayList1.get(0);
-	if(pastaltNode1 != null)
-	{
-	  listNode2.add(pastaltNode1);
-	}
+            PAstAlt pastaltNode1;
+            pastaltNode1 = (PAstAlt) nodeArrayList1.get(0);
+            if (pastaltNode1 != null) {
+                listNode2.add(pastaltNode1);
+            }
         }
-	nodeList.add(listNode2);
+        nodeList.add(listNode2);
         return nodeList;
     }
 
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new268() /* reduce ANonTerminal$AstAltsTail */
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArrayList<Object> new268() /* reduce ANonTerminal$AstAltsTail */ {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
@@ -10004,28 +9016,25 @@ public class Parser
         LinkedList<Object> listNode3 = new LinkedList<Object>();
         {
             // Block
-        LinkedList<Object> listNode1 = new LinkedList<Object>();
-        PAstAlt pastaltNode2;
-        listNode1 = (LinkedList)nodeArrayList1.get(0);
-        pastaltNode2 = (PAstAlt)nodeArrayList2.get(0);
-	if(listNode1 != null)
-	{
-	  listNode3.addAll(listNode1);
-	}
-	if(pastaltNode2 != null)
-	{
-	  listNode3.add(pastaltNode2);
-	}
+            LinkedList<Object> listNode1 = new LinkedList<Object>();
+            PAstAlt pastaltNode2;
+            listNode1 = (LinkedList) nodeArrayList1.get(0);
+            pastaltNode2 = (PAstAlt) nodeArrayList2.get(0);
+            if (listNode1 != null) {
+                listNode3.addAll(listNode1);
+            }
+            if (pastaltNode2 != null) {
+                listNode3.add(pastaltNode2);
+            }
         }
-	nodeList.add(listNode3);
+        nodeList.add(listNode3);
         return nodeList;
     }
-
 
 
     private static int[][][] actionTable;
-/*      {
-			{{-1, REDUCE, 0}, {1, SHIFT, 1}, {2, SHIFT, 2}, {3, SHIFT, 3}, {4, SHIFT, 4}, {5, SHIFT, 5}, {6, SHIFT, 6}, {7, SHIFT, 7}, },
+    /*      {
+            {{-1, REDUCE, 0}, {1, SHIFT, 1}, {2, SHIFT, 2}, {3, SHIFT, 3}, {4, SHIFT, 4}, {5, SHIFT, 5}, {6, SHIFT, 6}, {7, SHIFT, 7}, },
 			{{-1, ERROR, 1}, {0, SHIFT, 16}, },
 			{{-1, ERROR, 2}, {33, SHIFT, 18}, },
 			{{-1, ERROR, 3}, {33, SHIFT, 20}, },
@@ -10384,8 +9393,8 @@ public class Parser
 			{{-1, REDUCE, 205}, },
         };*/
     private static int[][][] gotoTable;
-/*      {
-			{{-1, 8}, },
+    /*      {
+            {{-1, 8}, },
 			{{-1, 9}, },
 			{{-1, 17}, },
 			{{-1, 56}, {57, 112}, },
@@ -10452,7 +9461,7 @@ public class Parser
 			{{-1, 322}, },
         };*/
     private static String[] errorMessages;
-/*      {
+    /*      {
 			"expecting: 'Package', 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', 'Abstract', EOF",
 			"expecting: pkg id",
 			"expecting: id",
@@ -10527,57 +9536,47 @@ public class Parser
 			0, 1, 2, 2, 3, 4, 2, 5, 6, 7, 8, 9, 10, 11, 12, 6, 13, 7, 14, 15, 16, 17, 17, 2, 16, 18, 2, 18, 19, 20, 21, 21, 22, 8, 9, 10, 11, 12, 6, 9, 10, 11, 12, 6, 10, 11, 12, 6, 11, 12, 6, 12, 6, 6, 1, 7, 13, 13, 2, 14, 14, 9, 23, 17, 24, 25, 16, 18, 11, 15, 26, 27, 16, 21, 2, 9, 10, 11, 12, 6, 10, 11, 12, 6, 11, 12, 6, 12, 6, 6, 10, 11, 12, 6, 11, 12, 6, 12, 6, 6, 11, 12, 6, 12, 6, 6, 12, 6, 6, 6, 13, 7, 13, 14, 14, 28, 29, 30, 31, 31, 31, 30, 15, 32, 33, 34, 35, 30, 33, 2, 2, 2, 36, 36, 36, 37, 25, 11, 38, 38, 2, 39, 40, 15, 41, 41, 26, 42, 43, 2, 26, 44, 26, 16, 45, 45, 10, 11, 12, 6, 11, 12, 6, 12, 6, 6, 11, 12, 6, 12, 6, 6, 12, 6, 6, 6, 11, 12, 6, 12, 6, 6, 12, 6, 6, 6, 12, 6, 6, 6, 6, 46, 47, 48, 17, 33, 32, 32, 49, 49, 49, 33, 33, 24, 36, 2, 36, 2, 36, 18, 23, 15, 37, 2, 2, 50, 51, 52, 42, 21, 26, 41, 41, 27, 41, 26, 40, 2, 40, 41, 42, 16, 44, 15, 26, 45, 11, 12, 6, 12, 6, 6, 12, 6, 6, 6, 12, 6, 6, 6, 6, 12, 6, 6, 6, 6, 6, 28, 28, 28, 53, 30, 32, 32, 36, 2, 15, 18, 18, 15, 54, 2, 55, 56, 41, 57, 51, 2, 51, 26, 41, 41, 41, 42, 40, 42, 16, 21, 2, 58, 15, 41, 58, 12, 6, 6, 6, 6, 6, 6, 50, 50, 18, 43, 59, 60, 2, 55, 61, 50, 62, 2, 2, 55, 57, 41, 51, 42, 58, 45, 26, 41, 41, 6, 30, 30, 2, 60, 63, 60, 62, 55, 64, 62, 62, 61, 65, 55, 41, 41, 60, 55, 66, 48, 63, 62, 62, 62, 67, 66, 66, 55, 62, 48, 66, 66, 62, 
         };*/
 
-    static 
-    {
-        try
-        {
+    static {
+        try {
             DataInputStream s = new DataInputStream(
-                new BufferedInputStream(
-                Parser.class.getResourceAsStream("parser.dat")));
+                    new BufferedInputStream(
+                            Parser.class.getResourceAsStream("parser.dat")));
 
             // read actionTable
             int length = s.readInt();
             Parser.actionTable = new int[length][][];
-            for(int i = 0; i < Parser.actionTable.length; i++)
-            {
+            for (int i = 0; i < Parser.actionTable.length; i++) {
                 length = s.readInt();
                 Parser.actionTable[i] = new int[length][3];
-                for(int j = 0; j < Parser.actionTable[i].length; j++)
-                {
-                for(int k = 0; k < 3; k++)
-                {
-                    Parser.actionTable[i][j][k] = s.readInt();
-                }
+                for (int j = 0; j < Parser.actionTable[i].length; j++) {
+                    for (int k = 0; k < 3; k++) {
+                        Parser.actionTable[i][j][k] = s.readInt();
+                    }
                 }
             }
 
             // read gotoTable
             length = s.readInt();
             gotoTable = new int[length][][];
-            for(int i = 0; i < gotoTable.length; i++)
-            {
+            for (int i = 0; i < gotoTable.length; i++) {
                 length = s.readInt();
                 gotoTable[i] = new int[length][2];
-                for(int j = 0; j < gotoTable[i].length; j++)
-                {
-                for(int k = 0; k < 2; k++)
-                {
-                    gotoTable[i][j][k] = s.readInt();
-                }
+                for (int j = 0; j < gotoTable[i].length; j++) {
+                    for (int k = 0; k < 2; k++) {
+                        gotoTable[i][j][k] = s.readInt();
+                    }
                 }
             }
 
             // read errorMessages
             length = s.readInt();
             errorMessages = new String[length];
-            for(int i = 0; i < errorMessages.length; i++)
-            {
+            for (int i = 0; i < errorMessages.length; i++) {
                 length = s.readInt();
                 StringBuffer buffer = new StringBuffer();
 
-                for(int j = 0; j < length; j++)
-                {
-                buffer.append(s.readChar());
+                for (int j = 0; j < length; j++) {
+                    buffer.append(s.readChar());
                 }
                 errorMessages[i] = buffer.toString();
             }
@@ -10585,15 +9584,12 @@ public class Parser
             // read errors
             length = s.readInt();
             errors = new int[length];
-            for(int i = 0; i < errors.length; i++)
-            {
+            for (int i = 0; i < errors.length; i++) {
                 errors[i] = s.readInt();
             }
 
             s.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException("The file \"parser.dat\" is either missing or corrupted.");
         }
     }

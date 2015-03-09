@@ -1,7 +1,9 @@
 package com.klq.logic.question;
 
+import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.value.*;
 import com.klq.logic.IKLQItem;
-import com.klq.logic.expression.AExpression;
+import com.klq.ast.impl.expr.value.Value;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,19 +16,19 @@ import java.util.List;
  * Created by Timon on 10.02.2015.
  */
 public class Question implements IKLQItem{
-    private final Id id;
+    private final IdentifierValue id;
     private final Type type;
     private final OptionSet options;
     private final Text text;
     private final List<AExpression> dependencies;
 
     private final boolean computedQuestion;
-    private final AExpression computedValue;
+    private final Value computedValue;
 
     private final SimpleBooleanProperty visibleProperty;
     private final SimpleStringProperty computedProperty;
 
-    public Question (Id id, Type type, OptionSet options, Text text){
+    public Question (IdentifierValue id, Type type, OptionSet options, Text text){
         this.id = id;
         this.type = type;
         this.options = options;
@@ -38,12 +40,8 @@ public class Question implements IKLQItem{
         if (this.options != null) {
             if (this.options.size() == 1) {
                 computedQuestion = true;
-                computedValue = options.get(0).evaluate();
+                computedValue = options.get(0);
                 return;
-            } else if (this.options.size() > 1){
-                for (int i=0; i<this.options.size(); i++){
-                    options.add(i, options.remove(i).evaluate());
-                }
             }
         }
         computedQuestion = false;
@@ -54,7 +52,7 @@ public class Question implements IKLQItem{
         return computedQuestion;
     }
 
-    public Id getId() {
+    public IdentifierValue getId() {
         return id;
     }
 
@@ -78,7 +76,7 @@ public class Question implements IKLQItem{
         dependencies.add(dependency);
     }
 
-    public AExpression getComputedValue() {
+    public Value getComputedValue() {
         return computedValue;
     }
 

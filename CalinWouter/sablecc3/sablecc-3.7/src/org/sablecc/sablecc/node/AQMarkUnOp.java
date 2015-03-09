@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AQMarkUnOp extends PUnOp
-{
+public final class AQMarkUnOp extends PUnOp {
     private TQMark _qMark_;
 
-    public AQMarkUnOp()
-    {
+    public AQMarkUnOp() {
         // Constructor
     }
 
     public AQMarkUnOp(
-        @SuppressWarnings("hiding") TQMark _qMark_)
-    {
+            @SuppressWarnings("hiding") TQMark _qMark_) {
         // Constructor
         setQMark(_qMark_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AQMarkUnOp(
-            cloneNode(this._qMark_));
+                cloneNode(this._qMark_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAQMarkUnOp(this);
     }
 
-    public TQMark getQMark()
-    {
+    public TQMark getQMark() {
         return this._qMark_;
     }
 
-    public void setQMark(TQMark node)
-    {
-        if(this._qMark_ != null)
-        {
+    public void setQMark(TQMark node) {
+        if (this._qMark_ != null) {
             this._qMark_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AQMarkUnOp extends PUnOp
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._qMark_);
+                + toString(this._qMark_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._qMark_ == child)
-        {
+        if (this._qMark_ == child) {
             this._qMark_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AQMarkUnOp extends PUnOp
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._qMark_ == oldChild)
-        {
+        if (this._qMark_ == oldChild) {
             setQMark((TQMark) newChild);
             return;
         }

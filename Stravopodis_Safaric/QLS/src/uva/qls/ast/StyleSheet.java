@@ -3,6 +3,7 @@ package uva.qls.ast;
 import java.util.List;
 
 import uva.qls.ast.literal.Identifier;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -22,6 +23,11 @@ public class StyleSheet extends ASTNode {
 	}
 	public List<Page> getPage(){
 		return this.page;
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitStyleSheet(this);
 	}
 
 	@Override

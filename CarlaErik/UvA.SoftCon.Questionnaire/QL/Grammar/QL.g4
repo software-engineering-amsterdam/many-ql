@@ -1,7 +1,8 @@
-/** Grammars always start with a grammar header. This grammar is called
-*   QL and must match the filename: QL.g4
-*/
 grammar QL;
+
+/*
+ *	  Parser Rules
+ */
 
 /* Start rule */
 form : stat* ;
@@ -25,6 +26,7 @@ expr : '(' expr ')'                   # PrecedenceOverride
      | BOOL                           # BooleanLiteral
 	 | INT                            # IntegerLiteral     
 	 | STRING                         # StringLiteral
+	 | DATE                           # DateLiteral
 	 ;
 
 /*
@@ -34,12 +36,19 @@ expr : '(' expr ')'                   # PrecedenceOverride
 INT    : '-'? DIGIT+ ;             // Define token INT as one or more digit
 BOOL   : 'true' | 'false' ;  
 STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
+DATE   : '[' DAY '-' MONTH '-' YEAR ']' 
+       | '[today]'
+       ;
 
-TYPE : 'int' | 'string' | 'bool' ;
+TYPE : 'int' | 'string' | 'bool' | 'date';
 
 ID : LETTER (LETTER | DIGIT)* ;
 
 // Helper tokens; (not vissible to the parser)
+DAY    : DIGIT DIGIT? ;
+MONTH  : DIGIT DIGIT? ;
+YEAR   : DIGIT DIGIT DIGIT DIGIT ;
+
 DIGIT  : [0-9] ;
 LETTER : [a-zA-Z] ;
 ESC    : '\\"' | '\\\\' ;

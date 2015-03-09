@@ -2,14 +2,15 @@ package test.klq.typechecker;
 
 import com.klq.ast.ANode;
 import com.klq.ast.impl.*;
-import com.klq.ast.impl.expr.StringNode;
-import com.klq.logic.controller.Store;
+import com.klq.ast.impl.expr.AExpression;
+import com.klq.ast.impl.expr.literal.StringNode;
 import com.klq.typecheker.TypeChecker;
 import com.klq.typecheker.error.NotUniqueID;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,7 +40,7 @@ public class DuplidateQuestionIdTest {
         assertEquals(1,tc.getErrors().size());
         assertThat(tc.getErrors().get(0), instanceOf(NotUniqueID.class));
 
-        ArrayList<ANode> list = new ArrayList<ANode>();
+        List<AExpression> list = new ArrayList<AExpression>();
         list.add(new StringNode("test", "5"));
         ast.getChildren().add(new ComputedQuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", list, "4"));
         tc = new TypeChecker(ast);

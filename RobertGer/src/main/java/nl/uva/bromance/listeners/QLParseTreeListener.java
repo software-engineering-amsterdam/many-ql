@@ -1,11 +1,11 @@
 package nl.uva.bromance.listeners;
 
 
-import nl.uva.bromance.AST.*;
-import nl.uva.bromance.AST.Conditionals.*;
-import nl.uva.bromance.AST.Range.Between;
-import nl.uva.bromance.AST.Range.BiggerThan;
-import nl.uva.bromance.AST.Range.SmallerThan;
+import nl.uva.bromance.ast.*;
+import nl.uva.bromance.ast.conditionals.*;
+import nl.uva.bromance.ast.range.Between;
+import nl.uva.bromance.ast.range.BiggerThan;
+import nl.uva.bromance.ast.range.SmallerThan;
 import nl.uva.bromance.parsers.QLBaseListener;
 import nl.uva.bromance.parsers.QLParser;
 import org.antlr.v4.runtime.Token;
@@ -17,9 +17,9 @@ import java.util.Stack;
 public class QLParseTreeListener extends QLBaseListener {
 
     private Stack<Node> nodeStack = new Stack<>();
-    private Questionnaire ast = null;
+    private AST ast = null;
 
-    public Questionnaire getAst() {
+    public AST getAst() {
         return ast;
     }
 
@@ -28,8 +28,8 @@ public class QLParseTreeListener extends QLBaseListener {
     }
 
     public void exitQuestionnaire(QLParser.QuestionnaireContext ctx) {
-        ast = (Questionnaire) nodeStack.pop();
-        System.out.println("--Printing AST--");
+        ast = new AST(nodeStack.pop());
+        System.out.println("--Printing ast--");
         ast.printDebug();
     }
 

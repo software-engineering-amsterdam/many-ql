@@ -6,11 +6,11 @@ import edu.parser.QL.nodes.expression.Identifier;
 import org.antlr.v4.runtime.misc.NotNull;
 import edu.parser.QL.antlrGenerated.QLBaseVisitor;
 import edu.parser.QL.antlrGenerated.QLParser;
-import edu.parser.AbstractNode;
+import edu.parser.QL.nodes.AbstractNode;
 import edu.parser.QL.nodes.Form;
 import edu.parser.QL.nodes.question.Label;
-import edu.parser.QL.nodes.question.Question;
-import edu.parser.QL.nodes.question.QuestionType;
+import edu.parser.QL.nodes.question.QLQuestion;
+import edu.nodes.QuestionType;
 import edu.parser.QL.nodes.statement.ElseClause;
 import edu.parser.QL.nodes.statement.IfStatement;
 import edu.parser.QL.nodes.statement.Statement;
@@ -65,7 +65,7 @@ public class ParseTreeVisitor extends QLBaseVisitor<AbstractNode> {
         Label label = (Label) visit(ctx.question_label());
         Optional<edu.parser.QL.nodes.expression.Expression> questionExpression = getQuestionExpression(ctx);
         boolean isQuestionEnabled = isQuestionEnabled(questionType);
-        return new Question(identifier, questionType, label, isQuestionEnabled, questionExpression);
+        return new QLQuestion(identifier, questionType, label, isQuestionEnabled, questionExpression);
     }
 
     private boolean isQuestionEnabled(QuestionType questionType) {

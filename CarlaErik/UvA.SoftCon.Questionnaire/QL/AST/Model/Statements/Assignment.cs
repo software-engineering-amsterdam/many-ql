@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
 {
-    public class Assignment : Node, IStatement
+    public class Assignment : QLNode, IStatement
     {
         public Identifier Variable
         {

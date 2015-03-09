@@ -1,6 +1,6 @@
 package org.fugazi.ql.evaluator.visitor;
 
-import org.fugazi.ql.ValueStorage;
+import org.fugazi.ql.evaluator.ValueStorage;
 import org.fugazi.ql.ast.expression.IExpressionVisitor;
 import org.fugazi.ql.ast.expression.comparison.*;
 import org.fugazi.ql.ast.expression.literal.BOOL;

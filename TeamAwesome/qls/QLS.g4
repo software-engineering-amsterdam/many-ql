@@ -1,7 +1,7 @@
 grammar QLS;
 
 qls
-    :   statements=nested_statement*
+    :   statements+=nested_statement*
     ;
 
 nested_statement
@@ -41,6 +41,7 @@ attribute_value
     :   integer
     |   string
     |   widget
+    |   color
     ;
 
 question_type
@@ -76,12 +77,16 @@ widget_option
 identifier      : IDENTIFIER ;
 string          : STRING ;
 integer         : INTEGER ;
+color           : COLOR ;
 
 STRING       : '"' (ESC | ~["\\])* '"' ;
 fragment ESC : '\\' (["\\/bfnrt]) ;
 
 INTEGER    : '-'? '0' | [1-9] [0-9]*  ;
 IDENTIFIER : [a-zA-Z_][a-zA-Z_0-9]* ;
+
+COLOR : '#' HEX HEX HEX HEX HEX HEX ;
+HEX : [0-9A-Fa-f] ;
 
 WS      : [ \n\r\t]+    -> skip ;
 COMMENT : '//' ~[\r\n]* -> skip ;

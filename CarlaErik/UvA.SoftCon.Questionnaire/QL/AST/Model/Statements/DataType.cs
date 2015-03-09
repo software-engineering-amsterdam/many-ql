@@ -16,6 +16,8 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
         [StringValue("int")]
         Integer,
         [StringValue("string")]
-        String
+        String,
+        [StringValue("date")]
+        Date,
     }
 }

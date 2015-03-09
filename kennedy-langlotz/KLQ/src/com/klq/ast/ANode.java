@@ -1,12 +1,14 @@
 package com.klq.ast;
 
-import java.util.ArrayList;
-
 /**
  * Created by juriaan on 9-2-15.
  */
 public abstract class ANode {
     private String loc;
+
+    public ANode(){
+        this.loc = null;
+    }
 
     public ANode(String loc) {
         this.loc = loc;

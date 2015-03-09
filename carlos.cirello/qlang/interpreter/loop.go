@@ -4,12 +4,9 @@ Package interpreter is the runtime which executes the AST created from the compi
 package interpreter
 
 import (
-	"time"
-
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/draw"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/execute"
-	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/ast/typechecker"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/event"
 	"github.com/software-engineering-amsterdam/many-ql/carlos.cirello/qlang/interpreter/symboltable"
 )
@@ -44,79 +41,10 @@ func New(q *ast.QuestionaireNode) (chan *event.Frontend, chan *event.Frontend) {
 	return toFrontend, fromFrontend
 }
 
-func openChannels() (toFrontend, fromFrontend chan *event.Frontend) {
-	toFrontend = make(chan *event.Frontend)
-	fromFrontend = make(chan *event.Frontend)
-	return toFrontend, fromFrontend
-}
-
-func typecheck(q *ast.QuestionaireNode) {
-	tc, symboltable := typechecker.New()
-	symboltable.SetWatchError(true)
-
-	tc.Visit(q)
-
-	symboltable.ShowWarn()
-	symboltable.PanicErr()
-}
-
 func (v *interpreter) loop() {
-	ticker := time.Tick(100 * time.Millisecond)
 	redraw := false
 	for {
-		v.send <- &event.Frontend{
-			Type: event.ReadyP,
-		}
-
-	drawLoop:
-		for {
-			select {
-			case r := <-v.receive:
-				switch r.Type {
-				case event.ReadyT:
-					v.draw.Visit(v.questionaire)
-					v.send <- &event.Frontend{Type: event.Flush}
-					break drawLoop
-				}
-			}
-		}
-
-		if redraw {
-			redraw = false
-			go func(receive chan *event.Frontend) {
-				receive <- &event.Frontend{Type: event.ReadyT}
-			}(v.receive)
-		}
-		v.execute.Visit(v.questionaire)
-		v.send <- &event.Frontend{Type: event.Flush}
-	mainLoop:
-		for {
-			select {
-			case r := <-v.receive:
-				switch r.Type {
-
-				case event.Answers:
-					for identifier, answer := range r.Answers {
-						q := v.symbols.Read(identifier)
-						q.(symboltable.StringParser).From(answer)
-						v.symbols.Update(identifier, q)
-						v.execute.Visit(v.questionaire)
-						v.send <- &event.Frontend{Type: event.Flush}
-					}
-
-				case event.ReadyT:
-					v.execute.Visit(v.questionaire)
-					v.send <- &event.Frontend{Type: event.Flush}
-
-				case event.Redraw:
-					redraw = true
-					break mainLoop
-
-				}
-
-			case <-ticker:
-				v.send <- &event.Frontend{Type: event.FetchAnswers}
-			}
-		}
+		redraw = v.drawLoop(redraw)
+		v.mainLoop(redraw)
 	}
 }

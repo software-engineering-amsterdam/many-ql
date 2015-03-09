@@ -1,5 +1,5 @@
 package test.klq.logic.controller;
-
+/*
 import com.klq.logic.expression.AExpression;
 import com.klq.logic.expression.operator.bool.Equals;
 import com.klq.logic.expression.operator.bool.GreaterEquals;
@@ -10,14 +10,14 @@ import com.klq.logic.expression.terminal.String;
 import com.klq.logic.question.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;*/
 
 /**
  * Created by Timon on 10.02.2015.
  */
 public class ExampleQuestions{
 
-    public static List<Question> all(){
+    /*public static List<Question> all(){
         List<Question> questions = new ArrayList<Question>();
         questions.add(q1());
         questions.add(q2());
@@ -82,5 +82,5 @@ public class ExampleQuestions{
 
         Question q = new Question(id, Type.SET, optionSet, text);
         return q;
-    }
+    }*/
 }

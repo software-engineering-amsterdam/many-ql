@@ -11,6 +11,7 @@ import com.form.language.ast.values.GenericValue;
 import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
+import com.form.language.memory.RuntimeMemory;
 
 public class Negation extends UnaryExpression implements Expression {
 	
@@ -19,8 +20,8 @@ public class Negation extends UnaryExpression implements Expression {
 	}
 
 	@Override
-	public GenericValue<Integer> evaluate() {		
-		return new IntValue(-((IntValue)value.evaluate()).getValue());
+	public GenericValue<Integer> evaluate(RuntimeMemory mem) {		
+		return new IntValue(-((IntValue)value.evaluate(mem)).getValue());
 	}
 
 	@Override

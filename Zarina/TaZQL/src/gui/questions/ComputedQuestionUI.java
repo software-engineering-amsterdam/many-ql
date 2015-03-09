@@ -1,8 +1,8 @@
 package gui.questions;
 
+import evaluator.Value;
+import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
-import interpreter.Value;
-import interpreter.ValueRepository;
 
 import javax.swing.JLabel;
 
@@ -14,13 +14,14 @@ public class ComputedQuestionUI extends SimpleQuestionUI {
 		super(id, label, wc, valueRepository);
 		this.expression = expression;
 		this.value = new String("");
-		setEnabled(false);
+		this.getWc().setEnabled(false);
 	}
 
 	
 	public void setEnabled(boolean enabled) {
 		this.getWc().setEnabled(enabled);
+		this.getWc().getWidget().setEnabled(enabled);
 	}	
 
-
+	//public void set
 }

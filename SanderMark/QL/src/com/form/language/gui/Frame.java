@@ -17,6 +17,8 @@ import org.antlr.v4.runtime.TokenStream;
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
 import com.form.language.ast.Form;
+import com.form.language.memory.IdCollector;
+import com.form.language.memory.IdTypeTable;
 
 public class Frame {
 
@@ -78,6 +80,10 @@ public class Frame {
 				TokenStream tokenStream = new CommonTokenStream(lexer);
 				GrammarParser parser = new GrammarParser(tokenStream);
 				Form form = parser.form().result;
+				IdCollector ids = new IdCollector();
+				form.collectIds(ids);
+				IdTypeTable idTable = new IdTypeTable(ids);
+				form.setTypes(idTable);
 				QuestionFrame qf = new QuestionFrame(form);
 			}
 		});

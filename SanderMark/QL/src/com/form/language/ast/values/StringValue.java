@@ -14,6 +14,11 @@ public class StringValue extends GenericValue<String> {
 
 	@Override
 	public void addToMemory(String key, RuntimeMemory m) {
-		m.put(key, value);
+		m.put(key, this);
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "\"" + this.value + "\"";
 	}
 }

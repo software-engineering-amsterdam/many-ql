@@ -7,16 +7,14 @@
 
 package org.sablecc.sablecc;
 
-public class NoCast implements Cast
-{
-  public final static NoCast instance = new NoCast();
+public class NoCast implements Cast {
+    public final static NoCast instance = new NoCast();
 
-  private NoCast()
-  {}
+    private NoCast() {
+    }
 
-  @Override
-  public Object cast(Object o)
-  {
-    return o;
-  }
+    @Override
+    public Object cast(Object o) {
+        return o;
+    }
 }

@@ -1,6 +1,7 @@
 package uva.qls.ast.primitive;
 
 import uva.qls.ast.primitive.PrimitiveType;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.ASTNode;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.value.GenericValue;
@@ -14,7 +15,7 @@ public class Type extends ASTNode{
 	public Type(String _type, CodeLines _codeLines) {
 		super(_codeLines);
 		this.primitiveType = this.findPrimitiveType(_type);
-		this.name=_type;
+		this.name = this.primitiveType.getName();
 	}
 
 	private PrimitiveType findPrimitiveType(String _type){
@@ -23,8 +24,14 @@ public class Type extends ASTNode{
 	public String getTypeName(){
 		return this.name;
 	}
+	
 	public PrimitiveType getPrimitiveType(){
 		return this.primitiveType;
+	}
+	
+	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitType(this);
 	}
 	
 	@Override
@@ -46,6 +53,4 @@ public class Type extends ASTNode{
 	public String toString(){
 		return "PrimitiveType(" + this.name + ")";
 	}
-	
-	
 }

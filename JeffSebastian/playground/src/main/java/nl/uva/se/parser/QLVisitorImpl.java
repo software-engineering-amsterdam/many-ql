@@ -1,7 +1,13 @@
 package nl.uva.se.parser;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import nl.uva.se.ast.Node;
 import nl.uva.se.ast.expression.Expression;
@@ -32,8 +38,9 @@ import nl.uva.se.ast.statement.CalculatedQuestion;
 import nl.uva.se.ast.statement.Condition;
 import nl.uva.se.ast.statement.Question;
 import nl.uva.se.ast.statement.Statement;
+import nl.uva.se.ast.type.Type;
+import nl.uva.se.ast.type.TypeFactory;
 import nl.uva.se.constant.Operator;
-import nl.uva.se.constant.Type;
 import nl.uva.se.parser.QLParser.ConditionContext;
 import nl.uva.se.parser.QLParser.ExpressionContext;
 import nl.uva.se.parser.QLParser.FormContext;
@@ -61,7 +68,7 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 
 	@Override
 	public Node visitQuestion(QuestionContext ctx) {
-		Type type = Type.getByName(ctx.Type().getText());
+		Type type = TypeFactory.getTypeForName((ctx.Type().getText()));
 		int lineNumber = ctx.start.getLine();
 		int offset = ctx.start.getCharPositionInLine();
 		String id = ctx.Identifier().getText();
@@ -187,22 +194,23 @@ public class QLVisitorImpl extends QLBaseVisitor<Node> {
 		int offset = ctx.start.getCharPositionInLine();
 		
 		if (ctx.Boolean() != null) {
-			return new BooleanLiteral(lineNumber, offset, ctx.getText());
+			return new BooleanLiteral(lineNumber, offset, Boolean.valueOf(ctx.getText()));
 		}
 		
 		if (ctx.Decimal() != null) {
-			return new DecimalLiteral(lineNumber, offset, ctx.getText());
+			BigDecimal decimalValue = new BigDecimal(ctx.getText());
+			return new DecimalLiteral(lineNumber, offset, decimalValue);
 		}
 		
 		if (ctx.Integer() != null) {
-			return new IntegerLiteral(lineNumber, offset, ctx.getText());
+			return new IntegerLiteral(lineNumber, offset, Integer.valueOf(ctx.getText()));
 		}
 		
 		if (ctx.Identifier() != null) {
 			return new Reference(lineNumber, offset, ctx.getText());
 		}
 		
-		return new StringLiteral(lineNumber, offset, ctx.getText());
+		return new StringLiteral(lineNumber, offset, ctx.getText().substring(1, ctx.getText().length()-1));
 	}
 
 }

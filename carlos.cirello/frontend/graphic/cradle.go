@@ -17,33 +17,16 @@ ApplicationWindow {
 	width: 800
 	height: 600
 
-	TabView {
-		width: 799
-		height: 600
-		Tab {
-			title: "{{ .AppName }}"
-			objectName: "{{ .AppName }}Tab"
-			ScrollView {
-				width: 798
-				height: 600
-				verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
-				contentItem: ColumnLayout {
-					Layout.fillHeight: true
-					width: 797
-					id: mainLayout
-					objectName: "questions"
-				}
-			}
-		}
-	}
+	{{ .TabContainer }}
 }
 `
 
-func renderCradle(appName string) string {
+func renderCradle(appName, tabContainer string) string {
 	var b bytes.Buffer
 	t := template.Must(template.New("cradle").Parse(cradleQMLTemplate))
 	t.Execute(&b, struct {
-		AppName string
-	}{appName})
+		AppName      string
+		TabContainer string
+	}{appName, tabContainer})
 	return b.String()
 }

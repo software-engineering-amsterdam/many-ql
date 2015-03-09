@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AHexChar extends PChar
-{
+public final class AHexChar extends PChar {
     private THexChar _hexChar_;
 
-    public AHexChar()
-    {
+    public AHexChar() {
         // Constructor
     }
 
     public AHexChar(
-        @SuppressWarnings("hiding") THexChar _hexChar_)
-    {
+            @SuppressWarnings("hiding") THexChar _hexChar_) {
         // Constructor
         setHexChar(_hexChar_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AHexChar(
-            cloneNode(this._hexChar_));
+                cloneNode(this._hexChar_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAHexChar(this);
     }
 
-    public THexChar getHexChar()
-    {
+    public THexChar getHexChar() {
         return this._hexChar_;
     }
 
-    public void setHexChar(THexChar node)
-    {
-        if(this._hexChar_ != null)
-        {
+    public void setHexChar(THexChar node) {
+        if (this._hexChar_ != null) {
             this._hexChar_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class AHexChar extends PChar
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._hexChar_);
+                + toString(this._hexChar_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._hexChar_ == child)
-        {
+        if (this._hexChar_ == child) {
             this._hexChar_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class AHexChar extends PChar
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._hexChar_ == oldChild)
-        {
+        if (this._hexChar_ == oldChild) {
             setHexChar((THexChar) newChild);
             return;
         }

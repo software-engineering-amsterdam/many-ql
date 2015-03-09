@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QL.AST.Model.Statements;
+using UvA.SoftCon.Questionnaire.Utilities.AST;
 
 namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Expressions
 {
-    public interface IExpression : INode
+    public interface IExpression : IQLNode
     {
         DataType GetType(IDictionary<string, DataType> symbolTable);
     }

@@ -37,7 +37,7 @@ public class Question extends Statement {
 
     @Override
     public String toString() {
-        return this.type.toString() + this.identifier.toString() + " " + "('" + this.label + "')";
+        return this.type.toString() + " " + this.identifier.toString() + " " + "('" + this.label + "')";
     }
 
     public <T> T accept(IStatementVisitor<T> visitor) {

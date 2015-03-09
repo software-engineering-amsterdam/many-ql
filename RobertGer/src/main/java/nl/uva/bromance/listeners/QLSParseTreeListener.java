@@ -1,7 +1,7 @@
 package nl.uva.bromance.listeners;
 
 
-import nl.uva.bromance.AST.*;
+import nl.uva.bromance.ast.*;
 import nl.uva.bromance.parsers.QLSBaseListener;
 import nl.uva.bromance.parsers.QLSParser;
 
@@ -23,7 +23,7 @@ public class QLSParseTreeListener extends QLSBaseListener {
 
     public void exitQuestionnaire(QLSParser.StylesheetContext ctx) {
         ast = (Stylesheet) nodeStack.pop();
-        System.out.println("--Printing AST--");
+        System.out.println("--Printing ast--");
         ast.printDebug();
     }
 }

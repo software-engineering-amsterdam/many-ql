@@ -26,15 +26,3 @@ class BasicTypes:
 
     # comment :: // ....\n  | /* .... */
     comment = pp.Literal("//") + pp.restOfLine | pp.cStyleComment
-
-    # bool_name :: "bool"
-    bool_name = "bool"
-
-    # number_name :: "number"
-    number_name = "number"
-
-    # text_name :: "text"
-    text_name = "text"
-
-    # list_name :: "list"
-    list_name = "list"

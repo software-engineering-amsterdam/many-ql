@@ -21,6 +21,7 @@ type qlsSymType struct {
 	defaultNode *ast.DefaultNode
 	stack       []*ast.ActionNode
 	styleNode   *ast.StyleNode
+	pageNode    *ast.PageNode
 
 	position scanner.Position
 }
@@ -343,12 +344,13 @@ qlsdefault:
 	switch qlsnt {
 
 	case 1:
-		//line parser.y:39
+		//line parser.y:40
 		{
-			finalStyle = ast.NewStyleNode(qlsS[qlspt-3].content, qlsS[qlspt-1].stack)
+			finalStyle = ast.NewStyleNode(qlsS[qlspt-1].stack)
+			qlsS[qlspt-1].stack = nil
 		}
 	case 3:
-		//line parser.y:45
+		//line parser.y:47
 		{
 			d := qlsS[qlspt-0].defaultNode
 			qs := qlsVAL.stack
@@ -357,16 +359,16 @@ qlsdefault:
 			qlsVAL.stack = qs
 		}
 	case 4:
-		//line parser.y:53
+		//line parser.y:55
 		{
-			d := qlsS[qlspt-0].styleNode
+			d := qlsS[qlspt-0].pageNode
 			qs := qlsVAL.stack
 			action := ast.NewActionNode(d)
 			qs = append(qs, action)
 			qlsVAL.stack = qs
 		}
 	case 5:
-		//line parser.y:61
+		//line parser.y:63
 		{
 			qs := qlsVAL.stack
 			action := ast.NewActionNode(ast.NewQuestionNode(qlsS[qlspt-0].content))
@@ -374,12 +376,13 @@ qlsdefault:
 			qlsVAL.stack = qs
 		}
 	case 6:
-		//line parser.y:71
+		//line parser.y:73
 		{
-			qlsVAL.styleNode = ast.NewStyleNode(qlsS[qlspt-3].content, qlsS[qlspt-1].stack)
+			qlsVAL.pageNode = ast.NewPageNode(qlsS[qlspt-3].content, qlsS[qlspt-1].stack)
+			qlsS[qlspt-1].stack = nil
 		}
 	case 7:
-		//line parser.y:78
+		//line parser.y:81
 		{
 			qlsVAL.defaultNode = ast.NewDefaultNode(qlsS[qlspt-1].content, qlsS[qlspt-0].content)
 		}

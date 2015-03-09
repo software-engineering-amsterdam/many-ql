@@ -1,48 +1,61 @@
 package com.form.language;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
+import java.io.IOException;
+
+import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 
 import com.form.language.ast.Form;
-import com.form.language.ast.expression.Expression;
+import com.form.language.error.CheckTypeErrors;
+import com.form.language.error.CheckVariableErrors;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
 
 public class Test {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		String program = "form asf { \n"
-				 +	"question \"asdf\" question1: Boolean \n"
-				 + 	"question \"asdf\" question2: Boolean \n"
-				 +	"if (question2) then asdf := Number 1 end \n"
-				 + "}";
-		CharStream charStream = 
-				new ANTLRInputStream(program);
-		
-		System.out.println(program);
+		//Initialize ANTLR stuff.
+		CharStream charStream = new ANTLRFileStream("Testprograms\\program1.ql");
 		GrammarLexer lexer = new GrammarLexer(charStream);
 		TokenStream tokenStream = new CommonTokenStream(lexer);
 		GrammarParser parser = new GrammarParser(tokenStream);
-		Form evaluator = parser.form().result;
-		//System.out.println((evaluator.getType()));
 		
+		//Parse the form
+		Form form = parser.form().result;
+		
+		//Collect all the variables
 		IdCollector ids = new IdCollector();		
-		evaluator.collectIds(ids);
+		form.collectIds(ids);
+		
+		//Set the types of the referencing variables in the form
 		IdTypeTable idTable = new IdTypeTable(ids);
-		evaluator.setTypes(idTable);
-		evaluator.showTypes();
-		RuntimeMemory mem = new RuntimeMemory();
-		evaluator.initMemory(mem);
+		form.setTypes(idTable);
+		
+		//Check for undeclared variables, exit program and show errors if any are found.
+		ErrorCollector varErrors = CheckVariableErrors.containsUndeclaredVariables(ids, idTable);
+		if(!varErrors.isEmpty()){
+			varErrors.print();
+			System.err.println("exit program.");
+			System.exit(0);
+		}
+		
+		//Check for type errors, exit program and show errors if any are found.
+		if(CheckTypeErrors.containsErrors(form)){
+			System.err.println("there are type errors:");
+			ErrorCollector errors = new ErrorCollector();
+			form.getErrors(errors);
+			errors.print();
+			System.err.println("exit program.");
+			System.exit(0);
+		} 
+		
+		RuntimeMemory mem = form.initMemory();
 		System.out.println(mem);
-//		System.out.println(m.showMemory());
-//			
-//		ErrorCollector errors = new ErrorCollector();
-//		evaluator.getErrors(errors);
-//		errors.print();
+			
 		
 		
 		

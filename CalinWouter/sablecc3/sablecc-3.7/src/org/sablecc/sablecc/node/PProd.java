@@ -2,7 +2,6 @@
 
 package org.sablecc.sablecc.node;
 
-public abstract class PProd extends Node
-{
+public abstract class PProd extends Node {
     // Empty body
 }

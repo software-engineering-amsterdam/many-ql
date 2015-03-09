@@ -1,19 +1,20 @@
-from QL.AST.Statements.if_statement import *
+import QL.AST.Statements.if_statement as if_statement
+import QL.Main.converters as converters
 
-class IfElseBlock(IfBlock):
+
+class IfElseBlock(if_statement.IfBlock):
 
     # Override
-    def __init__(self, condition, statements, else_statements, tid):
-        self.condition = condition
-        self.statements = statements
+    def __init__(self, condition, statements, else_statements):
+        self._condition = condition
+        self._statements = statements
         self.else_statements = else_statements
-        self.parent_id = tid
-        self.element = None
+        self._element = None
 
     # Override
     def pretty_print(self, level=0):
-        s = "\n" + "   " * level + "If (" + self.condition.pretty_print(0) + ")"
-        for x in self.statements:
+        s = "\n" + "   " * level + "If (" + self._condition.pretty_print(0) + ")"
+        for x in self._statements:
             s += "   " * level + x.pretty_print(level+1)
 
         s += "   " * level + "else"
@@ -24,7 +25,7 @@ class IfElseBlock(IfBlock):
     # Override
     def id_collection(self):
         ids = []
-        for x in self.statements:
+        for x in self._statements:
             ids += x.id_collection()
         for x in self.else_statements:
             ids += x.id_collection()
@@ -33,28 +34,28 @@ class IfElseBlock(IfBlock):
     # Override
     def label_collection(self):
         labels = []
-        for x in self.statements:
+        for x in self._statements:
             labels += x.label_collection()
         for x in self.else_statements:
             labels += x.label_collection()
         return labels
 
     # Override
-    def dependency_collection(self, dependencies):
+    def get_dependency_collection(self, dependencies):
         ids = self.id_collection()
         for i in ids:
             if i in dependencies:
-                dependencies[i] = dependencies[i] + self.condition.get_dependencies()
+                dependencies[i] = dependencies[i] + self._condition.get_dependencies()
             else:
-                dependencies[i] = self.condition.get_dependencies()
-        for x in self.statements:
-            dependencies = dict(list(dependencies.items()) + list(x.dependency_collection(dependencies).items()))
+                dependencies[i] = self._condition.get_dependencies()
+        for x in self._statements:
+            dependencies = dict(list(dependencies.items()) + list(x.get_dependency_collection(dependencies).items()))
         return dependencies
 
     # Override
     def return_expressions(self):
-        s = [self.condition]
-        for x in self.statements:
+        s = [self._condition]
+        for x in self._statements:
             s += x.return_expressions()
         for x in self.else_statements:
             s += x.return_expressions()
@@ -62,16 +63,23 @@ class IfElseBlock(IfBlock):
 
     # Override
     def get_parent_id(self):
-        return self.parent_id
+        return self._parent_id
 
     # Override
     def set_parent_id(self, pid):
-        self.parent_id = pid
+        self._parent_id = pid
+        m = converters.Converters.get_md5(str(self))
+        for s in self._statements:
+            s.set_parent_id(m)
+            s.set_parent_condition(self._condition)
+        for s in self.else_statements:
+            s.set_parent_id(m)
+            s.set_parent_condition(self._condition.add_not())
 
     # Override
     def set_order(self, order_num):
         c = order_num
-        for s in self.statements:
+        for s in self._statements:
             c = s.set_order(c)
         for s in self.else_statements:
             c = s.set_order(c)
@@ -84,23 +92,23 @@ class IfElseBlock(IfBlock):
         ...
 
     # Override
-    def id_type_collection(self):
+    def get_id_type_collection(self):
         d = {}
-        for s in self.statements:
-            d = dict(list(d.items()) + list(s.id_type_collection().items()))
+        for s in self._statements:
+            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
         for s in self.else_statements:
-            d = dict(list(d.items()) + list(s.id_type_collection().items()))
+            d = dict(list(d.items()) + list(s.get_id_type_collection().items()))
         return d
 
     def get_e_statements(self):
         return self.else_statements
 
     def get_element(self):
-        return self.element
+        return self._element
 
     def get_statement_dict(self):
         d = {}
-        for s in self.statements:
+        for s in self._statements:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))
         for s in self.else_statements:
             d = dict(list(d.items()) + list(s.get_statement_dict().items()))

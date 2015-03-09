@@ -3,6 +3,7 @@ package uva.qls.ast.statements;
 import uva.qls.ast.CodeLines;
 import uva.qls.ast.component.Component;
 import uva.qls.ast.literal.Identifier;
+import uva.qls.ast.statements.visitor.StatementVisitor;
 import uva.qls.ast.value.GenericValue;
 import uva.qls.supporting.Tuple;
 
@@ -25,6 +26,11 @@ public class Question extends Statement {
 	}
 	
 	@Override
+	public <T> T accept(StatementVisitor<T> visitor) {
+		return visitor.visitQuestion(this);
+	}
+	
+	@Override
 	public Tuple<Integer, Integer> getLOCTuple() {
 		return this.codeLines.getCodeLocation();
 	}
@@ -35,12 +41,13 @@ public class Question extends Statement {
 	}
 	@Override
 	public String toString(){
-		return "Question(" + this.identifier.toString() + "," + component.toString() + ")";
+		return this.component == null	? "Question(" + this.identifier.toString() + "," + ")"
+										: "Question(" + this.identifier.toString() + "," +  this.component.toString() + ")";
 	}
 
 	@Override
 	public GenericValue<?> evaluate() {
-	return null;
+		return null;
 	}
 	
 }

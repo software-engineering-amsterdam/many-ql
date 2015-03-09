@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>S:\StrongName\Questionnaire.snk</AssemblyOriginatorKeyFile>
@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST\Model\Page.cs" />
+    <Compile Include="AST\Model\QLSNode.cs" />
+    <Compile Include="AST\Model\Question.cs" />
+    <Compile Include="AST\Model\Section.cs" />
+    <Compile Include="AST\Model\StyleSheet.cs" />
+    <Compile Include="AST\Visitors\StyleSheetVisitor.cs" />
     <Compile Include="Grammar\QLS.g4.lexer.cs">
       <DependentUpon>QLS.g4</DependentUpon>
     </Compile>
@@ -68,12 +74,12 @@
       <Listener>False</Listener>
     </Antlr4>
     <None Include="packages.config" />
-    <None Include="S:\StrongName\Questionnaire.snk">
-      <Link>Properties\Questionnaire.snk</Link>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AST\Model\" />
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{751e11b8-6c64-49b6-92b5-a2e78447ea99}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -3,6 +3,7 @@ package ast.expression.logical;
 import ast.expression.BinaryExpression;
 import ast.expression.Expression;
 import ast.expression.IExpressionVisitor;
+import ast.type.ChoiceType;
 
 // For || 
 
@@ -20,6 +21,11 @@ public class OrExpression extends BinaryExpression {
 	@Override
 	public String toString() {
 		return this.getLeftExpression().toString() + " || " + this.getRightExpression().toString();
+	}
+
+	@Override
+	public ChoiceType getExpressionType() {
+		return new ChoiceType();
 	}
 }
 

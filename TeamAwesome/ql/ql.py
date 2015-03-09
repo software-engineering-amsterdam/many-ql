@@ -1,4 +1,5 @@
 import sys, os
+sys.path.append('../lib')
 
 from ql.evaluator.evaluator import createEvaluator
 from ql.ast.AST import AST

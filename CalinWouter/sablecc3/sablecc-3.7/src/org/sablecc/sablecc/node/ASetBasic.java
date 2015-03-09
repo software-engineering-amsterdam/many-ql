@@ -5,52 +5,42 @@ package org.sablecc.sablecc.node;
 import org.sablecc.sablecc.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASetBasic extends PBasic
-{
+public final class ASetBasic extends PBasic {
     private PSet _set_;
 
-    public ASetBasic()
-    {
+    public ASetBasic() {
         // Constructor
     }
 
     public ASetBasic(
-        @SuppressWarnings("hiding") PSet _set_)
-    {
+            @SuppressWarnings("hiding") PSet _set_) {
         // Constructor
         setSet(_set_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ASetBasic(
-            cloneNode(this._set_));
+                cloneNode(this._set_));
     }
 
     @Override
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseASetBasic(this);
     }
 
-    public PSet getSet()
-    {
+    public PSet getSet() {
         return this._set_;
     }
 
-    public void setSet(PSet node)
-    {
-        if(this._set_ != null)
-        {
+    public void setSet(PSet node) {
+        if (this._set_ != null) {
             this._set_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -61,18 +51,15 @@ public final class ASetBasic extends PBasic
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._set_);
+                + toString(this._set_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._set_ == child)
-        {
+        if (this._set_ == child) {
             this._set_ = null;
             return;
         }
@@ -81,11 +68,9 @@ public final class ASetBasic extends PBasic
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._set_ == oldChild)
-        {
+        if (this._set_ == oldChild) {
             setSet((PSet) newChild);
             return;
         }

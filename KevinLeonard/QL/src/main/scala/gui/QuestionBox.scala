@@ -38,7 +38,10 @@ abstract class QuestionBox(q: Question, visibilityExpressions: List[Expression],
   visible = shouldBeVisible
   managed = isVisible
   padding = Insets(DefaultPadding, DefaultPadding, PaddingBottom, DefaultPadding)
-  children.add(new Label(q.label))
+
+  val label = new Label(q.label)
+  label.margin = Insets(0, 0, 5, 0)
+  children.add(label)
 }
 
 class BooleanQuestionBox(q: Question, visibilityExpressions: List[Expression], env: ObservableMap[String, Value])

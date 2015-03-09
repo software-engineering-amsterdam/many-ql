@@ -1,16 +1,16 @@
 package gui.widgets.listeners;
 
+import evaluator.StringValue;
+import evaluator.ValueRepository;
 import gui.widgets.IWidgetComponent;
-import interpreter.StringValue;
-import interpreter.ValueRepository;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class TextListener implements DocumentListener {
-	private final IWidgetComponent widget;
+	protected final IWidgetComponent widget;
 	private String value = "";
-	private final ValueRepository valueRepository;
+	protected final ValueRepository valueRepository;
 	
 	public TextListener(IWidgetComponent widget, ValueRepository valueRepository) {
 		this.widget = widget;
