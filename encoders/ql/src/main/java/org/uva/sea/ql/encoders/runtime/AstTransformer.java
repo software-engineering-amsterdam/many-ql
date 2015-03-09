@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
+import org.uva.sea.ql.encoders.ast.type.DataType;
 
 public class AstTransformer {
 
@@ -22,7 +23,9 @@ public class AstTransformer {
 	private List<RuntimeQuestion> createUIQuestions(Collection<Question> questions) {
 		List<RuntimeQuestion> uiQuestions = new ArrayList<RuntimeQuestion>();
 		for (Question question : questions) {
-			uiQuestions.add(new RuntimeQuestion(question));
+			DataType<?> dataType = question.getDataType();
+			Object defaultValue = dataType.accept(new DefaultValueVisitor());
+			uiQuestions.add(new RuntimeQuestion(question, defaultValue));
 		}
 		return uiQuestions;
 	}

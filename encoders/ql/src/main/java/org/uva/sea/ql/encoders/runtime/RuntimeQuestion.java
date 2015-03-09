@@ -10,8 +10,9 @@ public class RuntimeQuestion extends Observable {
 
 	private Object value;
 
-	public RuntimeQuestion(Question question) {
+	public RuntimeQuestion(Question question, Object value) {
 		this.question = question;
+		this.value = value;
 	}
 
 	public Object getValue() {

@@ -41,11 +41,6 @@ public class ConditionEvaluator extends BaseAstVisitor<Boolean> {
 		String name = nameExpression.getName();
 		QuestionByName questionByName = new QuestionByName();
 		RuntimeQuestion runtimeQuestion = questionByName.getRuntimeQuestion(name, questions);
-		Object value = runtimeQuestion.getValue();
-		Boolean result = false;
-		if (value != null) {
-			result = new Boolean((Boolean) value);
-		}
-		return result;
+		return (Boolean) runtimeQuestion.getValue();
 	}
 }
