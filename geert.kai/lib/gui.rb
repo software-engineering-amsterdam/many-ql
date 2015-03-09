@@ -9,7 +9,7 @@ class QuestionairApp < JRubyFX::Application
 
     question_panes = questionair_controller.question_panes
     
-    p question_panes
+    #p question_panes
     # p questionair_controller
     
 
@@ -20,8 +20,7 @@ class QuestionairApp < JRubyFX::Application
       layout_scene do
         grid_pane = grid_pane(hgap: 10, vgap: 10, alignment: :baseline_left)  do
           questionair_controller.question_panes.each_with_index do |question_pane, position|
-            
-            add(label(question_pane.question.description), 1, position)
+            add(question_pane.label_field, 1, position)
             add(question_pane.input_field, 2, position)
 
             # this.widgets[question] = widget
@@ -108,8 +107,6 @@ end
 
 
 class QuestionairController
-  
-
   attr_reader :question_panes, :runner
 
   def initialize(ql)
@@ -117,12 +114,12 @@ class QuestionairController
     @runner = QL::Runner.new(ql)
 
     @question_panes = @runner.questions.map do |question|
+      p question
       QuestionPane.new(question)
     end
 
     reload
 
-    self
   end
 
   def update_variable(variable_name, value)
@@ -147,18 +144,13 @@ class QuestionPane
 
   def initialize(question)
     @question = question
-    
-    puts "question: #{question.inspect}"
-
     @label_field = Java::JavafxSceneControl::Label.new(@question.description)
-    # this = self
-
     @input_field = Java::JavafxSceneControl::Label.new("hoi")
   end
 
   def set_visible(visible)
-    label_field.set_visible(visible)
-    input_field.set_visible(visible)
+    @label_field.set_visible(visible)
+    @input_field.set_visible(visible)
   end
 end
 

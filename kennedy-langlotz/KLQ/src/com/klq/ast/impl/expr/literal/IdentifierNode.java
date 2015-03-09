@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr.literal;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.Value;
@@ -12,8 +13,12 @@ import java.util.Map;
 public class IdentifierNode extends AExpression {
     private String identifier;
 
-    public IdentifierNode(String identifier, String location) {
-        super(null, null, location);
+    public IdentifierNode(String identifier, Location location) {
+        super(location);
+        this.identifier = identifier;
+    }
+
+    public IdentifierNode(String identifier) {
         this.identifier = identifier;
     }
 

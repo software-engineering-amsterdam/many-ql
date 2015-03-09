@@ -11,6 +11,7 @@ import com.form.language.gui.components.GUIBuilder;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 //TODO: ifStatements can be part of a condition, so they will only be assigned conditionally (at runtime). There will be no problems compiletime, however.
 public class AssignmentStatement implements Statement {
@@ -27,14 +28,14 @@ public class AssignmentStatement implements Statement {
 	}
 
 	@Override
-	public Type getType() {
-		return expression.getType();
+	public Type getType(TypeMemory mem) {
+		return expression.getType(mem);
 	}
 
-	@Override
-	public void getErrors(ErrorCollector errs) {
-		expression.getErrors(errs);
-	}
+//	@Override
+//	public void getErrors(ErrorCollector errs) {
+//		expression.getErrors(errs);
+//	}
 
 	@Override
 	public void collectIds(IdCollector idCollector) {

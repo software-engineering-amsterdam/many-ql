@@ -1,4 +1,5 @@
 // Generated from Grammar.g4 by ANTLR 4.4
+package uva.sc.parser;
  package uva.sc.parser; 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeListener;

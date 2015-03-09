@@ -11,6 +11,12 @@ public class DecType extends Type
     }
 
     @Override
+    public boolean isArithmetic()
+    {
+        return true;
+    }
+
+    @Override
     public Type promoteInt(IntType t)
     {
         return this;

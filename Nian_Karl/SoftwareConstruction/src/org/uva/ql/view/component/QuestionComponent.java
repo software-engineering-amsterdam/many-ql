@@ -38,7 +38,7 @@ public class QuestionComponent extends Panel {
 		labelConstraints.insets = inset;
 		add(label, labelConstraints);
 
-		// Making GridBagConstraints for label
+		// Making GridBagConstraints for widget
 		GridBagConstraints widgetConstraints = new GridBagConstraints();
 		widgetConstraints.gridx = 1;
 		widgetConstraints.gridy = 0;

@@ -7,6 +7,6 @@ import com.klq.ast.impl.expr.literal.IdentifierNode;
  */
 public class QuestionIDReference extends AError{
     public QuestionIDReference(IdentifierNode node) {
-        super(3, true, String.format("This identifier (%s) refers to a question that does not exist", node.getIdentifier()), node.getLoc());
+        super(3, true, String.format("This identifier (%s) refers to a question that does not exist", node.getIdentifier()), node.getLocation());
     }
 }

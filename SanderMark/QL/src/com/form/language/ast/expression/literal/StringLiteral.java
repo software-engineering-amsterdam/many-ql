@@ -7,6 +7,7 @@ import com.form.language.ast.type.StringType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.StringValue;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class StringLiteral extends Literal implements Expression {
 	private final String value;
@@ -22,7 +23,7 @@ public class StringLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getType(TypeMemory mem) {
 		return new StringType();
 	}
 	

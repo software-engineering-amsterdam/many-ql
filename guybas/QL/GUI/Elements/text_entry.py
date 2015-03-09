@@ -6,7 +6,7 @@ import QL.GUI.Elements.label as e_label
 class TextEntry(i_element.Element):
     def create(self):
         e_list = []
-        label = e_label.Label(self.statement, self.gui)
+        label = e_label.Label(self.statement.get_label())
         e_list += label.get_row()
         str_var = tk.StringVar()
         e = tk.Entry(textvariable=str_var)

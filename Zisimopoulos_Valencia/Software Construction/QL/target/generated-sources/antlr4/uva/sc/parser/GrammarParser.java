@@ -1,4 +1,5 @@
 // Generated from Grammar.g4 by ANTLR 4.4
+package uva.sc.parser;
  package uva.sc.parser; 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;

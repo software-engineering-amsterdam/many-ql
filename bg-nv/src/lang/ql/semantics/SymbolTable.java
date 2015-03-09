@@ -2,6 +2,7 @@ package lang.ql.semantics;
 
 import lang.ql.ast.statement.Question;
 import lang.ql.ast.type.Type;
+import lang.ql.ast.type.UndefinedType;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class SymbolTable
 
     public SymbolTable()
     {
-        this.symbols = new HashMap<String, Question>();
+        this.symbols = new HashMap<>();
     }
 
     public void define(Question q)
@@ -29,7 +30,7 @@ public class SymbolTable
         {
             return q.getType();
         }
-        return null;
+        return new UndefinedType();
     }
 
     public boolean containsQuestionId(String id)

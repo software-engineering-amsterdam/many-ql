@@ -59,6 +59,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
         AExpression expr = (AExpression) node.getCondition();
         QuestionList questionList = new QuestionList();
 
+        //todo refactor
         for(ANode child : node.getChildren()){
             if(child instanceof QuestionNode) {
                 Question question = (Question) child.accept(this);
@@ -93,7 +94,7 @@ public class AST2GUIConverter implements IVisitor<IKLQItem> {
 
         OptionSet options = new OptionSet();
         for(AExpression child : node.getChildren()){
-            options.add(child); //TODO temp fix, need to change when computed questions can take expressions
+            options.add(child);
         }
         return new Question(id, type, options, text);
     }

@@ -8,10 +8,14 @@ public class NumberAtom extends Expression{
 	String value;
 	
 	public NumberAtom(String value) {
-		this.value = value;
+		this.value = (value.equals("")) ? "0" : value;
 	}
 	
 	public String getValue() {
+		return value;
+	}
+	
+	public String toString(){
 		return value;
 	}
 

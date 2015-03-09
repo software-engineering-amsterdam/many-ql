@@ -64,8 +64,6 @@ public class CyclicChecker {
 		for (Relation relation : relations) {
 			if (relation.isCyclic()) {
 				int lineNr1 = relation.getFirst().getPosition().getStartLine();
-				//int lineNr2 = relation.getSecond().getPosition().getStartLine();
-				//int lineNr = lineNr1 < lineNr2 ? lineNr1 : lineNr2;
 				String literal = relation.getFirst().toString();
 				mm.addError(new Error(Error.Type.CYCLIC, lineNr1, literal));
 				result = false;

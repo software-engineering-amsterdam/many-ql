@@ -1,6 +1,7 @@
 package uva.sc.types;
 
 import uva.sc.ast.INodeVisitor;
+import uva.sc.logic.Expression;
 
 public class Unidentified implements Type {
 
@@ -22,5 +23,9 @@ public class Unidentified implements Type {
 		else {
 			return false;
 		}
+	}
+
+	public Expression defaultValue() {
+		return null;
 	}
 }
