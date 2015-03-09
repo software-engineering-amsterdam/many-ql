@@ -113,13 +113,14 @@ public class Visualizer {
                         currentPage = page;
                         visualize(ast,qlsAST);
                     });
-                    label.getStyleClass().add("pageLabel");
-                    pagePane.get().getChildren().add(label);
                     if (currentPage == page){
+                        label.getStyleClass().add("active");
                         for (Node child: currentPage.getChildren()){
                             child.visualize(questionPane.get());
                         }
                     }
+                    label.getStyleClass().add("pageLabel");
+                    pagePane.get().getChildren().add(label);
                 }
             }
         } else {
