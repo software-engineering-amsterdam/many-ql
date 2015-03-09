@@ -13,14 +13,26 @@ namespace QL.Evaluation
 {
     class TypeCheckerVisitor: IVisitor
     {
-        Dictionary<Identifier, Type> TypeReferenceDictionary;
+        public readonly IDictionary<Identifier, Type> TypeReference;
 
         public IList<QLError> Errors { get; private set; }
+        public IList<QLWarning> Warnings { get; private set; }
 
-        public TypeCheckerVisitor()
+
+        public TypeCheckerVisitor(IDictionary<Identifier, Type> typeReference, IList<QLError> errors, IList<QLWarning> warnings)
         {
-            Errors = new List<QLError>();
-            TypeReferenceDictionary = new Dictionary<Identifier, Type>();
+            TypeReference = typeReference;
+            Errors = errors;
+            Warnings = warnings;
+        }
+
+        private void DeclareNewVariable(Identifier key, Type value)
+        {
+            if (TypeReference.ContainsKey(key))
+            {
+                Warnings.Add(new RedeclaredVariableWarning("Redeclared variable: " + key));
+            }
+            TypeReference[key] = value;
         }
 
         #region Regular elements
@@ -41,21 +53,26 @@ namespace QL.Evaluation
 
         public void Visit(StatementUnit node)
         {
-            TypeReferenceDictionary[node.Identifier] = DetermineType(node.DataType);
+            DeclareNewVariable(node.Identifier, DetermineType((dynamic)node.DataType));
 
-            return; // todo check if referenced variable exists
+            if (TypeReference[node.Identifier]!=DetermineType((dynamic)node.Expression)){
+                Errors.Add(new TypeError(String.Format(
+                "Expression inside the statement declared as {0}, but resolves into type {1} instead", 
+                TypeReference[node.Identifier], 
+                DetermineType((dynamic)node.Expression))));
+            }
+
         }
 
         public void Visit(QuestionUnit node)
         {
-            TypeReferenceDictionary[node.Identifier] = DetermineType(node.DataType);
-
+            TypeReference[node.Identifier] = DetermineType((dynamic)node.DataType);
             return; // nothing to check
         }
 
         public void Visit(Expression node)
         {
-            return; // checking is done on children
+            return; // checking is done on children todo: sure this is the case?
         }
         #endregion
 
@@ -64,7 +81,7 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Incompatible operands on equality operation", node));
+                Errors.Add(new TypeError(String.Format("Incompatible operands on equality operation:{0} and {1}", DetermineType((dynamic)node.Left), DetermineType((dynamic)node.Right)), node));
             }
         }
 
@@ -112,8 +129,17 @@ namespace QL.Evaluation
         {
             if (DetermineType((dynamic)node.Left) != DetermineType((dynamic)node.Right))
             {
-                Errors.Add(new TypeError("Non-number operands on multiplication operator", node));
+                Errors.Add(new TypeError("Incompatible operands on multiplication operation", node));
             }
+            if (DetermineType((dynamic)node.Left) !=(new Number()).GetType())
+            {
+                Errors.Add(new TypeError("Non-number operands on the left side of the  multiplication operator", node));
+            }
+            if (DetermineType((dynamic)node.Right) !=(new Number()).GetType())
+            {
+                Errors.Add(new TypeError("Non-number operands on the right side of the multiplication operator", node));
+            }
+
         }
 
         public void Visit(DivisionOperator node)
@@ -195,15 +221,20 @@ namespace QL.Evaluation
         
         Type DetermineType(Identifier i)
         {
-            return TypeReferenceDictionary[i];
+            if (TypeReference.ContainsKey(i)){
+                return TypeReference[i];}
+            else{
+                //This error is thrown up because it prevents from further type checking
+                throw new QLError("Undeclared variable: "+i.Value);
+            }
         }
 
-        Type DetermineType(ITypeResolvableByChilren i)
+        Type DetermineType(ITypeResolvableByChildren i)
         {
             return DetermineType((dynamic)i.Children[0]);
         }
 
-        Type DetermineType(ITypeResolvable i)
+        Type DetermineType(ITypeResolvableDirectly i)
         {
             return i.GetReturnType();
         }

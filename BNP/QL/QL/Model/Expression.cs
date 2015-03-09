@@ -8,10 +8,25 @@ using System.Threading.Tasks;
 
 namespace QL.Model
 {
-    public class Expression : TreeElementBase, ITypeResolvableByChilren
+    public class Expression : TreeElementBase, ITypeResolvableByChildren
     {
+        int ONLY_CHILD = 0;
         public Expression() { }
 
+        public ElementBase Child
+        {
+            get{
+                if (Children.Any()) { 
+                return Children[ONLY_CHILD];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        
         public void HandleChildren(ElementBase e)
         {
             Children.Clear();
