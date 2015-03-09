@@ -18,7 +18,7 @@ public class QuestionPanel extends Panel {
 		GridBagLayout bagLayout = new GridBagLayout();
 		this.ifBlockPanels = ifBlockPanels;
 		setLayout(bagLayout);
-		setBackground(Color.blue);
+		setBackground(Color.LIGHT_GRAY);
 		initializeBlock(ifBlockPanels);
 	}
 
