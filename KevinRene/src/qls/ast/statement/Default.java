@@ -1,11 +1,12 @@
 package qls.ast.statement;
 
-import ql.ast.expression.Identifier;
+import ql.ast.QLNode;
+import ql.ast.expression.QLType;
 import qls.ast.QLSStatement;
 import qls.ast.visitor.QLSStatementVisitor;
 
-public class Page extends QLSStatement {
-	public Page(Identifier identifier, QLSBlock block) {
+public class Default extends QLSStatement {	
+	public Default(QLType type, QLNode undeterminedNode) {
 		
 	}
 	
@@ -16,6 +17,8 @@ public class Page extends QLSStatement {
 
 	@Override
 	public String toString() {
+		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

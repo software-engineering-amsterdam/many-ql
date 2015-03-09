@@ -2,6 +2,7 @@ package qls.ast.visitor;
 
 import ql.ast.visitor.ExpressionVisitor;
 import ql.ast.visitor.StatementVisitor;
+import qls.ast.statement.Default;
 import qls.ast.statement.Page;
 import qls.ast.statement.QLSBlock;
 import qls.ast.statement.Question;
@@ -24,11 +25,7 @@ public abstract class QLSStatementVisitor<T> extends StatementVisitor<T> impleme
 		super.setExpressionVisitor(this);
 	}
 	
-	public T visit(Stylesheet stylesheet) {
-		stylesheet.getIdentifier().accept(this);	
-		stylesheet.getBlock().accept(this);
-		return null;
-	}
+	public abstract T visit(Default defaultNode);
 	
 	public T visit(Page page) {
 		page.accept(this);
@@ -36,8 +33,14 @@ public abstract class QLSStatementVisitor<T> extends StatementVisitor<T> impleme
 	}
 	
 	public abstract T visit(QLSBlock block);
-	public abstract T visit(Section section);
 	public abstract T visit(Question question);
+	public abstract T visit(Section section);
+	
+	public T visit(Stylesheet stylesheet) {
+		stylesheet.getIdentifier().accept(this);	
+		stylesheet.getBlock().accept(this);
+		return null;
+	}
 	
 	public abstract T visit(Checkbox checkbox);
 	public abstract T visit(Dropdown dropdown);

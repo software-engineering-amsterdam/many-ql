@@ -59,19 +59,19 @@ import qls.ast.widget.*;
 				| statement           	{ $$ = new QLSBlock($1); }
 				;
 				
-	statement 	: PAGE IDENTIFIER '{' statements '}'
-				| SECTION STRINGLITERAL '{' statements '}'
-				| QUESTION IDENTIFIER
-				| QUESTION IDENTIFIER '{' widget '}'
-				| DEFAULT type widget
-				| DEFAULT type '{' styleRules '}'
+	statement 	: PAGE IDENTIFIER '{' statements '}' 		{ $$ = new Page($2, $4); }
+				| SECTION STRINGLITERAL '{' statements '}'	{ $$ = new Section($2, $4); }
+				| QUESTION IDENTIFIER						{ $$ = new Question($2); }
+				| QUESTION IDENTIFIER '{' widget '}'		{ $$ = new Question($2, $4); }
+				| DEFAULT type widget						{ $$ = new Default($2, $3); }
+				| DEFAULT type '{' styleRules '}'			{ $$ = new Default($2, $4); }
 				;
 	
-	type	: BOOLEAN
-			| INTEGER
-			| FLOAT
-			| MONEY
-			| STRING
+	type 	: INTEGER	{ $$ = new QLInteger(); }
+	 		| MONEY		{ $$ = new QLFloat(); }
+			| FLOAT		{ $$ = new QLFloat(); }
+			| BOOLEAN	{ $$ = new QLBoolean(); }
+			| STRING 	{ $$ = new QLString(); }
 			;
 			
 	literal	: BOOLEANLITERAL

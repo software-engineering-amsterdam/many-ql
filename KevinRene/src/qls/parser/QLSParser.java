@@ -1,4 +1,4 @@
-// Output created by jacc on Mon Mar 09 20:54:56 CET 2015
+// Output created by jacc on Mon Mar 09 21:36:32 CET 2015
 
 package qls.parser;
 
@@ -326,7 +326,7 @@ class QLSParser implements QLSTokens {
                     switch (yytok) {
                         case WIDGET:
                         case '{':
-                            yyn = yyr11();
+                            yyn = yyr14();
                             continue;
                     }
                     yyn = 147;
@@ -364,7 +364,7 @@ class QLSParser implements QLSTokens {
                     switch (yytok) {
                         case WIDGET:
                         case '{':
-                            yyn = yyr12();
+                            yyn = yyr11();
                             continue;
                     }
                     yyn = 147;
@@ -383,7 +383,7 @@ class QLSParser implements QLSTokens {
                     switch (yytok) {
                         case WIDGET:
                         case '{':
-                            yyn = yyr14();
+                            yyn = yyr12();
                             continue;
                     }
                     yyn = 147;
@@ -1626,32 +1626,38 @@ class QLSParser implements QLSTokens {
     }
 
     private int yyr5() { // statement : PAGE IDENTIFIER '{' statements '}'
-        yysp -= 5;
+        { yyrv = new Page(((Identifier)yysv[yysp-4]), ((QLSBlock)yysv[yysp-2])); }
+        yysv[yysp-=5] = yyrv;
         return 6;
     }
 
     private int yyr6() { // statement : SECTION STRINGLITERAL '{' statements '}'
-        yysp -= 5;
+        { yyrv = new Section(((StringLiteral)yysv[yysp-4]), ((QLSBlock)yysv[yysp-2])); }
+        yysv[yysp-=5] = yyrv;
         return 6;
     }
 
     private int yyr7() { // statement : QUESTION IDENTIFIER
-        yysp -= 2;
+        { yyrv = new Question(((Identifier)yysv[yysp-1])); }
+        yysv[yysp-=2] = yyrv;
         return 6;
     }
 
     private int yyr8() { // statement : QUESTION IDENTIFIER '{' widget '}'
-        yysp -= 5;
+        { yyrv = new Question(((Identifier)yysv[yysp-4]), yysv[yysp-2]); }
+        yysv[yysp-=5] = yyrv;
         return 6;
     }
 
     private int yyr9() { // statement : DEFAULT type widget
-        yysp -= 3;
+        { yyrv = new Default(((QLType)yysv[yysp-2]), yysv[yysp-1]); }
+        yysv[yysp-=3] = yyrv;
         return 6;
     }
 
     private int yyr10() { // statement : DEFAULT type '{' styleRules '}'
-        yysp -= 5;
+        { yyrv = new Default(((QLType)yysv[yysp-4]), yysv[yysp-2]); }
+        yysv[yysp-=5] = yyrv;
         return 6;
     }
 
@@ -1766,28 +1772,33 @@ class QLSParser implements QLSTokens {
         }
     }
 
-    private int yyr11() { // type : BOOLEAN
-        yysp -= 1;
+    private int yyr11() { // type : INTEGER
+        { yyrv = new QLInteger(); }
+        yysv[yysp-=1] = yyrv;
         return 14;
     }
 
-    private int yyr12() { // type : INTEGER
-        yysp -= 1;
+    private int yyr12() { // type : MONEY
+        { yyrv = new QLFloat(); }
+        yysv[yysp-=1] = yyrv;
         return 14;
     }
 
     private int yyr13() { // type : FLOAT
-        yysp -= 1;
+        { yyrv = new QLFloat(); }
+        yysv[yysp-=1] = yyrv;
         return 14;
     }
 
-    private int yyr14() { // type : MONEY
-        yysp -= 1;
+    private int yyr14() { // type : BOOLEAN
+        { yyrv = new QLBoolean(); }
+        yysv[yysp-=1] = yyrv;
         return 14;
     }
 
     private int yyr15() { // type : STRING
-        yysp -= 1;
+        { yyrv = new QLString(); }
+        yysv[yysp-=1] = yyrv;
         return 14;
     }
 

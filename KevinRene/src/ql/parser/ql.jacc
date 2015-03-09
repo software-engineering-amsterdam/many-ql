@@ -87,7 +87,7 @@ import ql.ast.statement.*;
 		 	| '(' expression ')'	{ $$ = $2; }
 		 	;
 
- type 	: INTEGER		{ $$ = new QLInteger(); }
+ type 	: INTEGER  	{ $$ = new QLInteger(); }
  		| MONEY		{ $$ = new QLFloat(); }
 		| FLOAT		{ $$ = new QLFloat(); }
 		| BOOLEAN	{ $$ = new QLBoolean(); }
