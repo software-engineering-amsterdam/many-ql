@@ -20,4 +20,15 @@ public class Validation {
 	public TextLocation getTextLocation() {
 		return textLocation;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("line " + textLocation.getLine());
+		builder.append(":" + textLocation.getCharPositionInLine());
+		builder.append(" ");
+		builder.append(validationMessage);
+		builder.append("\n");
+		return builder.toString();
+	}
 }

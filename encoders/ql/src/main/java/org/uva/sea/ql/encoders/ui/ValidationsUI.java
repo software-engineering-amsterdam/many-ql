@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 
-import org.uva.sea.ql.encoders.ast.TextLocation;
 import org.uva.sea.ql.encoders.validation.Validation;
 
 public class ValidationsUI {
@@ -29,12 +28,7 @@ public class ValidationsUI {
 		typeCheckerMessages.setStyle("-fx-text-fill: red;");
 
 		for (Validation validation : validations) {
-			TextLocation textLocation = validation.getTextLocation();
-			typeCheckerMessages.appendText("line " + textLocation.getLine());
-			typeCheckerMessages.appendText(":" + textLocation.getCharPositionInLine());
-			typeCheckerMessages.appendText(" ");
-			typeCheckerMessages.appendText(validation.getValidationMessage());
-			typeCheckerMessages.appendText("\n");
+			typeCheckerMessages.appendText(validation.toString());
 		}
 		return grid;
 	}
