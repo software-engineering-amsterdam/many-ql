@@ -10,8 +10,17 @@ namespace QL.Model
 {
     public class Expression : TreeElementBase, ITypeResolvableByChildren
     {
+        int ONLY_CHILD = 0;
         public Expression() { }
 
+        public ElementBase Child
+        {
+            get{
+                return Children[ONLY_CHILD];
+            }
+        }
+
+        
         public void HandleChildren(ElementBase e)
         {
             Children.Clear();

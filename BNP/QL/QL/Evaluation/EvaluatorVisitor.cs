@@ -39,7 +39,7 @@ namespace QL.Evaluation
         IResolvableTerminalType GetValue(Expression node)
         {
 
-            return GetValue((dynamic)node.Children[0]);
+            return GetValue((dynamic)node.Child);
 
         }
 
