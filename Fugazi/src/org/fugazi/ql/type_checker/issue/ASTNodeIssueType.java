@@ -9,6 +9,6 @@ public interface ASTNodeIssueType {
         CYCLIC, UNDEFINED, DUPLICATE, TYPE_MISMATCH, NON_BOOL_CONDITION
     }
     enum QLS_ERROR implements ASTNodeIssueType {
-        UNDEFINED
+        UNDEFINED, MISSING_STYLE, DUPLICATE
     }
 }

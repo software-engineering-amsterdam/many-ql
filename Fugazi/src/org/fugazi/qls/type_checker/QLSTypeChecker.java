@@ -2,8 +2,6 @@ package org.fugazi.qls.type_checker;
 
 /*
 TODO
-- all questions of the QL program are placed by the QLS program.
-- you cannot place a single question multiple times.
 - (default) widget assignments are compatible with question types (e.g. no radio button for integer widgets).
  */
 
@@ -16,8 +14,7 @@ import org.fugazi.qls.ast.stylesheet.StyleSheet;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.QLSStyleSheetDataStorage;
 import org.fugazi.qls.ast.stylesheet.stylesheet_data.visitor.QuestionsVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class QLSTypeChecker {
     private QLFormDataStorage qlFormData;
@@ -76,9 +73,27 @@ public class QLSTypeChecker {
         for (Question question : qlQuestions ) {
             if (!qlsQuestionIdNames.contains(question.getIdName())) {
                 this.astIssueHandler.registerNewError(
-                        ASTNodeIssueType.QLS_ERROR.UNDEFINED, question,
+                        ASTNodeIssueType.QLS_ERROR.MISSING_STYLE, question,
                         "QL Question  " + question.getIdName() + " not placed by QLS sheet and missing style definition."
                 );
+            }
+        }
+        return;
+    }
+
+    private void checkForMultipleQuestionPlacements() {
+        List<org.fugazi.qls.ast.question.Question> qlsQuestions =
+                this.qlsStyleSheetData.getQuestions();
+        List<String> qlsQuestionIdNames = new ArrayList<>();
+
+        for (org.fugazi.qls.ast.question.Question question : qlsQuestions) {
+            if (qlsQuestionIdNames.contains(question.getId())) {
+                this.astIssueHandler.registerNewError(
+                        ASTNodeIssueType.QLS_ERROR.DUPLICATE, question,
+                        "QLS Question  " + question.getId() + " already defined (duplicate)."
+                );
+            } else {
+                qlsQuestionIdNames.add(question.getId());
             }
         }
         return;
@@ -100,6 +115,7 @@ public class QLSTypeChecker {
 
         this.checkForUndefinedQuestions();
         this.checkIfAllQuestionsPlaced();
+        this.checkForMultipleQuestionPlacements();
 
         return this.isFormCorrect();
     }
