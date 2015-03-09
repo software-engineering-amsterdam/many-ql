@@ -7,10 +7,10 @@ import QL.Runtime.form_api as f
 formAsParseResults = form.FormFormat.form.ignore(form.basic_types.BasicTypes.comment).parseFile(c.Config.input_path)
 form = form.forms.FormFactory.make_form(formAsParseResults)
 
-new_form = f.FormAPI(form)
+#new_form = f.FormAPI(form)
 
 typeChecker = type_checker.TypeChecker(form)
 
-gui = g.GUI(new_form)
+gui = g.GUI(form)
 gui.generate_gui()
 gui.show()

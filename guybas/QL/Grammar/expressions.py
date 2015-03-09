@@ -13,7 +13,7 @@ class Expressions:
     bool = pp.Literal("True") | pp.Literal("False")
 
     # text
-    text = pp.Literal("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Literal("\"")
+    text = pp.Suppress("\"") + pp.OneOrMore(pp.Word(pp.alphanums)) + pp.Suppress("\"")
 
     # number :: [0-9]
     number = pp.Word(pp.nums)
