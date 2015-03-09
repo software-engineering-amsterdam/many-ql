@@ -152,10 +152,6 @@ public class QLImplVisitor extends QLBaseVisitor<Node> {
 		return new StrType();
 	}
 
-	// =================================================================
-	// Expression
-	// =================================================================
-
 	@Override
 	public Node visitExprNot(ExprNotContext ctx) {
 		CodePosition pos = getCodePosition(ctx);

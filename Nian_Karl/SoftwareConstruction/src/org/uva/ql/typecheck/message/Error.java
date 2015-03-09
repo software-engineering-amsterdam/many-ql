@@ -6,7 +6,7 @@ public class Error extends Message {
 		REFERENCE,        // reference to undefined questions
 		DECLARATION,      // duplicate question declarations with different types
 		CONDITION,        // conditions that are not of the type boolean
-		MISMATCH,          // operands of invalid type to operators
+		MISMATCH,         // operands of invalid type to operators
 		CYCLIC;           // cyclic dependencies between questions
 	}
 	

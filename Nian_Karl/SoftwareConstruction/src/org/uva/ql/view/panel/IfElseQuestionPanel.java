@@ -3,9 +3,6 @@ package org.uva.ql.view.panel;
 import java.util.ArrayList;
 
 import org.uva.ql.ast.expression.Expression;
-import org.uva.ql.ast.type.BoolType;
-import org.uva.ql.ast.value.Bool;
-import org.uva.ql.evaluation.Evaluator;
 
 public class IfElseQuestionPanel extends IfQuestionPanel {
 
@@ -17,20 +14,6 @@ public class IfElseQuestionPanel extends IfQuestionPanel {
 		super(ifBlockPanels, expr);
 		this.elseBlockPanels = elseBlockPanels;
 		initializeBlock(this.elseBlockPanels);
-	}
-
-	public void evaluateAndShow(Evaluator evaluator) {
-		// dirty
-		if (evaluateExpressions(evaluator).getType().isEqual(new BoolType())) {
-			Bool value = (Bool) evaluateExpressions(evaluator);
-			if (value.getValue()) {
-				toggleIfBlock(true);
-			} else {
-				toggleIfBlock(false);
-			}
-		} else {
-			toggleIfBlock(false);
-		}
 	}
 
 	@Override
