@@ -6,9 +6,9 @@ import scala.util.parsing.input.Position
 
 class TypeChecker {
 
-  def check(f: Form, env: TypeEnvironment = new TypeEnvironment()): Either[Error, TypeEnvironment] = check(f.statements, env)
+  def check(f: Form, env: TypeEnvironment = new TypeEnvironment()): List[Error] = check(f.statements, env)._1
 
-  def check(s: Statement, env: TypeEnvironment): Either[Error, TypeEnvironment] = s match {
+  def check(s: Statement, env: TypeEnvironment): (List[Error], TypeEnvironment) = s match {
     case Sequence(statements) => checkSequence(statements, env)
     case i: IfStatement => checkIfStatement(i, env)
     case q: Question => checkQuestionStatement(q, env)
@@ -34,39 +34,46 @@ class TypeChecker {
     case StringLiteral(_) => Right(StringType())
   }
 
-  def checkSequence(statements: List[Statement], env: TypeEnvironment): Either[Error, TypeEnvironment] = {
-    statements match {
-      case Nil => Right(env)
-      case s :: ss => check(s, env).fold({ e: Error => Left(e) }, { newEnv => checkSequence(ss, newEnv) })
+  def checkSequence(statements: List[Statement], env: TypeEnvironment): (List[Error], TypeEnvironment) = {
+    statements.foldLeft((List[Error](), env)) {
+      case ((accumulatedErrors, accumulatedEnv), statement) =>
+        val (newErrors, newEnv) = check(statement, accumulatedEnv)
+        (accumulatedErrors ++ newErrors, newEnv)
     }
   }
 
-  def checkIfStatement(i: IfStatement, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
-    check(i.expression, env) match {
-      // Return environment without the questions in s1 and s2.
-      case Right(BooleanType()) => i.elseBlock match {
-        case None => for {
-          check1 <- check(i.ifBlock, env).right
-        } yield env
-        case Some(elseBlock) => for {
-          check1 <- check(i.ifBlock, env).right
-          check2 <- check(elseBlock, env).right
-        } yield env
-      }
-      case Right(_) => Left(new Error("Invalid boolean condition for if statement at line", i.pos))
-      case Left(e) => Left(e)
+  def checkIfStatement(i: IfStatement, env: TypeEnvironment): (List[Error], TypeEnvironment) = {
+    val errorInExpression = check(i.expression, env) match {
+      case Right(BooleanType()) => List()
+      case Right(_) => List(new Error("Invalid boolean condition for if statement at line", i.pos))
+      case Left(e) => List(e)
     }
+
+    val errorsInBlocks = i.elseBlock match {
+      case None => check(i.ifBlock, env)._1
+      case Some(elseBlock) =>
+        val errorsInIfBlock = check(i.ifBlock, env)._1
+        val errorsInElseBlock = check(elseBlock, env)._1
+        errorsInIfBlock ++ errorsInElseBlock
+    }
+
+    // Return environment without the questions in s1 and s2.
+    (errorInExpression ++ errorsInBlocks, env)
   }
 
-  def checkQuestionStatement(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
-    q.expression match {
-      case None => tryAddQuestionToEnvironment(q, env)
-      case Some(optionalExpression) => check(optionalExpression, env) match {
-        case Right(t: Type) if t == q._type => tryAddQuestionToEnvironment(q, env)
-        case Right(_) => Left(new Error("Invalid expression type for computed question at line", q.pos))
-        case Left(e) => Left(e)
+  def checkQuestionStatement(q: Question, env: TypeEnvironment): (List[Error], TypeEnvironment) = {
+    val updatedEnv = tryAddQuestionToEnvironment(q, env)
+
+    val errorInExpression = q.expression match {
+      case None => List()
+      case Some(expression) => check(expression, env) match {
+        case Right(t: Type) if t == q._type => List()
+        case Right(_) => List(new Error("Invalid expression type for computed question at line", q.pos))
+        case Left(e) => List(e)
       }
     }
+
+    updatedEnv.fold({ error => (error :: errorInExpression, env) }, { newEnv => (errorInExpression, newEnv) })
   }
 
   def tryAddQuestionToEnvironment(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {

@@ -31,7 +31,6 @@ public class QLFormDataStorage {
      * =====================
      */
 
-
     public List<Question> getQuestions() {
         return this.questionsVisitor.getQuestions();
     }

@@ -2,13 +2,7 @@ import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import lang.ql.ast.form.Form;
-import lang.ql.ast.type.DecType;
-import lang.ql.ast.type.IntType;
-import lang.ql.ast.type.Type;
-import lang.ql.gui.Modeler;
 import lang.ql.gui.SimpleGui;
-import lang.ql.gui.canvas.Canvas;
-import lang.ql.semantics.*;
 import lang.ql.ast.AstBuilder;
 import lang.ql.semantics.TypeChecker;
 import lang.qls.ast.Stylesheet;
@@ -55,6 +49,8 @@ public class Main extends Application
             Stylesheet styleAst = (Stylesheet)builder.visit(style);
 
             lang.qls.semantics.TypeChecker.check(styleAst, ast);
+            StyleEvaluator.getStyles(styleAst, ast);
+
         }
         catch (IOException e)
         {

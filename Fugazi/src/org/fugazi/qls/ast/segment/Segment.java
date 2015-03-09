@@ -27,5 +27,13 @@ public abstract class Segment extends AbstractASTNode {
         return this.name;
     }
 
+    public List<Section> getSections() {
+        return this.sections;
+    }
+
+    public List<DefaultStyleDeclaration> getDefaultStyles() {
+        return this.defaultStyles;
+    }
+
     public abstract <T> T accept(IQLSASTVisitor<T> visitor);
 }

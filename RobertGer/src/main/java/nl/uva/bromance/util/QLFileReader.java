@@ -1,6 +1,7 @@
 package nl.uva.bromance.util;
 
 import nl.uva.bromance.ast.AST;
+import nl.uva.bromance.listeners.GrammarErrorListener;
 import nl.uva.bromance.listeners.QLParseTreeListener;
 import nl.uva.bromance.parsers.QLLexer;
 import nl.uva.bromance.parsers.QLParser;
@@ -21,6 +22,10 @@ public class QLFileReader {
         QLLexer lexer = new QLLexer(new ANTLRFileStream(qlPath));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         QLParser parser = new QLParser(tokens);
+
+        parser.removeErrorListeners();
+        parser.addErrorListener(new GrammarErrorListener());
+
         ParseTree tree = parser.questionnaire();
         QLParseTreeListener listener = new QLParseTreeListener();
         ParseTreeWalker walker = new ParseTreeWalker();

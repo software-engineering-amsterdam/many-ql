@@ -5,14 +5,15 @@ package lang.ql.ast.type;
  */
 public class UndefinedType extends Type
 {
-    public UndefinedType()
-    {
-        super("undefined");
-    }
-
     public boolean isUndef()
     {
         return true;
+    }
+
+    @Override
+    public String getTitle()
+    {
+        return "undefined";
     }
 
     @Override

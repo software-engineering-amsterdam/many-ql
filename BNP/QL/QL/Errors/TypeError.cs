@@ -10,8 +10,10 @@ namespace QL.Errors
 
         public TypeError()
         { }
+
         public TypeError(string message)  : base(message)
         { }
+
         public TypeError(string message, ElementBase source)
             : base(message)
         {
@@ -20,10 +22,6 @@ namespace QL.Errors
 
         public TypeError(string message, Exception inner)
             : base(message, inner)
-        { }
-
-        protected TypeError(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         { }
 
         public override string ToString()

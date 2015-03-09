@@ -4,10 +4,7 @@ import lang.ql.ast.AstNode;
 import lang.ql.ast.type.Type;
 import lang.ql.ast.type.TypeFactory;
 import lang.qls.ast.Rule.*;
-import lang.qls.ast.Rule.WidgetValue.Checkbox;
-import lang.qls.ast.Rule.WidgetValue.Radio;
-import lang.qls.ast.Rule.WidgetValue.Spinbox;
-import lang.qls.ast.Rule.WidgetValue.WidgetValue;
+import lang.qls.ast.Rule.WidgetValue.*;
 import lang.qls.ast.Statement.*;
 import lang.qls.ast.Page;
 import lang.qls.ast.Stylesheet;
@@ -133,29 +130,30 @@ public class QlsBuilder extends QLSBaseVisitor<AstNode>
         if (label.equals("width"))
         {
             int value = Integer.parseInt(context.Integer().getText());
-            return new IntRule("width", value, lineNumber);
+            return new Width(value, lineNumber);
         }
 
         if (label.equals("color"))
         {
-            return new StrRule("color", context.Color().getText(), lineNumber);
+            ColorValue c = new ColorValue(context.Color().getText());
+            return new BackColor(c, lineNumber);
         }
 
         if (label.equals("font"))
         {
-            return new StrRule("font", context.String().getText(), lineNumber);
+            return new Font(context.String().getText(), lineNumber);
         }
 
         if (label.equals("fontsize"))
         {
             int value = Integer.parseInt(context.Integer().getText());
-            return new IntRule("fontsize", value, lineNumber);
+            return new FontSize(value, lineNumber);
         }
 
         if (label.equals("widget"))
         {
             WidgetValue value = (WidgetValue)this.visitWidgetValue(context.widgetValue());
-            return new WidgetRule("widget", value, lineNumber);
+            return new Widget(value, lineNumber);
         }
 
         throw new IllegalStateException("No such stylesheet rule");
@@ -167,25 +165,41 @@ public class QlsBuilder extends QLSBaseVisitor<AstNode>
         String label = context.label.getText();
         if (label.equals("spinbox"))
         {
-            if (context.min != null)
-            {
-                int min = Integer.parseInt(context.min.getText());
-                int max = Integer.parseInt(context.max.getText());
+            int min = Integer.parseInt(context.min.getText());
+            int max = Integer.parseInt(context.max.getText());
+            int step = Integer.parseInt(context.step.getText());
 
-                return new Spinbox(min, max);
-            }
+            return new Spinbox(min, max, step);
+        }
 
-            return new Spinbox();
+        if (label.equals("slider"))
+        {
+            int min = Integer.parseInt(context.min.getText());
+            int max = Integer.parseInt(context.max.getText());
+            int step = Integer.parseInt(context.step.getText());
+
+            return new Slider(min, max, step);
+        }
+
+        if (label.equals("radio"))
+        {
+            String yes = context.yesText.getText();
+            String no = context.noText.getText();
+
+            return new Radio(yes, no);
+        }
+
+        if (label.equals("dropdown"))
+        {
+            String yes = context.yesText.getText();
+            String no = context.noText.getText();
+
+            return new Dropdown(yes, no);
         }
 
         if (label.equals("checkbox"))
         {
             return new Checkbox();
-        }
-
-        if (label.equals("radio"))
-        {
-            return new Radio(context.yesText.getText(), context.noText.getText());
         }
 
         throw new IllegalStateException("Unsupported widget value");

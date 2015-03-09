@@ -1,6 +1,5 @@
 package org.uva.student.calinwouter.qlqls.ql.types;
 
-import org.uva.student.calinwouter.qlqls.application.gui.qls.QLSRenderer;
 import org.uva.student.calinwouter.qlqls.ql.exceptions.CastException;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeCallback;
 import org.uva.student.calinwouter.qlqls.ql.interpreter.TypeDescriptor;

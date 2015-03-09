@@ -1,7 +1,5 @@
 package nl.uva.bromance.visualization;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
@@ -111,15 +109,16 @@ public class Visualizer {
                     Label label = new Label(identifier);
                     label.setOnMouseClicked((event) -> {
                         currentPage = page;
-                        visualize(ast,qlsAST);
+                        visualize(ast, qlsAST);
                     });
-                    label.getStyleClass().add("pageLabel");
-                    pagePane.get().getChildren().add(label);
-                    if (currentPage == page){
-                        for (Node child: currentPage.getChildren()){
+                    if (currentPage == page) {
+                        label.getStyleClass().add("active");
+                        for (Node child : currentPage.getChildren()) {
                             child.visualize(questionPane.get());
                         }
                     }
+                    label.getStyleClass().add("pageLabel");
+                    pagePane.get().getChildren().add(label);
                 }
             }
         } else {

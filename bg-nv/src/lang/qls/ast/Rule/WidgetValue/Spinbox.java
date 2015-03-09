@@ -1,22 +1,20 @@
 package lang.qls.ast.Rule.WidgetValue;
 
+import lang.ql.ast.type.Type;
+
 /**
  * Created by bore on 08/03/15.
  */
-public class Spinbox extends WidgetValue
+public class Spinbox extends NumWidgetValue
 {
-    private Integer min;
-    private Integer max;
-
-    public Spinbox()
+    public Spinbox(Integer min, Integer max, Integer step)
     {
-        super("spinbox");
+        super("spinbox", min, max, step);
     }
 
-    public Spinbox(Integer min, Integer max)
+    @Override
+    public boolean isCompatibleWithType(Type t)
     {
-        this();
-        this.min = min;
-        this.max = max;
+        return t.isNumerical();
     }
 }

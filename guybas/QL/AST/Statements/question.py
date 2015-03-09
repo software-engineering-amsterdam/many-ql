@@ -2,7 +2,7 @@
 import QL.AST.Statements.statement as statement
 import QL.Grammar.constants as constants
 # import QL.GUI.Elements.text_entry as e_text_entry
-import QL.Exceptions.exceptions as exceptions
+import QL.CoreTools.exceptions as exceptions
 from QL.GUI.Elements import *
 
 

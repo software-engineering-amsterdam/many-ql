@@ -1,6 +1,6 @@
 package nl.uva.se.interpretation.error;
 
-public class Warning extends AbstractFailure {
+public class Warning extends AbstractError {
 
 	public Warning(int line, int offset, String name, String description) {
 		super(line, offset, name, description);

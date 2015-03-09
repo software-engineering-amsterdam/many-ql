@@ -6,8 +6,7 @@ import com.form.language.ast.expression.Expression;
 import com.form.language.ast.type.StringType;
 import com.form.language.ast.type.Type;
 import com.form.language.ast.values.StringValue;
-import com.form.language.memory.RuntimeMemory;
-import com.form.language.memory.TypeMemory;
+import com.form.language.memory.Context;
 
 public class StringLiteral extends Literal implements Expression {
 	private final String value;
@@ -18,12 +17,12 @@ public class StringLiteral extends Literal implements Expression {
 	}
 
 	@Override
-	public StringValue evaluate(RuntimeMemory mem) {
+	public StringValue evaluate(Context context) {
 		return new StringValue(value);
 	}
 
 	@Override
-	public Type getType(TypeMemory mem) {
+	public Type getType(Context context) {
 		return new StringType();
 	}
 	
