@@ -2,11 +2,7 @@ package org.uva.sea.ql.encoders.ast.type;
 
 public class StringType extends DataType {
 
-	private final String name;
-
-	public StringType(String name) {
-		this.name = name;
-	}
+	private static final String name = "string";
 
 	@Override
 	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {

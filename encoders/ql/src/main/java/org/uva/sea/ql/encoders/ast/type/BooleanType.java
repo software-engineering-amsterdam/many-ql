@@ -2,11 +2,7 @@ package org.uva.sea.ql.encoders.ast.type;
 
 public class BooleanType extends DataType {
 
-	private final String name;
-
-	public BooleanType(String name) {
-		this.name = name;
-	}
+	private static final String name = "boolean";
 
 	@Override
 	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {

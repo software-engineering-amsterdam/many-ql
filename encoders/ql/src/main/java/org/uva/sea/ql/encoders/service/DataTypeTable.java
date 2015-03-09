@@ -14,9 +14,9 @@ public class DataTypeTable {
 
 	public DataTypeTable() {
 		dataTypes = new HashMap<>();
-		add(new BooleanType("boolean"));
-		add(new StringType("string"));
-		add(new IntegerType("integer"));
+		add(new BooleanType());
+		add(new StringType());
+		add(new IntegerType());
 	}
 
 	private void add(DataType dataType) {

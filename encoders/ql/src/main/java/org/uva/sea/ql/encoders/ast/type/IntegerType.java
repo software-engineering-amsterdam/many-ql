@@ -2,11 +2,7 @@ package org.uva.sea.ql.encoders.ast.type;
 
 public class IntegerType extends DataType {
 
-	private final String name;
-
-	public IntegerType(String name) {
-		this.name = name;
-	}
+	private static final String name = "integer";
 
 	@Override
 	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {
