@@ -1,7 +1,7 @@
 %package qls.parser
 %class QLSParser
 %interface QLSTokens
-%semantic cons.ql.ast.ASTNode 
+%semantic ql.ast.ASTNode 
 
 %token <QLInteger> INTEGER
 %token <QLBoolean> BOOLEAN
@@ -23,10 +23,10 @@
 %type <QLType> type
 
 %{
-import cons.ql.ast.*;
-import cons.ql.ast.expression.*;
-import cons.ql.ast.expression.type.*;
-import cons.ql.ast.expression.literal.*;
+import ql.ast.*;
+import ql.ast.expression.*;
+import ql.ast.expression.type.*;
+import ql.ast.expression.literal.*;
 
 @SuppressWarnings("all")
 %}
