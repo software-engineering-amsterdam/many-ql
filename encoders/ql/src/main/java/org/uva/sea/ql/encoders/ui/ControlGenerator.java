@@ -3,7 +3,6 @@ package org.uva.sea.ql.encoders.ui;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
@@ -24,22 +23,36 @@ public class ControlGenerator implements DataTypeVisitor<Control> {
 
 	@Override
 	public Control visit(QLBoolean qlBoolean) {
-		Control control = new CheckBox("Yes");
+		CheckBox control = new CheckBox("Yes");
 		CheckBoxEventHandler checkBoxEventHandler = new CheckBoxEventHandler(runtimeQuestion);
-		((ButtonBase) control).setOnAction(checkBoxEventHandler);
+		control.setOnAction(checkBoxEventHandler);
 		return control;
 	}
 
 	@Override
 	public Control visit(QLInteger qlInteger) {
-		Control control = new TextField();
+		TextField control = new TextField() {
+			@Override
+			public void replaceText(int start, int end, String text) {
+				if (text.matches("[0-9]*")) {
+					super.replaceText(start, end, text);
+				}
+			}
+
+			@Override
+			public void replaceSelection(String text) {
+				if (text.matches("[0-9]*")) {
+					super.replaceSelection(text);
+				}
+			}
+		};
 		control.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
 		return control;
 	}
 
 	@Override
 	public Control visit(QLString qlString) {
-		Control control = new TextField();
+		TextField control = new TextField();
 		control.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
 		return control;
 	}
