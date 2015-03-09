@@ -33,10 +33,10 @@ import java.util.List;
  need to perform additional actions.
  */
 
-public abstract class FullFormVisitor implements IASTVisitor<Void> {
+public abstract class FullQLFormVisitor implements IASTVisitor<Void> {
     protected final ASTIssueHandler astIssueHandler;
 
-    public FullFormVisitor(){
+    public FullQLFormVisitor(){
         this.astIssueHandler = new ASTIssueHandler();
     }
 

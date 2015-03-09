@@ -6,7 +6,6 @@ import QL.AST.Statements.if_statement as if_statement
 import QL.AST.Statements.else_statement as else_statement
 import QL.AST.Statements.assignment as assignment
 import QL.AST.form as form
-import QL.Main.converters as converter
 
 
 class FormFactory:
