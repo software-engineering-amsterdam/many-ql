@@ -38,4 +38,6 @@ Page Selling
 Default bool Widget : Radio (yes, no) {
     width : 1
     font : times
+    height : 1
+    height : 2
 }
