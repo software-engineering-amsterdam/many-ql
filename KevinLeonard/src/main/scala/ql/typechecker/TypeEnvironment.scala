@@ -1,23 +1,24 @@
 package ql.typechecker
 
 import ql.ast.{Type, Variable}
+import ql.types.VariableName
 
 // Holds the defined variables and their type.
 // Note that we require variables to be declared before being used.
-class TypeEnvironment(val typeOfFields: Map[String, Type] = Map()) {
+class TypeEnvironment(val env: Map[VariableName, Type] = Map()) {
 
   def tryGetVariable(v: Variable): Either[Error, Type] = {
-    typeOfFields get v.name match {
+    env get v.name match {
       case Some(t) => Right(t)
       case None => Left(new Error(s"Variable ${v.name} is not defined", v.pos))
     }
   }
 
-  def tryAddVariable(v: Variable, _type: Type): Either[Error, TypeEnvironment] = {
-    if (typeOfFields contains v.name) {
+  def tryAddVariable(v: Variable, t: Type): Either[Error, TypeEnvironment] = {
+    if (env contains v.name) {
       Left(new Error(s"Variable ${v.name} is already defined", v.pos))
     } else {
-      Right(new TypeEnvironment(typeOfFields + (v.name -> _type)))
+      Right(new TypeEnvironment(env + (v.name -> t)))
     }
   }
 
@@ -26,12 +27,12 @@ class TypeEnvironment(val typeOfFields: Map[String, Type] = Map()) {
   override def equals(other: Any): Boolean = other match {
     case that: TypeEnvironment =>
       (that canEqual this) &&
-        typeOfFields == that.typeOfFields
+        env == that.env
     case _ => false
   }
 
   override def hashCode(): Int = {
-    val state = Seq(typeOfFields)
+    val state = Seq(env)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 }

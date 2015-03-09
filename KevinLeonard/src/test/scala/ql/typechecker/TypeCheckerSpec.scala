@@ -12,19 +12,19 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "statement" should {
     "add variable + type to environment, if statement is boolean question" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType())))
+      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType())))
     }
 
     "add variable + type to environment, if statement is number question" in {
-      check(Question(NumberType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> NumberType())))
+      check(Question(NumberType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> NumberType())))
     }
 
     "add variable + type to environment, if statement is string question" in {
-      check(Question(StringType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> StringType())))
+      check(Question(StringType(), Variable("X"), "label", None), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> StringType())))
     }
 
     "add variable + type to environment, if statement is computed boolean question with valid expression" in {
-      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType())))
+      check(Question(BooleanType(), Variable("X"), "label", Some(Literal(BooleanType(), BooleanValue(true)))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType())))
     }
 
     "throw exception, if statement is computed boolean question with invalid expression" in {
@@ -32,7 +32,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variable + type to environment, if statement is computed number question with valid expression" in {
-      check(Question(NumberType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> NumberType())))
+      check(Question(NumberType(), Variable("X"), "label", Some(Literal(NumberType(), NumberValue(1)))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> NumberType())))
     }
 
     "throw exception, if statement is computed number question with invalid expression" in {
@@ -40,7 +40,7 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variable + type to environment, if statement is computed string question with valid expression" in {
-      check(Question(StringType(), Variable("X"), "label", Some(Literal(StringType(), StringValue("")))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> StringType())))
+      check(Question(StringType(), Variable("X"), "label", Some(Literal(StringType(), StringValue("")))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> StringType())))
     }
 
     "throw exception, if statement is computed string question with invalid expression" in {
@@ -76,17 +76,17 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
     }
 
     "add variable + type to environment " in {
-      check(new Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType())))
+      check(new Form("Form1", Question(BooleanType(), Variable("X"), "label", None)), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType())))
     }
 
     "add variables + types to environment" in {
-      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), new TypeEnvironment()) must beRight(new TypeEnvironment(typeOfFields = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType())))
+      check(Sequence(List(Question(BooleanType(), Variable("X"), "label1", None), Question(NumberType(), Variable("Y"), "label2", None), Question(StringType(), Variable("Z"), "label3", None))), new TypeEnvironment()) must beRight(new TypeEnvironment(env = Map("X" -> BooleanType(), "Y" -> NumberType(), "Z" -> StringType())))
     }
   }
 
   "expression" should {
     "type check multiple expressions" in {
-      check(Not(And(Variable("X"), GreaterThan(Literal(NumberType(), NumberValue(2)), Literal(NumberType(), NumberValue(1))))), new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()))) must beRight(BooleanType())
+      check(Not(And(Variable("X"), GreaterThan(Literal(NumberType(), NumberValue(2)), Literal(NumberType(), NumberValue(1))))), new TypeEnvironment(env = Map("X" -> BooleanType()))) must beRight(BooleanType())
     }
   }
 
@@ -296,21 +296,21 @@ class TypeCheckerSpec extends Specification with ExceptionMatchers {
 
   "variable expressions" should {
     "lookup integers" in {
-      check(Variable("X"), new TypeEnvironment(typeOfFields = Map("X" -> NumberType()))) must beRight(NumberType())
+      check(Variable("X"), new TypeEnvironment(env = Map("X" -> NumberType()))) must beRight(NumberType())
     }
 
     "lookup strings" in {
-      check(Variable("X"), new TypeEnvironment(typeOfFields = Map("X" -> StringType()))) must beRight(StringType())
+      check(Variable("X"), new TypeEnvironment(env = Map("X" -> StringType()))) must beRight(StringType())
     }
 
     "lookup booleans" in {
-      check(Variable("X"), new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()))) must beRight(BooleanType())
+      check(Variable("X"), new TypeEnvironment(env = Map("X" -> BooleanType()))) must beRight(BooleanType())
     }
   }
 
   "type checker" should {
     "detect duplicate question declarations" in {
-      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment(typeOfFields = Map("X" -> BooleanType()))) must beLeft
+      check(Question(BooleanType(), Variable("X"), "label", None), new TypeEnvironment(env = Map("X" -> BooleanType()))) must beLeft
     }
   }
 }

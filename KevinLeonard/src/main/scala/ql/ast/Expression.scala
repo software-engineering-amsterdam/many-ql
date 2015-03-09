@@ -1,20 +1,23 @@
 package ql.ast
 
+import ql.types.VariableName
+
 import scala.util.parsing.input.Positional
 
 sealed trait Expression extends Positional
-case class Or(l: Expression, r: Expression) extends Expression
-case class And(l: Expression, r: Expression) extends Expression
-case class Not(e: Expression) extends Expression
-case class Equal(l: Expression, r: Expression) extends Expression
-case class NotEqual(l: Expression, r: Expression) extends Expression
-case class LessThan(l: Expression, r: Expression) extends Expression
-case class LessThanEqual(l: Expression, r: Expression) extends Expression
-case class GreaterThan(l: Expression, r: Expression) extends Expression
-case class GreaterThanEqual(l: Expression, r: Expression) extends Expression
-case class Add(l: Expression, r: Expression) extends Expression
-case class Sub(l: Expression, r: Expression) extends Expression
-case class Mul(l: Expression, r: Expression) extends Expression
-case class Div(l: Expression, r: Expression) extends Expression
-case class Variable(name: String) extends Expression
-case class Literal(t: Type, v: Value) extends Expression
+case class Or(lhs: Expression, rhs: Expression) extends Expression
+case class And(lhs: Expression, rhs: Expression) extends Expression
+case class Not(expression: Expression) extends Expression
+case class Equal(lhs: Expression, rhs: Expression) extends Expression
+case class NotEqual(lhs: Expression, rhs: Expression) extends Expression
+case class LessThan(lhs: Expression, rhs: Expression) extends Expression
+case class LessThanEqual(lhs: Expression, rhs: Expression) extends Expression
+case class GreaterThan(lhs: Expression, rhs: Expression) extends Expression
+case class GreaterThanEqual(lhs: Expression, rhs: Expression) extends Expression
+case class Add(lhs: Expression, rhs: Expression) extends Expression
+case class Sub(lhs: Expression, rhs: Expression) extends Expression
+case class Mul(lhs: Expression, rhs: Expression) extends Expression
+case class Div(lhs: Expression, rhs: Expression) extends Expression
+case class Variable(name: VariableName) extends Expression
+case class Literal(_type: Type, value: Value) extends Expression
+// TODO different Literal classes

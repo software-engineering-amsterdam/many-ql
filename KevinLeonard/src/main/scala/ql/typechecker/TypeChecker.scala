@@ -6,7 +6,7 @@ import scala.util.parsing.input.Position
 
 class TypeChecker {
 
-  def check(form: Form, env: TypeEnvironment = new TypeEnvironment()): Either[Error, TypeEnvironment] = check(form.s, env)
+  def check(f: Form, env: TypeEnvironment = new TypeEnvironment()): Either[Error, TypeEnvironment] = check(f.statements, env)
 
   def check(s: Statement, env: TypeEnvironment): Either[Error, TypeEnvironment] = s match {
     case Sequence(statements) => checkSequence(statements, env)
@@ -15,19 +15,19 @@ class TypeChecker {
   }
 
   def check(expression: Expression, env: TypeEnvironment): Either[Error, Type] = expression match {
-    case e @ Or(l, r) =>  checkBooleanExpression(l, r, env, e.pos)
-    case e @ And(l, r) => checkBooleanExpression(l, r, env, e.pos)
+    case e @ Or(lhs, rhs) =>  checkBooleanExpression(lhs, rhs, env, e.pos)
+    case e @ And(lhs, rhs) => checkBooleanExpression(lhs, rhs, env, e.pos)
     case e @ Not(e1) => checkBooleanExpression(e1, env, e.pos)
-    case e @ Equal(l, r) => checkEqualityExpression(l, r, env, e.pos)
-    case e @ NotEqual(l, r) => checkEqualityExpression(l, r, env, e.pos)
-    case e @ LessThan(l, r) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ LessThanEqual(l, r) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ GreaterThan(l, r) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ GreaterThanEqual(l, r) => checkRelationalExpression(l, r, env, e.pos)
-    case e @ Add(l, r) => checkArithmeticExpression(l, r, env, e.pos)
-    case e @ Sub(l, r) => checkArithmeticExpression(l, r, env, e.pos)
-    case e @ Mul(l, r) => checkArithmeticExpression(l, r, env, e.pos)
-    case e @ Div(l, r) => checkArithmeticExpression(l, r, env, e.pos)
+    case e @ Equal(lhs, rhs) => checkEqualityExpression(lhs, rhs, env, e.pos)
+    case e @ NotEqual(lhs, rhs) => checkEqualityExpression(lhs, rhs, env, e.pos)
+    case e @ LessThan(lhs, rhs) => checkRelationalExpression(lhs, rhs, env, e.pos)
+    case e @ LessThanEqual(lhs, rhs) => checkRelationalExpression(lhs, rhs, env, e.pos)
+    case e @ GreaterThan(lhs, rhs) => checkRelationalExpression(lhs, rhs, env, e.pos)
+    case e @ GreaterThanEqual(lhs, rhs) => checkRelationalExpression(lhs, rhs, env, e.pos)
+    case e @ Add(lhs, rhs) => checkArithmeticExpression(lhs, rhs, env, e.pos)
+    case e @ Sub(lhs, rhs) => checkArithmeticExpression(lhs, rhs, env, e.pos)
+    case e @ Mul(lhs, rhs) => checkArithmeticExpression(lhs, rhs, env, e.pos)
+    case e @ Div(lhs, rhs) => checkArithmeticExpression(lhs, rhs, env, e.pos)
     case v: Variable => env.tryGetVariable(v)
     case Literal(t, _) => Right(t)
   }
@@ -42,7 +42,7 @@ class TypeChecker {
   def checkIfStatement(i: IfStatement, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
     check(i.expression, env) match {
       // Return environment without the questions in s1 and s2.
-      case Right(BooleanType()) => i.optionalElseBlock match {
+      case Right(BooleanType()) => i.elseBlock match {
         case None => for {
           check1 <- check(i.ifBlock, env).right
         } yield env
@@ -57,7 +57,7 @@ class TypeChecker {
   }
 
   def checkQuestionStatement(q: Question, env: TypeEnvironment): Either[Error, TypeEnvironment] = {
-    q.optionalExpression match {
+    q.expression match {
       case None => tryAddQuestionToEnvironment(q, env)
       case Some(optionalExpression) => check(optionalExpression, env) match {
         case Right(t: Type) if t == q._type => tryAddQuestionToEnvironment(q, env)
@@ -71,16 +71,16 @@ class TypeChecker {
     env.tryAddVariable(q.variable, q._type)
   }
 
-  def checkBooleanExpression(e1: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
-    check(e1, env) match {
+  def checkBooleanExpression(e: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
+    check(e, env) match {
       case Right(BooleanType()) => Right(BooleanType())
-      case Left(e) => Left(e)
+      case Left(error) => Left(error)
       case _ => Left(new Error("Invalid boolean expression at line", p))
     }
   }
 
-  def checkBooleanExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
-    (check(e1, env), check(e2, env)) match {
+  def checkBooleanExpression(lhs: Expression, rhs: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
+    (check(lhs, env), check(rhs, env)) match {
       case (Right(BooleanType()), Right(BooleanType())) => Right(BooleanType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
@@ -88,8 +88,8 @@ class TypeChecker {
     }
   }
 
-  def checkEqualityExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
-    (check(e1, env), check(e2, env)) match {
+  def checkEqualityExpression(lhs: Expression, rhs: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
+    (check(lhs, env), check(rhs, env)) match {
       case (Right(t1), Right(t2)) if t1 == t2 => Right(BooleanType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
@@ -97,8 +97,8 @@ class TypeChecker {
     }
   }
 
-  def checkRelationalExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
-    (check(e1, env), check(e2, env)) match {
+  def checkRelationalExpression(lhs: Expression, rhs: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
+    (check(lhs, env), check(rhs, env)) match {
       case (Right(NumberType()), Right(NumberType())) => Right(BooleanType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)
@@ -106,8 +106,8 @@ class TypeChecker {
     }
   }
 
-  def checkArithmeticExpression(e1: Expression, e2: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
-    (check(e1, env), check(e2, env)) match {
+  def checkArithmeticExpression(lhs: Expression, rhs: Expression, env: TypeEnvironment, p: Position): Either[Error, Type] = {
+    (check(lhs, env), check(rhs, env)) match {
       case (Right(NumberType()), Right(NumberType())) => Right(NumberType())
       case (Left(e), _) => Left(e)
       case (_, Left(e)) => Left(e)

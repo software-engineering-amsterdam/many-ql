@@ -5,21 +5,21 @@ import ql.types.Dependencies
 
 class DependencyResolver {
 
-  def resolve(e: Expression, d: Dependencies = List()): Dependencies = e match {
-    case Or(l, r) => resolve(l, d) ++ resolve(r, d)
-    case And(l, r) => resolve(l, d) ++ resolve(r, d)
-    case Not(e1) => resolve(e1, d)
-    case Equal(l, r) => resolve(l, d) ++ resolve(r, d)
-    case NotEqual(l, r) => resolve(l, d) ++ resolve(r, d)
-    case LessThan(l, r) => resolve(l, d) ++ resolve(r, d)
-    case LessThanEqual(l, r) => resolve(l, d) ++ resolve(r, d)
-    case GreaterThan(l, r) => resolve(l, d) ++ resolve(r, d)
-    case GreaterThanEqual(l, r) => resolve(l, d) ++ resolve(r, d)
-    case ql.ast.Add(l, r) => resolve(l, d) ++ resolve(r, d)
-    case Sub(l, r) => resolve(l, d) ++ resolve(r, d)
-    case Mul(l, r) => resolve(l, d) ++ resolve(r, d)
-    case Div(l, r) => resolve(l, d) ++ resolve(r, d)
-    case Variable(name) => name :: d
-    case Literal(_, v) => d
+  def resolve(e: Expression, ds: Dependencies = List()): Dependencies = e match {
+    case Or(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case And(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Not(e1) => resolve(e1, ds)
+    case Equal(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case NotEqual(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case LessThan(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case LessThanEqual(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case GreaterThan(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case GreaterThanEqual(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case ql.ast.Add(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Sub(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Mul(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Div(lhs, rhs) => resolve(lhs, ds) ++ resolve(rhs, ds)
+    case Variable(name) => name :: ds
+    case Literal(_, _) => ds
   }
 }
