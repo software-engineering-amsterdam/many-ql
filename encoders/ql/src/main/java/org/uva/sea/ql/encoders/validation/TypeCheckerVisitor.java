@@ -13,12 +13,12 @@ import org.uva.sea.ql.encoders.ast.expression.BracedExpression;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.expression.NameExpression;
 import org.uva.sea.ql.encoders.ast.expression.UnaryExpression;
-import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.BooleanType;
+import org.uva.sea.ql.encoders.ast.type.DataType;
 import org.uva.sea.ql.encoders.ast.type.UndefinedType;
 import org.uva.sea.ql.encoders.service.QuestionByName;
 
-public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
+public class TypeCheckerVisitor extends BaseAstVisitor<DataType> {
 
 	private Set<String> questionLabels = new HashSet<>();
 
@@ -46,7 +46,7 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 	private void checkDataTypes(Question question) {
 		Expression condition = question.getCondition();
 		if (condition != null) {
-			DataType<?> dataType = condition.accept(this);
+			DataType dataType = condition.accept(this);
 			if (!(dataType instanceof BooleanType)) {
 				TextLocation textLocation = condition.getTextLocation();
 				String validationMessage = "Condition has to be of type boolean. Type: " + dataType;
@@ -68,13 +68,13 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 	}
 
 	@Override
-	public DataType<?> visit(BracedExpression bracedExpression) {
+	public DataType visit(BracedExpression bracedExpression) {
 		Expression innerExpression = bracedExpression.getExpression();
 		return innerExpression.accept(this);
 	}
 
 	@Override
-	public DataType<?> visit(NameExpression nameExpression) {
+	public DataType visit(NameExpression nameExpression) {
 		String name = nameExpression.getName();
 
 		Question question = questionByName.getQuestion(name, questions);
@@ -94,17 +94,17 @@ public class TypeCheckerVisitor extends BaseAstVisitor<DataType<?>> {
 	}
 
 	@Override
-	public DataType<?> visit(UnaryExpression unaryExpression) {
+	public DataType visit(UnaryExpression unaryExpression) {
 		Expression expression = unaryExpression.getExpression();
 		return expression.accept(this);
 	}
 
 	@Override
-	public DataType<?> visit(BinaryExpression binaryExpression) {
+	public DataType visit(BinaryExpression binaryExpression) {
 		Expression leftHand = binaryExpression.getLeftHand();
 		Expression rightHand = binaryExpression.getRightHand();
-		DataType<?> leftHandDataType = leftHand.accept(this);
-		DataType<?> rightHandDataType = rightHand.accept(this);
+		DataType leftHandDataType = leftHand.accept(this);
+		DataType rightHandDataType = rightHand.accept(this);
 		if (leftHandDataType.equals(UndefinedType.UNDEFINED) || rightHandDataType.equals(UndefinedType.UNDEFINED)) {
 			return UndefinedType.UNDEFINED;
 		}

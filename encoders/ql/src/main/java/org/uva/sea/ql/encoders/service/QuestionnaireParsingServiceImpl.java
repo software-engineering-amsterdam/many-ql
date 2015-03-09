@@ -49,7 +49,7 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 
 		QuestionnaireContext parseTree = parser.questionnaire();
 
-		Map<String, DataType<?>> dataTypeTable = getDataTypeTable();
+		Map<String, DataType> dataTypeTable = getDataTypeTable();
 		QuestionnaireVisitor visitor = new QuestionnaireVisitor(dataTypeTable);
 		Questionnaire questionnaire = (Questionnaire) visitor.visit(parseTree);
 
@@ -59,8 +59,8 @@ public class QuestionnaireParsingServiceImpl implements QuestionnaireParsingServ
 		return questionnaire;
 	}
 
-	private Map<String, DataType<?>> getDataTypeTable() {
-		Map<String, DataType<?>> operatorTable = new HashMap<>();
+	private Map<String, DataType> getDataTypeTable() {
+		Map<String, DataType> operatorTable = new HashMap<>();
 		operatorTable.put("boolean", new BooleanType());
 		operatorTable.put("string", new StringType());
 		operatorTable.put("integer", new IntegerType());

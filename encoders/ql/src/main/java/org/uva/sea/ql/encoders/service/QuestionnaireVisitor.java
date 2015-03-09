@@ -34,9 +34,9 @@ import org.uva.sea.ql.encoders.ast.type.DataType;
 
 public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 
-	private final Map<String, DataType<?>> dataTypeTable;
+	private final Map<String, DataType> dataTypeTable;
 
-	public QuestionnaireVisitor(Map<String, DataType<?>> dataTypeTable) {
+	public QuestionnaireVisitor(Map<String, DataType> dataTypeTable) {
 		this.dataTypeTable = dataTypeTable;
 	}
 
@@ -74,7 +74,7 @@ public class QuestionnaireVisitor extends EncodersQLBaseVisitor<AstNode> {
 	@Override
 	public Question visitQuestion(QuestionContext ctx) {
 		String questionName = ctx.questionName.getText();
-		DataType<?> dataType = dataTypeTable.get(ctx.type.getText());
+		DataType dataType = dataTypeTable.get(ctx.type.getText());
 		if (dataType == null) {
 			throw new IllegalStateException("Unknown dataType " + ctx.type.getText());
 		}

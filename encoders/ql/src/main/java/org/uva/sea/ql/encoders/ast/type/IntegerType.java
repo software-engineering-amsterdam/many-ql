@@ -1,30 +1,6 @@
 package org.uva.sea.ql.encoders.ast.type;
 
-public class IntegerType extends DataType<Integer> {
-
-	@Override
-	public Integer add(Integer leftValue, Integer rightValue) {
-		Integer result = leftValue + rightValue;
-		return result;
-	}
-
-	@Override
-	public Integer multiply(Integer leftValue, Integer rightValue) {
-		Integer result = leftValue * rightValue;
-		return result;
-	}
-
-	@Override
-	public Integer substract(Integer leftValue, Integer rightValue) {
-		Integer result = leftValue - rightValue;
-		return result;
-	}
-
-	@Override
-	public Integer divide(Integer leftValue, Integer rightValue) {
-		Integer result = leftValue / rightValue;
-		return result;
-	}
+public class IntegerType extends DataType {
 
 	@Override
 	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {

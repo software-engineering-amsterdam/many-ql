@@ -24,7 +24,7 @@ public class AstTransformer {
 	private List<RuntimeQuestion> createUIQuestions(Collection<Question> questions) {
 		List<RuntimeQuestion> uiQuestions = new ArrayList<RuntimeQuestion>();
 		for (Question question : questions) {
-			DataType<?> dataType = question.getDataType();
+			DataType dataType = question.getDataType();
 			Value defaultValue = dataType.accept(new DefaultValueVisitor());
 			uiQuestions.add(new RuntimeQuestion(question, defaultValue));
 		}
