@@ -19,15 +19,16 @@ import org.uva.sea.ql.encoders.ast.operator.UnaryOperator;
 
 public class OperatorTable {
 
-	private final Map<String, BinaryOperator> binaryOperators = new HashMap<>();
-	private final Map<String, UnaryOperator> unaryOperators = new HashMap<>();
+	private final Map<String, BinaryOperator> binaryOperators;
+	private final Map<String, UnaryOperator> unaryOperators;
 
 	public OperatorTable() {
-		constructBinaryOperators();
-		constructUnaryOperators();
+		binaryOperators = constructBinaryOperators();
+		unaryOperators = constructUnaryOperators();
 	}
 
-	private void constructBinaryOperators() {
+	private Map<String, BinaryOperator> constructBinaryOperators() {
+		Map<String, BinaryOperator> binaryOperators = new HashMap<>();
 		binaryOperators.put("*", new MultiplyOperator());
 		binaryOperators.put("/", new DivideOperator());
 		binaryOperators.put("+", new AddOperator());
@@ -38,10 +39,13 @@ public class OperatorTable {
 		binaryOperators.put(">", new GreaterThanOperator());
 		binaryOperators.put("<=", new LessOrEqualOperator());
 		binaryOperators.put(">=", new GreaterOrEqualOperator());
+		return binaryOperators;
 	}
 
-	private void constructUnaryOperators() {
+	private Map<String, UnaryOperator> constructUnaryOperators() {
+		Map<String, UnaryOperator> unaryOperators = new HashMap<>();
 		unaryOperators.put("!", new NotOperator());
+		return unaryOperators;
 	}
 
 	public BinaryOperator getBinaryOperator(String operator) {
