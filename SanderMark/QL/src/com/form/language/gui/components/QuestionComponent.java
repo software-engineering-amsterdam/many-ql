@@ -9,6 +9,7 @@ import com.form.language.ast.statement.Question;
 import com.form.language.gui.widget.CheckBox;
 import com.form.language.gui.widget.Label;
 import com.form.language.gui.widget.TextField;
+import com.form.language.memory.IdCollector;
 import com.form.language.memory.RuntimeMemory;
 
 public class QuestionComponent extends JPanel {
@@ -19,7 +20,7 @@ public class QuestionComponent extends JPanel {
 	private JLabel label;
 	private Expression showCondition;
 	private RuntimeMemory rm;
-
+	
 	public QuestionComponent(Question question, RuntimeMemory rm, Expression showCondition) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS)); 
 		this.question = question;
@@ -27,10 +28,16 @@ public class QuestionComponent extends JPanel {
 		this.showCondition = showCondition;
 		this.rm = rm;
 		add(label);
+		
+		//Belongs to if statement
 		if(showCondition != null)
 		{
 			this.setVisible(false);
 			rm.putExp(showCondition, this);
+			
+			IdCollector idCollector = new IdCollector();
+			showCondition.collectIds(idCollector);
+			rm.putDependencie(idCollector, showCondition);
 		}
 		createQuestionType();
 	}

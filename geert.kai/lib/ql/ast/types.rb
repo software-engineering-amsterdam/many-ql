@@ -1,6 +1,8 @@
 module QL
   module AST
     class Type
+      include JRubyFX::Controller
+      
       def ==(other_type)
         self.class == other_type.class
       end

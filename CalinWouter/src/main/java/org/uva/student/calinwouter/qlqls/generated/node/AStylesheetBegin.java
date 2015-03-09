@@ -2,45 +2,55 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AStylesheetBegin extends PBegin {
+public final class AStylesheetBegin extends PBegin
+{
     private PIdentList _identList_;
 
-    public AStylesheetBegin() {
+    public AStylesheetBegin()
+    {
         // Constructor
     }
 
     public AStylesheetBegin(
-            @SuppressWarnings("hiding") PIdentList _identList_) {
+        @SuppressWarnings("hiding") PIdentList _identList_)
+    {
         // Constructor
         setIdentList(_identList_);
 
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AStylesheetBegin(
-                cloneNode(this._identList_));
+            cloneNode(this._identList_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAStylesheetBegin(this);
     }
 
-    public PIdentList getIdentList() {
+    public PIdentList getIdentList()
+    {
         return this._identList_;
     }
 
-    public void setIdentList(PIdentList node) {
-        if (this._identList_ != null) {
+    public void setIdentList(PIdentList node)
+    {
+        if(this._identList_ != null)
+        {
             this._identList_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -51,15 +61,18 @@ public final class AStylesheetBegin extends PBegin {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._identList_);
+            + toString(this._identList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._identList_ == child) {
+        if(this._identList_ == child)
+        {
             this._identList_ = null;
             return;
         }
@@ -68,9 +81,11 @@ public final class AStylesheetBegin extends PBegin {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        if (this._identList_ == oldChild) {
+        if(this._identList_ == oldChild)
+        {
             setIdentList((PIdentList) newChild);
             return;
         }

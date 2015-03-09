@@ -2,45 +2,55 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-import org.uva.student.calinwouter.qlqls.generated.analysis.Analysis;
+import org.uva.student.calinwouter.qlqls.generated.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIdentExp extends PExp {
+public final class AIdentExp extends PExp
+{
     private TIdent _ident_;
 
-    public AIdentExp() {
+    public AIdentExp()
+    {
         // Constructor
     }
 
     public AIdentExp(
-            @SuppressWarnings("hiding") TIdent _ident_) {
+        @SuppressWarnings("hiding") TIdent _ident_)
+    {
         // Constructor
         setIdent(_ident_);
 
     }
 
     @Override
-    public Object clone() {
+    public Object clone()
+    {
         return new AIdentExp(
-                cloneNode(this._ident_));
+            cloneNode(this._ident_));
     }
 
     @Override
-    public void apply(Switch sw) {
+    public void apply(Switch sw)
+    {
         ((Analysis) sw).caseAIdentExp(this);
     }
 
-    public TIdent getIdent() {
+    public TIdent getIdent()
+    {
         return this._ident_;
     }
 
-    public void setIdent(TIdent node) {
-        if (this._ident_ != null) {
+    public void setIdent(TIdent node)
+    {
+        if(this._ident_ != null)
+        {
             this._ident_.parent(null);
         }
 
-        if (node != null) {
-            if (node.parent() != null) {
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
                 node.parent().removeChild(node);
             }
 
@@ -51,15 +61,18 @@ public final class AIdentExp extends PExp {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return ""
-                + toString(this._ident_);
+            + toString(this._ident_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child) {
+    void removeChild(@SuppressWarnings("unused") Node child)
+    {
         // Remove child
-        if (this._ident_ == child) {
+        if(this._ident_ == child)
+        {
             this._ident_ = null;
             return;
         }
@@ -68,9 +81,11 @@ public final class AIdentExp extends PExp {
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
+    {
         // Replace child
-        if (this._ident_ == oldChild) {
+        if(this._ident_ == oldChild)
+        {
             setIdent((TIdent) newChild);
             return;
         }

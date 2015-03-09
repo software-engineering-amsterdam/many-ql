@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr.literal;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.DateValue;
@@ -14,8 +15,12 @@ import java.util.Map;
 public class DateNode extends AExpression {
     private Date date;
 
-    public DateNode(Date date, String location) {
-        super(null, null, location);
+    public DateNode(Date date, Location location) {
+        super(location);
+        this.date = date;
+    }
+
+    public DateNode(Date date) {
         this.date = date;
     }
 

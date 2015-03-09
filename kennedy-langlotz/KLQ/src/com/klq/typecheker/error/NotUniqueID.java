@@ -7,7 +7,7 @@ import com.klq.ast.impl.QuestionNode;
  */
 public class NotUniqueID extends AError{
     public NotUniqueID(QuestionNode node) {
-        super(1, true, String.format("The question identifier: \"%s\" is not unique", node.getQuestionID()), node.getLoc());
+        super(1, true, String.format("The question identifier: \"%s\" is not unique", node.getQuestionID()), node.getLocation());
     }
 
 }

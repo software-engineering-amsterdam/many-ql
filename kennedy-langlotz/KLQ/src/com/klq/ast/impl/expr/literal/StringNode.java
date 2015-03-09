@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr.literal;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.StringValue;
@@ -13,8 +14,12 @@ import java.util.Map;
 public class StringNode extends AExpression {
     private String string;
 
-    public StringNode(String string, String location) {
-        super(null, null, location);
+    public StringNode(String string, Location location) {
+        super(location);
+        this.string = string;
+    }
+
+    public StringNode(String string) {
         this.string = string;
     }
 

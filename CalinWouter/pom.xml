@@ -19,11 +19,12 @@
         </dependency>
     </dependencies>
 
-    <!-- The generator generates lexer.dat in one of the packages which is not in the Maven resources folder. -->
+    <!-- The generator generates resources that are not copied to the target folder if it is not specified
+         that they should be. -->
     <build>
         <resources>
             <resource>
-                <directory>src/main/java</directory>
+                <directory>src/main/java/org/uva/student/calinwouter/qlqls/generated</directory>
                 <excludes><exclude>**/*.java</exclude></excludes>
             </resource>
         </resources>

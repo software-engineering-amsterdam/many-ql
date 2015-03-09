@@ -1,12 +1,12 @@
 package org.fugazi.qls.ast.segment;
 
-import org.fugazi.qls.ast.AbstractASTQLSNode;
+import org.fugazi.ql.ast.AbstractASTNode;
 import org.fugazi.qls.ast.IQLSASTVisitor;
 import org.fugazi.qls.ast.style.DefaultStyleDeclaration;
 
 import java.util.List;
 
-public abstract class Segment extends AbstractASTQLSNode {
+public abstract class Segment extends AbstractASTNode {
     protected final String name;
     protected final List<Section> sections;
     protected final List<DefaultStyleDeclaration> defaultStyles;

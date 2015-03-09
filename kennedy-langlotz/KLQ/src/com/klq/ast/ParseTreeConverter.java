@@ -1,5 +1,6 @@
 package com.klq.ast;
 
+import com.common.Location;
 import com.klq.ast.impl.ComputedQuestionNode;
 import com.klq.ast.impl.ConditionalNode;
 import com.klq.ast.impl.QuestionNode;
@@ -14,9 +15,9 @@ import com.klq.ast.impl.expr.math.AddNode;
 import com.klq.ast.impl.expr.math.DivideNode;
 import com.klq.ast.impl.expr.math.MultiplyNode;
 import com.klq.ast.impl.expr.math.SubtractNode;
+import com.klq.parser.KLQBaseVisitor;
+import com.klq.parser.KLQParser;
 import org.antlr.v4.runtime.ParserRuleContext;
-import parser.KLQBaseVisitor;
-import parser.KLQParser;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,7 +31,7 @@ import java.util.Locale;
 /**
  * Created by juriaan on 16-2-15.
  */
-public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
+public class ParseTreeConverter extends KLQBaseVisitor<ANode> {
     /*==================================================================================================================
     Statements
     ==================================================================================================================*/
@@ -191,7 +192,7 @@ public class ParseTreeConverter extends KLQBaseVisitor<ANode>{
         return s.substring(1, s.length() - 1);
     }
 
-    private String formatLocation(ParserRuleContext ctx){
-        return String.format("line number: %d", ctx.getStart().getLine());
+    private Location formatLocation(ParserRuleContext ctx){
+        return new Location(ctx, "A file");
     }
 }

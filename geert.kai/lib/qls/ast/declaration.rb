@@ -7,6 +7,10 @@ module QLS
         @property = property
         @value = value
       end
+
+      def accept(visitor)
+        self.accept(visitor)
+      end
     end
 
     class Widget

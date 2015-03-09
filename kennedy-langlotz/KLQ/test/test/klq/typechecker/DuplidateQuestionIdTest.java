@@ -23,26 +23,26 @@ public class DuplidateQuestionIdTest {
     private QuestionnaireNode ast;
     @Before
     public void setUp() throws Exception {
-        ast = new QuestionnaireNode("1");
+        ast = new QuestionnaireNode();
     }
 
     @Test
     public void testDuplicateQuestionId(){
-        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question", "1"));
-        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is another test question", "2"));
+        ast.getChildren().add(new QuestionNode("question1", "string", "This is a test question"));
+        ast.getChildren().add(new QuestionNode("question2", "numeral", "This is another test question"));
         TypeChecker tc = new TypeChecker(ast);
         tc.run();
         assertEquals(0, tc.getErrors().size());
 
-        ast.getChildren().add(new QuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", "3"));
+        ast.getChildren().add(new QuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID"));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(1,tc.getErrors().size());
         assertThat(tc.getErrors().get(0), instanceOf(NotUniqueID.class));
 
         List<AExpression> list = new ArrayList<AExpression>();
-        list.add(new StringNode("test", "5"));
-        ast.getChildren().add(new ComputedQuestionNode("question1", "numeral", "This is another test question, but with a duplicate ID", list, "4"));
+        list.add(new StringNode("test"));
+        ast.getChildren().add(new ComputedQuestionNode("question1", "string", "This is another test question, but with a duplicate ID", list));
         tc = new TypeChecker(ast);
         tc.run();
         assertEquals(2, tc.getErrors().size());

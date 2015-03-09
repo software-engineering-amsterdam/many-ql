@@ -1,5 +1,6 @@
 package com.klq.ast.impl.expr.bool;
 
+import com.common.Location;
 import com.klq.ast.IVisitor;
 import com.klq.ast.impl.expr.AExpression;
 import com.klq.ast.impl.expr.value.*;
@@ -11,8 +12,12 @@ import java.util.Map;
  */
 public class LessEqualsNode extends ABooleanNode {
 
-    public LessEqualsNode(AExpression leftChild, AExpression rightChild, String location) {
+    public LessEqualsNode(AExpression leftChild, AExpression rightChild, Location location) {
         super(leftChild, rightChild, location);
+    }
+
+    public LessEqualsNode(AExpression leftChild, AExpression rightChild) {
+        super(leftChild, rightChild);
     }
 
     @Override
@@ -25,7 +30,7 @@ public class LessEqualsNode extends ABooleanNode {
         ComparableValue left = (ComparableValue)(getLeftChild().evaluate(variables));
         ComparableValue right = (ComparableValue)(getRightChild().evaluate(variables));
 
-        if(left.isUndefined() || right.isUndefined())
+        if(anyUndefined(left, right))
         {
             return new UndefinedValue();
         }

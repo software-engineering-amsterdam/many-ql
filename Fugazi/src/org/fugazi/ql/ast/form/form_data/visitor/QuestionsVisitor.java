@@ -38,7 +38,15 @@ public class QuestionsVisitor implements IStatementVisitor<Void> {
         return null;
     }
 
-    public Void visitIfStatement(IfStatement ifStatement) {return null;}
+    public Void visitIfStatement(IfStatement ifStatement) {
+        List<Statement> statementList = ifStatement.getBody();
+        
+        for (Statement statement : statementList) {
+            statement.accept(this);
+        }
+        
+        return null;
+    }
 
     /**
      * =======================
