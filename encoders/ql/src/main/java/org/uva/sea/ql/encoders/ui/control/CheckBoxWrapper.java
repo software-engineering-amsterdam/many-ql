@@ -4,6 +4,8 @@ import java.beans.PropertyChangeEvent;
 
 import javafx.scene.control.CheckBox;
 
+import org.uva.sea.ql.encoders.runtime.value.BooleanValue;
+
 public class CheckBoxWrapper implements ControlWrapper {
 
 	private final CheckBox checkBox;
@@ -14,7 +16,7 @@ public class CheckBoxWrapper implements ControlWrapper {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		checkBox.setSelected((boolean) evt.getNewValue());
+		checkBox.setSelected(((BooleanValue) evt.getNewValue()).getValue());
 	}
 
 	@Override
