@@ -3,12 +3,15 @@ package com.form.language.gui;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -17,15 +20,22 @@ import org.antlr.v4.runtime.TokenStream;
 import com.form.language.GrammarLexer;
 import com.form.language.GrammarParser;
 import com.form.language.ast.Form;
+import com.form.language.error.CheckTypeErrors;
+import com.form.language.error.CheckVariableErrors;
+import com.form.language.error.ErrorCollector;
 import com.form.language.memory.IdCollector;
 import com.form.language.memory.IdTypeTable;
+import com.form.language.memory.RuntimeMemory;
 
 public class Frame {
 
 	private JFrame frame;
 	private JTextArea textArea_input;
 	private JTextArea textArea_output;
+	private JButton button_parse;
+	private JButton button_createQuestionnaire;
 	
+	private Form form;
 
 	/**
 	 * Launch the application.
@@ -71,23 +81,58 @@ public class Frame {
 		panel.setBounds(10, 256, 414, 62);
 		frame.getContentPane().add(panel);
 		
-		JButton btnNewButton = new JButton("Parse");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		button_parse = new JButton("Parse");
+		button_parse.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {				
 				CharStream charStream = new ANTLRInputStream(textArea_input.getText());
 				GrammarLexer lexer = new GrammarLexer(charStream);
 				TokenStream tokenStream = new CommonTokenStream(lexer);
 				GrammarParser parser = new GrammarParser(tokenStream);
-				Form form = parser.form().result;
+				
+				form = parser.form().result;
+				
 				IdCollector ids = new IdCollector();
 				form.collectIds(ids);
+				
 				IdTypeTable idTable = new IdTypeTable(ids);
 				form.setTypes(idTable);
+				
+				List<String> errorsStrings = new ArrayList<String>();
+				ErrorCollector varErrors = CheckVariableErrors.containsUndeclaredVariables(ids, idTable);
+				if(!varErrors.isEmpty()){
+					errorsStrings.add("There are variable errors:");
+					errorsStrings.addAll(varErrors.print());
+				}
+				
+				if(CheckTypeErrors.containsErrors(form)){
+					errorsStrings.add("There are type errors:");
+					ErrorCollector errors = new ErrorCollector();
+					form.getErrors(errors);
+					errorsStrings.addAll(errors.print());
+				} 
+							
+				if(errorsStrings.isEmpty())
+				{
+					button_createQuestionnaire.setEnabled(true);
+				}
+			}
+		});
+		button_parse.setBounds(335, 120, 89, 23);
+		frame.getContentPane().add(button_parse);
+		
+		button_createQuestionnaire = new JButton("Create Survey");
+		button_createQuestionnaire.setEnabled(false);
+		button_createQuestionnaire.setBounds(216, 120, 109, 23);
+		frame.getContentPane().add(button_createQuestionnaire);
+		button_createQuestionnaire.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {			
+				
+				RuntimeMemory mem = form.initMemory();
+				
 				QuestionFrame qf = new QuestionFrame(form);
 			}
 		});
-		btnNewButton.setBounds(335, 120, 89, 23);
-		frame.getContentPane().add(btnNewButton);
 	}
 }
