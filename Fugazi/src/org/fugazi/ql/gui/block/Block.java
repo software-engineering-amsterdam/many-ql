@@ -3,11 +3,12 @@ package org.fugazi.ql.gui.block;
 import org.fugazi.ql.gui.ui_elements.UIQuestion;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Block {
 
     protected final String name;
-    protected HashMap<String, UIQuestion> body = new HashMap<>();
+    protected Map<String, UIQuestion> body = new HashMap<>();
 
     public Block(String _name) {
         this.name = _name;
@@ -23,7 +24,7 @@ public abstract class Block {
         this.body.clear();
     }
 
-    public HashMap<String, UIQuestion> getBody() {
+    public Map<String, UIQuestion> getBody() {
         return this.body;
     }
 
