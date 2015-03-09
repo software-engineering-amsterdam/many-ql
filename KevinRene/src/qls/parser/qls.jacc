@@ -18,7 +18,7 @@
 %token STYLESHEET PAGE SECTION WIDGET QUESTION DEFAULT 
 %token FONT FONTSIZE WIDTH HEIGHT COLOUR
 %token RADIO DROPDOWN SLIDER SPINBOX TEXT CHECKBOX
-%token  '"' ':' '.'
+%token  '"' ':' '.' ','
 %token '(' ')' '{' '}'
 
 %type <Expression> literal
@@ -35,7 +35,7 @@ import ql.ast.expression.literal.*;
 
 %%
 
-	stylesheet 	: STYLESHEET IDENTIFIER statements
+	stylesheet 	: STYLESHEET IDENTIFIER '{' statements '}'
 				;
 				
 	statements 	: statement statements

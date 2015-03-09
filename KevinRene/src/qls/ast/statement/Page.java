@@ -1,6 +1,6 @@
 package qls.ast.statement;
 
-import qls.ast.QLSNode;
+import qls.QLSNode;
 import qls.ast.visitor.Visitor;
 
 public class Page implements QLSNode {
