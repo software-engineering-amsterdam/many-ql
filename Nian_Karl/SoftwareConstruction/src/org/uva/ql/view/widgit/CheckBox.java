@@ -52,6 +52,7 @@ public class CheckBox extends Widget {
 
 	@Override
 	public void setWidgetValue(Value value) {
+		// TO-DO !!!!!
 		if (!value.toString().equals(new Undefined().toString())) {
 			// getWidget().setText(value.toString());
 		}

@@ -35,7 +35,7 @@ namespace UvA.SoftCon.Questionnaire.Runtime.Validation
 
         public override void Visit(DateLiteral literal)
         {
-            if (literal.IsValid)
+            if (!literal.IsValid)
             {
                 InvalidLiterals.Add(literal);
             }

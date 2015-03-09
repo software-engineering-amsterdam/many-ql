@@ -22,7 +22,7 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             private set;
         }
 
-        public Assignment(Identifier variable, IExpression expression, TextPosition position)
+        internal Assignment(Identifier variable, IExpression expression, TextPosition position)
             : base(position)
         {
             Variable = variable;

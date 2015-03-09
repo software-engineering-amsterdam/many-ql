@@ -43,8 +43,5 @@ public class DateExprInput extends ExprInput<DatePicker>
 
         DatePicker dateInput = this.getControl();
         //TODO: set value
-        dateInput.setDisable(this.getDisabled());
-        dateInput.setVisible(this.getVisible());
-        dateInput.setManaged(this.getVisible());
     }
 }

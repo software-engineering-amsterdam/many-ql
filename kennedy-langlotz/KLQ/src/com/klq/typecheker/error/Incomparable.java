@@ -1,6 +1,5 @@
 package com.klq.typecheker.error;
 
-import com.klq.ast.impl.QuestionNode;
 import com.klq.ast.impl.expr.ABinaryExprNode;
 import com.klq.logic.question.Type;
 
@@ -9,7 +8,7 @@ import com.klq.logic.question.Type;
  */
 public class Incomparable extends AError{
     public Incomparable(ABinaryExprNode node, String operator, Type leftChild, Type rightChild) {
-        super(5, true, String.format("The operands of the \"%s\" operator are not of the same type. The left operand is a %s. The right operand is a %s", operator, leftChild, rightChild), node.getLoc());
+        super(5, true, String.format("The operands of the \"%s\" operator are not of the same type. The left operand is a %s. The right operand is a %s", operator, leftChild, rightChild), node.getLocation());
     }
 
 }

@@ -80,7 +80,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return false;
         }
 
-        if (!(condType.equals(new BoolType())))
+        if (!(condType.isBool()))
         {
             this.messages.add(Error.ifConditionShouldBeBoolean(condition.getLineNumber()));
             return false;
@@ -139,7 +139,7 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     public Type visit(Ident n)
     {
         Type type = this.symbolTable.resolve(n.getId());
-        if (type == null)
+        if (type.isUndef())
         {
             this.messages.add(Error.undeclaredIdentifier(n.getId(), n.getLineNumber()));
             return new UndefinedType();
@@ -181,97 +181,97 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
     @Override
     public Type visit(Add e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Sub e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Mul e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Div e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Pos e)
     {
-        return this.visitUnaryExpr(e);
+        return this.computeTypeOfUnaryExpr(e);
     }
 
     @Override
     public Type visit(Neg e)
     {
-        return this.visitUnaryExpr(e);
+        return this.computeTypeOfUnaryExpr(e);
     }
 
     @Override
     public Type visit(Not e)
     {
-        return this.visitUnaryExpr(e);
+        return this.computeTypeOfUnaryExpr(e);
     }
 
     @Override
     public Type visit(Gt e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Lt e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(GtEqu e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(LtEqu e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Equ e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(NotEqu e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(And e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     @Override
     public Type visit(Or e)
     {
-        return this.visitBinaryExpr(e);
+        return this.computeTypeOfBinaryExpr(e);
     }
 
     // 1. Check if the operands are defined
     // 2. Check if the operands are of the allowed types
     // 3. Check if the operands are of the same type, e.g. no 1=="string"
-    private Type visitBinaryExpr(BinaryExpr e)
+    private Type computeTypeOfBinaryExpr(BinaryExpr e)
     {
         Type left = e.getLeft().accept(this);
         Type right = e.getRight().accept(this);
@@ -294,12 +294,12 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return undefinedType();
         }
 
-        return this.computeType(e, leftPromoted);
+        return e.getComputedType(leftPromoted);
     }
 
     // 1. Check if the operand is defined
     // 2. Check if the operand is of the correct type
-    private Type visitUnaryExpr(UnaryExpr e)
+    private Type computeTypeOfUnaryExpr(UnaryExpr e)
     {
         Type operand = e.getOperand().accept(this);
 
@@ -313,33 +313,23 @@ public class TypeChecker implements FormVisitor<Boolean>, StatVisitor<Boolean>, 
             return undefinedType();
         }
 
-        return this.computeType(e, operand);
+        return e.getComputedType(operand);
     }
 
-    private boolean isChildOfAllowedType(Expr e, Type childType)
+    private boolean isChildOfAllowedType(NaryExpr e, Type childType)
     {
-        String exprName = e.getClass().getSimpleName();
-        Set<Type> allowedTypes = ExprTypeMap.exprAllowedTypes.get(exprName);
-
-        if (!(allowedTypes.contains(childType)))
+        boolean isTypeAllowed = e.isTypeAllowed(childType);
+        if (!(isTypeAllowed))
         {
             this.messages.add(Error.incorrectTypes(e.getClass().getSimpleName(), childType, e.getLineNumber()));
         }
 
-        return allowedTypes.contains(childType);
+        return isTypeAllowed;
     }
 
-    private Type computeType(Expr e, Type childType)
+    private Type computeType(NaryExpr e, Type childType)
     {
-        String exprName = e.getClass().getSimpleName();
-        Type returnType = childType;
-
-        if (ExprTypeMap.exprReturnType.containsKey(exprName))
-        {
-            returnType = ExprTypeMap.exprReturnType.get(exprName);
-        }
-
-        return returnType;
+        return e.getComputedType(childType);
     }
 
     private boolean areChildTypesConsistent(AstNode n, Type left, Type right)

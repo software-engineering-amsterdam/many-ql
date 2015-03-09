@@ -9,13 +9,13 @@ namespace UvA.SoftCon.Questionnaire.QLS.AST.Model
 {
     public class Page : QLSNode
     {
-        public ICollection<Section> Sections
+        public IEnumerable<Section> Sections
         {
             get;
             private set;
         }
 
-        public Page(ICollection<Section> sections, TextPosition position)
+        internal Page(IEnumerable<Section> sections, TextPosition position)
             : base(position)
         {
             Sections = sections;

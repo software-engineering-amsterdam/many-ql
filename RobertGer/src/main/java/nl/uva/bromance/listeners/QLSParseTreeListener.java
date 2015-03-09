@@ -9,7 +9,12 @@ import java.util.Stack;
 //TODO: Use Optional to make it obvious that the value can be null. Makes the code prettier as well.
 public class QLSParseTreeListener extends QLSBaseListener {
 
+    public QLSParseTreeListener(AST qlAST){
+        this.qlAST = qlAST;
+    }
+
     private Stack<Node> nodeStack = new Stack<>();
+    private AST qlAST = null;
     private AST qlsAST = null;
     private QLSStylesheet ast = null;
 
@@ -46,7 +51,7 @@ public class QLSParseTreeListener extends QLSBaseListener {
     }
 
     public void enterQuestion(QLSParser.QuestionContext ctx) {
-        nodeStack.push(new QLSQuestion(ctx.start.getLine(),ctx.name.getText()));
+        nodeStack.push(new QLSQuestion(ctx.start.getLine(),ctx.name.getText(),qlAST));
     }
 
     public void exitQuestion(QLSParser.QuestionContext ctx) {

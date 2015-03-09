@@ -10,12 +10,10 @@ public abstract class Value {
 	public abstract Object getValue();
 	public abstract String toString();
 
-	// Unary Expression
 	public Value not() {return UNDEFINED;}
 	public Value positive() {return UNDEFINED;}
 	public Value negative() {return UNDEFINED;}
 	
-	// Binary Expression
 	public Value plus(Value arg) {return UNDEFINED;}
 	public Value minus(Value arg) {return UNDEFINED;}
 	public Value multiply(Value arg) {return UNDEFINED;}
@@ -29,7 +27,6 @@ public abstract class Value {
 	public Value less(Value arg) {return UNDEFINED;}
 	public Value lessEqual(Value arg) {return UNDEFINED;}
 	
-	// Double Dispatch
 	public Value intPlus(Int arg) {return UNDEFINED;}
 	public Value intMinus(Int arg) {return UNDEFINED;}
 	public Value intMultiply(Int arg) {return UNDEFINED;}

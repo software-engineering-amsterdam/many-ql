@@ -12,6 +12,8 @@ import lang.ql.semantics.*;
 import lang.ql.ast.AstBuilder;
 import lang.ql.semantics.TypeChecker;
 import lang.qls.ast.Stylesheet;
+import lang.qls.gen.QLSLexer;
+import lang.qls.gen.QLSParser;
 import lang.qls.semantics.*;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CharStream;
@@ -44,15 +46,15 @@ public class Main extends Application
 
             TypeChecker.check(ast);
 
-            CharStream s = new ANTLRFileStream("gen/styleInput");
-//            QLSLexer l = new QLSLexer(s);
-//            QLSParser p = new QLSParser(new CommonTokenStream(l));
-//            ParserRuleContext style = p.stylesheet();
-//
-//            QlsBuilder builder = new QlsBuilder();
-//            Stylesheet styleAst = (Stylesheet)builder.visit(style);
-//
-//            lang.qls.semantics.TypeChecker.check(styleAst, ast);
+            CharStream s = new ANTLRFileStream("src/lang/tests/styleInput");
+            QLSLexer l = new QLSLexer(s);
+            QLSParser p = new QLSParser(new CommonTokenStream(l));
+            ParserRuleContext style = p.stylesheet();
+
+            lang.qls.ast.QlsBuilder builder = new lang.qls.ast.QlsBuilder();
+            Stylesheet styleAst = (Stylesheet)builder.visit(style);
+
+            lang.qls.semantics.TypeChecker.check(styleAst, ast);
         }
         catch (IOException e)
         {

@@ -2,7 +2,6 @@ package uva.sc.ast;
 
 import uva.sc.atom.BooleanAtom;
 import uva.sc.atom.ID;
-import uva.sc.atom.Literal;
 import uva.sc.atom.NumberAtom;
 import uva.sc.atom.StringAtom;
 import uva.sc.logic.*;
@@ -16,8 +15,6 @@ import uva.sc.types.Unidentified;
 public interface INodeVisitor<T> {
 
 	public T visit(Form questionare);
-
-	public T visit(Literal literal);
 
 	public T visit(Question question);
 

@@ -22,6 +22,7 @@ import org.fugazi.qls.parser.QLSBaseVisitor;
 import org.fugazi.qls.parser.QLSParser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
 
@@ -37,7 +38,7 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     public AbstractASTNode visitStylesheet(@NotNull QLSParser.StylesheetContext ctx) {
         String name = ctx.ID().getText();
 
-        ArrayList<Page> pages = new ArrayList<>();
+        List<Page> pages = new ArrayList<>();
         for (QLSParser.PageContext pageContext : ctx.page()) {
             Page page = (Page) pageContext.accept(this);
             pages.add(page);
@@ -50,13 +51,13 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     public AbstractASTNode visitPage(@NotNull QLSParser.PageContext ctx) {
         String name = ctx.ID().getText();
 
-        ArrayList<Section> sections = new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
         for (QLSParser.SectionContext sectionContext : ctx.section()) {
             Section section = (Section) sectionContext.accept(this);
             sections.add(section);
         }
 
-        ArrayList<DefaultStyleDeclaration> defaultStyles = new ArrayList<>();
+        List<DefaultStyleDeclaration> defaultStyles = new ArrayList<>();
         for (QLSParser.DefaultStyleDeclrContext defaultStyleDeclrContext : ctx.defaultStyleDeclr()) {
             DefaultStyleDeclaration defaultStyle = (DefaultStyleDeclaration) defaultStyleDeclrContext.accept(this);
             defaultStyles.add(defaultStyle);
@@ -69,19 +70,19 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
     public AbstractASTNode visitSection(@NotNull QLSParser.SectionContext ctx) {
         String name = ctx.STRING().getText();
 
-        ArrayList<Section> sections = new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
         for (QLSParser.SectionContext sectionContext : ctx.section()) {
             Section section = (Section) sectionContext.accept(this);
             sections.add(section);
         }
 
-        ArrayList<Question> questions = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
         for (QLSParser.QuestionContext questionContext : ctx.question()) {
             Question question = (Question) questionContext.accept(this);
             questions.add(question);
         }
 
-        ArrayList<DefaultStyleDeclaration> defaultStyles = new ArrayList<>();
+        List<DefaultStyleDeclaration> defaultStyles = new ArrayList<>();
         for (QLSParser.DefaultStyleDeclrContext defaultStyleDeclrContext : ctx.defaultStyleDeclr()) {
             DefaultStyleDeclaration defaultStyle = (DefaultStyleDeclaration) defaultStyleDeclrContext.accept(this);
             defaultStyles.add(defaultStyle);
@@ -122,7 +123,7 @@ public class FugaziQLSVisitor extends QLSBaseVisitor<AbstractASTNode> {
         Type questionType = (Type) ctx.type().accept(this);
         Widget widget = (Widget) ctx.widget().accept(this);
 
-        ArrayList<StyleProperty> styleProperties = new ArrayList<>();
+        List<StyleProperty> styleProperties = new ArrayList<>();
         for (QLSParser.StylePropertyContext stylePropertyContext : ctx.styleProperty()) {
             StyleProperty styleProperty = (StyleProperty) stylePropertyContext.accept(this);
             styleProperties.add(styleProperty);
