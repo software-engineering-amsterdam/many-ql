@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.ui;
+package org.uva.sea.ql.encoders.runtime;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.Questionnaire;
-import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
-import org.uva.sea.ql.encoders.runtime.RuntimeQuestionnaire;
 
 public class AstTransformer {
 
