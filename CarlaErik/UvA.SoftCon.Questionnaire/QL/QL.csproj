@@ -88,9 +88,9 @@
     <Compile Include="AST\Model\Statements\IfStatement.cs" />
     <Compile Include="AST\Model\Statements\IStatement.cs" />
     <Compile Include="AST\Model\Statements\Question.cs" />
-    <Compile Include="AST\Visitors\ExpressionVisitor.cs" />
-    <Compile Include="AST\Visitors\FormVisitor.cs" />
-    <Compile Include="AST\Visitors\StatementVisitor.cs" />
+    <Compile Include="AST\Building\ExpressionVisitor.cs" />
+    <Compile Include="AST\Building\FormVisitor.cs" />
+    <Compile Include="AST\Building\StatementVisitor.cs" />
     <Compile Include="Grammar\QL.g4.lexer.cs">
       <DependentUpon>QL.g4</DependentUpon>
     </Compile>

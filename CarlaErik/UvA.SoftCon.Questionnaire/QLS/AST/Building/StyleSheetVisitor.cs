@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UvA.SoftCon.Questionnaire.QLS.AST.Model;
 using UvA.SoftCon.Questionnaire.QLS.Grammar;
 
-namespace UvA.SoftCon.Questionnaire.QLS.AST.Visitors
+namespace UvA.SoftCon.Questionnaire.QLS.AST.Building
 {
     internal class StyleSheetVisitor : QLSBaseVisitor<StyleSheet>
     {

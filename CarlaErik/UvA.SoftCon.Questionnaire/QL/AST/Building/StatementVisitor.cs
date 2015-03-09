@@ -9,7 +9,7 @@ using UvA.SoftCon.Questionnaire.QL.Grammar;
 using UvA.SoftCon.Questionnaire.Utilities;
 using UvA.SoftCon.Questionnaire.Utilities.AST;
 
-namespace UvA.SoftCon.Questionnaire.QL.AST.Visitors
+namespace UvA.SoftCon.Questionnaire.QL.AST.Building
 {
     /// <summary>
     /// Represents a visitor for the <c>stat</c> parser rule.
