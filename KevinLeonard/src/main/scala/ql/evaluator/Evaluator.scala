@@ -1,21 +1,9 @@
 package ql.evaluator
 
 import ql.ast._
-
-import scalafx.collections.ObservableMap
+import ql.types.EvalEnvironment
 
 class Evaluator {
-
-  type VariableName = String
-  type EvalEnvironment = ObservableMap[VariableName, Value]
-
-  def eval(f: Form, environment: EvalEnvironment = ObservableMap.empty[VariableName, Value]): EvalEnvironment = eval(f.s, environment)
-
-  def eval(s: Statement, env: EvalEnvironment): EvalEnvironment = s match {
-    case Sequence(statements) => statements.foldLeft(env) { (env, s) => eval(s, env)}
-    case i: IfStatement => doIfStatement(i, env)
-    case q: Question => doQuestionStatement(q, env)
-  }
 
   def eval(e: Expression, env: EvalEnvironment): Value = e match {
     case Or(l, r) => doBooleanOperation(_ || _, l, r, env)
@@ -33,25 +21,6 @@ class Evaluator {
     case Div(l, r) => doArithmeticOperation(_ / _, l, r, env)
     case Variable(v) => env getOrElse(v, throw new AssertionError(s"Error in type checker. Undefined variable $v."))
     case Literal(_, v) => v
-  }
-
-  def doIfStatement(i: IfStatement, env: EvalEnvironment): EvalEnvironment = {
-    eval(i.ifBlock, env)
-    i.optionalElseBlock match {
-      case None => env
-      case Some(elseBlock) => eval(elseBlock, env)
-    }
-  }
-
-  def doQuestionStatement(q: Question, env: EvalEnvironment): EvalEnvironment = {
-    q.optionalExpression match {
-      case None => q._type match {
-        case BooleanType() => env += (q.variable.name -> BooleanValue())
-        case NumberType() => env += (q.variable.name -> NumberValue())
-        case StringType() => env += (q.variable.name -> StringValue())
-      }
-      case Some(e) => env += (q.variable.name -> eval(e, env))
-    }
   }
 
   def doBooleanOperation(op: Boolean => Boolean, e1: Expression, env: EvalEnvironment): BooleanValue = {

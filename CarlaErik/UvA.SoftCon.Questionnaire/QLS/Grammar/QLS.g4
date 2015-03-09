@@ -5,18 +5,18 @@ grammar QLS;
 
 //Rules
 
-StyleSheet: 'stylesheet' STRING Page;									    
-Page:		'page' STRING '{' Section | Default '}';
-Section:	'section "' STRING '" {' Question | Section'}';     // who works with definition of STRING itself and the ""? STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
-Question:	'question' STRING  Defaultproperties | Widget;
-Widget:		'widget' STRING('(' STRING+ | INT | BOOL ')')?;		// all default values for widget properties
-Default:	'default' TYPE (Widget)?;
-Defaultproperties: Default	'{'
+stylesheet: 'stylesheet' STRING page;									    
+page:		'page' STRING '{' section | defaultgeneral '}';
+section:	'section "' STRING '" {' question '}';     // how it works with definition of STRING itself and the ""? STRING : '"' (ESC|.)*? '"' ;       // match anything in "..." (nongreedy)
+question:	'question' STRING  defaultproperties | widget;
+widget:		'widget' STRING('(' STRING+ | INT | BOOL ')')?;		// all default values for widget properties
+defaultgeneral:	'default' TYPE (widget)?;
+defaultproperties: defaultgeneral	'{' 
 							'width:'	INT
 							'font:'		STRING
 							'fontsize:' INT
 							'color:'	HEXACOLOR
-							Widget								// I am not sure, but if is one of the other one, in both cases there is a widget link to question
+							widget								// I am not sure, but if is one of the other one, in both cases there is a widget link to question
 							'}'
 							;
 /*

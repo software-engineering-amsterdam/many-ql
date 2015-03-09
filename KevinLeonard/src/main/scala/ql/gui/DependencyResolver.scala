@@ -1,11 +1,9 @@
 package ql.gui
 
 import ql.ast._
+import ql.types.Dependencies
 
 class DependencyResolver {
-
-  type VariableName = String
-  type Dependencies = List[VariableName]
 
   def resolve(e: Expression, d: Dependencies = List()): Dependencies = e match {
     case Or(l, r) => resolve(l, d) ++ resolve(r, d)
