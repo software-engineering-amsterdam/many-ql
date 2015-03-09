@@ -29,7 +29,9 @@ class TypeChecker {
     case e @ Mul(lhs, rhs) => checkArithmeticExpression(lhs, rhs, env, e.pos)
     case e @ Div(lhs, rhs) => checkArithmeticExpression(lhs, rhs, env, e.pos)
     case v: Variable => env.tryGetVariable(v)
-    case Literal(t, _) => Right(t)
+    case BooleanLiteral(_) => Right(BooleanType())
+    case NumberLiteral(_) => Right(NumberType())
+    case StringLiteral(_) => Right(StringType())
   }
 
   def checkSequence(statements: List[Statement], env: TypeEnvironment): Either[Error, TypeEnvironment] = {

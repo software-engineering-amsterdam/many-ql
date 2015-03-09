@@ -19,5 +19,8 @@ case class Sub(lhs: Expression, rhs: Expression) extends Expression
 case class Mul(lhs: Expression, rhs: Expression) extends Expression
 case class Div(lhs: Expression, rhs: Expression) extends Expression
 case class Variable(name: VariableName) extends Expression
-case class Literal(_type: Type, value: Value) extends Expression
-// TODO different Literal classes
+
+sealed trait Literal extends Expression
+case class BooleanLiteral(value: Value) extends Literal
+case class NumberLiteral(value: Value) extends Literal
+case class StringLiteral(value: Value) extends Literal
