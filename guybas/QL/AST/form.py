@@ -1,5 +1,4 @@
 # AST format of the Form
-import QL.Main.converters as converters
 import QL.AST.Elements.constants as constants
 
 

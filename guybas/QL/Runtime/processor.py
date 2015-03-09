@@ -1,4 +1,4 @@
-import QL.Main.converters as converters
+import QL.CoreTools.converters as converters
 
 
 class Processor:
