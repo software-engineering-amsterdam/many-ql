@@ -2,6 +2,7 @@
 
 package org.uva.student.calinwouter.qlqls.generated.node;
 
-public abstract class PObjectEl extends Node {
+public abstract class PObjectEl extends Node
+{
     // Empty body
 }

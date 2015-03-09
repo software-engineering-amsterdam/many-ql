@@ -31,14 +31,6 @@ class IStatement:
     def return_expressions(self):
         raise NotImplementedError("Not implemented by sub class")
 
-    # Get the parent _id of the statement
-    def get_parent_id(self):
-        raise NotImplementedError("Not implemented by sub class")
-
-    # set the parent _id, only set once
-    def set_parent_id(self, pid):
-        raise NotImplementedError("Not implemented by sub class")
-
     # set the _order number of the statement, only set once
     def set_order(self, order_num):
         raise NotImplementedError("Not implemented by sub class")
@@ -50,6 +42,7 @@ class IStatement:
     # Get the _order of elements in the statement
     def get_order(self):
         raise NotImplementedError("Not implemented by sub class")
-        
+
+    # Get a dictionary with ids and statements
     def get_statement_dict(self):
         raise NotImplementedError("Not implemented by sub class")

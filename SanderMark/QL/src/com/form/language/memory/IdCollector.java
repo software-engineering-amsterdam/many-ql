@@ -32,6 +32,7 @@ public class IdCollector {
 	public boolean containsId(String id)
 	{
 		for(IdLiteral i: this.ids){
+			i.IsReference();
 			if(i.name.equals(id))		
 			{
 				return true;

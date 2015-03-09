@@ -1,5 +1,7 @@
 package nl.uva.softwcons.ql.ui.widget;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -13,8 +15,11 @@ public class RadioButtonWidget extends Widget {
 
     private HBox hbox;
     private ToggleGroup group;
+    private Property<Value> valueProperty;
 
     public RadioButtonWidget(String yesString, String noString) {
+        this.valueProperty = new SimpleObjectProperty<Value>();
+
         yesButton = new RadioButton(yesString);
         noButton = new RadioButton(noString);
 
@@ -45,8 +50,13 @@ public class RadioButtonWidget extends Widget {
     }
 
     @Override
-    public void processValueChanged(Value oldValue, Value newValue) {
-        setValue(newValue);
+    public void setVisible(boolean visible) {
+        this.hbox.setVisible(visible);
+    }
+
+    @Override
+    public Property<Value> getValueProperty() {
+        return valueProperty;
     }
 
 }

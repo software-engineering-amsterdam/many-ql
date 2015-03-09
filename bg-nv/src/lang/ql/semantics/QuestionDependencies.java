@@ -13,7 +13,7 @@ public class QuestionDependencies
 
     public QuestionDependencies()
     {
-        this.dependencies = new HashMap<String, Set<String>>();
+        this.dependencies = new HashMap<>();
     }
 
     public void addQuestion(Question q)
@@ -21,7 +21,7 @@ public class QuestionDependencies
         String id = q.getId();
         if (!(this.dependencies.containsKey(id)))
         {
-            this.dependencies.put(id, new HashSet<String>());
+            this.dependencies.put(id, new HashSet<>());
         }
     }
 
@@ -38,7 +38,7 @@ public class QuestionDependencies
     {
         for (String k : this.dependencies.keySet())
         {
-            List<String> buffer = new ArrayList<String>();
+            List<String> buffer = new ArrayList<>();
             buffer.add(k);
             List<String> result = this.searchNeighbours(buffer);
             if (result != null)
@@ -49,6 +49,7 @@ public class QuestionDependencies
         return null;
     }
 
+    // TODO: refactor this code
     private List<String> searchNeighbours(List<String> path)
     {
         String firstElement = path.get(0);

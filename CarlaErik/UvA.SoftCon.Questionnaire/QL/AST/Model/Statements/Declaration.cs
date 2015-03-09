@@ -28,14 +28,14 @@ namespace UvA.SoftCon.Questionnaire.QL.AST.Model.Statements
             private set;
         }
 
-        public Declaration(DataType dataType, Identifier id, TextPosition position)
+        internal Declaration(DataType dataType, Identifier id, TextPosition position)
             : base(position)
         {
             DataType = dataType;
             Id = id;
         }
 
-        public Declaration(DataType dataType, Identifier id, IExpression initialization, TextPosition position)
+        internal Declaration(DataType dataType, Identifier id, IExpression initialization, TextPosition position)
             : this(dataType, id, position)
         {
             Initialization = initialization;

@@ -16,6 +16,7 @@ module QL
       def visit_conditional(conditional)
         map_accept(conditional.statements)
       end
+      
 
       def visit_question(question) 
         question.description

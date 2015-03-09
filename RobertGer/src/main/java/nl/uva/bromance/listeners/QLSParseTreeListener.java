@@ -10,10 +10,11 @@ import java.util.Stack;
 public class QLSParseTreeListener extends QLSBaseListener {
 
     private Stack<Node> nodeStack = new Stack<>();
+    private AST qlsAST = null;
     private QLSStylesheet ast = null;
 
-    public QLSStylesheet getAst() {
-        return ast;
+    public AST getAst() {
+        return qlsAST;
     }
 
     public void enterStylesheet(QLSParser.StylesheetContext ctx) {
@@ -21,9 +22,9 @@ public class QLSParseTreeListener extends QLSBaseListener {
     }
 
     public void exitStylesheet(QLSParser.StylesheetContext ctx) {
-        ast = (QLSStylesheet) nodeStack.pop();
-        System.out.println("--Printing ast--");
-        ast.printDebug();
+        qlsAST = new AST(nodeStack.pop());
+        System.out.println("--Printing QLS ast--");
+        qlsAST.printDebug();
     }
 
     public void enterPage(QLSParser.PageContext ctx) {

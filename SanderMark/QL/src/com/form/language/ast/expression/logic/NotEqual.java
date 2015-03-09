@@ -12,6 +12,7 @@ import com.form.language.ast.values.IntValue;
 import com.form.language.error.Error;
 import com.form.language.error.ErrorCollector;
 import com.form.language.memory.RuntimeMemory;
+import com.form.language.memory.TypeMemory;
 
 public class NotEqual extends BinaryExpression implements Expression {
 
@@ -26,32 +27,41 @@ public class NotEqual extends BinaryExpression implements Expression {
 	}
 
 	@Override
-	public Type getType() {
-		if(	(left.getType().isBoolType() && right.getType().isBoolType())
-			||(left.getType().isIntType() && right.getType().isIntType())
-			||(left.getType().isStringType() && right.getType().isStringType())) 
-			return new BoolType();
-		return new ErrorType();
-	}
-
-	@Override
-	public void getErrors(ErrorCollector errors) {
-		Type leftType = left.getType();
-		Type rightType = right.getType();
-		left.getErrors(errors);
-		right.getErrors(errors);
-		
+	public Type getType(TypeMemory mem) {
+		Type leftType = left.getType(mem);
+		Type rightType = right.getType(mem);
 		if(	(leftType.isBoolType() && rightType.isBoolType())
-		  ||(leftType.isIntType() && rightType.isIntType())
-		  ||(leftType.isStringType() && rightType.isStringType())) {
-			return;
-		}
+			||(leftType.isIntType() && rightType.isIntType())
+			||(leftType.isStringType() && rightType.isStringType())) {
+			return new BoolType();
+
+		}		
 		else{
 			if(!(leftType.isErrorType() || rightType.isErrorType())){
-				errors.add(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " != " + rightType));
-				return;
+				mem.addError(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " != " + rightType));
 			}
-			return;
+			return new ErrorType();
 		}
 	}
+
+//	@Override
+//	public void getErrors(ErrorCollector errors) {
+//		Type leftType = left.getType();
+//		Type rightType = right.getType();
+//		left.getErrors(errors);
+//		right.getErrors(errors);
+//		
+//		if(	(leftType.isBoolType() && rightType.isBoolType())
+//		  ||(leftType.isIntType() && rightType.isIntType())
+//		  ||(leftType.isStringType() && rightType.isStringType())) {
+//			return;
+//		}
+//		else{
+//			if(!(leftType.isErrorType() || rightType.isErrorType())){
+//				errors.add(new Error(tokenInfo, "Cannot compare unequal types: " + leftType + " != " + rightType));
+//				return;
+//			}
+//			return;
+//		}
+//	}
 }

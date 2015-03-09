@@ -1,10 +1,10 @@
 import tkinter as tk
-
 import QL.Runtime.processor as processor
 import QL.Runtime.mapper as mapper
+from QL.GUI.Elements import *
 
 
-class QuestionnaireGUI:
+class GUI:
     def __init__(self, form):
         self._qGui = tk.Tk()
         self._form = form
@@ -16,7 +16,12 @@ class QuestionnaireGUI:
         print("_" * 50)
         # self._qGui.geometry('450x450')
         self._qGui.title(self._form.get_name())
-        tk.Label(text=self._form.get_introduction(), height=2).grid(row=0, column=0, sticky=tk.W)
+        #introduction
+        l = label.Label(self._form.get_introduction())
+        # l.set_font_style("Helvetica 15 bold")
+        intro_row = l.get_row()
+        intro_row[0].grid(row=0, column=0, sticky=tk.W)
+
         self.draw_statements(self._statements)
         tk.Button(text="Submit", width=10, command=lambda: processor.export_answers(self._answersMap, self)
                   ).grid(row=999, column=0)
@@ -78,46 +83,3 @@ class QuestionnaireGUI:
 
     def close(self):
         self._qGui.destroy()
-
-    @staticmethod
-    def e_label(statement, gui):
-        l = tk.Label(text=statement.get_label(), height=2) #fg='#00FFFF', bg='#000000',
-        # l.grid(row=statement.get_order(), column=0, sticky=W)
-        return [l]
-
-    @staticmethod
-    def e_radio(statement, gui):
-        e_list = []
-        e_list += QuestionnaireGUI.e_label(statement, gui)
-        e1 = tk.Radiobutton(text="True", value=1, variable=statement.get_order(),
-                         command=lambda: gui.update(statement, True))
-        e2 = tk.Radiobutton(text="False", value=0, variable=statement.get_order(),
-                         command=lambda: gui.update(statement, False))
-        # e2.select()  # set default as False
-        # e2.deselect()  # clean selection
-        # e1.grid(row=statement.get_order(), column=1, sticky=W)
-        e_list.append(e1)
-        # e2.grid(row=statement.get_order(), column=2, sticky=W)
-        e_list.append(e2)
-        return e_list
-
-    @staticmethod
-    def e_spin(statement, gui):
-        e_list = []
-        e_list += QuestionnaireGUI.e_label(statement, gui)
-        e = tk.Spinbox(from_=0, to_=10000, command=lambda: gui.update(statement, None if e.get() is '' else int(e.get())))
-        e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, None if e.get() is '' else int(e.get())))
-        # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W)
-        e_list.append(e)
-        return e_list
-
-    @staticmethod
-    def e_entry(statement, gui):
-        e_list = []
-        e_list += QuestionnaireGUI.e_label(statement, gui)
-        str_var = tk.StringVar()
-        e = tk.Entry(textvariable=str_var)
-        e.bind("<KeyPress><KeyRelease>", lambda event: gui.update(statement, e.get()))
-        # e.grid(row=statement.get_order(), column=1, columnspan=2, sticky=W) #validate="key" ,validatecommand=(vcmd, '%S')
-        e_list.append(e)
-        return e_list

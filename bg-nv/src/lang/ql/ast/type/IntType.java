@@ -11,6 +11,12 @@ public class IntType extends Type
     }
 
     @Override
+    public boolean isArithmetic()
+    {
+        return true;
+    }
+
+    @Override
     public Type promoteTo(Type t)
     {
         return t.promoteInt(this);

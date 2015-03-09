@@ -18,17 +18,4 @@ public class Not extends UnaryExpression{
 	public <T> T accept(INodeVisitor<T> visitor) {
 		return visitor.visit(this);
 	}
-
-	public Expression evaluate() {
-		Expression operand = this.getOperand().evaluate();
-		BooleanAtom result = null;
-		if (operand.equals(BooleanAtom.isTrue())) {
-			result = new BooleanAtom(false);
-		}
-		else {
-			result = new BooleanAtom(true);
-		}
-		return result;
-	}
-
 }
