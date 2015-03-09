@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.ui;
+package org.uva.sea.ql.encoders.ui.control;
 
 import java.beans.PropertyChangeListener;
 

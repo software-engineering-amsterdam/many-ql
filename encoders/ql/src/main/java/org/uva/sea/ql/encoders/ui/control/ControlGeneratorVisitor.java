@@ -1,4 +1,4 @@
-package org.uva.sea.ql.encoders.ui;
+package org.uva.sea.ql.encoders.ui.control;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
