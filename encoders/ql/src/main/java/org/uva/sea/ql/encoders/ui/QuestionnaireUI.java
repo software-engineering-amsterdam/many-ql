@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -18,6 +19,8 @@ import javafx.scene.text.Text;
 import org.uva.sea.ql.encoders.ast.Question;
 import org.uva.sea.ql.encoders.ast.expression.Expression;
 import org.uva.sea.ql.encoders.ast.type.DataType;
+import org.uva.sea.ql.encoders.ast.type.QLInteger;
+import org.uva.sea.ql.encoders.runtime.ComputedEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.ConditionEvaluatorVisitor;
 import org.uva.sea.ql.encoders.runtime.RelatedQuestionVisitor;
 import org.uva.sea.ql.encoders.runtime.RuntimeQuestion;
@@ -50,7 +53,7 @@ public class QuestionnaireUI {
 		for (final RuntimeQuestion runtimeQuestion : runtimeQuestions) {
 			Question question = runtimeQuestion.getQuestion();
 
-			DataType<?> dataType = question.getDataType();
+			final DataType<?> dataType = question.getDataType();
 			final Label label = new Label(question.getQuestionText());
 			grid.add(label, 0, y);
 			boolean visible = question.getCondition() == null;
@@ -82,7 +85,7 @@ public class QuestionnaireUI {
 				System.out.println(relatedQuestionNames);
 			}
 
-			Expression computed = question.getComputed();
+			final Expression computed = question.getComputed();
 			if (computed != null) {
 				RelatedQuestionVisitor relatedQuestionVisitor = new RelatedQuestionVisitor();
 				Set<String> relatedQuestionNames = computed.accept(relatedQuestionVisitor);
@@ -93,6 +96,13 @@ public class QuestionnaireUI {
 
 						@Override
 						public void update(Observable o, Object arg) {
+							ComputedEvaluatorVisitor computedEvaluatorVisitor = new ComputedEvaluatorVisitor(dataType,
+									runtimeQuestions);
+							Object value = computed.accept(computedEvaluatorVisitor);
+							runtimeQuestion.setValue(value);
+							if (dataType instanceof QLInteger) {
+								((TextField) control).setText(value.toString());
+							}
 							System.out.println("Waarde is nu: " + arg);
 						}
 					});

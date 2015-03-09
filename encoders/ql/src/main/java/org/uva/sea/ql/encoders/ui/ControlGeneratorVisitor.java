@@ -46,7 +46,7 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 				}
 			}
 		};
-		control.setOnKeyReleased(new TextFieldHandler(runtimeQuestion));
+		control.setOnKeyReleased(new NumberFieldHandler(runtimeQuestion));
 		return control;
 	}
 
@@ -68,6 +68,25 @@ public class ControlGeneratorVisitor implements DataTypeVisitor<Control> {
 		public void handle(Event event) {
 			TextField textField = (TextField) event.getSource();
 			question.setValue(textField.getText());
+		}
+	}
+
+	private class NumberFieldHandler implements EventHandler<Event> {
+		private RuntimeQuestion question;
+
+		public NumberFieldHandler(RuntimeQuestion question) {
+			this.question = question;
+		}
+
+		@Override
+		public void handle(Event event) {
+			TextField textField = (TextField) event.getSource();
+			String text = textField.getText();
+			Integer value = 0;
+			if (!text.isEmpty()) {
+				value = Integer.valueOf(text);
+			}
+			question.setValue(value);
 		}
 	}
 

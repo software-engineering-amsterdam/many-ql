@@ -15,6 +15,18 @@ public class QLInteger extends DataType<Integer> {
 	}
 
 	@Override
+	public Integer substract(Integer leftValue, Integer rightValue) {
+		Integer result = leftValue - rightValue;
+		return result;
+	}
+
+	@Override
+	public Integer divide(Integer leftValue, Integer rightValue) {
+		Integer result = leftValue / rightValue;
+		return result;
+	}
+
+	@Override
 	public <T> T accept(DataTypeVisitor<T> dataTypeVisitor) {
 		return dataTypeVisitor.visit(this);
 	}
