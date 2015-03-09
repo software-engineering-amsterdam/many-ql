@@ -22,7 +22,7 @@ class Parser extends JavaTokenParsers {
 //    title ~ widgets = new Section(title, widgets)
 //  }
   
-  def widgets: Parser[WidgetSequence] = "{" ~> rep(widget) <~ "}" ^^ WidgetSequence
+  //def widgets: Parser[WidgetSequence] = "{" ~> rep(widget) <~ "}" ^^ WidgetSequence
   
   // question widget parsers
   def widget: Parser[Widget] = variable ~ widgetType ~ opt(widgetStyle) ^^ {

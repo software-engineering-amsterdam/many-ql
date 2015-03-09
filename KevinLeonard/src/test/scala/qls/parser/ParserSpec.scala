@@ -20,27 +20,27 @@ class ParserSpec extends Specification with ParserMatchers {
   "widget type parser" should {
     "parse spinbox" in {
       widgetType must succeedOn("spinbox")
-        .withResult(Spinbox())
+        .withResult("spinbox")
     }
     "parse slider" in {
       widgetType must succeedOn("slider")
-        .withResult(Slider())
+        .withResult("slider")
     }
     "parse text" in {
       widgetType must succeedOn("text")
-        .withResult(Text())
+        .withResult("text")
     }
     "parse textBlock" in {
       widgetType must succeedOn("textBlock")
-        .withResult(TextBlock())
+        .withResult("textBlock")
     }
     "parse radio" in {
       widgetType must succeedOn("radio")
-        .withResult(Radio())
+        .withResult("radio")
     }
     "parse dropdown" in {
       widgetType must succeedOn("dropdown")
-        .withResult(Dropdown())
+        .withResult("dropdown")
     }
   }
 
@@ -79,27 +79,27 @@ class ParserSpec extends Specification with ParserMatchers {
   "widget parser" should {
     "parse spinbox" in {
       widget must succeedOn("var1 spinbox")
-        .withResult(Widget(Variable("var1"), Spinbox(), None))
+        .withResult(Spinbox(Variable("var1"), None))
     }
     "parse slider" in {
       widget must succeedOn("var1 slider")
-        .withResult(Widget(Variable("var1"), Slider(), None))
+        .withResult(Slider(Variable("var1"), None))
     }
     "parse text" in {
       widget must succeedOn("var1 text")
-        .withResult(Widget(Variable("var1"), Text(), None))
+        .withResult(Text(Variable("var1"), None))
     }
     "parse textBlock" in {
       widget must succeedOn("var1 textBlock")
-        .withResult(Widget(Variable("var1"), TextBlock(), None))
+        .withResult(TextBlock(Variable("var1"), None))
     }
     "parse radio" in {
       widget must succeedOn("var1 radio")
-        .withResult(Widget(Variable("var1"), Radio(), None))
+        .withResult(Radio(Variable("var1"), None))
     }
     "parse dropdown" in {
       widget must succeedOn("var1 dropdown")
-        .withResult(Widget(Variable("var1"), Dropdown(), None))
+        .withResult(Dropdown(Variable("var1"), None))
     }
     "parse spinbox with style" in {
       widget must succeedOn("var1 spinbox {" +
@@ -108,7 +108,7 @@ class ParserSpec extends Specification with ParserMatchers {
           "fontSize: 14" +
           "color: #99FF66" +
         "}")
-        .withResult(Widget(Variable("var1"),Spinbox(),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Spinbox(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse slider with style" in {
       widget must succeedOn("var1 slider {" +
@@ -117,7 +117,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Widget(Variable("var1"),Slider(),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Slider(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse text with style" in {
       widget must succeedOn("var1 text {" +
@@ -126,7 +126,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Widget(Variable("var1"),Text(),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Text(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse textBlock with style" in {
       widget must succeedOn("var1 textBlock {" +
@@ -135,7 +135,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Widget(Variable("var1"),TextBlock(),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(TextBlock(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse radio with style" in {
       widget must succeedOn("var1 radio {" +
@@ -144,7 +144,7 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Widget(Variable("var1"),Radio(),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Radio(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
     "parse dropdown with style" in {
       widget must succeedOn("var1 dropdown {" +
@@ -153,8 +153,9 @@ class ParserSpec extends Specification with ParserMatchers {
         "fontSize: 14" +
         "color: #99FF66" +
         "}")
-        .withResult(Widget(Variable("var1"),Dropdown(),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
+        .withResult(Dropdown(Variable("var1"),Some(List(Width(400), Font("Arial"), FontSize(14), FontColor(HexadecimalColor("99FF66"))))))
     }
+
   }
   
 }
